@@ -68,8 +68,9 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         
         tableView.tableFooterView = UIView()
         
-        growHandler = GrowingTextViewHandler(textView: txtMessage, withHeightConstraint: conHeightTxtMessage)
-        growHandler?.updateMinimumNumber(ofLines: 1, andMaximumNumberOfLine: 4)
+        // FIXME: SWIFT 3 URGENT
+//        growHandler = GrowingTextViewHandler(textView: txtMessage, withHeightConstraint: conHeightTxtMessage)
+//        growHandler?.updateMinimumNumber(ofLines: 1, andMaximumNumberOfLine: 4)
         
         getComments()
     }
@@ -219,8 +220,43 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         c.captionMessage?.text = comment.message
         c.captionName?.text = comment.name
         c.captionDate?.text = comment.timestamp
+        c.showReportAlert = { sender, commentId in
+            let alert = UIAlertController(title: "Laporkan Komentar", message: "", preferredStyle: .actionSheet)
+            alert.popoverPresentationController?.sourceView = sender
+            alert.popoverPresentationController?.sourceRect = sender.bounds
+            alert.addAction(UIAlertAction(title: "Komentar ini mengganggu/spam", style: .default, handler: { act in
+                self.reportComment(commentId: commentId, reportType: 0)
+                alert.dismiss(animated: true, completion: nil)
+            }))
+            alert.addAction(UIAlertAction(title: "Komentar ini tidak layak", style: .default, handler: { act in
+                self.reportComment(commentId: commentId, reportType: 1)
+                alert.dismiss(animated: true, completion: nil)
+            }))
+            alert.addAction(UIAlertAction(title: "Batal", style: .default, handler: { act in
+                alert.dismiss(animated: true, completion: nil)
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
+        c.goToProfile = { userId in
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+            vc.currentMode = .shop
+            vc.shopId = userId
+            
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
         
         return c
+    }
+    
+    func reportComment(commentId : String, reportType : Int) {
+        request(APIProduct.reportComment(productId: self.pDetail.productID, commentId: commentId, reportType: reportType)).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Laporkan Komentar")) {
+                let json = JSON(resp.result.value!)
+                if (json["_data"].boolValue == true) {
+                    Constant.showDialog("Komentar Dilaporkan", message: "Terima kasih, Prelo akan meninjau laporan kamu")
+                }
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

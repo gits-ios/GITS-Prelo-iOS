@@ -614,7 +614,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         } else {
             let cell : ProductCellDiscussion = (tableView.dequeueReusableCell(withIdentifier: "cell_disc_1") as? ProductCellDiscussion)!
             cell.adapt(detail?.discussions?.objectAtCircleIndex((indexPath as NSIndexPath).row-3))
-            cell.showReportalert = { sender, commentId in
+            cell.showReportAlert = { sender, commentId in
                 let alert = UIAlertController(title: "Laporkan Komentar", message: "", preferredStyle: .actionSheet)
                 alert.popoverPresentationController?.sourceView = sender
                 alert.popoverPresentationController?.sourceRect = sender.bounds
@@ -1668,7 +1668,7 @@ class ProductCellDiscussion : UITableViewCell
     var commentId : String = ""
     var senderId : String = ""
     
-    var showReportalert : (UIView, String) -> () = { _, _ in }
+    var showReportAlert : (UIView, String) -> () = { _, _ in }
     var goToProfile : (String) -> () = { _ in }
     
     static func heightFor(_ obj : ProductDiscussion?)->CGFloat
@@ -1705,7 +1705,7 @@ class ProductCellDiscussion : UITableViewCell
     }
     
     @IBAction func btnReportPressed(_ sender: UIView) {
-        self.showReportalert(sender, commentId)
+        self.showReportAlert(sender, commentId)
     }
     
     @IBAction func btnUsernamePressed(_ sender: AnyObject) {

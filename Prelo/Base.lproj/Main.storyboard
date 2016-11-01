@@ -6625,14 +6625,11 @@ in Bandung</string>
                         <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WjC-q7-eYu">
-                                <frame key="frameInset" width="600" height="74"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WjC-q7-eYu">
                                 <subviews>
-                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DMz-3S-ZdY">
-                                        <frame key="frameInset" minX="8" minY="6" width="584" height="62"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DMz-3S-ZdY">
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ai-hp-1yn">
-                                                <frame key="frameInset" minX="8" minY="8" width="538" height="46"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ai-hp-1yn">
                                                 <attributedString key="attributedText">
                                                     <fragment content="Pastikan kamu bertransaksi 100% aman hanya melalui ">
                                                         <attributes>
@@ -6658,8 +6655,7 @@ in Bandung</string>
                                                 </attributedString>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F1O-4z-gTK">
-                                                <frame key="frameInset" minX="554" width="30" height="30"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F1O-4z-gTK">
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="GQo-CA-0d8"/>
                                                     <constraint firstAttribute="width" constant="30" id="Z9q-Uv-tEp"/>
@@ -6679,8 +6675,7 @@ in Bandung</string>
                                             <constraint firstItem="F1O-4z-gTK" firstAttribute="leading" secondItem="8ai-hp-1yn" secondAttribute="trailing" constant="8" id="tIx-a5-8Rv"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8LA-2q-P2o">
-                                        <frame key="frameInset" width="600" height="74"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8LA-2q-P2o">
                                         <connections>
                                             <action selector="topHeaderPressed:" destination="89O-n7-3Ld" eventType="touchUpInside" id="5C6-6N-cp4"/>
                                         </connections>
@@ -6698,15 +6693,14 @@ in Bandung</string>
                                     <constraint firstItem="8LA-2q-P2o" firstAttribute="top" secondItem="WjC-q7-eYu" secondAttribute="top" id="yLw-vh-g6b"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="lwZ-hq-8H8">
-                                <frame key="frameInset" minY="74" width="600" height="422"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="lwZ-hq-8H8">
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell2" rowHeight="64" id="nCS-lr-we3" customClass="ProductCellDiscussion" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="22" width="600" height="64"/>
+                                        <rect key="frame" x="0.0" y="22" width="375" height="64"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nCS-lr-we3" id="EtJ-ny-W2Q">
-                                            <frame key="frameInset" width="600" height="63"/>
+                                            <frame key="frameInset" width="375" height="63"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Of6-1G-2VK">
@@ -6793,10 +6787,10 @@ in Bandung</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell1" rowHeight="64" id="v3S-zN-g1B" customClass="ProductCellDiscussion" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="86" width="600" height="64"/>
+                                        <rect key="frame" x="0.0" y="86" width="375" height="64"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="v3S-zN-g1B" id="dwI-0B-P2v">
-                                            <frame key="frameInset" width="600" height="63"/>
+                                            <frame key="frameInset" width="375" height="63"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6N4-hi-dDS">
@@ -6816,11 +6810,37 @@ in Bandung</string>
                                                     <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SOf-86-Nvj">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="25" id="gHF-5Y-RXG"/>
+                                                        <constraint firstAttribute="height" constant="17" id="sly-Pt-yFn"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
+                                                    <state key="normal" title="">
+                                                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="btnReportPressed:" destination="v3S-zN-g1B" eventType="touchUpInside" id="aWT-m8-Zgl"/>
+                                                    </connections>
+                                                </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rAT-BW-Lzo">
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Zs-1k-vfC">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="25" id="bfk-mT-0oc"/>
+                                                        <constraint firstAttribute="height" constant="17" id="gNb-H4-OED"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
+                                                    <state key="normal">
+                                                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="btnUsernamePressed:" destination="v3S-zN-g1B" eventType="touchUpInside" id="5tK-yx-X4Z"/>
+                                                    </connections>
+                                                </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PzJ-Ev-BLz">
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -6830,14 +6850,18 @@ in Bandung</string>
                                             <constraints>
                                                 <constraint firstItem="PzJ-Ev-BLz" firstAttribute="top" secondItem="rnk-pu-gbv" secondAttribute="bottom" constant="3" id="2fK-rz-2wr"/>
                                                 <constraint firstItem="rnk-pu-gbv" firstAttribute="top" secondItem="dwI-0B-P2v" secondAttribute="top" constant="14" id="3Cn-LW-gaI"/>
+                                                <constraint firstItem="SOf-86-Nvj" firstAttribute="top" secondItem="dwI-0B-P2v" secondAttribute="top" constant="14" id="86J-CJ-yN9"/>
                                                 <constraint firstAttribute="bottom" secondItem="6N4-hi-dDS" secondAttribute="bottom" id="8pl-oC-2fW"/>
+                                                <constraint firstItem="6Zs-1k-vfC" firstAttribute="leading" secondItem="bxO-j8-Fkl" secondAttribute="trailing" constant="12" id="8yn-qv-Imd"/>
+                                                <constraint firstItem="6Zs-1k-vfC" firstAttribute="top" secondItem="rnk-pu-gbv" secondAttribute="bottom" constant="3" id="Fjc-RB-qzr"/>
                                                 <constraint firstAttribute="trailing" secondItem="6N4-hi-dDS" secondAttribute="trailing" constant="8" id="IHN-Cx-3Jq"/>
                                                 <constraint firstItem="6N4-hi-dDS" firstAttribute="leading" secondItem="dwI-0B-P2v" secondAttribute="leading" constant="8" id="Jxd-GC-a4T"/>
+                                                <constraint firstItem="SOf-86-Nvj" firstAttribute="leading" secondItem="rnk-pu-gbv" secondAttribute="trailing" constant="8" id="Mw6-UC-IZc"/>
                                                 <constraint firstItem="rnk-pu-gbv" firstAttribute="leading" secondItem="bxO-j8-Fkl" secondAttribute="trailing" constant="8" id="N4i-ET-82Q"/>
                                                 <constraint firstItem="PzJ-Ev-BLz" firstAttribute="leading" secondItem="rAT-BW-Lzo" secondAttribute="trailing" constant="8" id="S5v-sT-zOs"/>
+                                                <constraint firstAttribute="trailing" secondItem="SOf-86-Nvj" secondAttribute="trailing" constant="8" id="UcE-af-R3f"/>
                                                 <constraint firstItem="bxO-j8-Fkl" firstAttribute="top" secondItem="dwI-0B-P2v" secondAttribute="top" constant="8" id="ZdZ-bO-9P8"/>
                                                 <constraint firstItem="bxO-j8-Fkl" firstAttribute="leading" secondItem="dwI-0B-P2v" secondAttribute="leading" constant="8" id="bOp-Og-bWg"/>
-                                                <constraint firstAttribute="trailing" secondItem="rnk-pu-gbv" secondAttribute="trailing" constant="8" id="cY3-oe-EzF"/>
                                                 <constraint firstItem="rAT-BW-Lzo" firstAttribute="top" secondItem="rnk-pu-gbv" secondAttribute="bottom" constant="3" id="kgG-iN-B2P"/>
                                                 <constraint firstItem="rAT-BW-Lzo" firstAttribute="leading" secondItem="bxO-j8-Fkl" secondAttribute="trailing" constant="8" id="mJN-bD-321"/>
                                             </constraints>
@@ -6851,15 +6875,12 @@ in Bandung</string>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cwX-om-qr3">
-                                <frame key="frameInset" minY="496" width="600" height="40"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cwX-om-qr3">
                                 <subviews>
-                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Na7-xt-JAR">
-                                        <frame key="frameInset" minX="568" minY="10" width="20" height="20"/>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Na7-xt-JAR">
                                         <color key="color" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </activityIndicatorView>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9zt-T8-lv5">
-                                        <frame key="frameInset" minX="556" width="44" height="40"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9zt-T8-lv5">
                                         <constraints>
                                             <constraint firstAttribute="width" constant="44" id="uyD-2u-ypY"/>
                                         </constraints>
@@ -6869,8 +6890,7 @@ in Bandung</string>
                                         </state>
                                         <state key="disabled" title=""/>
                                     </button>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="egd-DG-Yr4">
-                                        <frame key="frameInset" minX="8" width="540" height="36"/>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="egd-DG-Yr4">
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="afy-f7-1sz"/>
@@ -6878,8 +6898,7 @@ in Bandung</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
-                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rUX-hU-9Zu">
-                                        <frame key="frameInset" width="556" height="1"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rUX-hU-9Zu">
                                         <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="If2-TP-X8o"/>
@@ -6951,7 +6970,7 @@ in Bandung</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sml-EB-UEI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3150" y="-7217"/>
+            <point key="canvasLocation" x="3149.5999999999999" y="-7217.5412293853078"/>
         </scene>
         <!--Checkout Tour View Controller-->
         <scene sceneID="wcK-3h-G9S">
