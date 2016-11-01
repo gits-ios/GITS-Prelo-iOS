@@ -614,7 +614,44 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         } else {
             let cell : ProductCellDiscussion = (tableView.dequeueReusableCell(withIdentifier: "cell_disc_1") as? ProductCellDiscussion)!
             cell.adapt(detail?.discussions?.objectAtCircleIndex((indexPath as NSIndexPath).row-3))
+            cell.showReportalert = { sender, commentId in
+                let alert = UIAlertController(title: "Laporkan Komentar", message: "", preferredStyle: .actionSheet)
+                alert.popoverPresentationController?.sourceView = sender
+                alert.popoverPresentationController?.sourceRect = sender.bounds
+                alert.addAction(UIAlertAction(title: "Komentar ini mengganggu/spam", style: .default, handler: { act in
+                    self.reportComment(commentId: commentId, reportType: 0)
+                    alert.dismiss(animated: true, completion: nil)
+                }))
+                alert.addAction(UIAlertAction(title: "Komentar ini tidak layak", style: .default, handler: { act in
+                    self.reportComment(commentId: commentId, reportType: 1)
+                    alert.dismiss(animated: true, completion: nil)
+                }))
+                alert.addAction(UIAlertAction(title: "Batal", style: .default, handler: { act in
+                    alert.dismiss(animated: true, completion: nil)
+                }))
+                self.present(alert, animated: true, completion: nil)
+            }
+            cell.goToProfile = { userId in
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+                vc.currentMode = .shop
+                vc.shopId = userId
+                
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
             return cell
+        }
+    }
+    
+    func reportComment(commentId : String, reportType : Int) {
+        self.showLoading()
+        request(APIProduct.reportComment(productId: (self.product?.id)!, commentId: commentId, reportType: reportType)).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Laporkan Komentar")) {
+                let json = JSON(resp.result.value!)
+                if (json["_data"].boolValue == true) {
+                    Constant.showDialog("Komentar Dilaporkan", message: "Terima kasih, Prelo akan meninjau laporan kamu")
+                }
+            }
+            self.hideLoading()
         }
     }
     
@@ -1626,6 +1663,13 @@ class ProductCellDiscussion : UITableViewCell
     @IBOutlet var captionDate : UILabel?
     @IBOutlet var captionName : UILabel?
     @IBOutlet var ivCover : UIImageView?
+    @IBOutlet var consWidthBtnReport: NSLayoutConstraint!
+    
+    var commentId : String = ""
+    var senderId : String = ""
+    
+    var showReportalert : (UIView, String) -> () = { _, _ in }
+    var goToProfile : (String) -> () = { _ in }
     
     static func heightFor(_ obj : ProductDiscussion?)->CGFloat
     {
@@ -1645,10 +1689,26 @@ class ProductCellDiscussion : UITableViewCell
             return
         }
         var json = (obj?.json)!
+        commentId = json["_id"].stringValue
+        senderId = json["sender_id"].stringValue
         
         captionDate?.text = json["time"].string!
         captionMessage?.text = obj?.message
         captionName?.text = json["sender_username"].string!
         ivCover?.afSetImage(withURL: (obj?.posterImageURL)!)
+        
+        if (User.IsLoggedIn) {
+            consWidthBtnReport.constant = 25
+        } else {
+            consWidthBtnReport.constant = 0
+        }
+    }
+    
+    @IBAction func btnReportPressed(_ sender: UIView) {
+        self.showReportalert(sender, commentId)
+    }
+    
+    @IBAction func btnUsernamePressed(_ sender: AnyObject) {
+        self.goToProfile(senderId)
     }
 }
