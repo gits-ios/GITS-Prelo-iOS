@@ -11,7 +11,7 @@ import MessageUI
 
 // MARK: - Class
 
-class DashboardViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate {
+class DashboardViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate, PickerViewDelegate {
 
     @IBOutlet var tableView : UITableView?
     @IBOutlet var captionName : UILabel?
@@ -220,6 +220,36 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         }
     }
     
+    // MARK: - Pickervc functions
+    
+    func pickerDidSelect(_ item: String) {
+        if (PickerViewController.HideHiddenString(item) == "Request Barang") {
+            var username = "Your beloved user"
+            if let u = CDUser.getOne() {
+                username = u.username
+            }
+            let msgBody = "Dear Prelo,<br/><br/>Saya sedang mencari barang bekas berkualitas ini:<br/><br/><br/>Jika ada pengguna di Prelo yang menjual barang tersebut, harap memberitahu saya melalui e-mail.<br/><br/>Terima kasih Prelo <3<br/><br/>--<br/>\(username)<br/>Sent from Prelo iOS"
+            
+            let m = MFMailComposeViewController()
+            if (MFMailComposeViewController.canSendMail()) {
+                m.setToRecipients(["contact@prelo.id"])
+                m.setSubject("Request Barang")
+                m.setMessageBody(msgBody, isHTML: true)
+                m.mailComposeDelegate = self
+                self.present(m, animated: true, completion: nil)
+            } else {
+                Constant.showDialog("No Active E-mail", message: "Untuk dapat mengirim Request Barang, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
+            }
+        } else if (PickerViewController.HideHiddenString(item) == "Request Packaging") {
+            let webVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
+            webVC.url = "https://prelo.co.id/request-packaging?ref=preloapp"
+            webVC.titleString = "Request Packaging"
+            let baseNavC = BaseNavigationController()
+            baseNavC.setViewControllers([webVC], animated: false)
+            self.present(baseNavC, animated: true, completion: nil)
+        }
+    }
+    
     // MARK: - IBActions
 
     @IBAction func vwHeaderPressed(_ sender: AnyObject) {
@@ -275,22 +305,11 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     func launchRequestBarang() {
-        var username = "Your beloved user"
-        if let u = CDUser.getOne() {
-            username = u.username
-        }
-        let msgBody = "Dear Prelo,<br/><br/>Saya sedang mencari barang bekas berkualitas ini:<br/><br/><br/>Jika ada pengguna di Prelo yang menjual barang tersebut, harap memberitahu saya melalui e-mail.<br/><br/>Terima kasih Prelo <3<br/><br/>--<br/>\(username)<br/>Sent from Prelo iOS"
-        
-        let m = MFMailComposeViewController()
-        if (MFMailComposeViewController.canSendMail()) {
-            m.setToRecipients(["contact@prelo.id"])
-            m.setSubject("Request Barang")
-            m.setMessageBody(msgBody, isHTML: true)
-            m.mailComposeDelegate = self
-            self.present(m, animated: true, completion: nil)
-        } else {
-            Constant.showDialog("No Active E-mail", message: "Untuk dapat mengirim Request Barang, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
-        }
+        let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as! PickerViewController
+        p.items = ["Request Barang", "Request Packaging"]
+        p.pickerDelegate = self
+        p.title = "Request"
+        self.navigationController?.pushViewController(p, animated: true)
     }
     
     func launchMyProducts() {
