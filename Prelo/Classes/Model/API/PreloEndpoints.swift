@@ -772,6 +772,7 @@ enum APIProduct : URLRequestConvertible {
     case postComment(productID : String, message : String, mentions : String)
     case myProduct(current : Int, limit : Int, name : String)
     case push(productId : String)
+    case paidPush(productId : String)
     case markAsSold(productId : String, soldTo : String)
     case getExpiringProducts
     case setSoldExpiringProduct(productId : String)
@@ -807,6 +808,7 @@ enum APIProduct : URLRequestConvertible {
         case .getComment(_) :return .get
         case .myProduct(_, _, _) : return .get
         case .push(_) : return .post
+        case .paidPush(_) : return .post
         case .markAsSold(_, _) : return .post
         case .getExpiringProducts : return .get
         case .setSoldExpiringProduct(_) : return .post
@@ -835,6 +837,7 @@ enum APIProduct : URLRequestConvertible {
         case .getComment(let pId) : return pId + "/comments"
         case .myProduct(_, _, _) : return ""
         case .push(let pId) : return "push/\(pId)"
+        case .paidPush(let pId) : return "push/\(pId)/paid_v1"
         case .markAsSold(let pId, _) : return "sold/\(pId)"
         case .getExpiringProducts : return "expiring"
         case .setSoldExpiringProduct(let productId) : return "expiring/\(productId)/sold"

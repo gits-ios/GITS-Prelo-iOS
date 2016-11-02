@@ -84,6 +84,13 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     var mgInstagram : MGInstagram?
     
+    // Up barang pop up
+    @IBOutlet var vwUpBarangPopUp: UIView!
+    @IBOutlet var lblUpBarang: UILabel!
+    @IBOutlet var vwBtnSet1UpBarang: UIView!
+    @IBOutlet var vwBtnSet2UpBarang: UIView!
+    @IBOutlet var lblUpOther: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -111,6 +118,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         self.navigationItem.rightBarButtonItem = btnOption.toBarButton()
         
         self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+        
+        self.hideUpPopUp()
+        self.vwUpBarangPopUp.backgroundColor = UIColor.white.withAlphaComponent(0.5)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -746,26 +756,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             self.performSegue(withIdentifier: "segCart", sender: nil)
         }
     }
-    
-    @IBAction func upPressed(_ sender: AnyObject) {
-        self.showLoading()
-        if let productId = detail?.productID {
-            let _ = request(APIProduct.push(productId: productId)).responseJSON { resp in
-                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
-                    let json = JSON(resp.result.value!)
-                    let isSuccess = json["_data"]["result"].boolValue
-                    let message = json["_data"]["message"].stringValue
-                    if (isSuccess) {
-                        Constant.showDialog("Success", message: message)
-                    } else {
-                        Constant.showDialog("Failed", message: message)
-                    }
-                }
-                self.hideLoading()
-            }
-        }
-    }
-    
+        
     @IBAction func soldPressed(_ sender: AnyObject) {
         let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah terjual? (Aksi ini tidak bisa dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Tidak", style: .default, handler: nil))
@@ -990,6 +981,90 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             let c = segue.destination as! BaseViewController
             c.previousController = self
         }
+    }
+    
+    // MARK: - Up barang
+    
+    @IBAction func upPressed(_ sender: AnyObject) {
+        self.showLoading()
+        if let productId = detail?.productID {
+            let _ = request(APIProduct.push(productId: productId)).responseJSON { resp in
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
+                    let json = JSON(resp.result.value!)
+                    let isSuccess = json["_data"]["result"].boolValue
+                    let message = json["_data"]["message"].stringValue
+                    let paidAmount = json["_data"]["paid_amount"].intValue
+                    let preloBalance = json["_data"]["my_prelo_balance"].intValue
+                    if (isSuccess) {
+                        self.showUpPopUp(withText: message, isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance)
+                    } else {
+                        self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: true, paidAmount: paidAmount, preloBalance: preloBalance)
+                    }
+                }
+                self.hideLoading()
+            }
+        }
+    }
+    
+    func showUpPopUp(withText : String, isShowUpOther : Bool, isShowPaidUp : Bool, paidAmount : Int, preloBalance: Int) {
+        self.vwUpBarangPopUp.isHidden = false
+        if (isShowUpOther) {
+            self.lblUpOther.isHidden = false
+        } else {
+            self.lblUpOther.isHidden = true
+        }
+        if (isShowPaidUp) {
+            self.vwBtnSet1UpBarang.isHidden = false
+            self.vwBtnSet2UpBarang.isHidden = true
+            self.lblUpBarang.text = withText + "\n\n" + "Atau kamu bisa UP sekarang dengan membayar " + paidAmount.asPrice + " (akan otomatis ditarik dari Prelo Balance)\n"  + "Prelo Balance kamu: " + preloBalance.asPrice
+            self.lblUpBarang.boldSubstring("sekarang")
+            self.lblUpBarang.boldSubstring(paidAmount.asPrice)
+            self.lblUpBarang.boldSubstring(preloBalance.asPrice)
+        } else {
+            self.vwBtnSet1UpBarang.isHidden = true
+            self.vwBtnSet2UpBarang.isHidden = false
+            self.lblUpBarang.text = withText
+        }
+    }
+    
+    func hideUpPopUp() {
+        self.vwUpBarangPopUp.isHidden = true
+    }
+    
+    @IBAction func btnUPOtherPressed(_ sender: AnyObject) {
+        let m = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdMyProducts) as! MyProductViewController
+        m.shouldSkipBack = false
+        self.navigationController?.pushViewController(m, animated: true)
+    }
+    
+    @IBAction func btnUpBarangOKPressed(_ sender: AnyObject) {
+        self.hideUpPopUp()
+    }
+    
+    @IBAction func btnUpBarangUpPressed(_ sender: AnyObject) {
+        self.hideUpPopUp()
+        self.showLoading()
+        if let productId = detail?.productID {
+            let _ = request(APIProduct.paidPush(productId: productId)).responseJSON { resp in
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
+                    let json = JSON(resp.result.value!)
+                    let isSuccess = json["_data"]["result"].boolValue
+                    let message = json["_data"]["message"].stringValue
+                    let paidAmount = json["_data"]["paid_amount"].intValue
+                    let preloBalance = json["_data"]["my_prelo_balance"].intValue
+                    if (isSuccess) {
+                        self.showUpPopUp(withText: message, isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance)
+                    } else {
+                        self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance)
+                    }
+                }
+                self.hideLoading()
+            }
+        }
+    }
+    
+    @IBAction func btnUpBarangBatalPressed(_ sender: AnyObject) {
+        self.hideUpPopUp()
     }
     
     // MARK: - Other functions
