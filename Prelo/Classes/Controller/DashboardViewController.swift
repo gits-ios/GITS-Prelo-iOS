@@ -224,25 +224,23 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     
     func pickerDidSelect(_ item: String) {
         if (PickerViewController.HideHiddenString(item) == "Request Barang") {
-            var username = "Your beloved user"
-            if let u = CDUser.getOne() {
-                username = u.username
+            let webVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
+            var url = "https://prelo.co.id/request-barang?ref=preloapp"
+            if let username = CDUser.getOne()?.username {
+                url += "&username=\(username)"
             }
-            let msgBody = "Dear Prelo,<br/><br/>Saya sedang mencari barang bekas berkualitas ini:<br/><br/><br/>Jika ada pengguna di Prelo yang menjual barang tersebut, harap memberitahu saya melalui e-mail.<br/><br/>Terima kasih Prelo <3<br/><br/>--<br/>\(username)<br/>Sent from Prelo iOS"
-            
-            let m = MFMailComposeViewController()
-            if (MFMailComposeViewController.canSendMail()) {
-                m.setToRecipients(["contact@prelo.id"])
-                m.setSubject("Request Barang")
-                m.setMessageBody(msgBody, isHTML: true)
-                m.mailComposeDelegate = self
-                self.present(m, animated: true, completion: nil)
-            } else {
-                Constant.showDialog("No Active E-mail", message: "Untuk dapat mengirim Request Barang, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
-            }
+            webVC.url = url
+            webVC.titleString = "Request Barang"
+            let baseNavC = BaseNavigationController()
+            baseNavC.setViewControllers([webVC], animated: false)
+            self.present(baseNavC, animated: true, completion: nil)
         } else if (PickerViewController.HideHiddenString(item) == "Request Packaging") {
             let webVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
-            webVC.url = "https://prelo.co.id/request-packaging?ref=preloapp"
+            var url = "https://prelo.co.id/request-packaging?ref=preloapp"
+            if let username = CDUser.getOne()?.username {
+                url += "&username=\(username)"
+            }
+            webVC.url = url
             webVC.titleString = "Request Packaging"
             let baseNavC = BaseNavigationController()
             baseNavC.setViewControllers([webVC], animated: false)
