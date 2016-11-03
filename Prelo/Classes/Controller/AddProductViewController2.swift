@@ -183,6 +183,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 //        growerName = GrowingTextViewHandler(textView: txtName, withHeightConstraint: conHeightTxtName)
         growerName?.updateMinimumNumber(ofLines: 1, andMaximumNumberOfLine: 4)
         
+        txtDescription.layoutIfNeeded()
         growerDesc = GrowingTextViewHandler(textView: txtDescription, withHeightConstraint: conHeightTxtDesc)
         growerDesc?.updateMinimumNumber(ofLines: 1, andMaximumNumberOfLine: 100)
         

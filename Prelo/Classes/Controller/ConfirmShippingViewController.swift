@@ -448,6 +448,7 @@ class ConfirmShippingCell: TransactionDetailProductCell, UITextViewDelegate {
         textView.delegate = self
         textView.text = TxtvwPlaceholder
         textView.textColor = UIColor.lightGray
+        textView.layoutIfNeeded()
         txtvwGrowHandler = GrowingTextViewHandler(textView: textView, withHeightConstraint: consHeightTxtvw)
         txtvwGrowHandler.updateMinimumNumber(ofLines: 1, andMaximumNumberOfLine: 2)
     }

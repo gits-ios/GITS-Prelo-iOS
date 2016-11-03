@@ -44,7 +44,6 @@
 		2116BAF81BAC1D74009B27C8 /* Default-Landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2116BAF71BAC1D74009B27C8 /* Default-Landscape@2x.png */; };
 		2116BAFA1BAC1DC9009B27C8 /* Default-Portrait-2048h.png in Resources */ = {isa = PBXBuildFile; fileRef = 2116BAF91BAC1DC9009B27C8 /* Default-Portrait-2048h.png */; };
 		211BC9921B96AC9100FDB1DC /* category_placeholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 211BC9911B96AC9100FDB1DC /* category_placeholder@2x.png */; };
-		211BC9981B96D53300FDB1DC /* GrowingTextViewHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 211BC9971B96D53300FDB1DC /* GrowingTextViewHandler.m */; };
 		212007BB1B6A087F00D9C84B /* ic_ico_label@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 212007B91B6A087F00D9C84B /* ic_ico_label@2x.png */; };
 		212007BC1B6A087F00D9C84B /* ic_logo_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 212007BA1B6A087F00D9C84B /* ic_logo_white@2x.png */; };
 		212007BE1B6A0BB400D9C84B /* basic_purple@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 212007BD1B6A0BB400D9C84B /* basic_purple@2x.png */; };
@@ -284,6 +283,7 @@
 		44B8EDC81BEB47620063DEA8 /* TwitterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B8EDC51BEB47620063DEA8 /* TwitterCore.framework */; };
 		44BB8EF81BC6ABF70052B020 /* GIBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44BB8EF71BC6ABF70052B020 /* GIBadgeView.m */; };
 		44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C10A661B8C8145006D8770 /* basic_green@2x.png */; };
+		581430DB1DCB14DE00B67205 /* GrowingTextViewHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581430DA1DCB14DE00B67205 /* GrowingTextViewHandler.swift */; };
 		581E87AE1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 581E87AD1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg */; };
 		581E87B01CE08EE00055CCDD /* cover-shop-page.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 581E87AF1CE08EE00055CCDD /* cover-shop-page.jpg */; };
 		5830A42F1CE3443000FB1577 /* AddProductPlaceholder.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5830A42E1CE3443000FB1577 /* AddProductPlaceholder.plist */; };
@@ -1244,6 +1244,7 @@
 		5800FF9E1C883E1600492DB2 /* NotifAnggiConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = NotifAnggiConversationViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5800FFA21C8852D600492DB2 /* NotifAnggiTransaction.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiTransaction.xib; sourceTree = "<group>"; };
 		5800FFA41C88530900492DB2 /* NotifAnggiConversation.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiConversation.xib; sourceTree = "<group>"; };
+		581430DA1DCB14DE00B67205 /* GrowingTextViewHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrowingTextViewHandler.swift; sourceTree = "<group>"; };
 		581E87AD1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "ic_dashboard_cover@2x.jpg"; sourceTree = "<group>"; };
 		581E87AF1CE08EE00055CCDD /* cover-shop-page.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "cover-shop-page.jpg"; sourceTree = "<group>"; };
 		5830A42E1CE3443000FB1577 /* AddProductPlaceholder.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AddProductPlaceholder.plist; sourceTree = "<group>"; };
@@ -1685,6 +1686,7 @@
 			children = (
 				211BC9961B96D53300FDB1DC /* GrowingTextViewHandler.h */,
 				211BC9971B96D53300FDB1DC /* GrowingTextViewHandler.m */,
+				581430DA1DCB14DE00B67205 /* GrowingTextViewHandler.swift */,
 			);
 			path = GrowingTextView;
 			sourceTree = "<group>";
@@ -3381,7 +3383,6 @@
 				58A99A351C6D864E00E3E7D7 /* Branch.m in Sources */,
 				21679A561B901C5300F18F90 /* UIImage+MPAverageColor.m in Sources */,
 				58DD28EC1DAF36D000130B6F /* Date+BFKit.swift in Sources */,
-				211BC9981B96D53300FDB1DC /* GrowingTextViewHandler.m in Sources */,
 				5847E1541DBD9BAB00C1B2BA /* CDUserProfile.swift in Sources */,
 				21679A1C1B901C5300F18F90 /* MPABTestDesignerConnection.m in Sources */,
 				216345041CC3A855005CBA37 /* MKNavigationBar.swift in Sources */,
@@ -3574,6 +3575,7 @@
 				585887601DBEEAE2006EC6D5 /* ProdukUploader.swift in Sources */,
 				5847E1601DBDA21800C1B2BA /* CDNotification.swift in Sources */,
 				21679A371B901C5300F18F90 /* MPObjectIdentityProvider.m in Sources */,
+				581430DB1DCB14DE00B67205 /* GrowingTextViewHandler.swift in Sources */,
 				21E7A7691B9FF2BC00FC9B38 /* LKLineActivity.m in Sources */,
 				588148AC1DC09F88004180E1 /* ProductCompareViewController.swift in Sources */,
 				21E7A7571B9FDE4F00FC9B38 /* MGInstagram.m in Sources */,

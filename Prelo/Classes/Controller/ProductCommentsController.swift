@@ -68,10 +68,6 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         
         tableView.tableFooterView = UIView()
         
-        // FIXME: SWIFT 3 URGENT
-//        growHandler = GrowingTextViewHandler(textView: txtMessage, withHeightConstraint: conHeightTxtMessage)
-//        growHandler?.updateMinimumNumber(ofLines: 1, andMaximumNumberOfLine: 4)
-        
         getComments()
     }
     
@@ -107,6 +103,10 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
             }
             
             }, completion: nil)
+        
+        // Init growing text handler
+        growHandler = GrowingTextViewHandler(textView: txtMessage, withHeightConstraint: conHeightTxtMessage)
+        growHandler?.updateMinimumNumber(ofLines: 1, andMaximumNumberOfLine: 4)
     }
     
     override func viewWillDisappear(_ animated: Bool) {

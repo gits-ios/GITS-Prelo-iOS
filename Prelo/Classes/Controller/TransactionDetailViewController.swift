@@ -138,6 +138,12 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        self.validateRvwKirimFields()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
         // Atur textview tolak
         txtvwAlasanTolak.delegate = self
         txtvwAlasanTolak.text = TxtvwAlasanTolakPlaceholder
@@ -153,8 +159,6 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         txtvwReview.textColor = UIColor.lightGray
         txtvwReviewGrowHandler = GrowingTextViewHandler(textView: txtvwReview, withHeightConstraint: consHeightTxtvwReview)
         txtvwReviewGrowHandler.updateMinimumNumber(ofLines: 1, andMaximumNumberOfLine: 3)
-        
-        self.validateRvwKirimFields()
     }
     
     func getTransactionDetail() {
