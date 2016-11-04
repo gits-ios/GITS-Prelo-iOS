@@ -354,6 +354,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         btnSold.isHidden = true
         btnBeliSold.isHidden = true
         
+        // Enable buttons
+        btnTawar1.isEnabled = true
+        btnTawar2.isEnabled = true
+        
         // Set header height
         if (tawarItem.opIsMe) { // I am buyer
             if (self.prodStatus == 1) { // Product isn't sold
@@ -648,6 +652,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                     Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["from":"MessagePool 3"])
                 }
             } else {
+                self.adjustButtons()
                 print(resp.result.error)
             }
         }
@@ -704,8 +709,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 sendChat(1, message: txtTawar.text!)
             }
             txtTawar.text = ""
-            btnTawar1.isHidden = true
-            btnTawar2.isHidden = true
+            btnTawar1.isEnabled = false
+            btnTawar2.isEnabled = false
+//            btnTawar1.isHidden = true
+//            btnTawar2.isHidden = true
             self.tawarItem.setBargainPrice(m)
         }
     }
