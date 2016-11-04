@@ -125,5 +125,11 @@
 	<false/>
 	<key>branch_key</key>
 	<string>key_live_pbbQ76J8PDVeNXyR7wR22fncBBoiBLk5</string>
+    <!-- 🖼 Photo Library -->
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>$(PRODUCT_NAME) need to access camera/photo library to upload your product</string>
+    <!-- 📷 Camera -->
+    <key>NSCameraUsageDescription</key>
+    <string>$(PRODUCT_NAME) need to access camera/photo library to upload your product</string>
 </dict>
 </plist>
