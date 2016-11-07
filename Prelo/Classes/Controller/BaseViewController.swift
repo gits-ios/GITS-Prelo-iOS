@@ -62,7 +62,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     }
     var dismissButton : UIButton {
         let b = self.createButtonWithIcon(AppFont.prelo2, icon: "")
-        b.addTarget(self, action: #selector(BaseViewController.dismiss(animated:completion:)), for: UIControlEvents.touchUpInside)
+        b.addTarget(self, action: #selector(BaseViewController.dismissMe), for: UIControlEvents.touchUpInside)
         return b
     }
     var confirmButton : UIButton {
@@ -111,6 +111,10 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     
     func backPressed(_ sender: UIBarButtonItem) {
         _ = self.navigationController?.popViewController(animated: true)
+    }
+    
+    func dismissMe() {
+        self.dismiss(animated: true, completion: nil)
     }
     
     func setupNormalOptions() {
