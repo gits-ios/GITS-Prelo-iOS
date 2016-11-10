@@ -10,7 +10,7 @@ import Foundation
 
 // MARK: - Class
 
-class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var consHeightContentView: NSLayoutConstraint!
@@ -65,6 +65,9 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         
         // Hide kurir lainnya field
         self.hideFldKurirLainnya()
+        
+        // Delegate
+        self.txtFldNoResi.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -146,6 +149,16 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Do nothing
+    }
+    
+    // MARK: - UITextfield functions
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField.isEqual(txtFldNoResi) {
+            txtFldNoResi.text = (textField.text! as NSString).replacingCharacters(in: range, with: string.uppercased())
+            return false
+        }
+        return true
     }
     
     // MARK: - UIImagePickerController functions
