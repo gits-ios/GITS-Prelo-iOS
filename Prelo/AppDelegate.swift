@@ -491,8 +491,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } else {
                 self.showFailedRedirAlert()
             }
+        } else if (path.contains("/checkout")) {
+            self.redirectCart()
         } else {
             self.hideRedirAlertWithDelay(1.0)
+            self.redirectWebview(path)
         }
     }
     
@@ -907,6 +910,57 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             listItemVC.navigationItem.leftBarButtonItem = noBtn
         }
         rootViewController!.pushViewController(listItemVC, animated: true)
+    }
+    
+    func redirectWebview(_ path : String) {
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let webVC = mainStoryboard.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
+        webVC.url = path
+        webVC.titleString = "Prelo"
+        var rootViewController : UINavigationController?
+        if let rVC = self.window?.rootViewController {
+            if (rVC.childViewControllers.count > 0) {
+                if let chld = rVC.childViewControllers[0] as? UINavigationController {
+                    rootViewController = chld
+                }
+            }
+        }
+        if (rootViewController == nil) {
+            // Set root view controller
+            rootViewController = UINavigationController()
+            rootViewController?.navigationBar.barTintColor = Theme.PrimaryColor
+            rootViewController?.navigationBar.tintColor = UIColor.white
+            rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+            self.window?.rootViewController = rootViewController
+            let noBtn = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+            webVC.navigationItem.leftBarButtonItem = noBtn
+        }
+        rootViewController!.pushViewController(webVC, animated: true)
+    }
+    
+    func redirectCart() {
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let cartVC = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
+        
+        var rootViewController : UINavigationController?
+        if let rVC = self.window?.rootViewController {
+            if (rVC.childViewControllers.count > 0) {
+                if let chld = rVC.childViewControllers[0] as? UINavigationController {
+                    rootViewController = chld
+                }
+            }
+        }
+        if (rootViewController == nil) {
+            // Set root view controller
+            rootViewController = UINavigationController()
+            rootViewController?.navigationBar.barTintColor = Theme.PrimaryColor
+            rootViewController?.navigationBar.tintColor = UIColor.white
+            rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+            self.window?.rootViewController = rootViewController
+            let noBtn = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+            cartVC.navigationItem.leftBarButtonItem = noBtn
+        }
+        rootViewController!.pushViewController(cartVC, animated: true)
     }
     
     // MARK: - Core Data stack
