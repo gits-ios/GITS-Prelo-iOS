@@ -182,6 +182,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         // Prepare parameter for API refresh cart
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
+        if (c.count <= 0) {
+            _ = self.navigationController?.popViewController(animated: true)
+            return
+        }
         let p = AppToolsObjC.jsonString(from: c)
         let a = "{\"address\": \"alamat\", \"province_id\": \"" + selectedProvinsiID + "\", \"region_id\": \"" + selectedKotaID + "\", \"subdistrict_id\": \"" + selectedKecamatanID + "\", \"postal_code\": \"\"}"
         print("cart_products : \(p)")
@@ -193,7 +197,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 
                 // Back to prev page if cart is empty
                 if (self.shouldBack == true) {
-                    self.navigationController?.popViewController(animated: true)
+                    _ = self.navigationController?.popViewController(animated: true)
                     return
                 }
                 
@@ -418,7 +422,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     func adjustTotal() {
         // Sum up shipping price
         totalOngkir = 0
-        for i in 0...cartProducts.count-1 {
+        if (cartProducts.count <= 0) {
+            _ = self.navigationController?.popViewController(animated: true)
+            return
+        }
+        for i in 0..<cartProducts.count {
             let cp = cartProducts[i]
             
             let json = arrayItem[i]
