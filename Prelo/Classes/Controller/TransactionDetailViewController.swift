@@ -184,9 +184,15 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     if (self.trxId != nil) {
                         self.trxDetail = TransactionDetail.instance(data)
                         self.progress = self.trxDetail?.progress
+                        
+                        // Update title
+                        self.title = "Order #" + self.trxDetail!.orderId
                     } else {
                         self.trxProductDetail = TransactionProductDetail.instance(data)
                         self.progress = self.trxProductDetail?.progress
+                        
+                        // Update title
+                        self.title = "Order #" + self.trxProductDetail!.orderId
                     }
                     
                     // AB test check
