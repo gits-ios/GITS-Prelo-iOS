@@ -238,7 +238,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                     let rTp = [
                         "tp_id" : trxProductDetails[i].id,
                         "reason" : cell.textView.text,
-                        "is_active" : (cell.selectedAvailability == .available) ? true : false
+                        "is_active" : (cell.selectedAvailability == .available) ? "1" : "0"
                     ] as [String : Any]
                     rejectedTp.insert(rTp, at: 0)
                 }
@@ -257,7 +257,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                 let rTpId = r["tp_id"]!
                 let rReason = r["reason"]!
                 let rIsActive = r["is_active"]!
-                confirmData += "{\"tp_id\": \"\(rTpId)\", \"reason\": \"\(rReason)\"}, \"is_active\": \(rIsActive)}"
+                confirmData += "{\"tp_id\": \"\(rTpId)\", \"reason\": \"\(rReason)\"}, \"is_active\": \"\(rIsActive)\"}"
                 if (k < rejectedTp.count - 1) {
                     confirmData += ","
                 }
@@ -283,7 +283,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                 let data = json["_data"].boolValue
                 if (data == true) {
                     Constant.showDialog("Konfirmasi Kirim/Tolak", message: "Konfirmasi berhasil dilakukan")
-                    self.navigationController?.popToRootViewController(animated: true)
+                    _ = self.navigationController?.popToRootViewController(animated: true)
                 } else {
                     Constant.showDialog("Konfirmasi Kirim/Tolak", message: "Gagal mengupload data")
                     self.hideLoading()
@@ -490,11 +490,17 @@ class ConfirmShippingCell: TransactionDetailProductCell, UITextViewDelegate {
             self.lblRadioBtnHabis.textColor = Theme.ThemeOrange
             self.lblRadioBtnMasih.text = ""
             self.lblRadioBtnMasih.textColor = UIColor.lightGray
+            if (self.textView.text.isEmpty || self.textView.text == TxtvwPlaceholder) {
+                self.textView.text = "Sold"
+            }
         } else if (selectedAvailability == .available) {
             self.lblRadioBtnHabis.text = ""
             self.lblRadioBtnHabis.textColor = UIColor.lightGray
             self.lblRadioBtnMasih.text = ""
             self.lblRadioBtnMasih.textColor = Theme.ThemeOrange
+            if (self.textView.text == "Sold") {
+                self.textView.text = TxtvwPlaceholder
+            }
         } else {
             self.lblRadioBtnHabis.text = ""
             self.lblRadioBtnHabis.textColor = UIColor.lightGray
@@ -524,7 +530,7 @@ class ConfirmShippingCell: TransactionDetailProductCell, UITextViewDelegate {
     // MARK: - UITextViewDelegate functions
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if (textView.textColor == UIColor.lightGray) {
+        if (textView.text == TxtvwPlaceholder) {
             textView.text = ""
             textView.textColor = Theme.GrayDark
         }

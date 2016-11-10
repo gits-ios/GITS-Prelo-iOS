@@ -426,11 +426,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/ConfirmShippingViewController.swift"
-            timestampString = "499675800.284808"
+            timestampString = "500481727.757939"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "266"
-            endingLineNumber = "266"
+            startingLineNumber = "280"
+            endingLineNumber = "280"
             landmarkName = "btnKonfKirimPressed(_:)"
             landmarkType = "7">
          </BreakpointContent>
