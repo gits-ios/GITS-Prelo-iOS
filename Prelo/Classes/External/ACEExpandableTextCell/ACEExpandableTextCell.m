@@ -139,6 +139,10 @@
         id<ACEExpandableTableViewDelegate> delegate = (id<ACEExpandableTableViewDelegate>)self.expandableTableView.delegate;
         NSIndexPath *indexPath = [self.expandableTableView indexPathForCell:self];
         
+        if (indexPath == nil) {
+            return;
+        }
+        
         // update the text
         _text = self.textView.text;
         
