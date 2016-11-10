@@ -609,7 +609,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="VJW-xa-4Ee" customClass="ListItemCell" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="87" y="204" width="200" height="250"/>
+                                        <rect key="frame" x="88" y="204" width="200" height="250"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="200" height="250"/>
@@ -4932,8 +4932,8 @@ in Bandung</string>
                                             <mask key="constraints">
                                                 <exclude reference="Z7b-7P-z7v"/>
                                                 <exclude reference="vP3-xW-5cN"/>
-                                                <exclude reference="bhi-n5-S72"/>
                                                 <exclude reference="Yd2-Cu-ogP"/>
+                                                <exclude reference="bhi-n5-S72"/>
                                             </mask>
                                         </variation>
                                     </view>
@@ -5114,7 +5114,7 @@ in Bandung</string>
                                         <rect key="frame" x="0.0" y="22" width="600" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PgG-YS-5KH" id="TeM-b3-Wiv">
-                                            <frame key="frameInset" width="600" height="80"/>
+                                            <frame key="frameInset" width="600" height="79"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="raisa.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="meF-ae-zwd">
@@ -5271,7 +5271,7 @@ in Bandung</string>
                                         <rect key="frame" x="0.0" y="22" width="600" height="110"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xpO-TC-Vlf" id="Y9T-DP-R2C">
-                                            <frame key="frameInset" width="600" height="110"/>
+                                            <frame key="frameInset" width="600" height="109"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VMa-W1-3db">
@@ -5323,7 +5323,7 @@ in Bandung</string>
                                         <rect key="frame" x="0.0" y="132" width="600" height="110"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GKE-nj-Tal" id="pBN-YL-gaJ">
-                                            <frame key="frameInset" width="600" height="110"/>
+                                            <frame key="frameInset" width="600" height="109"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Retry" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BwS-j8-zmN">
@@ -5377,7 +5377,7 @@ in Bandung</string>
                                         <rect key="frame" x="0.0" y="22" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="Zqo-bg-bRX" id="VJ0-RV-Lr6">
-                                            <frame key="frameInset" width="600" height="44"/>
+                                            <frame key="frameInset" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="9mv-ij-ge2" userLabel="loadingbottom">
@@ -6025,7 +6025,7 @@ in Bandung</string>
                                         <rect key="frame" x="0.0" y="22" width="600" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Dtg-rL-NXh" id="y94-VI-cym">
-                                            <frame key="frameInset" width="600" height="54"/>
+                                            <frame key="frameInset" width="600" height="53"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bVj-eY-b2b">
@@ -6066,7 +6066,7 @@ in Bandung</string>
                                         <rect key="frame" x="0.0" y="76" width="600" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="188-aR-rkL" id="o6v-Qm-Guh">
-                                            <frame key="frameInset" width="600" height="54"/>
+                                            <frame key="frameInset" width="600" height="53"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QLq-GL-On4">
@@ -6126,7 +6126,7 @@ in Bandung</string>
                                         <rect key="frame" x="0.0" y="130" width="600" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sFi-da-Ewt" id="7ce-O6-5gy">
-                                            <frame key="frameInset" width="600" height="54"/>
+                                            <frame key="frameInset" width="600" height="53"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -6645,7 +6645,7 @@ in Bandung</string>
                                         <rect key="frame" x="0.0" y="22" width="375" height="64"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nCS-lr-we3" id="EtJ-ny-W2Q">
-                                            <frame key="frameInset" width="375" height="64"/>
+                                            <frame key="frameInset" width="375" height="63"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Of6-1G-2VK">
@@ -6735,7 +6735,7 @@ in Bandung</string>
                                         <rect key="frame" x="0.0" y="86" width="375" height="64"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="v3S-zN-g1B" id="dwI-0B-P2v">
-                                            <frame key="frameInset" width="375" height="64"/>
+                                            <frame key="frameInset" width="375" height="63"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6N4-hi-dDS">
@@ -8629,7 +8629,7 @@ in Bandung</string>
                                                 <color key="textColor" red="0.33335760240000001" green="0.33334761860000001" blue="0.333353281" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UP Jualan saya yang lain" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bkv-Ne-UKl">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UP jualan saya yang lain" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bkv-Ne-UKl">
                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                                                 <color key="textColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -8839,6 +8839,7 @@ in Bandung</string>
                         <outlet property="btnTawar" destination="z2y-Ag-gm1" id="JSa-as-zxP"/>
                         <outlet property="btnUp" destination="j5z-1B-4Hq" id="B1X-aL-j9D"/>
                         <outlet property="consHeightLblNoComment" destination="2pR-Zr-iCS" id="sXw-1U-2Fe"/>
+                        <outlet property="consHeightUpBarang" destination="C02-sX-lFv" id="tBx-6U-eHx"/>
                         <outlet property="konfirmasiBayarBtnSet" destination="yQI-8a-Ibj" id="KWh-aD-z7z"/>
                         <outlet property="lblUpBarang" destination="YLx-Ex-Q0H" id="8Gb-si-EKU"/>
                         <outlet property="lblUpOther" destination="bkv-Ne-UKl" id="abr-qY-hYM"/>
@@ -8853,6 +8854,7 @@ in Bandung</string>
                         <outlet property="vwCoachmarkMine" destination="NnJ-DF-GUp" id="Uny-lL-5Bo"/>
                         <outlet property="vwCoachmarkReserve" destination="ncW-HY-m8c" id="cJx-63-Orq"/>
                         <outlet property="vwUpBarangPopUp" destination="gc7-AZ-YK8" id="D8c-6d-vl2"/>
+                        <outlet property="vwUpBarangPopUpPanel" destination="o7a-Od-emg" id="unl-Wr-whM"/>
                         <segue destination="0qH-Ls-LM7" kind="show" identifier="segCart" id="dW2-MQ-HC6"/>
                         <segue destination="89O-n7-3Ld" kind="show" identifier="segAddComment" id="Pzt-Up-DOu"/>
                     </connections>
@@ -11267,7 +11269,7 @@ in Bandung</string>
                                 <rect key="frame" x="0.0" y="66" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3W4-VT-LDM" id="KvA-hb-KVS">
-                                    <frame key="frameInset" width="375" height="44"/>
+                                    <frame key="frameInset" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="UWe-uJ-oiA" userLabel="loadingbottom">
@@ -14591,7 +14593,7 @@ in Bandung</string>
                                         <rect key="frame" x="0.0" y="22" width="600" height="74"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qKf-wf-xKf" id="gBT-5a-aKJ">
-                                            <frame key="frameInset" width="600" height="74"/>
+                                            <frame key="frameInset" width="600" height="73"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qXw-UR-PD3">
@@ -15499,7 +15501,7 @@ in Bandung</string>
                                                             <rect key="frame" x="0.0" y="22" width="600" height="207"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qjV-Hg-rOC" id="XnC-7F-kQD">
-                                                                <frame key="frameInset" width="600" height="207"/>
+                                                                <frame key="frameInset" width="600" height="206"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="raisa.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="Fgg-FK-AEw" userLabel="Product Image">
@@ -15849,7 +15851,7 @@ in Bandung</string>
                                                             <rect key="frame" x="0.0" y="229" width="600" height="21"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Pt8-m5-iXa" id="ewn-Tz-Uto">
-                                                                <frame key="frameInset" width="600" height="21"/>
+                                                                <frame key="frameInset" width="600" height="20"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Fb-pm-wIl"/>
@@ -15907,7 +15909,7 @@ in Bandung</string>
                                                             <rect key="frame" x="0.0" y="250" width="600" height="64"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VJD-ZE-nde" id="Tul-g3-Vsn">
-                                                                <frame key="frameInset" width="600" height="64"/>
+                                                                <frame key="frameInset" width="600" height="63"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Histori Pengiriman" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y2v-s6-hiz">

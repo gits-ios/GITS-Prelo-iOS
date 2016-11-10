@@ -86,10 +86,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     // Up barang pop up
     @IBOutlet var vwUpBarangPopUp: UIView!
+    @IBOutlet var vwUpBarangPopUpPanel: UIView!
     @IBOutlet var lblUpBarang: UILabel!
     @IBOutlet var vwBtnSet1UpBarang: UIView!
     @IBOutlet var vwBtnSet2UpBarang: UIView!
     @IBOutlet var lblUpOther: UILabel!
+    @IBOutlet var consHeightUpBarang: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -1025,6 +1027,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             self.vwBtnSet2UpBarang.isHidden = false
             self.lblUpBarang.text = withText
         }
+        self.lblUpBarang.sizeToFit()
+        self.consHeightUpBarang.constant = 120 + lblUpBarang.height
+        self.vwUpBarangPopUpPanel.setNeedsLayout()
     }
     
     func hideUpPopUp() {
