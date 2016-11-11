@@ -257,7 +257,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                 let rTpId = r["tp_id"]!
                 let rReason = r["reason"]!
                 let rIsActive = r["is_active"]!
-                confirmData += "{\"tp_id\": \"\(rTpId)\", \"reason\": \"\(rReason)\"}, \"is_active\": \"\(rIsActive)\"}"
+                confirmData += "{\"tp_id\": \"\(rTpId)\", \"reason\": \"\(rReason)\", \"is_active\": \"\(rIsActive)\"}"
                 if (k < rejectedTp.count - 1) {
                     confirmData += ","
                 }

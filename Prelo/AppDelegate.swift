@@ -236,7 +236,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     if let items = components.queryItems {
                         param = items
                     }
-                    self.handleUniversalLink(components.path, param: param)
+                    self.handleUniversalLink(url, path: components.path, param: param)
                 }
             }
         }
@@ -292,7 +292,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if let items = components.queryItems {
                     param = items
                 }
-                self.handleUniversalLink(components.path, param: param)
+                self.handleUniversalLink(url, path: components.path, param: param)
                 return true
             }
         }
@@ -436,7 +436,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: - Redirection functions
     
-    func handleUniversalLink(_ path : String, param : [URLQueryItem]) {
+    func handleUniversalLink(_ url : URL, path : String, param : [URLQueryItem]) {
         self.showRedirAlert()
         if (path.contains("/p/")) {
             let splittedPath = path.characters.split{$0 == "/"}.map(String.init)
@@ -495,7 +495,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.redirectCart()
         } else {
             self.hideRedirAlertWithDelay(1.0)
-            self.redirectWebview(path)
+            // Choose one method
+            UIApplication.shared.openURL(url) // Open in safari
+            //self.redirectWebview(url.absoluteString) // Open in prelo's webview
         }
     }
     
@@ -912,10 +914,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         rootViewController!.pushViewController(listItemVC, animated: true)
     }
     
-    func redirectWebview(_ path : String) {
+    func redirectWebview(_ url : String) {
         let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let webVC = mainStoryboard.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
-        webVC.url = path
+        webVC.url = url
         webVC.titleString = "Prelo"
         var rootViewController : UINavigationController?
         if let rVC = self.window?.rootViewController {
@@ -957,9 +959,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             rootViewController?.navigationBar.tintColor = UIColor.white
             rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
             self.window?.rootViewController = rootViewController
-            let noBtn = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-            cartVC.navigationItem.leftBarButtonItem = noBtn
-        }
+       }
         rootViewController!.pushViewController(cartVC, animated: true)
     }
     
