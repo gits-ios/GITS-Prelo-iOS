@@ -62,7 +62,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             vwHeaderLoggedOut.isHidden = true
             menus = [
                 [
-                    "title":"Request Barang",
+                    "title":"Request",
                     "iconimg":"ic_request",
                 ],
                 [
