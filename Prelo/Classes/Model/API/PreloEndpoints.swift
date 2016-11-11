@@ -1066,7 +1066,7 @@ enum APISearch : URLRequestConvertible {
         case .productByCategory(let catId, let sort, let current, let limit, let priceMin, let priceMax, let segment, let lastTimeUuid):
             p = [
                 "category_id":catId,
-                "sort":sort,
+                "sort_by":sort,
                 "current":current,
                 "limit":limit,
                 "price_min":priceMin,

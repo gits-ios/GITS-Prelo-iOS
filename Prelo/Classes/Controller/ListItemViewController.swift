@@ -427,12 +427,12 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     func refresh() {
         self.products = []
+        self.done = false
         self.footerLoading?.isHidden = false
         self.setupGrid() // Agar muncul loading
         
         switch (currentMode) {
         case .shop, .filter:
-            self.done = false
             self.getProducts()
         case .featured:
             self.getFeaturedProducts()
@@ -457,7 +457,6 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 lastTimeUuid = products![products!.count - 1].updateTimeUuid
             }
             let _ = request(APISearch.productByCategory(categoryId: catId!, sort: "", current: 0, limit: itemsPerReq, priceMin: 0, priceMax: 999999999, segment: selectedSegment, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
-                self.done = false
                 self.footerLoading?.isHidden = false
                 self.requesting = false
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Daftar Barang")) {
@@ -506,7 +505,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         if (products != nil && products?.count > 0) {
             lastTimeUuid = products![products!.count - 1].updateTimeUuid
         }
-        let _ = request(APISearch.productByCategory(categoryId: catId, sort: "", current: (products?.count)!, limit: itemsPerReq, priceMin: 0, priceMax: 999999999, segment: selectedSegment, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
+        let _ = request(APISearch.productByCategory(categoryId: catId, sort: "recent", current: (products?.count)!, limit: itemsPerReq, priceMin: 0, priceMax: 999999999, segment: selectedSegment, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
             self.requesting = false
             if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Product By Category")) {
                 self.setupData(resp.result.value)
