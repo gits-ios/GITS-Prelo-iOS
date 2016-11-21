@@ -251,6 +251,11 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             }
         }
         
+        // Need layout
+        for i in 0..<groups.count {
+            groups[i].layoutIfNeeded()
+        }
+        
         // Arrange groups
         var p : [Bool]!
         if (self.isSocmedAccount == true) {

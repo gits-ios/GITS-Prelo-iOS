@@ -425,22 +425,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Prelo/Classes/Controller/ProfileSetupViewController.swift"
-            timestampString = "499048680.386743"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "294"
-            endingLineNumber = "294"
-            landmarkName = "arrangeGroups(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Prelo/AppDelegate.swift"
             timestampString = "499170521.92348"
             startingColumnNumber = "9223372036854775807"
@@ -497,6 +481,38 @@
             endingLineNumber = "280"
             landmarkName = "btnKonfKirimPressed(_:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Prelo.ConfirmShippingViewController.btnKonfKirimPressed (Swift.AnyObject) -&gt; ()"
+                  moduleName = "Prelo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/prelo/Documents/Algo&apos;s%20Files/Prelo%20Project/ios_prelo/Prelo/Classes/Controller/ConfirmShippingViewController.swift"
+                  timestampString = "501411261.869636"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "280"
+                  endingLineNumber = "280"
+                  offsetFromSymbolStart = "13562">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Prelo.ConfirmShippingViewController.(btnKonfKirimPressed (Swift.AnyObject) -&gt; ()).(closure #1)"
+                  moduleName = "Prelo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/prelo/Documents/Algo&apos;s%20Files/Prelo%20Project/ios_prelo/Prelo/Classes/Controller/ConfirmShippingViewController.swift"
+                  timestampString = "501411261.872351"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "281"
+                  endingLineNumber = "281"
+                  offsetFromSymbolStart = "37">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
