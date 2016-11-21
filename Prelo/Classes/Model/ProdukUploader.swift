@@ -178,19 +178,19 @@ class ProdukUploader: NSObject {
     func clearQueue()
     {
         stop()
-        saveRawQueue([])
+        saveRawQueue(ProdukRawQueue(val: []))
     }
     
     func addToQueue(_ produk : ProdukLokal)
     {
         let t = Date()
-        var rawQueue = getRawQueue()
-        rawQueue.append(produk.toDictionary)
+        let rawQueue = getRawQueue()
+        rawQueue.val.append(produk.toDictionary)
         saveRawQueue(rawQueue)
         
         print("adding queue took \(Date().timeIntervalSince(t)) seconds")
         
-        if (rawQueue.count >= 1)
+        if (rawQueue.val.count >= 1)
         {
             DispatchQueue.main.async(execute: {
                 self.start()
@@ -203,7 +203,7 @@ class ProdukUploader: NSObject {
         let t = Date()
         var queue : [ProdukLokal] = []
         let rawQueue = getRawQueue()
-        for raw in rawQueue
+        for raw in rawQueue.val
         {
             if let param = raw[ProdukLokal.KEY_PARAM] as? [String : String?], let images = raw[ProdukLokal.KEY_IMAGES] as? [AnyObject], let mixpanelParam = raw[ProdukLokal.KEY_MIXPANEL_PARAM] as? [AnyHashable: Any]
             {
@@ -218,21 +218,21 @@ class ProdukUploader: NSObject {
     
     fileprivate func saveQueue(_ queue : [ProdukLokal])
     {
-        var rawQueue : [[String : AnyObject]] = []
+        let rawQueue = ProdukRawQueue(val: [])
         for p in queue
         {
-            rawQueue.append(p.toDictionary)
+            rawQueue.val.append(p.toDictionary)
         }
         
         saveRawQueue(rawQueue)
     }
     
-    fileprivate func getRawQueue() -> [[String : AnyObject]]
+    fileprivate func getRawQueue() -> ProdukRawQueue
     {
-        var savedQueueRaw : [[String : AnyObject]] = []
+        var savedQueueRaw = ProdukRawQueue(val: [])
         if let data = UserDefaults.standard.object(forKey: KEY_LIST_PRODUKLOKAL) as? Data
         {
-            if let dataToArray = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[String:AnyObject]]
+            if let dataToArray = NSKeyedUnarchiver.unarchiveObject(with: data) as? ProdukRawQueue
             {
                 savedQueueRaw = dataToArray
             }
@@ -241,7 +241,7 @@ class ProdukUploader: NSObject {
         return savedQueueRaw
     }
     
-    fileprivate func saveRawQueue(_ rawQueue : [[String : AnyObject]])
+    fileprivate func saveRawQueue(_ rawQueue : ProdukRawQueue)
     {
         let data = NSKeyedArchiver.archivedData(withRootObject: rawQueue)
         UserDefaults.standard.set(data, forKey: KEY_LIST_PRODUKLOKAL)
@@ -262,3 +262,35 @@ extension Thread
         })
     }
 }
+
+class ProdukRawQueue: NSObject, NSCoding
+{
+    var val: [[String : AnyObject]] = [] // Array of product
+    var nsVal : NSMutableArray = NSMutableArray()
+    
+    init(val: [[String : AnyObject]])
+    {
+        self.val = val
+    }
+    
+    // MARK: NSCoding
+    
+    func encode(with aCoder: NSCoder) {
+        nsVal = NSMutableArray()
+        for p in val {
+            print("obj = \(p)")
+            //print("images : " + "\(p["images"])")
+            //print("param : " + "\(p["param"])")
+            //print("mixpanelParam : " + "\(p["mixpanelParam"])")
+            nsVal.add(p as [String : AnyObject])
+        }
+        aCoder.encode(nsVal, forKey: "nsVal")
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        self.nsVal = aDecoder.decodeObject(forKey: "nsVal") as! NSMutableArray
+        val = []
+        val = nsVal.flatMap({ $0 as? [String : AnyObject] })
+    }
+}
+
