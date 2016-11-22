@@ -327,23 +327,28 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         let fbLoginManager = FBSDKLoginManager()
         
         // Ask for publish permissions
-        /* FIXME: Swift 3 fbLoginManager.logIn(withPublishPermissions: ["publish_actions"], handler: {(result : FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
+        fbLoginManager.logIn(withPublishPermissions: ["publish_actions"], handler: {(result : FBSDKLoginManagerLoginResult?, error : Error?) -> Void in
             if (error != nil) { // Process error
                 LoginViewController.LoginFacebookCancelled(sender, reason: "Terdapat kesalahan saat login Facebook")
-            } else if result.isCancelled { // User cancellation
+            } else if (result == nil || result!.isCancelled) { // User cancellation
                 LoginViewController.LoginFacebookCancelled(sender, reason: "Login Facebook dibatalkan")
             } else { // Success
-                var permissions = FBSDKAccessToken.current().permissions
+                guard var permissions = FBSDKAccessToken.current().permissions else {
+                    // Handle not getting permission
+                    LoginViewController.LoginFacebookCancelled(sender, reason: "Login Facebook dibatalkan karena terdapat akses yg diblokir")
+                    return
+                }
+                
                 if permissions.contains("publish_actions") {
                     if (permissions.contains("email")) {
                         // Continue work
                         LoginViewController.ContinueLoginWithFacebook(param, onFinish: onFinish)
                     } else {
                         // Ask for read permissions
-                        fbLoginManager.logIn(withReadPermissions: ["email"], handler: {(result : FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
+                        fbLoginManager.logIn(withReadPermissions: ["email"], handler: {(result : FBSDKLoginManagerLoginResult?, error: Error?) -> Void in
                             if (error != nil) { // Process error
                                 LoginViewController.LoginFacebookCancelled(sender, reason: "Terdapat kesalahan saat login Facebook")
-                            } else if result.isCancelled { // User cancellation
+                            } else if (result == nil || result!.isCancelled) { // User cancellation
                                 LoginViewController.LoginFacebookCancelled(sender, reason: "Login Facebook dibatalkan")
                             } else { // Success
                                 permissions = FBSDKAccessToken.current().permissions
@@ -362,7 +367,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     LoginViewController.LoginFacebookCancelled(sender, reason: "Login Facebook dibatalkan karena terdapat akses yg diblokir")
                 }
             }
-        })*/
+        })
     }
     
     static func ContinueLoginWithFacebook(_ param : [String : AnyObject], onFinish : @escaping (NSMutableDictionary) -> ()) {

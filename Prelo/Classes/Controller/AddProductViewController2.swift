@@ -1475,7 +1475,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         for i in 0...images.count - 1 {
             if let img = images[i] as? UIImage {
                 //print("Resizing image no-\(i) with width = \(img.size.width)")
-                if let imgResized = img.resizeWithMaxWidth(1024) {
+                if let imgResized = img.resizeWithMaxWidth(2048) {
                     if let imgData = ImageHelper.removeExifData(UIImagePNGRepresentation(imgResized)!) {
                         images[i] = UIImage(data: imgData)!
                     } else {
