@@ -135,12 +135,6 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         self.title = productName
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.validateRvwKirimFields()
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -1494,9 +1488,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             self.validateTolakPesananFields()
         } else if (textView == txtvwReview) {
             txtvwReviewGrowHandler.resizeTextView(withAnimation: true)
-            self.validateRvwKirimFields()
         }
-        
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -1571,16 +1563,6 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     
     // MARK: - Review Seller Pop Up
     
-    func validateRvwKirimFields() {
-        if (txtvwReview.text.isEmpty || txtvwReview.text == self.TxtvwReviewPlaceholder) {
-            // Disable tombol kirim
-            btnRvwKirim.isUserInteractionEnabled = false
-        } else {
-            // Enable tombol kirim
-            btnRvwKirim.isUserInteractionEnabled = true
-        }
-    }
-    
     @IBAction func rvwLovePressed(_ sender: UIButton) {
         var isFound = false
         for i in 0 ..< btnsRvwLove.count {
@@ -1617,7 +1599,10 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     }
     
     @IBAction func reviewKirimPressed(_ sender: AnyObject) {
-        if (!isRvwAgreed) {
+        if (txtvwReview.text.isEmpty || txtvwReview.text == self.TxtvwReviewPlaceholder) {
+            Constant.showDialog("Review Penjual", message: "Isi review tidak boleh kosong")
+            return
+        } else if (!isRvwAgreed) {
             Constant.showDialog("Review Penjual", message: "Isi checkbox sebagai tanda persetujuan")
             return
         }
