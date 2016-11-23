@@ -2475,21 +2475,18 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         let p = trxDetail!.totalPrice + trxDetail!.bonusUsed + trxDetail!.preloBalanceUsed + trxDetail!.voucherAmount
                         content = p.asPrice
                     }
-                    content += "              \u{200c}"
                     return self.createTitleContentCell("Harga + Ongkir", content: content, alignment: .right, url: nil, textToCopy: nil)
                 } else if (idx == 1) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = "-" + trxDetail!.bonusUsed.asPrice
                     }
-                    content += "              \u{200c}"
-                    return self.createTitleContentCell("Prelo Bonus", content: content, alignment: .right, url: nil, textToCopy: nil)
+                    return self.createTitleContentCell("Referral Bonus", content: content, alignment: .right, url: nil, textToCopy: nil)
                 } else if (idx == 2) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = "-" + trxDetail!.preloBalanceUsed.asPrice
                     }
-                    content += "              \u{200c}"
                     let cell = self.createTitleContentCell("Prelo Balance", content: content, alignment: .right, url: nil, textToCopy: nil)
                     return cell
                 } else if (idx == 3) {
@@ -2497,7 +2494,6 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     if (isTrxDetail()) {
                         content = "-" + trxDetail!.voucherAmount.asPrice
                     }
-                    content += "              \u{200c}"
                     let cell = self.createTitleContentCell("Voucher", content: content, alignment: .right, url: nil, textToCopy: nil)
                     cell.showVwLine()
                     return cell
@@ -2506,26 +2502,24 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     if (isTrxDetail()) {
                         content = trxDetail!.totalPrice.asPrice
                     }
-                    content += "              \u{200c}"
-                    return self.createTitleContentCell("Harga belanjaan", content: content, alignment: .right, url: nil, textToCopy: nil)
+                    return self.createTitleContentCell("Subtotal", content: content, alignment: .right, url: nil, textToCopy: nil)
                 } else if (idx == 5) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = trxDetail!.bankTransferDigit.asPrice
                     }
-                    content += "              \u{200c}"
                     let cell = self.createTitleContentCell("Kode Unik", content: content, alignment: .right, url: nil, textToCopy: nil)
                     cell.showVwLine()
                     return cell
                 } else if (idx == 6) {
                     var content = ""
                     var textToCopy = ""
+                    content = "Copy "
                     if (isTrxDetail()) {
                         let p = trxDetail!.totalPrice + trxDetail!.bankTransferDigit
                         textToCopy = "\(p)"
-                        content = p.asPrice
+                        content += p.asPrice
                     }
-                    content += "  Copy   \u{200c}"
                     return self.createTitleContentCell("Total Pembayaran", content: content, alignment: .right, url: nil, textToCopy: textToCopy)
                 }
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer) {
@@ -3000,7 +2994,7 @@ class TransactionDetailProductCell : UITableViewCell {
         if let userId = User.Id {
             if (trxProductDetail.isSeller(userId)) {
                 lblPrice.text = trxProductDetail.productPrice.asPrice
-                lblUsername.text = "| " + trxProductDetail.sellerUsername
+                lblUsername.text = "| " + trxProductDetail.buyerUsername
             } else {
                 lblPrice.text = trxProductDetail.productPrice.asPrice
                 lblUsername.text = "(+Ongkir Rp\(trxProductDetail.totalPrice - trxProductDetail.productPrice))"
