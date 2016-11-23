@@ -203,9 +203,9 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
         
         // Update button title
         if (self.selectedBrands.count > 0) {
-            self.btnSubmit.setTitle("SUBMIT (\(self.selectedBrands.count))", for: UIControlState())
+            self.btnSubmit.setTitle("FILTER (\(self.selectedBrands.count))", for: UIControlState())
         } else {
-            self.btnSubmit.setTitle("SUBMIT", for: UIControlState())
+            self.btnSubmit.setTitle("FILTER", for: UIControlState())
         }
         
         // Reload table

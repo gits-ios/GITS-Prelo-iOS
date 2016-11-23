@@ -195,7 +195,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
         lblHeader.font = UIFont.boldSystemFont(ofSize: 15.5)
         lblHeader.textColor = UIColor.darkGray
         if (section == SectionSortBy) {
-            lblHeader.text = "Sort By"
+            lblHeader.text = "Urutan"
         } else if (section == SectionKondisi) {
             lblHeader.text = "Kondisi"
         } else if (section == SectionUkuran) {
