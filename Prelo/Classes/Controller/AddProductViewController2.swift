@@ -768,7 +768,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             }
             
             let berat = 500 + (b.tag * 1000)
-            txtWeight.text = String(berat)
+            if (b.tag == 0) {
+                txtWeight.text = ""
+            } else {
+                txtWeight.text = String(berat)
+            }
         }
     }
     
