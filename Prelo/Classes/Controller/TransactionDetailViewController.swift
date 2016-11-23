@@ -1964,8 +1964,6 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentMethod)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentDate)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentBankTarget)
-            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentBankSource)
-            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentBankAccount)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentNominal.asPrice)
         } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidCC) {
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentMethod)
@@ -2079,7 +2077,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
                 return 7
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer) {
-                return 6
+                return 4
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidCC) {
                 return 3
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidBonus) {
@@ -2186,18 +2184,6 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentBankTarget)
                     }
                 } else if (idx == 3) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentBankSource)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentBankSource)
-                    }
-                } else if (idx == 4) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentBankAccount)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentBankAccount)
-                    }
-                } else if (idx == 5) {
                     if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentNominal.asPrice)
                     } else if (isTrxProductDetail()) {
@@ -2548,22 +2534,6 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     }
                     return self.createTitleContentCell("Bank Tujuan", content: content)
                 } else if (idx == 3) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentBankSource
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentBankSource
-                    }
-                    return self.createTitleContentCell("Bank Kamu", content: content)
-                } else if (idx == 4) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentBankAccount
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentBankAccount
-                    }
-                    return self.createTitleContentCell("Rek. Atas Nama", content: content)
-                } else if (idx == 5) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = trxDetail!.paymentNominal.asPrice
