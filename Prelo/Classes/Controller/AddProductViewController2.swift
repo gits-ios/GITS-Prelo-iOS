@@ -145,7 +145,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         if (self.editMode) {
             lblSubmit.isHidden = true
         } else {
-            lblSubmit.text = "Klik lanjutkan untuk menentukan komisi Prelo yang kamu mau"
+            lblSubmit.text = "Klik lanjutkan untuk menentukan charge Prelo yang kamu mau"
         }
         
         fakeScrollView.backgroundColor = .white

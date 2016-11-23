@@ -136,7 +136,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         baseDatas[IndexPath(row: 1, section: 2)] = BaseCartData.instance("Berat", placeHolder: "Masukan Berat")
         baseDatas[IndexPath(row: 0, section: 3)] = BaseCartData.instance("Harga Beli", placeHolder: "Masukan Harga")
         baseDatas[IndexPath(row: 1, section: 3)] = BaseCartData.instance("Harga Jual Prelo", placeHolder: "Masukan Harga")
-        baseDatas[IndexPath(row: 2, section: 3)] = BaseCartData.instance("Charge Prelo", placeHolder: "Komisi Prelo", value: "10%", enable: false)
+        baseDatas[IndexPath(row: 2, section: 3)] = BaseCartData.instance("Charge Prelo", placeHolder: "Charge Prelo", value: "10%", enable: false)
         
         tableView?.dataSource = self
         tableView?.delegate = self
