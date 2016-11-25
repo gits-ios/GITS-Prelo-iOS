@@ -231,6 +231,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         li.previousController = self.previousController
         
         li.categoryJson = categoriesFix[i]
+        li.scrollCategoryName = self.scrollCategoryName
         
         li.bannerImageUrl = categoriesFix[i]["banner"]["image_url"].stringValue
         li.bannerTargetUrl = categoriesFix[i]["banner"]["target_url"].stringValue
@@ -267,6 +268,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         if contentCategoryNames == nil
         {
             scrollCategoryName.showsHorizontalScrollIndicator = false
+            scrollCategoryName.showsVerticalScrollIndicator = false
             scrollCategoryName.backgroundColor = UIColor.white
             let pContentView = UIView()
             scrollCategoryName.addSubview(pContentView)
@@ -582,6 +584,11 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 if (categoriesFix[i]["name"].stringValue.lowercased() == "women") {
                     NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
                     self.navigationController?.setNavigationBarHidden(false, animated: true)
+                    
+                    // repositionScrollCategoryNameContent
+                    let bottomOffset = CGPoint(x: 0, y: Int(self.scrollCategoryName.contentSize.height - self.scrollCategoryName.bounds.size.height))
+                    self.scrollCategoryName.setContentOffset(bottomOffset, animated: false)
+                    
                     self.showStatusBar()
                 }
                 

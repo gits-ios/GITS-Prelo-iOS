@@ -77,6 +77,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     // MARK: - Properties
     
+    // From listcategoryvc
+    var scrollCategoryName : UIScrollView?
+    
     // Top buttton view, used for segment mode
     @IBOutlet var vwTopHeader: UIView!
     @IBOutlet var consHeightVwTopHeader: NSLayoutConstraint!
@@ -213,6 +216,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         // Show navbar
         self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.repositionScrollCategoryNameContent()
         self.showStatusBar()
     }
     
@@ -927,6 +931,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         case .subcategories:
             NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
             self.navigationController?.setNavigationBarHidden(false, animated: true)
+            self.repositionScrollCategoryNameContent()
             self.showStatusBar()
             
             let p = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
@@ -979,6 +984,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 f.btnFooterAction = {
                     NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
                     self.navigationController?.setNavigationBarHidden(false, animated: true)
+                    self.repositionScrollCategoryNameContent()
                     self.showStatusBar()
                     
                     let p = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
@@ -1035,6 +1041,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                                 self.view.layoutIfNeeded()
                             }) 
                         }
+                        self.repositionScrollCategoryNameContent()
                     }
                 } else {
                     NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
@@ -1046,8 +1053,17 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                             self.view.layoutIfNeeded()
                         }) 
                     }
+                    self.repositionScrollCategoryNameContent()
                 }
             }
+        }
+    }
+    
+    func repositionScrollCategoryNameContent() {
+        // This function is made as a temporary solution for a bug where the scroll category name content size is become wrong after scroll
+        if (scrollCategoryName != nil) {
+            let bottomOffset = CGPoint(x: 0, y: Int(self.scrollCategoryName!.contentSize.height - self.scrollCategoryName!.bounds.size.height))
+            self.scrollCategoryName!.setContentOffset(bottomOffset, animated: false)
         }
     }
     
@@ -1226,6 +1242,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         gridView.setContentOffset(CGPoint(x: 0, y: 10), animated: true)
         NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.repositionScrollCategoryNameContent()
     }
     
     func pinch(_ pinchedIn : Bool) {
