@@ -52,6 +52,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     var isBackTwice = false
     var isNavCtrlsChecked = false
     var isShowBankBRI = false
+    var isBackToRoot = true
     
     // Data from previous page
     var orderID : String = ""
@@ -278,19 +279,27 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             if (self.isFromCheckout) {
                 UserDefaults.setObjectAndSync(PageName.MyOrders as AnyObject?, forKey: UserDefaultsKey.RedirectFromHome)
             }
-            self.navigationController?.popToRootViewController(animated: true)
+            if (isBackToRoot) {
+                _ = self.navigationController?.popToRootViewController(animated: true)
+            } else {
+                _ = self.navigationController?.popViewController(animated: true)
+            }
         } else {
             // Pop ke home, kemudian buka list konfirmasi bayar jika dari checkout
             if (self.isFromCheckout) {
                 //NSUserDefaults.setObjectAndSync(PageName.UnpaidTransaction, forKey: UserDefaultsKey.RedirectFromHome)
             }
-            self.navigationController?.popToRootViewController(animated: true)
+            if (isBackToRoot) {
+                _ = self.navigationController?.popToRootViewController(animated: true)
+            } else {
+                _ = self.navigationController?.popViewController(animated: true)
+            }
         }
     }
     
     @IBAction func lihatBelanjaanSayaPressed(_ sender: AnyObject) {
         UserDefaults.setObjectAndSync(PageName.MyOrders as AnyObject?, forKey: UserDefaultsKey.RedirectFromHome)
-        self.navigationController?.popToRootViewController(animated: true)
+        _ = self.navigationController?.popToRootViewController(animated: true)
     }
     
     @IBAction func showPaymentPopUp(_ sender: AnyObject) {

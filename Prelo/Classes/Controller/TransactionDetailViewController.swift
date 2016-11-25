@@ -1254,6 +1254,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 orderConfirmVC.total = self.trxDetail!.totalPrice + self.trxDetail!.bankTransferDigit
                 orderConfirmVC.images = imgs
                 orderConfirmVC.isFromCheckout = false
+                orderConfirmVC.isBackToRoot = false
                 orderConfirmVC.isShowBankBRI = self.isShowBankBRI
                 self.navigationController?.pushViewController(orderConfirmVC, animated: true)
             }
