@@ -430,6 +430,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func refresh() {
+        self.requesting = true
         self.products = []
         self.done = false
         self.footerLoading?.isHidden = false
@@ -860,9 +861,12 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 }
             }
             
+            
             let cell : ListItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ListItemCell
-            let p = products?[(indexPath as NSIndexPath).item]
-            cell.adapt(p!)
+            if (products?.count > (indexPath as NSIndexPath).item) {
+                let p = products?[(indexPath as NSIndexPath).item]
+                cell.adapt(p!)
+            }
             if (currentMode == .featured) {
                 // Hide featured ribbon
                 cell.imgFeatured.isHidden = true
