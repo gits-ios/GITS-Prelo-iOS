@@ -449,8 +449,7 @@ extension GAI {
             let tracker = GAI.sharedInstance().defaultTracker
             tracker?.set(kGAIScreenName, value: pageName)
             let builder = GAIDictionaryBuilder.createScreenView()
-            // FIXME: Swift 3
-//            tracker?.send(builder?.build() as [AnyHashable: Any])
+            tracker?.send(builder?.build() as NSDictionary? as? [AnyHashable: Any])
         }
     }
 }
