@@ -78,7 +78,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         
         if (!first)
         {
-            self.refresh(0 as AnyObject, isSearchMode: false)
+            //self.refresh(0 as AnyObject, isSearchMode: false)
         }
         
         first = false
