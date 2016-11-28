@@ -66,7 +66,8 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         txtMessage.delegate = self
         btnSend.addTarget(self, action: #selector(ProductCommentsController.send), for: UIControlEvents.touchUpInside)
         
-        tableView.tableFooterView = UIView()
+        self.tableView.tableFooterView = UIView()
+        self.tableView.separatorStyle = .none
         
         getComments()
     }
@@ -217,7 +218,17 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         let i = comment.isSeller(sellerId) ? "cell2" : "cell1"
         let c = tableView.dequeueReusableCell(withIdentifier: i) as! ProductCellDiscussion
         
+        if (comment.posterImageURL != nil) {
+            c.ivCover?.afSetImage(withURL: comment.posterImageURL!)
+        }
         c.captionMessage?.text = comment.message
+        if (comment.isDeleted) {
+            c.captionMessage?.font = UIFont.italicSystemFont(ofSize: 13)
+            c.captionMessage?.textColor = UIColor.lightGray
+        } else {
+            c.captionMessage?.font = UIFont.systemFont(ofSize: 13)
+            c.captionMessage?.textColor = UIColor.darkGray
+        }
         c.captionName?.text = comment.name
         c.captionDate?.text = comment.timestamp
         c.showReportAlert = { sender, commentId in

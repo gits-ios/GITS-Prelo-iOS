@@ -1283,6 +1283,13 @@ class ProductDiscussion : NSObject
         return (formatter?.string(from: date!))!
     }
     
+    var isDeleted : Bool {
+        if let j = json["is_deleted"].bool {
+            return j
+        }
+        return false
+    }
+    
     func isSeller(_ compareId : String) -> Bool
     {
         if let id = json["_id"].string

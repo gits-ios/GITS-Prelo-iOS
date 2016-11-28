@@ -1774,6 +1774,13 @@ class ProductCellDiscussion : UITableViewCell
         
         captionDate?.text = json["time"].string!
         captionMessage?.text = obj?.message
+        if (obj!.isDeleted) {
+            captionMessage?.font = UIFont.italicSystemFont(ofSize: 13)
+            captionMessage?.textColor = UIColor.lightGray
+        } else {
+            captionMessage?.font = UIFont.systemFont(ofSize: 13)
+            captionMessage?.textColor = UIColor.darkGray
+        }
         captionName?.text = json["sender_username"].string!
         ivCover?.afSetImage(withURL: (obj?.posterImageURL)!)
         
