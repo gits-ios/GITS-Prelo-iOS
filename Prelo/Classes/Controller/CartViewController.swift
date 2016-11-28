@@ -1158,22 +1158,21 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         }
                     }
                     
-                    // FIXME: Swift 3
                     // Google Analytics Ecommerce Tracking
-//                    if (AppTools.IsPreloProduction) {
-//                        let gaTracker = GAI.sharedInstance().defaultTracker
-//                        let trxDict = GAIDictionaryBuilder.createTransaction(withId: orderId, affiliation: "iOS Checkout", revenue: totalPrice as NSNumber!, tax: totalCommissionPrice as NSNumber!, shipping: self.totalOngkir as NSNumber!, currencyCode: "IDR").build() as [AnyHashable: Any]
-//                        gaTracker.send(trxDict)
-//                        for i in 0...self.arrayItem.count - 1 {
-//                            let json = self.arrayItem[i]
-//                            var cName = CDCategory.getCategoryNameWithID(json["category_id"].stringValue)
-//                            if (cName == nil) {
-//                                cName = json["category_id"].stringValue
-//                            }
-//                            let trxItemDict = GAIDictionaryBuilder.createItem(withTransactionId: orderId, name: json["name"].stringValue, sku: json["product_id"].stringValue, category: cName, price: json["price"].intValue as NSNumber!, quantity: 1, currencyCode: "IDR").build() as [AnyHashable: Any]
-//                            gaTracker.send(trxItemDict)
-//                        }
-//                    }
+                    if (AppTools.IsPreloProduction) {
+                        let gaTracker = GAI.sharedInstance().defaultTracker
+                        let trxDict = GAIDictionaryBuilder.createTransaction(withId: orderId, affiliation: "iOS Checkout", revenue: totalPrice as NSNumber!, tax: totalCommissionPrice as NSNumber!, shipping: self.totalOngkir as NSNumber!, currencyCode: "IDR").build() as NSDictionary? as? [AnyHashable: Any]
+                        gaTracker?.send(trxDict)
+                        for i in 0...self.arrayItem.count - 1 {
+                            let json = self.arrayItem[i]
+                            var cName = CDCategory.getCategoryNameWithID(json["category_id"].stringValue)
+                            if (cName == nil) {
+                                cName = json["category_id"].stringValue
+                            }
+                            let trxItemDict = GAIDictionaryBuilder.createItem(withTransactionId: orderId, name: json["name"].stringValue, sku: json["product_id"].stringValue, category: cName, price: json["price"].intValue as NSNumber!, quantity: 1, currencyCode: "IDR").build() as NSDictionary? as? [AnyHashable: Any]
+                            gaTracker?.send(trxItemDict)
+                        }
+                    }
                     
                     // MoEngage
                     let moeDict = NSMutableDictionary()
