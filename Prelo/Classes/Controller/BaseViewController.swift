@@ -206,7 +206,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
             let badge = GIBadgeView()
             badge.badgeValue = num
             badge.backgroundColor = Theme.ThemeOrage
-            badge.topOffset = 9
+            badge.topOffset = 14
             badge.rightOffset = 5
             b.addSubview(badge)
         }

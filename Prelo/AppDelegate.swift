@@ -249,6 +249,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Remove app badge if any
         UIApplication.shared.applicationIconBadgeNumber = 0
         
+        self.setStatusBarBackgroundColor(color: Theme.PrimaryColor)
+        
         // Override point for customization after application launch
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
@@ -1038,6 +1040,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     // MARK: - Other functions
+    
+    func setStatusBarBackgroundColor(color: UIColor) {
+        
+        guard let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else { return }
+        
+        statusBar.backgroundColor = color
+    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
