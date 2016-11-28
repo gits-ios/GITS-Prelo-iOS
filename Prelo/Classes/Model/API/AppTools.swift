@@ -563,30 +563,29 @@ func print(_ items: Any..., separator: String = " ", terminator: String = "\n") 
 
 class ImageHelper {
     static func removeExifData(_ data: Data) -> Data? {
-        // FIXME: Swift 3
-//        guard let source = CGImageSourceCreateWithData(data as CFData, nil) else {
-//            return nil
-//        }
-//        guard let type = CGImageSourceGetType(source) else {
-//            return nil
-//        }
-//        let count = CGImageSourceGetCount(source)
+        guard let source = CGImageSourceCreateWithData(data as CFData, nil) else {
+            return nil
+        }
+        guard let type = CGImageSourceGetType(source) else {
+            return nil
+        }
+        let count = CGImageSourceGetCount(source)
         let mutableData = NSData(data: data) as Data
-//        guard let destination = CGImageDestinationCreateWithData(mutableData as! CFMutableData, type, count, nil) else {
-//            return nil
-//        }
-//        // Check the keys for what you need to remove
-//        // As per documentation, if you need a key removed, assign it kCFNull
-//        let removeExifProperties: CFDictionary = [String(kCGImagePropertyExifDictionary) : kCFNull, String(kCGImagePropertyOrientation): kCFNull]
-//        
-//        for i in 0..<count {
-//            CGImageDestinationAddImageFromSource(destination, source, i, removeExifProperties)
-//        }
-//        
-//        guard CGImageDestinationFinalize(destination) else {
-//            return nil
-//        }
-//        
+        guard let destination = CGImageDestinationCreateWithData(mutableData as! CFMutableData, type, count, nil) else {
+            return nil
+        }
+        // Check the keys for what you need to remove
+        // As per documentation, if you need a key removed, assign it kCFNull
+        let removeExifProperties: CFDictionary = [String(kCGImagePropertyExifDictionary) : kCFNull, String(kCGImagePropertyOrientation): kCFNull] as CFDictionary
+        
+        for i in 0..<count {
+            CGImageDestinationAddImageFromSource(destination, source, i, removeExifProperties)
+        }
+        
+        guard CGImageDestinationFinalize(destination) else {
+            return nil
+        }
+        
         return mutableData;
     }
 }
