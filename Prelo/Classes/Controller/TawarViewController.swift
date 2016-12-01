@@ -66,7 +66,7 @@ protocol TawarDelegate {
 
 // MARK: - Class
 
-class TawarViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, UIScrollViewDelegate, MessagePoolDelegate, UserRelatedDelegate {
+class TawarViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, UIScrollViewDelegate, MessagePoolDelegate, UserRelatedDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     // MARK: - Properties
     
@@ -90,14 +90,24 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     @IBOutlet var textView : UITextView!
     @IBOutlet var conMarginBottom : NSLayoutConstraint!
     @IBOutlet var conHeightTextView : NSLayoutConstraint!
+    @IBOutlet var vwMediaButton: UIView!
     // Outlets in tawar pop up
     @IBOutlet var txtTawar : UITextField!
     @IBOutlet var captionTawarHargaOri : UILabel!
     @IBOutlet var sectionTawar : UIView!
     @IBOutlet var conMarginBottomSectionTawar : NSLayoutConstraint!
+    // Outlets in upload gambar pop up
+    @IBOutlet var sectionUploadGbr: UIView!
+    @IBOutlet var conBottomSectionUploadGbr: NSLayoutConstraint!
+    @IBOutlet var imgUploadGbr: UIImageView!
+    @IBOutlet var txtVwUploadGbr: UITextView!
+    @IBOutlet var conHeightTxtVwUploadGbr: NSLayoutConstraint!
+    @IBOutlet var btnBatalUploadGbr: UIButton!
+    @IBOutlet var btnKirimUploadGbr: UIButton!
     
     // Grow handler
     var textViewGrowHandler : GrowingTextViewHandler!
+    var txtVwUploadGbrGrowHandler : GrowingTextViewHandler!
     
     // Delegate
     var tawarDelegate : TawarDelegate?
@@ -133,10 +143,15 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         // Init textViewGrowHandler
         textViewGrowHandler = GrowingTextViewHandler(textView: textView, withHeightConstraint: conHeightTextView)
         textViewGrowHandler.updateMinimumNumber(ofLines: 1, andMaximumNumberOfLine: 4)
+        txtVwUploadGbrGrowHandler = GrowingTextViewHandler(textView: txtVwUploadGbr, withHeightConstraint: conHeightTxtVwUploadGbr)
+        txtVwUploadGbrGrowHandler.updateMinimumNumber(ofLines: 1, andMaximumNumberOfLine: 3)
         
         // Loading
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
         self.hideLoading()
+        
+        // UploadGbr pop up setup
+        sectionUploadGbr.backgroundColor = UIColor.colorWithColor(.black, alpha: 0.5)
         
         // Set product status
         self.prodStatus = tawarItem.productStatus
@@ -188,6 +203,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         textViewDidChange(textView)
         textView.delegate = self
         
+        // Uploadgbr txtvw
+        txtVwUploadGbr.delegate = self
+        
         // Buttons action setup
         btnTawar1.addTarget(self, action: #selector(TawarViewController.showTawar(_:)), for: UIControlEvents.touchUpInside)
         btnTawar2.addTarget(self, action: #selector(TawarViewController.showTawar(_:)), for: UIControlEvents.touchUpInside)
@@ -220,9 +238,11 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             if (opening) {
                 self.conMarginBottom.constant = frame.height
                 self.conMarginBottomSectionTawar.constant = frame.height
+                self.conBottomSectionUploadGbr.constant = frame.height
             } else {
                 self.conMarginBottom.constant = 0
                 self.conMarginBottomSectionTawar.constant = 0
+                self.setUploadGbrPopUpPositionCenterVertically()
             }
         }, completion: nil)
         
@@ -427,13 +447,17 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     // MARK: - Textview functions
     
     func textViewDidChange(_ textView: UITextView) {
-        textViewGrowHandler.resizeTextView(withAnimation: true)
-        if (textView.text == "") {
-            btnSend.setBackgroundImage(AppToolsObjC.image(from: UIColor.gray), for: UIControlState())
-            btnSend.isUserInteractionEnabled = false
-        } else {
-            btnSend.setBackgroundImage(AppToolsObjC.image(from: UIColor(hexString: "#25A79D")), for: UIControlState())
-            btnSend.isUserInteractionEnabled = true
+        if (textView == self.textView) {
+            textViewGrowHandler.resizeTextView(withAnimation: true)
+            if (textView.text == "") {
+                btnSend.setBackgroundImage(AppToolsObjC.image(from: UIColor.gray), for: UIControlState())
+                btnSend.isUserInteractionEnabled = false
+            } else {
+                btnSend.setBackgroundImage(AppToolsObjC.image(from: UIColor(hexString: "#25A79D")), for: UIControlState())
+                btnSend.isUserInteractionEnabled = true
+            }
+        } else if (textView == self.txtVwUploadGbr) {
+            txtVwUploadGbrGrowHandler.resizeTextView(withAnimation: true)
         }
     }
     
@@ -461,18 +485,26 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             return cell
         } else { // Chat cell
             let m = inboxMessages[(indexPath as NSIndexPath).row - (isShowBubble ? 1 : 0)]
-            let id = m.isMe ? "me" : "them"
+            let id = m.isMe ? (m.attachmentType == "image" ? "imageMe" : "me") : (m.attachmentType == "image" ? "imageThem" : "them")
             let cell = tableView.dequeueReusableCell(withIdentifier: id) as! TawarCell
             
             cell.inboxMessage = m
             cell.decor()
             
             if (!m.isMe) {
-                cell.avatar.afSetImage(withURL: tawarItem.theirImage)
+                cell.avatar?.afSetImage(withURL: tawarItem.theirImage)
             }
             
             cell.toShopPage = {
                 self.gotoShopPage(0 as AnyObject)
+            }
+            
+            cell.zoomImgMessage = {
+                let c = CoverZoomController()
+                c.labels = [m.attachmentType]
+                c.images = [m.attachmentURL.absoluteString]
+                c.index = 0
+                self.navigationController?.present(c, animated: true, completion: nil)
             }
             
             cell.selectionStyle = .none
@@ -491,21 +523,30 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             }
         } else { // Chat cell
             let chat = inboxMessages[(indexPath as NSIndexPath).row - (isShowBubble ? 1 : 0)]
-            var m = chat.dynamicMessage
-            if (chat.failedToSend) {
-                m = "[GAGAL MENGIRIM]\n\n" + m
-            }
-            
-            var w : CGFloat = 204
-            
-            if (chat.isMe) {
-                w = (UIScreen.main.bounds.width - 28) * 0.75
+            if (chat.attachmentType == "image") {
+//                if let data = try? Data(contentsOf: chat.attachmentURL) {
+//                    if let img = UIImage(data: data) {
+//                        return img.size.height
+//                    }
+//                }
+                return 260
             } else {
-                w = (UIScreen.main.bounds.width - 72) * 0.75
+                var m = chat.dynamicMessage
+                if (chat.failedToSend) {
+                    m = "[GAGAL MENGIRIM]\n\n" + m
+                }
+                
+                var w : CGFloat = 204
+                
+                if (chat.isMe) {
+                    w = (UIScreen.main.bounds.width - 28) * 0.75
+                } else {
+                    w = (UIScreen.main.bounds.width - 72) * 0.75
+                }
+                
+                let s = m.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: w)
+                return 57 + s.height
             }
-            
-            let s = m.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: w)
-            return 57 + s.height
         }
     }
     
@@ -549,13 +590,13 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             return
         }
         
-        sendChat(0, message: m!)
+        sendChat(0, message: m!, image: nil)
         textViewGrowHandler.setText("", withAnimation: true)
         
         textViewDidChange(textView)
     }
     
-    func sendChat(_ type : Int, message : String) {
+    func sendChat(_ type : Int, message : String, image: UIImage?) {
         // type
         // 0: normal chat
         // 1: bargain
@@ -570,13 +611,26 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             tawarFromMe = false
         }
         
+        // Create a URL in the /tmp directory
+        var imageURL = URL(string: "http://lorempixel.com/output/animals-q-g-640-480-4.jpg")
+        if (image != nil) {
+            if let url = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tempImg.png") {
+                imageURL = url
+            }
+            if (imageURL != nil) {
+                do {
+                    try UIImageJPEGRepresentation(image!, 1)?.write(to: imageURL!)
+                } catch { }
+            }
+        }
+        
         // Append inboxMessages
         let localId = inboxMessages.count
         let date = Date()
         let f = DateFormatter()
         f.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         let time = f.string(from: date)
-        let i = InboxMessage.messageFromMe(localId, type: type, message: message, time: time)
+        let i = InboxMessage.messageFromMe(localId, type: type, message: message, time: time, attachmentType: (image != nil ? "image" : ""), attachmentURL: imageURL!)
         if (type != 0) {
             i.bargainPrice = message
             
@@ -603,9 +657,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         }
         
         // Send message
-        i.sendTo(tawarItem.threadId, completion: { m in
+        i.sendTo(tawarItem.threadId, withImg: image, completion: { m in
             self.adjustButtons()
             self.tableView.reloadData()
+            self.hideLoading()
         })
         
         self.adjustButtons()
@@ -637,7 +692,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 let f = DateFormatter()
                 f.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                 let time = f.string(from: date)
-                let i = InboxMessage.messageFromMe(localId, type: type, message: message, time: time)
+                let i = InboxMessage.messageFromMe(localId, type: type, message: message, time: time, attachmentType: "", attachmentURL: URL(string: "http://lorempixel.com/output/animals-q-g-640-480-4.jpg")!)
                 self.inboxMessages.append(i)
                 self.textView.text = ""
                 self.adjustButtons()
@@ -676,6 +731,44 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         })
     }
     
+    @IBAction func btnCameraPressed(_ sender: UIButton) {
+        let i = UIImagePickerController()
+        i.sourceType = .photoLibrary
+        i.delegate = self
+        
+        if (UIImagePickerController.isSourceTypeAvailable(.camera)) {
+            let a = UIAlertController(title: "Ambil gambar dari:", message: nil, preferredStyle: .actionSheet)
+            a.popoverPresentationController?.sourceView = self.vwMediaButton
+            a.popoverPresentationController?.sourceRect = self.vwMediaButton.bounds
+            a.addAction(UIAlertAction(title: "Kamera", style: .default, handler: { act in
+                i.sourceType = .camera
+                self.present(i, animated: true, completion: nil)
+            }))
+            a.addAction(UIAlertAction(title: "Album", style: .default, handler: { act in
+                self.present(i, animated: true, completion: nil)
+            }))
+            a.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { act in }))
+            self.present(a, animated: true, completion: nil)
+        } else {
+            self.present(i, animated: true, completion: nil)
+        }
+    }
+    
+    // MARK: - UIImagePickerController functions
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let img = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            self.sectionUploadGbr.isHidden = false
+            self.imgUploadGbr.image = img
+            self.setUploadGbrPopUpPositionCenterVertically()
+        }
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
     // MARK: - Tawar pop up
     
     @IBAction func showTawar(_ sender : UIView?) {
@@ -706,7 +799,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             if (tawarItem.threadId == "") {
                 startNew(1, message : txtTawar.text!)
             } else {
-                sendChat(1, message: txtTawar.text!)
+                sendChat(1, message: txtTawar.text!, image: nil)
             }
             txtTawar.text = ""
             btnTawar1.isEnabled = false
@@ -722,14 +815,38 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         if (tawarFromMe) {
             message = "Membatalkan tawaran " + tawarItem.bargainPrice.asPrice
         }
-        sendChat(3, message: message)
+        sendChat(3, message: message, image: nil)
     }
     
     func confirmTawar(_ sender : UIView?) {
-        sendChat(2, message : String(tawarItem.bargainPrice))
+        sendChat(2, message : String(tawarItem.bargainPrice), image: nil)
         if (tawarItem.bargainPrice != 0) {
             self.tawarItem.setFinalPrice(self.tawarItem.bargainPrice)
         }
+    }
+    
+    // MARK: - UploadGbr pop up
+    
+    func setUploadGbrPopUpPositionCenterVertically() {
+        self.conBottomSectionUploadGbr.constant = (UIScreen.main.bounds.height / 2) - 151
+    }
+    
+    func hideAndResetUploadGbrPopUp() {
+        self.imgUploadGbr.image = nil
+        self.txtVwUploadGbr.text = ""
+        self.textViewDidChange(txtVwUploadGbr)
+    }
+    
+    @IBAction func btnBatalUploadGbrPressed(_ sender: UIButton) {
+        self.hideAndResetUploadGbrPopUp()
+        self.sectionUploadGbr.isHidden = true
+    }
+    
+    @IBAction func btnKirimUploadGbrPressed(_ sender: UIButton) {
+        self.showLoading()
+        sendChat(0, message: self.txtVwUploadGbr.text, image: self.imgUploadGbr.image)
+        self.hideAndResetUploadGbrPopUp()
+        self.sectionUploadGbr.isHidden = true
     }
     
     // MARK: - Message pool delegate functions
@@ -843,7 +960,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             } else {
                 finalPrice = self.tawarItem.price
             }
-            self.sendChat(4, message: "Barang ini dijual kepada \(self.tawarItem.theirName) dengan harga \(finalPrice)")
+            self.sendChat(4, message: "Barang ini dijual kepada \(self.tawarItem.theirName) dengan harga \(finalPrice)", image: nil)
         }))
         self.present(alert, animated: true, completion: nil)
     }
@@ -875,13 +992,16 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
 // MARK: - Class
 
 class TawarCell : UITableViewCell {
-    @IBOutlet var avatar : UIImageView!
-    @IBOutlet var captionMessage : UILabel!
+    @IBOutlet var avatar : UIImageView?
+    @IBOutlet var captionMessage : UILabel?
     @IBOutlet var captionArrow : UILabel!
     @IBOutlet var captionTime : KDEDateLabel!
     @IBOutlet var sectionMessage : UIView!
     @IBOutlet var captionSending : UILabel?
     @IBOutlet var btnRetry : UIButton?
+    @IBOutlet var imgMessage: UIImageView?
+    
+    var zoomImgMessage : () -> () = {}
     
     var inboxMessage : InboxMessage?
     
@@ -895,9 +1015,9 @@ class TawarCell : UITableViewCell {
     func decor(){
         if (decorated == false) {
             formatter.dateFormat = "dd MMM"
-            self.avatar.layoutIfNeeded()
-            self.avatar.layer.cornerRadius = self.avatar.width / 2
-            self.avatar.layer.masksToBounds = true
+            self.avatar?.layoutIfNeeded()
+            self.avatar?.layer.cornerRadius = (self.avatar?.width ?? 0) / 2
+            self.avatar?.layer.masksToBounds = true
             self.sectionMessage.layer.cornerRadius = 4
             self.sectionMessage.layer.masksToBounds = true
             decorated = true
@@ -910,22 +1030,30 @@ class TawarCell : UITableViewCell {
         if let m = inboxMessage {
             if (m.isMe) {
                 self.sectionMessage.backgroundColor = Theme.PrimaryColor
-                self.captionMessage.textColor = UIColor.white
+                self.captionMessage?.textColor = UIColor.white
             } else {
                 self.sectionMessage.backgroundColor = UIColor(hexString: "#E8ECEE")
-                self.captionMessage.textColor = UIColor.darkGray
+                self.captionMessage?.textColor = UIColor.darkGray
             }
             
             self.btnRetry?.isHidden = true
             self.captionSending?.isHidden = true
             
             if (m.failedToSend) {
-                self.captionMessage.text = "[GAGAL MENGIRIM]\n\n" + m.message
-                self.captionMessage.textColor = UIColor.white
+                self.captionMessage?.text = "[GAGAL MENGIRIM]\n\n" + m.message
+                self.captionMessage?.textColor = UIColor.white
                 self.sectionMessage.backgroundColor = UIColor(hexString : "#AC281C")
                 self.btnRetry?.isHidden = false
             } else {
-                self.captionMessage.text = m.dynamicMessage
+                if (m.attachmentType == "image") {
+                    self.captionMessage?.isHidden = true
+                    self.imgMessage?.isHidden = false
+                    self.imgMessage?.afSetImage(withURL: m.attachmentURL)
+                } else {
+                    self.captionMessage?.isHidden = false
+                    self.imgMessage?.isHidden = true
+                    self.captionMessage?.text = m.dynamicMessage
+                }
             }
             
             if (m.sending) {
@@ -937,16 +1065,20 @@ class TawarCell : UITableViewCell {
             
             if (m.messageType == 1) {
                 self.sectionMessage.backgroundColor = Theme.ThemeOrage
-                self.captionMessage.textColor = UIColor.white
+                self.captionMessage?.textColor = UIColor.white
             }
             
             if (m.messageType == 3) {
                 self.sectionMessage.backgroundColor = UIColor(hexString: "#E8ECEE")
-                self.captionMessage.textColor = UIColor.darkGray
+                self.captionMessage?.textColor = UIColor.darkGray
             }
             
             self.captionArrow.textColor = self.sectionMessage.backgroundColor
         }
+    }
+    
+    @IBAction func imgMessageTapped(_ sender: UIButton) {
+        self.zoomImgMessage()
     }
     
     @IBAction func resendMe(_ sender : UIView) {

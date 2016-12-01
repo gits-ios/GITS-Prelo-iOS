@@ -590,6 +590,7 @@
 		58DD291F1DAF3F6200130B6F /* SocketTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DD29071DAF3F6200130B6F /* SocketTypes.swift */; };
 		58DD29201DAF3F6200130B6F /* SSLSecurity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DD29081DAF3F6200130B6F /* SSLSecurity.swift */; };
 		58DD29211DAF3F6200130B6F /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DD29091DAF3F6200130B6F /* WebSocket.swift */; };
+		58DD4E8A1DEC377D00B130C5 /* ic_camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 58DD4E891DEC377D00B130C5 /* ic_camera.png */; };
 		58E368161DA4E40700C6FFE3 /* ic_share2.png in Resources */ = {isa = PBXBuildFile; fileRef = 58E368151DA4E40700C6FFE3 /* ic_share2.png */; };
 		58E8FCDD1D92819C0084FAA8 /* ic_prelo_logo_text_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58E8FCDC1D92819C0084FAA8 /* ic_prelo_logo_text_white@2x.png */; };
 		58EF19DA1D4F55FB00997828 /* ic_search_filter.png in Resources */ = {isa = PBXBuildFile; fileRef = 58EF19D91D4F55FB00997828 /* ic_search_filter.png */; };
@@ -1476,6 +1477,7 @@
 		58DD29071DAF3F6200130B6F /* SocketTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketTypes.swift; sourceTree = "<group>"; };
 		58DD29081DAF3F6200130B6F /* SSLSecurity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSLSecurity.swift; sourceTree = "<group>"; };
 		58DD29091DAF3F6200130B6F /* WebSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocket.swift; sourceTree = "<group>"; };
+		58DD4E891DEC377D00B130C5 /* ic_camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_camera.png; sourceTree = "<group>"; };
 		58E368151DA4E40700C6FFE3 /* ic_share2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_share2.png; sourceTree = "<group>"; };
 		58E8FCDC1D92819C0084FAA8 /* ic_prelo_logo_text_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_prelo_logo_text_white@2x.png"; sourceTree = "<group>"; };
 		58EADB961CFBE47800410330 /* ShippingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShippingCell.xib; sourceTree = "<group>"; };
@@ -2166,6 +2168,7 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				58DD4E891DEC377D00B130C5 /* ic_camera.png */,
 				580B07281DD5D99A0079C11C /* bday-splashscreen-2048x2048.png */,
 				21156EBD1B8F5DBC001D7842 /* arrow_down.png */,
 				21156EBE1B8F5DBC001D7842 /* arrow_left.png */,
@@ -3206,6 +3209,7 @@
 				58A9AE971CA9320000DF30C8 /* tour_4.jpg in Resources */,
 				589A6FB71D8C08F600654CDD /* ic_comment.png in Resources */,
 				5858874D1DBEDBA3006EC6D5 /* NotifAnggiTransactionCell.xib in Resources */,
+				58DD4E8A1DEC377D00B130C5 /* ic_camera.png in Resources */,
 				5858875D1DBEEA28006EC6D5 /* StoreHeader.xib in Resources */,
 				440AF6681BE1090800074CBC /* ic_round_line.png in Resources */,
 				2109BCA41BDDF85E004F36C5 /* tour_1.jpg in Resources */,

@@ -2791,6 +2791,8 @@ class InboxMessage : NSObject
     var senderId : String = ""
     var messageType : Int = 0
     var message : String = ""
+    var attachmentType : String = ""
+    var attachmentURL : URL = URL(string: "https://www.apple.com")!
     var bargainPrice = ""
     var dynamicMessage : String {
         
@@ -2876,6 +2878,14 @@ class InboxMessage : NSObject
             time = x
         }
         
+        if let x = msgJSON["attachment_type"].string {
+            attachmentType = x
+        }
+        
+        if let x = msgJSON["attachment_url"].string {
+            attachmentURL = URL(string: x)!
+        }
+        
         if let myId = CDUser.getOne()?.id
         {
             if (myId == senderId)
@@ -2889,7 +2899,7 @@ class InboxMessage : NSObject
         
     }
     
-    static func messageFromMe(_ localIndex : Int, type : Int, message : String, time : String) -> InboxMessage
+    static func messageFromMe(_ localIndex : Int, type : Int, message : String, time : String, attachmentType : String, attachmentURL : URL) -> InboxMessage
     {
         let i = InboxMessage()
         
@@ -2902,6 +2912,8 @@ class InboxMessage : NSObject
         i.messageType = type
         i.message = message
         i.time = time
+        i.attachmentType = attachmentType
+        i.attachmentURL = attachmentURL
         i.isMe = true
         i.failedToSend = false
         
@@ -2910,31 +2922,82 @@ class InboxMessage : NSObject
     
     fileprivate var lastThreadId = ""
     fileprivate var lastCompletion : (InboxMessage)->() = {m in }
-    func sendTo(_ threadId : String, completion : @escaping (InboxMessage)->())
+    fileprivate var lastImg : UIImage?
+    func sendTo(_ threadId : String, withImg : UIImage?, completion : @escaping (InboxMessage)->())
     {
         print("sending chat to thread " + threadId)
         lastThreadId = threadId
         lastCompletion = completion
+        lastImg = withImg
         sending = true
         self.failedToSend = false
         let m = bargainPrice != "" && messageType != 0 ? bargainPrice : message
-        // API Migrasi
-        let _ = request(APIInbox.sendTo(inboxId: threadId, type: messageType, message: m)).responseJSON {resp in
-            self.sending = false
-            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Kirim chat"))
-            {
-                
-            } else
-            {
-                self.failedToSend = true
-            }
-            completion(self)
+        
+        let url = "\(AppTools.PreloBaseUrl)/api/inbox/\(threadId)"
+        let param = [
+            "message_type" : messageType,
+            "message" : m,
+            "platform_sent_from" : "ios"
+        ] as [String : Any]
+        var images : [UIImage] = []
+        if let img = withImg {
+            images.append(img)
         }
+        let userAgent : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String
+        
+        AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: {op, res in
+            let json = JSON(res)
+            let data = json["_data"].boolValue
+            completion(self)
+        }, failure: { op, err in
+            self.failedToSend = true
+            completion(self)
+        })
+        
+        
+        // Alamofire image
+//        Alamofire.upload(multipartFormData: { multipartFormData in
+//            if (withImg != nil) {
+//                multipartFormData.append(UIImageJPEGRepresentation(withImg!, 1)!, withName: "image", fileName: "image.jpeg", mimeType: "image/jpeg")
+//            }
+//        }, with: APIInbox.sendTo(inboxId: threadId, type: messageType, message: m), encodingCompletion: { (encodingResult) in
+//            self.sending = false
+//            switch encodingResult {
+//            case .success(let upload, _, _):
+//                upload.responseJSON { resp in
+//                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Kirim chat")) {
+//                        
+//                    } else {
+//                        self.failedToSend = true
+//                    }
+//                    completion(self)
+//                }
+//            case .failure(let encodingError):
+//                print(encodingError)
+//                self.failedToSend = true
+//                completion(self)
+//            }
+//        })
+       
+        
+        
+//        // API Migrasi
+//        let _ = request(APIInbox.sendTo(inboxId: threadId, type: messageType, message: m)).responseJSON {resp in
+//            self.sending = false
+//            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Kirim chat"))
+//            {
+//                
+//            } else
+//            {
+//                self.failedToSend = true
+//            }
+//            completion(self)
+//        }
     }
     
     func resend()
     {
-        self.sendTo(lastThreadId, completion: lastCompletion)
+        self.sendTo(lastThreadId, withImg: lastImg, completion: lastCompletion)
     }
 }
 
