@@ -145,8 +145,9 @@ static UIDocumentInteractionController *staticDocController = NULL;
             NSString *name = [NSString stringWithFormat:@"image"];
             if ([images[0] isKindOfClass:[UIImage class]])
             {
+                NSString *fileName = [NSString stringWithFormat:@"%@.jpeg", [[NSProcessInfo processInfo] globallyUniqueString]];
                 NSData *data = UIImageJPEGRepresentation(images[0], 0.1);
-                [formData appendPartWithFileData:data name:name fileName:@"image.jpeg" mimeType:@"image/jpeg"];
+                [formData appendPartWithFileData:data name:name fileName:fileName mimeType:@"image/jpeg"];
             }
         } else if (images.count > 0) {
             for (int i = 0; i < images.count; i++)

@@ -2946,53 +2946,18 @@ class InboxMessage : NSObject
         let userAgent : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String
         
         AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: {op, res in
-            let json = JSON(res)
-            let data = json["_data"].boolValue
+            let json = JSON(res!)
+            let isSuccess = json["_data"].boolValue
+            if (isSuccess) {
+                
+            } else {
+                self.failedToSend = true
+            }
             completion(self)
         }, failure: { op, err in
             self.failedToSend = true
             completion(self)
         })
-        
-        
-        // Alamofire image
-//        Alamofire.upload(multipartFormData: { multipartFormData in
-//            if (withImg != nil) {
-//                multipartFormData.append(UIImageJPEGRepresentation(withImg!, 1)!, withName: "image", fileName: "image.jpeg", mimeType: "image/jpeg")
-//            }
-//        }, with: APIInbox.sendTo(inboxId: threadId, type: messageType, message: m), encodingCompletion: { (encodingResult) in
-//            self.sending = false
-//            switch encodingResult {
-//            case .success(let upload, _, _):
-//                upload.responseJSON { resp in
-//                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Kirim chat")) {
-//                        
-//                    } else {
-//                        self.failedToSend = true
-//                    }
-//                    completion(self)
-//                }
-//            case .failure(let encodingError):
-//                print(encodingError)
-//                self.failedToSend = true
-//                completion(self)
-//            }
-//        })
-       
-        
-        
-//        // API Migrasi
-//        let _ = request(APIInbox.sendTo(inboxId: threadId, type: messageType, message: m)).responseJSON {resp in
-//            self.sending = false
-//            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Kirim chat"))
-//            {
-//                
-//            } else
-//            {
-//                self.failedToSend = true
-//            }
-//            completion(self)
-//        }
     }
     
     func resend()

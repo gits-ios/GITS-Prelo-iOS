@@ -1012,6 +1012,10 @@ class TawarCell : UITableViewCell {
     
     var toShopPage : () -> () = {}
     
+    override func prepareForReuse() {
+        imgMessage = nil
+    }
+    
     func decor(){
         if (decorated == false) {
             formatter.dateFormat = "dd MMM"
