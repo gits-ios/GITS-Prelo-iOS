@@ -841,7 +841,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         case .featuredHeader:
             let cell : ListItemFeaturedHeaderCell = collectionView.dequeueReusableCell(withReuseIdentifier: "featured_cell", for: indexPath) as! ListItemFeaturedHeaderCell
             if let name = categoryJson?["name"].string {
-                cell.adapt(name)
+                cell.adapt(name, featuredTitle: categoryJson?["featured_title"].string, featuredDescription: categoryJson?["featured_decription"].string)
             }
             return cell
         case .subcategories:
@@ -1369,17 +1369,17 @@ class ListItemFeaturedHeaderCell : UICollectionViewCell {
     @IBOutlet var lblTitle: UILabel!
     @IBOutlet var lblDesc: UILabel!
     
-    func adapt(_ categName : String) {
+    func adapt(_ categName : String, featuredTitle : String? , featuredDescription : String?) {
         let edPickCategName = ["all", "home", "semua"]
         if (edPickCategName.contains(categName.lowercased())) {
-            self.lblTitle.text = "EDITOR'S PICK"
+            self.lblTitle.text = featuredTitle ?? "EDITOR'S PICK"
             self.lblTitle.textColor = UIColor.white
-            self.lblDesc.text = "Daftar barang terbaik yang dipilih oleh tim Prelo"
+            self.lblDesc.text = featuredDescription ?? "Daftar barang terbaik yang dipilih oleh tim Prelo"
             self.lblDesc.textColor = UIColor.white
         } else {
-            self.lblTitle.text = "HIGHLIGHTS"
+            self.lblTitle.text = featuredTitle ?? "HIGHLIGHTS"
             self.lblTitle.textColor = UIColor(hexString: "#5d5d5d")
-            self.lblDesc.text = "Barang \(categName) pilihan tim Prelo"
+            self.lblDesc.text = featuredDescription ?? "Barang \(categName) pilihan tim Prelo"
             self.lblDesc.textColor = UIColor(hexString: "#5d5d5d")
         }
     }
