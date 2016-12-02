@@ -14,7 +14,7 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" image="bday-splashscreen-2048x2048.png" translatesAutoresizingMaskIntoConstraints="NO" id="yXt-hQ-iR0">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" image="splash.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="yXt-hQ-iR0">
                     <rect key="frame" x="-48" y="-48" width="576" height="576"/>
                 </imageView>
             </subviews>
@@ -31,6 +31,6 @@
         </view>
     </objects>
     <resources>
-        <image name="bday-splashscreen-2048x2048.png" width="2048" height="2048"/>
+        <image name="splash.jpg" width="1280" height="1280"/>
     </resources>
 </document>
