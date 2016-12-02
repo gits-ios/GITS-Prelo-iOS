@@ -563,6 +563,7 @@ func print(_ items: Any..., separator: String = " ", terminator: String = "\n") 
 
 class ImageHelper {
     static func removeExifData(_ data: Data) -> Data? {
+        /* FIXME: Swift 3
         guard let source = CGImageSourceCreateWithData(data as CFData, nil) else {
             return nil
         }
@@ -586,6 +587,8 @@ class ImageHelper {
             return nil
         }
         
-        return mutableData;
+        return mutableData;*/
+        
+        return NSData(data: data) as Data
     }
 }
