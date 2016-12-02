@@ -42,6 +42,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     var bankTransferDigit : Int = 0
     var isUsingPreloBalance : Bool = false
     var isHalfBonusMode : Bool = false // Apakah aturan half bonus aktif
+    var customBonusPercent : Int = 0 // Aturan bonus custom
     var isUsingReferralBonus : Bool = false
     var balanceAvailable : Int = 0
     var isShowVoucher : Bool = false
@@ -210,6 +211,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 
                 // Ab test check
                 self.isHalfBonusMode = false
+                self.customBonusPercent = 0
                 self.isShowBankBRI = false
                 self.isEnableCCPayment = false
                 if let ab = data["ab_test"].array {
@@ -220,6 +222,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             self.isShowBankBRI = true
                         } else if (ab[i].stringValue.lowercased() == "cc") {
                             self.isEnableCCPayment = true
+                        } else if (ab[i].stringValue.lowercased().range(of: "bonus:") != nil) {
+                            self.customBonusPercent = Int(ab[i].stringValue.components(separatedBy: "bonus:")[1])!
                         }
                     }
                 }
@@ -477,10 +481,18 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         if (discountItems.count > 0) {
             for i in 0...discountItems.count - 1 {
                 if (discountItems[i].title == "Referral Bonus") {
-                    if (isHalfBonusMode) {
+                    if (customBonusPercent > 0) {
+                        if (discountItems[i].value > self.subtotalPrice * customBonusPercent / 100) {
+                            discountItems[i].value = self.subtotalPrice * customBonusPercent / 100
+                            // Show lblSend
+                            self.lblSend.text = "Maksimal Referral Bonus yang dapat digunakan adalah \(customBonusPercent)% dari subtotal transaksi"
+                            self.consHeightLblSend.constant = 31
+                        }
+                    } else if (isHalfBonusMode) {
                         if (discountItems[i].value > self.subtotalPrice / 2) {
                             discountItems[i].value = self.subtotalPrice / 2
                             // Show lblSend
+                            self.lblSend.text = "Maksimal Referral Bonus yang dapat digunakan adalah 50% dari subtotal transaksi"
                             self.consHeightLblSend.constant = 31
                         }
                     } else {
