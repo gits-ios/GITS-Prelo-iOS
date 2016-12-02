@@ -131,6 +131,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         
         // Setup navbar buttons
         self.setupNormalOptions()
+        
+        // Status bar color
+        self.setStatusBarBackgroundColor(color: Theme.PrimaryColor)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -138,6 +141,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         
         // Show status bar
         self.showStatusBar()
+        
+        // Status bar color
+        self.setStatusBarBackgroundColor(color: UIColor.clear)
     }
     
     override func viewDidAppear(_ animated: Bool) {

@@ -249,7 +249,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Remove app badge if any
         UIApplication.shared.applicationIconBadgeNumber = 0
         
-        self.setStatusBarBackgroundColor(color: Theme.PrimaryColor)
+        // Set status bar color
+        self.setStatusBarBackgroundColor(color: UIColor.clear)
         
         // Override point for customization after application launch
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
