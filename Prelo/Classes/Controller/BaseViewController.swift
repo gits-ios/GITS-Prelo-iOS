@@ -281,6 +281,13 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         self.statusBarStyle = style
         self.setNeedsStatusBarAppearanceUpdate()
     }
+    
+    func setStatusBarBackgroundColor(color: UIColor) {
+        
+        guard let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else { return }
+        
+        statusBar.backgroundColor = color
+    }
 }
 
 class AppButton : UIButton {
