@@ -1013,7 +1013,7 @@ class TawarCell : UITableViewCell {
     var toShopPage : () -> () = {}
     
     override func prepareForReuse() {
-        imgMessage = nil
+        imgMessage?.image = nil
     }
     
     func decor(){
