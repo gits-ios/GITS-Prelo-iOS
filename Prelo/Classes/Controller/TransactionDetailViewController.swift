@@ -180,13 +180,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         self.progress = self.trxDetail?.progress
                         
                         // Update title
-                        self.title = "Order #" + self.trxDetail!.orderId
+                        self.title = "Order ID " + self.trxDetail!.orderId
                     } else {
                         self.trxProductDetail = TransactionProductDetail.instance(data)
                         self.progress = self.trxProductDetail?.progress
                         
                         // Update title
-                        self.title = "Order #" + self.trxProductDetail!.orderId
+                        self.title = "Order ID " + self.trxProductDetail!.orderId
                     }
                     
                     // AB test check
@@ -2955,7 +2955,7 @@ class TransactionDetailProductCell : UITableViewCell {
         }
         
         // Set text
-        lblOrderId.text = "Order " + trxProductDetail.orderId
+        lblOrderId.text = "Order ID " + trxProductDetail.orderId
         lblTime.text = "| " + trxProductDetail.time
         lblProductName.text = trxProductDetail.productName
         lblPrice2?.text = "\(trxProductDetail.totalPrice - trxProductDetail.commissionPrice)"
