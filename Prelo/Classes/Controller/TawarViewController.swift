@@ -579,9 +579,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     // MARK: - Chat actions
     
-    @IBAction func addChat(_ sender : UIView?) {
+    @IBAction func addChat(_ sender : UIView?, image: UIImage?) {
         if (tawarItem.threadId == "") {
-            startNew(0, message : textView.text)
+            startNew(0, message : textView.text, withImg: image)
             return
         }
         
@@ -590,7 +590,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             return
         }
         
-        sendChat(0, message: m!, image: nil)
+        sendChat(0, message: m!, image: image)
         textViewGrowHandler.setText("", withAnimation: true)
         
         textViewDidChange(textView)
@@ -668,49 +668,119 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         self.scrollToBottom()
     }
     
-    func startNew(_ type : Int, message : String) {
+    func startNew(_ type : Int, message : String, withImg : UIImage?) {
         // Make sure this is executed once
         if (starting) {
             return
         }
         self.starting = true
         
-        var api = APIInbox.startNewOne(productId: prodId, type: type, message: message)
+        let url = "\(AppTools.PreloBaseUrl)/api/inbox/"
+        var param = [
+            "product_id" : prodId,
+            "message_type" : String(type),
+            "message" : message
+            ] as [String : Any]
         if (fromSeller) {
-            api = APIInbox.startNewOneBySeller(productId: prodId, type: type, message: message, toId: toId)
+            param = [
+                "product_id" : prodId,
+                "message_type" : String(type),
+                "message" : message,
+                "to" : toId
+            ]
         }
-        let _ = request(api).responseJSON { resp in
+        var images : [UIImage] = []
+        if let img = withImg {
+            images.append(img)
+        }
+        let userAgent : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String
+        
+        AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: {op, res in
             self.starting = false
-            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Chat")) {
-                let json = JSON(resp.result.value!)
-                let data = json["_data"]
-                let inbox = Inbox(jsn: data)
-                self.tawarItem = inbox
-                
-                let localId = self.inboxMessages.count
-                let date = Date()
-                let f = DateFormatter()
-                f.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                let time = f.string(from: date)
-                let i = InboxMessage.messageFromMe(localId, type: type, message: message, time: time, attachmentType: "", attachmentURL: URL(string: "http://lorempixel.com/output/animals-q-g-640-480-4.jpg")!)
-                self.inboxMessages.append(i)
-                self.textView.text = ""
-                self.adjustButtons()
-                self.tableView.reloadData()
-                self.scrollToBottom()
-                
-                // Register to messagePool
-                if let del = UIApplication.shared.delegate as? AppDelegate {
-                    del.messagePool?.registerDelegate(self.tawarItem.threadId, d: self)
-                } else {
-                    let error = NSError(domain: "Failed to cast AppDelegate", code: 0, userInfo: nil)
-                    Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["from":"MessagePool 3"])
+            let json = JSON(res!)
+            let data = json["_data"]
+            let inbox = Inbox(jsn: data)
+            self.tawarItem = inbox
+            
+            // Create a URL in the /tmp directory
+            var imageURL = URL(string: "http://lorempixel.com/output/animals-q-g-640-480-4.jpg")
+            if (withImg != nil) {
+                if let url = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tempImg.png") {
+                    imageURL = url
                 }
-            } else {
-                self.adjustButtons()
-                print(resp.result.error)
+                if (imageURL != nil) {
+                    do {
+                        try UIImageJPEGRepresentation(withImg!, 1)?.write(to: imageURL!)
+                    } catch { }
+                }
             }
-        }
+
+            
+            let localId = self.inboxMessages.count
+            let date = Date()
+            let f = DateFormatter()
+            f.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+            let time = f.string(from: date)
+            let i = InboxMessage.messageFromMe(localId, type: type, message: message, time: time, attachmentType: (withImg != nil ? "image" : ""), attachmentURL: imageURL!)
+            self.inboxMessages.append(i)
+            self.textView.text = ""
+            self.adjustButtons()
+            self.tableView.reloadData()
+            self.scrollToBottom()
+            
+            // Register to messagePool
+            if let del = UIApplication.shared.delegate as? AppDelegate {
+                del.messagePool?.registerDelegate(self.tawarItem.threadId, d: self)
+            } else {
+                let error = NSError(domain: "Failed to cast AppDelegate", code: 0, userInfo: nil)
+                Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["from":"MessagePool 3"])
+            }
+            
+            self.hideLoading()
+        }, failure: { op, err in
+            self.adjustButtons()
+            self.tableView.reloadData()
+            self.hideLoading()
+        })
+        
+        
+        
+//        var api = APIInbox.startNewOne(productId: prodId, type: type, message: message)
+//        if (fromSeller) {
+//            api = APIInbox.startNewOneBySeller(productId: prodId, type: type, message: message, toId: toId)
+//        }
+//        let _ = request(api).responseJSON { resp in
+//            self.starting = false
+//            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Chat")) {
+//                let json = JSON(resp.result.value!)
+//                let data = json["_data"]
+//                let inbox = Inbox(jsn: data)
+//                self.tawarItem = inbox
+//                
+//                let localId = self.inboxMessages.count
+//                let date = Date()
+//                let f = DateFormatter()
+//                f.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+//                let time = f.string(from: date)
+//                let i = InboxMessage.messageFromMe(localId, type: type, message: message, time: time, attachmentType: "", attachmentURL: URL(string: "http://lorempixel.com/output/animals-q-g-640-480-4.jpg")!)
+//                self.inboxMessages.append(i)
+//                self.textView.text = ""
+//                self.adjustButtons()
+//                self.tableView.reloadData()
+//                self.scrollToBottom()
+//                
+//                // Register to messagePool
+//                if let del = UIApplication.shared.delegate as? AppDelegate {
+//                    del.messagePool?.registerDelegate(self.tawarItem.threadId, d: self)
+//                } else {
+//                    let error = NSError(domain: "Failed to cast AppDelegate", code: 0, userInfo: nil)
+//                    Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["from":"MessagePool 3"])
+//                }
+//            } else {
+//                self.adjustButtons()
+//                print(resp.result.error)
+//            }
+//        }
     }
     
     // Helper untuk simulate ada message masuk
@@ -797,7 +867,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             }
             self.hideTawar(nil)
             if (tawarItem.threadId == "") {
-                startNew(1, message : txtTawar.text!)
+                startNew(1, message : txtTawar.text!, withImg: nil)
             } else {
                 sendChat(1, message: txtTawar.text!, image: nil)
             }
@@ -844,7 +914,11 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     @IBAction func btnKirimUploadGbrPressed(_ sender: UIButton) {
         self.showLoading()
-        sendChat(0, message: self.txtVwUploadGbr.text, image: self.imgUploadGbr.image)
+        if (tawarItem.threadId == "") {
+            startNew(0, message : self.txtVwUploadGbr.text, withImg: self.imgUploadGbr.image)
+        } else {
+            sendChat(0, message: self.txtVwUploadGbr.text, image: self.imgUploadGbr.image)
+        }
         self.hideAndResetUploadGbrPopUp()
         self.sectionUploadGbr.isHidden = true
     }
