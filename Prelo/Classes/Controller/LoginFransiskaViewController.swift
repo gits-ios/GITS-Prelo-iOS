@@ -38,6 +38,10 @@ class LoginFransiskaViewController: BaseViewController, CarbonTabSwipeDelegate {
         self.hideLoading()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        self.setStatusBarBackgroundColor(color: Theme.PrimaryColor)
+    }
+    
     func dismissLogin() {
         loginVC.userRelatedDelegate?.userCancelLogin?()
         registerVC.userRelatedDelegate?.userCancelLogin?()
