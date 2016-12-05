@@ -579,9 +579,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     // MARK: - Chat actions
     
-    @IBAction func addChat(_ sender : UIView?, image: UIImage?) {
+    @IBAction func addChat(_ sender : UIView?) {
         if (tawarItem.threadId == "") {
-            startNew(0, message : textView.text, withImg: image)
+            startNew(0, message : textView.text, withImg: nil)
             return
         }
         
@@ -590,7 +590,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             return
         }
         
-        sendChat(0, message: m!, image: image)
+        sendChat(0, message: m!, image: nil)
         textViewGrowHandler.setText("", withAnimation: true)
         
         textViewDidChange(textView)
