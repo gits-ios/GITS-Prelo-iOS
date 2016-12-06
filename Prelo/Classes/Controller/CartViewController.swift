@@ -50,7 +50,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     var kecamatanPickerItems : [String] = []
     var shouldBack : Bool = false
     var refreshByLocationChange : Bool = false
-    var ccPaymentOrderId : String = ""
     
     // Prices and discounts data container
     var bankTransferDigit : Int = 0
@@ -551,10 +550,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 let bKode = BaseCartData.instance("Kode Unik Transfer", placeHolder: nil, value: bankTransferDigit.asPrice, enable: false)
                 self.cellsData[idxPaymentCharge] = bKode
             } else if (selectedPayment == .creditCard) {
-                let bCharge = BaseCartData.instance("Charge Credit Card", placeHolder: nil, value: creditCardCharge.asPrice, enable: false)
+                let bCharge = BaseCartData.instance("Credit Card Charge", placeHolder: nil, value: creditCardCharge.asPrice, enable: false)
                 self.cellsData[idxPaymentCharge] = bCharge
             } else if (selectedPayment == .indomaret) {
-                let bCharge = BaseCartData.instance("Charge Indomaret", placeHolder: nil, value: indomaretCharge.asPrice, enable: false)
+                let bCharge = BaseCartData.instance("Indomaret Charge", placeHolder: nil, value: indomaretCharge.asPrice, enable: false)
                 self.cellsData[idxPaymentCharge] = bCharge
             }
         }
@@ -1058,7 +1057,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         webVC.titleString = "Pembayaran Kartu Kredit"
                         webVC.creditCardMode = true
                         webVC.ccPaymentSucceed = {
-                            self.ccPaymentOrderId = data["order_id"].stringValue
                             self.performCheckout(p!, address: a!, usedBalance: usedBalance, usedBonus: usedBonus)
                         }
                         webVC.ccPaymentUnfinished = {
@@ -1086,7 +1084,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     }
     
     func performCheckout(_ cart : String, address : String, usedBalance : Int, usedBonus : Int) {
-        let _ = request(APICart.checkout(cart: cart, address: address, voucher: voucherApplied, payment: selectedPayment.value, usedPreloBalance: usedBalance, usedReferralBonus: usedBonus, kodeTransfer: bankTransferDigit, ccOrderId: ccPaymentOrderId)).responseJSON { resp in
+        let _ = request(APICart.checkout(cart: cart, address: address, voucher: voucherApplied, payment: selectedPayment.value, usedPreloBalance: usedBalance, usedReferralBonus: usedBonus, kodeTransfer: bankTransferDigit)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Checkout")) {
                 let json = JSON(resp.result.value!)
                 self.checkoutResult = json["_data"]

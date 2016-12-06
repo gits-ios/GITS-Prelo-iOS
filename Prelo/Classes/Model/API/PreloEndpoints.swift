@@ -282,7 +282,7 @@ enum APIAuth : URLRequestConvertible {
 
 enum APICart : URLRequestConvertible {
     case refresh(cart : String, address : String, voucher : String?)
-    case checkout(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int, usedReferralBonus : Int, kodeTransfer : Int, ccOrderId : String)
+    case checkout(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int, usedReferralBonus : Int, kodeTransfer : Int)
     case generateVeritransUrl(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int, usedReferralBonus : Int, kodeTransfer : Int)
     
     public func asURLRequest() throws -> URLRequest {
@@ -297,7 +297,7 @@ enum APICart : URLRequestConvertible {
     var method : HTTPMethod {
         switch self {
         case .refresh(_, _, _) : return .post
-        case .checkout(_, _, _, _, _, _, _, _) : return .post
+        case .checkout(_, _, _, _, _, _, _) : return .post
         case .generateVeritransUrl(_, _, _, _, _, _, _) : return .post
         }
     }
@@ -305,7 +305,7 @@ enum APICart : URLRequestConvertible {
     var path : String {
         switch self {
         case .refresh(_, _, _) : return ""
-        case .checkout(_, _, _, _, _, _, _, _) : return "checkout"
+        case .checkout(_, _, _, _, _, _, _) : return "checkout"
         case .generateVeritransUrl(_, _, _, _, _, _, _) : return "generate_veritrans_url"
         }
     }
@@ -319,7 +319,7 @@ enum APICart : URLRequestConvertible {
                 "shipping_address":address,
                 "voucher_serial":(voucher == nil) ? "" : voucher!
             ]
-        case .checkout(let cart, let address, let voucher, let payment, let usedBalance, let usedBonus, let kodeTransfer, let ccOrderId) :
+        case .checkout(let cart, let address, let voucher, let payment, let usedBalance, let usedBonus, let kodeTransfer) :
             p = [
                 "cart_products":cart,
                 "shipping_address":address,
@@ -335,9 +335,6 @@ enum APICart : URLRequestConvertible {
             }
             if usedBonus != 0 {
                 p["bonus_used"] = NSNumber(value: usedBonus as Int)
-            }
-            if ccOrderId != "" {
-                p["order_id"] = ccOrderId
             }
         case .generateVeritransUrl(let cart, let address, let voucher, let payment, let usedBalance, let usedBonus, let kodeTransfer) :
             p = [
