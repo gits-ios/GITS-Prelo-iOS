@@ -1044,7 +1044,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             }
         }
         
-        if (self.selectedPayment == .bankTransfer || self.priceAfterDiscounts <= 0) { // Bank Transfer or Rp0 Transaction
+        self.performCheckout(p!, address: a!, usedBalance: usedBalance, usedBonus: usedBonus)
+        
+        /*if (self.selectedPayment == .bankTransfer || self.priceAfterDiscounts <= 0) { // Bank Transfer or Rp0 Transaction
             self.performCheckout(p!, address: a!, usedBalance: usedBalance, usedBonus: usedBonus)
         } else if (self.selectedPayment == .creditCard) { // Credit Cards
             let _ = request(APICart.generateVeritransUrl(cart: p!, address: a!, voucher: voucherApplied, payment: selectedPayment.value, usedPreloBalance: usedBalance, usedReferralBonus: usedBonus, kodeTransfer: bankTransferDigit)).responseJSON { resp in
@@ -1079,7 +1081,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 }
             }
         }
-        
+        */
         
     }
     
@@ -1089,6 +1091,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 let json = JSON(resp.result.value!)
                 self.checkoutResult = json["_data"]
                 
+                // Error handling
                 if (json["_data"]["_have_error"].intValue == 1) {
                     let m = json["_data"]["_message"].stringValue
                     UIAlertView.SimpleShow("Perhatian", message: m)
@@ -1096,46 +1099,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     return
                 }
                 
-                var gTotal = 0
-                if let totalPrice = self.checkoutResult?["total_price"].int {
-                    gTotal += totalPrice
+                if (self.checkoutResult == nil) {
+                    Constant.showDialog("Perhatian", message: "Terdapat kesalahan saat melakukan checkout")
+                    self.btnSend.isEnabled = true
+                    return
                 }
-                if let trfCode = self.checkoutResult?["banktransfer_digit"].int {
-                    gTotal += trfCode
-                }
-                
-                // Prepare to navigate to order confirm page
-                let o = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdOrderConfirm) as! OrderConfirmViewController
-                
-                o.orderID = (self.checkoutResult?["order_id"].string)!
-                if (self.selectedPayment == .creditCard) {
-                    o.total = 0
-                } else { // Bank transfer etc
-                    o.total = gTotal
-                }
-                o.transactionId = (self.checkoutResult?["transaction_id"].string)!
-                o.isBackTwice = true
-                o.isShowBankBRI = self.isShowBankBRI
-                
-                var imgs : [URL] = []
-                for i in 0...self.arrayItem.count - 1 {
-                    let json = self.arrayItem[i]
-                    if let raw : Array<AnyObject> = json["display_picts"].arrayObject as Array<AnyObject>? {
-                        var ori : Array<String> = []
-                        for o in raw {
-                            if let s = o as? String {
-                                ori.append(s)
-                            }
-                        }
-                        
-                        if (ori.count > 0) {
-                            if let u = URL(string: ori.first!) {
-                                imgs.append(u)
-                            }
-                        }
-                    }
-                }
-                o.images = imgs
                 
                 // Send tracking data before navigate
                 if (self.checkoutResult != nil) {
@@ -1197,7 +1165,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         "Shipping Province" : pName!,
                         "Bonus Used" : 0,
                         "Balance Used" : 0
-                    ] as [String : Any]
+                        ] as [String : Any]
                     Mixpanel.trackEvent(MixpanelEvent.Checkout, properties: pt as [AnyHashable: Any])
                     
                     // Answers
@@ -1254,11 +1222,81 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     moeEventTracker?.setLocationLat(currentLat, lng: currentLng, forKey: "startingLocation")
                     MoEngage.sharedInstance().trackEvent(MixpanelEvent.Checkout, builderPayload: moeEventTracker)
                 }
-                o.isFromCheckout = true
-                self.navigateToVC(o)
+                
+                // Prepare to navigate to next page
+                if (self.selectedPayment == .bankTransfer) {
+                    self.navigateToOrderConfirmVC()
+                } else { // Credit card, indomaret
+                    let webVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
+                    webVC.url = self.checkoutResult!["veritrans_redirect_url"].stringValue
+                    webVC.titleString = "Pembayaran \(self.selectedPayment.value)"
+                    webVC.creditCardMode = true
+                    webVC.ccPaymentSucceed = {
+                        self.navigateToOrderConfirmVC()
+                    }
+                    webVC.ccPaymentUnfinished = {
+                        Constant.showDialog("Pembayaran \(self.selectedPayment.value)", message: "Pembayaran dibatalkan")
+                        let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
+                        notifPageVC.isBackTwice = true
+                        self.navigateToVC(notifPageVC)
+                    }
+                    webVC.ccPaymentFailed = {
+                        Constant.showDialog("Pembayaran \(self.selectedPayment.value)", message: "Pembayaran gagal, silahkan coba beberapa saat lagi")
+                        let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
+                        notifPageVC.isBackTwice = true
+                        self.navigateToVC(notifPageVC)
+                    }
+                    let baseNavC = BaseNavigationController()
+                    baseNavC.setViewControllers([webVC], animated: false)
+                    self.present(baseNavC, animated: true, completion: nil)
+                }
             }
             self.btnSend.isEnabled = true
         }
+    }
+    
+    func navigateToOrderConfirmVC() {
+        var gTotal = 0
+        if let totalPrice = self.checkoutResult?["total_price"].int {
+            gTotal += totalPrice
+        }
+        if let trfCode = self.checkoutResult?["banktransfer_digit"].int {
+            gTotal += trfCode
+        }
+        
+        let o = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdOrderConfirm) as! OrderConfirmViewController
+        
+        o.orderID = (self.checkoutResult?["order_id"].string)!
+        if (self.selectedPayment == .creditCard) {
+            o.total = 0
+        } else { // Bank transfer etc
+            o.total = gTotal
+        }
+        o.transactionId = (self.checkoutResult?["transaction_id"].string)!
+        o.isBackTwice = true
+        o.isShowBankBRI = self.isShowBankBRI
+        
+        var imgs : [URL] = []
+        for i in 0...self.arrayItem.count - 1 {
+            let json = self.arrayItem[i]
+            if let raw : Array<AnyObject> = json["display_picts"].arrayObject as Array<AnyObject>? {
+                var ori : Array<String> = []
+                for o in raw {
+                    if let s = o as? String {
+                        ori.append(s)
+                    }
+                }
+                
+                if (ori.count > 0) {
+                    if let u = URL(string: ori.first!) {
+                        imgs.append(u)
+                    }
+                }
+            }
+        }
+        o.images = imgs
+        o.isFromCheckout = true
+        self.navigateToVC(o)
     }
     
     func setPaymentOption(_ mthd : PaymentMethod) {

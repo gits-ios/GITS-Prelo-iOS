@@ -25,6 +25,9 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
     let TransactionBadgeRightOffset = 18
     let ConversationBadgeRightOffset = 13
     
+    var isBackTwice : Bool = false
+    var isNavCtrlsChecked : Bool = false
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -80,6 +83,17 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
             let delegate = UIApplication.shared.delegate as! AppDelegate
             let notifListener = delegate.preloNotifListener
             notifListener?.delegate = self
+        }
+        
+        // Back action handling
+        if (!isNavCtrlsChecked && isBackTwice) {
+            var x = self.navigationController?.viewControllers
+            x?.remove(at: (x?.count)! - 2)
+            if (x == nil) {
+                x = []
+            }
+            self.navigationController?.setViewControllers(x!, animated: false)
+            isNavCtrlsChecked = true
         }
     }
         
