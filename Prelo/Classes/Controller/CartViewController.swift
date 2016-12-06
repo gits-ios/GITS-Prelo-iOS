@@ -1235,7 +1235,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         self.navigateToOrderConfirmVC()
                     }
                     webVC.ccPaymentUnfinished = {
-                        Constant.showDialog("Pembayaran \(self.selectedPayment.value)", message: "Pembayaran dibatalkan")
+                        Constant.showDialog("Pembayaran \(self.selectedPayment.value)", message: "Pembayaran tertunda")
                         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
                         notifPageVC.isBackTwice = true
                         self.navigateToVC(notifPageVC)

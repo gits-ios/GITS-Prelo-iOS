@@ -98,6 +98,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     
     // Others
     var isShowBankBRI : Bool = false
+    var veritransRedirectUrl : String = ""
     
     // MARK: - Init
     
@@ -197,6 +198,11 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                                 self.isShowBankBRI = true
                             }
                         }
+                    }
+                    
+                    // Veritrans url check
+                    if let vrtUrl = data["veritrans_redirect_url"].string {
+                        self.veritransRedirectUrl = vrtUrl
                     }
                     
                     // Mixpanel
@@ -1228,6 +1234,11 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     func createButtonCell(_ order : Int) -> TransactionDetailButtonCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailButtonCellId) as! TransactionDetailButtonCell
         
+        // Veritrans payment check
+        if (veritransRedirectUrl != "") {
+            cell.isVeritransPayment = true
+        }
+        
         // Adapt cell
         if (progress != nil) {
             cell.adapt(self.progress, order: order)
@@ -1258,6 +1269,40 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 orderConfirmVC.isShowBankBRI = self.isShowBankBRI
                 self.navigationController?.pushViewController(orderConfirmVC, animated: true)
             }
+        }
+        cell.continuePayment = {
+            let webVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
+            webVC.url = self.veritransRedirectUrl
+            webVC.titleString = "Lanjut Pembayaran"
+            webVC.creditCardMode = true
+            webVC.ccPaymentSucceed = {
+                let o = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdOrderConfirm) as! OrderConfirmViewController
+                
+                o.orderID = self.trxDetail!.orderId
+                o.total = 0
+                o.transactionId = self.trxDetail!.id
+                o.isBackTwice = true
+                o.isShowBankBRI = self.isShowBankBRI
+                
+                var imgs : [URL] = []
+                for i in 0..<self.trxDetail!.transactionProducts.count {
+                    if let u = self.trxDetail!.transactionProducts[i].productImageURL {
+                        imgs.append(u)
+                    }
+                }
+                o.images = imgs
+                o.isFromCheckout = false
+                self.navigationController?.pushViewController(o, animated: true)
+            }
+            webVC.ccPaymentUnfinished = {
+                Constant.showDialog("Lanjut Pembayaran", message: "Pembayaran dibatalkan")
+            }
+            webVC.ccPaymentFailed = {
+                Constant.showDialog("Lanjut Pembayaran", message: "Pembayaran gagal, silahkan coba beberapa saat lagi")
+            }
+            let baseNavC = BaseNavigationController()
+            baseNavC.setViewControllers([webVC], animated: false)
+            self.present(baseNavC, animated: true, completion: nil)
         }
         cell.confirmShipping = {
             if (self.trxDetail != nil) {
@@ -3384,9 +3429,11 @@ class TransactionDetailButtonCell : UITableViewCell {
     @IBOutlet weak var btn: UIButton!
     
     var progress : Int?
-    var order : Int?
+    var order : Int!
+    var isVeritransPayment : Bool = false
     var retrieveCash : () -> () = {}
     var confirmPayment : () -> () = {}
+    var continuePayment : () -> () = {}
     var confirmShipping : () -> () = {}
     var reviewSeller : () -> () = {}
     var seeFAQ : () -> () = {}
@@ -3397,7 +3444,11 @@ class TransactionDetailButtonCell : UITableViewCell {
         if (progress == TransactionDetailTools.ProgressRejectedBySeller || progress == TransactionDetailTools.ProgressNotSent) {
             btn.setTitle("TARIK UANG", for: UIControlState())
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
-            btn.setTitle("KONFIRMASI PEMBAYARAN", for: UIControlState())
+            if (isVeritransPayment) {
+                btn.setTitle("LANJUTKAN PEMBAYARAN", for: UIControlState())
+            } else {
+                btn.setTitle("KONFIRMASI PEMBAYARAN", for: UIControlState())
+            }
         } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {
             btn.setTitle("KIRIM / TOLAK", for: UIControlState())
         } else if (progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived) {
@@ -3411,7 +3462,11 @@ class TransactionDetailButtonCell : UITableViewCell {
         if (progress == TransactionDetailTools.ProgressRejectedBySeller || progress == TransactionDetailTools.ProgressNotSent) {
             self.retrieveCash()
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
-            self.confirmPayment()
+            if (isVeritransPayment) {
+                self.continuePayment()
+            } else {
+                self.confirmPayment()
+            }
         } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {
             self.confirmShipping()
         } else if (progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived) {
