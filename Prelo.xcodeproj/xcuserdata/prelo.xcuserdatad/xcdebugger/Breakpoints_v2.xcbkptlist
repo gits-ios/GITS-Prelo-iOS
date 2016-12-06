@@ -362,11 +362,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/CartViewController.swift"
-            timestampString = "502701648.315325"
+            timestampString = "502703517.472761"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1067"
-            endingLineNumber = "1067"
+            startingLineNumber = "1088"
+            endingLineNumber = "1088"
             landmarkName = "performCheckout(_:address:usedBalance:usedBonus:)"
             landmarkType = "7">
          </BreakpointContent>

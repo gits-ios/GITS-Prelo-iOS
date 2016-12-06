@@ -539,16 +539,37 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             priceAfterDiscounts = 0
         }
         
-        // Set cellsData for transfer code
+        // Determine payment charge & set cellsData for payment charge
+        let creditCardCharge = 2500 + (priceAfterDiscounts * 32 / 1000)
+        var indomaretCharge = priceAfterDiscounts * 2 / 100
+        if (indomaretCharge < 5000) {
+            indomaretCharge = 5000
+        }
         if (priceAfterDiscounts > 0) {
-            let idxKode = IndexPath(row: 1 + discountItems.count, section: self.sectionPaySummary)
-            let bKode = BaseCartData.instance("Kode Unik Transfer", placeHolder: nil, value: bankTransferDigit.asPrice, enable: false)
-            self.cellsData[idxKode] = bKode
+            let idxPaymentCharge = IndexPath(row: 1 + discountItems.count, section: self.sectionPaySummary)
+            if (selectedPayment == .bankTransfer) {
+                let bKode = BaseCartData.instance("Kode Unik Transfer", placeHolder: nil, value: bankTransferDigit.asPrice, enable: false)
+                self.cellsData[idxPaymentCharge] = bKode
+            } else if (selectedPayment == .creditCard) {
+                let bCharge = BaseCartData.instance("Charge Credit Card", placeHolder: nil, value: creditCardCharge.asPrice, enable: false)
+                self.cellsData[idxPaymentCharge] = bCharge
+            } else if (selectedPayment == .indomaret) {
+                let bCharge = BaseCartData.instance("Charge Indomaret", placeHolder: nil, value: indomaretCharge.asPrice, enable: false)
+                self.cellsData[idxPaymentCharge] = bCharge
+            }
         }
         
         // Set cellsData for grand total
         let idxGTotal = IndexPath(row: (priceAfterDiscounts > 0 ? 2 : 1) + discountItems.count, section: self.sectionPaySummary)
-        let bGTotal = BaseCartData.instance("Total Pembayaran", placeHolder: nil, value: (priceAfterDiscounts + (priceAfterDiscounts > 0 ? bankTransferDigit : 0)).asPrice, enable: false)
+        var paymentCharge = 0
+        if (selectedPayment == .bankTransfer) {
+            paymentCharge = bankTransferDigit
+        } else if (selectedPayment == .creditCard) {
+            paymentCharge = creditCardCharge
+        } else if (selectedPayment == .indomaret) {
+            paymentCharge = indomaretCharge
+        }
+        let bGTotal = BaseCartData.instance("Total Pembayaran", placeHolder: nil, value: (priceAfterDiscounts + (priceAfterDiscounts > 0 ? paymentCharge : 0)).asPrice, enable: false)
         self.cellsData[idxGTotal] = bGTotal
         
         self.printCellsData()
