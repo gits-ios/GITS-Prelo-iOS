@@ -147,7 +147,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         let redirectFromHome : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.RedirectFromHome) as! String?
         if (redirectFromHome != nil) {
             if (redirectFromHome == PageName.MyOrders) {
-                let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchase, owner: nil, options: nil)?.first as! MyPurchaseViewController
+                let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
                 self.previousController?.navigationController?.pushViewController(myPurchaseVC, animated: true)
             } else if (redirectFromHome == PageName.UnpaidTransaction) {
                 let paymentConfirmationVC = Bundle.main.loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil)?.first as! PaymentConfirmationViewController
