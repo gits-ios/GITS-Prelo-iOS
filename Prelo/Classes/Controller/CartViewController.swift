@@ -71,7 +71,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     // Metode pembayaran
     var selectedPayment = "Bank Transfer"
-    var availablePayments = ["Bank Transfer", "Credit Card"]
+    var availablePayments = ["Bank Transfer", "Credit Card", "Indomaret"]
     
     // Sections
     let sectionProducts = 0
@@ -602,6 +602,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         cell.isEnableCCPayment = isEnableCCPayment
         cell.methodChosen = { tag in
             self.setPaymentOption(tag)
+            self.adjustRingkasan()
         }
         if (self.isShowBankBRI) {
             cell.vw3Banks.isHidden = true
@@ -610,6 +611,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             cell.vw3Banks.isHidden = false
             cell.vw4Banks.isHidden = true
         }
+        cell.adapt(selectedIdx: self.availablePayments.index(of: self.selectedPayment)!)
         
         return cell
     }
@@ -763,7 +765,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             }
         } else if (section == sectionPayMethod) {
             if (row == 0) { // Payment method
-                return 198
+                if (selectedPayment == "Bank Transfer") {
+                    return 198
+                } else {
+                    return 144
+                }
             } else if (row == 1) { // Prelo balance switch
                 return isUsingPreloBalance ? 107 : 47
             } else if (row == 2) { // Voucher switch
@@ -1990,12 +1996,42 @@ class CartPaymethodCell : UITableViewCell {
     @IBOutlet var vw4Banks: UIView!
     var isEnableCCPayment : Bool = false
     
+    @IBOutlet var lblDesc: [UILabel]!
+    
     // Tag set in storyboard
     // 0 = Transfer Bank
     // 1 = Kartu Kredit
+    // 2 = Indomaret
     @IBOutlet var btnsMethod: [UIButton]!
+    let idxTrfBank = 0
+    let idxCreditCard = 1
+    let idxIndomaret = 2
+    
+    @IBOutlet var imgIndomaret: TintedImageView!
     
     var methodChosen : (Int) -> () = { _ in }
+    
+    func adapt(selectedIdx : Int) {
+        if (selectedIdx == idxIndomaret) {
+            imgIndomaret.tint = false
+        } else {
+            imgIndomaret.tint = true
+            imgIndomaret.tintColor = Theme.GrayLight
+        }
+        
+        var txtDesc = ""
+        if (selectedIdx == idxTrfBank) {
+            txtDesc = "Pembayaran aman dengan sistem Rekber ke rekening Prelo"
+        } else if (selectedIdx == idxCreditCard) {
+            txtDesc = "Pembayaran aman melalui kartu kredit"
+        } else if (selectedIdx == idxIndomaret) {
+            txtDesc = "Pembayaran aman melalui Indomaret"
+        }
+        for lbl in lblDesc {
+            lbl.text = txtDesc
+            lbl.font = UIFont.systemFont(ofSize: 11)
+        }
+    }
     
     @IBAction func methodPressed(_ sender: UIButton) {
         if (sender.tag == 1 && !isEnableCCPayment) { // Disabled method
@@ -2005,12 +2041,12 @@ class CartPaymethodCell : UITableViewCell {
         for i in 0...btnsMethod.count - 1 {
             if (sender.isEqual(btnsMethod[i])) { // Clicked button
                 if let b = btnsMethod[i].superview as? BorderedView {
-                    b.cartSelectAsPayment(true)
+                    b.cartSelectAsPayment(true, useOriginalColor: (i == idxIndomaret))
                 }
                 self.methodChosen(sender.tag)
             } else { // Other button
                 if let b = btnsMethod[i].superview as? BorderedView {
-                    b.cartSelectAsPayment(false)
+                    b.cartSelectAsPayment(false, useOriginalColor: (i == idxIndomaret))
                 }
             }
         }
@@ -2038,9 +2074,25 @@ class PreloBalanceTextfield: UITextField {
 
 extension BorderedView
 {
-    func cartSelectAsPayment(_ select : Bool)
+    func cartSelectAsPayment(_ select : Bool, useOriginalColor : Bool)
     {
-        setColor(select ? Theme.PrimaryColorDark : Theme.GrayLight)
+        if (useOriginalColor) {
+            if (select) {
+                for v in self.subviews {
+                    if (v.isKind(of: UILabel.classForCoder())) {
+                        let l = v as! UILabel
+                        l.textColor = Theme.PrimaryColorDark
+                    } else if (v.isKind(of: TintedImageView.classForCoder())) {
+                        let i = v as! TintedImageView
+                        i.tint = false
+                    }
+                }
+            } else {
+                setColor(Theme.GrayLight)
+            }
+        } else {
+            setColor(select ? Theme.PrimaryColorDark : Theme.GrayLight)
+        }
     }
     
     fileprivate func setColor(_ c : UIColor)
@@ -2054,6 +2106,7 @@ extension BorderedView
             } else if (v.isKind(of: TintedImageView.classForCoder()))
             {
                 let i = v as! TintedImageView
+                i.tint = true
                 i.tintColor = c
             }
         }
