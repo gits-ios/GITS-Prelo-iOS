@@ -12,6 +12,20 @@ import Alamofire
 
 // MARK: - Class
 
+enum PaymentMethod {
+    case bankTransfer
+    case creditCard
+    case indomaret
+    
+    var value : String {
+        switch self {
+        case .bankTransfer : return "Bank Transfer"
+        case .creditCard : return "Credit Card"
+        case .indomaret : return "Indomaret"
+        }
+    }
+}
+
 class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UITextFieldDelegate, CartItemCellDelegate, UserRelatedDelegate, PreloBalanceInputCellDelegate, VoucherInputCellDelegate {
     
     // MARK: - Struct
@@ -70,8 +84,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     @IBOutlet var btnSend : UIButton!
     
     // Metode pembayaran
-    var selectedPayment = "Bank Transfer"
-    var availablePayments = ["Bank Transfer", "Credit Card", "Indomaret"]
+    var selectedPayment : PaymentMethod = .bankTransfer
     
     // Sections
     let sectionProducts = 0
@@ -600,8 +613,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     func createPayMethodCell(_ tableView : UITableView, indexPath : IndexPath) -> CartPaymethodCell {
         let cell : CartPaymethodCell = tableView.dequeueReusableCell(withIdentifier: "cell_paymethod") as! CartPaymethodCell
         cell.isEnableCCPayment = isEnableCCPayment
-        cell.methodChosen = { tag in
-            self.setPaymentOption(tag)
+        cell.methodChosen = { mthd in
+            self.setPaymentOption(mthd)
             self.adjustRingkasan()
         }
         if (self.isShowBankBRI) {
@@ -611,7 +624,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             cell.vw3Banks.isHidden = false
             cell.vw4Banks.isHidden = true
         }
-        cell.adapt(selectedIdx: self.availablePayments.index(of: self.selectedPayment)!)
+        cell.adapt(selectedPayment: selectedPayment)
         
         return cell
     }
@@ -765,7 +778,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             }
         } else if (section == sectionPayMethod) {
             if (row == 0) { // Payment method
-                if (selectedPayment == "Bank Transfer") {
+                if (selectedPayment == .bankTransfer) {
                     return 198
                 } else {
                     return 144
@@ -1011,10 +1024,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             }
         }
         
-        if (self.selectedPayment == self.availablePayments[0] || self.priceAfterDiscounts <= 0) { // Bank Transfer or Rp0 Transaction
+        if (self.selectedPayment == .bankTransfer || self.priceAfterDiscounts <= 0) { // Bank Transfer or Rp0 Transaction
             self.performCheckout(p!, address: a!, usedBalance: usedBalance, usedBonus: usedBonus)
-        } else if (self.selectedPayment == self.availablePayments[1]) { // Credit Cards
-            let _ = request(APICart.generateVeritransUrl(cart: p!, address: a!, voucher: voucherApplied, payment: selectedPayment, usedPreloBalance: usedBalance, usedReferralBonus: usedBonus, kodeTransfer: bankTransferDigit)).responseJSON { resp in
+        } else if (self.selectedPayment == .creditCard) { // Credit Cards
+            let _ = request(APICart.generateVeritransUrl(cart: p!, address: a!, voucher: voucherApplied, payment: selectedPayment.value, usedPreloBalance: usedBalance, usedReferralBonus: usedBonus, kodeTransfer: bankTransferDigit)).responseJSON { resp in
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Generate Veritrans URL")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
@@ -1052,7 +1065,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     }
     
     func performCheckout(_ cart : String, address : String, usedBalance : Int, usedBonus : Int) {
-        let _ = request(APICart.checkout(cart: cart, address: address, voucher: voucherApplied, payment: selectedPayment, usedPreloBalance: usedBalance, usedReferralBonus: usedBonus, kodeTransfer: bankTransferDigit, ccOrderId: ccPaymentOrderId)).responseJSON { resp in
+        let _ = request(APICart.checkout(cart: cart, address: address, voucher: voucherApplied, payment: selectedPayment.value, usedPreloBalance: usedBalance, usedReferralBonus: usedBonus, kodeTransfer: bankTransferDigit, ccOrderId: ccPaymentOrderId)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Checkout")) {
                 let json = JSON(resp.result.value!)
                 self.checkoutResult = json["_data"]
@@ -1076,7 +1089,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 let o = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdOrderConfirm) as! OrderConfirmViewController
                 
                 o.orderID = (self.checkoutResult?["order_id"].string)!
-                if (self.selectedPayment == self.availablePayments[1]) { // Credit card
+                if (self.selectedPayment == .creditCard) {
                     o.total = 0
                 } else { // Bank transfer etc
                     o.total = gTotal
@@ -1229,8 +1242,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
     }
     
-    func setPaymentOption(_ tag : Int) {
-        selectedPayment = availablePayments[tag]
+    func setPaymentOption(_ mthd : PaymentMethod) {
+        selectedPayment = mthd
     }
     
     func itemNeedDelete(_ indexPath: IndexPath) {
@@ -2002,17 +2015,17 @@ class CartPaymethodCell : UITableViewCell {
     // 0 = Transfer Bank
     // 1 = Kartu Kredit
     // 2 = Indomaret
+    let tagBankTrf = 0
+    let tagCreditCard = 1
+    let tagIndomaret = 2
     @IBOutlet var btnsMethod: [UIButton]!
-    let idxTrfBank = 0
-    let idxCreditCard = 1
-    let idxIndomaret = 2
     
     @IBOutlet var imgIndomaret: TintedImageView!
     
-    var methodChosen : (Int) -> () = { _ in }
+    var methodChosen : (PaymentMethod) -> () = { _ in }
     
-    func adapt(selectedIdx : Int) {
-        if (selectedIdx == idxIndomaret) {
+    func adapt(selectedPayment : PaymentMethod) {
+        if (selectedPayment == .indomaret) {
             imgIndomaret.tint = false
         } else {
             imgIndomaret.tint = true
@@ -2020,11 +2033,11 @@ class CartPaymethodCell : UITableViewCell {
         }
         
         var txtDesc = ""
-        if (selectedIdx == idxTrfBank) {
+        if (selectedPayment == .bankTransfer) {
             txtDesc = "Pembayaran aman dengan sistem Rekber ke rekening Prelo"
-        } else if (selectedIdx == idxCreditCard) {
+        } else if (selectedPayment == .creditCard) {
             txtDesc = "Pembayaran aman melalui kartu kredit"
-        } else if (selectedIdx == idxIndomaret) {
+        } else if (selectedPayment == .indomaret) {
             txtDesc = "Pembayaran aman melalui Indomaret"
         }
         for lbl in lblDesc {
@@ -2041,12 +2054,20 @@ class CartPaymethodCell : UITableViewCell {
         for i in 0...btnsMethod.count - 1 {
             if (sender.isEqual(btnsMethod[i])) { // Clicked button
                 if let b = btnsMethod[i].superview as? BorderedView {
-                    b.cartSelectAsPayment(true, useOriginalColor: (i == idxIndomaret))
+                    b.cartSelectAsPayment(true, useOriginalColor: (i == tagIndomaret))
                 }
-                self.methodChosen(sender.tag)
+                var mthd : PaymentMethod!
+                if (sender.tag == tagBankTrf) {
+                    mthd = .bankTransfer
+                } else if (sender.tag == tagCreditCard) {
+                    mthd = .creditCard
+                } else if (sender.tag == tagIndomaret) {
+                    mthd = .indomaret
+                }
+                self.methodChosen(mthd)
             } else { // Other button
                 if let b = btnsMethod[i].superview as? BorderedView {
-                    b.cartSelectAsPayment(false, useOriginalColor: (i == idxIndomaret))
+                    b.cartSelectAsPayment(false, useOriginalColor: (i == tagIndomaret))
                 }
             }
         }
