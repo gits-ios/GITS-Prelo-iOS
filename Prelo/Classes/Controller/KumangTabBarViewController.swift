@@ -59,10 +59,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
     
     // MARK: - Init
     
-    override var preferredStatusBarStyle : UIStatusBarStyle {
-        return UIStatusBarStyle.default
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         

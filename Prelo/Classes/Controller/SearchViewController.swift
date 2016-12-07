@@ -50,9 +50,6 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Status bar style
-        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.default, animated: true)
-        
         // Init loading
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
         self.hideLoading()
@@ -143,9 +140,6 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         
         // Google Analytics
         GAI.trackPageVisit(PageName.Search)
-        
-        // Status bar style
-        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.default, animated: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -167,10 +161,6 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    override var preferredStatusBarStyle : UIStatusBarStyle {
-        return UIStatusBarStyle.default
     }
     
     // MARK: - History setup
