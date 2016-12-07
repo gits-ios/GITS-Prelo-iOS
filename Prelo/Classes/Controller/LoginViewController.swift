@@ -693,8 +693,6 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.default, animated: true)
-
         // Scrollview setup
         scrollView?.delegate = self
         scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
@@ -839,10 +837,6 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
-    }
-    
-    override var preferredStatusBarStyle : UIStatusBarStyle {
-        return UIStatusBarStyle.default
     }
     
     // MARK: - Facebook Login
