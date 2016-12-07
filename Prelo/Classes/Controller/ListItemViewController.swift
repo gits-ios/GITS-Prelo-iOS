@@ -91,6 +91,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     // Gridview and layout
     @IBOutlet var gridView: UICollectionView!
+    @IBOutlet var consTopGridView: NSLayoutConstraint!
     @IBOutlet var consTopTopHeader: NSLayoutConstraint!
     var footerLoading : UIActivityIndicatorView?
     var refresher : UIRefreshControl?
@@ -138,6 +139,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var fltrSortBy : String = "" // "recent"/"lowest_price"/"highest_price"/"popular"
     // Views
     @IBOutlet var vwTopHeaderFilter: UIView!
+    @IBOutlet var consTopTopHeaderFilter: NSLayoutConstraint!
     @IBOutlet var lblFilterMerek: UILabel!
     @IBOutlet var lblFilterKategori: UILabel!
     @IBOutlet var lblFilterSort: UILabel!
@@ -218,14 +220,20 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.repositionScrollCategoryNameContent()
         self.showStatusBar()
+        
+        // Status bar color
+        if (currentMode == .filter) {
+            self.setStatusBarBackgroundColor(color: UIColor.clear)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        // Default search text
+        // Default search text && status bar color for filter mode
         if (currentMode == .filter) {
             self.searchBar.text = self.fltrName
+            self.setStatusBarBackgroundColor(color: Theme.PrimaryColor)
         }
         
         // Mixpanel for store mode
@@ -1046,6 +1054,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                             }) 
                         }
                         self.repositionScrollCategoryNameContent()
+                        if (currentMode == .filter) {
+                            self.consTopTopHeaderFilter.constant = UIApplication.shared.statusBarFrame.height
+                            self.consTopGridView.constant = UIApplication.shared.statusBarFrame.height
+                        }
                     }
                 } else {
                     NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
@@ -1058,6 +1070,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                         }) 
                     }
                     self.repositionScrollCategoryNameContent()
+                    if (currentMode == .filter) {
+                        self.consTopTopHeaderFilter.constant = 0
+                        self.consTopGridView.constant = 0
+                    }
                 }
             }
         }
