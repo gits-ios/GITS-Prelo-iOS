@@ -1082,7 +1082,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     func repositionScrollCategoryNameContent() {
         // This function is made as a temporary solution for a bug where the scroll category name content size is become wrong after scroll
         if (scrollCategoryName != nil) {
-            let bottomOffset = CGPoint(x: 0, y: Int(self.scrollCategoryName!.contentSize.height - self.scrollCategoryName!.bounds.size.height))
+            let bottomOffset = CGPoint(x: self.scrollCategoryName!.contentOffset.x, y: self.scrollCategoryName!.contentSize.height - self.scrollCategoryName!.bounds.size.height)
             self.scrollCategoryName!.setContentOffset(bottomOffset, animated: false)
         }
     }
