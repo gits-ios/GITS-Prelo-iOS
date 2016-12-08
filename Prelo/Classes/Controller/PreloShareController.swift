@@ -320,7 +320,13 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         
         if (a.title.lowercased() == "instagram")
         {
-            UIPasteboard.general.string = "Temukan barang bekas berkualitas, \(item!.text!) di Prelo hanya dengan harga \(item!.price!). Nikmati mudahnya jual-beli barang bekas berkualitas dengan aman dari ponselmu. Download aplikasinya sekarang juga di http://prelo.co.id #PreloID"
+            var hashtags = ""
+            if let dtl = self.detail {
+                if let h = CDCategory.getCategoryHashtagsWithID(dtl.categoryID) {
+                    hashtags = " \(h)"
+                }
+            }
+            UIPasteboard.general.string = "Temukan barang bekas berkualitas, \(item!.text!) di Prelo hanya dengan harga \(item!.price!). Nikmati mudahnya jual-beli barang bekas berkualitas dengan aman dari ponselmu. Download aplikasinya sekarang juga di http://prelo.co.id #PreloID\(hashtags)"
             Constant.showDialog("Text sudah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
             mgInstagram = MGInstagram()
             mgInstagram?.post(image, withCaption: self.textToShare1, in: self.view, delegate: self)

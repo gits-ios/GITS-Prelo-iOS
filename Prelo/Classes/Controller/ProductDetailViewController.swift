@@ -509,7 +509,13 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 cellTitle?.shareInstagram = {
                     self.showLoading()
                     if (UIApplication.shared.canOpenURL(URL(string: "instagram://app")!)) {
-                        UIPasteboard.general.string = textToShare
+                        var hashtags = ""
+                        if let dtl = self.detail {
+                            if let h = CDCategory.getCategoryHashtagsWithID(dtl.categoryID) {
+                                hashtags = " \(h)"
+                            }
+                        }
+                        UIPasteboard.general.string = "\(textToShare)\(hashtags)"
                         Constant.showDialog("Text sudah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
                         self.mgInstagram = MGInstagram()
                         if let imgUrl = self.detail?.productImage {

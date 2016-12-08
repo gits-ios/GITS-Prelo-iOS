@@ -23,6 +23,7 @@ class CDCategory: NSManagedObject {
     @NSManaged var parentId : String?
     @NSManaged var parent : CDCategory?
     @NSManaged var children : NSMutableSet
+    @NSManaged var hashtags : String?
     
     static func saveCategoriesFromArrayJson(_ arr: [JSON]) -> Bool {
         
@@ -43,6 +44,9 @@ class CDCategory: NSManagedObject {
             n.imageName = categ["image_name"].stringValue
             n.categorySizeId = categ["category_size_id"].string
             n.parentId = categ["parent"].string
+            if let h = categ["hashtags"].string {
+                n.hashtags = h
+            }
         }
         
         if (m.saveSave() == false) {
@@ -77,6 +81,9 @@ class CDCategory: NSManagedObject {
                         result.imageName = arr[i]["image_name"].stringValue
                         result.categorySizeId = arr[i]["category_size_id"].string
                         result.parentId = arr[i]["parent"].string
+                        if let h = arr[i]["hashtags"].string {
+                            result.hashtags = h
+                        }
                     }
                 }
             } catch {
@@ -137,6 +144,7 @@ class CDCategory: NSManagedObject {
         a.imageName = allJson["image_name"].string!
         a.categorySizeId = nil
         a.parent = nil
+        a.hashtags = nil
         self.saveCategoryChildren(a, json: allJson["children"])
         
         if (m.saveSave() == false) {
@@ -161,6 +169,9 @@ class CDCategory: NSManagedObject {
             c.isParent = childJson["is_parent"].bool!
             c.imageName = childJson["image_name"].string!
             c.categorySizeId = childJson["category_size_id"].string
+            if let h = childJson["hashtags"].string {
+                c.hashtags = h
+            }
             parent.children.add(c)
             self.saveCategoryChildren(c, json: childJson["children"])
         }
@@ -235,6 +246,19 @@ class CDCategory: NSManagedObject {
         do {
             let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq)
             return r.count == 0 ? nil : (r.first as! CDCategory).name
+        } catch {
+            return nil
+        }
+    }
+    
+    static func getCategoryHashtagsWithID(_ id : String) -> String? {
+        let predicate = NSPredicate(format: "id == %@", id)
+        let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDCategory")
+        fetchReq.predicate = predicate
+        
+        do {
+            let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq)
+            return r.count == 0 ? nil : (r.first as! CDCategory).hashtags
         } catch {
             return nil
         }

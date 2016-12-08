@@ -85,7 +85,13 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         if (!sender.active) { // Akan mengaktifkan tombol share
             if (tag == 0) { // Instagram
                 if (UIApplication.shared.canOpenURL(URL(string: "instagram://app")!)) {
-                    UIPasteboard.general.string = self.textToShare
+                    var hashtags = ""
+                    if let categId = sendProductParam["category_id"] {
+                        if let h = CDCategory.getCategoryHashtagsWithID(categId!) {
+                            hashtags = " \(h)"
+                        }
+                    }
+                    UIPasteboard.general.string = "\(self.textToShare)\(hashtags)"
                     Constant.showDialog("Text sudah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
                     mgInstagram = MGInstagram()
                     if let img = productImgImage {
