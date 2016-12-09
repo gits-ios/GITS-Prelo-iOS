@@ -364,7 +364,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
                 self.mixpanelSharedProduct("Instagram", username: "")
                 instagramSharePreview.removeFromSuperview()
             }
-            instagramSharePreview.frame = self.view.frame
+            instagramSharePreview.frame = CGRect(x: 0, y: 0, width: AppTools.screenWidth, height: AppTools.screenHeight)
             self.view.addSubview(instagramSharePreview)
         }
         
@@ -585,7 +585,15 @@ class InstagramSharePreview : UIView {
     @IBOutlet var textToShare: UILabel!
     var copyAndShare : () -> () = {}
     
+    override func awakeFromNib() {
+        self.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0)
+    }
+    
     @IBAction func btnCopySharePressed(_ sender: Any) {
         self.copyAndShare()
+    }
+    
+    @IBAction func btnBgPressed(_ sender: Any) {
+        self.removeFromSuperview()
     }
 }

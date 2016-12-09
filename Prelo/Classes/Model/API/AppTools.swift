@@ -37,6 +37,14 @@ class AppTools: NSObject {
     static var isSimulator : Bool {
         return UIDevice.current.isIOSSimulator
     }
+    
+    static var screenWidth : CGFloat {
+        return UIScreen.main.bounds.width
+    }
+    
+    static var screenHeight : CGFloat {
+        return UIScreen.main.bounds.height
+    }
 }
 
 enum AppFont {

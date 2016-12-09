@@ -84,19 +84,30 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         
         if (!sender.active) { // Akan mengaktifkan tombol share
             if (tag == 0) { // Instagram
-                if (UIApplication.shared.canOpenURL(URL(string: "instagram://app")!)) {
+                //if (UIApplication.shared.canOpenURL(URL(string: "instagram://app")!)) {
+                if true {
                     var hashtags = ""
                     if let categId = sendProductParam["category_id"] {
                         if let h = CDCategory.getCategoryHashtagsWithID(categId!) {
                             hashtags = " \(h)"
                         }
                     }
-                    UIPasteboard.general.string = "\(self.textToShare)\(hashtags)"
-                    Constant.showDialog("Text sudah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
-                    mgInstagram = MGInstagram()
-                    if let img = productImgImage {
-                        mgInstagram?.post(img, withCaption: self.textToShare, in: self.view, delegate: self)
-                        self.updateButtons(sender)
+                    
+                    if let img = self.productImgImage {
+                        let instagramSharePreview : InstagramSharePreview = .fromNib()
+                        instagramSharePreview.textToShare.text = "\(self.textToShare)\(hashtags)"
+                        instagramSharePreview.textToShare.layoutIfNeeded()
+                        instagramSharePreview.imgToShare.image = img
+                        instagramSharePreview.copyAndShare = {
+                            UIPasteboard.general.string = "\(self.textToShare)\(hashtags)"
+                            Constant.showDialog("Text sudah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
+                            self.mgInstagram = MGInstagram()
+                            self.mgInstagram?.post(img, withCaption: self.textToShare, in: self.view, delegate: self)
+                            self.updateButtons(sender)
+                            instagramSharePreview.removeFromSuperview()
+                        }
+                        instagramSharePreview.frame = CGRect(x: 0, y: -64, width: AppTools.screenWidth, height: AppTools.screenHeight)
+                        self.view.addSubview(instagramSharePreview)
                     } else {
                         Constant.showDialog("Instagram Share", message: "Oops, terdapat kesalahan saat pemrosesan")
                     }
