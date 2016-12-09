@@ -326,6 +326,7 @@
 		58528C531D13A3D200074EC6 /* cchmrk_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C501D13A3D200074EC6 /* cchmrk_share.png */; };
 		58528C541D13A3D200074EC6 /* cchmrk_sold.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C511D13A3D200074EC6 /* cchmrk_sold.png */; };
 		58528C551D13A3D200074EC6 /* cchmrk_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C521D13A3D200074EC6 /* cchmrk_up.png */; };
+		585373D01DF9388A00CEE663 /* InstagramSharePreview.xib in Resources */ = {isa = PBXBuildFile; fileRef = 585373CF1DF9388A00CEE663 /* InstagramSharePreview.xib */; };
 		5856875B1C6C97F4002A19CE /* ic_request.png in Resources */ = {isa = PBXBuildFile; fileRef = 5856875A1C6C97F4002A19CE /* ic_request.png */; };
 		585887271DBED974006EC6D5 /* PhoneVerification.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21104ACF1BAA8F1200947E7F /* PhoneVerification.xib */; };
 		5858872F1DBED978006EC6D5 /* ProfileSetup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */; };
@@ -1257,6 +1258,7 @@
 		58528C501D13A3D200074EC6 /* cchmrk_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_share.png; sourceTree = "<group>"; };
 		58528C511D13A3D200074EC6 /* cchmrk_sold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_sold.png; sourceTree = "<group>"; };
 		58528C521D13A3D200074EC6 /* cchmrk_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_up.png; sourceTree = "<group>"; };
+		585373CF1DF9388A00CEE663 /* InstagramSharePreview.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InstagramSharePreview.xib; sourceTree = "<group>"; };
 		5856875A1C6C97F4002A19CE /* ic_request.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_request.png; sourceTree = "<group>"; };
 		5870CFBA1DC6F7E600E22EFF /* AlamofireImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireImage.xcodeproj; path = AlamofireImage/AlamofireImage.xcodeproj; sourceTree = "<group>"; };
 		588148AB1DC09F88004180E1 /* ProductCompareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCompareViewController.swift; sourceTree = "<group>"; };
@@ -2661,6 +2663,7 @@
 				588148B41DC09FBA004180E1 /* ProductCompare.xib */,
 				588148B91DC0B244004180E1 /* ProductCompareMainCell.xib */,
 				588148C21DC0B598004180E1 /* ProductCompareCell.xib */,
+				585373CF1DF9388A00CEE663 /* InstagramSharePreview.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -3139,6 +3142,7 @@
 				585887411DBEDAB9006EC6D5 /* MyProductDetail.xib in Resources */,
 				212007C31B6A0EA600D9C84B /* basic_facebook@2x.png in Resources */,
 				21156ECF1B8F5DBC001D7842 /* ic_socmed_path.png in Resources */,
+				585373D01DF9388A00CEE663 /* InstagramSharePreview.xib in Resources */,
 				585887461DBEDB3B006EC6D5 /* MyPurchaseDetail.xib in Resources */,
 				58BED8E71DA62CB20063E11E /* ic_chat_tawar_white.png in Resources */,
 				210702E21BE7A8F100DD9E52 /* cu_line@2x.png in Resources */,
