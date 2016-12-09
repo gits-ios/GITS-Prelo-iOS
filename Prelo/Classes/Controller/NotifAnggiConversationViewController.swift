@@ -324,6 +324,15 @@ class NotifAnggiConversationCell: UITableViewCell {
     @IBOutlet weak var consWidthLblConvStatus: NSLayoutConstraint!
     @IBOutlet weak var lblTime: UILabel!
     @IBOutlet weak var consWidthLblTime: NSLayoutConstraint!
+    @IBOutlet var vwCompleteContent: UIView!
+    @IBOutlet var vwPreviewNTimeOnly: UIView!
+    @IBOutlet var lblPreview2: UILabel!
+    @IBOutlet var lblTime2: UILabel!
+    
+    override func awakeFromNib() {
+        vwPreviewNTimeOnly.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0)
+        vwCompleteContent.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0)
+    }
     
     override func prepareForReuse() {
         self.contentView.backgroundColor = UIColor.white.withAlphaComponent(0)
@@ -345,27 +354,47 @@ class NotifAnggiConversationCell: UITableViewCell {
         
         // Set caption
         lblCaption.text = notif.caption
-        if (notif.caption.lowercased() == "komentar") {
+        if (notif.type == 3000) { // komentar
             vwCaption.backgroundColor = Theme.PrimaryColor
-        } else if (notif.caption.lowercased() == "chat") {
+        } else if (notif.type == 2000) { // chat
             vwCaption.backgroundColor = Theme.ThemeOrange
+        } else if (notif.type == 4000) { // lovelist
+            vwCaption.backgroundColor = Theme.ThemeRed
         }
         
-        // Set labels
-        lblUsername.text = notif.userUsernameFrom
-        lblProductName.text = notif.objectName
-        lblPreview.text = notif.shortPreview
-        lblConvStatus.text = notif.statusText
-        lblTime.text = notif.time
-        
-        // Set conv status text width
-        var sizeThatShouldFitTheContent = lblConvStatus.sizeThatFits(lblConvStatus.frame.size)
-        //print("size untuk '\(lblConvStatus.text)' = \(sizeThatShouldFitTheContent)")
-        consWidthLblConvStatus.constant = sizeThatShouldFitTheContent.width
-        
-        // Set time text width
-        sizeThatShouldFitTheContent = lblTime.sizeThatFits(lblTime.frame.size)
-        //print("size untuk '\(lblTime)' = \(sizeThatShouldFitTheContent)")
-        consWidthLblTime.constant = sizeThatShouldFitTheContent.width
+        if (notif.type == 4000) { // lovelist
+            // Show group
+            vwCompleteContent.isHidden = true
+            vwPreviewNTimeOnly.isHidden = false
+            
+            // Set labels
+            lblPreview2.text = notif.shortPreview
+            lblTime2.text = notif.time
+            
+            // Bold subtext in label
+            lblPreview2.boldSubstring(notif.userUsernameFrom)
+            lblPreview2.boldSubstring(notif.objectName)
+        } else {
+            // Hide group
+            vwCompleteContent.isHidden = false
+            vwPreviewNTimeOnly.isHidden = true
+            
+            // Set labels
+            lblUsername.text = notif.userUsernameFrom
+            lblProductName.text = notif.objectName
+            lblPreview.text = notif.shortPreview
+            lblConvStatus.text = notif.statusText
+            lblTime.text = notif.time
+            
+            // Set conv status text width
+            var sizeThatShouldFitTheContent = lblConvStatus.sizeThatFits(lblConvStatus.frame.size)
+            //print("size untuk '\(lblConvStatus.text)' = \(sizeThatShouldFitTheContent)")
+            consWidthLblConvStatus.constant = sizeThatShouldFitTheContent.width
+            
+            // Set time text width
+            sizeThatShouldFitTheContent = lblTime.sizeThatFits(lblTime.frame.size)
+            //print("size untuk '\(lblTime)' = \(sizeThatShouldFitTheContent)")
+            consWidthLblTime.constant = sizeThatShouldFitTheContent.width
+        }
     }
 }
