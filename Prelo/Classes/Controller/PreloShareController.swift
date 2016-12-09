@@ -139,7 +139,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         
 //        let url = NSURL(string : "")
 //        let x = UIApplication.sharedApplication().canOpenURL(NSURL(string:"")!)
-        agents.append(PreloShareAgent(title: "Instagram", icon: "", font: AppFont.prelo2.getFont!, background: UIColor.brown, availibility: true/*UIApplication.shared.canOpenURL(URL(string:"instagram://app")!)*/))
+        agents.append(PreloShareAgent(title: "Instagram", icon: "", font: AppFont.prelo2.getFont!, background: UIColor.brown, availibility: UIApplication.shared.canOpenURL(URL(string:"instagram://app")!)))
         agents.append(PreloShareAgent(title: "Facebook", icon: "", font: AppFont.prelo2.getFont!, background: UIColor(hexString: "#3b5998"), availibility: UIApplication.shared.canOpenURL(URL(string:"fb://")!)))
         agents.append(PreloShareAgent(title: "Twitter", icon: "", font: AppFont.prelo2.getFont!, background: UIColor(hexString: "#00aced"), availibility: UIApplication.shared.canOpenURL(URL(string:"twitter://timeline")!)))
         agents.append(PreloShareAgent(title: "Path", icon: "", font: AppFont.prelo2.getFont!, background: UIColor(hexString: "#cb2027"), availibility: true))
@@ -584,6 +584,7 @@ class InstagramSharePreview : UIView {
     @IBOutlet var imgToShare: UIImageView!
     @IBOutlet var textToShare: UILabel!
     var copyAndShare : () -> () = {}
+    var beforeDismissPreview : () -> () = {}
     
     override func awakeFromNib() {
         self.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0)
@@ -594,6 +595,7 @@ class InstagramSharePreview : UIView {
     }
     
     @IBAction func btnBgPressed(_ sender: Any) {
+        self.beforeDismissPreview()
         self.removeFromSuperview()
     }
 }

@@ -84,8 +84,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         
         if (!sender.active) { // Akan mengaktifkan tombol share
             if (tag == 0) { // Instagram
-                //if (UIApplication.shared.canOpenURL(URL(string: "instagram://app")!)) {
-                if true {
+                if (UIApplication.shared.canOpenURL(URL(string: "instagram://app")!)) {
                     var hashtags = ""
                     if let categId = sendProductParam["category_id"] {
                         if let h = CDCategory.getCategoryHashtagsWithID(categId!) {
