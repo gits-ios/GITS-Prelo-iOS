@@ -283,6 +283,7 @@
 		44B8EDC81BEB47620063DEA8 /* TwitterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B8EDC51BEB47620063DEA8 /* TwitterCore.framework */; };
 		44BB8EF81BC6ABF70052B020 /* GIBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44BB8EF71BC6ABF70052B020 /* GIBadgeView.m */; };
 		44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C10A661B8C8145006D8770 /* basic_green@2x.png */; };
+		580A30E51DFFF29E00453AA0 /* ProductLovelistCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 580A30E41DFFF29E00453AA0 /* ProductLovelistCell.xib */; };
 		580B07291DD5D99A0079C11C /* bday-splashscreen-2048x2048.png in Resources */ = {isa = PBXBuildFile; fileRef = 580B07281DD5D99A0079C11C /* bday-splashscreen-2048x2048.png */; };
 		581430DB1DCB14DE00B67205 /* GrowingTextViewHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581430DA1DCB14DE00B67205 /* GrowingTextViewHandler.swift */; };
 		581E87AE1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 581E87AD1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg */; };
@@ -604,6 +605,8 @@
 		58F0A41E1C7C634A002A488F /* cchmrk_spread.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4191C7C634A002A488F /* cchmrk_spread.png */; };
 		58F5BEF61DB088D1009B0E0B /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F5BEE91DB08810009B0E0B /* Alamofire.framework */; };
 		58F5BEF71DB088D1009B0E0B /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 58F5BEE91DB08810009B0E0B /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		58F78B501DFACE2B008744F7 /* ProductLovelistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F78B4F1DFACE2B008744F7 /* ProductLovelistViewController.swift */; };
+		58F78B601DFACEB3008744F7 /* ProductLovelist.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58F78B5F1DFACEB3008744F7 /* ProductLovelist.xib */; };
 		58F7DD511D73E90800EF43AC /* ic_free_ongkir_truck.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F7DD501D73E90800EF43AC /* ic_free_ongkir_truck.png */; };
 		58F7DD531D74204B00EF43AC /* rsz_ic_bri@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F7DD521D74204B00EF43AC /* rsz_ic_bri@2x.png */; };
 		58F89DC51D9A2359003A5378 /* login-background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 58F89DC41D9A2359003A5378 /* login-background.jpg */; };
@@ -1249,6 +1252,7 @@
 		5800FF9E1C883E1600492DB2 /* NotifAnggiConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = NotifAnggiConversationViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5800FFA21C8852D600492DB2 /* NotifAnggiTransaction.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiTransaction.xib; sourceTree = "<group>"; };
 		5800FFA41C88530900492DB2 /* NotifAnggiConversation.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiConversation.xib; sourceTree = "<group>"; };
+		580A30E41DFFF29E00453AA0 /* ProductLovelistCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductLovelistCell.xib; sourceTree = "<group>"; };
 		580B07281DD5D99A0079C11C /* bday-splashscreen-2048x2048.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bday-splashscreen-2048x2048.png"; sourceTree = "<group>"; };
 		580CE7F11DF81CA0007A11B6 /* Prelo 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 8.xcdatamodel"; sourceTree = "<group>"; };
 		581430DA1DCB14DE00B67205 /* GrowingTextViewHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrowingTextViewHandler.swift; sourceTree = "<group>"; };
@@ -1499,6 +1503,8 @@
 		58F0A4191C7C634A002A488F /* cchmrk_spread.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_spread.png; sourceTree = "<group>"; };
 		58F575251D3F385100257B8C /* Prelo 7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 7.xcdatamodel"; sourceTree = "<group>"; };
 		58F5BEDD1DB08810009B0E0B /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
+		58F78B4F1DFACE2B008744F7 /* ProductLovelistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductLovelistViewController.swift; sourceTree = "<group>"; };
+		58F78B5F1DFACEB3008744F7 /* ProductLovelist.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductLovelist.xib; sourceTree = "<group>"; };
 		58F7DD501D73E90800EF43AC /* ic_free_ongkir_truck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_free_ongkir_truck.png; sourceTree = "<group>"; };
 		58F7DD521D74204B00EF43AC /* rsz_ic_bri@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rsz_ic_bri@2x.png"; sourceTree = "<group>"; };
 		58F89DC21D9A1A0C003A5378 /* LoginFransiska.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginFransiska.xib; sourceTree = "<group>"; };
@@ -2108,6 +2114,7 @@
 				21156EB91B8F5B4C001D7842 /* UserProfileViewController.swift */,
 				21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */,
 				588148AB1DC09F88004180E1 /* ProductCompareViewController.swift */,
+				58F78B4F1DFACE2B008744F7 /* ProductLovelistViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2629,6 +2636,7 @@
 				5894DB451D5880F200874A56 /* FilterCollectionCell.xib */,
 				5894DB471D58825F00874A56 /* FilterPriceCell.xib */,
 				5894DB411D58725800874A56 /* FilterSwitchCell.xib */,
+				585373CF1DF9388A00CEE663 /* InstagramSharePreview.xib */,
 				58F89DC21D9A1A0C003A5378 /* LoginFransiska.xib */,
 				44B708811BBA6E19001EACBF /* MyLovelist.xib */,
 				44B708821BBA6E19001EACBF /* MyLovelistCell.xib */,
@@ -2651,6 +2659,11 @@
 				21EEB4601B87038400CAD5C9 /* PaymentConfirmationCell.xib */,
 				21104ACE1BAA8F1200947E7F /* PhoneReverification.xib */,
 				21104ACF1BAA8F1200947E7F /* PhoneVerification.xib */,
+				588148B41DC09FBA004180E1 /* ProductCompare.xib */,
+				588148C21DC0B598004180E1 /* ProductCompareCell.xib */,
+				588148B91DC0B244004180E1 /* ProductCompareMainCell.xib */,
+				58F78B5F1DFACEB3008744F7 /* ProductLovelist.xib */,
+				580A30E41DFFF29E00453AA0 /* ProductLovelistCell.xib */,
 				44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */,
 				440AF6591BE0DF1600074CBC /* ReferralPage.xib */,
 				21EEB4611B87038400CAD5C9 /* Register.xib */,
@@ -2660,10 +2673,6 @@
 				FDB1A0031BFD8BD0001F2600 /* ShopReviewCell.xib */,
 				21104AD01BAA8F1200947E7F /* TransactionListCell.xib */,
 				21156EBB1B8F5B5D001D7842 /* UserProfile.xib */,
-				588148B41DC09FBA004180E1 /* ProductCompare.xib */,
-				588148B91DC0B244004180E1 /* ProductCompareMainCell.xib */,
-				588148C21DC0B598004180E1 /* ProductCompareCell.xib */,
-				585373CF1DF9388A00CEE663 /* InstagramSharePreview.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -3220,6 +3229,7 @@
 				588148B51DC09FBA004180E1 /* ProductCompare.xib in Resources */,
 				21AE67B91B4A61C600D2CF63 /* dummy@2x.jpg in Resources */,
 				58A9AE971CA9320000DF30C8 /* tour_4.jpg in Resources */,
+				58F78B601DFACEB3008744F7 /* ProductLovelist.xib in Resources */,
 				589A6FB71D8C08F600654CDD /* ic_comment.png in Resources */,
 				5858874D1DBEDBA3006EC6D5 /* NotifAnggiTransactionCell.xib in Resources */,
 				58DD4E8A1DEC377D00B130C5 /* ic_camera.png in Resources */,
@@ -3237,6 +3247,7 @@
 				21A6C40E1CEF461100966B42 /* dummyCart.json in Resources */,
 				210DF0EA1B730764004AE3D9 /* ic_cc@2x.png in Resources */,
 				589A6FBD1D8C08F600654CDD /* ic_gallery.png in Resources */,
+				580A30E51DFFF29E00453AA0 /* ProductLovelistCell.xib in Resources */,
 				589A6FBC1D8C08F600654CDD /* ic_faq.png in Resources */,
 				585887371DBEDA33006EC6D5 /* ExpiringProductsCell.xib in Resources */,
 				440AF6651BE1090800074CBC /* ic_round_email.png in Resources */,
@@ -3328,6 +3339,7 @@
 				21679A1B1B901C5300F18F90 /* MPABTestDesignerClearResponseMessage.m in Sources */,
 				21679A3C1B901C5300F18F90 /* MPPassThroughValueTransformer.m in Sources */,
 				21B468021CCE5EDB00E145ED /* UIScreen+BFKit.swift in Sources */,
+				58F78B501DFACE2B008744F7 /* ProductLovelistViewController.swift in Sources */,
 				585887821DBF2589006EC6D5 /* CheckoutTourViewController.swift in Sources */,
 				21B467EB1CCE5EDB00E145ED /* Dictionary+BFKit.swift in Sources */,
 				585887941DBF3309006EC6D5 /* MyProductDetailViewController.swift in Sources */,

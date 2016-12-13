@@ -303,6 +303,10 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                     self.showContent()
                 }
             }
+        } else if (notif.type == 4000) { // Lovelist
+            let productLovelistVC = Bundle.main.loadNibNamed(Tags.XibNameProductLovelist, owner: nil, options: nil)?.first as! ProductLovelistViewController
+            productLovelistVC.productId = notif.objectId
+            self.navigationController?.pushViewController(productLovelistVC, animated: true)
         } else {
             Constant.showDialog("Notifikasi - Percakapan", message: "Oops, notifikasi tidak bisa dibuka")
             self.hideLoading()

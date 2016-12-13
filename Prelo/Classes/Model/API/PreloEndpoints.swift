@@ -784,6 +784,7 @@ enum APIProduct : URLRequestConvertible {
     case getIdByPermalink(permalink : String)
     case getProductAggregatePage(aggregateId : String, current : Int, limit : Int)
     case reportComment(productId : String, commentId : String, reportType : Int)
+    case getProductLovelist(productId : String)
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "product/"
@@ -820,6 +821,7 @@ enum APIProduct : URLRequestConvertible {
         case .getIdByPermalink(_) : return .get
         case .getProductAggregatePage(_, _, _) : return .get
         case .reportComment(_, _, _) : return .post
+        case .getProductLovelist(_) : return .get
         }
     }
     
@@ -849,6 +851,7 @@ enum APIProduct : URLRequestConvertible {
         case .getIdByPermalink(let permalink) : return "to_id/" + permalink
         case .getProductAggregatePage(let aggregateId, _, _) : return "aggregate/" + aggregateId
         case .reportComment(let productId, _, _) : return "\(productId)/report_comment"
+        case .getProductLovelist(let productId) : return "\(productId)/lovelist"
         }
     }
     
