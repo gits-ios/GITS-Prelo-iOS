@@ -310,6 +310,7 @@ class Tags : NSObject {
     static let XibNameExpiringProducts = "ExpiringProducts"
     static let XibNameLoginFransiska = "LoginFransiska"
     static let XibNameProductCompare = "ProductCompare"
+    static let XibNameProductReport = "ReportProducts"
 }
 
 class OrderStatus : NSObject {

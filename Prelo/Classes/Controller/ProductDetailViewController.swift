@@ -194,24 +194,35 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             guard let pDetail = detail else {
                 return
             }
-            var username = "Your beloved user"
-            if let u = CDUser.getOne() {
-                username = u.username
-            }
+//            var username = "Your beloved user"
+//            if let u = CDUser.getOne() {
+//                username = u.username
+//            }
+//            
+//            // report
+//            let msgBody = "Dear Prelo,<br/><br/>Saya ingin melaporkan barang \(pDetail.name) dari penjual \(pDetail.theirName)<br/><br/>Alasan pelaporan: <br/><br/>Terima kasih Prelo <3<br/><br/>--<br/>\(username)<br/>Sent from Prelo iOS"
+//            
+//            let m = MFMailComposeViewController()
+//            if (MFMailComposeViewController.canSendMail()) {
+//                m.setToRecipients(["contact@prelo.id"])
+//                m.setSubject("Laporan Baru untuk Barang " + (detail?.name)!)
+//                m.setMessageBody(msgBody, isHTML: true)
+//                m.mailComposeDelegate = self
+//                self.present(m, animated: true, completion: nil)
+//            } else {
+//                Constant.showDialog("No Active E-mail", message: "Untuk dapat mengirim Report, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
+//            }
             
-            // report
-            let msgBody = "Dear Prelo,<br/><br/>Saya ingin melaporkan barang \(pDetail.name) dari penjual \(pDetail.theirName)<br/><br/>Alasan pelaporan: <br/><br/>Terima kasih Prelo <3<br/><br/>--<br/>\(username)<br/>Sent from Prelo iOS"
             
-            let m = MFMailComposeViewController()
-            if (MFMailComposeViewController.canSendMail()) {
-                m.setToRecipients(["contact@prelo.id"])
-                m.setSubject("Laporan Baru untuk Barang " + (detail?.name)!)
-                m.setMessageBody(msgBody, isHTML: true)
-                m.mailComposeDelegate = self
-                self.present(m, animated: true, completion: nil)
-            } else {
-                Constant.showDialog("No Active E-mail", message: "Untuk dapat mengirim Report, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
-            }
+            
+            
+            let productReportVC = Bundle.main.loadNibNamed(Tags.XibNameProductReport, owner: nil, options: nil)?.first as! ReportProductViewController
+            
+            productReportVC.root = self
+            
+                productReportVC.pDetail = self.detail
+            self.navigationController?.pushViewController(productReportVC, animated: true)
+            
         }
     }
     
