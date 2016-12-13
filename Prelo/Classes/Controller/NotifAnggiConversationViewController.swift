@@ -307,6 +307,23 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
             let productLovelistVC = Bundle.main.loadNibNamed(Tags.XibNameProductLovelist, owner: nil, options: nil)?.first as! ProductLovelistViewController
             productLovelistVC.productId = notif.objectId
             self.navigationController?.pushViewController(productLovelistVC, animated: true)
+        } else if (notif.type == 4001) { // Another lovelist
+            // Get product detail
+            let _ = request(APIProduct.detail(productId: notif.objectId, forEdit: 0)).responseJSON {resp in
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Percakapan")) {
+                    let json = JSON(resp.result.value!)
+                    let p = Product.instance(json)
+                    
+                    // Goto product detail
+                    let productDetailVC = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+                    productDetailVC.product  = p
+                    self.navigationController?.pushViewController(productDetailVC, animated: true)
+                } else {
+                    Constant.showDialog("Notifikasi - Percakapan", message: "Oops, notifikasi komentar tidak bisa dibuka")
+                    self.hideLoading()
+                    self.showContent()
+                }
+            }
         } else {
             Constant.showDialog("Notifikasi - Percakapan", message: "Oops, notifikasi tidak bisa dibuka")
             self.hideLoading()
@@ -362,11 +379,11 @@ class NotifAnggiConversationCell: UITableViewCell {
             vwCaption.backgroundColor = Theme.PrimaryColor
         } else if (notif.type == 2000) { // chat
             vwCaption.backgroundColor = Theme.ThemeOrange
-        } else if (notif.type == 4000) { // lovelist
+        } else if (notif.type == 4000 || notif.type == 4001) { // lovelist
             vwCaption.backgroundColor = Theme.ThemeRed
         }
         
-        if (notif.type == 4000) { // lovelist
+        if (notif.type == 4000 || notif.type == 4001) { // lovelist
             // Show group
             vwCompleteContent.isHidden = true
             vwPreviewNTimeOnly.isHidden = false

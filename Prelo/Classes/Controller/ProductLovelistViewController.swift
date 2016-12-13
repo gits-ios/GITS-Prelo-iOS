@@ -116,6 +116,7 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
         cell.adapt(productLovelistItem: productLovelistItems[indexPath.row])
         cell.selectionStyle = .none
         cell.chatPressed = {
+            self.tblLovers.isHidden = true
             _ = request(APIProduct.detail(productId: self.productId, forEdit: 0)).responseJSON {resp in
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Barang")) {
                     let pDetail = ProductDetail.instance(JSON(resp.result.value!))
@@ -129,12 +130,14 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
                 } else {
                     Constant.showDialog("Product Lovelist", message: "Oops, terdapat kesalahan saat mengakses detail produk")
                 }
+                self.tblLovers.isHidden = false
             }
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.tblLovers.isHidden = true
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
         listItemVC.currentMode = .shop
@@ -161,6 +164,7 @@ class ProductLovelistCell : UITableViewCell {
     func adapt(productLovelistItem : ProductLovelistItem) {
         if let url = productLovelistItem.imageURL {
             imgUser.afSetImage(withURL: url)
+            imgUser.layer.cornerRadius = (imgUser.frame.size.width) / 2
         }
         lblName.text = productLovelistItem.username
     }
