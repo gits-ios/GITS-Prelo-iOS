@@ -219,8 +219,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             let productReportVC = Bundle.main.loadNibNamed(Tags.XibNameProductReport, owner: nil, options: nil)?.first as! ReportProductViewController
             
             productReportVC.root = self
-            
-                productReportVC.pDetail = self.detail
+
+            productReportVC.pDetail = self.detail
             self.navigationController?.pushViewController(productReportVC, animated: true)
             
         }
