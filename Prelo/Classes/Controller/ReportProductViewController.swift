@@ -15,10 +15,10 @@ class ReportProductViewController: BaseViewController, UITextViewDelegate {
     
     // MARK: - properties
     
-    @IBOutlet weak var lblCheckboxKW: UILabel!
-    @IBOutlet weak var lblCheckboxKategoriSalah: UILabel!
-    @IBOutlet weak var lblCheckboxBarangBerulang: UILabel!
-    @IBOutlet weak var lblCheckboxTerindikasiPenipuan: UILabel!
+    @IBOutlet weak var lblRadioKW: UILabel!
+    @IBOutlet weak var lblRadioKategoriSalah: UILabel!
+    @IBOutlet weak var lblRadioBarangBerulang: UILabel!
+    @IBOutlet weak var lblRadioTerindikasiPenipuan: UILabel!
     
     @IBOutlet weak var txtvwKW: UITextView!
     @IBOutlet weak var txtvwTerindikasiPenipuan: UITextView!
@@ -30,8 +30,6 @@ class ReportProductViewController: BaseViewController, UITextViewDelegate {
     @IBOutlet weak var txtvwKategoriTerpilih: UILabel!
     var categoryIdSelected : String = ""
     
-    // default - all false      KW     KS     BB     TP
-//    var checklist : [Bool] = [ false, false, false, false ]
     var checklist : Int = -1
     
     let placeholder = "Alasan"
@@ -48,6 +46,12 @@ class ReportProductViewController: BaseViewController, UITextViewDelegate {
         txtvwKW.delegate = self
         txtvwTerindikasiPenipuan.delegate = self
         
+        // style
+        txtvwKW.layer.borderColor = UIColor.lightGray.cgColor
+        txtvwKW.layer.borderWidth = 1.0
+        
+        txtvwTerindikasiPenipuan.layer.borderColor = UIColor.lightGray.cgColor
+        txtvwTerindikasiPenipuan.layer.borderWidth = 1.0
         
         self.title = "Laporkan Barang"
     }
@@ -56,28 +60,12 @@ class ReportProductViewController: BaseViewController, UITextViewDelegate {
     
     //== KW
     @IBAction func btnKWPressed(_ sender: UIButton) {
-//        checklist[0] = checklist[0] == false ? true : false
-//        lblCheckboxKW.isHidden = !checklist[0]
-//        if checklist[0] == true {
-//            consHeightKW.constant = 72
-//        } else {
-//            consHeightKW.constant = 0
-//        }
-        
         checklist = 0
         radioButton()
     }
     
     //== kategori salah
     @IBAction func btnKategoriSalahPressed(_ sender: UIButton) {
-//        checklist[1] = checklist[1] == false ? true : false
-//        lblCheckboxKategoriSalah.isHidden = !checklist[1]
-//        if checklist[1] == true {
-//            consHeightKategoriSalah.constant = 72
-//        } else {
-//            consHeightKategoriSalah.constant = 0
-//        }
-        
         checklist = 1
         radioButton()
     }
@@ -107,49 +95,56 @@ class ReportProductViewController: BaseViewController, UITextViewDelegate {
     
     //== barang berulang
     @IBAction func btnBarangBerulangPressed(_ sender: UIButton) {
-//        checklist[2] = checklist[2] == false ? true : false
-//        lblCheckboxBarangBerulang.isHidden = !checklist[2]
-        
         checklist = 2
         radioButton()
     }
     
     //== terindikasi penipuan
     @IBAction func btnTerindikasiPenipuanPressed(_ sender: UIButton) {
-//        checklist[3] = checklist[3] == false ? true : false
-//        lblCheckboxTerindikasiPenipuan.isHidden = !checklist[3]
-//        if checklist[3] == true {
-//            consHeightTerindikasiPenipuan.constant = 72
-//        } else {
-//            consHeightTerindikasiPenipuan.constant = 0
-//        }
-        
         checklist = 3
         radioButton()
     }
     
     func radioButton() {
         // 0
-        lblCheckboxKW.isHidden = checklist == 0 ? false : true
         if checklist == 0 {
+            self.lblRadioKW.text = ""
+            self.lblRadioKW.textColor = Theme.ThemeOrange
             consHeightKW.constant = 72
         } else {
+            self.lblRadioKW.text = ""
+            self.lblRadioKW.textColor = UIColor.lightGray
             consHeightKW.constant = 0
         }
+        
         // 1
-        lblCheckboxKategoriSalah.isHidden = checklist == 1 ? false : true
         if checklist == 1 {
+            self.lblRadioKategoriSalah.text = ""
+            self.lblRadioKategoriSalah.textColor = Theme.ThemeOrange
             consHeightKategoriSalah.constant = 72
         } else {
+            self.lblRadioKategoriSalah.text = ""
+            self.lblRadioKategoriSalah.textColor = UIColor.lightGray
             consHeightKategoriSalah.constant = 0
         }
+        
         // 2
-        lblCheckboxBarangBerulang.isHidden = checklist == 2 ? false : true
+        if checklist == 2 {
+            self.lblRadioBarangBerulang.text = ""
+            self.lblRadioBarangBerulang.textColor = Theme.ThemeOrange
+        } else {
+            self.lblRadioBarangBerulang.text = ""
+            self.lblRadioBarangBerulang.textColor = UIColor.lightGray
+        }
+        
         // 3
-        lblCheckboxTerindikasiPenipuan.isHidden = checklist == 3 ? false : true
         if checklist == 3 {
+            self.lblRadioTerindikasiPenipuan.text = ""
+            self.lblRadioTerindikasiPenipuan.textColor = Theme.ThemeOrange
             consHeightTerindikasiPenipuan.constant = 72
         } else {
+            self.lblRadioTerindikasiPenipuan.text = ""
+            self.lblRadioTerindikasiPenipuan.textColor = UIColor.lightGray
             consHeightTerindikasiPenipuan.constant = 0
         }
 
