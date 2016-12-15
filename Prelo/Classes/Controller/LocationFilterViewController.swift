@@ -122,15 +122,22 @@ class LocationFilterViewController : BaseViewController, UITableViewDataSource, 
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
+        let parts = formatLocation(loc: (locations?[(indexPath as NSIndexPath).row])!)
+        
+        let h = parts[0].boundsWithFontSize(UIFont.systemFont(ofSize: 17), width: (cell?.width)!-32)
+        
+        return 30 + h.height
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
+        cell?.textLabel?.font = UIFont.systemFont(ofSize: 17)
         
         let parts = formatLocation(loc: (locations?[(indexPath as NSIndexPath).row])!)
         
         cell?.textLabel!.text = parts[0]
+        cell?.textLabel!.numberOfLines = 0
         return cell!
     }
     
