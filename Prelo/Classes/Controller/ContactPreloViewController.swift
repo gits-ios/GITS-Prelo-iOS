@@ -11,6 +11,7 @@ import MessageUI
 
 class ContactPreloViewController: UIViewController, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate
 {
+    var order_id : String? // jika dipanggil dari transaksi
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +49,7 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
             } else
             {
                 putToPasteBoard("0222503593")
-                UIAlertView.SimpleShow("Perhatian", message: "Nomor kami sudah ada di clipboard :)")
+                Constant.showDialog("Perhatian", message: "Nomor kami sudah ada di clipboard :)")
             }
         }
         
@@ -74,6 +75,27 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
         if (MFMailComposeViewController.canSendMail()) {
             composer.mailComposeDelegate = self
             composer.setToRecipients(["contact@prelo.co.id"])
+            
+            // adding title and message email
+            //composer.setSubject("")
+            
+            var msg = ""
+            let user = CDUser.getOne()
+            let username = user?.username
+            let no_hp = user?.profiles.phone
+            
+            if (user != nil) {
+                msg += "username: " + username! + "\n"
+                msg += "no. hp:" + no_hp! + "\n"
+            }
+            
+            msg += "versi app:" + (CDVersion.getOne()?.appVersion)! + "\n"
+            if (order_id != nil) {
+                msg += "order id: " + order_id! + "\n"
+            }
+            msg += "berita / laporan:\n"
+            composer.setMessageBody(msg, isHTML: false)
+            
             self.present(composer, animated: true, completion: nil)
         } else {
             Constant.showDialog("No Active E-mail", message: "Untuk dapat menghubungi Prelo via e-mail, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
@@ -84,21 +106,21 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
     
     @IBAction func line(_ sender : UIView)
     {
-        UIAlertView.SimpleShow("Line", message: "Find us on Line\nUserId : @prelo_id\n\nInformasi kontak sudah disalin ke clipboard")
+        Constant.showDialog("Line", message: "Find us on Line\nUserId : @prelo_id\n\nInformasi kontak sudah disalin ke clipboard")
         putToPasteBoard("@prelo_id")
         self.batal(nil)
     }
 
     @IBAction func wasap(_ sender : UIView)
     {
-        UIAlertView.SimpleShow("Whatsapp", message: "Find us on Whatsapp\nNumber : 08112353131\n\nInformasi kontak sudah disalin ke clipboard")
+        Constant.showDialog("Whatsapp", message: "Find us on Whatsapp\nNumber : 08112353131\n\nInformasi kontak sudah disalin ke clipboard")
         putToPasteBoard("08112353131")
         self.batal(nil)
     }
     
     @IBAction func bbm(_ sender : UIView)
     {
-        UIAlertView.SimpleShow("BBM", message: "Find us on Whatsapp\nPIN : 51ac2b2e\n\nInformasi kontak sudah disalin ke clipboard")
+        Constant.showDialog("BBM", message: "Find us on Whatsapp\nPIN : 51ac2b2e\n\nInformasi kontak sudah disalin ke clipboard")
         putToPasteBoard("51ac2b2e")
         self.batal(nil)
     }
