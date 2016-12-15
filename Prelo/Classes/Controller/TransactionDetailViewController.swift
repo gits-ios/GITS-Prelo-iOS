@@ -305,6 +305,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             // No hideable cell
         } else if (progress == TransactionDetailTools.ProgressFraudDetected) {
             // No hideable cell
+        } else if (progress == TransactionDetailTools.ProgressRefundRequested || progress == TransactionDetailTools.ProgressRefundVerified || progress == TransactionDetailTools.ProgressRefundSent || progress == TransactionDetailTools.ProgressRefundSuccess) {
+            if (userIsSeller()) {
+                hideableCell[3] = true
+                hideableCell[6] = true
+            } else {
+                hideableCell[3] = true
+            }
         }
     }
     
@@ -357,7 +364,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             if (userIsSeller()) {
                 return 10
             } else {
-                return 12
+                return 13
             }
         } else if (progress == TransactionDetailTools.ProgressReviewed) {
             if (userIsSeller()) {
@@ -373,6 +380,30 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             return 3
         } else if (progress == TransactionDetailTools.ProgressFraudDetected) {
             return 5
+        } else if (progress == TransactionDetailTools.ProgressRefundRequested) {
+            if (userIsSeller()) {
+                return 10
+            } else {
+                return 7
+            }
+        } else if (progress == TransactionDetailTools.ProgressRefundVerified) {
+            if (userIsSeller()) {
+                return 11
+            } else {
+                return 9
+            }
+        } else if (progress == TransactionDetailTools.ProgressRefundSent) {
+            if (userIsSeller()) {
+                return 12
+            } else {
+                return 8
+            }
+        } else if (progress == TransactionDetailTools.ProgressRefundSuccess) {
+            if (userIsSeller()) {
+                return 10
+            } else {
+                return 10
+            }
         }
         return 0
     }
@@ -640,6 +671,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 10) {
                     return DefaultHeight
                 } else if (idx == 11) {
+                    return DefaultHeight
+                } else if (idx == 12) {
                     return ContactPreloHeight
                 }
             }
@@ -760,6 +793,210 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 return DefaultHeight
             } else if (idx == 4) {
                 return ContactPreloHeight
+            }
+        } else if (progress == TransactionDetailTools.ProgressRefundRequested) {
+            if (userIsSeller()) {
+                if (idx == 0) {
+                    return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                } else if (idx == 1) {
+                    return SeparatorHeight
+                } else if (idx == 2) {
+                    return DefaultHeight
+                } else if (idx == 3) {
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPembayaranSeller)
+                    }
+                } else if (idx == 4) {
+                    return SeparatorHeight
+                } else if (idx == 5) {
+                    return DefaultHeight
+                } else if (idx == 6) {
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPengirimanSeller)
+                    }
+                } else if (idx == 7) {
+                    return SeparatorHeight
+                } else if (idx == 8) {
+                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1, addText: "bla bla bla") // FIXME: Tambahin addText
+                } else if (idx == 9) {
+                    return ContactPreloHeight
+                }
+            } else {
+                if (idx == 0) {
+                    return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                } else if (idx == 1) {
+                    return SeparatorHeight
+                } else if (idx == 2) {
+                    return DefaultHeight
+                } else if (idx == 3) {
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPembayaranSeller)
+                    }
+                } else if (idx == 4) {
+                    return SeparatorHeight
+                } else if (idx == 5) {
+                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
+                } else if (idx == 6) {
+                    return ContactPreloHeight
+                }
+            }
+        } else if (progress == TransactionDetailTools.ProgressRefundVerified) {
+            if (userIsSeller()) {
+                if (idx == 0) {
+                    return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                } else if (idx == 1) {
+                    return SeparatorHeight
+                } else if (idx == 2) {
+                    return DefaultHeight
+                } else if (idx == 3) {
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPembayaranSeller)
+                    }
+                } else if (idx == 4) {
+                    return SeparatorHeight
+                } else if (idx == 5) {
+                    return DefaultHeight
+                } else if (idx == 6) {
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPengirimanSeller)
+                    }
+                } else if (idx == 7) {
+                    return SeparatorHeight
+                } else if (idx == 8) {
+                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
+                } else if (idx == 9) {
+                    return DefaultHeight
+                } else if (idx == 10) {
+                    return ContactPreloHeight
+                }
+            } else {
+                if (idx == 0) {
+                    return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                } else if (idx == 1) {
+                    return SeparatorHeight
+                } else if (idx == 2) {
+                    return DefaultHeight
+                } else if (idx == 3) {
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPembayaranSeller)
+                    }
+                } else if (idx == 4) {
+                    return SeparatorHeight
+                } else if (idx == 5) {
+                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
+                } else if (idx == 6) {
+                    return DefaultHeight
+                } else if (idx == 7) {
+                    return DefaultHeight
+                } else if (idx == 8) {
+                    return ContactPreloHeight
+                }
+            }
+        } else if (progress == TransactionDetailTools.ProgressRefundSent) {
+            if (userIsSeller()) {
+                if (idx == 0) {
+                    return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                } else if (idx == 1) {
+                    return SeparatorHeight
+                } else if (idx == 2) {
+                    return DefaultHeight
+                } else if (idx == 3) {
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPembayaranSeller)
+                    }
+                } else if (idx == 4) {
+                    return SeparatorHeight
+                } else if (idx == 5) {
+                    return DefaultHeight
+                } else if (idx == 6) {
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPengirimanSeller)
+                    }
+                } else if (idx == 7) {
+                    return SeparatorHeight
+                } else if (idx == 8) {
+                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
+                } else if (idx == 9) {
+                    return DefaultHeight
+                } else if (idx == 10) {
+                    return DefaultHeight
+                } else if (idx == 11) {
+                    return ContactPreloHeight
+                }
+            } else {
+                if (idx == 0) {
+                    return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                } else if (idx == 1) {
+                    return SeparatorHeight
+                } else if (idx == 2) {
+                    return DefaultHeight
+                } else if (idx == 3) {
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPembayaranSeller)
+                    }
+                } else if (idx == 4) {
+                    return SeparatorHeight
+                } else if (idx == 5) {
+                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
+                } else if (idx == 6) {
+                    return DefaultHeight
+                } else if (idx == 7) {
+                    return ContactPreloHeight
+                }
+            }
+        } else if (progress == TransactionDetailTools.ProgressRefundSuccess) {
+            if (userIsSeller()) {
+                if (idx == 0) {
+                    return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                } else if (idx == 1) {
+                    return SeparatorHeight
+                } else if (idx == 2) {
+                    return DefaultHeight
+                } else if (idx == 3) {
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPembayaranSeller)
+                    }
+                } else if (idx == 4) {
+                    return SeparatorHeight
+                } else if (idx == 5) {
+                    return DefaultHeight
+                } else if (idx == 6) {
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPengirimanSeller)
+                    }
+                } else if (idx == 7) {
+                    return SeparatorHeight
+                } else if (idx == 8) {
+                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
+                } else if (idx == 9) {
+                    return ContactPreloHeight
+                }
+            } else {
+                if (idx == 0) {
+                    return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                } else if (idx == 1) {
+                    return SeparatorHeight
+                } else if (idx == 2) {
+                    return DefaultHeight
+                } else if (idx == 3) {
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPembayaranSeller)
+                    }
+                } else if (idx == 4) {
+                    return SeparatorHeight
+                } else if (idx == 5) {
+                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
+                } else if (idx == 6) {
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentReimburse)
+                    }
+                } else if (idx == 7) {
+                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 2)
+                } else if (idx == 8) {
+                    return DefaultHeight
+                } else if (idx == 9) {
+                    return ContactPreloHeight
+                }
             }
         }
         
@@ -993,6 +1230,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 10) {
                     return self.createButtonCell(1)
                 } else if (idx == 11) {
+                    return self.createBorderedButtonCell(1)
+                } else if (idx == 12) {
                     return self.createContactPreloCell()
                 }
             }
@@ -1099,6 +1338,192 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 return self.createButtonCell(1)
             } else if (idx == 4) {
                 return self.createContactPreloCell()
+            }
+        } else if (progress == TransactionDetailTools.ProgressRefundRequested) {
+            if (userIsSeller()) {
+                if (idx == 0) {
+                    return self.createTableProductsCell()
+                } else if (idx == 1) {
+                    return self.createSeparatorCell()
+                } else if (idx == 2) {
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                } else if (idx == 3) {
+                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranSeller)
+                } else if (idx == 4) {
+                    return self.createSeparatorCell()
+                } else if (idx == 5) {
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                } else if (idx == 6) {
+                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanSeller)
+                } else if (idx == 7) {
+                    return self.createSeparatorCell()
+                } else if (idx == 8) {
+                    return self.createDescriptionCell(1)
+                } else if (idx == 9) {
+                    return self.createContactPreloCell()
+                }
+            } else {
+                if (idx == 0) {
+                    return self.createTableProductsCell()
+                } else if (idx == 1) {
+                    return self.createSeparatorCell()
+                } else if (idx == 2) {
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                } else if (idx == 3) {
+                    if (trxProductDetail != nil) {
+                        return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
+                    }
+                } else if (idx == 4) {
+                    return self.createSeparatorCell()
+                } else if (idx == 5) {
+                    return self.createDescriptionCell(1)
+                } else if (idx == 6) {
+                    return self.createContactPreloCell()
+                }
+            }
+        } else if (progress == TransactionDetailTools.ProgressRefundVerified) {
+            if (userIsSeller()) {
+                if (idx == 0) {
+                    return self.createTableProductsCell()
+                } else if (idx == 1) {
+                    return self.createSeparatorCell()
+                } else if (idx == 2) {
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                } else if (idx == 3) {
+                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranSeller)
+                } else if (idx == 4) {
+                    return self.createSeparatorCell()
+                } else if (idx == 5) {
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                } else if (idx == 6) {
+                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanSeller)
+                } else if (idx == 7) {
+                    return self.createSeparatorCell()
+                } else if (idx == 8) {
+                    return self.createDescriptionCell(1)
+                } else if (idx == 9) {
+                    return self.createBorderedButtonCell(1)
+                } else if (idx == 10) {
+                    return self.createContactPreloCell()
+                }
+            } else {
+                if (idx == 0) {
+                    return self.createTableProductsCell()
+                } else if (idx == 1) {
+                    return self.createSeparatorCell()
+                } else if (idx == 2) {
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                } else if (idx == 3) {
+                    if (trxProductDetail != nil) {
+                        return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
+                    }
+                } else if (idx == 4) {
+                    return self.createSeparatorCell()
+                } else if (idx == 5) {
+                    return self.createDescriptionCell(1)
+                } else if (idx == 6) {
+                    return self.createButtonCell(1)
+                } else if (idx == 7) {
+                    return self.createBorderedButtonCell(1)
+                } else if (idx == 8) {
+                    return self.createContactPreloCell()
+                }
+            }
+        } else if (progress == TransactionDetailTools.ProgressRefundSent) {
+            if (userIsSeller()) {
+                if (idx == 0) {
+                    return self.createTableProductsCell()
+                } else if (idx == 1) {
+                    return self.createSeparatorCell()
+                } else if (idx == 2) {
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                } else if (idx == 3) {
+                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranSeller)
+                } else if (idx == 4) {
+                    return self.createSeparatorCell()
+                } else if (idx == 5) {
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                } else if (idx == 6) {
+                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanSeller)
+                } else if (idx == 7) {
+                    return self.createSeparatorCell()
+                } else if (idx == 8) {
+                    return self.createDescriptionCell(1)
+                } else if (idx == 9) {
+                    return self.createButtonCell(1)
+                } else if (idx == 10) {
+                    return self.createBorderedButtonCell(1)
+                } else if (idx == 11) {
+                    return self.createContactPreloCell()
+                }
+            } else {
+                if (idx == 0) {
+                    return self.createTableProductsCell()
+                } else if (idx == 1) {
+                    return self.createSeparatorCell()
+                } else if (idx == 2) {
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                } else if (idx == 3) {
+                    if (trxProductDetail != nil) {
+                        return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
+                    }
+                } else if (idx == 4) {
+                    return self.createSeparatorCell()
+                } else if (idx == 5) {
+                    return self.createDescriptionCell(1)
+                } else if (idx == 6) {
+                    return self.createBorderedButtonCell(1)
+                } else if (idx == 7) {
+                    return self.createContactPreloCell()
+                }
+            }
+        } else if (progress == TransactionDetailTools.ProgressRefundSuccess) {
+            if (userIsSeller()) {
+                if (idx == 0) {
+                    return self.createTableProductsCell()
+                } else if (idx == 1) {
+                    return self.createSeparatorCell()
+                } else if (idx == 2) {
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                } else if (idx == 3) {
+                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranSeller)
+                } else if (idx == 4) {
+                    return self.createSeparatorCell()
+                } else if (idx == 5) {
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                } else if (idx == 6) {
+                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanSeller)
+                } else if (idx == 7) {
+                    return self.createSeparatorCell()
+                } else if (idx == 8) {
+                    return self.createDescriptionCell(1)
+                } else if (idx == 9) {
+                    return self.createContactPreloCell()
+                }
+            } else {
+                if (idx == 0) {
+                    return self.createTableProductsCell()
+                } else if (idx == 1) {
+                    return self.createSeparatorCell()
+                } else if (idx == 2) {
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                } else if (idx == 3) {
+                    if (trxProductDetail != nil) {
+                        return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
+                    }
+                } else if (idx == 4) {
+                    return self.createSeparatorCell()
+                } else if (idx == 5) {
+                    return self.createDescriptionCell(1)
+                } else if (idx == 6) {
+                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentReimburse)
+                } else if (idx == 7) {
+                    return self.createDescriptionCell(2)
+                } else if (idx == 8) {
+                    return self.createButtonCell(1)
+                } else if (idx == 9) {
+                    return self.createContactPreloCell()
+                }
             }
         }
         
@@ -1324,6 +1749,12 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             baseNavC.setViewControllers([helpVC], animated: false)
             self.present(baseNavC, animated: true, completion: nil)
         }
+        cell.confirmReturnShipping = {
+            // TODO: isi
+        }
+        cell.confirmReturned = {
+            // TODO: isi
+        }
         
         return cell
     }
@@ -1471,6 +1902,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         cell.delayShipping = {
             self.vwShadow.isHidden = false
             self.vwTundaPengiriman.isHidden = false
+        }
+        cell.initRefund = {
+            // TODO: isi
         }
         
         return cell
@@ -1833,6 +2267,10 @@ class TransactionDetailTools : NSObject {
     static let ProgressReviewed = 6
     static let ProgressReserved = 7
     static let ProgressReserveDone = 8
+    static let ProgressRefundRequested = 30
+    static let ProgressRefundVerified = 31
+    static let ProgressRefundSent = 32
+    static let ProgressRefundSuccess = 33
     
     // Layouting
     static let Margin : CGFloat = 8.0
@@ -1877,6 +2315,16 @@ class TransactionDetailTools : NSObject {
     static let TextReserveDone = "Terima kasih sudah berbelanja di Prelo! Temukan barang preloved lainnya di Prelo dan tunggu event menarik selanjutnya dari Prelo."
     static let TextReservationCancelled = "Reservasi kamu sudah resmi dibatalkan. Apabila kamu ingin memesan kembali, kamu bisa memilih barang ini di menu Garage Sale."
     static let TextFraudDetected = "Transaksi ini tidak lolos verifikasi."
+    static let TextRefundRequestBuyer = "Pengajuan refund sudah diterima oleh Prelo. Mohon tunggu notifikasi dari Customer Service Prelo."
+    static let TextRefundRequestSeller1 = "Buyer meminta proses refund karena "
+    static let TextRefundRequestSeller2 = ". Tunggu konfirmasi dari Customer Service Prelo."
+    static let TextRefundVerifiedBuyer = "Pengajuan refund sudah disetujui oleh Prelo. Hubungi penjual untuk mendapatkan alamat pengiriman. Lakukan konfirmasi jika pengiriman sudah dilakukan."
+    static let TextRefundVerifiedSeller = "Pengajuan refund sudah disetujui oleh Prelo. Hubungi pembeli untuk memberikan alamat pengembalian barang."
+    static let TextRefundSentBuyer = "Terima kasih telah melakukan konfirmasi pengembalian. Uang kamu akan dikembalikan via Prelo Balance maksimal dalam 4 x 24 jam."
+    static let TextRefundSentSeller = "Barang kamu telah dikirimkan kembali oleh pembeli. Lakukan konfirmasi penerimaan jika barang sudah diterima."
+    static let TextRefundSuccessBuyer1 = "Proses refund sukses. Pembayaranmu telah dikembalikan dalam bentuk:"
+    static let TextRefundSuccessBuyer2 = "Kamu dapat menggunakannya untuk transaksi selanjutnya atau tarik uang Prelo Balance."
+    static let TextRefundSuccessSeller = "Proses refund sukses. Pembayaran sudah dikembalikan kepada pembeli."
     
     // Icon
     static let IcDownArrow = ""
@@ -3069,6 +3517,7 @@ class TransactionDetailProductCell : UITableViewCell {
         } else if (progress == TransactionDetailTools.ProgressFraudDetected) {
             imgName = "ic_trx_expired"
         }
+        // TODO: icon untuk status2 refund
         if (imgName != nil) {
             if let imgIcon = UIImage(named: imgName!) {
                 imgVwIcon = UIImageView(frame: CGRect(x: 5, y: 5, width: 15, height: 15), image: imgIcon)
@@ -3165,6 +3614,48 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                 textRect = TransactionDetailTools.TextReservationCancelled.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
             } else if (progress == TransactionDetailTools.ProgressFraudDetected) {
                 textRect = TransactionDetailTools.TextFraudDetected.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+            } else if (progress == TransactionDetailTools.ProgressRefundRequested) {
+                if (isSeller! == false) {
+                    textRect = TransactionDetailTools.TextRefundRequestBuyer.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                }
+            } else if (progress == TransactionDetailTools.ProgressRefundVerified) {
+                if (isSeller! == true) {
+                    textRect = TransactionDetailTools.TextRefundVerifiedSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                } else {
+                    textRect = TransactionDetailTools.TextRefundVerifiedBuyer.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                }
+            } else if (progress == TransactionDetailTools.ProgressRefundSent) {
+                if (isSeller! == true) {
+                    textRect = TransactionDetailTools.TextRefundSentSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                } else {
+                    textRect = TransactionDetailTools.TextRefundSentBuyer.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                }
+            } else if (progress == TransactionDetailTools.ProgressRefundSuccess) {
+                if (isSeller! == true) {
+                    textRect = TransactionDetailTools.TextRefundSuccessSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                } else {
+                    if (order == 1) {
+                        textRect = TransactionDetailTools.TextRefundSuccessBuyer1.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                    } else if (order == 2) {
+                        textRect = TransactionDetailTools.TextRefundSuccessBuyer2.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                    }
+                }
+            }
+            if (textRect != nil) {
+                return textRect!.height + (2 * TransactionDetailTools.Margin)
+            }
+        }
+        return 0
+    }
+    
+    static func heightFor(_ progress : Int?, isSeller : Bool?, order : Int, addText : String) -> CGFloat {
+        if (progress != nil && isSeller != nil) {
+            var textRect : CGRect?
+            if (progress == TransactionDetailTools.ProgressRefundRequested) {
+                if (isSeller! == true) {
+                    let text = TransactionDetailTools.TextRefundRequestSeller1 + addText + TransactionDetailTools.TextRefundRequestSeller2
+                    textRect = text.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                }
             }
             if (textRect != nil) {
                 return textRect!.height + (2 * TransactionDetailTools.Margin)
@@ -3250,6 +3741,35 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                 lblDesc.text = TransactionDetailTools.TextReserveDone
             } else if (progress == TransactionDetailTools.ProgressReservationCancelled) {
                 lblDesc.text = TransactionDetailTools.TextReservationCancelled
+            } else if (progress == TransactionDetailTools.ProgressRefundRequested) {
+                if (isSeller) {
+                    let reason = "bla bla bla" // FIXME: reason
+                    lblDesc.text = TransactionDetailTools.TextRefundRequestSeller1 + reason + TransactionDetailTools.TextRefundRequestSeller2
+                } else {
+                    lblDesc.text = TransactionDetailTools.TextRefundRequestBuyer
+                }
+            } else if (progress == TransactionDetailTools.ProgressRefundVerified) {
+                if (isSeller) {
+                    lblDesc.text = TransactionDetailTools.TextRefundVerifiedSeller
+                } else {
+                    lblDesc.text = TransactionDetailTools.TextRefundVerifiedBuyer
+                }
+            } else if (progress == TransactionDetailTools.ProgressRefundSent) {
+                if (isSeller) {
+                    lblDesc.text = TransactionDetailTools.TextRefundSentSeller
+                } else {
+                    lblDesc.text = TransactionDetailTools.TextRefundSentBuyer
+                }
+            } else if (progress == TransactionDetailTools.ProgressRefundSuccess) {
+                if (isSeller) {
+                    lblDesc.text = TransactionDetailTools.TextRefundSuccessSeller
+                } else {
+                    if (order == 1) {
+                        lblDesc.text = TransactionDetailTools.TextRefundSuccessBuyer1
+                    } else if (order == 2) {
+                        lblDesc.text = TransactionDetailTools.TextRefundSuccessBuyer2
+                    }
+                }
             }
         }
     }
@@ -3437,6 +3957,8 @@ class TransactionDetailButtonCell : UITableViewCell {
     var confirmShipping : () -> () = {}
     var reviewSeller : () -> () = {}
     var seeFAQ : () -> () = {}
+    var confirmReturnShipping : () -> () = {}
+    var confirmReturned : () -> () = {}
     
     func adapt(_ progress : Int?, order : Int) {
         self.progress = progress
@@ -3455,6 +3977,12 @@ class TransactionDetailButtonCell : UITableViewCell {
             btn.setTitle("REVIEW PENJUAL", for: UIControlState())
         } else if (progress == TransactionDetailTools.ProgressFraudDetected) {
             btn.setTitle("FAQ", for: UIControlState())
+        } else if (progress == TransactionDetailTools.ProgressRefundVerified) {
+            btn.setTitle("KONFIRMASI PENGEMBALIAN", for: UIControlState())
+        } else if (progress == TransactionDetailTools.ProgressRefundSent) {
+            btn.setTitle("KONFIRMASI PENERIMAAN", for: UIControlState())
+        } else if (progress == TransactionDetailTools.ProgressRefundSuccess) {
+            btn.setTitle("TARIK UANG", for: UIControlState())
         }
     }
     
@@ -3473,6 +4001,12 @@ class TransactionDetailButtonCell : UITableViewCell {
             self.reviewSeller()
         } else if (progress == TransactionDetailTools.ProgressFraudDetected) {
             self.seeFAQ()
+        } else if (progress == TransactionDetailTools.ProgressRefundVerified) {
+            self.confirmReturnShipping()
+        } else if (progress == TransactionDetailTools.ProgressRefundSent) {
+            self.confirmReturned()
+        } else if (progress == TransactionDetailTools.ProgressRefundSuccess) {
+            self.retrieveCash()
         }
     }
 }
@@ -3491,6 +4025,7 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
     var contactSeller : () -> () = {}
     var cancelReservation : () -> () = {}
     var delayShipping : () -> () = {}
+    var initRefund : () -> () = {}
     
     let TitlePesanLagi = "PESAN LAGI BARANG YANG SAMA"
     let TitleHubungiBuyer = "HUBUNGI PEMBELI"
@@ -3498,6 +4033,7 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
     let TitleTolakPesanan = "Tolak Pesanan"
     let TitleBatalkanReservasi = "BATALKAN RESERVASI"
     let TitleTundaPengiriman = "Tunda Pengiriman"
+    let TitleInitRefund = "REFUND"
     
     func adapt(_ progress : Int?, isSeller : Bool?, order : Int) {
         self.progress = progress
@@ -3505,7 +4041,7 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
         self.isSeller = isSeller
         if (progress == TransactionDetailTools.ProgressExpired) {
             btn.setTitle(TitlePesanLagi, for: UIControlState())
-        } else if (progress == TransactionDetailTools.ProgressRejectedBySeller || progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived) {
+        } else if (progress == TransactionDetailTools.ProgressRejectedBySeller) {
             btn.setTitle(TitleHubungiBuyer, for: UIControlState())
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
             if (order == 1) {
@@ -3535,13 +4071,29 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
             }
         } else if (progress == TransactionDetailTools.ProgressReserved) {
             btn.setTitle(TitleBatalkanReservasi, for: UIControlState())
+        } else if (progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived) {
+            if (isSeller != nil) {
+                if (isSeller! == true) {
+                    btn.setTitle(TitleHubungiBuyer, for: UIControlState())
+                } else {
+                    btn.setTitle(TitleInitRefund, for: UIControlState())
+                }
+            }
+        } else if (progress == TransactionDetailTools.ProgressRefundVerified || progress == TransactionDetailTools.ProgressRefundSent) {
+            if (isSeller != nil) {
+                if (isSeller! == true) {
+                    btn.setTitle(TitleHubungiBuyer, for: UIControlState())
+                } else {
+                    btn.setTitle(TitleHubungiSeller, for: UIControlState())
+                }
+            }
         }
     }
     
     @IBAction func btnPressed(_ sender: AnyObject) {
         if (progress == TransactionDetailTools.ProgressExpired) {
             self.orderAgain()
-        } else if (progress == TransactionDetailTools.ProgressRejectedBySeller || progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived) {
+        } else if (progress == TransactionDetailTools.ProgressRejectedBySeller) {
             self.contactBuyer()
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
             if (order == 1) {
@@ -3563,6 +4115,22 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
             }
         } else if (progress == TransactionDetailTools.ProgressReserved) {
             self.cancelReservation()
+        } else if (progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived) {
+            if (isSeller != nil) {
+                if (isSeller! == true) {
+                    self.contactBuyer()
+                } else {
+                    self.initRefund()
+                }
+            }
+        } else if (progress == TransactionDetailTools.ProgressRefundVerified || progress == TransactionDetailTools.ProgressRefundSent) {
+            if (isSeller != nil) {
+                if (isSeller! == true) {
+                    self.contactBuyer()
+                } else {
+                    self.contactSeller()
+                }
+            }
         }
     }
 }
