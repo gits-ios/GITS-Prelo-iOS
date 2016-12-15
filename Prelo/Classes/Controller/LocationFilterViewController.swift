@@ -56,13 +56,15 @@ class LocationFilterViewController : BaseViewController, UITableViewDataSource, 
             let new_locations : [String] = ["Semua Provinsi"]
             locations?.insert(contentsOf: new_locations, at: 0)
             tableView.reloadData()
+            self.title = "Daftar Provinsi"
         } else if deep == 1 {
             locations = CDRegion.getRegionPickerItems(selectedLocation!) as [String]
-            let new_locations : [String] = ["Semua Kota/Kabupaten"]
+            let new_locations : [String] = ["Semua Kota/Kabupaten di " + selectedLocationName!]
             locations?.insert(contentsOf: new_locations, at: 0)
             tableView.reloadData()
+            self.title = "Daftar Kota/Kabupaten"
         } else {
-            let new_locations : [String] = ["Semua Kecamatan"]
+            let new_locations : [String] = ["Semua Kecamatan di " + selectedLocationName!]
             locations?.insert(contentsOf: new_locations, at: 0)
             let _ = request(APIMisc.getSubdistrictsByRegionID(id: selectedLocation!)).responseJSON { resp in
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Daftar Kecamatan")) {
@@ -80,17 +82,18 @@ class LocationFilterViewController : BaseViewController, UITableViewDataSource, 
                     }
                 }
             }
+            self.title = "Daftar Kecamatan"
             
 //            print(self.locations)
         }
     }
     
-    func getRegion(_selectedLocation : String) {
+    func getRegion(_selectedLocation : String, _selectedLocationName : String) {
         let loc = Bundle.main.loadNibNamed(Tags.XibNameLocationFilter, owner: nil, options: nil)?.first as! LocationFilterViewController
         loc.root = self.root
         loc.deep = self.deep + 1
         loc.selectedLocation = _selectedLocation
-        loc.selectedLocationName = self.selectedLocationName // parent name for all
+        loc.selectedLocationName = _selectedLocationName // parent name for all
         loc.blockDone = self.blockDone
         self.navigationController?.pushViewController(loc, animated: true)
     }
@@ -125,10 +128,10 @@ class LocationFilterViewController : BaseViewController, UITableViewDataSource, 
         let parts = formatLocation(loc: (locations?[(indexPath as NSIndexPath).row])!)
         
         if (indexPath as NSIndexPath).row != 0 && self.deep != 2 {
-            self.selectedLocation = parts[1]
-            self.selectedLocationName = parts[0]
+//            self.selectedLocation = parts[1]
+//            self.selectedLocationName = parts[0]
 //            print(CDRegion.getRegionPickerItems(selectedLocation!))
-            getRegion(_selectedLocation: parts[1])
+            getRegion(_selectedLocation: parts[1], _selectedLocationName: parts[0])
         } else {
             //return
 //            print(parts[0])
@@ -154,9 +157,9 @@ class ProvinceCell : UITableViewCell {
 }
 
 //// MARK: - navigation
-//let productReportVC = Bundle.main.loadNibNamed(Tags.XibNameLocationFilter, owner: nil, options: nil)?.first as! LocationFilterViewController
-//productReportVC.root = self
-//productReportVC.blockDone = { data in
+//let filterlocation = Bundle.main.loadNibNamed(Tags.XibNameLocationFilter, owner: nil, options: nil)?.first as! LocationFilterViewController
+//filterlocation.root = self
+//filterlocation.blockDone = { data in
 //    print(data)
 //}
-//self.navigationController?.pushViewController(productReportVC, animated: true)
+//self.navigationController?.pushViewController(filterlocation, animated: true)
