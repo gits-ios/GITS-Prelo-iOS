@@ -118,6 +118,8 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
             }
         }
         
+        var tempCategorySize = false;
+        
         // Get sizes
         let _ = request(APIReference.formattedSizesByCategory(category: self.categoryId)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Filter Ukuran")) {
@@ -137,6 +139,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
                                 sizes.append(sizeName)
                                 if (self.initSelectedCategSizeVal.index(of: fSizes[j]["value"].stringValue) != nil) {
                                     selecteds.append(true)
+                                    tempCategorySize = true
                                 } else {
                                     selecteds.append(false)
                                 }
@@ -153,6 +156,12 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
                     }
                 }
             }
+            
+            // reload filter ukuran
+            if tempCategorySize == true {
+                self.uhideCategorySizes()
+            }
+            
             // Setup table
             self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 10, 0)
             self.tableView.delegate = self
@@ -353,6 +362,15 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
         minPrice = ""
         maxPrice = ""
         tableView.reloadData()
+    }
+    
+    // digunakan untuk unhide filter ukuran bila ada salah satu atau lebih yang terpilih
+    func uhideCategorySizes() {
+        if (categorySizes.count > 0) {
+            for i in 0...categorySizes.count - 1 {
+                categorySizes[i].hidden = false
+            }
+        }
     }
     
     @IBAction func applyPressed(_ sender: AnyObject) {
