@@ -19,16 +19,17 @@ class LocationFilterViewController : BaseViewController, UITableViewDataSource, 
     
     // Views
     @IBOutlet var tableView : UITableView!
+    @IBOutlet weak var loadingPanel: UIView!
     
     // Predefined values
     var root : UIViewController?
     var selectedLocation : String?
     var selectedLocationName : String?
+    var deep = 0
     
     // Data container
     // location -> province / region
     var locations : [String]?
-    var deep = 0
     
     // Delegate
     var blockDone : BlockLocationSelected?
@@ -64,6 +65,7 @@ class LocationFilterViewController : BaseViewController, UITableViewDataSource, 
             tableView.reloadData()
             self.title = "Daftar Kota/Kabupaten"
         } else {
+            self.showLoading()
             let new_locations : [String] = ["Semua Kecamatan di " + selectedLocationName!]
             locations?.insert(contentsOf: new_locations, at: 0)
             let _ = request(APIMisc.getSubdistrictsByRegionID(id: selectedLocation!)).responseJSON { resp in
@@ -77,14 +79,13 @@ class LocationFilterViewController : BaseViewController, UITableViewDataSource, 
                             self.locations?.append(data[i]["name"].stringValue + PickerViewController.TAG_START_HIDDEN + data[i]["_id"].stringValue + PickerViewController.TAG_END_HIDDEN)                        }
                         
                         self.tableView.reloadData()
+                        self.hideLoading()
                     } else {
                         Constant.showDialog("Warning", message: "Oops, kecamatan tidak ditemukan")
                     }
                 }
             }
             self.title = "Daftar Kecamatan"
-            
-//            print(self.locations)
         }
     }
     
@@ -104,6 +105,15 @@ class LocationFilterViewController : BaseViewController, UITableViewDataSource, 
         // Split based on characters.
         return loc.components(separatedBy: separators as CharacterSet)
     }
+    
+    func showLoading() {
+        self.loadingPanel.isHidden = false
+    }
+    
+    func hideLoading() {
+        self.loadingPanel.isHidden = true
+    }
+
     
     // MARK: - Table view functions
     
