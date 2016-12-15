@@ -71,6 +71,12 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
     
     @IBAction func email(_ sender : UIView)
     {
+        let my_device = UserDefaults().value(forKey: UserDefaultsKey.UserAgent)
+//        print("this is my_device")
+//        print(my_device)
+        
+//        Constant.showDialog("Device Info", message: String(describing: my_device))
+        
         let composer = MFMailComposeViewController()
         if (MFMailComposeViewController.canSendMail()) {
             composer.mailComposeDelegate = self
@@ -89,7 +95,8 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
                 msg += "no. hp:" + no_hp! + "\n"
             }
             
-            msg += "versi app:" + (CDVersion.getOne()?.appVersion)! + "\n"
+            msg += "versi app: " + (CDVersion.getOne()?.appVersion)! + "\n"
+            msg += "user agent: " + String(describing: my_device) + "\n"
             if (order_id != nil) {
                 msg += "order id: " + order_id! + "\n"
             }
