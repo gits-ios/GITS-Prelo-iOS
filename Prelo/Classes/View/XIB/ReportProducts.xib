@@ -52,7 +52,7 @@
                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pelaporan hak cipta (KW)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KJG-yQ-hq4">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pelanggaran hak cipta (KW)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KJG-yQ-hq4">
                                         <rect key="frame" x="37" y="49" width="275" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="Oln-3f-bme"/>
@@ -230,6 +230,15 @@
                                             <action selector="btnTerindikasiPenipuanPressed:" destination="XzF-hN-M9e" eventType="touchUpInside" id="RKY-eu-T8b"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Identitas pelapor akan dijaga kerahasiannya" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c0b-X4-6Ak">
+                                        <rect key="frame" x="8" y="165" width="304" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="bzd-A3-vv5"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -251,6 +260,7 @@
                                     <constraint firstItem="ce9-lL-CgH" firstAttribute="top" secondItem="1F3-ZJ-Ln3" secondAttribute="bottom" constant="8" id="K7k-SJ-ick"/>
                                     <constraint firstItem="BwZ-eS-L7Q" firstAttribute="top" secondItem="Z0b-75-lZV" secondAttribute="bottom" constant="4" id="MFZ-NA-Od2"/>
                                     <constraint firstItem="gqE-az-Nz5" firstAttribute="leading" secondItem="OtN-cJ-aPQ" secondAttribute="leading" constant="8" id="NPU-QP-yOS"/>
+                                    <constraint firstAttribute="trailing" secondItem="c0b-X4-6Ak" secondAttribute="trailing" constant="8" id="OQh-Pv-8cB"/>
                                     <constraint firstAttribute="trailing" secondItem="KJG-yQ-hq4" secondAttribute="trailing" constant="8" id="OVH-t4-p2U"/>
                                     <constraint firstItem="1F3-ZJ-Ln3" firstAttribute="top" secondItem="QSw-aL-2mB" secondAttribute="bottom" constant="4" id="PQs-Kb-r4S"/>
                                     <constraint firstAttribute="trailing" secondItem="hnO-gP-pJn" secondAttribute="trailing" constant="8" id="RcR-Hh-fCV"/>
@@ -274,8 +284,10 @@
                                     <constraint firstAttribute="trailing" secondItem="1F3-ZJ-Ln3" secondAttribute="trailing" constant="8" id="odC-eI-bcs"/>
                                     <constraint firstAttribute="height" constant="384" id="ouI-ze-SW1"/>
                                     <constraint firstAttribute="trailing" secondItem="14B-2j-vAK" secondAttribute="trailing" constant="8" id="qN1-4J-v4J"/>
+                                    <constraint firstItem="c0b-X4-6Ak" firstAttribute="leading" secondItem="OtN-cJ-aPQ" secondAttribute="leading" constant="8" id="qge-uq-Xfz"/>
                                     <constraint firstAttribute="trailing" secondItem="Z0b-75-lZV" secondAttribute="trailing" constant="8" id="rDB-yU-2Qy"/>
                                     <constraint firstItem="f9G-OK-CWU" firstAttribute="top" secondItem="QSw-aL-2mB" secondAttribute="bottom" constant="4" id="rDJ-Xg-yQw"/>
+                                    <constraint firstItem="c0b-X4-6Ak" firstAttribute="top" secondItem="14B-2j-vAK" secondAttribute="bottom" constant="4" id="sR9-fs-dUc"/>
                                     <constraint firstItem="80z-et-ENE" firstAttribute="leading" secondItem="OtN-cJ-aPQ" secondAttribute="leading" constant="8" id="u6o-L8-HL3"/>
                                     <constraint firstItem="qXn-ic-YDn" firstAttribute="top" secondItem="Z0b-75-lZV" secondAttribute="bottom" constant="4" id="w4l-Pe-NTm"/>
                                     <constraint firstItem="gqE-az-Nz5" firstAttribute="top" secondItem="1F3-ZJ-Ln3" secondAttribute="bottom" constant="8" id="xDW-JS-aww"/>
@@ -331,7 +343,7 @@
                 <outlet property="txtvwKategoriTerpilih" destination="THu-eE-iXJ" id="jno-CJ-fHC"/>
                 <outlet property="txtvwTerindikasiPenipuan" destination="14B-2j-vAK" id="dax-q2-Px2"/>
             </connections>
-            <point key="canvasLocation" x="-3.5" y="-12.5"/>
+            <point key="canvasLocation" x="-4" y="-13"/>
         </viewController>
     </objects>
 </document>

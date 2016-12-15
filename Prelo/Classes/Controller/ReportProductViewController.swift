@@ -168,18 +168,18 @@ class ReportProductViewController: BaseViewController, UITextViewDelegate {
         if checklist == 0 {
             report = txtvwKW.text == placeholder ? "" : txtvwKW.text
             category_id_sebenarnya = ""
-            print(txtvwKW.text)
+//            print(txtvwKW.text)
         } else if checklist == 1 {
             report = ""
             category_id_sebenarnya = categoryIdSelected
-            print(txtvwKategoriTerpilih.text)
+//            print(txtvwKategoriTerpilih.text)
         } else if checklist == 2 {
             report = ""
             category_id_sebenarnya = ""
         } else if checklist == 3 {
             report = txtvwTerindikasiPenipuan.text == placeholder ? "" : txtvwTerindikasiPenipuan.text
             category_id_sebenarnya = ""
-            print(txtvwTerindikasiPenipuan.text)
+//            print(txtvwTerindikasiPenipuan.text)
         }
         
         if (checklist == 1 && category_id_sebenarnya == "") {
@@ -188,6 +188,9 @@ class ReportProductViewController: BaseViewController, UITextViewDelegate {
             Constant.showDialog("Perhatian", message: "Alasan wajib dipilih")
         } else {
             reportProduct(reportType: checklist, reasonText: report, categoryIdCorrection: category_id_sebenarnya)
+            
+            // notif
+            Constant.showDialog("Close", message: "Terima kasih, Prelo akan meninjau laporan kamu")
             
             // back to previos window
             if let r = self.root {

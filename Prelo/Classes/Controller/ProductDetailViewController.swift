@@ -115,10 +115,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         tableView?.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
         
-        let btnOption = self.createButtonWithIcon(AppFont.prelo2, icon: "")
-        btnOption.addTarget(self, action: #selector(ProductDetailViewController.option), for: UIControlEvents.touchUpInside)
-        self.navigationItem.rightBarButtonItem = btnOption.toBarButton()
-        
         self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
         
         self.hideUpPopUp()
@@ -184,7 +180,13 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     func option()
     {
         let a = UIActionSheet(title: "Option", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: "Cancel")
-        a.addButton(withTitle: "Report")
+        let userid = CDUser.getOne()?.id
+        let sellerid = detail?.theirId
+        //        let buyerid = detail?.myId
+        
+        if sellerid != userid {
+            a.addButton(withTitle: "Report")
+        }
         a.show(in: self.view)
     }
     
@@ -257,12 +259,29 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     self.tableView?.isHidden = false
                     self.tableView?.reloadData()
                     
+                    self.setOptionButton()
+                    
                     self.setupView()
                 } else {
                     
                 }
                 self.hideLoading()
         }
+    }
+    
+    func setOptionButton() {
+        let btnOption = self.createButtonWithIcon(AppFont.prelo2, icon: "")
+        btnOption.addTarget(self, action: #selector(ProductDetailViewController.option), for: UIControlEvents.touchUpInside)
+        
+        let userid = CDUser.getOne()?.id
+        let sellerid = detail?.theirId
+//        let buyerid = detail?.myId
+        
+        if sellerid == userid {
+            btnOption.isHidden = true
+        }
+        
+        self.navigationItem.rightBarButtonItem = btnOption.toBarButton()
     }
     
     func adjustButtonByStatus() {

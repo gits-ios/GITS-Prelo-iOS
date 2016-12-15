@@ -1854,19 +1854,19 @@
 		21660B1E1B70A45F00910CF1 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				21660B221B70A9D000910CF1 /* CartProduct.swift */,
+				44B779DE1BDF72BB00D93D2D /* CDBrand.swift */,
+				44B779DC1BDF4AF300D93D2D /* CDCategory.swift */,
+				44D32A151BDF2C0C00EFC1E3 /* CDCategorySize.swift */,
+				44D58C491BC7C8C800F85F13 /* CDNotification.swift */,
+				44D32A111BDF161E00EFC1E3 /* CDProductCondition.swift */,
 				21104AC51BAA8EF800947E7F /* CDProvince.swift */,
 				21104AC61BAA8EF800947E7F /* CDRegion.swift */,
-				21104AC71BAA8EF800947E7F /* CDVersion.swift */,
-				21660B221B70A9D000910CF1 /* CartProduct.swift */,
+				44D32A131BDF1B9300EFC1E3 /* CDShipping.swift */,
 				210DF0F41B734D3A004AE3D9 /* CDUser.swift */,
 				210DF0F01B734CFE004AE3D9 /* CDUserOther.swift */,
 				210DF0EE1B734CFD004AE3D9 /* CDUserProfile.swift */,
-				44D58C491BC7C8C800F85F13 /* CDNotification.swift */,
-				44D32A111BDF161E00EFC1E3 /* CDProductCondition.swift */,
-				44D32A131BDF1B9300EFC1E3 /* CDShipping.swift */,
-				44D32A151BDF2C0C00EFC1E3 /* CDCategorySize.swift */,
-				44B779DC1BDF4AF300D93D2D /* CDCategory.swift */,
-				44B779DE1BDF72BB00D93D2D /* CDBrand.swift */,
+				21104AC71BAA8EF800947E7F /* CDVersion.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -2073,6 +2073,7 @@
 				21C68F5D1B746E8B00D1125E /* ListCategoryViewController.swift */,
 				21AE67B21B4A5AF600D2CF63 /* ListItemViewController.swift */,
 				210959B51B8DDBC9000F2939 /* ListRekeningViewController.swift */,
+				B2D481C81E02A7AD006006CC /* LocationFilterViewController.swift */,
 				589BD4181D993EAB006EDB2E /* LoginFransiskaViewController.swift */,
 				212007C51B6A102600D9C84B /* LoginViewController.swift */,
 				44B708761BBA6D86001EACBF /* MyLovelistViewController.swift */,
@@ -2104,6 +2105,7 @@
 				44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */,
 				440AF6571BE0DEA500074CBC /* ReferralPageViewController.swift */,
 				21EEB4571B87036000CAD5C9 /* RegisterViewController.swift */,
+				B2D481C91E02A7AD006006CC /* ReportProductViewController.swift */,
 				21C7ADCA1B73AB8B003C3945 /* SearchViewController.swift */,
 				FDB19FFF1BFD8454001F2600 /* ShopReviewViewController.swift */,
 				217A18221BB41C26008D1AD8 /* StatusBarContainerViewController.swift */,
@@ -2114,8 +2116,6 @@
 				21104AB81BAA8ECC00947E7F /* TransactionListCell.swift */,
 				21156EB91B8F5B4C001D7842 /* UserProfileViewController.swift */,
 				21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */,
-				B2D481C81E02A7AD006006CC /* LocationFilterViewController.swift */,
-				B2D481C91E02A7AD006006CC /* ReportProductViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2123,13 +2123,13 @@
 		21AE67AF1B4A59F400D2CF63 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				21660B1E1B70A45F00910CF1 /* CoreData */,
 				21AE67B01B4A59F400D2CF63 /* API */,
 				215C52661B6B1ED200EA4E61 /* AppTools.swift */,
-				21F4FCE41B61E9AE00223028 /* DAO.swift */,
-				211312571B67638F00A4DA3B /* Constant.swift */,
 				21A574A41B70D70600246CEB /* AppToolsObjC.h */,
 				21A574A51B70D70600246CEB /* AppToolsObjC.m */,
+				211312571B67638F00A4DA3B /* Constant.swift */,
+				21660B1E1B70A45F00910CF1 /* CoreData */,
+				21F4FCE41B61E9AE00223028 /* DAO.swift */,
 				2127A2A91B7B338900469CFC /* ImageSupplier.swift */,
 				211B1A4E1CF5FAFF00108063 /* ProdukUploader.swift */,
 			);
@@ -2139,8 +2139,8 @@
 		21AE67B01B4A59F400D2CF63 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				21D0A0061B60C93000D3A050 /* PreloEndpoints.swift */,
 				44B93C7C1BBEC40800036173 /* PathEndpoints.swift */,
+				21D0A0061B60C93000D3A050 /* PreloEndpoints.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -2148,15 +2148,15 @@
 		21AE67B11B4A59F400D2CF63 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				21EEB45D1B87038400CAD5C9 /* XIB */,
+				212502E71B8306A00089E523 /* AddProductHeader.xib */,
+				212C7D341B71F3EA00360C6A /* KumangCustomView.swift */,
 				211312531B675F6900A4DA3B /* ProductDetailCover.swift */,
 				211312551B6760F600A4DA3B /* ProductDetailCover.xib */,
-				212C7D341B71F3EA00360C6A /* KumangCustomView.swift */,
-				212502E71B8306A00089E523 /* AddProductHeader.xib */,
-				21104AD71BAAA15500947E7F /* SearchTag.xib */,
-				21104AD91BAAA21C00947E7F /* SearchTag.swift */,
 				213E77141BABD8E700D3002B /* SearchResultHeader.xib */,
+				21104AD91BAAA21C00947E7F /* SearchTag.swift */,
+				21104AD71BAAA15500947E7F /* SearchTag.xib */,
 				2190B4DF1BBE39F500AC6145 /* StoreHeader.xib */,
+				21EEB45D1B87038400CAD5C9 /* XIB */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2637,6 +2637,7 @@
 				5894DB451D5880F200874A56 /* FilterCollectionCell.xib */,
 				5894DB471D58825F00874A56 /* FilterPriceCell.xib */,
 				5894DB411D58725800874A56 /* FilterSwitchCell.xib */,
+				B2D481DA1E02A7E1006006CC /* LocationFilters.xib */,
 				58F89DC21D9A1A0C003A5378 /* LoginFransiska.xib */,
 				44B708811BBA6E19001EACBF /* MyLovelist.xib */,
 				44B708821BBA6E19001EACBF /* MyLovelistCell.xib */,
@@ -2659,20 +2660,19 @@
 				21EEB4601B87038400CAD5C9 /* PaymentConfirmationCell.xib */,
 				21104ACE1BAA8F1200947E7F /* PhoneReverification.xib */,
 				21104ACF1BAA8F1200947E7F /* PhoneVerification.xib */,
+				588148B41DC09FBA004180E1 /* ProductCompare.xib */,
+				588148C21DC0B598004180E1 /* ProductCompareCell.xib */,
+				588148B91DC0B244004180E1 /* ProductCompareMainCell.xib */,
 				44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */,
 				440AF6591BE0DF1600074CBC /* ReferralPage.xib */,
 				21EEB4611B87038400CAD5C9 /* Register.xib */,
+				B2D481DB1E02A7E2006006CC /* ReportProducts.xib */,
 				5895E8671C48CCF500752ACA /* SetupPasswordPopUp.xib */,
 				58EADB961CFBE47800410330 /* ShippingCell.xib */,
 				FDB1A0011BFD84A8001F2600 /* ShopReview.xib */,
 				FDB1A0031BFD8BD0001F2600 /* ShopReviewCell.xib */,
 				21104AD01BAA8F1200947E7F /* TransactionListCell.xib */,
 				21156EBB1B8F5B5D001D7842 /* UserProfile.xib */,
-				588148B41DC09FBA004180E1 /* ProductCompare.xib */,
-				588148B91DC0B244004180E1 /* ProductCompareMainCell.xib */,
-				588148C21DC0B598004180E1 /* ProductCompareCell.xib */,
-				B2D481DA1E02A7E1006006CC /* LocationFilters.xib */,
-				B2D481DB1E02A7E2006006CC /* ReportProducts.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
