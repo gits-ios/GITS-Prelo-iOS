@@ -1326,6 +1326,7 @@ enum APITransactionProduct : URLRequestConvertible
     case confirmShipping(tpId : String, resiNum : String)
     case checkoutList(current : String, limit : String)
     case rejectTransaction(tpId : String, reason : String)
+    case refundRequest(tpId : String, reason : String, reasonNote : String)
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "transaction_product/"
@@ -1344,6 +1345,7 @@ enum APITransactionProduct : URLRequestConvertible
         case .confirmShipping(_, _) : return .post
         case .checkoutList(_, _) : return .get
         case .rejectTransaction(_, _) : return .post
+        case .refundRequest(_, _, _) : return .post
         }
     }
     
@@ -1355,6 +1357,7 @@ enum APITransactionProduct : URLRequestConvertible
         case .confirmShipping(let tpId, _) : return "\(tpId)/sent"
         case .checkoutList(_, _) : return "checkouts"
         case .rejectTransaction(let tpId, _) : return "\(tpId)/reject"
+        case .refundRequest(let tpId, _, _) : return "\(tpId)/refund"
         }
     }
     
@@ -1385,6 +1388,11 @@ enum APITransactionProduct : URLRequestConvertible
         case .rejectTransaction(_, let reason) :
             p = [
                 "reason" : reason
+            ]
+        case .refundRequest(_, let reason, let reasonNote) :
+            p = [
+                "reason" : reason,
+                "reason_note" : reasonNote
             ]
         default : break
         }

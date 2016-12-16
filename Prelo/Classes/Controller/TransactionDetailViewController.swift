@@ -1904,7 +1904,11 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             self.vwTundaPengiriman.isHidden = false
         }
         cell.initRefund = {
-            // TODO: isi
+            let refundReqVC = Bundle.main.loadNibNamed(Tags.XibNameRequestRefund, owner: nil, options: nil)?.first as! RefundRequestViewController
+            if (self.trxProductId != nil) {
+                refundReqVC.tpId = self.trxProductId!
+            }
+            self.navigationController?.pushViewController(refundReqVC, animated: true)
         }
         
         return cell

@@ -441,6 +441,8 @@
 		588148B51DC09FBA004180E1 /* ProductCompare.xib in Resources */ = {isa = PBXBuildFile; fileRef = 588148B41DC09FBA004180E1 /* ProductCompare.xib */; };
 		588148BA1DC0B244004180E1 /* ProductCompareMainCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 588148B91DC0B244004180E1 /* ProductCompareMainCell.xib */; };
 		588148C31DC0B598004180E1 /* ProductCompareCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 588148C21DC0B598004180E1 /* ProductCompareCell.xib */; };
+		5885887D1E0285ED00AB262E /* RefundRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5885887C1E0285ED00AB262E /* RefundRequestViewController.swift */; };
+		5885888D1E02860C00AB262E /* RefundRequest.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5885888C1E02860C00AB262E /* RefundRequest.xib */; };
 		58887B941DF17DC20019D935 /* splash.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 58887B931DF17DC20019D935 /* splash.jpg */; };
 		5895E86A1C48E08600752ACA /* img_setup_pwd.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E8691C48E08600752ACA /* img_setup_pwd.png */; };
 		5895E86C1C49315400752ACA /* chat-rp.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E86B1C49315400752ACA /* chat-rp.png */; };
@@ -1269,6 +1271,8 @@
 		588148B41DC09FBA004180E1 /* ProductCompare.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCompare.xib; sourceTree = "<group>"; };
 		588148B91DC0B244004180E1 /* ProductCompareMainCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCompareMainCell.xib; sourceTree = "<group>"; };
 		588148C21DC0B598004180E1 /* ProductCompareCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCompareCell.xib; sourceTree = "<group>"; };
+		5885887C1E0285ED00AB262E /* RefundRequestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefundRequestViewController.swift; sourceTree = "<group>"; };
+		5885888C1E02860C00AB262E /* RefundRequest.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RefundRequest.xib; sourceTree = "<group>"; };
 		58887B931DF17DC20019D935 /* splash.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = splash.jpg; sourceTree = "<group>"; };
 		5894DB3B1D586B2D00874A56 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = FilterViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5894DB3D1D586BAD00874A56 /* Filter.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Filter.xib; sourceTree = "<group>"; };
@@ -2115,6 +2119,7 @@
 				21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */,
 				588148AB1DC09F88004180E1 /* ProductCompareViewController.swift */,
 				58F78B4F1DFACE2B008744F7 /* ProductLovelistViewController.swift */,
+				5885887C1E0285ED00AB262E /* RefundRequestViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2673,6 +2678,7 @@
 				FDB1A0031BFD8BD0001F2600 /* ShopReviewCell.xib */,
 				21104AD01BAA8F1200947E7F /* TransactionListCell.xib */,
 				21156EBB1B8F5B5D001D7842 /* UserProfile.xib */,
+				5885888C1E02860C00AB262E /* RefundRequest.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -3206,6 +3212,7 @@
 				210702E11BE7A8F100DD9E52 /* cu_email@2x.png in Resources */,
 				216799751B8F879A00F18F90 /* rsz_ic_mandiri@2x.png in Resources */,
 				212007C01B6A0CD100D9C84B /* basic_orange@2x.png in Resources */,
+				5885888D1E02860C00AB262E /* RefundRequest.xib in Resources */,
 				58F0A41E1C7C634A002A488F /* cchmrk_spread.png in Resources */,
 				58F0A41A1C7C634A002A488F /* cchmrk_buy.png in Resources */,
 				58A4F9761CB5146B00E717AF /* ic_trx_reservation_cancelled.png in Resources */,
@@ -3350,6 +3357,7 @@
 				58A99A341C6D864E00E3E7D7 /* BNCSystemObserver.m in Sources */,
 				FDF7281D1BF1CA9A00C0D843 /* Regex.swift in Sources */,
 				58A99A411C6D864E00E3E7D7 /* BranchLoadActionsRequest.m in Sources */,
+				5885887D1E0285ED00AB262E /* RefundRequestViewController.swift in Sources */,
 				21B467F41CCE5EDB00E145ED /* NSObject+BFKit.swift in Sources */,
 				216799911B8F8AB900F18F90 /* AFURLResponseSerialization.m in Sources */,
 				21679A3D1B901C5300F18F90 /* MPPropertyDescription.m in Sources */,

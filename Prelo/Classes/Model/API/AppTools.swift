@@ -323,6 +323,7 @@ class Tags : NSObject {
     static let XibNameLoginFransiska = "LoginFransiska"
     static let XibNameProductCompare = "ProductCompare"
     static let XibNameProductLovelist = "ProductLovelist"
+    static let XibNameRequestRefund = "RefundRequest"
 }
 
 class OrderStatus : NSObject {
