@@ -496,6 +496,11 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     
     
     func find(_ keyword : String) {
+        // reset found
+        self.foundItems = []
+        self.foundUsers = []
+        self.foundBrands = []
+        
         if (keyword == "") {
             self.tableView.isHidden = true
             return

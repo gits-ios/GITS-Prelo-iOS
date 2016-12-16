@@ -61,7 +61,7 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
     var isSearchSelectedBrand = false
     
     // Placeholder
-    let NotFoundPlaceholder = "(merk tidak ditemukan)"
+    let NotFoundPlaceholder = "(merek tidak ditemukan)"
     
     // Delegate
     var delegate : ListBrandDelegate? = nil
@@ -274,10 +274,10 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
     }
     
     @IBAction func submitPressed(_ sender: AnyObject) {
-        if (selectedBrands.count <= 0) {
-            Constant.showDialog("Perhatian", message: "Pilih satu atau lebih merek terlebih dahulu")
-            return
-        }
+        //if (selectedBrands.count <= 0) {
+        //    Constant.showDialog("Perhatian", message: "Pilih satu atau lebih merek terlebih dahulu")
+        //    return
+        //}
         
         if (self.previousController != nil) {
             delegate?.adjustBrand(selectedBrands)

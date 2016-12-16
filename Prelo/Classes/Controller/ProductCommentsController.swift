@@ -231,22 +231,31 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         }
         c.captionName?.text = comment.name
         c.captionDate?.text = comment.timestamp
+        
+        let userid = CDUser.getOne()?.id
+        let senderid = comment.sender_id
+        
+        if userid != senderid && comment.isDeleted == false {
         c.showReportAlert = { sender, commentId in
-            let alert = UIAlertController(title: "Laporkan Komentar", message: "", preferredStyle: .actionSheet)
+            let alert = UIAlertController(title: nil, message: "Laporkan Komentar", preferredStyle: .actionSheet)
             alert.popoverPresentationController?.sourceView = sender
             alert.popoverPresentationController?.sourceRect = sender.bounds
-            alert.addAction(UIAlertAction(title: "Komentar ini mengganggu/spam", style: .default, handler: { act in
+            alert.addAction(UIAlertAction(title: "Batal", style: .destructive, handler: { act in
+                alert.dismiss(animated: true, completion: nil)
+            }))
+            alert.addAction(UIAlertAction(title: "Mengganggu / spam", style: .default, handler: { act in
                 self.reportComment(commentId: commentId, reportType: 0)
                 alert.dismiss(animated: true, completion: nil)
             }))
-            alert.addAction(UIAlertAction(title: "Komentar ini tidak layak", style: .default, handler: { act in
+            alert.addAction(UIAlertAction(title: "Tidak layak", style: .default, handler: { act in
                 self.reportComment(commentId: commentId, reportType: 1)
                 alert.dismiss(animated: true, completion: nil)
             }))
-            alert.addAction(UIAlertAction(title: "Batal", style: .default, handler: { act in
-                alert.dismiss(animated: true, completion: nil)
-            }))
             self.present(alert, animated: true, completion: nil)
+        }
+            
+        } else{
+            c.lblReport.isHidden = true
         }
         c.goToProfile = { userId in
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController

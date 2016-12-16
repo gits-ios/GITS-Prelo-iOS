@@ -617,6 +617,10 @@
 		58F7DD531D74204B00EF43AC /* rsz_ic_bri@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F7DD521D74204B00EF43AC /* rsz_ic_bri@2x.png */; };
 		58F89DC51D9A2359003A5378 /* login-background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 58F89DC41D9A2359003A5378 /* login-background.jpg */; };
 		58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */ = {isa = PBXBuildFile; fileRef = 58FE766E1D34FB9B00D90F27 /* banner_featured.png */; };
+		B2D481CA1E02A7AD006006CC /* LocationFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D481C81E02A7AD006006CC /* LocationFilterViewController.swift */; };
+		B2D481CB1E02A7AD006006CC /* ReportProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D481C91E02A7AD006006CC /* ReportProductViewController.swift */; };
+		B2D481DC1E02A7E2006006CC /* LocationFilters.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D481DA1E02A7E1006006CC /* LocationFilters.xib */; };
+		B2D481DD1E02A7E2006006CC /* ReportProducts.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D481DB1E02A7E2006006CC /* ReportProducts.xib */; };
 		FD3C6D481C1963AC0002C7B4 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FD3C6D471C1963AC0002C7B4 /* libz.dylib */; };
 		FD3C6D4A1C1964390002C7B4 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD3C6D491C1964390002C7B4 /* libGoogleAnalyticsServices.a */; };
 		FD3C8DEC1C43A42B00D40EF8 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 216799951B9010E900F18F90 /* Crashlytics.framework */; };
@@ -1523,6 +1527,10 @@
 		58F89DC41D9A2359003A5378 /* login-background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "login-background.jpg"; sourceTree = "<group>"; };
 		58F91B181CF313CB00943A7A /* ListBrandViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ListBrandViewController2.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		58FE766E1D34FB9B00D90F27 /* banner_featured.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_featured.png; sourceTree = "<group>"; };
+		B2D481C81E02A7AD006006CC /* LocationFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationFilterViewController.swift; sourceTree = "<group>"; };
+		B2D481C91E02A7AD006006CC /* ReportProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportProductViewController.swift; sourceTree = "<group>"; };
+		B2D481DA1E02A7E1006006CC /* LocationFilters.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LocationFilters.xib; sourceTree = "<group>"; };
+		B2D481DB1E02A7E2006006CC /* ReportProducts.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReportProducts.xib; sourceTree = "<group>"; };
 		FD3C6D3D1C1963190002C7B4 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
 		FD3C6D3E1C1963190002C7B4 /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
 		FD3C6D3F1C1963190002C7B4 /* GAIEcommerceFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceFields.h; sourceTree = "<group>"; };
@@ -1866,19 +1874,19 @@
 		21660B1E1B70A45F00910CF1 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				21660B221B70A9D000910CF1 /* CartProduct.swift */,
+				44B779DE1BDF72BB00D93D2D /* CDBrand.swift */,
+				44B779DC1BDF4AF300D93D2D /* CDCategory.swift */,
+				44D32A151BDF2C0C00EFC1E3 /* CDCategorySize.swift */,
+				44D58C491BC7C8C800F85F13 /* CDNotification.swift */,
+				44D32A111BDF161E00EFC1E3 /* CDProductCondition.swift */,
 				21104AC51BAA8EF800947E7F /* CDProvince.swift */,
 				21104AC61BAA8EF800947E7F /* CDRegion.swift */,
-				21104AC71BAA8EF800947E7F /* CDVersion.swift */,
-				21660B221B70A9D000910CF1 /* CartProduct.swift */,
+				44D32A131BDF1B9300EFC1E3 /* CDShipping.swift */,
 				210DF0F41B734D3A004AE3D9 /* CDUser.swift */,
 				210DF0F01B734CFE004AE3D9 /* CDUserOther.swift */,
 				210DF0EE1B734CFD004AE3D9 /* CDUserProfile.swift */,
-				44D58C491BC7C8C800F85F13 /* CDNotification.swift */,
-				44D32A111BDF161E00EFC1E3 /* CDProductCondition.swift */,
-				44D32A131BDF1B9300EFC1E3 /* CDShipping.swift */,
-				44D32A151BDF2C0C00EFC1E3 /* CDCategorySize.swift */,
-				44B779DC1BDF4AF300D93D2D /* CDCategory.swift */,
-				44B779DE1BDF72BB00D93D2D /* CDBrand.swift */,
+				21104AC71BAA8EF800947E7F /* CDVersion.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -2085,6 +2093,7 @@
 				21C68F5D1B746E8B00D1125E /* ListCategoryViewController.swift */,
 				21AE67B21B4A5AF600D2CF63 /* ListItemViewController.swift */,
 				210959B51B8DDBC9000F2939 /* ListRekeningViewController.swift */,
+				B2D481C81E02A7AD006006CC /* LocationFilterViewController.swift */,
 				589BD4181D993EAB006EDB2E /* LoginFransiskaViewController.swift */,
 				212007C51B6A102600D9C84B /* LoginViewController.swift */,
 				44B708761BBA6D86001EACBF /* MyLovelistViewController.swift */,
@@ -2111,10 +2120,12 @@
 				211BC9991B96EBBE00FDB1DC /* PreloShareController.swift */,
 				21983BEF1BE1DE3A00F0C24E /* PreloWebViewController.swift */,
 				211BC9931B96D34600FDB1DC /* ProductCommentsController.swift */,
+				588148AB1DC09F88004180E1 /* ProductCompareViewController.swift */,
 				2141BB441B53AF7800787F5D /* ProductDetailViewController.swift */,
 				44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */,
 				440AF6571BE0DEA500074CBC /* ReferralPageViewController.swift */,
 				21EEB4571B87036000CAD5C9 /* RegisterViewController.swift */,
+				B2D481C91E02A7AD006006CC /* ReportProductViewController.swift */,
 				21C7ADCA1B73AB8B003C3945 /* SearchViewController.swift */,
 				FDB19FFF1BFD8454001F2600 /* ShopReviewViewController.swift */,
 				217A18221BB41C26008D1AD8 /* StatusBarContainerViewController.swift */,
@@ -2125,7 +2136,6 @@
 				21104AB81BAA8ECC00947E7F /* TransactionListCell.swift */,
 				21156EB91B8F5B4C001D7842 /* UserProfileViewController.swift */,
 				21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */,
-				588148AB1DC09F88004180E1 /* ProductCompareViewController.swift */,
 				58F78B4F1DFACE2B008744F7 /* ProductLovelistViewController.swift */,
 				5885887C1E0285ED00AB262E /* RefundRequestViewController.swift */,
 			);
@@ -2135,13 +2145,13 @@
 		21AE67AF1B4A59F400D2CF63 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				21660B1E1B70A45F00910CF1 /* CoreData */,
 				21AE67B01B4A59F400D2CF63 /* API */,
 				215C52661B6B1ED200EA4E61 /* AppTools.swift */,
-				21F4FCE41B61E9AE00223028 /* DAO.swift */,
-				211312571B67638F00A4DA3B /* Constant.swift */,
 				21A574A41B70D70600246CEB /* AppToolsObjC.h */,
 				21A574A51B70D70600246CEB /* AppToolsObjC.m */,
+				211312571B67638F00A4DA3B /* Constant.swift */,
+				21660B1E1B70A45F00910CF1 /* CoreData */,
+				21F4FCE41B61E9AE00223028 /* DAO.swift */,
 				2127A2A91B7B338900469CFC /* ImageSupplier.swift */,
 				211B1A4E1CF5FAFF00108063 /* ProdukUploader.swift */,
 			);
@@ -2151,8 +2161,8 @@
 		21AE67B01B4A59F400D2CF63 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				21D0A0061B60C93000D3A050 /* PreloEndpoints.swift */,
 				44B93C7C1BBEC40800036173 /* PathEndpoints.swift */,
+				21D0A0061B60C93000D3A050 /* PreloEndpoints.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -2160,15 +2170,15 @@
 		21AE67B11B4A59F400D2CF63 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				21EEB45D1B87038400CAD5C9 /* XIB */,
+				212502E71B8306A00089E523 /* AddProductHeader.xib */,
+				212C7D341B71F3EA00360C6A /* KumangCustomView.swift */,
 				211312531B675F6900A4DA3B /* ProductDetailCover.swift */,
 				211312551B6760F600A4DA3B /* ProductDetailCover.xib */,
-				212C7D341B71F3EA00360C6A /* KumangCustomView.swift */,
-				212502E71B8306A00089E523 /* AddProductHeader.xib */,
-				21104AD71BAAA15500947E7F /* SearchTag.xib */,
-				21104AD91BAAA21C00947E7F /* SearchTag.swift */,
 				213E77141BABD8E700D3002B /* SearchResultHeader.xib */,
+				21104AD91BAAA21C00947E7F /* SearchTag.swift */,
+				21104AD71BAAA15500947E7F /* SearchTag.xib */,
 				2190B4DF1BBE39F500AC6145 /* StoreHeader.xib */,
+				21EEB45D1B87038400CAD5C9 /* XIB */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2654,6 +2664,7 @@
 				5894DB471D58825F00874A56 /* FilterPriceCell.xib */,
 				5894DB411D58725800874A56 /* FilterSwitchCell.xib */,
 				585373CF1DF9388A00CEE663 /* InstagramSharePreview.xib */,
+				B2D481DA1E02A7E1006006CC /* LocationFilters.xib */,
 				58F89DC21D9A1A0C003A5378 /* LoginFransiska.xib */,
 				44B708811BBA6E19001EACBF /* MyLovelist.xib */,
 				44B708821BBA6E19001EACBF /* MyLovelistCell.xib */,
@@ -2684,6 +2695,7 @@
 				44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */,
 				440AF6591BE0DF1600074CBC /* ReferralPage.xib */,
 				21EEB4611B87038400CAD5C9 /* Register.xib */,
+				B2D481DB1E02A7E2006006CC /* ReportProducts.xib */,
 				5895E8671C48CCF500752ACA /* SetupPasswordPopUp.xib */,
 				58EADB961CFBE47800410330 /* ShippingCell.xib */,
 				FDB1A0011BFD84A8001F2600 /* ShopReview.xib */,
@@ -3309,6 +3321,7 @@
 				216799731B8F879A00F18F90 /* rsz_ic_bca@2x.png in Resources */,
 				58A99A4E1C6D866000E3E7D7 /* Prelo.entitlements in Resources */,
 				211BC9921B96AC9100FDB1DC /* category_placeholder@2x.png in Resources */,
+				B2D481DD1E02A7E2006006CC /* ReportProducts.xib in Resources */,
 				21E7A7641B9FF2BC00FC9B38 /* LKActivity-Flat.png in Resources */,
 				58C431B21CF8138300EB99AE /* InitialMetadata.json in Resources */,
 				5895E86C1C49315400752ACA /* chat-rp.png in Resources */,
@@ -3322,6 +3335,7 @@
 				585887531DBEDC03006EC6D5 /* SetupPasswordPopUp.xib in Resources */,
 				21EEB4701B87095C00CAD5C9 /* btn_checkbox_checked.png in Resources */,
 				44B8EDC71BEB47620063DEA8 /* TwitterKitResources.bundle in Resources */,
+				B2D481DC1E02A7E2006006CC /* LocationFilters.xib in Resources */,
 				581E87B01CE08EE00055CCDD /* cover-shop-page.jpg in Resources */,
 				21156ECC1B8F5DBC001D7842 /* btn_checkbox_purple_pressed.png in Resources */,
 				21156EC81B8F5DBC001D7842 /* arrow_left.png in Resources */,
@@ -3501,6 +3515,7 @@
 				21B467F91CCE5EDB00E145ED /* UIBarButtonItem+BFKit.swift in Sources */,
 				21679A2D1B901C5300F18F90 /* MPDesignerEventBindingRequestMesssage.m in Sources */,
 				215E6CD51B9D781800CD623C /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
+				B2D481CB1E02A7AD006006CC /* ReportProductViewController.swift in Sources */,
 				21679A2F1B901C5300F18F90 /* MPDesignerTrackMessage.m in Sources */,
 				585887861DBF275C006EC6D5 /* AddProductViewController2.swift in Sources */,
 				5847E1611DBDB1B200C1B2BA /* CDShipping.swift in Sources */,
@@ -3514,6 +3529,7 @@
 				58DD28EB1DAF36D000130B6F /* Data+BFKit.swift in Sources */,
 				21C658981B8EF25E0037F85F /* ActionSheetLocalePicker.m in Sources */,
 				5858879B1DBF339A006EC6D5 /* PreloShareController.swift in Sources */,
+				B2D481CA1E02A7AD006006CC /* LocationFilterViewController.swift in Sources */,
 				58A99A491C6D864E00E3E7D7 /* BranchShortUrlSyncRequest.m in Sources */,
 				21B467E31CCE5EDB00E145ED /* BFDataStructures.swift in Sources */,
 				2141BBDE1B54BE4C00787F5D /* RAReorderableLayout.swift in Sources */,

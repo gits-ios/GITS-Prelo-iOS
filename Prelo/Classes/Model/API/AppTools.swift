@@ -324,6 +324,8 @@ class Tags : NSObject {
     static let XibNameProductCompare = "ProductCompare"
     static let XibNameProductLovelist = "ProductLovelist"
     static let XibNameRequestRefund = "RefundRequest"
+    static let XibNameProductReport = "ReportProducts"
+    static let XibNameLocationFilter = "LocationFilters"
 }
 
 class OrderStatus : NSObject {

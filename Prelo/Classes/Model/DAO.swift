@@ -1255,6 +1255,17 @@ class ProductDiscussion : NSObject
         }
     }
     
+    var sender_id : String
+    {
+        if let n = json["sender_id"].string
+        {
+            return n
+        } else
+        {
+            return ""
+        }
+    }
+    
     var message : String
     {
         let m = (json["comment"].string)!.escapedHTML
