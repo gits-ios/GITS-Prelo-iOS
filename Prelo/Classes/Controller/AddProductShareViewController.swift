@@ -43,7 +43,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
     
     var productImg : String?
     var productImgImage : UIImage?
-    var productName : String!
+    var productName : String = ""
     var permalink : String!
     var linkToShare = AppTools.PreloBaseUrl
     var textToShare = ""

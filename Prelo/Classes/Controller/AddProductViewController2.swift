@@ -1275,14 +1275,14 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     func sendProduct()
     {
-        let name = txtName.text
-        let desc = txtDescription.text
-        let weight = txtWeight.text
-        let oldPrice = txtOldPrice.text
-        let newPrice = txtNewPrice.text
-        let special = txtSpesial.text
-        let deflect = txtDeskripsiCacat.text
-        let alasan = txtAlasanJual.text
+        let name = txtName.text!
+        let desc = txtDescription.text!
+        let weight = txtWeight.text!
+        let oldPrice = txtOldPrice.text!
+        let newPrice = txtNewPrice.text!
+        let special = txtSpesial.text!
+        let deflect = txtDeskripsiCacat.text!
+        let alasan = txtAlasanJual.text!
         
         if (fakeScrollView.isHidden == false)
         {
@@ -1330,7 +1330,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
         
         let weightRegex = "^[0-9]+$"
-        if (weight!.match(weightRegex) == false) {
+        if (weight.match(weightRegex) == false) {
             Constant.showDialog("Perhatian", message: "Berat barang harus hanya berupa angka (contoh: 500)")
             return
         }
@@ -1402,17 +1402,17 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         self.btnSubmit.isEnabled = false
         
         var param : [String : String] = [
-            "name":name!,
-            "description":desc!,
+            "name":name,
+            "description":desc,
             "category_id":productCategoryId,
-            "price":newPrice!,
-            "price_original":oldPrice!,
-            "weight":weight!,
+            "price":newPrice,
+            "price_original":oldPrice,
+            "weight":weight,
             "free_ongkir":String(freeOngkir),
             "product_condition_id":kodindisiId,
-            "sell_reason":alasan!,
-            "defect_description":deflect!,
-            "special_story":special!,
+            "sell_reason":alasan,
+            "defect_description":deflect,
+            "special_story":special,
             "brand_id":merekId,
             "brand_name":captionMerek.text!,
             "proposed_brand":"",
@@ -1498,8 +1498,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 let share = self.storyboard?.instantiateViewController(withIdentifier: "share") as! AddProductShareViewController
                 share.sendProductParam = param
                 share.sendProductImages = self.images
-                share.basePrice = (newPrice?.int)!
-                share.productName = name!
+                share.basePrice = (newPrice.int)
+                share.productName = name
                 share.productImgImage = self.images.first as? UIImage
                 share.sendProductBeforeScreen = self.screenBeforeAddProduct
                 share.sendProductKondisi = self.kodindisiId
