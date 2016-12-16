@@ -2207,6 +2207,13 @@ class TransactionProductDetail : NSObject {
     var isShowShipHistory : Bool {
         return shipVerified != nil
     }
+    
+    var refundReasonText : String {
+        if let j = json["refund_reason_text"].string {
+            return j
+        }
+        return ""
+    }
 }
 
 class UserReview : NSObject {
@@ -3192,6 +3199,43 @@ class ProductCompareMain : NSObject {
             }
         }
         return cb
+    }
+}
+
+class ProductLovelistItem : NSObject {
+    var json : JSON = JSON([:])
+    
+    static func instance(_ json : JSON?) -> ProductLovelistItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let n = ProductLovelistItem()
+            n.json = json!
+            return n
+        }
+    }
+    
+    var id : String {
+        if let j = json["_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var username : String {
+        if let j = json["username"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var imageURL : URL? {
+        if let j = json["pict"].string {
+            if let url = URL(string: j) {
+                return url
+            }
+        }
+        return nil
     }
 }
 

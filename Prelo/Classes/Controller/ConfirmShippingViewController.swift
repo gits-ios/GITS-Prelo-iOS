@@ -24,13 +24,18 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     @IBOutlet var txtFldKurirLainnya: UITextField!
     @IBOutlet var vwKurirResiFields: UIView!
     @IBOutlet var consHeightVwKurirResiFields: NSLayoutConstraint!
+    @IBOutlet var consHeightLblDesc: NSLayoutConstraint!
     
     // Loading
     @IBOutlet var loadingPanel: UIView!
     @IBOutlet var loading: UIActivityIndicatorView!
     
     // Predefined value
+    // For confirm shipping
     var trxDetail : TransactionDetail!
+    // For refund
+    var isRefundMode : Bool = false
+    var tpId : String = ""
     
     // Data container
     var trxProductDetails : [TransactionProductDetail]!
@@ -47,21 +52,12 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Screen title
-        self.title = "Konfirmasi Kirim/Tolak"
-        
         // Menghilangkan garis antar cell di baris kosong
         tableView.tableFooterView = UIView()
-        
-        // Hide loading
-        self.hideLoading()
         
         // Register custom cell
         let confirmShippingCellNib = UINib(nibName: "ConfirmShippingCell", bundle: nil)
         tableView.register(confirmShippingCellNib, forCellReuseIdentifier: "ConfirmShippingCell")
-        
-        // Transaparent panel
-        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
         
         // Hide kurir lainnya field
         self.hideFldKurirLainnya()
@@ -73,22 +69,30 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if (isFirstAppearance) {
-            isFirstAppearance = false
-            trxProductDetails = trxDetail.transactionProducts
-            if (trxProductDetails.count > 0) {
-                // For default, all transaction product is set as selected
-                // All selected availability is nil
-                isCellSelected = []
-                selectedAvailabilities = []
-                for _ in 0 ..< trxProductDetails.count {
-                    isCellSelected.append(true)
-                    selectedAvailabilities.append(nil)
+        if (isRefundMode) {
+            self.title = "Konfirmasi Pengembalian"
+            self.consHeightTableView.constant = 0
+            self.consHeightLblDesc.constant = 0
+        } else {
+            self.title = "Konfirmasi Kirim/Tolak"
+            if (isFirstAppearance) {
+                isFirstAppearance = false
+                trxProductDetails = trxDetail.transactionProducts
+                if (trxProductDetails.count > 0) {
+                    // For default, all transaction product is set as selected
+                    // All selected availability is nil
+                    isCellSelected = []
+                    selectedAvailabilities = []
+                    for _ in 0 ..< trxProductDetails.count {
+                        isCellSelected.append(true)
+                        selectedAvailabilities.append(nil)
+                    }
+                    setupTable()
                 }
-                setupTable()
             }
         }
         
+        // Keyboard setup
         self.an_subscribeKeyboard(animations: { r, t, o in
             if (o) {
                 self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, r.height, 0)
@@ -96,6 +100,10 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                 self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
             }
         }, completion: nil)
+        
+        // Hide loading
+        self.hideLoading()
+        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -104,13 +112,21 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     }
     
     func setDefaultKurir() {
-        self.lblKurir.text = trxDetail.requestCourier.characters.split{$0 == "("}.map(String.init)[0]
+        if (isRefundMode) {
+            self.lblKurir.text = "JNE"
+        } else {
+            self.lblKurir.text = trxDetail.requestCourier.characters.split{$0 == "("}.map(String.init)[0]
+        }
     }
     
     // MARK: - TableView delegate
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return trxDetail.transactionProducts.count
+        if (isRefundMode) {
+            return 0
+        } else {
+            return trxDetail.transactionProducts.count
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -225,73 +241,107 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     }
     
     @IBAction func btnKonfKirimPressed(_ sender: AnyObject) {
-        if (validateFields()) {
-            self.showLoading()
-            
-            var sentTp : [String] = []
-            let rejectedTp : NSMutableArray = []
-            for i in 0 ..< trxProductDetails.count {
-                let cell = tableView.cellForRow(at: IndexPath(row: i, section: 0)) as! ConfirmShippingCell
-                if (cell.isCellSelected == true) {
-                    sentTp.append(trxProductDetails[i].id)
-                } else {
-                    let rTp = [
-                        "tp_id" : trxProductDetails[i].id,
-                        "reason" : cell.textView.text,
-                        "is_active" : (cell.selectedAvailability == .available) ? "1" : "0"
-                    ] as [String : Any]
-                    rejectedTp.insert(rTp, at: 0)
+        if (isRefundMode) {
+            if (validateShippingFields()) {
+                self.showLoading()
+                
+                let url = "\(AppTools.PreloBaseUrl)/api/transaction_product/\(self.tpId)/refund_sent"
+                let param = [
+                    "kurir" : self.lblKurir.text?.lowercased() != "lainnya" ? self.lblKurir.text! : self.txtFldKurirLainnya.text!,
+                    "resi_number" : self.txtFldNoResi.text == nil ? "" : self.txtFldNoResi.text!
+                ]
+                var images : [UIImage] = []
+                if let imgR = imgResi.image {
+                    images.append(imgR)
                 }
+                
+                let userAgent : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String
+                
+                AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: { op, res in
+                    print("Refund sent res = \(res)")
+                    let json = JSON(res!)
+                    let data = json["_data"].boolValue
+                    if (data == true) {
+                        Constant.showDialog("Konfirmasi Pengembalian", message: "Konfirmasi berhasil dilakukan")
+                        _ = self.navigationController?.popToRootViewController(animated: true)
+                    } else {
+                        Constant.showDialog("Konfirmasi Pengembalian", message: "Gagal mengupload data")
+                        self.hideLoading()
+                    }
+                }, failure: { op, err in
+                    Constant.showDialog("Konfirmasi Pengembalian", message: "Gagal mengupload data")
+                    self.hideLoading()
+                })
             }
-            var confirmData = "{\"sent\":["
-            for j in 0 ..< sentTp.count {
-                let s = sentTp[j]
-                confirmData += "\"\(s)\""
-                if (j < sentTp.count - 1) {
-                    confirmData += ","
+        } else {
+            if (validateFields()) {
+                self.showLoading()
+                
+                var sentTp : [String] = []
+                let rejectedTp : NSMutableArray = []
+                for i in 0 ..< trxProductDetails.count {
+                    let cell = tableView.cellForRow(at: IndexPath(row: i, section: 0)) as! ConfirmShippingCell
+                    if (cell.isCellSelected == true) {
+                        sentTp.append(trxProductDetails[i].id)
+                    } else {
+                        let rTp = [
+                            "tp_id" : trxProductDetails[i].id,
+                            "reason" : cell.textView.text,
+                            "is_active" : (cell.selectedAvailability == .available) ? "1" : "0"
+                            ] as [String : Any]
+                        rejectedTp.insert(rTp, at: 0)
+                    }
                 }
-            }
-            confirmData += "], \"rejected\":["
-            for k in 0 ..< rejectedTp.count {
-                let r : [String:String] = rejectedTp[k] as! [String : String]
-                let rTpId = r["tp_id"]!
-                let rReason = r["reason"]!
-                let rIsActive = r["is_active"]!
-                confirmData += "{\"tp_id\": \"\(rTpId)\", \"reason\": \"\(rReason)\", \"is_active\": \"\(rIsActive)\"}"
-                if (k < rejectedTp.count - 1) {
-                    confirmData += ","
+                var confirmData = "{\"sent\":["
+                for j in 0 ..< sentTp.count {
+                    let s = sentTp[j]
+                    confirmData += "\"\(s)\""
+                    if (j < sentTp.count - 1) {
+                        confirmData += ","
+                    }
                 }
-            }
-            confirmData += "]}"
-            
-            let url = "\(AppTools.PreloBaseUrl)/api/new/transaction_products/confirm"
-            let param = [
-                "confirmation_data" : confirmData,
-                "kurir" : self.lblKurir.text?.lowercased() != "lainnya" ? self.lblKurir.text! : self.txtFldKurirLainnya.text!,
-                "resi_number" : self.txtFldNoResi.text == nil ? "" : self.txtFldNoResi.text!
-            ]
-            var images : [UIImage] = []
-            if let imgR = imgResi.image {
-                images.append(imgR)
-            }
-            
-            let userAgent : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String
-            
-            AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: { op, res in
-                print("Confirm shipping res = \(res)")
-                let json = JSON(res)
-                let data = json["_data"].boolValue
-                if (data == true) {
-                    Constant.showDialog("Konfirmasi Kirim/Tolak", message: "Konfirmasi berhasil dilakukan")
-                    _ = self.navigationController?.popToRootViewController(animated: true)
-                } else {
+                confirmData += "], \"rejected\":["
+                for k in 0 ..< rejectedTp.count {
+                    let r : [String:String] = rejectedTp[k] as! [String : String]
+                    let rTpId = r["tp_id"]!
+                    let rReason = r["reason"]!
+                    let rIsActive = r["is_active"]!
+                    confirmData += "{\"tp_id\": \"\(rTpId)\", \"reason\": \"\(rReason)\", \"is_active\": \"\(rIsActive)\"}"
+                    if (k < rejectedTp.count - 1) {
+                        confirmData += ","
+                    }
+                }
+                confirmData += "]}"
+                
+                let url = "\(AppTools.PreloBaseUrl)/api/new/transaction_products/confirm"
+                let param = [
+                    "confirmation_data" : confirmData,
+                    "kurir" : self.lblKurir.text?.lowercased() != "lainnya" ? self.lblKurir.text! : self.txtFldKurirLainnya.text!,
+                    "resi_number" : self.txtFldNoResi.text == nil ? "" : self.txtFldNoResi.text!
+                ]
+                var images : [UIImage] = []
+                if let imgR = imgResi.image {
+                    images.append(imgR)
+                }
+                
+                let userAgent : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String
+                
+                AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: { op, res in
+                    print("Confirm shipping res = \(res)")
+                    let json = JSON(res!)
+                    let data = json["_data"].boolValue
+                    if (data == true) {
+                        Constant.showDialog("Konfirmasi Kirim/Tolak", message: "Konfirmasi berhasil dilakukan")
+                        _ = self.navigationController?.popToRootViewController(animated: true)
+                    } else {
+                        Constant.showDialog("Konfirmasi Kirim/Tolak", message: "Terdapat kesalahan saat memproses data")
+                        self.hideLoading()
+                    }
+                }, failure: { op, err in
                     Constant.showDialog("Konfirmasi Kirim/Tolak", message: "Gagal mengupload data")
                     self.hideLoading()
-                }
-            }, failure: { op, err in
-                Constant.showDialog("Konfirmasi Kirim/Tolak", message: "Gagal mengupload data")
-                self.hideLoading()
-            })
+                })
+            }
         }
     }
     
@@ -314,6 +364,10 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     // MARK: - GestureRecognizer Functions
     
     @IBAction func disableTextFields(_ sender : AnyObject) {
+        if (isRefundMode) {
+            return
+        }
+        
         for i in 0 ..< trxProductDetails.count {
             let cell = tableView.cellForRow(at: IndexPath(row: i, section: 0)) as! ConfirmShippingCell
             cell.textView.resignFirstResponder()
@@ -340,44 +394,56 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     }
     
     func validateFields() -> Bool {
+        var result : Bool = true
+        
         var isAllRejected = true
         for i in 0 ..< isCellSelected.count {
             if (!isCellSelected[i]) {
                 let cell = tableView.cellForRow(at: IndexPath(row: i, section: 0)) as! ConfirmShippingCell
                 if (cell.selectedAvailability == nil) {
                     Constant.showDialog("Warning", message: "Opsi ketersediaan barang harus diisi")
-                    return false
+                    result = false
                 }
                 if (cell.textView.text == "" || cell.textView.text == cell.TxtvwPlaceholder) {
                     Constant.showDialog("Warning", message: "Alasan tolak harus diisi")
-                    return false
+                    result = false
                 }
             } else {
                 isAllRejected = false
             }
         }
         if (!isAllRejected) {
-            if (self.lblKurir.text == "") {
-                Constant.showDialog("Warning", message: "Field kurir harus diisi")
-                return false
-            }
-            if (self.lblKurir.text?.lowercased() == "lainnya" && (txtFldKurirLainnya.text == nil || txtFldKurirLainnya.text == "")) {
-                Constant.showDialog("Warning", message: "Field nama kurir harus diisi")
-                return false
-            }
-            if (self.txtFldNoResi.text == "") {
-                Constant.showDialog("Warning", message: "Field nomor resi harus diisi")
-                return false
-            }
-            if (!self.isPictSelected) {
-                Constant.showDialog("Warning", message: "Harap melampirkan foto bukti resi")
-                return false
-            }
+            result = self.validateShippingFields()
+        }
+        return result
+    }
+    
+    func validateShippingFields() -> Bool {
+        if (self.lblKurir.text == "") {
+            Constant.showDialog("Warning", message: "Field kurir harus diisi")
+            return false
+        }
+        if (self.lblKurir.text?.lowercased() == "lainnya" && (txtFldKurirLainnya.text == nil || txtFldKurirLainnya.text == "")) {
+            Constant.showDialog("Warning", message: "Field nama kurir harus diisi")
+            return false
+        }
+        if (self.txtFldNoResi.text == "") {
+            Constant.showDialog("Warning", message: "Field nomor resi harus diisi")
+            return false
+        }
+        if (!self.isPictSelected) {
+            Constant.showDialog("Warning", message: "Harap melampirkan foto bukti resi")
+            return false
         }
         return true
     }
     
     func setupTable() {
+        if (isRefundMode) {
+            consHeightTableView.constant = 0
+            return
+        }
+        
         if (self.tableView.delegate == nil) {
             tableView.dataSource = self
             tableView.delegate = self

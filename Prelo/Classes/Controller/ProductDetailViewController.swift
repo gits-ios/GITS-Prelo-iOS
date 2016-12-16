@@ -558,20 +558,32 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                                 hashtags = " \(h)"
                             }
                         }
-                        UIPasteboard.general.string = "\(textToShare)\(hashtags)"
-                        Constant.showDialog("Text sudah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
-                        self.mgInstagram = MGInstagram()
                         if let imgUrl = self.detail?.productImage {
                             let imgData = try? Data(contentsOf: imgUrl as URL)
                             let img = UIImage(data: imgData!)
-                            self.mgInstagram?.post(img, withCaption: textToShare, in: self.view, delegate: self)
-                            let _ = request(APIProduct.shareCommission(pId: (self.detail?.productID)!, instagram: "1", path: "0", facebook: "0", twitter: "0")).responseJSON { resp in
-                                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Share Instagram")) {
-                                    self.cellTitle?.sharedViaInstagram()
-                                    self.detail?.setSharedViaInstagram()
-                                }
+                            let instagramSharePreview : InstagramSharePreview = .fromNib()
+                            instagramSharePreview.textToShare.text = "\(textToShare)\(hashtags)"
+                            instagramSharePreview.textToShare.layoutIfNeeded()
+                            instagramSharePreview.imgToShare.image = img
+                            instagramSharePreview.beforeDismissPreview = {
                                 self.hideLoading()
                             }
+                            instagramSharePreview.copyAndShare = {
+                                UIPasteboard.general.string = "\(textToShare)\(hashtags)"
+                                Constant.showDialog("Text sudah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
+                                self.mgInstagram = MGInstagram()
+                                self.mgInstagram?.post(img, withCaption: textToShare, in: self.view, delegate: self)
+                                let _ = request(APIProduct.shareCommission(pId: (self.detail?.productID)!, instagram: "1", path: "0", facebook: "0", twitter: "0")).responseJSON { resp in
+                                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Share Instagram")) {
+                                        self.cellTitle?.sharedViaInstagram()
+                                        self.detail?.setSharedViaInstagram()
+                                    }
+                                    self.hideLoading()
+                                    instagramSharePreview.removeFromSuperview()
+                                }
+                            }
+                            instagramSharePreview.frame = CGRect(x: 0, y: -64, width: AppTools.screenWidth, height: AppTools.screenHeight)
+                            self.view.addSubview(instagramSharePreview)
                         } else {
                             self.hideLoading()
                         }

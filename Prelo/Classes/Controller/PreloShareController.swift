@@ -116,16 +116,17 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
     
     var linkToShare = ""
     var textToShare1 = ""
-    var textToShare2 = ""
+    //var textToShare2 = ""
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         //FIXME: Sepertinya fungsi ini ga kepanggil, jangan taruh logic di sini
-        
+        /*
         self.linkToShare = "\(item!.permalink!)"
         self.textToShare1 = "Temukan barang bekas berkualitas, \(item!.text!) di Prelo hanya dengan harga \(item!.price!). Nikmati mudahnya jual-beli barang bekas berkualitas dengan aman dari ponselmu. Download aplikasinya sekarang juga di http://prelo.co.id #PreloID"
         self.textToShare2 = "Dapatkan barang bekas berkualitas, \(item!.text!) seharga \(item!.price!) #PreloID"
+        */
     }
     
     override func viewDidLoad() {
@@ -168,7 +169,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         self.conGridViewBottomMargin.constant = 0
         
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: UIViewAnimationOptions.curveEaseOut, animations: {
-            self.view.backgroundColor = UIColor(white: 0.5, alpha: 0.8)
+            self.view.backgroundColor = UIColor(white: 0.5, alpha: 0.5)
             self.gridView.layoutIfNeeded()
             }, completion: {s in
                 self.gridView.dataSource = self
@@ -229,6 +230,11 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        guard let item = item else {
+            return
+        }
+        
         let a = agents[(indexPath as NSIndexPath).item]
         
         if (a.availibility == false)
@@ -236,16 +242,33 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             return
         }
         
-        print(item?.url)
-        print(item?.text)
-        /* FIXME: Swift 3
-        let _ = request((item?.url?.absoluteString)!, method: HTTPMethod.get).validate().response{ req, res, data, error in
-            if let imgData = data
-            {
-                let i = UIImage(data: imgData)
-                self.share(a, img: i!)
+        //print(item.url)
+        //print(item.text)
+        print((item.url?.absoluteString)!)
+//        Alamofire.download(item.url!.absoluteString, method: .get, parameters: nil, encoding: ParameterEncoding., headers: nil, to: nil)(item.url!.absoluteString)
+        
+        Alamofire.request(item.url!.absoluteString).responseData { resp in
+            if let data = resp.result.value {
+                if let img = UIImage(data: data) {
+                    self.share(a, img: img)
+                }
             }
-        }*/
+        }
+        
+//        Alamofire.download((item.url?.absoluteString)!).responseData { response in
+//            if let data = response.result.value {
+//                let img = UIImage(data: data)
+//                self.share(a, img: img!)
+//            }
+//        }
+        
+//        let _ = request((item.url?.absoluteString)!, method: HTTPMethod.get).validate().response{ req, res, data, error in
+//            if let imgData = data
+//            {
+//                let i = UIImage(data: imgData)
+//                self.share(a, img: i!)
+//            }
+//        }
     }
     
     func loginPath()
@@ -320,17 +343,29 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         
         if (a.title.lowercased() == "instagram")
         {
+            self.textToShare1 = "Temukan barang bekas berkualitas, \(item!.text!) di Prelo hanya dengan harga \(item!.price!). Nikmati mudahnya jual-beli barang bekas berkualitas dengan aman dari ponselmu. Download aplikasinya sekarang juga di http://prelo.co.id #PreloID"
+            
             var hashtags = ""
             if let dtl = self.detail {
                 if let h = CDCategory.getCategoryHashtagsWithID(dtl.categoryID) {
                     hashtags = " \(h)"
                 }
             }
-            UIPasteboard.general.string = "Temukan barang bekas berkualitas, \(item!.text!) di Prelo hanya dengan harga \(item!.price!). Nikmati mudahnya jual-beli barang bekas berkualitas dengan aman dari ponselmu. Download aplikasinya sekarang juga di http://prelo.co.id #PreloID\(hashtags)"
-            Constant.showDialog("Text sudah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
-            mgInstagram = MGInstagram()
-            mgInstagram?.post(image, withCaption: self.textToShare1, in: self.view, delegate: self)
-            self.mixpanelSharedProduct("Instagram", username: "")
+            
+            let instagramSharePreview : InstagramSharePreview = .fromNib()
+            instagramSharePreview.textToShare.text = "\(self.textToShare1)\(hashtags)"
+            instagramSharePreview.textToShare.layoutIfNeeded()
+            instagramSharePreview.imgToShare.image = image
+            instagramSharePreview.copyAndShare = {
+                UIPasteboard.general.string = "\(self.textToShare1)\(hashtags)"
+                Constant.showDialog("Text sudah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
+                self.mgInstagram = MGInstagram()
+                self.mgInstagram?.post(image, withCaption: "\(self.textToShare1)\(hashtags)", in: self.view, delegate: self)
+                self.mixpanelSharedProduct("Instagram", username: "")
+                instagramSharePreview.removeFromSuperview()
+            }
+            instagramSharePreview.frame = CGRect(x: 0, y: 0, width: AppTools.screenWidth, height: AppTools.screenHeight)
+            self.view.addSubview(instagramSharePreview)
         }
         
         if (a.title.lowercased() == "path")
@@ -542,5 +577,25 @@ class ShareCell : UICollectionViewCell
         sectionIcon.layer.cornerRadius = sectionIcon.width/2
         sectionIcon.layer.masksToBounds = true
         sectionIcon.superview?.backgroundColor = UIColor.clear
+    }
+}
+
+class InstagramSharePreview : UIView {
+    @IBOutlet var imgToShare: UIImageView!
+    @IBOutlet var textToShare: UILabel!
+    var copyAndShare : () -> () = {}
+    var beforeDismissPreview : () -> () = {}
+    
+    override func awakeFromNib() {
+        self.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0)
+    }
+    
+    @IBAction func btnCopySharePressed(_ sender: Any) {
+        self.copyAndShare()
+    }
+    
+    @IBAction func btnBgPressed(_ sender: Any) {
+        self.beforeDismissPreview()
+        self.removeFromSuperview()
     }
 }

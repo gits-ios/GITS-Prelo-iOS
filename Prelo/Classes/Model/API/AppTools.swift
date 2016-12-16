@@ -37,6 +37,14 @@ class AppTools: NSObject {
     static var isSimulator : Bool {
         return UIDevice.current.isIOSSimulator
     }
+    
+    static var screenWidth : CGFloat {
+        return UIScreen.main.bounds.width
+    }
+    
+    static var screenHeight : CGFloat {
+        return UIScreen.main.bounds.height
+    }
 }
 
 enum AppFont {
@@ -84,6 +92,10 @@ extension UINavigationController {
 extension UIView {
     func toBarButton() -> UIBarButtonItem {
         return UIBarButtonItem(customView: self)
+    }
+    
+    class func fromNib<T : UIView>() -> T {
+        return Bundle.main.loadNibNamed(String(describing: T.self), owner: nil, options: nil)![0] as! T
     }
 }
 
@@ -310,6 +322,8 @@ class Tags : NSObject {
     static let XibNameExpiringProducts = "ExpiringProducts"
     static let XibNameLoginFransiska = "LoginFransiska"
     static let XibNameProductCompare = "ProductCompare"
+    static let XibNameProductLovelist = "ProductLovelist"
+    static let XibNameRequestRefund = "RefundRequest"
     static let XibNameProductReport = "ReportProducts"
     static let XibNameLocationFilter = "LocationFilters"
 }
