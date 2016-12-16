@@ -179,13 +179,13 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     func option()
     {
-        let a = UIActionSheet(title: "Option", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: "Cancel")
+        let a = UIActionSheet(title: "Opsi", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: "Batal")
         let userid = CDUser.getOne()?.id
         let sellerid = detail?.theirId
         //        let buyerid = detail?.myId
         
         if sellerid != userid {
-            a.addButton(withTitle: "Report")
+            a.addButton(withTitle: "Laporkan Barang")
         }
         a.show(in: self.view)
     }
@@ -1780,6 +1780,7 @@ class ProductCellDiscussion : UITableViewCell
     @IBOutlet var captionName : UILabel?
     @IBOutlet var ivCover : UIImageView?
     @IBOutlet var consWidthBtnReport: NSLayoutConstraint!
+    @IBOutlet weak var lblReport: UIButton!
     
     var commentId : String = ""
     var senderId : String = ""
