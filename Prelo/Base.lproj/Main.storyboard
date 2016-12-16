@@ -11237,8 +11237,8 @@ in Bandung</string>
                                                             <view tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HoZ-FX-Igp" userLabel="BNI" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
                                                                 <rect key="frame" x="296" y="0.0" width="140" height="80"/>
                                                                 <subviews>
-                                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="rsz_ic_bni.png" translatesAutoresizingMaskIntoConstraints="NO" id="4wU-Nd-f5l" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
-                                                                        <rect key="frame" x="0.0" y="8" width="132" height="64"/>
+                                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rsz_ic_bni.png" translatesAutoresizingMaskIntoConstraints="NO" id="4wU-Nd-f5l" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
+                                                                        <rect key="frame" x="8" y="8" width="124" height="64"/>
                                                                         <color key="tintColor" red="0.66014617679999998" green="0.66012644769999995" blue="0.66013765339999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     </imageView>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yHk-GL-y1X">
