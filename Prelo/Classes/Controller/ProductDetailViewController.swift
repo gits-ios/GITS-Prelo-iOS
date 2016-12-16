@@ -176,62 +176,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             GAI.trackPageVisit(PageName.ProductDetail)
         }
     }
-    
-    func option()
-    {
-        let a = UIActionSheet(title: "Opsi", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: "Batal")
-        let userid = CDUser.getOne()?.id
-        let sellerid = detail?.theirId
-        //        let buyerid = detail?.myId
-        
-        if sellerid != userid {
-            a.addButton(withTitle: "Laporkan Barang")
-        }
-        a.show(in: self.view)
-    }
-    
-    func actionSheet(_ actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
-        if (buttonIndex == 1)
-        {
-            guard let pDetail = detail else {
-                return
-            }
-//            var username = "Your beloved user"
-//            if let u = CDUser.getOne() {
-//                username = u.username
-//            }
-//            
-//            // report
-//            let msgBody = "Dear Prelo,<br/><br/>Saya ingin melaporkan barang \(pDetail.name) dari penjual \(pDetail.theirName)<br/><br/>Alasan pelaporan: <br/><br/>Terima kasih Prelo <3<br/><br/>--<br/>\(username)<br/>Sent from Prelo iOS"
-//            
-//            let m = MFMailComposeViewController()
-//            if (MFMailComposeViewController.canSendMail()) {
-//                m.setToRecipients(["contact@prelo.id"])
-//                m.setSubject("Laporan Baru untuk Barang " + (detail?.name)!)
-//                m.setMessageBody(msgBody, isHTML: true)
-//                m.mailComposeDelegate = self
-//                self.present(m, animated: true, completion: nil)
-//            } else {
-//                Constant.showDialog("No Active E-mail", message: "Untuk dapat mengirim Report, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
-//            }
-            
-            
-            
-            
-            let productReportVC = Bundle.main.loadNibNamed(Tags.XibNameProductReport, owner: nil, options: nil)?.first as! ReportProductViewController
-            
-            productReportVC.root = self
 
-            productReportVC.pDetail = self.detail
-            self.navigationController?.pushViewController(productReportVC, animated: true)
-            
-        }
-    }
-    
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        controller.dismiss(animated: true, completion: nil)
-    }
-    
     func getDetail()
     {
         self.showLoading()
@@ -267,21 +212,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 }
                 self.hideLoading()
         }
-    }
-    
-    func setOptionButton() {
-        let btnOption = self.createButtonWithIcon(AppFont.prelo2, icon: "")
-        btnOption.addTarget(self, action: #selector(ProductDetailViewController.option), for: UIControlEvents.touchUpInside)
-        
-        let userid = CDUser.getOne()?.id
-        let sellerid = detail?.theirId
-//        let buyerid = detail?.myId
-        
-        if sellerid == userid {
-            btnOption.isHidden = true
-        }
-        
-        self.navigationItem.rightBarButtonItem = btnOption.toBarButton()
     }
     
     func adjustButtonByStatus() {
@@ -465,6 +395,89 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     @IBAction func dismiss(_ sender: AnyObject)
     {
         self.dismiss(animated: YES, completion: nil)
+    }
+    
+    // MARK: - option button (right top)
+    func setOptionButton() {
+        let btnOption = self.createButtonWithIcon(AppFont.prelo2, icon: "")
+        
+        btnOption.addTarget(self, action: #selector(ProductDetailViewController.option), for: UIControlEvents.touchUpInside)
+        
+        let userid = CDUser.getOne()?.id
+        let sellerid = detail?.theirId
+        //        let buyerid = detail?.myId
+        
+        if sellerid == userid {
+            btnOption.isHidden = true
+        }
+        
+        self.navigationItem.rightBarButtonItem = btnOption.toBarButton()
+    }
+    
+    func option()
+    {
+        let a = UIActionSheet(title: "Opsi", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: "Batal")
+        let userid = CDUser.getOne()?.id
+        let sellerid = detail?.theirId
+        //        let buyerid = detail?.myId
+        
+        if sellerid != userid {
+            a.addButton(withTitle: "Laporkan Barang")
+        }
+        //        a.show(in: self.view)
+        
+        // bound location
+        let screenSize: CGRect = UIScreen.main.bounds
+        let screenWidth = screenSize.width
+        let bounds = CGRect(x: screenWidth - 65.0, y: 0.0, width: screenWidth, height: 0.0)
+        
+        a.show(from: bounds, in: self.view, animated: true)
+    }
+
+    func actionSheet(_ actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
+        if (buttonIndex == 1)
+        {
+            guard let pDetail = detail else {
+                return
+            }
+            //            var username = "Your beloved user"
+            //            if let u = CDUser.getOne() {
+            //                username = u.username
+            //            }
+            //
+            //            // report
+            //            let msgBody = "Dear Prelo,<br/><br/>Saya ingin melaporkan barang \(pDetail.name) dari penjual \(pDetail.theirName)<br/><br/>Alasan pelaporan: <br/><br/>Terima kasih Prelo <3<br/><br/>--<br/>\(username)<br/>Sent from Prelo iOS"
+            //
+            //            let m = MFMailComposeViewController()
+            //            if (MFMailComposeViewController.canSendMail()) {
+            //                m.setToRecipients(["contact@prelo.id"])
+            //                m.setSubject("Laporan Baru untuk Barang " + (detail?.name)!)
+            //                m.setMessageBody(msgBody, isHTML: true)
+            //                m.mailComposeDelegate = self
+            //                self.present(m, animated: true, completion: nil)
+            //            } else {
+            //                Constant.showDialog("No Active E-mail", message: "Untuk dapat mengirim Report, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
+            //            }
+            
+                gotoReport()
+        }
+    }
+    
+    var loginReport = false
+    func gotoReport() {
+        if (User.IsLoggedIn == false) {
+            loginReport = true
+            LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
+        } else {
+            let productReportVC = Bundle.main.loadNibNamed(Tags.XibNameProductReport, owner: nil, options: nil)?.first as! ReportProductViewController
+            productReportVC.root = self
+            productReportVC.pDetail = self.detail
+            self.navigationController?.pushViewController(productReportVC, animated: true)
+        }
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
     }
     
     // MARK: - Instagram

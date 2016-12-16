@@ -235,9 +235,9 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         let userid = CDUser.getOne()?.id
         let senderid = comment.sender_id
         
-        if userid != senderid {
+        if userid != senderid && comment.isDeleted == false {
         c.showReportAlert = { sender, commentId in
-            let alert = UIAlertController(title: "Laporkan Komentar", message: "", preferredStyle: .actionSheet)
+            let alert = UIAlertController(title: nil, message: "Laporkan Komentar", preferredStyle: .actionSheet)
             alert.popoverPresentationController?.sourceView = sender
             alert.popoverPresentationController?.sourceRect = sender.bounds
             alert.addAction(UIAlertAction(title: "Batal", style: .destructive, handler: { act in
