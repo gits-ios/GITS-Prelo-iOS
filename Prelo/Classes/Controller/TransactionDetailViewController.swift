@@ -1752,7 +1752,11 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             self.present(baseNavC, animated: true, completion: nil)
         }
         cell.confirmReturnShipping = {
-            // TODO: isi
+            let confirmShippingVC = Bundle.main.loadNibNamed(Tags.XibNameConfirmShipping, owner: nil, options: nil)?.first as! ConfirmShippingViewController
+            confirmShippingVC.isRefundMode = true
+            confirmShippingVC.tpId = self.trxProductId!
+            confirmShippingVC.setDefaultKurir()
+            self.navigationController?.pushViewController(confirmShippingVC, animated: true)
         }
         cell.confirmReturned = {
             // TODO: isi
