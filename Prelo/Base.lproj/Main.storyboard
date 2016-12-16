@@ -14867,15 +14867,15 @@ in Bandung</string>
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7S4-Kn-bh2">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="544"/>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7S4-Kn-bh2">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="611"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </webView>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gpa-D4-QhS" userLabel="shadow">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="544"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gpa-D4-QhS" userLabel="shadow">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="611"/>
                                 <subviews>
-                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="6sY-EX-kSi" userLabel="loading">
-                                        <rect key="frame" x="290" y="262" width="20" height="20"/>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="6sY-EX-kSi" userLabel="loading">
+                                        <rect key="frame" x="177.5" y="295.5" width="20" height="20"/>
                                         <color key="color" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </activityIndicatorView>
                                 </subviews>
@@ -14885,18 +14885,18 @@ in Bandung</string>
                                     <constraint firstAttribute="centerX" secondItem="6sY-EX-kSi" secondAttribute="centerX" id="oc1-Md-1PL"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NOX-VI-E5j" userLabel="Sticky Footer">
-                                <rect key="frame" x="0.0" y="544" width="600" height="56"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NOX-VI-E5j" userLabel="Sticky Footer">
+                                <rect key="frame" x="0.0" y="611" width="375" height="56"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TZ7-Q6-YhS">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="1"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TZ7-Q6-YhS">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
                                         <color key="backgroundColor" red="0.90823972230000005" green="0.92638683320000004" blue="0.93171715740000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="vhC-AB-ToZ"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cSt-dD-pU0" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="8" y="8" width="584" height="40"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cSt-dD-pU0" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="8" y="8" width="359" height="40"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal" title="HUBUNGI PRELO">
                                             <color key="titleColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
