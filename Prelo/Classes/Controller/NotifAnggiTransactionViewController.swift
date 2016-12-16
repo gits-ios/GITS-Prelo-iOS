@@ -444,6 +444,8 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         if let progress = self.notif?.progress {
             if (TransactionDetailTools.isReservationProgress(progress)) {
                 return 2
+            } else if (TransactionDetailTools.isRefundProgress(progress)) {
+                return 4
             } else if (progress == TransactionDetailTools.ProgressExpired) {
                 return 1
             } else if (progress == TransactionDetailTools.ProgressRejectedBySeller) {
@@ -490,6 +492,12 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
                     vwIcon.backgroundColor = Theme.ThemeRed
                 }
             }
+        } else if (TransactionDetailTools.isRefundProgress(self.notif?.progress)) {
+            if (idx - 1 <= (self.notif?.progress ?? 30) - 30) {
+                vwIcon.backgroundColor = Theme.ThemeRed
+            } else {
+                vwIcon.backgroundColor = Theme.GrayLight
+            }
         } else {
             if (self.notif?.progress < 0) {
                 let nItem = self.collectionView(collectionView, numberOfItemsInSection: 0)
@@ -531,6 +539,16 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
                     } else if (progress == TransactionDetailTools.ProgressReservationCancelled) { // Reservation cancelled
                         imgName = "ic_trx_reservation_cancelled"
                     }
+                }
+            } else if (TransactionDetailTools.isRefundProgress(progress)) {
+                if (idx == 1) {
+                    imgName = "ic_trx_refund1"
+                } else if (idx == 2) {
+                    imgName = "ic_trx_refund2"
+                } else if (idx == 3) {
+                    imgName = "ic_trx_refund3"
+                } else if (idx == 4) {
+                    imgName = "ic_trx_refund4"
                 }
             } else {
                 if ((progress == TransactionDetailTools.ProgressExpired || progress == TransactionDetailTools.ProgressFraudDetected) && idx == 1) { // Expired
