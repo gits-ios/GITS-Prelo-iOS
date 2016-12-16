@@ -830,7 +830,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     return DefaultHeight
                 } else if (idx == 3) {
                     if (trxProductDetail != nil) {
-                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPembayaranSeller)
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
                     }
                 } else if (idx == 4) {
                     return SeparatorHeight
@@ -878,7 +878,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     return DefaultHeight
                 } else if (idx == 3) {
                     if (trxProductDetail != nil) {
-                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPembayaranSeller)
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
                     }
                 } else if (idx == 4) {
                     return SeparatorHeight
@@ -932,7 +932,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     return DefaultHeight
                 } else if (idx == 3) {
                     if (trxProductDetail != nil) {
-                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPembayaranSeller)
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
                     }
                 } else if (idx == 4) {
                     return SeparatorHeight
@@ -980,7 +980,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     return DefaultHeight
                 } else if (idx == 3) {
                     if (trxProductDetail != nil) {
-                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPembayaranSeller)
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
                     }
                 } else if (idx == 4) {
                     return SeparatorHeight
@@ -2345,6 +2345,10 @@ class TransactionDetailTools : NSObject {
     static func isReservationProgress(_ progress : Int?) -> Bool {
         return (progress == 7 || progress == 8 || progress == -2)
     }
+    
+    static func isRefundProgress(_ progress : Int?) -> Bool {
+        return (progress == 30 || progress == 31 || progress == 32 || progress == 33)
+    }
 }
 
 // MARK: - Class
@@ -3473,6 +3477,9 @@ class TransactionDetailProductCell : UITableViewCell {
         if (trxProductDetail.progress < 0) {
             vwTransactionStatus.backgroundColor = Theme.ThemeRed
             lblTransactionStatus.textColor = Theme.ThemeRed
+        } else if (TransactionDetailTools.isRefundProgress(trxProductDetail.progress)) {
+            vwTransactionStatus.backgroundColor = Theme.ThemeRed
+            lblTransactionStatus.textColor = Theme.ThemeRed
         } else if let userId = User.Id {
             if (trxProductDetail.isSeller(userId)) {
                 vwTransactionStatus.backgroundColor = Theme.ThemeOrange
@@ -3534,9 +3541,11 @@ class TransactionDetailProductCell : UITableViewCell {
             if (trxProductDetail.isSeller(userId)) {
                 lblDetail?.isHidden = false
                 lblDetailIcon?.isHidden = false
+                // FIXME: - set width to non 0
             } else {
                 lblDetail?.isHidden = true
                 lblDetailIcon?.isHidden = true
+                // FIXME: - set width to 0 instead of hiding
             }
         }
     }
