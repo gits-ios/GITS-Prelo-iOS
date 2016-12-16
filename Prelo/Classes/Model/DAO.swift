@@ -2196,6 +2196,13 @@ class TransactionProductDetail : NSObject {
     var isShowShipHistory : Bool {
         return shipVerified != nil
     }
+    
+    var refundReasonText : String {
+        if let j = json["refund_reason_text"].string {
+            return j
+        }
+        return ""
+    }
 }
 
 class UserReview : NSObject {

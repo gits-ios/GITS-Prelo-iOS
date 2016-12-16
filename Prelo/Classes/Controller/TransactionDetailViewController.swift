@@ -817,7 +817,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 7) {
                     return SeparatorHeight
                 } else if (idx == 8) {
-                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1, addText: "bla bla bla") // FIXME: Tambahin addText
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1, addText: trxProductDetail!.refundReasonText)
+                    }
                 } else if (idx == 9) {
                     return ContactPreloHeight
                 }
@@ -3756,8 +3758,9 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                 lblDesc.text = TransactionDetailTools.TextReservationCancelled
             } else if (progress == TransactionDetailTools.ProgressRefundRequested) {
                 if (isSeller) {
-                    let reason = "bla bla bla" // FIXME: reason
+                    let reason = trxProductDetail.refundReasonText
                     lblDesc.text = TransactionDetailTools.TextRefundRequestSeller1 + reason + TransactionDetailTools.TextRefundRequestSeller2
+                    lblDesc.boldSubstring(reason)
                 } else {
                     lblDesc.text = TransactionDetailTools.TextRefundRequestBuyer
                 }
