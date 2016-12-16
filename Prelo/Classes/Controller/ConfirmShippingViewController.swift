@@ -334,7 +334,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                         Constant.showDialog("Konfirmasi Kirim/Tolak", message: "Konfirmasi berhasil dilakukan")
                         _ = self.navigationController?.popToRootViewController(animated: true)
                     } else {
-                        Constant.showDialog("Konfirmasi Kirim/Tolak", message: "Gagal mengupload data")
+                        Constant.showDialog("Konfirmasi Kirim/Tolak", message: "Terdapat kesalahan saat memproses data")
                         self.hideLoading()
                     }
                 }, failure: { op, err in
