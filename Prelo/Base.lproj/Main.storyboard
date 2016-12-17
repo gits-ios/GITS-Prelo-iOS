@@ -1490,7 +1490,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ekQ-oV-kWE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1570" y="-1736"/>
+            <point key="canvasLocation" x="-1571" y="-1429"/>
         </scene>
         <!--Add Product Image Source View Controller-->
         <scene sceneID="vyP-Vf-QXM">
@@ -1699,7 +1699,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yLL-hS-4PL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1570" y="-3152"/>
+            <point key="canvasLocation" x="-1572" y="-2979"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="3rc-Nu-05y">
@@ -1732,7 +1732,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="008-cv-cnZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2303" y="-1737"/>
+            <point key="canvasLocation" x="-2302" y="-1428"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="LsG-6G-fyU">
@@ -2014,7 +2014,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-1570" y="-2472"/>
+            <point key="canvasLocation" x="-1570" y="-2202"/>
         </scene>
         <!--Dashboard View Controller-->
         <scene sceneID="0Pg-qU-6c7">
@@ -2434,7 +2434,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-3764" y="-1734"/>
+            <point key="canvasLocation" x="-3769" y="-1427"/>
         </scene>
         <!--Tarik Tunai Controller-->
         <scene sceneID="2nB-tv-vjM">
@@ -2838,7 +2838,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tn7-Fc-Pfu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-807" y="-2472"/>
+            <point key="canvasLocation" x="-808" y="-2201"/>
         </scene>
         <!--About View Controller-->
         <scene sceneID="26K-Xg-QUV">
@@ -3275,7 +3275,6 @@ in Bandung</string>
         <!--Add Product View Controller-->
         <scene sceneID="zjm-WC-Eb4">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8f3-TR-NVg" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="addProduct" id="Zly-Bf-dDp" customClass="AddProductViewController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="T4v-sV-gIe"/>
@@ -4595,8 +4594,9 @@ in Bandung</string>
                         <segue destination="Bil-tW-9db" kind="show" identifier="segShare" id="gv4-pa-FxU"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8f3-TR-NVg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-807" y="-3514"/>
+            <point key="canvasLocation" x="-813" y="-3352"/>
         </scene>
         <!--Add Product Share View Controller-->
         <scene sceneID="vfB-pf-Ehg">
@@ -5200,7 +5200,7 @@ in Bandung</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TxK-TK-H0B" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-23" y="-3515"/>
+            <point key="canvasLocation" x="-24" y="-3352"/>
         </scene>
         <!--My Product View Controller-->
         <scene sceneID="A3j-dz-k9Z">
@@ -5265,7 +5265,7 @@ in Bandung</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q6V-de-AVK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-23" y="-2472"/>
+            <point key="canvasLocation" x="-24" y="-2203"/>
         </scene>
         <!--My Product Sell View Controller-->
         <scene sceneID="Xbz-hH-qnK">
@@ -5458,7 +5458,7 @@ in Bandung</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A18-7W-ja8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="761" y="-2472"/>
+            <point key="canvasLocation" x="761" y="-2204"/>
         </scene>
         <!--User Search View Controller-->
         <scene sceneID="qFf-LK-l57">
@@ -5569,7 +5569,7 @@ in Bandung</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="90o-my-bkl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4495" y="-3152"/>
+            <point key="canvasLocation" x="-4493" y="-2977"/>
         </scene>
         <!--List Brand View Controller2-->
         <scene sceneID="jgf-jR-l5z">
@@ -5741,7 +5741,7 @@ in Bandung</string>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-3764" y="-3153"/>
+            <point key="canvasLocation" x="-3765" y="-2977"/>
         </scene>
         <!--Category Picker View Controller-->
         <scene sceneID="Wcn-QA-ZZL">
@@ -5831,7 +5831,7 @@ in Bandung</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ndu-Q5-wsX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3030" y="-3153"/>
+            <point key="canvasLocation" x="-3030" y="-2978"/>
         </scene>
         <!--Category Children Picker View Controller-->
         <scene sceneID="Y1j-x2-X6h">
@@ -5868,7 +5868,7 @@ in Bandung</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SYw-h0-qKm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2303" y="-3153"/>
+            <point key="canvasLocation" x="-2303" y="-2978"/>
         </scene>
         <!--Image Picker View Controller-->
         <scene sceneID="8Wj-ps-iNc">
@@ -5968,7 +5968,7 @@ in Bandung</string>
                                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fn5-W5-hj0">
-                                                            <rect key="frame" x="28" y="28" width="44" height="44"/>
+                                                            <rect key="frame" x="28" y="28.5" width="44" height="44"/>
                                                             <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="44"/>
                                                             <color key="textColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -6042,7 +6042,7 @@ in Bandung</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5uW-8g-nHX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1570" y="-3851"/>
+            <point key="canvasLocation" x="-1571" y="-3766"/>
         </scene>
         <!--Add Product Image Full Screen-->
         <scene sceneID="pg9-hd-gZh">
@@ -6158,7 +6158,7 @@ in Bandung</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DCy-0c-iDO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="761" y="-3153"/>
+            <point key="canvasLocation" x="762" y="-2980"/>
         </scene>
         <!--Item-->
         <scene sceneID="pGO-MC-hlR">
@@ -6177,7 +6177,7 @@ in Bandung</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VJ1-b2-meL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-23" y="-5980"/>
+            <point key="canvasLocation" x="-24" y="-6100"/>
         </scene>
         <!--Item-->
         <scene sceneID="HhT-m9-bST">
@@ -6196,7 +6196,7 @@ in Bandung</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wbu-4I-E8i" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-807" y="-1735"/>
+            <point key="canvasLocation" x="-808" y="-1430"/>
         </scene>
         <!--Search View Controller-->
         <scene sceneID="Kp7-ba-3mu">
@@ -6771,7 +6771,7 @@ in Bandung</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P9a-ZI-EGt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3764" y="-3851"/>
+            <point key="canvasLocation" x="-3766" y="-3764"/>
         </scene>
         <!--Profile-->
         <scene sceneID="Bem-r5-Kxr">
@@ -6791,7 +6791,7 @@ in Bandung</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Av-Jr-fpd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-23" y="-1734"/>
+            <point key="canvasLocation" x="-24" y="-1427"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="inS-6v-qCK">
@@ -7192,7 +7192,7 @@ in Bandung</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sml-EB-UEI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1553" y="-5981"/>
+            <point key="canvasLocation" x="1513" y="-5706"/>
         </scene>
         <!--Checkout Tour View Controller-->
         <scene sceneID="wcK-3h-G9S">
@@ -7254,7 +7254,7 @@ in Bandung</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sPB-yx-TRC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2449" y="-5291"/>
+            <point key="canvasLocation" x="2155" y="-4800"/>
         </scene>
         <!--Product Detail View Controller-->
         <scene sceneID="vnq-WO-h06">
@@ -9230,7 +9230,7 @@ in Bandung</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BIJ-iH-uxS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="762" y="-5981"/>
+            <point key="canvasLocation" x="760" y="-5292"/>
         </scene>
         <!--Prelo Share Controller-->
         <scene sceneID="Xzv-se-K0e">
@@ -9342,7 +9342,7 @@ in Bandung</string>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="761" y="-1733"/>
+            <point key="canvasLocation" x="763" y="-1431"/>
         </scene>
         <!--Cart View Controller-->
         <scene sceneID="S7W-NF-7If">
@@ -10654,7 +10654,7 @@ in Bandung</string>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1553" y="-5291"/>
+            <point key="canvasLocation" x="1514" y="-4927"/>
         </scene>
         <!--Konfirmasi Pemesanan-->
         <scene sceneID="Kqa-oj-Prc">
@@ -10835,7 +10835,7 @@ in Bandung</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vDm-b2-WDE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1553" y="-4533"/>
+            <point key="canvasLocation" x="1514" y="-4141"/>
         </scene>
         <!--Konfirmasi Pembayaran-->
         <scene sceneID="GER-6F-T47">
@@ -11835,7 +11835,7 @@ in Bandung</string>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2098" y="-3810"/>
+            <point key="canvasLocation" x="1513" y="-3399"/>
         </scene>
         <!--Picker View Controller-->
         <scene sceneID="CyU-mL-xwT">
@@ -11884,7 +11884,7 @@ in Bandung</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fIc-Jc-NmF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3764" y="-2472"/>
+            <point key="canvasLocation" x="-3766" y="-2201"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="gPh-KT-vYJ">
@@ -11903,7 +11903,7 @@ in Bandung</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cxe-2i-ZeC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4495" y="-1734"/>
+            <point key="canvasLocation" x="-4491" y="-1428"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="YW1-I3-tUE">
@@ -11919,7 +11919,7 @@ in Bandung</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JOG-lI-YFt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2303" y="-2472"/>
+            <point key="canvasLocation" x="-2304" y="-2201"/>
         </scene>
         <!--Base Navigation Controller-->
         <scene sceneID="cJT-T4-bV5">
@@ -11938,7 +11938,7 @@ in Bandung</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5iu-j3-lL1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2303" y="-3851"/>
+            <point key="canvasLocation" x="-2302" y="-3766"/>
         </scene>
         <!--Base Navigation Controller-->
         <scene sceneID="hIx-1K-wlG">
@@ -11957,7 +11957,7 @@ in Bandung</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Loi-mY-gYV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3023" y="-3851"/>
+            <point key="canvasLocation" x="-3030" y="-3765"/>
         </scene>
         <!--List Rekening View Controller-->
         <scene sceneID="erU-hv-R9i">
@@ -12173,7 +12173,7 @@ in Bandung</string>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2449" y="-4534"/>
+            <point key="canvasLocation" x="2155" y="-4142"/>
         </scene>
         <!--Add Product View Controller2-->
         <scene sceneID="P01-Nq-qha">
@@ -14874,7 +14874,7 @@ in Bandung</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gXp-0r-Poi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2099" y="-2404"/>
+            <point key="canvasLocation" x="1513" y="-2048"/>
         </scene>
         <!--Prelo Web View Controller-->
         <scene sceneID="qAS-0W-mKA">
@@ -15463,7 +15463,7 @@ in Bandung</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oAh-uP-0Bj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4495" y="-2472"/>
+            <point key="canvasLocation" x="-4492" y="-2200"/>
         </scene>
         <!--Tawar View Controller-->
         <scene sceneID="ZWC-ou-cTZ">
@@ -16649,7 +16649,7 @@ in Bandung</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Uj-A2-Xqz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="761" y="-3851"/>
+            <point key="canvasLocation" x="762" y="-3767"/>
         </scene>
         <!--Transaction Detail View Controller-->
         <scene sceneID="NPQ-d4-oRb">
@@ -18204,7 +18204,7 @@ in Bandung</string>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2448" y="-5979"/>
+            <point key="canvasLocation" x="2154" y="-5708"/>
         </scene>
     </scenes>
     <resources>
@@ -18264,9 +18264,9 @@ in Bandung</string>
         <image name="tour_5.jpg" width="720" height="1280"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="pME-IT-gHt"/>
         <segue reference="ksh-6D-t59"/>
-        <segue reference="5pQ-qG-4MR"/>
-        <segue reference="cuL-Ez-B43"/>
         <segue reference="W6Y-eo-D2Q"/>
+        <segue reference="cuL-Ez-B43"/>
     </inferredMetricsTieBreakers>
 </document>
