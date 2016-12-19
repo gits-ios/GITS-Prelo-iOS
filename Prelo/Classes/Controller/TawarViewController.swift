@@ -865,6 +865,13 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 Constant.showDialog("Tawar", message: "Mungkin maksud anda " + m.asPrice + "0")
                 return
             }
+            var originalPrice = tawarItem.price.replacingOccurrences(of: "Rp", with: "", options: .literal, range: nil)
+            originalPrice = originalPrice.replacingOccurrences(of: ".", with: "", options: .literal, range: nil)
+            let halfPrice = originalPrice.int / 2
+            if m <= halfPrice {
+                Constant.showDialog("Tawar", message: "Minimal penawaran adalah setengah harga barang + 1 ")
+                return
+            }
             self.hideTawar(nil)
             if (tawarItem.threadId == "") {
                 startNew(1, message : txtTawar.text!, withImg: nil)
@@ -1136,7 +1143,7 @@ class TawarCell : UITableViewCell {
             
             if (m.sending) {
                 self.captionSending?.isHidden = false
-                self.captionTime.text = "sending..."
+                self.captionTime.text = "mengirim..."
             } else {
                 self.captionTime.date = m.dateTime
             }

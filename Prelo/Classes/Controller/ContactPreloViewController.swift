@@ -90,17 +90,20 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
             let username = user?.username
             let no_hp = user?.profiles.phone
             
+            if (order_id != nil) {
+                msg += "Order Id: " + order_id! + "\n---\n"
+            }
+            msg += "Berita / Laporan: \n\n" + "\n---\n"
+            
+            
             if (user != nil) {
-                msg += "username: " + username! + "\n"
-                msg += "no. hp:" + no_hp! + "\n"
+                msg += "Username: " + username! + "\n---\n"
+                msg += "No. HP: " + no_hp! + "\n---\n"
             }
             
-            msg += "versi app: " + (CDVersion.getOne()?.appVersion)! + "\n"
-            msg += "user agent: " + String(describing: my_device) + "\n"
-            if (order_id != nil) {
-                msg += "order id: " + order_id! + "\n"
-            }
-            msg += "berita / laporan:\n"
+            msg += "Versi App: " + (CDVersion.getOne()?.appVersion)! + "\n---\n"
+            msg += "User Agent: " + String(describing: my_device)
+            
             composer.setMessageBody(msg, isHTML: false)
             
             self.present(composer, animated: true, completion: nil)

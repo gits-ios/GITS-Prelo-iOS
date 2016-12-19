@@ -407,7 +407,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         let sellerid = detail?.theirId
         //        let buyerid = detail?.myId
         
-        if sellerid == userid {
+        if sellerid == userid || User.IsLoggedIn == false {
             btnOption.isHidden = true
         }
         
@@ -416,15 +416,18 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     func option()
     {
-        let a = UIActionSheet(title: "Opsi", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: "Batal")
-        let userid = CDUser.getOne()?.id
-        let sellerid = detail?.theirId
+        let a = UIActionSheet(title: "Opsi", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil)
+//        let userid = CDUser.getOne()?.id
+//        let sellerid = detail?.theirId
         //        let buyerid = detail?.myId
         
-        if sellerid != userid {
+//        if sellerid != userid && User.IsLoggedIn == true {
             a.addButton(withTitle: "Laporkan Barang")
-        }
+//        }
         //        a.show(in: self.view)
+        
+        a.addButton(withTitle: "Batal")
+        a.destructiveButtonIndex = 1
         
         // bound location
         let screenSize: CGRect = UIScreen.main.bounds
@@ -435,7 +438,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     }
 
     func actionSheet(_ actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
-        if (buttonIndex == 1)
+        if (buttonIndex == 0)
         {
             guard let pDetail = detail else {
                 return
@@ -463,17 +466,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
-    var loginReport = false
     func gotoReport() {
-        if (User.IsLoggedIn == false) {
-            loginReport = true
-            LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
-        } else {
-            let productReportVC = Bundle.main.loadNibNamed(Tags.XibNameProductReport, owner: nil, options: nil)?.first as! ReportProductViewController
-            productReportVC.root = self
-            productReportVC.pDetail = self.detail
-            self.navigationController?.pushViewController(productReportVC, animated: true)
-        }
+        let productReportVC = Bundle.main.loadNibNamed(Tags.XibNameProductReport, owner: nil, options: nil)?.first as! ReportProductViewController
+        productReportVC.root = self
+        productReportVC.pDetail = self.detail
+        self.navigationController?.pushViewController(productReportVC, animated: true)
     }
     
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
@@ -687,22 +684,33 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         } else {
             let cell : ProductCellDiscussion = (tableView.dequeueReusableCell(withIdentifier: "cell_disc_1") as? ProductCellDiscussion)!
             cell.adapt(detail?.discussions?.objectAtCircleIndex((indexPath as NSIndexPath).row-3))
+            
+            let userid = CDUser.getOne()?.id
+            let senderid = cell.senderId
+            
+            if userid != senderid && cell.isDeleted == false {
+            
             cell.showReportAlert = { sender, commentId in
-                let alert = UIAlertController(title: "Laporkan Komentar", message: "", preferredStyle: .actionSheet)
+                let alert = UIAlertController(title: nil, message: "Laporkan Komentar", preferredStyle: .actionSheet)
                 alert.popoverPresentationController?.sourceView = sender
                 alert.popoverPresentationController?.sourceRect = sender.bounds
-                alert.addAction(UIAlertAction(title: "Komentar ini mengganggu/spam", style: .default, handler: { act in
+                alert.addAction(UIAlertAction(title: "Mengganggu / spam", style: .default, handler: { act in
                     self.reportComment(commentId: commentId, reportType: 0)
                     alert.dismiss(animated: true, completion: nil)
                 }))
-                alert.addAction(UIAlertAction(title: "Komentar ini tidak layak", style: .default, handler: { act in
+                alert.addAction(UIAlertAction(title: "Tidak layak", style: .default, handler: { act in
                     self.reportComment(commentId: commentId, reportType: 1)
                     alert.dismiss(animated: true, completion: nil)
                 }))
-                alert.addAction(UIAlertAction(title: "Batal", style: .default, handler: { act in
+                alert.addAction(UIAlertAction(title: "Batal", style: .destructive, handler: { act in
                     alert.dismiss(animated: true, completion: nil)
                 }))
                 self.present(alert, animated: true, completion: nil)
+
+            }
+                
+            } else{
+                cell.doHide()
             }
             cell.goToProfile = { userId in
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
@@ -772,7 +780,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if ((indexPath as NSIndexPath).row == 1)
+        if ((indexPath as NSIndexPath).section == 0 && (indexPath as NSIndexPath).row == 1)
         {
             let d = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
             d.currentMode = .shop
@@ -1809,6 +1817,7 @@ class ProductCellDiscussion : UITableViewCell
     
     var commentId : String = ""
     var senderId : String = ""
+    var isDeleted : Bool = false
     
     var showReportAlert : (UIView, String) -> () = { _, _ in }
     var goToProfile : (String) -> () = { _ in }
@@ -1839,6 +1848,7 @@ class ProductCellDiscussion : UITableViewCell
         if (obj!.isDeleted) {
             captionMessage?.font = UIFont.italicSystemFont(ofSize: 13)
             captionMessage?.textColor = UIColor.lightGray
+            isDeleted = true
         } else {
             captionMessage?.font = UIFont.systemFont(ofSize: 13)
             captionMessage?.textColor = UIColor.darkGray
@@ -1851,6 +1861,10 @@ class ProductCellDiscussion : UITableViewCell
         } else {
             consWidthBtnReport.constant = 0
         }
+    }
+    
+    func doHide() {
+        consWidthBtnReport.constant = 0
     }
     
     @IBAction func btnReportPressed(_ sender: UIView) {

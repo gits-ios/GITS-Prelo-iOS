@@ -30,6 +30,7 @@ class LocationFilterViewController : BaseViewController, UITableViewDataSource, 
     // Data container
     // location -> province / region
     var locations : [String]?
+    var stackLocationName : String = ""
     
     // Delegate
     var blockDone : BlockLocationSelected?
@@ -96,6 +97,7 @@ class LocationFilterViewController : BaseViewController, UITableViewDataSource, 
         loc.selectedLocation = _selectedLocation
         loc.selectedLocationName = _selectedLocationName // parent name for all
         loc.blockDone = self.blockDone
+        loc.stackLocationName = self.stackLocationName
         self.navigationController?.pushViewController(loc, animated: true)
     }
     
@@ -148,17 +150,23 @@ class LocationFilterViewController : BaseViewController, UITableViewDataSource, 
 //            self.selectedLocation = parts[1]
 //            self.selectedLocationName = parts[0]
 //            print(CDRegion.getRegionPickerItems(selectedLocation!))
+            
+            if (self.deep > 0) {
+                self.stackLocationName += "  "
+            }
+            self.stackLocationName += parts[0]
+//            self.stackLocationName += parts[0] + "  \n"
             getRegion(_selectedLocation: parts[1], _selectedLocationName: parts[0])
         } else {
             //return
 //            print(parts[0])
             
             if (indexPath as NSIndexPath).row == 0 && self.deep != 0 {
-                self.blockDone!([self.selectedLocationName!, self.selectedLocation!] as [String])
+                self.blockDone!([self.selectedLocationName!, self.selectedLocation!, (self.deep - 1).string, self.stackLocationName] as [String])
             } else if (indexPath as NSIndexPath).row == 0 && self.deep == 0 {
-                self.blockDone!([parts[0], ""] as [String])
+                self.blockDone!([parts[0], "", self.deep.string, self.stackLocationName] as [String])
             } else {
-                self.blockDone!([parts[0], parts[1]] as [String])
+                self.blockDone!([parts[0], parts[1], self.deep.string, self.stackLocationName] as [String])
             }
             
             if let r = self.root {

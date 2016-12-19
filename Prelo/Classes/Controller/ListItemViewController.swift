@@ -137,6 +137,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var fltrIsFreeOngkir : Bool = false
     var fltrSizes : [String] = []
     var fltrSortBy : String = "" // "recent"/"lowest_price"/"highest_price"/"popular"
+    var fltrLocation : [String] = ["Semua Provinsi", "", "0", "Semua Province  "] // name , id, type --> 0: province, 1: region, 2: subdistrict
     // Views
     @IBOutlet var vwTopHeaderFilter: UIView!
     @IBOutlet var consTopTopHeaderFilter: NSLayoutConstraint!
@@ -554,7 +555,12 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         if (products != nil && products?.count > 0) {
             lastTimeUuid = products![products!.count - 1].updateTimeUuid
         }
-        let _ = request(APISearch.productByFilter(name: fltrName, categoryId: fltrCategId, brandIds: AppToolsObjC.jsonString(from: [String](fltrBrands.values)), productConditionIds: AppToolsObjC.jsonString(from: fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonString(from: fltrSizes), sortBy: fltrSortBy, current: NSNumber(value: products!.count), limit: NSNumber(value: itemsPerReq), lastTimeUuid: lastTimeUuid)).responseJSON { resp in
+        
+        let provinceId =  self.fltrLocation[2].int == 0 ? self.fltrLocation[1] : ""
+        let regionId =  self.fltrLocation[2].int == 1 ? self.fltrLocation[1] : ""
+        let subDistrictId =  self.fltrLocation[2].int == 2 ? self.fltrLocation[1] : ""
+        
+        let _ = request(APISearch.productByFilter(name: fltrName, categoryId: fltrCategId, brandIds: AppToolsObjC.jsonString(from: [String](fltrBrands.values)), productConditionIds: AppToolsObjC.jsonString(from: fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonString(from: fltrSizes), sortBy: fltrSortBy, current: NSNumber(value: products!.count), limit: NSNumber(value: itemsPerReq), lastTimeUuid: lastTimeUuid, provinceId : provinceId, regionId: regionId, subDistrictId: subDistrictId)).responseJSON { resp in
             if (fltrNameReq == self.fltrName) { // Jika response ini sesuai dengan request terakhir
                 self.requesting = false
                 if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Filter Product")) {
@@ -903,7 +909,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             let segHeight = viewWidthMinusMargin * segments[(indexPath as NSIndexPath).item].image.size.height / segments[(indexPath as NSIndexPath).item].image.size.width
             return CGSize(width: viewWidthMinusMargin, height: segHeight)
         case .products:
-            return CGSize(width: itemCellWidth!, height: itemCellWidth! + 46)
+            return CGSize(width: itemCellWidth!, height: itemCellWidth! + 66)
         }
     }
     
@@ -1118,13 +1124,14 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     // MARK: - Filter delegate function
     
-    func adjustFilter(_ fltrProdCondIds: [String], fltrPriceMin: NSNumber, fltrPriceMax: NSNumber, fltrIsFreeOngkir: Bool, fltrSizes: [String], fltrSortBy: String) {
+    func adjustFilter(_ fltrProdCondIds: [String], fltrPriceMin: NSNumber, fltrPriceMax: NSNumber, fltrIsFreeOngkir: Bool, fltrSizes: [String], fltrSortBy: String, fltrLocation: [String]) {
         self.fltrProdCondIds = fltrProdCondIds
         self.fltrPriceMin = fltrPriceMin
         self.fltrPriceMax = fltrPriceMax
         self.fltrIsFreeOngkir = fltrIsFreeOngkir
         self.fltrSizes = fltrSizes
         self.fltrSortBy = fltrSortBy
+        self.fltrLocation = fltrLocation
         lblFilterSort.text = self.FltrValSortBy[self.fltrSortBy]
         if (lblFilterSort.text?.lowercased() == "highest rp") {
             lblFilterSort.font = UIFont.boldSystemFont(ofSize: 12)
@@ -1204,6 +1211,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         filterVC.isFreeOngkir = self.fltrIsFreeOngkir
         filterVC.minPrice = (self.fltrPriceMin > 0) ? self.fltrPriceMin.stringValue : ""
         filterVC.maxPrice = (self.fltrPriceMax > 0) ? self.fltrPriceMax.stringValue : ""
+        filterVC.locationId = self.fltrLocation[1]
+        filterVC.locationName = self.fltrLocation[0]
+        filterVC.locationType = self.fltrLocation[2].int
         self.navigationController?.pushViewController(filterVC, animated: true)
     }
     
@@ -1419,6 +1429,13 @@ class ListItemCell : UICollectionViewCell {
     @IBOutlet var imgReserved: UIImageView!
     @IBOutlet var imgFeatured: UIImageView!
     @IBOutlet var imgFreeOngkir: UIImageView!
+    @IBOutlet weak var imgTawar: UIImageView!
+    @IBOutlet weak var lblLove: UILabel!
+    @IBOutlet weak var btnTawar: UIButton!
+    @IBOutlet weak var btnLove: UIButton!
+    
+    var newLove : Bool?
+    var pid : String?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -1426,6 +1443,9 @@ class ListItemCell : UICollectionViewCell {
         sectionLove.layoutIfNeeded()
         sectionLove.layer.cornerRadius = sectionLove.frame.size.width/2
         sectionLove.layer.masksToBounds = true
+        
+        // TODO : if used
+        btnTawar.isHidden = true
     }
     
     override func prepareForReuse() {
@@ -1433,6 +1453,8 @@ class ListItemCell : UICollectionViewCell {
         imgReserved.isHidden = true
         imgFeatured.isHidden = true
         imgFreeOngkir.isHidden = true
+        
+        imgTawar.isHidden = true
     }
     
     func adapt(_ product : Product) {
@@ -1443,6 +1465,8 @@ class ListItemCell : UICollectionViewCell {
         captionLove.text = String(loveCount == nil ? 0 : loveCount!)
         let commentCount = obj["discussions"].int
         captionComment.text = String(commentCount == nil ? 0 : commentCount!)
+        
+        pid = obj["_id"].string
         
         avatar.contentMode = .scaleAspectFill
         avatar.layoutIfNeeded()
@@ -1466,6 +1490,13 @@ class ListItemCell : UICollectionViewCell {
             captionMyLove.text = ""
         } else {
             captionMyLove.text = ""
+        }
+        
+        newLove = obj["love"].bool
+        if (newLove == true) {
+            lblLove.text = ""
+        } else {
+            lblLove.text = ""
         }
         
         _ = obj["display_picts"][0].string
@@ -1492,6 +1523,62 @@ class ListItemCell : UICollectionViewCell {
         
         if product.isFreeOngkir {
             imgFreeOngkir.isHidden = false
+        }
+    }
+    
+    @IBAction func btnLovePressed(_ sender: Any) {
+        if (User.IsLoggedIn == true) {
+            if (newLove == true) {
+                newLove = false
+                lblLove.text = ""
+                callApiUnlove()
+            } else {
+                newLove = true
+                lblLove.text = ""
+                callApiLove()
+            }
+        } else {
+//            LoginViewController.Show(self.parent!, userRelatedDelegate: self, animated: true)
+        }
+    }
+
+    func callApiLove()
+    {
+        // Mixpanel
+//        let pt = [
+//            "Product Name" : ((product != nil) ? (product!.name) : ""),
+//            "Category 1" : ((detail != nil && detail?.categoryBreadcrumbs.count > 1) ? (detail!.categoryBreadcrumbs[1]["name"].string!) : ""),
+//            "Category 2" : ((detail != nil && detail?.categoryBreadcrumbs.count > 2) ? (detail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+//            "Category 3" : ((detail != nil && detail?.categoryBreadcrumbs.count > 3) ? (detail!.categoryBreadcrumbs[3]["name"].string!) : ""),
+//            "Seller Name" : ((detail != nil) ? (detail!.theirName) : "")
+//        ]
+//        Mixpanel.trackEvent(MixpanelEvent.ToggledLikeProduct, properties: pt)
+        
+        // API Migrasi
+        let _ = request(APIProduct.love(productID: self.pid!)).responseJSON {resp in
+            print(resp)
+//            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Love Product"))
+//            {
+//                
+//            } else
+//            {
+//                
+//            }
+        }
+    }
+    
+    func callApiUnlove()
+    {
+        // API Migrasi
+        let _ = request(APIProduct.unlove(productID: self.pid!)).responseJSON {resp in
+            print(resp)
+//            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Unlove Product"))
+//            {
+//                
+//            } else
+//            {
+//                
+//            }
         }
     }
 }

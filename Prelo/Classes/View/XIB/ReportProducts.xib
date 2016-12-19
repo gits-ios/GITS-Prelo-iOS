@@ -33,7 +33,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OtN-cJ-aPQ">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="384"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alasan Pelapor:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EAi-mO-wUs">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alasan Pelaporan:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EAi-mO-wUs">
                                         <rect key="frame" x="8" y="8" width="304" height="33"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="33" id="rpq-Iy-CEh"/>
@@ -230,7 +230,7 @@
                                             <action selector="btnTerindikasiPenipuanPressed:" destination="XzF-hN-M9e" eventType="touchUpInside" id="RKY-eu-T8b"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Identitas pelapor akan dijaga kerahasiannya" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c0b-X4-6Ak">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Identitas pelapor akan dijaga kerahasiaannya" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c0b-X4-6Ak">
                                         <rect key="frame" x="8" y="165" width="304" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="bzd-A3-vv5"/>

@@ -183,9 +183,11 @@ class ReportProductViewController: BaseViewController, UITextViewDelegate {
         }
         
         if (checklist == 1 && category_id_sebenarnya == "") {
-            Constant.showDialog("Perhatian", message: "Kategori wajib diisi")
+            Constant.showDialog("Perhatian", message: "Kategori wajib dipilih / diisi")
         } else if checklist == -1 {
-            Constant.showDialog("Perhatian", message: "Alasan wajib dipilih")
+            Constant.showDialog("Perhatian", message: "Alasan pelaporan wajib dipilih")
+        } else if (checklist == 0 || checklist == 3) && report == "" {
+            Constant.showDialog("Perhatian", message: "Alasan wajib diisi")
         } else {
             reportProduct(reportType: checklist, reasonText: report, categoryIdCorrection: category_id_sebenarnya)
             
