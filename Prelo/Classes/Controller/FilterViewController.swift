@@ -12,7 +12,7 @@ import Alamofire
 // MARK: - Protocol
 
 protocol FilterDelegate {
-    func adjustFilter(_ fltrProdCondIds : [String], fltrPriceMin : NSNumber, fltrPriceMax : NSNumber, fltrIsFreeOngkir : Bool, fltrSizes : [String], fltrSortBy : String)
+    func adjustFilter(_ fltrProdCondIds : [String], fltrPriceMin : NSNumber, fltrPriceMax : NSNumber, fltrIsFreeOngkir : Bool, fltrSizes : [String], fltrSortBy : String, fltrLocation: [String])
 }
 
 // MARK: - Class
@@ -55,19 +55,24 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
     var minPrice : String = ""
     var maxPrice : String = ""
     var activeField : UITextField?
+    var locationId : String = ""
+    var locationName : String = "Semua Provinsi"
+    var locationType : Int = 0
     
     // Sections
     let SectionSortBy = 0
     let SectionKondisi = 1
     let SectionOngkir = 2
     let SectionUkuran = 3
-    let SectionHarga = 4
+    let SectionHarga = 5
+    let SectionLokasi = 4
     
     // Custom cell ID
     let IdFilterChecklistCell = "FilterChecklistCell"
     let IdFilterSwitchCell = "FilterSwitchCell"
     let IdFilterCollectionCell = "FilterCollectionCell"
     let IdFilterPriceCell = "FilterPriceCell"
+    let IdFilterLokasi = "FilterLocationCell"
     
     // Delegate
     var delegate : FilterDelegate? = nil
@@ -88,11 +93,13 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
         let cell1 = UINib(nibName: IdFilterChecklistCell, bundle: nil)
         let cell2 = UINib(nibName: IdFilterSwitchCell, bundle: nil)
         let cell3 = UINib(nibName: IdFilterCollectionCell, bundle: nil)
-        let cell4 = UINib(nibName: IdFilterPriceCell, bundle: nil)
+        let cell5 = UINib(nibName: IdFilterPriceCell, bundle: nil)
+        let cell4 = UINib(nibName: IdFilterLokasi, bundle: nil)
         tableView.register(cell1, forCellReuseIdentifier: IdFilterChecklistCell)
         tableView.register(cell2, forCellReuseIdentifier: IdFilterSwitchCell)
         tableView.register(cell3, forCellReuseIdentifier: IdFilterCollectionCell)
-        tableView.register(cell4, forCellReuseIdentifier: IdFilterPriceCell)
+        tableView.register(cell4, forCellReuseIdentifier: IdFilterLokasi)
+        tableView.register(cell5, forCellReuseIdentifier: IdFilterPriceCell)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -179,7 +186,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
     // MARK: - Tableview functions
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 5
+        return 6
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -211,6 +218,8 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
             lblHeader.text = "Ukuran"
         } else if (section == SectionHarga) {
             lblHeader.text = "Rentang Harga"
+        } else if (section == SectionLokasi) {
+            lblHeader.text = "Lokasi Penjual"
         }
         lblHeader.sizeToFit()
         lblHeader.y = (vwHeader.height - lblHeader.height) / 2
@@ -233,6 +242,8 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
             return categorySizes.count
         } else if (section == SectionHarga) {
             return 2
+        } else if (section == SectionLokasi) {
+            return 1
         }
         return 0
     }
@@ -257,6 +268,19 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
                 }
             }
         } else if (section == SectionHarga) {
+            return 40
+        } else if (section == SectionLokasi) {
+//            if (locationName == "Semua Provinsi") {
+//                return 40
+//            } else if (locationType < 2) {
+//                let multiplier = 1 + locationType
+//                let result = 14 * multiplier
+//                return (CGFloat)(result + 40)
+//            } else {
+//                let multiplier = locationType
+//                let result = 14 * multiplier
+//                return (CGFloat)(result + 40)
+//            }
             return 40
         }
         return 0
@@ -317,6 +341,10 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
                 }
             }
             return cell
+        } else if (section == SectionLokasi) {
+            let cell : LocationCell = self.tableView.dequeueReusableCell(withIdentifier: IdFilterLokasi) as! LocationCell
+            cell.adapt(locationName)
+            return cell
         }
         return UITableViewCell()
     }
@@ -329,6 +357,32 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
         } else if (section == SectionKondisi) {
             selectedProductConditions[(indexPath as NSIndexPath).row] = !selectedProductConditions[(indexPath as NSIndexPath).row]
             tableView.reloadData()
+        } else if (section == SectionLokasi) {
+            let filterlocation = Bundle.main.loadNibNamed(Tags.XibNameLocationFilter, owner: nil, options: nil)?.first as! LocationFilterViewController
+            filterlocation.root = self
+            filterlocation.blockDone = { data in
+                print(data)
+                self.locationId = data[1]
+//                self.locationName = data[0]
+                self.locationType = data[2].int
+                if (self.locationType == 2) {
+                    self.locationName = data[3] + "  " + data[0]
+//                    self.locationName = data[3] + data[0]
+                }
+                else if (self.locationType == 1) {
+                    self.locationName = data[3]
+//                    self.locationName = data[3] + "Semua Kecamatan"
+                }
+                else if (self.locationType == 0 && data[0] != "Semua Provinsi") {
+                    self.locationName = data[3]
+//                    self.locationName = data[3] + "Semua Kota / Kabupaten"
+                }
+                else {
+                    self.locationName = data[0]
+                }
+
+            }
+            self.navigationController?.pushViewController(filterlocation, animated: true)
         }
     }
     
@@ -361,6 +415,10 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
         }
         minPrice = ""
         maxPrice = ""
+        
+        locationId = ""
+        locationName = "Semua Provinsi"
+        locationType = 0
         tableView.reloadData()
     }
     
@@ -405,7 +463,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
         }
         
         if (self.previousController != nil) {
-            delegate?.adjustFilter(fltrProdCondIds, fltrPriceMin: fltrPriceMin, fltrPriceMax: fltrPriceMax, fltrIsFreeOngkir: self.isFreeOngkir, fltrSizes: fltrSizes, fltrSortBy: self.SortByDataValue[self.selectedIdxSortBy])
+            delegate?.adjustFilter(fltrProdCondIds, fltrPriceMin: fltrPriceMin, fltrPriceMax: fltrPriceMax, fltrIsFreeOngkir: self.isFreeOngkir, fltrSizes: fltrSizes, fltrSortBy: self.SortByDataValue[self.selectedIdxSortBy], fltrLocation: [self.locationName, self.locationId, self.locationType.string])
             self.navigationController?.popViewController(animated: true)
         } else {
             let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
@@ -419,6 +477,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
             l.fltrIsFreeOngkir = self.isFreeOngkir
             l.fltrSizes = fltrSizes
             l.fltrSortBy = self.SortByDataValue[self.selectedIdxSortBy]
+            l.fltrLocation = [self.locationName, self.locationId, self.locationType.string]
             self.navigationController?.pushViewController(l, animated: true)
         }
     }
@@ -601,5 +660,45 @@ class FilterPriceCell : UITableViewCell, UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.fieldEdited(lblTitle.text!, textField.text)
+    }
+}
+
+class LocationCell : UITableViewCell
+{
+    @IBOutlet weak var lblText: UILabel!
+    @IBOutlet weak var lblPicker: UILabel!
+    
+    func adapt(_ title : String) {
+        
+//        let mystr = title
+//        let searchstr = ""
+//        let ranges: [NSRange]
+//        
+//        do {
+//            // Create the regular expression.
+//            let regex = try NSRegularExpression(pattern: searchstr, options: [])
+//            
+//            // Use the regular expression to get an array of NSTextCheckingResult.
+//            // Use map to extract the range from each result.
+//            ranges = regex.matches(in: mystr, options: [], range: NSMakeRange(0, mystr.characters.count)).map {$0.range}
+//        }
+//        catch {
+//            // There was a problem creating the regular expression
+//            ranges = []
+//        }
+//        
+//        if ranges.count > 0 {
+//            let attrString = NSMutableAttributedString(string: title)
+//            let small = UIFont (name: "prelo2", size: 7)
+//            
+//            for i in 0...ranges.count - 1 {
+//                attrString.addAttribute(kCTFontAttributeName as String, value: small, range: NSMakeRange(ranges[i].location, 1))
+//            
+//            }
+//        
+//            self.lblText.attributedText = attrString
+//        }
+        
+        self.lblText.text = title
     }
 }

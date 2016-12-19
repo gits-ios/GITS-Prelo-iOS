@@ -137,6 +137,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var fltrIsFreeOngkir : Bool = false
     var fltrSizes : [String] = []
     var fltrSortBy : String = "" // "recent"/"lowest_price"/"highest_price"/"popular"
+    var fltrLocation : [String] = ["Semua Provinsi", "", "0", "Semua Province  "] // name , id, type --> 0: province, 1: region, 2: subdistrict
     // Views
     @IBOutlet var vwTopHeaderFilter: UIView!
     @IBOutlet var consTopTopHeaderFilter: NSLayoutConstraint!
@@ -554,7 +555,12 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         if (products != nil && products?.count > 0) {
             lastTimeUuid = products![products!.count - 1].updateTimeUuid
         }
-        let _ = request(APISearch.productByFilter(name: fltrName, categoryId: fltrCategId, brandIds: AppToolsObjC.jsonString(from: [String](fltrBrands.values)), productConditionIds: AppToolsObjC.jsonString(from: fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonString(from: fltrSizes), sortBy: fltrSortBy, current: NSNumber(value: products!.count), limit: NSNumber(value: itemsPerReq), lastTimeUuid: lastTimeUuid)).responseJSON { resp in
+        
+        let provinceId =  self.fltrLocation[2].int == 0 ? self.fltrLocation[1] : ""
+        let regionId =  self.fltrLocation[2].int == 1 ? self.fltrLocation[1] : ""
+        let subDistrictId =  self.fltrLocation[2].int == 2 ? self.fltrLocation[1] : ""
+        
+        let _ = request(APISearch.productByFilter(name: fltrName, categoryId: fltrCategId, brandIds: AppToolsObjC.jsonString(from: [String](fltrBrands.values)), productConditionIds: AppToolsObjC.jsonString(from: fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonString(from: fltrSizes), sortBy: fltrSortBy, current: NSNumber(value: products!.count), limit: NSNumber(value: itemsPerReq), lastTimeUuid: lastTimeUuid, provinceId : provinceId, regionId: regionId, subDistrictId: subDistrictId)).responseJSON { resp in
             if (fltrNameReq == self.fltrName) { // Jika response ini sesuai dengan request terakhir
                 self.requesting = false
                 if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Filter Product")) {
@@ -1118,13 +1124,14 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     // MARK: - Filter delegate function
     
-    func adjustFilter(_ fltrProdCondIds: [String], fltrPriceMin: NSNumber, fltrPriceMax: NSNumber, fltrIsFreeOngkir: Bool, fltrSizes: [String], fltrSortBy: String) {
+    func adjustFilter(_ fltrProdCondIds: [String], fltrPriceMin: NSNumber, fltrPriceMax: NSNumber, fltrIsFreeOngkir: Bool, fltrSizes: [String], fltrSortBy: String, fltrLocation: [String]) {
         self.fltrProdCondIds = fltrProdCondIds
         self.fltrPriceMin = fltrPriceMin
         self.fltrPriceMax = fltrPriceMax
         self.fltrIsFreeOngkir = fltrIsFreeOngkir
         self.fltrSizes = fltrSizes
         self.fltrSortBy = fltrSortBy
+        self.fltrLocation = fltrLocation
         lblFilterSort.text = self.FltrValSortBy[self.fltrSortBy]
         if (lblFilterSort.text?.lowercased() == "highest rp") {
             lblFilterSort.font = UIFont.boldSystemFont(ofSize: 12)
@@ -1204,6 +1211,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         filterVC.isFreeOngkir = self.fltrIsFreeOngkir
         filterVC.minPrice = (self.fltrPriceMin > 0) ? self.fltrPriceMin.stringValue : ""
         filterVC.maxPrice = (self.fltrPriceMax > 0) ? self.fltrPriceMax.stringValue : ""
+        filterVC.locationId = self.fltrLocation[1]
+        filterVC.locationName = self.fltrLocation[0]
+        filterVC.locationType = self.fltrLocation[2].int
         self.navigationController?.pushViewController(filterVC, animated: true)
     }
     
