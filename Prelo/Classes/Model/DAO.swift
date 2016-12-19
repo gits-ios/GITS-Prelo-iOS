@@ -2228,6 +2228,13 @@ class TransactionProductDetail : NSObject {
         }
         return ""
     }
+    
+    var maskedCCLast : String {
+        if let j = json["masked_card_last"].string {
+            return j
+        }
+        return ""
+    }
 }
 
 class UserReview : NSObject {

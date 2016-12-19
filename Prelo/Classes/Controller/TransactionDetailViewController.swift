@@ -2494,6 +2494,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentMethod)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentDate)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentNominal.asPrice)
+            height += TransactionDetailTitleContentCell.heightFor("**** **** **** \(trxProductDetail.maskedCCLast)")
         } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidBonus) {
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentMethod)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentDate)
@@ -2604,7 +2605,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer) {
                 return 4
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidCC) {
-                return 3
+                return 4
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidBonus) {
                 return 2
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
@@ -2733,6 +2734,10 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentNominal.asPrice)
                     } else if (isTrxProductDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentNominal.asPrice)
+                    }
+                } else if (idx == 3) {
+                    if (isTrxProductDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor("**** **** **** \(trxProductDetail!.maskedCCLast)")
                     }
                 }
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidBonus) {
@@ -3102,6 +3107,10 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         content = trxProductDetail!.paymentNominal.asPrice
                     }
                     return self.createTitleContentCell("Nominal", content: content)
+                } else if (idx == 3) {
+                    if (isTrxProductDetail()) {
+                        return self.createTitleContentCell("Nomor Kartu", content: "**** **** **** \(trxProductDetail!.maskedCCLast)")
+                    }
                 }
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidBonus) {
                 if (idx == 0) {
