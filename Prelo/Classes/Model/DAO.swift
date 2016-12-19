@@ -2243,11 +2243,18 @@ class TransactionProductDetail : NSObject {
         return ""
     }
     
-    var paymentCode: String {
+    var paymentCode : String {
         if let j = json["payment_method_param"]["payment_code"].string {
             return j
         }
         return ""
+    }
+    
+    var refundable : Bool {
+        if let j = json["refundable"].bool {
+            return j
+        }
+        return false
     }
 }
 

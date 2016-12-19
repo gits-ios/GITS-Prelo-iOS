@@ -99,6 +99,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     // Others
     var isShowBankBRI : Bool = false
     var veritransRedirectUrl : String = ""
+    var isRefundable : Bool = false
     
     // MARK: - Init
     
@@ -203,6 +204,11 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     // Veritrans url check
                     if let vrtUrl = data["veritrans_redirect_url"].string {
                         self.veritransRedirectUrl = vrtUrl
+                    }
+                    
+                    // Refundable check
+                    if let r = data["refundable"].bool {
+                        self.isRefundable = r
                     }
                     
                     // Mixpanel
@@ -364,7 +370,11 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             if (userIsSeller()) {
                 return 10
             } else {
-                return 13
+                if (isRefundable) {
+                    return 13
+                } else {
+                    return 12
+                }
             }
         } else if (progress == TransactionDetailTools.ProgressReviewed) {
             if (userIsSeller()) {
@@ -667,11 +677,15 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 8) {
                     return DefaultHeight
                 } else if (idx == 9) {
-                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
+                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1, boolParam: isRefundable)
                 } else if (idx == 10) {
                     return DefaultHeight
                 } else if (idx == 11) {
-                    return DefaultHeight
+                    if (isRefundable) {
+                        return DefaultHeight // Tombol refund
+                    } else {
+                        return ContactPreloHeight
+                    }
                 } else if (idx == 12) {
                     return ContactPreloHeight
                 }
@@ -1232,7 +1246,11 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 10) {
                     return self.createButtonCell(1)
                 } else if (idx == 11) {
-                    return self.createBorderedButtonCell(1)
+                    if (isRefundable) {
+                        return self.createBorderedButtonCell(1)
+                    } else {
+                        return self.createContactPreloCell()
+                    }
                 } else if (idx == 12) {
                     return self.createContactPreloCell()
                 }
@@ -2338,8 +2356,10 @@ class TransactionDetailTools : NSObject {
     static let TextConfirmedPaidBuyer2 = "Ingatkan penjual untuk mengirim pesanan."
     static let TextSentSeller = "Beritahu pembeli bahwa barang sudah dikirim. Minta pembeli untuk memberikan review apabila barang sudah diterima."
     static let TextSentBuyer = "Berikan review sebagai konfirmasi penerimaan. Prelo akan meneruskan pembayaran ke penjual."
+    static let TextSentBuyerNoRefund = "Refund sudah tidak dapat dilakukan karena sudah melebihi batas Waktu Jaminan Prelo (3x24 jam sejak barang diterima). Jangan lupa lakukan review."
     static let TextReceivedSeller = "Barang semestinya sudah diterima. Hubungi pembeli untuk mengecek apakah barang sudah diterima dan minta review untuk menyelesaikan transaksi."
     static let TextReceivedBuyer = "Barang semestinya sudah kamu terima. Review penjual untuk menyelesaikan transaksi. Belum terima barang? Hubungi Prelo."
+    static let TextReceivedBuyerNoRefund = "Refund sudah tidak dapat dilakukan karena sudah melebihi batas Waktu Jaminan Prelo (3x24 jam sejak barang diterima). Jangan lupa lakukan review."
     static let TextReserved1 = "Barang ini telah direservasi khusus untuk kamu. Kamu dapat menyelesaikan pembelian barang ini dengan menyelesaikan pembayaran pada"
     static let TextReserved2 = "Apabila kamu tidak menyelesaikan pembelian sampai dengan batas waktu yang ditentukan, reservasi barang kamu akan dibatalkan.\n\nTunjukkan halaman ini sebagai bukti reservasi kamu."
     static let TextReserveDone = "Terima kasih sudah berbelanja di Prelo! Temukan barang preloved lainnya di Prelo dan tunggu event menarik selanjutnya dari Prelo."
@@ -3718,13 +3738,9 @@ class TransactionDetailDescriptionCell : UITableViewCell {
             } else if (progress == TransactionDetailTools.ProgressSent) {
                 if (isSeller! == true) {
                     textRect = TransactionDetailTools.TextSentSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
-                } else {
-                    textRect = TransactionDetailTools.TextSentBuyer.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                 }
             } else if (progress == TransactionDetailTools.ProgressReceived) {
                 if (isSeller! == true) {
-                    textRect = TransactionDetailTools.TextReceivedSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
-                } else {
                     textRect = TransactionDetailTools.TextReceivedSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                 }
             } else if (progress == TransactionDetailTools.ProgressReserved) {
@@ -3780,6 +3796,25 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                 if (isSeller! == true) {
                     let text = TransactionDetailTools.TextRefundRequestSeller1 + addText + TransactionDetailTools.TextRefundRequestSeller2
                     textRect = text.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                }
+            }
+            if (textRect != nil) {
+                return textRect!.height + (2 * TransactionDetailTools.Margin)
+            }
+        }
+        return 0
+    }
+    
+    static func heightFor(_ progress : Int?, isSeller : Bool?, order : Int, boolParam : Bool) -> CGFloat {
+        if (progress != nil && isSeller != nil) {
+            var textRect : CGRect?
+            if (progress == TransactionDetailTools.ProgressReceived || progress == TransactionDetailTools.ProgressSent) {
+                if (isSeller! == false) {
+                    if (boolParam == true) { // In this case, boolParam = isRefundable
+                        textRect = TransactionDetailTools.TextReceivedBuyer.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                    } else {
+                        textRect = TransactionDetailTools.TextReceivedBuyerNoRefund.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                    }
                 }
             }
             if (textRect != nil) {
@@ -3854,13 +3889,21 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                 if (isSeller) {
                     lblDesc.text = TransactionDetailTools.TextSentSeller
                 } else {
-                    lblDesc.text = TransactionDetailTools.TextSentBuyer
+                    if (trxProductDetail.refundable) {
+                        lblDesc.text = TransactionDetailTools.TextSentBuyer
+                    } else {
+                        lblDesc.text = TransactionDetailTools.TextSentBuyerNoRefund
+                    }
                 }
             } else if (progress == TransactionDetailTools.ProgressReceived) {
                 if (isSeller) {
                     lblDesc.text = TransactionDetailTools.TextReceivedSeller
                 } else {
-                    lblDesc.text = TransactionDetailTools.TextReceivedBuyer
+                    if (trxProductDetail.refundable) {
+                        lblDesc.text = TransactionDetailTools.TextReceivedBuyer
+                    } else {
+                        lblDesc.text = TransactionDetailTools.TextReceivedBuyerNoRefund
+                    }
                 }
             } else if (progress == TransactionDetailTools.ProgressReserved) {
                 if (order == 1) {
