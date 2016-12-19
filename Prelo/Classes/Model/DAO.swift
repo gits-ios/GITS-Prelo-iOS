@@ -1500,6 +1500,13 @@ class TransactionDetail : NSObject {
         return ""
     }
     
+    var paymentMethodInt : Int {
+        if let j = json["payment_method"].int {
+            return j
+        }
+        return 0
+    }
+    
     var paymentDate : String {
         if let j = json["payment_date"].string {
             return j
@@ -1767,6 +1774,13 @@ class TransactionDetail : NSObject {
     
     var isShowShipHistory : Bool {
         return shipVerified != nil
+    }
+    
+    var veritransChargeAmount : Int {
+        if let j = json["veritrans_charge_amount"].int {
+            return j
+        }
+        return 0
     }
 }
 

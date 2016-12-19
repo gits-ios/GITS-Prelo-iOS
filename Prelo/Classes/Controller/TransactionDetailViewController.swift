@@ -2325,7 +2325,8 @@ class TransactionDetailTools : NSObject {
     static let TextReimburse2 = "Kamu dapat menggunakannya untuk transaksi selanjutnya atau tarik uang PreloBalance."
     static let TextNotPaid = "Transaksi ini belum dibayar dan akan expired pada "
     static let TextNotPaidSeller = "Ingatkan pembeli untuk segera membayar."
-    static let TextNotPaidBuyer = "Segera konfirmasi pembayaran."
+    static let TextNotPaidBuyerTransfer = "Segera konfirmasi pembayaran."
+    static let TextNotPaidBuyerVeritrans = "Segera lanjutkan pembayaran."
     static let TextClaimedPaidSeller = "Pembayaran pembeli sedang dikonfirmasi oleh Prelo, mohon tunggu."
     static let TextClaimedPaidBuyer = "Hubungi Prelo apabila alamat pengiriman salah."
     static let TextConfirmedPaidSeller1 = "Kirim pesanan sebelum "
@@ -3014,11 +3015,21 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     }
                     return self.createTitleContentCell("Subtotal", content: content, alignment: .right, url: nil, textToCopy: nil)
                 } else if (idx == 5) {
+                    var title = ""
                     var content = ""
                     if (isTrxDetail()) {
-                        content = trxDetail!.bankTransferDigit.asPrice
+                        if (trxDetail!.paymentMethodInt == 1) {
+                            title = "Charge Kartu Kredit"
+                            content = trxDetail!.veritransChargeAmount.asPrice
+                        } else if (trxDetail!.paymentMethodInt == 4) {
+                            title = "Charge Indomaret"
+                            content = trxDetail!.veritransChargeAmount.asPrice
+                        } else {
+                            title = "Kode Unik"
+                            content = trxDetail!.bankTransferDigit.asPrice
+                        }
                     }
-                    let cell = self.createTitleContentCell("Kode Unik", content: content, alignment: .right, url: nil, textToCopy: nil)
+                    let cell = self.createTitleContentCell(title, content: content, alignment: .right, url: nil, textToCopy: nil)
                     cell.showVwLine()
                     return cell
                 } else if (idx == 6) {
@@ -3609,7 +3620,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     }
                 }
             } else if (progress == TransactionDetailTools.ProgressNotPaid) {
-                let text = TransactionDetailTools.TextNotPaid + "dd/MM/yyyy hh:mm:ss. " + ((isSeller! == true) ? TransactionDetailTools.TextNotPaidSeller : TransactionDetailTools.TextNotPaidBuyer)
+                let text = TransactionDetailTools.TextNotPaid + "dd/MM/yyyy hh:mm:ss. " + ((isSeller! == true) ? TransactionDetailTools.TextNotPaidSeller : TransactionDetailTools.TextNotPaidBuyerTransfer) // Asumsi: TextNotPaidBuyerTransfer & TextNotPaidBuyerVeritrans panjangnya sama
                 textRect = text.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin) - 8) // Dikurangin 8 lagi karna ada galat perhitungan
             } else if (progress == TransactionDetailTools.ProgressClaimedPaid) {
                 if (isSeller! == true) {
@@ -3714,7 +3725,13 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                 if (isSeller) {
                     lblDesc.text = TransactionDetailTools.TextNotPaid + expireTime + TransactionDetailTools.TextNotPaidSeller
                 } else {
-                    lblDesc.text = TransactionDetailTools.TextNotPaid + expireTime + TransactionDetailTools.TextNotPaidBuyer
+                    var lastText = ""
+                    if (trxDetail.paymentMethodInt == 1 || trxDetail.paymentMethodInt == 4) {
+                        lastText = TransactionDetailTools.TextNotPaidBuyerVeritrans
+                    } else {
+                        lastText = TransactionDetailTools.TextNotPaidBuyerTransfer
+                    }
+                    lblDesc.text = TransactionDetailTools.TextNotPaid + expireTime + lastText
                 }
             } else if (progress == TransactionDetailTools.ProgressClaimedPaid) {
                 if (isSeller) {
