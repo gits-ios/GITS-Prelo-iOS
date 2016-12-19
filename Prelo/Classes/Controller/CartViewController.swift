@@ -66,6 +66,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     var subtotalPrice : Int = 0 // Jumlah harga semua produk + ongkir
     var priceAfterDiscounts : Int = 0 // subtotalPrice dikurangi semua diskon
     var totalOngkir : Int = 0 // Jumlah ongkir dari semua produk
+    var grandTotal : Int = 0 // Total pembayaran
     
     // Cell data container
     var cellsData : [IndexPath : BaseCartData] = [:]
@@ -568,7 +569,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         } else if (selectedPayment == .indomaret) {
             paymentCharge = indomaretCharge
         }
-        let bGTotal = BaseCartData.instance("Total Pembayaran", placeHolder: nil, value: (priceAfterDiscounts + (priceAfterDiscounts > 0 ? paymentCharge : 0)).asPrice, enable: false)
+        self.grandTotal = priceAfterDiscounts + (priceAfterDiscounts > 0 ? paymentCharge : 0)
+        let bGTotal = BaseCartData.instance("Total Pembayaran", placeHolder: nil, value: self.grandTotal.asPrice, enable: false)
         self.cellsData[idxGTotal] = bGTotal
         
         self.printCellsData()
@@ -1044,45 +1046,14 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             }
         }
         
-        self.performCheckout(p!, address: a!, usedBalance: usedBalance, usedBonus: usedBonus)
-        
-        /*if (self.selectedPayment == .bankTransfer || self.priceAfterDiscounts <= 0) { // Bank Transfer or Rp0 Transaction
+        let alert : UIAlertController = UIAlertController(title: "Perhatian", message: "Kamu akan melakukan transaksi sebesar \(self.grandTotal.asPrice) menggunakan \(self.selectedPayment.value). Lanjutkan?", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Lanjutkan", style: .default, handler: { action in
             self.performCheckout(p!, address: a!, usedBalance: usedBalance, usedBonus: usedBonus)
-        } else if (self.selectedPayment == .creditCard) { // Credit Cards
-            let _ = request(APICart.generateVeritransUrl(cart: p!, address: a!, voucher: voucherApplied, payment: selectedPayment.value, usedPreloBalance: usedBalance, usedReferralBonus: usedBonus, kodeTransfer: bankTransferDigit)).responseJSON { resp in
-                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Generate Veritrans URL")) {
-                    let json = JSON(resp.result.value!)
-                    let data = json["_data"]
-                    if (data["success"].bool == true) {
-                        let webVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
-                        webVC.url = data["veritrans_redirect_url"].stringValue
-                        webVC.titleString = "Pembayaran Kartu Kredit"
-                        webVC.creditCardMode = true
-                        webVC.ccPaymentSucceed = {
-                            self.performCheckout(p!, address: a!, usedBalance: usedBalance, usedBonus: usedBonus)
-                        }
-                        webVC.ccPaymentUnfinished = {
-                            Constant.showDialog("", message: "Pembayaran dibatalkan")
-                            self.btnSend.isEnabled = true
-                        }
-                        webVC.ccPaymentFailed = {
-                            Constant.showDialog("Pembayaran Gagal", message: "Mohon coba lagi dengan metode pembayaran yang lain")
-                            self.btnSend.isEnabled = true
-                        }
-                        let baseNavC = BaseNavigationController()
-                        baseNavC.setViewControllers([webVC], animated: false)
-                        self.present(baseNavC, animated: true, completion: nil)
-                    } else {
-                        Constant.showDialog("Generate Veritrans URL", message: "Oops, terdapat kesalahan, silahkan coba beberapa saat lagi")
-                        self.btnSend.isEnabled = true
-                    }
-                } else {
-                    self.btnSend.isEnabled = true
-                }
-            }
-        }
-        */
-        
+        }))
+        alert.addAction(UIAlertAction(title: "Batal", style: .default, handler: { action in
+            self.btnSend.isEnabled = true
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     func performCheckout(_ cart : String, address : String, usedBalance : Int, usedBonus : Int) {
