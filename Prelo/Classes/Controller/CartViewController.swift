@@ -1240,6 +1240,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         o.orderID = (self.checkoutResult?["order_id"].string)!
         if (self.selectedPayment == .creditCard) {
             o.total = 0
+        } else if (self.selectedPayment == .indomaret) {
+            o.total = 0
         } else { // Bank transfer etc
             o.total = gTotal
         }
