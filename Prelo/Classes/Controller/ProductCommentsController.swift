@@ -240,15 +240,15 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
             let alert = UIAlertController(title: nil, message: "Laporkan Komentar", preferredStyle: .actionSheet)
             alert.popoverPresentationController?.sourceView = sender
             alert.popoverPresentationController?.sourceRect = sender.bounds
-            alert.addAction(UIAlertAction(title: "Batal", style: .destructive, handler: { act in
-                alert.dismiss(animated: true, completion: nil)
-            }))
             alert.addAction(UIAlertAction(title: "Mengganggu / spam", style: .default, handler: { act in
                 self.reportComment(commentId: commentId, reportType: 0)
                 alert.dismiss(animated: true, completion: nil)
             }))
             alert.addAction(UIAlertAction(title: "Tidak layak", style: .default, handler: { act in
                 self.reportComment(commentId: commentId, reportType: 1)
+                alert.dismiss(animated: true, completion: nil)
+            }))
+            alert.addAction(UIAlertAction(title: "Batal", style: .destructive, handler: { act in
                 alert.dismiss(animated: true, completion: nil)
             }))
             self.present(alert, animated: true, completion: nil)

@@ -416,15 +416,18 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     func option()
     {
-        let a = UIActionSheet(title: "Opsi", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: "Batal")
-        let userid = CDUser.getOne()?.id
-        let sellerid = detail?.theirId
+        let a = UIActionSheet(title: "Opsi", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil)
+//        let userid = CDUser.getOne()?.id
+//        let sellerid = detail?.theirId
         //        let buyerid = detail?.myId
         
-        if sellerid != userid && User.IsLoggedIn == true {
+//        if sellerid != userid && User.IsLoggedIn == true {
             a.addButton(withTitle: "Laporkan Barang")
-        }
+//        }
         //        a.show(in: self.view)
+        
+        a.addButton(withTitle: "Batal")
+        a.destructiveButtonIndex = 1
         
         // bound location
         let screenSize: CGRect = UIScreen.main.bounds
@@ -435,7 +438,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     }
 
     func actionSheet(_ actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
-        if (buttonIndex == 1)
+        if (buttonIndex == 0)
         {
             guard let pDetail = detail else {
                 return
@@ -691,15 +694,15 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 let alert = UIAlertController(title: nil, message: "Laporkan Komentar", preferredStyle: .actionSheet)
                 alert.popoverPresentationController?.sourceView = sender
                 alert.popoverPresentationController?.sourceRect = sender.bounds
-                alert.addAction(UIAlertAction(title: "Batal", style: .destructive, handler: { act in
-                    alert.dismiss(animated: true, completion: nil)
-                }))
                 alert.addAction(UIAlertAction(title: "Mengganggu / spam", style: .default, handler: { act in
                     self.reportComment(commentId: commentId, reportType: 0)
                     alert.dismiss(animated: true, completion: nil)
                 }))
                 alert.addAction(UIAlertAction(title: "Tidak layak", style: .default, handler: { act in
                     self.reportComment(commentId: commentId, reportType: 1)
+                    alert.dismiss(animated: true, completion: nil)
+                }))
+                alert.addAction(UIAlertAction(title: "Batal", style: .destructive, handler: { act in
                     alert.dismiss(animated: true, completion: nil)
                 }))
                 self.present(alert, animated: true, completion: nil)

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Prelo2.ttf">
+            <string>Prelo2</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FilterLocationCell" rowHeight="36" id="JFx-y3-fMi" customClass="LocationCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="36"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JFx-y3-fMi" id="Pel-KO-ggY">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="35"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CLS-mf-aLT">
+                        <rect key="frame" x="8" y="0.0" width="259" height="35"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m5F-zs-Plw">
+                        <rect key="frame" x="275" y="0.0" width="45" height="35"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="45" id="f1C-e6-UH0"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="17"/>
+                        <color key="textColor" red="1" green="0.6588235294" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="m5F-zs-Plw" firstAttribute="leading" secondItem="CLS-mf-aLT" secondAttribute="trailing" constant="8" id="2Uy-JU-Xy8"/>
+                    <constraint firstItem="m5F-zs-Plw" firstAttribute="top" secondItem="Pel-KO-ggY" secondAttribute="top" id="5ss-Nt-VaI"/>
+                    <constraint firstItem="CLS-mf-aLT" firstAttribute="top" secondItem="Pel-KO-ggY" secondAttribute="top" id="Spp-8v-ZTu"/>
+                    <constraint firstAttribute="trailing" secondItem="m5F-zs-Plw" secondAttribute="trailing" id="UwP-Zr-NcC"/>
+                    <constraint firstAttribute="bottom" secondItem="CLS-mf-aLT" secondAttribute="bottom" id="gn8-u1-0ll"/>
+                    <constraint firstItem="CLS-mf-aLT" firstAttribute="leading" secondItem="Pel-KO-ggY" secondAttribute="leading" constant="8" id="yf6-3T-C8p"/>
+                    <constraint firstAttribute="bottom" secondItem="m5F-zs-Plw" secondAttribute="bottom" id="zOx-Ra-bQG"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="lblPicker" destination="m5F-zs-Plw" id="CM0-04-LXI"/>
+                <outlet property="lblText" destination="CLS-mf-aLT" id="4cT-T4-iTE"/>
+            </connections>
+            <point key="canvasLocation" x="233" y="296"/>
+        </tableViewCell>
+    </objects>
+</document>
