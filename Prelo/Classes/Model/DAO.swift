@@ -1782,6 +1782,13 @@ class TransactionDetail : NSObject {
         }
         return 0
     }
+    
+    var paymentCode: String {
+        if let j = json["payment_method_param"]["payment_code"].string {
+            return j
+        }
+        return ""
+    }
 }
 
 class TransactionProductDetail : NSObject {
@@ -2231,6 +2238,13 @@ class TransactionProductDetail : NSObject {
     
     var maskedCCLast : String {
         if let j = json["masked_card_last"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var paymentCode: String {
+        if let j = json["payment_method_param"]["payment_code"].string {
             return j
         }
         return ""
