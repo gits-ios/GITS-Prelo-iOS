@@ -160,7 +160,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         if let n = notifications?[(indexPath as NSIndexPath).item] {
             if (!n.read) {
                 // API Migrasi
-        let _ = request(APINotification.readNotif(tab: "conversation", id: n.objectId)).responseJSON {resp in
+                let _ = request(APINotification.readNotif(tab: "conversation", id: n.objectId, type: n.type.string)).responseJSON {resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Percakapan")) {
                         let json = JSON(resp.result.value!)
                         let data : Bool? = json["_data"].bool
