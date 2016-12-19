@@ -909,7 +909,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             let segHeight = viewWidthMinusMargin * segments[(indexPath as NSIndexPath).item].image.size.height / segments[(indexPath as NSIndexPath).item].image.size.width
             return CGSize(width: viewWidthMinusMargin, height: segHeight)
         case .products:
-            return CGSize(width: itemCellWidth!, height: itemCellWidth! + 46)
+            return CGSize(width: itemCellWidth!, height: itemCellWidth! + 66)
         }
     }
     
@@ -1429,6 +1429,13 @@ class ListItemCell : UICollectionViewCell {
     @IBOutlet var imgReserved: UIImageView!
     @IBOutlet var imgFeatured: UIImageView!
     @IBOutlet var imgFreeOngkir: UIImageView!
+    @IBOutlet weak var imgTawar: UIImageView!
+    @IBOutlet weak var lblLove: UILabel!
+    @IBOutlet weak var btnTawar: UIButton!
+    @IBOutlet weak var btnLove: UIButton!
+    
+    var newLove : Bool?
+    var pid : String?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -1436,6 +1443,9 @@ class ListItemCell : UICollectionViewCell {
         sectionLove.layoutIfNeeded()
         sectionLove.layer.cornerRadius = sectionLove.frame.size.width/2
         sectionLove.layer.masksToBounds = true
+        
+        // TODO : if used
+        btnTawar.isHidden = true
     }
     
     override func prepareForReuse() {
@@ -1443,6 +1453,8 @@ class ListItemCell : UICollectionViewCell {
         imgReserved.isHidden = true
         imgFeatured.isHidden = true
         imgFreeOngkir.isHidden = true
+        
+        imgTawar.isHidden = true
     }
     
     func adapt(_ product : Product) {
@@ -1453,6 +1465,8 @@ class ListItemCell : UICollectionViewCell {
         captionLove.text = String(loveCount == nil ? 0 : loveCount!)
         let commentCount = obj["discussions"].int
         captionComment.text = String(commentCount == nil ? 0 : commentCount!)
+        
+        pid = obj["_id"].string
         
         avatar.contentMode = .scaleAspectFill
         avatar.layoutIfNeeded()
@@ -1476,6 +1490,13 @@ class ListItemCell : UICollectionViewCell {
             captionMyLove.text = ""
         } else {
             captionMyLove.text = ""
+        }
+        
+        newLove = obj["love"].bool
+        if (newLove == true) {
+            lblLove.text = ""
+        } else {
+            lblLove.text = ""
         }
         
         _ = obj["display_picts"][0].string
@@ -1502,6 +1523,62 @@ class ListItemCell : UICollectionViewCell {
         
         if product.isFreeOngkir {
             imgFreeOngkir.isHidden = false
+        }
+    }
+    
+    @IBAction func btnLovePressed(_ sender: Any) {
+        if (User.IsLoggedIn == true) {
+            if (newLove == true) {
+                newLove = false
+                lblLove.text = ""
+                callApiUnlove()
+            } else {
+                newLove = true
+                lblLove.text = ""
+                callApiLove()
+            }
+        } else {
+//            LoginViewController.Show(self.parent!, userRelatedDelegate: self, animated: true)
+        }
+    }
+
+    func callApiLove()
+    {
+        // Mixpanel
+//        let pt = [
+//            "Product Name" : ((product != nil) ? (product!.name) : ""),
+//            "Category 1" : ((detail != nil && detail?.categoryBreadcrumbs.count > 1) ? (detail!.categoryBreadcrumbs[1]["name"].string!) : ""),
+//            "Category 2" : ((detail != nil && detail?.categoryBreadcrumbs.count > 2) ? (detail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+//            "Category 3" : ((detail != nil && detail?.categoryBreadcrumbs.count > 3) ? (detail!.categoryBreadcrumbs[3]["name"].string!) : ""),
+//            "Seller Name" : ((detail != nil) ? (detail!.theirName) : "")
+//        ]
+//        Mixpanel.trackEvent(MixpanelEvent.ToggledLikeProduct, properties: pt)
+        
+        // API Migrasi
+        let _ = request(APIProduct.love(productID: self.pid!)).responseJSON {resp in
+            print(resp)
+//            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Love Product"))
+//            {
+//                
+//            } else
+//            {
+//                
+//            }
+        }
+    }
+    
+    func callApiUnlove()
+    {
+        // API Migrasi
+        let _ = request(APIProduct.unlove(productID: self.pid!)).responseJSON {resp in
+            print(resp)
+//            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Unlove Product"))
+//            {
+//                
+//            } else
+//            {
+//                
+//            }
         }
     }
 }
