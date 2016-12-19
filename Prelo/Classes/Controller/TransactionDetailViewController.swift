@@ -3659,8 +3659,15 @@ class TransactionDetailProductCell : UITableViewCell {
             imgName = "ic_trx_reservation_cancelled"
         } else if (progress == TransactionDetailTools.ProgressFraudDetected) {
             imgName = "ic_trx_expired"
+        } else if (progress == TransactionDetailTools.ProgressRefundRequested) {
+            imgName = "ic_trx_refund1"
+        } else if (progress == TransactionDetailTools.ProgressRefundVerified) {
+            imgName = "ic_trx_refund2"
+        } else if (progress == TransactionDetailTools.ProgressRefundSent) {
+            imgName = "ic_trx_refund3"
+        } else if (progress == TransactionDetailTools.ProgressRefundSuccess) {
+            imgName = "ic_trx_refund4"
         }
-        // TODO: icon untuk status2 refund
         if (imgName != nil) {
             if let imgIcon = UIImage(named: imgName!) {
                 imgVwIcon = UIImageView(frame: CGRect(x: 5, y: 5, width: 15, height: 15), image: imgIcon)
