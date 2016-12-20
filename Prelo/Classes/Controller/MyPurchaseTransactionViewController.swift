@@ -153,11 +153,13 @@ class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSo
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell : NotifAnggiTransactionCell = self.tableView.dequeueReusableCell(withIdentifier: "NotifAnggiTransactionCell") as? NotifAnggiTransactionCell {
-            cell.selectionStyle = .none
-            cell.isDiffUnread = false
-            let p = userProducts[(indexPath as NSIndexPath).item]
-            cell.adapt(p, idx: (indexPath as NSIndexPath).item)
-            return cell
+            if ((indexPath as NSIndexPath).item < self.userProducts.count) {
+                cell.selectionStyle = .none
+                cell.isDiffUnread = false
+                let p = userProducts[(indexPath as NSIndexPath).item]
+                cell.adapt(p, idx: (indexPath as NSIndexPath).item)
+                return cell
+            }
         }
         return UITableViewCell()
     }

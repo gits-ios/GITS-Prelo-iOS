@@ -2354,11 +2354,11 @@ class TransactionDetailTools : NSObject {
     static let TextConfirmedPaidSeller2 = "Jika kamu tidak mengirimkan sampai waktu tersebut, transaksi akan dibatalkan serta uang akan dikembalikan kepada pembeli."
     static let TextConfirmedPaidBuyer1 = "Pesanan kamu belum dikirim dan akan expired pada "
     static let TextConfirmedPaidBuyer2 = "Ingatkan penjual untuk mengirim pesanan."
-    static let TextSentSeller = "Beritahu pembeli bahwa barang sudah dikirim. Minta pembeli untuk memberikan review apabila barang sudah diterima."
-    static let TextSentBuyer = "Berikan review sebagai konfirmasi penerimaan. Prelo akan meneruskan pembayaran ke penjual."
+    static let TextSentSeller = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak barang diterima. Uang dapat langsung kamu tarik setelah Waktu Jaminan Prelo berakhir atau jika barang telah selesai direview. Ingatkan pembeli untuk memberi review."
+    static let TextSentBuyer = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak barang diterima. REFUND dapat dilakukan selama jangka waktu tersebut jika terdapat keluhan terkait barang."
     static let TextSentBuyerNoRefund = "Refund sudah tidak dapat dilakukan karena sudah melebihi batas Waktu Jaminan Prelo (3x24 jam sejak barang diterima). Jangan lupa lakukan review."
-    static let TextReceivedSeller = "Barang semestinya sudah diterima. Hubungi pembeli untuk mengecek apakah barang sudah diterima dan minta review untuk menyelesaikan transaksi."
-    static let TextReceivedBuyer = "Barang semestinya sudah kamu terima. Review penjual untuk menyelesaikan transaksi. Belum terima barang? Hubungi Prelo."
+    static let TextReceivedSeller = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak barang diterima. Uang dapat langsung kamu tarik setelah Waktu Jaminan Prelo berakhir atau jika barang telah selesai direview. Ingatkan pembeli untuk memberi review. "
+    static let TextReceivedBuyer = "Barang semestinya sudah kamu terima. Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak barang diterima. Refund dapat dilakukan selama jangka waktu tersebut jika terdapat keluhan terkait barang. Belum terima barang? Hubungi Prelo."
     static let TextReceivedBuyerNoRefund = "Refund sudah tidak dapat dilakukan karena sudah melebihi batas Waktu Jaminan Prelo (3x24 jam sejak barang diterima). Jangan lupa lakukan review."
     static let TextReserved1 = "Barang ini telah direservasi khusus untuk kamu. Kamu dapat menyelesaikan pembelian barang ini dengan menyelesaikan pembayaran pada"
     static let TextReserved2 = "Apabila kamu tidak menyelesaikan pembelian sampai dengan batas waktu yang ditentukan, reservasi barang kamu akan dibatalkan.\n\nTunjukkan halaman ini sebagai bukti reservasi kamu."
@@ -3577,8 +3577,8 @@ class TransactionDetailProductCell : UITableViewCell {
     @IBOutlet var lblHasilPenjualan: UILabel?
     @IBOutlet var lblOngkosKirim: UILabel?
     @IBOutlet var lblPrice2: UILabel?
-    @IBOutlet var consWidthLblDetail: NSLayoutConstraint!
-    @IBOutlet var consWidthLblDetailIcon: NSLayoutConstraint!
+    @IBOutlet var consWidthLblDetail: NSLayoutConstraint?
+    @IBOutlet var consWidthLblDetailIcon: NSLayoutConstraint?
     
     var imgVwIcon : UIImageView?
     var switchDetail : () -> () = {}
@@ -3687,17 +3687,17 @@ class TransactionDetailProductCell : UITableViewCell {
         // Set hideable detail
         if let userId = User.Id {
             if (trxProductDetail.isSeller(userId)) {
-                consWidthLblDetail.constant = 38
-                consWidthLblDetailIcon.constant = 26
+                consWidthLblDetail?.constant = 38
+                consWidthLblDetailIcon?.constant = 26
             } else {
-                consWidthLblDetail.constant = 0
-                consWidthLblDetailIcon.constant = 0
+                consWidthLblDetail?.constant = 0
+                consWidthLblDetailIcon?.constant = 0
             }
         }
     }
     
     @IBAction func detailPressed(_ sender: AnyObject) {
-        if (consWidthLblDetail.constant > 0) {
+        if (consWidthLblDetail != nil && consWidthLblDetail!.constant > 0) {
             if (lblDetailIcon?.text == TransactionDetailTools.IcDownArrow) {
                 lblDetailIcon?.text = TransactionDetailTools.IcUpArrow
             } else {
@@ -3909,6 +3909,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                         lblDesc.text = TransactionDetailTools.TextSentBuyerNoRefund
                     }
                 }
+                lblDesc.boldSubstring("Waktu Jaminan Prelo")
             } else if (progress == TransactionDetailTools.ProgressReceived) {
                 if (isSeller) {
                     lblDesc.text = TransactionDetailTools.TextReceivedSeller
@@ -3919,6 +3920,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                         lblDesc.text = TransactionDetailTools.TextReceivedBuyerNoRefund
                     }
                 }
+                lblDesc.boldSubstring("Waktu Jaminan Prelo")
             } else if (progress == TransactionDetailTools.ProgressReserved) {
                 if (order == 1) {
                     lblDesc.text = TransactionDetailTools.TextReserved1
