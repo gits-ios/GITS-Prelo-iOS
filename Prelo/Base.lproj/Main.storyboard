@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="87C-Oi-o7x">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="87C-Oi-o7x">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -59,7 +59,7 @@
                 <navigationController id="6kB-PJ-dDC" customClass="BaseNavigationController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="384" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="3ti-tg-WN5">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="3ti-tg-WN5">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -302,7 +302,7 @@
                 <navigationController id="lpd-Xn-Bjd" sceneMemberID="viewController">
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="384" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Fg5-4q-Ox0">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="Fg5-4q-Ox0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -375,7 +375,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="1200"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FGU-S5-LKP">
-                                        <rect key="frame" x="8" y="580.5" width="359" height="40"/>
+                                        <rect key="frame" x="8" y="580" width="359" height="40"/>
                                         <color key="backgroundColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="Y8C-Gx-qkz"/>
@@ -389,7 +389,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZFB-sW-zmt">
-                                        <rect key="frame" x="8" y="557.5" width="359" height="15"/>
+                                        <rect key="frame" x="8" y="557" width="359" height="15"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="JZv-3l-Pt2"/>
                                         </constraints>
@@ -738,7 +738,7 @@
                                                     <rect key="frame" x="166" y="166" width="26" height="26"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bXc-uy-4CD">
-                                                            <rect key="frame" x="5" y="5.5" width="16" height="16"/>
+                                                            <rect key="frame" x="5" y="5" width="16" height="16"/>
                                                             <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -1190,7 +1190,7 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="384" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ahl-ux-zz6">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="ahl-ux-zz6">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1288,21 +1288,22 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ribuan Barang Bermerek Tersedia" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HtO-5O-8Cz">
                                                 <rect key="frame" x="784" y="0.0" width="784" height="50"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fitur Chatting yang Mempermudah Transaksi" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ibz-bF-heo">
                                                 <rect key="frame" x="1568" y="0.0" width="784" height="50"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Garansi Uang Kembali" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c0F-rV-iP7">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Waktu Jaminan Prelo" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c0F-rV-iP7">
                                                 <rect key="frame" x="2352" y="0.0" width="784" height="50"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share Kode Referralmu dan Dapatkan Referral Bonus!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lr0-zX-ZuR">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share Kode Referralmu dan Dapatkan Prelo Bonus!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lr0-zX-ZuR">
                                                 <rect key="frame" x="3136" y="0.0" width="784" height="50"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1359,21 +1360,22 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prelo hanya menjual barang autentik dan NO KW dari merek-merek favorit kamu" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Ub-TT-Z3M">
                                                 <rect key="frame" x="1384" y="0.0" width="1384" height="64"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gunakan fitur tawar dan chatting untuk dapatkan harga yang sesuai" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4r7-0q-AnO" userLabel="Gunakan..">
                                                 <rect key="frame" x="2768" y="0.0" width="1384" height="64"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Barang tidak sesuai? Prelo akan refund 100%" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="snc-9X-Uev" userLabel="Barang tidak..">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Barang tidak sesuai? Refund 100% dalam waktu 3x24 jam" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="snc-9X-Uev" userLabel="Barang tidak..">
                                                 <rect key="frame" x="4152" y="0.0" width="1384" height="64"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Temukan bonusnya di menu REFERRAL BONUS!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3n0-DQ-EaM" userLabel="Temukan menu..">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Temukan bonusnya di menu VOUCHER GRATIS!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3n0-DQ-EaM" userLabel="Temukan menu..">
                                                 <rect key="frame" x="5536" y="0.0" width="1384" height="64"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1599,7 +1601,7 @@
                                                 <rect key="frame" x="8" y="152" width="359" height="80"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PRODUCT #1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="28P-Et-GHW">
-                                                        <rect key="frame" x="129" y="29" width="102.5" height="21"/>
+                                                        <rect key="frame" x="128" y="29" width="103" height="21"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -1616,7 +1618,7 @@
                                                 <rect key="frame" x="8" y="240" width="359" height="80"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PRODUCT #2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5C9-w8-MUL">
-                                                        <rect key="frame" x="128" y="29" width="104.5" height="21"/>
+                                                        <rect key="frame" x="127" y="29" width="105" height="21"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -1634,7 +1636,7 @@
                                                 <rect key="frame" x="8" y="328" width="359" height="80"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PRODUCT #3" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ygu-Ie-bds">
-                                                        <rect key="frame" x="127.5" y="29" width="105" height="21"/>
+                                                        <rect key="frame" x="127" y="29" width="105" height="21"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -1653,7 +1655,7 @@
                                                 <rect key="frame" x="8" y="416" width="359" height="80"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PRODUCT #4" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bZ1-x1-lWb">
-                                                        <rect key="frame" x="127.5" y="29" width="105" height="21"/>
+                                                        <rect key="frame" x="127" y="29" width="105" height="21"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -1673,7 +1675,7 @@
                                                 <rect key="frame" x="8" y="504" width="359" height="80"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PRODUCT #5" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IRn-rA-mzI">
-                                                        <rect key="frame" x="127.5" y="29" width="105" height="21"/>
+                                                        <rect key="frame" x="127" y="29" width="105" height="21"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -1799,7 +1801,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                         <subviews>
                                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="ic_prelo_logo_text_white.png" translatesAutoresizingMaskIntoConstraints="NO" id="tC3-rM-weJ">
-                                                <rect key="frame" x="68.5" y="64" width="238" height="64"/>
+                                                <rect key="frame" x="69" y="64" width="238" height="64"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="238" id="C8t-n4-47n"/>
                                                     <constraint firstAttribute="width" secondItem="tC3-rM-weJ" secondAttribute="height" multiplier="132:35" id="ONd-j3-QcS"/>
@@ -1888,13 +1890,13 @@
                                                 <rect key="frame" x="20" y="338" width="335" height="40"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Log In dengan Facebook" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jW5-Nc-C5b">
-                                                        <rect key="frame" x="84.5" y="11" width="167" height="17"/>
+                                                        <rect key="frame" x="84" y="11" width="167" height="17"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iyu-v7-cxg">
-                                                        <rect key="frame" x="63.5" y="8" width="17" height="24"/>
+                                                        <rect key="frame" x="63" y="8" width="17" height="24"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="24" id="fGx-Kz-EmS"/>
                                                             <constraint firstAttribute="width" constant="17" id="naZ-ig-Fyo"/>
@@ -1932,13 +1934,13 @@
                                                 <rect key="frame" x="20" y="386" width="335" height="40"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Log In dengan Twitter" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZTo-QV-07J">
-                                                        <rect key="frame" x="92.5" y="11" width="150" height="17"/>
+                                                        <rect key="frame" x="93" y="11" width="150" height="17"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bwv-qo-GM8">
-                                                        <rect key="frame" x="69.5" y="8" width="20" height="24"/>
+                                                        <rect key="frame" x="70" y="8" width="20" height="24"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="20" id="dNh-cZ-yHR"/>
                                                             <constraint firstAttribute="height" constant="24" id="qsc-ps-OxL"/>
@@ -2104,7 +2106,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lihat shop saya" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D8w-ZE-8QF">
-                                                            <rect key="frame" x="0.0" y="24" width="100.5" height="17"/>
+                                                            <rect key="frame" x="0.0" y="24" width="101" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -2138,10 +2140,10 @@
                                                     </constraints>
                                                 </view>
                                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Sn-Tx-ngx" userLabel="Logged Out">
-                                                    <rect key="frame" x="92" y="38.5" width="284" height="20.5"/>
+                                                    <rect key="frame" x="92" y="38" width="284" height="21"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Log In • Daftar" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aUQ-Kc-r5i">
-                                                            <rect key="frame" x="0.0" y="0.0" width="284" height="20.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="284" height="21"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -2532,19 +2534,19 @@
                                                         </constraints>
                                                     </view>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bank Kamu" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="91h-jY-iY3">
-                                                        <rect key="frame" x="0.0" y="0.0" width="72.5" height="43"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="73" height="43"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p1p-tf-v6m">
-                                                        <rect key="frame" x="346.5" y="13" width="12.5" height="17"/>
+                                                        <rect key="frame" x="346" y="13" width="13" height="17"/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="17"/>
                                                         <color key="textColor" red="0.048671051860000002" green="0.3823831379" blue="0.41029164200000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pilih Bank" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H8s-gQ-2aH">
-                                                        <rect key="frame" x="268" y="12" width="70.5" height="20"/>
+                                                        <rect key="frame" x="267" y="12" width="71" height="20"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                         <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -2731,7 +2733,7 @@
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Penarikan minimal senilai 50.000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g0t-jg-Cs8">
-                                                <rect key="frame" x="95.5" y="426" width="185" height="15"/>
+                                                <rect key="frame" x="95" y="426" width="185" height="15"/>
                                                 <fontDescription key="fontDescription" type="italicSystem" pointSize="12"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -2899,7 +2901,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CWf-DH-OvW" userLabel="Preloteam">
-                                <rect key="frame" x="7.5" y="28" width="360" height="240"/>
+                                <rect key="frame" x="8" y="28" width="360" height="240"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="preloteam.png" translatesAutoresizingMaskIntoConstraints="NO" id="0St-zU-gdT">
                                         <rect key="frame" x="0.0" y="0.0" width="360" height="240"/>
@@ -3187,7 +3189,7 @@ in Bandung</string>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ezR-VQ-11N" userLabel="Layout helper">
-                                <rect key="frame" x="177.5" y="607" width="20" height="40"/>
+                                <rect key="frame" x="178" y="607" width="20" height="40"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="Kl9-VK-kSs"/>
@@ -3195,7 +3197,7 @@ in Bandung</string>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WeA-Uv-Qzk" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
-                                <rect key="frame" x="197.5" y="607" width="157.5" height="40"/>
+                                <rect key="frame" x="198" y="607" width="157" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="3dO-yi-hUF"/>
                                 </constraints>
@@ -3223,7 +3225,7 @@ in Bandung</string>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9NN-WD-vJR" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
-                                <rect key="frame" x="20" y="607" width="157.5" height="40"/>
+                                <rect key="frame" x="20" y="607" width="158" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="4Sd-0j-K5N"/>
                                 </constraints>
@@ -3644,7 +3646,7 @@ in Bandung</string>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="XXL" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vvO-gQ-onJ">
-                                                                        <rect key="frame" x="9.5" y="29" width="32" height="21"/>
+                                                                        <rect key="frame" x="9" y="29" width="32" height="21"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <nil key="highlightedColor"/>
@@ -3665,7 +3667,7 @@ in Bandung</string>
                                                     </connections>
                                                 </collectionView>
                                                 <view clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PSV-og-s8V">
-                                                    <rect key="frame" x="155.5" y="8" width="64" height="60"/>
+                                                    <rect key="frame" x="156" y="8" width="64" height="60"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K65-Ls-FwZ">
                                                             <rect key="frame" x="0.0" y="4" width="1" height="52"/>
@@ -3706,14 +3708,14 @@ in Bandung</string>
                                                     </variation>
                                                 </view>
                                                 <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2ic-dv-tZO">
-                                                    <rect key="frame" x="8" y="8" width="139.5" height="60"/>
+                                                    <rect key="frame" x="8" y="8" width="140" height="60"/>
                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="60" id="752-U8-Zwx"/>
                                                     </constraints>
                                                 </view>
                                                 <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I1t-5y-isG">
-                                                    <rect key="frame" x="227.5" y="8" width="139.5" height="60"/>
+                                                    <rect key="frame" x="228" y="8" width="139" height="60"/>
                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </view>
                                             </subviews>
@@ -3815,7 +3817,7 @@ in Bandung</string>
                                                             <rect key="frame" x="185.5" y="0.0" width="173.5" height="80"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DaE-HR-DZM">
-                                                                    <rect key="frame" x="61" y="8" width="52" height="36"/>
+                                                                    <rect key="frame" x="61.5" y="8" width="52" height="36"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="52" id="aca-Da-OFO"/>
                                                                         <constraint firstAttribute="height" constant="36" id="qQ7-WQ-XID"/>
@@ -3958,7 +3960,7 @@ in Bandung</string>
                                                             <rect key="frame" x="0.0" y="0.0" width="118.5" height="80"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt; 1 Kg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="waS-Tm-crL">
-                                                                    <rect key="frame" x="35.5" y="29" width="47.5" height="21"/>
+                                                                    <rect key="frame" x="34.5" y="29" width="48" height="21"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
@@ -3995,7 +3997,7 @@ in Bandung</string>
                                                             <rect key="frame" x="240.5" y="0.0" width="118.5" height="80"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&gt; 2 Kg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xeT-tW-zIJ">
-                                                                    <rect key="frame" x="34.5" y="29" width="49.5" height="21"/>
+                                                                    <rect key="frame" x="34.5" y="29" width="50" height="21"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
@@ -4032,7 +4034,7 @@ in Bandung</string>
                                                             <rect key="frame" x="126.5" y="0.0" width="106" height="80"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 - 2 Kg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ceB-V7-D8A">
-                                                                    <rect key="frame" x="24" y="29" width="58.5" height="21"/>
+                                                                    <rect key="frame" x="23" y="29" width="59" height="21"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
@@ -4526,7 +4528,7 @@ in Bandung</string>
                                                     </variation>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bagikan Ke" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YCz-t5-q7u">
-                                                    <rect key="frame" x="45.5" y="70" width="80.5" height="20"/>
+                                                    <rect key="frame" x="45" y="70" width="81" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -4558,7 +4560,7 @@ in Bandung</string>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OMs-Jm-yGy">
-                                                    <rect key="frame" x="308.5" y="284" width="19.5" height="17"/>
+                                                    <rect key="frame" x="308" y="284" width="20" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -4653,17 +4655,17 @@ in Bandung</string>
                         <viewControllerLayoutGuide type="bottom" id="aur-uu-95S"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="0Q6-8V-fG5">
-                        <rect key="frame" x="0.0" y="64" width="384" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="1350"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FFS-7H-uzf">
-                                <rect key="frame" x="0.0" y="0.0" width="384" height="603"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="1330"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3dS-JO-Z5K">
-                                        <rect key="frame" x="0.0" y="0.0" width="384" height="519.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="519.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="njD-3d-VPO">
-                                                <rect key="frame" x="8" y="20" width="368" height="33"/>
+                                                <rect key="frame" x="8" y="20" width="359" height="33"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="h0S-xa-NrD"/>
                                                 </constraints>
@@ -4705,7 +4707,7 @@ in Bandung</string>
                                                 </variation>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hasil Penjualan" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jm9-2H-jsR">
-                                                <rect key="frame" x="140.5" y="77" width="104" height="18"/>
+                                                <rect key="frame" x="135.5" y="77" width="104" height="18"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="18" id="XJ5-4a-aiT"/>
                                                 </constraints>
@@ -4714,7 +4716,7 @@ in Bandung</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Charge Prelo Rp. 75.000 (7.5%)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="30N-1w-BQg">
-                                                <rect key="frame" x="85.5" y="149" width="213" height="18"/>
+                                                <rect key="frame" x="81.5" y="149" width="213" height="18"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="18" id="68k-RD-cY1"/>
                                                 </constraints>
@@ -4729,7 +4731,7 @@ in Bandung</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aIO-dB-iKT">
-                                                <rect key="frame" x="212" y="237.5" width="164" height="168"/>
+                                                <rect key="frame" x="203" y="237.5" width="164" height="168"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n2Q-bE-wBy" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
                                                         <rect key="frame" x="62" y="8" width="41" height="32"/>
@@ -5069,13 +5071,13 @@ in Bandung</string>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tambahan Keuntungan" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o5a-gR-8R3">
-                                                <rect key="frame" x="220" y="191" width="148" height="38.5"/>
+                                                <rect key="frame" x="211" y="191" width="148" height="38.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rp. 925.000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dmv-aY-hGC">
-                                                <rect key="frame" x="124.5" y="103" width="135" height="29"/>
+                                                <rect key="frame" x="120.5" y="103" width="135" height="29"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="29" id="vyR-KP-N3V"/>
                                                 </constraints>
@@ -5084,21 +5086,21 @@ in Bandung</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IqN-3l-TFG">
-                                                <rect key="frame" x="116.5" y="140" width="151" height="1"/>
+                                                <rect key="frame" x="112.5" y="140" width="151" height="1"/>
                                                 <color key="backgroundColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="EEX-MD-Xym"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OI0-gF-8xt">
-                                                <rect key="frame" x="8" y="375.5" width="368" height="1"/>
+                                                <rect key="frame" x="8" y="375.5" width="359" height="1"/>
                                                 <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="V38-5c-rOZ"/>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QPv-74-Qyn">
-                                                <rect key="frame" x="284" y="385.5" width="20" height="17"/>
+                                                <rect key="frame" x="275" y="385.5" width="20" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -5110,14 +5112,14 @@ in Bandung</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ybg-tl-nr9">
-                                                <rect key="frame" x="8" y="412.5" width="368" height="1"/>
+                                                <rect key="frame" x="8" y="412.5" width="359" height="1"/>
                                                 <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="t8M-CE-DiW"/>
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7NE-RZ-5EY">
-                                                <rect key="frame" x="16" y="421.5" width="352" height="40"/>
+                                                <rect key="frame" x="16" y="421.5" width="343" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="MVb-DF-s2C"/>
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="Xuj-6o-cbm"/>
@@ -5192,10 +5194,10 @@ in Bandung</string>
                                 </constraints>
                             </scrollView>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MYi-fo-w3T" userLabel="loadingPanel">
-                                <rect key="frame" x="0.0" y="0.0" width="384" height="603"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="1350"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="cgZ-1B-cSg">
-                                        <rect key="frame" x="182.5" y="292" width="20" height="20"/>
+                                        <rect key="frame" x="177.5" y="665.5" width="20" height="20"/>
                                         <color key="color" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </activityIndicatorView>
                                 </subviews>
@@ -5330,7 +5332,7 @@ in Bandung</string>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="FlE-lg-MYU">
-                                <rect key="frame" x="177.5" y="84" width="20" height="20"/>
+                                <rect key="frame" x="178" y="84" width="20" height="20"/>
                                 <color key="color" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Barang tidak ditemukan" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oyx-V7-54G">
@@ -5340,7 +5342,7 @@ in Bandung</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0AJ-CS-oWR">
-                                <rect key="frame" x="164.5" y="110" width="46" height="30"/>
+                                <rect key="frame" x="165" y="110" width="46" height="30"/>
                                 <color key="backgroundColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="46" id="6Ks-u8-Ynf"/>
@@ -5798,11 +5800,11 @@ in Bandung</string>
                         <viewControllerLayoutGuide type="bottom" id="8LY-jt-2f4"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="EI3-fD-ZpS">
-                        <rect key="frame" x="0.0" y="64" width="384" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="V8d-rW-1kl">
-                                <rect key="frame" x="0.0" y="0.0" width="384" height="603"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="8" minimumInteritemSpacing="8" id="FVZ-S0-ZdO">
                                     <size key="itemSize" width="200" height="200"/>
@@ -5812,7 +5814,7 @@ in Bandung</string>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="a3k-6q-hxH" customClass="CategoryPickerParentCell" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="92" y="8" width="200" height="200"/>
+                                        <rect key="frame" x="88" y="8" width="200" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
@@ -5851,7 +5853,7 @@ in Bandung</string>
                                 </cells>
                             </collectionView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="xGu-kv-bfE">
-                                <rect key="frame" x="182" y="25" width="20" height="20"/>
+                                <rect key="frame" x="178" y="45" width="20" height="20"/>
                                 <color key="color" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                         </subviews>
@@ -5888,11 +5890,11 @@ in Bandung</string>
                         <viewControllerLayoutGuide type="bottom" id="xcA-Ah-exn"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="hRr-9x-ECc">
-                        <rect key="frame" x="0.0" y="64" width="384" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="hVm-Vu-0b4">
-                                <rect key="frame" x="0.0" y="0.0" width="384" height="603"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </tableView>
                         </subviews>
@@ -6213,7 +6215,7 @@ in Bandung</string>
                     <tabBarItem key="tabBarItem" title="Item" id="FKe-eU-iXE"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="384" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Yh9-w4-hby">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Yh9-w4-hby">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -6232,7 +6234,7 @@ in Bandung</string>
                     <tabBarItem key="tabBarItem" title="Item" id="EzN-qb-cmI"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="384" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="UmT-fI-NIt">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="UmT-fI-NIt">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -6260,7 +6262,7 @@ in Bandung</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wH8-lS-bX0">
-                                        <rect key="frame" x="8" y="313.5" width="359" height="40"/>
+                                        <rect key="frame" x="8" y="314" width="359" height="40"/>
                                         <color key="backgroundColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="my8-qi-vNW"/>
@@ -6275,7 +6277,7 @@ in Bandung</string>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fGp-Wv-YIc">
-                                        <rect key="frame" x="8" y="291.5" width="359" height="14"/>
+                                        <rect key="frame" x="8" y="291" width="359" height="15"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="vEo-Ca-bAL"/>
                                         </constraints>
@@ -6443,7 +6445,7 @@ in Bandung</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vqc-R4-f7B">
-                                                        <rect key="frame" x="354.5" y="13" width="12.5" height="17"/>
+                                                        <rect key="frame" x="354" y="13" width="13" height="17"/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="17"/>
                                                         <color key="textColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -6499,7 +6501,7 @@ in Bandung</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BDC-LC-fXZ">
-                                                        <rect key="frame" x="354.5" y="13" width="12.5" height="17"/>
+                                                        <rect key="frame" x="354" y="13" width="13" height="17"/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="17"/>
                                                         <color key="textColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -6555,7 +6557,7 @@ in Bandung</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bk3-eX-h2g">
-                                                        <rect key="frame" x="354.5" y="13" width="12.5" height="17"/>
+                                                        <rect key="frame" x="354" y="13" width="13" height="17"/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="17"/>
                                                         <color key="textColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -6615,7 +6617,7 @@ in Bandung</string>
                                                         <rect key="frame" x="8" y="45" width="359" height="64"/>
                                                         <subviews>
                                                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Kpm-Oe-Weq">
-                                                                <rect key="frame" x="169.5" y="22" width="20" height="20"/>
+                                                                <rect key="frame" x="170" y="22" width="20" height="20"/>
                                                                 <color key="color" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </activityIndicatorView>
                                                         </subviews>
@@ -6762,7 +6764,7 @@ in Bandung</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="X4w-Jk-lA3">
-                                        <rect key="frame" x="177.5" y="323.5" width="20" height="20"/>
+                                        <rect key="frame" x="178" y="324" width="20" height="20"/>
                                         <color key="color" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </activityIndicatorView>
                                 </subviews>
@@ -6845,7 +6847,7 @@ in Bandung</string>
                 <navigationController id="fom-l7-YmP" sceneMemberID="viewController">
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="384" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="fR0-81-R4Z">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="fR0-81-R4Z">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -7262,7 +7264,7 @@ in Bandung</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nikmati keamanan bertransaksi melalui rekening bersama dari Prelo" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q1o-HD-hnr">
-                                <rect key="frame" x="24" y="57" width="327" height="20"/>
+                                <rect key="frame" x="24" y="57" width="327" height="38.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -9013,7 +9015,7 @@ in Bandung</string>
                                 <rect key="frame" x="0.0" y="0.0" width="384" height="603"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o7a-Od-emg" userLabel="Up Barang">
-                                        <rect key="frame" x="67.5" y="194" width="250" height="215"/>
+                                        <rect key="frame" x="67" y="194" width="250" height="215"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UP BARANG" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7oM-Yq-mPB">
                                                 <rect key="frame" x="8" y="8" width="234" height="21"/>
@@ -9170,7 +9172,7 @@ in Bandung</string>
                                 <rect key="frame" x="0.0" y="0.0" width="384" height="603"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="ukm-Vz-BDL" userLabel="loading">
-                                        <rect key="frame" x="182" y="291.5" width="20" height="20"/>
+                                        <rect key="frame" x="182" y="292" width="20" height="20"/>
                                         <color key="color" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </activityIndicatorView>
                                 </subviews>
@@ -9317,7 +9319,7 @@ in Bandung</string>
                                                             <rect key="frame" x="10" y="0.0" width="44" height="44"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fDk-jQ-LO8">
-                                                                    <rect key="frame" x="12.5" y="12.5" width="20" height="20"/>
+                                                                    <rect key="frame" x="12" y="12" width="20" height="20"/>
                                                                     <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="20"/>
                                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
@@ -9460,7 +9462,7 @@ in Bandung</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="ykb-uJ-lqk">
-                                <rect key="frame" x="177.5" y="57" width="20" height="20"/>
+                                <rect key="frame" x="178" y="57" width="20" height="20"/>
                                 <color key="color" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="TgT-98-DqM">
@@ -10020,7 +10022,7 @@ in Bandung</string>
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
                                                         <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Isn-nc-5D2" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                                                            <rect key="frame" x="111" y="0.0" width="113" height="100"/>
+                                                            <rect key="frame" x="110.5" y="0.0" width="113" height="100"/>
                                                             <subviews>
                                                                 <imageView tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_kartu_kredit.png" translatesAutoresizingMaskIntoConstraints="NO" id="cOn-ZK-ehn" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                                                     <rect key="frame" x="8" y="8" width="97" height="64"/>
@@ -10064,20 +10066,20 @@ in Bandung</string>
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
                                                         <view tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YHs-6e-2NK" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                                                            <rect key="frame" x="232" y="0.0" width="111" height="100"/>
+                                                            <rect key="frame" x="231.5" y="0.0" width="111.5" height="100"/>
                                                             <subviews>
                                                                 <imageView tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_indomaret.png" translatesAutoresizingMaskIntoConstraints="NO" id="9DM-Tl-pgT" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
-                                                                    <rect key="frame" x="8" y="8" width="95" height="64"/>
+                                                                    <rect key="frame" x="8" y="8" width="95.5" height="64"/>
                                                                     <color key="tintColor" red="0.048671051860000002" green="0.38238310809999998" blue="0.41029164200000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 </imageView>
                                                                 <label opaque="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" verticalCompressionResistancePriority="759" text="Indomaret" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QlO-6b-j75">
-                                                                    <rect key="frame" x="8" y="81" width="95" height="15"/>
+                                                                    <rect key="frame" x="8" y="81" width="95.5" height="15"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                     <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zE9-n6-oZa">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="111" height="100"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="111.5" height="100"/>
                                                                     <connections>
                                                                         <action selector="methodPressed:" destination="KHQ-aq-GW6" eventType="touchUpInside" id="eci-8H-7Hd"/>
                                                                     </connections>
@@ -10718,7 +10720,7 @@ in Bandung</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yy9-U0-vPP">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="400.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="419.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zl1-Zs-s9f">
                                                 <rect key="frame" x="8" y="8" width="359" height="20"/>
@@ -10727,31 +10729,31 @@ in Bandung</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lakukan pembayaran dalam 24 jam ke salah satu rekening :" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mEd-JP-JbR">
-                                                <rect key="frame" x="8" y="109" width="359" height="19.5"/>
+                                                <rect key="frame" x="8" y="109" width="359" height="38.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jcn-YI-zdJ">
-                                                <rect key="frame" x="155.5" y="82" width="31" height="15"/>
+                                                <rect key="frame" x="156" y="82" width="31" height="15"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F52-8Q-NkF">
-                                                <rect key="frame" x="155.5" y="59" width="31" height="15"/>
+                                                <rect key="frame" x="156" y="59" width="31" height="15"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WWb-F6-3LS">
-                                                <rect key="frame" x="155.5" y="36" width="31" height="15"/>
+                                                <rect key="frame" x="156" y="36" width="31" height="15"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nomor Order" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aub-CD-7Z7">
-                                                <rect key="frame" x="8" y="36" width="78.5" height="15"/>
+                                                <rect key="frame" x="8" y="36" width="79" height="15"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                                                 <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -10763,13 +10765,13 @@ in Bandung</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Metode Pembayaran" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nPJ-aF-4BQ">
-                                                <rect key="frame" x="8" y="82" width="123.5" height="15"/>
+                                                <rect key="frame" x="8" y="82" width="124" height="15"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                                                 <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iQ1-5t-INe" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                                                <rect key="frame" x="8" y="140.5" width="359" height="192"/>
+                                                <rect key="frame" x="8" y="159.5" width="359" height="192"/>
                                                 <subviews>
                                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bNh-IT-xll">
                                                         <rect key="frame" x="0.0" y="0.0" width="359" height="192"/>
@@ -10796,7 +10798,7 @@ in Bandung</string>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OsR-Ua-gMc">
-                                                <rect key="frame" x="8" y="340.5" width="359" height="40"/>
+                                                <rect key="frame" x="8" y="359.5" width="359" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="cqB-00-qxA"/>
                                                 </constraints>
@@ -11938,7 +11940,7 @@ in Bandung</string>
                 <navigationController id="kXu-GC-6yO" sceneMemberID="viewController">
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="384" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="LqN-or-peW">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="LqN-or-peW">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -11957,7 +11959,7 @@ in Bandung</string>
                 <navigationController storyboardIdentifier="nav" id="4EK-1x-xov" sceneMemberID="viewController">
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="384" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="qG1-zD-Zgv">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="qG1-zD-Zgv">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -11973,7 +11975,7 @@ in Bandung</string>
                 <navigationController storyboardIdentifier="ImagePicker" id="iBd-x3-ksm" customClass="BaseNavigationController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="384" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Cas-Wj-KtM">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="Cas-Wj-KtM">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -11992,7 +11994,7 @@ in Bandung</string>
                 <navigationController id="TOm-Sj-Jpp" customClass="BaseNavigationController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="384" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="XL1-Qf-WK7">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="XL1-Qf-WK7">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -12018,10 +12020,10 @@ in Bandung</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ysg-35-cuL" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="107.5" height="80"/>
+                                <rect key="frame" x="0.0" y="0.0" width="108" height="80"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rsz_ic_bca.png" translatesAutoresizingMaskIntoConstraints="NO" id="h1L-Zn-G4e" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="8" y="8" width="91.5" height="64"/>
+                                        <rect key="frame" x="8" y="8" width="92" height="64"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -12046,10 +12048,10 @@ in Bandung</string>
                                 </connections>
                             </view>
                             <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zJ8-eD-aGl" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                                <rect key="frame" x="115.5" y="0.0" width="128" height="80"/>
+                                <rect key="frame" x="116" y="0.0" width="127" height="80"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rsz_ic_mandiri.png" translatesAutoresizingMaskIntoConstraints="NO" id="XNz-01-7H0" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="8" y="8" width="112" height="64"/>
+                                        <rect key="frame" x="8" y="8" width="111" height="64"/>
                                         <color key="tintColor" red="0.66014617679999998" green="0.66012644769999995" blue="0.66013765339999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </imageView>
                                 </subviews>
@@ -12074,10 +12076,10 @@ in Bandung</string>
                                 </connections>
                             </view>
                             <view tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HzM-2z-7Ib" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                                <rect key="frame" x="251.5" y="0.0" width="107.5" height="80"/>
+                                <rect key="frame" x="251" y="0.0" width="108" height="80"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rsz_ic_bni.png" translatesAutoresizingMaskIntoConstraints="NO" id="sY6-DT-2OC" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="8" y="8" width="91.5" height="64"/>
+                                        <rect key="frame" x="8" y="8" width="92" height="64"/>
                                         <color key="tintColor" red="0.66014617681503296" green="0.6601264476776123" blue="0.66013765335083008" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </imageView>
                                 </subviews>
@@ -14942,7 +14944,7 @@ in Bandung</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="611"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="6sY-EX-kSi" userLabel="loading">
-                                        <rect key="frame" x="177.5" y="295.5" width="20" height="20"/>
+                                        <rect key="frame" x="178" y="296" width="20" height="20"/>
                                         <color key="color" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </activityIndicatorView>
                                 </subviews>
@@ -15035,7 +15037,7 @@ in Bandung</string>
                 <navigationController id="cbo-nA-eDv" customClass="BaseNavigationController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="384" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="4aK-qU-qyE">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="4aK-qU-qyE">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -15061,7 +15063,7 @@ in Bandung</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aD6-IG-h2w">
-                                <rect key="frame" x="67.5" y="99.5" width="240" height="351"/>
+                                <rect key="frame" x="68" y="100" width="240" height="351"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hubungi Prelo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qkm-N9-3wI">
                                         <rect key="frame" x="4" y="4" width="114" height="20"/>
@@ -15916,7 +15918,7 @@ in Bandung</string>
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rx7-Ue-UrE">
-                                                    <rect key="frame" x="59" y="8" width="6.5" height="18"/>
+                                                    <rect key="frame" x="59" y="8" width="7" height="18"/>
                                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="18"/>
                                                     <color key="textColor" red="0.90823972230000005" green="0.92638683320000004" blue="0.93171715740000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -16026,7 +16028,7 @@ in Bandung</string>
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IWA-Ld-tSD">
-                                                    <rect key="frame" x="59" y="8" width="6.5" height="18"/>
+                                                    <rect key="frame" x="59" y="8" width="7" height="18"/>
                                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="18"/>
                                                     <color key="textColor" red="0.90823972230000005" green="0.92638683320000004" blue="0.93171715740000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -16103,7 +16105,7 @@ in Bandung</string>
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9jY-TW-TqZ">
-                                                    <rect key="frame" x="370.5" y="8" width="6.5" height="18"/>
+                                                    <rect key="frame" x="370" y="8" width="7" height="18"/>
                                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="18"/>
                                                     <color key="textColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -16203,7 +16205,7 @@ in Bandung</string>
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wNC-xg-mk9">
-                                                    <rect key="frame" x="371.5" y="8" width="6.5" height="18"/>
+                                                    <rect key="frame" x="371" y="8" width="7" height="18"/>
                                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="18"/>
                                                     <color key="textColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -16684,7 +16686,7 @@ in Bandung</string>
                 <navigationController id="nGb-Zs-ZJq" customClass="BaseNavigationController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="384" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="8Oy-7d-CkX">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="8Oy-7d-CkX">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -17083,6 +17085,8 @@ in Bandung</string>
                                                                 </variation>
                                                             </tableViewCellContentView>
                                                             <connections>
+                                                                <outlet property="consWidthLblDetail" destination="6Rz-ql-asf" id="wIr-wM-db0"/>
+                                                                <outlet property="consWidthLblDetailIcon" destination="RfW-hc-LhI" id="Kfv-ZG-jg4"/>
                                                                 <outlet property="consWidthLblOrderId" destination="ONO-fF-3pG" id="coK-of-rBO"/>
                                                                 <outlet property="consWidthLblPrice" destination="6ek-gf-xU9" id="SQG-eA-Sec"/>
                                                                 <outlet property="imgProduct" destination="Fgg-FK-AEw" id="iih-5i-rHd"/>
@@ -17713,8 +17717,150 @@ in Bandung</string>
                                     </mask>
                                 </variation>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nH2-9b-w7K" userLabel="Tunda Pengiriman Pop Up">
+                                <rect key="frame" x="175" y="131" width="250" height="215"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TUNDA PENGIRIMAN" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e9b-59-zjD">
+                                        <rect key="frame" x="8" y="8" width="234" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="GS5-zH-N4b"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <color key="textColor" red="0.44682067632675171" green="0.44680723547935486" blue="0.44681483507156372" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Nn-BN-mdc" userLabel="separator">
+                                        <rect key="frame" x="8" y="37" width="234" height="1"/>
+                                        <color key="backgroundColor" red="0.66014617681503296" green="0.6601264476776123" blue="0.66013765335083008" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="yUn-CE-Jkr"/>
+                                        </constraints>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pengiriman akan ditunda 3 hari dari tanggal yang tertera" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="acc-ks-B8T">
+                                        <rect key="frame" x="8" y="46" width="234" height="41"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="41" id="0JX-8a-SXy"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
+                                        <color key="textColor" red="0.33335760235786438" green="0.3333476185798645" blue="0.33335328102111816" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Xb-tN-okm" userLabel="Agreement">
+                                        <rect key="frame" x="0.0" y="95" width="250" height="23"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fke-yY-sds">
+                                                <rect key="frame" x="8" y="0.0" width="31" height="23"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="31" id="0Rv-Xs-xGz"/>
+                                                    <constraint firstAttribute="height" constant="23" id="ntp-PH-pTe"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="24"/>
+                                                <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pembeli sudah mengetahui hal ini" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hqx-e3-iFQ">
+                                                <rect key="frame" x="37" y="0.0" width="213" height="23"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P04-PU-JFE">
+                                                <rect key="frame" x="0.0" y="0.0" width="250" height="23"/>
+                                                <connections>
+                                                    <action selector="tundaAgreementPressed:" destination="npE-Ng-xbX" eventType="touchUpInside" id="AAY-NF-gD7"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="hqx-e3-iFQ" secondAttribute="trailing" id="0AZ-bM-wJA"/>
+                                            <constraint firstItem="fke-yY-sds" firstAttribute="top" secondItem="9Xb-tN-okm" secondAttribute="top" id="5nW-uT-2W9"/>
+                                            <constraint firstItem="P04-PU-JFE" firstAttribute="leading" secondItem="9Xb-tN-okm" secondAttribute="leading" id="ODq-ES-1a5"/>
+                                            <constraint firstItem="hqx-e3-iFQ" firstAttribute="leading" secondItem="9Xb-tN-okm" secondAttribute="leading" constant="37" id="PV4-In-BaE"/>
+                                            <constraint firstAttribute="bottom" secondItem="P04-PU-JFE" secondAttribute="bottom" id="TE7-RJ-Q2j"/>
+                                            <constraint firstAttribute="trailing" secondItem="P04-PU-JFE" secondAttribute="trailing" id="boj-g0-xcG"/>
+                                            <constraint firstAttribute="height" constant="23" id="dNR-B5-5GM"/>
+                                            <constraint firstItem="P04-PU-JFE" firstAttribute="top" secondItem="9Xb-tN-okm" secondAttribute="top" id="fXO-Qg-HPc"/>
+                                            <constraint firstItem="hqx-e3-iFQ" firstAttribute="top" secondItem="9Xb-tN-okm" secondAttribute="top" id="fun-SK-QDa"/>
+                                            <constraint firstAttribute="bottom" secondItem="hqx-e3-iFQ" secondAttribute="bottom" id="iPu-p7-aVR"/>
+                                            <constraint firstItem="fke-yY-sds" firstAttribute="leading" secondItem="9Xb-tN-okm" secondAttribute="leading" constant="8" id="w7f-ne-AyO"/>
+                                        </constraints>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hubungi Prelo untuk waktu tunda lebih lama" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Ox-05-3qO">
+                                        <rect key="frame" x="8" y="126" width="234" height="41"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="41" id="VQA-fV-M0z"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
+                                        <color key="textColor" red="0.33335760235786438" green="0.3333476185798645" blue="0.33335328102111816" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tGE-Nd-kST">
+                                        <rect key="frame" x="0.0" y="175" width="124" height="40"/>
+                                        <color key="backgroundColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="124" id="Rwa-d9-HXK"/>
+                                            <constraint firstAttribute="height" constant="40" id="UTn-OW-ujM"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                        <state key="normal" title="BATAL">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="tundaBatalPressed:" destination="npE-Ng-xbX" eventType="touchUpInside" id="2ly-c1-hh5"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="3DA-ZM-Lzg">
+                                        <rect key="frame" x="125" y="175" width="125" height="40"/>
+                                        <color key="backgroundColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="3G8-Nd-wlI"/>
+                                            <constraint firstAttribute="width" constant="125" id="mZN-vt-AaW"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                        <state key="normal" title="TUNDA">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="tundaKirimPressed:" destination="npE-Ng-xbX" eventType="touchUpInside" id="tou-PU-Zfm"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="e9b-59-zjD" firstAttribute="leading" secondItem="nH2-9b-w7K" secondAttribute="leading" constant="8" id="2vl-IP-LyY"/>
+                                    <constraint firstAttribute="trailing" secondItem="9Xb-tN-okm" secondAttribute="trailing" id="7eg-Iv-uIv"/>
+                                    <constraint firstItem="6Nn-BN-mdc" firstAttribute="top" secondItem="e9b-59-zjD" secondAttribute="bottom" constant="8" id="A8o-zX-ZXd"/>
+                                    <constraint firstItem="acc-ks-B8T" firstAttribute="top" secondItem="6Nn-BN-mdc" secondAttribute="bottom" constant="8" id="BEx-RJ-Qca"/>
+                                    <constraint firstAttribute="bottom" secondItem="tGE-Nd-kST" secondAttribute="bottom" id="CuF-Sc-RJ4"/>
+                                    <constraint firstAttribute="width" constant="250" id="NKa-TV-b8i"/>
+                                    <constraint firstAttribute="trailing" secondItem="e9b-59-zjD" secondAttribute="trailing" constant="8" id="UD5-nY-dAa"/>
+                                    <constraint firstItem="tGE-Nd-kST" firstAttribute="leading" secondItem="nH2-9b-w7K" secondAttribute="leading" id="V8J-gl-8SH"/>
+                                    <constraint firstAttribute="trailing" secondItem="9Ox-05-3qO" secondAttribute="trailing" constant="8" id="Vvj-HL-Fkm"/>
+                                    <constraint firstItem="9Xb-tN-okm" firstAttribute="top" secondItem="acc-ks-B8T" secondAttribute="bottom" constant="8" id="WKb-Jm-zCa"/>
+                                    <constraint firstItem="6Nn-BN-mdc" firstAttribute="leading" secondItem="nH2-9b-w7K" secondAttribute="leading" constant="8" id="X4l-1T-Q4o"/>
+                                    <constraint firstItem="e9b-59-zjD" firstAttribute="top" secondItem="nH2-9b-w7K" secondAttribute="top" constant="8" id="b0A-Jx-tRG"/>
+                                    <constraint firstAttribute="trailing" secondItem="acc-ks-B8T" secondAttribute="trailing" constant="8" id="c3F-Ll-5y6"/>
+                                    <constraint firstItem="9Ox-05-3qO" firstAttribute="leading" secondItem="nH2-9b-w7K" secondAttribute="leading" constant="8" id="dUb-PI-O3C"/>
+                                    <constraint firstAttribute="height" constant="215" id="gVf-eR-XdW"/>
+                                    <constraint firstItem="9Ox-05-3qO" firstAttribute="top" secondItem="9Xb-tN-okm" secondAttribute="bottom" constant="8" id="q6a-55-mXh"/>
+                                    <constraint firstAttribute="trailing" secondItem="3DA-ZM-Lzg" secondAttribute="trailing" id="r6W-lM-pcE"/>
+                                    <constraint firstItem="6Nn-BN-mdc" firstAttribute="top" secondItem="e9b-59-zjD" secondAttribute="bottom" constant="8" id="sGa-t4-gjp"/>
+                                    <constraint firstAttribute="bottom" secondItem="3DA-ZM-Lzg" secondAttribute="bottom" id="ySZ-l6-8IY"/>
+                                    <constraint firstItem="acc-ks-B8T" firstAttribute="leading" secondItem="nH2-9b-w7K" secondAttribute="leading" constant="8" id="ygh-zL-QnR"/>
+                                    <constraint firstAttribute="trailing" secondItem="6Nn-BN-mdc" secondAttribute="trailing" constant="8" id="ywQ-nZ-NaR"/>
+                                    <constraint firstItem="9Xb-tN-okm" firstAttribute="leading" secondItem="nH2-9b-w7K" secondAttribute="leading" id="zpL-7h-0Np"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="sGa-t4-gjp"/>
+                                    </mask>
+                                </variation>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rz5-Ll-5uz" userLabel="Review Seller Pop Up">
-                                <rect key="frame" x="174" y="100" width="250" height="339"/>
+                                <rect key="frame" x="174" y="60" width="250" height="386"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="REVIEW PENJUAL" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="85Y-eJ-7tH">
                                         <rect key="frame" x="8" y="8" width="234" height="21"/>
@@ -17919,7 +18065,7 @@ in Bandung</string>
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rf6-Ax-3AM">
-                                        <rect key="frame" x="0.0" y="299" width="124" height="40"/>
+                                        <rect key="frame" x="0.0" y="346" width="124" height="40"/>
                                         <color key="backgroundColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="SdB-ZX-7Yo"/>
@@ -17935,7 +18081,7 @@ in Bandung</string>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="532-cJ-u2Q">
-                                        <rect key="frame" x="125" y="299" width="125" height="40"/>
+                                        <rect key="frame" x="125" y="346" width="125" height="40"/>
                                         <color key="backgroundColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="125" id="n2t-Fs-C0G"/>
@@ -17991,18 +18137,30 @@ in Bandung</string>
                                             <constraint firstAttribute="trailing" secondItem="o4p-JG-uQ9" secondAttribute="trailing" id="yRF-Wn-3cn"/>
                                         </constraints>
                                     </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="*Jika barang tidak sesuai, gunakan fitur Refund di halaman detail transaksi barang." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Gt-VW-2Ps">
+                                        <rect key="frame" x="8" y="290" width="234" height="48"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="48" id="nlM-Cd-89e"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="STK-4c-gwX" firstAttribute="top" secondItem="88V-g1-IeE" secondAttribute="bottom" constant="8" id="1CP-7Z-XCk"/>
                                     <constraint firstAttribute="trailing" secondItem="85Y-eJ-7tH" secondAttribute="trailing" constant="8" id="1zY-QS-ztF"/>
+                                    <constraint firstItem="4Gt-VW-2Ps" firstAttribute="top" secondItem="STK-4c-gwX" secondAttribute="bottom" constant="-1" id="2d1-io-5bq"/>
+                                    <constraint firstAttribute="trailing" secondItem="4Gt-VW-2Ps" secondAttribute="trailing" constant="8" id="5JG-LE-Fsi"/>
+                                    <constraint firstItem="4Gt-VW-2Ps" firstAttribute="leading" secondItem="rz5-Ll-5uz" secondAttribute="leading" constant="8" id="5aX-Uq-0sy"/>
                                     <constraint firstItem="eAe-QZ-mEc" firstAttribute="leading" secondItem="rz5-Ll-5uz" secondAttribute="leading" constant="17" id="5qr-hu-9rq"/>
                                     <constraint firstItem="GCT-B8-jrY" firstAttribute="top" secondItem="WJT-Yl-2wl" secondAttribute="bottom" constant="8" id="6bM-gI-JBU"/>
                                     <constraint firstAttribute="trailing" secondItem="STK-4c-gwX" secondAttribute="trailing" id="9De-7T-Jia"/>
                                     <constraint firstItem="eAe-QZ-mEc" firstAttribute="top" secondItem="XFM-9m-KBQ" secondAttribute="bottom" constant="17" id="DnK-Gw-QZn"/>
                                     <constraint firstItem="88V-g1-IeE" firstAttribute="leading" secondItem="rz5-Ll-5uz" secondAttribute="leading" constant="8" id="E5R-QD-Vyt"/>
                                     <constraint firstItem="88V-g1-IeE" firstAttribute="top" secondItem="eAe-QZ-mEc" secondAttribute="bottom" constant="11" id="G9h-d1-Pew"/>
-                                    <constraint firstAttribute="height" constant="339" id="Iro-TS-V2Y"/>
+                                    <constraint firstAttribute="height" constant="386" id="Iro-TS-V2Y"/>
                                     <constraint firstItem="GCT-B8-jrY" firstAttribute="leading" secondItem="rz5-Ll-5uz" secondAttribute="leading" constant="8" id="JW3-lD-xL3"/>
                                     <constraint firstAttribute="trailing" secondItem="88V-g1-IeE" secondAttribute="trailing" constant="8" id="MBv-dG-jfZ"/>
                                     <constraint firstItem="85Y-eJ-7tH" firstAttribute="top" secondItem="rz5-Ll-5uz" secondAttribute="top" constant="8" id="N5p-3C-giz"/>
@@ -18029,148 +18187,6 @@ in Bandung</string>
                                     </mask>
                                 </variation>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nH2-9b-w7K" userLabel="Tunda Pengiriman Pop Up">
-                                <rect key="frame" x="175" y="131" width="250" height="215"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TUNDA PENGIRIMAN" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e9b-59-zjD">
-                                        <rect key="frame" x="8" y="8" width="234" height="21"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="21" id="GS5-zH-N4b"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <color key="textColor" red="0.44682067632675171" green="0.44680723547935486" blue="0.44681483507156372" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Nn-BN-mdc" userLabel="separator">
-                                        <rect key="frame" x="8" y="37" width="234" height="1"/>
-                                        <color key="backgroundColor" red="0.66014617681503296" green="0.6601264476776123" blue="0.66013765335083008" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="1" id="yUn-CE-Jkr"/>
-                                        </constraints>
-                                    </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pengiriman akan ditunda 3 hari dari tanggal yang tertera" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="acc-ks-B8T">
-                                        <rect key="frame" x="8" y="46" width="234" height="41"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="41" id="0JX-8a-SXy"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
-                                        <color key="textColor" red="0.33335760235786438" green="0.3333476185798645" blue="0.33335328102111816" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Xb-tN-okm" userLabel="Agreement">
-                                        <rect key="frame" x="0.0" y="95" width="250" height="23"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fke-yY-sds">
-                                                <rect key="frame" x="8" y="0.0" width="31" height="23"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="31" id="0Rv-Xs-xGz"/>
-                                                    <constraint firstAttribute="height" constant="23" id="ntp-PH-pTe"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="24"/>
-                                                <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pembeli sudah mengetahui hal ini" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hqx-e3-iFQ">
-                                                <rect key="frame" x="37" y="0.0" width="213" height="23"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P04-PU-JFE">
-                                                <rect key="frame" x="0.0" y="0.0" width="250" height="23"/>
-                                                <connections>
-                                                    <action selector="tundaAgreementPressed:" destination="npE-Ng-xbX" eventType="touchUpInside" id="AAY-NF-gD7"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="hqx-e3-iFQ" secondAttribute="trailing" id="0AZ-bM-wJA"/>
-                                            <constraint firstItem="fke-yY-sds" firstAttribute="top" secondItem="9Xb-tN-okm" secondAttribute="top" id="5nW-uT-2W9"/>
-                                            <constraint firstItem="P04-PU-JFE" firstAttribute="leading" secondItem="9Xb-tN-okm" secondAttribute="leading" id="ODq-ES-1a5"/>
-                                            <constraint firstItem="hqx-e3-iFQ" firstAttribute="leading" secondItem="9Xb-tN-okm" secondAttribute="leading" constant="37" id="PV4-In-BaE"/>
-                                            <constraint firstAttribute="bottom" secondItem="P04-PU-JFE" secondAttribute="bottom" id="TE7-RJ-Q2j"/>
-                                            <constraint firstAttribute="trailing" secondItem="P04-PU-JFE" secondAttribute="trailing" id="boj-g0-xcG"/>
-                                            <constraint firstAttribute="height" constant="23" id="dNR-B5-5GM"/>
-                                            <constraint firstItem="P04-PU-JFE" firstAttribute="top" secondItem="9Xb-tN-okm" secondAttribute="top" id="fXO-Qg-HPc"/>
-                                            <constraint firstItem="hqx-e3-iFQ" firstAttribute="top" secondItem="9Xb-tN-okm" secondAttribute="top" id="fun-SK-QDa"/>
-                                            <constraint firstAttribute="bottom" secondItem="hqx-e3-iFQ" secondAttribute="bottom" id="iPu-p7-aVR"/>
-                                            <constraint firstItem="fke-yY-sds" firstAttribute="leading" secondItem="9Xb-tN-okm" secondAttribute="leading" constant="8" id="w7f-ne-AyO"/>
-                                        </constraints>
-                                    </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hubungi Prelo untuk waktu tunda lebih lama" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Ox-05-3qO">
-                                        <rect key="frame" x="8" y="126" width="234" height="41"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="41" id="VQA-fV-M0z"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
-                                        <color key="textColor" red="0.33335760235786438" green="0.3333476185798645" blue="0.33335328102111816" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tGE-Nd-kST">
-                                        <rect key="frame" x="0.0" y="175" width="124" height="40"/>
-                                        <color key="backgroundColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="124" id="Rwa-d9-HXK"/>
-                                            <constraint firstAttribute="height" constant="40" id="UTn-OW-ujM"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                                        <state key="normal" title="BATAL">
-                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="tundaBatalPressed:" destination="npE-Ng-xbX" eventType="touchUpInside" id="2ly-c1-hh5"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="3DA-ZM-Lzg">
-                                        <rect key="frame" x="125" y="175" width="125" height="40"/>
-                                        <color key="backgroundColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="3G8-Nd-wlI"/>
-                                            <constraint firstAttribute="width" constant="125" id="mZN-vt-AaW"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                                        <state key="normal" title="TUNDA">
-                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="tundaKirimPressed:" destination="npE-Ng-xbX" eventType="touchUpInside" id="tou-PU-Zfm"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstItem="e9b-59-zjD" firstAttribute="leading" secondItem="nH2-9b-w7K" secondAttribute="leading" constant="8" id="2vl-IP-LyY"/>
-                                    <constraint firstAttribute="trailing" secondItem="9Xb-tN-okm" secondAttribute="trailing" id="7eg-Iv-uIv"/>
-                                    <constraint firstItem="6Nn-BN-mdc" firstAttribute="top" secondItem="e9b-59-zjD" secondAttribute="bottom" constant="8" id="A8o-zX-ZXd"/>
-                                    <constraint firstItem="acc-ks-B8T" firstAttribute="top" secondItem="6Nn-BN-mdc" secondAttribute="bottom" constant="8" id="BEx-RJ-Qca"/>
-                                    <constraint firstAttribute="bottom" secondItem="tGE-Nd-kST" secondAttribute="bottom" id="CuF-Sc-RJ4"/>
-                                    <constraint firstAttribute="width" constant="250" id="NKa-TV-b8i"/>
-                                    <constraint firstAttribute="trailing" secondItem="e9b-59-zjD" secondAttribute="trailing" constant="8" id="UD5-nY-dAa"/>
-                                    <constraint firstItem="tGE-Nd-kST" firstAttribute="leading" secondItem="nH2-9b-w7K" secondAttribute="leading" id="V8J-gl-8SH"/>
-                                    <constraint firstAttribute="trailing" secondItem="9Ox-05-3qO" secondAttribute="trailing" constant="8" id="Vvj-HL-Fkm"/>
-                                    <constraint firstItem="9Xb-tN-okm" firstAttribute="top" secondItem="acc-ks-B8T" secondAttribute="bottom" constant="8" id="WKb-Jm-zCa"/>
-                                    <constraint firstItem="6Nn-BN-mdc" firstAttribute="leading" secondItem="nH2-9b-w7K" secondAttribute="leading" constant="8" id="X4l-1T-Q4o"/>
-                                    <constraint firstItem="e9b-59-zjD" firstAttribute="top" secondItem="nH2-9b-w7K" secondAttribute="top" constant="8" id="b0A-Jx-tRG"/>
-                                    <constraint firstAttribute="trailing" secondItem="acc-ks-B8T" secondAttribute="trailing" constant="8" id="c3F-Ll-5y6"/>
-                                    <constraint firstItem="9Ox-05-3qO" firstAttribute="leading" secondItem="nH2-9b-w7K" secondAttribute="leading" constant="8" id="dUb-PI-O3C"/>
-                                    <constraint firstAttribute="height" constant="215" id="gVf-eR-XdW"/>
-                                    <constraint firstItem="9Ox-05-3qO" firstAttribute="top" secondItem="9Xb-tN-okm" secondAttribute="bottom" constant="8" id="q6a-55-mXh"/>
-                                    <constraint firstAttribute="trailing" secondItem="3DA-ZM-Lzg" secondAttribute="trailing" id="r6W-lM-pcE"/>
-                                    <constraint firstItem="6Nn-BN-mdc" firstAttribute="top" secondItem="e9b-59-zjD" secondAttribute="bottom" constant="8" id="sGa-t4-gjp"/>
-                                    <constraint firstAttribute="bottom" secondItem="3DA-ZM-Lzg" secondAttribute="bottom" id="ySZ-l6-8IY"/>
-                                    <constraint firstItem="acc-ks-B8T" firstAttribute="leading" secondItem="nH2-9b-w7K" secondAttribute="leading" constant="8" id="ygh-zL-QnR"/>
-                                    <constraint firstAttribute="trailing" secondItem="6Nn-BN-mdc" secondAttribute="trailing" constant="8" id="ywQ-nZ-NaR"/>
-                                    <constraint firstItem="9Xb-tN-okm" firstAttribute="leading" secondItem="nH2-9b-w7K" secondAttribute="leading" id="zpL-7h-0Np"/>
-                                </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="sGa-t4-gjp"/>
-                                    </mask>
-                                </variation>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
@@ -18179,7 +18195,7 @@ in Bandung</string>
                             <constraint firstAttribute="centerY" secondItem="LQE-PP-b44" secondAttribute="centerY" id="8tn-L4-YT6"/>
                             <constraint firstAttribute="centerX" secondItem="rz5-Ll-5uz" secondAttribute="centerX" constant="1" id="DjV-4Z-UrI"/>
                             <constraint firstItem="LQE-PP-b44" firstAttribute="top" secondItem="fEC-hZ-e2V" secondAttribute="bottom" constant="226" id="LdQ-oH-zdM"/>
-                            <constraint firstItem="rz5-Ll-5uz" firstAttribute="top" secondItem="fEC-hZ-e2V" secondAttribute="bottom" constant="100" id="Y6O-NZ-il2"/>
+                            <constraint firstItem="rz5-Ll-5uz" firstAttribute="top" secondItem="fEC-hZ-e2V" secondAttribute="bottom" constant="60" id="Y6O-NZ-il2"/>
                             <constraint firstItem="F7M-5m-kiG" firstAttribute="top" secondItem="fEC-hZ-e2V" secondAttribute="bottom" constant="25" id="YBr-29-ps5"/>
                             <constraint firstItem="nH2-9b-w7K" firstAttribute="top" secondItem="fEC-hZ-e2V" secondAttribute="bottom" constant="131" id="Yw5-nX-UoF"/>
                             <constraint firstItem="m84-1O-8RA" firstAttribute="top" secondItem="fEC-hZ-e2V" secondAttribute="bottom" id="Z1J-wJ-DOb"/>
@@ -18250,7 +18266,7 @@ in Bandung</string>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2154" y="-5708"/>
+            <point key="canvasLocation" x="2153.5999999999999" y="-5708.5457271364321"/>
         </scene>
     </scenes>
     <resources>
@@ -18310,9 +18326,9 @@ in Bandung</string>
         <image name="tour_5.jpg" width="720" height="1280"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="W6Y-eo-D2Q"/>
+        <segue reference="ksh-6D-t59"/>
+        <segue reference="gU7-9Q-bxr"/>
+        <segue reference="gv4-pa-FxU"/>
         <segue reference="5pQ-qG-4MR"/>
-        <segue reference="dW2-MQ-HC6"/>
-        <segue reference="cuL-Ez-B43"/>
     </inferredMetricsTieBreakers>
 </document>
