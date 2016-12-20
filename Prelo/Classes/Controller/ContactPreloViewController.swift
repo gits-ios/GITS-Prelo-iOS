@@ -90,7 +90,7 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
             let username = user?.username
             let no_hp = user?.profiles.phone
             
-            msg += "Order Id: " + order_id! + "\n"
+            msg += "Order Id: " + (order_id != nil ? order_id! : "") + "\n"
             msg += "Berita / Laporan: \n\n" + "\n---\n"
             
             
