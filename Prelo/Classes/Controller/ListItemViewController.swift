@@ -1434,6 +1434,12 @@ class ListItemCell : UICollectionViewCell {
     @IBOutlet weak var btnTawar: UIButton!
     @IBOutlet weak var btnLove: UIButton!
     
+    @IBOutlet weak var consWidthTawar: NSLayoutConstraint!
+    @IBOutlet weak var consbtnWidthTawar: NSLayoutConstraint!
+    @IBOutlet weak var consWidthLove: NSLayoutConstraint!
+    @IBOutlet weak var consbtnWidthLove: NSLayoutConstraint!
+    
+    
     var newLove : Bool?
     var pid : String?
     
@@ -1444,8 +1450,11 @@ class ListItemCell : UICollectionViewCell {
         sectionLove.layer.cornerRadius = sectionLove.frame.size.width/2
         sectionLove.layer.masksToBounds = true
         
-        // TODO : if used
+        // TODO : if used (switch)
+        imgTawar.isHidden = true
         btnTawar.isHidden = true
+//        consWidthTawar.constant = 30
+//        consbtnWidthTawar.constant = 30
     }
     
     override func prepareForReuse() {
@@ -1453,8 +1462,6 @@ class ListItemCell : UICollectionViewCell {
         imgReserved.isHidden = true
         imgFeatured.isHidden = true
         imgFreeOngkir.isHidden = true
-        
-        imgTawar.isHidden = true
     }
     
     func adapt(_ product : Product) {
@@ -1492,11 +1499,20 @@ class ListItemCell : UICollectionViewCell {
             captionMyLove.text = ""
         }
         
-        newLove = obj["love"].bool
-        if (newLove == true) {
-            lblLove.text = ""
+        if (User.IsLoggedIn == true) {
+            
+            consWidthLove.constant = 30
+            consbtnWidthLove.constant = 30
+            
+            newLove = obj["love"].bool
+            if (newLove == true) {
+                lblLove.text = ""
+            } else {
+                lblLove.text = ""
+            }
         } else {
-            lblLove.text = ""
+            lblLove.isHidden = true
+            btnLove.isHidden = true
         }
         
         _ = obj["display_picts"][0].string
@@ -1557,13 +1573,14 @@ class ListItemCell : UICollectionViewCell {
         // API Migrasi
         let _ = request(APIProduct.love(productID: self.pid!)).responseJSON {resp in
             print(resp)
-//            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Love Product"))
-//            {
-//                
-//            } else
-//            {
-//                
-//            }
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Love Product"))
+            {
+                
+            } else
+            {
+                self.newLove = false
+                self.lblLove.text = ""
+            }
         }
     }
     
@@ -1572,13 +1589,14 @@ class ListItemCell : UICollectionViewCell {
         // API Migrasi
         let _ = request(APIProduct.unlove(productID: self.pid!)).responseJSON {resp in
             print(resp)
-//            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Unlove Product"))
-//            {
-//                
-//            } else
-//            {
-//                
-//            }
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Unlove Product"))
+            {
+                
+            } else
+            {
+                self.newLove = true
+                self.lblLove.text = ""
+            }
         }
     }
 }
