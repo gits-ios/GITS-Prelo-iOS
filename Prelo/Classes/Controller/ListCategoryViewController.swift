@@ -350,7 +350,8 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         scrollCategoryName.layoutIfNeeded()
         contentCategoryNames?.layoutIfNeeded()
         
-        // Home promo
+        // Home promo 
+        // & Save ab testing (need improvement)
         // API Migrasi
         let _ = request(APIApp.version).responseJSON {resp in
             var isShowPromo = false
@@ -391,6 +392,13 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                                 }
                             }
                         }
+                    }
+                }
+                
+                if let abTest = data["ab_test"].array {
+                    if abTest.contains("fake_approve") {
+                        UserDefaults.standard.set(true, forKey: UserDefaultsKey.AbTestFakeApprove)
+                        UserDefaults.standard.synchronize()
                     }
                 }
             }

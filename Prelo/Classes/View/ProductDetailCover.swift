@@ -88,10 +88,16 @@ class ProductDetailCover: UIView {
     }
     
     func setupBanner() {
+        var isFakeApprove = false
+        if let fakeApprove = UserDefaults.standard.object(forKey: UserDefaultsKey.AbTestFakeApprove) as! Bool? {
+            if (fakeApprove == true) {
+                isFakeApprove = fakeApprove
+            }
+        }
         if (status != nil) {
             let screenSize: CGRect = UIScreen.main.bounds
             let screenWidth = screenSize.width
-            if (status == 2) { // under review
+            if (status == 2 && !isFakeApprove) { // under review
                 banner = UIImageView(image: UIImage(named: "banner_review.png"))
                 if (banner != nil) {
                     banner!.frame = CGRect(x: screenWidth - 150, y: 0, width: 150, height: 149)

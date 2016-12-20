@@ -84,6 +84,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     var mgInstagram : MGInstagram?
     
+    var isFakeApprove : Bool = false
+    
     // Up barang pop up
     @IBOutlet var vwUpBarangPopUp: UIView!
     @IBOutlet var vwUpBarangPopUpPanel: UIView!
@@ -119,6 +121,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         self.hideUpPopUp()
         self.vwUpBarangPopUp.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        
+        if let fakeApprove = UserDefaults.standard.object(forKey: UserDefaultsKey.AbTestFakeApprove) as! Bool? {
+            if (fakeApprove == true) {
+                self.isFakeApprove = fakeApprove
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -215,7 +223,10 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     func adjustButtonByStatus() {
-        if (self.detail?.status == 0 || self.detail?.status == 2) { // Inactive or under review
+        if (self.detail?.status == 0) { // Inactive or under review
+            self.disableButton(self.btnUp)
+            self.disableButton(self.btnSold)
+        } else if (self.detail?.status == 2 && !isFakeApprove) { // Under review
             self.disableButton(self.btnUp)
             self.disableButton(self.btnSold)
         } else if (self.detail?.status == 3 || self.detail?.status == 4) { // sold or deleted
