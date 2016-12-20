@@ -1513,8 +1513,10 @@ class ListItemCell : UICollectionViewCell {
             newLove = obj["love"].bool
             if (newLove == true) {
                 lblLove.text = ""
+                lblLove.textColor = Theme.ThemeRed
             } else {
                 lblLove.text = ""
+                lblLove.textColor = Theme.GrayLight
             }
         } else {
             lblLove.isHidden = true
@@ -1553,10 +1555,12 @@ class ListItemCell : UICollectionViewCell {
             if (newLove == true) {
                 newLove = false
                 lblLove.text = ""
+                lblLove.textColor = Theme.GrayLight
                 callApiUnlove()
             } else {
                 newLove = true
                 lblLove.text = ""
+                lblLove.textColor = Theme.ThemeRed
                 callApiLove()
             }
         } else {
@@ -1586,6 +1590,7 @@ class ListItemCell : UICollectionViewCell {
             {
                 self.newLove = false
                 self.lblLove.text = ""
+                self.lblLove.textColor = Theme.GrayLight
             }
         }
     }
@@ -1602,6 +1607,7 @@ class ListItemCell : UICollectionViewCell {
             {
                 self.newLove = true
                 self.lblLove.text = ""
+                self.lblLove.textColor = Theme.ThemeRed
             }
         }
     }
