@@ -879,7 +879,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             let cell : ListItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ListItemCell
             if (products?.count > (indexPath as NSIndexPath).item) {
                 let p = products?[(indexPath as NSIndexPath).item]
-                cell.adapt(p!)
+                cell.adapt(p!, listStage: self.listStage)
             }
             if (currentMode == .featured) {
                 // Hide featured ribbon
@@ -1411,7 +1411,7 @@ class ListItemFeaturedHeaderCell : UICollectionViewCell {
     }
 }
 
-// MARK: - Class
+// MARK: - Class ListItemCell
 
 class ListItemCell : UICollectionViewCell {
     @IBOutlet var ivCover: UIImageView!
@@ -1429,19 +1429,21 @@ class ListItemCell : UICollectionViewCell {
     @IBOutlet var imgReserved: UIImageView!
     @IBOutlet var imgFeatured: UIImageView!
     @IBOutlet var imgFreeOngkir: UIImageView!
-    @IBOutlet weak var imgTawar: UIImageView!
     @IBOutlet weak var lblLove: UILabel!
     @IBOutlet weak var btnTawar: UIButton!
     @IBOutlet weak var btnLove: UIButton!
     
-    @IBOutlet weak var consWidthTawar: NSLayoutConstraint!
     @IBOutlet weak var consbtnWidthTawar: NSLayoutConstraint!
     @IBOutlet weak var consWidthLove: NSLayoutConstraint!
     @IBOutlet weak var consbtnWidthLove: NSLayoutConstraint!
-    
+    @IBOutlet weak var consbtnHeightTawar: NSLayoutConstraint!
+    @IBOutlet weak var consHeightLove: NSLayoutConstraint!
+    @IBOutlet weak var consbtnHeightLove: NSLayoutConstraint!
     
     var newLove : Bool?
     var pid : String?
+    var cid : String?
+    var sid : String?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -1450,17 +1452,19 @@ class ListItemCell : UICollectionViewCell {
         sectionLove.layer.cornerRadius = sectionLove.frame.size.width/2
         sectionLove.layer.masksToBounds = true
         
-        // TODO : unused (please dont switch this)
-        imgTawar.isHidden = true
-//        consWidthTawar.constant = 30
-        
         // TODO : if used (switch)
         btnTawar.isHidden = true
 //        consbtnWidthTawar.constant = 30
+//        consbtnHeightTawar.constant = 30
 //        let image = UIImage(named: "ic_chat_tawar.png")?.withRenderingMode(.alwaysTemplate)
 //        btnTawar.setImage(image, for: .normal)
 //        btnTawar.tintColor = UIColor.lightGray
 //        btnTawar.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
+        
+        
+        // unused
+        lblLove.isHidden = true
+        consWidthLove.constant = 0
     }
     
     override func prepareForReuse() {
@@ -1470,7 +1474,7 @@ class ListItemCell : UICollectionViewCell {
         imgFreeOngkir.isHidden = true
     }
     
-    func adapt(_ product : Product) {
+    func adapt(_ product : Product, listStage : Int) {
         let obj = product.json
         captionTitle.text = product.name
         captionPrice.text = product.price
@@ -1479,7 +1483,9 @@ class ListItemCell : UICollectionViewCell {
         let commentCount = obj["discussions"].int
         captionComment.text = String(commentCount == nil ? 0 : commentCount!)
         
-        pid = obj["_id"].string
+        self.pid = obj["_id"].string
+        self.cid = obj["category_id"].string
+        self.sid = obj["seller_id"].string
         
         avatar.contentMode = .scaleAspectFill
         avatar.layoutIfNeeded()
@@ -1506,21 +1512,39 @@ class ListItemCell : UICollectionViewCell {
         }
         
         if (User.IsLoggedIn == true) {
+            var const : CGFloat = CGFloat(30)
             
-            consWidthLove.constant = 30
-            consbtnWidthLove.constant = 30
+            if listStage == 1 {
+                const = CGFloat(15)
+                
+//                lblLove.font = UIFont(name: "prelo2", size: 13.0)
+            } else {
+//                lblLove.font = UIFont(name: "prelo2", size: 28.0)
+            }
+            
+//            consWidthLove.constant = const
+//            consHeightLove.constant = const
+            consbtnWidthLove.constant = const
+            consbtnHeightLove.constant = const
+            
+            let image = UIImage(named: "ic_chat_tawar.png")?.withRenderingMode(.alwaysTemplate)
+            btnTawar.setImage(image, for: .normal)
+            btnTawar.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
             
             newLove = obj["love"].bool
             if (newLove == true) {
-                lblLove.text = ""
-                lblLove.textColor = Theme.ThemeRed
+//                lblLove.text = ""
+//                lblLove.textColor = Theme.ThemeRed
+                btnTawar.tintColor = Theme.ThemeRed
             } else {
-                lblLove.text = ""
-                lblLove.textColor = Theme.GrayLight
+//                lblLove.text = ""
+//                lblLove.textColor = Theme.GrayLight
+                btnTawar.tintColor = Theme.GrayLight
             }
         } else {
-            lblLove.isHidden = true
+//            lblLove.isHidden = true
             btnLove.isHidden = true
+            consbtnWidthLove.constant = 0
         }
         
         _ = obj["display_picts"][0].string
@@ -1571,14 +1595,12 @@ class ListItemCell : UICollectionViewCell {
     func callApiLove()
     {
         // Mixpanel
-//        let pt = [
-//            "Product Name" : ((product != nil) ? (product!.name) : ""),
-//            "Category 1" : ((detail != nil && detail?.categoryBreadcrumbs.count > 1) ? (detail!.categoryBreadcrumbs[1]["name"].string!) : ""),
-//            "Category 2" : ((detail != nil && detail?.categoryBreadcrumbs.count > 2) ? (detail!.categoryBreadcrumbs[2]["name"].string!) : ""),
-//            "Category 3" : ((detail != nil && detail?.categoryBreadcrumbs.count > 3) ? (detail!.categoryBreadcrumbs[3]["name"].string!) : ""),
-//            "Seller Name" : ((detail != nil) ? (detail!.theirName) : "")
-//        ]
-//        Mixpanel.trackEvent(MixpanelEvent.ToggledLikeProduct, properties: pt)
+        let pt = [
+            "Product Name" : self.captionTitle.text,
+            "Category Id" : self.cid,
+            "Seller Id" : self.sid
+        ]
+        Mixpanel.trackEvent(MixpanelEvent.ToggledLikeProduct, properties: pt)
         
         // API Migrasi
         let _ = request(APIProduct.love(productID: self.pid!)).responseJSON {resp in
@@ -1589,8 +1611,9 @@ class ListItemCell : UICollectionViewCell {
             } else
             {
                 self.newLove = false
-                self.lblLove.text = ""
-                self.lblLove.textColor = Theme.GrayLight
+//                self.lblLove.text = ""
+//                self.lblLove.textColor = Theme.GrayLight
+                self.btnTawar.tintColor = Theme.GrayLight
             }
         }
     }
@@ -1606,8 +1629,9 @@ class ListItemCell : UICollectionViewCell {
             } else
             {
                 self.newLove = true
-                self.lblLove.text = ""
-                self.lblLove.textColor = Theme.ThemeRed
+//                self.lblLove.text = ""
+//                self.lblLove.textColor = Theme.ThemeRed
+                self.btnTawar.tintColor = Theme.ThemeRed
             }
         }
     }
