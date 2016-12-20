@@ -312,7 +312,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
             let _ = request(APIProduct.detail(productId: notif.objectId, forEdit: 0)).responseJSON {resp in
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Percakapan")) {
                     let json = JSON(resp.result.value!)
-                    let p = Product.instance(json)
+                    let p = Product.instance(json["_data"])
                     
                     // Goto product detail
                     let productDetailVC = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
