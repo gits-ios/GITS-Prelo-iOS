@@ -1526,20 +1526,17 @@ class ListItemCell : UICollectionViewCell {
 //            consHeightLove.constant = const
             consbtnWidthLove.constant = const
             consbtnHeightLove.constant = const
-            
-            let image = UIImage(named: "ic_chat_tawar.png")?.withRenderingMode(.alwaysTemplate)
-            btnTawar.setImage(image, for: .normal)
-            btnTawar.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
+            btnLove.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
             
             newLove = obj["love"].bool
             if (newLove == true) {
 //                lblLove.text = ""
 //                lblLove.textColor = Theme.ThemeRed
-                btnTawar.tintColor = Theme.ThemeRed
+                buttonLoveChange(isLoved: true)
             } else {
 //                lblLove.text = ""
 //                lblLove.textColor = Theme.GrayLight
-                btnTawar.tintColor = Theme.GrayLight
+                buttonLoveChange(isLoved: false)
             }
         } else {
 //            lblLove.isHidden = true
@@ -1574,17 +1571,32 @@ class ListItemCell : UICollectionViewCell {
         }
     }
     
+    func buttonLoveChange(isLoved : Bool) {
+        if isLoved == true {
+            let image = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
+            btnLove.setImage(image, for: .normal)
+            btnLove.tintColor = Theme.ThemeRed
+        } else {
+            let image = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
+            btnLove.setImage(image, for: .normal)
+            btnLove.tintColor = Theme.GrayLight
+        }
+    
+    }
+    
     @IBAction func btnLovePressed(_ sender: Any) {
         if (User.IsLoggedIn == true) {
             if (newLove == true) {
                 newLove = false
-                lblLove.text = ""
-                lblLove.textColor = Theme.GrayLight
+//                lblLove.text = ""
+//                lblLove.textColor = Theme.GrayLight
+                buttonLoveChange(isLoved: false)
                 callApiUnlove()
             } else {
                 newLove = true
-                lblLove.text = ""
-                lblLove.textColor = Theme.ThemeRed
+//                lblLove.text = ""
+//                lblLove.textColor = Theme.ThemeRed
+                buttonLoveChange(isLoved: true)
                 callApiLove()
             }
         } else {
@@ -1613,7 +1625,8 @@ class ListItemCell : UICollectionViewCell {
                 self.newLove = false
 //                self.lblLove.text = ""
 //                self.lblLove.textColor = Theme.GrayLight
-                self.btnTawar.tintColor = Theme.GrayLight
+//                self.btnLove.tintColor = Theme.GrayLight
+                self.buttonLoveChange(isLoved: false)
             }
         }
     }
@@ -1631,7 +1644,8 @@ class ListItemCell : UICollectionViewCell {
                 self.newLove = true
 //                self.lblLove.text = ""
 //                self.lblLove.textColor = Theme.ThemeRed
-                self.btnTawar.tintColor = Theme.ThemeRed
+//                self.btnLove.tintColor = Theme.ThemeRed
+                self.buttonLoveChange(isLoved: true)
             }
         }
     }
