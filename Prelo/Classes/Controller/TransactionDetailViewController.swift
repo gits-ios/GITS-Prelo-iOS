@@ -99,6 +99,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     // Others
     var isShowBankBRI : Bool = false
     var veritransRedirectUrl : String = ""
+    var isRefundable : Bool = false
     
     // MARK: - Init
     
@@ -203,6 +204,11 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     // Veritrans url check
                     if let vrtUrl = data["veritrans_redirect_url"].string {
                         self.veritransRedirectUrl = vrtUrl
+                    }
+                    
+                    // Refundable check
+                    if let r = data["refundable"].bool {
+                        self.isRefundable = r
                     }
                     
                     // Mixpanel
@@ -364,7 +370,11 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             if (userIsSeller()) {
                 return 10
             } else {
-                return 13
+                if (isRefundable) {
+                    return 13
+                } else {
+                    return 12
+                }
             }
         } else if (progress == TransactionDetailTools.ProgressReviewed) {
             if (userIsSeller()) {
@@ -667,11 +677,15 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 8) {
                     return DefaultHeight
                 } else if (idx == 9) {
-                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
+                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1, boolParam: isRefundable)
                 } else if (idx == 10) {
                     return DefaultHeight
                 } else if (idx == 11) {
-                    return DefaultHeight
+                    if (isRefundable) {
+                        return DefaultHeight // Tombol refund
+                    } else {
+                        return ContactPreloHeight
+                    }
                 } else if (idx == 12) {
                     return ContactPreloHeight
                 }
@@ -1232,7 +1246,11 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 10) {
                     return self.createButtonCell(1)
                 } else if (idx == 11) {
-                    return self.createBorderedButtonCell(1)
+                    if (isRefundable) {
+                        return self.createBorderedButtonCell(1)
+                    } else {
+                        return self.createContactPreloCell()
+                    }
                 } else if (idx == 12) {
                     return self.createContactPreloCell()
                 }
@@ -1722,7 +1740,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 self.navigationController?.pushViewController(o, animated: true)
             }
             webVC.ccPaymentUnfinished = {
-                Constant.showDialog("Lanjut Pembayaran", message: "Pembayaran dibatalkan")
+                // Do nothing
             }
             webVC.ccPaymentFailed = {
                 Constant.showDialog("Lanjut Pembayaran", message: "Pembayaran gagal, silahkan coba beberapa saat lagi")
@@ -2268,6 +2286,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     func getTitleContentPembayaranBuyerPaidType(_ trxProductDetail : TransactionProductDetail) -> String {
         if (trxProductDetail.paymentMethod.lowercased() == "credit card") {
             return TransactionDetailTools.TitleContentPembayaranBuyerPaidCC
+        } else if (trxProductDetail.paymentMethod.lowercased() == "indomaret") {
+            return TransactionDetailTools.TitleContentPembayaranBuyerPaidIndomaret
         } else if (trxProductDetail.paymentBankSource.lowercased() == "prelo bonus") {
             return TransactionDetailTools.TitleContentPembayaranBuyerPaidBonus
         } else {
@@ -2308,6 +2328,7 @@ class TransactionDetailTools : NSObject {
     static let TitleContentPembayaranBuyerPaidTransfer = "tcpembayaranbuyerpaidtransfer"
     static let TitleContentPembayaranBuyerPaidCC = "tcpembayaranbuyerpaidcc"
     static let TitleContentPembayaranBuyerPaidBonus = "tcpembayaranbuyerpaidbonus"
+    static let TitleContentPembayaranBuyerPaidIndomaret = "tcpembayaranbuyerpaidindomaret"
     static let TitleContentPembayaranSeller = "tcpembayaranseller"
     static let TitleContentPengirimanBuyer = "tcpengirimanbuyer"
     static let TitleContentPengirimanSeller = "tcpengirimanseller"
@@ -2325,7 +2346,8 @@ class TransactionDetailTools : NSObject {
     static let TextReimburse2 = "Kamu dapat menggunakannya untuk transaksi selanjutnya atau tarik uang PreloBalance."
     static let TextNotPaid = "Transaksi ini belum dibayar dan akan expired pada "
     static let TextNotPaidSeller = "Ingatkan pembeli untuk segera membayar."
-    static let TextNotPaidBuyer = "Segera konfirmasi pembayaran."
+    static let TextNotPaidBuyerTransfer = "Segera konfirmasi pembayaran."
+    static let TextNotPaidBuyerVeritrans = "Segera lanjutkan pembayaran."
     static let TextClaimedPaidSeller = "Pembayaran pembeli sedang dikonfirmasi oleh Prelo, mohon tunggu."
     static let TextClaimedPaidBuyer = "Hubungi Prelo apabila alamat pengiriman salah."
     static let TextConfirmedPaidSeller1 = "Kirim pesanan sebelum "
@@ -2334,8 +2356,10 @@ class TransactionDetailTools : NSObject {
     static let TextConfirmedPaidBuyer2 = "Ingatkan penjual untuk mengirim pesanan."
     static let TextSentSeller = "Beritahu pembeli bahwa barang sudah dikirim. Minta pembeli untuk memberikan review apabila barang sudah diterima."
     static let TextSentBuyer = "Berikan review sebagai konfirmasi penerimaan. Prelo akan meneruskan pembayaran ke penjual."
+    static let TextSentBuyerNoRefund = "Refund sudah tidak dapat dilakukan karena sudah melebihi batas Waktu Jaminan Prelo (3x24 jam sejak barang diterima). Jangan lupa lakukan review."
     static let TextReceivedSeller = "Barang semestinya sudah diterima. Hubungi pembeli untuk mengecek apakah barang sudah diterima dan minta review untuk menyelesaikan transaksi."
     static let TextReceivedBuyer = "Barang semestinya sudah kamu terima. Review penjual untuk menyelesaikan transaksi. Belum terima barang? Hubungi Prelo."
+    static let TextReceivedBuyerNoRefund = "Refund sudah tidak dapat dilakukan karena sudah melebihi batas Waktu Jaminan Prelo (3x24 jam sejak barang diterima). Jangan lupa lakukan review."
     static let TextReserved1 = "Barang ini telah direservasi khusus untuk kamu. Kamu dapat menyelesaikan pembelian barang ini dengan menyelesaikan pembayaran pada"
     static let TextReserved2 = "Apabila kamu tidak menyelesaikan pembelian sampai dengan batas waktu yang ditentukan, reservasi barang kamu akan dibatalkan.\n\nTunjukkan halaman ini sebagai bukti reservasi kamu."
     static let TextReserveDone = "Terima kasih sudah berbelanja di Prelo! Temukan barang preloved lainnya di Prelo dan tunggu event menarik selanjutnya dari Prelo."
@@ -2492,10 +2516,16 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidCC) {
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentMethod)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentDate)
+            height += TransactionDetailTitleContentCell.heightFor("**** **** **** \(trxProductDetail.maskedCCLast)")
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentNominal.asPrice)
         } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidBonus) {
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentMethod)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentDate)
+        } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidIndomaret) {
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentMethod)
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentDate)
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentCode)
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentNominal.asPrice)
         } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentMethod)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentDate)
@@ -2603,9 +2633,11 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer) {
                 return 4
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidCC) {
-                return 3
+                return 4
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidBonus) {
                 return 2
+            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidIndomaret) {
+                return 4
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
                 return 2
             } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanBuyer) {
@@ -2728,6 +2760,10 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
                     }
                 } else if (idx == 2) {
+                    if (isTrxProductDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor("**** **** **** \(trxProductDetail!.maskedCCLast)")
+                    }
+                } else if (idx == 3) {
                     if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentNominal.asPrice)
                     } else if (isTrxProductDetail()) {
@@ -2746,6 +2782,32 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentDate)
                     } else if (isTrxProductDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
+                    }
+                }
+            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidIndomaret) {
+                if (idx == 0) {
+                    if (isTrxDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentMethod)
+                    } else if (isTrxProductDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentMethod)
+                    }
+                } else if (idx == 1) {
+                    if (isTrxDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentDate)
+                    } else if (isTrxProductDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
+                    }
+                } else if (idx == 2) {
+                    if (isTrxDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentCode)
+                    } else if (isTrxProductDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentCode)
+                    }
+                } else if (idx == 3) {
+                    if (isTrxDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentNominal.asPrice)
+                    } else if (isTrxProductDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentNominal.asPrice)
                     }
                 }
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
@@ -3014,11 +3076,21 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     }
                     return self.createTitleContentCell("Subtotal", content: content, alignment: .right, url: nil, textToCopy: nil)
                 } else if (idx == 5) {
+                    var title = ""
                     var content = ""
                     if (isTrxDetail()) {
-                        content = trxDetail!.bankTransferDigit.asPrice
+                        if (trxDetail!.paymentMethodInt == 1) {
+                            title = "Charge Kartu Kredit"
+                            content = trxDetail!.veritransChargeAmount.asPrice
+                        } else if (trxDetail!.paymentMethodInt == 4) {
+                            title = "Charge Indomaret"
+                            content = trxDetail!.veritransChargeAmount.asPrice
+                        } else {
+                            title = "Kode Unik"
+                            content = trxDetail!.bankTransferDigit.asPrice
+                        }
                     }
-                    let cell = self.createTitleContentCell("Kode Unik", content: content, alignment: .right, url: nil, textToCopy: nil)
+                    let cell = self.createTitleContentCell(title, content: content, alignment: .right, url: nil, textToCopy: nil)
                     cell.showVwLine()
                     return cell
                 } else if (idx == 6) {
@@ -3026,7 +3098,14 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     var textToCopy = ""
                     content = "Copy "
                     if (isTrxDetail()) {
-                        let p = trxDetail!.totalPrice + trxDetail!.bankTransferDigit
+                        var p = trxDetail!.totalPrice
+                        if (trxDetail!.paymentMethodInt == 1) {
+                            p += trxDetail!.veritransChargeAmount
+                        } else if (trxDetail!.paymentMethodInt == 4) {
+                            p += trxDetail!.veritransChargeAmount
+                        } else {
+                            p += trxDetail!.bankTransferDigit
+                        }
                         textToCopy = "\(p)"
                         content += p.asPrice
                     }
@@ -3084,6 +3163,10 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     }
                     return self.createTitleContentCell("Tanggal", content: content)
                 } else if (idx == 2) {
+                    if (isTrxProductDetail()) {
+                        return self.createTitleContentCell("Nomor Kartu", content: "**** **** **** \(trxProductDetail!.maskedCCLast)")
+                    }
+                } else if (idx == 3) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = trxDetail!.paymentNominal.asPrice
@@ -3109,6 +3192,40 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         content = trxProductDetail!.paymentDate
                     }
                     return self.createTitleContentCell("Tanggal", content: content)
+                }
+            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidIndomaret) {
+                if (idx == 0) {
+                    var content = ""
+                    if (isTrxDetail()) {
+                        content = trxDetail!.paymentMethod
+                    } else if (isTrxProductDetail()) {
+                        content = trxProductDetail!.paymentMethod
+                    }
+                    return self.createTitleContentCell("Metode", content: content)
+                } else if (idx == 1) {
+                    var content = ""
+                    if (isTrxDetail()) {
+                        content = trxDetail!.paymentDate
+                    } else if (isTrxProductDetail()) {
+                        content = trxProductDetail!.paymentDate
+                    }
+                    return self.createTitleContentCell("Tanggal", content: content)
+                } else if (idx == 2) {
+                    var content = ""
+                    if (isTrxDetail()) {
+                        content = trxDetail!.paymentCode
+                    } else if (isTrxProductDetail()) {
+                        content = trxProductDetail!.paymentCode
+                    }
+                    return self.createTitleContentCell("Kode", content: content)
+                } else if (idx == 3) {
+                    var content = ""
+                    if (isTrxDetail()) {
+                        content = trxDetail!.paymentNominal.asPrice
+                    } else if (isTrxProductDetail()) {
+                        content = trxProductDetail!.paymentNominal.asPrice
+                    }
+                    return self.createTitleContentCell("Nominal", content: content)
                 }
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
                 if (idx == 0) {
@@ -3549,8 +3666,15 @@ class TransactionDetailProductCell : UITableViewCell {
             imgName = "ic_trx_reservation_cancelled"
         } else if (progress == TransactionDetailTools.ProgressFraudDetected) {
             imgName = "ic_trx_expired"
+        } else if (progress == TransactionDetailTools.ProgressRefundRequested) {
+            imgName = "ic_trx_refund1"
+        } else if (progress == TransactionDetailTools.ProgressRefundVerified) {
+            imgName = "ic_trx_refund2"
+        } else if (progress == TransactionDetailTools.ProgressRefundSent) {
+            imgName = "ic_trx_refund3"
+        } else if (progress == TransactionDetailTools.ProgressRefundSuccess) {
+            imgName = "ic_trx_refund4"
         }
-        // TODO: icon untuk status2 refund
         if (imgName != nil) {
             if let imgIcon = UIImage(named: imgName!) {
                 imgVwIcon = UIImageView(frame: CGRect(x: 5, y: 5, width: 15, height: 15), image: imgIcon)
@@ -3609,7 +3733,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     }
                 }
             } else if (progress == TransactionDetailTools.ProgressNotPaid) {
-                let text = TransactionDetailTools.TextNotPaid + "dd/MM/yyyy hh:mm:ss. " + ((isSeller! == true) ? TransactionDetailTools.TextNotPaidSeller : TransactionDetailTools.TextNotPaidBuyer)
+                let text = TransactionDetailTools.TextNotPaid + "dd/MM/yyyy hh:mm:ss. " + ((isSeller! == true) ? TransactionDetailTools.TextNotPaidSeller : TransactionDetailTools.TextNotPaidBuyerTransfer) // Asumsi: TextNotPaidBuyerTransfer & TextNotPaidBuyerVeritrans panjangnya sama
                 textRect = text.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin) - 8) // Dikurangin 8 lagi karna ada galat perhitungan
             } else if (progress == TransactionDetailTools.ProgressClaimedPaid) {
                 if (isSeller! == true) {
@@ -3628,13 +3752,9 @@ class TransactionDetailDescriptionCell : UITableViewCell {
             } else if (progress == TransactionDetailTools.ProgressSent) {
                 if (isSeller! == true) {
                     textRect = TransactionDetailTools.TextSentSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
-                } else {
-                    textRect = TransactionDetailTools.TextSentBuyer.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                 }
             } else if (progress == TransactionDetailTools.ProgressReceived) {
                 if (isSeller! == true) {
-                    textRect = TransactionDetailTools.TextReceivedSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
-                } else {
                     textRect = TransactionDetailTools.TextReceivedSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                 }
             } else if (progress == TransactionDetailTools.ProgressReserved) {
@@ -3699,6 +3819,25 @@ class TransactionDetailDescriptionCell : UITableViewCell {
         return 0
     }
     
+    static func heightFor(_ progress : Int?, isSeller : Bool?, order : Int, boolParam : Bool) -> CGFloat {
+        if (progress != nil && isSeller != nil) {
+            var textRect : CGRect?
+            if (progress == TransactionDetailTools.ProgressReceived || progress == TransactionDetailTools.ProgressSent) {
+                if (isSeller! == false) {
+                    if (boolParam == true) { // In this case, boolParam = isRefundable
+                        textRect = TransactionDetailTools.TextReceivedBuyer.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                    } else {
+                        textRect = TransactionDetailTools.TextReceivedBuyerNoRefund.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                    }
+                }
+            }
+            if (textRect != nil) {
+                return textRect!.height + (2 * TransactionDetailTools.Margin)
+            }
+        }
+        return 0
+    }
+    
     func adapt(_ trxDetail : TransactionDetail) {
         if let userId = User.Id {
             let progress = trxDetail.progress
@@ -3714,7 +3853,13 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                 if (isSeller) {
                     lblDesc.text = TransactionDetailTools.TextNotPaid + expireTime + TransactionDetailTools.TextNotPaidSeller
                 } else {
-                    lblDesc.text = TransactionDetailTools.TextNotPaid + expireTime + TransactionDetailTools.TextNotPaidBuyer
+                    var lastText = ""
+                    if (trxDetail.paymentMethodInt == 1 || trxDetail.paymentMethodInt == 4) {
+                        lastText = TransactionDetailTools.TextNotPaidBuyerVeritrans
+                    } else {
+                        lastText = TransactionDetailTools.TextNotPaidBuyerTransfer
+                    }
+                    lblDesc.text = TransactionDetailTools.TextNotPaid + expireTime + lastText
                 }
             } else if (progress == TransactionDetailTools.ProgressClaimedPaid) {
                 if (isSeller) {
@@ -3758,13 +3903,21 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                 if (isSeller) {
                     lblDesc.text = TransactionDetailTools.TextSentSeller
                 } else {
-                    lblDesc.text = TransactionDetailTools.TextSentBuyer
+                    if (trxProductDetail.refundable) {
+                        lblDesc.text = TransactionDetailTools.TextSentBuyer
+                    } else {
+                        lblDesc.text = TransactionDetailTools.TextSentBuyerNoRefund
+                    }
                 }
             } else if (progress == TransactionDetailTools.ProgressReceived) {
                 if (isSeller) {
                     lblDesc.text = TransactionDetailTools.TextReceivedSeller
                 } else {
-                    lblDesc.text = TransactionDetailTools.TextReceivedBuyer
+                    if (trxProductDetail.refundable) {
+                        lblDesc.text = TransactionDetailTools.TextReceivedBuyer
+                    } else {
+                        lblDesc.text = TransactionDetailTools.TextReceivedBuyerNoRefund
+                    }
                 }
             } else if (progress == TransactionDetailTools.ProgressReserved) {
                 if (order == 1) {

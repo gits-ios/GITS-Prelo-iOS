@@ -705,7 +705,7 @@ enum APINotification : URLRequestConvertible {
     case getNotifsSell(page : Int, name : String)
     case getNotifsBuy(page : Int, name : String)
     case getUnreadNotifCount
-    case readNotif(tab : String, id : String)
+    case readNotif(tab : String, id : String, type : String)
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "notification/"
@@ -722,7 +722,7 @@ enum APINotification : URLRequestConvertible {
         case .getNotifsSell(_, _) : return .get
         case .getNotifsBuy(_, _) : return .get
         case .getUnreadNotifCount : return .get
-        case .readNotif(_, _) : return .post
+        case .readNotif(_, _, _) : return .post
         }
     }
     
@@ -732,7 +732,7 @@ enum APINotification : URLRequestConvertible {
         case .getNotifsSell(let page, _) : return "new/transaction/\(page)"
         case .getNotifsBuy(let page, _) : return "new/transaction/\(page)"
         case .getUnreadNotifCount : return "new/count"
-        case .readNotif(let tab, _) : return "new/\(tab)/read"
+        case .readNotif(let tab, _, _) : return "new/\(tab)/read"
         }
     }
     
@@ -749,9 +749,10 @@ enum APINotification : URLRequestConvertible {
                 "type" : NSNumber(value: 2 as Int),
                 "name" : name
             ]
-        case .readNotif(_, let id) :
+        case .readNotif(_, let id, let type) :
             p = [
-                "object_id" : id
+                "object_id" : id,
+                "type" : type
             ]
         default : break
         }

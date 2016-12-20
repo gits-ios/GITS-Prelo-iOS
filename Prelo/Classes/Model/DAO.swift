@@ -1500,6 +1500,13 @@ class TransactionDetail : NSObject {
         return ""
     }
     
+    var paymentMethodInt : Int {
+        if let j = json["payment_method"].int {
+            return j
+        }
+        return 0
+    }
+    
     var paymentDate : String {
         if let j = json["payment_date"].string {
             return j
@@ -1767,6 +1774,20 @@ class TransactionDetail : NSObject {
     
     var isShowShipHistory : Bool {
         return shipVerified != nil
+    }
+    
+    var veritransChargeAmount : Int {
+        if let j = json["veritrans_charge_amount"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var paymentCode: String {
+        if let j = json["payment_method_param"]["payment_code"].string {
+            return j
+        }
+        return ""
     }
 }
 
@@ -2213,6 +2234,27 @@ class TransactionProductDetail : NSObject {
             return j
         }
         return ""
+    }
+    
+    var maskedCCLast : String {
+        if let j = json["masked_card_last"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var paymentCode : String {
+        if let j = json["payment_method_param"]["payment_code"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var refundable : Bool {
+        if let j = json["refundable"].bool {
+            return j
+        }
+        return false
     }
 }
 

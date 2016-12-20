@@ -93,7 +93,6 @@ class RefundRequestViewController: BaseViewController, UITextViewDelegate {
     
     @IBAction func btnCacatPressed(_ sender: UIButton) {
         self.refundType = .Cacat
-        self.refundType = .KW
         self.lblRadioKW.text = ""
         self.lblRadioKW.textColor = UIColor.lightGray
         self.lblRadioCacat.text = ""
@@ -104,7 +103,6 @@ class RefundRequestViewController: BaseViewController, UITextViewDelegate {
     
     @IBAction func btnSalahBarangPressed(_ sender: UIButton) {
         self.refundType = .SalahBarang
-        self.refundType = .KW
         self.lblRadioKW.text = ""
         self.lblRadioKW.textColor = UIColor.lightGray
         self.lblRadioCacat.text = ""
