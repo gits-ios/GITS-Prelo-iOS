@@ -3577,6 +3577,8 @@ class TransactionDetailProductCell : UITableViewCell {
     @IBOutlet var lblHasilPenjualan: UILabel?
     @IBOutlet var lblOngkosKirim: UILabel?
     @IBOutlet var lblPrice2: UILabel?
+    @IBOutlet var consWidthLblDetail: NSLayoutConstraint!
+    @IBOutlet var consWidthLblDetailIcon: NSLayoutConstraint!
     
     var imgVwIcon : UIImageView?
     var switchDetail : () -> () = {}
@@ -3685,19 +3687,17 @@ class TransactionDetailProductCell : UITableViewCell {
         // Set hideable detail
         if let userId = User.Id {
             if (trxProductDetail.isSeller(userId)) {
-                lblDetail?.isHidden = false
-                lblDetailIcon?.isHidden = false
-                // FIXME: - set width to non 0
+                consWidthLblDetail.constant = 38
+                consWidthLblDetailIcon.constant = 26
             } else {
-                lblDetail?.isHidden = true
-                lblDetailIcon?.isHidden = true
-                // FIXME: - set width to 0 instead of hiding
+                consWidthLblDetail.constant = 0
+                consWidthLblDetailIcon.constant = 0
             }
         }
     }
     
     @IBAction func detailPressed(_ sender: AnyObject) {
-        if (lblDetail?.isHidden == false) {
+        if (consWidthLblDetail.constant > 0) {
             if (lblDetailIcon?.text == TransactionDetailTools.IcDownArrow) {
                 lblDetailIcon?.text = TransactionDetailTools.IcUpArrow
             } else {
