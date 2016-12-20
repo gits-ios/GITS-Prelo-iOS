@@ -772,7 +772,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             } else if ((indexPath as NSIndexPath).row == 1) {
                 return ProductCellSeller.heightFor(detail?.json)
             } else {
-                return ProductCellDescription.heightFor(detail)
+                return ProductCellDescription.heightFor(detail) + 50 - (detail?.specialStory != "" ? 0 : 20)
             }
         } else {
             return ProductCellDiscussion.heightFor(detail?.discussions?.objectAtCircleIndex((indexPath as NSIndexPath).row-3))
