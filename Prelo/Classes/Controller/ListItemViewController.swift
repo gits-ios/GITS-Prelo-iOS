@@ -1450,11 +1450,17 @@ class ListItemCell : UICollectionViewCell {
         sectionLove.layer.cornerRadius = sectionLove.frame.size.width/2
         sectionLove.layer.masksToBounds = true
         
-        // TODO : if used (switch)
+        // TODO : unused (please dont switch this)
         imgTawar.isHidden = true
-        btnTawar.isHidden = true
 //        consWidthTawar.constant = 30
+        
+        // TODO : if used (switch)
+        btnTawar.isHidden = true
 //        consbtnWidthTawar.constant = 30
+//        let image = UIImage(named: "ic_chat_tawar.png")?.withRenderingMode(.alwaysTemplate)
+//        btnTawar.setImage(image, for: .normal)
+//        btnTawar.tintColor = UIColor.lightGray
+//        btnTawar.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
     }
     
     override func prepareForReuse() {
