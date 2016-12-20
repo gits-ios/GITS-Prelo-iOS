@@ -617,6 +617,7 @@
 		58F7DD531D74204B00EF43AC /* rsz_ic_bri@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F7DD521D74204B00EF43AC /* rsz_ic_bri@2x.png */; };
 		58F89DC51D9A2359003A5378 /* login-background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 58F89DC41D9A2359003A5378 /* login-background.jpg */; };
 		58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */ = {isa = PBXBuildFile; fileRef = 58FE766E1D34FB9B00D90F27 /* banner_featured.png */; };
+		B2CB4C441E08C61C00F5D0F2 /* FilterLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2CB4C431E08C61C00F5D0F2 /* FilterLocationCell.xib */; };
 		B2D481CA1E02A7AD006006CC /* LocationFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D481C81E02A7AD006006CC /* LocationFilterViewController.swift */; };
 		B2D481CB1E02A7AD006006CC /* ReportProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D481C91E02A7AD006006CC /* ReportProductViewController.swift */; };
 		B2D481DC1E02A7E2006006CC /* LocationFilters.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D481DA1E02A7E1006006CC /* LocationFilters.xib */; };
@@ -1527,6 +1528,7 @@
 		58F89DC41D9A2359003A5378 /* login-background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "login-background.jpg"; sourceTree = "<group>"; };
 		58F91B181CF313CB00943A7A /* ListBrandViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ListBrandViewController2.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		58FE766E1D34FB9B00D90F27 /* banner_featured.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_featured.png; sourceTree = "<group>"; };
+		B2CB4C431E08C61C00F5D0F2 /* FilterLocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterLocationCell.xib; sourceTree = "<group>"; };
 		B2D481C81E02A7AD006006CC /* LocationFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationFilterViewController.swift; sourceTree = "<group>"; };
 		B2D481C91E02A7AD006006CC /* ReportProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportProductViewController.swift; sourceTree = "<group>"; };
 		B2D481DA1E02A7E1006006CC /* LocationFilters.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LocationFilters.xib; sourceTree = "<group>"; };
@@ -2661,6 +2663,7 @@
 				5894DB431D58765200874A56 /* FilterCheckboxCell.xib */,
 				5894DB3F1D58705F00874A56 /* FilterChecklistCell.xib */,
 				5894DB451D5880F200874A56 /* FilterCollectionCell.xib */,
+				B2CB4C431E08C61C00F5D0F2 /* FilterLocationCell.xib */,
 				5894DB471D58825F00874A56 /* FilterPriceCell.xib */,
 				5894DB411D58725800874A56 /* FilterSwitchCell.xib */,
 				585373CF1DF9388A00CEE663 /* InstagramSharePreview.xib */,
@@ -3246,6 +3249,7 @@
 				58EF19DA1D4F55FB00997828 /* ic_search_filter.png in Resources */,
 				21679A401B901C5300F18F90 /* MPSurvey.storyboard in Resources */,
 				589A6FC81D8C08F600654CDD /* ic_ongkir.png in Resources */,
+				B2CB4C441E08C61C00F5D0F2 /* FilterLocationCell.xib in Resources */,
 				589A6FB01D8C08F600654CDD /* ic_2kg.png in Resources */,
 				5895E86A1C48E08600752ACA /* img_setup_pwd.png in Resources */,
 				2109BCA61BDDF85E004F36C5 /* tour_3.jpg in Resources */,
