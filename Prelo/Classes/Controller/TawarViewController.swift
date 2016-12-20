@@ -862,14 +862,14 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         } else {
             let m = txtTawar.text!.int
             if (m < 1000) {
-                Constant.showDialog("Tawar", message: "Mungkin maksud anda " + m.asPrice + "0")
+                Constant.showDialog("Tawar", message: "Mungkin maksud kamu " + m.asPrice + "0")
                 return
             }
             var originalPrice = tawarItem.price.replacingOccurrences(of: "Rp", with: "", options: .literal, range: nil)
             originalPrice = originalPrice.replacingOccurrences(of: ".", with: "", options: .literal, range: nil)
             let halfPrice = originalPrice.int / 2
             if m <= halfPrice {
-                Constant.showDialog("Tawar", message: "Minimal penawaran adalah setengah harga barang + 1 ")
+                Constant.showDialog("Tawar", message: "Tawaran kamu terlalu rendah, hanya penjual yang dapat memberikan penawaran dengan harga tersebut")
                 return
             }
             self.hideTawar(nil)
