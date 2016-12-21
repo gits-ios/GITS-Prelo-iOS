@@ -1067,4 +1067,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        super.touchesBegan(touches, withEvent: event)
 //        
 //    }
+    
+    // MARK: - orintation screen
+    
+    var orientations:UIInterfaceOrientation = UIApplication.shared.statusBarOrientation
+    
+    func application(_ application: UIApplication, didChangeStatusBarOrientation oldStatusBarOrientation: UIInterfaceOrientation) {
+        adjustViewsForOrientation(orientation: UIApplication.shared.statusBarOrientation)
+    }
+    
+    func adjustViewsForOrientation(orientation: UIInterfaceOrientation) {
+        if (orientation == UIInterfaceOrientation.portrait || orientation == UIInterfaceOrientation.portraitUpsideDown)
+        {
+            if(orientation != orientations) {
+                print("Portrait")
+                
+                
+                //Do Rotation stuff here
+                orientations = orientation
+            }
+        }
+        else if (orientation == UIInterfaceOrientation.landscapeLeft || orientation == UIInterfaceOrientation.landscapeRight)
+        {
+            if(orientation != orientations) {
+                print("Landscape")
+                
+                Constant.showDialog("Device Orientation", message: "Halo Prelovers, Prelo menyarankan untuk menggunakan aplikasi Prelo dengan orientasi portrait atau tegak")
+                
+                //Do Rotation stuff here
+                orientations = orientation
+            }
+        }
+    }
 }

@@ -1514,7 +1514,7 @@ class ListItemCell : UICollectionViewCell {
         if (User.IsLoggedIn == true) {
             var const : CGFloat = CGFloat(30)
             
-            if listStage == 1 {
+            if listStage == 1 && AppTools.isIPad == false {
                 const = CGFloat(15)
                 
 //                lblLove.font = UIFont(name: "prelo2", size: 13.0)
