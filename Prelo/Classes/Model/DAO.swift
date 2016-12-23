@@ -2972,7 +2972,7 @@ class InboxMessage : NSObject
 //        i.senderId = CDUser.getOne()?.id
         i.id = String(localIndex)
         i.messageType = type
-        i.message = message
+        i.message = message.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         i.time = time
         i.attachmentType = attachmentType
         i.attachmentURL = attachmentURL
