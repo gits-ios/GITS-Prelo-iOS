@@ -3009,13 +3009,15 @@ class InboxMessage : NSObject
             let json = JSON(res!)
             let isSuccess = json["_data"].boolValue
             if (isSuccess) {
-                
+                self.sending = false
             } else {
                 self.failedToSend = true
+                self.sending = false
             }
             completion(self)
         }, failure: { op, err in
             self.failedToSend = true
+            self.sending = false
             completion(self)
         })
     }

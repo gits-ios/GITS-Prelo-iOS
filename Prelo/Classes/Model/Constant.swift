@@ -150,7 +150,8 @@ extension Foundation.Date
         let detik = Int(fabs(self.timeIntervalSinceNow))
         if (detik < 60)
         {
-            return "\(detik) detik yang lalu"
+//            return "\(detik) detik yang lalu"
+            return "Beberapa saat yang lalu"
         }
         
         let menit = detik / 60

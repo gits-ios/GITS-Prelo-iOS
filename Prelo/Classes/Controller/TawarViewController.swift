@@ -1095,6 +1095,7 @@ class TawarCell : UITableViewCell {
     
     override func prepareForReuse() {
         imgMessage?.image = nil
+        captionTime.date = nil
     }
     
     func decor(){
