@@ -11,7 +11,7 @@ import CoreData
 import AlamofireImage
 
 class AppTools: NSObject {
-    static let isDev = false // Set true for demo/testing purpose only
+    static let isDev = true // Set true for demo/testing purpose only
     
     fileprivate static var devURL = "http://dev.prelo.id"
     fileprivate static var prodURL = "https://prelo.co.id"
@@ -126,6 +126,37 @@ extension UILabel {
             let start = text.string.characters.distance(from: text.string.startIndex, to: range.lowerBound)
             let length = text.string.characters.distance(from: range.lowerBound, to: range.upperBound)
             attr.addAttributes([NSFontAttributeName: UIFont.boldSystemFont(ofSize: self.font.pointSize)], range: NSMakeRange(start, length))
+            self.attributedText = attr
+        }
+    }
+    
+    func boldSubstring(_ substr: String) {
+        let range = self.text?.range(of: substr)
+        if let r = range {
+            boldRange(r)
+        }
+    }
+    
+    func setSubstringColor(_ substr: String, color: UIColor) {
+        if let range = self.text?.range(of: substr) {
+            if let text = self.attributedText {
+                let attr = NSMutableAttributedString(attributedString: text)
+                let start = text.string.characters.distance(from: text.string.startIndex, to: range.lowerBound)
+                let length = text.string.characters.distance(from: range.lowerBound, to: range.upperBound)
+                attr.addAttributes([NSForegroundColorAttributeName: color], range: NSMakeRange(start, length))
+                self.attributedText = attr
+            }
+        }
+    }
+}
+
+extension UITextView {
+    func boldRange(_ range: Range<String.Index>) {
+        if let text = self.attributedText {
+            let attr = NSMutableAttributedString(attributedString: text)
+            let start = text.string.characters.distance(from: text.string.startIndex, to: range.lowerBound)
+            let length = text.string.characters.distance(from: range.lowerBound, to: range.upperBound)
+            attr.addAttributes([NSFontAttributeName: UIFont.boldSystemFont(ofSize: (self.font?.pointSize)!)], range: NSMakeRange(start, length))
             self.attributedText = attr
         }
     }

@@ -1162,6 +1162,12 @@ class TawarCell : UITableViewCell {
                 self.newCaptionMessage?.textColor = UIColor.darkGray
             }
             
+            if (m.attachmentType != "image" && m.dynamicMessage.range(of: "Tawar \n") != nil) {
+                let boldText = m.dynamicMessage.replace("Tawar \n", template: "")
+                
+                self.newCaptionMessage.boldSubstring(boldText)
+            }
+            
             self.captionArrow.textColor = self.sectionMessage.backgroundColor
         }
     }
