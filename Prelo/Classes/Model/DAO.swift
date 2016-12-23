@@ -2856,6 +2856,8 @@ class InboxMessage : NSObject
     var bargainPrice = ""
     var dynamicMessage : String {
         
+        message = message.replacingOccurrences(of: "Rp ", with: "Rp", options: .literal, range: nil)
+        
 //        return message
         
         if (messageType == 1)

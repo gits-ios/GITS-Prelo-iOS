@@ -1082,6 +1082,9 @@ class TawarCell : UITableViewCell {
     @IBOutlet var btnRetry : UIButton?
     @IBOutlet var imgMessage: UIImageView?
     
+    @IBOutlet weak var newCaptionMessage: UITextView!
+    
+    
     var zoomImgMessage : () -> () = {}
     
     var inboxMessage : InboxMessage?
@@ -1116,29 +1119,29 @@ class TawarCell : UITableViewCell {
         if let m = inboxMessage {
             if (m.isMe) {
                 self.sectionMessage.backgroundColor = Theme.PrimaryColor
-                self.captionMessage?.textColor = UIColor.white
+                self.newCaptionMessage?.textColor = UIColor.white
             } else {
                 self.sectionMessage.backgroundColor = UIColor(hexString: "#E8ECEE")
-                self.captionMessage?.textColor = UIColor.darkGray
+                self.newCaptionMessage?.textColor = UIColor.darkGray
             }
             
             self.btnRetry?.isHidden = true
             self.captionSending?.isHidden = true
             
             if (m.failedToSend) {
-                self.captionMessage?.text = "[GAGAL MENGIRIM]\n\n" + m.message
-                self.captionMessage?.textColor = UIColor.white
+                self.newCaptionMessage?.text = "[GAGAL MENGIRIM]\n\n" + m.message
+                self.newCaptionMessage?.textColor = UIColor.white
                 self.sectionMessage.backgroundColor = UIColor(hexString : "#AC281C")
                 self.btnRetry?.isHidden = false
             } else {
                 if (m.attachmentType == "image") {
-                    self.captionMessage?.isHidden = true
+                    self.newCaptionMessage?.isHidden = true
                     self.imgMessage?.isHidden = false
                     self.imgMessage?.afSetImage(withURL: m.attachmentURL)
                 } else {
-                    self.captionMessage?.isHidden = false
+                    self.newCaptionMessage?.isHidden = false
                     self.imgMessage?.isHidden = true
-                    self.captionMessage?.text = m.dynamicMessage
+                    self.newCaptionMessage?.text = m.dynamicMessage
                 }
             }
             
@@ -1151,12 +1154,12 @@ class TawarCell : UITableViewCell {
             
             if (m.messageType == 1) {
                 self.sectionMessage.backgroundColor = Theme.ThemeOrage
-                self.captionMessage?.textColor = UIColor.white
+                self.newCaptionMessage?.textColor = UIColor.white
             }
             
             if (m.messageType == 3) {
                 self.sectionMessage.backgroundColor = UIColor(hexString: "#E8ECEE")
-                self.captionMessage?.textColor = UIColor.darkGray
+                self.newCaptionMessage?.textColor = UIColor.darkGray
             }
             
             self.captionArrow.textColor = self.sectionMessage.backgroundColor
@@ -1177,6 +1180,7 @@ class TawarCell : UITableViewCell {
     @IBAction func gotoShopPage(_ sender: AnyObject) {
         self.toShopPage()
     }
+    
 }
 
 // MARK: - Class
