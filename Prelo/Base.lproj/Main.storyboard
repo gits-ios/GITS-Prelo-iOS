@@ -7250,7 +7250,7 @@ in Bandung</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sml-EB-UEI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1536" y="-5790"/>
+            <point key="canvasLocation" x="1653" y="-5951"/>
         </scene>
         <!--Checkout Tour View Controller-->
         <scene sceneID="wcK-3h-G9S">
@@ -7478,23 +7478,23 @@ in Bandung</string>
                                                             <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Love" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DBF-Kj-jHr">
-                                                            <rect key="frame" x="30" y="7" width="32" height="17"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Love" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="DBF-Kj-jHr">
+                                                            <rect key="frame" x="30" y="7" width="28" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="15" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CeM-zC-nof">
-                                                            <rect key="frame" x="79" y="7" width="16" height="17"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="15" textAlignment="center" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CeM-zC-nof">
+                                                            <rect key="frame" x="75" y="7" width="20" height="17"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="16" id="EgF-hS-DQK"/>
+                                                                <constraint firstAttribute="width" constant="20" id="EgF-hS-DQK"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D3G-fk-6On">
-                                                            <rect key="frame" x="70" y="0.0" width="1" height="30"/>
+                                                            <rect key="frame" x="66" y="0.0" width="1" height="30"/>
                                                             <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="1" id="ync-4g-LVx"/>
@@ -7529,23 +7529,23 @@ in Bandung</string>
                                                                 <constraint firstAttribute="width" constant="16" id="ivd-jn-WdS"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Comment" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2c7-lE-oet">
-                                                            <rect key="frame" x="32" y="8" width="64" height="17"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Comment" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="2c7-lE-oet">
+                                                            <rect key="frame" x="32" y="8" width="60" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HcQ-Pj-czm">
-                                                            <rect key="frame" x="113" y="8" width="16" height="17"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15" textAlignment="center" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HcQ-Pj-czm">
+                                                            <rect key="frame" x="109" y="8" width="20" height="17"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="16" id="s5f-jP-3wY"/>
+                                                                <constraint firstAttribute="width" constant="20" id="s5f-jP-3wY"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BNW-D8-Te1">
-                                                            <rect key="frame" x="104" y="0.0" width="1" height="32"/>
+                                                            <rect key="frame" x="100" y="0.0" width="1" height="32"/>
                                                             <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="1" id="7hW-Zh-qeU"/>
@@ -9294,7 +9294,7 @@ in Bandung</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BIJ-iH-uxS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="770" y="-5790"/>
+            <point key="canvasLocation" x="762" y="-5951"/>
         </scene>
         <!--Prelo Share Controller-->
         <scene sceneID="Xzv-se-K0e">
@@ -12255,7 +12255,7 @@ in Bandung</string>
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="1900"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TUk-fb-6G7">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="1877"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="1878"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kFh-mw-HQB" userLabel="Photos">
                                                 <rect key="frame" x="0.0" y="0.0" width="600" height="248"/>
@@ -12264,7 +12264,7 @@ in Bandung</string>
                                                         <rect key="frame" x="2" y="2" width="298.5" height="244"/>
                                                         <subviews>
                                                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_gambar_utama.png" translatesAutoresizingMaskIntoConstraints="NO" id="vAy-4m-1xm" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
-                                                                <rect key="frame" x="125.5" y="98" width="48" height="48"/>
+                                                                <rect key="frame" x="126" y="98" width="48" height="48"/>
                                                                 <color key="tintColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="48" id="O06-aV-X77"/>
@@ -12320,20 +12320,20 @@ in Bandung</string>
                                                                         </constraints>
                                                                     </imageView>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tampak Belakang" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WPy-RR-Mzq">
-                                                                        <rect key="frame" x="4" y="65" width="139.5" height="14.5"/>
+                                                                        <rect key="frame" x="4" y="65" width="139.5" height="15"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                         <color key="textColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o79-FN-lMk">
-                                                                        <rect key="frame" x="0.0" y="61" width="147" height="0.0"/>
+                                                                        <rect key="frame" x="0.0" y="61" width="147.5" height="0.0"/>
                                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" id="AyB-Ne-wDF"/>
                                                                         </constraints>
                                                                     </view>
                                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wLd-lb-Naq">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="147" height="121"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="147.5" height="121.5"/>
                                                                     </imageView>
                                                                 </subviews>
                                                                 <color key="backgroundColor" red="0.90823972225189209" green="0.92638683319091797" blue="0.9317171573638916" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -12356,7 +12356,7 @@ in Bandung</string>
                                                                 <rect key="frame" x="149.5" y="0.0" width="146" height="121.5"/>
                                                                 <subviews>
                                                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="ic_dipakai.png" translatesAutoresizingMaskIntoConstraints="NO" id="Yfo-5i-icj" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
-                                                                        <rect key="frame" x="52.5" y="17" width="40" height="40"/>
+                                                                        <rect key="frame" x="53" y="17" width="40" height="40"/>
                                                                         <color key="tintColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="40" id="l2M-6n-KwN"/>
@@ -12364,7 +12364,7 @@ in Bandung</string>
                                                                         </constraints>
                                                                     </imageView>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ketika Dipakai" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7tN-uZ-WdD">
-                                                                        <rect key="frame" x="4" y="65" width="138" height="14.5"/>
+                                                                        <rect key="frame" x="4" y="65" width="138" height="15"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                         <color key="textColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <nil key="highlightedColor"/>
@@ -12408,13 +12408,13 @@ in Bandung</string>
                                                                         </constraints>
                                                                     </imageView>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tampilan Label / Merek" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ogP-hJ-Qod">
-                                                                        <rect key="frame" x="4" y="65" width="139.5" height="14.5"/>
+                                                                        <rect key="frame" x="4" y="64.5" width="139.5" height="15"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                         <color key="textColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Ew-Xe-Ekx">
-                                                                        <rect key="frame" x="0.0" y="60.5" width="147" height="0.0"/>
+                                                                        <rect key="frame" x="0.0" y="60.5" width="147.5" height="0.0"/>
                                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" id="MWZ-9R-LUz"/>
@@ -12444,7 +12444,7 @@ in Bandung</string>
                                                                 <rect key="frame" x="149.5" y="123.5" width="146" height="120.5"/>
                                                                 <subviews>
                                                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="ic_cacat.png" translatesAutoresizingMaskIntoConstraints="NO" id="2ST-uy-rgO" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
-                                                                        <rect key="frame" x="56.5" y="24.5" width="32" height="32"/>
+                                                                        <rect key="frame" x="57" y="24.5" width="32" height="32"/>
                                                                         <color key="tintColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="32" id="Yva-8v-mk2"/>
@@ -12452,7 +12452,7 @@ in Bandung</string>
                                                                         </constraints>
                                                                     </imageView>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cacat (Jika Ada)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iM8-UZ-Ueb">
-                                                                        <rect key="frame" x="4" y="64.5" width="138" height="14.5"/>
+                                                                        <rect key="frame" x="4" y="64.5" width="138" height="15"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                         <color key="textColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <nil key="highlightedColor"/>
@@ -12536,7 +12536,7 @@ in Bandung</string>
                                                 <rect key="frame" x="0.0" y="281" width="600" height="382"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Detail" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q2Z-Sg-xSh">
-                                                        <rect key="frame" x="32" y="7" width="46.5" height="21.5"/>
+                                                        <rect key="frame" x="32" y="7" width="47" height="22"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -12550,7 +12550,7 @@ in Bandung</string>
                                                         </constraints>
                                                     </imageView>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bau-hr-3PB">
-                                                        <rect key="frame" x="8" y="36.5" width="584" height="70"/>
+                                                        <rect key="frame" x="8" y="37" width="584" height="70"/>
                                                         <subviews>
                                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="category_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="Ghp-VO-iUz">
                                                                 <rect key="frame" x="0.0" y="4" width="52" height="52"/>
@@ -12567,7 +12567,7 @@ in Bandung</string>
                                                                 </constraints>
                                                             </view>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mux-6s-h8t">
-                                                                <rect key="frame" x="568" y="22" width="16" height="16"/>
+                                                                <rect key="frame" x="568" y="22.5" width="16" height="16"/>
                                                                 <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="16"/>
                                                                 <color key="textColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -12657,7 +12657,7 @@ in Bandung</string>
                                                         </variation>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tTq-Uf-qri">
-                                                        <rect key="frame" x="8" y="238.5" width="584" height="44"/>
+                                                        <rect key="frame" x="8" y="239" width="584" height="44"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kondisi" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fam-24-aea">
                                                                 <rect key="frame" x="0.0" y="12" width="53" height="20"/>
@@ -12666,7 +12666,7 @@ in Bandung</string>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WXk-WN-r6G">
-                                                                <rect key="frame" x="568" y="14" width="16" height="16"/>
+                                                                <rect key="frame" x="568" y="14.5" width="16" height="16"/>
                                                                 <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="16"/>
                                                                 <color key="textColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -12713,10 +12713,10 @@ in Bandung</string>
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m5j-aA-Rx4">
-                                                        <rect key="frame" x="8" y="106.5" width="584" height="44"/>
+                                                        <rect key="frame" x="8" y="107" width="584" height="44"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nama" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wK2-DW-WGD">
-                                                                <rect key="frame" x="0.0" y="12" width="42.5" height="20"/>
+                                                                <rect key="frame" x="0.0" y="12" width="43" height="20"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -12729,7 +12729,7 @@ in Bandung</string>
                                                                 </constraints>
                                                             </view>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="mis: iPod 5th Gen" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GAI-vt-th6">
-                                                                <rect key="frame" x="50.5" y="7" width="533.5" height="30"/>
+                                                                <rect key="frame" x="51" y="7" width="533" height="30"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="30" id="TGz-UX-tdL"/>
                                                                 </constraints>
@@ -12755,7 +12755,7 @@ in Bandung</string>
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mcv-eo-JaJ">
-                                                        <rect key="frame" x="8" y="150.5" width="584" height="44"/>
+                                                        <rect key="frame" x="8" y="151" width="584" height="44"/>
                                                         <subviews>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="mis: Hadiah ulang tahun (Opsional)" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SE3-lR-N6e">
                                                                 <rect key="frame" x="104" y="7" width="480" height="30"/>
@@ -12770,7 +12770,7 @@ in Bandung</string>
                                                                 </connections>
                                                             </textField>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Special Story" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xkq-NJ-VDH">
-                                                                <rect key="frame" x="0.0" y="12.5" width="96" height="19.5"/>
+                                                                <rect key="frame" x="0.0" y="12" width="96" height="20"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="96" id="3hc-Ju-oni"/>
                                                                 </constraints>
@@ -12800,10 +12800,10 @@ in Bandung</string>
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AzP-7D-1Bw">
-                                                        <rect key="frame" x="8" y="194.5" width="584" height="44"/>
+                                                        <rect key="frame" x="8" y="195" width="584" height="44"/>
                                                         <subviews>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="mis: Sudah tak terpakai" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wW1-Ei-3h2">
-                                                                <rect key="frame" x="90.5" y="7" width="493.5" height="30"/>
+                                                                <rect key="frame" x="91" y="7" width="493" height="30"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="30" id="vfO-uG-Y0z"/>
                                                                 </constraints>
@@ -12815,7 +12815,7 @@ in Bandung</string>
                                                                 </connections>
                                                             </textField>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alasan Jual" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wiJ-Tq-Gwf">
-                                                                <rect key="frame" x="0.0" y="12" width="82.5" height="20"/>
+                                                                <rect key="frame" x="0.0" y="12" width="83" height="20"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -12842,7 +12842,7 @@ in Bandung</string>
                                                         </constraints>
                                                     </view>
                                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lBx-Fq-PLS">
-                                                        <rect key="frame" x="8" y="282.5" width="584" height="0.0"/>
+                                                        <rect key="frame" x="8" y="283" width="584" height="0.0"/>
                                                         <subviews>
                                                             <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Deskripsi Cacat" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8qc-Gb-dWv">
                                                                 <rect key="frame" x="122" y="-15" width="462" height="30"/>
@@ -12884,7 +12884,7 @@ in Bandung</string>
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Euc-D2-lLx">
-                                                        <rect key="frame" x="8" y="282.5" width="584" height="44"/>
+                                                        <rect key="frame" x="8" y="283" width="584" height="44"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Merek" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bOl-Vo-Sby">
                                                                 <rect key="frame" x="0.0" y="12" width="46" height="20"/>
@@ -12893,7 +12893,7 @@ in Bandung</string>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QzT-w5-dNj">
-                                                                <rect key="frame" x="568" y="14" width="16" height="16"/>
+                                                                <rect key="frame" x="568" y="14.5" width="16" height="16"/>
                                                                 <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="16"/>
                                                                 <color key="textColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -13003,20 +13003,20 @@ in Bandung</string>
                                                         </constraints>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ukuran" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8nJ-Cm-eq0">
-                                                        <rect key="frame" x="26" y="0.0" width="58.5" height="21.5"/>
+                                                        <rect key="frame" x="26" y="0.0" width="59" height="22"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ESa-2z-iuw" customClass="AKPickerView">
-                                                        <rect key="frame" x="0.0" y="29.5" width="584" height="64"/>
+                                                        <rect key="frame" x="0.0" y="30" width="584" height="64"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="64" id="qfM-AJ-mQx"/>
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GZh-gE-1El">
-                                                        <rect key="frame" x="0.0" y="101.5" width="584" height="44"/>
+                                                        <rect key="frame" x="0.0" y="102" width="584" height="44"/>
                                                         <subviews>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Masukan Ukuran Lain" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Ay-xM-vLN">
                                                                 <rect key="frame" x="61" y="7" width="523" height="30"/>
@@ -13059,19 +13059,19 @@ in Bandung</string>
                                                         </constraints>
                                                     </view>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="USA" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MTP-jB-V16">
-                                                        <rect key="frame" x="1" y="29.5" width="21" height="12"/>
+                                                        <rect key="frame" x="1" y="30" width="21" height="12"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                         <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SML" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EsZ-Jg-OSt">
-                                                        <rect key="frame" x="1" y="55.5" width="21.5" height="12"/>
+                                                        <rect key="frame" x="1" y="56" width="22" height="12"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                         <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UK" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wM7-pj-BrJ">
-                                                        <rect key="frame" x="1" y="81.5" width="14.5" height="12"/>
+                                                        <rect key="frame" x="1" y="82" width="15" height="12"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                         <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -13397,10 +13397,10 @@ in Bandung</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="onv-S5-4E3">
-                                                        <rect key="frame" x="8" y="62.5" width="584" height="30"/>
+                                                        <rect key="frame" x="8" y="63" width="584" height="30"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UOa-zd-uEA">
-                                                                <rect key="frame" x="31" y="4.5" width="21" height="21"/>
+                                                                <rect key="frame" x="31" y="4" width="21" height="21"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="21" id="JhN-jm-pF9"/>
                                                                     <constraint firstAttribute="height" constant="21" id="qUy-pH-Oid"/>
@@ -13446,10 +13446,10 @@ in Bandung</string>
                                                         </variation>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4rc-yl-cxm">
-                                                        <rect key="frame" x="8" y="100.5" width="584" height="30"/>
+                                                        <rect key="frame" x="8" y="101" width="584" height="30"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p12-Fs-KmA">
-                                                                <rect key="frame" x="31" y="4.5" width="21" height="21"/>
+                                                                <rect key="frame" x="31" y="4" width="21" height="21"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="21" id="R3H-XE-hEt"/>
                                                                     <constraint firstAttribute="height" constant="21" id="mwz-Dq-eBN"/>
@@ -13495,10 +13495,10 @@ in Bandung</string>
                                                         </variation>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="78b-eo-QJ3">
-                                                        <rect key="frame" x="8" y="138.5" width="584" height="30"/>
+                                                        <rect key="frame" x="8" y="139" width="584" height="30"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bGz-Bb-qr1">
-                                                                <rect key="frame" x="31" y="4.5" width="21" height="21"/>
+                                                                <rect key="frame" x="31" y="4" width="21" height="21"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="21" id="A7A-01-k44"/>
                                                                     <constraint firstAttribute="height" constant="21" id="iUe-m3-CEy"/>
@@ -13544,10 +13544,10 @@ in Bandung</string>
                                                         </variation>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aRN-tN-ZnH">
-                                                        <rect key="frame" x="8" y="176.5" width="584" height="30"/>
+                                                        <rect key="frame" x="8" y="177" width="584" height="30"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gnN-Tr-kDB">
-                                                                <rect key="frame" x="31" y="4.5" width="21" height="21"/>
+                                                                <rect key="frame" x="31" y="4" width="21" height="21"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="21" id="AMa-EX-HIF"/>
                                                                     <constraint firstAttribute="height" constant="21" id="FEQ-Sf-gDe"/>
@@ -13593,7 +13593,7 @@ in Bandung</string>
                                                         </variation>
                                                     </view>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mohon foto kelengkapan diupload bersama foto produk di atas" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8z5-05-Wjd">
-                                                        <rect key="frame" x="9" y="34" width="583" height="14.5"/>
+                                                        <rect key="frame" x="9" y="34" width="583" height="15"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="22" id="A6S-xH-Hg0"/>
                                                         </constraints>
@@ -13651,7 +13651,7 @@ in Bandung</string>
                                                         </constraints>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ongkos Kirim" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m8c-Ge-cN3">
-                                                        <rect key="frame" x="33" y="-3" width="108.5" height="22"/>
+                                                        <rect key="frame" x="33" y="-3" width="109" height="22"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -13670,7 +13670,7 @@ in Bandung</string>
                                                                         </constraints>
                                                                     </imageView>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ditanggung Penjual" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0xu-zk-0SW">
-                                                                        <rect key="frame" x="8" y="51.5" width="274" height="20.5"/>
+                                                                        <rect key="frame" x="8" y="51" width="274" height="21"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                         <color key="textColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <nil key="highlightedColor"/>
@@ -13718,7 +13718,7 @@ in Bandung</string>
                                                                         </constraints>
                                                                     </imageView>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ditanggung Pembeli" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="100-Pk-uWR">
-                                                                        <rect key="frame" x="8" y="51.5" width="274" height="20.5"/>
+                                                                        <rect key="frame" x="8" y="51" width="274" height="21"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                         <color key="textColor" red="0.66014617681503296" green="0.6601264476776123" blue="0.66013765335083008" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <nil key="highlightedColor"/>
@@ -13838,19 +13838,19 @@ in Bandung</string>
                                                         </constraints>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Berat" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8iU-TP-6Re">
-                                                        <rect key="frame" x="33" y="8" width="43.5" height="21.5"/>
+                                                        <rect key="frame" x="33" y="8" width="44" height="22"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="g" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CWT-Ny-5Sh">
-                                                        <rect key="frame" x="582.5" y="90.5" width="9.5" height="19.5"/>
+                                                        <rect key="frame" x="582" y="90" width="10" height="20"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                         <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="500" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aEx-bH-myZ">
-                                                        <rect key="frame" x="474.5" y="88" width="100" height="30"/>
+                                                        <rect key="frame" x="474" y="88" width="100" height="30"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="30" id="UGC-2k-pu1"/>
                                                             <constraint firstAttribute="width" constant="100" id="flh-yF-EwX"/>
@@ -13860,19 +13860,19 @@ in Bandung</string>
                                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Berat" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Amd-qU-MCT">
-                                                        <rect key="frame" x="8" y="91" width="39" height="19"/>
+                                                        <rect key="frame" x="8" y="90" width="39" height="20"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                         <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IAE-zW-iXW">
-                                                        <rect key="frame" x="8" y="37.5" width="584" height="80"/>
+                                                        <rect key="frame" x="8" y="38" width="584" height="80"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ocb-FZ-r1o" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
                                                                 <rect key="frame" x="0.0" y="0.0" width="193.5" height="80"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt; 1 Kg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qfl-bX-doC">
-                                                                        <rect key="frame" x="73" y="29" width="47.5" height="21"/>
+                                                                        <rect key="frame" x="72.5" y="29" width="48" height="21"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                         <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <nil key="highlightedColor"/>
@@ -13909,7 +13909,7 @@ in Bandung</string>
                                                                 <rect key="frame" x="390.5" y="0.0" width="193.5" height="80"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&gt; 2 Kg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zgs-Sy-imD">
-                                                                        <rect key="frame" x="72" y="29" width="49.5" height="21"/>
+                                                                        <rect key="frame" x="71.5" y="29" width="50" height="21"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                         <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <nil key="highlightedColor"/>
@@ -13946,7 +13946,7 @@ in Bandung</string>
                                                                 <rect key="frame" x="201.5" y="0.0" width="181" height="80"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 - 2 Kg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VFE-ac-PtJ">
-                                                                        <rect key="frame" x="62" y="29" width="58.5" height="21"/>
+                                                                        <rect key="frame" x="61" y="29" width="59" height="21"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                         <color key="textColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <nil key="highlightedColor"/>
@@ -14039,13 +14039,13 @@ in Bandung</string>
                                                         </constraints>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Harga" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bvp-eb-cgM">
-                                                        <rect key="frame" x="35" y="8" width="49" height="21.5"/>
+                                                        <rect key="frame" x="35" y="8" width="49" height="22"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eWp-cb-p6B">
-                                                        <rect key="frame" x="8" y="37.5" width="584" height="44"/>
+                                                        <rect key="frame" x="8" y="38" width="584" height="44"/>
                                                         <subviews>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="mis: 5600000" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4BX-dw-HO3">
                                                                 <rect key="frame" x="131" y="7" width="453" height="30"/>
@@ -14087,7 +14087,7 @@ in Bandung</string>
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KxM-HA-L4c">
-                                                        <rect key="frame" x="8" y="125.5" width="584" height="44"/>
+                                                        <rect key="frame" x="8" y="126" width="584" height="44"/>
                                                         <subviews>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0% (FREE) - 10%" placeholder="Nama Saya" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JC3-gb-5po">
                                                                 <rect key="frame" x="102" y="7" width="482" height="30"/>
@@ -14131,7 +14131,7 @@ in Bandung</string>
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3gj-Yr-tLl">
-                                                        <rect key="frame" x="8" y="81.5" width="584" height="44"/>
+                                                        <rect key="frame" x="8" y="82" width="584" height="44"/>
                                                         <subviews>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="mis: 5000000" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="A5y-a4-6RO">
                                                                 <rect key="frame" x="127" y="7" width="457" height="30"/>
@@ -14198,7 +14198,7 @@ in Bandung</string>
                                                 </variation>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9GZ-uo-i0X">
-                                                <rect key="frame" x="8" y="1752" width="584" height="14"/>
+                                                <rect key="frame" x="8" y="1752" width="584" height="15"/>
                                                 <attributedString key="attributedText">
                                                     <fragment content="Barang akan kembali di-">
                                                         <attributes>
@@ -14225,7 +14225,7 @@ in Bandung</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XO8-Qi-UqI">
-                                                <rect key="frame" x="8" y="1774" width="584" height="40"/>
+                                                <rect key="frame" x="8" y="1775" width="584" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="Pmv-0X-Xlx"/>
                                                 </constraints>
@@ -14235,7 +14235,7 @@ in Bandung</string>
                                                 </state>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hnQ-dt-WJw" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
-                                                <rect key="frame" x="8" y="1822" width="584" height="40"/>
+                                                <rect key="frame" x="8" y="1823" width="584" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="i8U-kI-QKy"/>
                                                 </constraints>
@@ -14341,7 +14341,7 @@ in Bandung</string>
                                                         <rect key="frame" x="2" y="2" width="298.5" height="244"/>
                                                         <subviews>
                                                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_gambar_utama.png" translatesAutoresizingMaskIntoConstraints="NO" id="PiN-m0-z2T" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
-                                                                <rect key="frame" x="125.5" y="98" width="48" height="48"/>
+                                                                <rect key="frame" x="126" y="98" width="48" height="48"/>
                                                                 <color key="tintColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="48" id="dyo-t2-Ogu"/>
@@ -14397,20 +14397,20 @@ in Bandung</string>
                                                                         </constraints>
                                                                     </imageView>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tampak Belakang" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0l1-VB-HfZ">
-                                                                        <rect key="frame" x="4" y="65" width="139" height="14.5"/>
+                                                                        <rect key="frame" x="4" y="65" width="139.5" height="15"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                         <color key="textColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Agn-s0-xF5">
-                                                                        <rect key="frame" x="0.0" y="61" width="147" height="0.0"/>
+                                                                        <rect key="frame" x="0.0" y="61" width="147.5" height="0.0"/>
                                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" id="JT4-Cm-li3"/>
                                                                         </constraints>
                                                                     </view>
                                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nh0-Oq-EEn">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="147" height="121"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="147.5" height="121.5"/>
                                                                     </imageView>
                                                                 </subviews>
                                                                 <color key="backgroundColor" red="0.90823972230000005" green="0.92638683320000004" blue="0.93171715740000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -14433,7 +14433,7 @@ in Bandung</string>
                                                                 <rect key="frame" x="149.5" y="0.0" width="146" height="121.5"/>
                                                                 <subviews>
                                                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="ic_dipakai.png" translatesAutoresizingMaskIntoConstraints="NO" id="OyQ-ri-fae" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
-                                                                        <rect key="frame" x="53.5" y="17" width="40" height="40"/>
+                                                                        <rect key="frame" x="53" y="17" width="40" height="40"/>
                                                                         <color key="tintColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="40" id="O2l-iB-wDy"/>
@@ -14441,7 +14441,7 @@ in Bandung</string>
                                                                         </constraints>
                                                                     </imageView>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ketika Dipakai" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jKw-dK-GV3">
-                                                                        <rect key="frame" x="4" y="65" width="138" height="14.5"/>
+                                                                        <rect key="frame" x="4" y="65" width="138" height="15"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                         <color key="textColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <nil key="highlightedColor"/>
@@ -14485,13 +14485,13 @@ in Bandung</string>
                                                                         </constraints>
                                                                     </imageView>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tampilan Label / Merek" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CwT-PT-1Pb">
-                                                                        <rect key="frame" x="4" y="65" width="139.5" height="14.5"/>
+                                                                        <rect key="frame" x="4" y="64.5" width="139.5" height="15"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                         <color key="textColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LWf-d7-6z5">
-                                                                        <rect key="frame" x="0.0" y="60.5" width="147" height="0.0"/>
+                                                                        <rect key="frame" x="0.0" y="60.5" width="147.5" height="0.0"/>
                                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" id="zqt-sw-Jsh"/>
@@ -14521,7 +14521,7 @@ in Bandung</string>
                                                                 <rect key="frame" x="149.5" y="123.5" width="146" height="120.5"/>
                                                                 <subviews>
                                                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="ic_cacat.png" translatesAutoresizingMaskIntoConstraints="NO" id="g3D-Es-fFB" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
-                                                                        <rect key="frame" x="57.5" y="24.5" width="32" height="32"/>
+                                                                        <rect key="frame" x="57" y="24.5" width="32" height="32"/>
                                                                         <color key="tintColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="32" id="EUZ-n8-RpT"/>
@@ -14529,7 +14529,7 @@ in Bandung</string>
                                                                         </constraints>
                                                                     </imageView>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cacat (Jika Ada)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n92-wm-3tO">
-                                                                        <rect key="frame" x="4" y="64.5" width="138" height="14.5"/>
+                                                                        <rect key="frame" x="4" y="64.5" width="138" height="15"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                         <color key="textColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <nil key="highlightedColor"/>
@@ -14613,7 +14613,7 @@ in Bandung</string>
                                                 <rect key="frame" x="0.0" y="284" width="600" height="40"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Detail" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hso-eD-bXf">
-                                                        <rect key="frame" x="32" y="7" width="46.5" height="22"/>
+                                                        <rect key="frame" x="32" y="7" width="47" height="22"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="22" id="PkI-5V-v5B"/>
                                                         </constraints>
@@ -14622,7 +14622,7 @@ in Bandung</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xc8-g1-Khv">
-                                                        <rect key="frame" x="574" y="12" width="18" height="16"/>
+                                                        <rect key="frame" x="574" y="12.5" width="18" height="16"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="18" id="nOw-1Y-Ywy"/>
                                                         </constraints>
@@ -14743,13 +14743,13 @@ in Bandung</string>
                                                 <rect key="frame" x="0.0" y="372" width="600" height="37"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Harga" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zer-k3-ErC">
-                                                        <rect key="frame" x="34" y="7.5" width="49" height="21.5"/>
+                                                        <rect key="frame" x="34" y="7" width="49" height="22"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_harga.png" translatesAutoresizingMaskIntoConstraints="NO" id="4Wd-lh-gHD">
-                                                        <rect key="frame" x="9" y="11.5" width="18" height="16"/>
+                                                        <rect key="frame" x="9" y="11" width="18" height="16"/>
                                                         <color key="tintColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="18" id="PPU-Th-4Gh"/>
@@ -15538,7 +15538,7 @@ in Bandung</string>
                         <viewControllerLayoutGuide type="bottom" id="Vci-ST-1Ip"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="yV9-C2-oHU">
-                        <rect key="frame" x="0.0" y="64" width="384" height="603"/>
+                        <rect key="frame" x="0.0" y="64" width="384" height="1136"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sue-il-rAW" userLabel="Header Section">
@@ -15561,19 +15561,19 @@ in Bandung</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pJ6-LO-Fz9">
-                                                <rect key="frame" x="80" y="30" width="35.5" height="17"/>
+                                                <rect key="frame" x="80" y="30" width="36" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" red="0.048671051860000002" green="0.3823831379" blue="0.41029164200000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bbN-TU-GFN">
-                                                <rect key="frame" x="123.5" y="30" width="35.5" height="17"/>
+                                                <rect key="frame" x="124" y="30" width="36" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zWg-B6-4Lv" userLabel="Strikethrough">
-                                                <rect key="frame" x="123.5" y="38" width="35.5" height="1"/>
+                                                <rect key="frame" x="124" y="38" width="36" height="1"/>
                                                 <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="gjA-yE-xYA"/>
@@ -15818,7 +15818,7 @@ in Bandung</string>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="KN4-Bo-dfJ">
-                                <rect key="frame" x="0.0" y="114" width="384" height="445"/>
+                                <rect key="frame" x="0.0" y="114" width="384" height="978"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="bubble" rowHeight="74" id="PmL-e0-mYd" customClass="TawarBubbleCell" customModule="Prelo" customModuleProvider="target">
@@ -16305,7 +16305,7 @@ in Bandung</string>
                                 </prototypes>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G4Z-9H-3CE" userLabel="Chat Field Section">
-                                <rect key="frame" x="0.0" y="559" width="384" height="44"/>
+                                <rect key="frame" x="0.0" y="1092" width="384" height="44"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dxk-wd-3CC" userLabel="Media Button">
                                         <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
@@ -16397,40 +16397,40 @@ in Bandung</string>
                                 </variation>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4z1-ya-yZT">
-                                <rect key="frame" x="0.0" y="0.0" width="384" height="603"/>
+                                <rect key="frame" x="0.0" y="0.0" width="384" height="1136"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qSP-9E-Bqo" userLabel="Tawar Pop Up">
-                                        <rect key="frame" x="52" y="453" width="280" height="150"/>
+                                        <rect key="frame" x="52" y="985" width="280" height="151"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TAWAR HARGA BARANG" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="kn4-pM-0vc">
-                                                <rect key="frame" x="8" y="8" width="264" height="20.5"/>
+                                                <rect key="frame" x="8" y="8" width="264" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fHe-Qk-8yO" userLabel="Separator">
-                                                <rect key="frame" x="0.0" y="36.5" width="280" height="1"/>
+                                                <rect key="frame" x="0.0" y="37" width="280" height="1"/>
                                                 <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="PuT-E2-LVY"/>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Harga asli Rp. 800.000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="24b-i5-jy7">
-                                                <rect key="frame" x="8" y="45.5" width="130" height="14.5"/>
+                                                <rect key="frame" x="8" y="46" width="130" height="15"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Masukkan angka penawaran" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZFd-Jn-ocH">
-                                                <rect key="frame" x="8" y="68" width="264" height="30"/>
+                                                <rect key="frame" x="8" y="69" width="264" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                             </textField>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Atb-NP-GTb" userLabel="Buttons">
-                                                <rect key="frame" x="0.0" y="106" width="280" height="44"/>
+                                                <rect key="frame" x="0.0" y="107" width="280" height="44"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="edT-hB-qlE">
-                                                        <rect key="frame" x="0.0" y="0.0" width="139.5" height="44"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="140" height="44"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <state key="normal" title="BATAL">
                                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -16440,7 +16440,7 @@ in Bandung</string>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9ff-jm-7hH">
-                                                        <rect key="frame" x="140.5" y="0.0" width="139.5" height="44"/>
+                                                        <rect key="frame" x="141" y="0.0" width="139" height="44"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <state key="normal" title="TAWAR">
                                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -16450,7 +16450,7 @@ in Bandung</string>
                                                         </connections>
                                                     </button>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n9A-IV-FnQ" userLabel="Separator">
-                                                        <rect key="frame" x="139.5" y="2" width="1" height="40"/>
+                                                        <rect key="frame" x="140" y="2" width="1" height="40"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="1" id="sHk-kU-oQG"/>
@@ -16508,10 +16508,10 @@ in Bandung</string>
                                 </constraints>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dAT-ij-ufv" userLabel="Section Upload Gambar">
-                                <rect key="frame" x="0.0" y="0.0" width="384" height="603"/>
+                                <rect key="frame" x="0.0" y="0.0" width="384" height="1136"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UHI-N4-78u" userLabel="Upload Gambar Pop Up">
-                                        <rect key="frame" x="62.5" y="301" width="259" height="302"/>
+                                        <rect key="frame" x="63" y="834" width="259" height="302"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UPLOAD GAMBAR" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="U9m-Q4-fS5">
                                                 <rect key="frame" x="12" y="8" width="234" height="21"/>
@@ -16566,7 +16566,7 @@ in Bandung</string>
                                                 <rect key="frame" x="0.0" y="258" width="259" height="44"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SyQ-EY-FkL">
-                                                        <rect key="frame" x="0.0" y="0.0" width="128.5" height="44"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="129" height="44"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <state key="normal" title="BATAL">
                                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -16576,7 +16576,7 @@ in Bandung</string>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g78-oM-GcY">
-                                                        <rect key="frame" x="129" y="0.0" width="130" height="44"/>
+                                                        <rect key="frame" x="130" y="0.0" width="129" height="44"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <state key="normal" title="KIRIM">
                                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -16586,7 +16586,7 @@ in Bandung</string>
                                                         </connections>
                                                     </button>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2sA-qT-7zq" userLabel="Separator">
-                                                        <rect key="frame" x="128.5" y="2" width="1" height="40"/>
+                                                        <rect key="frame" x="129" y="2" width="1" height="40"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="1" id="dRO-96-LlP"/>
@@ -16638,10 +16638,10 @@ in Bandung</string>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dNX-kc-HlR" userLabel="Loading Panel">
-                                <rect key="frame" x="0.0" y="0.0" width="384" height="603"/>
+                                <rect key="frame" x="0.0" y="0.0" width="384" height="1136"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="NSM-20-1Sc">
-                                        <rect key="frame" x="182" y="291.5" width="20" height="20"/>
+                                        <rect key="frame" x="182" y="558.5" width="20" height="20"/>
                                         <color key="color" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </activityIndicatorView>
                                 </subviews>
@@ -16681,6 +16681,8 @@ in Bandung</string>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" id="Epf-1n-itL"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="384" height="1200"/>
                     <connections>
                         <outlet property="btnBatal" destination="zbz-gn-gbP" id="H72-eN-G4R"/>
                         <outlet property="btnBatalUploadGbr" destination="SyQ-EY-FkL" id="mZf-Ll-yX6"/>
@@ -16716,7 +16718,7 @@ in Bandung</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6ns-i8-qpZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="762" y="-4533"/>
+            <point key="canvasLocation" x="762" y="-4773"/>
         </scene>
         <!--Base Navigation Controller-->
         <scene sceneID="9rB-x4-HO1">
@@ -18304,7 +18306,7 @@ in Bandung</string>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2475" y="-5638"/>
+            <point key="canvasLocation" x="2669" y="-5772"/>
         </scene>
     </scenes>
     <resources>
@@ -18364,9 +18366,9 @@ in Bandung</string>
         <image name="tour_5.jpg" width="720" height="1280"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="gv4-pa-FxU"/>
         <segue reference="5pQ-qG-4MR"/>
+        <segue reference="dW2-MQ-HC6"/>
         <segue reference="gU7-9Q-bxr"/>
-        <segue reference="MUV-Ui-6Bn"/>
+        <segue reference="gv4-pa-FxU"/>
     </inferredMetricsTieBreakers>
 </document>
