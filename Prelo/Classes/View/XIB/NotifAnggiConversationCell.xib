@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -59,6 +59,7 @@
                                 <rect key="frame" x="0.0" y="8" width="113" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="bgy-To-a9f"/>
+                                    <constraint firstAttribute="width" constant="113" id="liu-dp-7Wg"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                                 <color key="textColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -130,17 +131,32 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VNV-Wm-XDT">
                         <rect key="frame" x="72" y="0.0" width="248" height="80"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem ipsum dolor sit amet  " lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FYy-Xo-MBV">
-                                <rect key="frame" x="0.0" y="8" width="240" height="14.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Product Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m2l-lN-PlF">
+                                <rect key="frame" x="0.0" y="8" width="93" height="0.0"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="46" id="A17-DY-Xtw"/>
+                                    <constraint firstAttribute="height" id="6Vz-Rl-SQz"/>
+                                    <constraint firstAttribute="width" constant="107" id="BEc-qx-XYm"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="BEc-qx-XYm"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem ipsum dolor sit amet  " lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FYy-Xo-MBV">
+                                <rect key="frame" x="0.0" y="12" width="161" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="16" id="A17-DY-Xtw"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="0.52156862745098043" green="0.52156862745098043" blue="0.52156862745098043" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000 tahun lamanya" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZkU-cG-xZW">
-                                <rect key="frame" x="0.0" y="24.5" width="240" height="16"/>
+                                <rect key="frame" x="0.0" y="56" width="114" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="16" id="Cg8-75-shq"/>
                                 </constraints>
@@ -151,12 +167,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="FYy-Xo-MBV" firstAttribute="leading" secondItem="VNV-Wm-XDT" secondAttribute="leading" id="KCE-o8-mua"/>
-                            <constraint firstAttribute="trailing" secondItem="FYy-Xo-MBV" secondAttribute="trailing" constant="8" id="Qlt-Fy-Yxs"/>
-                            <constraint firstItem="FYy-Xo-MBV" firstAttribute="top" secondItem="VNV-Wm-XDT" secondAttribute="top" constant="8" id="U0I-XC-SwJ"/>
-                            <constraint firstAttribute="trailing" secondItem="ZkU-cG-xZW" secondAttribute="trailing" constant="8" id="Vt0-s8-p0m"/>
-                            <constraint firstItem="ZkU-cG-xZW" firstAttribute="leading" secondItem="VNV-Wm-XDT" secondAttribute="leading" id="m3v-mF-Vfg"/>
-                            <constraint firstItem="ZkU-cG-xZW" firstAttribute="top" secondItem="FYy-Xo-MBV" secondAttribute="bottom" constant="2" id="oCE-XO-A8z"/>
+                            <constraint firstItem="FYy-Xo-MBV" firstAttribute="leading" secondItem="VNV-Wm-XDT" secondAttribute="leading" id="0bw-vS-IGv"/>
+                            <constraint firstAttribute="bottom" secondItem="ZkU-cG-xZW" secondAttribute="bottom" constant="8" id="J78-HK-wzw"/>
+                            <constraint firstItem="m2l-lN-PlF" firstAttribute="leading" secondItem="VNV-Wm-XDT" secondAttribute="leading" id="Lbb-ch-8Ia"/>
+                            <constraint firstItem="m2l-lN-PlF" firstAttribute="top" secondItem="VNV-Wm-XDT" secondAttribute="top" constant="8" id="TYQ-KA-2dm"/>
+                            <constraint firstItem="FYy-Xo-MBV" firstAttribute="top" secondItem="m2l-lN-PlF" secondAttribute="bottom" constant="4" id="gY0-FH-sak"/>
+                            <constraint firstItem="ZkU-cG-xZW" firstAttribute="leading" secondItem="VNV-Wm-XDT" secondAttribute="leading" id="gf6-EH-ywG"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -176,6 +192,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="consHeightLblProductName2" destination="6Vz-Rl-SQz" id="xse-bq-Rsw"/>
                 <outlet property="consWidthLblConvStatus" destination="Z8o-dF-X9t" id="0fb-td-bbl"/>
                 <outlet property="consWidthLblTime" destination="gyC-lX-DxE" id="eTv-Wm-6Em"/>
                 <outlet property="imgSingle" destination="4w4-5K-NXh" id="Ky4-mU-ZsG"/>
@@ -184,6 +201,7 @@
                 <outlet property="lblPreview" destination="rIb-Ok-G9D" id="5no-Ca-jRl"/>
                 <outlet property="lblPreview2" destination="FYy-Xo-MBV" id="YbL-Ph-92K"/>
                 <outlet property="lblProductName" destination="14d-DG-Men" id="pyR-ZF-QN0"/>
+                <outlet property="lblProductName2" destination="m2l-lN-PlF" id="Om8-En-ILD"/>
                 <outlet property="lblTime" destination="qf5-mi-GH6" id="YD4-Ig-AK5"/>
                 <outlet property="lblTime2" destination="ZkU-cG-xZW" id="4H8-OC-7yu"/>
                 <outlet property="lblUsername" destination="HFc-mN-0gu" id="Mxx-AJ-ejX"/>

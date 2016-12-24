@@ -117,16 +117,42 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
         cell.selectionStyle = .none
         cell.chatPressed = {
             self.tblLovers.isHidden = true
-            _ = request(APIProduct.detail(productId: self.productId, forEdit: 0)).responseJSON {resp in
-                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Barang")) {
-                    let pDetail = ProductDetail.instance(JSON(resp.result.value!))
+            
+            var productId = self.productId
+            var buyer = self.productLovelistItems[indexPath.row]
+            
+            // Get product detail from API
+            let _ = request(APIProduct.detail(productId: productId, forEdit: 0)).responseJSON {resp in
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Hubungi Pembeli")) {
+                    let json = JSON(resp.result.value!)
+                    if let pDetail = ProductDetail.instance(json) {
+                        // Goto chat
+                        let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
                     
-                    let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    let t = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
-                    t.tawarItem = pDetail
-                    t.loadInboxFirst = true
-                    t.prodId = self.productId
-                    self.navigationController?.pushViewController(t, animated: true)
+                        // API Migrasi
+                        let _ = request(APIInbox.getInboxByProductIDSeller(productId: pDetail.productID, buyerId: buyer.id)).responseJSON {resp in
+                            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Hubungi Pembeli")) {
+                                let json = JSON(resp.result.value!)
+                                if (json["_data"]["_id"].stringValue != "") { // Sudah pernah chat
+                                    t.tawarItem = Inbox(jsn: json["_data"])
+                                    self.navigationController?.pushViewController(t, animated: true)
+                                } else { // Belum pernah chat
+                                    
+                                    pDetail.buyerId = buyer.id
+                                    pDetail.buyerName = buyer.username
+                                    pDetail.buyerImage = (buyer.imageURL?.absoluteString)!
+                                    pDetail.reverse()
+                                        
+                                    t.tawarItem = pDetail
+                                    t.fromSeller = true
+                                    
+                                    t.toId = buyer.id
+                                    t.prodId = t.tawarItem.itemId
+                                    self.navigationController?.pushViewController(t, animated: true)
+                                }
+                            }
+                        }
+                    }
                 } else {
                     Constant.showDialog("Product Lovelist", message: "Oops, terdapat kesalahan saat mengakses detail produk")
                 }

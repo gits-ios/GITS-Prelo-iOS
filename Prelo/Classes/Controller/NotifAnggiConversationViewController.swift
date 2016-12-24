@@ -349,6 +349,8 @@ class NotifAnggiConversationCell: UITableViewCell {
     @IBOutlet var vwPreviewNTimeOnly: UIView!
     @IBOutlet var lblPreview2: UILabel!
     @IBOutlet var lblTime2: UILabel!
+    @IBOutlet var lblProductName2: UILabel!
+    @IBOutlet weak var consHeightLblProductName2: NSLayoutConstraint!
     
     override func awakeFromNib() {
         vwPreviewNTimeOnly.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0)
@@ -391,6 +393,14 @@ class NotifAnggiConversationCell: UITableViewCell {
             // Set labels
             lblPreview2.text = notif.shortPreview
             lblTime2.text = notif.time
+            
+            if (notif.type == 4001) {
+                consHeightLblProductName2.constant = 16
+                lblProductName2.text = notif.objectName
+            } else {
+                consHeightLblProductName2.constant = 0
+                lblProductName2.isHidden = true
+            }
             
             // Bold subtext in label
             lblPreview2.boldSubstring(notif.userUsernameFrom)
