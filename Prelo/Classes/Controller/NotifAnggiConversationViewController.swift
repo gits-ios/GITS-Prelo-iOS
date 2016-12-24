@@ -352,6 +352,11 @@ class NotifAnggiConversationCell: UITableViewCell {
     @IBOutlet var lblProductName2: UILabel!
     @IBOutlet weak var consHeightLblProductName2: NSLayoutConstraint!
     
+    // for delete notif
+    @IBOutlet weak var vwCheckBox: UIView! // default : hidden
+    @IBOutlet weak var consLeadingImage: NSLayoutConstraint! // default : 0 --> 48
+    @IBOutlet weak var lblCheckBox: UILabel! // default : hidden (uncheck)
+    
     override func awakeFromNib() {
         vwPreviewNTimeOnly.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0)
         vwCompleteContent.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0)

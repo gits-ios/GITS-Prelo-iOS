@@ -358,6 +358,12 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
     @IBOutlet weak var lblTime: UILabel!
     @IBOutlet weak var collcTrxProgress: UICollectionView!
     
+    // for delete notif
+    @IBOutlet weak var consLeadingImage: NSLayoutConstraint! // default : 0 --> 48
+    @IBOutlet weak var vwCheckBox: UIView! // default : hidden
+    @IBOutlet weak var lblCheckBox: UILabel! // default : hidden
+    
+    
     var notif : NotificationObj?
     var idx : Int?
     
