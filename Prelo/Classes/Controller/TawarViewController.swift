@@ -868,8 +868,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             var originalPrice = tawarItem.price.replacingOccurrences(of: "Rp", with: "", options: .literal, range: nil)
             originalPrice = originalPrice.replacingOccurrences(of: ".", with: "", options: .literal, range: nil)
             let halfPrice = originalPrice.int / 2
-            if m <= halfPrice {
-                Constant.showDialog("Tawar", message: "Tawaran kamu terlalu rendah, hanya penjual yang dapat memberikan penawaran dengan harga tersebut")
+            if m <= halfPrice && CDUser.getOne()?.id == tawarItem!.myId && tawarItem!.opIsMe == true {
+                Constant.showDialog("Tawar", message: "Tawaran yang kamu ajukan terlalu rendah, hanya penjual yang dapat memberikan penawaran dengan harga tersebut")
                 return
             }
             self.hideTawar(nil)
