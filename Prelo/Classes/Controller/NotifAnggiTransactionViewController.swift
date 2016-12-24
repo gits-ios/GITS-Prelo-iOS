@@ -57,6 +57,8 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
 
     var delegate : NotifAnggiTransactionDelegate?
     
+    var isToDelete : Bool = false
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -151,6 +153,12 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
             let n = notifications?[(indexPath as NSIndexPath).item]
             cell.adapt(n!, idx: (indexPath as NSIndexPath).item)
             cell.delegate = self
+            
+            if (isToDelete == true) {
+                cell.vwCheckBox.isHidden = false
+                cell.consLeadingImage.constant = 48
+            }
+            
             return cell
         }
         return UITableViewCell()

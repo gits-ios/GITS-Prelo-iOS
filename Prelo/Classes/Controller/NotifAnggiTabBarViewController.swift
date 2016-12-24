@@ -9,7 +9,9 @@
 import Foundation
 import Alamofire
 
-class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate, NotifAnggiTransactionDelegate, NotifAnggiConversationDelegate, UserRelatedDelegate {
+// MARK: - Main Class
+
+class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate, NotifAnggiTransactionDelegate, NotifAnggiConversationDelegate, UserRelatedDelegate, UIActionSheetDelegate, UIAlertViewDelegate {
     
     var tabSwipe : CarbonTabSwipeNavigation?
     var notifAnggiTransactionVC : NotifAnggiTransactionViewController?
@@ -47,6 +49,9 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
         
         // Set title
         self.title = "Notifikasi"
+        
+        // option button
+        setOptionButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -171,6 +176,47 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 let notifListener = appDelegate.preloNotifListener
                 notifListener?.setNewNotifCount(badgeNumberAll)
+            }
+        }
+    }
+    
+    // MARK: - option button (right top)
+    func setOptionButton() {
+        let btnOption = self.createButtonWithIcon(AppFont.prelo2, icon: "")
+        
+        btnOption.addTarget(self, action: #selector(NotifAnggiTabBarViewController.option), for: UIControlEvents.touchUpInside)
+        
+        self.navigationItem.rightBarButtonItem = btnOption.toBarButton()
+    }
+    
+    func option()
+    {
+        let a = UIActionSheet(title: "Opsi", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil)
+        a.addButton(withTitle: "Hapus Notifikasi")
+        a.addButton(withTitle: "Batal")
+        a.destructiveButtonIndex = 1
+        
+        // bound location
+        let screenSize: CGRect = UIScreen.main.bounds
+        let screenWidth = screenSize.width
+        let bounds = CGRect(x: screenWidth - 65.0, y: 0.0, width: screenWidth, height: 0.0)
+        
+        a.show(from: bounds, in: self.view, animated: true)
+    }
+    
+    func actionSheet(_ actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
+        if (buttonIndex == 0)
+        {
+            // do something
+            let activeTab = self.tabSwipe?.currentTabIndex
+            if (activeTab == 0) { // Transaction
+//                Constant.showDialog("Hapus Notifikasi", message: "Transaksi")
+                self.notifAnggiTransactionVC?.isToDelete = true
+                self.notifAnggiTransactionVC?.tableView.reloadData()
+            } else { // Conversation
+//                Constant.showDialog("Hapus Notifikasi", message: "Percakapan")
+                self.notifAnggiConversationVC?.isToDelete = true
+                self.notifAnggiConversationVC?.tableView.reloadData()
             }
         }
     }

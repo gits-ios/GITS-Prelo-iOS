@@ -57,6 +57,8 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     
     var delegate : NotifAnggiConversationDelegate?
     
+    var isToDelete : Bool = false
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -150,6 +152,12 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
             cell.selectionStyle = .none
             let n = notifications?[(indexPath as NSIndexPath).item]
             cell.adapt(n!)
+            
+            if (isToDelete == true) {
+                cell.vwCheckBox.isHidden = false
+                cell.consLeadingImage.constant = 48
+            }
+            
             return cell
         }
         return UITableViewCell()
