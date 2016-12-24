@@ -1508,11 +1508,18 @@ class ListItemCell : UICollectionViewCell {
             captionMyLove.text = ""
         }
         
-        if (User.IsLoggedIn == true) {
+        if (User.IsLoggedIn == true && self.sid != CDUser.getOne()?.id) {
             var const : CGFloat = CGFloat(30)
             
             if listStage == 1 && AppTools.isIPad == false {
                 const = CGFloat(15)
+            } else if listStage == 3 {
+                if AppTools.isIPad == false  {
+                    const = CGFloat(40)
+                } else {
+                    const = CGFloat(45)
+                }
+                
             }
             
             consbtnWidthLove.constant = const
@@ -1602,7 +1609,7 @@ class ListItemCell : UICollectionViewCell {
             print(resp)
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Love Product"))
             {
-                
+                Constant.showDialog("Lovelist", message: self.captionTitle.text! + " berhasil ditambahkan ke Lovelist")
             } else
             {
                 self.newLove = false
@@ -1618,7 +1625,7 @@ class ListItemCell : UICollectionViewCell {
             print(resp)
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Unlove Product"))
             {
-                
+                Constant.showDialog("Lovelist", message: self.captionTitle.text! + " berhasil dihapus dari Lovelist")
             } else
             {
                 self.newLove = true
