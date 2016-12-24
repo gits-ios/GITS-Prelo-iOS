@@ -1429,15 +1429,15 @@ class ListItemCell : UICollectionViewCell {
     @IBOutlet var imgReserved: UIImageView!
     @IBOutlet var imgFeatured: UIImageView!
     @IBOutlet var imgFreeOngkir: UIImageView!
-    @IBOutlet weak var lblLove: UILabel!
     @IBOutlet weak var btnTawar: UIButton!
     @IBOutlet weak var btnLove: UIButton!
     
+    @IBOutlet weak var consHeightFO: NSLayoutConstraint!
+    @IBOutlet weak var consWidthFO: NSLayoutConstraint!
+    
     @IBOutlet weak var consbtnWidthTawar: NSLayoutConstraint!
-    @IBOutlet weak var consWidthLove: NSLayoutConstraint!
     @IBOutlet weak var consbtnWidthLove: NSLayoutConstraint!
     @IBOutlet weak var consbtnHeightTawar: NSLayoutConstraint!
-    @IBOutlet weak var consHeightLove: NSLayoutConstraint!
     @IBOutlet weak var consbtnHeightLove: NSLayoutConstraint!
     
     var newLove : Bool?
@@ -1462,9 +1462,6 @@ class ListItemCell : UICollectionViewCell {
 //        btnTawar.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
         
         
-        // unused
-        lblLove.isHidden = true
-        consWidthLove.constant = 0
     }
     
     override func prepareForReuse() {
@@ -1516,30 +1513,22 @@ class ListItemCell : UICollectionViewCell {
             
             if listStage == 1 && AppTools.isIPad == false {
                 const = CGFloat(15)
-                
-//                lblLove.font = UIFont(name: "prelo2", size: 13.0)
-            } else {
-//                lblLove.font = UIFont(name: "prelo2", size: 28.0)
             }
             
-//            consWidthLove.constant = const
-//            consHeightLove.constant = const
             consbtnWidthLove.constant = const
             consbtnHeightLove.constant = const
             btnLove.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
             
+            consHeightFO.constant = const
+            consWidthFO.constant = const
+            
             newLove = obj["love"].bool
             if (newLove == true) {
-//                lblLove.text = ""
-//                lblLove.textColor = Theme.ThemeRed
                 buttonLoveChange(isLoved: true)
             } else {
-//                lblLove.text = ""
-//                lblLove.textColor = Theme.GrayLight
                 buttonLoveChange(isLoved: false)
             }
         } else {
-//            lblLove.isHidden = true
             btnLove.isHidden = true
             consbtnWidthLove.constant = 0
         }
@@ -1588,19 +1577,13 @@ class ListItemCell : UICollectionViewCell {
         if (User.IsLoggedIn == true) {
             if (newLove == true) {
                 newLove = false
-//                lblLove.text = ""
-//                lblLove.textColor = Theme.GrayLight
                 buttonLoveChange(isLoved: false)
                 callApiUnlove()
             } else {
                 newLove = true
-//                lblLove.text = ""
-//                lblLove.textColor = Theme.ThemeRed
                 buttonLoveChange(isLoved: true)
                 callApiLove()
             }
-        } else {
-//            LoginViewController.Show(self.parent!, userRelatedDelegate: self, animated: true)
         }
     }
 
@@ -1623,9 +1606,6 @@ class ListItemCell : UICollectionViewCell {
             } else
             {
                 self.newLove = false
-//                self.lblLove.text = ""
-//                self.lblLove.textColor = Theme.GrayLight
-//                self.btnLove.tintColor = Theme.GrayLight
                 self.buttonLoveChange(isLoved: false)
             }
         }
@@ -1642,9 +1622,6 @@ class ListItemCell : UICollectionViewCell {
             } else
             {
                 self.newLove = true
-//                self.lblLove.text = ""
-//                self.lblLove.textColor = Theme.ThemeRed
-//                self.btnLove.tintColor = Theme.ThemeRed
                 self.buttonLoveChange(isLoved: true)
             }
         }

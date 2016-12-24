@@ -56,10 +56,12 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lSn-8S-VKh">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lSn-8S-VKh">
                                 <rect key="frame" x="0.0" y="80" width="375" height="1"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="EQ1-yX-ZR6"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -67,6 +69,7 @@
                             <constraint firstAttribute="height" constant="81" id="4Dp-IJ-LHr"/>
                             <constraint firstAttribute="trailing" secondItem="9fI-pD-7GV" secondAttribute="trailing" constant="8" id="Iah-Yv-t7q"/>
                             <constraint firstItem="UjO-kS-nAS" firstAttribute="leading" secondItem="4gm-pg-FLM" secondAttribute="trailing" constant="8" id="JJS-Pq-qmr"/>
+                            <constraint firstAttribute="trailing" secondItem="lSn-8S-VKh" secondAttribute="trailing" id="ReK-iK-Ft1"/>
                             <constraint firstAttribute="trailing" secondItem="UjO-kS-nAS" secondAttribute="trailing" constant="8" id="TeU-jC-4qO"/>
                             <constraint firstItem="9fI-pD-7GV" firstAttribute="leading" secondItem="4gm-pg-FLM" secondAttribute="trailing" constant="8" id="cOQ-Zp-Xij"/>
                             <constraint firstItem="Bea-AO-FT5" firstAttribute="leading" secondItem="4gm-pg-FLM" secondAttribute="trailing" constant="8" id="doM-hG-0Ye"/>
@@ -74,6 +77,8 @@
                             <constraint firstItem="4gm-pg-FLM" firstAttribute="top" secondItem="lz8-SL-gkT" secondAttribute="top" constant="8" id="hFe-xv-FWI"/>
                             <constraint firstAttribute="trailing" secondItem="Bea-AO-FT5" secondAttribute="trailing" constant="8" id="hZf-6U-8bv"/>
                             <constraint firstItem="Bea-AO-FT5" firstAttribute="top" secondItem="lz8-SL-gkT" secondAttribute="top" constant="8" id="ksX-SS-6l0"/>
+                            <constraint firstItem="lSn-8S-VKh" firstAttribute="top" secondItem="4gm-pg-FLM" secondAttribute="bottom" constant="7" id="mV0-qe-N0L"/>
+                            <constraint firstItem="lSn-8S-VKh" firstAttribute="leading" secondItem="lz8-SL-gkT" secondAttribute="leading" id="nis-NI-UqW"/>
                             <constraint firstItem="UjO-kS-nAS" firstAttribute="top" secondItem="9fI-pD-7GV" secondAttribute="bottom" id="pUT-ok-ouT"/>
                             <constraint firstItem="4gm-pg-FLM" firstAttribute="leading" secondItem="lz8-SL-gkT" secondAttribute="leading" constant="8" id="sRM-LJ-0LM"/>
                         </constraints>
