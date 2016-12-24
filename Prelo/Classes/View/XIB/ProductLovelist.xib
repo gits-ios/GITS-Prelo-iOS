@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -29,7 +29,7 @@
                                     <constraint firstAttribute="width" constant="65" id="qvU-d4-bAx"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bea-AO-FT5">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bea-AO-FT5">
                                 <rect key="frame" x="81" y="8" width="286" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="ArY-5u-QkJ"/>
@@ -38,7 +38,7 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9fI-pD-7GV">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9fI-pD-7GV">
                                 <rect key="frame" x="81" y="30" width="286" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="AxS-K3-tx6"/>
@@ -78,10 +78,19 @@
                             <constraint firstItem="4gm-pg-FLM" firstAttribute="leading" secondItem="lz8-SL-gkT" secondAttribute="leading" constant="8" id="sRM-LJ-0LM"/>
                         </constraints>
                     </view>
-                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="jPC-WD-IR4">
-                        <rect key="frame" x="177" y="102" width="20" height="20"/>
-                        <color key="color" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </activityIndicatorView>
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Ta-ka-zUv" userLabel="loadingPanel">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="nfg-JM-AFk" userLabel="loading">
+                                <rect key="frame" x="177.5" y="95" width="20" height="20"/>
+                                <color key="color" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="nfg-JM-AFk" firstAttribute="top" secondItem="5Ta-ka-zUv" secondAttribute="top" constant="95" id="bjp-GO-r7T"/>
+                            <constraint firstAttribute="centerX" secondItem="nfg-JM-AFk" secondAttribute="centerX" id="cIT-5r-pa4"/>
+                        </constraints>
+                    </view>
                     <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="nJe-gh-THK">
                         <rect key="frame" x="0.0" y="81" width="375" height="522"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -91,12 +100,14 @@
                 <constraints>
                     <constraint firstItem="lz8-SL-gkT" firstAttribute="leading" secondItem="gpX-gI-yN5" secondAttribute="leading" id="8SP-TE-8c8"/>
                     <constraint firstAttribute="trailing" secondItem="lz8-SL-gkT" secondAttribute="trailing" id="BVj-gh-UbF"/>
+                    <constraint firstAttribute="bottom" secondItem="5Ta-ka-zUv" secondAttribute="bottom" id="DRX-FG-FWN"/>
+                    <constraint firstItem="5Ta-ka-zUv" firstAttribute="top" secondItem="gpX-gI-yN5" secondAttribute="top" id="I18-az-g0R"/>
                     <constraint firstItem="nJe-gh-THK" firstAttribute="leading" secondItem="gpX-gI-yN5" secondAttribute="leading" id="M65-Rg-eq4"/>
                     <constraint firstItem="lz8-SL-gkT" firstAttribute="top" secondItem="pfQ-JB-gwz" secondAttribute="bottom" id="Psy-6a-M7U"/>
-                    <constraint firstItem="jPC-WD-IR4" firstAttribute="top" secondItem="lz8-SL-gkT" secondAttribute="bottom" constant="21" id="dEV-x6-vNG"/>
                     <constraint firstItem="nJe-gh-THK" firstAttribute="top" secondItem="lz8-SL-gkT" secondAttribute="bottom" id="gnV-Ad-BIp"/>
                     <constraint firstAttribute="trailing" secondItem="nJe-gh-THK" secondAttribute="trailing" id="lRt-6m-lG5"/>
-                    <constraint firstItem="jPC-WD-IR4" firstAttribute="centerX" secondItem="gpX-gI-yN5" secondAttribute="centerX" id="uBQ-qn-kZS"/>
+                    <constraint firstAttribute="trailing" secondItem="5Ta-ka-zUv" secondAttribute="trailing" id="mcH-fU-vYP"/>
+                    <constraint firstItem="5Ta-ka-zUv" firstAttribute="leading" secondItem="gpX-gI-yN5" secondAttribute="leading" id="o6b-Jk-TnX"/>
                     <constraint firstItem="IQY-0h-kfF" firstAttribute="top" secondItem="nJe-gh-THK" secondAttribute="bottom" id="wfP-2F-XZP"/>
                 </constraints>
             </view>
@@ -107,6 +118,7 @@
                 <outlet property="lblPrice" destination="9fI-pD-7GV" id="QEV-CD-0tW"/>
                 <outlet property="lblProductName" destination="Bea-AO-FT5" id="yYy-7j-zNJ"/>
                 <outlet property="lblTime" destination="UjO-kS-nAS" id="fCI-nc-GNi"/>
+                <outlet property="loadingPanel" destination="5Ta-ka-zUv" id="lgu-Gf-d0I"/>
                 <outlet property="tblLovers" destination="nJe-gh-THK" id="p7t-u8-85g"/>
             </connections>
             <point key="canvasLocation" x="197" y="2"/>

@@ -21,7 +21,10 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
     @IBOutlet var lblPrice: UILabel!
     @IBOutlet var lblTime: UILabel!
     @IBOutlet var tblLovers: UITableView!
-    var refreshControl : UIRefreshControl!
+//    var refreshControl : UIRefreshControl!
+    
+    @IBOutlet weak var loadingPanel: UIView!
+    
     
     // Data container
     var productLovelistItems : [ProductLovelistItem] = []
@@ -42,13 +45,13 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
         tblLovers.register(productLovelistCellNib, forCellReuseIdentifier: "ProductLovelistCell")
 
         // Refresh control
-        self.refreshControl = UIRefreshControl()
-        self.refreshControl.tintColor = Theme.PrimaryColor
-        self.refreshControl.addTarget(self, action: #selector(ProductLovelistViewController.refreshTable), for: UIControlEvents.valueChanged)
-        self.tblLovers.addSubview(refreshControl)
+//        self.refreshControl = UIRefreshControl()
+//        self.refreshControl.tintColor = Theme.PrimaryColor
+//        self.refreshControl.addTarget(self, action: #selector(ProductLovelistViewController.refreshTable), for: UIControlEvents.valueChanged)
+//        self.tblLovers.addSubview(refreshControl)
         
         // Set title
-        self.title = "Product Lovelist"
+//        self.title = "Product Lovelist"
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -64,7 +67,16 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
         self.getProducts()
     }
     
+    func showLoading() {
+        self.loadingPanel.isHidden = false
+    }
+    
+    func hideLoading() {
+        self.loadingPanel.isHidden = true
+    }
+    
     func getProducts() {
+        showLoading()
         _ = request(APIProduct.getProductLovelist(productId: productId)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Product Lovelist")) {
                 let json = JSON(resp.result.value!)
@@ -84,10 +96,16 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
                         self.productLovelistItems.append(p!)
                     }
                 }
+                
+                // Set title
+                self.title = data["name"].stringValue
+                self.hideLoading()
+
             }
             
             // Hide refresh control
-            self.refreshControl.endRefreshing()
+//            self.refreshControl.endRefreshing()
+            self.hideLoading()
             
             // Setup table
             if (self.productLovelistItems.count > 0) {
