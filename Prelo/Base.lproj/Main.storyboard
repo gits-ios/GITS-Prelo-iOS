@@ -58,8 +58,8 @@
             <objects>
                 <navigationController id="6kB-PJ-dDC" customClass="BaseNavigationController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="384" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="3ti-tg-WN5">
+                    <size key="freeformSize" width="320" height="667"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="3ti-tg-WN5">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -81,21 +81,21 @@
                         <viewControllerLayoutGuide type="bottom" id="CZj-C8-kqA"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="uBv-3W-dZM">
-                        <rect key="frame" x="0.0" y="64" width="384" height="603"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rui-jE-9fQ">
-                                <rect key="frame" x="0.0" y="0.0" width="384" height="603"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="603"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IUr-MR-pQm">
-                                <rect key="frame" x="0.0" y="559" width="384" height="44"/>
+                                <rect key="frame" x="0.0" y="559" width="320" height="44"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LYa-Cx-FEy">
-                                        <rect key="frame" x="0.0" y="0.0" width="192" height="44"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="160" height="44"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wTa-Mx-Cia" customClass="AppButton" customModule="Prelo" customModuleProvider="target">
-                                                <rect key="frame" x="8" y="8" width="144" height="32"/>
+                                                <rect key="frame" x="8" y="8" width="112" height="32"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                 <state key="normal" title="BROWSE">
                                                     <color key="titleColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -126,10 +126,10 @@
                                         </variation>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ImO-gU-pX3">
-                                        <rect key="frame" x="192" y="0.0" width="192" height="44"/>
+                                        <rect key="frame" x="160" y="0.0" width="160" height="44"/>
                                         <subviews>
                                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZhR-y5-Nps" customClass="AppButton" customModule="Prelo" customModuleProvider="target">
-                                                <rect key="frame" x="40" y="8" width="144" height="32"/>
+                                                <rect key="frame" x="40" y="8" width="112" height="32"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                 <state key="normal" title="DASHBOARD">
                                                     <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -160,7 +160,7 @@
                                         </variation>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1sP-Hh-g0V">
-                                        <rect key="frame" x="0.0" y="0.0" width="384" height="1"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="1"/>
                                         <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="Hm3-Dm-UUB"/>
@@ -190,7 +190,7 @@
                                 </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Au-9S-hGK">
-                                <rect key="frame" x="160" y="527" width="64" height="64"/>
+                                <rect key="frame" x="128" y="527" width="64" height="64"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c5n-7A-uZg">
                                         <rect key="frame" x="17" y="8" width="30" height="34"/>
@@ -236,10 +236,10 @@
                                 </variation>
                             </view>
                             <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bbz-pt-Y4w" userLabel="loadingPanel">
-                                <rect key="frame" x="0.0" y="0.0" width="384" height="603"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="603"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="fl9-Xb-d3k" userLabel="loading">
-                                        <rect key="frame" x="182" y="292" width="20" height="20"/>
+                                        <rect key="frame" x="150" y="292" width="20" height="20"/>
                                         <color key="color" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </activityIndicatorView>
                                 </subviews>
@@ -301,8 +301,8 @@
             <objects>
                 <navigationController id="lpd-Xn-Bjd" sceneMemberID="viewController">
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="384" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="Fg5-4q-Ox0">
+                    <size key="freeformSize" width="320" height="667"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Fg5-4q-Ox0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -324,17 +324,17 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="64" width="384" height="603"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eVC-U0-eu3">
-                                <rect key="frame" x="0.0" y="0.0" width="384" height="44"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="6ig-6d-IrQ"/>
                                 </constraints>
                             </scrollView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Lo-8s-9p1">
-                                <rect key="frame" x="0.0" y="44" width="384" height="559"/>
+                                <rect key="frame" x="0.0" y="44" width="320" height="559"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </scrollView>
                         </subviews>
@@ -678,13 +678,13 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rp. 100,000,000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I7f-5u-kJl">
-                                                    <rect key="frame" x="4" y="244" width="86.5" height="14"/>
+                                                    <rect key="frame" x="4" y="244" width="87" height="14"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="11"/>
                                                     <color key="textColor" red="0.21176470588235294" green="0.21176470588235294" blue="0.21176470588235294" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="748" text="Rp. 100,000,000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5XU-vq-YZT">
-                                                    <rect key="frame" x="4" y="226" width="86.5" height="14"/>
+                                                    <rect key="frame" x="4" y="226" width="87" height="14"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -708,7 +708,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qPJ-HM-Yss">
-                                                    <rect key="frame" x="94.5" y="232" width="0.0" height="30"/>
+                                                    <rect key="frame" x="95" y="232" width="0.0" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" id="6zR-Qe-V7Q"/>
                                                         <constraint firstAttribute="height" constant="30" id="7Im-XM-SUw"/>
@@ -728,7 +728,7 @@
                                                     <rect key="frame" x="166" y="166" width="26" height="26"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bXc-uy-4CD">
-                                                            <rect key="frame" x="5" y="5.5" width="16" height="16"/>
+                                                            <rect key="frame" x="5" y="5" width="16" height="16"/>
                                                             <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -743,13 +743,13 @@
                                                     </constraints>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QCi-p0-PIt" userLabel="banner helper">
-                                                    <rect key="frame" x="99.5" y="0.0" width="1" height="270"/>
+                                                    <rect key="frame" x="100" y="0.0" width="1" height="270"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="1" id="FRr-j1-ajR"/>
                                                     </constraints>
                                                 </view>
                                                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="banner_reserved.png" translatesAutoresizingMaskIntoConstraints="NO" id="lW7-IS-hv7">
-                                                    <rect key="frame" x="100.5" y="0.0" width="99.5" height="99.5"/>
+                                                    <rect key="frame" x="101" y="0.0" width="99" height="99"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="lW7-IS-hv7" secondAttribute="height" multiplier="123:122" id="XCp-R2-B9A"/>
                                                         <constraint firstAttribute="width" secondItem="lW7-IS-hv7" secondAttribute="height" multiplier="1:1" id="oUj-gN-unj"/>
@@ -761,13 +761,13 @@
                                                     </variation>
                                                 </imageView>
                                                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="banner_sold.png" translatesAutoresizingMaskIntoConstraints="NO" id="YEl-Eb-TeX">
-                                                    <rect key="frame" x="100.5" y="0.0" width="99.5" height="98.5"/>
+                                                    <rect key="frame" x="101" y="0.0" width="99" height="99"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="YEl-Eb-TeX" secondAttribute="height" multiplier="123:122" id="d86-jD-0ph"/>
                                                     </constraints>
                                                 </imageView>
                                                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="banner_featured.png" translatesAutoresizingMaskIntoConstraints="NO" id="ylD-A5-BtN">
-                                                    <rect key="frame" x="100.5" y="0.0" width="99.5" height="99.5"/>
+                                                    <rect key="frame" x="101" y="0.0" width="99" height="99"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="ylD-A5-BtN" secondAttribute="height" multiplier="123:122" id="Lyr-ga-0wx"/>
                                                         <constraint firstAttribute="width" secondItem="ylD-A5-BtN" secondAttribute="height" multiplier="1:1" id="zIC-BB-6nU"/>
@@ -1175,8 +1175,8 @@
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="384" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="ahl-ux-zz6">
+                    <size key="freeformSize" width="320" height="667"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ahl-ux-zz6">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1197,29 +1197,29 @@
                         <viewControllerLayoutGuide type="bottom" id="ciA-kq-puk"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="EaU-x8-4Au">
-                        <rect key="frame" x="0.0" y="0.0" width="384" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OF7-fs-lP6">
-                                <rect key="frame" x="0.0" y="0.0" width="384" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="667"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gPX-2S-UXr">
-                                        <rect key="frame" x="0.0" y="0.0" width="1920" height="667"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="1600" height="667"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tour_1.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="tg1-Zn-4TU">
-                                                <rect key="frame" x="0.0" y="0.0" width="384" height="667"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="667"/>
                                             </imageView>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tour_2.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="ydR-cH-sbQ">
-                                                <rect key="frame" x="384" y="0.0" width="384" height="667"/>
+                                                <rect key="frame" x="320" y="0.0" width="320" height="667"/>
                                             </imageView>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tour_3.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="TY0-TZ-zGR">
-                                                <rect key="frame" x="768" y="0.0" width="384" height="667"/>
+                                                <rect key="frame" x="640" y="0.0" width="320" height="667"/>
                                             </imageView>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tour_4.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="sU3-g5-pRM" userLabel="tour_4.jpg">
-                                                <rect key="frame" x="1152" y="0.0" width="384" height="667"/>
+                                                <rect key="frame" x="960" y="0.0" width="320" height="667"/>
                                             </imageView>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tour_5.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="qdD-v6-VxC" userLabel="tour_5.jpg">
-                                                <rect key="frame" x="1536" y="0.0" width="384" height="667"/>
+                                                <rect key="frame" x="1280" y="0.0" width="320" height="667"/>
                                             </imageView>
                                         </subviews>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1260,37 +1260,37 @@
                                 </connections>
                             </scrollView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x1c-kh-d25">
-                                <rect key="frame" x="-200" y="0.0" width="784" height="50"/>
+                                <rect key="frame" x="-200" y="0.0" width="720" height="50"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="23L-xm-PrB">
-                                        <rect key="frame" x="0.0" y="0.0" width="3920" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="3600" height="50"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Siap Menjual Barang Preloved Kamu" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pUM-6f-k6r">
-                                                <rect key="frame" x="0.0" y="0.0" width="784" height="50"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="720" height="50"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ribuan Barang Bermerek Tersedia" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HtO-5O-8Cz">
-                                                <rect key="frame" x="784" y="0.0" width="784" height="50"/>
+                                                <rect key="frame" x="720" y="0.0" width="720" height="50"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fitur Chatting yang Mempermudah Transaksi" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ibz-bF-heo">
-                                                <rect key="frame" x="1568" y="0.0" width="784" height="50"/>
+                                                <rect key="frame" x="1440" y="0.0" width="720" height="50"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Waktu Jaminan Prelo" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c0F-rV-iP7">
-                                                <rect key="frame" x="2352" y="0.0" width="784" height="50"/>
+                                                <rect key="frame" x="2160" y="0.0" width="720" height="50"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share Kode Referralmu dan Dapatkan Prelo Bonus!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lr0-zX-ZuR">
-                                                <rect key="frame" x="3136" y="0.0" width="784" height="50"/>
+                                                <rect key="frame" x="2880" y="0.0" width="720" height="50"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -1332,37 +1332,37 @@
                                 </constraints>
                             </scrollView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vh4-5s-J3T">
-                                <rect key="frame" x="-500" y="50" width="1384" height="64"/>
+                                <rect key="frame" x="-500" y="50" width="1320" height="64"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pgR-gj-b4x">
-                                        <rect key="frame" x="0.0" y="0.0" width="6920" height="64"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="6600" height="64"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Barang yang numpuk di lemari bisa jadi duit lho!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uFC-Ca-UCY">
-                                                <rect key="frame" x="0.0" y="0.0" width="1384" height="64"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="1320" height="64"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prelo hanya menjual barang autentik dan NO KW dari merek-merek favorit kamu" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Ub-TT-Z3M">
-                                                <rect key="frame" x="1384" y="0.0" width="1384" height="64"/>
+                                                <rect key="frame" x="1320" y="0.0" width="1320" height="64"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gunakan fitur tawar dan chatting untuk dapatkan harga yang sesuai" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4r7-0q-AnO" userLabel="Gunakan..">
-                                                <rect key="frame" x="2768" y="0.0" width="1384" height="64"/>
+                                                <rect key="frame" x="2640" y="0.0" width="1320" height="64"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Barang tidak sesuai? Refund 100% dalam waktu 3x24 jam" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="snc-9X-Uev" userLabel="Barang tidak..">
-                                                <rect key="frame" x="4152" y="0.0" width="1384" height="64"/>
+                                                <rect key="frame" x="3960" y="0.0" width="1320" height="64"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Temukan bonusnya di menu VOUCHER GRATIS!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3n0-DQ-EaM" userLabel="Temukan menu..">
-                                                <rect key="frame" x="5536" y="0.0" width="1384" height="64"/>
+                                                <rect key="frame" x="5280" y="0.0" width="1320" height="64"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -1410,12 +1410,12 @@
                                 </variation>
                             </scrollView>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="5" translatesAutoresizingMaskIntoConstraints="NO" id="8nQ-Hv-4K3">
-                                <rect key="frame" x="8" y="622" width="368" height="37"/>
+                                <rect key="frame" x="8" y="622" width="304" height="37"/>
                                 <color key="pageIndicatorTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="currentPageIndicatorTintColor" red="0.048671051859855652" green="0.38238313794136047" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </pageControl>
                             <button opaque="NO" alpha="0.59999999999999998" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Axn-N3-T8w">
-                                <rect key="frame" x="276" y="619" width="100" height="40"/>
+                                <rect key="frame" x="212" y="619" width="100" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="22o-kV-bUi"/>
                                     <constraint firstAttribute="height" constant="40" id="G3p-FV-tlD"/>
@@ -2059,21 +2059,21 @@
                         <viewControllerLayoutGuide type="bottom" id="C0u-Yq-c7K"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="82u-6j-jKW">
-                        <rect key="frame" x="0.0" y="64" width="384" height="603"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="fZG-Yh-LSu">
-                                <rect key="frame" x="0.0" y="0.0" width="384" height="603"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="603"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="e0A-St-6xX">
-                                    <rect key="frame" x="0.0" y="0.0" width="384" height="186"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="186"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8wl-Qq-cKt">
-                                            <rect key="frame" x="0.0" y="0.0" width="384" height="96"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="96"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_dashboard_cover.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="uC7-a6-gop">
-                                                    <rect key="frame" x="0.0" y="-200" width="384" height="296"/>
+                                                    <rect key="frame" x="0.0" y="-200" width="320" height="296"/>
                                                 </imageView>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="raisa.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="qmP-5d-n5A">
                                                     <rect key="frame" x="20" y="16" width="64" height="64"/>
@@ -2083,10 +2083,10 @@
                                                     </constraints>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fkl-kw-IQX" userLabel="Logged In">
-                                                    <rect key="frame" x="92" y="28" width="284" height="41"/>
+                                                    <rect key="frame" x="92" y="28" width="220" height="41"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pevita Ellen Pearce" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ISZ-ln-UcD">
-                                                            <rect key="frame" x="0.0" y="0.0" width="284" height="20"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="220" height="20"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -2098,7 +2098,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WWW-dJ-TIM">
-                                                            <rect key="frame" x="254" y="23" width="30" height="18"/>
+                                                            <rect key="frame" x="190" y="23" width="30" height="18"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="30" id="2Xy-s0-ACh"/>
                                                                 <constraint firstAttribute="height" constant="18" id="YtE-V9-1FF"/>
@@ -2126,10 +2126,10 @@
                                                     </constraints>
                                                 </view>
                                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Sn-Tx-ngx" userLabel="Logged Out">
-                                                    <rect key="frame" x="92" y="38" width="284" height="21"/>
+                                                    <rect key="frame" x="92" y="38" width="220" height="21"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Log In • Daftar" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aUQ-Kc-r5i">
-                                                            <rect key="frame" x="0.0" y="0.0" width="284" height="21"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="220" height="21"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -2144,7 +2144,7 @@
                                                     </constraints>
                                                 </view>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R17-hY-EvF">
-                                                    <rect key="frame" x="20" y="16" width="324" height="64"/>
+                                                    <rect key="frame" x="20" y="16" width="260" height="64"/>
                                                     <state key="normal">
                                                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </state>
@@ -2153,7 +2153,7 @@
                                                     </connections>
                                                 </button>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AMU-42-JlY">
-                                                    <rect key="frame" x="0.0" y="95" width="384" height="1"/>
+                                                    <rect key="frame" x="0.0" y="95" width="320" height="1"/>
                                                     <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="1" id="1LZ-Ff-DeF"/>
@@ -2185,26 +2185,26 @@
                                             </constraints>
                                         </view>
                                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SRb-Gu-aWC">
-                                            <rect key="frame" x="0.0" y="96" width="384" height="90"/>
+                                            <rect key="frame" x="0.0" y="96" width="320" height="90"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aj4-cq-xaM">
-                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="90"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="106.5" height="90"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JUi-h5-CUE">
-                                                            <rect key="frame" x="127" y="4" width="1" height="82"/>
+                                                            <rect key="frame" x="105.5" y="4" width="1" height="82"/>
                                                             <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="1" id="Ck9-c9-VCF"/>
                                                             </constraints>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lovelist" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p4b-5J-I82">
-                                                            <rect key="frame" x="8" y="60" width="111" height="15"/>
+                                                            <rect key="frame" x="8" y="60" width="89.5" height="15"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <imageView opaque="NO" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="CIu-au-kBG">
-                                                            <rect key="frame" x="44" y="12" width="40" height="40"/>
+                                                            <rect key="frame" x="33.5" y="12" width="40" height="40"/>
                                                             <color key="tintColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="40" id="NJS-j6-tlg"/>
@@ -2218,7 +2218,7 @@
                                                             </variation>
                                                         </imageView>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nqd-Yc-mek">
-                                                            <rect key="frame" x="0.0" y="0.0" width="128" height="90"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="106.5" height="90"/>
                                                             <state key="normal">
                                                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </state>
@@ -2254,16 +2254,16 @@
                                                     </variation>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GMb-Gi-Ejd">
-                                                    <rect key="frame" x="128" y="0.0" width="128" height="90"/>
+                                                    <rect key="frame" x="106.5" y="0.0" width="107" height="90"/>
                                                     <subviews>
                                                         <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jualan Saya" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FSG-bg-qk0">
-                                                            <rect key="frame" x="8" y="60" width="112" height="15"/>
+                                                            <rect key="frame" x="8" y="60" width="91" height="15"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="2QS-YU-5jg">
-                                                            <rect key="frame" x="44" y="12" width="40" height="40"/>
+                                                            <rect key="frame" x="33.5" y="12" width="40" height="40"/>
                                                             <color key="tintColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="40" id="8h7-oX-2az"/>
@@ -2301,7 +2301,7 @@
                                                     </connections>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NYb-e2-zdZ">
-                                                    <rect key="frame" x="256" y="0.0" width="128" height="90"/>
+                                                    <rect key="frame" x="213.5" y="0.0" width="106.5" height="90"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W8M-Db-Wpu">
                                                             <rect key="frame" x="0.0" y="4" width="1" height="82"/>
@@ -2311,7 +2311,7 @@
                                                             </constraints>
                                                         </view>
                                                         <imageView opaque="NO" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="txG-F6-hp7">
-                                                            <rect key="frame" x="44" y="12" width="40" height="40"/>
+                                                            <rect key="frame" x="33" y="12" width="40" height="40"/>
                                                             <color key="tintColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="24" id="0JT-74-M27"/>
@@ -2325,13 +2325,13 @@
                                                             </variation>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Belanjaan Saya" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="05X-Sk-e1G">
-                                                            <rect key="frame" x="9" y="60" width="111" height="15"/>
+                                                            <rect key="frame" x="9" y="60" width="89.5" height="15"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zUH-KZ-ztD">
-                                                            <rect key="frame" x="0.0" y="0.0" width="128" height="90"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="106.5" height="90"/>
                                                             <state key="normal">
                                                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </state>
@@ -2365,7 +2365,7 @@
                                                     </variation>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HoK-Ph-Pcv">
-                                                    <rect key="frame" x="0.0" y="89" width="384" height="1"/>
+                                                    <rect key="frame" x="0.0" y="89" width="320" height="1"/>
                                                     <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="1" id="ZMX-Fa-OJA"/>
@@ -2405,10 +2405,10 @@
                                 </view>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="Ycu-UD-RHS" customClass="DashboardCell" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="208" width="384" height="44"/>
+                                        <rect key="frame" x="0.0" y="208" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ycu-UD-RHS" id="JiM-NY-vsX">
-                                            <rect key="frame" x="0.0" y="0.0" width="384" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="253" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kCZ-Si-P3t">
@@ -2418,7 +2418,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VAD-sT-eus">
-                                                    <rect key="frame" x="40" y="12" width="336" height="20"/>
+                                                    <rect key="frame" x="40" y="12" width="272" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -2532,13 +2532,13 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p1p-tf-v6m">
-                                                        <rect key="frame" x="346.5" y="13" width="12.5" height="17"/>
+                                                        <rect key="frame" x="346" y="13" width="13" height="17"/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="17"/>
                                                         <color key="textColor" red="0.048671051860000002" green="0.3823831379" blue="0.41029164200000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pilih Bank" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H8s-gQ-2aH">
-                                                        <rect key="frame" x="267.5" y="12" width="71" height="20"/>
+                                                        <rect key="frame" x="267" y="12" width="71" height="20"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                         <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -4651,17 +4651,17 @@ in Bandung</string>
                         <viewControllerLayoutGuide type="bottom" id="aur-uu-95S"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="0Q6-8V-fG5">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="1350"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FFS-7H-uzf">
-                                <rect key="frame" x="0.0" y="20" width="375" height="1330"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="603"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3dS-JO-Z5K">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="519.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="535.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="njD-3d-VPO">
-                                                <rect key="frame" x="8" y="20" width="359" height="33"/>
+                                                <rect key="frame" x="8" y="20" width="304" height="49"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="h0S-xa-NrD"/>
                                                 </constraints>
@@ -4703,7 +4703,7 @@ in Bandung</string>
                                                 </variation>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hasil Penjualan" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jm9-2H-jsR">
-                                                <rect key="frame" x="135.5" y="77" width="104" height="18"/>
+                                                <rect key="frame" x="108.5" y="93" width="104" height="18"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="18" id="XJ5-4a-aiT"/>
                                                 </constraints>
@@ -4712,7 +4712,7 @@ in Bandung</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Charge Prelo Rp. 75.000 (7.5%)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="30N-1w-BQg">
-                                                <rect key="frame" x="81.5" y="149" width="213" height="18"/>
+                                                <rect key="frame" x="53.5" y="165" width="213" height="18"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="18" id="68k-RD-cY1"/>
                                                 </constraints>
@@ -4721,13 +4721,13 @@ in Bandung</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UaC-TH-hCk">
-                                                <rect key="frame" x="69" y="209.5" width="42" height="20"/>
+                                                <rect key="frame" x="69" y="225.5" width="42" height="20"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aIO-dB-iKT">
-                                                <rect key="frame" x="203" y="237.5" width="164" height="168"/>
+                                                <rect key="frame" x="148" y="253.5" width="164" height="168"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n2Q-bE-wBy" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
                                                         <rect key="frame" x="62" y="8" width="41" height="32"/>
@@ -4817,7 +4817,7 @@ in Bandung</string>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OYn-oo-yqe">
-                                                <rect key="frame" x="8" y="237.5" width="164" height="168"/>
+                                                <rect key="frame" x="8" y="253.5" width="164" height="168"/>
                                                 <subviews>
                                                     <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PLw-AE-N6X" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
                                                         <rect key="frame" x="85" y="50" width="66" height="30"/>
@@ -5067,13 +5067,13 @@ in Bandung</string>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tambahan Keuntungan" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o5a-gR-8R3">
-                                                <rect key="frame" x="211" y="191" width="148" height="38.5"/>
+                                                <rect key="frame" x="156" y="207" width="148" height="38.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rp. 925.000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dmv-aY-hGC">
-                                                <rect key="frame" x="120.5" y="103" width="135" height="29"/>
+                                                <rect key="frame" x="92.5" y="119" width="135" height="29"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="29" id="vyR-KP-N3V"/>
                                                 </constraints>
@@ -5082,40 +5082,40 @@ in Bandung</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IqN-3l-TFG">
-                                                <rect key="frame" x="112.5" y="140" width="151" height="1"/>
+                                                <rect key="frame" x="84.5" y="156" width="151" height="1"/>
                                                 <color key="backgroundColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="EEX-MD-Xym"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OI0-gF-8xt">
-                                                <rect key="frame" x="8" y="375.5" width="359" height="1"/>
+                                                <rect key="frame" x="8" y="391.5" width="304" height="1"/>
                                                 <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="V38-5c-rOZ"/>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QPv-74-Qyn">
-                                                <rect key="frame" x="275" y="385.5" width="20" height="17"/>
+                                                <rect key="frame" x="220" y="401.5" width="20" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Keuntungan" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rzF-OM-w2G">
-                                                <rect key="frame" x="50" y="384.5" width="88" height="20"/>
+                                                <rect key="frame" x="50" y="400.5" width="88" height="20"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ybg-tl-nr9">
-                                                <rect key="frame" x="8" y="412.5" width="359" height="1"/>
+                                                <rect key="frame" x="8" y="428.5" width="304" height="1"/>
                                                 <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="t8M-CE-DiW"/>
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7NE-RZ-5EY">
-                                                <rect key="frame" x="16" y="421.5" width="343" height="40"/>
+                                                <rect key="frame" x="16" y="437.5" width="288" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="MVb-DF-s2C"/>
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="Xuj-6o-cbm"/>
@@ -5190,10 +5190,10 @@ in Bandung</string>
                                 </constraints>
                             </scrollView>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MYi-fo-w3T" userLabel="loadingPanel">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="1350"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="603"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="cgZ-1B-cSg">
-                                        <rect key="frame" x="177.5" y="665.5" width="20" height="20"/>
+                                        <rect key="frame" x="150.5" y="291.5" width="20" height="20"/>
                                         <color key="color" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </activityIndicatorView>
                                 </subviews>
@@ -5796,11 +5796,11 @@ in Bandung</string>
                         <viewControllerLayoutGuide type="bottom" id="8LY-jt-2f4"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="EI3-fD-ZpS">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="V8d-rW-1kl">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="603"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="8" minimumInteritemSpacing="8" id="FVZ-S0-ZdO">
                                     <size key="itemSize" width="200" height="200"/>
@@ -5810,7 +5810,7 @@ in Bandung</string>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="a3k-6q-hxH" customClass="CategoryPickerParentCell" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="88" y="8" width="200" height="200"/>
+                                        <rect key="frame" x="60" y="8" width="200" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
@@ -5849,7 +5849,7 @@ in Bandung</string>
                                 </cells>
                             </collectionView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="xGu-kv-bfE">
-                                <rect key="frame" x="178" y="45" width="20" height="20"/>
+                                <rect key="frame" x="150" y="25" width="20" height="20"/>
                                 <color key="color" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                         </subviews>
@@ -5886,11 +5886,11 @@ in Bandung</string>
                         <viewControllerLayoutGuide type="bottom" id="xcA-Ah-exn"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="hRr-9x-ECc">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="hVm-Vu-0b4">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="603"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </tableView>
                         </subviews>
@@ -5923,11 +5923,11 @@ in Bandung</string>
                         <viewControllerLayoutGuide type="bottom" id="Cyb-RE-qG0"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="rXR-i4-Jg0">
-                        <rect key="frame" x="0.0" y="64" width="384" height="603"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cap-F7-jQp">
-                                <rect key="frame" x="0.0" y="0.0" width="384" height="603"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="603"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="jEd-Vl-g58">
                                     <size key="itemSize" width="100" height="100"/>
@@ -5994,7 +5994,7 @@ in Bandung</string>
                                         </connections>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell_video" id="UfP-G8-1gO" customClass="ImagePickerCell" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="142" y="0.0" width="100" height="100"/>
+                                        <rect key="frame" x="110" y="0.0" width="100" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
@@ -6210,8 +6210,8 @@ in Bandung</string>
                 <navigationController id="6UH-60-87w" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="FKe-eU-iXE"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="384" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Yh9-w4-hby">
+                    <size key="freeformSize" width="320" height="667"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Yh9-w4-hby">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -6229,8 +6229,8 @@ in Bandung</string>
                 <navigationController id="Zs6-CV-cnh" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="EzN-qb-cmI"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="384" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="UmT-fI-NIt">
+                    <size key="freeformSize" width="320" height="667"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="UmT-fI-NIt">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -6441,7 +6441,7 @@ in Bandung</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vqc-R4-f7B">
-                                                        <rect key="frame" x="354.5" y="13" width="12.5" height="17"/>
+                                                        <rect key="frame" x="354" y="13" width="13" height="17"/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="17"/>
                                                         <color key="textColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -6497,7 +6497,7 @@ in Bandung</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BDC-LC-fXZ">
-                                                        <rect key="frame" x="354.5" y="13" width="12.5" height="17"/>
+                                                        <rect key="frame" x="354" y="13" width="13" height="17"/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="17"/>
                                                         <color key="textColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -6553,7 +6553,7 @@ in Bandung</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bk3-eX-h2g">
-                                                        <rect key="frame" x="354.5" y="13" width="12.5" height="17"/>
+                                                        <rect key="frame" x="354" y="13" width="13" height="17"/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="17"/>
                                                         <color key="textColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -6826,7 +6826,7 @@ in Bandung</string>
                         <viewControllerLayoutGuide type="bottom" id="R0O-T1-JZo"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="ti9-gR-Uiw">
-                        <rect key="frame" x="0.0" y="64" width="384" height="603"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
@@ -6842,8 +6842,8 @@ in Bandung</string>
             <objects>
                 <navigationController id="fom-l7-YmP" sceneMemberID="viewController">
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="384" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="fR0-81-R4Z">
+                    <size key="freeformSize" width="320" height="667"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="fR0-81-R4Z">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -9321,7 +9321,7 @@ in Bandung</string>
                                                             <rect key="frame" x="10" y="0.0" width="44" height="44"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fDk-jQ-LO8">
-                                                                    <rect key="frame" x="12.5" y="12.5" width="20" height="20"/>
+                                                                    <rect key="frame" x="12" y="12" width="20" height="20"/>
                                                                     <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="20"/>
                                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
@@ -11941,8 +11941,8 @@ in Bandung</string>
             <objects>
                 <navigationController id="kXu-GC-6yO" sceneMemberID="viewController">
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="384" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="LqN-or-peW">
+                    <size key="freeformSize" width="320" height="667"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="LqN-or-peW">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -11960,8 +11960,8 @@ in Bandung</string>
             <objects>
                 <navigationController storyboardIdentifier="nav" id="4EK-1x-xov" sceneMemberID="viewController">
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="384" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="qG1-zD-Zgv">
+                    <size key="freeformSize" width="320" height="667"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="qG1-zD-Zgv">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -11976,8 +11976,8 @@ in Bandung</string>
             <objects>
                 <navigationController storyboardIdentifier="ImagePicker" id="iBd-x3-ksm" customClass="BaseNavigationController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="384" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="Cas-Wj-KtM">
+                    <size key="freeformSize" width="320" height="667"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Cas-Wj-KtM">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -11995,8 +11995,8 @@ in Bandung</string>
             <objects>
                 <navigationController id="TOm-Sj-Jpp" customClass="BaseNavigationController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="384" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="XL1-Qf-WK7">
+                    <size key="freeformSize" width="320" height="667"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="XL1-Qf-WK7">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -15038,8 +15038,8 @@ in Bandung</string>
             <objects>
                 <navigationController id="cbo-nA-eDv" customClass="BaseNavigationController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="384" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="4aK-qU-qyE">
+                    <size key="freeformSize" width="320" height="667"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="4aK-qU-qyE">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -15930,13 +15930,13 @@ in Bandung</string>
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rx7-Ue-UrE">
-                                                    <rect key="frame" x="59" y="8" width="6.5" height="18"/>
+                                                    <rect key="frame" x="59" y="8" width="7" height="18"/>
                                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="18"/>
                                                     <color key="textColor" red="0.90823972230000005" green="0.92638683320000004" blue="0.93171715740000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2RL-6y-uxf" customClass="KDEDateLabel" customModule="Prelo" customModuleProvider="target">
-                                                    <rect key="frame" x="64" y="57" width="26.5" height="12"/>
+                                                    <rect key="frame" x="64" y="57" width="27" height="12"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -16041,13 +16041,13 @@ in Bandung</string>
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IWA-Ld-tSD">
-                                                    <rect key="frame" x="59" y="8" width="6.5" height="18"/>
+                                                    <rect key="frame" x="59" y="8" width="7" height="18"/>
                                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="18"/>
                                                     <color key="textColor" red="0.90823972230000005" green="0.92638683320000004" blue="0.93171715740000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gcq-mu-tp1" customClass="KDEDateLabel" customModule="Prelo" customModuleProvider="target">
-                                                    <rect key="frame" x="64" y="232" width="26.5" height="12"/>
+                                                    <rect key="frame" x="64" y="232" width="27" height="12"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -16128,13 +16128,13 @@ in Bandung</string>
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9jY-TW-TqZ">
-                                                    <rect key="frame" x="370.5" y="8" width="6.5" height="18"/>
+                                                    <rect key="frame" x="370" y="8" width="7" height="18"/>
                                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="18"/>
                                                     <color key="textColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tOC-HG-kvv" customClass="KDEDateLabel" customModule="Prelo" customModuleProvider="target">
-                                                    <rect key="frame" x="337.5" y="57" width="26.5" height="12"/>
+                                                    <rect key="frame" x="337" y="57" width="27" height="12"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -16229,13 +16229,13 @@ in Bandung</string>
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wNC-xg-mk9">
-                                                    <rect key="frame" x="371.5" y="8" width="6.5" height="18"/>
+                                                    <rect key="frame" x="371" y="8" width="7" height="18"/>
                                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="18"/>
                                                     <color key="textColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8mr-FW-l3p" customClass="KDEDateLabel" customModule="Prelo" customModuleProvider="target">
-                                                    <rect key="frame" x="337.5" y="232" width="26.5" height="12"/>
+                                                    <rect key="frame" x="337" y="232" width="27" height="12"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -16711,8 +16711,8 @@ in Bandung</string>
             <objects>
                 <navigationController id="nGb-Zs-ZJq" customClass="BaseNavigationController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="384" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="8Oy-7d-CkX">
+                    <size key="freeformSize" width="320" height="667"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="8Oy-7d-CkX">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -18354,7 +18354,7 @@ in Bandung</string>
     <inferredMetricsTieBreakers>
         <segue reference="5pQ-qG-4MR"/>
         <segue reference="dW2-MQ-HC6"/>
-        <segue reference="gU7-9Q-bxr"/>
-        <segue reference="gv4-pa-FxU"/>
+        <segue reference="W6Y-eo-D2Q"/>
+        <segue reference="cuL-Ez-B43"/>
     </inferredMetricsTieBreakers>
 </document>
