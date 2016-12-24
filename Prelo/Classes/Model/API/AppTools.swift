@@ -487,6 +487,7 @@ class MixpanelEvent {
     static let RequestedWithdrawMoney = "Requested Withdraw Money"
     static let Checkout = "Checkout"
     static let AddedProduct = "Added Product"
+    static let ChatMarkAsSold = "Chat Mark as Sold"
 }
 
 extension GAI {

@@ -1042,6 +1042,15 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 finalPrice = self.tawarItem.price
             }
             self.sendChat(4, message: "Barang ini dijual kepada \(self.tawarItem.theirName) dengan harga \(finalPrice)", image: nil)
+            
+            // Mixpanel
+            let pt = [
+                "Product Id" : self.prodId,
+                "Seller Id" : CDUser.getOne()?.id, // seller
+                "Buyer Id" : self.toId, // buyer
+                "Price" : finalPrice
+            ]
+            Mixpanel.trackEvent(MixpanelEvent.ChatMarkAsSold, properties: pt)
         }))
         self.present(alert, animated: true, completion: nil)
     }
