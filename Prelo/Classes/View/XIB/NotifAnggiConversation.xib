@@ -220,7 +220,6 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="byi-So-QCQ" firstAttribute="top" secondItem="xFr-tR-iG5" secondAttribute="top" id="1nA-U0-FQS"/>
                             <constraint firstItem="KVm-pA-tTF" firstAttribute="top" secondItem="xFr-tR-iG5" secondAttribute="top" constant="8" id="8Kf-8s-pF5"/>
@@ -232,21 +231,109 @@
                             <constraint firstAttribute="height" id="e6A-PQ-UQI"/>
                         </constraints>
                     </view>
+                    <view hidden="YES" alpha="0.75" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Hd-82-YXv" userLabel="Background Overlay">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jhg-Bc-mv0" userLabel="Overlay PopUp">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O71-Ki-bac" userLabel="PopUp">
+                                <rect key="frame" x="52" y="204" width="496" height="128"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Apakah kamu yakin menghapus pesan ini? (Aksi ini tidak bisa dibatalkan)" textAlignment="natural" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="uRI-Td-xAb">
+                                        <rect key="frame" x="16" y="16" width="464" height="56"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lrg-06-elm">
+                                        <rect key="frame" x="247.5" y="88" width="1" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="ENh-dR-iGz"/>
+                                            <constraint firstAttribute="width" constant="1" id="ftl-K9-jwc"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a6E-7p-IfZ">
+                                        <rect key="frame" x="0.0" y="88" width="247.5" height="40"/>
+                                        <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="poT-g6-15c"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="BATAL">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <state key="disabled" title="LOADING.."/>
+                                        <connections>
+                                            <action selector="btnBatalPopUpPressed:" destination="aOk-nj-kGX" eventType="touchUpInside" id="JEW-qa-DwN"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ExP-bX-8wD">
+                                        <rect key="frame" x="248.5" y="88" width="247.5" height="40"/>
+                                        <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="QiB-IO-Zfc"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="HAPUS">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <state key="disabled" title="LOADING.."/>
+                                        <connections>
+                                            <action selector="btnHapusPopUpPressed:" destination="aOk-nj-kGX" eventType="touchUpInside" id="qB1-r2-fhg"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="ExP-bX-8wD" firstAttribute="leading" secondItem="Lrg-06-elm" secondAttribute="trailing" id="1YA-1n-xMV"/>
+                                    <constraint firstAttribute="bottom" secondItem="uRI-Td-xAb" secondAttribute="bottom" constant="56" id="BnX-Le-uX5"/>
+                                    <constraint firstAttribute="bottom" secondItem="a6E-7p-IfZ" secondAttribute="bottom" id="I8R-X7-nnI"/>
+                                    <constraint firstAttribute="bottom" secondItem="ExP-bX-8wD" secondAttribute="bottom" id="Qth-ui-S7i"/>
+                                    <constraint firstItem="Lrg-06-elm" firstAttribute="leading" secondItem="a6E-7p-IfZ" secondAttribute="trailing" id="UjT-ro-jhb"/>
+                                    <constraint firstItem="uRI-Td-xAb" firstAttribute="leading" secondItem="O71-Ki-bac" secondAttribute="leading" constant="16" id="XBM-q8-hbx"/>
+                                    <constraint firstAttribute="trailing" secondItem="uRI-Td-xAb" secondAttribute="trailing" constant="16" id="fnn-qP-47s"/>
+                                    <constraint firstAttribute="trailing" secondItem="ExP-bX-8wD" secondAttribute="trailing" id="l94-lo-7gw"/>
+                                    <constraint firstItem="uRI-Td-xAb" firstAttribute="top" secondItem="O71-Ki-bac" secondAttribute="top" constant="16" id="v4S-zt-p4b"/>
+                                    <constraint firstAttribute="height" constant="128" id="yQ3-C8-g6E"/>
+                                    <constraint firstAttribute="bottom" secondItem="Lrg-06-elm" secondAttribute="bottom" id="zpH-Me-5RV"/>
+                                    <constraint firstItem="a6E-7p-IfZ" firstAttribute="leading" secondItem="O71-Ki-bac" secondAttribute="leading" id="zs0-AZ-9Gg"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="O71-Ki-bac" firstAttribute="leading" secondItem="jhg-Bc-mv0" secondAttribute="leading" constant="52" id="BXE-8D-cg1"/>
+                            <constraint firstAttribute="trailing" secondItem="O71-Ki-bac" secondAttribute="trailing" constant="52" id="DDt-f4-c2g"/>
+                            <constraint firstItem="Lrg-06-elm" firstAttribute="centerX" secondItem="jhg-Bc-mv0" secondAttribute="centerX" id="d1d-Ys-sys"/>
+                            <constraint firstItem="O71-Ki-bac" firstAttribute="top" secondItem="jhg-Bc-mv0" secondAttribute="top" constant="204" id="iSL-pD-GDU"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
+                    <constraint firstItem="1Hd-82-YXv" firstAttribute="leading" secondItem="qsa-hG-hX1" secondAttribute="leading" id="1LU-b7-x3n"/>
                     <constraint firstItem="qND-N9-XVk" firstAttribute="top" secondItem="dIf-KE-SW5" secondAttribute="bottom" id="2jq-18-Me6"/>
+                    <constraint firstItem="81U-ts-Clo" firstAttribute="top" secondItem="jhg-Bc-mv0" secondAttribute="bottom" id="3hv-iw-NMz"/>
                     <constraint firstAttribute="trailing" secondItem="8nN-MF-efT" secondAttribute="trailing" id="4Gp-Qa-pBw"/>
+                    <constraint firstAttribute="trailing" secondItem="1Hd-82-YXv" secondAttribute="trailing" id="8OJ-6p-Sx2"/>
                     <constraint firstItem="xFr-tR-iG5" firstAttribute="leading" secondItem="qsa-hG-hX1" secondAttribute="leading" id="EcO-9e-MLm"/>
                     <constraint firstItem="xFr-tR-iG5" firstAttribute="top" secondItem="8nN-MF-efT" secondAttribute="bottom" id="Fvt-Wo-EH5"/>
                     <constraint firstItem="byi-So-QCQ" firstAttribute="centerX" secondItem="qsa-hG-hX1" secondAttribute="centerX" id="LqL-jC-nah"/>
+                    <constraint firstItem="1Hd-82-YXv" firstAttribute="top" secondItem="qsa-hG-hX1" secondAttribute="top" id="QKT-DC-z1L"/>
+                    <constraint firstItem="jhg-Bc-mv0" firstAttribute="top" secondItem="dIf-KE-SW5" secondAttribute="bottom" id="YgM-wV-G9c"/>
                     <constraint firstItem="8nN-MF-efT" firstAttribute="leading" secondItem="qsa-hG-hX1" secondAttribute="leading" id="ZBT-XP-YEv"/>
+                    <constraint firstItem="jhg-Bc-mv0" firstAttribute="leading" secondItem="qsa-hG-hX1" secondAttribute="leading" id="aWt-sS-k5Q"/>
+                    <constraint firstAttribute="trailing" secondItem="jhg-Bc-mv0" secondAttribute="trailing" id="dyF-vT-gQn"/>
                     <constraint firstItem="qND-N9-XVk" firstAttribute="leading" secondItem="qsa-hG-hX1" secondAttribute="leading" id="hc8-6f-wA0"/>
                     <constraint firstAttribute="trailing" secondItem="qND-N9-XVk" secondAttribute="trailing" id="nJJ-jt-LgX"/>
                     <constraint firstItem="tOn-oV-giC" firstAttribute="centerX" secondItem="qsa-hG-hX1" secondAttribute="centerX" id="nir-IB-Vm3"/>
                     <constraint firstAttribute="bottom" secondItem="xFr-tR-iG5" secondAttribute="bottom" id="oiR-MY-7dL"/>
                     <constraint firstAttribute="trailing" secondItem="xFr-tR-iG5" secondAttribute="trailing" id="sHw-mA-LwT"/>
                     <constraint firstItem="8nN-MF-efT" firstAttribute="top" secondItem="qND-N9-XVk" secondAttribute="bottom" id="ul8-Iu-Ea0"/>
+                    <constraint firstAttribute="bottom" secondItem="1Hd-82-YXv" secondAttribute="bottom" id="wLK-90-3oy"/>
                 </constraints>
             </view>
             <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
@@ -254,6 +341,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <size key="freeformSize" width="600" height="600"/>
             <connections>
+                <outlet property="backgroundOverlay" destination="1Hd-82-YXv" id="Qxb-Fu-VVc"/>
                 <outlet property="bottomLoading" destination="NFh-yk-vPi" id="Vtd-87-2ZN"/>
                 <outlet property="bottomLoadingPanel" destination="vuO-xP-CVO" id="VIN-0b-j4X"/>
                 <outlet property="btnBatal" destination="EUG-kF-9gK" id="Yk1-3I-2Sm"/>
@@ -265,6 +353,7 @@
                 <outlet property="lblEmpty" destination="xo3-9M-B72" id="zHt-Z1-4P3"/>
                 <outlet property="loading" destination="Uyv-op-XON" id="QMp-MZ-PY3"/>
                 <outlet property="loadingPanel" destination="21B-ga-oMF" id="V0O-hk-fXf"/>
+                <outlet property="overlayPopUp" destination="jhg-Bc-mv0" id="sqp-hg-cwT"/>
                 <outlet property="tableView" destination="5x8-Ui-29h" id="Pfw-nl-qz6"/>
             </connections>
             <point key="canvasLocation" x="531" y="209"/>

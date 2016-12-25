@@ -192,7 +192,7 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
     func option()
     {
         let a = UIActionSheet(title: "Opsi", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil)
-        a.addButton(withTitle: "Hapus Notifikasi")
+        a.addButton(withTitle: "Hapus Pesan")
         a.addButton(withTitle: "Batal")
         a.destructiveButtonIndex = 1
         

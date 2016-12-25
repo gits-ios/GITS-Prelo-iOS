@@ -57,6 +57,10 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     @IBOutlet weak var btnBatal: UIButton!
     @IBOutlet weak var btnHapus: UIButton! // to update label with count
     
+    // for confirm delete
+    @IBOutlet weak var overlayPopUp: UIView!
+    @IBOutlet weak var backgroundOverlay: UIView!
+    
     var refreshControl : UIRefreshControl!
     var currentPage : Int = 0
     let ItemPerLoad : Int = 10
@@ -289,6 +293,38 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     
     @IBAction func btnHapusPressed(_ sender: Any) {
         // do something
+        if notifIds.count > 0 {
+            self.backgroundOverlay.isHidden = false
+            self.overlayPopUp.isHidden = false
+        } else {
+            Constant.showDialog("Perhatian", message: "Pesan wajib dipilih")
+        }
+    }
+    
+    @IBAction func btnBatalPopUpPressed(_ sender: Any) {
+        self.backgroundOverlay.isHidden = true
+        self.overlayPopUp.isHidden = true
+    }
+    
+    @IBAction func btnHapusPopUpPressed(_ sender: Any) {
+        self.backgroundOverlay.isHidden = true
+        self.overlayPopUp.isHidden = true
+        // call api
+        
+        let _ = request(APINotification.deleteNotif(notifIds: AppToolsObjC.jsonString(from: self.notifIds))).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Delete Notifications")) {
+                
+                self.refreshPage()
+                self.notifIds = []
+                self.isMacro = false
+                
+                Constant.showDialog("Hapus Pesan", message: "Pesan telah berhasil dihapus")
+            }
+        }
+        
+        
+        // messagebox --> inside success api
+//        Constant.showDialog("Hapus Pesan", message: "Pesan berhasil dihapus")
     }
     
     // MARK: - Other functions
