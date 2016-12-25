@@ -59,6 +59,8 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     
     var isToDelete : Bool = false
     
+    var notifIds : [String] = []
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -150,12 +152,25 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell : NotifAnggiConversationCell = self.tableView.dequeueReusableCell(withIdentifier: "NotifAnggiConversationCell") as? NotifAnggiConversationCell, notifications != nil, notifications!.count > (indexPath as NSIndexPath).item {
             cell.selectionStyle = .none
-            let n = notifications?[(indexPath as NSIndexPath).item]
-            cell.adapt(n!)
+            if let n = notifications?[(indexPath as NSIndexPath).item] {
+                cell.adapt(n)
             
-            if (isToDelete == true) {
-                cell.vwCheckBox.isHidden = false
-                cell.consLeadingImage.constant = 48
+                if (isToDelete == true) {
+                    cell.vwCheckBox.isHidden = false
+                    cell.consLeadingImage.constant = 48
+                    
+                    let idx = notifIds.index(of: n.id)
+                    if idx != nil {
+                        cell.lblCheckBox.isHidden = false
+                    } else {
+                        cell.lblCheckBox.isHidden = true
+                    }
+                } else {
+                    cell.vwCheckBox.isHidden = true
+                    cell.consLeadingImage.constant = 0
+                    
+                    cell.lblCheckBox.isHidden = true
+                }
             }
             
             return cell
@@ -164,31 +179,43 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.showLoading()
-        if let n = notifications?[(indexPath as NSIndexPath).item] {
-            if (!n.read) {
-                // API Migrasi
-                let _ = request(APINotification.readNotif(tab: "conversation", id: n.objectId, type: n.type.string)).responseJSON {resp in
-                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Percakapan")) {
-                        let json = JSON(resp.result.value!)
-                        let data : Bool? = json["_data"].bool
-                        if (data != nil && data == true) {
-                            self.notifications?[(indexPath as NSIndexPath).item].setRead()
-                            self.delegate?.decreaseConversationBadgeNumber()
-                            self.navigateReadNotif(n)
-                        } else {
-                            Constant.showDialog("Notifikasi - Percakapan", message: "Oops, terdapat masalah pada notifikasi")
-                            self.hideLoading()
-                        }
-                    } else {
-                        self.hideLoading()
-                    }
+        if (isToDelete) {
+            if let n = notifications?[(indexPath as NSIndexPath).item] {
+                let idx = notifIds.index(of: n.id)
+                if idx != nil {
+                    notifIds.remove(at: idx!)
+                } else {
+                    notifIds.append(n.id)
                 }
-            } else {
-                self.navigateReadNotif(n)
+                tableView.reloadData()
             }
         } else {
-            self.hideLoading()
+            self.showLoading()
+            if let n = notifications?[(indexPath as NSIndexPath).item] {
+                if (!n.read) {
+                    // API Migrasi
+                    let _ = request(APINotification.readNotif(tab: "conversation", id: n.objectId, type: n.type.string)).responseJSON {resp in
+                        if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Percakapan")) {
+                            let json = JSON(resp.result.value!)
+                            let data : Bool? = json["_data"].bool
+                            if (data != nil && data == true) {
+                                self.notifications?[(indexPath as NSIndexPath).item].setRead()
+                                self.delegate?.decreaseConversationBadgeNumber()
+                                self.navigateReadNotif(n)
+                            } else {
+                                Constant.showDialog("Notifikasi - Percakapan", message: "Oops, terdapat masalah pada notifikasi")
+                                self.hideLoading()
+                            }
+                        } else {
+                            self.hideLoading()
+                        }
+                    }
+                } else {
+                    self.navigateReadNotif(n)
+                }
+            } else {
+                self.hideLoading()
+            }
         }
     }
     

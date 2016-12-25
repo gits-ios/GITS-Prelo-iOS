@@ -59,6 +59,8 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     
     var isToDelete : Bool = false
     
+    var notifIds : [String] = []
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -150,13 +152,26 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell : NotifAnggiTransactionCell = self.tableView.dequeueReusableCell(withIdentifier: "NotifAnggiTransactionCell") as? NotifAnggiTransactionCell, notifications != nil, notifications!.count > (indexPath as NSIndexPath).item {
             cell.selectionStyle = .none
-            let n = notifications?[(indexPath as NSIndexPath).item]
-            cell.adapt(n!, idx: (indexPath as NSIndexPath).item)
-            cell.delegate = self
-            
-            if (isToDelete == true) {
-                cell.vwCheckBox.isHidden = false
-                cell.consLeadingImage.constant = 48
+            if let n = notifications?[(indexPath as NSIndexPath).item] {
+                cell.adapt(n, idx: (indexPath as NSIndexPath).item)
+                cell.delegate = self
+                
+                if (isToDelete == true) {
+                    cell.vwCheckBox.isHidden = false
+                    cell.consLeadingImage.constant = 48
+                    
+                    let idx = notifIds.index(of: n.id)
+                    if idx != nil {
+                        cell.lblCheckBox.isHidden = false
+                    } else {
+                        cell.lblCheckBox.isHidden = true
+                    }
+                } else {
+                    cell.vwCheckBox.isHidden = true
+                    cell.consLeadingImage.constant = 0
+                    
+                    cell.lblCheckBox.isHidden = true
+                }
             }
             
             return cell
@@ -165,7 +180,19 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.readNotif((indexPath as NSIndexPath).item)
+        if (isToDelete) {
+            if let n = notifications?[(indexPath as NSIndexPath).item] {
+                let idx = notifIds.index(of: n.id)
+                if idx != nil {
+                    notifIds.remove(at: idx!)
+                } else {
+                    notifIds.append(n.id)
+                }
+                tableView.reloadData()
+            }
+        } else {
+            self.readNotif((indexPath as NSIndexPath).item)
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
