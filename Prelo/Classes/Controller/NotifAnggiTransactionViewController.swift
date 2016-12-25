@@ -311,12 +311,17 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         self.overlayPopUp.isHidden = true
         // call api
         
-        let _ = request(APINotification.deleteNotif(notifIds: AppToolsObjC.jsonString(from: self.notifIds))).responseJSON { resp in
+        let _ = request(APINotification.deleteNotif(tab: "transaction", notifIds: AppToolsObjC.jsonString(from: self.notifIds))).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Delete Notifications")) {
                 
                 self.refreshPage()
                 self.notifIds = []
                 self.isMacro = false
+                
+                self.isToDelete = false
+                self.consHeightCheckBoxAll.constant = 0
+                self.lblCheckBox.isHidden = true
+                self.consHeightButtonView.constant = 0
                 
                 Constant.showDialog("Hapus Pesan", message: "Pesan telah berhasil dihapus")
             }
