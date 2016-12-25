@@ -1508,7 +1508,9 @@ class ListItemCell : UICollectionViewCell {
             captionMyLove.text = ""
         }
         
-        if (User.IsLoggedIn == true && self.sid != CDUser.getOne()?.id) {
+        let myId = CDUser.getOne()?.id
+        if (User.IsLoggedIn == true && (self.sid != myId)) {
+            btnLove.isHidden = false
             var const : CGFloat = CGFloat(30)
             
             if listStage == 1 && AppTools.isIPad == false {
