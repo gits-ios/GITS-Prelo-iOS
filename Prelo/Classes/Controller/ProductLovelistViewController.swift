@@ -21,7 +21,7 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
     @IBOutlet var lblPrice: UILabel!
     @IBOutlet var lblTime: UILabel!
     @IBOutlet var tblLovers: UITableView!
-//    var refreshControl : UIRefreshControl!
+    var refreshControl : UIRefreshControl!
     
     @IBOutlet weak var loadingPanel: UIView!
     
@@ -44,11 +44,11 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
         let productLovelistCellNib = UINib(nibName: "ProductLovelistCell", bundle: nil)
         tblLovers.register(productLovelistCellNib, forCellReuseIdentifier: "ProductLovelistCell")
 
-        // Refresh control
-//        self.refreshControl = UIRefreshControl()
-//        self.refreshControl.tintColor = Theme.PrimaryColor
-//        self.refreshControl.addTarget(self, action: #selector(ProductLovelistViewController.refreshTable), for: UIControlEvents.valueChanged)
-//        self.tblLovers.addSubview(refreshControl)
+//         Refresh control
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.tintColor = Theme.PrimaryColor
+        self.refreshControl.addTarget(self, action: #selector(ProductLovelistViewController.refreshTable), for: UIControlEvents.valueChanged)
+        self.tblLovers.addSubview(refreshControl)
         
         // Set title
 //        self.title = "Product Lovelist"
@@ -104,7 +104,7 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
             }
             
             // Hide refresh control
-//            self.refreshControl.endRefreshing()
+            self.refreshControl.endRefreshing()
             self.hideLoading()
             
             // Setup table
