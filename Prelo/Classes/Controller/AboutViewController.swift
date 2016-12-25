@@ -101,8 +101,11 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         a.show()
     }
     
-    @IBAction func clearCache()
-    {
+    @IBAction func clearCache() {
+        toClearCache(isButton: true)
+    }
+    
+    func toClearCache(isButton : Bool) {
         disableBtnClearCache()
         //UIImageView.sharedImageCache().clearAll()
         
@@ -121,7 +124,9 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Clear Cache")) {
                 self.enableBtnClearCache()
                 
-                UIAlertView.SimpleShow("Clear Cache", message: "Clear Cache telah berhasil")
+                if isButton {
+                    Constant.showDialog("Clear Cache", message: "Clear Cache telah berhasil")
+                }
             } else {
                 self.enableBtnClearCache()
             }
@@ -130,6 +135,9 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
     
     @IBAction func logout()
     {
+        // Clear Cache --> for handling login another account
+        toClearCache(isButton: false)
+        
         // Remove deviceRegId so the device won't receive push notification
         LoginViewController.SendDeviceRegId()
         
