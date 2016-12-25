@@ -212,10 +212,14 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
             if (activeTab == 0) { // Transaction
 //                Constant.showDialog("Hapus Notifikasi", message: "Transaksi")
                 self.notifAnggiTransactionVC?.isToDelete = true
+                self.notifAnggiTransactionVC?.consHeightCheckBoxAll.constant = 56
+                self.notifAnggiTransactionVC?.consHeightButtonView.constant = 56
                 self.notifAnggiTransactionVC?.tableView.reloadData()
             } else { // Conversation
 //                Constant.showDialog("Hapus Notifikasi", message: "Percakapan")
                 self.notifAnggiConversationVC?.isToDelete = true
+                self.notifAnggiConversationVC?.consHeightCheckBoxAll.constant = 56
+                self.notifAnggiConversationVC?.consHeightButtonView.constant = 56
                 self.notifAnggiConversationVC?.tableView.reloadData()
             }
         }

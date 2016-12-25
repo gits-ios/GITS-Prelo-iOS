@@ -31,7 +31,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="0.0"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MBO-94-WOL">
-                                <rect key="frame" x="16" y="22" width="20" height="20"/>
+                                <rect key="frame" x="16" y="16" width="20" height="20"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lYB-j4-FLf">
                                         <rect key="frame" x="1" y="1" width="18" height="18"/>
@@ -82,7 +82,7 @@
                         </subviews>
                         <constraints>
                             <constraint firstItem="bd8-ga-Xfx" firstAttribute="top" secondItem="l5J-Z8-zVq" secondAttribute="top" id="0SR-b9-xDc"/>
-                            <constraint firstItem="MBO-94-WOL" firstAttribute="top" secondItem="l5J-Z8-zVq" secondAttribute="top" constant="22" id="0hi-oJ-OPh"/>
+                            <constraint firstItem="MBO-94-WOL" firstAttribute="top" secondItem="l5J-Z8-zVq" secondAttribute="top" constant="16" id="0hi-oJ-OPh"/>
                             <constraint firstAttribute="trailing" secondItem="bd8-ga-Xfx" secondAttribute="trailing" id="1Fy-LI-SuG"/>
                             <constraint firstAttribute="bottom" secondItem="6Hd-hb-THH" secondAttribute="bottom" id="4cQ-G3-w0J"/>
                             <constraint firstAttribute="trailing" secondItem="RDc-sD-K0u" secondAttribute="trailing" id="Wy0-t6-4hj"/>

@@ -48,6 +48,15 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     @IBOutlet weak var bottomLoadingPanel: UIView!
     @IBOutlet weak var bottomLoading: UIActivityIndicatorView!
     
+    
+    // for delete notif
+    @IBOutlet weak var consHeightCheckBoxAll: NSLayoutConstraint! // default : 0 --> 64
+    @IBOutlet weak var lblCheckBox: UILabel! // default : hidden
+    
+    @IBOutlet weak var consHeightButtonView: NSLayoutConstraint! // default : 0 --> 56
+    @IBOutlet weak var btnBatal: UIButton!
+    @IBOutlet weak var btnHapus: UIButton! // to update label with count
+    
     var refreshControl : UIRefreshControl!
     var currentPage : Int = 0
     let ItemPerLoad : Int = 10
@@ -60,6 +69,8 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     var isToDelete : Bool = false
     
     var notifIds : [String] = []
+    
+    var isMacro : Bool = false
     
     // MARK: - Init
     
@@ -87,6 +98,12 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         // Transparent panel
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
         bottomLoadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+        
+        btnBatal.layer.borderWidth = 1
+        btnBatal.layer.borderColor = UIColor.white.cgColor
+        
+        btnHapus.layer.borderWidth = 1
+        btnHapus.layer.borderColor = UIColor.white.cgColor
     }
     
     func refreshPage() {
@@ -134,6 +151,14 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
             // Hide refreshControl (for refreshing)
             self.refreshControl.endRefreshing()
             
+            if self.isMacro {
+                self.notifIds = []
+                for idx in 0...(self.notifications?.count)!-1 {
+                    self.notifIds.append(self.notifications![idx].id)
+                }
+                self.tableView.reloadData()
+            }
+            
             // Show content
             self.showContent()
         }
@@ -155,7 +180,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
             if let n = notifications?[(indexPath as NSIndexPath).item] {
                 cell.adapt(n)
             
-                if (isToDelete == true) {
+                if isToDelete {
                     cell.vwCheckBox.isHidden = false
                     cell.consLeadingImage.constant = 48
                     
@@ -165,6 +190,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                     } else {
                         cell.lblCheckBox.isHidden = true
                     }
+                    self.btnHapus.setTitle("HAPUS (" + notifIds.count.string + ")",for: .normal)
                 } else {
                     cell.vwCheckBox.isHidden = true
                     cell.consLeadingImage.constant = 0
@@ -248,6 +274,37 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     
     @IBAction func refreshPressed(_ sender: AnyObject) {
         self.refreshPage()
+    }
+    
+    @IBAction func btnCheckBoxAllPressed(_ sender: Any) {
+        if (isMacro) {
+            self.lblCheckBox.isHidden = true
+            self.isMacro = false
+            self.notifIds = []
+            self.tableView.reloadData()
+
+        } else {
+            self.lblCheckBox.isHidden = false
+            self.isMacro = true
+            self.notifIds = []
+            for idx in 0...(self.notifications?.count)!-1 {
+                notifIds.append(self.notifications![idx].id)
+            }
+            self.tableView.reloadData()
+        }
+    }
+    
+    @IBAction func btnBatalPressed(_ sender: Any) {
+        self.isToDelete = false
+        self.consHeightCheckBoxAll.constant = 0
+        self.lblCheckBox.isHidden = true
+        self.consHeightButtonView.constant = 0
+        self.notifIds = []
+        self.tableView.reloadData()
+    }
+    
+    @IBAction func btnHapusPressed(_ sender: Any) {
+        // do something
     }
     
     // MARK: - Other functions
