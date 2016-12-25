@@ -159,6 +159,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
                 if (isToDelete == true) {
                     cell.vwCheckBox.isHidden = false
                     cell.consLeadingImage.constant = 48
+                    cell.vwOverlay.isHidden = false
                     
                     let idx = notifIds.index(of: n.id)
                     if idx != nil {
@@ -171,6 +172,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
                     cell.consLeadingImage.constant = 0
                     
                     cell.lblCheckBox.isHidden = true
+                    cell.vwOverlay.isHidden = true
                 }
             }
             
@@ -397,6 +399,7 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
     @IBOutlet weak var consLeadingImage: NSLayoutConstraint! // default : 0 --> 48
     @IBOutlet weak var vwCheckBox: UIView! // default : hidden
     @IBOutlet weak var lblCheckBox: UILabel! // default : hidden
+    @IBOutlet weak var vwOverlay: UIView! // default : hidden
     
     
     var notif : NotificationObj?

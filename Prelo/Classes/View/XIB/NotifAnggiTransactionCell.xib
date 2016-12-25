@@ -147,6 +147,7 @@
                                 <rect key="frame" x="0.0" y="44" width="240" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="vEF-eb-U5A"/>
+                                    <constraint firstAttribute="width" constant="240" id="wLl-UD-aWP"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="3" id="JNS-RB-HiV">
                                     <size key="itemSize" width="25" height="25"/>
@@ -155,6 +156,12 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                             </collectionView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="asX-fV-PV4">
+                                <rect key="frame" x="0.0" y="44" width="240" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="z0X-sr-cVS"/>
+                                </constraints>
+                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000 tahun lamanya" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o9B-8h-yac">
                                 <rect key="frame" x="126" y="28" width="114" height="16"/>
                                 <constraints>
@@ -180,10 +187,12 @@
                             <constraint firstItem="sXX-bf-YId" firstAttribute="top" secondItem="Hu1-1d-FwL" secondAttribute="bottom" id="5XG-wG-wQ1"/>
                             <constraint firstAttribute="trailing" secondItem="o9B-8h-yac" secondAttribute="trailing" id="HE8-8O-DkO"/>
                             <constraint firstAttribute="height" constant="74" id="JC5-hQ-Nw9"/>
-                            <constraint firstAttribute="trailing" secondItem="hT4-ZC-EwU" secondAttribute="trailing" id="KJv-Fz-p2Q"/>
                             <constraint firstItem="YbN-Qq-9L9" firstAttribute="top" secondItem="VCl-bp-ctv" secondAttribute="top" constant="8" id="PEG-o3-YR3"/>
                             <constraint firstAttribute="trailing" secondItem="Hu1-1d-FwL" secondAttribute="trailing" id="ViC-3J-Dlp"/>
                             <constraint firstItem="sXX-bf-YId" firstAttribute="leading" secondItem="VCl-bp-ctv" secondAttribute="leading" id="X9j-Xs-VbL"/>
+                            <constraint firstAttribute="trailing" secondItem="asX-fV-PV4" secondAttribute="trailing" id="XUl-wc-n1U"/>
+                            <constraint firstItem="asX-fV-PV4" firstAttribute="leading" secondItem="VCl-bp-ctv" secondAttribute="leading" id="bXc-zU-ogO"/>
+                            <constraint firstItem="asX-fV-PV4" firstAttribute="top" secondItem="sXX-bf-YId" secondAttribute="bottom" id="c3A-SH-e17"/>
                             <constraint firstItem="hT4-ZC-EwU" firstAttribute="top" secondItem="o9B-8h-yac" secondAttribute="bottom" id="fh3-8a-ylg"/>
                             <constraint firstItem="hT4-ZC-EwU" firstAttribute="leading" secondItem="VCl-bp-ctv" secondAttribute="leading" id="iQZ-Nv-vX9"/>
                             <constraint firstItem="Hu1-1d-FwL" firstAttribute="leading" secondItem="YbN-Qq-9L9" secondAttribute="trailing" constant="8" id="maC-Ld-FUv"/>
@@ -218,6 +227,7 @@
                 <outlet property="vwCaption" destination="5pd-XN-CiB" id="h4c-wt-hzD"/>
                 <outlet property="vwCheckBox" destination="eVQ-YP-ZUd" id="j5g-ib-l4W"/>
                 <outlet property="vwDoubleImage" destination="52V-yI-kOq" id="gGl-N9-zex"/>
+                <outlet property="vwOverlay" destination="asX-fV-PV4" id="hj7-lO-hnP"/>
                 <outlet property="vwSingleImage" destination="9py-E7-tK4" id="FLS-fc-OIM"/>
             </connections>
             <point key="canvasLocation" x="215" y="264.5"/>
