@@ -188,6 +188,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
+        /**
+         * HOTLINE
+         * 1
+         **/
+        let config = HotlineConfig.init(appID: "aa37ac74-0ad1-4450-856e-136e59a810c9", andAppKey: "d66d7946-557f-44ef-96c1-9f27585a94fc")
+        Hotline.sharedInstance().initWith(config)
+        
+        /* Enable remote notifications */
+//        let settings = UIUserNotificationSettings(forTypes: [.alert, .badge, .sound], categories: nil)
+        UIApplication.shared.registerUserNotificationSettings(settings)
+        UIApplication.shared.registerForRemoteNotifications()
+        
+        
+        if Hotline.sharedInstance().isHotlineNotification(launchOptions){
+            Hotline.sharedInstance().handleRemoteNotification(launchOptions, andAppstate: application.applicationState)
+        }
+        
         // Handling facebook deferred deep linking
         // Kepanggil hanya jika app baru saja dibuka, jika dibuka ketika sedang dalam background mode maka tidak terpanggil
         if let launchURL = launchOptions?[UIApplicationLaunchOptionsKey.url] as? URL {
@@ -355,6 +372,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
+        
+        /**
+         * HOTLINE
+         * 3
+         **/
+        Hotline.sharedInstance().updateDeviceToken(deviceToken)
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -377,6 +400,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("App were active when receiving remote notification")
         } else {
             print("App weren't active when receiving remote notification")
+        }
+        
+        /**
+         * HOTLINE
+         * 4
+         **/
+        if Hotline.sharedInstance().isHotlineNotification(userInfo){
+            Hotline.sharedInstance().handleRemoteNotification(userInfo, andAppstate: application.applicationState)
         }
     }
     
@@ -420,6 +451,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // MoEngage
         MoEngage.sharedInstance().applicationBecameActiveinApplication(application)
+        
+        /**
+         * HOTLINE
+         * 2
+         **/
+        let unreadCount : NSInteger = Hotline.sharedInstance().unreadCount()
+        UIApplication.shared.applicationIconBadgeNumber = unreadCount
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
@@ -1099,4 +1137,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
+    
 }
