@@ -1469,6 +1469,8 @@ class ListItemCell : UICollectionViewCell {
         imgReserved.isHidden = true
         imgFeatured.isHidden = true
         imgFreeOngkir.isHidden = true
+        btnTawar.isHidden = true
+        btnLove.isHidden = true
     }
     
     func adapt(_ product : Product, listStage : Int) {

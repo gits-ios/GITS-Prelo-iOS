@@ -103,11 +103,11 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
         bottomLoadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
         
-        btnBatal.layer.borderWidth = 1
-        btnBatal.layer.borderColor = UIColor.white.cgColor
-        
-        btnHapus.layer.borderWidth = 1
-        btnHapus.layer.borderColor = UIColor.white.cgColor
+//        btnBatal.layer.borderWidth = 1
+//        btnBatal.layer.borderColor = UIColor.white.cgColor
+//        
+//        btnHapus.layer.borderWidth = 1
+//        btnHapus.layer.borderColor = UIColor.white.cgColor
     }
     
     func refreshPage() {
