@@ -1800,7 +1800,7 @@ class CartCellItem : UITableViewCell
             let sellerLocationID = json["seller_region"].stringValue
             if let regionName = CDRegion.getRegionNameWithID(sellerLocationID)
             {
-                self.captionFrom?.text = "Dikirim dari " + regionName
+                self.captionFrom?.text = "Dari " + regionName
             } else
             {
                 self.captionFrom?.text = ""
@@ -1845,7 +1845,7 @@ class CartCellItem : UITableViewCell
             let sellerLocationID = json["seller_region"].stringValue
             if let regionName = CDRegion.getRegionNameWithID(sellerLocationID)
             {
-                self.captionFrom?.text = "Dikirim dari " + regionName
+                self.captionFrom?.text = "Dari " + regionName
             } else
             {
                 self.captionFrom?.text = ""

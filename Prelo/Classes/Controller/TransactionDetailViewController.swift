@@ -2343,7 +2343,7 @@ class TransactionDetailTools : NSObject {
     static let TextHubungiBuyer = "Beritahu pembeli bahwa barang sudah dikirim. Minta pembeli untuk memberikan review apabila barang sudah diterima."
     static let TextDikembalikan = "Pembayaran barang ini telah dikembalikan kepada pembeli."
     static let TextReimburse1 = "Mohon maaf, pesanan kamu tidak bisa dikirim karena keterbatasan pada penjual. Jangan khawatir, pembayaranmu telah disimpan dalam bentuk:"
-    static let TextReimburse2 = "Kamu dapat menggunakannya untuk transaksi selanjutnya atau tarik uang PreloBalance."
+    static let TextReimburse2 = "Kamu dapat menggunakannya untuk transaksi selanjutnya atau tarik uang Prelo Balance."
     static let TextNotPaid = "Transaksi ini belum dibayar dan akan expired pada "
     static let TextNotPaidSeller = "Ingatkan pembeli untuk segera membayar."
     static let TextNotPaidBuyerTransfer = "Segera konfirmasi pembayaran."
