@@ -1025,6 +1025,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                             self.conHeightSize.constant = 0
                             self.sizePicker.superview?.isHidden = true
                         }
+                    } else
+                    {
+                        self.conHeightSize.constant = 0
+                        self.sizePicker.superview?.isHidden = true
                     }
                 } else
                 {
