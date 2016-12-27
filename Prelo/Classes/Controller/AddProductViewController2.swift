@@ -120,9 +120,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         captionImagesMakeSure.numberOfLines = 0
         captionImagesMakeSureFake.numberOfLines = 0
         
-        let makeSureText = "Pastikan orientasi preview foto diatas sudah tegak"
+        let makeSureText = "Pastikan orientasi foto-foto di atas sudah tegak"
         let attMakeSureText = NSMutableAttributedString(string: makeSureText)
-        attMakeSureText.addAttributes([NSFontAttributeName:UIFont.italicSystemFont(ofSize: 14)], range: (makeSureText as NSString).range(of: "preview"))
+//        attMakeSureText.addAttributes([NSFontAttributeName:UIFont.italicSystemFont(ofSize: 14)], range: (makeSureText as NSString).range(of: "preview"))
         
         captionImagesMakeSure.attributedText = attMakeSureText
         captionImagesMakeSureFake.attributedText = attMakeSureText
