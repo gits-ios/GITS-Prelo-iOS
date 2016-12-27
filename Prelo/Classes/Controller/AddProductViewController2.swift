@@ -1314,6 +1314,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             }
         }
         
+        
+        
         if (imageViews[0].image == nil) // Main image
         {
             UIAlertView.SimpleShow("Perhatian", message: "Gambar utama tidak boleh kosong")
@@ -1393,7 +1395,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         // Compress images
         for i in 0...images.count - 1 {
             if let img = images[i] as? UIImage {
-                if (img.size.width * img.scale < 480 || img.size.height * img.scale < 480) {
+                if (img.size.width * img.scale < 640 || img.size.height * img.scale < 640 || img.size.width * img.scale > 2048 || img.size.height * img.scale > 2048) { // 480 --> 640 -> 2048
                     var imgType = ""
                     if (i == 0) {
                         imgType = "Gambar Utama"
@@ -1406,7 +1408,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     } else if (i == 4) {
                         imgType = "Gambar Cacat"
                     }
-                    UIAlertView.SimpleShow("Perhatian", message: "\(imgType) tidak boleh lebih kecil dari 480x480 px")
+                    UIAlertView.SimpleShow("Perhatian", message: "\(imgType) tidak boleh lebih kecil dari 640x640 px dan lebih besar dari 2048x2048 px")
                     return
                 }
             }
