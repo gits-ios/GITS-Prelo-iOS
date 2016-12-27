@@ -1605,6 +1605,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     func createTableTitleContentsCell(_ titleContentType : String) -> TransactionDetailTableCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailTableCellId) as! TransactionDetailTableCell
         
+        cell.root = self
+        
         // Adapt cell
         if (self.progress == TransactionDetailTools.ProgressExpired || self.progress == TransactionDetailTools.ProgressNotPaid || self.progress == TransactionDetailTools.ProgressClaimedPaid || self.progress == TransactionDetailTools.ProgressFraudDetected) {
             if (trxDetail != nil) {
@@ -2425,6 +2427,8 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
     var toProductDetail : (String) -> () = { _ in }
     var switchDetailProduct : (Int) -> () = { _ in }
     
+    var root : UIViewController?
+    
     static func heightForProducts(_ hideProductCell : [Bool]) -> CGFloat {
         var height : CGFloat = 0
         for i in 0...hideProductCell.count - 1 {
@@ -2468,6 +2472,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingName)
             }
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.resiNumber)
+            height += TransactionDetailTitleContentCell.heightFor("Lihat foto resiœ")
             if trxDetail.isShowShipHistory {
                 if let msg = trxDetail.shipHistoryMsg {
                     height += TransactionDetailTitleContentHeaderCell.heightFor(msg)
@@ -2496,6 +2501,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             }
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.requestCourier, image: image)
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.resiNumber)
+            height += TransactionDetailTitleContentCell.heightFor("Lihat foto resiœ")
             if trxDetail.isShowShipHistory {
                 if let msg = trxDetail.shipHistoryMsg {
                     height += TransactionDetailTitleContentHeaderCell.heightFor(msg)
@@ -2552,6 +2558,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingName)
             }
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.resiNumber)
+            height += TransactionDetailTitleContentCell.heightFor("Lihat foto resiœ")
             if trxProductDetail.isShowShipHistory {
                 if let msg = trxProductDetail.shipHistoryMsg {
                     height += TransactionDetailTitleContentHeaderCell.heightFor(msg)
@@ -2580,6 +2587,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             }
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.requestCourier, image: image)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.resiNumber)
+            height += TransactionDetailTitleContentCell.heightFor("Lihat foto resiœ")
             if trxProductDetail.isShowShipHistory {
                 if let msg = trxProductDetail.shipHistoryMsg {
                     height += TransactionDetailTitleContentHeaderCell.heightFor(msg)
@@ -2652,7 +2660,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
                 return 2
             } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanBuyer) {
-                var nRow = 8
+                var nRow = 9
                 if (isTrxDetail()) {
                     if trxDetail!.isShowShipHistory {
                         nRow += 1
@@ -2666,7 +2674,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 }
                 return nRow
             } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanSeller) {
-                var nRow = 9
+                var nRow = 10
                 if (isTrxDetail()) {
                     if trxDetail!.isShowShipHistory {
                         nRow += 1
@@ -2904,6 +2912,8 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.resiNumber)
                     }
                 } else if (idx == 8) {
+                    return TransactionDetailTitleContentCell.heightFor("Lihat foto resiœ")
+                } else if (idx == 9) {
                     if (isTrxDetail()) {
                         if let msg = trxDetail!.shipHistoryMsg {
                             return TransactionDetailTitleContentHeaderCell.heightFor(msg)
@@ -2917,11 +2927,11 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                             return TransactionDetailTitleContentHeaderCell.DefaultCellHeight
                         }
                     }
-                } else if (idx > 8) {
+                } else if (idx > 9) {
                     if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shipHistory[idx - 9].date, content: trxDetail!.shipHistory[idx - 9].status)
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shipHistory[idx - 10].date, content: trxDetail!.shipHistory[idx - 10].status)
                     } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shipHistory[idx - 9].date, content: trxProductDetail!.shipHistory[idx - 9].status)
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shipHistory[idx - 10].date, content: trxProductDetail!.shipHistory[idx - 10].status)
                     }
                 }
             } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanSeller) {
@@ -2994,6 +3004,8 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.resiNumber)
                     }
                 } else if (idx == 9) {
+                    return TransactionDetailTitleContentCell.heightFor("Lihat foto resiœ")
+                } else if (idx == 10) {
                     if (isTrxDetail()) {
                         if let msg = trxDetail!.shipHistoryMsg {
                             return TransactionDetailTitleContentHeaderCell.heightFor(msg)
@@ -3007,11 +3019,11 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                             return TransactionDetailTitleContentHeaderCell.DefaultCellHeight
                         }
                     }
-                } else if (idx > 9) {
+                } else if (idx > 10) {
                     if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shipHistory[idx - 9].date, content: trxDetail!.shipHistory[idx - 9].status)
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shipHistory[idx - 11].date, content: trxDetail!.shipHistory[idx - 11].status)
                     } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shipHistory[idx - 9].date, content: trxProductDetail!.shipHistory[idx - 9].status)
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shipHistory[idx - 11].date, content: trxProductDetail!.shipHistory[idx - 11].status)
                     }
                 }
             } else if (titleContentType == TransactionDetailTools.TitleContentReimburse) {
@@ -3352,6 +3364,14 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     }
                     return self.createTitleContentCell("Nomor Resi", content: content)
                 } else if (idx == 8) {
+                    var content = "Lihat foto resiœ"
+                    if (isTrxDetail()) {
+                        content += trxDetail!.resiPhotoUrl
+                    } else if (isTrxProductDetail()) {
+                        content += trxProductDetail!.resiPhotoUrl
+                    }
+                    return self.createTitleContentCell("", content: content)
+                } else if (idx == 9) {
                     var msg : String?
                     if (isTrxDetail()) {
                         msg = trxDetail!.shipHistoryMsg
@@ -3359,7 +3379,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         msg = trxProductDetail!.shipHistoryMsg
                     }
                     return self.createTitleContentHeaderCellShipHistory(msg)
-                } else if (idx > 8) {
+                } else if (idx > 9) {
                     var date = ""
                     var status = ""
                     if (isTrxDetail()) {
@@ -3457,6 +3477,14 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     }
                     return self.createTitleContentCell("Nomor Resi", content: content)
                 } else if (idx == 9) {
+                    var content = "Lihat foto resiœ"
+                    if (isTrxDetail()) {
+                        content += trxDetail!.resiPhotoUrl
+                    } else if (isTrxProductDetail()) {
+                        content += trxProductDetail!.resiPhotoUrl
+                    }
+                    return self.createTitleContentCell("", content: content)
+                } else if (idx == 10) {
                     var msg : String?
                     if (isTrxDetail()) {
                         msg = trxDetail!.shipHistoryMsg
@@ -3464,7 +3492,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         msg = trxProductDetail!.shipHistoryMsg
                     }
                     return self.createTitleContentHeaderCellShipHistory(msg)
-                } else if (idx > 9) {
+                } else if (idx > 10) {
                     var date = ""
                     var status = ""
                     if (isTrxDetail()) {
@@ -3549,6 +3577,8 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         
         // Adapt cell
         cell.adapt(title, content: content)
+        
+        cell.root = self.root!
         
         return cell
     }
@@ -4060,6 +4090,8 @@ class TransactionDetailTitleContentCell : UITableViewCell {
     var tapUrl : String = ""
     var textToCopy : String = ""
     
+    var root : UIViewController?
+    
     override func prepareForReuse() {
         consWidthLblTitle.constant = 130
         consLeadingLblContent.constant = 8
@@ -4097,18 +4129,43 @@ class TransactionDetailTitleContentCell : UITableViewCell {
         }
     }
     
+    func tapFunction2(sender:MyTapGestureRecognizer) {
+        if let url = sender.headline {
+            if url != "" {
+                let c = CoverZoomController()
+                c.labels = ["foto resi"]
+                c.images = [url]
+                c.index = 0
+                self.root!.navigationController?.present(c, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    func formatURL(loc:String) -> Array<String> {
+        // Create a NSCharacterSet of delimiters.
+        let separators = NSCharacterSet(charactersIn: "œ")
+        // Split based on characters.
+        return loc.components(separatedBy: separators as CharacterSet)
+    }
+    
     func adapt(_ title : String, content : String) {
         self.lblTitle.text = title
         if (content.isEmpty) {
             self.lblContent.text = "-"
         } else {
-            self.lblContent.text = content
+            self.lblContent.text = content.contains("Lihat foto resiœ") ? "Lihat foto resi" : content
             
             if title == "Nomor Resi" {
                 self.lblContent.isUserInteractionEnabled = true
                 self.lblContent.textColor = UIColor.blue
                 let tap = MyTapGestureRecognizer(target: self, action: #selector(TransactionDetailTitleContentCell.tapFunction))
                 tap.headline = content
+                self.lblContent.addGestureRecognizer(tap)
+            } else if title == "" && content.contains("Lihat foto resiœ") == true {
+                self.lblContent.isUserInteractionEnabled = true
+                self.lblContent.textColor = UIColor.blue
+                let tap = MyTapGestureRecognizer(target: self, action: #selector(TransactionDetailTitleContentCell.tapFunction2))
+                tap.headline = formatURL(loc: content)[1]
                 self.lblContent.addGestureRecognizer(tap)
             }
         }

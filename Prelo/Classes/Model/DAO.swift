@@ -1734,6 +1734,13 @@ class TransactionDetail : NSObject {
         return ""
     }
     
+    var resiPhotoUrl : String {
+        if let j = json["resi_photo_url"].string {
+            return j
+        }
+        return ""
+    }
+    
     func isBuyer(_ compareId : String) -> Bool
     {
         if let buyerId = json["buyer_id"].string {
@@ -2031,6 +2038,13 @@ class TransactionProductDetail : NSObject {
         } else {
             return ""
         }
+    }
+    
+    var resiPhotoUrl : String {
+        if let j = json["resi_photo_url"].string {
+            return j
+        }
+        return ""
     }
     
     var shippingDate : String {
