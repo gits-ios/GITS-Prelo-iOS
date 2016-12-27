@@ -121,6 +121,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var shopId = ""
     var shopName = ""
     var shopHeader : StoreHeader?
+    var shopAvatar : URL?
     // For segment mode
     var segments : [SegmentItem] = []
     var selectedSegment : String = ""
@@ -593,7 +594,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.shopHeader?.captionName.text = self.shopName
                 self.title = self.shopName
                 let avatarThumbnail = json["profile"]["pict"].stringValue
-                self.shopHeader?.avatar.afSetImage(withURL: URL(string: avatarThumbnail)!)
+                self.shopAvatar = URL(string: avatarThumbnail)!
+                self.shopHeader?.avatar.afSetImage(withURL: self.shopAvatar!)
                 let avatarFull = avatarThumbnail.replacingOccurrences(of: "thumbnails/", with: "", options: NSString.CompareOptions.literal, range: nil)
                 self.shopHeader?.avatarUrls.append(avatarFull)
                 
@@ -879,7 +881,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             let cell : ListItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ListItemCell
             if (products?.count > (indexPath as NSIndexPath).item) {
                 let p = products?[(indexPath as NSIndexPath).item]
-                cell.adapt(p!, listStage: self.listStage)
+                cell.adapt(p!, listStage: self.listStage, currentMode: self.currentMode, shopAvatar: self.shopAvatar)
             }
             if (currentMode == .featured) {
                 // Hide featured ribbon
@@ -1473,7 +1475,7 @@ class ListItemCell : UICollectionViewCell {
         btnLove.isHidden = true
     }
     
-    func adapt(_ product : Product, listStage : Int) {
+    func adapt(_ product : Product, listStage : Int, currentMode : ListItemMode, shopAvatar : URL?) {
         let obj = product.json
         captionTitle.text = product.name
         captionPrice.text = product.price
@@ -1491,6 +1493,17 @@ class ListItemCell : UICollectionViewCell {
         avatar.layer.cornerRadius = avatar.bounds.width / 2
         avatar.layer.masksToBounds = true
         
+        // if without special story still using profpic
+//        sectionSpecialStory.isHidden = false
+//        captionSpecialStory.text = ""
+//        
+//        if (product.specialStory == nil || product.specialStory == "") {
+//            sectionSpecialStory.backgroundColor = UIColor.clear
+//        } else {
+//            sectionSpecialStory.backgroundColor = UIColor.darkGray.alpha(0.65) // darkgray transparent
+//            captionSpecialStory.text = "\"\(product.specialStory!)\""
+//        }
+        
         if (product.specialStory == nil || product.specialStory == "") {
             sectionSpecialStory.isHidden = true
         } else {
@@ -1498,6 +1511,8 @@ class ListItemCell : UICollectionViewCell {
             captionSpecialStory.text = "\"\(product.specialStory!)\""
             if let url = product.avatar {
                 avatar.afSetImage(withURL: url)
+            } else if currentMode == .shop {
+                avatar.afSetImage(withURL: shopAvatar!)
             } else {
                 avatar.image = nil
             }
