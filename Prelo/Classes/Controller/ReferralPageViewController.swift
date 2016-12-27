@@ -176,7 +176,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                 }
                 
                 // Set shareText
-                self.shareText = "Download aplikasi Prelo dan dapatkan bonus Rp 25.000 dengan mengisikan referral: \(self.lblKodeReferral.text!)"
+                self.shareText = "Download aplikasi Prelo dan dapatkan bonus Rp25.000 dengan mengisikan referral: \(self.lblKodeReferral.text!)"
                 
                 self.loadingPanel.isHidden = true
                 self.loading.stopAnimating()
