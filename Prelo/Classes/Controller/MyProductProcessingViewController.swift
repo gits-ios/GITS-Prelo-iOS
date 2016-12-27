@@ -86,7 +86,7 @@ class MyProductProcessingViewController : BaseViewController, UITableViewDataSou
         btnRefresh.isHidden = true
         
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.MyProducts, otherParam: ["Tab" : "In Progress"])
+//        Mixpanel.trackPageVisit(PageName.MyProducts, otherParam: ["Tab" : "In Progress"])
         
         // Google Analytics
         GAI.trackPageVisit(PageName.MyProducts)

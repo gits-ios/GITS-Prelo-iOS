@@ -242,17 +242,17 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         if (currentMode == .shop) {
             if (User.IsLoggedIn && self.shopId == User.Id!) {
                 // Mixpanel
-                Mixpanel.trackPageVisit(PageName.ShopMine)
+//                Mixpanel.trackPageVisit(PageName.ShopMine)
                 
                 // Google Analytics
                 GAI.trackPageVisit(PageName.ShopMine)
             } else {
                 // Mixpanel
-                let p = [
-                    "Seller" : shopName,
-                    "Seller ID" : self.shopId
-                ]
-                Mixpanel.trackPageVisit(PageName.Shop, otherParam: p)
+//                let p = [
+//                    "Seller" : shopName,
+//                    "Seller ID" : self.shopId
+//                ]
+//                Mixpanel.trackPageVisit(PageName.Shop, otherParam: p)
                 
                 // Google Analytics
                 GAI.trackPageVisit(PageName.Shop)

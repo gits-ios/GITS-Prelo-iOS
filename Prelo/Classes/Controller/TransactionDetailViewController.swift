@@ -213,11 +213,11 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     }
                     
                     // Mixpanel
-                    let param = [
-                        "ID" : ((self.trxId != nil) ? self.trxId! : ((self.trxProductId != nil) ? self.trxProductId! : "")),
-                        "Progress" : ((self.progress != nil) ? "\(self.progress!)" : "")
-                    ]
-                    Mixpanel.trackPageVisit(PageName.TransactionDetail, otherParam: param)
+//                    let param = [
+//                        "ID" : ((self.trxId != nil) ? self.trxId! : ((self.trxProductId != nil) ? self.trxProductId! : "")),
+//                        "Progress" : ((self.progress != nil) ? "\(self.progress!)" : "")
+//                    ]
+//                    Mixpanel.trackPageVisit(PageName.TransactionDetail, otherParam: param)
                     
                     self.setupHideableCell()
                     self.setupHideProductCell()

@@ -71,7 +71,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         super.viewWillAppear(animated)
         
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.MyProducts, otherParam: ["Tab" : "Active"])
+//        Mixpanel.trackPageVisit(PageName.MyProducts, otherParam: ["Tab" : "Active"])
         
         // Google Analytics
         GAI.trackPageVisit(PageName.MyProducts)

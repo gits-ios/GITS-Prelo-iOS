@@ -72,7 +72,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
         super.viewDidAppear(animated)
         
         // Mixpanel
-        //Mixpanel.trackPageVisit(PageName.VerifyPhone)
+//        Mixpanel.trackPageVisit(PageName.VerifyPhone)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.VerifyPhone)

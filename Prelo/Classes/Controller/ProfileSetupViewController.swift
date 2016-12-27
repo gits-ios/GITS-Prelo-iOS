@@ -129,7 +129,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         
         // Mixpanel
         if (!self.isMixpanelPageVisitSent) {
-            Mixpanel.trackPageVisit(PageName.SetupAccount)
+//            Mixpanel.trackPageVisit(PageName.SetupAccount)
             
             // Google Analytics
             GAI.trackPageVisit(PageName.SetupAccount)

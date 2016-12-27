@@ -224,7 +224,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         super.viewWillAppear(animated)
         
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.InboxDetail)
+//        Mixpanel.trackPageVisit(PageName.InboxDetail)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.InboxDetail)

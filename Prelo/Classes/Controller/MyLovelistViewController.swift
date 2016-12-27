@@ -84,7 +84,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         lblEmpty.isHidden = true
         
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.Lovelist)
+//        Mixpanel.trackPageVisit(PageName.Lovelist)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.Lovelist)

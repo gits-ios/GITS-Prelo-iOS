@@ -116,13 +116,13 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         
         if (User.IsLoggedIn) {
             // Mixpanel
-            //Mixpanel.trackPageVisit(PageName.DashboardLoggedIn)
+//            Mixpanel.trackPageVisit(PageName.DashboardLoggedIn)
             
             // Google Analytics
             GAI.trackPageVisit(PageName.DashboardLoggedIn)
         } else {
             // Mixpanel
-            //Mixpanel.trackPageVisit(PageName.DashboardLoggedOut)
+//            Mixpanel.trackPageVisit(PageName.DashboardLoggedOut)
             
             // Google Analytics
             GAI.trackPageVisit(PageName.DashboardLoggedOut)

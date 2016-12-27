@@ -86,7 +86,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         super.viewDidAppear(animated)
         
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.EditProfile)
+//        Mixpanel.trackPageVisit(PageName.EditProfile)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.EditProfile)

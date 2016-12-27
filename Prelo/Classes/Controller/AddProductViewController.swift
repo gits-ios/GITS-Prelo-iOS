@@ -162,7 +162,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         super.viewWillAppear(animated)
         
         // Mixpanel
-        //Mixpanel.trackPageVisit(PageName.AddProduct)
+//        Mixpanel.trackPageVisit(PageName.AddProduct)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.AddProduct)

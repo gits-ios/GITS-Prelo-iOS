@@ -58,7 +58,7 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
         super.viewWillAppear(animated)
         
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.Notification)
+//        Mixpanel.trackPageVisit(PageName.Notification)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.Notification)

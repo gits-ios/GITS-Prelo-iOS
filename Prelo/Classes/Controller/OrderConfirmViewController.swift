@@ -188,12 +188,12 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         super.viewWillAppear(animated)
         
         // Mixpanel
-        let p = [
-            "ID" : self.orderID,
-            "Items" : "\(self.images.count)",
-            "Price" : "\(self.total + self.kodeTransfer)"
-        ]
-        Mixpanel.trackPageVisit(PageName.PaymentConfirmation, otherParam: p)
+//        let p = [
+//            "ID" : self.orderID,
+//            "Items" : "\(self.images.count)",
+//            "Price" : "\(self.total + self.kodeTransfer)"
+//        ]
+//        Mixpanel.trackPageVisit(PageName.PaymentConfirmation, otherParam: p)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.PaymentConfirmation)
@@ -331,7 +331,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
                 bankAlert.dismiss(animated: true, completion: nil)
             }))
         }
-        bankAlert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { act in
+        bankAlert.addAction(UIAlertAction(title: "Batal", style: .destructive, handler: { act in
             bankAlert.dismiss(animated: true, completion: nil)
         }))
         self.present(bankAlert, animated: true, completion: nil)
@@ -346,10 +346,17 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             Constant.showDialog("Perhatian", message: "Nominal transfer harus diisi")
             return
         }
+        
+        let timePaid = datePicker.date
+        
+        if timePaid.compare(Date()).rawValue > 0 {
+            Constant.showDialog("Perhatian", message: "Tanggal transfer tidak boleh melebihi hari ini")
+            return
+        }
+        
         btnKirimPayment.setTitle("MENGIRIM...", for: UIControlState())
         btnKirimPayment.isUserInteractionEnabled = false
         
-        let timePaid = datePicker.date
         let timePaidFormatter = DateFormatter()
         timePaidFormatter.dateFormat = "EEEE, dd MMMM yyyy"
         let timePaidString = timePaidFormatter.string(from: timePaid)

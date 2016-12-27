@@ -63,7 +63,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         super.viewWillAppear(animated)
         
         // Mixpanel
-        //Mixpanel.trackPageVisit(PageName.About)
+//        Mixpanel.trackPageVisit(PageName.About)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.About)

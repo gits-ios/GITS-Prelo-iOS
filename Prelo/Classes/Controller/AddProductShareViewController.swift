@@ -267,7 +267,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         super.viewWillAppear(animated)
         
         // Mixpanel
-        //Mixpanel.trackPageVisit(PageName.ShareAddedProduct)
+//        Mixpanel.trackPageVisit(PageName.ShareAddedProduct)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.ShareAddedProduct)

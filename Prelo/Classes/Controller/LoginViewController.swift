@@ -706,7 +706,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         super.viewWillAppear(animated)
         
         // Mixpanel
-        //Mixpanel.trackPageVisit(PageName.Login)
+//        Mixpanel.trackPageVisit(PageName.Login)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.Login)

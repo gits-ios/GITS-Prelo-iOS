@@ -116,7 +116,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         super.viewWillAppear(animated)
         
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.Checkout)
+//        Mixpanel.trackPageVisit(PageName.Checkout)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.Checkout)

@@ -162,23 +162,23 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.slide)
         }
         
-        let p = [
-            "Product" : ((product != nil) ? (product!.name) : ""),
-            "Product ID" : ((product != nil) ? (product!.id) : ""),
-            "Category 1" : ((detail != nil && detail?.categoryBreadcrumbs.count > 1) ? (detail!.categoryBreadcrumbs[1]["name"].string!) : ""),
-            "Category 2" : ((detail != nil && detail?.categoryBreadcrumbs.count > 2) ? (detail!.categoryBreadcrumbs[2]["name"].string!) : ""),
-            "Category 3" : ((detail != nil && detail?.categoryBreadcrumbs.count > 3) ? (detail!.categoryBreadcrumbs[3]["name"].string!) : ""),
-            "Seller" : ((detail != nil) ? (detail!.theirName) : "")
-        ]
+//        let p = [
+//            "Product" : ((product != nil) ? (product!.name) : ""),
+//            "Product ID" : ((product != nil) ? (product!.id) : ""),
+//            "Category 1" : ((detail != nil && detail?.categoryBreadcrumbs.count > 1) ? (detail!.categoryBreadcrumbs[1]["name"].string!) : ""),
+//            "Category 2" : ((detail != nil && detail?.categoryBreadcrumbs.count > 2) ? (detail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+//            "Category 3" : ((detail != nil && detail?.categoryBreadcrumbs.count > 3) ? (detail!.categoryBreadcrumbs[3]["name"].string!) : ""),
+//            "Seller" : ((detail != nil) ? (detail!.theirName) : "")
+//        ]
         if (detail != nil && detail!.isMyProduct == true) {
             // Mixpanel
-            Mixpanel.trackPageVisit(PageName.ProductDetailMine, otherParam: p)
+//            Mixpanel.trackPageVisit(PageName.ProductDetailMine, otherParam: p)
             
             // Google Analytics
             GAI.trackPageVisit(PageName.ProductDetailMine)
         } else {
             // Mixpanel
-            Mixpanel.trackPageVisit(PageName.ProductDetail, otherParam: p)
+//            Mixpanel.trackPageVisit(PageName.ProductDetail, otherParam: p)
             
             // Google Analytics
             GAI.trackPageVisit(PageName.ProductDetail)

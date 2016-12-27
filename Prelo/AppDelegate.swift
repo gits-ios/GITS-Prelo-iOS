@@ -106,7 +106,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.SplashScreen)
+//        Mixpanel.trackPageVisit(PageName.SplashScreen)
         
         // Configure GAI options.
         let gai = GAI.sharedInstance()

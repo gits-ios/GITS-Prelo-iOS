@@ -79,16 +79,16 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        // Mixpanel
-        let p = [
-            "Product" : ((pDetail != nil) ? (pDetail!.name) : ""),
-            "Product ID" : ((pDetail != nil) ? (pDetail!.productID) : ""),
-            "Category 1" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 1) ? (pDetail!.categoryBreadcrumbs[1]["name"].string!) : ""),
-            "Category 2" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 2) ? (pDetail!.categoryBreadcrumbs[2]["name"].string!) : ""),
-            "Category 3" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 3) ? (pDetail!.categoryBreadcrumbs[3]["name"].string!) : ""),
-            "Seller" : ((pDetail != nil) ? (pDetail!.theirName) : "")
-        ]
-        //Mixpanel.trackPageVisit(PageName.ProductDetailComment, otherParam: p)
+//        // Mixpanel
+//        let p = [
+//            "Product" : ((pDetail != nil) ? (pDetail!.name) : ""),
+//            "Product ID" : ((pDetail != nil) ? (pDetail!.productID) : ""),
+//            "Category 1" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 1) ? (pDetail!.categoryBreadcrumbs[1]["name"].string!) : ""),
+//            "Category 2" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 2) ? (pDetail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+//            "Category 3" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 3) ? (pDetail!.categoryBreadcrumbs[3]["name"].string!) : ""),
+//            "Seller" : ((pDetail != nil) ? (pDetail!.theirName) : "")
+//        ]
+//        Mixpanel.trackPageVisit(PageName.ProductDetailComment, otherParam: p)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.ProductDetailComment)
@@ -165,7 +165,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
             "Category 3" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 3) ? (pDetail!.categoryBreadcrumbs[3]["name"].string!) : ""),
             "Seller Name" : ((pDetail != nil) ? (pDetail!.theirName) : "")
         ]
-        //Mixpanel.trackEvent(MixpanelEvent.CommentedProduct, properties: pt)
+        Mixpanel.trackEvent(MixpanelEvent.CommentedProduct, properties: pt)
         
         self.btnSend.isHidden = true
         

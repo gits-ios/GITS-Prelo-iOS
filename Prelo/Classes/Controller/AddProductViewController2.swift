@@ -394,13 +394,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         if (self.editMode) {
             // Mixpanel
-            //Mixpanel.trackPageVisit(PageName.EditProduct)
+//            Mixpanel.trackPageVisit(PageName.EditProduct)
             
             // Google Analytics
             GAI.trackPageVisit(PageName.EditProduct)
         } else {
             // Mixpanel
-            //Mixpanel.trackPageVisit(PageName.AddProduct)
+//            Mixpanel.trackPageVisit(PageName.AddProduct)
             
             // Google Analytics
             GAI.trackPageVisit(PageName.AddProduct)

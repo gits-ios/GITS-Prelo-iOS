@@ -66,7 +66,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         loading.startAnimating()
         
         // Mixpanel
-        //Mixpanel.trackPageVisit(PageName.Referral)
+//        Mixpanel.trackPageVisit(PageName.Referral)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.Referral)

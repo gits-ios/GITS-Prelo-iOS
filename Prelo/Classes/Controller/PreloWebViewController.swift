@@ -66,7 +66,7 @@ class PreloWebViewController: UIViewController, UIWebViewDelegate
         
         if (titleString == "Syarat dan Ketentuan") {
             // Mixpanel
-            //Mixpanel.trackPageVisit(PageName.TermsAndConditions)
+//            Mixpanel.trackPageVisit(PageName.TermsAndConditions)
             
             // Google Analytics
             GAI.trackPageVisit(PageName.TermsAndConditions)

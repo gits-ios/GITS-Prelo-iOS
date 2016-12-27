@@ -69,7 +69,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         super.viewDidAppear(animated)
         
         // Mixpanel
-        //Mixpanel.trackPageVisit(PageName.Register)
+//        Mixpanel.trackPageVisit(PageName.Register)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.Register)
