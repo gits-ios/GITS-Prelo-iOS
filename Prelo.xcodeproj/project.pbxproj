@@ -1699,14 +1699,14 @@
 			isa = PBXGroup;
 			children = (
 				58A99A4D1C6D866000E3E7D7 /* Prelo.entitlements */,
-				21EEB4361B86F9EF00CAD5C9 /* Framework */,
-				21AE67B41B4A61C600D2CF63 /* Resource */,
-				21AE67AD1B4A59F400D2CF63 /* Classes */,
 				2115E6CD1B4A27E500509D2A /* AppDelegate.swift */,
 				2115E6D71B4A27E500509D2A /* Images.xcassets */,
-				2115E6D41B4A27E500509D2A /* Main.storyboard */,
+				21AE67AD1B4A59F400D2CF63 /* Classes */,
+				21EEB4361B86F9EF00CAD5C9 /* Framework */,
 				2115E6D91B4A27E500509D2A /* LaunchScreen.xib */,
+				2115E6D41B4A27E500509D2A /* Main.storyboard */,
 				2115E6CF1B4A27E500509D2A /* Prelo.xcdatamodeld */,
+				21AE67B41B4A61C600D2CF63 /* Resource */,
 				2115E6CB1B4A27E500509D2A /* Supporting Files */,
 			);
 			path = Prelo;
