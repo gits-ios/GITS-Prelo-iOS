@@ -3137,7 +3137,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 } else if (idx == 6) {
                     var content = ""
                     var textToCopy = ""
-                    content = "Copy "
+                    content = "Salin "
                     if (isTrxDetail()) {
                         var p = trxDetail!.totalPrice
                         if (trxDetail!.paymentMethodInt == 1) {
@@ -3363,7 +3363,8 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     } else if (isTrxProductDetail()) {
                         content = trxProductDetail!.resiNumber
                     }
-                    return self.createTitleContentCell("Nomor Resi", content: content)
+                    return self.createTitleContentCell("Nomor Resi", content: content + " Salin", alignment: nil, url: nil, textToCopy: content)
+//                    return self.createTitleContentCell("Nomor Resi", content: content)
                 } else if (idx == 8) {
                     var content = "Lihat foto resiœ"
                     if (isTrxDetail()) {
@@ -3476,7 +3477,8 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     } else if (isTrxProductDetail()) {
                         content = trxProductDetail!.resiNumber
                     }
-                    return self.createTitleContentCell("Nomor Resi", content: content)
+//                    return self.createTitleContentCell("Nomor Resi", content: content)
+                    return self.createTitleContentCell("Nomor Resi", content: content + " Salin", alignment: nil, url: nil, textToCopy: content)
                 } else if (idx == 9) {
                     var content = "Lihat foto resiœ"
                     if (isTrxDetail()) {
@@ -3556,7 +3558,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     }
                 } else if (cell.textToCopy != "") {
                     UIPasteboard.general.string = cell.textToCopy
-                    Constant.showDialog("Copied", message: "\(cell.lblTitle.text!) telah di-copy ke clipboard")
+                    Constant.showDialog("Copied", message: "\(cell.lblTitle.text!) telah disalin ke clipboard")
                 }
             }
         }
@@ -4123,13 +4125,6 @@ class TransactionDetailTitleContentCell : UITableViewCell {
         return ((titleRect.height >= contentRect.height ? titleRect.height : contentRect.height) + 4.0)
     }
     
-    func tapFunction(sender:MyTapGestureRecognizer) {
-        if let resi = sender.headline {
-            Constant.showDialog("Nomor Resi", message: "Nomor Resi " + resi + " sudah disalin ke clipboard")
-            UIPasteboard.general.string = resi
-        }
-    }
-    
     func tapFunction2(sender:MyTapGestureRecognizer) {
         if let url = sender.headline {
             if url != "" {
@@ -4154,20 +4149,15 @@ class TransactionDetailTitleContentCell : UITableViewCell {
         if (content.isEmpty) {
             self.lblContent.text = "-"
         } else {
-            self.lblContent.text = content.contains("Lihat foto resiœ") ? "Lihat foto resi" : content
-            
-            if title == "Nomor Resi" {
+            if title == "" && content.contains("Lihat foto resiœ") == true {
                 self.lblContent.isUserInteractionEnabled = true
-                self.lblContent.textColor = UIColor.blue
-                let tap = MyTapGestureRecognizer(target: self, action: #selector(TransactionDetailTitleContentCell.tapFunction))
-                tap.headline = content
-                self.lblContent.addGestureRecognizer(tap)
-            } else if title == "" && content.contains("Lihat foto resiœ") == true {
-                self.lblContent.isUserInteractionEnabled = true
-                self.lblContent.textColor = UIColor.blue
+                self.lblContent.textColor = Theme.PrimaryColor
                 let tap = MyTapGestureRecognizer(target: self, action: #selector(TransactionDetailTitleContentCell.tapFunction2))
                 tap.headline = formatURL(loc: content)[1]
                 self.lblContent.addGestureRecognizer(tap)
+                self.lblContent.text = "Lihat foto resi"
+            } else {
+                self.lblContent.text = content
             }
         }
     }
@@ -4190,7 +4180,7 @@ class TransactionDetailTitleContentCell : UITableViewCell {
             self.textToCopy = textToCopy!
             let attrStr = NSMutableAttributedString(string: content)
             attrStr.addAttributes([NSForegroundColorAttributeName:Theme.GrayDark], range: NSMakeRange(0, content.length))
-            attrStr.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColor], range: (content as NSString).range(of: "Copy"))
+            attrStr.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColor], range: (content as NSString).range(of: "Salin"))
             self.lblContent.attributedText = attrStr
         } else {
             self.lblContent.textColor = Theme.GrayDark
