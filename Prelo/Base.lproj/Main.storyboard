@@ -2207,7 +2207,7 @@ diterima dan refund 100%</string>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <imageView opaque="NO" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="CIu-au-kBG">
-                                                            <rect key="frame" x="33.5" y="12" width="40" height="40"/>
+                                                            <rect key="frame" x="34" y="12" width="40" height="40"/>
                                                             <color key="tintColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="40" id="NJS-j6-tlg"/>
@@ -2266,7 +2266,7 @@ diterima dan refund 100%</string>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="2QS-YU-5jg">
-                                                            <rect key="frame" x="33.5" y="12" width="40" height="40"/>
+                                                            <rect key="frame" x="33" y="12" width="40" height="40"/>
                                                             <color key="tintColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="40" id="8h7-oX-2az"/>
@@ -4706,7 +4706,7 @@ in Bandung</string>
                                                 </variation>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hasil Penjualan" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jm9-2H-jsR">
-                                                <rect key="frame" x="108.5" y="93" width="104" height="18"/>
+                                                <rect key="frame" x="108" y="93" width="104" height="18"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="18" id="XJ5-4a-aiT"/>
                                                 </constraints>
@@ -4715,7 +4715,7 @@ in Bandung</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Charge Prelo Rp. 75.000 (7.5%)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="30N-1w-BQg">
-                                                <rect key="frame" x="53.5" y="165" width="213" height="18"/>
+                                                <rect key="frame" x="54" y="165" width="213" height="18"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="18" id="68k-RD-cY1"/>
                                                 </constraints>
@@ -5076,7 +5076,7 @@ in Bandung</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rp. 925.000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dmv-aY-hGC">
-                                                <rect key="frame" x="92.5" y="119" width="135" height="29"/>
+                                                <rect key="frame" x="93" y="119" width="135" height="29"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="29" id="vyR-KP-N3V"/>
                                                 </constraints>
@@ -5085,7 +5085,7 @@ in Bandung</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IqN-3l-TFG">
-                                                <rect key="frame" x="84.5" y="156" width="151" height="1"/>
+                                                <rect key="frame" x="85" y="156" width="151" height="1"/>
                                                 <color key="backgroundColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="EEX-MD-Xym"/>
@@ -5196,7 +5196,7 @@ in Bandung</string>
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="603"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="cgZ-1B-cSg">
-                                        <rect key="frame" x="150.5" y="291.5" width="20" height="20"/>
+                                        <rect key="frame" x="150" y="292" width="20" height="20"/>
                                         <color key="color" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </activityIndicatorView>
                                 </subviews>
@@ -12541,7 +12541,7 @@ in Bandung</string>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bau-hr-3PB">
                                                         <rect key="frame" x="8" y="37" width="584" height="70"/>
                                                         <subviews>
-                                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="category_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="Ghp-VO-iUz">
+                                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="raisa.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="Ghp-VO-iUz">
                                                                 <rect key="frame" x="0.0" y="4" width="52" height="52"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="52" id="7lb-xh-qet"/>
@@ -18304,7 +18304,6 @@ in Bandung</string>
         <image name="banner_sold.png" width="485" height="480"/>
         <image name="basic_green.png" width="6" height="6"/>
         <image name="basic_orange.png" width="6" height="6"/>
-        <image name="category_placeholder" width="828" height="1472"/>
         <image name="cchmrk_buy.png" width="747" height="539"/>
         <image name="cchmrk_chat.png" width="409" height="391"/>
         <image name="cchmrk_imgzoom.png" width="596" height="422"/>
@@ -18356,8 +18355,8 @@ in Bandung</string>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="5pQ-qG-4MR"/>
-        <segue reference="dW2-MQ-HC6"/>
-        <segue reference="W6Y-eo-D2Q"/>
         <segue reference="cuL-Ez-B43"/>
+        <segue reference="ksh-6D-t59"/>
+        <segue reference="W6Y-eo-D2Q"/>
     </inferredMetricsTieBreakers>
 </document>

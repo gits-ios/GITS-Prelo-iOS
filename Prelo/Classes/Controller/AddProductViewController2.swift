@@ -138,6 +138,12 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }*/
 
         // Do any additional setup after loading the view.
+        
+        // make corner init image category
+        self.ivImage.layer.cornerRadius = 5.0;
+        self.ivImage.layer.masksToBounds = YES;
+        
+        
 //        sizes = ["8\nS\n10", "8\nS\n10", "8\nS\n10", "8\nS\n10", "8\nS\n10", "8\nS\n10", "8\nS\n10"]
         conHeightSize.constant = 0
         sizePicker.superview?.isHidden = true
@@ -1440,7 +1446,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             "original_box":isOriginalBoxChecked ? "1" : "0",
             "original_dustbox":isOriginalDustboxChecked ? "1" : "0",
             "receipt":isReceiptChecked ? "1" : "0",
-            "authenticity_card":isAuthCardChecked ? "1" : "0"]
+            "authenticity_card":isAuthCardChecked ? "1" : "0",
+            "platform_sent_from":"ios"
+        ]
         
         if (desc == "")
         {

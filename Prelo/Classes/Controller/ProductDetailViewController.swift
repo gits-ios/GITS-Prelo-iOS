@@ -578,7 +578,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             }
                             instagramSharePreview.copyAndShare = {
                                 UIPasteboard.general.string = "\(textToShare)\(hashtags)"
-                                Constant.showDialog("Text sudah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
+                                Constant.showDialog("Data telah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
                                 self.mgInstagram = MGInstagram()
                                 self.mgInstagram?.post(img, withCaption: textToShare, in: self.view, delegate: self)
                                 let _ = request(APIProduct.shareCommission(pId: (self.detail?.productID)!, instagram: "1", path: "0", facebook: "0", twitter: "0")).responseJSON { resp in
