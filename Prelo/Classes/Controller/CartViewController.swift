@@ -1249,6 +1249,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         o.isBackTwice = true
         o.isShowBankBRI = self.isShowBankBRI
         
+        if (self.checkoutResult?["expire_time"].string) != nil {
+            o.date = (self.checkoutResult?["expire_time"].string)! // expire_time not found
+        }
+        
         var imgs : [URL] = []
         for i in 0...self.arrayItem.count - 1 {
             let json = self.arrayItem[i]

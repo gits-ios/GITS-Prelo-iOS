@@ -1715,6 +1715,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 orderConfirmVC.isFromCheckout = false
                 orderConfirmVC.isBackToRoot = false
                 orderConfirmVC.isShowBankBRI = self.isShowBankBRI
+                orderConfirmVC.date = self.trxDetail!.expireTime
                 self.navigationController?.pushViewController(orderConfirmVC, animated: true)
             }
         }
@@ -1731,7 +1732,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 o.transactionId = self.trxDetail!.id
                 o.isBackTwice = true
                 o.isShowBankBRI = self.isShowBankBRI
-                
+                o.date = self.trxDetail!.expireTime
                 var imgs : [URL] = []
                 for i in 0..<self.trxDetail!.transactionProducts.count {
                     if let u = self.trxDetail!.transactionProducts[i].productImageURL {

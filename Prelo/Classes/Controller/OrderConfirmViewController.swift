@@ -61,6 +61,8 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     var total : Int = 0
     var kodeTransfer = 0
     
+    var date : String?
+    
     // Prelo account data
     var rekenings = [
         [
@@ -126,8 +128,12 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             self.vwUnpaidTrx.isHidden = true
             self.btnFreeTrx.isHidden = false
         } else {
+            let date = Date().dateByAddingDays(1) // tomorrow after expire or after now
+            let f = DateFormatter()
+            f.dateFormat = "dd/MM/yyyy HH:mm:ss"
+            let time = f.string(from: date)
             // Arrange views
-            let text = "Lakukan pembayaran TEPAT hingga 3 digit terakhir. Perbedaan jumlah transfer akan memperlambat proses verifikasi."
+            let text = "Lakukan pembayaran TEPAT hingga 3 digit terakhir dalam waktu 24 jam (" + (self.date != nil ? self.date! : time) + ") ke salah satu rekening di bawah. Perbedaan jumlah transfer akan memperlambat proses verifikasi."
             let mtext = NSMutableAttributedString(string: text)
             mtext.addAttributes([NSForegroundColorAttributeName:UIColor.darkGray], range: NSMakeRange(0, text.length))
             mtext.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: 14)], range: (text as NSString).range(of: "TEPAT"))
