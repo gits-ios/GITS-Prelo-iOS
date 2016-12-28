@@ -788,6 +788,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             } else {
                 txtWeight.text = String(berat)
             }
+            
+            
+            
+            // make weight select all at the first
+            txtWeight.becomeFirstResponder()
+            
+            txtWeight.selectedTextRange = txtWeight.textRange(from: txtWeight.beginningOfDocument, to: txtWeight.endOfDocument)
         }
     }
     
