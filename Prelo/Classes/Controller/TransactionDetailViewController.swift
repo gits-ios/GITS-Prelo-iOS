@@ -3469,7 +3469,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     if let img = TransactionDetailTools.ImgCouriers[content.components(separatedBy: " ")[0].lowercased()] {
                         image = img!
                     }
-                    return self.createTitleContentCell("Request Kurir", content: content, image: image)
+                    return self.createTitleContentCell("Kurir", content: content, image: image)
                 } else if (idx == 8) {
                     var content = ""
                     if (isTrxDetail()) {

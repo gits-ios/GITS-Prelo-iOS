@@ -393,8 +393,8 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                         }
                     }
                     // Save history
-                    AppToolsObjC.insertNewSearch(searchText)
-                    setupHistory()
+                    doSearch(keyword: searchText)
+                    
                 }
                 
                 let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
@@ -416,8 +416,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                     }
                 }
                 // Save history
-                AppToolsObjC.insertNewSearch(foundItems[(indexPath as NSIndexPath).row].name)
-                setupHistory()
+                doSearch(keyword: foundItems[(indexPath as NSIndexPath).row].name)
                 
                 let d = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
                 d.product = foundItems[(indexPath as NSIndexPath).row]
@@ -431,8 +430,8 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                     // Insert top search
                     let _ = request(APISearch.insertTopSearch(search: searchText))
                     // Save history
-                    AppToolsObjC.insertNewSearch(searchText)
-                    setupHistory()
+                    doSearch(keyword: searchText)
+                    
                 }
                 self.navigationController?.pushViewController(u, animated: true)
             } else {
@@ -444,8 +443,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 // Insert top search
                 let _ = request(APISearch.insertTopSearch(search: u.username))
                 // Save history
-                AppToolsObjC.insertNewSearch(u.username)
-                setupHistory()
+                doSearch(keyword: u.username)
                 
                 d.shopId = u.id
                 self.navigationController?.pushViewController(d, animated: true)
@@ -467,8 +465,8 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                     // Insert top search
                     let _ = request(APISearch.insertTopSearch(search: searchText))
                     // Save history
-                    AppToolsObjC.insertNewSearch(searchText)
-                    setupHistory()
+                    doSearch(keyword: searchText)
+                    
                 }
             } else {
                 let brand = foundBrands[(indexPath as NSIndexPath).row]
@@ -477,8 +475,8 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 // Insert top search
                 let _ = request(APISearch.insertTopSearch(search: brand.name))
                 // Save history
-                AppToolsObjC.insertNewSearch(brand.name)
-                setupHistory()
+                doSearch(keyword: brand.name)
+                
             }
             l.fltrBrands = fltrBrands
             self.navigationController?.pushViewController(l, animated: true)
@@ -486,6 +484,15 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     }
     
     // MARK: - Search functions
+    
+    func doSearch(keyword : String) {
+        let index = AppToolsObjC.index(ofSearch: keyword)
+        if index != NSNotFound {
+            AppToolsObjC.removeSearch(at: index)
+        }
+        AppToolsObjC.insertNewSearch(keyword)
+        setupHistory()
+    }
     
     func searchTopKey(_ sender : UITapGestureRecognizer) {
         let searchTag = sender.view as! SearchTag
