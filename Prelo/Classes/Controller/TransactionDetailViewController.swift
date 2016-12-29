@@ -1976,13 +1976,26 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         cell.lblKeterangan.isHidden = true // Not used
         cell.consTopLblContact.constant = 8 // Set to 48 if lblKeterangan is used
         cell.showContactPrelo = {
-            let helpVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
-            helpVC.url = "https://prelo.co.id/faq?ref=preloapp"
-            helpVC.titleString = "Bantuan"
-            helpVC.contactPreloMode = true
-            let baseNavC = BaseNavigationController()
-            baseNavC.setViewControllers([helpVC], animated: false)
-            self.present(baseNavC, animated: true, completion: nil)
+//            let helpVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
+//            helpVC.url = "https://prelo.co.id/faq?ref=preloapp"
+//            helpVC.titleString = "Bantuan"
+//            helpVC.contactPreloMode = true
+//            let baseNavC = BaseNavigationController()
+//            baseNavC.setViewControllers([helpVC], animated: false)
+//            self.present(baseNavC, animated: true, completion: nil)
+            
+            // Hotline
+            
+//            FAQOptions *options = [FAQOptions new];
+//            options.showContactUsOnFaqScreens = NO;
+//            options.showContactUsOnAppBar=NO;
+//            [[Hotline sharedInstance]showFAQs:self withOptions:options];
+            
+            let options : FAQOptions = FAQOptions()
+            options.showContactUsOnFaqScreens = true
+            options.showContactUsOnAppBar = false
+            options.showFaqCategoriesAsGrid = true
+            Hotline.sharedInstance().showFAQs(self, with: options)
         }
         
         return cell

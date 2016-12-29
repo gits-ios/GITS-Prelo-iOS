@@ -35,7 +35,7 @@
 		<key>InputTextFontSize</key>
 		<string>14.0f</string>
 		<key>SendButtonColor</key>
-		<string>0079FF</string>
+		<string>00A79D</string>
 		<key>BackgroundColor</key>
 		<string>FFFFFF</string>
 		<key>Banner</key>
@@ -55,7 +55,7 @@
 		<key>BackgroundColor</key>
 		<string>FFFFFF</string>
 		<key>SubmitButtonColor</key>
-		<string>007AFF</string>
+		<string>00A79D</string>
 		<key>RatingBarColor</key>
 		<string>FFA500</string>
 		<key>HorizontalLineColor</key>
@@ -76,7 +76,7 @@
 		<key>YesButtonFontSize</key>
 		<string>14</string>
 		<key>YesButtonBackgroundColor</key>
-		<string>007AFF</string>
+		<string>00A79D</string>
 		<key>NoButtonFontColor</key>
 		<string>535353</string>
 		<key>NoButtonFontName</key>
@@ -90,7 +90,7 @@
 		<key>YesButtonBorderColor</key>
 		<string>D8D8D8</string>
 		<key>ButtonColor</key>
-		<string>007AFF</string>
+		<string>00A79D</string>
 		<key>BackgroundColor</key>
 		<string>F6F6F5</string>
 		<key>LabelFontColor</key>
@@ -128,7 +128,7 @@
 		<key>YesButtonFontSize</key>
 		<string>14</string>
 		<key>YesButtonBackgroundColor</key>
-		<string>007AFF</string>
+		<string>00A79D</string>
 		<key>NoButtonFontColor</key>
 		<string>535353</string>
 		<key>NoButtonFontName</key>
@@ -142,7 +142,7 @@
 		<key>YesButtonBorderColor</key>
 		<string>D8D8D8</string>
 		<key>ButtonColor</key>
-		<string>007AFF</string>
+		<string>00A79D</string>
 		<key>BackgroundColor</key>
 		<string>F6F6F5</string>
 		<key>LabelFontColor</key>
@@ -176,7 +176,7 @@
 	<key>ChannelListView</key>
 	<dict>
 		<key>ChannelTitleFontColor</key>
-		<string>222222</string>
+		<string>00A79D</string>
 		<key>ChannelTitleFontName</key>
 		<string>SYS_DEFAULT_FONT_NAME</string>
 		<key>ChannelTitleFontSize</key>
@@ -224,7 +224,7 @@
 		<key>BackgroundColor</key>
 		<string>F8F8F8</string>
 		<key>ButtonColor</key>
-		<string>0079FF</string>
+		<string>00A79D</string>
 		<key>ButtonFontName</key>
 		<string>SYS_DEFAULT_FONT_NAME</string>
 		<key>ButtonFontSize</key>
@@ -243,7 +243,7 @@
 		<key>TalkToUsButtonFontColor</key>
 		<string>FFFFFF</string>
 		<key>TalkToUsButtonBackgroundColor</key>
-		<string>4D90E9</string>
+		<string>00A79D</string>
 		<key>TalkToUsButtonFontName</key>
 		<string>Helvetica</string>
 		<key>TalkToUsButtonFontSize</key>
@@ -254,7 +254,7 @@
 	<key>SearchBar</key>
 	<dict>
 		<key>CancelButtonColor</key>
-		<string>0079FF</string>
+		<string>00A79D</string>
 		<key>CancelButtonFontName</key>
 		<string>SYS_DEFAULT_FONT_NAME</string>
 		<key>CancelButtonFontSize</key>
@@ -270,7 +270,7 @@
 		<key>OuterBackgroundColor</key>
 		<string>F8F8F8</string>
 		<key>CursorColor</key>
-		<string>0079FF</string>
+		<string>00A79D</string>
 	</dict>
 	<key>TableView</key>
 	<dict>
@@ -279,7 +279,7 @@
 		<key>CellSeparatorColor</key>
 		<string>F2F2F2</string>
 		<key>TitleFontColor</key>
-		<string>222222</string>
+		<string>00A79D</string>
 		<key>TitleFontName</key>
 		<string>SYS_DEFAULT_FONT_NAME</string>
 		<key>TitleFontSize</key>
@@ -303,7 +303,7 @@
 	<key>GridViewCell</key>
 	<dict>
 		<key>TitleFontColor</key>
-		<string>222222</string>
+		<string>00A79D</string>
 		<key>TitleFontName</key>
 		<string>SYS_DEFAULT_FONT_NAME</string>
 		<key>TitleFontSize</key>

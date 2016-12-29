@@ -40,7 +40,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>164</string>
+	<string>165</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -91,10 +91,10 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) need to access camera/photo library to upload your product</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>$(PRODUCT_NAME) need to access camera/photo library to upload your product</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>$(PRODUCT_NAME) need to access microphone</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>$(PRODUCT_NAME) need to access camera/photo library to upload your product</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>PreloAwesome.ttf</string>
