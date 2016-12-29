@@ -2446,13 +2446,17 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         var height : CGFloat = 8
 
         if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
-            height += TransactionDetailTitleContentCell.heightFor((trxDetail.totalPrice + trxDetail.bonusUsed + trxDetail.preloBalanceUsed + trxDetail.voucherAmount).asPrice)
+            /*height += TransactionDetailTitleContentCell.heightFor((trxDetail.totalPrice + trxDetail.bonusUsed + trxDetail.preloBalanceUsed + trxDetail.voucherAmount).asPrice)
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.bonusUsed.asPrice)
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.preloBalanceUsed.asPrice)
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.voucherAmount.asPrice)
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.totalPrice.asPrice)
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.bankTransferDigit.asPrice)
-            height += TransactionDetailTitleContentCell.heightFor((trxDetail.totalPrice + trxDetail.bankTransferDigit).asPrice)
+            height += TransactionDetailTitleContentCell.heightFor((trxDetail.totalPrice + trxDetail.bankTransferDigit).asPrice)*/
+            height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentMethod)
+            height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentDate)
+            height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentBankTarget)
+            height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentNominal.asPrice)
         } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentMethod)
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentDate)
@@ -2649,7 +2653,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             return trxProducts.count
         } else {
             if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
-                return 7
+                return 4 //7
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer) {
                 return 4
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidCC) {
@@ -3081,7 +3085,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         } else if (isTitleContentCell) {
             let idx = (indexPath as NSIndexPath).row
             
-            if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
+            /*if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
                 if (idx == 0) {
                     var content = ""
                     if (isTrxDetail()) {
@@ -3152,7 +3156,8 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     }
                     return self.createTitleContentCell("Total Pembayaran", content: content, alignment: .right, url: nil, textToCopy: textToCopy)
                 }
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer) {
+            } else*/
+            if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer || titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer) {
                 if (idx == 0) {
                     var content = ""
                     if (isTrxDetail()) {
