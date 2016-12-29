@@ -27,7 +27,7 @@
 		<key>ActionButtonBorderColor</key>
 		<string>F1F1F1</string>
 		<key>HyperlinkColor</key>
-		<string>2701A0</string>
+		<string>00A79D</string>
 		<key>InputTextFontColor</key>
 		<string>000000</string>
 		<key>InputTextFontName</key>
@@ -169,9 +169,9 @@
 		<key>MessageFontSize</key>
 		<string>14</string>
 		<key>MessageFontColor</key>
-		<string>EFEFEF</string>
+		<string>FFFFFF</string>
 		<key>BackgroundColor</key>
-		<string>525454</string>
+		<string>00A79D</string>
 	</dict>
 	<key>ChannelListView</key>
 	<dict>

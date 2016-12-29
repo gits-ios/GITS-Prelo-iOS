@@ -205,6 +205,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Hotline.sharedInstance().handleRemoteNotification(launchOptions, andAppstate: application.applicationState)
         }
         
+        // re init for upgrade app version
+        self.setupHotline()
+        
         // Handling facebook deferred deep linking
         // Kepanggil hanya jika app baru saja dibuka, jika dibuka ketika sedang dalam background mode maka tidak terpanggil
         if let launchURL = launchOptions?[UIApplicationLaunchOptionsKey.url] as? URL {
@@ -436,6 +439,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
         
 //        produkUploader.start()
+        
+        // init hotline for chat
+        // re init for upgrade app version
+        self.setupHotline()
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -1138,4 +1145,72 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    // MARK: - Hotline
+    func setupHotline() {
+        /*
+         * Following three methods are to identify a user.
+         * These user properties will be viewable on the Hotline web dashboard.
+         * The externalID (identifier) set will also be used to identify the specific user for any APIs
+         * targeting a user or list of users in pro-active messaging or marketing
+         */
+        
+        // Create a user object
+        let user = HotlineUser.sharedInstance();
+        
+        // To set an identifiable name for the user
+//        user?.name = CDUser.getOne()?.fullname
+        user?.name = CDUser.getOne()?.username
+        
+        //To set user's email id
+        user?.email = CDUser.getOne()?.email
+        
+        //To set user's phone number
+        //        user?.phoneCountryCode="62"; // indonesia
+        user?.phoneNumber = CDUser.getOne()?.profiles.phone
+        
+        
+        
+        //To set user's identifier (external id to map the user to a user in your system. Setting an external ID is COMPULSARY for many of Hotline’s APIs
+        user?.externalID = UIDevice.current.identifierForVendor!.uuidString
+        
+        
+        // FINALLY, REMEMBER TO SEND THE USER INFORMATION SET TO HOTLINE SERVERS
+        Hotline.sharedInstance().update(user)
+        
+        /* Custom properties & Segmentation - You can add any number of custom properties. An example is given below.
+         These properties give context for your conversation with the user and also serve as segmentation criteria for your marketing messages
+         */
+        
+        //        //You can set custom user properties for a particular user
+        //        Hotline.sharedInstance().updateUserPropertyforKey("customerType", withValue: "Premium")
+        
+        let city = CDUser.getOne()?.profiles.subdistrictName
+        
+        //You can set user demographic information
+        Hotline.sharedInstance().updateUserPropertyforKey("city", withValue: city)
+        
+        //You can segment based on where the user is in their journey of using your app
+        Hotline.sharedInstance().updateUserPropertyforKey("loggedIn", withValue: User.IsLoggedIn.description)
+        
+        //        //You can capture a state of the user that includes what the user has done in your app
+        //        Hotline.sharedInstance().updateUserPropertyforKey("transactionCount", withValue: "3")
+        
+        
+        /* If you want to indicate to the user that he has unread messages in his inbox, you can retrieve the unread count to display. */
+        //returns an int indicating the of number of unread messages for the user
+//        Hotline.sharedInstance().unreadCount()
+        
+        
+        //        /*
+        //         Managing Badge number for unread messages - Manual
+        //         */
+        //        Hotline.sharedInstance().initWithConfig(config)
+        //        print("Unread messages count \(Hotline.sharedInstance().unreadCount()) .")
+        //
+        //
+        //        Hotline.sharedInstance().unreadCountWithCompletion { (count:Int) -> Void in
+        //            print("Unread count (Async) :\(count)")
+        //        }
+        
+    }
 }
