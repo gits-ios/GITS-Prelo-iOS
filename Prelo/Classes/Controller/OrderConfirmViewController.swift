@@ -37,6 +37,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     @IBOutlet var captionBankInfoBankNumber : UILabel?
     @IBOutlet var captionBankInfoBankCabang : UILabel?
     @IBOutlet var captionBankInfoBankAtasNama : UILabel?
+    @IBOutlet weak var consHeightBankInfo: NSLayoutConstraint!
     
     // Payment pop up
     @IBOutlet var vwPaymentPopUp: UIView!
@@ -199,6 +200,9 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         attrStr.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColor], range: (content! as NSString).range(of: ""))
         attrStr.addAttributes([NSFontAttributeName:UIFont(name: "preloAwesome", size: 14.0)!], range: (content! as NSString).range(of: ""))
         self.captionBankInfoBankNumber?.attributedText = attrStr
+        
+        self.captionBankInfoBankName?.isHidden = true
+        self.consHeightBankInfo.constant = 0
 
     }
     
@@ -294,7 +298,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     func setupViewRekening(_ data : [String : String]) {
         captionBankInfoBankAtasNama?.text = data["name"]
         captionBankInfoBankCabang?.text = data["cabang"]
-        captionBankInfoBankName?.text = "Transfer melalui Bank " + data["bank_name"]!
+        captionBankInfoBankName?.text = "Bank \(data["bank_name"]!)" // "Transfer melalui Bank " + data["bank_name"]!
         captionBankInfoBankNumber?.text = data["no"]
         
         let content = self.captionBankInfoBankNumber?.text!

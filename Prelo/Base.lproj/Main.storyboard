@@ -11854,6 +11854,7 @@ in Bandung</string>
                         <outlet property="captionOrderID" destination="t6W-jP-zBl" id="rTX-XL-xcn"/>
                         <outlet property="captionOrderTotal" destination="eiT-yQ-snT" id="f2D-mH-l28"/>
                         <outlet property="captionTitle" destination="LOd-ke-tWh" id="8Ug-JN-jPO"/>
+                        <outlet property="consHeightBankInfo" destination="iij-od-4OV" id="v1R-Oh-J7o"/>
                         <outlet property="consHeightContentView" destination="OuG-yJ-udk" id="c2f-7W-Nka"/>
                         <outlet property="consTopPaymentPopUp" destination="smo-Zo-LGl" id="xyn-IX-cTL"/>
                         <outlet property="datePicker" destination="HBf-tq-E4D" id="6Y2-Th-FPK"/>
