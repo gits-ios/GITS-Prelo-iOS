@@ -67,25 +67,25 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     var rekenings = [
         [
             "name":"KLEO APPARA INDONESIA PT",
-            "no":"777-16-13-113",
+            "no":"777-16-13-113 ",
             "cabang":"KCU Dago",
             "bank_name":"BCA"
         ],
         [
             "name":"PT KLEO APPARA INDONESIA",
-            "no":"131-0050-313-131",
+            "no":"131-0050-313-131 ",
             "cabang":"KCP Bandung Dago",
             "bank_name":"Mandiri"
         ],
         [
             "name":"PT KLEO APPARA INDONESIA",
-            "no":"042-390-6140",
+            "no":"042-390-6140 ",
             "cabang":"Perguruan Tinggi Bandung",
             "bank_name":"BNI"
         ],
         [
             "name":"KLEO APPARA INDONESIA",
-            "no":"040-501-000-570-304",
+            "no":"040-501-000-570-304 ",
             "cabang":"Dago",
             "bank_name":"BRI"
         ]
@@ -188,6 +188,18 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         
         // Date picker init
         datePicker.setValue(UIColor.darkGray, forKey: "textColor")
+        
+        // copy rek number
+        self.captionBankInfoBankNumber?.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(OrderConfirmViewController.tapFunction))
+        self.captionBankInfoBankNumber?.addGestureRecognizer(tap)
+        
+        let content = self.captionBankInfoBankNumber?.text!
+        let attrStr = NSMutableAttributedString(string: content!)
+        attrStr.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColor], range: (content! as NSString).range(of: ""))
+        attrStr.addAttributes([NSFontAttributeName:UIFont(name: "preloAwesome", size: 14.0)!], range: (content! as NSString).range(of: ""))
+        self.captionBankInfoBankNumber?.attributedText = attrStr
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -236,10 +248,17 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     
     // MARK: - Actions
     
+    func tapFunction(sender:MyTapGestureRecognizer) {
+        let bankName = self.captionBankInfoBankName?.text
+        Constant.showDialog("Copied!", message: "Nomor Rekening \(bankName!) telah disalin ke clipboard!")
+        let textToCopy = self.captionBankInfoBankNumber?.text?.replacingOccurrences(of: "-", with: "").trimmingCharacters(in: NSCharacterSet (charactersIn: " ") as CharacterSet )
+        UIPasteboard.general.string = textToCopy
+    }
+    
     @IBAction func copyPrice() {
         let s = String((total + kodeTransfer))
         UIPasteboard.general.string = s
-        let a = UIAlertController(title: "Copied!", message: "Total harga sudah ada di clipboard!", preferredStyle: .alert)
+        let a = UIAlertController(title: "Copied!", message: "Total harga telah disalin ke clipboard!", preferredStyle: .alert)
         a.addAction(UIAlertAction(title: "OK", style: .default, handler: { act in }))
         self.present(a, animated: true, completion: nil)
     }
@@ -277,6 +296,12 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         captionBankInfoBankCabang?.text = data["cabang"]
         captionBankInfoBankName?.text = "Transfer melalui Bank " + data["bank_name"]!
         captionBankInfoBankNumber?.text = data["no"]
+        
+        let content = self.captionBankInfoBankNumber?.text!
+        let attrStr = NSMutableAttributedString(string: content!)
+        attrStr.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColor], range: (content! as NSString).range(of: ""))
+        attrStr.addAttributes([NSFontAttributeName:UIFont(name: "preloAwesome", size: 14.0)!], range: (content! as NSString).range(of: ""))
+        self.captionBankInfoBankNumber?.attributedText = attrStr
     }
     
     override func backPressed(_ sender: UIBarButtonItem) {

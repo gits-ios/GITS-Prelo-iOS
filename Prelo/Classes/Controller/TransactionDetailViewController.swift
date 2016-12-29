@@ -3368,7 +3368,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     } else if (isTrxProductDetail()) {
                         content = trxProductDetail!.resiNumber
                     }
-                    return self.createTitleContentCell("Nomor Resi", content: content + " Salin", alignment: nil, url: nil, textToCopy: content)
+                    return self.createTitleContentCell("Nomor Resi", content: content + " ", alignment: nil, url: nil, textToCopy: content)
 //                    return self.createTitleContentCell("Nomor Resi", content: content)
                 } else if (idx == 8) {
                     var content = "Lihat foto resiœ"
@@ -3483,7 +3483,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         content = trxProductDetail!.resiNumber
                     }
 //                    return self.createTitleContentCell("Nomor Resi", content: content)
-                    return self.createTitleContentCell("Nomor Resi", content: content + " Salin", alignment: nil, url: nil, textToCopy: content)
+                    return self.createTitleContentCell("Nomor Resi", content: content + " ", alignment: nil, url: nil, textToCopy: content)
                 } else if (idx == 9) {
                     var content = "Lihat foto resiœ"
                     if (isTrxDetail()) {
@@ -3563,7 +3563,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     }
                 } else if (cell.textToCopy != "") {
                     UIPasteboard.general.string = cell.textToCopy
-                    Constant.showDialog("Copied", message: "\(cell.lblTitle.text!) telah disalin ke clipboard")
+                    Constant.showDialog("Copied!", message: "\(cell.lblTitle.text!) telah disalin ke clipboard")
                 }
             }
         }
@@ -4185,7 +4185,8 @@ class TransactionDetailTitleContentCell : UITableViewCell {
             self.textToCopy = textToCopy!
             let attrStr = NSMutableAttributedString(string: content)
             attrStr.addAttributes([NSForegroundColorAttributeName:Theme.GrayDark], range: NSMakeRange(0, content.length))
-            attrStr.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColor], range: (content as NSString).range(of: "Salin"))
+            attrStr.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColor], range: (content as NSString).range(of: ""))
+            attrStr.addAttributes([NSFontAttributeName:UIFont(name: "preloAwesome", size: 14.0)!], range: (content as NSString).range(of: ""))
             self.lblContent.attributedText = attrStr
         } else {
             self.lblContent.textColor = Theme.GrayDark
