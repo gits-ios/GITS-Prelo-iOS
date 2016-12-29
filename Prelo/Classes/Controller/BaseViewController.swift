@@ -127,10 +127,12 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         }
         let newNotifCount = notifListener?.newNotifCount
         
+        let cartCount = notifListener?.cartCount
+        
         // Set top right bar buttons
         let search = createSearchButton()
         let bell = createBellButton(newNotifCount!)
-        let troli = createTroliButton()
+        let troli = createTroliButton(cartCount!)
         
         troli.addTarget(self, action: #selector(BaseViewController.launchCart), for: UIControlEvents.touchUpInside)
         
@@ -221,8 +223,8 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         return createButtonWithIconAndNumber(UIImage(named: "ic_notif.png")!, num: num)
     }
     
-    func createTroliButton()->UIButton {
-        return createButtonWithIcon(UIImage(named: "ic_cart.png")!)
+    func createTroliButton(_ num : Int)->UIButton {
+        return createButtonWithIconAndNumber(UIImage(named: "ic_cart.png")!, num: num)
     }
     
     // MARK: - Navigation
@@ -263,6 +265,20 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     
     func refreshNotifPage() {
         // Do nothing, handled by NotificationPageVC itself
+    }
+    
+    func showCartCount(_ count: Int) {
+        print("showCartCount: \(count)")
+        setupNormalOptions()
+    }
+    
+    func refreshCartPage() {
+        // Do nothing, handled by NotificationPageVC itself
+    }
+    
+    func increaseCartCount(_ value: Int) {
+        print("increaseCartCount: \(value)")
+        setupNormalOptions()
     }
     
     // MARK: - Status bar

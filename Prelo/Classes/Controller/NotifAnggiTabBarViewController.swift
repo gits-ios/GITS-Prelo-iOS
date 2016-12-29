@@ -152,6 +152,19 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
         self.notifAnggiConversationVC?.refreshPage()
     }
     
+    override func showCartCount(_ count: Int) {
+        // Do nothing
+    }
+    
+    override func refreshCartPage() {
+        // Do nothing
+    }
+    
+    override func increaseCartCount(_ value: Int) {
+        // Do nothing
+    }
+
+    
     // MARK: - NotifAnggi per tab delegate functions
     
     func decreaseTransactionBadgeNumber() {

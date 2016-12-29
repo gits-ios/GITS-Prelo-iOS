@@ -153,18 +153,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         self.title = PageName.Checkout
         
-        // Get unpaid transaction
-        let _ = request(APITransactionCheck.checkUnpaidTransaction).responseJSON { resp in
-            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Checkout - Unpaid Transaction")) {
-                let json = JSON(resp.result.value!)
-                let data = json["_data"]
-                if (data["user_has_unpaid_transaction"].boolValue == true) {
-                    let nUnpaid = data["n_transaction_unpaid"].intValue
-                    self.lblPaymentReminder.text = "Kamu memiliki \(nUnpaid) transaksi yg belum dibayar"
-                    self.consHeightPaymentReminder.constant = 40
-                }
-            }
-        }
+        self.getUnpaid()
         
         // Get cart products
         cartProducts = CartProduct.getAll(User.EmailOrEmptyString)
@@ -180,6 +169,25 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
             } else { // Show cart
                 synchCart()
+            }
+        }
+    }
+    
+    func getUnpaid() {
+        // Get unpaid transaction
+        let _ = request(APITransactionCheck.checkUnpaidTransaction).responseJSON { resp in
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Checkout - Unpaid Transaction")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                if (data["user_has_unpaid_transaction"].boolValue == true) {
+                    let nUnpaid = data["n_transaction_unpaid"].intValue
+                    self.lblPaymentReminder.text = "Kamu memiliki \(nUnpaid) transaksi yg belum dibayar"
+                    self.consHeightPaymentReminder.constant = 40
+                    
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    let notifListener = appDelegate.preloNotifListener
+                    notifListener?.setCartCount(nUnpaid)
+                }
             }
         }
     }
@@ -1194,6 +1202,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     MoEngage.sharedInstance().trackEvent(MixpanelEvent.Checkout, builderPayload: moeEventTracker)
                 }
                 
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let notifListener = appDelegate.preloNotifListener
+                notifListener?.increaseCartCount(1)
+                
                 // Prepare to navigate to next page
                 if (self.selectedPayment == .bankTransfer) {
                     self.navigateToOrderConfirmVC()
@@ -1462,6 +1474,28 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         if (user == nil) {
             self.navigationController?.popViewController(animated: true)
         }
+    }
+    
+    // MARK: - PreloNotifListenerDelegate functions
+    
+    override func showNewNotifCount(_ count: Int) {
+        // Do nothing
+    }
+    
+    override func refreshNotifPage() {
+        // Do nothing
+    }
+    
+    override func showCartCount(_ count: Int) {
+        // Do nothing
+    }
+    
+    override func refreshCartPage() {
+        self.getUnpaid()
+    }
+    
+    override func increaseCartCount(_ value: Int) {
+        // Do nothing
     }
     
     // MARK: - Navigation
