@@ -86,15 +86,21 @@ class PreloNotificationListener {
     func setNewNotifCount(_ count : Int) {
         newNotifCount = count
         delegate?.showNewNotifCount(newNotifCount)
+        
+        User.storeNotif(newNotifCount + cartCount)
     }
     
     func setCartCount(_ count : Int) {
         cartCount = count
         delegate?.showCartCount(cartCount)
+        
+        User.storeNotif(newNotifCount + cartCount)
     }
     
     func increaseCartCount(_ value : Int) {
         cartCount += value
         delegate?.showCartCount(cartCount)
+        
+        User.storeNotif(newNotifCount + cartCount)
     }
 }

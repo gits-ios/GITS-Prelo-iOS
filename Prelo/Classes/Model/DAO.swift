@@ -32,6 +32,8 @@ open class User : NSObject
     fileprivate static var IdKey = "user_id"
     fileprivate static var EmailKey = "user_email"
     
+    fileprivate static var badgeCount = 0
+    
     static var IsLoggedIn : Bool
     {
         guard let _ = UserDefaults.standard.string(forKey: User.TokenKey), let _ = CDUser.getOne(), let _ = CDUserProfile.getOne(), let _ = CDUserOther.getOne() else {
@@ -153,6 +155,14 @@ open class User : NSObject
         if let userID = store.session()?.userID {
             store.logOutUserID(userID)
         }
+    }
+    
+    static func storeNotif(_ count: Int) {
+        badgeCount = count
+    }
+    
+    static func getNotifCount() -> Int {
+        return badgeCount
     }
 }
 

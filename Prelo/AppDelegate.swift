@@ -464,7 +464,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          * 2
          **/
         let unreadCount : NSInteger = Hotline.sharedInstance().unreadCount()
-        UIApplication.shared.applicationIconBadgeNumber = unreadCount
+        UIApplication.shared.applicationIconBadgeNumber = (User.getNotifCount() as NSInteger + unreadCount)
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
