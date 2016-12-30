@@ -58,8 +58,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
     var isAlreadyGetCategory : Bool = false
     var userDidLoggedIn : Bool?
     
-    var isLoaded : Bool = false
-    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -304,7 +302,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         let btn : AppButton = sender as! AppButton
         if (btn.stringTag == Tags.Browse) {
 //            self.btnAdd?.isHidden = false
-            if isLoaded == false {
+            if isAlreadyGetCategory == false {
                 self.showLoading()
             }
             self.setupNormalOptions() // Agar notification terupdate
@@ -486,7 +484,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         
         if (self.isAlreadyGetCategory) { // Only hide loading if category is already loaded and version already checked
             self.hideLoading()
-            self.isLoaded = true
         }
     }
     
