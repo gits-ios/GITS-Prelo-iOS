@@ -187,6 +187,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     let notifListener = appDelegate.preloNotifListener
                     notifListener?.setCartCount(nUnpaid)
+                } else {
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    let notifListener = appDelegate.preloNotifListener
+                    notifListener?.setCartCount(0)
                 }
             }
         }
