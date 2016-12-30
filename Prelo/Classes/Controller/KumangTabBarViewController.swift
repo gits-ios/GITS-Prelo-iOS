@@ -17,6 +17,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
     
     // Views
     @IBOutlet var loadingPanel: UIView!
+    @IBOutlet var loadingPanel2: UIView!
     @IBOutlet var sectionContent : UIView?
     @IBOutlet var sectionBar : UIView?
     @IBOutlet var btnAdd : UIView?
@@ -57,13 +58,15 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
     var isAlreadyGetCategory : Bool = false
     var userDidLoggedIn : Bool?
     
+    var isLoaded : Bool = false
+    
     // MARK: - Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Loading panel
-        self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+//        self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
         
         // Version check
         if (!isVersionChecked) {
@@ -204,10 +207,12 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
     
     func hideLoading() {
         self.loadingPanel.isHidden = true
+        self.loadingPanel2.isHidden = true
     }
     
     func showLoading() {
         self.loadingPanel.isHidden = false
+        self.loadingPanel2.isHidden = false
     }
     
     // MARK: - User related functions
@@ -298,6 +303,10 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
     @IBAction func switchController(_ sender: AnyObject) {
         let btn : AppButton = sender as! AppButton
         if (btn.stringTag == Tags.Browse) {
+//            self.btnAdd?.isHidden = false
+            if isLoaded == false {
+                self.showLoading()
+            }
             self.setupNormalOptions() // Agar notification terupdate
             changeToController(controllerBrowse!)
             
@@ -308,6 +317,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
             }
             
         } else {
+            self.hideLoading()
+//            self.btnAdd?.isHidden = true
+            
             if (User.IsLoggedIn) {
                 print("To Dashboard")
                 controllerDashboard?.previousController = self
@@ -474,6 +486,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         
         if (self.isAlreadyGetCategory) { // Only hide loading if category is already loaded and version already checked
             self.hideLoading()
+            self.isLoaded = true
         }
     }
     
