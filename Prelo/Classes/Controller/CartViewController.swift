@@ -155,6 +155,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         self.getUnpaid()
         
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let notifListener = appDelegate.preloNotifListener
+        notifListener?.setCartCount(0)
+        
         // Get cart products
         cartProducts = CartProduct.getAll(User.EmailOrEmptyString)
         
@@ -170,6 +174,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             } else { // Show cart
                 synchCart()
             }
+            
+            notifListener?.increaseCartCount(cartProducts.count)
         }
     }
     
@@ -186,11 +192,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     let notifListener = appDelegate.preloNotifListener
-                    notifListener?.setCartCount(nUnpaid)
-                } else {
-                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    let notifListener = appDelegate.preloNotifListener
-                    notifListener?.setCartCount(0)
+                    notifListener?.increaseCartCount(nUnpaid)
                 }
             }
         }
