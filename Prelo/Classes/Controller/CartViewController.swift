@@ -488,7 +488,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
         
         // Create 'Subtotal' cell in cellsData
-        let i = IndexPath(row: self.cartProducts.count + 1, section: self.sectionProducts)
+        let i = IndexPath(row: self.cartProducts.count + (arrayItem.count > 2 ? 1 : 0), section: self.sectionProducts)
         let i2 = IndexPath(row: 0, section: self.sectionPaySummary)
         let b = BaseCartData.instance("Subtotal", placeHolder: nil, enable : false)
         if let totalPrice = self.currentCart?["total_price"].int {
@@ -673,7 +673,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (section == sectionProducts) {
-            return arrayItem.count > 2 ? arrayItem.count + 2 : arrayItem.count + 1 // Total products + clear all cell + subtotal cell
+            return arrayItem.count + (arrayItem.count > 2 ? 2 : 1) // Total products + clear all cell + subtotal cell
         } else if (section == sectionDataUser) {
             return 2
         } else if (section == sectionAlamatUser) {
@@ -699,7 +699,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         if (section == sectionProducts) {
             if (arrayItem.count > 2 && row == 0) { // Clear all
                 cell = tableView.dequeueReusableCell(withIdentifier: "cell_clearall") as! CartCellClearAll
-            } else if (row == arrayItem.count + (arrayItem.count > 2 ? 1 : 0)) { // Subtotal
+            } else if (row == (arrayItem.count + (arrayItem.count > 2 ? 1 : 0))) { // Subtotal
                 cell = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input", isShowBottomLine: false)
             } else { // Cart product
                 let i = tableView.dequeueReusableCell(withIdentifier: "cell_item2") as! CartCellItem
@@ -709,9 +709,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 i.adapt(arrayItem[(indexPath as NSIndexPath).row - (arrayItem.count > 2 ? 1 : 0)])
                 i.cartItemCellDelegate = self
                 
-                if (row != 0) {
+//                if (row != 0) {
                     i.topLine?.isHidden = true
-                }
+//                }
                 
                 i.indexPath = indexPath
                 
@@ -789,7 +789,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         if (section == sectionProducts) {
             if (arrayItem.count > 2 && row == 0) { // Clear all
                 return 32
-            } else if (row == arrayItem.count + (arrayItem.count > 2 ? 1 : 0)) { // Subtotal
+            } else if (row == (arrayItem.count + (arrayItem.count > 2 ? 1 : 0))) { // Subtotal
                 return 44
             } else { // Cart product
                 let json = arrayItem[(indexPath as NSIndexPath).row - (arrayItem.count > 2 ? 1 : 0)]
@@ -869,7 +869,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if ((indexPath as NSIndexPath).section == sectionProducts) {
-            if ((indexPath as NSIndexPath).row == 0) { // Clear all
+            if (arrayItem.count > 2 && (indexPath as NSIndexPath).row == 0) { // Clear all
                 let alert = UIAlertController(title: "Hapus Keranjang", message: "Kamu yakin ingin menghapus semua barang dalam keranjang?", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Hapus", style: .default, handler: { act in
                     alert.dismiss(animated: true, completion: nil)
