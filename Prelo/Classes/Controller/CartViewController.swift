@@ -210,7 +210,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         // Prepare parameter for API refresh cart
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
-        if (c.count <= 0) {
+        if (c.count <= 0 && self.shouldBack == false) {
             _ = self.navigationController?.popViewController(animated: true)
             return
         }
@@ -879,7 +879,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     self.arrayItem.removeAll()
                     CartProduct.deleteAll()
                     self.shouldBack = true
-                    self.cellsData = [:]
+//                    self.cellsData = [:]
                     self.synchCart()
                 }))
                 alert.addAction(UIAlertAction(title: "Batal", style: .default, handler: { act in
@@ -1330,9 +1330,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
         
 //        tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
-//        if (arrayItem.count == 0) {
-//            self.shouldBack = true
-//        }
+        if (arrayItem.count == 0) {
+            self.shouldBack = true
+        }
 //        cellsData = [:]
         synchCart()
         
