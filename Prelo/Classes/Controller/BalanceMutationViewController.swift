@@ -228,7 +228,7 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
         let h : CGFloat = size.height
         
         let reloadDistance : CGFloat = 0
-        if (y > h + reloadDistance) {
+        if (y > h + reloadDistance && self.balanceMutationItems?.count > 0) {
             // Load next items only if all items not loaded yet and if its not currently loading items
             if (!self.isAllItemLoaded && self.bottomLoadingPanel.isHidden) {
                 // Show bottomLoading
