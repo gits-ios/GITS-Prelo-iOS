@@ -673,7 +673,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (section == sectionProducts) {
-            return arrayItem.count + 2 // Total products + clear all cell + subtotal cell
+            return arrayItem.count > 2 ? arrayItem.count + 2 : arrayItem.count + 1 // Total products + clear all cell + subtotal cell
         } else if (section == sectionDataUser) {
             return 2
         } else if (section == sectionAlamatUser) {
@@ -697,16 +697,16 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         var cell : UITableViewCell = UITableViewCell()
         
         if (section == sectionProducts) {
-            if (row == 0) { // Clear all
+            if (arrayItem.count > 2 && row == 0) { // Clear all
                 cell = tableView.dequeueReusableCell(withIdentifier: "cell_clearall") as! CartCellClearAll
-            } else if (row == arrayItem.count + 1) { // Subtotal
+            } else if (row == arrayItem.count + (arrayItem.count > 2 ? 1 : 0)) { // Subtotal
                 cell = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input", isShowBottomLine: false)
             } else { // Cart product
                 let i = tableView.dequeueReusableCell(withIdentifier: "cell_item2") as! CartCellItem
-                let cp = cartProducts[(indexPath as NSIndexPath).row - 1]
+                let cp = cartProducts[(indexPath as NSIndexPath).row - (arrayItem.count > 2 ? 1 : 0)]
                 i.selectedPaymentId = cp.packageId
                 //i.selectedPaymentId = "" // debug
-                i.adapt(arrayItem[(indexPath as NSIndexPath).row - 1])
+                i.adapt(arrayItem[(indexPath as NSIndexPath).row - (arrayItem.count > 2 ? 1 : 0)])
                 i.cartItemCellDelegate = self
                 
                 if (row != 0) {
@@ -787,12 +787,12 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         let row = (indexPath as NSIndexPath).row
         
         if (section == sectionProducts) {
-            if (row == 0) { // Clear all
+            if (arrayItem.count > 2 && row == 0) { // Clear all
                 return 32
-            } else if (row == arrayItem.count + 1) { // Subtotal
+            } else if (row == arrayItem.count + (arrayItem.count > 2 ? 1 : 0)) { // Subtotal
                 return 44
             } else { // Cart product
-                let json = arrayItem[(indexPath as NSIndexPath).row - 1]
+                let json = arrayItem[(indexPath as NSIndexPath).row - (arrayItem.count > 2 ? 1 : 0)]
                 if let error = json["_error"].string {
                     let options : NSStringDrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
                     let h = (error as NSString).boundingRect(with: CGSize(width: UIScreen.main.bounds.width - 114, height: 0), options: options, attributes: [NSFontAttributeName:UIFont.systemFont(ofSize: 14)], context: nil).height
@@ -873,6 +873,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 let alert = UIAlertController(title: "Hapus Keranjang", message: "Kamu yakin ingin menghapus semua barang dalam keranjang?", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Hapus", style: .default, handler: { act in
                     alert.dismiss(animated: true, completion: nil)
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    let notifListener = appDelegate.preloNotifListener
+                    notifListener?.increaseCartCount(-1 * self.arrayItem.count)
                     self.arrayItem.removeAll()
                     CartProduct.deleteAll()
                     self.shouldBack = true
@@ -1299,9 +1302,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     }
     
     func itemNeedDelete(_ indexPath: IndexPath) {
-        let j = arrayItem[(indexPath as NSIndexPath).row - 1]
+        let j = arrayItem[(indexPath as NSIndexPath).row - (arrayItem.count > 2 ? 1 : 0)]
         print(j)
-        arrayItem.remove(at: (indexPath as NSIndexPath).row - 1)
+        arrayItem.remove(at: (indexPath as NSIndexPath).row - (arrayItem.count > 2 ? 1 : 0))
         
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
         let x = AppToolsObjC.jsonString(from: c)
@@ -1326,12 +1329,16 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             UIApplication.appDelegate.saveContext()
         }
         
-        tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
-        if (arrayItem.count == 0) {
-            self.shouldBack = true
-        }
-        cellsData = [:]
+//        tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+//        if (arrayItem.count == 0) {
+//            self.shouldBack = true
+//        }
+//        cellsData = [:]
         synchCart()
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let notifListener = appDelegate.preloNotifListener
+        notifListener?.increaseCartCount(-1)
     }
     
     func itemNeedUpdateShipping(_ indexPath: IndexPath) {
@@ -1480,28 +1487,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         if (user == nil) {
             self.navigationController?.popViewController(animated: true)
         }
-    }
-    
-    // MARK: - PreloNotifListenerDelegate functions
-    
-    override func showNewNotifCount(_ count: Int) {
-        // Do nothing
-    }
-    
-    override func refreshNotifPage() {
-        // Do nothing
-    }
-    
-    override func showCartCount(_ count: Int) {
-        // Do nothing
-    }
-    
-    override func refreshCartPage() {
-        self.getUnpaid()
-    }
-    
-    override func increaseCartCount(_ value: Int) {
-        // Do nothing
     }
     
     // MARK: - Navigation
