@@ -98,7 +98,7 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
         self.balanceMutationItems = []
         self.nextIdx = 0
         self.isAllItemLoaded = false
-        self.showLoading()
+//        self.showLoading()
         
         getBalanceMutations()
     }
