@@ -177,16 +177,20 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let cell : BalanceMutationCell = self.tblMutation.dequeueReusableCell(withIdentifier: "BalanceMutationCell") as! BalanceMutationCell
-        if let b = balanceMutationItems?[(indexPath as NSIndexPath).row] {
-            return BalanceMutationCell.heightFor(b, lblDescription: cell.lblDescription, lblReasonAdmin: cell.lblReasonAdmin)
+        if balanceMutationItems?.count > 0 {
+            if let b = balanceMutationItems?[(indexPath as NSIndexPath).row] {
+                return BalanceMutationCell.heightFor(b, lblDescription: cell.lblDescription, lblReasonAdmin: cell.lblReasonAdmin)
+            }
         }
         return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : BalanceMutationCell = self.tblMutation.dequeueReusableCell(withIdentifier: "BalanceMutationCell") as! BalanceMutationCell
-        if let b = balanceMutationItems?[(indexPath as NSIndexPath).item] {
-            cell.adapt(b)
+        if balanceMutationItems?.count > 0 {
+            if let b = balanceMutationItems?[(indexPath as NSIndexPath).item] {
+                cell.adapt(b)
+            }
         }
         cell.selectionStyle = .none
         return cell

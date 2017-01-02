@@ -450,7 +450,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FBSDKAppEvents.activateApp()
         
         // Remove app badge if any
-        UIApplication.shared.applicationIconBadgeNumber = 0
+//        UIApplication.shared.applicationIconBadgeNumber = 0
         
         // AppsFlyer
         // Track Installs, updates & sessions(app opens) (You must include this API to enable tracking)
