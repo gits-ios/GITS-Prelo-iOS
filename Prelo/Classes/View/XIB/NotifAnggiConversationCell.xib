@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -176,13 +176,13 @@
                         </constraints>
                     </view>
                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g2D-Re-AOz" userLabel="Single Image">
-                        <rect key="frame" x="8" y="8" width="56" height="56"/>
+                        <rect key="frame" x="8" y="8" width="56" height="57.5"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="raisa.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="4w4-5K-NXh">
-                                <rect key="frame" x="0.0" y="0.0" width="56" height="56"/>
+                                <rect key="frame" x="0.0" y="0.0" width="56" height="57.5"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="itE-bR-BVf" userLabel="Caption">
-                                <rect key="frame" x="0.0" y="39" width="56" height="17"/>
+                                <rect key="frame" x="0.0" y="40.5" width="56" height="17"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jual" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JNb-za-W2G">
                                         <rect key="frame" x="0.0" y="0.0" width="56" height="17"/>
@@ -206,7 +206,6 @@
                         <constraints>
                             <constraint firstItem="itE-bR-BVf" firstAttribute="leading" secondItem="g2D-Re-AOz" secondAttribute="leading" id="2jV-rc-zCy"/>
                             <constraint firstAttribute="trailing" secondItem="itE-bR-BVf" secondAttribute="trailing" id="GbI-mu-u08"/>
-                            <constraint firstAttribute="height" constant="56" id="MNd-J1-eEt"/>
                             <constraint firstAttribute="bottom" secondItem="itE-bR-BVf" secondAttribute="bottom" id="NCj-z7-sEV"/>
                             <constraint firstItem="4w4-5K-NXh" firstAttribute="top" secondItem="g2D-Re-AOz" secondAttribute="top" id="aNw-Db-bVy"/>
                             <constraint firstAttribute="width" constant="56" id="b5T-fs-fk8"/>
@@ -218,6 +217,7 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="VNV-Wm-XDT" firstAttribute="leading" secondItem="g2D-Re-AOz" secondAttribute="trailing" constant="8" id="2KY-04-SzJ"/>
+                    <constraint firstAttribute="bottom" secondItem="g2D-Re-AOz" secondAttribute="bottom" constant="8" id="9BP-TM-AA8"/>
                     <constraint firstItem="g2D-Re-AOz" firstAttribute="top" secondItem="LLU-78-kRo" secondAttribute="topMargin" id="AAI-eQ-sQV"/>
                     <constraint firstItem="WBL-8M-UMe" firstAttribute="leading" secondItem="LLU-78-kRo" secondAttribute="leading" constant="16" id="E85-h4-WTJ"/>
                     <constraint firstAttribute="trailing" secondItem="gC5-qo-qLz" secondAttribute="trailing" constant="8" id="OZJ-f3-A5A"/>
