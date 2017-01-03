@@ -1458,6 +1458,7 @@ class ListItemCell : UICollectionViewCell {
     
     @IBOutlet weak var affiliateLogo: UIImageView!
     @IBOutlet weak var consWidthAffiliateLogo: NSLayoutConstraint!
+    @IBOutlet weak var consHeightAffiliateLogo: NSLayoutConstraint!
     
     var newLove : Bool?
     var pid : String?
@@ -1490,7 +1491,7 @@ class ListItemCell : UICollectionViewCell {
         imgFreeOngkir.isHidden = true
         btnTawar.isHidden = true
         btnLove.isHidden = true
-        consWidthAffiliateLogo.constant = 0
+        affiliateLogo.isHidden = true
     }
     
     func adapt(_ product : Product, listStage : Int, currentMode : ListItemMode, shopAvatar : URL?) {
@@ -1552,7 +1553,7 @@ class ListItemCell : UICollectionViewCell {
                 const = CGFloat(15)
             } else if listStage == 3 {
                 if AppTools.isIPad == false  {
-                    const = CGFloat(40)
+                    const = CGFloat(39)
                 } else {
                     const = CGFloat(45)
                 }
@@ -1589,14 +1590,32 @@ class ListItemCell : UICollectionViewCell {
             captionOldPrice.attributedText = attString
         }
         
+        
+        consWidthAffiliateLogo.constant = 0
+        consHeightAffiliateLogo.constant = 0
+        
         if product.isAggregate {
             captionOldPrice.isHidden = true
         } else if product.isAffiliate {
+            var const : CGFloat = CGFloat(30)
+            
+            if listStage == 1 && AppTools.isIPad == false {
+                const = CGFloat(15)
+            } else if listStage == 3 {
+                if AppTools.isIPad == false  {
+                    const = CGFloat(39)
+                } else {
+                    const = CGFloat(45)
+                }
+                
+            }
             let url = URL(string: product.json["affiliate_data"]["affiliate_icon"].stringValue)
             affiliateLogo.afSetImage(withURL: url!)
             
             affiliateLogo.contentMode = .scaleAspectFit
-            consWidthAffiliateLogo.constant = 80
+            consWidthAffiliateLogo.constant = const / 3 * 8
+            consHeightAffiliateLogo.constant = const
+            affiliateLogo.isHidden = false
 //            affiliateLogo.createBordersWithColor(UIColor.red , radius: 3, width: 1)
         }
         
