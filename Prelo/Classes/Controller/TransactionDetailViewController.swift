@@ -4244,7 +4244,7 @@ class TransactionDetailTitleContentHeaderCell : UITableViewCell {
     
     static func heightFor(_ text : String) -> CGFloat {
         let textRect : CGRect = text.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (4 * TransactionDetailTools.Margin))
-        return textRect.height + 33
+        return textRect.height + 33 + 20
     }
     
     func adaptShipHistory(_ msg : String?) {
