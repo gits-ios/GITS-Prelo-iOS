@@ -292,17 +292,17 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else {
                 hideableCell[3] = true
                 hideableCell[6] = true
-                hideableCell[9] = true
+                hideableCell[9] = false
             }
         } else if (progress == TransactionDetailTools.ProgressReviewed) {
             if (userIsSeller()) {
                 hideableCell[3] = true
                 hideableCell[6] = true
-                hideableCell[9] = true
+                hideableCell[9] = false
             } else {
                 hideableCell[3] = true
                 hideableCell[6] = true
-                hideableCell[9] = true
+                hideableCell[9] = false
             }
         } else if (progress == TransactionDetailTools.ProgressReserved) {
             hideableCell[3] = true
@@ -369,7 +369,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             }
         } else if (progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived) {
             if (userIsSeller()) {
-                return 10
+                return 9 //10
             } else {
                 if (isRefundable) {
                     return 13
@@ -647,11 +647,11 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     if (trxProductDetail != nil) {
                         return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPengirimanSeller)
                     }
-                } else if (idx == 7) {
+                } /*else if (idx == 7) {
                     return SeparatorHeight
-                } else if (idx == 8) {
+                }*/ else if (idx == 7) {
                     return DefaultHeight
-                } else if (idx == 9) {
+                } else if (idx == 8) {
                     return ContactPreloHeight
                 }
             } else {
@@ -665,29 +665,29 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     if (trxProductDetail != nil) {
                         return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
                     }
-                } else if (idx == 4) {
+                } /*else if (idx == 4) {
                     return SeparatorHeight
-                } else if (idx == 5) {
+                }*/ else if (idx == 4) {
                     return DefaultHeight
-                } else if (idx == 6) {
+                } else if (idx == 5) {
                     if (trxProductDetail != nil) {
                         return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPengirimanBuyer)
                     }
-                } else if (idx == 7) {
+                } else if (idx == 6) {
                     return SeparatorHeight
+                } else if (idx == 7) {
+                    return DefaultHeight
                 } else if (idx == 8) {
-                    return DefaultHeight
-                } else if (idx == 9) {
                     return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1, boolParam: isRefundable)
-                } else if (idx == 10) {
+                } else if (idx == 9) {
                     return DefaultHeight
-                } else if (idx == 11) {
+                } else if (idx == 10) {
                     if (isRefundable) {
                         return DefaultHeight // Tombol refund
                     } else {
                         return ContactPreloHeight
                     }
-                } else if (idx == 12) {
+                } else if (idx == 11) {
                     return ContactPreloHeight
                 }
             }
@@ -1052,7 +1052,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false)
                 } else if (idx == 3) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranSeller)
                 } else if (idx == 4) {
@@ -1066,7 +1066,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false)
                 } else if (idx == 3) {
                     if (trxProductDetail != nil) {
                         return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
@@ -1100,7 +1100,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false)
                 } else if (idx == 3) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranBuyer)
                 } else if (idx == 4) {
@@ -1120,7 +1120,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 2) {
                     return self.createSeparatorCell()
                 } else if (idx == 3) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [4])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [4], isOpen: false)
                 } else if (idx == 4) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranSeller)
                 } else if (idx == 5) {
@@ -1132,13 +1132,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false)
                 } else if (idx == 3) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranBuyer)
                 } else if (idx == 4) {
                     return self.createSeparatorCell()
                 } else if (idx == 5) {
-                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6], isOpen: false)
                 } else if (idx == 6) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanBuyer)
                 } else if (idx == 7) {
@@ -1154,13 +1154,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false)
                 } else if (idx == 3) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranSeller)
                 } else if (idx == 4) {
                     return self.createSeparatorCell()
                 } else if (idx == 5) {
-                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6], isOpen: false)
                 } else if (idx == 6) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanSeller)
                 } else if (idx == 7) {
@@ -1180,7 +1180,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false)
                 } else if (idx == 3) {
                     if (trxProductDetail != nil) {
                         return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
@@ -1188,7 +1188,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 4) {
                     return self.createSeparatorCell()
                 } else if (idx == 5) {
-                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6], isOpen: false)
                 } else if (idx == 6) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanBuyer)
                 } else if (idx == 7) {
@@ -1206,20 +1206,20 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false)
                 } else if (idx == 3) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranSeller)
                 } else if (idx == 4) {
                     return self.createSeparatorCell()
                 } else if (idx == 5) {
-                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6], isOpen: false)
                 } else if (idx == 6) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanSeller)
-                } else if (idx == 7) {
+                } /*else if (idx == 7) {
                     return self.createSeparatorCell()
-                } else if (idx == 8) {
+                }*/ else if (idx == 7) {
                     return self.createBorderedButtonCell(1)
-                } else if (idx == 9) {
+                } else if (idx == 8) {
                     return self.createContactPreloCell()
                 }
             } else {
@@ -1228,7 +1228,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false)
                 } else if (idx == 3) {
                     if (trxProductDetail != nil) {
                         return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
@@ -1236,13 +1236,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 4) {
                     return self.createSeparatorCell()
                 } else if (idx == 5) {
-                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6], isOpen: false)
                 } else if (idx == 6) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanBuyer)
                 } else if (idx == 7) {
                     return self.createSeparatorCell()
                 } else if (idx == 8) {
-                    return self.createTitleCell(TitleReview, detailCellIndexes: [9])
+                    return self.createTitleCell(TitleReview, detailCellIndexes: [9], isOpen: true)
                 } else if (idx == 9) {
                     return self.createDescriptionCell(1)
                 } else if (idx == 10) {
@@ -1264,19 +1264,19 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false)
                 } else if (idx == 3) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranSeller)
                 } else if (idx == 4) {
                     return self.createSeparatorCell()
                 } else if (idx == 5) {
-                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6], isOpen: false)
                 } else if (idx == 6) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanSeller)
                 } else if (idx == 7) {
                     return self.createSeparatorCell()
                 } else if (idx == 8) {
-                    return self.createTitleCell(TitleReview, detailCellIndexes: [9])
+                    return self.createTitleCell(TitleReview, detailCellIndexes: [9], isOpen: true)
                 } else if (idx == 9) {
                     return self.createReviewCell()
                 } else if (idx == 10) {
@@ -1288,7 +1288,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false)
                 } else if (idx == 3) {
                     if (trxProductDetail != nil) {
                         return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
@@ -1296,13 +1296,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 4) {
                     return self.createSeparatorCell()
                 } else if (idx == 5) {
-                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6], isOpen: false)
                 } else if (idx == 6) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanBuyer)
                 } else if (idx == 7) {
                     return self.createSeparatorCell()
                 } else if (idx == 8) {
-                    return self.createTitleCell(TitleReview, detailCellIndexes: [9])
+                    return self.createTitleCell(TitleReview, detailCellIndexes: [9], isOpen: true)
                 } else if (idx == 9) {
                     return self.createReviewCell()
                 } else if (idx == 10) {
@@ -1315,7 +1315,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else if (idx == 1) {
                 return self.createSeparatorCell()
             } else if (idx == 2) {
-                return self.createTitleCell(TitleReserved, detailCellIndexes: [3])
+                return self.createTitleCell(TitleReserved, detailCellIndexes: [3], isOpen: false)
             } else if (idx == 3) {
                 return self.createDescriptionCell(1)
             } else if (idx == 4) {
@@ -1333,7 +1333,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else if (idx == 1) {
                 return self.createSeparatorCell()
             } else if (idx == 2) {
-                return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false)
             } else if (idx == 3) {
                 return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranReservasi)
             } else if (idx == 4) {
@@ -1368,13 +1368,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false)
                 } else if (idx == 3) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranSeller)
                 } else if (idx == 4) {
                     return self.createSeparatorCell()
                 } else if (idx == 5) {
-                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6], isOpen: false)
                 } else if (idx == 6) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanSeller)
                 } else if (idx == 7) {
@@ -1390,7 +1390,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false)
                 } else if (idx == 3) {
                     if (trxProductDetail != nil) {
                         return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
@@ -1410,13 +1410,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false)
                 } else if (idx == 3) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranSeller)
                 } else if (idx == 4) {
                     return self.createSeparatorCell()
                 } else if (idx == 5) {
-                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6], isOpen: false)
                 } else if (idx == 6) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanSeller)
                 } else if (idx == 7) {
@@ -1434,7 +1434,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false)
                 } else if (idx == 3) {
                     if (trxProductDetail != nil) {
                         return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
@@ -1458,13 +1458,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false)
                 } else if (idx == 3) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranSeller)
                 } else if (idx == 4) {
                     return self.createSeparatorCell()
                 } else if (idx == 5) {
-                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6], isOpen: false)
                 } else if (idx == 6) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanSeller)
                 } else if (idx == 7) {
@@ -1484,7 +1484,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false)
                 } else if (idx == 3) {
                     if (trxProductDetail != nil) {
                         return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
@@ -1506,13 +1506,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false)
                 } else if (idx == 3) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranSeller)
                 } else if (idx == 4) {
                     return self.createSeparatorCell()
                 } else if (idx == 5) {
-                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6], isOpen: false)
                 } else if (idx == 6) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanSeller)
                 } else if (idx == 7) {
@@ -1528,7 +1528,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false)
                 } else if (idx == 3) {
                     if (trxProductDetail != nil) {
                         return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
@@ -1659,11 +1659,11 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         return cell
     }
     
-    func createTitleCell(_ title : String, detailCellIndexes : [Int]) -> TransactionDetailTitleCell {
+    func createTitleCell(_ title : String, detailCellIndexes : [Int], isOpen : Bool) -> TransactionDetailTitleCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailTitleCellId) as! TransactionDetailTitleCell
         
         // Adapt cell
-        cell.adapt(title, detailCellIndexes: detailCellIndexes)
+        cell.adapt(title, detailCellIndexes: detailCellIndexes, isOpen: isOpen)
         
         // Configure actions
         cell.switchDetail = {
@@ -4089,7 +4089,7 @@ class TransactionDetailTitleCell : UITableViewCell {
     var switchDetail : () -> () = {}
     var detailCellIndexes : [Int] = []
     
-    func adapt(_ title : String, detailCellIndexes : [Int]) {
+    func adapt(_ title : String, detailCellIndexes : [Int], isOpen : Bool) {
         lblTitle.text = title
         self.detailCellIndexes = detailCellIndexes
         if (detailCellIndexes.count > 0) {
@@ -4098,6 +4098,10 @@ class TransactionDetailTitleCell : UITableViewCell {
         } else {
             lblDetail.isHidden = true
             lblDetail.isHidden = true
+        }
+        
+        if (isOpen) {
+            lblDetailIcon.text = TransactionDetailTools.IcUpArrow
         }
     }
     
