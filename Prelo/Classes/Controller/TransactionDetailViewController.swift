@@ -1039,7 +1039,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createDescriptionCell(1)
                 } else if (idx == 2) {
-                    return self.createBorderedButtonCell(1)
+//                    return self.createBorderedButtonCell(1)
+                    return self.createButtonCell(1)
                 } else if (idx == 3) {
                     return self.createContactPreloCell()
                 }
@@ -1799,18 +1800,6 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             alert.addAction(UIAlertAction(title: "Batal", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
-        
-        return cell
-    }
-    
-    func createBorderedButtonCell(_ order : Int) -> TransactionDetailBorderedButtonCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailBorderedButtonCellId) as! TransactionDetailBorderedButtonCell
-        
-        // Adapt cell
-        if (progress != nil) {
-            cell.adapt(self.progress, isSeller: isSeller, order: order)
-        }
-        
         // Configure actions
         cell.orderAgain = {
             if (self.trxDetail != nil) {
@@ -1830,6 +1819,38 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 self.performSegue(withIdentifier: "segCart", sender: nil)
             }
         }
+
+        
+        return cell
+    }
+    
+    func createBorderedButtonCell(_ order : Int) -> TransactionDetailBorderedButtonCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailBorderedButtonCellId) as! TransactionDetailBorderedButtonCell
+        
+        // Adapt cell
+        if (progress != nil) {
+            cell.adapt(self.progress, isSeller: isSeller, order: order)
+        }
+        
+//        // Configure actions
+//        cell.orderAgain = {
+//            if (self.trxDetail != nil) {
+//                var success = true
+//                let tProducts = self.trxDetail!.transactionProducts
+//                for i in 0...(tProducts.count - 1) {
+//                    let tProduct : TransactionProductDetail = tProducts[i]
+//                    if (!CartProduct.isExist(tProduct.productId, email: User.EmailOrEmptyString)) {
+//                        if (CartProduct.newOne(tProduct.productId, email: User.EmailOrEmptyString, name: tProduct.productName) == nil) {
+//                            success = false
+//                        }
+//                    }
+//                }
+//                if (!success) {
+//                    Constant.showDialog("Add to Cart", message: "Terdapat kesalahan saat menambahkan barang ke keranjang belanja")
+//                }
+//                self.performSegue(withIdentifier: "segCart", sender: nil)
+//            }
+//        }
         cell.rejectTransaction = {
             self.vwShadow.isHidden = false
             self.vwTolakPesanan.isHidden = false
@@ -4278,6 +4299,7 @@ class TransactionDetailButtonCell : UITableViewCell {
     var seeFAQ : () -> () = {}
     var confirmReturnShipping : () -> () = {}
     var confirmReturned : () -> () = {}
+    var orderAgain : () -> () = {}
     
     func adapt(_ progress : Int?, order : Int) {
         self.progress = progress
@@ -4302,6 +4324,9 @@ class TransactionDetailButtonCell : UITableViewCell {
             btn.setTitle("KONFIRMASI PENERIMAAN", for: UIControlState())
         } else if (progress == TransactionDetailTools.ProgressRefundSuccess) {
             btn.setTitle("TARIK UANG", for: UIControlState())
+        } else if (progress == TransactionDetailTools.ProgressExpired) {
+            let TitlePesanLagi = "PESAN LAGI BARANG YANG SAMA"
+            btn.setTitle(TitlePesanLagi, for: UIControlState())
         }
     }
     
@@ -4326,6 +4351,8 @@ class TransactionDetailButtonCell : UITableViewCell {
             self.confirmReturned()
         } else if (progress == TransactionDetailTools.ProgressRefundSuccess) {
             self.retrieveCash()
+        } else if (progress == TransactionDetailTools.ProgressExpired) {
+            self.orderAgain()
         }
     }
 }
@@ -4338,7 +4365,7 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
     var progress : Int?
     var order : Int?
     var isSeller : Bool?
-    var orderAgain : () -> () = {}
+//    var orderAgain : () -> () = {}
     var rejectTransaction : () -> () = {}
     var contactBuyer : () -> () = {}
     var contactSeller : () -> () = {}
@@ -4346,7 +4373,7 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
     var delayShipping : () -> () = {}
     var initRefund : () -> () = {}
     
-    let TitlePesanLagi = "PESAN LAGI BARANG YANG SAMA"
+//    let TitlePesanLagi = "PESAN LAGI BARANG YANG SAMA"
     let TitleHubungiBuyer = "HUBUNGI PEMBELI"
     let TitleHubungiSeller = "HUBUNGI PENJUAL"
     let TitleTolakPesanan = "Tolak Pesanan"
@@ -4358,9 +4385,10 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
         self.progress = progress
         self.order = order
         self.isSeller = isSeller
-        if (progress == TransactionDetailTools.ProgressExpired) {
-            btn.setTitle(TitlePesanLagi, for: UIControlState())
-        } else if (progress == TransactionDetailTools.ProgressRejectedBySeller) {
+//        if (progress == TransactionDetailTools.ProgressExpired) {
+//            btn.setTitle(TitlePesanLagi, for: UIControlState())
+//        } else
+        if (progress == TransactionDetailTools.ProgressRejectedBySeller) {
             btn.setTitle(TitleHubungiBuyer, for: UIControlState())
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
             if (order == 1) {
@@ -4410,9 +4438,10 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
     }
     
     @IBAction func btnPressed(_ sender: AnyObject) {
-        if (progress == TransactionDetailTools.ProgressExpired) {
-            self.orderAgain()
-        } else if (progress == TransactionDetailTools.ProgressRejectedBySeller) {
+//        if (progress == TransactionDetailTools.ProgressExpired) {
+//            self.orderAgain()
+//        } else
+        if (progress == TransactionDetailTools.ProgressRejectedBySeller) {
             self.contactBuyer()
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
             if (order == 1) {
