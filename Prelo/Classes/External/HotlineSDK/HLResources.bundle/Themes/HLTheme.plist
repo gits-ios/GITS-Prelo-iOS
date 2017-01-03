@@ -222,15 +222,15 @@
 	<key>NavigationBar</key>
 	<dict>
 		<key>BackgroundColor</key>
-		<string>F8F8F8</string>
-		<key>ButtonColor</key>
 		<string>00A79D</string>
+		<key>ButtonColor</key>
+		<string>FFFFFF</string>
 		<key>ButtonFontName</key>
 		<string>SYS_DEFAULT_FONT_NAME</string>
 		<key>ButtonFontSize</key>
 		<string>16.0f</string>
 		<key>TitleColor</key>
-		<string>000000</string>
+		<string>FFFFFF</string>
 		<key>TitleFontName</key>
 		<string>SYS_DEFAULT_FONT_NAME</string>
 		<key>TitleFontSize</key>
