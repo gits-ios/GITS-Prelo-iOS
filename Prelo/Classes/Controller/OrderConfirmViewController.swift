@@ -312,7 +312,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         if (isFreeTransaction) {
             // Pop ke home, kemudian buka list belanjaan saya jika dari checkout
             if (self.isFromCheckout) {
-                UserDefaults.setObjectAndSync(PageName.MyOrders as AnyObject?, forKey: UserDefaultsKey.RedirectFromHome)
+//                UserDefaults.setObjectAndSync(PageName.MyOrders as AnyObject?, forKey: UserDefaultsKey.RedirectFromHome)
             }
             if (isBackToRoot) {
                 _ = self.navigationController?.popToRootViewController(animated: true)
