@@ -139,6 +139,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var fltrSizes : [String] = []
     var fltrSortBy : String = "" // "recent"/"lowest_price"/"highest_price"/"popular"
     var fltrLocation : [String] = ["Semua Provinsi", "", "0", "Semua Province  "] // name , id, type --> 0: province, 1: region, 2: subdistrict
+    var fltrAggregateId : String = "" // agregateid
     // Views
     @IBOutlet var vwTopHeaderFilter: UIView!
     @IBOutlet var consTopTopHeaderFilter: NSLayoutConstraint!
@@ -561,7 +562,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         let regionId =  self.fltrLocation[2].int == 1 ? self.fltrLocation[1] : ""
         let subDistrictId =  self.fltrLocation[2].int == 2 ? self.fltrLocation[1] : ""
         
-        let _ = request(APISearch.productByFilter(name: fltrName, categoryId: fltrCategId, brandIds: AppToolsObjC.jsonString(from: [String](fltrBrands.values)), productConditionIds: AppToolsObjC.jsonString(from: fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonString(from: fltrSizes), sortBy: fltrSortBy, current: NSNumber(value: products!.count), limit: NSNumber(value: itemsPerReq), lastTimeUuid: lastTimeUuid, provinceId : provinceId, regionId: regionId, subDistrictId: subDistrictId)).responseJSON { resp in
+        let _ = request(APISearch.productByFilter(name: fltrName, aggregateId: fltrAggregateId, categoryId: fltrCategId, brandIds: AppToolsObjC.jsonString(from: [String](fltrBrands.values)), productConditionIds: AppToolsObjC.jsonString(from: fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonString(from: fltrSizes), sortBy: fltrSortBy, current: NSNumber(value: products!.count), limit: NSNumber(value: itemsPerReq), lastTimeUuid: lastTimeUuid, provinceId : provinceId, regionId: regionId, subDistrictId: subDistrictId)).responseJSON { resp in
             if (fltrNameReq == self.fltrName) { // Jika response ini sesuai dengan request terakhir
                 self.requesting = false
                 if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Filter Product")) {
@@ -974,10 +975,23 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             self.refresh()
         case .products:
             self.selectedProduct = products?[(indexPath as NSIndexPath).item]
-            if (currentMode == .featured) {
-                selectedProduct?.setToFeatured()
+            if self.selectedProduct?.isAggregate == false && self.selectedProduct?.isAffiliate == false {
+                if (currentMode == .featured) {
+                    self.selectedProduct?.setToFeatured()
+                }
+                self.launchDetail()
+            } else if self.selectedProduct?.isAffiliate == false {
+                let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+                l.currentMode = .filter
+                l.fltrAggregateId = (self.selectedProduct?.id)!
+                l.fltrName = ""
+                self.navigationController?.pushViewController(l, animated: true)
+            } else {
+                let urlString = self.selectedProduct?.json["affiliate_data"]["affiliate_url"].stringValue
+                
+                let url = NSURL(string: urlString!)!
+                UIApplication.shared.openURL(url as URL)
             }
-            self.launchDetail()
         }
     }
     
@@ -1442,6 +1456,9 @@ class ListItemCell : UICollectionViewCell {
     @IBOutlet weak var consbtnHeightTawar: NSLayoutConstraint!
     @IBOutlet weak var consbtnHeightLove: NSLayoutConstraint!
     
+    @IBOutlet weak var affiliateLogo: UIImageView!
+    @IBOutlet weak var consWidthAffiliateLogo: NSLayoutConstraint!
+    
     var newLove : Bool?
     var pid : String?
     var cid : String?
@@ -1473,12 +1490,13 @@ class ListItemCell : UICollectionViewCell {
         imgFreeOngkir.isHidden = true
         btnTawar.isHidden = true
         btnLove.isHidden = true
+        consWidthAffiliateLogo.constant = 0
     }
     
     func adapt(_ product : Product, listStage : Int, currentMode : ListItemMode, shopAvatar : URL?) {
         let obj = product.json
         captionTitle.text = product.name
-        captionPrice.text = product.price
+        captionPrice.text = (product.isAggregate ? "mulai dari " : "") + product.price
         let loveCount = obj["love"].int
         captionLove.text = String(loveCount == nil ? 0 : loveCount!)
         let commentCount = obj["discussions"].int
@@ -1526,7 +1544,7 @@ class ListItemCell : UICollectionViewCell {
         }
         
         let myId = CDUser.getOne()?.id
-        if (User.IsLoggedIn == true && (self.sid != myId)) {
+        if (User.IsLoggedIn == true && (self.sid != myId) && product.isAggregate == false && product.isAffiliate == false) {
             btnLove.isHidden = false
             var const : CGFloat = CGFloat(30)
             
@@ -1569,6 +1587,17 @@ class ListItemCell : UICollectionViewCell {
             let attString = NSMutableAttributedString(string: s as String)
             attString.addAttributes([NSStrikethroughStyleAttributeName:NSUnderlineStyle.styleSingle.rawValue], range: s.range(of: s as String))
             captionOldPrice.attributedText = attString
+        }
+        
+        if product.isAggregate {
+            captionOldPrice.isHidden = true
+        } else if product.isAffiliate {
+            let url = URL(string: product.json["affiliate_data"]["affiliate_icon"].stringValue)
+            affiliateLogo.afSetImage(withURL: url!)
+            
+            affiliateLogo.contentMode = .scaleAspectFit
+            consWidthAffiliateLogo.constant = 80
+//            affiliateLogo.createBordersWithColor(UIColor.red , radius: 3, width: 1)
         }
         
         if let status = product.status {

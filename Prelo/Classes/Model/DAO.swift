@@ -1192,6 +1192,20 @@ open class Product : NSObject
         }
         return false
     }
+    
+    var isAggregate : Bool {
+        if let j = json["aggregate_data"]["num_products"].int {
+            return true
+        }
+        return false
+    }
+    
+    var isAffiliate : Bool {
+        if let j = json["affiliate_data"]["affiliate_name"].string {
+            return true
+        }
+        return false
+    }
 }
 
 class MyProductItem : Product {
