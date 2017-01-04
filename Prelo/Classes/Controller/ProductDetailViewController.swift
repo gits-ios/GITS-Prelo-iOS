@@ -783,7 +783,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             } else if ((indexPath as NSIndexPath).row == 1) {
                 return ProductCellSeller.heightFor(detail?.json)
             } else {
-                return ProductCellDescription.heightFor(detail) + 50 - (detail?.specialStory != "" ? 0 : 10)
+                return ProductCellDescription.heightFor(detail) - (detail?.specialStory != "" ? 0 : 10) //+ 50
             }
         } else {
             return ProductCellDiscussion.heightFor(detail?.discussions?.objectAtCircleIndex((indexPath as NSIndexPath).row-3))
@@ -1626,6 +1626,9 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
     @IBOutlet var captionMerk : ZSWTappableLabel?
     @IBOutlet var captionCategory : ZSWTappableLabel?
     
+    @IBOutlet var consHeightWaktuJaminan: NSLayoutConstraint!
+    
+    
     var cellDelegate : ProductCellDelegate?
     
     override func awakeFromNib() {
@@ -1658,7 +1661,9 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         
         let size = desc2.boundingRect(with: cons, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName:font], context: nil)
         
-        let s = "Jaminan 100% uang kembali jika pesananmu tidak sampai".boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: UIScreen.main.bounds.size.width-66)
+        let string : String = "Waktu Jaminan Prelo: Belanja bergaransi dengan waktu jaminan hingga 3x24 jam setelah barang diterima jika barang terbukti KW, memiliki cacat yang tidak diinformasikan, atau berbeda dari yang dipesan"
+        
+        let s = string.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: UIScreen.main.bounds.size.width-66)
         
         let arr = product["category_breadcrumbs"].array!
         var categoryString : String = ""
@@ -1798,6 +1803,12 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
             defect = "-"
         }
         captionConditionDesc?.text = defect
+        
+        let string : String = "Waktu Jaminan Prelo: Belanja bergaransi dengan waktu jaminan hingga 3x24 jam setelah barang diterima jika barang terbukti KW, memiliki cacat yang tidak diinformasikan, atau berbeda dari yang dipesan"
+        
+        let s2 = string.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: UIScreen.main.bounds.size.width-66)
+        
+        self.consHeightWaktuJaminan.constant = s2.height
     }
     
     func tappableLabel(_ tappableLabel: ZSWTappableLabel!, tappedAt idx: Int, withAttributes attributes: [AnyHashable: Any]!) {

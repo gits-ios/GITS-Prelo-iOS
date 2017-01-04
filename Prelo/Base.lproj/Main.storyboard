@@ -724,11 +724,18 @@
                                                         <action selector="btnLovePressed:" destination="VJW-xa-4Ee" eventType="touchUpInside" id="a1Z-Iw-Rqa"/>
                                                     </connections>
                                                 </button>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kMi-ga-Uri">
+                                                    <rect key="frame" x="200" y="232" width="0.0" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" id="kyu-et-OwJ"/>
+                                                        <constraint firstAttribute="height" constant="30" id="yKZ-vv-86s"/>
+                                                    </constraints>
+                                                </imageView>
                                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JBC-Cc-yTc">
                                                     <rect key="frame" x="166" y="166" width="26" height="26"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bXc-uy-4CD">
-                                                            <rect key="frame" x="5" y="5.5" width="16" height="16"/>
+                                                            <rect key="frame" x="5" y="5" width="16" height="16"/>
                                                             <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -846,6 +853,7 @@
                                             <constraint firstItem="X32-1K-QZA" firstAttribute="top" secondItem="VJW-xa-4Ee" secondAttribute="top" id="d59-pF-1BK"/>
                                             <constraint firstItem="OHf-Uh-r7j" firstAttribute="trailing" secondItem="VJW-xa-4Ee" secondAttribute="trailingMargin" id="dBu-Am-Lyw"/>
                                             <constraint firstItem="lW7-IS-hv7" firstAttribute="width" secondItem="lW7-IS-hv7" secondAttribute="height" multiplier="123:122" id="db9-4K-haP"/>
+                                            <constraint firstAttribute="trailing" secondItem="kMi-ga-Uri" secondAttribute="trailing" id="eGX-If-qcf"/>
                                             <constraint firstAttribute="bottomMargin" secondItem="lOd-bY-4Md" secondAttribute="bottom" constant="66" id="gT6-Tr-wNh"/>
                                             <constraint firstItem="CIM-nt-4UI" firstAttribute="leading" secondItem="p5l-ZT-ELz" secondAttribute="trailing" constant="4" id="hFf-s4-YWd"/>
                                             <constraint firstItem="5XU-vq-YZT" firstAttribute="top" secondItem="OiJ-C3-nY9" secondAttribute="bottom" constant="4" id="i5X-O5-iWu"/>
@@ -857,6 +865,7 @@
                                             <constraint firstItem="qPJ-HM-Yss" firstAttribute="leading" secondItem="5XU-vq-YZT" secondAttribute="trailing" constant="4" id="pRv-Sb-I7U"/>
                                             <constraint firstAttribute="bottom" secondItem="No6-kQ-u3q" secondAttribute="bottom" constant="-20" id="paG-fs-XhD"/>
                                             <constraint firstItem="No6-kQ-u3q" firstAttribute="leading" secondItem="CIM-nt-4UI" secondAttribute="trailing" constant="2" id="pe7-0H-dEZ"/>
+                                            <constraint firstAttribute="bottom" secondItem="kMi-ga-Uri" secondAttribute="bottom" constant="8" id="pmv-4e-bnb"/>
                                             <constraint firstItem="QCi-p0-PIt" firstAttribute="top" secondItem="VJW-xa-4Ee" secondAttribute="top" id="qvw-Cc-WF4"/>
                                             <constraint firstItem="YEl-Eb-TeX" firstAttribute="top" secondItem="VJW-xa-4Ee" secondAttribute="top" id="tFz-xi-sbA"/>
                                             <constraint firstAttribute="bottom" secondItem="p5l-ZT-ELz" secondAttribute="bottom" constant="-20" id="tls-S3-w5h"/>
@@ -877,6 +886,7 @@
                                             </mask>
                                         </variation>
                                         <connections>
+                                            <outlet property="affiliateLogo" destination="kMi-ga-Uri" id="WTe-rF-Hfg"/>
                                             <outlet property="avatar" destination="VXw-ln-4O9" id="x9w-gJ-coM"/>
                                             <outlet property="btnLove" destination="OHf-Uh-r7j" id="GC0-vT-GSC"/>
                                             <outlet property="btnTawar" destination="qPJ-HM-Yss" id="C27-Ct-JZ6"/>
@@ -887,7 +897,9 @@
                                             <outlet property="captionPrice" destination="I7f-5u-kJl" id="vnS-ix-kbU"/>
                                             <outlet property="captionSpecialStory" destination="7yN-QT-Nu6" id="DPh-IB-0AQ"/>
                                             <outlet property="captionTitle" destination="OiJ-C3-nY9" id="2jJ-JB-zbe"/>
+                                            <outlet property="consHeightAffiliateLogo" destination="yKZ-vv-86s" id="mWt-Fg-uJX"/>
                                             <outlet property="consHeightFO" destination="Wsj-u0-5ql" id="nej-tG-Pqe"/>
+                                            <outlet property="consWidthAffiliateLogo" destination="kyu-et-OwJ" id="SPQ-Ab-S8C"/>
                                             <outlet property="consWidthFO" destination="dBj-Uy-jrG" id="UaB-BL-YLy"/>
                                             <outlet property="consbtnHeightLove" destination="KXV-ph-CP8" id="8DD-Ls-msI"/>
                                             <outlet property="consbtnHeightTawar" destination="7Im-XM-SUw" id="9Eq-Ik-eFG"/>
@@ -2535,13 +2547,13 @@ diterima dan refund 100%</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p1p-tf-v6m">
-                                                        <rect key="frame" x="346.5" y="13" width="12.5" height="17"/>
+                                                        <rect key="frame" x="346" y="13" width="13" height="17"/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="17"/>
                                                         <color key="textColor" red="0.048671051860000002" green="0.3823831379" blue="0.41029164200000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pilih Bank" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H8s-gQ-2aH">
-                                                        <rect key="frame" x="267.5" y="12" width="71" height="20"/>
+                                                        <rect key="frame" x="267" y="12" width="71" height="20"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                         <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -6444,7 +6456,7 @@ in Bandung</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vqc-R4-f7B">
-                                                        <rect key="frame" x="354.5" y="13" width="12.5" height="17"/>
+                                                        <rect key="frame" x="354" y="13" width="13" height="17"/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="17"/>
                                                         <color key="textColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -6500,7 +6512,7 @@ in Bandung</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BDC-LC-fXZ">
-                                                        <rect key="frame" x="354.5" y="13" width="12.5" height="17"/>
+                                                        <rect key="frame" x="354" y="13" width="13" height="17"/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="17"/>
                                                         <color key="textColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -6556,7 +6568,7 @@ in Bandung</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bk3-eX-h2g">
-                                                        <rect key="frame" x="354.5" y="13" width="12.5" height="17"/>
+                                                        <rect key="frame" x="354" y="13" width="13" height="17"/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="17"/>
                                                         <color key="textColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -8124,10 +8136,10 @@ in Bandung</string>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lQc-vW-jXb">
-                                                    <rect key="frame" x="8" y="204" width="368" height="120"/>
+                                                    <rect key="frame" x="8" y="204" width="368" height="92.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YOT-eL-VUW">
-                                                            <rect key="frame" x="8" y="8" width="32" height="104"/>
+                                                            <rect key="frame" x="8" y="8" width="32" height="76.5"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="YOT-eL-VUW" secondAttribute="height" id="agR-ew-cUR"/>
                                                             </constraints>
@@ -8154,10 +8166,10 @@ in Bandung</string>
                                                                 </mask>
                                                             </variation>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="749" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="HwS-n5-77a">
-                                                            <rect key="frame" x="42" y="27" width="318" height="85"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="749" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="HwS-n5-77a">
+                                                            <rect key="frame" x="42" y="27" width="318" height="57.5"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="height" constant="85" id="gOG-FJ-fNV"/>
+                                                                <constraint firstAttribute="height" constant="57.280000000000001" id="gOG-FJ-fNV"/>
                                                             </constraints>
                                                             <string key="text">Waktu Jaminan Prelo: Belanja bergaransi dengan waktu jaminan hingga 3x24 jam setelah barang diterima jika barang terbukti KW, memiliki cacat yang tidak diinformasikan, atau berbeda dari yang dipesan</string>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -8297,6 +8309,7 @@ in Bandung</string>
                                             <outlet property="captionFrom" destination="Wk0-I4-cjN" id="QwL-na-Xjv"/>
                                             <outlet property="captionMerk" destination="h33-IH-dwS" id="mA3-NN-9Np"/>
                                             <outlet property="captionSize" destination="trO-QQ-FvV" id="Mcj-lD-BMv"/>
+                                            <outlet property="consHeightWaktuJaminan" destination="gOG-FJ-fNV" id="0rG-Yq-AfS"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_disc_1" rowHeight="64" id="bpj-9l-XoT" customClass="ProductCellDiscussion" customModule="Prelo" customModuleProvider="target">
@@ -9179,7 +9192,7 @@ in Bandung</string>
                                         <color key="color" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </activityIndicatorView>
                                 </subviews>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="ukm-Vz-BDL" firstAttribute="centerX" secondItem="pHg-Qa-gwR" secondAttribute="centerX" id="ANr-0G-XgE"/>
                                     <constraint firstItem="ukm-Vz-BDL" firstAttribute="centerY" secondItem="pHg-Qa-gwR" secondAttribute="centerY" id="prc-w3-xXk"/>
@@ -9324,7 +9337,7 @@ in Bandung</string>
                                                             <rect key="frame" x="10" y="0.0" width="44" height="44"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fDk-jQ-LO8">
-                                                                    <rect key="frame" x="12.5" y="12.5" width="20" height="20"/>
+                                                                    <rect key="frame" x="12" y="12" width="20" height="20"/>
                                                                     <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="20"/>
                                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
@@ -15934,7 +15947,7 @@ in Bandung</string>
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rx7-Ue-UrE">
-                                                    <rect key="frame" x="59" y="8" width="6.5" height="18"/>
+                                                    <rect key="frame" x="59" y="8" width="7" height="18"/>
                                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="18"/>
                                                     <color key="textColor" red="0.90823972230000005" green="0.92638683320000004" blue="0.93171715740000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -16045,7 +16058,7 @@ in Bandung</string>
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IWA-Ld-tSD">
-                                                    <rect key="frame" x="59" y="8" width="6.5" height="18"/>
+                                                    <rect key="frame" x="59" y="8" width="7" height="18"/>
                                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="18"/>
                                                     <color key="textColor" red="0.90823972230000005" green="0.92638683320000004" blue="0.93171715740000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -16132,7 +16145,7 @@ in Bandung</string>
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9jY-TW-TqZ">
-                                                    <rect key="frame" x="370.5" y="8" width="6.5" height="18"/>
+                                                    <rect key="frame" x="370" y="8" width="7" height="18"/>
                                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="18"/>
                                                     <color key="textColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -16233,7 +16246,7 @@ in Bandung</string>
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wNC-xg-mk9">
-                                                    <rect key="frame" x="371.5" y="8" width="6.5" height="18"/>
+                                                    <rect key="frame" x="371" y="8" width="7" height="18"/>
                                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="18"/>
                                                     <color key="textColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -18355,9 +18368,9 @@ in Bandung</string>
         <image name="tour_5.jpg" width="720" height="1280"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="5pQ-qG-4MR"/>
         <segue reference="cuL-Ez-B43"/>
-        <segue reference="ksh-6D-t59"/>
+        <segue reference="5pQ-qG-4MR"/>
+        <segue reference="dW2-MQ-HC6"/>
         <segue reference="W6Y-eo-D2Q"/>
     </inferredMetricsTieBreakers>
 </document>
