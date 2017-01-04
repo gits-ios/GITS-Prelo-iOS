@@ -1342,7 +1342,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     }
     
     func itemNeedUpdateShipping(_ indexPath: IndexPath) {
-        let j = arrayItem[(indexPath as NSIndexPath).row - 1]
+        let j = arrayItem[(indexPath as NSIndexPath).row - (arrayItem.count > 2 ? 1 : 0)]
         let jid = j["product_id"].stringValue
         var cartProduct : CartProduct?
         for cp in cartProducts {
