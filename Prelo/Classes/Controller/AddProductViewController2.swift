@@ -885,24 +885,35 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 self.lblSubmit.isHidden = false
             }
             
+            var imageURL : NSURL
             
-            let imageURL = info[UIImagePickerControllerReferenceURL] as! NSURL
+            if (picker.sourceType == .camera) {
+                CustomPhotoAlbum.sharedInstance.save(image: img)
+                
+                let photoURLpath = CustomPhotoAlbum.sharedInstance.fetchLastPhotoTakenFromAlbum()
+                
+                // Define the specific path, image name
+                imageURL = NSURL(fileURLWithPath: fileInDocumentsDirectory(filename: photoURLpath))
+            } else {
+                imageURL = info[UIImagePickerControllerReferenceURL] as! NSURL
+            }
             let imageName = imageURL.path!.lastPathComponent + "_" + index.string
             let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
             let localPath = documentDirectory.stringByAppendingPathComponent(imageName)
             
-            let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-            let data = UIImagePNGRepresentation(image)
+            let data = UIImagePNGRepresentation(img)
             
             do {
                 try data?.write(to: URL(fileURLWithPath: localPath), options: .atomic)
-            }catch{
+            } catch {
                 print("err")
             }
-            
             let photoURL = NSURL(fileURLWithPath: localPath)
             
             self.localPath[index] = (photoURL.path)!
+
+            
+            
         }
         
         picker.dismiss(animated: true, completion: nil)
@@ -1814,11 +1825,6 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 //        return true
     }
     
-    func getDocumentsURL() -> NSURL {
-        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        return documentsURL as NSURL
-    }
-    
     func saveDraft() {
         //  0  styleName : String
         //  1  serialNumber : String
@@ -1845,6 +1851,18 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         if (self.lblSubmit.isHidden == false && self.editMode == false) {
             CDDraftProduct.saveDraft(self.txtName.text!, descriptionText: self.txtDescription.text, weight: self.txtWeight.text != nil ? self.txtWeight.text! : "", freeOngkir: NSNumber(value: self.freeOngkir), priceOriginal: self.txtOldPrice.text != nil ? self.txtOldPrice.text! : "", price: self.txtNewPrice.text != nil ? self.txtNewPrice.text! : "", commission: self.txtCommission.text != nil ? self.txtCommission.text!.replace(" %", template: "") : "", category: self.captionKategori.text != nil ? self.captionKategori.text! : "", categoryId: self.productCategoryId, isCategWomenOrMenSelected: self.isCategWomenOrMenSelected, condition: self.captionKondisi.text != nil ? self.captionKondisi.text! : "", conditionId: self.kodindisiId, brand: self.captionMerek.text != nil ? self.captionMerek.text! : "", brandId: self.merekId, imagePath: self.localPath, size: self.txtSize.text != nil ? self.txtSize.text! : "", defectDescription: self.txtDeskripsiCacat.text != nil ? self.txtDeskripsiCacat.text! : "", sellReason: self.txtAlasanJual.text != nil ? self.txtAlasanJual.text! : "", specialStory: self.txtSpesial.text != nil ? self.txtSpesial.text! : "", luxuryData: luxuryData)
         }
+    }
+    
+    func getDocumentsURL() -> NSURL {
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        return documentsURL as NSURL
+    }
+    
+    func fileInDocumentsDirectory(filename: String) -> String {
+        
+        let fileURL = getDocumentsURL().appendingPathComponent(filename)
+        return fileURL!.path
+        
     }
     
     /*
