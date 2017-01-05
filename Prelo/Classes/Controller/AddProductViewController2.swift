@@ -690,8 +690,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             n.setViewControllers([a], animated: false)
             self.present(n, animated: true, completion: nil)
             
-//            let a = UIActionSheet(title: "Option", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: "Cancel")
-//            a.addButtonWithTitle("Edit")
+//            let a = UIActionSheet(title: "Option", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: "Batal")
+//            a.addButtonWithTitle("Ubah")
 //            a.addButtonWithTitle("Ganti")
 //            
 //            if (index != 0)
