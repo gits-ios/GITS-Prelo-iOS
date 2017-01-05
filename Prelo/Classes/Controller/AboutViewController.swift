@@ -131,6 +131,8 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                 self.enableBtnClearCache()
             }
         }
+        
+        CDDraftProduct.delete()
     }
     
     @IBAction func logout()

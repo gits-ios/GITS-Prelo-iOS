@@ -114,6 +114,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     var screenBeforeAddProduct = ""
     
+    var localPath : Array<String> = ["", "", "", "", ""]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -367,6 +369,147 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 self.conTopOngkirGroup.constant = 8
             }
         }
+        else if (CDDraftProduct.getOne() != nil)
+        {
+            let product = CDDraftProduct.getOne()
+            
+            txtName.text = product?.name
+            txtDescription.text = product?.descriptionText
+            if let weight = product?.weight.int
+            {
+                txtWeight.text = String(weight)
+                txtWeight.isHidden = false
+                conHeightWeightView.constant = 158
+                var index = 0
+                if (weight >= 1000 && weight < 2000)
+                {
+                    index = 1
+                } else if (weight >= 2000)
+                {
+                    index = 2
+                }
+                
+                selectWeightByIndex(index, overrideWeight: false)
+            }
+            
+            if let ongkir = product?.freeOngkir
+            {
+                freeOngkir = (ongkir == 1) ? 1 : 0
+                let index = (ongkir == 1) ? 0 : 1
+                selectOngkirByIndex(index)
+            }
+            
+            if let oldPrice = product?.priceOriginal
+            {
+                txtOldPrice.text = oldPrice
+            }
+            
+            if let oldPrice = product?.price
+            {
+                txtNewPrice.text = oldPrice
+            }
+            
+            if let commission = product?.commission
+            {
+                txtCommission.text = "\(commission) %"
+            }
+            
+            // category
+            if (product?.categoryId != "" && product?.category != "") {
+                productCategoryId = (product?.categoryId)!
+                captionKategori.text = product?.category
+                isCategWomenOrMenSelected = (product?.isCategWomenOrMenSelected)!
+            }
+            
+            if let kondisi = product?.condition, let kondisiId = product?.conditionId
+            {
+                kodindisiId = kondisiId
+                captionKondisi.text = kondisi
+            }
+            
+            if let brnd = product?.brand
+            {
+                captionMerek.text = brnd
+            }
+            
+            if let brndId = product?.brandId
+            {
+                merekId = brndId
+            }
+            
+            if let arr = try? CDDraftProduct.getImagePaths()
+            {
+                for i in 0...arr.count-1
+                {
+                    if let data = NSData(contentsOfFile: arr[i]){
+                            if let imageUrl = UIImage(data: data as Data) {
+                                imageViews[i].image = imageUrl  // you can use your imageUrl UIImage (note: imageUrl it is not an optional here)
+                            }
+                        
+                    }
+                    localPath[i] = arr[i]
+                }
+            }
+            
+            self.txtSize.text = product?.size
+            
+            let def = product?.defectDescription
+            if (def != "")
+            {
+                self.txtDeskripsiCacat.text = def
+                self.txtDeskripsiCacat.isHidden = false
+                conHeightCacat.constant = 44
+            }
+            
+            self.txtAlasanJual.text = product?.sellReason
+            self.txtSpesial.text = product?.specialStory
+            self.getSizes()
+            
+            // Luxury fields
+            if let luxData = try? CDDraftProduct.isLuxury(), luxData == true {
+                // Show luxury fields
+                self.groupVerifAuth.isHidden = false
+                self.groupKelengkapan.isHidden = false
+                self.conTopOngkirGroup.constant = 498
+                
+                
+                //  0  styleName : String
+                //  1  serialNumber : String
+                //  2  purchaseLocation : String
+                //  3  purchaseYear : String
+                //  4  originalBox : String
+                //  5  originalDustbox : String
+                //  6  receipt : String
+                //  7  authenticityCard : String
+                
+                // Set texts
+                txtLuxStyleName.text = product?.luxuryData_styleName
+                txtLuxSerialNumber.text = product?.luxuryData_serialNumber
+                txtLuxLokasiBeli.text = product?.luxuryData_purchaseLocation
+                txtLuxTahunBeli.text = product?.luxuryData_purchaseYear
+                
+                // Set checkboxes
+                if (product?.luxuryData_originalBox.contains("true") == true) {
+                    btnChkOriginalBoxPressed("" as AnyObject)
+                }
+                if (product?.luxuryData_originalDustbox.contains("true") == true) {
+                    btnChkOriginalDustboxPressed("" as AnyObject)
+                }
+                if (product?.luxuryData_receipt.contains("true") == true) {
+                    btnChkReceipt("" as AnyObject)
+                }
+                if (product?.luxuryData_authenticityCard.contains("true") == true) {
+                    btnChkAuthCard("" as AnyObject)
+                }
+            } else {
+                // Hide luxury fields
+                self.groupVerifAuth.isHidden = true
+                self.groupKelengkapan.isHidden = true
+                self.conTopOngkirGroup.constant = 8
+            }
+            
+            hideFakeScrollView()
+        }
         else
         {
             self.title = PageName.AddProduct
@@ -464,6 +607,32 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         let alert : UIAlertController = UIAlertController(title: "Perhatian", message: message, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
+            
+            //  0  styleName : String
+            //  1  serialNumber : String
+            //  2  purchaseLocation : String
+            //  3  purchaseYear : String
+            //  4  originalBox : String
+            //  5  originalDustbox : String
+            //  6  receipt : String
+            //  7  authenticityCard : String
+            
+            var luxuryData : Array<String> = ["", "", "", "", "", "", "", ""]
+            luxuryData[0] = self.txtLuxStyleName.text!
+            luxuryData[1] = self.txtLuxSerialNumber.text!
+            luxuryData[2] = self.txtLuxLokasiBeli.text!
+            luxuryData[3] = self.txtLuxTahunBeli.text!
+            if (self.isOriginalBoxChecked || self.isOriginalDustboxChecked || self.isReceiptChecked || self.isAuthCardChecked) {
+            luxuryData[4] = self.isOriginalBoxChecked.description
+            luxuryData[5] = self.isOriginalDustboxChecked.description
+            luxuryData[6] = self.isReceiptChecked.description
+            luxuryData[7] = self.isAuthCardChecked.description
+            }
+            
+            // save
+            if (self.lblSubmit.isHidden == false && self.editMode == false) {
+                CDDraftProduct.saveDraft(self.txtName.text!, descriptionText: self.txtDescription.text, weight: self.txtWeight.text != nil ? self.txtWeight.text! : "", freeOngkir: NSNumber(value: self.freeOngkir), priceOriginal: self.txtOldPrice.text != nil ? self.txtOldPrice.text! : "", price: self.txtNewPrice.text != nil ? self.txtNewPrice.text! : "", commission: self.txtCommission.text != nil ? self.txtCommission.text!.replace(" %", template: "") : "", category: self.captionKategori.text != nil ? self.captionKategori.text! : "", categoryId: self.productCategoryId, isCategWomenOrMenSelected: self.isCategWomenOrMenSelected, condition: self.captionKondisi.text != nil ? self.captionKondisi.text! : "", conditionId: self.kodindisiId, brand: self.captionMerek.text != nil ? self.captionMerek.text! : "", brandId: self.merekId, imagePath: self.localPath, size: self.txtSize.text != nil ? self.txtSize.text! : "", defectDescription: self.txtDeskripsiCacat.text != nil ? self.txtDeskripsiCacat.text! : "", sellReason: self.txtAlasanJual.text != nil ? self.txtAlasanJual.text! : "", specialStory: self.txtSpesial.text != nil ? self.txtSpesial.text! : "", luxuryData: luxuryData)
+            }
             self.navigationController?.popViewController(animated: true)
         }))
         alert.addAction(UIAlertAction(title: "Tidak", style: .default, handler: nil))
@@ -553,6 +722,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         case 4:rm_image5 = 1
         default:print("")
         }
+        
+        self.localPath[controller.index] = ""
     }
     
     func imageFullScreenDidReplace(_ controller: AddProductImageFullScreen, image: APImage) {
@@ -720,6 +891,25 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             if (self.editMode) {
                 self.lblSubmit.isHidden = false
             }
+            
+            
+            let imageURL = info[UIImagePickerControllerReferenceURL] as! NSURL
+            let imageName = imageURL.path!.lastPathComponent + "_" + index.string
+            let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
+            let localPath = documentDirectory.stringByAppendingPathComponent(imageName)
+            
+            let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+            let data = UIImagePNGRepresentation(image)
+            
+            do {
+                try data?.write(to: URL(fileURLWithPath: localPath), options: .atomic)
+            }catch{
+                print("err")
+            }
+            
+            let photoURL = NSURL(fileURLWithPath: localPath)
+            
+            self.localPath[index] = (photoURL.path)!
         }
         
         picker.dismiss(animated: true, completion: nil)
@@ -1023,7 +1213,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                             {
                                 s = x
                             }
-                            if (s != "" && self.editMode == true)
+                            if (s != "" && (self.editMode == true || CDDraftProduct.getOne() != nil))
                             {
                                 s = s.replacingOccurrences(of: "/", with: "\n")
                                 s = s.replacingOccurrences(of: " ", with: "-")
@@ -1616,7 +1806,12 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 //        }
 //        return true
     }
-
+    
+    func getDocumentsURL() -> NSURL {
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        return documentsURL as NSURL
+    }
+    
     /*
     // MARK: - Navigation
 
