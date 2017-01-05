@@ -87,7 +87,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             }
             
             // re init for upgrade app version
-            UIApplication.appDelegate.setupHotline()
+//            UIApplication.appDelegate.setupHotline()
             
             // Execute onFinish
             onFinish()

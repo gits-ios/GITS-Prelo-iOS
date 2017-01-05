@@ -192,6 +192,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          * HOTLINE
          * 1
          **/
+        /*
         let config = HotlineConfig.init(appID: "aa37ac74-0ad1-4450-856e-136e59a810c9", andAppKey: "d66d7946-557f-44ef-96c1-9f27585a94fc")
         Hotline.sharedInstance().initWith(config)
         
@@ -207,6 +208,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // re init for upgrade app version
         self.setupHotline()
+         */
         
         // Handling facebook deferred deep linking
         // Kepanggil hanya jika app baru saja dibuka, jika dibuka ketika sedang dalam background mode maka tidak terpanggil
@@ -380,7 +382,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          * HOTLINE
          * 3
          **/
-        Hotline.sharedInstance().updateDeviceToken(deviceToken)
+//        Hotline.sharedInstance().updateDeviceToken(deviceToken)
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -409,9 +411,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          * HOTLINE
          * 4
          **/
+        /*
         if Hotline.sharedInstance().isHotlineNotification(userInfo){
             Hotline.sharedInstance().handleRemoteNotification(userInfo, andAppstate: application.applicationState)
         }
+         */
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
@@ -442,7 +446,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // init hotline for chat
         // re init for upgrade app version
-        self.setupHotline()
+//        self.setupHotline()
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -450,7 +454,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FBSDKAppEvents.activateApp()
         
         // Remove app badge if any
-//        UIApplication.shared.applicationIconBadgeNumber = 0
+        UIApplication.shared.applicationIconBadgeNumber = 0
         
         // AppsFlyer
         // Track Installs, updates & sessions(app opens) (You must include this API to enable tracking)
@@ -463,8 +467,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          * HOTLINE
          * 2
          **/
+        /*
         let unreadCount : NSInteger = Hotline.sharedInstance().unreadCount()
         UIApplication.shared.applicationIconBadgeNumber = (User.getNotifCount() as NSInteger + unreadCount)
+        */
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
