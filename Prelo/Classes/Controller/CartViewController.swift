@@ -871,6 +871,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         if ((indexPath as NSIndexPath).section == sectionProducts) {
             if (arrayItem.count > 2 && (indexPath as NSIndexPath).row == 0) { // Clear all
                 let alert = UIAlertController(title: "Hapus Keranjang", message: "Kamu yakin ingin menghapus semua barang dalam keranjang?", preferredStyle: .alert)
+                
+                alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in
+                    alert.dismiss(animated: true, completion: nil)
+                }))
                 alert.addAction(UIAlertAction(title: "Hapus", style: .default, handler: { act in
                     alert.dismiss(animated: true, completion: nil)
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -879,11 +883,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     self.arrayItem.removeAll()
                     CartProduct.deleteAll()
                     self.shouldBack = true
-//                    self.cellsData = [:]
+                    //                    self.cellsData = [:]
                     self.synchCart()
-                }))
-                alert.addAction(UIAlertAction(title: "Batal", style: .default, handler: { act in
-                    alert.dismiss(animated: true, completion: nil)
                 }))
                 self.present(alert, animated: true, completion: nil)
             }
@@ -1064,12 +1065,13 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
         
         let alert : UIAlertController = UIAlertController(title: "Perhatian", message: "Kamu akan melakukan transaksi sebesar \(self.grandTotal.asPrice) menggunakan \(self.selectedPayment.value). Lanjutkan?", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { action in
+            self.btnSend.isEnabled = true
+        }))
         alert.addAction(UIAlertAction(title: "Lanjutkan", style: .default, handler: { action in
             self.performCheckout(p!, address: a!, usedBalance: usedBalance, usedBonus: usedBonus)
         }))
-        alert.addAction(UIAlertAction(title: "Batal", style: .default, handler: { action in
-            self.btnSend.isEnabled = true
-        }))
+        
         self.present(alert, animated: true, completion: nil)
     }
     

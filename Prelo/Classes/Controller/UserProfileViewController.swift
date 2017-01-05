@@ -303,7 +303,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             a.addAction(UIAlertAction(title: "Album", style: .default, handler: { act in
                 self.present(i, animated: true, completion: nil)
             }))
-            a.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { act in }))
+            a.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in }))
             self.present(a, animated: true, completion: nil)
         } else {
             self.present(i, animated: true, completion: nil)

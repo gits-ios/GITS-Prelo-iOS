@@ -248,7 +248,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
                 self.reportComment(commentId: commentId, reportType: 1)
                 alert.dismiss(animated: true, completion: nil)
             }))
-            alert.addAction(UIAlertAction(title: "Batal", style: .destructive, handler: { act in
+            alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in
                 alert.dismiss(animated: true, completion: nil)
             }))
             self.present(alert, animated: true, completion: nil)

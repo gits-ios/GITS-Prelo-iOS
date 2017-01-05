@@ -613,19 +613,22 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         message += self.lblSubmit.isHidden == false && self.editMode == false ? ". Ingin disimpan?" : ""
         
         let alert : UIAlertController = UIAlertController(title: "Perhatian", message: message, preferredStyle: UIAlertControllerStyle.alert)
+        
+        if (editMode) {
+            alert.addAction(UIAlertAction(title: "Tidak", style: .cancel, handler: nil))
+        } else {
+            alert.addAction(UIAlertAction(title: "Keluar", style: .cancel, handler: { action in
+                
+                self.navigationController?.popViewController(animated: true)
+            }))
+        }
+        
         alert.addAction(UIAlertAction(title: self.lblSubmit.isHidden == true || self.editMode == true ? "Ya" : "Simpan", style: .default, handler: { action in
             
             self.saveDraft()
             self.navigationController?.popViewController(animated: true)
         }))
-        if (editMode) {
-            alert.addAction(UIAlertAction(title: "Tidak", style: .default, handler: nil))
-        } else {
-            alert.addAction(UIAlertAction(title: "Keluar", style: .default, handler: { action in
-                
-                self.navigationController?.popViewController(animated: true)
-            }))
-        }
+        
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -816,7 +819,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     i.view.tag = index
                 })
             }))
-            a.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { act in }))
+            a.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in }))
             self.present(a, animated: true, completion: nil)
         } else
         {
@@ -1430,10 +1433,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     func askDeleteOS8()
     {
         let a = UIAlertController(title: "Hapus", message: "Hapus Barang?", preferredStyle: .alert)
+        
+        a.addAction(UIAlertAction(title: "Tidak", style: .cancel, handler: {act in }))
         a.addAction(UIAlertAction(title: "Ya", style: .default, handler: {act in
             self.deleteProduct()
         }))
-        a.addAction(UIAlertAction(title: "Tidak", style: .cancel, handler: {act in }))
         self.present(a, animated: true, completion: nil)
     }
     
@@ -1712,6 +1716,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             saveDraft()
             
             let alert : UIAlertController = UIAlertController(title: "Jual", message: "Pastikan barang yang kamu jual original. Jika barang kamu terbukti bukan original, pembeli berhak melakukan refund atas barang tersebut.", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { action in
+                self.btnSubmit.isEnabled = true
+            }))
             alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
                 self.btnSubmit.isEnabled = true
                 let share = self.storyboard?.instantiateViewController(withIdentifier: "share") as! AddProductShareViewController
@@ -1725,9 +1733,6 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 share.shouldSkipBack = false
                 
                 self.navigationController?.pushViewController(share, animated: true)
-            }))
-            alert.addAction(UIAlertAction(title: "Batal", style: .default, handler: { action in
-                self.btnSubmit.isEnabled = true
             }))
             self.present(alert, animated: true, completion: nil)
             return

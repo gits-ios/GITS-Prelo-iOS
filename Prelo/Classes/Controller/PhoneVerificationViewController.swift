@@ -94,7 +94,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
     
     func backPressed2(_ sender: UIBarButtonItem) {
         backAlert = UIAlertController(title: "Perhatian", message: "Verifikasi belum selesai. Halaman ini akan muncul lagi lain kali kamu login. Keluar?", preferredStyle: UIAlertControllerStyle.alert)
-        backAlert!.addAction(UIAlertAction(title: "Batal", style: .default, handler: { action in
+        backAlert!.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { action in
             self.backAlert!.dismiss(animated: true, completion: nil)
             self.backAlert = nil
         }))

@@ -207,7 +207,7 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
         let a = UIActionSheet(title: "Opsi", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil)
         a.addButton(withTitle: "Hapus Pesan")
         a.addButton(withTitle: "Batal")
-        a.destructiveButtonIndex = 1
+        a.cancelButtonIndex = 1
         
         // bound location
         let screenSize: CGRect = UIScreen.main.bounds

@@ -18,7 +18,7 @@ class Constant: NSObject {
         let a = UIAlertView()
         a.title = title
         a.message = message
-        a.addButton(withTitle: "OK")
+        a.addButton(withTitle: "Oke")
         a.show()
     }
     

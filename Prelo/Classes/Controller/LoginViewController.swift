@@ -744,13 +744,13 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             x.addTextField(configurationHandler: { textfield in
                 textfield.placeholder = "E-mail"
             })
-            let actionOK = UIAlertAction(title: "OK", style: .default, handler: { act in
+            let actionOK = UIAlertAction(title: "Kirim", style: .default, handler: { act in
 
                 let txtField = x.textFields![0] 
                 self.callAPIForgotPassword((txtField.text)!)
             })
             
-            let actionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: { act in
+            let actionCancel = UIAlertAction(title: "Batal", style: .cancel, handler: { act in
                 
             })
             
@@ -759,6 +759,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             self.present(x, animated: true, completion: nil)
         } else {
             let a = UIAlertView(title: "Lupa Password", message: "Masukkan E-mail", delegate: self, cancelButtonTitle: "Batal", otherButtonTitles: "OK")
+            
             a.alertViewStyle = UIAlertViewStyle.plainTextInput
             a.show()
         }

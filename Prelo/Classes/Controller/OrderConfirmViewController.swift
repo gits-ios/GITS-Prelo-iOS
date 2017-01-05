@@ -263,7 +263,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         let s = String((total + kodeTransfer))
         UIPasteboard.general.string = s
         let a = UIAlertController(title: "Copied!", message: "Total harga telah disalin ke clipboard!", preferredStyle: .alert)
-        a.addAction(UIAlertAction(title: "OK", style: .default, handler: { act in }))
+        a.addAction(UIAlertAction(title: "Oke", style: .default, handler: { act in }))
         self.present(a, animated: true, completion: nil)
     }
     
@@ -366,7 +366,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
                 bankAlert.dismiss(animated: true, completion: nil)
             }))
         }
-        bankAlert.addAction(UIAlertAction(title: "Batal", style: .destructive, handler: { act in
+        bankAlert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in
             bankAlert.dismiss(animated: true, completion: nil)
         }))
         self.present(bankAlert, animated: true, completion: nil)

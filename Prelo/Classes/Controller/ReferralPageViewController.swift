@@ -87,6 +87,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                     a.message = "Mohon verifikasi e-mail kamu untuk mendapatkan referral bonus dari Prelo"
                     a.addButton(withTitle: "Batal")
                     a.addButton(withTitle: "Kirim E-mail Konfirmasi")
+                    a.cancelButtonIndex = 0
                     a.delegate = self
                     a.show()
                 } else {

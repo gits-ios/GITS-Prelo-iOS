@@ -409,13 +409,13 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         let indexPath = info["replaceIndex"] as! IndexPath
         replaceIndex = (indexPath as NSIndexPath).item + ((indexPath as NSIndexPath).section == 0 ? (indexPath as NSIndexPath).section : (gridView?.numberOfItems(inSection: (indexPath as NSIndexPath).section-1))!)
         
-        let a = UIActionSheet(title: "Option", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: "Cancel")
-        a.addButton(withTitle: "Edit")
-        a.addButton(withTitle: "Replace")
+        let a = UIActionSheet(title: "Opsi", delegate: self, cancelButtonTitle: "Batal", destructiveButtonTitle: nil)
+        a.addButton(withTitle: "Ubah")
+        a.addButton(withTitle: "Ganti")
         
         if (replaceIndex != 0)
         {
-            a.addButton(withTitle: "Delete")
+            a.addButton(withTitle: "Hapus")
         }
         
         //        self.addImage()

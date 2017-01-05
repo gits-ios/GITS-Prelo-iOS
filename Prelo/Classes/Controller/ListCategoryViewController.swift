@@ -422,7 +422,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 UIApplication.shared.openURL(URL(string: "itms-apps://itunes.apple.com/id/app/prelo/id1027248488")!)
             }))
             if let isForceUpdate = UserDefaults.standard.object(forKey: UserDefaultsKey.UpdatePopUpForced) as? Bool , !isForceUpdate {
-                alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+                alert.addAction(UIAlertAction(title: "Batal", style: .default, handler: nil))
             }
             UserDefaults.standard.set("", forKey: UserDefaultsKey.UpdatePopUpVer)
             UserDefaults.standard.synchronize()

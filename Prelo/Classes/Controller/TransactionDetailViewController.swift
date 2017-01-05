@@ -1783,6 +1783,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         }
         cell.confirmReturned = {
             let alert : UIAlertController = UIAlertController(title: "Perhatian", message: "Dengan melakukan konfirmasi penerimaan, artinya kamu sudah menerima kembali barang refund. Uang akan dikembalikan kepada pembeli. Lanjutkan?", preferredStyle: UIAlertControllerStyle.alert)
+            
+            alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
             alert.addAction(UIAlertAction(title: "Lanjutkan", style: .default, handler: { action in
                 _ = request(APITransactionProduct.confirmReceiveRefundedProduct(tpId: self.trxProductId!)).responseJSON { resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Konfirmasi Penerimaan")) {
@@ -1797,7 +1799,6 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     }
                 }
             }))
-            alert.addAction(UIAlertAction(title: "Batal", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
         // Configure actions

@@ -97,6 +97,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         a.message = "Reload App Data membutuhkan waktu beberapa saat. Lanjutkan?"
         a.addButton(withTitle: "Batal")
         a.addButton(withTitle: "Reload App Data")
+        a.cancelButtonIndex = 0
         a.delegate = self
         a.show()
     }

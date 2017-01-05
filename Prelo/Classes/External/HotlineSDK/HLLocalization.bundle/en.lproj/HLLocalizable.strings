@@ -73,7 +73,7 @@
 /* Camera Unavailable alert */
 "camera_unavailable_title"="Kamera tidak terdeteksi";
 "camera_unavailable_description"="Maaf!, perangkatmu tidak memiliki kamera";
-"camera_unavailable_ok_button_text"="OK";
+"camera_unavailable_ok_button_text"="Oke";
 "camera_permission_denied" ="Ijin tidak ditemukan. Aktifkan penggunaan Kamera pada Settings.";
 
 /*Image Attachment*/

@@ -817,7 +817,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             a.addAction(UIAlertAction(title: "Album", style: .default, handler: { act in
                 self.present(i, animated: true, completion: nil)
             }))
-            a.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { act in }))
+            a.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in }))
             self.present(a, animated: true, completion: nil)
         } else {
             self.present(i, animated: true, completion: nil)
@@ -1031,7 +1031,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     func markAsSold() {
         let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah dibeli dan diterima oleh pembeli? (Aksi ini tidak bisa dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Batal", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
             self.prodStatus = 2
             Constant.showDialog("Success", message: "Barang telah ditandai sebagai barang terjual")
