@@ -602,7 +602,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         if title == "Edit" {
             message += "Seluruh perubahan akan dihapus"
         } else {
-            message += "Seluruh keterangan yang telah diisi akan terhapus"
+            message += "Seluruh keterangan yang telah diisi akan disimpan sebagai draft"
         }
         
         let alert : UIAlertController = UIAlertController(title: "Perhatian", message: message, preferredStyle: UIAlertControllerStyle.alert)
