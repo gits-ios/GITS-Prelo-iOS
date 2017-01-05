@@ -841,7 +841,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
     @IBAction func soldPressed(_ sender: AnyObject) {
         let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah terjual? (Aksi ini tidak bisa dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Tidak", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Tidak", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
             self.showLoading()
             if let productId = self.detail?.productID {
