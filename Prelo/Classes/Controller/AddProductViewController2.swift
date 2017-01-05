@@ -375,8 +375,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             
             txtName.text = product?.name
             txtDescription.text = product?.descriptionText
-            if let weight = product?.weight.int
+            if var weight = product?.weight.int
             {
+                weight = weight > 0 ? weight : 500
                 txtWeight.text = String(weight)
                 txtWeight.isHidden = false
                 conHeightWeightView.constant = 158
@@ -444,6 +445,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     if let data = NSData(contentsOfFile: arr[i]){
                             if let imageUrl = UIImage(data: data as Data) {
                                 imageViews[i].image = imageUrl  // you can use your imageUrl UIImage (note: imageUrl it is not an optional here)
+                                images[i] = imageUrl
+                                fakeImageViews[i].image = imageUrl
                             }
                         
                     }
@@ -463,7 +466,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             
             self.txtAlasanJual.text = product?.sellReason
             self.txtSpesial.text = product?.specialStory
-            self.getSizes()
+            
+            if (product?.categoryId != "" && product?.category != "") {
+                self.getSizes()
+            }
             
             // Luxury fields
             if let luxData = try? CDDraftProduct.isLuxury(), luxData == true {
@@ -602,40 +608,24 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         if title == "Edit" {
             message += "Seluruh perubahan akan dihapus"
         } else {
-            message += "Seluruh keterangan yang telah diisi akan disimpan sebagai draft"
+            message += "Seluruh keterangan yang telah diisi akan dihapus"
         }
+        message += self.lblSubmit.isHidden == false && self.editMode == false ? ". Ingin disimpan?" : ""
         
         let alert : UIAlertController = UIAlertController(title: "Perhatian", message: message, preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
+        alert.addAction(UIAlertAction(title: self.lblSubmit.isHidden == true || self.editMode == true ? "Ya" : "Simpan", style: .default, handler: { action in
             
-            //  0  styleName : String
-            //  1  serialNumber : String
-            //  2  purchaseLocation : String
-            //  3  purchaseYear : String
-            //  4  originalBox : String
-            //  5  originalDustbox : String
-            //  6  receipt : String
-            //  7  authenticityCard : String
-            
-            var luxuryData : Array<String> = ["", "", "", "", "", "", "", ""]
-            luxuryData[0] = self.txtLuxStyleName.text!
-            luxuryData[1] = self.txtLuxSerialNumber.text!
-            luxuryData[2] = self.txtLuxLokasiBeli.text!
-            luxuryData[3] = self.txtLuxTahunBeli.text!
-            if (self.isOriginalBoxChecked || self.isOriginalDustboxChecked || self.isReceiptChecked || self.isAuthCardChecked) {
-            luxuryData[4] = self.isOriginalBoxChecked.description
-            luxuryData[5] = self.isOriginalDustboxChecked.description
-            luxuryData[6] = self.isReceiptChecked.description
-            luxuryData[7] = self.isAuthCardChecked.description
-            }
-            
-            // save
-            if (self.lblSubmit.isHidden == false && self.editMode == false) {
-                CDDraftProduct.saveDraft(self.txtName.text!, descriptionText: self.txtDescription.text, weight: self.txtWeight.text != nil ? self.txtWeight.text! : "", freeOngkir: NSNumber(value: self.freeOngkir), priceOriginal: self.txtOldPrice.text != nil ? self.txtOldPrice.text! : "", price: self.txtNewPrice.text != nil ? self.txtNewPrice.text! : "", commission: self.txtCommission.text != nil ? self.txtCommission.text!.replace(" %", template: "") : "", category: self.captionKategori.text != nil ? self.captionKategori.text! : "", categoryId: self.productCategoryId, isCategWomenOrMenSelected: self.isCategWomenOrMenSelected, condition: self.captionKondisi.text != nil ? self.captionKondisi.text! : "", conditionId: self.kodindisiId, brand: self.captionMerek.text != nil ? self.captionMerek.text! : "", brandId: self.merekId, imagePath: self.localPath, size: self.txtSize.text != nil ? self.txtSize.text! : "", defectDescription: self.txtDeskripsiCacat.text != nil ? self.txtDeskripsiCacat.text! : "", sellReason: self.txtAlasanJual.text != nil ? self.txtAlasanJual.text! : "", specialStory: self.txtSpesial.text != nil ? self.txtSpesial.text! : "", luxuryData: luxuryData)
-            }
+            self.saveDraft()
             self.navigationController?.popViewController(animated: true)
         }))
-        alert.addAction(UIAlertAction(title: "Tidak", style: .default, handler: nil))
+        if (editMode) {
+            alert.addAction(UIAlertAction(title: "Tidak", style: .default, handler: nil))
+        } else {
+            alert.addAction(UIAlertAction(title: "Keluar", style: .default, handler: { action in
+                
+                self.navigationController?.popViewController(animated: true)
+            }))
+        }
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -1209,9 +1199,16 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                             self.sizePicker.superview?.isHidden = false
                             
                             var s = ""
-                            if let x = self.editProduct?.size
-                            {
-                                s = x
+                            if self.editMode {
+                                if let x = self.editProduct?.size
+                                {
+                                    s = x
+                                }
+                            } else if CDDraftProduct.getOne() != nil {
+                                if let x = CDDraftProduct.getOne()?.size
+                                {
+                                    s = x
+                                }
                             }
                             if (s != "" && (self.editMode == true || CDDraftProduct.getOne() != nil))
                             {
@@ -1598,7 +1595,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         // Compress images
         for i in 0...images.count - 1 {
             if let img = images[i] as? UIImage {
-                if (img.size.width * img.scale < 640 || img.size.height * img.scale < 640 || img.size.width * img.scale > 2048 || img.size.height * img.scale > 2048) { // 480 --> 640 -> 2048
+              if (img.size.width * img.scale < (AppTools.isDev ? 480 : 640) || img.size.height * img.scale < (AppTools.isDev ? 480 : 640)) {
                     var imgType = ""
                     if (i == 0) {
                         imgType = "Gambar Utama"
@@ -1611,7 +1608,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     } else if (i == 4) {
                         imgType = "Gambar Cacat"
                     }
-                    UIAlertView.SimpleShow("Perhatian", message: "\(imgType) tidak boleh lebih kecil dari 640x640 px dan lebih besar dari 2048x2048 px")
+                UIAlertView.SimpleShow("Perhatian", message: "\(imgType) tidak boleh lebih kecil dari \(AppTools.isDev ? "480x480" : "640x640") px")
                     return
                 }
             }
@@ -1712,6 +1709,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 
         if (editMode == false)
         {
+            saveDraft()
+            
             let alert : UIAlertController = UIAlertController(title: "Jual", message: "Pastikan barang yang kamu jual original. Jika barang kamu terbukti bukan original, pembeli berhak melakukan refund atas barang tersebut.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
                 self.btnSubmit.isEnabled = true
@@ -1734,6 +1733,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             return
         }
         
+        // edit mode
         AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to:url, success: {op, res in
             print(res)
             
@@ -1764,6 +1764,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             s.productID = (json["_data"]["_id"].string)!
             NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "refreshHome"), object: nil)
             self.navigationController?.pushViewController(s, animated: true)
+            
+//            CDDraftProduct.delete()
             }, failure: { op, err in
                 //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"0"])
                 self.navigationItem.rightBarButtonItem = self.confirmButton.toBarButton()
@@ -1810,6 +1812,34 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     func getDocumentsURL() -> NSURL {
         let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         return documentsURL as NSURL
+    }
+    
+    func saveDraft() {
+        //  0  styleName : String
+        //  1  serialNumber : String
+        //  2  purchaseLocation : String
+        //  3  purchaseYear : String
+        //  4  originalBox : String
+        //  5  originalDustbox : String
+        //  6  receipt : String
+        //  7  authenticityCard : String
+        
+        var luxuryData : Array<String> = ["", "", "", "", "", "", "", ""]
+        luxuryData[0] = self.txtLuxStyleName.text!
+        luxuryData[1] = self.txtLuxSerialNumber.text!
+        luxuryData[2] = self.txtLuxLokasiBeli.text!
+        luxuryData[3] = self.txtLuxTahunBeli.text!
+        if (self.isOriginalBoxChecked || self.isOriginalDustboxChecked || self.isReceiptChecked || self.isAuthCardChecked) {
+            luxuryData[4] = self.isOriginalBoxChecked.description
+            luxuryData[5] = self.isOriginalDustboxChecked.description
+            luxuryData[6] = self.isReceiptChecked.description
+            luxuryData[7] = self.isAuthCardChecked.description
+        }
+        
+        // save
+        if (self.lblSubmit.isHidden == false && self.editMode == false) {
+            CDDraftProduct.saveDraft(self.txtName.text!, descriptionText: self.txtDescription.text, weight: self.txtWeight.text != nil ? self.txtWeight.text! : "", freeOngkir: NSNumber(value: self.freeOngkir), priceOriginal: self.txtOldPrice.text != nil ? self.txtOldPrice.text! : "", price: self.txtNewPrice.text != nil ? self.txtNewPrice.text! : "", commission: self.txtCommission.text != nil ? self.txtCommission.text!.replace(" %", template: "") : "", category: self.captionKategori.text != nil ? self.captionKategori.text! : "", categoryId: self.productCategoryId, isCategWomenOrMenSelected: self.isCategWomenOrMenSelected, condition: self.captionKondisi.text != nil ? self.captionKondisi.text! : "", conditionId: self.kodindisiId, brand: self.captionMerek.text != nil ? self.captionMerek.text! : "", brandId: self.merekId, imagePath: self.localPath, size: self.txtSize.text != nil ? self.txtSize.text! : "", defectDescription: self.txtDeskripsiCacat.text != nil ? self.txtDeskripsiCacat.text! : "", sellReason: self.txtAlasanJual.text != nil ? self.txtAlasanJual.text! : "", specialStory: self.txtSpesial.text != nil ? self.txtSpesial.text! : "", luxuryData: luxuryData)
+        }
     }
     
     /*

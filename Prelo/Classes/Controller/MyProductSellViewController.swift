@@ -97,6 +97,9 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     {
         refresh(0 as AnyObject, isSearchMode: false)
         Constant.showDialog("Upload Barang Berhasil", message: "Proses review barang akan memakan waktu maksimal 2 hari kerja. Mohon tunggu :)")
+        
+        // clear draft
+        CDDraftProduct.delete()
     }
     
     func uploadProdukGagal(_ notif : Foundation.Notification)
