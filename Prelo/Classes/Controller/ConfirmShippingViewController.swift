@@ -115,7 +115,8 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         if (isRefundMode) {
             self.lblKurir.text = "JNE"
         } else {
-            self.lblKurir.text = trxDetail.requestCourier.characters.split{$0 == "("}.map(String.init)[0]
+            let kurir = trxDetail.requestCourier.characters.split{$0 == "("}.map(String.init)[0]
+            self.lblKurir.text = (kurir == "Free Ongkir" ? "JNE" : kurir)
         }
     }
     
@@ -244,10 +245,14 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         let ScannerVC = Bundle.main.loadNibNamed(Tags.XibNameScanner, owner: nil, options: nil)?.first as! ScannerViewController
         ScannerVC.root = self
         ScannerVC.blockDone = { data in // [0] -> nomor resi : String, [1] -> foto resi : UIImage
-            Constant.showDialog("Nomor Resi", message: data[0] as! String)
+//            Constant.showDialog("Nomor Resi", message: data[0] as! String)
             self.txtFldNoResi.text = data[0] as? String
             self.imgResi.image = data[1] as? UIImage
             self.isPictSelected = true
+            
+            if (data[0] as! String == "") {
+                Constant.showDialog("Oops", message: "Nomor resi tidak ditemukan mohon untuk diketik")
+            }
             // coba screenshot
 //            self.imgResi.image = self.view?.snapshot
         }

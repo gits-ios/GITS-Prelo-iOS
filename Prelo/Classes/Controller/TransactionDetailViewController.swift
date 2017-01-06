@@ -3425,11 +3425,11 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     var date = ""
                     var status = ""
                     if (isTrxDetail()) {
-                        date = trxDetail!.shipHistory[idx - 9].date
-                        status = trxDetail!.shipHistory[idx - 9].status
+                        date = trxDetail!.shipHistory[idx - 10].date
+                        status = trxDetail!.shipHistory[idx - 10].status
                     } else if (isTrxProductDetail()) {
-                        date = trxProductDetail!.shipHistory[idx - 9].date
-                        status = trxProductDetail!.shipHistory[idx - 9].status
+                        date = trxProductDetail!.shipHistory[idx - 10].date
+                        status = trxProductDetail!.shipHistory[idx - 10].status
                     }
                     return self.createTitleContentCellShipHistory(date, status: status)
                 }
@@ -3539,11 +3539,11 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     var date = ""
                     var status = ""
                     if (isTrxDetail()) {
-                        date = trxDetail!.shipHistory[idx - 10].date
-                        status = trxDetail!.shipHistory[idx - 10].status
+                        date = trxDetail!.shipHistory[idx - 11].date
+                        status = trxDetail!.shipHistory[idx - 11].status
                     } else if (isTrxProductDetail()) {
-                        date = trxProductDetail!.shipHistory[idx - 10].date
-                        status = trxProductDetail!.shipHistory[idx - 10].status
+                        date = trxProductDetail!.shipHistory[idx - 11].date
+                        status = trxProductDetail!.shipHistory[idx - 11].status
                     }
                     return self.createTitleContentCellShipHistory(date, status: status)
                 }

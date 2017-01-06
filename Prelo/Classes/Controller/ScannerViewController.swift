@@ -22,6 +22,9 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
     var root : BaseViewController?
     var blockDone : BlockScanner?
     
+    var counter = 0
+    var timer = Timer()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -65,6 +68,9 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
         captureSession.startRunning();
         
         self.title = "Barcode Reader"
+        
+        // handled fire after x second do nothing
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector:  #selector(ScannerViewController.timerCount), userInfo: nil, repeats: true)
     }
     
     func failed() {
@@ -91,6 +97,8 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
     }
     
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
+        timer.invalidate()
+        
         var postImage: UIImage!
         
         var code = ""
@@ -107,10 +115,6 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
             })
         }
         
-//        while(postImage == nil) {
-//            
-//        }
-        
         captureSession.stopRunning()
         
         if let metadataObject = metadataObjects.first {
@@ -119,11 +123,11 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
 //            found(code: readableObject.stringValue);
             code = readableObject.stringValue
-//            postImage = view?.snapshot
         }
         
         dismiss(animated: true)
         
+        // wait until image captured
         while (postImage == nil) {
             // do notjing
         }
@@ -144,5 +148,39 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .portrait
+    }
+    
+    func timerCount() {
+        counter += 1
+        if counter == 10 { // 10detik
+            savePicture()
+        }
+    }
+    
+    func savePicture() {
+        var postImage: UIImage!
+        if let videoConnection = stillImageOutput.connection(withMediaType: AVMediaTypeVideo) {
+            stillImageOutput.captureStillImageAsynchronously(from: videoConnection, completionHandler: { (sampleBuffer, error) -> Void in
+                if sampleBuffer != nil {
+                    let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
+                    let dataProvider = CGDataProvider(data: imageData as! CFData)
+                    let cgImageRef = CGImage(jpegDataProviderSource: dataProvider!, decode: nil, shouldInterpolate: true, intent: CGColorRenderingIntent.defaultIntent)
+                    let image = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.right)
+                    postImage = image
+                }
+            })
+        }
+        
+        captureSession.stopRunning()
+        
+        // wait until image captured
+        while (postImage == nil) {
+            // do notjing
+        }
+        self.blockDone!(["" as AnyObject, postImage] as [AnyObject])
+        
+        if let r = self.root {
+            self.navigationController?.popToViewController(r, animated: true)
+        }
     }
 }
