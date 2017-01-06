@@ -1676,7 +1676,7 @@ class ListItemCell : UICollectionViewCell {
             print(resp)
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Love Product"))
             {
-                Constant.showDialog("Lovelist", message: self.captionTitle.text! + " berhasil ditambahkan ke Lovelist")
+//                Constant.showDialog("Lovelist", message: self.captionTitle.text! + " berhasil ditambahkan ke Lovelist")
             } else
             {
                 self.newLove = false
@@ -1692,7 +1692,7 @@ class ListItemCell : UICollectionViewCell {
             print(resp)
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Unlove Product"))
             {
-                Constant.showDialog("Lovelist", message: self.captionTitle.text! + " berhasil dihapus dari Lovelist")
+//                Constant.showDialog("Lovelist", message: self.captionTitle.text! + " berhasil dihapus dari Lovelist")
             } else
             {
                 self.newLove = true
