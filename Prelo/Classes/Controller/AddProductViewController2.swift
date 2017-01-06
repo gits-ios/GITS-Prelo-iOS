@@ -118,14 +118,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     var isCamera : Array<Bool> = [ false, false, false, false, false ]
     var imageOrientation : Array<Int> = [0, 0, 0, 0, 0]
     
-    @IBOutlet var loadingPanel: UIView!
-    
     var isImage : Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        self.loadingPanel.isHidden = false
         
         captionImagesMakeSure.numberOfLines = 0
         captionImagesMakeSureFake.numberOfLines = 0
@@ -530,7 +526,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             
             hideFakeScrollView()
         }
-        else
+        
+        
+        if (editMode == false)
         {
             self.title = PageName.AddProduct
             self.btnSubmit.setTitle("LANJUTKAN", for: UIControlState())
@@ -641,13 +639,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             
             if ((self.fakeScrollView.isHidden == true || self.isImage == true) && self.editMode == false){
                 
-                self.loadingPanel.isHidden = false
+                // save the draft
                 self.saveDraft()
-                self.loadingPanel.isHidden = true
             }
             self.navigationController?.popViewController(animated: true)
         }))
-        
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -1803,9 +1799,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         if (editMode == false)
         {
             
-            self.loadingPanel.isHidden = false
+            // save the draft
             saveDraft()
-            self.loadingPanel.isHidden = true
             
             let alert : UIAlertController = UIAlertController(title: "Jual", message: "Pastikan barang yang kamu jual original. Jika barang kamu terbukti bukan original, pembeli berhak melakukan refund atas barang tersebut.", preferredStyle: .alert)
             
@@ -1882,6 +1877,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         })
     }
     
+    // MARK : -- validation input
+    
     func validateString(_ text : String?, message : String) -> Bool
     {
         if (text == nil || text == "")
@@ -1906,6 +1903,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 //        return true
     }
     
+    // MARK : -- save
+    
     func saveDraft() {
         //  0  styleName : String
         //  1  serialNumber : String
@@ -1915,7 +1914,6 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         //  5  originalDustbox : String
         //  6  receipt : String
         //  7  authenticityCard : String
-//        self.loadingPanel.backgroundColor = UIColor.red
         
         var luxuryData : Array<String> = ["", "", "", "", "", "", "", ""]
         
@@ -1930,14 +1928,21 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             luxuryData[7] = self.isAuthCardChecked.description
         }
         
+        let backgroundQueue = DispatchQueue(label: "com.app.queue",
+                                            qos: .background,
+                                            target: nil)
+        backgroundQueue.async {
+            print("Work on background queue")
         
-        // save image first if from camera
-        self.saveImages(self.images)
+            
+            // save image first if from camera
+            self.saveImages(self.images)
+            
+            // save to core data
+            CDDraftProduct.saveDraft(self.txtName.text!, descriptionText: self.txtDescription.text, weight: self.txtWeight.text != nil ? self.txtWeight.text! : "", freeOngkir: self.freeOngkir, priceOriginal: self.txtOldPrice.text != nil ? self.txtOldPrice.text! : "", price: self.txtNewPrice.text != nil ? self.txtNewPrice.text! : "", commission: self.txtCommission.text != nil ? self.txtCommission.text!.replace(" %", template: "") : "", category: self.captionKategori.text != nil ? self.captionKategori.text! : "", categoryId: self.productCategoryId, isCategWomenOrMenSelected: self.isCategWomenOrMenSelected, condition: self.captionKondisi.text != nil ? self.captionKondisi.text! : "", conditionId: self.kodindisiId, brand: self.captionMerek.text != nil ? self.captionMerek.text! : "", brandId: self.merekId, imagePath: self.localPath, imageOrientation: self.imageOrientation, size: self.txtSize.text != nil ? self.txtSize.text! : "", defectDescription: self.txtDeskripsiCacat.text != nil ? self.txtDeskripsiCacat.text! : "", sellReason: self.txtAlasanJual.text != nil ? self.txtAlasanJual.text! : "", specialStory: self.txtSpesial.text != nil ? self.txtSpesial.text! : "", luxuryData: luxuryData)
+        }
         
-        // save
-//        if (self.fakeScrollView.isHidden == true && self.editMode == false) {
-        CDDraftProduct.saveDraft(self.txtName.text!, descriptionText: self.txtDescription.text, weight: self.txtWeight.text != nil ? self.txtWeight.text! : "", freeOngkir: self.freeOngkir, priceOriginal: self.txtOldPrice.text != nil ? self.txtOldPrice.text! : "", price: self.txtNewPrice.text != nil ? self.txtNewPrice.text! : "", commission: self.txtCommission.text != nil ? self.txtCommission.text!.replace(" %", template: "") : "", category: self.captionKategori.text != nil ? self.captionKategori.text! : "", categoryId: self.productCategoryId, isCategWomenOrMenSelected: self.isCategWomenOrMenSelected, condition: self.captionKondisi.text != nil ? self.captionKondisi.text! : "", conditionId: self.kodindisiId, brand: self.captionMerek.text != nil ? self.captionMerek.text! : "", brandId: self.merekId, imagePath: self.localPath, imageOrientation: self.imageOrientation, size: self.txtSize.text != nil ? self.txtSize.text! : "", defectDescription: self.txtDeskripsiCacat.text != nil ? self.txtDeskripsiCacat.text! : "", sellReason: self.txtAlasanJual.text != nil ? self.txtAlasanJual.text! : "", specialStory: self.txtSpesial.text != nil ? self.txtSpesial.text! : "", luxuryData: luxuryData)
-//        }
+        
     }
     
     // MARK: -- camera
