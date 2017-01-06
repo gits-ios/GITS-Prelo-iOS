@@ -617,8 +617,12 @@
 		58F7DD531D74204B00EF43AC /* rsz_ic_bri@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F7DD521D74204B00EF43AC /* rsz_ic_bri@2x.png */; };
 		58F89DC51D9A2359003A5378 /* login-background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 58F89DC41D9A2359003A5378 /* login-background.jpg */; };
 		58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */ = {isa = PBXBuildFile; fileRef = 58FE766E1D34FB9B00D90F27 /* banner_featured.png */; };
+		B2099F961E1D1A3C00EBB57F /* CDDraftProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2099F951E1D1A3C00EBB57F /* CDDraftProduct.swift */; };
+		B2099FAB1E1E83BB00EBB57F /* CustomPhotoAlbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2099FAA1E1E83BB00EBB57F /* CustomPhotoAlbum.swift */; };
 		B22C0E311E090FA900C3D661 /* ic_love_96px.png in Resources */ = {isa = PBXBuildFile; fileRef = B22C0E301E090FA900C3D661 /* ic_love_96px.png */; };
 		B22C0E331E091C2D00C3D661 /* ic_love_96px_trp.png in Resources */ = {isa = PBXBuildFile; fileRef = B22C0E321E091C2D00C3D661 /* ic_love_96px_trp.png */; };
+		B23356F01E1F587C00207F14 /* ScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23356EF1E1F587C00207F14 /* ScannerViewController.swift */; };
+		B23356F21E1F588F00207F14 /* Scanner.xib in Resources */ = {isa = PBXBuildFile; fileRef = B23356F11E1F588F00207F14 /* Scanner.xib */; };
 		B275BA641E10DBD200BB5C64 /* HLLocalization.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B275BA5D1E10DBD200BB5C64 /* HLLocalization.bundle */; };
 		B275BA651E10DBD200BB5C64 /* HLResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B275BA5E1E10DBD200BB5C64 /* HLResources.bundle */; };
 		B275BA661E10DBD200BB5C64 /* KonotorModels.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B275BA601E10DBD200BB5C64 /* KonotorModels.bundle */; };
@@ -1536,8 +1540,12 @@
 		58F89DC41D9A2359003A5378 /* login-background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "login-background.jpg"; sourceTree = "<group>"; };
 		58F91B181CF313CB00943A7A /* ListBrandViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ListBrandViewController2.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		58FE766E1D34FB9B00D90F27 /* banner_featured.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_featured.png; sourceTree = "<group>"; };
+		B2099F951E1D1A3C00EBB57F /* CDDraftProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDDraftProduct.swift; sourceTree = "<group>"; };
+		B2099FAA1E1E83BB00EBB57F /* CustomPhotoAlbum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomPhotoAlbum.swift; path = ../Controller/CustomPhotoAlbum.swift; sourceTree = "<group>"; };
 		B22C0E301E090FA900C3D661 /* ic_love_96px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_love_96px.png; sourceTree = "<group>"; };
 		B22C0E321E091C2D00C3D661 /* ic_love_96px_trp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_love_96px_trp.png; sourceTree = "<group>"; };
+		B23356EF1E1F587C00207F14 /* ScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerViewController.swift; sourceTree = "<group>"; };
+		B23356F11E1F588F00207F14 /* Scanner.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Scanner.xib; sourceTree = "<group>"; };
 		B275BA5D1E10DBD200BB5C64 /* HLLocalization.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HLLocalization.bundle; sourceTree = "<group>"; };
 		B275BA5E1E10DBD200BB5C64 /* HLResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HLResources.bundle; sourceTree = "<group>"; };
 		B275BA5F1E10DBD200BB5C64 /* Hotline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hotline.h; sourceTree = "<group>"; };
@@ -1908,6 +1916,7 @@
 				210DF0F01B734CFE004AE3D9 /* CDUserOther.swift */,
 				210DF0EE1B734CFD004AE3D9 /* CDUserProfile.swift */,
 				21104AC71BAA8EF800947E7F /* CDVersion.swift */,
+				B2099F951E1D1A3C00EBB57F /* CDDraftProduct.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -2083,6 +2092,7 @@
 		21AE67AE1B4A59F400D2CF63 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				B23356EF1E1F587C00207F14 /* ScannerViewController.swift */,
 				21C6589F1B8F01E10037F85F /* AboutViewController.swift */,
 				21983BED1BE1C22200F0C24E /* AddProductImageFullScreen.swift */,
 				2127A2A71B7B336000469CFC /* AddProductImageSourceViewController.swift */,
@@ -2175,6 +2185,7 @@
 				21F4FCE41B61E9AE00223028 /* DAO.swift */,
 				2127A2A91B7B338900469CFC /* ImageSupplier.swift */,
 				211B1A4E1CF5FAFF00108063 /* ProdukUploader.swift */,
+				B2099FAA1E1E83BB00EBB57F /* CustomPhotoAlbum.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2672,6 +2683,7 @@
 		21EEB45D1B87038400CAD5C9 /* XIB */ = {
 			isa = PBXGroup;
 			children = (
+				B23356F11E1F588F00207F14 /* Scanner.xib */,
 				58A7C4461D36263E00405CEC /* BalanceMutation.xib */,
 				58A7C4481D362ED800405CEC /* BalanceMutationCell.xib */,
 				FDF728221BF24B9100C0D843 /* CategoryPreferences.xib */,
@@ -3162,6 +3174,7 @@
 				440AF66A1BE1090800074CBC /* ic_round_sms.png in Resources */,
 				B275BA681E10DBD200BB5C64 /* LICENSE in Resources */,
 				585887401DBEDA8A006EC6D5 /* MyProductCompleted.xib in Resources */,
+				B23356F21E1F588F00207F14 /* Scanner.xib in Resources */,
 				21D386A51B6B93CD00D0FA90 /* Default-568h@2x.png in Resources */,
 				585887551DBEDC19006EC6D5 /* ShopReview.xib in Resources */,
 				5858873A1DBEDA4D006EC6D5 /* FilterChecklistCell.xib in Resources */,
@@ -3423,6 +3436,7 @@
 				21679A3C1B901C5300F18F90 /* MPPassThroughValueTransformer.m in Sources */,
 				21B468021CCE5EDB00E145ED /* UIScreen+BFKit.swift in Sources */,
 				58F78B501DFACE2B008744F7 /* ProductLovelistViewController.swift in Sources */,
+				B2099FAB1E1E83BB00EBB57F /* CustomPhotoAlbum.swift in Sources */,
 				585887821DBF2589006EC6D5 /* CheckoutTourViewController.swift in Sources */,
 				21B467EB1CCE5EDB00E145ED /* Dictionary+BFKit.swift in Sources */,
 				585887941DBF3309006EC6D5 /* MyProductDetailViewController.swift in Sources */,
@@ -3563,6 +3577,7 @@
 				215E6CD51B9D781800CD623C /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
 				B2D481CB1E02A7AD006006CC /* ReportProductViewController.swift in Sources */,
 				21679A2F1B901C5300F18F90 /* MPDesignerTrackMessage.m in Sources */,
+				B23356F01E1F587C00207F14 /* ScannerViewController.swift in Sources */,
 				585887861DBF275C006EC6D5 /* AddProductViewController2.swift in Sources */,
 				5847E1611DBDB1B200C1B2BA /* CDShipping.swift in Sources */,
 				21679A441B901C5300F18F90 /* MPSwizzler.m in Sources */,
@@ -3663,6 +3678,7 @@
 				5858876D1DBEF1B1006EC6D5 /* PhoneReverificationViewController.swift in Sources */,
 				21679A4A1B901C5300F18F90 /* MPUIControlBinding.m in Sources */,
 				21679A321B901C5300F18F90 /* MPNotification.m in Sources */,
+				B2099F961E1D1A3C00EBB57F /* CDDraftProduct.swift in Sources */,
 				5847E1891DBDF27A00C1B2BA /* DashboardViewController.swift in Sources */,
 				21C6589A1B8EF25E0037F85F /* ActionSheetStringPicker.m in Sources */,
 				585887751DBF0560006EC6D5 /* BalanceMutationViewController.swift in Sources */,
@@ -3923,7 +3939,7 @@
 				);
 				"OTHER_SWIFT_FLAGS[sdk=iphonesimulator*]" = "-D IOS_SIMULATOR";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4bf9644c-618e-4451-a477-c704e506fbea";
+				PROVISIONING_PROFILE = "2cdc1344-60c3-41bc-9cf0-40c4bf6c0a0b";
 				PROVISIONING_PROFILE_SPECIFIER = PreloEbi_Development;
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
@@ -3965,7 +3981,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4bf9644c-618e-4451-a477-c704e506fbea";
+				PROVISIONING_PROFILE = "2cdc1344-60c3-41bc-9cf0-40c4bf6c0a0b";
 				PROVISIONING_PROFILE_SPECIFIER = PreloEbi_Development;
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;

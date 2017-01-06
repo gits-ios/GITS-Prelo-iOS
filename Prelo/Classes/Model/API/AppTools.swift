@@ -97,6 +97,20 @@ extension UIView {
     class func fromNib<T : UIView>() -> T {
         return Bundle.main.loadNibNamed(String(describing: T.self), owner: nil, options: nil)![0] as! T
     }
+    var snapshot: UIImage {
+//        UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
+//        drawHierarchy(in: bounds, afterScreenUpdates: true)
+//        let result = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//        return result!
+        
+        UIGraphicsBeginImageContext(self.bounds.size);
+        let context = UIGraphicsGetCurrentContext();
+        self.layer.render(in: context!)
+        let screenShot = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        return screenShot!
+    }
 }
 
 extension UIAlertView {
@@ -357,6 +371,7 @@ class Tags : NSObject {
     static let XibNameRequestRefund = "RefundRequest"
     static let XibNameProductReport = "ReportProducts"
     static let XibNameLocationFilter = "LocationFilters"
+    static let XibNameScanner = "Scanner"
 }
 
 class OrderStatus : NSObject {

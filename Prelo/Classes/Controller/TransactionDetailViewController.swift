@@ -649,7 +649,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     }
                 } /*else if (idx == 7) {
                     return SeparatorHeight
-                }*/ else if (idx == 7) {
+                } */else if (idx == 7) {
                     return DefaultHeight
                 } else if (idx == 8) {
                     return ContactPreloHeight
@@ -665,29 +665,29 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     if (trxProductDetail != nil) {
                         return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
                     }
-                } /*else if (idx == 4) {
+                } else if (idx == 4) {
                     return SeparatorHeight
-                }*/ else if (idx == 4) {
-                    return DefaultHeight
                 } else if (idx == 5) {
+                    return DefaultHeight
+                } else if (idx == 6) {
                     if (trxProductDetail != nil) {
                         return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPengirimanBuyer)
                     }
-                } else if (idx == 6) {
-                    return SeparatorHeight
                 } else if (idx == 7) {
-                    return DefaultHeight
+                    return SeparatorHeight
                 } else if (idx == 8) {
-                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1, boolParam: isRefundable)
-                } else if (idx == 9) {
                     return DefaultHeight
+                } else if (idx == 9) {
+                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1, boolParam: isRefundable)
                 } else if (idx == 10) {
+                    return DefaultHeight
+                } else if (idx == 11) {
                     if (isRefundable) {
                         return DefaultHeight // Tombol refund
                     } else {
                         return ContactPreloHeight
                     }
-                } else if (idx == 11) {
+                } else if (idx == 12) {
                     return ContactPreloHeight
                 }
             }

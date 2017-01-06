@@ -218,26 +218,40 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     }
     
     @IBAction func btnResiPressed(_ sender: AnyObject) {
-        let i = UIImagePickerController()
-        i.sourceType = .photoLibrary
-        i.delegate = self
+//        let i = UIImagePickerController()
+//        i.sourceType = .photoLibrary
+//        i.delegate = self
+//        
+//        if (UIImagePickerController.isSourceTypeAvailable(.camera)) {
+//            let a = UIAlertController(title: "Ambil gambar dari:", message: nil, preferredStyle: .actionSheet)
+//            a.popoverPresentationController?.sourceView = self.imgResi
+//            a.popoverPresentationController?.sourceRect = self.imgResi.bounds
+//            a.addAction(UIAlertAction(title: "Kamera", style: .default, handler: { act in
+//                i.sourceType = .camera
+//                self.present(i, animated: true, completion: nil)
+//            }))
+//            a.addAction(UIAlertAction(title: "Album", style: .default, handler: { act in
+//                self.present(i, animated: true, completion: nil)
+//            }))
+//            a.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in }))
+//            self.present(a, animated: true, completion: nil)
+//        } else {
+//            self.present(i, animated: true, completion: nil)
+//        }
         
-        if (UIImagePickerController.isSourceTypeAvailable(.camera)) {
-            let a = UIAlertController(title: "Ambil gambar dari:", message: nil, preferredStyle: .actionSheet)
-            a.popoverPresentationController?.sourceView = self.imgResi
-            a.popoverPresentationController?.sourceRect = self.imgResi.bounds
-            a.addAction(UIAlertAction(title: "Kamera", style: .default, handler: { act in
-                i.sourceType = .camera
-                self.present(i, animated: true, completion: nil)
-            }))
-            a.addAction(UIAlertAction(title: "Album", style: .default, handler: { act in
-                self.present(i, animated: true, completion: nil)
-            }))
-            a.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in }))
-            self.present(a, animated: true, completion: nil)
-        } else {
-            self.present(i, animated: true, completion: nil)
+        
+        
+        let ScannerVC = Bundle.main.loadNibNamed(Tags.XibNameScanner, owner: nil, options: nil)?.first as! ScannerViewController
+        ScannerVC.root = self
+        ScannerVC.blockDone = { data in // [0] -> nomor resi : String, [1] -> foto resi : UIImage
+            Constant.showDialog("Nomor Resi", message: data[0] as! String)
+            self.txtFldNoResi.text = data[0] as? String
+            self.imgResi.image = data[1] as? UIImage
+            self.isPictSelected = true
+            // coba screenshot
+//            self.imgResi.image = self.view?.snapshot
         }
+        self.navigationController?.pushViewController(ScannerVC, animated: true)
     }
     
     @IBAction func btnKonfKirimPressed(_ sender: AnyObject) {

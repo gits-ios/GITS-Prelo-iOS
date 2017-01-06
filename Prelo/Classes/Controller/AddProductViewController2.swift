@@ -444,9 +444,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 {
                     if let data = NSData(contentsOfFile: arr[i]){
                             if let imageUrl = UIImage(data: data as Data) {
-                                imageViews[i].image = imageUrl  // you can use your imageUrl UIImage (note: imageUrl it is not an optional here)
-                                images[i] = imageUrl
-                                fakeImageViews[i].image = imageUrl
+                                // fixing for now force portrait
+                                let img = UIImage(cgImage: imageUrl.cgImage!, scale: 1.0, orientation: UIImageOrientation.right)
+                                imageViews[i].image = img  // you can use your imageUrl UIImage (note: imageUrl it is not an optional here)
+                                images[i] = img
+                                fakeImageViews[i].image = img
                             }
                         
                     }
