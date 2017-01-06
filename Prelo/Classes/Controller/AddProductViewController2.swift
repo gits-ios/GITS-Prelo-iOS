@@ -739,7 +739,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         self.imageOrientation[controller.index] = 0
     }
     
-    func imageFullScreenDidReplace(_ controller: AddProductImageFullScreen, image: APImage) {
+    func imageFullScreenDidReplace(_ controller: AddProductImageFullScreen, image: APImage, isCamera: Bool, name: String) {
         /** fix untuk : https://trello.com/c/ByNrWwTL
         ternyata walau masih ngirim multipart image, tapi kalo rm_imageN nya di isi 1, tetep di hapus si gambar nya.
         makadariitu, rm_imageN di kasih nilai kalaw bener2 di delete aja.
@@ -775,6 +775,33 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         if (self.editMode) {
             self.lblSubmit.isHidden = false
         }
+        
+        let img = images[controller.index] as! UIImage
+        let index = controller.index
+        // save again if from album
+        if isCamera == false {
+            let imageName = name
+            let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
+            let localPath = documentDirectory.stringByAppendingPathComponent(imageName)
+            
+            let data = UIImagePNGRepresentation(img)
+            
+            do {
+                try data?.write(to: URL(fileURLWithPath: localPath), options: .atomic)
+            } catch {
+                print("err")
+            }
+            let photoURL = NSURL(fileURLWithPath: localPath)
+            
+            self.localPath[index] = (photoURL.path)!
+            self.isCamera[index] = false
+            self.imageOrientation[index] = img.imageOrientation.rawValue
+        }
+            // from camera save after out
+        else {
+            self.isCamera[index] = true
+        }
+
     }
     
     func actionSheet(_ actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
