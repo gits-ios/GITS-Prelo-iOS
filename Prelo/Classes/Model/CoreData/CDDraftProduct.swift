@@ -31,6 +31,11 @@ class CDDraftProduct: NSManagedObject {
     @NSManaged var imagePath3 : String
     @NSManaged var imagePath4 : String
     @NSManaged var imagePath5 : String
+    @NSManaged var imageOrientation1 : NSNumber
+    @NSManaged var imageOrientation2 : NSNumber
+    @NSManaged var imageOrientation3 : NSNumber
+    @NSManaged var imageOrientation4 : NSNumber
+    @NSManaged var imageOrientation5 : NSNumber
     @NSManaged var size : String
     @NSManaged var defectDescription : String
     @NSManaged var sellReason : String
@@ -55,7 +60,7 @@ class CDDraftProduct: NSManagedObject {
         }
     }
     
-    static func saveDraft(_ name: String, descriptionText : String, weight : String, freeOngkir : NSNumber, priceOriginal : String, price : String, commission : String, category : String, categoryId : String, isCategWomenOrMenSelected : Bool, condition : String, conditionId : String, brand : String, brandId : String, imagePath : [String], size : String, defectDescription : String, sellReason : String, specialStory : String, luxuryData : [String]) {
+    static func saveDraft(_ name: String, descriptionText : String, weight : String, freeOngkir : Int, priceOriginal : String, price : String, commission : String, category : String, categoryId : String, isCategWomenOrMenSelected : Bool, condition : String, conditionId : String, brand : String, brandId : String, imagePath : [String], imageOrientation : [Int], size : String, defectDescription : String, sellReason : String, specialStory : String, luxuryData : [String]) {
         
         let m = UIApplication.appDelegate.managedObjectContext
         let draft : CDDraftProduct? = self.getOne()
@@ -64,7 +69,7 @@ class CDDraftProduct: NSManagedObject {
             draft?.name = name
             draft?.descriptionText = descriptionText
             draft?.weight = weight
-            draft?.freeOngkir = freeOngkir
+            draft?.freeOngkir = NSNumber(value: freeOngkir)
             draft?.priceOriginal = priceOriginal
             draft?.price = price
             draft?.commission = commission
@@ -80,6 +85,11 @@ class CDDraftProduct: NSManagedObject {
             draft?.imagePath3 = imagePath[2]
             draft?.imagePath4 = imagePath[3]
             draft?.imagePath5 = imagePath[4]
+            draft?.imageOrientation1 = NSNumber(value: imageOrientation[0])
+            draft?.imageOrientation2 = NSNumber(value: imageOrientation[1])
+            draft?.imageOrientation3 = NSNumber(value: imageOrientation[2])
+            draft?.imageOrientation4 = NSNumber(value: imageOrientation[3])
+            draft?.imageOrientation5 = NSNumber(value: imageOrientation[4])
             draft?.size = size
             draft?.defectDescription = defectDescription
             draft?.sellReason = sellReason
@@ -98,7 +108,7 @@ class CDDraftProduct: NSManagedObject {
             newVer.name = name
             newVer.descriptionText = descriptionText
             newVer.weight = weight
-            newVer.freeOngkir = freeOngkir
+            newVer.freeOngkir = NSNumber(value: freeOngkir)
             newVer.priceOriginal = priceOriginal
             newVer.price = price
             newVer.commission = commission
@@ -114,6 +124,11 @@ class CDDraftProduct: NSManagedObject {
             newVer.imagePath3 = imagePath[2]
             newVer.imagePath4 = imagePath[3]
             newVer.imagePath5 = imagePath[4]
+            newVer.imageOrientation1 = NSNumber(value: imageOrientation[0])
+            newVer.imageOrientation2 = NSNumber(value: imageOrientation[1])
+            newVer.imageOrientation3 = NSNumber(value: imageOrientation[2])
+            newVer.imageOrientation4 = NSNumber(value: imageOrientation[3])
+            newVer.imageOrientation5 = NSNumber(value: imageOrientation[4])
             newVer.size = size
             newVer.defectDescription = defectDescription
             newVer.sellReason = sellReason
@@ -181,5 +196,24 @@ class CDDraftProduct: NSManagedObject {
             imagePaths.append("")
         }
         return imagePaths
+    }
+    
+    static func getImageOrientations() -> Array<Int> {
+        let result : CDDraftProduct? = self.getOne()
+        var imageOrientation : Array<Int> = []
+        if (result != nil) {
+            imageOrientation.append(result!.imageOrientation1 as Int)
+            imageOrientation.append(result!.imageOrientation2 as Int)
+            imageOrientation.append(result!.imageOrientation3 as Int)
+            imageOrientation.append(result!.imageOrientation4 as Int)
+            imageOrientation.append(result!.imageOrientation5 as Int)
+        } else {
+            imageOrientation.append(0)
+            imageOrientation.append(0)
+            imageOrientation.append(0)
+            imageOrientation.append(0)
+            imageOrientation.append(0)
+        }
+        return imageOrientation
     }
 }

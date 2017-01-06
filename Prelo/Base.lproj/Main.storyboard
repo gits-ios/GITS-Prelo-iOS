@@ -2278,7 +2278,7 @@ diterima dan refund 100%</string>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="2QS-YU-5jg">
-                                                            <rect key="frame" x="33" y="12" width="40" height="40"/>
+                                                            <rect key="frame" x="33.5" y="12" width="40" height="40"/>
                                                             <color key="tintColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="40" id="8h7-oX-2az"/>
@@ -2326,7 +2326,7 @@ diterima dan refund 100%</string>
                                                             </constraints>
                                                         </view>
                                                         <imageView opaque="NO" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="txG-F6-hp7">
-                                                            <rect key="frame" x="33" y="12" width="40" height="40"/>
+                                                            <rect key="frame" x="33.5" y="12" width="40" height="40"/>
                                                             <color key="tintColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="24" id="0JT-74-M27"/>
@@ -3971,7 +3971,7 @@ in Bandung</string>
                                                             <rect key="frame" x="0.0" y="0.0" width="118.5" height="80"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt; 1 Kg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="waS-Tm-crL">
-                                                                    <rect key="frame" x="34.5" y="29" width="48" height="21"/>
+                                                                    <rect key="frame" x="35" y="29" width="48" height="21"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
@@ -4045,7 +4045,7 @@ in Bandung</string>
                                                             <rect key="frame" x="126.5" y="0.0" width="106" height="80"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 - 2 Kg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ceB-V7-D8A">
-                                                                    <rect key="frame" x="23" y="29" width="59" height="21"/>
+                                                                    <rect key="frame" x="23.5" y="29" width="59" height="21"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
@@ -8136,10 +8136,10 @@ in Bandung</string>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lQc-vW-jXb">
-                                                    <rect key="frame" x="8" y="204" width="368" height="92.5"/>
+                                                    <rect key="frame" x="8" y="204" width="368" height="93"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YOT-eL-VUW">
-                                                            <rect key="frame" x="8" y="8" width="32" height="76.5"/>
+                                                            <rect key="frame" x="8" y="8" width="32" height="77"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="YOT-eL-VUW" secondAttribute="height" id="agR-ew-cUR"/>
                                                             </constraints>
@@ -8167,7 +8167,7 @@ in Bandung</string>
                                                             </variation>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="749" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="HwS-n5-77a">
-                                                            <rect key="frame" x="42" y="27" width="318" height="57.5"/>
+                                                            <rect key="frame" x="42" y="27" width="318" height="58"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="57.280000000000001" id="gOG-FJ-fNV"/>
                                                             </constraints>
@@ -14843,19 +14843,37 @@ in Bandung</string>
                                     <constraint firstItem="gXa-9f-hiS" firstAttribute="leading" secondItem="rBf-Wa-pPY" secondAttribute="leading" id="q4p-Zs-rzf"/>
                                 </constraints>
                             </scrollView>
+                            <view hidden="YES" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wbn-LC-I55" userLabel="loadingPanel">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="1900"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="fwd-7B-B7P" userLabel="loading">
+                                        <rect key="frame" x="290" y="940" width="20" height="20"/>
+                                        <color key="color" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerX" secondItem="fwd-7B-B7P" secondAttribute="centerX" id="XF9-nD-SaA"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="Kj9-p6-9Us" firstAttribute="top" secondItem="Wbn-LC-I55" secondAttribute="bottom" id="7vy-bl-Xkl"/>
                             <constraint firstItem="Kj9-p6-9Us" firstAttribute="top" secondItem="zWY-wC-rl5" secondAttribute="bottom" id="8DO-Bb-Yrv"/>
                             <constraint firstAttribute="trailing" secondItem="zWY-wC-rl5" secondAttribute="trailing" id="BlS-oq-1E8"/>
+                            <constraint firstItem="Wbn-LC-I55" firstAttribute="leading" secondItem="V1j-I8-P95" secondAttribute="leading" id="Ort-aa-MIZ"/>
                             <constraint firstAttribute="trailing" secondItem="rBf-Wa-pPY" secondAttribute="trailing" id="QPM-7D-JjG"/>
                             <constraint firstItem="zWY-wC-rl5" firstAttribute="top" secondItem="V1j-I8-P95" secondAttribute="top" id="VHT-Ml-tpl"/>
+                            <constraint firstItem="Wbn-LC-I55" firstAttribute="top" secondItem="V1j-I8-P95" secondAttribute="top" id="Vfk-X5-XmN"/>
                             <constraint firstItem="Kj9-p6-9Us" firstAttribute="top" secondItem="rBf-Wa-pPY" secondAttribute="bottom" id="Xk3-Mu-zz7"/>
                             <constraint firstItem="rBf-Wa-pPY" firstAttribute="leading" secondItem="V1j-I8-P95" secondAttribute="leading" id="aUa-KW-PCG"/>
                             <constraint firstItem="rBf-Wa-pPY" firstAttribute="top" secondItem="V1j-I8-P95" secondAttribute="top" id="fEf-Pf-pTT"/>
+                            <constraint firstAttribute="trailing" secondItem="Wbn-LC-I55" secondAttribute="trailing" id="iSk-mZ-Zn3"/>
                             <constraint firstItem="zWY-wC-rl5" firstAttribute="leading" secondItem="V1j-I8-P95" secondAttribute="leading" id="jQ4-ku-oh7"/>
                             <constraint firstItem="gXa-9f-hiS" firstAttribute="width" secondItem="V1j-I8-P95" secondAttribute="width" id="kSx-NN-kdX"/>
                             <constraint firstItem="TUk-fb-6G7" firstAttribute="width" secondItem="V1j-I8-P95" secondAttribute="width" id="ust-be-WKd"/>
+                            <constraint firstItem="fwd-7B-B7P" firstAttribute="centerY" secondItem="V1j-I8-P95" secondAttribute="centerY" id="ypv-Pr-0gK"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
@@ -14892,6 +14910,7 @@ in Bandung</string>
                         <outlet property="lblChkOriginalDustbox" destination="p12-Fs-KmA" id="8K9-qE-hYW"/>
                         <outlet property="lblChkReceipt" destination="bGz-Bb-qr1" id="3qV-7r-4ut"/>
                         <outlet property="lblSubmit" destination="9GZ-uo-i0X" id="IvV-14-tO7"/>
+                        <outlet property="loadingPanel" destination="Wbn-LC-I55" id="qQU-8L-Tyd"/>
                         <outlet property="photosGroupView" destination="kFh-mw-HQB" id="YXQ-0U-WMf"/>
                         <outlet property="scrollView" destination="zWY-wC-rl5" id="mA2-ZI-UoH"/>
                         <outlet property="sizePicker" destination="ESa-2z-iuw" id="9Z6-eW-8jD"/>
@@ -18368,9 +18387,9 @@ in Bandung</string>
         <image name="tour_5.jpg" width="720" height="1280"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="cuL-Ez-B43"/>
+        <segue reference="ksh-6D-t59"/>
         <segue reference="5pQ-qG-4MR"/>
-        <segue reference="dW2-MQ-HC6"/>
+        <segue reference="cuL-Ez-B43"/>
         <segue reference="W6Y-eo-D2Q"/>
     </inferredMetricsTieBreakers>
 </document>

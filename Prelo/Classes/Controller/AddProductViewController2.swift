@@ -115,9 +115,17 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     var screenBeforeAddProduct = ""
     
     var localPath : Array<String> = ["", "", "", "", ""]
+    var isCamera : Array<Bool> = [ false, false, false, false, false ]
+    var imageOrientation : Array<Int> = [0, 0, 0, 0, 0]
+    
+    @IBOutlet var loadingPanel: UIView!
+    
+    var isImage : Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        self.loadingPanel.isHidden = false
         
         captionImagesMakeSure.numberOfLines = 0
         captionImagesMakeSureFake.numberOfLines = 0
@@ -440,12 +448,15 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             
             if let arr = try? CDDraftProduct.getImagePaths()
             {
+                let arrOr = CDDraftProduct.getImageOrientations()
+                
                 for i in 0...arr.count-1
                 {
                     if let data = NSData(contentsOfFile: arr[i]){
                             if let imageUrl = UIImage(data: data as Data) {
-                                // fixing for now force portrait
-                                let img = UIImage(cgImage: imageUrl.cgImage!, scale: 1.0, orientation: UIImageOrientation.right)
+                                
+                                // save orientation
+                                let img = UIImage(cgImage: imageUrl.cgImage!, scale: 1.0, orientation: UIImageOrientation(rawValue: arrOr[i])!)
                                 imageViews[i].image = img  // you can use your imageUrl UIImage (note: imageUrl it is not an optional here)
                                 images[i] = img
                                 fakeImageViews[i].image = img
@@ -453,6 +464,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                         
                     }
                     localPath[i] = arr[i]
+                    imageOrientation[i] = arrOr[i]
                 }
             }
             
@@ -612,11 +624,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         } else {
             message += "Seluruh keterangan yang telah diisi akan dihapus"
         }
-        message += self.lblSubmit.isHidden == false && self.editMode == false ? ". Ingin disimpan?" : ""
+        message += (self.fakeScrollView.isHidden == true || self.isImage == true) && self.editMode == false ? ". Ingin disimpan?" : ""
         
         let alert : UIAlertController = UIAlertController(title: "Perhatian", message: message, preferredStyle: UIAlertControllerStyle.alert)
         
-        if (editMode) {
+        if (self.fakeScrollView.isHidden == false && self.isImage == false || self.editMode == true) {
             alert.addAction(UIAlertAction(title: "Tidak", style: .cancel, handler: nil))
         } else {
             alert.addAction(UIAlertAction(title: "Keluar", style: .cancel, handler: { action in
@@ -625,9 +637,14 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             }))
         }
         
-        alert.addAction(UIAlertAction(title: self.lblSubmit.isHidden == true || self.editMode == true ? "Ya" : "Simpan", style: .default, handler: { action in
+        alert.addAction(UIAlertAction(title: (self.fakeScrollView.isHidden == false && self.isImage == false || self.editMode == true) ? "Ya" : "Simpan", style: .default, handler: { action in
             
-            self.saveDraft()
+            if ((self.fakeScrollView.isHidden == true || self.isImage == true) && self.editMode == false){
+                
+                self.loadingPanel.isHidden = false
+                self.saveDraft()
+                self.loadingPanel.isHidden = true
+            }
             self.navigationController?.popViewController(animated: true)
         }))
         
@@ -719,6 +736,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
         
         self.localPath[controller.index] = ""
+        self.imageOrientation[controller.index] = 0
     }
     
     func imageFullScreenDidReplace(_ controller: AddProductImageFullScreen, image: APImage) {
@@ -887,36 +905,62 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 self.lblSubmit.isHidden = false
             }
             
-            var imageURL : NSURL
-            
-            if (picker.sourceType == .camera) {
-                CustomPhotoAlbum.sharedInstance.save(image: img)
+//            var imageURL : NSURL
+//            
+//            if (picker.sourceType == .camera) {
+//                CustomPhotoAlbum.sharedInstance.save(image: img)
+//                
+//                let photoURLpath = CustomPhotoAlbum.sharedInstance.fetchLastPhotoTakenFromAlbum()
+//                
+//                // Define the specific path, image name
+//                imageURL = NSURL(fileURLWithPath: fileInDocumentsDirectory(filename: photoURLpath))
+//            } else {
+//                imageURL = info[UIImagePickerControllerReferenceURL] as! NSURL
+//            }
+//            let imageName = imageURL.path!.lastPathComponent + "_" + index.string
+//            let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
+//            let localPath = documentDirectory.stringByAppendingPathComponent(imageName)
+//            
+//            let data = UIImagePNGRepresentation(img)
+//            
+//            do {
+//                try data?.write(to: URL(fileURLWithPath: localPath), options: .atomic)
+//            } catch {
+//                print("err")
+//            }
+//            let photoURL = NSURL(fileURLWithPath: localPath)
+//            
+//            self.localPath[index] = (photoURL.path)!
+//
+//         
+            // save again if from album
+            if picker.sourceType != .camera {
+                let imageURL = info[UIImagePickerControllerReferenceURL] as! NSURL
+                let imageName = imageURL.path!.lastPathComponent + "_" + index.string
+                let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
+                let localPath = documentDirectory.stringByAppendingPathComponent(imageName)
                 
-                let photoURLpath = CustomPhotoAlbum.sharedInstance.fetchLastPhotoTakenFromAlbum()
+                let data = UIImagePNGRepresentation(img)
                 
-                // Define the specific path, image name
-                imageURL = NSURL(fileURLWithPath: fileInDocumentsDirectory(filename: photoURLpath))
-            } else {
-                imageURL = info[UIImagePickerControllerReferenceURL] as! NSURL
+                do {
+                    try data?.write(to: URL(fileURLWithPath: localPath), options: .atomic)
+                } catch {
+                    print("err")
+                }
+                let photoURL = NSURL(fileURLWithPath: localPath)
+                
+                self.localPath[index] = (photoURL.path)!
+                self.isCamera[index] = false
+                self.imageOrientation[index] = img.imageOrientation.rawValue
             }
-            let imageName = imageURL.path!.lastPathComponent + "_" + index.string
-            let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
-            let localPath = documentDirectory.stringByAppendingPathComponent(imageName)
-            
-            let data = UIImagePNGRepresentation(img)
-            
-            do {
-                try data?.write(to: URL(fileURLWithPath: localPath), options: .atomic)
-            } catch {
-                print("err")
+            // from camera save after out
+            else {
+                self.isCamera[index] = true
             }
-            let photoURL = NSURL(fileURLWithPath: localPath)
-            
-            self.localPath[index] = (photoURL.path)!
-
-            
-            
         }
+        
+        // set is image
+        self.isImage = true
         
         picker.dismiss(animated: true, completion: nil)
     }
@@ -1561,6 +1605,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             return
         }
         
+        if (weight == "0") {
+            UIAlertView.SimpleShow("Perhatian", message: "Berat barang tidak boleh 0")
+            return
+        }
+        
         let weightRegex = "^[0-9]+$"
         if (weight.match(weightRegex) == false) {
             Constant.showDialog("Perhatian", message: "Berat barang harus hanya berupa angka (contoh: 500)")
@@ -1726,7 +1775,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 
         if (editMode == false)
         {
+            
+            self.loadingPanel.isHidden = false
             saveDraft()
+            self.loadingPanel.isHidden = true
             
             let alert : UIAlertController = UIAlertController(title: "Jual", message: "Pastikan barang yang kamu jual original. Jika barang kamu terbukti bukan original, pembeli berhak melakukan refund atas barang tersebut.", preferredStyle: .alert)
             
@@ -1836,24 +1888,32 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         //  5  originalDustbox : String
         //  6  receipt : String
         //  7  authenticityCard : String
+//        self.loadingPanel.backgroundColor = UIColor.red
         
         var luxuryData : Array<String> = ["", "", "", "", "", "", "", ""]
-        luxuryData[0] = self.txtLuxStyleName.text!
-        luxuryData[1] = self.txtLuxSerialNumber.text!
-        luxuryData[2] = self.txtLuxLokasiBeli.text!
-        luxuryData[3] = self.txtLuxTahunBeli.text!
+        
         if (self.isOriginalBoxChecked || self.isOriginalDustboxChecked || self.isReceiptChecked || self.isAuthCardChecked) {
+            luxuryData[0] = self.txtLuxStyleName.text!
+            luxuryData[1] = self.txtLuxSerialNumber.text!
+            luxuryData[2] = self.txtLuxLokasiBeli.text!
+            luxuryData[3] = self.txtLuxTahunBeli.text!
             luxuryData[4] = self.isOriginalBoxChecked.description
             luxuryData[5] = self.isOriginalDustboxChecked.description
             luxuryData[6] = self.isReceiptChecked.description
             luxuryData[7] = self.isAuthCardChecked.description
         }
         
+        
+        // save image first if from camera
+        self.saveImages(self.images)
+        
         // save
-        if (self.lblSubmit.isHidden == false && self.editMode == false) {
-            CDDraftProduct.saveDraft(self.txtName.text!, descriptionText: self.txtDescription.text, weight: self.txtWeight.text != nil ? self.txtWeight.text! : "", freeOngkir: NSNumber(value: self.freeOngkir), priceOriginal: self.txtOldPrice.text != nil ? self.txtOldPrice.text! : "", price: self.txtNewPrice.text != nil ? self.txtNewPrice.text! : "", commission: self.txtCommission.text != nil ? self.txtCommission.text!.replace(" %", template: "") : "", category: self.captionKategori.text != nil ? self.captionKategori.text! : "", categoryId: self.productCategoryId, isCategWomenOrMenSelected: self.isCategWomenOrMenSelected, condition: self.captionKondisi.text != nil ? self.captionKondisi.text! : "", conditionId: self.kodindisiId, brand: self.captionMerek.text != nil ? self.captionMerek.text! : "", brandId: self.merekId, imagePath: self.localPath, size: self.txtSize.text != nil ? self.txtSize.text! : "", defectDescription: self.txtDeskripsiCacat.text != nil ? self.txtDeskripsiCacat.text! : "", sellReason: self.txtAlasanJual.text != nil ? self.txtAlasanJual.text! : "", specialStory: self.txtSpesial.text != nil ? self.txtSpesial.text! : "", luxuryData: luxuryData)
-        }
+//        if (self.fakeScrollView.isHidden == true && self.editMode == false) {
+        CDDraftProduct.saveDraft(self.txtName.text!, descriptionText: self.txtDescription.text, weight: self.txtWeight.text != nil ? self.txtWeight.text! : "", freeOngkir: self.freeOngkir, priceOriginal: self.txtOldPrice.text != nil ? self.txtOldPrice.text! : "", price: self.txtNewPrice.text != nil ? self.txtNewPrice.text! : "", commission: self.txtCommission.text != nil ? self.txtCommission.text!.replace(" %", template: "") : "", category: self.captionKategori.text != nil ? self.captionKategori.text! : "", categoryId: self.productCategoryId, isCategWomenOrMenSelected: self.isCategWomenOrMenSelected, condition: self.captionKondisi.text != nil ? self.captionKondisi.text! : "", conditionId: self.kodindisiId, brand: self.captionMerek.text != nil ? self.captionMerek.text! : "", brandId: self.merekId, imagePath: self.localPath, imageOrientation: self.imageOrientation, size: self.txtSize.text != nil ? self.txtSize.text! : "", defectDescription: self.txtDeskripsiCacat.text != nil ? self.txtDeskripsiCacat.text! : "", sellReason: self.txtAlasanJual.text != nil ? self.txtAlasanJual.text! : "", specialStory: self.txtSpesial.text != nil ? self.txtSpesial.text! : "", luxuryData: luxuryData)
+//        }
     }
+    
+    // MARK: -- camera
     
     func getDocumentsURL() -> NSURL {
         let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
@@ -1865,6 +1925,33 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         let fileURL = getDocumentsURL().appendingPathComponent(filename)
         return fileURL!.path
         
+    }
+    
+    func saveImages(_ images: Array<AnyObject>) {
+        for index in 0...images.count - 1 {
+            if self.isCamera[index] == true {
+                let img = images[index] as! UIImage
+                CustomPhotoAlbum.sharedInstance.save(image: img)
+                
+                let photoURLpath = CustomPhotoAlbum.sharedInstance.fetchLastPhotoTakenFromAlbum()
+                let imageURL = NSURL(fileURLWithPath: fileInDocumentsDirectory(filename: photoURLpath))
+                let imageName = imageURL.path!.lastPathComponent + "_" + index.string
+                let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
+                let localPath = documentDirectory.stringByAppendingPathComponent(imageName)
+                
+                let data = UIImagePNGRepresentation(img)
+                
+                do {
+                    try data?.write(to: URL(fileURLWithPath: localPath), options: .atomic)
+                } catch {
+                    print("err")
+                }
+                let photoURL = NSURL(fileURLWithPath: localPath)
+                
+                self.localPath[index] = (photoURL.path)!
+                self.imageOrientation[index] = img.imageOrientation.rawValue
+            }
+        }
     }
     
     /*

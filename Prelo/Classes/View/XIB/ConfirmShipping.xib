@@ -367,7 +367,7 @@
                             <constraint firstAttribute="trailing" secondItem="bS0-tU-NWu" secondAttribute="trailing" id="a0p-4z-sfv"/>
                         </constraints>
                     </scrollView>
-                    <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Us-B5-G47" userLabel="loadingPanel">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Us-B5-G47" userLabel="loadingPanel">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="dsi-95-aXL" userLabel="loading">
