@@ -215,6 +215,9 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
             self.showFldKurirLainnya()
             kurirAlert.dismiss(animated: true, completion: nil)
         }))
+        kurirAlert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in
+            kurirAlert.dismiss(animated: true, completion: nil)
+        }))
         self.present(kurirAlert, animated: true, completion: nil)
     }
     
