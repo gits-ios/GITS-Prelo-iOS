@@ -251,10 +251,12 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
             if let img = data[1] as? UIImage {
                 self.imgResi.image = img
                 self.isPictSelected = true
+            } else {
+                Constant.showDialog("Oops", message: "Foto resi gagal diperbaharui, mohon untuk difoto ulang")
             }
             
             if (data[0] as! String == "") {
-                Constant.showDialog("Oops", message: "Nomor resi tidak ditemukan mohon untuk diketik")
+                Constant.showDialog("Oops", message: "Nomor resi tidak ditemukan, mohon untuk difoto ulang / diketik")
             } else {
 //                Constant.showDialog("Nomor Resi", message: data[0] as! String)
                 self.txtFldNoResi.text = data[0] as? String

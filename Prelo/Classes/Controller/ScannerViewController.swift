@@ -25,8 +25,10 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
     var counter = 0
     var timer = Timer()
     
-//    var textLayer : CATextLayer!
+    @IBOutlet weak var previewLayerParent: UIView!
+    @IBOutlet weak var lblTimer: UILabel!
     
+    @IBOutlet weak var barcodeCapturedView : UIView!
     // 5 detik
     var maxTime = 5
     
@@ -65,39 +67,23 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
             return
         }
         
+        //---view to display a border around the captured barcode---
+//        barcodeCapturedView.autoresizingMask = [.flexibleTopMargin, .flexibleLeftMargin, .flexibleRightMargin, .flexibleBottomMargin]
+        //---draw a yellow border around the barcode scanned---
+        barcodeCapturedView.layer.borderColor = Theme.PrimaryColor.cgColor
+        barcodeCapturedView.layer.borderWidth = 5
+        
         // iamge preview layer
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession);
         previewLayer.frame = view.layer.bounds;
         previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-        view.layer.addSublayer(previewLayer);
-
-//        // text layer - counter
-//        textLayer = CATextLayer()
-//        textLayer.frame = view.bounds
-//        let fontName: CFString = "Noteworthy-Light" as CFString
-//        textLayer.font = CTFontCreateWithName(fontName, 30, nil)
-//        textLayer.foregroundColor = UIColor.darkGray.cgColor
-//        textLayer.isWrapped = true
-//        textLayer.alignmentMode = kCAAlignmentLeft
-//        textLayer.frame = CGRect(origin: CGPoint.init(x: 8, y: UIScreen.main.bounds.size.height - 58) , size: CGSize(width: 50, height: 50))
-//        view.layer.addSublayer(textLayer)
-//        
-//        // overlay layer
-//        let overlayLayer = CALayer()
-//        overlayLayer.frame = view.layer.bounds
-//        overlayLayer.addSublayer(textLayer)
-//        
-//        // parent layer
-//        let parentLayer = CALayer()
-//        parentLayer.frame = view.layer.bounds
-//        
-//        parentLayer.addSublayer(previewLayer)
-//        parentLayer.addSublayer(overlayLayer)
-//        
-//        view.layer.addSublayer(parentLayer)
-//        
-//        let layercomposition = AVMutableVideoComposition()
-//        layercomposition.animationTool = AVVideoCompositionCoreAnimationTool(postProcessingAsVideoLayer: previewLayer, in: parentLayer)
+//        view.layer.addSublayer(previewLayer);
+        
+        self.previewLayerParent.layer.addSublayer(previewLayer)
+        
+        // rotate to landscap
+        lblTimer.transform = CGAffineTransform(rotationAngle: 1.5708 ) // radian = 90 degree
+        lblTimer.textColor = Theme.PrimaryColor
         
         captureSession.startRunning();
         
@@ -118,10 +104,9 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
             captureSession.startRunning();
         }
         
-//        textLayer.string = maxTime.string
-        
         counter = 0
         maxTime = 5
+        lblTimer.text = maxTime.string
         
         // handled fire every 1 second
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector:  #selector(ScannerViewController.timerCount), userInfo: nil, repeats: true)
@@ -156,8 +141,14 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
         
         captureSession.stopRunning()
         
+//        var barcodeCapturedRect = CGRect.zero
+        
         if let metadataObject = metadataObjects.first {
             let readableObject = metadataObject as! AVMetadataMachineReadableCodeObject;
+//            barcodeCapturedRect = readableObject.bounds;
+            
+//            //---outline the barcode that is detected---
+//            barcodeCapturedView.frame = barcodeCapturedRect;
             
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
 //            found(code: readableObject.stringValue);
@@ -198,7 +189,8 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
     
     func timerCount() {
         counter += 1
-//        self.textLayer.string = (maxTime - counter).string
+        
+        lblTimer.text = (maxTime - counter).string
         if counter == maxTime {
             savePicture()
         }
@@ -239,4 +231,44 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
             self.navigationController?.popToViewController(r, animated: true)
         }
     }
+    
+    // MARK: - Override layout
+    //
+//    override func viewWillLayoutSubviews() {
+//        
+//        if previewLayer != nil {
+//            
+//            // Orientation
+//            
+//            if (previewLayer!.connection.isVideoOrientationSupported == true) {
+//                
+//                var newOrientation : AVCaptureVideoOrientation?
+//                
+//                switch UIDevice.current.orientation {
+//                case UIDeviceOrientation.portrait:
+//                    newOrientation = AVCaptureVideoOrientation.portrait
+//                case UIDeviceOrientation.portraitUpsideDown:
+//                    newOrientation = AVCaptureVideoOrientation.portraitUpsideDown
+//                case UIDeviceOrientation.landscapeLeft:
+//                    newOrientation = AVCaptureVideoOrientation.landscapeRight;
+//                case UIDeviceOrientation.landscapeRight:
+//                    newOrientation = AVCaptureVideoOrientation.landscapeLeft
+//                default:
+//                    newOrientation = AVCaptureVideoOrientation.portrait
+//                }
+//                
+//                previewLayer!.connection.videoOrientation = newOrientation!
+//                
+//            }
+//            
+//            // Frame
+//            
+//            previewLayer!.bounds = CGRect(x: 0, y: 0, width: view.bounds.size.width, height: view.bounds.size.height)
+//            
+//            previewLayer!.position = CGPoint(x: view.bounds.midX, y: view.bounds.midY)
+//            
+//            previewLayer!.videoGravity = AVLayerVideoGravityResizeAspectFill
+//            
+//        }
+//    }
 }

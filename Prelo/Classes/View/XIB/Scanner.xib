@@ -15,11 +15,59 @@
                 <viewControllerLayoutGuide type="top" id="OaS-PP-nVN"/>
                 <viewControllerLayoutGuide type="bottom" id="iT5-Ri-7UX"/>
             </layoutGuides>
-            <view key="view" contentMode="scaleToFill" id="naq-2K-z3H">
+            <view key="view" contentMode="scaleToFill" id="XJ5-Ig-CvE">
                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A82-Z2-ngg" userLabel="Preview Layer">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8o1-uO-5dj" userLabel="Overlay Layer">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="C" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7nO-fO-FZ1">
+                                <rect key="frame" x="162.5" y="308.5" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="0kv-ur-GgT"/>
+                                    <constraint firstAttribute="width" constant="50" id="TkF-zx-ivI"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
+                                <color key="textColor" red="1" green="0.2061955046" blue="0.1234915949" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="7nO-fO-FZ1" firstAttribute="centerY" secondItem="8o1-uO-5dj" secondAttribute="centerY" id="UKH-MM-SZM"/>
+                            <constraint firstItem="7nO-fO-FZ1" firstAttribute="centerX" secondItem="8o1-uO-5dj" secondAttribute="centerX" id="ngY-Ka-mca"/>
+                        </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jXQ-U1-QTp" userLabel="Barcode Layer">
+                        <rect key="frame" x="50" y="25" width="275" height="617"/>
+                    </view>
+                </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstItem="A82-Z2-ngg" firstAttribute="leading" secondItem="XJ5-Ig-CvE" secondAttribute="leading" id="1x9-1h-OpK"/>
+                    <constraint firstItem="iT5-Ri-7UX" firstAttribute="top" secondItem="A82-Z2-ngg" secondAttribute="bottom" id="6QT-mm-cdG"/>
+                    <constraint firstItem="8o1-uO-5dj" firstAttribute="trailing" secondItem="A82-Z2-ngg" secondAttribute="trailing" id="74E-WO-tuZ"/>
+                    <constraint firstItem="8o1-uO-5dj" firstAttribute="top" secondItem="A82-Z2-ngg" secondAttribute="top" id="KSD-BF-fkQ"/>
+                    <constraint firstItem="jXQ-U1-QTp" firstAttribute="leading" secondItem="XJ5-Ig-CvE" secondAttribute="leading" constant="50" id="X2N-B9-bYU"/>
+                    <constraint firstItem="iT5-Ri-7UX" firstAttribute="top" secondItem="jXQ-U1-QTp" secondAttribute="bottom" constant="25" id="eiL-7m-MbP"/>
+                    <constraint firstItem="8o1-uO-5dj" firstAttribute="leading" secondItem="A82-Z2-ngg" secondAttribute="leading" id="g8Q-xg-MZh"/>
+                    <constraint firstAttribute="trailing" secondItem="A82-Z2-ngg" secondAttribute="trailing" id="g90-zl-ob6"/>
+                    <constraint firstItem="A82-Z2-ngg" firstAttribute="top" secondItem="XJ5-Ig-CvE" secondAttribute="top" id="gCv-fM-V95"/>
+                    <constraint firstItem="jXQ-U1-QTp" firstAttribute="top" secondItem="XJ5-Ig-CvE" secondAttribute="top" constant="25" id="kvk-SV-DGh"/>
+                    <constraint firstItem="8o1-uO-5dj" firstAttribute="bottom" secondItem="iT5-Ri-7UX" secondAttribute="top" id="rIs-DG-RdB"/>
+                    <constraint firstAttribute="trailing" secondItem="jXQ-U1-QTp" secondAttribute="trailing" constant="50" id="wH2-cW-WyY"/>
+                </constraints>
             </view>
+            <connections>
+                <outlet property="barcodeCapturedView" destination="jXQ-U1-QTp" id="Gvu-hd-9Zf"/>
+                <outlet property="lblTimer" destination="7nO-fO-FZ1" id="XXd-xo-6yK"/>
+                <outlet property="previewLayerParent" destination="A82-Z2-ngg" id="i2N-mT-G5H"/>
+            </connections>
+            <point key="canvasLocation" x="24.5" y="52.5"/>
         </viewController>
     </objects>
 </document>
