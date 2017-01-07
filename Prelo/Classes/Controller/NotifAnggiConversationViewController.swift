@@ -440,6 +440,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         } else if (notif.type == 4000) { // Lovelist
             let productLovelistVC = Bundle.main.loadNibNamed(Tags.XibNameProductLovelist, owner: nil, options: nil)?.first as! ProductLovelistViewController
             productLovelistVC.productId = notif.objectId
+            productLovelistVC.root = self.delegate as! UIViewController?
             self.navigationController?.pushViewController(productLovelistVC, animated: true)
         } else if (notif.type == 4001) { // Another lovelist
             // Get product detail
