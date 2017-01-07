@@ -25,6 +25,11 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
     var counter = 0
     var timer = Timer()
     
+//    var textLayer : CATextLayer!
+    
+    // 5 detik
+    var maxTime = 5
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -60,17 +65,43 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
             return
         }
         
+        // iamge preview layer
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession);
         previewLayer.frame = view.layer.bounds;
         previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
         view.layer.addSublayer(previewLayer);
+
+//        // text layer - counter
+//        textLayer = CATextLayer()
+//        textLayer.frame = view.bounds
+//        let fontName: CFString = "Noteworthy-Light" as CFString
+//        textLayer.font = CTFontCreateWithName(fontName, 30, nil)
+//        textLayer.foregroundColor = UIColor.darkGray.cgColor
+//        textLayer.isWrapped = true
+//        textLayer.alignmentMode = kCAAlignmentLeft
+//        textLayer.frame = CGRect(origin: CGPoint.init(x: 8, y: UIScreen.main.bounds.size.height - 58) , size: CGSize(width: 50, height: 50))
+//        view.layer.addSublayer(textLayer)
+//        
+//        // overlay layer
+//        let overlayLayer = CALayer()
+//        overlayLayer.frame = view.layer.bounds
+//        overlayLayer.addSublayer(textLayer)
+//        
+//        // parent layer
+//        let parentLayer = CALayer()
+//        parentLayer.frame = view.layer.bounds
+//        
+//        parentLayer.addSublayer(previewLayer)
+//        parentLayer.addSublayer(overlayLayer)
+//        
+//        view.layer.addSublayer(parentLayer)
+//        
+//        let layercomposition = AVMutableVideoComposition()
+//        layercomposition.animationTool = AVVideoCompositionCoreAnimationTool(postProcessingAsVideoLayer: previewLayer, in: parentLayer)
         
         captureSession.startRunning();
         
         self.title = "Barcode Reader"
-        
-        // handled fire after x second do nothing
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector:  #selector(ScannerViewController.timerCount), userInfo: nil, repeats: true)
     }
     
     func failed() {
@@ -86,6 +117,14 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
         if (captureSession?.isRunning == false) {
             captureSession.startRunning();
         }
+        
+//        textLayer.string = maxTime.string
+        
+        counter = 0
+        maxTime = 5
+        
+        // handled fire every 1 second
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector:  #selector(ScannerViewController.timerCount), userInfo: nil, repeats: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -99,7 +138,7 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
         timer.invalidate()
         
-        var postImage: UIImage!
+        var postImage: UIImage?
         
         var code = ""
 
@@ -109,7 +148,7 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
                     let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
                     let dataProvider = CGDataProvider(data: imageData as! CFData)
                     let cgImageRef = CGImage(jpegDataProviderSource: dataProvider!, decode: nil, shouldInterpolate: true, intent: CGColorRenderingIntent.defaultIntent)
-                    let image = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.up) // force landscap
+                    let image = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.up)
                     postImage = image
                 }
             })
@@ -125,17 +164,24 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
             code = readableObject.stringValue
         }
         
-        dismiss(animated: true)
+//        // if more than 3 second
+//        let seconds : TimeInterval = NSDate().timeIntervalSince1970
+//        // wait until image captured
+//        while (postImage == nil) {
+//            // do notjing            
+//            let seconds2 : TimeInterval = NSDate().timeIntervalSince1970
+//            if (seconds2 - seconds > 3) {
+//                postImage = view.screenshot()
+//            }
+//        }
         
-        // wait until image captured
-        while (postImage == nil) {
-            // do notjing
-        }
-        self.blockDone!([code as AnyObject, postImage] as [AnyObject])
+        self.blockDone!([code as AnyObject, postImage != nil ? postImage! : NSNull()] as [AnyObject])
         
         if let r = self.root {
             self.navigationController?.popToViewController(r, animated: true)
         }
+        
+        dismiss(animated: true)
     }
     
     func found(code: String) {
@@ -152,20 +198,23 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
     
     func timerCount() {
         counter += 1
-        if counter == 10 { // 10detik
+//        self.textLayer.string = (maxTime - counter).string
+        if counter == maxTime {
             savePicture()
         }
     }
     
     func savePicture() {
-        var postImage: UIImage!
+        timer.invalidate()
+        
+        var postImage: UIImage?
         if let videoConnection = stillImageOutput.connection(withMediaType: AVMediaTypeVideo) {
             stillImageOutput.captureStillImageAsynchronously(from: videoConnection, completionHandler: { (sampleBuffer, error) -> Void in
                 if sampleBuffer != nil {
                     let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
                     let dataProvider = CGDataProvider(data: imageData as! CFData)
                     let cgImageRef = CGImage(jpegDataProviderSource: dataProvider!, decode: nil, shouldInterpolate: true, intent: CGColorRenderingIntent.defaultIntent)
-                    let image = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.right)
+                    let image = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.up)
                     postImage = image
                 }
             })
@@ -173,11 +222,18 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
         
         captureSession.stopRunning()
         
-        // wait until image captured
-        while (postImage == nil) {
-            // do notjing
-        }
-        self.blockDone!(["" as AnyObject, postImage] as [AnyObject])
+//        // if more than 3 second
+//        let seconds : TimeInterval = NSDate().timeIntervalSince1970
+//        // wait until image captured
+//        while (postImage == nil) {
+//            // do notjing
+//            let seconds2 : TimeInterval = NSDate().timeIntervalSince1970
+//            if (seconds2 - seconds > 3) {
+//                postImage = view.screenshot()
+//            }
+//        }
+        
+        self.blockDone!(["" as AnyObject, postImage != nil ? postImage! : NSNull()] as [AnyObject])
         
         if let r = self.root {
             self.navigationController?.popToViewController(r, animated: true)

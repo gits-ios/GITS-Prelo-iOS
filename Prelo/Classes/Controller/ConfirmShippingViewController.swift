@@ -245,13 +245,16 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         let ScannerVC = Bundle.main.loadNibNamed(Tags.XibNameScanner, owner: nil, options: nil)?.first as! ScannerViewController
         ScannerVC.root = self
         ScannerVC.blockDone = { data in // [0] -> nomor resi : String, [1] -> foto resi : UIImage
-//            Constant.showDialog("Nomor Resi", message: data[0] as! String)
-            self.txtFldNoResi.text = data[0] as? String
-            self.imgResi.image = data[1] as? UIImage
-            self.isPictSelected = true
+            if let img = data[1] as? UIImage {
+                self.imgResi.image = img
+                self.isPictSelected = true
+            }
             
             if (data[0] as! String == "") {
                 Constant.showDialog("Oops", message: "Nomor resi tidak ditemukan mohon untuk diketik")
+            } else {
+//                Constant.showDialog("Nomor Resi", message: data[0] as! String)
+                self.txtFldNoResi.text = data[0] as? String
             }
             // coba screenshot
 //            self.imgResi.image = self.view?.snapshot

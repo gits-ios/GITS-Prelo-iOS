@@ -12,9 +12,13 @@ import Alamofire
 
 typealias EditDoneBlock = () -> ()
 
+// MARK: - class AddProductVC2
+
 class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITextViewDelegate, UIActionSheetDelegate, /* AVIARY IS DISABLED AdobeUXImageEditorViewControllerDelegate,*/ UserRelatedDelegate, AKPickerViewDataSource, AKPickerViewDelegate, AddProductImageFullScreenDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIAlertViewDelegate, UITextFieldDelegate
 {
 
+    // MARK: - Properties
+    
     @IBOutlet var txtName : UITextField!
     @IBOutlet var txtAlasanJual : UITextField!
     @IBOutlet var txtSpesial : UITextField!
@@ -119,6 +123,12 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     var imageOrientation : Array<Int> = [0, 0, 0, 0, 0]
     
     var isImage : Bool = false
+    
+    
+    var notPicked = true
+    var allowLaunchLogin = true
+    
+    // MARK: - Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -554,8 +564,6 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
     }
     
-    var notPicked = true
-    var allowLaunchLogin = true
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -657,6 +665,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         self.present(n, animated: true, completion: nil)
     }
     
+    // MARK: - size functions
+    
     func numberOfItems(in pickerView: AKPickerView!) -> Int {
         return sizes.count
     }
@@ -674,6 +684,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         txtSize.text = s
     }
     
+    // MARK: - login functions
+    
     func userLoggedIn() {
         
     }
@@ -682,6 +694,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         allowLaunchLogin = false
         self.navigationController?.popViewController(animated: true)
     }
+    
+    // MARK: - Image processing
     
     func imageTapped(_ sender : UITapGestureRecognizer)
     {
@@ -901,6 +915,49 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 //        })
     }
     
+    // MARK: - camera
+    
+    func getDocumentsURL() -> NSURL {
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        return documentsURL as NSURL
+    }
+    
+    func fileInDocumentsDirectory(filename: String) -> String {
+        
+        let fileURL = getDocumentsURL().appendingPathComponent(filename)
+        return fileURL!.path
+        
+    }
+    
+    func saveImages(_ images: Array<AnyObject>) {
+        for index in 0...images.count - 1 {
+            if self.isCamera[index] == true {
+                let img = images[index] as! UIImage
+                CustomPhotoAlbum.sharedInstance.save(image: img)
+                
+                let photoURLpath = CustomPhotoAlbum.sharedInstance.fetchLastPhotoTakenFromAlbum()
+                let imageURL = NSURL(fileURLWithPath: fileInDocumentsDirectory(filename: photoURLpath))
+                let imageName = imageURL.path!.lastPathComponent + "_" + index.string
+                let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
+                let localPath = documentDirectory.stringByAppendingPathComponent(imageName)
+                
+                let data = UIImagePNGRepresentation(img)
+                
+                do {
+                    try data?.write(to: URL(fileURLWithPath: localPath), options: .atomic)
+                } catch {
+                    print("err")
+                }
+                let photoURL = NSURL(fileURLWithPath: localPath)
+                
+                self.localPath[index] = (photoURL.path)!
+                self.imageOrientation[index] = img.imageOrientation.rawValue
+            }
+        }
+    }
+    
+    // MARK: - UIImagePickerController functions
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
@@ -992,6 +1049,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         navigationController.navigationBar.tintColor = UIColor.white
     }
     
+    // MARK: - UITextfield & UITextView functions
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
         if (textField.isEqual(self.txtName)) {
             if (editMode) {
@@ -1014,15 +1073,27 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         growerName?.resizeTextView(withAnimation: false)
         growerDesc?.resizeTextView(withAnimation: false)
     }
+    
+    // MARK: - clean memory
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: - scrollView functions
+    
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
     }
+    
+    func hideFakeScrollView()
+    {
+        fakeScrollView.isHidden = true
+        scrollView.setContentOffset(fakeScrollView.contentOffset, animated: false)
+    }
+    
+    // MARK: - button & related functions
     
     @IBAction func selectWeight(_ sender : UIButton?)
     {
@@ -1491,11 +1562,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
     }
     
-    func hideFakeScrollView()
-    {
-        fakeScrollView.isHidden = true
-        scrollView.setContentOffset(fakeScrollView.contentOffset, animated: false)
-    }
+    // MARK: - Alert notifications
     
 //    var loadingDelete = UIAlertController(title: "Menghapus barang...", message: nil, preferredStyle: .Alert)
 //    var loadingDeleteOS7 = UIAlertView(title: "Menghapus barang...", message: nil, delegate: nil, cancelButtonTitle: nil)
@@ -1543,6 +1610,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
     }
     
+    // MARK: - delete
+    
     func deleteProduct()
     {
         if let prodId = editProduct?.productID
@@ -1569,6 +1638,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             }
         }
     }
+    
+    // MARK: - upload product
     
     func sendProduct()
     {
@@ -1612,12 +1683,12 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             return
         }
         
-        //validasi
         if (validateString(name, message: "Nama barang masih kosong") == false)
         {
             return
         }
         
+        // optional
 //        if (validateString(desc, message: "Deskripsi barang masih kosong") == false)
 //        {
 //            return
@@ -1769,14 +1840,6 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             param["update_image4"] = String(updt_image4)
             param["update_image5"] = String(updt_image5)
             url = url + "/" + (editProduct?.productID)!
-        } else
-        {
-            
-        }
-        
-        func printFullname(_ name : String)
-        {
-            
         }
         
         let userAgent : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String
@@ -1857,7 +1920,6 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "refreshHome"), object: nil)
             self.navigationController?.pushViewController(s, animated: true)
             
-//            CDDraftProduct.delete()
             }, failure: { op, err in
                 //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"0"])
                 self.navigationItem.rightBarButtonItem = self.confirmButton.toBarButton()
@@ -1877,7 +1939,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         })
     }
     
-    // MARK : -- validation input
+    // MARK : - validation input
     
     func validateString(_ text : String?, message : String) -> Bool
     {
@@ -1891,19 +1953,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
         
         return true
-        
-//        if (text == "")
-//        {
-//            if (message != "")
-//            {
-//                UIAlertView.SimpleShow("Perhatian", message: message)
-//            }
-//            return false
-//        }
-//        return true
     }
     
-    // MARK : -- save
+    // MARK: - saveDraft
     
     func saveDraft() {
         //  0  styleName : String
@@ -1928,7 +1980,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             luxuryData[7] = self.isAuthCardChecked.description
         }
         
-        let backgroundQueue = DispatchQueue(label: "com.app.queue",
+        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
                                             qos: .background,
                                             target: nil)
         backgroundQueue.async {
@@ -1942,49 +1994,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             CDDraftProduct.saveDraft(self.txtName.text!, descriptionText: self.txtDescription.text, weight: self.txtWeight.text != nil ? self.txtWeight.text! : "", freeOngkir: self.freeOngkir, priceOriginal: self.txtOldPrice.text != nil ? self.txtOldPrice.text! : "", price: self.txtNewPrice.text != nil ? self.txtNewPrice.text! : "", commission: self.txtCommission.text != nil ? self.txtCommission.text!.replace(" %", template: "") : "", category: self.captionKategori.text != nil ? self.captionKategori.text! : "", categoryId: self.productCategoryId, isCategWomenOrMenSelected: self.isCategWomenOrMenSelected, condition: self.captionKondisi.text != nil ? self.captionKondisi.text! : "", conditionId: self.kodindisiId, brand: self.captionMerek.text != nil ? self.captionMerek.text! : "", brandId: self.merekId, imagePath: self.localPath, imageOrientation: self.imageOrientation, size: self.txtSize.text != nil ? self.txtSize.text! : "", defectDescription: self.txtDeskripsiCacat.text != nil ? self.txtDeskripsiCacat.text! : "", sellReason: self.txtAlasanJual.text != nil ? self.txtAlasanJual.text! : "", specialStory: self.txtSpesial.text != nil ? self.txtSpesial.text! : "", luxuryData: luxuryData)
         }
         
-        
+        Constant.showDialog("Berhasil", message: "Draft barang berhasil disimpan")
     }
     
-    // MARK: -- camera
-    
-    func getDocumentsURL() -> NSURL {
-        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        return documentsURL as NSURL
-    }
-    
-    func fileInDocumentsDirectory(filename: String) -> String {
-        
-        let fileURL = getDocumentsURL().appendingPathComponent(filename)
-        return fileURL!.path
-        
-    }
-    
-    func saveImages(_ images: Array<AnyObject>) {
-        for index in 0...images.count - 1 {
-            if self.isCamera[index] == true {
-                let img = images[index] as! UIImage
-                CustomPhotoAlbum.sharedInstance.save(image: img)
-                
-                let photoURLpath = CustomPhotoAlbum.sharedInstance.fetchLastPhotoTakenFromAlbum()
-                let imageURL = NSURL(fileURLWithPath: fileInDocumentsDirectory(filename: photoURLpath))
-                let imageName = imageURL.path!.lastPathComponent + "_" + index.string
-                let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
-                let localPath = documentDirectory.stringByAppendingPathComponent(imageName)
-                
-                let data = UIImagePNGRepresentation(img)
-                
-                do {
-                    try data?.write(to: URL(fileURLWithPath: localPath), options: .atomic)
-                } catch {
-                    print("err")
-                }
-                let photoURL = NSURL(fileURLWithPath: localPath)
-                
-                self.localPath[index] = (photoURL.path)!
-                self.imageOrientation[index] = img.imageOrientation.rawValue
-            }
-        }
-    }
     
     /*
     // MARK: - Navigation
