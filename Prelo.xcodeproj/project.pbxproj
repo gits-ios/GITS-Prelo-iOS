@@ -623,6 +623,7 @@
 		B22C0E331E091C2D00C3D661 /* ic_love_96px_trp.png in Resources */ = {isa = PBXBuildFile; fileRef = B22C0E321E091C2D00C3D661 /* ic_love_96px_trp.png */; };
 		B23356F01E1F587C00207F14 /* ScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23356EF1E1F587C00207F14 /* ScannerViewController.swift */; };
 		B23356F21E1F588F00207F14 /* Scanner.xib in Resources */ = {isa = PBXBuildFile; fileRef = B23356F11E1F588F00207F14 /* Scanner.xib */; };
+		B2346CA61E22A48B00FFF3B5 /* exclamation31.png in Resources */ = {isa = PBXBuildFile; fileRef = B2346CA51E22A48B00FFF3B5 /* exclamation31.png */; };
 		B275BA641E10DBD200BB5C64 /* HLLocalization.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B275BA5D1E10DBD200BB5C64 /* HLLocalization.bundle */; };
 		B275BA651E10DBD200BB5C64 /* HLResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B275BA5E1E10DBD200BB5C64 /* HLResources.bundle */; };
 		B275BA661E10DBD200BB5C64 /* KonotorModels.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B275BA601E10DBD200BB5C64 /* KonotorModels.bundle */; };
@@ -1546,6 +1547,7 @@
 		B22C0E321E091C2D00C3D661 /* ic_love_96px_trp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_love_96px_trp.png; sourceTree = "<group>"; };
 		B23356EF1E1F587C00207F14 /* ScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerViewController.swift; sourceTree = "<group>"; };
 		B23356F11E1F588F00207F14 /* Scanner.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Scanner.xib; sourceTree = "<group>"; };
+		B2346CA51E22A48B00FFF3B5 /* exclamation31.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exclamation31.png; sourceTree = "<group>"; };
 		B275BA5D1E10DBD200BB5C64 /* HLLocalization.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HLLocalization.bundle; sourceTree = "<group>"; };
 		B275BA5E1E10DBD200BB5C64 /* HLResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HLResources.bundle; sourceTree = "<group>"; };
 		B275BA5F1E10DBD200BB5C64 /* Hotline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hotline.h; sourceTree = "<group>"; };
@@ -2288,6 +2290,7 @@
 				210702DC1BE7A8F100DD9E52 /* cu_line@2x.png */,
 				210702DD1BE7A8F100DD9E52 /* cu_sms@2x.png */,
 				210702DE1BE7A8F100DD9E52 /* cu_wasap@2x.png */,
+				B2346CA51E22A48B00FFF3B5 /* exclamation31.png */,
 				589A6F8E1D8C08F600654CDD /* ic_1_2kg.png */,
 				589A6F8F1D8C08F600654CDD /* ic_1kg.png */,
 				589A6F901D8C08F600654CDD /* ic_2kg.png */,
@@ -3217,6 +3220,7 @@
 				585887431DBEDAE9006EC6D5 /* MyProductTransaction.xib in Resources */,
 				215C526B1B6B349C00EA4E61 /* ic_shirt@2x.png in Resources */,
 				58887B941DF17DC20019D935 /* splash.jpg in Resources */,
+				B2346CA61E22A48B00FFF3B5 /* exclamation31.png in Resources */,
 				588148BA1DC0B244004180E1 /* ProductCompareMainCell.xib in Resources */,
 				FDAD1BE51BF0A5DB00505A35 /* ic_take_photo.png in Resources */,
 				5858875C1DBEEA1A006EC6D5 /* SearchResultHeader.xib in Resources */,

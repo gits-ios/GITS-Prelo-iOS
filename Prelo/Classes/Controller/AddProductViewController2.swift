@@ -1673,13 +1673,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         if (imageViews[0].image == nil) // Main image
         {
-            UIAlertView.SimpleShow("Perhatian", message: "Gambar utama tidak boleh kosong")
+            Constant.showBadgeDialog("Perhatian", message: "Gambar utama tidak boleh kosong", badge: "warning", view: self)
             return
         }
         
         if (imageViews[3].image == nil && captionMerek.text != "" && captionMerek.text != "Tanpa Merek") // Brand image
         {
-            UIAlertView.SimpleShow("Perhatian", message: "Gambar merek tidak boleh kosong")
+            Constant.showBadgeDialog("Perhatian", message: "Gambar merek tidak boleh kosong", badge: "warning", view: self)
             return
         }
         
@@ -1700,13 +1700,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
         
         if (weight == "0") {
-            UIAlertView.SimpleShow("Perhatian", message: "Berat barang tidak boleh 0")
+            Constant.showBadgeDialog("Perhatian", message: "Berat barang tidak boleh 0", badge: "warning", view: self)
             return
         }
         
         let weightRegex = "^[0-9]+$"
         if (weight.match(weightRegex) == false) {
-            Constant.showDialog("Perhatian", message: "Berat barang harus hanya berupa angka (contoh: 500)")
+            Constant.showBadgeDialog("Perhatian", message: "Berat barang harus hanya berupa angka (contoh: 500)", badge: "warning", view: self)
             return
         }
         
@@ -1737,19 +1737,19 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         if (validateString(deflect, message: "") == false && txtDeskripsiCacat.isHidden == false)
         {
-            UIAlertView.SimpleShow("Perhatian", message: "Silahkan jelaskan cacat barang kamu")
+            Constant.showBadgeDialog("Perhatian", message: "Silahkan jelaskan cacat barang kamu", badge: "warning", view: self)
             return
         }
         
         if (validateString(merekId, message: "") == false && captionMerek.text == "")
         {
-            UIAlertView.SimpleShow("Perhatian", message: "Silahkan pilih merek barang")
+            Constant.showBadgeDialog("Perhatian", message: "Silahkan pilih merek barang", badge: "warning", view: self)
             return
         }
         
         if (conHeightSize.constant != 0 && txtSize.text == "")
         {
-            UIAlertView.SimpleShow("Perhatian", message: "Silahkan pilih ukuran")
+            Constant.showBadgeDialog("Perhatian", message: "Silahkan pilih ukuran", badge: "warning", view: self)
         }
         
         // Compress images
@@ -1768,7 +1768,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     } else if (i == 4) {
                         imgType = "Gambar Cacat"
                     }
-                UIAlertView.SimpleShow("Perhatian", message: "\(imgType) tidak boleh lebih kecil dari \(AppTools.isDev ? "480x480" : "640x640") px")
+                Constant.showBadgeDialog("Perhatian", message: "\(imgType) tidak boleh lebih kecil dari \(AppTools.isDev ? "480x480" : "640x640") px", badge: "warning", view: self)
                     return
                 }
             }
@@ -1947,7 +1947,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         {
             if (message != "")
             {
-                UIAlertView.SimpleShow("Perhatian", message: message)
+//                UIAlertView.SimpleShow("Perhatian", message: message)
+                Constant.showBadgeDialog("Perhatian", message: message, badge: "warning", view: self)
             }
             return false
         }

@@ -22,6 +22,35 @@ class Constant: NSObject {
         a.show()
     }
     
+    static func showBadgeDialog(_ title : String, message : String, badge : String, view : UIViewController)
+    {
+        let a = UIAlertController(title: title, message: "\n" + message, preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "Oke", style: .default, handler: {  act in
+            a.dismiss(animated: true, completion: nil)
+        })
+        
+        a.addAction(action)
+        
+        let imageView = UIImageView(frame: CGRect(x: 10, y: 10, width: 40, height: 40))
+        
+        var name = ""
+        if badge == "warning" {
+            name = "exclamation31.png"
+        }
+        
+        let bkgImg = UIImage(named: name)?.withRenderingMode(.alwaysTemplate)
+        imageView.image = bkgImg
+        
+        if badge == "warning" {
+            imageView.tintColor = UIColor.red
+        }
+        
+        a.view.addSubview(imageView)
+        
+        view.present(a, animated: true, completion: nil)
+    }
+    
 }
 
 extension String
