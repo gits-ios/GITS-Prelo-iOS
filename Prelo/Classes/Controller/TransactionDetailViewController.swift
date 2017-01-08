@@ -4504,6 +4504,11 @@ class TransactionDetailReviewCell : UITableViewCell {
     
     func adapt(_ trxProductDetail : TransactionProductDetail) {
         // Image
+        
+        self.imgReviewer?.layoutIfNeeded()
+        self.imgReviewer?.layer.cornerRadius = (self.imgReviewer?.width ?? 0) / 2
+        self.imgReviewer?.layer.masksToBounds = true
+
         if let url = trxProductDetail.reviewerImageURL {
             imgReviewer.afSetImage(withURL: url)
         }
