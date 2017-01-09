@@ -26,6 +26,8 @@ class ProductDetailCover: UIView {
     
     var isFeaturedProduct : Bool = false
     
+    var isFakeApprove : Bool = false
+    
     fileprivate func setup(_ images : Array<String>)
     {
         imageURLS = images
@@ -88,12 +90,6 @@ class ProductDetailCover: UIView {
     }
     
     func setupBanner() {
-        var isFakeApprove = false
-        if let fakeApprove = UserDefaults.standard.object(forKey: UserDefaultsKey.AbTestFakeApprove) as! Bool? {
-            if (fakeApprove == true) {
-                isFakeApprove = fakeApprove
-            }
-        }
         if (status != nil) {
             let screenSize: CGRect = UIScreen.main.bounds
             let screenWidth = screenSize.width

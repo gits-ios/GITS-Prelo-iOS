@@ -122,11 +122,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         self.hideUpPopUp()
         self.vwUpBarangPopUp.backgroundColor = UIColor.white.withAlphaComponent(0.5)
         
-        if let fakeApprove = UserDefaults.standard.object(forKey: UserDefaultsKey.AbTestFakeApprove) as! Bool? {
-            if (fakeApprove == true) {
-                self.isFakeApprove = fakeApprove
-            }
-        }
+        // old [global]
+//        if let fakeApprove = UserDefaults.standard.object(forKey: UserDefaultsKey.AbTestFakeApprove) as! Bool? {
+//            if (fakeApprove == true) {
+//                self.isFakeApprove = fakeApprove
+//            }
+//        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -196,7 +197,10 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     self.detail = ProductDetail.instance(JSON(resp.result.value!))
                     self.activated = (self.detail?.isActive)!
                     self.adjustButtonByStatus()
-                    print(self.detail?.json)
+//                    print(self.detail?.json)
+                    
+                    self.isFakeApprove = (self.detail?.isFakeApprove)!
+                    print(self.isFakeApprove)
                     
                     // Setup add comment view
                     self.vwAddComment.isHidden = false
@@ -288,6 +292,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             return
         }
         pDetailCover = ProductDetailCover.instance((detail?.displayPicturers)!, status: (detail?.status)!, topBannerText: (detail?.rejectionText))
+        pDetailCover?.isFakeApprove = isFakeApprove
         pDetailCover?.parent = self
         pDetailCover?.largeImageURLS = (detail?.originalPicturers)!
         if let isFeatured = self.product?.isFeatured , isFeatured {

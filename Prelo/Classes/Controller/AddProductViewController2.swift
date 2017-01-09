@@ -649,8 +649,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 
                 // save the draft
                 self.saveDraft(isBack: true)
+            } else {
+                self.navigationController?.popViewController(animated: true)
             }
-//            self.navigationController?.popViewController(animated: true)
         }))
         
         let content =  " Perhatian"

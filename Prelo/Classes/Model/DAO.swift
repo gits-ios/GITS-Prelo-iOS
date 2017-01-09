@@ -974,6 +974,17 @@ open class ProductDetail : NSObject, TawarItem
     func setSharedViaTwitter() {
         json["_data"]["share_status"]["TWITTER"] = JSON(true)
     }
+    
+    var isFakeApprove: Bool {
+        if let j = json["_data"]["ab_test"].array {
+            if j.contains("fake_approve") {
+                return true
+            } else  {
+                return false
+            }
+        }
+        return false
+    }
 }
 
 open class Product : NSObject
