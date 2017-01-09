@@ -85,6 +85,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 let json = JSON(resp.result.value!)
                 if let data = json["_data"].array {
                     if (data.count > 0) {
+                        var saveY : CGFloat! = 0
                         var lastView : UIView?
                         for i in 0...data.count - 1 {
                             let ts = data[i]
@@ -95,11 +96,12 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                             // Adjust search tag
                             let searchTag = SearchTag.instance(name)
                             if let lv = lastView {
+                                saveY = lv.maxY > saveY ? lv.maxY : saveY
                                 let x = lv.maxX + 8
                                 searchTag.x = x
                                 
                                 if (searchTag.maxX + 8 > self.sectionTopSearch.width) {
-                                    searchTag.y = lv.maxY + 4
+                                    searchTag.y = saveY + 4
                                     searchTag.x = 0
                                 } else {
                                     searchTag.y = lv.y
@@ -116,7 +118,8 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                             lastView = searchTag
                         }
                         if let lv = lastView {
-                            self.conHeightSectionTopSearch.constant = lv.maxY
+                            saveY = lv.maxY > saveY ? lv.maxY : saveY
+                            self.conHeightSectionTopSearch.constant = saveY
                         }
                         self.sectionTopSearch.layoutIfNeeded()
                     }
