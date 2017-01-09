@@ -398,8 +398,12 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                     self.conMarginHeightOptions.constant = 114
                 }
             } else { // Product is sold
-                self.conMarginHeightOptions.constant = 80
-                return
+                if (tawarItem.markAsSoldTo == tawarItem.theirId) { // mark as sold, im seller
+                    self.conMarginHeightOptions.constant = 114
+                } else {
+                    self.conMarginHeightOptions.constant = 80
+                    return
+                }
             }
         }
         
@@ -407,6 +411,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         if (self.prodStatus != 1) { // Product is sold
             if (tawarItem.opIsMe && tawarItem.markAsSoldTo == User.Id) { // I am buyer & mark as sold to me
                 btnBeliSold.isHidden = false
+            } else if (!tawarItem.opIsMe && tawarItem.markAsSoldTo == tawarItem.theirId) { // I am seller & mark as sold to their
+                btnTawar2.isHidden = false
             }
         } else { // Product isn't sold
             if (threadState == 0 || threadState == 2 || threadState == 3) { // No one is bargaining
