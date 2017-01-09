@@ -882,7 +882,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             let cell : ListItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ListItemCell
             if (products?.count > (indexPath as NSIndexPath).item) {
                 let p = products?[(indexPath as NSIndexPath).item]
-                cell.adapt(p!, listStage: self.listStage, currentMode: self.currentMode, shopAvatar: self.shopAvatar)
+                cell.adapt(p!, listStage: self.listStage, currentMode: self.currentMode, shopAvatar: self.shopAvatar, parent: self)
             }
             if (currentMode == .featured) {
                 // Hide featured ribbon
@@ -1465,6 +1465,8 @@ class ListItemCell : UICollectionViewCell {
     var cid : String?
     var sid : String?
     
+    var parent : BaseViewController!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -1494,7 +1496,9 @@ class ListItemCell : UICollectionViewCell {
         affiliateLogo.isHidden = true
     }
     
-    func adapt(_ product : Product, listStage : Int, currentMode : ListItemMode, shopAvatar : URL?) {
+    func adapt(_ product : Product, listStage : Int, currentMode : ListItemMode, shopAvatar : URL?, parent: BaseViewController) {
+        self.parent = parent
+        
         let obj = product.json
         captionTitle.text = product.name
         captionPrice.text = (product.isAggregate ? "mulai dari " : "") + product.price
@@ -1545,7 +1549,7 @@ class ListItemCell : UICollectionViewCell {
         }
         
         let myId = CDUser.getOne()?.id
-        if (User.IsLoggedIn == true && (self.sid != myId) && product.isAggregate == false && product.isAffiliate == false) {
+        if ((self.sid != myId) && product.isAggregate == false && product.isAffiliate == false) {
             btnLove.isHidden = false
             var const : CGFloat = CGFloat(30)
             
@@ -1658,6 +1662,9 @@ class ListItemCell : UICollectionViewCell {
                 buttonLoveChange(isLoved: true)
                 callApiLove()
             }
+        } else {
+            // call login
+            LoginViewController.Show(self.parent.previousController!, userRelatedDelegate: self.parent.previousController as! UserRelatedDelegate?, animated: true)
         }
     }
 
