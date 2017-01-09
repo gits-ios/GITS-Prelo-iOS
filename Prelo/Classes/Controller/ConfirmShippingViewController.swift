@@ -116,7 +116,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
             self.lblKurir.text = "JNE"
         } else {
             let kurir = trxDetail.requestCourier.characters.split{$0 == "("}.map(String.init)[0]
-            self.lblKurir.text = (kurir == "Free Ongkir" ? "JNE" : kurir)
+            self.lblKurir.text = (kurir == "Free Ongkir" ? "Pilih Kurir" : kurir)
         }
     }
     
@@ -446,7 +446,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     }
     
     func validateShippingFields() -> Bool {
-        if (self.lblKurir.text == "") {
+        if (self.lblKurir.text == "" || self.lblKurir.text == "Pilih Kurir") {
             Constant.showDialog("Warning", message: "Field kurir harus diisi")
             return false
         }
