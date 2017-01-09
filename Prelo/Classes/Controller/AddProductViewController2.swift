@@ -632,7 +632,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
         message += (self.fakeScrollView.isHidden == true || self.isImage == true) && self.editMode == false ? ". Ingin disimpan?" : ""
         
-        let alert : UIAlertController = UIAlertController(title: "Perhatian", message: message, preferredStyle: UIAlertControllerStyle.alert)
+        let alert : UIAlertController = UIAlertController(title: " Perhatian", message: message, preferredStyle: UIAlertControllerStyle.alert)
         
         if (self.fakeScrollView.isHidden == false && self.isImage == false || self.editMode == true) {
             alert.addAction(UIAlertAction(title: "Tidak", style: .cancel, handler: nil))
@@ -648,10 +648,22 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             if ((self.fakeScrollView.isHidden == true || self.isImage == true) && self.editMode == false){
                 
                 // save the draft
-                self.saveDraft()
+                self.saveDraft(isBack: true)
             }
-            self.navigationController?.popViewController(animated: true)
+//            self.navigationController?.popViewController(animated: true)
         }))
+        
+        let content =  " Perhatian"
+        let attrStr = NSMutableAttributedString(string: content)
+        
+        attrStr.addAttributes([NSFontAttributeName: UIFont.boldSystemFont(ofSize: 16.0)], range: (content as NSString).range(of: "Perhatian"))
+        
+        attrStr.addAttributes([NSForegroundColorAttributeName:UIColor.orange], range: (content as NSString).range(of: ""))
+        attrStr.addAttributes([NSFontAttributeName:UIFont(name: "preloAwesome", size: 16.0)!], range: (content as NSString).range(of: ""))
+        
+        alert.setValue(attrStr, forKeyPath: "attributedTitle")
+        
+        
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -779,7 +791,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             fakeImageViews[controller.index].image = i
             images[controller.index] = i
         } else {
-            UIAlertView.SimpleShow("Perhatian", message: "Terjadi kesalahan saat memuat gambar")
+            Constant.showBadgeDialog("Perhatian", message: "Terjadi kesalahan saat memuat gambar", badge: "warning", view: self, isBack: false)
         }
         
         if (self.editMode) {
@@ -1502,10 +1514,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     
                     self.navigationController?.pushViewController(p, animated: true)
                 } else {
-                    Constant.showDialog("Pilih Merk", message: "Oops, terdapat kesalahan saat mengambil data merk")
+                    Constant.showBadgeDialog("Pilih Merk", message: "Oops, terdapat kesalahan saat mengambil data merk", badge: "warning", view: self, isBack: false)
                 }
             } else {
-                Constant.showDialog("Pilih Merk", message: "Oops, terdapat kesalahan saat mengambil data merk")
+                Constant.showBadgeDialog("Pilih Merk", message: "Oops, terdapat kesalahan saat mengambil data merk", badge: "warning", view: self, isBack: false)
             }
         }
     }
@@ -1673,13 +1685,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         if (imageViews[0].image == nil) // Main image
         {
-            Constant.showBadgeDialog("Perhatian", message: "Gambar utama tidak boleh kosong", badge: "warning", view: self)
+            Constant.showBadgeDialog("Perhatian", message: "Gambar utama tidak boleh kosong", badge: "warning", view: self, isBack: false)
             return
         }
         
         if (imageViews[3].image == nil && captionMerek.text != "" && captionMerek.text != "Tanpa Merek") // Brand image
         {
-            Constant.showBadgeDialog("Perhatian", message: "Gambar merek tidak boleh kosong", badge: "warning", view: self)
+            Constant.showBadgeDialog("Perhatian", message: "Gambar merek tidak boleh kosong", badge: "warning", view: self, isBack: false)
             return
         }
         
@@ -1700,13 +1712,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
         
         if (weight == "0") {
-            Constant.showBadgeDialog("Perhatian", message: "Berat barang tidak boleh 0", badge: "warning", view: self)
+            Constant.showBadgeDialog("Perhatian", message: "Berat barang tidak boleh 0", badge: "warning", view: self, isBack: false)
             return
         }
         
         let weightRegex = "^[0-9]+$"
         if (weight.match(weightRegex) == false) {
-            Constant.showBadgeDialog("Perhatian", message: "Berat barang harus hanya berupa angka (contoh: 500)", badge: "warning", view: self)
+            Constant.showBadgeDialog("Perhatian", message: "Berat barang harus hanya berupa angka (contoh: 500)", badge: "warning", view: self, isBack: false)
             return
         }
         
@@ -1737,19 +1749,19 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         if (validateString(deflect, message: "") == false && txtDeskripsiCacat.isHidden == false)
         {
-            Constant.showBadgeDialog("Perhatian", message: "Silahkan jelaskan cacat barang kamu", badge: "warning", view: self)
+            Constant.showBadgeDialog("Perhatian", message: "Silahkan jelaskan cacat barang kamu", badge: "warning", view: self, isBack: false)
             return
         }
         
         if (validateString(merekId, message: "") == false && captionMerek.text == "")
         {
-            Constant.showBadgeDialog("Perhatian", message: "Silahkan pilih merek barang", badge: "warning", view: self)
+            Constant.showBadgeDialog("Perhatian", message: "Silahkan pilih merek barang", badge: "warning", view: self, isBack: false)
             return
         }
         
         if (conHeightSize.constant != 0 && txtSize.text == "")
         {
-            Constant.showBadgeDialog("Perhatian", message: "Silahkan pilih ukuran", badge: "warning", view: self)
+            Constant.showBadgeDialog("Perhatian", message: "Silahkan pilih ukuran", badge: "warning", view: self, isBack: false)
         }
         
         // Compress images
@@ -1768,7 +1780,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     } else if (i == 4) {
                         imgType = "Gambar Cacat"
                     }
-                Constant.showBadgeDialog("Perhatian", message: "\(imgType) tidak boleh lebih kecil dari \(AppTools.isDev ? "480x480" : "640x640") px", badge: "warning", view: self)
+                Constant.showBadgeDialog("Perhatian", message: "\(imgType) tidak boleh lebih kecil dari \(AppTools.isDev ? "480x480" : "640x640") px", badge: "warning", view: self, isBack: false)
                     return
                 }
             }
@@ -1863,9 +1875,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         {
             
             // save the draft
-            saveDraft()
+            saveDraft(isBack: false)
             
-            let alert : UIAlertController = UIAlertController(title: "Jual", message: "Pastikan barang yang kamu jual original. Jika barang kamu terbukti bukan original, pembeli berhak melakukan refund atas barang tersebut.", preferredStyle: .alert)
+            let alert : UIAlertController = UIAlertController(title: " Jual", message: "Pastikan barang yang kamu jual original. Jika barang kamu terbukti bukan original, pembeli berhak melakukan refund atas barang tersebut.", preferredStyle: .alert)
             
             alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { action in
                 self.btnSubmit.isEnabled = true
@@ -1884,13 +1896,22 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 
                 self.navigationController?.pushViewController(share, animated: true)
             }))
+            
+            let content =  " Jual"
+            let attrStr = NSMutableAttributedString(string: content)
+            
+            attrStr.addAttributes([NSFontAttributeName: UIFont.boldSystemFont(ofSize: 16.0)], range: (content as NSString).range(of: "Jual"))
+            
+            attrStr.addAttributes([NSForegroundColorAttributeName:UIColor.orange], range: (content as NSString).range(of: ""))
+            attrStr.addAttributes([NSFontAttributeName:UIFont(name: "preloAwesome", size: 16.0)!], range: (content as NSString).range(of: ""))
+            
+            alert.setValue(attrStr, forKeyPath: "attributedTitle")
             self.present(alert, animated: true, completion: nil)
             return
         }
         
-        // edit mode
         AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to:url, success: {op, res in
-            print(res)
+//            print(res)
             
             if (self.editMode)
             {
@@ -1935,7 +1956,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                         }
                     }
                 }
-                UIAlertView.SimpleShow("Upload Barang", message: msgContent)
+                Constant.showBadgeDialog("Upload Barang", message: msgContent, badge: "error", view: self, isBack: false)
+                
+                
         })
     }
     
@@ -1947,8 +1970,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         {
             if (message != "")
             {
-//                UIAlertView.SimpleShow("Perhatian", message: message)
-                Constant.showBadgeDialog("Perhatian", message: message, badge: "warning", view: self)
+                Constant.showBadgeDialog("Perhatian", message: message, badge: "warning", view: self, isBack: false)
             }
             return false
         }
@@ -1958,7 +1980,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     // MARK: - saveDraft
     
-    func saveDraft() {
+    func saveDraft(isBack: Bool) {
         //  0  styleName : String
         //  1  serialNumber : String
         //  2  purchaseLocation : String
@@ -1995,7 +2017,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             CDDraftProduct.saveDraft(self.txtName.text!, descriptionText: self.txtDescription.text, weight: self.txtWeight.text != nil ? self.txtWeight.text! : "", freeOngkir: self.freeOngkir, priceOriginal: self.txtOldPrice.text != nil ? self.txtOldPrice.text! : "", price: self.txtNewPrice.text != nil ? self.txtNewPrice.text! : "", commission: self.txtCommission.text != nil ? self.txtCommission.text!.replace(" %", template: "") : "", category: self.captionKategori.text != nil ? self.captionKategori.text! : "", categoryId: self.productCategoryId, isCategWomenOrMenSelected: self.isCategWomenOrMenSelected, condition: self.captionKondisi.text != nil ? self.captionKondisi.text! : "", conditionId: self.kodindisiId, brand: self.captionMerek.text != nil ? self.captionMerek.text! : "", brandId: self.merekId, imagePath: self.localPath, imageOrientation: self.imageOrientation, size: self.txtSize.text != nil ? self.txtSize.text! : "", defectDescription: self.txtDeskripsiCacat.text != nil ? self.txtDeskripsiCacat.text! : "", sellReason: self.txtAlasanJual.text != nil ? self.txtAlasanJual.text! : "", specialStory: self.txtSpesial.text != nil ? self.txtSpesial.text! : "", luxuryData: luxuryData)
         }
         
-        Constant.showDialog("Berhasil", message: "Draft barang berhasil disimpan")
+        if isBack {
+            Constant.showBadgeDialog("Berhasil", message: "Draft barang berhasil disimpan", badge: "info", view: self, isBack: isBack)
+        }
     }
     
     
