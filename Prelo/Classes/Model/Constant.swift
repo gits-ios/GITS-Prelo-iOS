@@ -28,13 +28,13 @@ class Constant: NSObject {
         var color : UIColor!
         if badge == "warning" {
             name = ""
-            color = UIColor.orange
+            color = UIColor.orange  //(hex: "Ffa800")
         } else if badge == "error" {
             name = ""
             color = UIColor.red
         } else if badge == "info" {
             name = ""
-            color = UIColor.blue
+            color = UIColor.black
         }
 
         
