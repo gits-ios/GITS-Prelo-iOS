@@ -625,6 +625,13 @@
 		B23356F21E1F588F00207F14 /* Scanner.xib in Resources */ = {isa = PBXBuildFile; fileRef = B23356F11E1F588F00207F14 /* Scanner.xib */; };
 		B23417741E2322FA003247D7 /* sms5.png in Resources */ = {isa = PBXBuildFile; fileRef = B23417731E2322FA003247D7 /* sms5.png */; };
 		B2346CA61E22A48B00FFF3B5 /* exclamation31.png in Resources */ = {isa = PBXBuildFile; fileRef = B2346CA51E22A48B00FFF3B5 /* exclamation31.png */; };
+		B240F4C31E2477FF00DCAFF7 /* shoppingstore27.png in Resources */ = {isa = PBXBuildFile; fileRef = B240F4C21E2477FF00DCAFF7 /* shoppingstore27.png */; };
+		B240F4D31E24BBD500DCAFF7 /* Achievement.xib in Resources */ = {isa = PBXBuildFile; fileRef = B240F4D21E24BBD500DCAFF7 /* Achievement.xib */; };
+		B240F4D51E24BCAC00DCAFF7 /* AchievementCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B240F4D41E24BCAC00DCAFF7 /* AchievementCell.xib */; };
+		B240F4D91E24C1AD00DCAFF7 /* AchievementDiamondCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B240F4D81E24C1AD00DCAFF7 /* AchievementDiamondCell.xib */; };
+		B240F4DB1E24D63400DCAFF7 /* AchievementCellBadgeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B240F4DA1E24D63400DCAFF7 /* AchievementCellBadgeCell.xib */; };
+		B240F4DE1E24DAD900DCAFF7 /* AchievementCellProgressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B240F4DD1E24DAD900DCAFF7 /* AchievementCellProgressCell.xib */; };
+		B240F4F11E24DE7000DCAFF7 /* AchievementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B240F4F01E24DE7000DCAFF7 /* AchievementViewController.swift */; };
 		B275BA641E10DBD200BB5C64 /* HLLocalization.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B275BA5D1E10DBD200BB5C64 /* HLLocalization.bundle */; };
 		B275BA651E10DBD200BB5C64 /* HLResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B275BA5E1E10DBD200BB5C64 /* HLResources.bundle */; };
 		B275BA661E10DBD200BB5C64 /* KonotorModels.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B275BA601E10DBD200BB5C64 /* KonotorModels.bundle */; };
@@ -1550,6 +1557,13 @@
 		B23356F11E1F588F00207F14 /* Scanner.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Scanner.xib; sourceTree = "<group>"; };
 		B23417731E2322FA003247D7 /* sms5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sms5.png; sourceTree = "<group>"; };
 		B2346CA51E22A48B00FFF3B5 /* exclamation31.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exclamation31.png; sourceTree = "<group>"; };
+		B240F4C21E2477FF00DCAFF7 /* shoppingstore27.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shoppingstore27.png; sourceTree = "<group>"; };
+		B240F4D21E24BBD500DCAFF7 /* Achievement.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Achievement.xib; sourceTree = "<group>"; };
+		B240F4D41E24BCAC00DCAFF7 /* AchievementCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementCell.xib; sourceTree = "<group>"; };
+		B240F4D81E24C1AD00DCAFF7 /* AchievementDiamondCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementDiamondCell.xib; sourceTree = "<group>"; };
+		B240F4DA1E24D63400DCAFF7 /* AchievementCellBadgeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementCellBadgeCell.xib; sourceTree = "<group>"; };
+		B240F4DD1E24DAD900DCAFF7 /* AchievementCellProgressCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementCellProgressCell.xib; sourceTree = "<group>"; };
+		B240F4F01E24DE7000DCAFF7 /* AchievementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AchievementViewController.swift; sourceTree = "<group>"; };
 		B275BA5D1E10DBD200BB5C64 /* HLLocalization.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HLLocalization.bundle; sourceTree = "<group>"; };
 		B275BA5E1E10DBD200BB5C64 /* HLResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HLResources.bundle; sourceTree = "<group>"; };
 		B275BA5F1E10DBD200BB5C64 /* Hotline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hotline.h; sourceTree = "<group>"; };
@@ -2173,6 +2187,7 @@
 				21104AB81BAA8ECC00947E7F /* TransactionListCell.swift */,
 				21156EB91B8F5B4C001D7842 /* UserProfileViewController.swift */,
 				21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */,
+				B240F4F01E24DE7000DCAFF7 /* AchievementViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2397,6 +2412,7 @@
 				216799711B8F879A00F18F90 /* rsz_ic_bni@2x.png */,
 				58F7DD521D74204B00EF43AC /* rsz_ic_bri@2x.png */,
 				216799721B8F879A00F18F90 /* rsz_ic_mandiri@2x.png */,
+				B240F4C21E2477FF00DCAFF7 /* shoppingstore27.png */,
 				B23417731E2322FA003247D7 /* sms5.png */,
 				FDF0AC941C0C4A6200FC7D61 /* wm_logo@2x.png */,
 				21C6587A1B8EE4E10037F85F /* default */,
@@ -2745,6 +2761,11 @@
 				FDB1A0031BFD8BD0001F2600 /* ShopReviewCell.xib */,
 				21104AD01BAA8F1200947E7F /* TransactionListCell.xib */,
 				21156EBB1B8F5B5D001D7842 /* UserProfile.xib */,
+				B240F4D21E24BBD500DCAFF7 /* Achievement.xib */,
+				B240F4D41E24BCAC00DCAFF7 /* AchievementCell.xib */,
+				B240F4DD1E24DAD900DCAFF7 /* AchievementCellProgressCell.xib */,
+				B240F4DA1E24D63400DCAFF7 /* AchievementCellBadgeCell.xib */,
+				B240F4D81E24C1AD00DCAFF7 /* AchievementDiamondCell.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -3176,6 +3197,7 @@
 				440AF6691BE1090800074CBC /* ic_round_path.png in Resources */,
 				215C526A1B6B349C00EA4E61 /* ic_bag@2x.png in Resources */,
 				21EEB4721B87095C00CAD5C9 /* btn_checkbox_pressed.png in Resources */,
+				B240F4DE1E24DAD900DCAFF7 /* AchievementCellProgressCell.xib in Resources */,
 				58D7360C1D759B0B009D7C61 /* ic_notif.png in Resources */,
 				440AF66A1BE1090800074CBC /* ic_round_sms.png in Resources */,
 				B275BA681E10DBD200BB5C64 /* LICENSE in Resources */,
@@ -3206,6 +3228,7 @@
 				210702E31BE7A8F100DD9E52 /* cu_sms@2x.png in Resources */,
 				212007BB1B6A087F00D9C84B /* ic_ico_label@2x.png in Resources */,
 				21EEB4791B87095C00CAD5C9 /* ic_user.png in Resources */,
+				B240F4D51E24BCAC00DCAFF7 /* AchievementCell.xib in Resources */,
 				589A6FC21D8C08F600654CDD /* ic_label.png in Resources */,
 				58528C541D13A3D200074EC6 /* cchmrk_sold.png in Resources */,
 				5830A42F1CE3443000FB1577 /* AddProductPlaceholder.plist in Resources */,
@@ -3253,6 +3276,7 @@
 				58DD28DF1DAF367000130B6F /* Info.plist in Resources */,
 				58A223C51C898CB600619518 /* ic_trx_done.png in Resources */,
 				589A6FC61D8C08F600654CDD /* ic_luxury.png in Resources */,
+				B240F4D31E24BBD500DCAFF7 /* Achievement.xib in Resources */,
 				21D386AA1B6B93CD00D0FA90 /* Default.png in Resources */,
 				585887521DBEDBF4006EC6D5 /* ReferralPage.xib in Resources */,
 				212007BE1B6A0BB400D9C84B /* basic_purple@2x.png in Resources */,
@@ -3279,12 +3303,14 @@
 				589A6FB21D8C08F600654CDD /* ic_belanjaan_saya.png in Resources */,
 				589A6FB81D8C08F600654CDD /* ic_delete.png in Resources */,
 				585887381DBEDA3E006EC6D5 /* Filter.xib in Resources */,
+				B240F4C31E2477FF00DCAFF7 /* shoppingstore27.png in Resources */,
 				5847E1951DBE057800C1B2BA /* LoginFransiska.xib in Resources */,
 				21E7A7661B9FF2BC00FC9B38 /* LKActivity.png in Resources */,
 				58BE53611D479F5B00E358EB /* courier_tiki.png in Resources */,
 				5858873E1DBEDA79006EC6D5 /* MyLovelist.xib in Resources */,
 				585887491DBEDB7B006EC6D5 /* NotifAnggiConversation.xib in Resources */,
 				58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */,
+				B240F4D91E24C1AD00DCAFF7 /* AchievementDiamondCell.xib in Resources */,
 				589A6FBE1D8C08F600654CDD /* ic_gambar_utama.png in Resources */,
 				5847E1971DBE081700C1B2BA /* Register.xib in Resources */,
 				58A223C71C898CB600619518 /* ic_trx_expired.png in Resources */,
@@ -3354,6 +3380,7 @@
 				5858873C1DBEDA5E006EC6D5 /* FilterPriceCell.xib in Resources */,
 				589A6FBF1D8C08F600654CDD /* ic_harga.png in Resources */,
 				2115E6D81B4A27E500509D2A /* Images.xcassets in Resources */,
+				B240F4DB1E24D63400DCAFF7 /* AchievementCellBadgeCell.xib in Resources */,
 				58D7360B1D759B0B009D7C61 /* ic_cart.png in Resources */,
 				589A6FB11D8C08F600654CDD /* ic_about.png in Resources */,
 				21EEB4761B87095C00CAD5C9 /* ic_lock.png in Resources */,
@@ -3527,6 +3554,7 @@
 				216345041CC3A855005CBA37 /* MKNavigationBar.swift in Sources */,
 				58DD28E41DAF36BB00130B6F /* BFKit.swift in Sources */,
 				58DD28E31DAF36BB00130B6F /* BFDate.swift in Sources */,
+				B240F4F11E24DE7000DCAFF7 /* AchievementViewController.swift in Sources */,
 				585887811DBF1802006EC6D5 /* OrderConfirmViewController.swift in Sources */,
 				21679A2A1B901C5300F18F90 /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
 				5858876B1DBEF161006EC6D5 /* UserProfileViewController.swift in Sources */,
