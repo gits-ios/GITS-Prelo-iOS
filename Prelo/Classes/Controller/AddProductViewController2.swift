@@ -164,9 +164,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         conHeightSize.constant = 0
         sizePicker.superview?.isHidden = true
         
-        print(editProduct?.status)
-        print(editProduct?.isFakeApprove)
-        print(editProduct?.isFakeApproveV2)
+//        print(editProduct?.status)
+//        print(editProduct?.isFakeApprove)
+//        print(editProduct?.isFakeApproveV2)
         
         if (self.editMode) {
 //            lblSubmit.isHidden = true
