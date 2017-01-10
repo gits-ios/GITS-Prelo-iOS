@@ -84,8 +84,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     var mgInstagram : MGInstagram?
     
-    var isFakeApprove : Bool = false
-    
     // Up barang pop up
     @IBOutlet var vwUpBarangPopUp: UIView!
     @IBOutlet var vwUpBarangPopUpPanel: UIView!
@@ -121,13 +119,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         self.hideUpPopUp()
         self.vwUpBarangPopUp.backgroundColor = UIColor.white.withAlphaComponent(0.5)
-        
-        // old [global]
-//        if let fakeApprove = UserDefaults.standard.object(forKey: UserDefaultsKey.AbTestFakeApprove) as! Bool? {
-//            if (fakeApprove == true) {
-//                self.isFakeApprove = fakeApprove
-//            }
-//        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -196,11 +187,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 {
                     self.detail = ProductDetail.instance(JSON(resp.result.value!))
                     self.activated = (self.detail?.isActive)!
-                    self.adjustButtonByStatus()
-//                    print(self.detail?.json)
+                    print(self.detail?.json)
                     
-                    self.isFakeApprove = (self.detail?.isFakeApprove)!
-                    print(self.isFakeApprove)
+                    self.adjustButtonByStatus()
                     
                     // Setup add comment view
                     self.vwAddComment.isHidden = false
@@ -227,10 +216,10 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     func adjustButtonByStatus() {
-        if (self.detail?.status == 0) { // Inactive or under review
+        if (self.detail?.status == 0 && !((self.detail?.isFakeApproveV2)!)) { // Inactive or under review
             self.disableButton(self.btnUp)
             self.disableButton(self.btnSold)
-        } else if (self.detail?.status == 2 && !isFakeApprove) { // Under review
+        } else if (self.detail?.status == 2 && !((self.detail?.isFakeApprove)!) && !((self.detail?.isFakeApproveV2)!)) { // Under review (bukan v2)
             self.disableButton(self.btnUp)
             self.disableButton(self.btnSold)
         } else if (self.detail?.status == 3 || self.detail?.status == 4) { // sold or deleted
@@ -291,8 +280,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         {
             return
         }
-        pDetailCover = ProductDetailCover.instance((detail?.displayPicturers)!, status: (detail?.status)!, topBannerText: (detail?.rejectionText))
-        pDetailCover?.isFakeApprove = isFakeApprove
+        pDetailCover = ProductDetailCover.instance((detail?.displayPicturers)!, status: (detail?.status)!, topBannerText: (detail?.rejectionText), isFakeApprove: (detail?.isFakeApprove)!, isFakeApproveV2: (detail?.isFakeApproveV2)!)
         pDetailCover?.parent = self
         pDetailCover?.largeImageURLS = (detail?.originalPicturers)!
         if let isFeatured = self.product?.isFeatured , isFeatured {

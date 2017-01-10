@@ -164,8 +164,18 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         conHeightSize.constant = 0
         sizePicker.superview?.isHidden = true
         
+        print(editProduct?.status)
+        print(editProduct?.isFakeApprove)
+        print(editProduct?.isFakeApproveV2)
+        
         if (self.editMode) {
-            lblSubmit.isHidden = true
+//            lblSubmit.isHidden = true
+            if (editProduct?.isFakeApprove)! && editProduct?.status == 2 { // status 2 := under review --> fa 1 /  2 disabled
+                // do nothing --> lblSubmit.isHidden = false // aktif -> edit
+                lblSubmit.isHidden = true // fake approve -> edit
+            } else if (editProduct?.isFakeApproveV2)! {
+                lblSubmit.isHidden = true
+            }
         } else {
             lblSubmit.text = "Klik lanjutkan untuk menentukan charge Prelo yang kamu mau"
         }

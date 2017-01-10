@@ -27,6 +27,7 @@ class ProductDetailCover: UIView {
     var isFeaturedProduct : Bool = false
     
     var isFakeApprove : Bool = false
+    var isFakeApproveV2 : Bool = false
     
     fileprivate func setup(_ images : Array<String>)
     {
@@ -93,7 +94,7 @@ class ProductDetailCover: UIView {
         if (status != nil) {
             let screenSize: CGRect = UIScreen.main.bounds
             let screenWidth = screenSize.width
-            if (status == 2 && !isFakeApprove) { // under review
+            if (status == 2 && !isFakeApprove && !isFakeApproveV2) { // under review
                 banner = UIImageView(image: UIImage(named: "banner_review.png"))
                 if (banner != nil) {
                     banner!.frame = CGRect(x: screenWidth - 150, y: 0, width: 150, height: 149)
@@ -147,7 +148,7 @@ class ProductDetailCover: UIView {
     }
     */
     
-    class func instance(_ images : Array<String>, status: Int, topBannerText : String?)->ProductDetailCover?
+    class func instance(_ images : Array<String>, status: Int, topBannerText : String?, isFakeApprove: Bool, isFakeApproveV2: Bool)->ProductDetailCover?
     {
         var p : ProductDetailCover?
         if (images.count == 1) {
@@ -161,6 +162,9 @@ class ProductDetailCover: UIView {
         } else if (images.count >= 5) {
             p = Bundle.main.loadNibNamed("ProductDetailCover", owner: nil, options: nil)?.objectAtCircleIndex(4) as? ProductDetailCover
         }
+        
+        p?.isFakeApprove = isFakeApprove
+        p?.isFakeApproveV2 = isFakeApproveV2
         
         p?.status = status
         

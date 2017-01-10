@@ -985,6 +985,17 @@ open class ProductDetail : NSObject, TawarItem
         }
         return false
     }
+    
+    var isFakeApproveV2: Bool {
+        if let j = json["_data"]["ab_test"].array {
+            if j.contains("fake_approve_v2") {
+                return true
+            } else  {
+                return false
+            }
+        }
+        return false
+    }
 }
 
 open class Product : NSObject
