@@ -1547,3 +1547,37 @@ enum APIWallet : URLRequestConvertible {
         return p
     }
 }
+
+
+enum APIAchievement : URLRequestConvertible {
+    case getAchievement
+    
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = "achievement/"
+        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
+        return encodedURLRequest
+    }
+    
+    var method : HTTPMethod {
+        switch self {
+        case .getAchievement : return .get
+        }
+    }
+    
+    var path : String {
+        switch self {
+        case .getAchievement : return ""
+        }
+    }
+    
+    var param : [String : Any] {
+        var p : [String : Any] = [:]
+        switch self {
+        default : break
+        }
+        return p
+    }
+}

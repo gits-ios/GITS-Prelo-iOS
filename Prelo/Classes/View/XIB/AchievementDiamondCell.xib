@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="PreloAwesome.ttf">
+            <string>PreloAwesome</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="190" id="fJk-6B-E7C" customClass="AchievementDiamondCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="190"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fJk-6B-E7C" id="Bau-aw-jXF">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="189"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zdS-O2-pEt">
+                        <rect key="frame" x="142" y="8" width="90" height="90"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="90" id="MYm-y5-k4D"/>
+                            <constraint firstAttribute="height" constant="90" id="jxp-dX-cRC"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="XX DIamond Point" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h9s-le-rxl">
+                        <rect key="frame" x="8" y="106" width="359" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="Sxf-M0-Lhu"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M3x-ks-9df">
+                        <rect key="frame" x="346" y="106" width="21" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="2Pp-1v-jal"/>
+                            <constraint firstAttribute="height" constant="21" id="FvQ-uj-gVy"/>
+                            <constraint firstAttribute="width" constant="21" id="KY3-He-8Iu"/>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="21" id="x9s-D3-WAk"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="17"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jyl-gt-1Ss">
+                        <rect key="frame" x="8" y="135" width="359" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="8UI-mr-lNf"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="zdS-O2-pEt" firstAttribute="top" secondItem="Bau-aw-jXF" secondAttribute="topMargin" id="5x2-Za-Bvg"/>
+                    <constraint firstItem="h9s-le-rxl" firstAttribute="trailing" secondItem="Bau-aw-jXF" secondAttribute="trailingMargin" id="GVw-Sh-XtG"/>
+                    <constraint firstItem="h9s-le-rxl" firstAttribute="leading" secondItem="Bau-aw-jXF" secondAttribute="leadingMargin" id="IbH-sV-64b"/>
+                    <constraint firstItem="h9s-le-rxl" firstAttribute="top" secondItem="zdS-O2-pEt" secondAttribute="bottom" constant="8" id="Q1J-2p-ZUn"/>
+                    <constraint firstItem="jyl-gt-1Ss" firstAttribute="top" secondItem="M3x-ks-9df" secondAttribute="bottom" constant="8" id="Q3B-NO-gbB"/>
+                    <constraint firstItem="M3x-ks-9df" firstAttribute="top" secondItem="Bau-aw-jXF" secondAttribute="topMargin" constant="98" id="bTa-tn-GdQ"/>
+                    <constraint firstItem="jyl-gt-1Ss" firstAttribute="leading" secondItem="Bau-aw-jXF" secondAttribute="leadingMargin" id="eod-vG-Nw5"/>
+                    <constraint firstItem="jyl-gt-1Ss" firstAttribute="trailing" secondItem="Bau-aw-jXF" secondAttribute="trailingMargin" id="lPW-nr-fNU"/>
+                    <constraint firstItem="M3x-ks-9df" firstAttribute="trailing" secondItem="Bau-aw-jXF" secondAttribute="trailingMargin" id="zgL-zC-1V1"/>
+                </constraints>
+            </tableViewCellContentView>
+            <constraints>
+                <constraint firstItem="zdS-O2-pEt" firstAttribute="centerX" secondItem="fJk-6B-E7C" secondAttribute="centerX" id="qFr-gX-CuE"/>
+            </constraints>
+            <connections>
+                <outlet property="badgeImage" destination="zdS-O2-pEt" id="o1m-20-BvQ"/>
+                <outlet property="lblArrow" destination="M3x-ks-9df" id="bSR-Vz-f6I"/>
+                <outlet property="lblDesc" destination="jyl-gt-1Ss" id="L7B-4E-xZ0"/>
+                <outlet property="lblDiamond" destination="h9s-le-rxl" id="b2b-A6-ojY"/>
+            </connections>
+            <point key="canvasLocation" x="-14.5" y="45"/>
+        </tableViewCell>
+    </objects>
+</document>

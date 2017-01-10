@@ -3476,3 +3476,80 @@ class BalanceMutationItem : NSObject {
         return nil
     }
 }
+
+class AchievementItem : NSObject {
+    var json : JSON = JSON([:])
+    
+    static func instance(_ json : JSON?) -> AchievementItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let n = AchievementItem()
+            n.json = json!
+            return n
+        }
+    }
+    
+    var name : String {
+        if let j = json["name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var icon : URL? {
+        if let j = json["icon"].string {
+            return URL(string: j)!
+        }
+        return nil
+    }
+    
+    var progress : Int {
+        if let j = json["progress"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var progressIcon : Array<URL> {
+        if let arr = json["progress_icon"].array {
+            var Urls: Array<URL> = []
+            if arr.count > 0 {
+                for i in 0...arr.count-1 {
+                    Urls.append(URL(string: arr[i].string!)!)
+                }
+            }
+            return Urls
+        }
+        return []
+    }
+    
+    var conditions : Array<[String:Bool]> {
+        if let arr = json["conditions"].array { // fullfilled , condition_text
+            
+            var innerConditions : Array<[String:Bool]> = []
+            if arr.count > 0 {
+                for i in 0...arr.count-1 {
+                    let d = arr[i]
+                    let fullfilled = d["fullfilled"].bool
+                    let conditionText = d["condition_text"].string
+                    
+                    let condition : [String:Bool] = [conditionText!:fullfilled!]
+                    
+                    innerConditions.append(condition)
+                }
+            }
+            
+            return innerConditions
+            
+        }
+        return []
+    }
+    
+    var actionType : String {
+        if let j = json["action_type"].string {
+            return j
+        }
+        return ""
+    }
+}

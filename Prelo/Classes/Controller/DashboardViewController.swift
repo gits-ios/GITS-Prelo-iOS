@@ -74,7 +74,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                     "iconimg":"ic_voucher"
                 ],
                 [
-                    "title":"Bantuan",
+                    "title":"Achievement", // Bantuan
                     "iconimg":"ic_faq"
                 ],
                 [
@@ -204,8 +204,8 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 self.launchTarikUang()
             } else if ((indexPath as NSIndexPath).row == 2) { // Referral bonus
                 self.launchFreeVoucher()
-            } else if ((indexPath as NSIndexPath).row == 3) { // Bantuan
-                self.launchFAQ()
+            } else if ((indexPath as NSIndexPath).row == 3) { // Achievement // Bantuan
+                self.launchAchievement() //self.launchFAQ()
             } else if ((indexPath as NSIndexPath).row == 4) { // About
                 self.launchAbout()
             }
@@ -339,6 +339,13 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             })
         }
     }
+    
+    func launchAchievement() {
+        let AchievementVC = Bundle.main.loadNibNamed(Tags.XibNameAchievement, owner: nil, options: nil)?.first as! AchievementViewController
+        AchievementVC.previousController = self.previousController
+        self.navigationController?.pushViewController(AchievementVC, animated: true)
+    }
+
     
     func launchFAQ() {
         let helpVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
