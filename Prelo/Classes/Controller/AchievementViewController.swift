@@ -97,7 +97,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                         for i in 0...arr.count - 1 {
                             let achievement = AchievementItem.instance(arr[i])
                             self.achievements?.append(achievement!)
-                            self.isOpens.append(false)
+                            self.isOpens.append((achievement?.isAchieved)!)
                         }
                     }
                     
@@ -152,12 +152,13 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
             // load api call diamond badge
             cell.adapt(diamonds, isOpen: isOpens[(indexPath as NSIndexPath).section])
             
-            
             cell.layer.masksToBounds = true
             cell.layer.borderColor = Theme.PrimaryColor.cgColor
             cell.layer.borderWidth = 1.0
             cell.layer.cornerRadius = 8
             cell.clipsToBounds = true
+            
+            cell.selectionStyle = .none
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementCell") as! AchievementCell
@@ -165,10 +166,12 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
             cell.adapt((achievements?[(indexPath as NSIndexPath).section - 1])!, isOpen: isOpens[(indexPath as NSIndexPath).section])
             
             cell.layer.masksToBounds = true
-            cell.layer.borderColor = Theme.PrimaryColor.cgColor
+            cell.layer.borderColor = ((achievements?[(indexPath as NSIndexPath).section - 1])!.isAchieved ? Theme.ThemeOrange.cgColor : Theme.GrayLight.cgColor)
             cell.layer.borderWidth = 1.0
             cell.layer.cornerRadius = 8
             cell.clipsToBounds = true
+            
+            cell.selectionStyle = .none
             return cell
         }
     }
@@ -231,7 +234,7 @@ class AchievementCell: UITableViewCell, UITableViewDataSource, UITableViewDelega
     // kalau point point (fullfilled, condition) + progressicon
     static func heightFor(_ conditionCount: Int, isOpen: Bool, isProgress: Bool, desc: String) -> CGFloat {
         let standardHeight : CGFloat = 70.0
-        var heightProgress = 30.0 * CGFloat(conditionCount) + (isProgress ? 56 : 0)
+        var heightProgress = 30.0 * CGFloat(conditionCount) + (isProgress ? 40 : 0)
         let textRect = desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 16)
         heightProgress += textRect.height + 4
         return standardHeight + (isOpen ? heightProgress : 0) + 10
@@ -269,7 +272,7 @@ class AchievementCell: UITableViewCell, UITableViewDataSource, UITableViewDelega
             let textRect = achievement!.desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 16)
             return textRect.height + 4
         } else if ((indexPath as NSIndexPath).row == achievement!.conditions.count + 1) { // badgecell
-            return 56
+            return 40
         } else {
             return 30
         }
@@ -282,16 +285,22 @@ class AchievementCell: UITableViewCell, UITableViewDataSource, UITableViewDelega
             cell.textLabel!.numberOfLines = 0
             cell.textLabel!.font = UIFont.systemFont(ofSize: 14)
             cell.textLabel!.textColor = UIColor.lightGray
+            
+            cell.selectionStyle = .none
             return cell
         } else if ((indexPath as NSIndexPath).row == achievement!.conditions.count + 1) { // badgecell
             let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementCellBadgeCell") as! AchievementCellBadgeCell
             cell.setupCollection()
             cell.adapt(achievement.tierIcons)
+            
+            cell.selectionStyle = .none
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementCellProgressCell") as! AchievementCellProgressCell
             print(achievement.conditions)
             cell.adapt(achievement.conditions[(indexPath as NSIndexPath).row - 1])
+            
+            cell.selectionStyle = .none
             return cell
         }
     }
@@ -408,7 +417,7 @@ class AchievementDiamondCell: UITableViewCell { // 130 + lbldesc
         let standardHeight : CGFloat = 130.0
         let text = "Kumpulkan Diamond untuk dapat meng-up barang kamu secara gratis!"
         let textRect : CGRect = text.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 112)
-        return standardHeight + (isOpen ? textRect.height : 0) + 10 + 10
+        return standardHeight + (isOpen ? textRect.height : 0) + 10
     }
     
     // TODO: adapt & height

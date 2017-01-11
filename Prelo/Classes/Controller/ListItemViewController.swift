@@ -1494,6 +1494,7 @@ class ListItemCell : UICollectionViewCell {
         btnTawar.isHidden = true
         btnLove.isHidden = true
         affiliateLogo.isHidden = true
+        captionOldPrice.isHidden = false
     }
     
     func adapt(_ product : Product, listStage : Int, currentMode : ListItemMode, shopAvatar : URL?, parent: BaseViewController) {

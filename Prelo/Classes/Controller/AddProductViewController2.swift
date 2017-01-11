@@ -169,11 +169,15 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 //        print(editProduct?.isFakeApproveV2)
         
         if (self.editMode) {
-//            lblSubmit.isHidden = true
-            if (editProduct?.isFakeApprove)! && editProduct?.status == 2 { // status 2 := under review --> fa 1 /  2 disabled
-                // do nothing --> lblSubmit.isHidden = false // aktif -> edit
-                lblSubmit.isHidden = true // fake approve -> edit
-            } else if (editProduct?.isFakeApproveV2)! {
+////            lblSubmit.isHidden = true
+//            if (editProduct?.isFakeApprove)! && editProduct?.status == 2 { // status 2 := under review --> fa 1 /  2 disabled
+//                // do nothing --> lblSubmit.isHidden = false // aktif -> edit
+//                lblSubmit.isHidden = true // fake approve -> edit
+//            } else if (editProduct?.isFakeApproveV2)! {
+//                lblSubmit.isHidden = true
+//            }
+            
+            if ((editProduct?.isFakeApprove)! || (editProduct?.isFakeApproveV2)!) {
                 lblSubmit.isHidden = true
             }
         } else {

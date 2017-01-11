@@ -36,6 +36,10 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // regiter cell
+        
+        tableView?.register(BottomCell.self, forCellReuseIdentifier: "BottomCell")
+        
         let c = CDUser.getOne()
         captionName?.text = c?.username
         
@@ -62,24 +66,38 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             vwHeaderLoggedOut.isHidden = true
             menus = [
                 [
+                    "type":"iconic",
                     "title":"Request",
                     "iconimg":"ic_request",
                 ],
                 [
+                    "type":"iconic",
                     "title":"Tarik Uang",
                     "iconimg":"ic_tarik_uang",
                 ],
                 [
+                    "type":"iconic",
                     "title":"Referral Bonus",
                     "iconimg":"ic_voucher"
                 ],
                 [
-                    "title":"Achievement", // Bantuan
+                    "type":"iconic",
+                    "title":"Achievement",
+                    "iconimg":"raisa.jpg"
+                ],
+                [
+                    "type":"iconic",
+                    "title":"Bantuan",
                     "iconimg":"ic_faq"
                 ],
                 [
+                    "type":"text",
+                    "title":"Rate Us",
+                ],
+                [
+                    "type":"text",
                     "title":"About",
-                    "iconimg":"ic_about"
+                    "iconimg":"ic_about" // not uses
                 ]
             ]
         } else {
@@ -89,17 +107,25 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             vwTopMenu.frame = CGRect(x: vwTopMenuFrame.origin.x, y: vwTopMenuFrame.origin.y, width: vwTopMenuFrame.width, height: VwTopMenuHeightLoggedOut)
             menus = [
                 [
+                    "type":"iconic",
                     "title":"Referral Bonus",
                     "iconimg":"ic_voucher"
                 ],
                 [
+                    "type":"iconic",
                     "title":"Bantuan",
                     "iconimg":"ic_faq"
                 ],
                 [
+                    "type":"text",
+                    "title":"Rate Us",
+                ],
+                [
+                    "type":"text",
                     "title":"About",
-                    "iconimg":"ic_about"
+                    "iconimg":"ic_about" // not use
                 ]
+
             ]
         }
         
@@ -169,30 +195,55 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell : DashboardCell = tableView.dequeueReusableCell(withIdentifier: "cell") as! DashboardCell
         let m : [String : String] = (menus?.objectAtCircleIndex((indexPath as NSIndexPath).row))!
         
-        if let isPreloAwesome = m["PreloAwesome"] { // Icon is from font
-            if (isPreloAwesome == "1") {
-                cell.captionIcon?.font = AppFont.preloAwesome.getFont(24)!
-            } else {
-                cell.captionIcon?.font = AppFont.prelo2.getFont(24)!
+        if m["type"] == "iconic" {
+            var cell : DashboardCell = tableView.dequeueReusableCell(withIdentifier: "cell") as! DashboardCell
+            
+            if let isPreloAwesome = m["PreloAwesome"] { // Icon is from font
+                if (isPreloAwesome == "1") {
+                    cell.captionIcon?.font = AppFont.preloAwesome.getFont(24)!
+                } else {
+                    cell.captionIcon?.font = AppFont.prelo2.getFont(24)!
+                }
+                cell.captionIcon?.text = m["icon"]
+            } else { // Icon is from image
+                cell.captionIcon?.text = ""
+                let img = UIImage(named: m["iconimg"]!)
+                let iconImg = UIImageView(image: img)
+                iconImg.tintColor = Theme.PrimaryColorDark
+                iconImg.frame = CGRect(x: 8, y: 10, width: 26, height: 26)
+                
+                if m["title"] == "Achievement" {
+                    iconImg.layoutIfNeeded()
+                    iconImg.layer.cornerRadius = (iconImg.width) / 2
+                    iconImg.layer.masksToBounds = true
+                }
+                
+                cell.addSubview(iconImg)
             }
-            cell.captionIcon?.text = m["icon"]
-        } else { // Icon is from image
-            cell.captionIcon?.text = ""
-            let img = UIImage(named: m["iconimg"]!)
-            let iconImg = UIImageView(image: img)
-            iconImg.tintColor = Theme.PrimaryColorDark
-            iconImg.frame = CGRect(x: 8, y: 10, width: 26, height: 26)
-            cell.addSubview(iconImg)
+            
+            cell.captionTitle?.text = m["title"]
+            cell.selectionStyle = .none
+            
+            return cell
+            
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "BottomCell")
+            cell?.textLabel?.font = UIFont.systemFont(ofSize: 16)
+            cell?.textLabel?.textColor = UIColor(hex: "555555")
+            
+            cell?.textLabel!.text = m["title"]
+            cell?.selectionStyle = .none
+            
+            if m["title"] == "Rate Us" {
+                let inView = UIView(frame: CGRect(x: 0, y: 0, width: (cell?.width)!, height: 1), backgroundColor: UIColor(hex: "AAAAAA"))
+            
+                cell?.contentView.addSubview(inView)
+            }
+            return cell!
+
         }
-        
-        cell.captionTitle?.text = m["title"]
-        cell.selectionStyle = .none
-        
-        
-        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -204,9 +255,13 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 self.launchTarikUang()
             } else if ((indexPath as NSIndexPath).row == 2) { // Referral bonus
                 self.launchFreeVoucher()
-            } else if ((indexPath as NSIndexPath).row == 3) { // Achievement // Bantuan
-                self.launchAchievement() //self.launchFAQ()
-            } else if ((indexPath as NSIndexPath).row == 4) { // About
+            } else if ((indexPath as NSIndexPath).row == 3) { // Achievement
+                self.launchAchievement()
+            } else if ((indexPath as NSIndexPath).row == 4) { // Bantuan
+                self.launchFAQ()
+            } else if ((indexPath as NSIndexPath).row == 5) { // Rate Us
+                self.launchRateUs()
+            } else if ((indexPath as NSIndexPath).row == 6) { // About
                 self.launchAbout()
             }
         } else {
@@ -214,9 +269,23 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 self.launchFreeVoucher()
             } else if ((indexPath as NSIndexPath).row == 1) { // Bantuan
                 self.launchFAQ()
-            } else if ((indexPath as NSIndexPath).row == 2) { // About
+            } else if ((indexPath as NSIndexPath).row == 2) { // Rate Us
+                self.launchRateUs()
+            } else if ((indexPath as NSIndexPath).row == 3) { // About
                 self.launchAbout()
             }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let m : [String : String] = (menus?.objectAtCircleIndex((indexPath as NSIndexPath).row))!
+        
+        if m["title"] == "Rate Us" {
+            return 45 + 1 // separator
+            
+        } else {
+            return 45
+            
         }
     }
     
@@ -346,6 +415,9 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         self.navigationController?.pushViewController(AchievementVC, animated: true)
     }
 
+    func launchRateUs() {
+        Constant.showDialog("Rate Us", message: "Coba!")
+    }
     
     func launchFAQ() {
         let helpVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
@@ -395,4 +467,8 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
 class DashboardCell : UITableViewCell {
     @IBOutlet var captionTitle : UILabel?
     @IBOutlet var captionIcon : UILabel?
+}
+
+class BottomCell: UITableViewCell { // rate us, about
+    
 }
