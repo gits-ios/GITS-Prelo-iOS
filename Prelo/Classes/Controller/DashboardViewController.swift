@@ -98,6 +98,9 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                     "type":"text",
                     "title":"About",
                     "iconimg":"ic_about" // not uses
+                ],
+                [
+                    "type":"blank"
                 ]
             ]
         } else {
@@ -228,7 +231,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             
             return cell
             
-        } else {
+        } else if m ["type"] == "text" {
             let cell = tableView.dequeueReusableCell(withIdentifier: "BottomCell")
             cell?.textLabel?.font = UIFont.systemFont(ofSize: 16)
             cell?.textLabel?.textColor = UIColor(hex: "555555")
@@ -243,6 +246,12 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             }
             return cell!
 
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "BottomCell")
+            cell?.textLabel!.text = ""
+            cell?.selectionStyle = .none
+            
+            return cell!
         }
     }
     
