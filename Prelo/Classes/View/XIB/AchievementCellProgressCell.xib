@@ -24,16 +24,16 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V4v-bj-Qhj">
-                        <rect key="frame" x="36" y="8" width="331" height="27"/>
+                        <rect key="frame" x="44" y="8" width="323" height="27"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="27" id="3bv-pj-9dg"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                        <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hEU-zw-Loy">
-                        <rect key="frame" x="8" y="12" width="20" height="20"/>
+                        <rect key="frame" x="16" y="12" width="20" height="20"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9h5-QS-iI6">
                                 <rect key="frame" x="1" y="1" width="18" height="18"/>
@@ -68,7 +68,7 @@
                     <constraint firstItem="V4v-bj-Qhj" firstAttribute="centerY" secondItem="sgD-va-9IQ" secondAttribute="centerY" id="CRO-Dq-15w"/>
                     <constraint firstItem="V4v-bj-Qhj" firstAttribute="top" secondItem="sgD-va-9IQ" secondAttribute="topMargin" id="FjD-mu-Sly"/>
                     <constraint firstItem="hEU-zw-Loy" firstAttribute="centerY" secondItem="sgD-va-9IQ" secondAttribute="centerY" id="SdH-TB-HGV"/>
-                    <constraint firstItem="hEU-zw-Loy" firstAttribute="leading" secondItem="sgD-va-9IQ" secondAttribute="leadingMargin" id="VDg-oO-Ksk"/>
+                    <constraint firstItem="hEU-zw-Loy" firstAttribute="leading" secondItem="sgD-va-9IQ" secondAttribute="leadingMargin" constant="8" id="VDg-oO-Ksk"/>
                     <constraint firstItem="V4v-bj-Qhj" firstAttribute="leading" secondItem="hEU-zw-Loy" secondAttribute="trailing" constant="8" id="nbQ-2C-JvC"/>
                 </constraints>
             </tableViewCellContentView>

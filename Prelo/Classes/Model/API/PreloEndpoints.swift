@@ -523,6 +523,7 @@ enum APIMe : URLRequestConvertible {
     case resendVerificationEmail
     case getBalanceMutations(current : Int, limit : Int)
     case setUserUUID
+    case achievement
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "me/"
@@ -554,6 +555,7 @@ enum APIMe : URLRequestConvertible {
         case .resendVerificationEmail : return .post
         case .getBalanceMutations(_, _) : return .get
         case .setUserUUID : return .post
+        case .achievement : return .get
         }
     }
     
@@ -578,6 +580,7 @@ enum APIMe : URLRequestConvertible {
         case .resendVerificationEmail : return "verify/resend_email"
         case .getBalanceMutations(_, _) : return "getprelobalances"
         case .setUserUUID : return "setgafaid"
+        case .achievement : return "achievements"
         }
     }
     
@@ -1542,40 +1545,6 @@ enum APIWallet : URLRequestConvertible {
                 "name" : namarek,
                 "password" : password
             ]
-        default : break
-        }
-        return p
-    }
-}
-
-
-enum APIAchievement : URLRequestConvertible {
-    case getAchievement
-    
-    public func asURLRequest() throws -> URLRequest {
-        let basePath = "achievement/"
-        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
-        var urlRequest = URLRequest(url: url).defaultURLRequest()
-        urlRequest.httpMethod = method.rawValue
-        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
-        return encodedURLRequest
-    }
-    
-    var method : HTTPMethod {
-        switch self {
-        case .getAchievement : return .get
-        }
-    }
-    
-    var path : String {
-        switch self {
-        case .getAchievement : return ""
-        }
-    }
-    
-    var param : [String : Any] {
-        var p : [String : Any] = [:]
-        switch self {
         default : break
         }
         return p

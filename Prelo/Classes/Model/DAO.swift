@@ -3504,15 +3504,43 @@ class AchievementItem : NSObject {
         return nil
     }
     
-    var progress : Int {
-        if let j = json["progress"].int {
+    var isAchieved : Bool {
+        if let j = json["is_achieved"].bool {
+            return j
+        }
+        return false
+    }
+    
+    var desc : String {
+        if let j = json["description"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var progressCurrent : Int {
+        if let j = json["progress"]["current"].int {
             return j
         }
         return 0
     }
     
-    var progressIcon : Array<URL> {
-        if let arr = json["progress_icon"].array {
+    var progressMax : Int {
+        if let j = json["progress"]["max"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var tier : Int {
+        if let j = json["tier"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var tierIcons : Array<URL> {
+        if let arr = json["tier_icons"].array {
             var Urls: Array<URL> = []
             if arr.count > 0 {
                 for i in 0...arr.count-1 {
@@ -3525,16 +3553,16 @@ class AchievementItem : NSObject {
     }
     
     var conditions : Array<[String:Bool]> {
-        if let arr = json["conditions"].array { // fullfilled , condition_text
+        if let arr = json["conditions"].array { // fulfilled , condition_text
             
             var innerConditions : Array<[String:Bool]> = []
             if arr.count > 0 {
                 for i in 0...arr.count-1 {
                     let d = arr[i]
-                    let fullfilled = d["fullfilled"].bool
+                    let fulfilled = d["fulfilled"].bool
                     let conditionText = d["condition_text"].string
                     
-                    let condition : [String:Bool] = [conditionText!:fullfilled!]
+                    let condition : [String:Bool] = [conditionText!:fulfilled!]
                     
                     innerConditions.append(condition)
                 }
@@ -3546,8 +3574,8 @@ class AchievementItem : NSObject {
         return []
     }
     
-    var actionType : String {
-        if let j = json["action_type"].string {
+    var action : String {
+        if let j = json["action"].string {
             return j
         }
         return ""
