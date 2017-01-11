@@ -405,6 +405,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var title = ""
         var body = ""
         
+        var alert = ""
+        
         var tipe = ""
         var targetId = ""
         
@@ -416,6 +418,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if let _body = remoteNotifAlert.object(forKey: "body") as? String {
                     body = _body
                 }
+            }
+            if let remoteNotifAlert = remoteNotifAps["alert"] as? String {
+                alert = remoteNotifAlert
             }
         }
         
@@ -434,7 +439,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            Constant.showDialog("APNS", message: userInfo.description)
             
             // banner
-            let banner = Banner(title: title, subtitle: body, image: nil, backgroundColor: Theme.PrimaryColor, didTapBlock: {
+            let banner = Banner(title: title != "" ? title : alert, subtitle: body != "" ? body : nil, image: nil, backgroundColor: Theme.PrimaryColor, didTapBlock: {
 //                Constant.showDialog("APNS", message: "coba")
                 self.deeplinkRedirect(tipe, targetId: targetId)
             })
