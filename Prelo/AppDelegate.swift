@@ -269,7 +269,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UserDefaults.setObjectAndSync(userAgent as AnyObject?, forKey: UserDefaultsKey.UserAgent)
         
         // Remove app badge if any
-        UIApplication.shared.applicationIconBadgeNumber = 0
+//        UIApplication.shared.applicationIconBadgeNumber = 0
         
         // Set status bar color
         self.setStatusBarBackgroundColor(color: UIColor.clear)
@@ -401,35 +401,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().processRemoteNotification(userInfo)
         
-        if (application.applicationState == UIApplicationState.active) {
+        // APNS handle
+        var title = ""
+        var body = ""
+        
+        var tipe = ""
+        var targetId = ""
+        
+        if let remoteNotifAps = userInfo["aps"] as? NSDictionary {
+            if let remoteNotifAlert = remoteNotifAps["alert"] as? NSDictionary {
+                if let _title = remoteNotifAlert.object(forKey: "title") as? String {
+                    title = _title
+                }
+                if let _body = remoteNotifAlert.object(forKey: "body") as? String {
+                    body = _body
+                }
+            }
+        }
+        
+        // deeplink
+        if let t = userInfo["tipe"] as? String {
+            tipe = t
+        }
+        if let tId = userInfo["target_id"] as? String {
+            targetId = tId
+        }
+
+        
+        if (application.applicationState == UIApplicationState.active) { // acive mode
             print("App were active when receiving remote notification")
             
 //            Constant.showDialog("APNS", message: userInfo.description)
-            
-            var title = ""
-            var body = ""
-            
-            var tipe = ""
-            var targetId = ""
-            
-            if let remoteNotifAps = userInfo["aps"] as? NSDictionary {
-                if let remoteNotifAlert = remoteNotifAps["alert"] as? NSDictionary {
-                    if let _title = remoteNotifAlert.object(forKey: "title") as? String {
-                        title = _title
-                    }
-                    if let _body = remoteNotifAlert.object(forKey: "body") as? String {
-                        body = _body
-                    }
-                }
-            }
-            
-            // deeplink
-            if let t = userInfo["tipe"] as? String {
-                tipe = t
-            }
-            if let tId = userInfo["target_id"] as? String {
-                targetId = tId
-            }
             
             // banner
             let banner = Banner(title: title, subtitle: body, image: nil, backgroundColor: Theme.PrimaryColor, didTapBlock: {
@@ -440,8 +442,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             banner.dismissesOnTap = true
             
             banner.show(duration: 3.0)
-        } else {
+            
+        } else { // bachground mode
             print("App weren't active when receiving remote notification")
+            
+//            Constant.showDialog("APNS", message: userInfo.description)
+            
+            self.deeplinkRedirect(tipe, targetId: targetId)
         }
         
         /**
