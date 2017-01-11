@@ -403,6 +403,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if (application.applicationState == UIApplicationState.active) {
             print("App were active when receiving remote notification")
+            
+//            Constant.showDialog("APNS", message: userInfo.description)
+            
+            var title = ""
+            var body = ""
+            
+            var tipe = ""
+            var targetId = ""
+            
+            if let remoteNotifAps = userInfo["aps"] as? NSDictionary {
+                if let remoteNotifAlert = remoteNotifAps["alert"] as? NSDictionary {
+                    if let _title = remoteNotifAlert.object(forKey: "title") as? String {
+                        title = _title
+                    }
+                    if let _body = remoteNotifAlert.object(forKey: "body") as? String {
+                        body = _body
+                    }
+                }
+            }
+            
+            // deeplink
+            if let t = userInfo["tipe"] as? String {
+                tipe = t
+            }
+            if let tId = userInfo["target_id"] as? String {
+                targetId = tId
+            }
+            
+            // banner
+            let banner = Banner(title: title, subtitle: body, image: nil, backgroundColor: Theme.PrimaryColor, didTapBlock: {
+//                Constant.showDialog("APNS", message: "coba")
+                self.deeplinkRedirect(tipe, targetId: targetId)
+            })
+            
+            banner.dismissesOnTap = true
+            
+            banner.show(duration: 3.0)
         } else {
             print("App weren't active when receiving remote notification")
         }
@@ -454,7 +491,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FBSDKAppEvents.activateApp()
         
         // Remove app badge if any
-        UIApplication.shared.applicationIconBadgeNumber = 0
+        // show badge
+        UIApplication.shared.applicationIconBadgeNumber = User.getNotifCount() as NSInteger
         
         // AppsFlyer
         // Track Installs, updates & sessions(app opens) (You must include this API to enable tracking)

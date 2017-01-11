@@ -621,6 +621,7 @@
 		B2099FAB1E1E83BB00EBB57F /* CustomPhotoAlbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2099FAA1E1E83BB00EBB57F /* CustomPhotoAlbum.swift */; };
 		B22C0E311E090FA900C3D661 /* ic_love_96px.png in Resources */ = {isa = PBXBuildFile; fileRef = B22C0E301E090FA900C3D661 /* ic_love_96px.png */; };
 		B22C0E331E091C2D00C3D661 /* ic_love_96px_trp.png in Resources */ = {isa = PBXBuildFile; fileRef = B22C0E321E091C2D00C3D661 /* ic_love_96px_trp.png */; };
+		B23243391E265F8400367BDE /* Banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23243381E265F8400367BDE /* Banner.swift */; };
 		B23356F01E1F587C00207F14 /* ScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23356EF1E1F587C00207F14 /* ScannerViewController.swift */; };
 		B23356F21E1F588F00207F14 /* Scanner.xib in Resources */ = {isa = PBXBuildFile; fileRef = B23356F11E1F588F00207F14 /* Scanner.xib */; };
 		B23417741E2322FA003247D7 /* sms5.png in Resources */ = {isa = PBXBuildFile; fileRef = B23417731E2322FA003247D7 /* sms5.png */; };
@@ -1553,6 +1554,7 @@
 		B2099FAA1E1E83BB00EBB57F /* CustomPhotoAlbum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomPhotoAlbum.swift; path = ../Controller/CustomPhotoAlbum.swift; sourceTree = "<group>"; };
 		B22C0E301E090FA900C3D661 /* ic_love_96px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_love_96px.png; sourceTree = "<group>"; };
 		B22C0E321E091C2D00C3D661 /* ic_love_96px_trp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_love_96px_trp.png; sourceTree = "<group>"; };
+		B23243381E265F8400367BDE /* Banner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Banner.swift; sourceTree = "<group>"; };
 		B23356EF1E1F587C00207F14 /* ScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerViewController.swift; sourceTree = "<group>"; };
 		B23356F11E1F588F00207F14 /* Scanner.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Scanner.xib; sourceTree = "<group>"; };
 		B23417731E2322FA003247D7 /* sms5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sms5.png; sourceTree = "<group>"; };
@@ -1805,6 +1807,7 @@
 		2141BB481B54BE4C00787F5D /* External */ = {
 			isa = PBXGroup;
 			children = (
+				B23243381E265F8400367BDE /* Banner.swift */,
 				21D387401B6B95A500D0FA90 /* FakeBridge.h */,
 				44BB8EF61BC6ABF70052B020 /* GIBadgeView.h */,
 				21D387411B6B95A500D0FA90 /* FakeBridge.m */,
@@ -3770,6 +3773,7 @@
 				58A99A2C1C6D864E00E3E7D7 /* BNCError.m in Sources */,
 				21679A521B901C5300F18F90 /* NSInvocation+MPHelpers.m in Sources */,
 				5847E18F1DBDFB7600C1B2BA /* PathEndpoints.swift in Sources */,
+				B23243391E265F8400367BDE /* Banner.swift in Sources */,
 				21B467EF1CCE5EDB00E145ED /* NSDictionary+BFKit.swift in Sources */,
 				5858879D1DBF3429006EC6D5 /* ShopReviewViewController.swift in Sources */,
 				21B467E61CCE5EDB00E145ED /* BFSystemSound.swift in Sources */,
