@@ -554,8 +554,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
         
         // Determine payment charge & set cellsData for payment charge
-        let creditCardCharge = 2500 + (priceAfterDiscounts * 32 / 1000)
-        var indomaretCharge = priceAfterDiscounts * 2 / 100
+        let creditCardCharge = 2500 + Int(Double(priceAfterDiscounts) * 0.032)
+        var indomaretCharge = Int(Double(priceAfterDiscounts) * 0.02)
         if (indomaretCharge < 5000) {
             indomaretCharge = 5000
         }
