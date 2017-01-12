@@ -32,6 +32,8 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
         let AchievementCell = UINib(nibName: "AchievementCell", bundle: nil)
         tableView.register(AchievementCell, forCellReuseIdentifier: "AchievementCell")
         
+        // for button baca lebih lanjut
+        tableView.register(AchievementCellDescriptionCell.self, forCellReuseIdentifier: "AchievementCellDescriptionCell")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -47,6 +49,11 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
         //TOP, LEFT, BOTTOM, RIGHT
         let inset = UIEdgeInsetsMake(5, 0, 5, 0)
         tableView.contentInset = inset
+        
+        
+        tableView.separatorStyle = .none
+        
+        tableView.backgroundColor = UIColor(hex: "E5E9EB")
         
         getAchievement()
         
@@ -128,77 +135,97 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
         self.loadingPanel.isHidden = true
     }
     
-    // MARK: - Table View delegate methods
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
+    // MARK: - TableView functions
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (achievements != nil) {
-            return achievements!.count + 1
+            return achievements!.count + 1 + 1 // diamonds & button
         } else {
             return 0
         }
     }
     
-    // MARK: - TableView functions
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if ((indexPath as NSIndexPath).section == 0) { // diamond
-            return AchievementDiamondCell.heightFor(isOpens[(indexPath as NSIndexPath).section])
+        if ((indexPath as NSIndexPath).row == 0) { // diamond
+            return AchievementDiamondCell.heightFor(isOpens[(indexPath as NSIndexPath).row])
+        } else if ((indexPath as NSIndexPath).row == (achievements?.count)! + 1) {
+            return 45
         } else {
-            let achievement = achievements?[(indexPath as NSIndexPath).section - 1]
+            let achievement = achievements?[(indexPath as NSIndexPath).row - 1]
             let count = achievement!.conditions.count
-            return AchievementCell.heightFor(count, isOpen: isOpens[(indexPath as NSIndexPath).section], isProgress: achievement!.tierIcons.count > 0, desc: achievement!.desc)
+            return AchievementCell.heightFor(count, isOpen: isOpens[(indexPath as NSIndexPath).row], isProgress: achievement!.tierIcons.count > 0, desc: achievement!.desc)
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if ((indexPath as NSIndexPath).section == 0) { // diamond
+        if ((indexPath as NSIndexPath).row == 0) { // diamond
             let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementDiamondCell") as! AchievementDiamondCell
             
             cell.selectionStyle = .none
-//            cell.layer.masksToBounds = true
-//            cell.layer.borderColor = Theme.PrimaryColor.cgColor
-//            cell.layer.borderWidth = 1.0
-//            cell.layer.cornerRadius = 8
-//            cell.clipsToBounds = true
-            cell.adapt(diamonds, isOpen: isOpens[(indexPath as NSIndexPath).section])
+            cell.backgroundColor = UIColor(hex: "E5E9EB")
+            cell.clipsToBounds = true
+            cell.adapt(diamonds, isOpen: isOpens[(indexPath as NSIndexPath).row])
+            
+            return cell
+        } else if ((indexPath as NSIndexPath).row == (achievements?.count)! + 1) {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementCellDescriptionCell") as! AchievementCellDescriptionCell
+            
+            cell.selectionStyle = .none
+            cell.backgroundColor = UIColor(hex: "E5E9EB")
+            cell.clipsToBounds = true
+            
+            let lblButton = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.width - 10, height: 40))
+            
+            lblButton.text = "BACA LEBIH LANJUT"
+            lblButton.textColor = Theme.PrimaryColor
+            lblButton.backgroundColor = UIColor.clear
+            lblButton.textAlignment = .center
+            
+            let vwBorder = UIView(frame: CGRect(x: 5, y: 2.5, width: tableView.width - 10, height: 40))
+
+//            vwBorder.layer.borderColor = Theme.PrimaryColor.cgColor
+//            vwBorder.layer.borderWidth = 1.0
+//            vwBorder.layer.cornerRadius = 4
+            
+            vwBorder.backgroundColor = UIColor.white
+            
+            vwBorder.addSubview(lblButton)
+            
+            cell.contentView.addSubview(vwBorder)
             
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementCell") as! AchievementCell
             
             cell.selectionStyle = .none
-//            cell.layer.masksToBounds = true
-//            cell.layer.borderColor = ((achievements?[(indexPath as NSIndexPath).section - 1])!.isAchieved ? Theme.ThemeOrange.cgColor : Theme.GrayLight.cgColor)
-//            cell.layer.borderWidth = 1.0
-//            cell.layer.cornerRadius = 8
-//            cell.clipsToBounds = true
+            cell.backgroundColor = UIColor(hex: "E5E9EB")
+            cell.clipsToBounds = true
             cell.setupTable()
-            cell.adapt((achievements?[(indexPath as NSIndexPath).section - 1])!, isOpen: isOpens[(indexPath as NSIndexPath).section])
+            cell.adapt((achievements?[(indexPath as NSIndexPath).row - 1])!, isOpen: isOpens[(indexPath as NSIndexPath).row])
             
             return cell
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        isOpens[(indexPath as NSIndexPath).section] = !isOpens[(indexPath as NSIndexPath).section]
-        tableView.reloadData()
-    }
-    
-    // Set the spacing between sections
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0 {
-            return 0
+        if ((indexPath as NSIndexPath).row == (achievements?.count)! + 1) {
+            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let helpVC = mainStoryboard.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
+            helpVC.url = "https://prelo.co.id/faq?ref=preloapp"
+            helpVC.titleString = "Bantuan"
+            helpVC.contactPreloMode = true
+            let baseNavC = BaseNavigationController()
+            baseNavC.setViewControllers([helpVC], animated: false)
+            self.present(baseNavC, animated: true, completion: nil)
+        } else {
+            isOpens[(indexPath as NSIndexPath).row] = !isOpens[(indexPath as NSIndexPath).row]
+            tableView.reloadData()
         }
-        return 5
     }
 }
 
 
 // MARK: - AchievementCell after DiamondCell
-class AchievementCell: UITableViewCell, UITableViewDataSource, UITableViewDelegate { // height 70 + lbldesc
+class AchievementCell: UITableViewCell, UITableViewDataSource, UITableViewDelegate { // height 75 + lbldesc
     @IBOutlet weak var badgeImage: UIImageView!
     @IBOutlet weak var lblTitke: UILabel!
     @IBOutlet weak var lblArrow: UILabel! // V
@@ -250,7 +277,7 @@ class AchievementCell: UITableViewCell, UITableViewDataSource, UITableViewDelega
     
     // kalau point point (fullfilled, condition) + progressicon
     static func heightFor(_ conditionCount: Int, isOpen: Bool, isProgress: Bool, desc: String) -> CGFloat {
-        let standardHeight : CGFloat = 70.0
+        let standardHeight : CGFloat = 75.0
         var heightProgress = 30.0 * CGFloat(conditionCount) + (isProgress ? 40 : 0)
         let textRect = desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 16)
         heightProgress += textRect.height + 4
@@ -261,9 +288,9 @@ class AchievementCell: UITableViewCell, UITableViewDataSource, UITableViewDelega
     func adapt(_ achievement : AchievementItem, isOpen: Bool) {
         self.achievement = achievement
         
-        self.vwBorder.layer.borderColor = (achievement.isAchieved ? Theme.ThemeOrange.cgColor : Theme.GrayLight.cgColor)
-        self.vwBorder.layer.borderWidth = 1.0
-        self.vwBorder.layer.cornerRadius = 8
+//        self.vwBorder.layer.borderColor = (achievement.isAchieved ? Theme.PrimaryColor.cgColor : Theme.GrayLight.cgColor)
+//        self.vwBorder.layer.borderWidth = 1.0
+//        self.vwBorder.layer.cornerRadius = 4
         
         self.badgeImage?.layoutIfNeeded()
         self.badgeImage?.layer.cornerRadius = (self.badgeImage?.width ?? 0) / 2
@@ -276,8 +303,9 @@ class AchievementCell: UITableViewCell, UITableViewDataSource, UITableViewDelega
         if achievement.progressMax > 0 {
             self.consHeightLblTitke.constant = 40
             self.vwProgressBar.isHidden = false
-            self.progressView.setProgress(Float(achievement.progressCurrent) / Float(achievement.progressMax) , animated: true)
+            self.progressView.setProgress(Float(achievement.progressCurrent) / Float(achievement.progressMax) , animated: false)
             self.lblProgressView.text = achievement.progressCurrent.string + " / " + achievement.progressMax.string
+            self.lblProgressView.textColor = (achievement.progressCurrent == 0 ? Theme.GrayLight : Theme.PrimaryColor)
         }
         
         self.vwTable.isHidden = !isOpen
@@ -312,7 +340,7 @@ class AchievementCell: UITableViewCell, UITableViewDataSource, UITableViewDelega
             cell.textLabel!.text = self.achievement!.desc
             cell.textLabel!.numberOfLines = 0
             cell.textLabel!.font = UIFont.systemFont(ofSize: 14)
-            cell.textLabel!.textColor = UIColor.lightGray
+            cell.textLabel!.textColor = UIColor.darkGray
             
             cell.selectionStyle = .none
             return cell
@@ -357,7 +385,7 @@ class AchievementCellProgressCell: UITableViewCell { // height 30
 //            self.lblFullfilled.isHidden = !value
             self.lblFullfilled.isHidden = false
             
-            self.lblFullfilled.backgroundColor = (value == false ? UIColor.lightGray : UIColor.orange)
+            self.lblFullfilled.backgroundColor = (value == false ? UIColor.lightGray : Theme.PrimaryColor)
             
             print(key)
             print(value)
@@ -435,7 +463,7 @@ class AchievementCellBadgeCell: UITableViewCell, UICollectionViewDataSource, UIC
 }
 
 // MARK: - DiamondCell top
-class AchievementDiamondCell: UITableViewCell { // 130 + lbldesc
+class AchievementDiamondCell: UITableViewCell { // 135 + lbldesc
     @IBOutlet weak var badgeImage: UIImageView!
     @IBOutlet weak var lblDiamond: UILabel!
     @IBOutlet weak var lblArrow: UILabel! // V
@@ -443,7 +471,7 @@ class AchievementDiamondCell: UITableViewCell { // 130 + lbldesc
     @IBOutlet weak var vwBorder: UIView!
     
     static func heightFor(_ isOpen: Bool) -> CGFloat {
-        let standardHeight : CGFloat = 130.0
+        let standardHeight : CGFloat = 135.0
         let text = "Kumpulkan Diamond untuk dapat meng-up barang kamu secara gratis!"
         let textRect : CGRect = text.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 112)
         return standardHeight + (isOpen ? textRect.height : 0) + 10
@@ -452,9 +480,9 @@ class AchievementDiamondCell: UITableViewCell { // 130 + lbldesc
     // TODO: adapt & height
     func adapt(_ diamonds: Int, isOpen: Bool) {
         
-        self.vwBorder.layer.borderColor = Theme.PrimaryColor.cgColor
-        self.vwBorder.layer.borderWidth = 1.0
-        self.vwBorder.layer.cornerRadius = 8
+//        self.vwBorder.layer.borderColor = Theme.PrimaryColor.cgColor
+//        self.vwBorder.layer.borderWidth = 1.0
+//        self.vwBorder.layer.cornerRadius = 4
 
         self.badgeImage?.layoutIfNeeded()
         self.badgeImage?.layer.cornerRadius = (self.badgeImage?.width ?? 0) / 2

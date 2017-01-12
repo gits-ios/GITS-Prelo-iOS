@@ -240,7 +240,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             cell?.selectionStyle = .none
             
             if m["title"] == "Rate Us" {
-                let inView = UIView(frame: CGRect(x: 0, y: 0, width: (cell?.width)!, height: 1), backgroundColor: UIColor(hex: "AAAAAA"))
+                let inView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: 1), backgroundColor: UIColor(hex: "AAAAAA"))
             
                 cell?.contentView.addSubview(inView)
             }
