@@ -25,8 +25,6 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
     
     @IBOutlet weak var loadingPanel: UIView!
     
-    var root : UIViewController?
-    
     
     // Data container
     var productLovelistItems : [ProductLovelistItem] = []
@@ -104,10 +102,8 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
                 self.hideLoading()
 
             } else {
-                if let r = self.root {
-                    // back to notif anggi tab bar
-                    self.navigationController?.popToViewController(r, animated: true)
-                }
+                // back to previous UI
+                self.navigationController?.popViewController(animated: true)
             }
             
             // Hide refresh control

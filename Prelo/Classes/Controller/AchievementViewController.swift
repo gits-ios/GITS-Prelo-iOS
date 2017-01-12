@@ -181,10 +181,6 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
             lblButton.textAlignment = .center
             
             let vwBorder = UIView(frame: CGRect(x: 5, y: 2.5, width: tableView.width - 10, height: 40))
-
-//            vwBorder.layer.borderColor = Theme.PrimaryColor.cgColor
-//            vwBorder.layer.borderWidth = 1.0
-//            vwBorder.layer.cornerRadius = 4
             
             vwBorder.backgroundColor = UIColor.white
             
@@ -267,14 +263,6 @@ class AchievementCell: UITableViewCell, UITableViewDataSource, UITableViewDelega
         self.vwProgressBar.isHidden = true
     }
     
-    // kalau lbl desc
-    // mungkin ga dipake
-//    static func heightFor(_ text: String, isOpen: Bool) -> CGFloat {
-//        let standardHeight : CGFloat = 70.0
-//        let textRect : CGRect = text.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 16)
-//        return standardHeight + (isOpen ? textRect.height : 0) + 4
-//    }
-    
     // kalau point point (fullfilled, condition) + progressicon
     static func heightFor(_ conditionCount: Int, isOpen: Bool, isProgress: Bool, desc: String) -> CGFloat {
         let standardHeight : CGFloat = 75.0
@@ -287,10 +275,6 @@ class AchievementCell: UITableViewCell, UITableViewDataSource, UITableViewDelega
 
     func adapt(_ achievement : AchievementItem, isOpen: Bool) {
         self.achievement = achievement
-        
-//        self.vwBorder.layer.borderColor = (achievement.isAchieved ? Theme.PrimaryColor.cgColor : Theme.GrayLight.cgColor)
-//        self.vwBorder.layer.borderWidth = 1.0
-//        self.vwBorder.layer.cornerRadius = 4
         
         self.badgeImage?.layoutIfNeeded()
         self.badgeImage?.layer.cornerRadius = (self.badgeImage?.width ?? 0) / 2
@@ -361,9 +345,9 @@ class AchievementCell: UITableViewCell, UITableViewDataSource, UITableViewDelega
         }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tblConditions.reloadData()
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        tblConditions.reloadData()
+//    }
 }
 
 class AchievementCellDescriptionCell : UITableViewCell { // height depent on description
@@ -377,8 +361,6 @@ class AchievementCellProgressCell: UITableViewCell { // height 30
     
     // adapt
     func adapt(_ condition: [String:Bool]) {
-        
-        
         
         for (key, value) in condition {
             self.lblCondition.text = key
@@ -432,7 +414,6 @@ class AchievementCellBadgeCell: UITableViewCell, UICollectionViewDataSource, UIC
         if (imageURLS.count > (indexPath as NSIndexPath).row) {
             // Create icon view
             let vwIcon : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
-//            vwIcon.layer.cornerRadius = (vwIcon.frame.size.width) / 2
             
             let img = UIImageView(frame: CGRect(x: 2, y: 2, width: 28, height: 28))
             img.layoutIfNeeded()
@@ -453,11 +434,11 @@ class AchievementCellBadgeCell: UITableViewCell, UICollectionViewDataSource, UIC
         return CGSize(width: 30, height: 30)
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //        if (idx != nil) {
 //            delegate?.cellCollectionTapped(self.idx!)
 //        }
-    }
+//    }
     
     
 }
@@ -477,12 +458,7 @@ class AchievementDiamondCell: UITableViewCell { // 135 + lbldesc
         return standardHeight + (isOpen ? textRect.height : 0) + 10
     }
     
-    // TODO: adapt & height
     func adapt(_ diamonds: Int, isOpen: Bool) {
-        
-//        self.vwBorder.layer.borderColor = Theme.PrimaryColor.cgColor
-//        self.vwBorder.layer.borderWidth = 1.0
-//        self.vwBorder.layer.cornerRadius = 4
 
         self.badgeImage?.layoutIfNeeded()
         self.badgeImage?.layer.cornerRadius = (self.badgeImage?.width ?? 0) / 2

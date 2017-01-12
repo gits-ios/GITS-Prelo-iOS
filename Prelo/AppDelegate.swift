@@ -40,6 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let RedirTrxPBuyer = "transaction_product_buyer"
     let RedirTrxPSeller = "transaction_product_seller"
     let RedirCategory = "category"
+    let RedirLove = "lovers"
     
     var redirAlert : UIAlertView?
     var RedirWaitAmount : Int = 10000000
@@ -696,6 +697,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 self.showRedirAlert()
                 self.redirectCategory(targetId!)
             }
+        } else if (tipeLowercase == self.RedirLove) {
+            if (targetId != nil && targetId != "") {
+                self.showRedirAlert()
+                self.redirectLove(targetId!)
+            }
         }
     }
     
@@ -1049,6 +1055,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             listItemVC.navigationItem.leftBarButtonItem = noBtn
         }
         rootViewController!.pushViewController(listItemVC, animated: true)
+    }
+    
+    func redirectLove(_ productId : String) {
+        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        var rootViewController : UINavigationController?
+        
+        // Tunggu sampai UINavigationController terbentuk
+        var wait = true
+        var waitCount = self.RedirWaitAmount
+        while (wait) {
+            if let childVCs = self.window!.rootViewController?.childViewControllers {
+                if (childVCs.count > 0) {
+                    if let rootVC = childVCs[0] as? UINavigationController {
+                        rootViewController = rootVC
+                    }
+                    wait = false
+                }
+            }
+            waitCount -= 1
+            if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                wait = false
+            }
+        }
+        
+        // Redirect setelah selesai menunggu
+        if (rootViewController != nil) {
+            // API Migrasi
+            let productLovelistVC = Bundle.main.loadNibNamed(Tags.XibNameProductLovelist, owner: nil, options: nil)?.first as! ProductLovelistViewController
+            productLovelistVC.productId = productId
+            rootViewController!.pushViewController(productLovelistVC, animated: true)
+        } else {
+            self.showFailedRedirAlert()
+        }
     }
     
     func redirectWebview(_ url : String) {
