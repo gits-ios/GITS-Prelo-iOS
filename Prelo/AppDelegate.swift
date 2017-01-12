@@ -14,6 +14,7 @@ import TwitterKit
 import Bolts
 import FBSDKCoreKit
 import Alamofire
+import AVFoundation
 
 //import AdobeCreativeSDKCore
 
@@ -418,9 +419,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if let _body = remoteNotifAlert.object(forKey: "body") as? String {
                     body = _body
                 }
-            }
-            if let remoteNotifAlert = remoteNotifAps["alert"] as? String {
-                alert = remoteNotifAlert
+            } else {
+                if let remoteNotifAlert = remoteNotifAps["alert"] as? String {
+                    alert = remoteNotifAlert
+                }
             }
         }
         
@@ -431,29 +433,59 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let tId = userInfo["target_id"] as? String {
             targetId = tId
         }
-
         
-        if (application.applicationState == UIApplicationState.active) { // acive mode
+        // check current view
+        var isDoing = true
+        var rootViewController : UINavigationController?
+        if let childVCs = self.window!.rootViewController?.childViewControllers {
+            if (childVCs.count > 0) {
+                if let rootVC = childVCs[0] as? UINavigationController {
+                    rootViewController = rootVC
+                }
+            }
+        }
+        
+        if tipe == "inbox" && rootViewController?.childViewControllers.last is TawarViewController {
+            //do something if it's an instance of that class
+//            
+//            let x = rootViewController?.childViewControllers.last
+//            let c = x  is TawarViewController
+            
+            if let tawarVC = rootViewController?.childViewControllers.last as? TawarViewController {
+                if tawarVC.tawarItem.threadId == targetId {
+                    isDoing = false
+                }
+            }
+        }
+        
+        if (application.applicationState == UIApplicationState.active) { // active mode
             print("App were active when receiving remote notification")
             
 //            Constant.showDialog("APNS", message: userInfo.description)
             
+            let imageBanner = UIImage(named: "exclamation31.png")
+            
             // banner
-            let banner = Banner(title: title != "" ? title : alert, subtitle: body != "" ? body : nil, image: nil, backgroundColor: Theme.PrimaryColor, didTapBlock: {
-//                Constant.showDialog("APNS", message: "coba")
-                self.deeplinkRedirect(tipe, targetId: targetId)
+            let banner = Banner(title: title != "" ? title : alert, subtitle: body != "" ? body : nil, image: imageBanner, backgroundColor: Theme.PrimaryColor, didTapBlock: {
+                if isDoing {
+                    self.deeplinkRedirect(tipe, targetId: targetId)
+                }
             })
             
             banner.dismissesOnTap = true
             
+            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+            
             banner.show(duration: 3.0)
             
-        } else { // bachground mode
+        } else { // background mode
             print("App weren't active when receiving remote notification")
             
 //            Constant.showDialog("APNS", message: userInfo.description)
             
-            self.deeplinkRedirect(tipe, targetId: targetId)
+            if isDoing {
+                self.deeplinkRedirect(tipe, targetId: targetId)
+            }
         }
         
         /**
