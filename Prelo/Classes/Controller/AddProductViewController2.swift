@@ -169,7 +169,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 //        print(editProduct?.isFakeApproveV2)
         
         if (self.editMode) {
-////            lblSubmit.isHidden = true
+            lblSubmit.isHidden = true
 //            if (editProduct?.isFakeApprove)! && editProduct?.status == 2 { // status 2 := under review --> fa 1 /  2 disabled
 //                // do nothing --> lblSubmit.isHidden = false // aktif -> edit
 //                lblSubmit.isHidden = true // fake approve -> edit
@@ -177,9 +177,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 //                lblSubmit.isHidden = true
 //            }
             
-            if ((editProduct?.isFakeApprove)! || (editProduct?.isFakeApproveV2)!) {
-                lblSubmit.isHidden = true
-            }
+//            if ((editProduct?.isFakeApprove)! || (editProduct?.isFakeApproveV2)!) {
+//                lblSubmit.isHidden = true
+//            }
         } else {
             lblSubmit.text = "Klik lanjutkan untuk menentukan charge Prelo yang kamu mau"
         }
@@ -810,7 +810,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
         
         if (self.editMode) {
-            self.lblSubmit.isHidden = false
+            if ((editProduct?.isFakeApprove)! || (editProduct?.isFakeApproveV2)!) {
+                lblSubmit.isHidden = true
+            } else {
+                self.lblSubmit.isHidden = false
+            }
         }
         
         let img = images[controller.index] as! UIImage
@@ -1009,7 +1013,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             }
             
             if (self.editMode) {
-                self.lblSubmit.isHidden = false
+                if ((editProduct?.isFakeApprove)! || (editProduct?.isFakeApproveV2)!) {
+                    lblSubmit.isHidden = true
+                } else {
+                    self.lblSubmit.isHidden = false
+                }
             }
             
 //            var imageURL : NSURL
@@ -1081,7 +1089,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     func textFieldDidEndEditing(_ textField: UITextField) {
         if (textField.isEqual(self.txtName)) {
             if (editMode) {
-                self.lblSubmit.isHidden = false
+                if ((editProduct?.isFakeApprove)! || (editProduct?.isFakeApproveV2)!) {
+                    lblSubmit.isHidden = true
+                } else {
+                    self.lblSubmit.isHidden = false
+                }
             }
         }
     }
@@ -1522,7 +1534,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                         
                         // Show submit label
                         if (self.editMode) {
-                            self.lblSubmit.isHidden = false
+                            if ((self.editProduct?.isFakeApprove)! || (self.editProduct?.isFakeApproveV2)!) {
+                                self.lblSubmit.isHidden = true
+                            } else {
+                                self.lblSubmit.isHidden = false
+                            }
                         }
                     }
                     p.showSearch = true
