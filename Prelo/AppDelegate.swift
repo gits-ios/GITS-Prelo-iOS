@@ -474,6 +474,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             banner.dismissesOnTap = true
             
+            AudioServicesPlaySystemSound(SystemSoundID(1000))
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
             
             banner.show(duration: 3.0)
