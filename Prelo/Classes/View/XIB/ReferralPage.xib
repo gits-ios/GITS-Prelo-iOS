@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -40,14 +40,14 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DDw-t9-9AC">
-                                        <rect key="frame" x="58" y="82" width="484" height="2"/>
+                                        <rect key="frame" x="58" y="82" width="484" height="3"/>
                                         <color key="tintColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="2" id="Wxy-Ps-Fo4"/>
+                                            <constraint firstAttribute="height" constant="3" id="Wxy-Ps-Fo4"/>
                                         </constraints>
                                     </progressView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kode referral:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Okw-1i-u8x">
-                                        <rect key="frame" x="8" y="119" width="584" height="21"/>
+                                        <rect key="frame" x="8" y="120" width="584" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="jgt-eX-93Y"/>
                                         </constraints>
@@ -56,7 +56,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DAb-m0-Agf">
-                                        <rect key="frame" x="8" y="148" width="584" height="21"/>
+                                        <rect key="frame" x="8" y="149" width="584" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="0hp-6G-CdU"/>
                                         </constraints>
@@ -65,13 +65,13 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(Pengguna baru hanya dapat memasukkan kode referral sebanyak satu kali)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vBs-OR-Anp">
-                                        <rect key="frame" x="8" y="257" width="584" height="14"/>
+                                        <rect key="frame" x="8" y="258" width="584" height="14"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                         <color key="textColor" red="0.44682067632675171" green="0.44680723547935486" blue="0.44681483507156372" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VIq-8q-HHe" userLabel="Share Buttons">
-                                        <rect key="frame" x="8" y="322" width="584" height="304"/>
+                                        <rect key="frame" x="8" y="323" width="584" height="304"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a10-bS-8mh" userLabel="Instagram">
                                                 <rect key="frame" x="160" y="0.0" width="64" height="84"/>
@@ -433,7 +433,7 @@
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qYt-bx-pgM">
-                                        <rect key="frame" x="33" y="177" width="534" height="43"/>
+                                        <rect key="frame" x="33" y="178" width="534" height="43"/>
                                         <string key="text">Untuk setiap referral yang dipakai, temanmu akan mendapatkan referral bonus Rp25.000 dan kamu akan mendapatkan Rp5.000. Dapatkan tambahan Rp20.000 saat temanmu berhasil belanja.</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <color key="textColor" red="0.44682067632675171" green="0.44680723547935486" blue="0.44681483507156372" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

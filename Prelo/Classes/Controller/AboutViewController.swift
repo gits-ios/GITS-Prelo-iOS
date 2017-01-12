@@ -139,7 +139,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
     @IBAction func logout()
     {
         // Clear Cache --> for handling login another account
-        toClearCache(isButton: false)
+//        toClearCache(isButton: false)
         
         // Remove deviceRegId so the device won't receive push notification
         LoginViewController.SendDeviceRegId()

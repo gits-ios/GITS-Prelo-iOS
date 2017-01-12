@@ -23,6 +23,10 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="189"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LK4-Z5-vB1">
+                        <rect key="frame" x="5" y="0.0" width="365" height="189.5"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zdS-O2-pEt">
                         <rect key="frame" x="142" y="8" width="90" height="90"/>
                         <constraints>
@@ -40,12 +44,10 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M3x-ks-9df">
-                        <rect key="frame" x="346" y="106" width="21" height="21"/>
+                        <rect key="frame" x="341" y="106" width="21" height="21"/>
                         <constraints>
-                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="2Pp-1v-jal"/>
                             <constraint firstAttribute="height" constant="21" id="FvQ-uj-gVy"/>
                             <constraint firstAttribute="width" constant="21" id="KY3-He-8Iu"/>
-                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="21" id="x9s-D3-WAk"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="17"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -59,6 +61,7 @@
                     </label>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="trailing" secondItem="LK4-Z5-vB1" secondAttribute="trailing" constant="5" id="4TK-1f-lyf"/>
                     <constraint firstItem="zdS-O2-pEt" firstAttribute="top" secondItem="Bau-aw-jXF" secondAttribute="topMargin" id="5x2-Za-Bvg"/>
                     <constraint firstItem="h9s-le-rxl" firstAttribute="trailing" secondItem="Bau-aw-jXF" secondAttribute="trailingMargin" id="GVw-Sh-XtG"/>
                     <constraint firstItem="h9s-le-rxl" firstAttribute="leading" secondItem="Bau-aw-jXF" secondAttribute="leadingMargin" id="IbH-sV-64b"/>
@@ -67,7 +70,10 @@
                     <constraint firstItem="M3x-ks-9df" firstAttribute="top" secondItem="Bau-aw-jXF" secondAttribute="topMargin" constant="98" id="bTa-tn-GdQ"/>
                     <constraint firstItem="jyl-gt-1Ss" firstAttribute="leading" secondItem="Bau-aw-jXF" secondAttribute="leadingMargin" id="eod-vG-Nw5"/>
                     <constraint firstItem="jyl-gt-1Ss" firstAttribute="trailing" secondItem="Bau-aw-jXF" secondAttribute="trailingMargin" id="lPW-nr-fNU"/>
-                    <constraint firstItem="M3x-ks-9df" firstAttribute="trailing" secondItem="Bau-aw-jXF" secondAttribute="trailingMargin" id="zgL-zC-1V1"/>
+                    <constraint firstItem="LK4-Z5-vB1" firstAttribute="top" secondItem="Bau-aw-jXF" secondAttribute="top" id="qLM-uh-n3W"/>
+                    <constraint firstItem="LK4-Z5-vB1" firstAttribute="leading" secondItem="Bau-aw-jXF" secondAttribute="leading" constant="5" id="tsK-b5-Owq"/>
+                    <constraint firstAttribute="bottom" secondItem="LK4-Z5-vB1" secondAttribute="bottom" id="wna-Ty-tvt"/>
+                    <constraint firstItem="M3x-ks-9df" firstAttribute="trailing" secondItem="Bau-aw-jXF" secondAttribute="trailingMargin" constant="-5" id="zgL-zC-1V1"/>
                 </constraints>
             </tableViewCellContentView>
             <constraints>
@@ -78,6 +84,7 @@
                 <outlet property="lblArrow" destination="M3x-ks-9df" id="bSR-Vz-f6I"/>
                 <outlet property="lblDesc" destination="jyl-gt-1Ss" id="L7B-4E-xZ0"/>
                 <outlet property="lblDiamond" destination="h9s-le-rxl" id="b2b-A6-ojY"/>
+                <outlet property="vwBorder" destination="LK4-Z5-vB1" id="kEs-Gq-QAa"/>
             </connections>
             <point key="canvasLocation" x="-14.5" y="45"/>
         </tableViewCell>
