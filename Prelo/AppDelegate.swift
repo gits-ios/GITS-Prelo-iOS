@@ -634,13 +634,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             let _ = request(APIUser.testUser(username: path.replace("/", template: ""))).responseJSON { resp in
                 
-                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Data Shop Pengguna")) {
+                if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Data Shop Pengguna")) {
                     
                     let json = JSON(resp.result.value!)["_data"]
-                    
-                    let userId = json["_id"].stringValue
-                    
-                    self.redirectShopPage(userId)
+                    if let userId = json["_id"].string {
+                        self.redirectShopPage(userId)
+                    } else {
+                        self.hideRedirAlertWithDelay(1.0)
+                        // Choose one method
+                        UIApplication.shared.openURL(url) // Open in safari
+                        //self.redirectWebview(url.absoluteString) // Open in prelo's webview
+                    }
                 } else {
                     self.hideRedirAlertWithDelay(1.0)
                     // Choose one method
