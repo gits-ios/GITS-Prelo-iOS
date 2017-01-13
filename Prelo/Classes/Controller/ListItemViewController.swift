@@ -607,7 +607,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 print(json)
                 
                 self.shopName = json["username"].stringValue
-                self.shopHeader?.captionName.text = self.shopName
+                self.shopHeader?.captionName.text = "" //self.shopName
                 self.title = self.shopName
                 let avatarThumbnail = json["profile"]["pict"].stringValue
                 self.shopAvatar = URL(string: avatarThumbnail)!
