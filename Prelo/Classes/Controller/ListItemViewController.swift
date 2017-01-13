@@ -163,6 +163,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var isShowSubcategory : Bool = false
     var subcategoryItems : [SubcategoryItem] = []
     
+    // state navbar for .shop
+    var isActive = true
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -210,10 +213,6 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         // Add status bar tap observer
         NotificationCenter.default.addObserver(self, selector: #selector(ListItemViewController.statusBarTapped), name: NSNotification.Name(rawValue: AppDelegate.StatusBarTapNotificationName), object: nil)
-        
-        if (currentMode == .shop) {
-            self.transparentNavigationBar(true)
-        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -267,6 +266,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 // Google Analytics
                 GAI.trackPageVisit(PageName.Shop)
             }
+        }
+        
+        if (currentMode == .shop) {
+            self.transparentNavigationBar(true)
         }
     }
     
@@ -450,7 +453,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func refresh() {
-        if (currentMode == .shop) {
+        if (currentMode == .shop && self.isActive == true) {
             self.transparentNavigationBar(false)
         }
         
@@ -755,10 +758,13 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     refresherBound!.origin.y = CGFloat(height)
                     self.refresher?.bounds = refresherBound!
                 }
+                
                 self.setupGrid()
                 self.gridView.contentInset = UIEdgeInsetsMake(CGFloat(height), 0, 0, 0)
                 
-                self.transparentNavigationBar(true)
+                if self.isActive == false {
+                    self.transparentNavigationBar(true)
+                }
             }
         }
     }
@@ -1113,9 +1119,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     }
                 }
             } else if (currentMode == .shop) {
-                if (scrollView.contentOffset.y < -388) {
+                if (scrollView.contentOffset.y < -388 && self.isActive == false) {
                     self.transparentNavigationBar(true)
-                } else {
+                } else if (scrollView.contentOffset.y >= -388 && self.isActive == true) {
                     self.transparentNavigationBar(false)
                 }
             }
@@ -1124,9 +1130,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if (currentMode == .shop) {
-            if (scrollView.contentOffset.y < -388) {
+            if (scrollView.contentOffset.y < -388 && self.isActive == false) {
                 self.transparentNavigationBar(true)
-            } else {
+            } else if (scrollView.contentOffset.y >= -388 && self.isActive == true) {
                 self.transparentNavigationBar(false)
             }
         }
@@ -1135,9 +1141,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
         if (currentMode == .shop) {
-            if (scrollView.contentOffset.y < -388) {
+            if (scrollView.contentOffset.y < -388 && self.isActive == false) {
                 self.transparentNavigationBar(true)
-            } else {
+            } else if (scrollView.contentOffset.y >= -388 && self.isActive == true) {
                 self.transparentNavigationBar(false)
             }
         }
@@ -1354,6 +1360,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     // MARK: - navbar styler
     func transparentNavigationBar(_ isActive: Bool) {
+        self.isActive = isActive
         if isActive {
             UIView.animate(withDuration: 0.5) {
                 // Transparent navigation bar
@@ -1372,9 +1379,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.navigationController?.navigationBar.isTranslucent = true
                 
                 // default prelo
-                UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white]
+//                UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white]
                 UINavigationBar.appearance().barTintColor = Theme.PrimaryColor
-                self.navigationController?.navigationBar.tintColor = UIColor.white
+//                self.navigationController?.navigationBar.tintColor = UIColor.white
                 
                 self.navigationController?.navigationBar.layoutIfNeeded()
             }
