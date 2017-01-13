@@ -450,6 +450,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func refresh() {
+        if (currentMode == .shop) {
+            self.transparentNavigationBar(false)
+        }
+        
         self.requesting = true
         self.products = []
         self.done = false
@@ -591,6 +595,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             self.requesting = false
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Data Shop Pengguna")) {
                 self.setupData(resp.result.value)
+                
+                self.transparentNavigationBar(true)
                 
                 if (self.shopHeader == nil) {
                     self.shopHeader = Bundle.main.loadNibNamed("StoreHeader", owner: nil, options: nil)?.first as? StoreHeader
