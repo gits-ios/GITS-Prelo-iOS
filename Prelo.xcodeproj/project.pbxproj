@@ -37,7 +37,6 @@
 		21156ECE1B8F5DBC001D7842 /* ic_socmed_instagram.png in Resources */ = {isa = PBXBuildFile; fileRef = 21156EC41B8F5DBC001D7842 /* ic_socmed_instagram.png */; };
 		21156ECF1B8F5DBC001D7842 /* ic_socmed_path.png in Resources */ = {isa = PBXBuildFile; fileRef = 21156EC51B8F5DBC001D7842 /* ic_socmed_path.png */; };
 		21156ED01B8F5DBC001D7842 /* ic_socmed_twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = 21156EC61B8F5DBC001D7842 /* ic_socmed_twitter.png */; };
-		2115E6D11B4A27E500509D2A /* Prelo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2115E6CF1B4A27E500509D2A /* Prelo.xcdatamodeld */; };
 		2115E6D61B4A27E500509D2A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2115E6D41B4A27E500509D2A /* Main.storyboard */; };
 		2115E6D81B4A27E500509D2A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2115E6D71B4A27E500509D2A /* Images.xcassets */; };
 		2115E6DB1B4A27E500509D2A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2115E6D91B4A27E500509D2A /* LaunchScreen.xib */; };
@@ -646,6 +645,7 @@
 		B2D119921E290BF80064045B /* banner_harga.png in Resources */ = {isa = PBXBuildFile; fileRef = B2D1198D1E290BF80064045B /* banner_harga.png */; };
 		B2D119931E290BF80064045B /* banner_exclamation.png in Resources */ = {isa = PBXBuildFile; fileRef = B2D1198E1E290BF80064045B /* banner_exclamation.png */; };
 		B2D119941E290BF80064045B /* banner_comment.png in Resources */ = {isa = PBXBuildFile; fileRef = B2D1198F1E290BF80064045B /* banner_comment.png */; };
+		B2D119D41E2922870064045B /* Prelo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B2D119CB1E2922870064045B /* Prelo.xcdatamodeld */; };
 		B2D481CA1E02A7AD006006CC /* LocationFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D481C81E02A7AD006006CC /* LocationFilterViewController.swift */; };
 		B2D481CB1E02A7AD006006CC /* ReportProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D481C91E02A7AD006006CC /* ReportProductViewController.swift */; };
 		B2D481DC1E02A7E2006006CC /* LocationFilters.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D481DA1E02A7E1006006CC /* LocationFilters.xib */; };
@@ -856,7 +856,6 @@
 		2115E6C81B4A27E500509D2A /* Prelo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Prelo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2115E6CC1B4A27E500509D2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2115E6CD1B4A27E500509D2A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AppDelegate.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		2115E6D01B4A27E500509D2A /* Prelo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Prelo.xcdatamodel; sourceTree = "<group>"; };
 		2115E6D51B4A27E500509D2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2115E6D71B4A27E500509D2A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		2115E6DA1B4A27E500509D2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -1084,7 +1083,6 @@
 		21983BED1BE1C22200F0C24E /* AddProductImageFullScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddProductImageFullScreen.swift; sourceTree = "<group>"; };
 		21983BEF1BE1DE3A00F0C24E /* PreloWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreloWebViewController.swift; sourceTree = "<group>"; };
 		21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = UserSearchViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		2199A17B1BE07036000E0D85 /* Prelo 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 3.xcdatamodel"; sourceTree = "<group>"; };
 		219F2D421BC75F5100C14C1F /* InboxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = InboxViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		21A574A41B70D70600246CEB /* AppToolsObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppToolsObjC.h; sourceTree = "<group>"; };
 		21A574A51B70D70600246CEB /* AppToolsObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppToolsObjC.m; sourceTree = "<group>"; };
@@ -1293,7 +1291,6 @@
 		5800FFA41C88530900492DB2 /* NotifAnggiConversation.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiConversation.xib; sourceTree = "<group>"; };
 		580A30E41DFFF29E00453AA0 /* ProductLovelistCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductLovelistCell.xib; sourceTree = "<group>"; };
 		580B07281DD5D99A0079C11C /* bday-splashscreen-2048x2048.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bday-splashscreen-2048x2048.png"; sourceTree = "<group>"; };
-		580CE7F11DF81CA0007A11B6 /* Prelo 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 8.xcdatamodel"; sourceTree = "<group>"; };
 		581430DA1DCB14DE00B67205 /* GrowingTextViewHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrowingTextViewHandler.swift; sourceTree = "<group>"; };
 		581E87AD1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "ic_dashboard_cover@2x.jpg"; sourceTree = "<group>"; };
 		581E87AF1CE08EE00055CCDD /* cover-shop-page.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "cover-shop-page.jpg"; sourceTree = "<group>"; };
@@ -1472,13 +1469,11 @@
 		58BE535E1D479F5B00E358EB /* courier_tiki.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = courier_tiki.png; sourceTree = "<group>"; };
 		58BED8E41DA62CB20063E11E /* ic_cart_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_cart_white.png; sourceTree = "<group>"; };
 		58BED8E51DA62CB20063E11E /* ic_chat_tawar_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_chat_tawar_white.png; sourceTree = "<group>"; };
-		58C19DE01D092AB700639E6C /* Prelo 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 6.xcdatamodel"; sourceTree = "<group>"; };
 		58C23B591C9C070600E4C929 /* ConfirmShippingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmShippingViewController.swift; sourceTree = "<group>"; };
 		58C23B5B1C9C07F800E4C929 /* ConfirmShipping.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfirmShipping.xib; sourceTree = "<group>"; };
 		58C23B5D1C9C177F00E4C929 /* ConfirmShippingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfirmShippingCell.xib; sourceTree = "<group>"; };
 		58C23B5F1C9DC86300E4C929 /* ic_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_share.png; sourceTree = "<group>"; };
 		58C431B11CF8138300EB99AE /* InitialMetadata.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = InitialMetadata.json; sourceTree = "<group>"; };
-		58C431B61CF841AC00EB99AE /* Prelo 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 5.xcdatamodel"; sourceTree = "<group>"; };
 		58C87C941DA382BA00F132E2 /* MyProductTransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MyProductTransactionViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		58C87C961DA382F600F132E2 /* MyProductTransaction.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyProductTransaction.xib; sourceTree = "<group>"; };
 		58C87C981DA3929700F132E2 /* MyPurchaseTransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MyPurchaseTransactionViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -1546,7 +1541,6 @@
 		58F0A4171C7C634A002A488F /* cchmrk_imgzoom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_imgzoom.png; sourceTree = "<group>"; };
 		58F0A4181C7C634A002A488F /* cchmrk_pinch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_pinch.png; sourceTree = "<group>"; };
 		58F0A4191C7C634A002A488F /* cchmrk_spread.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_spread.png; sourceTree = "<group>"; };
-		58F575251D3F385100257B8C /* Prelo 7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 7.xcdatamodel"; sourceTree = "<group>"; };
 		58F5BEDD1DB08810009B0E0B /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
 		58F78B4F1DFACE2B008744F7 /* ProductLovelistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductLovelistViewController.swift; sourceTree = "<group>"; };
 		58F78B5F1DFACEB3008744F7 /* ProductLovelist.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductLovelist.xib; sourceTree = "<group>"; };
@@ -1586,8 +1580,15 @@
 		B2D1198D1E290BF80064045B /* banner_harga.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_harga.png; sourceTree = "<group>"; };
 		B2D1198E1E290BF80064045B /* banner_exclamation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_exclamation.png; sourceTree = "<group>"; };
 		B2D1198F1E290BF80064045B /* banner_comment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_comment.png; sourceTree = "<group>"; };
-		B2D119951E2920A90064045B /* Prelo 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 2.xcdatamodel"; sourceTree = "<group>"; };
-		B2D119961E2920CE0064045B /* Prelo 9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 9.xcdatamodel"; sourceTree = "<group>"; };
+		B2D119CC1E2922870064045B /* Prelo 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 3.xcdatamodel"; sourceTree = "<group>"; };
+		B2D119CD1E2922870064045B /* Prelo 3x.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 3x.xcdatamodel"; sourceTree = "<group>"; };
+		B2D119CE1E2922870064045B /* Prelo 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 4.xcdatamodel"; sourceTree = "<group>"; };
+		B2D119CF1E2922870064045B /* Prelo 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 5.xcdatamodel"; sourceTree = "<group>"; };
+		B2D119D01E2922870064045B /* Prelo 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 6.xcdatamodel"; sourceTree = "<group>"; };
+		B2D119D11E2922870064045B /* Prelo 7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 7.xcdatamodel"; sourceTree = "<group>"; };
+		B2D119D21E2922870064045B /* Prelo 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 8.xcdatamodel"; sourceTree = "<group>"; };
+		B2D119D31E2922870064045B /* Prelo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Prelo.xcdatamodel; sourceTree = "<group>"; };
+		B2D119D51E2922A10064045B /* Prelo 9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 9.xcdatamodel"; sourceTree = "<group>"; };
 		B2D481C81E02A7AD006006CC /* LocationFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationFilterViewController.swift; sourceTree = "<group>"; };
 		B2D481C91E02A7AD006006CC /* ReportProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportProductViewController.swift; sourceTree = "<group>"; };
 		B2D481DA1E02A7E1006006CC /* LocationFilters.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LocationFilters.xib; sourceTree = "<group>"; };
@@ -1609,7 +1610,6 @@
 		FDB19FFF1BFD8454001F2600 /* ShopReviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ShopReviewViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		FDB1A0011BFD84A8001F2600 /* ShopReview.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReview.xib; sourceTree = "<group>"; };
 		FDB1A0031BFD8BD0001F2600 /* ShopReviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReviewCell.xib; sourceTree = "<group>"; };
-		FDE300CD1BF6464C005FA321 /* Prelo 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 4.xcdatamodel"; sourceTree = "<group>"; };
 		FDF0AC941C0C4A6200FC7D61 /* wm_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wm_logo@2x.png"; sourceTree = "<group>"; };
 		FDF39A2F1C3CF43B002A5DF6 /* banner_sold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_sold.png; sourceTree = "<group>"; };
 		FDF7281C1BF1CA9A00C0D843 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
@@ -1747,7 +1747,7 @@
 				21EEB4361B86F9EF00CAD5C9 /* Framework */,
 				2115E6D91B4A27E500509D2A /* LaunchScreen.xib */,
 				2115E6D41B4A27E500509D2A /* Main.storyboard */,
-				2115E6CF1B4A27E500509D2A /* Prelo.xcdatamodeld */,
+				B2D119CB1E2922870064045B /* Prelo.xcdatamodeld */,
 				21AE67B41B4A61C600D2CF63 /* Resource */,
 				2115E6CB1B4A27E500509D2A /* Supporting Files */,
 			);
@@ -3550,6 +3550,7 @@
 				21B468091CCE5EDB00E145ED /* UIWebView+BFKit.swift in Sources */,
 				58A99A451C6D864E00E3E7D7 /* BranchRedeemRewardsRequest.m in Sources */,
 				58A99A471C6D864E00E3E7D7 /* BranchSetIdentityRequest.m in Sources */,
+				B2D119D41E2922870064045B /* Prelo.xcdatamodeld in Sources */,
 				21C68F5A1B74665900D1125E /* SZTextView.m in Sources */,
 				216345051CC3A855005CBA37 /* MKRefreshControl.swift in Sources */,
 				58C27CAD1DB9CA9A008201FA /* Constant.swift in Sources */,
@@ -3700,7 +3701,6 @@
 				58DD29141DAF3F6200130B6F /* SocketEventHandler.swift in Sources */,
 				21679A391B901C5300F18F90 /* MPObjectSerializer.m in Sources */,
 				21679A271B901C5300F18F90 /* MPCGAffineTransformToNSDictionaryValueTransformer.m in Sources */,
-				2115E6D11B4A27E500509D2A /* Prelo.xcdatamodeld in Sources */,
 				21D387601B6B967A00D0FA90 /* CarbonSwipeRefresh.m in Sources */,
 				58A99A371C6D864E00E3E7D7 /* BranchConstants.m in Sources */,
 				216345021CC3A855005CBA37 /* MKLabel.swift in Sources */,
@@ -4087,20 +4087,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		2115E6CF1B4A27E500509D2A /* Prelo.xcdatamodeld */ = {
+		B2D119CB1E2922870064045B /* Prelo.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				B2D119961E2920CE0064045B /* Prelo 9.xcdatamodel */,
-				B2D119951E2920A90064045B /* Prelo 2.xcdatamodel */,
-				580CE7F11DF81CA0007A11B6 /* Prelo 8.xcdatamodel */,
-				58F575251D3F385100257B8C /* Prelo 7.xcdatamodel */,
-				58C19DE01D092AB700639E6C /* Prelo 6.xcdatamodel */,
-				58C431B61CF841AC00EB99AE /* Prelo 5.xcdatamodel */,
-				FDE300CD1BF6464C005FA321 /* Prelo 4.xcdatamodel */,
-				2199A17B1BE07036000E0D85 /* Prelo 3.xcdatamodel */,
-				2115E6D01B4A27E500509D2A /* Prelo.xcdatamodel */,
+				B2D119D51E2922A10064045B /* Prelo 9.xcdatamodel */,
+				B2D119CC1E2922870064045B /* Prelo 3.xcdatamodel */,
+				B2D119CD1E2922870064045B /* Prelo 3x.xcdatamodel */,
+				B2D119CE1E2922870064045B /* Prelo 4.xcdatamodel */,
+				B2D119CF1E2922870064045B /* Prelo 5.xcdatamodel */,
+				B2D119D01E2922870064045B /* Prelo 6.xcdatamodel */,
+				B2D119D11E2922870064045B /* Prelo 7.xcdatamodel */,
+				B2D119D21E2922870064045B /* Prelo 8.xcdatamodel */,
+				B2D119D31E2922870064045B /* Prelo.xcdatamodel */,
 			);
-			currentVersion = 580CE7F11DF81CA0007A11B6 /* Prelo 8.xcdatamodel */;
+			currentVersion = B2D119D51E2922A10064045B /* Prelo 9.xcdatamodel */;
 			path = Prelo.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
