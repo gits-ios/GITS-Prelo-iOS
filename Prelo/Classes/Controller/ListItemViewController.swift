@@ -596,8 +596,6 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Data Shop Pengguna")) {
                 self.setupData(resp.result.value)
                 
-                self.transparentNavigationBar(true)
-                
                 if (self.shopHeader == nil) {
                     self.shopHeader = Bundle.main.loadNibNamed("StoreHeader", owner: nil, options: nil)?.first as? StoreHeader
                     self.gridView.addSubview(self.shopHeader!)
@@ -759,6 +757,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 }
                 self.setupGrid()
                 self.gridView.contentInset = UIEdgeInsetsMake(CGFloat(height), 0, 0, 0)
+                
+                self.transparentNavigationBar(true)
             }
         }
     }
