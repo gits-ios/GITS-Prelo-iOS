@@ -3574,10 +3574,17 @@ class AchievementItem : NSObject {
         return []
     }
     
-    var action : String {
-        if let j = json["action"].string {
+    var actionTitle : String {
+        if let j = json["action"]["caption"].string {
             return j
         }
         return ""
+    }
+    
+    var actionUri : URL? {
+        if let j = json["action"]["uri"].string {
+            return URL(string: j)!
+        }
+        return nil
     }
 }

@@ -128,7 +128,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (section > 0 && section <= (achievements?.count)!) {
             if (isOpens[section]) {
-                return 1 + 1 + achievements![section - 1].conditions.count + (achievements![section - 1].tierIcons.count > 0 ? 1 : 0) + 1
+                return 1 + 1 + achievements![section - 1].conditions.count + (achievements![section - 1].tierIcons.count > 0 ? 1 : 0) + (achievements![section - 1].actionUri != nil ? 1 : 0) + 1
             } else {
                 return 1
             }
@@ -152,6 +152,9 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                 return 30 + 4
             } else if ((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 2 && achievements![(indexPath as NSIndexPath).section - 1].tierIcons.count > 0) { // tier icons cell
                 return 40 + 4
+            } else if (((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 3 && achievements![(indexPath as NSIndexPath).section - 1].tierIcons.count > 0 && (achievements![(indexPath as NSIndexPath).section - 1].actionUri != nil)) || ((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 2 && achievements![(indexPath as NSIndexPath).section - 1].tierIcons.count == 0 && (achievements![(indexPath as NSIndexPath).section - 1].actionUri != nil))) { // action cell
+                let textRect = achievements![(indexPath as NSIndexPath).section - 1].actionTitle.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 42)
+                return textRect.height + 4
             } else {
                 return 7 // border bottom
             }
@@ -210,6 +213,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                 // adapt
                 cell.lblDesc.isHidden = false
                 cell.lblDesc.text = self.achievements![(indexPath as NSIndexPath).section - 1].desc
+                cell.lblDesc.textColor = Theme.GrayDark
                 
                 return cell
             } else if ((indexPath as NSIndexPath).row > 1 && (indexPath as NSIndexPath).row <= achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1) { // condition cell
@@ -230,6 +234,18 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                 cell.clipsToBounds = true
                 cell.setupCollection()
                 cell.adapt((achievements?[(indexPath as NSIndexPath).section - 1].tierIcons)!)
+                
+                return cell
+            } else if (((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 3 && achievements![(indexPath as NSIndexPath).section - 1].tierIcons.count > 0 && (achievements![(indexPath as NSIndexPath).section - 1].actionUri != nil)) || ((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 2 && achievements![(indexPath as NSIndexPath).section - 1].tierIcons.count == 0 && (achievements![(indexPath as NSIndexPath).section - 1].actionUri != nil))) { // action cell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementCellDescriptionCell") as! AchievementCellDescriptionCell
+                
+                cell.selectionStyle = .none
+                cell.backgroundColor = UIColor(hex: "E5E9EB")
+                cell.clipsToBounds = true
+                // adapt
+                cell.lblDesc.isHidden = false
+                cell.lblDesc.text = self.achievements![(indexPath as NSIndexPath).section - 1].actionTitle
+                cell.lblDesc.textColor = Theme.PrimaryColor
                 
                 return cell
             } else { // border bottom
@@ -260,9 +276,30 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
             if ((indexPath as NSIndexPath).row == 0) {
                 isOpens[(indexPath as NSIndexPath).section] = !isOpens[(indexPath as NSIndexPath).section]
                 tableView.reloadData()
+            } else if (((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 3 && achievements![(indexPath as NSIndexPath).section - 1].tierIcons.count > 0 && (achievements![(indexPath as NSIndexPath).section - 1].actionUri != nil)) || ((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 2 && achievements![(indexPath as NSIndexPath).section - 1].tierIcons.count == 0 && (achievements![(indexPath as NSIndexPath).section - 1].actionUri != nil))) { // action cell
+                
+                // deeplinking
+                
+//                Constant.showDialog("Open Deplink", message: ((achievements![(indexPath as NSIndexPath).section - 1].actionUri)?.path)! )
+                
+                self.openUrl(url: achievements![(indexPath as NSIndexPath).section - 1].actionUri!)
             }
         }
     }
+    
+    // MARK: - Deeplink
+    func openUrl(url: URL) {
+        if let components = URLComponents(url: url, resolvingAgainstBaseURL: true) {
+            var param : [URLQueryItem] = []
+            if let items = components.queryItems {
+                param = items
+            }
+            if let del = UIApplication.shared.delegate as? AppDelegate {
+                del.handleUniversalLink(url, path: components.path, param: param)
+            }
+        }
+    }
+
 }
 
 class AchievementCelliOS9xx: UITableViewCell { // height 75 ++

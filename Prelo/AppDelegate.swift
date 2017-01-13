@@ -632,10 +632,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else if (path.contains("/checkout")) {
             self.redirectCart()
         } else {
-            self.hideRedirAlertWithDelay(1.0)
-            // Choose one method
-            UIApplication.shared.openURL(url) // Open in safari
-            //self.redirectWebview(url.absoluteString) // Open in prelo's webview
+            let _ = request(APIUser.testUser(username: path.replace("/", template: ""))).responseJSON { resp in
+                
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Data Shop Pengguna")) {
+                    
+                    let json = JSON(resp.result.value!)["_data"]
+                    
+                    let userId = json["_id"].stringValue
+                    
+                    self.redirectShopPage(userId)
+                } else {
+                    self.hideRedirAlertWithDelay(1.0)
+                    // Choose one method
+                    UIApplication.shared.openURL(url) // Open in safari
+                    //self.redirectWebview(url.absoluteString) // Open in prelo's webview
+                }
+            }
         }
     }
     
