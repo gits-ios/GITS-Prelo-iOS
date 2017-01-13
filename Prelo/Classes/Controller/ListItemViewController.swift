@@ -164,7 +164,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var subcategoryItems : [SubcategoryItem] = []
     
     // state navbar for .shop
-    var isActive = true
+    var isFirst = true
     
     // MARK: - Init
     
@@ -270,6 +270,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         if (currentMode == .shop) {
             self.transparentNavigationBar(true)
+            self.isFirst = false
         }
     }
     
@@ -453,7 +454,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func refresh() {
-        if (currentMode == .shop && self.isActive == true) {
+        if (currentMode == .shop && self.isFirst == false) {
             self.transparentNavigationBar(false)
         }
         
@@ -762,7 +763,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.setupGrid()
                 self.gridView.contentInset = UIEdgeInsetsMake(CGFloat(height), 0, 0, 0)
                 
-                if self.isActive == false {
+                if self.isFirst == false {
                     self.transparentNavigationBar(true)
                 }
             }
@@ -1119,9 +1120,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     }
                 }
             } else if (currentMode == .shop) {
-                if (scrollView.contentOffset.y < -388 && self.isActive == false) {
+                if (scrollView.contentOffset.y < -388) {
                     self.transparentNavigationBar(true)
-                } else if (scrollView.contentOffset.y >= -388 && self.isActive == true) {
+                } else if (scrollView.contentOffset.y >= -388) {
                     self.transparentNavigationBar(false)
                 }
             }
@@ -1130,9 +1131,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if (currentMode == .shop) {
-            if (scrollView.contentOffset.y < -388 && self.isActive == false) {
+            if (scrollView.contentOffset.y < -388) {
                 self.transparentNavigationBar(true)
-            } else if (scrollView.contentOffset.y >= -388 && self.isActive == true) {
+            } else if (scrollView.contentOffset.y >= -388) {
                 self.transparentNavigationBar(false)
             }
         }
@@ -1141,9 +1142,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
         if (currentMode == .shop) {
-            if (scrollView.contentOffset.y < -388 && self.isActive == false) {
+            if (scrollView.contentOffset.y < -388) {
                 self.transparentNavigationBar(true)
-            } else if (scrollView.contentOffset.y >= -388 && self.isActive == true) {
+            } else if (scrollView.contentOffset.y >= -388) {
                 self.transparentNavigationBar(false)
             }
         }
@@ -1360,7 +1361,6 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     // MARK: - navbar styler
     func transparentNavigationBar(_ isActive: Bool) {
-        self.isActive = isActive
         if isActive {
             UIView.animate(withDuration: 0.5) {
                 // Transparent navigation bar
