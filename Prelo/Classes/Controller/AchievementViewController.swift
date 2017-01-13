@@ -41,6 +41,12 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
         
         let AchievementCellDescriptionCell = UINib(nibName: "AchievementCellDescriptionCell", bundle: nil)
         tableView.register(AchievementCellDescriptionCell, forCellReuseIdentifier: "AchievementCellDescriptionCell")
+        
+        // only once
+//        getAchievement()
+        
+        // title
+        self.title = "Achievement"
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -65,8 +71,6 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
         getAchievement()
         
         
-        // title
-        self.title = "Achievement"
     }
     
     func getAchievement() {
@@ -89,8 +93,8 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                         for i in 0...arr.count - 1 {
                             let achievement = AchievementItem.instance(arr[i])
                             self.achievements?.append(achievement!)
-//                            self.isOpens.append((achievement?.isAchieved)!)
-                            self.isOpens.append(false)
+                            self.isOpens.append((achievement?.isAchieved)!)
+//                            self.isOpens.append(false)
                         }
                     }
                     
@@ -147,14 +151,14 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                 return 70
             } else if ((indexPath as NSIndexPath).row == 1) { // description cell
                 let textRect = achievements![(indexPath as NSIndexPath).section - 1].desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 42)
-                return textRect.height + 4
+                return CGFloat(Int(textRect.height + 4))
             } else if ((indexPath as NSIndexPath).row > 1 && (indexPath as NSIndexPath).row <= achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1) { // condition cell
                 return 30 + 4
             } else if ((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 2 && achievements![(indexPath as NSIndexPath).section - 1].tierIcons.count > 0) { // tier icons cell
                 return 40 + 4
             } else if (((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 3 && achievements![(indexPath as NSIndexPath).section - 1].tierIcons.count > 0 && (achievements![(indexPath as NSIndexPath).section - 1].actionUri != nil)) || ((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 2 && achievements![(indexPath as NSIndexPath).section - 1].tierIcons.count == 0 && (achievements![(indexPath as NSIndexPath).section - 1].actionUri != nil))) { // action cell
                 let textRect = achievements![(indexPath as NSIndexPath).section - 1].actionTitle.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 42)
-                return textRect.height + 4
+                return CGFloat(Int(textRect.height + 4))
             } else {
                 return 7 // border bottom
             }
@@ -462,7 +466,7 @@ class AchievementDiamondCell: UITableViewCell { // 135 + lbldesc
         let standardHeight : CGFloat = 125.0
         let text = "Kumpulkan Diamond untuk dapat meng-up barang kamu secara gratis!"
         let textRect : CGRect = text.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 112)
-        return standardHeight + (isOpen ? textRect.height - 5 : 0) + 10
+        return standardHeight + (isOpen ? textRect.height + (AppTools.isIPad ? 10 : -5) : 0) + 10
     }
     
     func adapt(_ diamonds: Int, isOpen: Bool) {
