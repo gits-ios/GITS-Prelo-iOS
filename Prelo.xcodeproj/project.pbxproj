@@ -641,6 +641,11 @@
 		B2CB4C441E08C61C00F5D0F2 /* FilterLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2CB4C431E08C61C00F5D0F2 /* FilterLocationCell.xib */; };
 		B2D119871E28C9790064045B /* AchievementCelliOS9xx.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D119861E28C9790064045B /* AchievementCelliOS9xx.xib */; };
 		B2D119891E28CD2A0064045B /* AchievementCellDescriptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D119881E28CD2A0064045B /* AchievementCellDescriptionCell.xib */; };
+		B2D119901E290BF80064045B /* banner_notif.png in Resources */ = {isa = PBXBuildFile; fileRef = B2D1198B1E290BF80064045B /* banner_notif.png */; };
+		B2D119911E290BF80064045B /* banner_love.png in Resources */ = {isa = PBXBuildFile; fileRef = B2D1198C1E290BF80064045B /* banner_love.png */; };
+		B2D119921E290BF80064045B /* banner_harga.png in Resources */ = {isa = PBXBuildFile; fileRef = B2D1198D1E290BF80064045B /* banner_harga.png */; };
+		B2D119931E290BF80064045B /* banner_exclamation.png in Resources */ = {isa = PBXBuildFile; fileRef = B2D1198E1E290BF80064045B /* banner_exclamation.png */; };
+		B2D119941E290BF80064045B /* banner_comment.png in Resources */ = {isa = PBXBuildFile; fileRef = B2D1198F1E290BF80064045B /* banner_comment.png */; };
 		B2D481CA1E02A7AD006006CC /* LocationFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D481C81E02A7AD006006CC /* LocationFilterViewController.swift */; };
 		B2D481CB1E02A7AD006006CC /* ReportProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D481C91E02A7AD006006CC /* ReportProductViewController.swift */; };
 		B2D481DC1E02A7E2006006CC /* LocationFilters.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D481DA1E02A7E1006006CC /* LocationFilters.xib */; };
@@ -1576,6 +1581,13 @@
 		B2CB4C431E08C61C00F5D0F2 /* FilterLocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterLocationCell.xib; sourceTree = "<group>"; };
 		B2D119861E28C9790064045B /* AchievementCelliOS9xx.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementCelliOS9xx.xib; sourceTree = "<group>"; };
 		B2D119881E28CD2A0064045B /* AchievementCellDescriptionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementCellDescriptionCell.xib; sourceTree = "<group>"; };
+		B2D1198B1E290BF80064045B /* banner_notif.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_notif.png; sourceTree = "<group>"; };
+		B2D1198C1E290BF80064045B /* banner_love.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_love.png; sourceTree = "<group>"; };
+		B2D1198D1E290BF80064045B /* banner_harga.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_harga.png; sourceTree = "<group>"; };
+		B2D1198E1E290BF80064045B /* banner_exclamation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_exclamation.png; sourceTree = "<group>"; };
+		B2D1198F1E290BF80064045B /* banner_comment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_comment.png; sourceTree = "<group>"; };
+		B2D119951E2920A90064045B /* Prelo 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 2.xcdatamodel"; sourceTree = "<group>"; };
+		B2D119961E2920CE0064045B /* Prelo 9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 9.xcdatamodel"; sourceTree = "<group>"; };
 		B2D481C81E02A7AD006006CC /* LocationFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationFilterViewController.swift; sourceTree = "<group>"; };
 		B2D481C91E02A7AD006006CC /* ReportProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportProductViewController.swift; sourceTree = "<group>"; };
 		B2D481DA1E02A7E1006006CC /* LocationFilters.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LocationFilters.xib; sourceTree = "<group>"; };
@@ -2261,6 +2273,7 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				B2D1198A1E290BE20064045B /* banner */,
 				2109BCAB1BDE2489004F36C5 /* checkout_tour_1.jpg */,
 				581E87AF1CE08EE00055CCDD /* cover-shop-page.jpg */,
 				21AE67B71B4A61C600D2CF63 /* dummy@2x.jpg */,
@@ -2982,6 +2995,18 @@
 			path = HotlineSDK;
 			sourceTree = "<group>";
 		};
+		B2D1198A1E290BE20064045B /* banner */ = {
+			isa = PBXGroup;
+			children = (
+				B2D1198B1E290BF80064045B /* banner_notif.png */,
+				B2D1198C1E290BF80064045B /* banner_love.png */,
+				B2D1198D1E290BF80064045B /* banner_harga.png */,
+				B2D1198E1E290BF80064045B /* banner_exclamation.png */,
+				B2D1198F1E290BF80064045B /* banner_comment.png */,
+			);
+			name = banner;
+			sourceTree = "<group>";
+		};
 		FD3C6D3C1C1963190002C7B4 /* GoogleAnalytics_3.13 */ = {
 			isa = PBXGroup;
 			children = (
@@ -3227,6 +3252,7 @@
 				589A6FB41D8C08F600654CDD /* ic_box.png in Resources */,
 				FDF0AC951C0C4A6200FC7D61 /* wm_logo@2x.png in Resources */,
 				58A223CA1C898CB600619518 /* ic_trx_shipped.png in Resources */,
+				B2D119901E290BF80064045B /* banner_notif.png in Resources */,
 				585887511DBEDBD5006EC6D5 /* PhoneReverification.xib in Resources */,
 				21156ECB1B8F5DBC001D7842 /* btn_checkbox_purple_empty.png in Resources */,
 				5827E9611E03F844007F0833 /* ic_trx_refund4.png in Resources */,
@@ -3256,6 +3282,7 @@
 				588148BA1DC0B244004180E1 /* ProductCompareMainCell.xib in Resources */,
 				FDAD1BE51BF0A5DB00505A35 /* ic_take_photo.png in Resources */,
 				5858875C1DBEEA1A006EC6D5 /* SearchResultHeader.xib in Resources */,
+				B2D119931E290BF80064045B /* banner_exclamation.png in Resources */,
 				58BE535F1D479F5B00E358EB /* courier_jne.png in Resources */,
 				589A6FB31D8C08F600654CDD /* ic_berat.png in Resources */,
 				5858874B1DBEDB8E006EC6D5 /* NotifAnggiTabBar.xib in Resources */,
@@ -3368,6 +3395,7 @@
 				440AF6681BE1090800074CBC /* ic_round_line.png in Resources */,
 				2109BCA41BDDF85E004F36C5 /* tour_1.jpg in Resources */,
 				21B467DF1CCE5EDB00E145ED /* LICENSE in Resources */,
+				B2D119911E290BF80064045B /* banner_love.png in Resources */,
 				589F5EC11D70456000ACEB4E /* ic_free_ongkir.png in Resources */,
 				585887471DBEDB50006EC6D5 /* MyPurchaseProcessing.xib in Resources */,
 				585887331DBED9FC006EC6D5 /* CategoryPreferencesCell.xib in Resources */,
@@ -3420,6 +3448,7 @@
 				58A99A4E1C6D866000E3E7D7 /* Prelo.entitlements in Resources */,
 				211BC9921B96AC9100FDB1DC /* category_placeholder@2x.png in Resources */,
 				B2D481DD1E02A7E2006006CC /* ReportProducts.xib in Resources */,
+				B2D119921E290BF80064045B /* banner_harga.png in Resources */,
 				21E7A7641B9FF2BC00FC9B38 /* LKActivity-Flat.png in Resources */,
 				58C431B21CF8138300EB99AE /* InitialMetadata.json in Resources */,
 				5895E86C1C49315400752ACA /* chat-rp.png in Resources */,
@@ -3444,6 +3473,7 @@
 				210959B41B8DD088000F2939 /* ic_tag@2x.png in Resources */,
 				2113125C1B67847100A4DA3B /* raisa.jpg in Resources */,
 				2116BAFA1BAC1DC9009B27C8 /* Default-Portrait-2048h.png in Resources */,
+				B2D119941E290BF80064045B /* banner_comment.png in Resources */,
 				58DBE8181D8F9B1100355608 /* ic_round.png in Resources */,
 				58A223C41C898CB600619518 /* ic_trx_canceled.png in Resources */,
 				21156EC71B8F5DBC001D7842 /* arrow_down.png in Resources */,
@@ -4060,6 +4090,8 @@
 		2115E6CF1B4A27E500509D2A /* Prelo.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				B2D119961E2920CE0064045B /* Prelo 9.xcdatamodel */,
+				B2D119951E2920A90064045B /* Prelo 2.xcdatamodel */,
 				580CE7F11DF81CA0007A11B6 /* Prelo 8.xcdatamodel */,
 				58F575251D3F385100257B8C /* Prelo 7.xcdatamodel */,
 				58C19DE01D092AB700639E6C /* Prelo 6.xcdatamodel */,

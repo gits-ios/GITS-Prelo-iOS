@@ -446,7 +446,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-        if tipe == "inbox" && rootViewController?.childViewControllers.last is TawarViewController {
+        if tipe.lowercased() == self.RedirInbox && rootViewController?.childViewControllers.last is TawarViewController {
             //do something if it's an instance of that class
 //            
 //            let x = rootViewController?.childViewControllers.last
@@ -464,7 +464,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
 //            Constant.showDialog("APNS", message: userInfo.description)
             
-            let imageBanner = UIImage(named: "exclamation31.png")
+            let tipeLowercase = tipe.lowercased()
+            var imageName = "banner_"
+            if (tipeLowercase == self.RedirProduct || tipeLowercase == self.RedirUser || tipeLowercase == self.RedirInbox || tipeLowercase == self.RedirNotif) {
+                // notif
+                imageName += "notif"
+            } else if (tipeLowercase == self.RedirComment) {
+                // comment
+                imageName += "comment"
+            } else if (tipeLowercase == self.RedirConfirm || tipeLowercase == self.RedirTrxBuyer || tipeLowercase == self.RedirTrxSeller || tipeLowercase == self.RedirTrxPBuyer || tipeLowercase == self.RedirTrxPSeller) {
+                // harga
+                imageName += "harga"
+            } else if (tipeLowercase == self.RedirCategory) {
+                // exclamation
+                imageName += "exclamation"
+            } else if (tipeLowercase == self.RedirLove) {
+                // love
+                imageName += "love"
+            }
+            imageName += ".png"
+            
+            let imageBanner = UIImage(named: imageName)
             
             // banner
             let banner = Banner(title: title != "" ? title : alert, subtitle: body != "" ? body : nil, image: imageBanner, backgroundColor: Theme.PrimaryColor, didTapBlock: {
