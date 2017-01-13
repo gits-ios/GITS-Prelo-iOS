@@ -265,11 +265,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             } else if ((indexPath as NSIndexPath).row == 2) { // Referral bonus
                 self.launchFreeVoucher()
             } else if ((indexPath as NSIndexPath).row == 3) { // Achievement
-                if (SYSTEM_VERSION_LESS_THAN("10.0")) {
-                    Constant.showDialog("Oops", message: "Terjadi kesalahaan saat membuka laman Achievement")
-                } else {
-                    self.launchAchievement()
-                }
+                self.launchAchievement()
             } else if ((indexPath as NSIndexPath).row == 4) { // Bantuan
                 self.launchFAQ()
             } else if ((indexPath as NSIndexPath).row == 5) { // Rate Us

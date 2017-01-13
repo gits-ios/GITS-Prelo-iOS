@@ -628,7 +628,6 @@
 		B2346CA61E22A48B00FFF3B5 /* exclamation31.png in Resources */ = {isa = PBXBuildFile; fileRef = B2346CA51E22A48B00FFF3B5 /* exclamation31.png */; };
 		B240F4C31E2477FF00DCAFF7 /* shoppingstore27.png in Resources */ = {isa = PBXBuildFile; fileRef = B240F4C21E2477FF00DCAFF7 /* shoppingstore27.png */; };
 		B240F4D31E24BBD500DCAFF7 /* Achievement.xib in Resources */ = {isa = PBXBuildFile; fileRef = B240F4D21E24BBD500DCAFF7 /* Achievement.xib */; };
-		B240F4D51E24BCAC00DCAFF7 /* AchievementCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B240F4D41E24BCAC00DCAFF7 /* AchievementCell.xib */; };
 		B240F4D91E24C1AD00DCAFF7 /* AchievementDiamondCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B240F4D81E24C1AD00DCAFF7 /* AchievementDiamondCell.xib */; };
 		B240F4DB1E24D63400DCAFF7 /* AchievementCellBadgeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B240F4DA1E24D63400DCAFF7 /* AchievementCellBadgeCell.xib */; };
 		B240F4DE1E24DAD900DCAFF7 /* AchievementCellProgressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B240F4DD1E24DAD900DCAFF7 /* AchievementCellProgressCell.xib */; };
@@ -640,6 +639,8 @@
 		B275BA681E10DBD200BB5C64 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = B275BA621E10DBD200BB5C64 /* LICENSE */; };
 		B275BA691E10DBD200BB5C64 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = B275BA631E10DBD200BB5C64 /* ReleaseNotes.txt */; };
 		B2CB4C441E08C61C00F5D0F2 /* FilterLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2CB4C431E08C61C00F5D0F2 /* FilterLocationCell.xib */; };
+		B2D119871E28C9790064045B /* AchievementCelliOS9xx.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D119861E28C9790064045B /* AchievementCelliOS9xx.xib */; };
+		B2D119891E28CD2A0064045B /* AchievementCellDescriptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D119881E28CD2A0064045B /* AchievementCellDescriptionCell.xib */; };
 		B2D481CA1E02A7AD006006CC /* LocationFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D481C81E02A7AD006006CC /* LocationFilterViewController.swift */; };
 		B2D481CB1E02A7AD006006CC /* ReportProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D481C91E02A7AD006006CC /* ReportProductViewController.swift */; };
 		B2D481DC1E02A7E2006006CC /* LocationFilters.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D481DA1E02A7E1006006CC /* LocationFilters.xib */; };
@@ -1561,7 +1562,6 @@
 		B2346CA51E22A48B00FFF3B5 /* exclamation31.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exclamation31.png; sourceTree = "<group>"; };
 		B240F4C21E2477FF00DCAFF7 /* shoppingstore27.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shoppingstore27.png; sourceTree = "<group>"; };
 		B240F4D21E24BBD500DCAFF7 /* Achievement.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Achievement.xib; sourceTree = "<group>"; };
-		B240F4D41E24BCAC00DCAFF7 /* AchievementCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementCell.xib; sourceTree = "<group>"; };
 		B240F4D81E24C1AD00DCAFF7 /* AchievementDiamondCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementDiamondCell.xib; sourceTree = "<group>"; };
 		B240F4DA1E24D63400DCAFF7 /* AchievementCellBadgeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementCellBadgeCell.xib; sourceTree = "<group>"; };
 		B240F4DD1E24DAD900DCAFF7 /* AchievementCellProgressCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementCellProgressCell.xib; sourceTree = "<group>"; };
@@ -1574,6 +1574,8 @@
 		B275BA621E10DBD200BB5C64 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		B275BA631E10DBD200BB5C64 /* ReleaseNotes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReleaseNotes.txt; sourceTree = "<group>"; };
 		B2CB4C431E08C61C00F5D0F2 /* FilterLocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterLocationCell.xib; sourceTree = "<group>"; };
+		B2D119861E28C9790064045B /* AchievementCelliOS9xx.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementCelliOS9xx.xib; sourceTree = "<group>"; };
+		B2D119881E28CD2A0064045B /* AchievementCellDescriptionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementCellDescriptionCell.xib; sourceTree = "<group>"; };
 		B2D481C81E02A7AD006006CC /* LocationFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationFilterViewController.swift; sourceTree = "<group>"; };
 		B2D481C91E02A7AD006006CC /* ReportProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportProductViewController.swift; sourceTree = "<group>"; };
 		B2D481DA1E02A7E1006006CC /* LocationFilters.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LocationFilters.xib; sourceTree = "<group>"; };
@@ -2765,9 +2767,10 @@
 				21104AD01BAA8F1200947E7F /* TransactionListCell.xib */,
 				21156EBB1B8F5B5D001D7842 /* UserProfile.xib */,
 				B240F4D21E24BBD500DCAFF7 /* Achievement.xib */,
-				B240F4D41E24BCAC00DCAFF7 /* AchievementCell.xib */,
+				B2D119861E28C9790064045B /* AchievementCelliOS9xx.xib */,
 				B240F4DD1E24DAD900DCAFF7 /* AchievementCellProgressCell.xib */,
 				B240F4DA1E24D63400DCAFF7 /* AchievementCellBadgeCell.xib */,
+				B2D119881E28CD2A0064045B /* AchievementCellDescriptionCell.xib */,
 				B240F4D81E24C1AD00DCAFF7 /* AchievementDiamondCell.xib */,
 			);
 			path = XIB;
@@ -3205,6 +3208,7 @@
 				440AF66A1BE1090800074CBC /* ic_round_sms.png in Resources */,
 				B275BA681E10DBD200BB5C64 /* LICENSE in Resources */,
 				585887401DBEDA8A006EC6D5 /* MyProductCompleted.xib in Resources */,
+				B2D119871E28C9790064045B /* AchievementCelliOS9xx.xib in Resources */,
 				B23356F21E1F588F00207F14 /* Scanner.xib in Resources */,
 				21D386A51B6B93CD00D0FA90 /* Default-568h@2x.png in Resources */,
 				585887551DBEDC19006EC6D5 /* ShopReview.xib in Resources */,
@@ -3231,7 +3235,6 @@
 				210702E31BE7A8F100DD9E52 /* cu_sms@2x.png in Resources */,
 				212007BB1B6A087F00D9C84B /* ic_ico_label@2x.png in Resources */,
 				21EEB4791B87095C00CAD5C9 /* ic_user.png in Resources */,
-				B240F4D51E24BCAC00DCAFF7 /* AchievementCell.xib in Resources */,
 				589A6FC21D8C08F600654CDD /* ic_label.png in Resources */,
 				58528C541D13A3D200074EC6 /* cchmrk_sold.png in Resources */,
 				5830A42F1CE3443000FB1577 /* AddProductPlaceholder.plist in Resources */,
@@ -3335,6 +3338,7 @@
 				58F0A41A1C7C634A002A488F /* cchmrk_buy.png in Resources */,
 				58A4F9761CB5146B00E717AF /* ic_trx_reservation_cancelled.png in Resources */,
 				58EF19DA1D4F55FB00997828 /* ic_search_filter.png in Resources */,
+				B2D119891E28CD2A0064045B /* AchievementCellDescriptionCell.xib in Resources */,
 				21679A401B901C5300F18F90 /* MPSurvey.storyboard in Resources */,
 				589A6FC81D8C08F600654CDD /* ic_ongkir.png in Resources */,
 				B2CB4C441E08C61C00F5D0F2 /* FilterLocationCell.xib in Resources */,

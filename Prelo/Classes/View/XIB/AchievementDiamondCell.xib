@@ -24,7 +24,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LK4-Z5-vB1">
-                        <rect key="frame" x="5" y="3" width="365" height="184"/>
+                        <rect key="frame" x="5" y="0.0" width="365" height="189.5"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zdS-O2-pEt">
@@ -71,9 +71,9 @@
                     <constraint firstAttribute="trailingMargin" secondItem="M3x-ks-9df" secondAttribute="trailing" constant="5" id="e9f-R1-Kso"/>
                     <constraint firstItem="jyl-gt-1Ss" firstAttribute="leading" secondItem="Bau-aw-jXF" secondAttribute="leadingMargin" id="eod-vG-Nw5"/>
                     <constraint firstItem="jyl-gt-1Ss" firstAttribute="trailing" secondItem="Bau-aw-jXF" secondAttribute="trailingMargin" id="lPW-nr-fNU"/>
-                    <constraint firstItem="LK4-Z5-vB1" firstAttribute="top" secondItem="Bau-aw-jXF" secondAttribute="top" constant="2.5" id="qLM-uh-n3W"/>
+                    <constraint firstItem="LK4-Z5-vB1" firstAttribute="top" secondItem="Bau-aw-jXF" secondAttribute="top" id="qLM-uh-n3W"/>
                     <constraint firstItem="LK4-Z5-vB1" firstAttribute="leading" secondItem="Bau-aw-jXF" secondAttribute="leading" constant="5" id="tsK-b5-Owq"/>
-                    <constraint firstAttribute="bottom" secondItem="LK4-Z5-vB1" secondAttribute="bottom" constant="2.5" id="wna-Ty-tvt"/>
+                    <constraint firstAttribute="bottom" secondItem="LK4-Z5-vB1" secondAttribute="bottom" id="wna-Ty-tvt"/>
                 </constraints>
             </tableViewCellContentView>
             <constraints>

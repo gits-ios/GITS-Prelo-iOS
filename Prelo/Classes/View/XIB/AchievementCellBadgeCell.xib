@@ -17,10 +17,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="GGJ-bv-iL6">
-                        <rect key="frame" x="16" y="0.0" width="343" height="64.5"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HQI-lm-K7g" userLabel="Vw Border">
+                        <rect key="frame" x="5" y="0.0" width="365" height="65"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="9Vn-sK-Jfm">
+                    </view>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="GGJ-bv-iL6">
+                        <rect key="frame" x="21" y="0.0" width="333" height="64.5"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="9Vn-sK-Jfm">
                             <size key="itemSize" width="50" height="50"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -30,9 +34,13 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="GGJ-bv-iL6" firstAttribute="top" secondItem="ykO-KZ-Svz" secondAttribute="top" id="6ni-e4-0g9"/>
+                    <constraint firstAttribute="bottom" secondItem="HQI-lm-K7g" secondAttribute="bottom" id="8Qj-KJ-HPh"/>
                     <constraint firstAttribute="bottom" secondItem="GGJ-bv-iL6" secondAttribute="bottom" id="YMu-4Y-d0z"/>
-                    <constraint firstItem="GGJ-bv-iL6" firstAttribute="leading" secondItem="ykO-KZ-Svz" secondAttribute="leading" constant="16" id="li3-5B-kym"/>
-                    <constraint firstAttribute="trailing" secondItem="GGJ-bv-iL6" secondAttribute="trailing" constant="16" id="zGf-xz-Phf"/>
+                    <constraint firstAttribute="trailing" secondItem="HQI-lm-K7g" secondAttribute="trailing" constant="5" id="YNA-9N-oxu"/>
+                    <constraint firstItem="HQI-lm-K7g" firstAttribute="top" secondItem="ykO-KZ-Svz" secondAttribute="top" id="egO-k4-eU6"/>
+                    <constraint firstItem="HQI-lm-K7g" firstAttribute="leading" secondItem="ykO-KZ-Svz" secondAttribute="leading" constant="5" id="jVZ-mA-2y8"/>
+                    <constraint firstItem="GGJ-bv-iL6" firstAttribute="leading" secondItem="ykO-KZ-Svz" secondAttribute="leading" constant="21" id="li3-5B-kym"/>
+                    <constraint firstAttribute="trailing" secondItem="GGJ-bv-iL6" secondAttribute="trailing" constant="21" id="zGf-xz-Phf"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

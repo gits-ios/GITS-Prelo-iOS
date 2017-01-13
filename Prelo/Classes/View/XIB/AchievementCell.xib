@@ -16,15 +16,15 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="204" id="cnd-hz-aL4" customClass="AchievementCell" customModule="Prelo" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="204"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="75" id="cnd-hz-aL4" customClass="AchievementCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="75"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cnd-hz-aL4" id="fsN-M3-HGf">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="203"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="74"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XGI-5F-WTS">
-                        <rect key="frame" x="5" y="3" width="365" height="198"/>
+                        <rect key="frame" x="5" y="0.0" width="365" height="75"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1NT-gB-pba">
@@ -56,6 +56,10 @@
                             </progressView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="reP-RR-iBi">
                                 <rect key="frame" x="227" y="41" width="31" height="15"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="31" id="U3E-9A-ArR"/>
+                                    <constraint firstAttribute="height" constant="15" id="h0B-fi-gOk"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -80,30 +84,10 @@
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yk6-Pf-5Fg">
-                        <rect key="frame" x="8" y="73" width="359" height="122"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="daE-VT-Hk4">
-                                <rect key="frame" x="0.0" y="0.0" width="359" height="122"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="daE-VT-Hk4" firstAttribute="leading" secondItem="Yk6-Pf-5Fg" secondAttribute="leading" id="Fzz-d4-FyH"/>
-                            <constraint firstItem="daE-VT-Hk4" firstAttribute="top" secondItem="Yk6-Pf-5Fg" secondAttribute="top" id="ehp-aT-0fK"/>
-                            <constraint firstAttribute="trailing" secondItem="daE-VT-Hk4" secondAttribute="trailing" id="oRr-57-9kb"/>
-                            <constraint firstAttribute="bottom" secondItem="daE-VT-Hk4" secondAttribute="bottom" id="xFo-Hh-9NI"/>
-                        </constraints>
-                    </view>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="XGI-5F-WTS" secondAttribute="bottom" constant="2.5" id="3uY-NM-CcP"/>
-                    <constraint firstAttribute="bottom" secondItem="Yk6-Pf-5Fg" secondAttribute="bottom" constant="8" id="5jQ-6Y-P7A"/>
-                    <constraint firstAttribute="trailing" secondItem="Yk6-Pf-5Fg" secondAttribute="trailing" constant="8" id="9hb-Zd-sry"/>
+                    <constraint firstAttribute="bottom" secondItem="XGI-5F-WTS" secondAttribute="bottom" id="3uY-NM-CcP"/>
                     <constraint firstItem="XGI-5F-WTS" firstAttribute="leading" secondItem="fsN-M3-HGf" secondAttribute="leading" constant="5" id="BF5-gK-x90"/>
-                    <constraint firstItem="Yk6-Pf-5Fg" firstAttribute="leading" secondItem="fsN-M3-HGf" secondAttribute="leading" constant="8" id="CUN-u5-clz"/>
-                    <constraint firstItem="Yk6-Pf-5Fg" firstAttribute="top" secondItem="1NT-gB-pba" secondAttribute="bottom" constant="8" id="DxO-SW-p5V"/>
                     <constraint firstItem="ciK-ph-936" firstAttribute="leading" secondItem="3wc-WI-4JF" secondAttribute="trailing" constant="8" id="HBi-Uw-EK9"/>
                     <constraint firstItem="1NT-gB-pba" firstAttribute="top" secondItem="fsN-M3-HGf" secondAttribute="topMargin" constant="2.5" id="Ivc-an-4xz"/>
                     <constraint firstItem="ciK-ph-936" firstAttribute="leading" secondItem="gx9-hG-zPN" secondAttribute="trailing" constant="8" id="JF1-HK-n2x"/>
@@ -111,7 +95,7 @@
                     <constraint firstAttribute="trailingMargin" secondItem="ciK-ph-936" secondAttribute="trailing" constant="5" id="LMG-7z-61B"/>
                     <constraint firstItem="3wc-WI-4JF" firstAttribute="top" secondItem="fsN-M3-HGf" secondAttribute="topMargin" constant="2.5" id="OQF-Gy-7gm"/>
                     <constraint firstItem="gx9-hG-zPN" firstAttribute="top" secondItem="fsN-M3-HGf" secondAttribute="topMargin" constant="2.5" id="P0r-il-fLo"/>
-                    <constraint firstItem="XGI-5F-WTS" firstAttribute="top" secondItem="fsN-M3-HGf" secondAttribute="top" constant="2.5" id="bYk-ej-sCs"/>
+                    <constraint firstItem="XGI-5F-WTS" firstAttribute="top" secondItem="fsN-M3-HGf" secondAttribute="top" id="bYk-ej-sCs"/>
                     <constraint firstItem="gx9-hG-zPN" firstAttribute="leading" secondItem="1NT-gB-pba" secondAttribute="trailing" constant="8" id="dW8-sc-75R"/>
                     <constraint firstItem="1NT-gB-pba" firstAttribute="leading" secondItem="fsN-M3-HGf" secondAttribute="leadingMargin" constant="5" id="eZ6-CJ-Gxy"/>
                     <constraint firstItem="3wc-WI-4JF" firstAttribute="leading" secondItem="1NT-gB-pba" secondAttribute="trailing" constant="8" id="orS-7G-b9e"/>
@@ -125,12 +109,10 @@
                 <outlet property="lblProgressView" destination="reP-RR-iBi" id="dxh-jO-0af"/>
                 <outlet property="lblTitke" destination="3wc-WI-4JF" id="mDg-zT-umz"/>
                 <outlet property="progressView" destination="D5v-ic-I3h" id="KLP-ad-Akn"/>
-                <outlet property="tblConditions" destination="daE-VT-Hk4" id="d7k-cG-gn5"/>
                 <outlet property="vwBorder" destination="XGI-5F-WTS" id="skT-Cv-rUg"/>
                 <outlet property="vwProgressBar" destination="gx9-hG-zPN" id="orz-VU-yB9"/>
-                <outlet property="vwTable" destination="Yk6-Pf-5Fg" id="260-Nh-gax"/>
             </connections>
-            <point key="canvasLocation" x="-237.5" y="-30"/>
+            <point key="canvasLocation" x="-237.5" y="-94.5"/>
         </tableViewCell>
     </objects>
 </document>

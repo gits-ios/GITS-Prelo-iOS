@@ -52,7 +52,7 @@
             </view>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
             <connections>
-                <outlet property="loadingPanel" destination="UeK-eX-XVS" id="abp-KJ-8WB"/>
+                <outlet property="loadingPanel" destination="UeK-eX-XVS" id="Y7g-Sq-9ii"/>
                 <outlet property="tableView" destination="LcE-Wg-hoc" id="pE8-aa-jgt"/>
             </connections>
             <point key="canvasLocation" x="-270" y="200"/>
