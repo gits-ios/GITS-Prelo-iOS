@@ -2127,8 +2127,8 @@
 		21AE67AE1B4A59F400D2CF63 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				B23356EF1E1F587C00207F14 /* ScannerViewController.swift */,
 				21C6589F1B8F01E10037F85F /* AboutViewController.swift */,
+				B240F4F01E24DE7000DCAFF7 /* AchievementViewController.swift */,
 				21983BED1BE1C22200F0C24E /* AddProductImageFullScreen.swift */,
 				2127A2A71B7B336000469CFC /* AddProductImageSourceViewController.swift */,
 				21C658611B8EC32A0037F85F /* AddProductShareViewController.swift */,
@@ -2194,6 +2194,7 @@
 				5885887C1E0285ED00AB262E /* RefundRequestViewController.swift */,
 				21EEB4571B87036000CAD5C9 /* RegisterViewController.swift */,
 				B2D481C91E02A7AD006006CC /* ReportProductViewController.swift */,
+				B23356EF1E1F587C00207F14 /* ScannerViewController.swift */,
 				21C7ADCA1B73AB8B003C3945 /* SearchViewController.swift */,
 				FDB19FFF1BFD8454001F2600 /* ShopReviewViewController.swift */,
 				217A18221BB41C26008D1AD8 /* StatusBarContainerViewController.swift */,
@@ -2204,7 +2205,6 @@
 				21104AB81BAA8ECC00947E7F /* TransactionListCell.swift */,
 				21156EB91B8F5B4C001D7842 /* UserProfileViewController.swift */,
 				21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */,
-				B240F4F01E24DE7000DCAFF7 /* AchievementViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2723,7 +2723,12 @@
 		21EEB45D1B87038400CAD5C9 /* XIB */ = {
 			isa = PBXGroup;
 			children = (
-				B23356F11E1F588F00207F14 /* Scanner.xib */,
+				B240F4D21E24BBD500DCAFF7 /* Achievement.xib */,
+				B240F4DA1E24D63400DCAFF7 /* AchievementCellBadgeCell.xib */,
+				B2D119881E28CD2A0064045B /* AchievementCellDescriptionCell.xib */,
+				B2D119861E28C9790064045B /* AchievementCelliOS9xx.xib */,
+				B240F4DD1E24DAD900DCAFF7 /* AchievementCellProgressCell.xib */,
+				B240F4D81E24C1AD00DCAFF7 /* AchievementDiamondCell.xib */,
 				58A7C4461D36263E00405CEC /* BalanceMutation.xib */,
 				58A7C4481D362ED800405CEC /* BalanceMutationCell.xib */,
 				FDF728221BF24B9100C0D843 /* CategoryPreferences.xib */,
@@ -2773,18 +2778,13 @@
 				5885888C1E02860C00AB262E /* RefundRequest.xib */,
 				21EEB4611B87038400CAD5C9 /* Register.xib */,
 				B2D481DB1E02A7E2006006CC /* ReportProducts.xib */,
+				B23356F11E1F588F00207F14 /* Scanner.xib */,
 				5895E8671C48CCF500752ACA /* SetupPasswordPopUp.xib */,
 				58EADB961CFBE47800410330 /* ShippingCell.xib */,
 				FDB1A0011BFD84A8001F2600 /* ShopReview.xib */,
 				FDB1A0031BFD8BD0001F2600 /* ShopReviewCell.xib */,
 				21104AD01BAA8F1200947E7F /* TransactionListCell.xib */,
 				21156EBB1B8F5B5D001D7842 /* UserProfile.xib */,
-				B240F4D21E24BBD500DCAFF7 /* Achievement.xib */,
-				B2D119861E28C9790064045B /* AchievementCelliOS9xx.xib */,
-				B240F4DD1E24DAD900DCAFF7 /* AchievementCellProgressCell.xib */,
-				B240F4DA1E24D63400DCAFF7 /* AchievementCellBadgeCell.xib */,
-				B2D119881E28CD2A0064045B /* AchievementCellDescriptionCell.xib */,
-				B240F4D81E24C1AD00DCAFF7 /* AchievementDiamondCell.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";

@@ -16,17 +16,17 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="YhO-QL-dRU" customClass="StoreHeader" customModule="Prelo" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="376"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="426"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_dashboard_cover.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="saT-TT-F5P">
-                    <rect key="frame" x="0.0" y="-130" width="600" height="294"/>
+                    <rect key="frame" x="0.0" y="-80" width="600" height="294"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="294" id="Vdc-aD-MKp"/>
                     </constraints>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fZL-hh-xAI">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="164"/>
+                    <rect key="frame" x="0.0" y="50" width="600" height="164"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fsB-B7-KsL">
                             <rect key="frame" x="260" y="24" width="80" height="80"/>
@@ -71,7 +71,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QZP-bo-D9H" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
-                            <rect key="frame" x="245" y="137" width="111" height="19"/>
+                            <rect key="frame" x="244.5" y="137" width="111" height="19"/>
                             <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="11"/>
                             <inset key="contentEdgeInsets" minX="8" minY="4" maxX="8" maxY="4"/>
                             <state key="normal" title=" EDIT PROFILE">
@@ -115,13 +115,13 @@
                     </variation>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="abN-FJ-Vln">
-                    <rect key="frame" x="0.0" y="164" width="600" height="32"/>
+                    <rect key="frame" x="0.0" y="214" width="600" height="32"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s2o-3L-eo2">
-                            <rect key="frame" x="196" y="0.0" width="208" height="32"/>
+                            <rect key="frame" x="197" y="0.0" width="207.5" height="32"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="    " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vj7-rR-iJJ">
-                                    <rect key="frame" x="0.0" y="8" width="112" height="16"/>
+                                    <rect key="frame" x="0.0" y="8.5" width="112" height="16"/>
                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                     <color key="textColor" red="0.78738981485366821" green="0.24644413590431213" blue="0.27221894264221191" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
@@ -133,7 +133,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GRl-5S-hIq">
-                                    <rect key="frame" x="196" y="8" width="12" height="16"/>
+                                    <rect key="frame" x="196" y="8.5" width="11.5" height="16"/>
                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                     <color key="textColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
@@ -184,19 +184,19 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4JK-DK-Z99">
-                    <rect key="frame" x="0.0" y="196" width="600" height="148"/>
+                    <rect key="frame" x="0.0" y="246" width="600" height="148"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tzd-fY-nES">
-                            <rect key="frame" x="273" y="8" width="54" height="20"/>
+                            <rect key="frame" x="274" y="8" width="53.5" height="20"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D3e-eQ-h0d">
-                                    <rect key="frame" x="0.0" y="0.0" width="10" height="20"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="9.5" height="20"/>
                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                     <color key="textColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lRC-ca-Odg">
-                                    <rect key="frame" x="18" y="0.0" width="36" height="20"/>
+                                    <rect key="frame" x="17.5" y="0.0" width="36" height="20"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
@@ -356,7 +356,7 @@ Label</string>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Aq-QB-gsq">
-                    <rect key="frame" x="0.0" y="344" width="600" height="32"/>
+                    <rect key="frame" x="0.0" y="394" width="600" height="32"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IXf-a6-lmc">
                             <rect key="frame" x="0.0" y="31" width="600" height="1"/>
@@ -398,7 +398,7 @@ Label</string>
                 <constraint firstItem="fZL-hh-xAI" firstAttribute="leading" secondItem="saT-TT-F5P" secondAttribute="trailing" id="2LF-yq-AUw"/>
                 <constraint firstItem="9Aq-QB-gsq" firstAttribute="top" secondItem="4JK-DK-Z99" secondAttribute="bottom" id="63a-pG-czV"/>
                 <constraint firstItem="saT-TT-F5P" firstAttribute="leading" secondItem="YhO-QL-dRU" secondAttribute="leading" id="6y3-ze-mUc"/>
-                <constraint firstItem="saT-TT-F5P" firstAttribute="top" secondItem="YhO-QL-dRU" secondAttribute="top" constant="-130" id="8d8-3L-Z4X"/>
+                <constraint firstItem="saT-TT-F5P" firstAttribute="top" secondItem="YhO-QL-dRU" secondAttribute="top" constant="-80" id="8d8-3L-Z4X"/>
                 <constraint firstAttribute="trailing" secondItem="9Aq-QB-gsq" secondAttribute="trailing" id="BHL-jQ-Zp3"/>
                 <constraint firstAttribute="trailing" secondItem="4JK-DK-Z99" secondAttribute="trailing" id="CB0-OR-WI5"/>
                 <constraint firstItem="fZL-hh-xAI" firstAttribute="leading" secondItem="YhO-QL-dRU" secondAttribute="leading" id="Fkb-Xw-1sK"/>

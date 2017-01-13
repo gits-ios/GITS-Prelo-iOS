@@ -210,6 +210,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         // Add status bar tap observer
         NotificationCenter.default.addObserver(self, selector: #selector(ListItemViewController.statusBarTapped), name: NSNotification.Name(rawValue: AppDelegate.StatusBarTapNotificationName), object: nil)
+        
+        if (currentMode == .shop) {
+            self.transparentNavigationBar(true)
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -228,6 +232,11 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         if (currentMode == .filter) {
             self.setStatusBarBackgroundColor(color: UIColor.clear)
         }
+        
+        if (currentMode == .shop) {
+            self.defaultNavigationBar()
+        }
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -651,11 +660,11 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                         self.shopHeader?.captionDesc.text = desc
                         descHeight = Int(desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-16).height)
                     }
-                    height = 338 + descHeight
+                    height = 388 + descHeight
                 } else {
                     self.shopHeader?.captionDesc.text = "Belum ada deskripsi."
                     self.shopHeader?.captionDesc.textColor = UIColor.lightGray
-                    height = 338 + Int("Belum ada deskripsi.".boundsWithFontSize(UIFont.systemFont(ofSize: 16), width: UIScreen.main.bounds.width-14).height)
+                    height = 388 + Int("Belum ada deskripsi.".boundsWithFontSize(UIFont.systemFont(ofSize: 16), width: UIScreen.main.bounds.width-14).height)
                 }
                 self.shopHeader?.width = UIScreen.main.bounds.width
                 self.shopHeader?.height = CGFloat(height)
@@ -665,7 +674,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     if let completeDesc = self.shopHeader?.completeDesc {
                         self.shopHeader?.captionDesc.text = completeDesc
                         let descHeight = completeDesc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-16).height
-                        let newHeight : CGFloat = descHeight + 338.0
+                        let newHeight : CGFloat = descHeight + 388.0
                         self.shopHeader?.height = newHeight
                         self.shopHeader?.y = -newHeight
                         self.gridView.contentInset = UIEdgeInsetsMake(newHeight, 0, 0, 0)
@@ -1097,8 +1106,36 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                         self.consTopGridView.constant = 0
                     }
                 }
+            } else if (currentMode == .shop) {
+                if (scrollView.contentOffset.y < -388) {
+                    self.transparentNavigationBar(true)
+                } else {
+                    self.transparentNavigationBar(false)
+                }
             }
         }
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if (currentMode == .shop) {
+            if (scrollView.contentOffset.y < -388) {
+                self.transparentNavigationBar(true)
+            } else {
+                self.transparentNavigationBar(false)
+            }
+        }
+
+    }
+    
+    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        if (currentMode == .shop) {
+            if (scrollView.contentOffset.y < -388) {
+                self.transparentNavigationBar(true)
+            } else {
+                self.transparentNavigationBar(false)
+            }
+        }
+
     }
     
     func repositionScrollCategoryNameContent() {
@@ -1307,6 +1344,51 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseOut, animations: {
             self.gridView.reloadData()
         }, completion: nil)
+    }
+    
+    // MARK: - navbar styler
+    func transparentNavigationBar(_ isActive: Bool) {
+        if isActive {
+            UIView.animate(withDuration: 0.5) {
+                // Transparent navigation bar
+                self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+                self.navigationController?.navigationBar.shadowImage = UIImage()
+                self.navigationController?.navigationBar.isTranslucent = true
+                
+                self.navigationController?.navigationBar.layoutIfNeeded()
+            }
+            
+        } else {
+            UIView.animate(withDuration: 0.5) {
+                self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
+                self.navigationController?.navigationBar.shadowImage = nil
+//                self.navigationController?.navigationBar.tintColor = nil
+                self.navigationController?.navigationBar.isTranslucent = true
+                
+                // default prelo
+                UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white]
+                UINavigationBar.appearance().barTintColor = Theme.PrimaryColor
+                self.navigationController?.navigationBar.tintColor = UIColor.white
+                
+                self.navigationController?.navigationBar.layoutIfNeeded()
+            }
+        }
+    }
+    
+    func defaultNavigationBar() {
+        UIView.animate(withDuration: 0.5) {
+            self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
+            self.navigationController?.navigationBar.shadowImage = nil
+//            self.navigationController?.navigationBar.tintColor = nil
+            self.navigationController?.navigationBar.isTranslucent = false
+            
+            // default prelo
+            UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white]
+            UINavigationBar.appearance().barTintColor = Theme.PrimaryColor
+            self.navigationController?.navigationBar.tintColor = UIColor.white
+            
+            self.navigationController?.navigationBar.layoutIfNeeded()
+        }
     }
 }
 
