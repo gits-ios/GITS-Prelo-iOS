@@ -182,8 +182,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         switch currentMode {
         case .standalone:
             self.title = standaloneCategoryName
-        case .shop:
-            self.title = shopName
+//        case .shop:
+//            self.title = shopName
         default:
             if let name = categoryJson?["name"].string {
                 self.title = name
