@@ -618,7 +618,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 
                 self.shopName = json["username"].stringValue
                 self.shopHeader?.captionName.text = "" //self.shopName
-                self.title = self.shopName
+                UIView.animate(withDuration: 0.5) {
+                    self.title = self.shopName
+                }
                 let avatarThumbnail = json["profile"]["pict"].stringValue
                 self.shopAvatar = URL(string: avatarThumbnail)!
                 self.shopHeader?.avatar.afSetImage(withURL: self.shopAvatar!)
@@ -717,17 +719,20 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.shopHeader?.btnEdit.isHidden = true
                 if let id = json["_id"].string, let me = CDUser.getOne()
                 {
-                    if (id == me.id)
-                    {
-//                        self.shopHeader?.btnEdit.isHidden = false
-                        self.setEditButton()
+                    UIView.animate(withDuration: 0.5) {
+                        if (id == me.id)
+                        {
+//                            self.shopHeader?.btnEdit.isHidden = false
+                            self.setEditButton()
+                        }
                     }
                 }
                 
                 // setup badge
+                
                 self.shopHeader?.badges = [ (URL(string: "https://trello-avatars.s3.amazonaws.com/c86b504990d8edbb569ab7c02fb55e3d/50.png")!), (URL(string: "https://trello-avatars.s3.amazonaws.com/3a83ed4d4b42810c05608cdc5547e709/50.png")!), (URL(string: "https://trello-avatars.s3.amazonaws.com/7a98b746bc71ccaf9af1d16c4a6b152e/50.png")!) ]
                 self.shopHeader?.setupCollection()
-                self.shopHeader?.colectionView.reloadData()
+//                self.shopHeader?.colectionView.reloadData()
                 
                 // Total products and sold products
                 if let productCount = json["total_product"].int {
