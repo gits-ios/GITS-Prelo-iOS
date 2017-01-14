@@ -637,6 +637,9 @@
 		B275BA671E10DBD200BB5C64 /* libFDHotlineSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B275BA611E10DBD200BB5C64 /* libFDHotlineSDK.a */; };
 		B275BA681E10DBD200BB5C64 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = B275BA621E10DBD200BB5C64 /* LICENSE */; };
 		B275BA691E10DBD200BB5C64 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = B275BA631E10DBD200BB5C64 /* ReleaseNotes.txt */; };
+		B2BE2DF01E29EBBD006B6903 /* StorePageTabBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */; };
+		B2BE2E001E29F2AF006B6903 /* StorePageTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2BE2DFF1E29F2AF006B6903 /* StorePageTabBarViewController.swift */; };
+		B2BE2E021E29FA42006B6903 /* StorePageShopHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2BE2E011E29FA42006B6903 /* StorePageShopHeader.xib */; };
 		B2CB4C441E08C61C00F5D0F2 /* FilterLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2CB4C431E08C61C00F5D0F2 /* FilterLocationCell.xib */; };
 		B2D119871E28C9790064045B /* AchievementCelliOS9xx.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D119861E28C9790064045B /* AchievementCelliOS9xx.xib */; };
 		B2D119891E28CD2A0064045B /* AchievementCellDescriptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D119881E28CD2A0064045B /* AchievementCellDescriptionCell.xib */; };
@@ -1572,6 +1575,9 @@
 		B275BA611E10DBD200BB5C64 /* libFDHotlineSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFDHotlineSDK.a; sourceTree = "<group>"; };
 		B275BA621E10DBD200BB5C64 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		B275BA631E10DBD200BB5C64 /* ReleaseNotes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReleaseNotes.txt; sourceTree = "<group>"; };
+		B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StorePageTabBar.xib; sourceTree = "<group>"; };
+		B2BE2DFF1E29F2AF006B6903 /* StorePageTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorePageTabBarViewController.swift; sourceTree = "<group>"; };
+		B2BE2E011E29FA42006B6903 /* StorePageShopHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StorePageShopHeader.xib; sourceTree = "<group>"; };
 		B2CB4C431E08C61C00F5D0F2 /* FilterLocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterLocationCell.xib; sourceTree = "<group>"; };
 		B2D119861E28C9790064045B /* AchievementCelliOS9xx.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementCelliOS9xx.xib; sourceTree = "<group>"; };
 		B2D119881E28CD2A0064045B /* AchievementCellDescriptionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementCellDescriptionCell.xib; sourceTree = "<group>"; };
@@ -2205,6 +2211,7 @@
 				21104AB81BAA8ECC00947E7F /* TransactionListCell.swift */,
 				21156EB91B8F5B4C001D7842 /* UserProfileViewController.swift */,
 				21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */,
+				B2BE2DFF1E29F2AF006B6903 /* StorePageTabBarViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2785,6 +2792,8 @@
 				FDB1A0031BFD8BD0001F2600 /* ShopReviewCell.xib */,
 				21104AD01BAA8F1200947E7F /* TransactionListCell.xib */,
 				21156EBB1B8F5B5D001D7842 /* UserProfile.xib */,
+				B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */,
+				B2BE2E011E29FA42006B6903 /* StorePageShopHeader.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -3253,6 +3262,7 @@
 				FDF0AC951C0C4A6200FC7D61 /* wm_logo@2x.png in Resources */,
 				58A223CA1C898CB600619518 /* ic_trx_shipped.png in Resources */,
 				B2D119901E290BF80064045B /* banner_notif.png in Resources */,
+				B2BE2DF01E29EBBD006B6903 /* StorePageTabBar.xib in Resources */,
 				585887511DBEDBD5006EC6D5 /* PhoneReverification.xib in Resources */,
 				21156ECB1B8F5DBC001D7842 /* btn_checkbox_purple_empty.png in Resources */,
 				5827E9611E03F844007F0833 /* ic_trx_refund4.png in Resources */,
@@ -3390,6 +3400,7 @@
 				58F78B601DFACEB3008744F7 /* ProductLovelist.xib in Resources */,
 				589A6FB71D8C08F600654CDD /* ic_comment.png in Resources */,
 				5858874D1DBEDBA3006EC6D5 /* NotifAnggiTransactionCell.xib in Resources */,
+				B2BE2E021E29FA42006B6903 /* StorePageShopHeader.xib in Resources */,
 				58DD4E8A1DEC377D00B130C5 /* ic_camera.png in Resources */,
 				5858875D1DBEEA28006EC6D5 /* StoreHeader.xib in Resources */,
 				440AF6681BE1090800074CBC /* ic_round_line.png in Resources */,
@@ -3680,6 +3691,7 @@
 				21F4FCE71B61EE3D00223028 /* UIImageView+AFNetworking.swift in Sources */,
 				5858878A1DBF2DE5006EC6D5 /* ConfirmShippingViewController.swift in Sources */,
 				21B468061CCE5EDB00E145ED /* UITextView+BFKit.swift in Sources */,
+				B2BE2E001E29F2AF006B6903 /* StorePageTabBarViewController.swift in Sources */,
 				585887611DBEEC3D006EC6D5 /* MyLovelistViewController.swift in Sources */,
 				21679A4F1B901C5300F18F90 /* MPVariant.m in Sources */,
 				21B468071CCE5EDB00E145ED /* UIToolbar+BFKit.swift in Sources */,

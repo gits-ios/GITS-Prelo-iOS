@@ -846,11 +846,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func redirectShopPage(_ userId : String) {
-        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
-        listItemVC.currentMode = .shop
-        listItemVC.shopId = userId
-
+//        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//        let listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+//        listItemVC.currentMode = .shop
+//        listItemVC.shopId = userId
+        
         var rootViewController : UINavigationController?
         if let rVC = self.window?.rootViewController {
             if (rVC.childViewControllers.count > 0) {
@@ -859,17 +859,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
-        if (rootViewController == nil) {
-            // Set root view controller
-            rootViewController = UINavigationController()
-            rootViewController?.navigationBar.barTintColor = Theme.PrimaryColor
-            rootViewController?.navigationBar.tintColor = UIColor.white
-            rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
-            self.window?.rootViewController = rootViewController
-            let noBtn = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-            listItemVC.navigationItem.leftBarButtonItem = noBtn
-        }
-        rootViewController!.pushViewController(listItemVC, animated: true)
+//        if (rootViewController == nil) {
+//            // Set root view controller
+//            rootViewController = UINavigationController()
+//            rootViewController?.navigationBar.barTintColor = Theme.PrimaryColor
+//            rootViewController?.navigationBar.tintColor = UIColor.white
+//            rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+//            self.window?.rootViewController = rootViewController
+//            let noBtn = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+//            listItemVC.navigationItem.leftBarButtonItem = noBtn
+//        }
+        
+        let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+        storePageTabBarVC.shopId = userId
+        rootViewController!.pushViewController(storePageTabBarVC, animated: true)
     }
     
     func redirectInbox(_ inboxId : String?) {
