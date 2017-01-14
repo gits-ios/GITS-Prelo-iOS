@@ -165,6 +165,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     // state navbar for .shop
     var isFirst = true
+    var isTransparent = true
+    var initY = CGFloat(0)
     
     // MARK: - Init
     
@@ -268,8 +270,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             }
         }
         
-        let pointY = (self.shopHeader != nil ? (self.shopHeader?.height)! - 33 : 0)
-        if (currentMode == .shop && (self.isFirst || currScrollPoint.y < -pointY)) {
+        // for handle navigation
+//        self.isTransparent = !self.isTransparent
+        if (currentMode == .shop && self.isTransparent) {
+            self.isTransparent = !self.isTransparent
             self.transparentNavigationBar(true)
             self.isFirst = false
         }
@@ -683,7 +687,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.shopHeader?.y = CGFloat(-height)
                 
                 // bound to top
-                self.currScrollPoint.y = CGFloat(-height)
+                self.initY = CGFloat(-height)
                 
                 self.shopHeader?.seeMoreBlock = {
                     if let completeDesc = self.shopHeader?.completeDesc {
@@ -700,6 +704,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                             refresherBound!.origin.y = CGFloat(newHeight)
                             self.refresher?.bounds = refresherBound!
                         }
+                        
+                        // bound to top
+                        self.initY = CGFloat(-newHeight)
                     }
                 }
                 
@@ -1132,39 +1139,21 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                         self.consTopGridView.constant = 0
                     }
                 }
-            } else if (currentMode == .shop) {
-                let pointY = (self.shopHeader?.height)! - 33 // --> 214 -> 207 --> 388 -> 33
-                if (scrollView.contentOffset.y < -pointY) {
-                    self.transparentNavigationBar(true)
-                } else if (scrollView.contentOffset.y >= -pointY) {
-                    self.transparentNavigationBar(false)
-                }
             }
+        }
+        if (currentMode == .shop) {
+            scrollViewShop(scrollView)
         }
     }
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if (currentMode == .shop) {
-            let pointY = (self.shopHeader?.height)! - 33
-            if (scrollView.contentOffset.y < -pointY) {
-                self.transparentNavigationBar(true)
-            } else if (scrollView.contentOffset.y >= -pointY) {
-                self.transparentNavigationBar(false)
-            }
+    func scrollViewShop(_ scrollView: UIScrollView) {
+//        let pointY = (self.shopHeader?.height)! - 33 // --> 214 -> 207 --> 388 -> 33 // minus
+        let pointY = self.initY + 170 // 214 - 44
+        if (scrollView.contentOffset.y < pointY) {
+            self.transparentNavigationBar(true)
+        } else if (scrollView.contentOffset.y >= pointY) {
+            self.transparentNavigationBar(false)
         }
-
-    }
-    
-    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-        if (currentMode == .shop) {
-            let pointY = (self.shopHeader?.height)! - 33
-            if (scrollView.contentOffset.y < -pointY) {
-                self.transparentNavigationBar(true)
-            } else if (scrollView.contentOffset.y >= -pointY) {
-                self.transparentNavigationBar(false)
-            }
-        }
-
     }
     
     func repositionScrollCategoryNameContent() {
@@ -1377,7 +1366,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     // MARK: - navbar styler
     func transparentNavigationBar(_ isActive: Bool) {
-        if isActive {
+        if isActive && !self.isTransparent {
             UIView.animate(withDuration: 0.5) {
                 // Transparent navigation bar
                 self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
@@ -1386,8 +1375,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 
                 self.navigationController?.navigationBar.layoutIfNeeded()
             }
-            
-        } else {
+            self.isTransparent = true
+        } else if !isActive && self.isTransparent {
             UIView.animate(withDuration: 0.5) {
                 self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
                 self.navigationController?.navigationBar.shadowImage = nil
@@ -1401,6 +1390,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 
                 self.navigationController?.navigationBar.layoutIfNeeded()
             }
+            self.isTransparent = false
         }
     }
     

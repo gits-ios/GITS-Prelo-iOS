@@ -272,6 +272,8 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 self.launchRateUs()
             } else if ((indexPath as NSIndexPath).row == 6) { // About
                 self.launchAbout()
+            } else if (AppTools.isDev) { // row 7
+                self.lauchTestingFeature()
             }
         } else {
             if ((indexPath as NSIndexPath).row == 0) { // Referral bonus
@@ -426,6 +428,12 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
 
     func launchRateUs() {
         Constant.showDialog("Rate Us", message: "Coba!")
+    }
+    
+    func lauchTestingFeature() {
+        let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+        storePageTabBarVC.shopId = CDUser.getOne()?.id
+        self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
     }
     
     func launchFAQ() {

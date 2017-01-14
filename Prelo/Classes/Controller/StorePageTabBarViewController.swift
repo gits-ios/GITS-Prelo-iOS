@@ -69,8 +69,10 @@ class StorePageTabBarViewController: BaseViewController, CarbonTabSwipeDelegate 
         listItemVC?.shopId = self.shopId
         
         shopReviewVC = Bundle.main.loadNibNamed(Tags.XibNameShopReview, owner: nil, options: nil)?.first as? ShopReviewViewController
+        shopReviewVC?.sellerId = self.shopId
         
         shopBadgeVC = Bundle.main.loadNibNamed(Tags.XibNameShopReview, owner: nil, options: nil)?.first as? ShopReviewViewController
+        shopBadgeVC?.sellerId = self.shopId
         
         tabSwipe = CarbonTabSwipeNavigation().create(withRootViewController: self, tabNames: ["Toko" as AnyObject, "Review" as AnyObject, "Badge" as AnyObject] as [AnyObject], tintColor: UIColor.white, delegate: self)
         tabSwipe?.addShadow()
