@@ -268,7 +268,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             }
         }
         
-        if (currentMode == .shop) {
+        let pointY = (self.shopHeader != nil ? (self.shopHeader?.height)! - 33 : 0)
+        if (currentMode == .shop && (self.isFirst || currScrollPoint.y < -pointY)) {
             self.transparentNavigationBar(true)
             self.isFirst = false
         }
@@ -454,7 +455,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func refresh() {
-        if (currentMode == .shop && self.isFirst == false) {
+        if (self.currentMode == .shop && self.isFirst == false) {
             self.transparentNavigationBar(false)
         }
         
@@ -592,10 +593,13 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func getShopProducts() {
+        // need for navbar
+        let current = self.products!.count
+        
         self.requesting = true
         
         // API Migrasi
-        let _ = request(APIUser.getShopPage(id: shopId, current: products!.count, limit: itemsPerReq)).responseJSON { resp in
+        let _ = request(APIUser.getShopPage(id: shopId, current: current, limit: itemsPerReq)).responseJSON { resp in
             self.requesting = false
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Data Shop Pengguna")) {
                 self.setupData(resp.result.value)
@@ -678,6 +682,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.shopHeader?.height = CGFloat(height)
                 self.shopHeader?.y = CGFloat(-height)
                 
+                // bound to top
+                self.currScrollPoint.y = CGFloat(-height)
+                
                 self.shopHeader?.seeMoreBlock = {
                     if let completeDesc = self.shopHeader?.completeDesc {
                         self.shopHeader?.captionDesc.text = completeDesc
@@ -705,9 +712,15 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 {
                     if (id == me.id)
                     {
-                        self.shopHeader?.btnEdit.isHidden = false
+//                        self.shopHeader?.btnEdit.isHidden = false
+                        self.setEditButton()
                     }
                 }
+                
+                // setup badge
+                self.shopHeader?.badges = [ (URL(string: "https://trello-avatars.s3.amazonaws.com/c86b504990d8edbb569ab7c02fb55e3d/50.png")!), (URL(string: "https://trello-avatars.s3.amazonaws.com/3a83ed4d4b42810c05608cdc5547e709/50.png")!), (URL(string: "https://trello-avatars.s3.amazonaws.com/7a98b746bc71ccaf9af1d16c4a6b152e/50.png")!) ]
+                self.shopHeader?.setupCollection()
+                self.shopHeader?.colectionView.reloadData()
                 
                 // Total products and sold products
                 if let productCount = json["total_product"].int {
@@ -733,10 +746,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     }
                 }
 
-                self.shopHeader?.editBlock = {
-                    let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
-                    self.navigationController?.pushViewController(userProfileVC, animated: true)
-                }
+//                self.shopHeader?.editBlock = {
+//                    let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
+//                    self.navigationController?.pushViewController(userProfileVC, animated: true)
+//                }
                 
                 self.shopHeader?.reviewBlock = {
                     let shopReviewVC = Bundle.main.loadNibNamed(Tags.XibNameShopReview, owner: nil, options: nil)?.first as! ShopReviewViewController
@@ -763,7 +776,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.setupGrid()
                 self.gridView.contentInset = UIEdgeInsetsMake(CGFloat(height), 0, 0, 0)
                 
-                if self.isFirst == false {
+                if (self.isFirst == false && current == 0) {
                     self.transparentNavigationBar(true)
                 }
             }
@@ -1120,9 +1133,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     }
                 }
             } else if (currentMode == .shop) {
-                if (scrollView.contentOffset.y < -388) {
+                let pointY = (self.shopHeader?.height)! - 33 // --> 214 -> 207 --> 388 -> 33
+                if (scrollView.contentOffset.y < -pointY) {
                     self.transparentNavigationBar(true)
-                } else if (scrollView.contentOffset.y >= -388) {
+                } else if (scrollView.contentOffset.y >= -pointY) {
                     self.transparentNavigationBar(false)
                 }
             }
@@ -1131,9 +1145,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if (currentMode == .shop) {
-            if (scrollView.contentOffset.y < -388) {
+            let pointY = (self.shopHeader?.height)! - 33
+            if (scrollView.contentOffset.y < -pointY) {
                 self.transparentNavigationBar(true)
-            } else if (scrollView.contentOffset.y >= -388) {
+            } else if (scrollView.contentOffset.y >= -pointY) {
                 self.transparentNavigationBar(false)
             }
         }
@@ -1142,9 +1157,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
         if (currentMode == .shop) {
-            if (scrollView.contentOffset.y < -388) {
+            let pointY = (self.shopHeader?.height)! - 33
+            if (scrollView.contentOffset.y < -pointY) {
                 self.transparentNavigationBar(true)
-            } else if (scrollView.contentOffset.y >= -388) {
+            } else if (scrollView.contentOffset.y >= -pointY) {
                 self.transparentNavigationBar(false)
             }
         }
@@ -1402,6 +1418,23 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             
             self.navigationController?.navigationBar.layoutIfNeeded()
         }
+    }
+    
+    // MARK: - Edit Profile button (right top) .shop
+    func setEditButton() {
+        let btnEdit = self.createButtonWithIcon(AppFont.preloAwesome, icon: "")
+        
+        btnEdit.addTarget(self, action: #selector(StorePageTabBarViewController.editProfile), for: UIControlEvents.touchUpInside)
+        
+        if (self.navigationItem.rightBarButtonItem == nil) {
+            self.navigationItem.rightBarButtonItem = btnEdit.toBarButton()
+        }
+    }
+    
+    func editProfile()
+    {
+        let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
+        self.navigationController?.pushViewController(userProfileVC, animated: true)
     }
 }
 
@@ -1821,7 +1854,7 @@ class ListFooter : UICollectionReusableView {
 
 // MARK: - Class
 
-class StoreHeader : UIView {
+class StoreHeader : UIView, UICollectionViewDataSource, UICollectionViewDelegate {
     @IBOutlet var captionName : UILabel!
     @IBOutlet var captionLocation : UILabel!
     @IBOutlet var captionDesc : UILabel!
@@ -1832,7 +1865,10 @@ class StoreHeader : UIView {
     @IBOutlet var captionTotal : UILabel!
     @IBOutlet var captionLastActive: UILabel!
     @IBOutlet var captionChatPercentage: UILabel!
+    @IBOutlet var colectionView: UICollectionView!
+    @IBOutlet var consWidthColectionView: NSLayoutConstraint!
     
+    @IBOutlet var vwCollectionView: UIView!
     var completeDesc : String = ""
     
     var editBlock : ()->() = {}
@@ -1841,6 +1877,9 @@ class StoreHeader : UIView {
     var seeMoreBlock : ()->() = {}
     
     var avatarUrls : [String] = []
+    
+    var badges : Array<URL>! = []
+    var badgesBlock : ()->() = {}
     
     @IBAction func edit() {
         self.editBlock()
@@ -1858,5 +1897,65 @@ class StoreHeader : UIView {
         if (self.completeDesc != "" && self.captionDesc.text != self.completeDesc) {
             self.seeMoreBlock()
         }
+    }
+    
+    @IBAction func btnBadgesPressed(_ sender: Any) {
+        self.badgesBlock()
+    }
+    
+    func setupCollection() {
+        
+        let width = 35 * CGFloat(self.badges.count) + 5
+        
+        // Set collection view
+        self.colectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "collcProgressCell")
+        self.colectionView.delegate = self
+        self.colectionView.dataSource = self
+        self.colectionView.backgroundView = UIView(frame: self.colectionView.bounds)
+        self.colectionView.backgroundColor = UIColor.clear
+        
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+        layout.itemSize = CGSize(width: 30, height: 30)
+        layout.minimumInteritemSpacing = 5
+        layout.minimumLineSpacing = 5
+        self.colectionView.collectionViewLayout = layout
+        
+        self.colectionView.isScrollEnabled = false
+        self.consWidthColectionView.constant = width
+    }
+    
+    // MARK: - CollectionView delegate functions
+    
+    
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.badges!.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        // Create cell
+        let cell = self.colectionView.dequeueReusableCell(withReuseIdentifier: "collcProgressCell", for: indexPath)
+//        if (badges.count > (indexPath as NSIndexPath).row) {
+            // Create icon view
+            let vwIcon : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+            
+            let img = UIImageView(frame: CGRect(x: 2, y: 2, width: 28, height: 28))
+            img.layoutIfNeeded()
+            img.layer.cornerRadius = (img.width ) / 2
+            img.layer.masksToBounds = true
+            img.afSetImage(withURL: badges[(indexPath as NSIndexPath).row])
+            
+            vwIcon.addSubview(img)
+            
+            // Add view to cell
+            cell.addSubview(vwIcon)
+//        }
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 30, height: 30)
     }
 }

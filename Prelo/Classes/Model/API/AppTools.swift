@@ -373,6 +373,7 @@ class Tags : NSObject {
     static let XibNameLocationFilter = "LocationFilters"
     static let XibNameScanner = "Scanner"
     static let XibNameAchievement = "Achievement"
+    static let XibNameStorePage = "StorePageTabBar"
 }
 
 class OrderStatus : NSObject {
@@ -441,6 +442,7 @@ class PageName {
     static let CheckoutTutorial = "Checkout Tutorial"
     static let Mutation = "Mutasi"
     static let BarangExpired = "Barang Expired"
+    static let Achievement = "Achievement"
 }
 
 extension Mixpanel {

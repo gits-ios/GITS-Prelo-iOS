@@ -71,7 +71,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QZP-bo-D9H" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
-                            <rect key="frame" x="244.5" y="137" width="111" height="19"/>
+                            <rect key="frame" x="245" y="137" width="111" height="19"/>
                             <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="11"/>
                             <inset key="contentEdgeInsets" minX="8" minY="4" maxX="8" maxY="4"/>
                             <state key="normal" title=" EDIT PROFILE">
@@ -95,6 +95,37 @@
                                 <action selector="edit" destination="YhO-QL-dRU" eventType="touchUpInside" id="8Yj-aD-BfJ"/>
                             </connections>
                         </button>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Xu-ho-GN6">
+                            <rect key="frame" x="180" y="119" width="240" height="30"/>
+                            <subviews>
+                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="fpL-te-LsZ">
+                                    <rect key="frame" x="0.0" y="0.0" width="240" height="30"/>
+                                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="OUY-L9-BPz">
+                                        <size key="itemSize" width="50" height="50"/>
+                                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    </collectionViewFlowLayout>
+                                </collectionView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7JV-Sr-9IV">
+                                    <rect key="frame" x="0.0" y="0.0" width="240" height="30"/>
+                                    <connections>
+                                        <action selector="btnBadgesPressed:" destination="YhO-QL-dRU" eventType="touchUpInside" id="QY8-ie-zv3"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="7JV-Sr-9IV" firstAttribute="top" secondItem="6Xu-ho-GN6" secondAttribute="top" id="P5j-UW-kAT"/>
+                                <constraint firstAttribute="width" constant="240" id="Por-Gm-LYv"/>
+                                <constraint firstAttribute="trailing" secondItem="fpL-te-LsZ" secondAttribute="trailing" id="eL3-eB-MWd"/>
+                                <constraint firstAttribute="bottom" secondItem="fpL-te-LsZ" secondAttribute="bottom" id="iWg-da-UtN"/>
+                                <constraint firstItem="fpL-te-LsZ" firstAttribute="leading" secondItem="6Xu-ho-GN6" secondAttribute="leading" id="rCb-wE-vwJ"/>
+                                <constraint firstItem="fpL-te-LsZ" firstAttribute="top" secondItem="6Xu-ho-GN6" secondAttribute="top" id="s0N-vs-EDd"/>
+                                <constraint firstAttribute="trailing" secondItem="7JV-Sr-9IV" secondAttribute="trailing" id="s4u-Iw-9Xq"/>
+                                <constraint firstItem="7JV-Sr-9IV" firstAttribute="leading" secondItem="6Xu-ho-GN6" secondAttribute="leading" id="ttU-gz-Jna"/>
+                                <constraint firstAttribute="bottom" secondItem="7JV-Sr-9IV" secondAttribute="bottom" id="yho-Ig-J29"/>
+                            </constraints>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
@@ -102,11 +133,14 @@
                         <constraint firstAttribute="centerY" secondItem="fsB-B7-KsL" secondAttribute="centerY" constant="18" id="BoC-sx-FsI"/>
                         <constraint firstAttribute="centerX" secondItem="mCo-9k-qop" secondAttribute="centerX" id="Rat-vn-f6R"/>
                         <constraint firstAttribute="bottom" secondItem="QZP-bo-D9H" secondAttribute="bottom" constant="8" id="Ud6-BR-Eml"/>
+                        <constraint firstItem="6Xu-ho-GN6" firstAttribute="top" secondItem="fsB-B7-KsL" secondAttribute="bottom" constant="15" id="b2Z-AE-HE9"/>
+                        <constraint firstAttribute="bottom" secondItem="6Xu-ho-GN6" secondAttribute="bottom" constant="15" id="gcX-Np-pjG"/>
                         <constraint firstAttribute="height" constant="164" id="lYt-ew-j3r"/>
                         <constraint firstItem="fsB-B7-KsL" firstAttribute="centerX" secondItem="fZL-hh-xAI" secondAttribute="centerX" id="og4-Zb-S3F"/>
                         <constraint firstAttribute="centerX" secondItem="fsB-B7-KsL" secondAttribute="centerX" id="rjz-Jl-Xc2"/>
                         <constraint firstAttribute="centerX" secondItem="QZP-bo-D9H" secondAttribute="centerX" id="vV4-P0-DU5"/>
                         <constraint firstAttribute="trailing" secondItem="QZP-bo-D9H" secondAttribute="trailing" constant="8" id="wkM-0x-dpe"/>
+                        <constraint firstItem="6Xu-ho-GN6" firstAttribute="centerX" secondItem="fZL-hh-xAI" secondAttribute="centerX" id="x2I-Xc-gks"/>
                     </constraints>
                     <variation key="default">
                         <mask key="constraints">
@@ -118,10 +152,10 @@
                     <rect key="frame" x="0.0" y="214" width="600" height="32"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s2o-3L-eo2">
-                            <rect key="frame" x="197" y="0.0" width="207.5" height="32"/>
+                            <rect key="frame" x="196" y="0.0" width="208" height="32"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="    " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vj7-rR-iJJ">
-                                    <rect key="frame" x="0.0" y="8.5" width="112" height="16"/>
+                                    <rect key="frame" x="0.0" y="8" width="112" height="16"/>
                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                     <color key="textColor" red="0.78738981485366821" green="0.24644413590431213" blue="0.27221894264221191" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
@@ -133,7 +167,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GRl-5S-hIq">
-                                    <rect key="frame" x="196" y="8.5" width="11.5" height="16"/>
+                                    <rect key="frame" x="196" y="8" width="12" height="16"/>
                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                     <color key="textColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
@@ -187,16 +221,16 @@
                     <rect key="frame" x="0.0" y="246" width="600" height="148"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tzd-fY-nES">
-                            <rect key="frame" x="274" y="8" width="53.5" height="20"/>
+                            <rect key="frame" x="273" y="8" width="54" height="20"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D3e-eQ-h0d">
-                                    <rect key="frame" x="0.0" y="0.0" width="9.5" height="20"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="10" height="20"/>
                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                     <color key="textColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lRC-ca-Odg">
-                                    <rect key="frame" x="17.5" y="0.0" width="36" height="20"/>
+                                    <rect key="frame" x="18" y="0.0" width="36" height="20"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
@@ -434,6 +468,9 @@ Label</string>
                 <outlet property="captionName" destination="mCo-9k-qop" id="zf1-5o-R9B"/>
                 <outlet property="captionReview" destination="UPR-yg-QdW" id="qo4-Vs-OTo"/>
                 <outlet property="captionTotal" destination="wFQ-5s-HE1" id="J1M-ZG-GhS"/>
+                <outlet property="colectionView" destination="fpL-te-LsZ" id="t8D-tC-6oM"/>
+                <outlet property="consWidthColectionView" destination="Por-Gm-LYv" id="no8-3l-03b"/>
+                <outlet property="vwCollectionView" destination="6Xu-ho-GN6" id="bai-WX-0dh"/>
             </connections>
             <point key="canvasLocation" x="288" y="369"/>
         </view>

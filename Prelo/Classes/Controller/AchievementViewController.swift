@@ -73,6 +73,13 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.Achievement)
+    }
+    
     func getAchievement() {
         // clean badges
         self.achievements = []
