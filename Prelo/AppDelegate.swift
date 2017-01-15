@@ -1311,6 +1311,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     // MARK: - Hotline
+    /*
     func setupHotline() {
         /*
          * Following three methods are to identify a user.
@@ -1378,4 +1379,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //        }
         
     }
+     */
 }

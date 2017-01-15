@@ -168,6 +168,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var isTransparent = true
     var initY = CGFloat(0)
     
+    var floatRatingView: FloatRatingView!
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -617,10 +619,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 print(json)
                 
                 self.shopName = json["username"].stringValue
-                self.shopHeader?.captionName.text = "" //self.shopName
-                UIView.animate(withDuration: 0.5) {
-                    self.title = self.shopName
-                }
+                self.shopHeader?.captionName.text = self.shopName
+//                UIView.animate(withDuration: 0.5) {
+//                    self.title = self.shopName
+//                }
                 let avatarThumbnail = json["profile"]["pict"].stringValue
                 self.shopAvatar = URL(string: avatarThumbnail)!
                 self.shopHeader?.avatar.afSetImage(withURL: self.shopAvatar!)
@@ -640,6 +642,23 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 let attrStringLove = NSMutableAttributedString(string: loveText)
                 attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length))
                 self.shopHeader?.captionLove.attributedText = attrStringLove
+                
+                // Love floatable
+                self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 0, width: 90, height: 16))
+                self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
+                self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
+                // Optional params
+//                self.floatRatingView.delegate = self
+                self.floatRatingView.contentMode = UIViewContentMode.scaleAspectFit
+                self.floatRatingView.maxRating = 5
+                self.floatRatingView.minRating = 0
+                self.floatRatingView.rating = reviewScore
+                self.floatRatingView.editable = false
+                self.floatRatingView.halfRatings = true
+                self.floatRatingView.floatRatings = true
+                self.floatRatingView.tintColor = Theme.ThemeRed
+                
+                self.shopHeader?.vwLove.addSubview(self.floatRatingView )
                 
                 // Reviewer count
                 let numReview = json["num_reviewer"].intValue
@@ -678,6 +697,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                         self.shopHeader?.captionDesc.text = desc
                         descHeight = Int(desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-16).height)
                     }
+                    // 388 -> 398
                     height = 388 + descHeight
                 } else {
                     self.shopHeader?.captionDesc.text = "Belum ada deskripsi."
@@ -695,7 +715,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     if let completeDesc = self.shopHeader?.completeDesc {
                         self.shopHeader?.captionDesc.text = completeDesc
                         let descHeight = completeDesc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-16).height
-                        let newHeight : CGFloat = descHeight + 388.0
+                        let newHeight : CGFloat = descHeight + 388
                         self.shopHeader?.height = newHeight
                         self.shopHeader?.y = -newHeight
                         self.gridView.contentInset = UIEdgeInsetsMake(newHeight, 0, 0, 0)
@@ -719,12 +739,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.shopHeader?.btnEdit.isHidden = true
                 if let id = json["_id"].string, let me = CDUser.getOne()
                 {
-                    UIView.animate(withDuration: 0.5) {
-                        if (id == me.id)
-                        {
-//                            self.shopHeader?.btnEdit.isHidden = false
-                            self.setEditButton()
-                        }
+                    if (id == me.id)
+                    {
+//                        self.shopHeader?.btnEdit.isHidden = false
+                        self.setEditButton()
                     }
                 }
                 
@@ -776,6 +794,13 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     c.images = (self.shopHeader?.avatarUrls)!
                     c.index = 0
                     self.navigationController?.present(c, animated: true, completion: nil)
+                }
+                
+                self.shopHeader?.badgesBlock = {
+                    let shopReviewVC = Bundle.main.loadNibNamed(Tags.XibNameShopReview, owner: nil, options: nil)?.first as! ShopReviewViewController
+                    shopReviewVC.sellerId = self.shopId
+                    shopReviewVC.sellerName = self.shopName
+                    self.navigationController?.pushViewController(shopReviewVC, animated: true)
                 }
                 
                 self.refresher?.endRefreshing()
@@ -1379,6 +1404,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.navigationController?.navigationBar.isTranslucent = true
                 
                 self.navigationController?.navigationBar.layoutIfNeeded()
+                
+                self.title = ""
             }
             self.isTransparent = true
         } else if !isActive && self.isTransparent {
@@ -1394,6 +1421,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
 //                self.navigationController?.navigationBar.tintColor = UIColor.white
                 
                 self.navigationController?.navigationBar.layoutIfNeeded()
+                
+                self.title = self.shopName
             }
             self.isTransparent = false
         }
@@ -1865,6 +1894,7 @@ class StoreHeader : UIView, UICollectionViewDataSource, UICollectionViewDelegate
     
     @IBOutlet var vwCollectionView: UIView!
     var completeDesc : String = ""
+    @IBOutlet var vwLove: UIView!
     
     var editBlock : ()->() = {}
     var reviewBlock : ()->() = {}

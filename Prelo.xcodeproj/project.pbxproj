@@ -640,6 +640,7 @@
 		B2BE2DF01E29EBBD006B6903 /* StorePageTabBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */; };
 		B2BE2E001E29F2AF006B6903 /* StorePageTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2BE2DFF1E29F2AF006B6903 /* StorePageTabBarViewController.swift */; };
 		B2BE2E021E29FA42006B6903 /* StorePageShopHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2BE2E011E29FA42006B6903 /* StorePageShopHeader.xib */; };
+		B2C3A3BC1E2B6B550082A15D /* FloatRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3A3BB1E2B6B550082A15D /* FloatRatingView.swift */; };
 		B2CB4C441E08C61C00F5D0F2 /* FilterLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2CB4C431E08C61C00F5D0F2 /* FilterLocationCell.xib */; };
 		B2D119871E28C9790064045B /* AchievementCelliOS9xx.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D119861E28C9790064045B /* AchievementCelliOS9xx.xib */; };
 		B2D119891E28CD2A0064045B /* AchievementCellDescriptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D119881E28CD2A0064045B /* AchievementCellDescriptionCell.xib */; };
@@ -1578,6 +1579,7 @@
 		B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StorePageTabBar.xib; sourceTree = "<group>"; };
 		B2BE2DFF1E29F2AF006B6903 /* StorePageTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorePageTabBarViewController.swift; sourceTree = "<group>"; };
 		B2BE2E011E29FA42006B6903 /* StorePageShopHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StorePageShopHeader.xib; sourceTree = "<group>"; };
+		B2C3A3BB1E2B6B550082A15D /* FloatRatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatRatingView.swift; sourceTree = "<group>"; };
 		B2CB4C431E08C61C00F5D0F2 /* FilterLocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterLocationCell.xib; sourceTree = "<group>"; };
 		B2D119861E28C9790064045B /* AchievementCelliOS9xx.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementCelliOS9xx.xib; sourceTree = "<group>"; };
 		B2D119881E28CD2A0064045B /* AchievementCellDescriptionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementCellDescriptionCell.xib; sourceTree = "<group>"; };
@@ -1827,11 +1829,12 @@
 		2141BB481B54BE4C00787F5D /* External */ = {
 			isa = PBXGroup;
 			children = (
-				B23243381E265F8400367BDE /* Banner.swift */,
 				21D387401B6B95A500D0FA90 /* FakeBridge.h */,
 				44BB8EF61BC6ABF70052B020 /* GIBadgeView.h */,
 				21D387411B6B95A500D0FA90 /* FakeBridge.m */,
 				44BB8EF71BC6ABF70052B020 /* GIBadgeView.m */,
+				B23243381E265F8400367BDE /* Banner.swift */,
+				B2C3A3BB1E2B6B550082A15D /* FloatRatingView.swift */,
 				210000BB1BCBBC5000E16611 /* KDEDateLabel.swift */,
 				FDF7281C1BF1CA9A00C0D843 /* Regex.swift */,
 				21D0A0041B60B54300D3A050 /* SwiftyJSON.swift */,
@@ -3711,6 +3714,7 @@
 				58DD29171DAF3F6200130B6F /* SocketIOClientConfiguration.swift in Sources */,
 				21679A281B901C5300F18F90 /* MPCGColorRefToNSStringValueTransformer.m in Sources */,
 				58DD29141DAF3F6200130B6F /* SocketEventHandler.swift in Sources */,
+				B2C3A3BC1E2B6B550082A15D /* FloatRatingView.swift in Sources */,
 				21679A391B901C5300F18F90 /* MPObjectSerializer.m in Sources */,
 				21679A271B901C5300F18F90 /* MPCGAffineTransformToNSDictionaryValueTransformer.m in Sources */,
 				21D387601B6B967A00D0FA90 /* CarbonSwipeRefresh.m in Sources */,
