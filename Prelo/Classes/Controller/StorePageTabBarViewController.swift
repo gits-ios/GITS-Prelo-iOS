@@ -16,7 +16,7 @@ class StorePageTabBarViewController: BaseViewController, CarbonTabSwipeDelegate 
     var tabSwipe : CarbonTabSwipeNavigation?
     var listItemVC : ListItemViewController?
     var shopReviewVC : ShopReviewViewController?
-    var shopBadgeVC : ShopReviewViewController? // TODO: - create ui vc
+    var shopBadgeVC : ShopAchievementViewController?
     
     // shop header
     var shopId : String!
@@ -70,9 +70,11 @@ class StorePageTabBarViewController: BaseViewController, CarbonTabSwipeDelegate 
         
         shopReviewVC = Bundle.main.loadNibNamed(Tags.XibNameShopReview, owner: nil, options: nil)?.first as? ShopReviewViewController
         shopReviewVC?.sellerId = self.shopId
+        shopReviewVC?.sellerName = ""
         
-        shopBadgeVC = Bundle.main.loadNibNamed(Tags.XibNameShopReview, owner: nil, options: nil)?.first as? ShopReviewViewController
+        shopBadgeVC = Bundle.main.loadNibNamed(Tags.XibNameShopAchievement, owner: nil, options: nil)?.first as? ShopAchievementViewController
         shopBadgeVC?.sellerId = self.shopId
+        shopBadgeVC?.sellerName = ""
         
         tabSwipe = CarbonTabSwipeNavigation().create(withRootViewController: self, tabNames: ["Toko" as AnyObject, "Review" as AnyObject, "Badge" as AnyObject] as [AnyObject], tintColor: UIColor.white, delegate: self)
         tabSwipe?.addShadow()

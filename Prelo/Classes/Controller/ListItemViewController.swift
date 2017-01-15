@@ -797,10 +797,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 }
                 
                 self.shopHeader?.badgesBlock = {
-                    let shopReviewVC = Bundle.main.loadNibNamed(Tags.XibNameShopReview, owner: nil, options: nil)?.first as! ShopReviewViewController
-                    shopReviewVC.sellerId = self.shopId
-                    shopReviewVC.sellerName = self.shopName
-                    self.navigationController?.pushViewController(shopReviewVC, animated: true)
+                    let shopAchievementVC = Bundle.main.loadNibNamed(Tags.XibNameShopAchievement, owner: nil, options: nil)?.first as! ShopAchievementViewController
+                    shopAchievementVC.sellerId = self.shopId
+                    shopAchievementVC.sellerName = self.shopName
+                    self.navigationController?.pushViewController(shopAchievementVC, animated: true)
                 }
                 
                 self.refresher?.endRefreshing()

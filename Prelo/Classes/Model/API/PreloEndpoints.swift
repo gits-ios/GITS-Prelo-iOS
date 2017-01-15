@@ -1433,6 +1433,7 @@ enum APIUser : URLRequestConvertible {
     case getShopPage(id : String, current : Int, limit : Int)
     case getSellerReviews(id : String)
     case testUser(username : String)
+    case getAchievement(id : String)
 
     public func asURLRequest() throws -> URLRequest {
         let basePath = "user/"
@@ -1448,6 +1449,7 @@ enum APIUser : URLRequestConvertible {
         case .getShopPage(_, _, _) : return .get
         case .getSellerReviews(_) : return .get
         case .testUser(_) : return .get
+        case .getAchievement(_) : return .get
         }
     }
     
@@ -1456,6 +1458,7 @@ enum APIUser : URLRequestConvertible {
         case .getShopPage(let id, _, _) : return id
         case .getSellerReviews(let id) : return "\(id)/review"
         case .testUser(let username) : return "\(username)/id"
+        case .getAchievement(let id) : return "\(id)/achievements"
         }
     }
     

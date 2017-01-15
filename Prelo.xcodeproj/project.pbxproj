@@ -641,6 +641,9 @@
 		B2BE2E001E29F2AF006B6903 /* StorePageTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2BE2DFF1E29F2AF006B6903 /* StorePageTabBarViewController.swift */; };
 		B2BE2E021E29FA42006B6903 /* StorePageShopHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2BE2E011E29FA42006B6903 /* StorePageShopHeader.xib */; };
 		B2C3A3BC1E2B6B550082A15D /* FloatRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3A3BB1E2B6B550082A15D /* FloatRatingView.swift */; };
+		B2C3A3C41E2B8E2D0082A15D /* ShopAchievement.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2C3A3C31E2B8E2D0082A15D /* ShopAchievement.xib */; };
+		B2C3A3C61E2B8E370082A15D /* ShopAchievementCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2C3A3C51E2B8E370082A15D /* ShopAchievementCell.xib */; };
+		B2C3A3C81E2B8E450082A15D /* ShopAchievementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3A3C71E2B8E450082A15D /* ShopAchievementViewController.swift */; };
 		B2CB4C441E08C61C00F5D0F2 /* FilterLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2CB4C431E08C61C00F5D0F2 /* FilterLocationCell.xib */; };
 		B2D119871E28C9790064045B /* AchievementCelliOS9xx.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D119861E28C9790064045B /* AchievementCelliOS9xx.xib */; };
 		B2D119891E28CD2A0064045B /* AchievementCellDescriptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D119881E28CD2A0064045B /* AchievementCellDescriptionCell.xib */; };
@@ -1580,6 +1583,9 @@
 		B2BE2DFF1E29F2AF006B6903 /* StorePageTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorePageTabBarViewController.swift; sourceTree = "<group>"; };
 		B2BE2E011E29FA42006B6903 /* StorePageShopHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StorePageShopHeader.xib; sourceTree = "<group>"; };
 		B2C3A3BB1E2B6B550082A15D /* FloatRatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatRatingView.swift; sourceTree = "<group>"; };
+		B2C3A3C31E2B8E2D0082A15D /* ShopAchievement.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopAchievement.xib; sourceTree = "<group>"; };
+		B2C3A3C51E2B8E370082A15D /* ShopAchievementCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopAchievementCell.xib; sourceTree = "<group>"; };
+		B2C3A3C71E2B8E450082A15D /* ShopAchievementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopAchievementViewController.swift; sourceTree = "<group>"; };
 		B2CB4C431E08C61C00F5D0F2 /* FilterLocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterLocationCell.xib; sourceTree = "<group>"; };
 		B2D119861E28C9790064045B /* AchievementCelliOS9xx.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementCelliOS9xx.xib; sourceTree = "<group>"; };
 		B2D119881E28CD2A0064045B /* AchievementCellDescriptionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementCellDescriptionCell.xib; sourceTree = "<group>"; };
@@ -2205,6 +2211,7 @@
 				B2D481C91E02A7AD006006CC /* ReportProductViewController.swift */,
 				B23356EF1E1F587C00207F14 /* ScannerViewController.swift */,
 				21C7ADCA1B73AB8B003C3945 /* SearchViewController.swift */,
+				B2C3A3C71E2B8E450082A15D /* ShopAchievementViewController.swift */,
 				FDB19FFF1BFD8454001F2600 /* ShopReviewViewController.swift */,
 				217A18221BB41C26008D1AD8 /* StatusBarContainerViewController.swift */,
 				217A18241BB4286E008D1AD8 /* TarikTunaiController.swift */,
@@ -2791,6 +2798,8 @@
 				B23356F11E1F588F00207F14 /* Scanner.xib */,
 				5895E8671C48CCF500752ACA /* SetupPasswordPopUp.xib */,
 				58EADB961CFBE47800410330 /* ShippingCell.xib */,
+				B2C3A3C31E2B8E2D0082A15D /* ShopAchievement.xib */,
+				B2C3A3C51E2B8E370082A15D /* ShopAchievementCell.xib */,
 				FDB1A0011BFD84A8001F2600 /* ShopReview.xib */,
 				FDB1A0031BFD8BD0001F2600 /* ShopReviewCell.xib */,
 				21104AD01BAA8F1200947E7F /* TransactionListCell.xib */,
@@ -3327,6 +3336,7 @@
 				585887521DBEDBF4006EC6D5 /* ReferralPage.xib in Resources */,
 				212007BE1B6A0BB400D9C84B /* basic_purple@2x.png in Resources */,
 				440AF66B1BE1090800074CBC /* ic_round_twitter.png in Resources */,
+				B2C3A3C61E2B8E370082A15D /* ShopAchievementCell.xib in Resources */,
 				58F0A41B1C7C634A002A488F /* cchmrk_chat.png in Resources */,
 				58A223C81C898CB600619518 /* ic_trx_paid.png in Resources */,
 				585887271DBED974006EC6D5 /* PhoneVerification.xib in Resources */,
@@ -3491,6 +3501,7 @@
 				58DBE8181D8F9B1100355608 /* ic_round.png in Resources */,
 				58A223C41C898CB600619518 /* ic_trx_canceled.png in Resources */,
 				21156EC71B8F5DBC001D7842 /* arrow_down.png in Resources */,
+				B2C3A3C41E2B8E2D0082A15D /* ShopAchievement.xib in Resources */,
 				B275BA641E10DBD200BB5C64 /* HLLocalization.bundle in Resources */,
 				21679A331B901C5300F18F90 /* MPNotification.storyboard in Resources */,
 				B22C0E331E091C2D00C3D661 /* ic_love_96px_trp.png in Resources */,
@@ -3709,6 +3720,7 @@
 				21B467E11CCE5EDB00E145ED /* BFApp.swift in Sources */,
 				21C658961B8EF25E0037F85F /* ActionSheetDatePicker.m in Sources */,
 				21679A1E1B901C5300F18F90 /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,
+				B2C3A3C81E2B8E450082A15D /* ShopAchievementViewController.swift in Sources */,
 				21679A141B901C5300F18F90 /* _MPTweakBindObserver.m in Sources */,
 				21B468031CCE5EDB00E145ED /* UIScrollView+BFKit.swift in Sources */,
 				58DD29171DAF3F6200130B6F /* SocketIOClientConfiguration.swift in Sources */,

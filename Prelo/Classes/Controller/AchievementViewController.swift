@@ -155,7 +155,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
             return 45
         } else {
             if ((indexPath as NSIndexPath).row == 0) { // always open
-                return 70
+                return 80
             } else if ((indexPath as NSIndexPath).row == 1) { // description cell
                 let textRect = achievements![(indexPath as NSIndexPath).section - 1].desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 42)
                 return CGFloat(Int(textRect.height + 4))

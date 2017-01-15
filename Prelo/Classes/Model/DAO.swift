@@ -3588,3 +3588,46 @@ class AchievementItem : NSObject {
         return nil
     }
 }
+
+class UserAchievement : NSObject {
+    
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> UserAchievement? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = UserAchievement()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var name : String {
+        if let j = json["name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var icon : URL? {
+        if let j = json["icon"].string {
+            return URL(string: j)!
+        }
+        return nil
+    }
+    
+    var desc : String {
+        if let j = json["description"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var date : String {
+        if let j = json["date"].string {
+            return j
+        }
+        return ""
+    }
+}

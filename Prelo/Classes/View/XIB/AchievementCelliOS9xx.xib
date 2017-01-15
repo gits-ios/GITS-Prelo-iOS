@@ -28,14 +28,14 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eT5-l1-8Ms">
-                        <rect key="frame" x="13" y="11" width="54" height="54"/>
+                        <rect key="frame" x="13" y="16" width="54" height="54"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="54" id="MQV-lO-DVO"/>
                             <constraint firstAttribute="height" constant="54" id="nCN-6M-LX6"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eBL-9x-Wbe">
-                        <rect key="frame" x="341" y="28" width="21" height="21"/>
+                        <rect key="frame" x="341" y="33" width="21" height="21"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="21" id="Eo6-sg-X14"/>
                             <constraint firstAttribute="height" constant="21" id="l8R-dj-J1a"/>
@@ -45,7 +45,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Irf-oq-kxh" userLabel="ProgressBar">
-                        <rect key="frame" x="75" y="11" width="258" height="56"/>
+                        <rect key="frame" x="75" y="16" width="258" height="56"/>
                         <subviews>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OVe-lk-UQc">
                                 <rect key="frame" x="0.0" y="47" width="219" height="3"/>
@@ -76,7 +76,7 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oao-1m-LFJ">
-                        <rect key="frame" x="75" y="11" width="258" height="56"/>
+                        <rect key="frame" x="75" y="16" width="258" height="56"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="56" id="jo1-NU-Sl7"/>
                         </constraints>
@@ -95,11 +95,11 @@
                     <constraint firstItem="eBL-9x-Wbe" firstAttribute="leading" secondItem="Oao-1m-LFJ" secondAttribute="trailing" constant="8" id="XYv-sz-Wg0"/>
                     <constraint firstItem="eBL-9x-Wbe" firstAttribute="leading" secondItem="Irf-oq-kxh" secondAttribute="trailing" constant="8" id="Xg0-3v-bvD"/>
                     <constraint firstItem="qUs-M2-cm3" firstAttribute="leading" secondItem="Tu9-jI-n19" secondAttribute="leading" constant="5" id="a8P-Bm-3ah"/>
-                    <constraint firstItem="eBL-9x-Wbe" firstAttribute="top" secondItem="Tu9-jI-n19" secondAttribute="topMargin" constant="19.5" id="lxB-uO-dbg"/>
-                    <constraint firstItem="Oao-1m-LFJ" firstAttribute="top" secondItem="Tu9-jI-n19" secondAttribute="topMargin" constant="2.5" id="s69-uO-dPO"/>
-                    <constraint firstItem="eT5-l1-8Ms" firstAttribute="top" secondItem="Tu9-jI-n19" secondAttribute="topMargin" constant="2.5" id="s7V-rE-Eg3"/>
+                    <constraint firstItem="eBL-9x-Wbe" firstAttribute="top" secondItem="Tu9-jI-n19" secondAttribute="topMargin" constant="25" id="lxB-uO-dbg"/>
+                    <constraint firstItem="Oao-1m-LFJ" firstAttribute="top" secondItem="Tu9-jI-n19" secondAttribute="topMargin" constant="8" id="s69-uO-dPO"/>
+                    <constraint firstItem="eT5-l1-8Ms" firstAttribute="top" secondItem="Tu9-jI-n19" secondAttribute="topMargin" constant="8" id="s7V-rE-Eg3"/>
                     <constraint firstItem="qUs-M2-cm3" firstAttribute="top" secondItem="Tu9-jI-n19" secondAttribute="top" constant="5" id="vYR-ot-zGB"/>
-                    <constraint firstItem="Irf-oq-kxh" firstAttribute="top" secondItem="Tu9-jI-n19" secondAttribute="topMargin" constant="2.5" id="wOC-vj-mve"/>
+                    <constraint firstItem="Irf-oq-kxh" firstAttribute="top" secondItem="Tu9-jI-n19" secondAttribute="topMargin" constant="8" id="wOC-vj-mve"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
