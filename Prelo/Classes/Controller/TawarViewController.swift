@@ -620,7 +620,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         // Create a URL in the /tmp directory
         var imageURL = URL(string: "http://lorempixel.com/output/animals-q-g-640-480-4.jpg")
         if (image != nil) {
-            if let url = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tempImg.png") {
+            if let url = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tempImg-" + self.inboxMessages.count.string + ".png") {
                 imageURL = url
             }
             if (imageURL != nil) {
@@ -711,7 +711,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             // Create a URL in the /tmp directory
             var imageURL = URL(string: "http://lorempixel.com/output/animals-q-g-640-480-4.jpg")
             if (withImg != nil) {
-                if let url = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tempImg.png") {
+                if let url = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tempImg-" + self.inboxMessages.count.string + ".png") {
                     imageURL = url
                 }
                 if (imageURL != nil) {
