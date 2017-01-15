@@ -14,7 +14,7 @@ import MessageUI
 
 // MARK: - Class
 
-class TransactionDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate {
+class TransactionDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, FloatRatingViewDelegate {
     
     // Table and loading
     @IBOutlet weak var tableView: UITableView!
@@ -69,6 +69,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     @IBOutlet weak var txtvwReview: UITextView!
     @IBOutlet weak var btnRvwBatal: UIButton!
     @IBOutlet weak var btnRvwKirim: UIButton!
+    // disable
     var btnsRvwLove: [UIButton] = []
     @IBOutlet var btnLove1: UIButton!
     @IBOutlet var btnLove2: UIButton!
@@ -81,6 +82,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     @IBOutlet var lblLove3: UILabel!
     @IBOutlet var lblLove4: UILabel!
     @IBOutlet var lblLove5: UILabel!
+    // new
+    @IBOutlet var vwLoveWithListener: UIView!
     var loveValue : Int = 5
     var txtvwReviewGrowHandler : GrowingTextViewHandler!
     @IBOutlet weak var consHeightTxtvwReview: NSLayoutConstraint!
@@ -101,6 +104,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     var isShowBankBRI : Bool = false
     var veritransRedirectUrl : String = ""
     var isRefundable : Bool = false
+    
+    var floatRatingView: FloatRatingView!
     
     // MARK: - Init
     
@@ -232,16 +237,33 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     func setupPopUpContent() {
         // Review seller pop up
         // Set btnLoves and lblLoves manually
-        btnsRvwLove.append(self.btnLove1)
-        btnsRvwLove.append(self.btnLove2)
-        btnsRvwLove.append(self.btnLove3)
-        btnsRvwLove.append(self.btnLove4)
-        btnsRvwLove.append(self.btnLove5)
-        lblsRvwLove.append(self.lblLove1)
-        lblsRvwLove.append(self.lblLove2)
-        lblsRvwLove.append(self.lblLove3)
-        lblsRvwLove.append(self.lblLove4)
-        lblsRvwLove.append(self.lblLove5)
+//        btnsRvwLove.append(self.btnLove1)
+//        btnsRvwLove.append(self.btnLove2)
+//        btnsRvwLove.append(self.btnLove3)
+//        btnsRvwLove.append(self.btnLove4)
+//        btnsRvwLove.append(self.btnLove5)
+//        lblsRvwLove.append(self.lblLove1)
+//        lblsRvwLove.append(self.lblLove2)
+//        lblsRvwLove.append(self.lblLove3)
+//        lblsRvwLove.append(self.lblLove4)
+//        lblsRvwLove.append(self.lblLove5)
+        
+        // Love floatable
+        self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 0, width: 217, height: 37))
+        self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
+        self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
+        // Optional params
+        self.floatRatingView.delegate = self
+        self.floatRatingView.contentMode = UIViewContentMode.scaleAspectFit
+        self.floatRatingView.maxRating = 5
+        self.floatRatingView.minRating = 1
+        self.floatRatingView.rating = Float(loveValue)
+        self.floatRatingView.editable = true
+        self.floatRatingView.halfRatings = false
+        self.floatRatingView.floatRatings = true
+        self.floatRatingView.tintColor = Theme.ThemeRed
+        
+        self.vwLoveWithListener.addSubview(self.floatRatingView )
         
         if (trxProductDetail != nil) {
             self.lblRvwSellerName.text = trxProductDetail!.sellerUsername
@@ -2343,6 +2365,17 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         } else {
             return TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer
         }
+    }
+    
+    // MARK: - FloatRatingViewDelegate
+    
+    func floatRatingView(_ ratingView: FloatRatingView, isUpdating rating:Float) {
+        self.loveValue = Int(self.floatRatingView.rating)
+    }
+    
+    func floatRatingView(_ ratingView: FloatRatingView, didUpdate rating: Float) {
+        self.loveValue = Int(self.floatRatingView.rating)
+        Constant.showDialog("Rate / Love", message: "Original \(self.floatRatingView.rating.description) --> \(self.loveValue.string)")
     }
 }
 
@@ -4545,6 +4578,8 @@ class TransactionDetailReviewCell : UITableViewCell {
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var lblLove: UILabel!
     @IBOutlet weak var lblContent: UILabel!
+    @IBOutlet var vwLove: UIView!
+    var floatRatingView: FloatRatingView!
     
     static func heightFor(_ reviewComment : String) -> CGFloat {
         let imgReviewerWidth : CGFloat = 64.0
@@ -4567,19 +4602,36 @@ class TransactionDetailReviewCell : UITableViewCell {
         lblName.text = trxProductDetail.reviewerName
         lblContent.text = trxProductDetail.reviewComment
         
-        // Love
-        var loveText = ""
-        let star = trxProductDetail.reviewStar
-        for i in 0 ..< 5 {
-            if (i < star) {
-                loveText += ""
-            } else {
-                loveText += ""
-            }
-        }
-        let attrStringLove = NSMutableAttributedString(string: loveText)
-        attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length))
-        lblLove.attributedText = attrStringLove
+//        // Love
+//        var loveText = ""
+//        let star = trxProductDetail.reviewStar
+//        for i in 0 ..< 5 {
+//            if (i < star) {
+//                loveText += ""
+//            } else {
+//                loveText += ""
+//            }
+//        }
+//        let attrStringLove = NSMutableAttributedString(string: loveText)
+//        attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length))
+//        lblLove.attributedText = attrStringLove
+        
+        // Love floatable
+        self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 2.5, width: 90, height: 16))
+        self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
+        self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
+        // Optional params
+        //                self.floatRatingView.delegate = self
+        self.floatRatingView.contentMode = UIViewContentMode.scaleAspectFit
+        self.floatRatingView.maxRating = 5
+        self.floatRatingView.minRating = 0
+        self.floatRatingView.rating = Float(trxProductDetail.reviewStar)
+        self.floatRatingView.editable = false
+        self.floatRatingView.halfRatings = true
+        self.floatRatingView.floatRatings = true
+        self.floatRatingView.tintColor = Theme.ThemeRed
+        
+        self.vwLove.addSubview(self.floatRatingView )
     }
 }
 

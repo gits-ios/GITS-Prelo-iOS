@@ -129,6 +129,9 @@ class ShopReviewCell : UITableViewCell {
     @IBOutlet var lblStar: UILabel!
     @IBOutlet var lblComment: UILabel!
     
+    @IBOutlet var vwLove: UIView!
+    var floatRatingView: FloatRatingView!
+    
     override func prepareForReuse() {
         imgBuyer.image = nil
         lblStar.attributedText = nil
@@ -142,17 +145,34 @@ class ShopReviewCell : UITableViewCell {
         lblBuyerName.text = userReview.buyerUsername
         lblComment.text = userReview.comment
         
-        // Love
-        var loveText = ""
-        for i in 0 ..< 5 {
-            if (i < userReview.star) {
-                loveText += ""
-            } else {
-                loveText += ""
-            }
-        }
-        let attrStringLove = NSMutableAttributedString(string: loveText)
-        attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length))
-        lblStar.attributedText = attrStringLove
+//        // Love
+//        var loveText = ""
+//        for i in 0 ..< 5 {
+//            if (i < userReview.star) {
+//                loveText += ""
+//            } else {
+//                loveText += ""
+//            }
+//        }
+//        let attrStringLove = NSMutableAttributedString(string: loveText)
+//        attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length))
+//        lblStar.attributedText = attrStringLove
+        
+        // Love floatable
+        self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 2.5, width: 90, height: 16))
+        self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
+        self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
+        // Optional params
+        //                self.floatRatingView.delegate = self
+        self.floatRatingView.contentMode = UIViewContentMode.scaleAspectFit
+        self.floatRatingView.maxRating = 5
+        self.floatRatingView.minRating = 0
+        self.floatRatingView.rating = Float(userReview.star)
+        self.floatRatingView.editable = false
+        self.floatRatingView.halfRatings = true
+        self.floatRatingView.floatRatings = true
+        self.floatRatingView.tintColor = Theme.ThemeRed
+        
+        self.vwLove.addSubview(self.floatRatingView )
     }
 }
