@@ -50,6 +50,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         self.title = "Review " + self.sellerName
         
         // Get reviews
+        self.userReviews = []
         self.getUserReviews()
         
         // Mixpanel
@@ -135,6 +136,9 @@ class ShopReviewCell : UITableViewCell {
     override func prepareForReuse() {
         imgBuyer.image = nil
         lblStar.attributedText = nil
+        if self.floatRatingView != nil {
+            self.floatRatingView.rating = 0
+        }
     }
     
     func adapt(_ userReview : UserReview) {
@@ -158,6 +162,8 @@ class ShopReviewCell : UITableViewCell {
 //        attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length))
 //        lblStar.attributedText = attrStringLove
         
+        let star = Float(userReview.star)
+        
         // Love floatable
         self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 2.5, width: 90, height: 16))
         self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
@@ -167,7 +173,7 @@ class ShopReviewCell : UITableViewCell {
         self.floatRatingView.contentMode = UIViewContentMode.scaleAspectFit
         self.floatRatingView.maxRating = 5
         self.floatRatingView.minRating = 0
-        self.floatRatingView.rating = Float(userReview.star)
+        self.floatRatingView.rating = star
         self.floatRatingView.editable = false
         self.floatRatingView.halfRatings = true
         self.floatRatingView.floatRatings = true

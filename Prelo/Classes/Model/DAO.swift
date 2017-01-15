@@ -1301,7 +1301,7 @@ class ProductDiscussion : NSObject
         }
     }
     
-    var sender_id : String
+    var senderId : String
     {
         if let n = json["sender_id"].string
         {

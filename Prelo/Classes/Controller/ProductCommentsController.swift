@@ -218,6 +218,8 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         let i = comment.isSeller(sellerId) ? "cell2" : "cell1"
         let c = tableView.dequeueReusableCell(withIdentifier: i) as! ProductCellDiscussion
         
+        c.setupCover()
+        
         if (comment.posterImageURL != nil) {
             c.ivCover?.afSetImage(withURL: comment.posterImageURL!)
         }
@@ -232,10 +234,11 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         c.captionName?.text = comment.name
         c.captionDate?.text = comment.timestamp
         
-        let userid = CDUser.getOne()?.id
-        let senderid = comment.sender_id
+        let userId = CDUser.getOne()?.id
+        let senderId = comment.senderId
+        c.senderId = senderId
         
-        if userid != senderid && comment.isDeleted == false {
+        if userId != senderId && comment.isDeleted == false {
         c.showReportAlert = { sender, commentId in
             let alert = UIAlertController(title: nil, message: "Laporkan Komentar", preferredStyle: .actionSheet)
             alert.popoverPresentationController?.sourceView = sender

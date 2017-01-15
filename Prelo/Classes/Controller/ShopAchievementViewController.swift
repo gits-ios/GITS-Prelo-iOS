@@ -49,7 +49,8 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
         // Set title
         self.title = "Achievement " + self.sellerName
         
-        // Get reviews
+        // Get achievements
+        self.userAchievements = []
         self.getUserAchievements()
         
         // Google Analytics

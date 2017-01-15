@@ -689,29 +689,29 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             let cell : ProductCellDiscussion = (tableView.dequeueReusableCell(withIdentifier: "cell_disc_1") as? ProductCellDiscussion)!
             cell.adapt(detail?.discussions?.objectAtCircleIndex((indexPath as NSIndexPath).row-3))
             
-            let userid = CDUser.getOne()?.id
-            let senderid = cell.senderId
+            let userId = CDUser.getOne()?.id
+            let senderId = cell.senderId
             
-            if userid != senderid && cell.isDeleted == false {
+            if userId != senderId && cell.isDeleted == false {
             
-            cell.showReportAlert = { sender, commentId in
-                let alert = UIAlertController(title: nil, message: "Laporkan Komentar", preferredStyle: .actionSheet)
-                alert.popoverPresentationController?.sourceView = sender
-                alert.popoverPresentationController?.sourceRect = sender.bounds
-                alert.addAction(UIAlertAction(title: "Mengganggu / spam", style: .default, handler: { act in
-                    self.reportComment(commentId: commentId, reportType: 0)
-                    alert.dismiss(animated: true, completion: nil)
-                }))
-                alert.addAction(UIAlertAction(title: "Tidak layak", style: .default, handler: { act in
-                    self.reportComment(commentId: commentId, reportType: 1)
-                    alert.dismiss(animated: true, completion: nil)
-                }))
-                alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in
-                    alert.dismiss(animated: true, completion: nil)
-                }))
-                self.present(alert, animated: true, completion: nil)
-
-            }
+                cell.showReportAlert = { sender, commentId in
+                    let alert = UIAlertController(title: nil, message: "Laporkan Komentar", preferredStyle: .actionSheet)
+                    alert.popoverPresentationController?.sourceView = sender
+                    alert.popoverPresentationController?.sourceRect = sender.bounds
+                    alert.addAction(UIAlertAction(title: "Mengganggu / spam", style: .default, handler: { act in
+                        self.reportComment(commentId: commentId, reportType: 0)
+                        alert.dismiss(animated: true, completion: nil)
+                    }))
+                    alert.addAction(UIAlertAction(title: "Tidak layak", style: .default, handler: { act in
+                        self.reportComment(commentId: commentId, reportType: 1)
+                        alert.dismiss(animated: true, completion: nil)
+                    }))
+                    alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in
+                        alert.dismiss(animated: true, completion: nil)
+                    }))
+                    self.present(alert, animated: true, completion: nil)
+                    
+                }
                 
             } else{
                 cell.doHide()
@@ -1849,11 +1849,19 @@ class ProductCellDiscussion : UITableViewCell
         return h
     }
     
+    func setupCover() {
+        ivCover?.layoutIfNeeded()
+        ivCover?.layer.cornerRadius = (ivCover?.frame.size.width)!/2
+        ivCover?.layer.masksToBounds = true
+    }
+    
     func adapt(_ obj : ProductDiscussion?)
     {
         if (obj == nil) {
             return
         }
+        setupCover()
+        
         var json = (obj?.json)!
         commentId = json["_id"].stringValue
         senderId = json["sender_id"].stringValue
