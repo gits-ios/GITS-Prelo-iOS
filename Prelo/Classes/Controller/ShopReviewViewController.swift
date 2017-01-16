@@ -29,6 +29,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     
     var delegate : NewShopHeaderDelegate?
     var isTransparent = false
+    var averageRate : Float = 0.0
     
     // MARK: - Init
     
@@ -41,6 +42,9 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         // Register custom cell
         let myLovelistCellNib = UINib(nibName: "ShopReviewCell", bundle: nil)
         tableView.register(myLovelistCellNib, forCellReuseIdentifier: "ShopReviewCell")
+        
+        let myLovelistAverageCellNib = UINib(nibName: "ShopReviewAverageCell", bundle: nil)
+        tableView.register(myLovelistAverageCellNib, forCellReuseIdentifier: "ShopReviewAverageCell")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -150,17 +154,47 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     // MARK: - UITableView Functions
+    func numberOfSections(in tableView: UITableView) -> Int {
+        if (currentMode == .inject) {
+            return 2
+        } else {
+            return 1
+        }
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.userReviews.count
+        if (currentMode == .inject) {
+            if (section == 0) {
+                return 1
+            } else {
+                return self.userReviews.count
+            }
+        } else {
+            return self.userReviews.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell : ShopReviewCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
-        cell.selectionStyle = .none
-        let u = userReviews[(indexPath as NSIndexPath).item]
-        cell.adapt(u)
-        return cell
+        if (currentMode == .inject) {
+            if ((indexPath as NSIndexPath).section == 0) {
+                let cell : ShopReviewAverageCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewAverageCell") as! ShopReviewAverageCell
+                cell.selectionStyle = .none
+                cell.adapt(self.averageRate)
+                return cell
+            } else {
+                let cell : ShopReviewCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
+                cell.selectionStyle = .none
+                let u = userReviews[(indexPath as NSIndexPath).row]
+                cell.adapt(u)
+                return cell
+            }
+        } else {
+            let cell : ShopReviewCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
+            cell.selectionStyle = .none
+            let u = userReviews[(indexPath as NSIndexPath).row]
+            cell.adapt(u)
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -168,9 +202,19 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath:  IndexPath) -> CGFloat {
-        let u = userReviews[(indexPath as NSIndexPath).item]
-        let commentHeight = u.comment.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: 240).height
-        return 65 + commentHeight
+        if (currentMode == .inject) {
+            if ((indexPath as NSIndexPath).section == 0) {
+                return 160
+            } else {
+                let u = userReviews[(indexPath as NSIndexPath).item]
+                let commentHeight = u.comment.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: 240).height
+                return 65 + commentHeight
+            }
+        } else {
+            let u = userReviews[(indexPath as NSIndexPath).item]
+            let commentHeight = u.comment.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: 240).height
+            return 65 + commentHeight
+        }
     }
     
     // MARK: - UIScrollView Functions
@@ -270,6 +314,36 @@ class ShopReviewCell : UITableViewCell {
         
         // Love floatable
         self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 2.5, width: 90, height: 16))
+        self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
+        self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
+        // Optional params
+        //                self.floatRatingView.delegate = self
+        self.floatRatingView.contentMode = UIViewContentMode.scaleAspectFit
+        self.floatRatingView.maxRating = 5
+        self.floatRatingView.minRating = 0
+        self.floatRatingView.rating = star
+        self.floatRatingView.editable = false
+        self.floatRatingView.halfRatings = true
+        self.floatRatingView.floatRatings = true
+        self.floatRatingView.tintColor = Theme.ThemeRed
+        
+        self.vwLove.addSubview(self.floatRatingView )
+    }
+}
+
+class ShopReviewAverageCell : UITableViewCell {
+    @IBOutlet var vwLove: UIView!
+    @IBOutlet var circularBtn: UIButton!
+    
+    var floatRatingView: FloatRatingView!
+    
+    func adapt(_ star : Float) {
+        circularBtn.createBordersWithColor(UIColor.black, radius: circularBtn.width/2, width: 2)
+
+        circularBtn.setTitle(NSString(format: "%.1f", star) as String, for: .normal )
+        
+        // Love floatable
+        self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 0, width: 175, height: 30))
         self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
         self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
         // Optional params

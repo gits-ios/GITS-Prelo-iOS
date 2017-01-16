@@ -227,6 +227,8 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         self.shopReviewVC?.userReviews = []
         self.shopReviewVC?.setUserReviews(json["reviews"])
         self.shopReviewVC?.sellerName = self.shopName.text!
+        self.shopReviewVC?.averageRate = json["average_star"].float!
+        
         self.shopBadgeVC?.userAchievements = []
         self.shopBadgeVC?.setUserAchievements(json["achievements"])
         self.shopBadgeVC?.sellerName = self.shopName.text!
