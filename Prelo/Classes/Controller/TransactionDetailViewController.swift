@@ -260,7 +260,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         self.floatRatingView.rating = Float(loveValue)
         self.floatRatingView.editable = true
         self.floatRatingView.halfRatings = false
-        self.floatRatingView.floatRatings = true
+        self.floatRatingView.floatRatings = false
         self.floatRatingView.tintColor = Theme.ThemeRed
         
         self.vwLoveWithListener.addSubview(self.floatRatingView )
@@ -2370,12 +2370,12 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     // MARK: - FloatRatingViewDelegate
     
     func floatRatingView(_ ratingView: FloatRatingView, isUpdating rating:Float) {
-        self.loveValue = Int(self.floatRatingView.rating)
+//        self.loveValue = Int(self.floatRatingView.rating)
     }
     
     func floatRatingView(_ ratingView: FloatRatingView, didUpdate rating: Float) {
         self.loveValue = Int(self.floatRatingView.rating)
-        Constant.showDialog("Rate / Love", message: "Original \(self.floatRatingView.rating.description) --> \(self.loveValue.string)")
+//        Constant.showDialog("Rate / Love", message: "Original \(self.floatRatingView.rating.description) --> \(self.loveValue.string)")
     }
 }
 
