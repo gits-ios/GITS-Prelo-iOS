@@ -128,7 +128,7 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
         
 //        let height = self.tableView.height //CGFloat(self.userAchievements.count * 85)
 //        let mainHeight = self.view.height - 64
-        var bottom = CGFloat(5)
+        var bottom = CGFloat(25)
 //        
 //        if (height < mainHeight) {
 //            bottom += mainHeight - height

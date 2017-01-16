@@ -142,7 +142,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         
 //        let height = self.tableView.height //CGFloat(self.userReviews.count * 65)
 //        let mainHeight = self.view.height - 64
-        var bottom = CGFloat(5)
+        var bottom = CGFloat(25)
 //
 //        if (height < mainHeight) {
 //            bottom += mainHeight - height
@@ -237,7 +237,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     func tableView(_ tableView: UITableView, heightForRowAt indexPath:  IndexPath) -> CGFloat {
         if (currentMode == .inject) {
             if ((indexPath as NSIndexPath).section == 0) {
-                return 160
+                return 150
             } else if ((indexPath as NSIndexPath).section == 2) {
                 return 40
                 

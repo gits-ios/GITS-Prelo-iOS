@@ -1568,6 +1568,10 @@ class ProductCellSeller : UITableViewCell
     @IBOutlet var captionLastSeen: UILabel!
     @IBOutlet var ivSellerAvatar : UIImageView?
     
+    // love floatable
+    @IBOutlet var vwLove: UIView!
+    var floatRatingView: FloatRatingView!
+    
     static func heightFor(_ obj : JSON?)->CGFloat
     {
         return 86
@@ -1582,18 +1586,36 @@ class ProductCellSeller : UITableViewCell
         
         captionSellerName?.text = product["seller"]["username"].stringValue
         let average_star = product["seller"]["average_star"].floatValue
-        var stars = ""
-        for x in 0...4
-        {
-            if (Float(x) <= average_star - 0.5)
-            {
-                stars = stars+""
-            } else
-            {
-                stars = stars+""
-            }
-        }
-        captionSellerRating?.text = stars
+//        var stars = ""
+//        for x in 0...4
+//        {
+//            if (Float(x) <= average_star - 0.5)
+//            {
+//                stars = stars+""
+//            } else
+//            {
+//                stars = stars+""
+//            }
+//        }
+//        captionSellerRating?.text = stars
+        
+        // Love floatable
+        self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 0, width: 90, height: 16))
+        self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
+        self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
+        // Optional params
+        //                self.floatRatingView.delegate = self
+        self.floatRatingView.contentMode = UIViewContentMode.scaleAspectFit
+        self.floatRatingView.maxRating = 5
+        self.floatRatingView.minRating = 0
+        self.floatRatingView.rating = average_star
+        self.floatRatingView.editable = false
+        self.floatRatingView.halfRatings = true
+        self.floatRatingView.floatRatings = true
+        self.floatRatingView.tintColor = Theme.ThemeRed
+        
+        self.vwLove.addSubview(self.floatRatingView )
+        
         let lastSeenSeller = obj!.lastSeenSeller
         if (lastSeenSeller != "") {
             let formatter = DateFormatter()
