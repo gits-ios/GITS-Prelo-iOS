@@ -286,10 +286,13 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         // for handle navigation
 //        self.isTransparent = !self.isTransparent
-        if ((currentMode == .shop || currentMode == .newShop) && self.isTransparent) {
+        if (currentMode == .shop && self.isTransparent) {
             self.isTransparent = !self.isTransparent
             self.transparentNavigationBar(true)
             self.isFirst = false
+        } else if (currentMode == .newShop && (self.delegate?.getTransparentcy())!) {
+            self.delegate?.setTransparentcy(!((self.delegate?.getTransparentcy())!))
+            self.transparentNavigationBar(true)
         }
     }
     
@@ -1478,43 +1481,62 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     // MARK: - navbar styler
     func transparentNavigationBar(_ isActive: Bool) {
-        if isActive && !self.isTransparent {
-            UIView.animate(withDuration: 0.5) {
-                // Transparent navigation bar
-                self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-                self.navigationController?.navigationBar.shadowImage = UIImage()
-                self.navigationController?.navigationBar.isTranslucent = true
-                
-                self.navigationController?.navigationBar.layoutIfNeeded()
-                
-                if (self.currentMode == .shop) {
+        if (currentMode == .shop) {
+            if isActive && !self.isTransparent {
+                UIView.animate(withDuration: 0.5) {
+                    // Transparent navigation bar
+                    self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+                    self.navigationController?.navigationBar.shadowImage = UIImage()
+                    self.navigationController?.navigationBar.isTranslucent = true
+                    
+                    self.navigationController?.navigationBar.layoutIfNeeded()
+                    
                     self.title = ""
-                } else {
+                }
+                self.isTransparent = true
+            } else if !isActive && self.isTransparent {
+                UIView.animate(withDuration: 0.5) {
+                    self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
+                    self.navigationController?.navigationBar.shadowImage = nil
+                    self.navigationController?.navigationBar.isTranslucent = true
+                    
+                    // default prelo
+                    UINavigationBar.appearance().barTintColor = Theme.PrimaryColor
+                    
+                    self.navigationController?.navigationBar.layoutIfNeeded()
+                    
+                    self.title = self.shopName
+                }
+                self.isTransparent = false
+            }
+        } else if (currentMode == .newShop) {
+            if isActive && !(self.delegate?.getTransparentcy())! {
+                UIView.animate(withDuration: 0.5) {
+                    // Transparent navigation bar
+                    self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+                    self.navigationController?.navigationBar.shadowImage = UIImage()
+                    self.navigationController?.navigationBar.isTranslucent = true
+                    
+                    self.navigationController?.navigationBar.layoutIfNeeded()
+                    
                     self.delegate?.setShopTitle("")
                 }
-            }
-            self.isTransparent = true
-        } else if !isActive && self.isTransparent {
-            UIView.animate(withDuration: 0.5) {
-                self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
-                self.navigationController?.navigationBar.shadowImage = nil
-//                self.navigationController?.navigationBar.tintColor = nil
-                self.navigationController?.navigationBar.isTranslucent = true
-                
-                // default prelo
-//                UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white]
-                UINavigationBar.appearance().barTintColor = Theme.PrimaryColor
-//                self.navigationController?.navigationBar.tintColor = UIColor.white
-                
-                self.navigationController?.navigationBar.layoutIfNeeded()
-                
-                if (self.currentMode == .shop) {
-                    self.title = self.shopName
-                } else {
+                self.delegate?.setTransparentcy(true)
+            } else if !isActive && (self.delegate?.getTransparentcy())!  {
+                UIView.animate(withDuration: 0.5) {
+                    self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
+                    self.navigationController?.navigationBar.shadowImage = nil
+                    self.navigationController?.navigationBar.isTranslucent = true
+                    
+                    // default prelo
+                    UINavigationBar.appearance().barTintColor = Theme.PrimaryColor
+                    
+                    self.navigationController?.navigationBar.layoutIfNeeded()
+                    
                     self.delegate?.setShopTitle(self.shopName)
                 }
+                self.delegate?.setTransparentcy(false)
             }
-            self.isTransparent = false
         }
     }
     

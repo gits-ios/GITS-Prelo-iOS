@@ -17,10 +17,12 @@ protocol NewShopHeaderDelegate {
     func increaseHeader() // --> max
     func setupBanner(json: JSON)
     func setShopTitle(_ title: String)
+    func setTransparentcy(_ isTransparent: Bool)
+    func getTransparentcy() -> Bool
 }
 
 // MARK: - Class
-class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, UICollectionViewDataSource, UICollectionViewDelegate /*CarbonTabSwipeDelegate*/ {
+class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
     
     // MARK: - Properties
 //    var tabSwipe : CarbonTabSwipeNavigation?
@@ -49,12 +51,38 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     @IBOutlet var vwCollection: UIView! // hide
     @IBOutlet var vwGeolocation: UIView! // hide
     
+    var isTransparent : Bool = true
+    var isFirst : Bool = true
+    var curTop : CGFloat = 0
+    
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // MARK: - Register UIVC Component(s)
+        if let mainStoryboard = self.storyboard {
+            listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as? ListItemViewController
+        } else {
+            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as? ListItemViewController
+        }
         
-//        self.navigationController?.navigationBar.height = 194
+        listItemVC?.currentMode = .newShop
+        listItemVC?.delegate = self
+        
+        shopReviewVC = Bundle.main.loadNibNamed(Tags.XibNameShopReview, owner: nil, options: nil)?.first as? ShopReviewViewController
+        shopReviewVC?.currentMode = .inject
+        shopReviewVC?.delegate = self
+        
+        shopBadgeVC = Bundle.main.loadNibNamed(Tags.XibNameShopAchievement, owner: nil, options: nil)?.first as? ShopAchievementViewController
+        shopBadgeVC?.currentMode = .inject
+        shopBadgeVC?.delegate = self
+        
+        listVC = []
+        
+        listVC.append(listItemVC!)
+        listVC.append(shopReviewVC!)
+        listVC.append(shopBadgeVC!)
         
         // Set title
         self.title = "" // clear title
@@ -77,45 +105,22 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        // MARK: - Register UIVC Component(s)
-        if let mainStoryboard = self.storyboard {
-            listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as? ListItemViewController
-        } else {
-            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as? ListItemViewController
+        if isFirst {
+            listItemVC?.shopId = self.shopId
+            shopReviewVC?.sellerId = self.shopId
+            shopReviewVC?.sellerName = ""
+            shopBadgeVC?.sellerId = self.shopId
+            shopBadgeVC?.sellerName = ""
+            
+            
+            setSubVC(0)
+            isFirst = false
         }
         
-        listItemVC?.currentMode = .newShop
-        listItemVC?.shopId = self.shopId
-        listItemVC?.delegate = self
-        
-        shopReviewVC = Bundle.main.loadNibNamed(Tags.XibNameShopReview, owner: nil, options: nil)?.first as? ShopReviewViewController
-        shopReviewVC?.sellerId = self.shopId
-        shopReviewVC?.sellerName = ""
-        shopReviewVC?.currentMode = .inject
-        shopReviewVC?.delegate = self
-        
-        shopBadgeVC = Bundle.main.loadNibNamed(Tags.XibNameShopAchievement, owner: nil, options: nil)?.first as? ShopAchievementViewController
-        shopBadgeVC?.sellerId = self.shopId
-        shopBadgeVC?.sellerName = ""
-        shopBadgeVC?.currentMode = .inject
-        shopBadgeVC?.delegate = self
-        
-        listVC = []
-        
-        listVC.append(listItemVC!)
-        listVC.append(shopReviewVC!)
-        listVC.append(shopBadgeVC!)
-        
-//        tabSwipe = CarbonTabSwipeNavigation().create(withRootViewController: self, tabNames: ["Toko" as AnyObject, "Review" as AnyObject, "Badge" as AnyObject] as [AnyObject], tintColor: UIColor.white, delegate: self)
-//        tabSwipe?.addShadow()
-//        tabSwipe?.setNormalColor(Theme.TabNormalColor)
-//        tabSwipe?.colorIndicator = Theme.PrimaryColorDark
-//        tabSwipe?.setSelectedColor(Theme.TabSelectedColor)
-        
-        setSubVC(0)
-        
-        transparentNavigationBar(true)
+        self.consTopVw.constant = self.curTop
+        UIView.animate(withDuration: 0.5) {
+            self.navigationController?.navigationBar.isTranslucent = true
+        }
     }
     
     func setSubVC(_ index: Int) {
@@ -125,22 +130,6 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         self.vwChild.addSubview((vc.view)!)
         vc.didMove(toParentViewController: self)
     }
-
-    
-//    func tabSwipeNavigation(_ tabSwipe: CarbonTabSwipeNavigation!, viewControllerAt index: UInt) -> UIViewController! {
-//        if (index == 0) { // Shop
-//            return listItemVC
-//        } else if (index == 1) { // Review
-//            return shopReviewVC
-//        } else if (index == 2) { // Badge
-//            return shopBadgeVC
-//        }
-//        
-//        // Default
-//        let v = UIViewController()
-//        v.view.backgroundColor = UIColor.white
-//        return v
-//    }
     
     
     // MARK: - Edit Profile button (right top)
@@ -178,6 +167,8 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     func increaseHeader() {
         if (self.consTopVw.constant < 0) {
             self.consTopVw.constant += 10
+            
+            self.curTop = self.consTopVw.constant
         }
     }
     
@@ -185,6 +176,8 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         
         if (self.consTopVw.constant > -170) {
             self.consTopVw.constant -= 10
+            
+            self.curTop = self.consTopVw.constant
         }
     }
     
@@ -243,6 +236,14 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         self.title = title
     }
     
+    func setTransparentcy(_ isTransparent: Bool) {
+        self.isTransparent = isTransparent
+    }
+    
+    func getTransparentcy() -> Bool {
+        return self.isTransparent
+    }
+    
     func setupCollection() {
         
         let width = 35 * CGFloat(self.badges.count) + 5
@@ -299,38 +300,6 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         return CGSize(width: 30, height: 30)
-    }
-
-    
-    // MARK: - navbar styler
-    func transparentNavigationBar(_ isActive: Bool) {
-        if isActive {
-            UIView.animate(withDuration: 0.5) {
-                // Transparent navigation bar
-                self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-                self.navigationController?.navigationBar.shadowImage = UIImage()
-                self.navigationController?.navigationBar.isTranslucent = true
-//                
-//                self.navigationController?.navigationBar.height = 194
-                
-                self.navigationController?.navigationBar.layoutIfNeeded()
-            }
-            
-        } else {
-            UIView.animate(withDuration: 0.5) {
-                self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
-                self.navigationController?.navigationBar.shadowImage = nil
-                //                self.navigationController?.navigationBar.tintColor = nil
-                self.navigationController?.navigationBar.isTranslucent = true
-                
-                // default prelo
-                //                UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white]
-                UINavigationBar.appearance().barTintColor = Theme.PrimaryColor
-                //                self.navigationController?.navigationBar.tintColor = UIColor.white
-                
-                self.navigationController?.navigationBar.layoutIfNeeded()
-            }
-        }
     }
 
 }

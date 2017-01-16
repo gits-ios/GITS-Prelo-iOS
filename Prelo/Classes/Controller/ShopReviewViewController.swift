@@ -194,36 +194,34 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     
     // MARK: - navbar styler
     func transparentNavigationBar(_ isActive: Bool) {
-        if isActive && !self.isTransparent {
-            UIView.animate(withDuration: 0.5) {
-                // Transparent navigation bar
-                self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-                self.navigationController?.navigationBar.shadowImage = UIImage()
-                self.navigationController?.navigationBar.isTranslucent = true
-                
-                self.navigationController?.navigationBar.layoutIfNeeded()
-                
-                if (self.currentMode == .inject) {
+        if (currentMode == .inject) {
+            if isActive && !(self.delegate?.getTransparentcy())! {
+                UIView.animate(withDuration: 0.5) {
+                    // Transparent navigation bar
+                    self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+                    self.navigationController?.navigationBar.shadowImage = UIImage()
+                    self.navigationController?.navigationBar.isTranslucent = true
+                    
+                    self.navigationController?.navigationBar.layoutIfNeeded()
+                    
                     self.delegate?.setShopTitle("")
                 }
-            }
-            self.isTransparent = true
-        } else if !isActive && self.isTransparent {
-            UIView.animate(withDuration: 0.5) {
-                self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
-                self.navigationController?.navigationBar.shadowImage = nil
-                self.navigationController?.navigationBar.isTranslucent = true
-                
-                // default prelo
-                UINavigationBar.appearance().barTintColor = Theme.PrimaryColor
-                
-                self.navigationController?.navigationBar.layoutIfNeeded()
-                
-                if (self.currentMode == .inject) {
+                self.delegate?.setTransparentcy(true)
+            } else if !isActive && (self.delegate?.getTransparentcy())!  {
+                UIView.animate(withDuration: 0.5) {
+                    self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
+                    self.navigationController?.navigationBar.shadowImage = nil
+                    self.navigationController?.navigationBar.isTranslucent = true
+                    
+                    // default prelo
+                    UINavigationBar.appearance().barTintColor = Theme.PrimaryColor
+                    
+                    self.navigationController?.navigationBar.layoutIfNeeded()
+                    
                     self.delegate?.setShopTitle(self.sellerName)
                 }
+                self.delegate?.setTransparentcy(false)
             }
-            self.isTransparent = false
         }
     }
 
