@@ -39,7 +39,6 @@ fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   }
 }
 
-
 // MARK: - Class
 
 enum ListItemSectionType {
@@ -48,6 +47,7 @@ enum ListItemSectionType {
     case subcategories
     case segments
     case products
+    case aboutShop
 }
 
 enum ListItemMode {
@@ -57,6 +57,7 @@ enum ListItemMode {
     case featured
     case segment
     case filter
+    case newShop
 }
 
 class ListItemViewController: BaseViewController, MFMailComposeViewControllerDelegate, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, FilterDelegate, CategoryPickerDelegate, ListBrandDelegate {
@@ -170,10 +171,21 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     var floatRatingView: FloatRatingView!
     
+    // delegate for newShop
+    var delegate: NewShopHeaderDelegate?
+    var newShopHeader : StoreInfo?
+    var shopData: JSON!
+    var isExpand = false
+    
     // MARK: - Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if (currentMode == .newShop) {
+            let StoreInfo = UINib(nibName: "StorePageShopHeader", bundle: nil)
+            gridView.register(StoreInfo, forCellWithReuseIdentifier: "StorePageShopHeader")
+        }
         
         // listStage initiation
         if (AppTools.isIPad) {
@@ -204,7 +216,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         self.gridView.addSubview(refresher!)
         
         // Setup content for filter, shop, or standalone mode
-        if (currentMode == .standalone || currentMode == .shop || currentMode == .filter) {
+        if (currentMode == .standalone || currentMode == .shop || currentMode == .filter || currentMode == .newShop) {
             self.setupContent()
         }
     }
@@ -236,7 +248,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             self.setStatusBarBackgroundColor(color: UIColor.clear)
         }
         
-        if (currentMode == .shop) {
+        if (currentMode == .shop || currentMode == .newShop) {
             self.defaultNavigationBar()
         }
 
@@ -252,7 +264,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
         
         // Mixpanel for store mode
-        if (currentMode == .shop) {
+        if (currentMode == .shop || currentMode == .newShop) {
             if (User.IsLoggedIn && self.shopId == User.Id!) {
                 // Mixpanel
 //                Mixpanel.trackPageVisit(PageName.ShopMine)
@@ -274,7 +286,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         // for handle navigation
 //        self.isTransparent = !self.isTransparent
-        if (currentMode == .shop && self.isTransparent) {
+        if ((currentMode == .shop || currentMode == .newShop) && self.isTransparent) {
             self.isTransparent = !self.isTransparent
             self.transparentNavigationBar(true)
             self.isFirst = false
@@ -357,7 +369,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             
             // Adjust content base on the mode
             switch (currentMode) {
-            case .default, .standalone, .shop:
+            case .default, .standalone, .shop, .newShop:
                 // Upper 4px padding handling
                 self.consTopTopHeader.constant = 0
                 
@@ -472,7 +484,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         self.setupGrid() // Agar muncul loading
         
         switch (currentMode) {
-        case .shop, .filter:
+        case .shop, .filter, .newShop:
             self.getProducts()
         case .featured:
             self.getFeaturedProducts()
@@ -535,6 +547,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             }
         case .filter:
             self.getFilteredProducts()
+        
+        case .newShop:
+            self.getNewShopProducts()
         }
     }
     
@@ -748,7 +763,18 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 
                 // setup badge
                 
-                self.shopHeader?.badges = [ (URL(string: "https://trello-avatars.s3.amazonaws.com/c86b504990d8edbb569ab7c02fb55e3d/50.png")!), (URL(string: "https://trello-avatars.s3.amazonaws.com/3a83ed4d4b42810c05608cdc5547e709/50.png")!), (URL(string: "https://trello-avatars.s3.amazonaws.com/7a98b746bc71ccaf9af1d16c4a6b152e/50.png")!) ]
+//                self.shopHeader?.badges = [ (URL(string: "https://trello-avatars.s3.amazonaws.com/c86b504990d8edbb569ab7c02fb55e3d/50.png")!), (URL(string: "https://trello-avatars.s3.amazonaws.com/3a83ed4d4b42810c05608cdc5547e709/50.png")!), (URL(string: "https://trello-avatars.s3.amazonaws.com/7a98b746bc71ccaf9af1d16c4a6b152e/50.png")!) ]
+                
+                self.shopHeader?.badges = []
+                
+                if let arr = json["featured_badges"].array {
+                    if arr.count > 0 {
+                        for i in 0...arr.count-1 {
+                            self.shopHeader?.badges.append(URL(string: arr[i]["icon"].string!)!)
+                        }
+                    }
+                }
+                
                 self.shopHeader?.setupCollection()
 //                self.shopHeader?.colectionView.reloadData()
                 
@@ -818,6 +844,37 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 }
             }
         }
+    }
+    
+    func getNewShopProducts() {
+        self.requesting = true
+        
+        // API Migrasi
+        let _ = request(APIUser.getShopPage(id: shopId, current: self.products!.count, limit: itemsPerReq)).responseJSON { resp in
+            self.requesting = false
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Data Shop Pengguna")) {
+                self.setupData(resp.result.value)
+                
+                let json = JSON(resp.result.value!)["_data"]
+                
+                self.shopData = json
+                
+                self.delegate?.setupBanner(json: json)
+                
+                self.shopName = json["username"].stringValue
+                
+                if self.listItemSections.count > 1 {
+                    self.listItemSections.remove(at: 0)
+                }
+                self.listItemSections.insert(.aboutShop, at: 0)
+                
+                self.refresher?.endRefreshing()
+                
+                self.setupGrid()
+                self.gridView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+            }
+        }
+        
     }
     
     func setupData(_ res : Any?) {
@@ -914,6 +971,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 return p.count
             }
             return 0
+        case .aboutShop:
+            return 1
         }
     }
     
@@ -944,7 +1003,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             return cell
         case .products:
             // Load next products here
-            if (currentMode == .default || currentMode == .standalone || currentMode == .shop || currentMode == .filter || (currentMode == .segment && listItemSections.contains(.products))) {
+            if (currentMode == .default || currentMode == .standalone || currentMode == .shop || currentMode == .filter || (currentMode == .segment && listItemSections.contains(.products)) || currentMode == .newShop) {
                 if ((indexPath as NSIndexPath).row == (products?.count)! - 4 && requesting == false && done == false) {
                     getProducts()
                 }
@@ -960,6 +1019,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 // Hide featured ribbon
                 cell.imgFeatured.isHidden = true
             }
+            return cell
+        case .aboutShop:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "StorePageShopHeader", for: indexPath) as! StoreInfo
+            cell.adapt(self.shopData, count: self.products!.count, isExpand: self.isExpand)
             return cell
         }
     }
@@ -985,6 +1048,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             return CGSize(width: viewWidthMinusMargin, height: segHeight)
         case .products:
             return CGSize(width: itemCellWidth!, height: itemCellWidth! + 66)
+        case . aboutShop:
+            return CGSize(width: viewWidthMinusMargin, height: StoreInfo.heightFor(shopData, isExpand: isExpand))
         }
     }
     
@@ -1064,6 +1129,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 let url = NSURL(string: urlString!)!
                 UIApplication.shared.openURL(url as URL)
             }
+        case .aboutShop:
+            self.isExpand = !self.isExpand
+            self.gridView.reloadData()
         }
     }
     
@@ -1173,6 +1241,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
         if (currentMode == .shop) {
             scrollViewShop(scrollView)
+        } else if (currentMode == .newShop) {
+            // hidding header smoothly
+            scrollViewHeaderShop(scrollView)
         }
     }
     
@@ -1182,6 +1253,17 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         if (scrollView.contentOffset.y < pointY) {
             self.transparentNavigationBar(true)
         } else if (scrollView.contentOffset.y >= pointY) {
+            self.transparentNavigationBar(false)
+        }
+    }
+    
+    func scrollViewHeaderShop(_ scrollView: UIScrollView) {
+        let pointY = self.initY + 104
+        if (scrollView.contentOffset.y < pointY) {
+            self.delegate?.increaseHeader()
+            self.transparentNavigationBar(true)
+        } else if (scrollView.contentOffset.y >= pointY) {
+            self.delegate?.dereaseHeader()
             self.transparentNavigationBar(false)
         }
     }
@@ -1405,7 +1487,11 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 
                 self.navigationController?.navigationBar.layoutIfNeeded()
                 
-                self.title = ""
+                if (self.currentMode == .shop) {
+                    self.title = ""
+                } else {
+                    self.delegate?.setShopTitle("")
+                }
             }
             self.isTransparent = true
         } else if !isActive && self.isTransparent {
@@ -1422,7 +1508,11 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 
                 self.navigationController?.navigationBar.layoutIfNeeded()
                 
-                self.title = self.shopName
+                if (self.currentMode == .shop) {
+                    self.title = self.shopName
+                } else {
+                    self.delegate?.setShopTitle(self.shopName)
+                }
             }
             self.isTransparent = false
         }
@@ -1982,5 +2072,99 @@ class StoreHeader : UIView, UICollectionViewDataSource, UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         return CGSize(width: 30, height: 30)
+    }
+}
+
+class StoreInfo : UICollectionViewCell {
+    @IBOutlet var captionDesc : UILabel!
+    @IBOutlet var captionTotal : UILabel!
+    @IBOutlet var captionLastActive: UILabel!
+    @IBOutlet var captionChatPercentage: UILabel!
+    @IBOutlet var vwGroup: UIView!
+    
+    var completeDesc : String = ""
+    
+    var seeMoreBlock : ()->() = {}
+    
+    
+    static func heightFor(_ json: JSON, isExpand: Bool) -> CGFloat {
+        var height = 112
+        var completeDesc = ""
+        if let desc = json["profile"]["description"].string
+        {
+            completeDesc = desc
+            let descLengthCollapse = 160
+            var descHeight : Int = 0
+            
+            if isExpand == false {
+                if (desc.length > descLengthCollapse) { let descToWrite = desc.substringToIndex(descLengthCollapse - 1) + "... Selengkapnya"
+                    descHeight = Int(descToWrite.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-16).height)
+                } else {
+                    descHeight = Int(desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-16).height)
+                }
+                
+            } else {
+                descHeight = Int(desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-16).height)
+            }
+            height += descHeight
+            
+        } else {
+            completeDesc = "Belum ada deskripsi."
+            height += Int(completeDesc.boundsWithFontSize(UIFont.systemFont(ofSize: 16), width: UIScreen.main.bounds.width-14).height)
+        }
+        
+        return CGFloat(height)
+    }
+    
+    func adapt(_ json:JSON, count: Int, isExpand: Bool) {
+        // Last seen
+        if let lastSeenDateString = json["others"]["last_seen"].string {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+            if let lastSeenDate = formatter.date(from: lastSeenDateString) {
+                self.captionLastActive.text = lastSeenDate.relativeDescription
+            }
+        }
+        
+        // Chat percentage
+        if let chatPercentage = json["others"]["replied_chat_percentage"].int {
+            self.captionChatPercentage.text = "\(chatPercentage)%"
+        }
+        
+        if let desc = json["profile"]["description"].string
+        {
+            completeDesc = desc
+            let descLengthCollapse = 160
+            
+            if isExpand == false {
+                if (desc.length > descLengthCollapse) {
+                    let descToWrite = desc.substringToIndex(descLengthCollapse - 1) + "... Selengkapnya"
+                    let descMutableString : NSMutableAttributedString = NSMutableAttributedString(string: descToWrite, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)])
+                    descMutableString.addAttribute(NSForegroundColorAttributeName, value: Theme.PrimaryColorDark, range: NSRange(location: descLengthCollapse + 3, length: 12))
+                    self.captionDesc.attributedText = descMutableString
+                    self.captionDesc.text = descToWrite
+                } else {
+                    self.captionDesc.text = desc
+                }
+            } else {
+                self.captionDesc.text = desc
+            }
+            
+        } else {
+            self.captionDesc.text = "Belum ada deskripsi."
+            self.captionDesc.textColor = UIColor.lightGray
+        }
+        
+        
+        // Total products and sold products
+        if let productCount = json["total_product"].int {
+            if let soldProductCount = json["total_product_sold"].int {
+                self.captionTotal.text = "\(productCount) BARANG, \(soldProductCount) TERJUAL"
+            } else {
+                self.captionTotal.text = "\(productCount) BARANG"
+            }
+        } else {
+            self.captionTotal.text = String(count) + " BARANG"
+        }
     }
 }

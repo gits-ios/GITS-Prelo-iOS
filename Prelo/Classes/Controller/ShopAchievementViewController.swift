@@ -9,6 +9,11 @@
 import Foundation
 import Alamofire
 
+enum AchievementMode {
+    case `default`
+    case inject
+}
+
 class ShopAchievementViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var lblEmpty: UILabel!
@@ -19,6 +24,8 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
     var userAchievements : [UserAchievement] = []
     var sellerId : String = ""
     var sellerName : String = ""
+    
+    var achievementMode : AchievementMode!
     
     // MARK: - Init
     
@@ -37,9 +44,15 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
         super.viewWillAppear(animated)
         
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
-        loadingPanel.isHidden = false
-        loading.startAnimating()
-        tableView.isHidden = true
+        
+        
+        if achievementMode == .default{
+            loadingPanel.isHidden = false
+            loading.startAnimating()
+        
+            tableView.isHidden = true
+        }
+        
         lblEmpty.isHidden = true
     }
     
@@ -50,8 +63,11 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
         self.title = "Achievement " + self.sellerName
         
         // Get achievements
-        self.userAchievements = []
-        self.getUserAchievements()
+        
+        if (achievementMode == .default) {
+            self.userAchievements = []
+            self.getUserAchievements()
+        }
         
         // Google Analytics
         GAI.trackPageVisit(PageName.ShopAchievements)
@@ -79,6 +95,26 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
                 self.tableView.isHidden = false
                 self.setupTable()
             }
+        }
+    }
+    
+    func setUserAchievements(_ achievementData: JSON) {
+        let data = achievementData
+        // Store data into variable
+        for (_, item) in data {
+            let r = UserAchievement.instance(item)
+            if (r != nil) {
+                self.userAchievements.append(r!)
+            }
+        }
+        
+        self.loadingPanel.isHidden = true
+        self.loading.stopAnimating()
+        if (self.userAchievements.count <= 0) {
+            self.lblEmpty.isHidden = false
+        } else {
+            self.tableView.isHidden = false
+            self.setupTable()
         }
     }
     

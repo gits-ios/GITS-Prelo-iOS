@@ -9,6 +9,11 @@
 import Foundation
 import Alamofire
 
+enum ReviewMode {
+    case `default`
+    case inject
+}
+
 class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var lblEmpty: UILabel!
@@ -19,6 +24,8 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     var userReviews : [UserReview] = []
     var sellerName : String = ""
     var sellerId : String = ""
+    
+    var reviewMode : ReviewMode!
     
     // MARK: - Init
     
@@ -37,9 +44,14 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         super.viewWillAppear(animated)
         
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
-        loadingPanel.isHidden = false
-        loading.startAnimating()
-        tableView.isHidden = true
+        
+        if reviewMode == .default{
+            loadingPanel.isHidden = false
+            loading.startAnimating()
+            
+            tableView.isHidden = true
+        }
+        
         lblEmpty.isHidden = true
     }
     
@@ -50,8 +62,11 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         self.title = "Review " + self.sellerName
         
         // Get reviews
-        self.userReviews = []
-        self.getUserReviews()
+        
+        if (reviewMode == .default) {
+            self.userReviews = []
+            self.getUserReviews()
+        }
         
         // Mixpanel
 //        let p = [
@@ -86,6 +101,26 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
                 self.tableView.isHidden = false
                 self.setupTable()
             }
+        }
+    }
+    
+    func setUserReviews(_ reviewData: JSON) {
+        let data = reviewData
+        // Store data into variable
+        for (_, item) in data {
+            let r = UserReview.instance(item)
+            if (r != nil) {
+                self.userReviews.append(r!)
+            }
+        }
+        
+        self.loadingPanel.isHidden = true
+        self.loading.stopAnimating()
+        if (self.userReviews.count <= 0) {
+            self.lblEmpty.isHidden = false
+        } else {
+            self.tableView.isHidden = false
+            self.setupTable()
         }
     }
     
