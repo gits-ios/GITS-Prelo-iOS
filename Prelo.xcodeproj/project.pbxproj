@@ -638,6 +638,7 @@
 		B275BA681E10DBD200BB5C64 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = B275BA621E10DBD200BB5C64 /* LICENSE */; };
 		B275BA691E10DBD200BB5C64 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = B275BA631E10DBD200BB5C64 /* ReleaseNotes.txt */; };
 		B2B4DCC41E2D24B900EBBD33 /* ShopReviewAverageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B4DCC31E2D24B900EBBD33 /* ShopReviewAverageCell.xib */; };
+		B2B4DCC61E2D32D600EBBD33 /* diamond.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B4DCC51E2D32D600EBBD33 /* diamond.png */; };
 		B2BE2DF01E29EBBD006B6903 /* StorePageTabBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */; };
 		B2BE2E001E29F2AF006B6903 /* StorePageTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2BE2DFF1E29F2AF006B6903 /* StorePageTabBarViewController.swift */; };
 		B2BE2E021E29FA42006B6903 /* StorePageShopHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2BE2E011E29FA42006B6903 /* StorePageShopHeader.xib */; };
@@ -1581,6 +1582,7 @@
 		B275BA621E10DBD200BB5C64 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		B275BA631E10DBD200BB5C64 /* ReleaseNotes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReleaseNotes.txt; sourceTree = "<group>"; };
 		B2B4DCC31E2D24B900EBBD33 /* ShopReviewAverageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReviewAverageCell.xib; sourceTree = "<group>"; };
+		B2B4DCC51E2D32D600EBBD33 /* diamond.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = diamond.png; sourceTree = "<group>"; };
 		B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StorePageTabBar.xib; sourceTree = "<group>"; };
 		B2BE2DFF1E29F2AF006B6903 /* StorePageTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorePageTabBarViewController.swift; sourceTree = "<group>"; };
 		B2BE2E011E29FA42006B6903 /* StorePageShopHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StorePageShopHeader.xib; sourceTree = "<group>"; };
@@ -2344,6 +2346,7 @@
 				210702DC1BE7A8F100DD9E52 /* cu_line@2x.png */,
 				210702DD1BE7A8F100DD9E52 /* cu_sms@2x.png */,
 				210702DE1BE7A8F100DD9E52 /* cu_wasap@2x.png */,
+				B2B4DCC51E2D32D600EBBD33 /* diamond.png */,
 				B2346CA51E22A48B00FFF3B5 /* exclamation31.png */,
 				589A6F8E1D8C08F600654CDD /* ic_1_2kg.png */,
 				589A6F8F1D8C08F600654CDD /* ic_1kg.png */,
@@ -3486,6 +3489,7 @@
 				21156EB31B8F3598001D7842 /* ic_prelo_logo_text@2x.png in Resources */,
 				589A6FCD1D8C08F600654CDD /* ic_voucher.png in Resources */,
 				58A4F9721CB4F5DB00E717AF /* banner_reserved.png in Resources */,
+				B2B4DCC61E2D32D600EBBD33 /* diamond.png in Resources */,
 				214864CF1B6F235900EF49EF /* ic_chat@2x.png in Resources */,
 				585887531DBEDC03006EC6D5 /* SetupPasswordPopUp.xib in Resources */,
 				21EEB4701B87095C00CAD5C9 /* btn_checkbox_checked.png in Resources */,

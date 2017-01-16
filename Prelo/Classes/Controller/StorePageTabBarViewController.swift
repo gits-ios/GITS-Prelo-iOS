@@ -51,6 +51,8 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     @IBOutlet var vwCollection: UIView! // hide
     @IBOutlet var vwGeolocation: UIView! // hide
     
+    @IBOutlet var loadingPanel: UIView!
+    
     var isTransparent : Bool = true
     var isFirst : Bool = true
     var curTop : CGFloat = 0
@@ -224,6 +226,8 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         self.imageVIew.isHidden = false
         self.shopName.isHidden = false
         self.vwGeolocation.isHidden = false
+        
+        self.loadingPanel.isHidden = true
         
         // setup review
         self.shopReviewVC?.userReviews = []

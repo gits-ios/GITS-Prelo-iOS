@@ -482,7 +482,7 @@ class AchievementDiamondCell: UITableViewCell { // 135 + lbldesc
         self.badgeImage?.layer.cornerRadius = (self.badgeImage?.width ?? 0) / 2
         self.badgeImage?.layer.masksToBounds = true
         // local image
-        self.badgeImage?.image = UIImage(named: "raisa.jpg")
+        self.badgeImage?.image = UIImage(named: "diamond.png")
         
         self.lblDiamond.text = diamonds.string + " Diamond"
         
