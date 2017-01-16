@@ -364,11 +364,15 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     
     func launchMyPage() {
         if let me = CDUser.getOne() {
-            let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
-            l.currentMode = .shop
-            l.shopName = me.username
-            l.shopId = me.id
-            self.navigationController?.pushViewController(l, animated: true)
+//            let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+//            l.currentMode = .shop
+//            l.shopName = me.username
+//            l.shopId = me.id
+//            self.navigationController?.pushViewController(l, animated: true)
+            
+            let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+            storePageTabBarVC.shopId = me.id
+            self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
         }
     }
     
