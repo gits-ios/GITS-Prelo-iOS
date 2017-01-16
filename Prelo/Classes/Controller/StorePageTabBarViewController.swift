@@ -57,6 +57,8 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     var isFirst : Bool = true
     var curTop : CGFloat = 0
     
+    @IBOutlet var navigationBtn: UISegmentedControl!
+    
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -226,6 +228,12 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         self.imageVIew.isHidden = false
         self.shopName.isHidden = false
         self.vwGeolocation.isHidden = false
+        
+        let countReview = json["num_reviewer"].int
+        self.navigationBtn.setTitle("Review " + countReview!.string, forSegmentAt: 1)
+        
+        let countAchievement = (json["achievements"].array)?.count
+        self.navigationBtn.setTitle("Badge " + countAchievement!.string, forSegmentAt: 2)
         
         self.loadingPanel.isHidden = true
         

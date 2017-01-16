@@ -83,7 +83,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 [
                     "type":"iconic",
                     "title":"Achievement",
-                    "iconimg":"raisa.jpg"
+                    "iconimg":"ic_achievement"
                 ],
                 [
                     "type":"iconic",
@@ -217,11 +217,12 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 iconImg.tintColor = Theme.PrimaryColorDark
                 iconImg.frame = CGRect(x: 8, y: 10, width: 26, height: 26)
                 
-                if m["title"] == "Achievement" {
-                    iconImg.layoutIfNeeded()
-                    iconImg.layer.cornerRadius = (iconImg.width) / 2
-                    iconImg.layer.masksToBounds = true
-                }
+                // if raisa.jpg
+//                if m["title"] == "Achievement" {
+//                    iconImg.layoutIfNeeded()
+//                    iconImg.layer.cornerRadius = (iconImg.width) / 2
+//                    iconImg.layer.masksToBounds = true
+//                }
                 
                 cell.addSubview(iconImg)
             }

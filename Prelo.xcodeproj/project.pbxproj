@@ -631,6 +631,7 @@
 		B240F4DB1E24D63400DCAFF7 /* AchievementCellBadgeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B240F4DA1E24D63400DCAFF7 /* AchievementCellBadgeCell.xib */; };
 		B240F4DE1E24DAD900DCAFF7 /* AchievementCellProgressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B240F4DD1E24DAD900DCAFF7 /* AchievementCellProgressCell.xib */; };
 		B240F4F11E24DE7000DCAFF7 /* AchievementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B240F4F01E24DE7000DCAFF7 /* AchievementViewController.swift */; };
+		B26DB3F11E2D3C6F00224675 /* ic_achievement.png in Resources */ = {isa = PBXBuildFile; fileRef = B26DB3F01E2D3C6F00224675 /* ic_achievement.png */; };
 		B275BA641E10DBD200BB5C64 /* HLLocalization.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B275BA5D1E10DBD200BB5C64 /* HLLocalization.bundle */; };
 		B275BA651E10DBD200BB5C64 /* HLResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B275BA5E1E10DBD200BB5C64 /* HLResources.bundle */; };
 		B275BA661E10DBD200BB5C64 /* KonotorModels.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B275BA601E10DBD200BB5C64 /* KonotorModels.bundle */; };
@@ -1574,6 +1575,7 @@
 		B240F4DA1E24D63400DCAFF7 /* AchievementCellBadgeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementCellBadgeCell.xib; sourceTree = "<group>"; };
 		B240F4DD1E24DAD900DCAFF7 /* AchievementCellProgressCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementCellProgressCell.xib; sourceTree = "<group>"; };
 		B240F4F01E24DE7000DCAFF7 /* AchievementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AchievementViewController.swift; sourceTree = "<group>"; };
+		B26DB3F01E2D3C6F00224675 /* ic_achievement.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_achievement.png; sourceTree = "<group>"; };
 		B275BA5D1E10DBD200BB5C64 /* HLLocalization.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HLLocalization.bundle; sourceTree = "<group>"; };
 		B275BA5E1E10DBD200BB5C64 /* HLResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HLResources.bundle; sourceTree = "<group>"; };
 		B275BA5F1E10DBD200BB5C64 /* Hotline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hotline.h; sourceTree = "<group>"; };
@@ -2352,6 +2354,7 @@
 				589A6F8F1D8C08F600654CDD /* ic_1kg.png */,
 				589A6F901D8C08F600654CDD /* ic_2kg.png */,
 				589A6F911D8C08F600654CDD /* ic_about.png */,
+				B26DB3F01E2D3C6F00224675 /* ic_achievement.png */,
 				210959AD1B8DD088000F2939 /* ic_backarrow@2x.png */,
 				215C52681B6B349C00EA4E61 /* ic_bag@2x.png */,
 				589A6F921D8C08F600654CDD /* ic_belanjaan_saya.png */,
@@ -3324,6 +3327,7 @@
 				589A6FBA1D8C08F600654CDD /* ic_ditanggung_pembeli.png in Resources */,
 				21D386A81B6B93CD00D0FA90 /* Default-Portrait.png in Resources */,
 				589A6FC41D8C08F600654CDD /* ic_love.png in Resources */,
+				B26DB3F11E2D3C6F00224675 /* ic_achievement.png in Resources */,
 				589A6FC91D8C08F600654CDD /* ic_tampak_belakang.png in Resources */,
 				585887411DBEDAB9006EC6D5 /* MyProductDetail.xib in Resources */,
 				212007C31B6A0EA600D9C84B /* basic_facebook@2x.png in Resources */,

@@ -2181,7 +2181,7 @@ class StoreInfo : UICollectionViewCell {
         // Total products and sold products
         if let productCount = json["total_product"].int {
             if let soldProductCount = json["total_product_sold"].int {
-                self.captionTotal.text = "\(productCount) BARANG, \(soldProductCount) TERJUAL"
+                self.captionTotal.text = "\(productCount) BARANG | \(soldProductCount) TERJUAL"
             } else {
                 self.captionTotal.text = "\(productCount) BARANG"
             }
