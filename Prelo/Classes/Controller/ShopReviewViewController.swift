@@ -45,6 +45,9 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         
         let myLovelistAverageCellNib = UINib(nibName: "ShopReviewAverageCell", bundle: nil)
         tableView.register(myLovelistAverageCellNib, forCellReuseIdentifier: "ShopReviewAverageCell")
+        
+        // for button baca lebih lanjut
+        tableView.register(ButtonCell.self, forCellReuseIdentifier: "ButtonCell")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -137,13 +140,13 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
             self.tableView.delegate = self
         }
         
-        let height = CGFloat(self.userReviews.count * 65)
-        let mainHeight = self.view.height + 170
+//        let height = self.tableView.height //CGFloat(self.userReviews.count * 65)
+//        let mainHeight = self.view.height - 64
         var bottom = CGFloat(5)
-        
-        if (height < mainHeight) {
-            bottom += mainHeight - height
-        }
+//
+//        if (height < mainHeight) {
+//            bottom += mainHeight - height
+//        }
         
         //TOP, LEFT, BOTTOM, RIGHT
         let inset = UIEdgeInsetsMake(0, 0, bottom, 0)
@@ -156,7 +159,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     // MARK: - UITableView Functions
     func numberOfSections(in tableView: UITableView) -> Int {
         if (currentMode == .inject) {
-            return 2
+            return 3
         } else {
             return 1
         }
@@ -164,10 +167,10 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (currentMode == .inject) {
-            if (section == 0) {
-                return 1
-            } else {
+            if (section == 1) {
                 return self.userReviews.count
+            } else {
+                return 1
             }
         } else {
             return self.userReviews.count
@@ -181,6 +184,30 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
                 cell.selectionStyle = .none
                 cell.adapt(self.averageRate)
                 return cell
+            } else if ((indexPath as NSIndexPath).section == 2) {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell") as! ButtonCell
+                
+                cell.selectionStyle = .none
+                cell.backgroundColor = UIColor.clear
+                cell.clipsToBounds = true
+                
+                let lblButton = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.width - 10, height: 40))
+                
+                lblButton.text = "LIHAT SEMUA"
+                lblButton.textColor = Theme.PrimaryColor
+                lblButton.backgroundColor = UIColor.clear
+                lblButton.textAlignment = .center
+                
+                let vwBorder = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: 40))
+                
+                vwBorder.backgroundColor = UIColor.white
+                
+                vwBorder.addSubview(lblButton)
+                
+                cell.contentView.addSubview(vwBorder)
+                
+                return cell
+
             } else {
                 let cell : ShopReviewCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
                 cell.selectionStyle = .none
@@ -198,6 +225,12 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (currentMode == .inject && (indexPath as NSIndexPath).section == 2) {
+            let shopReviewVC = Bundle.main.loadNibNamed(Tags.XibNameShopReview, owner: nil, options: nil)?.first as! ShopReviewViewController
+            shopReviewVC.sellerId = self.sellerId
+            shopReviewVC.sellerName = self.sellerName
+            self.navigationController?.pushViewController(shopReviewVC, animated: true)
+        }
         //print("Row \(indexPath.row) selected")
     }
     
@@ -205,6 +238,9 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         if (currentMode == .inject) {
             if ((indexPath as NSIndexPath).section == 0) {
                 return 160
+            } else if ((indexPath as NSIndexPath).section == 2) {
+                return 40
+                
             } else {
                 let u = userReviews[(indexPath as NSIndexPath).item]
                 let commentHeight = u.comment.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: 240).height

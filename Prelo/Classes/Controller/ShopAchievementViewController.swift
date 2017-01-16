@@ -126,13 +126,13 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
             self.tableView.delegate = self
         }
         
-        let height = CGFloat(self.userAchievements.count * 85)
-        let mainHeight = self.view.height + 170
+//        let height = self.tableView.height //CGFloat(self.userAchievements.count * 85)
+//        let mainHeight = self.view.height - 64
         var bottom = CGFloat(5)
-        
-        if (height < mainHeight) {
-            bottom += mainHeight - height
-        }
+//        
+//        if (height < mainHeight) {
+//            bottom += mainHeight - height
+//        }
         
         //TOP, LEFT, BOTTOM, RIGHT
         let inset = UIEdgeInsetsMake(0, 0, bottom, 0)

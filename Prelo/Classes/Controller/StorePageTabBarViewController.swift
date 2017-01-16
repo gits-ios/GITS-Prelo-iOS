@@ -87,8 +87,6 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         // Set title
         self.title = "" // clear title
         
-        // edit button
-        setEditButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -112,6 +110,10 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
             shopBadgeVC?.sellerId = self.shopId
             shopBadgeVC?.sellerName = ""
             
+            // edit button
+            if (self.shopId == CDUser.getOne()?.id) {
+                setEditButton()
+            }
             
             setSubVC(0)
             isFirst = false
