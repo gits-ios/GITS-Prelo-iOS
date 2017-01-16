@@ -790,19 +790,23 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if ((indexPath as NSIndexPath).section == 0 && (indexPath as NSIndexPath).row == 1)
         {
-            let d = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
-            d.currentMode = .shop
-            if let name = detail?.json["_data"]["seller"]["username"].string
-            {
-                d.shopName = name
-            }
+//            let d = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+//            d.currentMode = .shop
+//            if let name = detail?.json["_data"]["seller"]["username"].string
+//            {
+//                d.shopName = name
+//            }
+//            
+//            if let name = detail?.json["_data"]["seller"]["_id"].string
+//            {
+//                d.shopId = name
+//            }
+//            
+//            self.navigationController?.pushViewController(d, animated: true)
             
-            if let name = detail?.json["_data"]["seller"]["_id"].string
-            {
-                d.shopId = name
-            }
-            
-            self.navigationController?.pushViewController(d, animated: true)
+            let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+            storePageTabBarVC.shopId = detail?.json["_data"]["seller"]["_id"].string
+            self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
         }
     }
     

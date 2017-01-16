@@ -486,19 +486,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             let imageBanner = UIImage(named: imageName)
             
-            // banner
-            let banner = Banner(title: title != "" ? title : alert, subtitle: body != "" ? body : nil, image: imageBanner, backgroundColor: Theme.PrimaryColor, didTapBlock: {
-                if isDoing {
-                    self.deeplinkRedirect(tipe, targetId: targetId)
-                }
-            })
-            
-            banner.dismissesOnTap = true
-            
-            AudioServicesPlaySystemSound(SystemSoundID(1000))
-            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-            
-            banner.show(duration: 3.0)
+            if (title != "" || alert != "") {
+                // banner
+                let banner = Banner(title: title != "" ? title : alert, subtitle: body != "" ? body : nil, image: imageBanner, backgroundColor: Theme.PrimaryColor, didTapBlock: {
+                    if isDoing {
+                        self.deeplinkRedirect(tipe, targetId: targetId)
+                    }
+                })
+                
+                banner.dismissesOnTap = true
+                
+                AudioServicesPlaySystemSound(SystemSoundID(1000))
+                AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+                
+                banner.show(duration: 3.0)
+            }
             
         } else { // background mode
             print("App weren't active when receiving remote notification")
