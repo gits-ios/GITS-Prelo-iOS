@@ -14,7 +14,7 @@ enum ReviewMode {
     case inject
 }
 
-class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
+class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
     
     @IBOutlet weak var lblEmpty: UILabel!
     @IBOutlet weak var tableView: UITableView!
@@ -25,7 +25,10 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     var sellerName : String = ""
     var sellerId : String = ""
     
-    var reviewMode : ReviewMode!
+    var currentMode : ReviewMode! = .default
+    
+    var delegate : NewShopHeaderDelegate?
+    var isTransparent = false
     
     // MARK: - Init
     
@@ -45,7 +48,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
         
-        if reviewMode == .default{
+        if (currentMode == .default) {
             loadingPanel.isHidden = false
             loading.startAnimating()
             
@@ -63,7 +66,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         
         // Get reviews
         
-        if (reviewMode == .default) {
+        if (currentMode == .default) {
             self.userReviews = []
             self.getUserReviews()
         }
@@ -130,6 +133,19 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
             self.tableView.delegate = self
         }
         
+        let height = CGFloat(self.userReviews.count * 65)
+        let mainHeight = self.view.height + 170
+        var bottom = CGFloat(5)
+        
+        if (height < mainHeight) {
+            bottom += mainHeight - height
+        }
+        
+        //TOP, LEFT, BOTTOM, RIGHT
+        let inset = UIEdgeInsetsMake(0, 0, bottom, 0)
+        tableView.contentInset = inset
+
+        
         self.tableView.reloadData()
     }
     
@@ -156,6 +172,61 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         let commentHeight = u.comment.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: 240).height
         return 65 + commentHeight
     }
+    
+    // MARK: - UIScrollView Functions
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (currentMode == .inject) {
+            scrollViewHeaderShop(scrollView)
+        }
+    }
+    
+    func scrollViewHeaderShop(_ scrollView: UIScrollView) {
+        let pointY = CGFloat(104)
+        if (scrollView.contentOffset.y < pointY) {
+            self.delegate?.increaseHeader()
+            self.transparentNavigationBar(true)
+        } else if (scrollView.contentOffset.y >= pointY) {
+            self.delegate?.dereaseHeader()
+            self.transparentNavigationBar(false)
+        }
+    }
+    
+    // MARK: - navbar styler
+    func transparentNavigationBar(_ isActive: Bool) {
+        if isActive && !self.isTransparent {
+            UIView.animate(withDuration: 0.5) {
+                // Transparent navigation bar
+                self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+                self.navigationController?.navigationBar.shadowImage = UIImage()
+                self.navigationController?.navigationBar.isTranslucent = true
+                
+                self.navigationController?.navigationBar.layoutIfNeeded()
+                
+                if (self.currentMode == .inject) {
+                    self.delegate?.setShopTitle("")
+                }
+            }
+            self.isTransparent = true
+        } else if !isActive && self.isTransparent {
+            UIView.animate(withDuration: 0.5) {
+                self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
+                self.navigationController?.navigationBar.shadowImage = nil
+                self.navigationController?.navigationBar.isTranslucent = true
+                
+                // default prelo
+                UINavigationBar.appearance().barTintColor = Theme.PrimaryColor
+                
+                self.navigationController?.navigationBar.layoutIfNeeded()
+                
+                if (self.currentMode == .inject) {
+                    self.delegate?.setShopTitle(self.sellerName)
+                }
+            }
+            self.isTransparent = false
+        }
+    }
+
 }
 
 class ShopReviewCell : UITableViewCell {

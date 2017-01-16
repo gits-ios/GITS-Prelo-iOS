@@ -14,7 +14,7 @@ enum AchievementMode {
     case inject
 }
 
-class ShopAchievementViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
+class ShopAchievementViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
     
     @IBOutlet weak var lblEmpty: UILabel!
     @IBOutlet weak var tableView: UITableView!
@@ -25,7 +25,10 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
     var sellerId : String = ""
     var sellerName : String = ""
     
-    var achievementMode : AchievementMode!
+    var currentMode : AchievementMode! = .default
+    
+    var delegate : NewShopHeaderDelegate?
+    var isTransparent = false
     
     // MARK: - Init
     
@@ -46,7 +49,7 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
         
         
-        if achievementMode == .default{
+        if (currentMode == .default) {
             loadingPanel.isHidden = false
             loading.startAnimating()
         
@@ -64,7 +67,7 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
         
         // Get achievements
         
-        if (achievementMode == .default) {
+        if (currentMode == .default) {
             self.userAchievements = []
             self.getUserAchievements()
         }
@@ -124,9 +127,16 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
             self.tableView.delegate = self
         }
         
+        let height = CGFloat(self.userAchievements.count * 85)
+        let mainHeight = self.view.height + 170
+        var bottom = CGFloat(5)
+        
+        if (height < mainHeight) {
+            bottom += mainHeight - height
+        }
         
         //TOP, LEFT, BOTTOM, RIGHT
-        let inset = UIEdgeInsetsMake(0, 0, 5, 0)
+        let inset = UIEdgeInsetsMake(0, 0, bottom, 0)
         tableView.contentInset = inset
         
         
@@ -164,6 +174,61 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
         let descHeight = u.desc.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: tableView.width - 42).height
         return 85 + CGFloat(Int(descHeight)) + 4
     }
+    
+    // MARK: - UIScrollView Functions
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (currentMode == .inject) {
+            scrollViewHeaderShop(scrollView)
+        }
+    }
+    
+    func scrollViewHeaderShop(_ scrollView: UIScrollView) {
+        let pointY = CGFloat(104)
+        if (scrollView.contentOffset.y < pointY) {
+            self.delegate?.increaseHeader()
+            self.transparentNavigationBar(true)
+        } else if (scrollView.contentOffset.y >= pointY) {
+            self.delegate?.dereaseHeader()
+            self.transparentNavigationBar(false)
+        }
+    }
+    
+    // MARK: - navbar styler
+    func transparentNavigationBar(_ isActive: Bool) {
+        if isActive && !self.isTransparent {
+            UIView.animate(withDuration: 0.5) {
+                // Transparent navigation bar
+                self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+                self.navigationController?.navigationBar.shadowImage = UIImage()
+                self.navigationController?.navigationBar.isTranslucent = true
+                
+                self.navigationController?.navigationBar.layoutIfNeeded()
+                
+                if (self.currentMode == .inject) {
+                    self.delegate?.setShopTitle("")
+                }
+            }
+            self.isTransparent = true
+        } else if !isActive && self.isTransparent {
+            UIView.animate(withDuration: 0.5) {
+                self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
+                self.navigationController?.navigationBar.shadowImage = nil
+                self.navigationController?.navigationBar.isTranslucent = true
+                
+                // default prelo
+                UINavigationBar.appearance().barTintColor = Theme.PrimaryColor
+                
+                self.navigationController?.navigationBar.layoutIfNeeded()
+                
+                if (self.currentMode == .inject) {
+                    self.delegate?.setShopTitle(self.sellerName)
+                }
+            }
+            self.isTransparent = false
+        }
+    }
+
 }
 
 class ShopAchievementCell : UITableViewCell {

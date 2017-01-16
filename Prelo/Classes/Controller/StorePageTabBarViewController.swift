@@ -92,12 +92,14 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         shopReviewVC = Bundle.main.loadNibNamed(Tags.XibNameShopReview, owner: nil, options: nil)?.first as? ShopReviewViewController
         shopReviewVC?.sellerId = self.shopId
         shopReviewVC?.sellerName = ""
-        shopReviewVC?.reviewMode = .inject
+        shopReviewVC?.currentMode = .inject
+        shopReviewVC?.delegate = self
         
         shopBadgeVC = Bundle.main.loadNibNamed(Tags.XibNameShopAchievement, owner: nil, options: nil)?.first as? ShopAchievementViewController
         shopBadgeVC?.sellerId = self.shopId
         shopBadgeVC?.sellerName = ""
-        shopBadgeVC?.achievementMode = .inject
+        shopBadgeVC?.currentMode = .inject
+        shopBadgeVC?.delegate = self
         
         listVC = []
         
@@ -231,8 +233,10 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         // setup review
         self.shopReviewVC?.userReviews = []
         self.shopReviewVC?.setUserReviews(json["reviews"])
+        self.shopReviewVC?.sellerName = self.shopName.text!
         self.shopBadgeVC?.userAchievements = []
         self.shopBadgeVC?.setUserAchievements(json["achievements"])
+        self.shopBadgeVC?.sellerName = self.shopName.text!
     }
     
     func setShopTitle(_ title: String) {
