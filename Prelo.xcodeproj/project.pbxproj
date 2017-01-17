@@ -647,6 +647,7 @@
 		B2C3A3C41E2B8E2D0082A15D /* ShopAchievement.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2C3A3C31E2B8E2D0082A15D /* ShopAchievement.xib */; };
 		B2C3A3C61E2B8E370082A15D /* ShopAchievementCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2C3A3C51E2B8E370082A15D /* ShopAchievementCell.xib */; };
 		B2C3A3C81E2B8E450082A15D /* ShopAchievementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3A3C71E2B8E450082A15D /* ShopAchievementViewController.swift */; };
+		B2C59A841E2E05E3002E4597 /* banner_achievement.png in Resources */ = {isa = PBXBuildFile; fileRef = B2C59A831E2E05E2002E4597 /* banner_achievement.png */; };
 		B2CB4C441E08C61C00F5D0F2 /* FilterLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2CB4C431E08C61C00F5D0F2 /* FilterLocationCell.xib */; };
 		B2D119871E28C9790064045B /* AchievementCelliOS9xx.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D119861E28C9790064045B /* AchievementCelliOS9xx.xib */; };
 		B2D119891E28CD2A0064045B /* AchievementCellDescriptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D119881E28CD2A0064045B /* AchievementCellDescriptionCell.xib */; };
@@ -1592,6 +1593,7 @@
 		B2C3A3C31E2B8E2D0082A15D /* ShopAchievement.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopAchievement.xib; sourceTree = "<group>"; };
 		B2C3A3C51E2B8E370082A15D /* ShopAchievementCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopAchievementCell.xib; sourceTree = "<group>"; };
 		B2C3A3C71E2B8E450082A15D /* ShopAchievementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopAchievementViewController.swift; sourceTree = "<group>"; };
+		B2C59A831E2E05E2002E4597 /* banner_achievement.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_achievement.png; sourceTree = "<group>"; };
 		B2CB4C431E08C61C00F5D0F2 /* FilterLocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterLocationCell.xib; sourceTree = "<group>"; };
 		B2D119861E28C9790064045B /* AchievementCelliOS9xx.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementCelliOS9xx.xib; sourceTree = "<group>"; };
 		B2D119881E28CD2A0064045B /* AchievementCellDescriptionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementCellDescriptionCell.xib; sourceTree = "<group>"; };
@@ -3028,11 +3030,12 @@
 		B2D1198A1E290BE20064045B /* banner */ = {
 			isa = PBXGroup;
 			children = (
-				B2D1198B1E290BF80064045B /* banner_notif.png */,
-				B2D1198C1E290BF80064045B /* banner_love.png */,
-				B2D1198D1E290BF80064045B /* banner_harga.png */,
-				B2D1198E1E290BF80064045B /* banner_exclamation.png */,
+				B2C59A831E2E05E2002E4597 /* banner_achievement.png */,
 				B2D1198F1E290BF80064045B /* banner_comment.png */,
+				B2D1198E1E290BF80064045B /* banner_exclamation.png */,
+				B2D1198D1E290BF80064045B /* banner_harga.png */,
+				B2D1198C1E290BF80064045B /* banner_love.png */,
+				B2D1198B1E290BF80064045B /* banner_notif.png */,
 			);
 			name = banner;
 			sourceTree = "<group>";
@@ -3493,6 +3496,7 @@
 				21156EB31B8F3598001D7842 /* ic_prelo_logo_text@2x.png in Resources */,
 				589A6FCD1D8C08F600654CDD /* ic_voucher.png in Resources */,
 				58A4F9721CB4F5DB00E717AF /* banner_reserved.png in Resources */,
+				B2C59A841E2E05E3002E4597 /* banner_achievement.png in Resources */,
 				B2B4DCC61E2D32D600EBBD33 /* diamond.png in Resources */,
 				214864CF1B6F235900EF49EF /* ic_chat@2x.png in Resources */,
 				585887531DBEDC03006EC6D5 /* SetupPasswordPopUp.xib in Resources */,

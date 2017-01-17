@@ -250,6 +250,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         if (currentMode == .shop || currentMode == .newShop) {
             self.defaultNavigationBar()
+            
+            self.gridView.delegate = nil
+            self.gridView = nil
+            self.products = nil
         }
 
     }

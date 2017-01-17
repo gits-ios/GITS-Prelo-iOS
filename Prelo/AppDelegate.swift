@@ -41,6 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let RedirTrxPSeller = "transaction_product_seller"
     let RedirCategory = "category"
     let RedirLove = "lovers"
+    let RedirAchievement = "achievement"
     
     var redirAlert : UIAlertView?
     var RedirWaitAmount : Int = 10000000
@@ -177,16 +178,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Kepanggil hanya jika app baru saja dibuka, jika dibuka ketika sedang dalam background mode maka tidak terpanggil
         if (launchOptions != nil) {
             if let remoteNotif = launchOptions![UIApplicationLaunchOptionsKey.remoteNotification] as? NSDictionary {
-                if let remoteNotifAps = remoteNotif["aps"] as? NSDictionary {
-                    //Constant.showDialog("Push Notification", message: "remoteNotifAps = \(remoteNotifAps)")
-                    if let tipe = remoteNotifAps.object(forKey: "tipe") as? String {
-                        var targetId : String?
-                        if let tId = remoteNotifAps.object(forKey: "target_id") as? String {
-                            targetId = tId
-                        }
-                        self.deeplinkRedirect(tipe, targetId: targetId)
+                if let tipe = remoteNotif.object(forKey: "tipe") as? String {
+                    var targetId : String?
+                    if let tId = remoteNotif.object(forKey: "target_id") as? String {
+                        targetId = tId
                     }
+//                    Constant.showDialog(tipe, message: targetId! )
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(4), execute: {
+                        self.deeplinkRedirect(tipe, targetId: targetId)
+                    })
+                    
                 }
+                
+//                Constant.showDialog("APNS", message: remoteNotif.description )
             }
         }
         
@@ -481,6 +485,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } else if (tipeLowercase == self.RedirLove) {
                 // love
                 imageName += "love"
+            } else if (tipeLowercase == self.RedirAchievement) {
+                imageName += "achievement"
             }
             imageName += ".png"
             
@@ -741,6 +747,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 self.showRedirAlert()
                 self.redirectLove(targetId!)
             }
+        } else if (tipeLowercase == self.RedirAchievement) {
+            self.showRedirAlert()
+            self.redirectAchievement()
         }
     }
     
@@ -1101,7 +1110,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func redirectLove(_ productId : String) {
-        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         var rootViewController : UINavigationController?
         
         // Tunggu sampai UINavigationController terbentuk
@@ -1128,6 +1136,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let productLovelistVC = Bundle.main.loadNibNamed(Tags.XibNameProductLovelist, owner: nil, options: nil)?.first as! ProductLovelistViewController
             productLovelistVC.productId = productId
             rootViewController!.pushViewController(productLovelistVC, animated: true)
+        } else {
+            self.showFailedRedirAlert()
+        }
+    }
+    
+    func redirectAchievement() {
+        var rootViewController : UINavigationController?
+        
+        // Tunggu sampai UINavigationController terbentuk
+        var wait = true
+        var waitCount = self.RedirWaitAmount
+        while (wait) {
+            if let childVCs = self.window!.rootViewController?.childViewControllers {
+                if (childVCs.count > 0) {
+                    if let rootVC = childVCs[0] as? UINavigationController {
+                        rootViewController = rootVC
+                    }
+                    wait = false
+                }
+            }
+            waitCount -= 1
+            if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                wait = false
+            }
+        }
+        
+        // Redirect setelah selesai menunggu
+        if (rootViewController != nil) {
+            // API Migrasi
+            let AchievementVC = Bundle.main.loadNibNamed(Tags.XibNameAchievement, owner: nil, options: nil)?.first as! AchievementViewController
+            rootViewController!.pushViewController(AchievementVC, animated: true)
         } else {
             self.showFailedRedirAlert()
         }

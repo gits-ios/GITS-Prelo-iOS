@@ -30,7 +30,6 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     var shopReviewVC : ShopReviewViewController?
     var shopBadgeVC : ShopAchievementViewController?
     
-    var listVC : [UIViewController]!
     var avatarUrls : [String] = []
     var badges : Array<URL>! = []
     
@@ -45,8 +44,13 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     
     @IBOutlet var vwHeaderTabBar: UIView!
     @IBOutlet var vwChild: UIView!
+    @IBOutlet var vwToko: UIView!
+    @IBOutlet var vwReview: UIView!
+    @IBOutlet var vwBadge: UIView!
     @IBOutlet var consTopVw: NSLayoutConstraint! // 0 --> -170
     @IBOutlet var consWidthCollectionView: NSLayoutConstraint!
+    @IBOutlet var consLeadingVwReview: NSLayoutConstraint!
+    @IBOutlet var consTrailingVwReview: NSLayoutConstraint!
     
     @IBOutlet var vwCollection: UIView! // hide
     @IBOutlet var vwGeolocation: UIView! // hide
@@ -56,6 +60,8 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     var isTransparent : Bool = true
     var isFirst : Bool = true
     var curTop : CGFloat = 0
+    
+    var curIndex = 0
     
     @IBOutlet var navigationBtn: UISegmentedControl!
     
@@ -82,11 +88,13 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         shopBadgeVC?.currentMode = .inject
         shopBadgeVC?.delegate = self
         
-        listVC = []
+        let swipeRight = UISwipeGestureRecognizer(target: self, action:  #selector(StorePageTabBarViewController.swiped(_:)))
+        swipeRight.direction = UISwipeGestureRecognizerDirection.right
+        self.vwChild.addGestureRecognizer(swipeRight)
         
-        listVC.append(listItemVC!)
-        listVC.append(shopReviewVC!)
-        listVC.append(shopBadgeVC!)
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action:  #selector(StorePageTabBarViewController.swiped(_:)))
+        swipeLeft.direction = UISwipeGestureRecognizerDirection.left
+        self.vwChild.addGestureRecognizer(swipeLeft)
         
         // Set title
         self.title = "" // clear title
@@ -119,6 +127,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
                 setEditButton()
             }
             
+            setupSubView()
             setSubVC(0)
             isFirst = false
         }
@@ -129,14 +138,107 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         }
     }
     
-    func setSubVC(_ index: Int) {
-        let vc  = self.listVC[index]
-        self.addChildViewController(vc)
-        vc.view.frame = CGRect(x: 0, y: 0, width: self.vwHeaderTabBar.frame.size.width, height: self.vwChild.frame.size.height);
-        self.vwChild.addSubview((vc.view)!)
-        vc.didMove(toParentViewController: self)
+    func setupSubView() {
+        // toko
+        let vc1 = self.listItemVC
+        self.addChildViewController(vc1!)
+        vc1?.view.frame = CGRect(x: 0, y: 0, width: self.vwHeaderTabBar.frame.size.width, height: self.vwChild.frame.size.height);
+        self.vwToko.addSubview((vc1?.view)!)
+        vc1?.didMove(toParentViewController: self)
+        
+        // review
+        let vc2 = self.shopReviewVC
+        self.addChildViewController(vc2!)
+        vc2?.view.frame = CGRect(x: 0, y: 0, width: self.vwHeaderTabBar.frame.size.width, height: self.vwChild.frame.size.height);
+        self.vwReview.addSubview((vc2?.view)!)
+        vc2?.didMove(toParentViewController: self)
+        
+        // badge
+        let vc3 = self.shopBadgeVC
+        self.addChildViewController(vc3!)
+        vc3?.view.frame = CGRect(x: 0, y: 0, width: self.vwHeaderTabBar.frame.size.width, height: self.vwChild.frame.size.height);
+        self.vwBadge.addSubview((vc3?.view)!)
+        vc3?.didMove(toParentViewController: self)
     }
     
+    func setSubVC(_ index: Int) {
+        
+        let width = self.vwChild.width
+        var cons = CGFloat(0)
+        
+        switch (index) {
+        // index 0
+        // goto left
+        // leading - width // trailing + width
+        case 0:
+            cons = width
+        // index 1
+        // goto center
+        // leading 0 // trailing 0
+        case 1:
+            cons = 0
+        // index 2
+        // goto right
+        // leading + width // trailing - width
+        case 2:
+            cons = -width
+            
+        default:
+            print("default")
+        }
+        
+//        UIView.animate(withDuration: 0.5, delay: 0, options: [ .transitionFlipFromLeft, .transitionFlipFromRight ], animations: {
+//            
+//            self.consLeadingVwReview.constant = cons
+//            self.consTrailingVwReview.constant = -cons
+//            
+////            self.vwReview.layoutIfNeeded()
+//            
+//        }, completion: nil)
+        UIView.animate(withDuration: 0.5) {
+//            let length = 10000
+//            let nit = cons/CGFloat(length)
+//            
+//            // init
+//            self.consLeadingVwReview.constant = nit
+//            self.consTrailingVwReview.constant = -nit
+//            
+//            for _ in 0...length-1 {
+//                self.consLeadingVwReview.constant += nit
+//                self.consTrailingVwReview.constant -= nit
+//            }
+            
+            // TODO: - smooth transistion
+            self.consLeadingVwReview.constant = cons
+            self.consTrailingVwReview.constant = -cons
+        }
+        
+        
+        
+        curIndex = index
+        if navigationBtn.selectedSegmentIndex != index {
+            navigationBtn.selectedSegmentIndex = index
+        }
+    }
+    
+    func swiped(_ gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer{
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.right:
+                if curIndex > 0 {
+                    setSubVC(curIndex - 1)
+                }
+                print("right swipe")
+            case UISwipeGestureRecognizerDirection.left:
+                if curIndex < 2 {
+                    setSubVC(curIndex + 1)
+                }
+                print("left swipe")
+            default:
+                print("other swipe")
+            }
+        }
+    }
     
     // MARK: - Edit Profile button (right top)
     func setEditButton() {
@@ -239,13 +341,14 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         
         // setup review
         self.shopReviewVC?.userReviews = []
-        self.shopReviewVC?.setUserReviews(json["reviews"])
         self.shopReviewVC?.sellerName = self.shopName.text!
         self.shopReviewVC?.averageRate = json["average_star"].float!
+        self.shopReviewVC?.countReview = countReview!
+        self.shopReviewVC?.setUserReviews(json["reviews"]["as_seller"])
         
         self.shopBadgeVC?.userAchievements = []
-        self.shopBadgeVC?.setUserAchievements(json["achievements"])
         self.shopBadgeVC?.sellerName = self.shopName.text!
+        self.shopBadgeVC?.setUserAchievements(json["achievements"])
     }
     
     func setShopTitle(_ title: String) {

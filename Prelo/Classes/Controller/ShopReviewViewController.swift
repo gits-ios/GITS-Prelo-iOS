@@ -30,6 +30,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     var delegate : NewShopHeaderDelegate?
     var isTransparent = false
     var averageRate : Float = 0.0
+    var countReview : Int = 0
     
     // MARK: - Init
     
@@ -159,7 +160,11 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     // MARK: - UITableView Functions
     func numberOfSections(in tableView: UITableView) -> Int {
         if (currentMode == .inject) {
-            return 3
+            if (countReview > 5) {
+                return 3
+            } else {
+                return 2
+            }
         } else {
             return 1
         }
