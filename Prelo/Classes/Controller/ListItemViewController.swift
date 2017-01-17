@@ -250,10 +250,6 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         if (currentMode == .shop || currentMode == .newShop) {
             self.defaultNavigationBar()
-            
-            self.gridView.delegate = nil
-            self.gridView = nil
-            self.products = nil
         }
 
     }
@@ -306,6 +302,15 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             _ = self.navigationController?.popToViewController(viewControllers[1], animated: true);
         } else {
             _ = self.navigationController?.popViewController(animated: true)
+        }
+        
+        // clear
+        if (currentMode == .shop || currentMode == .newShop) {
+            if (self.gridView != nil) {
+                self.gridView.delegate = nil
+                self.gridView = nil
+            }
+            self.products = nil
         }
     }
     
@@ -1265,11 +1270,13 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func scrollViewHeaderShop(_ scrollView: UIScrollView) {
-        let pointY = CGFloat(104)
+        let pointY = CGFloat(170 - 64 - 45)
+        let screenSize = UIScreen.main.bounds
+        let screenHeight = screenSize.height
         if (scrollView.contentOffset.y < pointY) {
             self.delegate?.increaseHeader()
             self.transparentNavigationBar(true)
-        } else if (scrollView.contentOffset.y >= pointY) {
+        } else if (scrollView.contentOffset.y >= pointY && scrollView.contentSize.height >= screenHeight) {
             self.delegate?.dereaseHeader()
             self.transparentNavigationBar(false)
         }

@@ -267,11 +267,13 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func scrollViewHeaderShop(_ scrollView: UIScrollView) {
-        let pointY = CGFloat(104)
+        let pointY = CGFloat(170 - 64)
+        let screenSize = UIScreen.main.bounds
+        let screenHeight = screenSize.height
         if (scrollView.contentOffset.y < pointY) {
             self.delegate?.increaseHeader()
             self.transparentNavigationBar(true)
-        } else if (scrollView.contentOffset.y >= pointY) {
+        } else if (scrollView.contentOffset.y >= pointY && scrollView.contentSize.height >= screenHeight) {
             self.delegate?.dereaseHeader()
             self.transparentNavigationBar(false)
         }

@@ -3552,19 +3552,35 @@ class AchievementItem : NSObject {
         return []
     }
     
-    var conditions : Array<[String:Bool]> {
+//    var conditions : Array<[String:Bool]> {
+//        if let arr = json["conditions"].array { // fulfilled , condition_text
+//            
+//            var innerConditions : Array<[String:Bool]> = []
+//            if arr.count > 0 {
+//                for i in 0...arr.count-1 {
+//                    let d = arr[i]
+//                    let fulfilled = d["fulfilled"].bool
+//                    let conditionText = d["condition_text"].string
+//                    
+//                    let condition : [String:Bool] = [conditionText!:fulfilled!]
+//                    
+//                    innerConditions.append(condition)
+//                }
+//            }
+//            
+//            return innerConditions
+//            
+//        }
+//        return []
+//    }
+    
+    var conditions : Array<AchievementConditionItem> {
         if let arr = json["conditions"].array { // fulfilled , condition_text
             
-            var innerConditions : Array<[String:Bool]> = []
+            var innerConditions : Array<AchievementConditionItem> = []
             if arr.count > 0 {
                 for i in 0...arr.count-1 {
-                    let d = arr[i]
-                    let fulfilled = d["fulfilled"].bool
-                    let conditionText = d["condition_text"].string
-                    
-                    let condition : [String:Bool] = [conditionText!:fulfilled!]
-                    
-                    innerConditions.append(condition)
+                    innerConditions.append(AchievementConditionItem.instance(arr[i])!)
                 }
             }
             
@@ -3630,4 +3646,33 @@ class UserAchievement : NSObject {
         }
         return ""
     }
+}
+
+class AchievementConditionItem : NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> AchievementConditionItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = AchievementConditionItem()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var fulfilled : Bool {
+        if let j = json["fulfilled"].bool {
+            return j
+        }
+        return false
+    }
+    
+    var conditionText : String {
+        if let j = json["condition_text"].string {
+            return j
+        }
+        return ""
+    }
+    
 }

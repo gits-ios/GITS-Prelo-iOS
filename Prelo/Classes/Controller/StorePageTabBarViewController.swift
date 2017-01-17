@@ -49,8 +49,6 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     @IBOutlet var vwBadge: UIView!
     @IBOutlet var consTopVw: NSLayoutConstraint! // 0 --> -170
     @IBOutlet var consWidthCollectionView: NSLayoutConstraint!
-    @IBOutlet var consLeadingVwReview: NSLayoutConstraint!
-    @IBOutlet var consTrailingVwReview: NSLayoutConstraint!
     
     @IBOutlet var vwCollection: UIView! // hide
     @IBOutlet var vwGeolocation: UIView! // hide
@@ -60,10 +58,16 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     var isTransparent : Bool = true
     var isFirst : Bool = true
     var curTop : CGFloat = 0
+    var isOnTop : Bool = false
     
     var curIndex = 0
     
-    @IBOutlet var navigationBtn: UISegmentedControl!
+    @IBOutlet var vwNavBar: UIView!
+    var segmentView : SMSegmentView!
+    var seletionBar: UIView = UIView()
+    @IBOutlet var consCenterVwChild: NSLayoutConstraint! // 375 | 0 | -375
+    
+    @IBOutlet var dashboardCover: UIImageView!
     
     // MARK: - Init
     override func viewDidLoad() {
@@ -98,7 +102,6 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         
         // Set title
         self.title = "" // clear title
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -127,8 +130,11 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
                 setEditButton()
             }
             
+            setupNavBar()
             setupSubView()
             setSubVC(0)
+            setSelectionBar(0)
+            
             isFirst = false
         }
         
@@ -136,6 +142,44 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         UIView.animate(withDuration: 0.5) {
             self.navigationController?.navigationBar.isTranslucent = true
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        setSubVC(0)
+        setSelectionBar(0)
+    }
+    
+    func setupNavBar() {
+        // custom navbar
+        // need size & style
+        let appearance = SMSegmentAppearance()
+        
+        appearance.segmentOnSelectionColour = UIColor.white
+        appearance.segmentOffSelectionColour = UIColor.white
+        
+        appearance.titleOnSelectionColour = Theme.TabSelectedColor
+        appearance.titleOffSelectionColour = Theme.TabNormalColor
+        
+        appearance.titleOnSelectionFont = UIFont.systemFont(ofSize: 16.0)
+        appearance.titleOffSelectionFont = UIFont.systemFont(ofSize: 16.0)
+        
+        appearance.contentVerticalMargin = 8
+        
+        let subFrame = CGRect(x: 0, y: 0, width: self.vwNavBar.width, height: 44)
+        
+        segmentView = SMSegmentView(frame: subFrame , dividerColour: UIColor.white, dividerWidth: 1, segmentAppearance: appearance)
+        segmentView.tintColor = UIColor.clear
+        segmentView.addTarget(self, action: #selector(StorePageTabBarViewController.navigateSegment(_:)), for: .valueChanged)
+        
+        self.vwNavBar.addSubview(segmentView)
+        
+        // only 3 -- toko, review, badge
+        self.seletionBar.frame = CGRect(x: 0.0, y: 40.0, width: self.segmentView.frame.size.width/3, height: 4.0)
+        self.seletionBar.backgroundColor = Theme.PrimaryColorDark
+        
+        self.vwNavBar.addSubview(seletionBar)
     }
     
     func setupSubView() {
@@ -163,61 +207,64 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     
     func setSubVC(_ index: Int) {
         
-        let width = self.vwChild.width
-        var cons = CGFloat(0)
+        let width = self.vwNavBar.width
+        var origin = CGFloat(0)
+        var center = CGFloat(0)
         
         switch (index) {
-        // index 0
-        // goto left
-        // leading - width // trailing + width
         case 0:
-            cons = width
-        // index 1
-        // goto center
-        // leading 0 // trailing 0
+            origin = 0
+            center = width
         case 1:
-            cons = 0
-        // index 2
-        // goto right
-        // leading + width // trailing - width
+            origin = -width
+            center = 0
         case 2:
-            cons = -width
-            
+            origin = 2 * -width
+            center = -width
         default:
             print("default")
         }
         
-//        UIView.animate(withDuration: 0.5, delay: 0, options: [ .transitionFlipFromLeft, .transitionFlipFromRight ], animations: {
-//            
-//            self.consLeadingVwReview.constant = cons
-//            self.consTrailingVwReview.constant = -cons
-//            
-////            self.vwReview.layoutIfNeeded()
-//            
-//        }, completion: nil)
-        UIView.animate(withDuration: 0.5) {
-//            let length = 10000
-//            let nit = cons/CGFloat(length)
-//            
-//            // init
-//            self.consLeadingVwReview.constant = nit
-//            self.consTrailingVwReview.constant = -nit
-//            
-//            for _ in 0...length-1 {
-//                self.consLeadingVwReview.constant += nit
-//                self.consTrailingVwReview.constant -= nit
-//            }
-            
-            // TODO: - smooth transistion
-            self.consLeadingVwReview.constant = cons
-            self.consTrailingVwReview.constant = -cons
+        // 1
+        let placeSelectionBar = { () -> () in
+            // parent
+            var curView = self.vwChild.frame
+            curView.origin.x = origin
+            self.vwChild.frame = curView
         }
         
+        // 2
+        UIView.animate(withDuration: 0.3, animations: {
+            placeSelectionBar()
+        })
         
+        // inject center (fixer)
+        self.consCenterVwChild.constant = center
         
         curIndex = index
-        if navigationBtn.selectedSegmentIndex != index {
-            navigationBtn.selectedSegmentIndex = index
+        if segmentView.selectedSegmentIndex != index {
+            segmentView.selectedSegmentIndex = index
+        }
+        
+    }
+    
+    func setSelectionBar(_ index: Int) {
+        // 1
+        let placeSelectionBar = { () -> () in
+            var barFrame = self.seletionBar.frame
+            barFrame.origin.x = barFrame.size.width * CGFloat(index)
+            self.seletionBar.frame = barFrame
+        }
+        
+        // 2
+        if self.seletionBar.superview == nil {
+            self.segmentView.addSubview(self.seletionBar)
+            placeSelectionBar()
+        }
+        else {
+            UIView.animate(withDuration: 0.3, animations: {
+                placeSelectionBar()
+            })
         }
     }
     
@@ -265,27 +312,94 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         self.navigationController?.present(c, animated: true, completion: nil)
     }
     
-    
     // button move view VC
-    @IBAction func navBarPressed(_ sender: UISegmentedControl) {
-        self.setSubVC(sender.selectedSegmentIndex)
+    func navigateSegment(_ segmentView: SMSegmentView) {
+        print("Select segment at index: \(segmentView.selectedSegmentIndex)")
+        setSubVC(segmentView.selectedSegmentIndex)
+        setSelectionBar(segmentView.selectedSegmentIndex)
     }
     
     // MARK: - delegate
     func increaseHeader() {
-        if (self.consTopVw.constant < 0) {
-            self.consTopVw.constant += 10
+//        if (self.consTopVw.constant < 0) {
+//            self.consTopVw.constant += 10
+//            
+//            self.curTop = self.consTopVw.constant
+//        }
+        
+        
+        if (self.isOnTop) {
+            self.isOnTop = false
             
-            self.curTop = self.consTopVw.constant
+            // 1
+            let placeSelectionBar = { () -> () in
+                // parent
+                var curView = self.vwHeaderTabBar.frame
+                curView.origin.y = 0
+                self.vwHeaderTabBar.frame = curView
+                
+                var cur2View = self.vwNavBar.frame
+                cur2View.origin.y = 170
+                self.vwNavBar.frame = cur2View
+                
+                var cur3View = self.vwChild.frame
+                cur3View.origin.y = 215
+                self.vwChild.frame = cur3View
+                
+                var cur4View = self.dashboardCover.frame
+                cur4View.origin.y = -110
+                self.dashboardCover.frame = cur4View
+            }
+            
+            // 2
+            UIView.animate(withDuration: 0.5, animations: {
+                placeSelectionBar()
+            })
+            
+            // inject center (fixer)
+            self.consTopVw.constant = 0
         }
     }
     
     func dereaseHeader() {
         
-        if (self.consTopVw.constant > -170) {
-            self.consTopVw.constant -= 10
+//        if (self.consTopVw.constant > -170) {
+//            self.consTopVw.constant -= 10
+//            
+//            self.curTop = self.consTopVw.constant
+//        }
+        
+        
+        if (!self.isOnTop) {
+            self.isOnTop = true
             
-            self.curTop = self.consTopVw.constant
+            // 1
+            let placeSelectionBar = { () -> () in
+                // parent
+                var curView = self.vwHeaderTabBar.frame
+                curView.origin.y = -170
+                self.vwHeaderTabBar.frame = curView
+                
+                var cur2View = self.vwNavBar.frame
+                cur2View.origin.y = 0
+                self.vwNavBar.frame = cur2View
+                
+                var cur3View = self.vwChild.frame
+                cur3View.origin.y = 45
+                self.vwChild.frame = cur3View
+                
+                var cur4View = self.dashboardCover.frame
+                cur4View.origin.y = -280
+                self.dashboardCover.frame = cur4View
+            }
+            
+            // 2
+            UIView.animate(withDuration: 0.5, animations: {
+                placeSelectionBar()
+            })
+            
+            // inject center (fixer)
+            self.consTopVw.constant = -170
         }
     }
     
@@ -332,11 +446,15 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         self.vwGeolocation.isHidden = false
         
         let countReview = json["num_reviewer"].int
-        self.navigationBtn.setTitle("Review " + countReview!.string, forSegmentAt: 1)
-        
         let countAchievement = (json["achievements"].array)?.count
-        self.navigationBtn.setTitle("Badge " + countAchievement!.string, forSegmentAt: 2)
         
+        if self.segmentView.numberOfSegments == 0 {
+            self.segmentView.addSegmentWithTitle("Toko", onSelectionImage: nil, offSelectionImage: nil)
+            
+            self.segmentView.addSegmentWithTitle("Review (" + countReview!.string + ")", onSelectionImage: nil, offSelectionImage: nil)
+            
+            self.segmentView.addSegmentWithTitle("Badge (" + countAchievement!.string + ")", onSelectionImage: nil, offSelectionImage: nil)
+        }
         self.loadingPanel.isHidden = true
         
         // setup review

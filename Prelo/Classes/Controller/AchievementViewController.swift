@@ -160,7 +160,8 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                 let textRect = achievements![(indexPath as NSIndexPath).section - 1].desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 42)
                 return CGFloat(Int(textRect.height + 4))
             } else if ((indexPath as NSIndexPath).row > 1 && (indexPath as NSIndexPath).row <= achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1) { // condition cell
-                return 30 + 4
+                let textRect = achievements![(indexPath as NSIndexPath).section - 1].conditions[(indexPath as NSIndexPath).row - 2].conditionText.boundsWithFontSize(UIFont.systemFont(ofSize: 11), width: UIScreen.main.bounds.size.width - 42)
+                return (textRect.height < 30 ? 30 : CGFloat(Int(textRect.height)) + 4)
             } else if ((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 2 && achievements![(indexPath as NSIndexPath).section - 1].tierIcons.count > 0) { // tier icons cell
                 return 40 + 4
             } else if (((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 3 && achievements![(indexPath as NSIndexPath).section - 1].tierIcons.count > 0 && (achievements![(indexPath as NSIndexPath).section - 1].actionUri != nil)) || ((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 2 && achievements![(indexPath as NSIndexPath).section - 1].tierIcons.count == 0 && (achievements![(indexPath as NSIndexPath).section - 1].actionUri != nil))) { // action cell
@@ -378,19 +379,28 @@ class AchievementCellProgressCell: UITableViewCell { // height 30
     @IBOutlet var lblCondition: UILabel!
     @IBOutlet var lblFullfilled: UILabel!
     
+//    // adapt
+//    func adapt(_ condition: [String:Bool]) {
+//        
+//        for (key, value) in condition {
+//            self.lblCondition.text = key
+////            self.lblFullfilled.isHidden = !value
+//            self.lblFullfilled.isHidden = false
+//            
+//            self.lblFullfilled.backgroundColor = (value == false ? UIColor.lightGray : Theme.PrimaryColor)
+//            
+//            print(key)
+//            print(value)
+//        }
+//    }
+    
     // adapt
-    func adapt(_ condition: [String:Bool]) {
+    func adapt(_ condition: AchievementConditionItem) {
         
-        for (key, value) in condition {
-            self.lblCondition.text = key
-//            self.lblFullfilled.isHidden = !value
-            self.lblFullfilled.isHidden = false
-            
-            self.lblFullfilled.backgroundColor = (value == false ? UIColor.lightGray : Theme.PrimaryColor)
-            
-            print(key)
-            print(value)
-        }
+        self.lblCondition.text = condition.conditionText
+        self.lblFullfilled.isHidden = false
+        self.lblFullfilled.backgroundColor = (condition.fulfilled == false ? UIColor.lightGray : Theme.PrimaryColor)
+        
     }
 }
 
