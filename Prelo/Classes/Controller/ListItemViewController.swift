@@ -1270,10 +1270,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func scrollViewHeaderShop(_ scrollView: UIScrollView) {
-        let pointY = CGFloat(170 - 64 - 45)
+        let pointY = CGFloat(1) //CGFloat(170 - 64 - 45)
         let screenSize = UIScreen.main.bounds
         let screenHeight = screenSize.height
-        if (scrollView.contentOffset.y < pointY) {
+        if (scrollView.contentOffset.y < pointY && scrollView.contentSize.height >= screenHeight) {
             self.delegate?.increaseHeader()
             self.transparentNavigationBar(true)
         } else if (scrollView.contentOffset.y >= pointY && scrollView.contentSize.height >= screenHeight) {
