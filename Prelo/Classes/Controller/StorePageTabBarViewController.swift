@@ -59,6 +59,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     var isFirst : Bool = true
     var curTop : CGFloat = 0
     var isOnTop : Bool = false
+    var isLeft : Bool = false
     
     var curIndex = 0
     
@@ -138,14 +139,25 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
             isFirst = false
         }
         
-        self.consTopVw.constant = self.curTop
+//        self.consTopVw.constant = self.curTop
         UIView.animate(withDuration: 0.5) {
             self.navigationController?.navigationBar.isTranslucent = true
+        }
+        
+        if (self.isOnTop) {
+            self.isOnTop = false
+            self.dereaseHeader()
         }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+        super.viewWillDisappear(true)
+        
+        self.isLeft = true
+    }
+    
+    override func backPressed(_ sender: UIBarButtonItem) {
+        super.backPressed(sender)
         
         setSubVC(0)
         setSelectionBar(0)
@@ -373,6 +385,14 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         if (!self.isOnTop) {
             self.isOnTop = true
             
+            
+            var margin = CGFloat(0)
+            if self.isLeft {
+                
+                // navbar
+                margin = 64
+            }
+            
             // 1
             let placeSelectionBar = { () -> () in
                 // parent
@@ -381,11 +401,11 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
                 self.vwHeaderTabBar.frame = curView
                 
                 var cur2View = self.vwNavBar.frame
-                cur2View.origin.y = 0
+                cur2View.origin.y = 0 + margin
                 self.vwNavBar.frame = cur2View
                 
                 var cur3View = self.vwChild.frame
-                cur3View.origin.y = 45
+                cur3View.origin.y = 45 + margin
                 self.vwChild.frame = cur3View
                 
                 var cur4View = self.dashboardCover.frame
