@@ -60,8 +60,8 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
             loadingPanel.isHidden = false
             loading.startAnimating()
             
-            tableView.isHidden = true
         }
+        tableView.isHidden = true
         
         lblEmpty.isHidden = true
     }

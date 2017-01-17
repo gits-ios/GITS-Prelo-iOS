@@ -34,7 +34,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     var badges : Array<URL>! = []
     
     // shop header
-    var shopId : String!
+    var shopId : String! = ""
     
     @IBOutlet var imageVIew: UIView! // hide
     @IBOutlet var shopAvatar: UIImageView!
@@ -119,6 +119,12 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        if (self.shopId == nil || self.shopId == "") {
+            self.navigationController?.popViewController(animated: true)
+            
+            Constant.showDialog("Data Shop Pengguna", message: "Oops, profil seller tidak ditemukan")
+        } else {
+        
         if isFirst {
             listItemVC?.shopId = self.shopId
             shopReviewVC?.sellerId = self.shopId
@@ -147,6 +153,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         if (self.isOnTop) {
             self.isOnTop = false
             self.dereaseHeader()
+        }
         }
     }
     

@@ -421,9 +421,24 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 // Save history
                 doSearch(keyword: foundItems[(indexPath as NSIndexPath).row].name)
                 
-                let d = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
-                d.product = foundItems[(indexPath as NSIndexPath).row]
-                self.navigationController?.pushViewController(d, animated: true)
+                let selectedProduct = foundItems[(indexPath as NSIndexPath).row]
+                
+                if selectedProduct.isAggregate == false && selectedProduct.isAffiliate == false {
+                    let d = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+                    d.product = foundItems[(indexPath as NSIndexPath).row]
+                    self.navigationController?.pushViewController(d, animated: true)
+                } else if selectedProduct.isAffiliate == false {
+                    let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+                    l.currentMode = .filter
+                    l.fltrAggregateId = selectedProduct.id
+                    l.fltrName = ""
+                    self.navigationController?.pushViewController(l, animated: true)
+                } else {
+                    let urlString = selectedProduct.json["affiliate_data"]["affiliate_url"].stringValue
+                    
+                    let url = NSURL(string: urlString)!
+                    UIApplication.shared.openURL(url as URL)
+                }
             }
         } else if ((indexPath as NSIndexPath).section == SectionUser) {
             if ((indexPath as NSIndexPath).row == foundUsers.count) {
