@@ -132,6 +132,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     @IBOutlet var vwTopBannerParent: UIView!
     @IBOutlet var consHeightTopBannerParent: NSLayoutConstraint!
     
+    var draftProduct : CDDraftProduct?
+    var draftMode = false
+    
+    var uniqueCodeString : String!
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -191,6 +196,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         fakeScrollView.backgroundColor = .white
         if (editMode)
         {
+            fakeScrollView.isHidden = true
+            btnDelete.addTarget(self, action: #selector(AddProductViewController2.askDeleteProduct), for: .touchUpInside)
+        } else if (draftMode) {
             fakeScrollView.isHidden = true
             btnDelete.addTarget(self, action: #selector(AddProductViewController2.askDeleteProduct), for: .touchUpInside)
         } else
@@ -403,9 +411,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             
             setupTopBanner()
         }
-        else if (CDDraftProduct.getOne() != nil)
+        else if (draftMode)
         {
-            let product = CDDraftProduct.getOne()
+            let product = draftProduct
             
             txtName.text = product?.name
             txtDescription.text = product?.descriptionText
@@ -446,7 +454,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             
             if let commission = product?.commission
             {
-                txtCommission.text = "\(commission) %"
+                txtCommission.text = commission
             }
             
             // category
@@ -472,9 +480,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 merekId = brndId
             }
             
-            if let arr = try? CDDraftProduct.getImagePaths()
+            if let arr = try? CDDraftProduct.getImagePaths((product?.localId)!)
             {
-                let arrOr = CDDraftProduct.getImageOrientations()
+                let arrOr = CDDraftProduct.getImageOrientations((product?.localId)!)
                 
                 for i in 0...arr.count-1
                 {
@@ -512,7 +520,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             }
             
             // Luxury fields
-            if let luxData = try? CDDraftProduct.isLuxury(), luxData == true {
+            if let luxData = try? CDDraftProduct.isLuxury((product?.localId)!), luxData == true {
                 // Show luxury fields
                 self.groupVerifAuth.isHidden = false
                 self.groupKelengkapan.isHidden = false
@@ -555,6 +563,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             }
             
             hideFakeScrollView()
+        } else {
+            // set init id
+            
+            let uniqueCode : TimeInterval = Date().timeIntervalSinceReferenceDate
+            self.uniqueCodeString = uniqueCode.description
         }
         
         
@@ -1403,13 +1416,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                                 {
                                     s = x
                                 }
-                            } else if CDDraftProduct.getOne() != nil {
-                                if let x = CDDraftProduct.getOne()?.size
+                            } else if self.draftMode {
+                                if let x = self.draftProduct?.size
                                 {
                                     s = x
                                 }
                             }
-                            if (s != "" && (self.editMode == true || CDDraftProduct.getOne() != nil))
+                            if (s != "" && (self.editMode == true || self.draftMode == true))
                             {
                                 s = s.replacingOccurrences(of: "/", with: "\n")
                                 s = s.replacingOccurrences(of: " ", with: "-")
@@ -1663,28 +1676,33 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     func deleteProduct()
     {
-        if let prodId = editProduct?.productID
-        {
-            btnSubmit.isEnabled = false
-            btnDelete.setTitle("Menghapus barang...", for: UIControlState.disabled)
-            btnDelete.isEnabled = false
-            
-            let _ = request(APIProduct.delete(productID: prodId)).responseJSON {resp in
-                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Hapus Barang"))
-                {
-                    if var v = self.navigationController?.viewControllers
+        if (editMode) {
+            if let prodId = editProduct?.productID
+            {
+                btnSubmit.isEnabled = false
+                btnDelete.setTitle("Menghapus barang...", for: UIControlState.disabled)
+                btnDelete.isEnabled = false
+                
+                let _ = request(APIProduct.delete(productID: prodId)).responseJSON {resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Hapus Barang"))
                     {
-                        v.removeLast()
-                        v.removeLast()
-                        self.navigationController?.setViewControllers(v, animated: true)
+                        if var v = self.navigationController?.viewControllers
+                        {
+                            v.removeLast()
+                            v.removeLast()
+                            self.navigationController?.setViewControllers(v, animated: true)
+                        }
+                        
+                        //                    self.navigationController?.popViewControllerAnimated(true)
+                    } else {
+                        self.btnSubmit.isEnabled = true
+                        self.btnDelete.isEnabled = true
                     }
-                    
-//                    self.navigationController?.popViewControllerAnimated(true)
-                } else {
-                    self.btnSubmit.isEnabled = true
-                    self.btnDelete.isEnabled = true
                 }
             }
+        } else if (draftMode) {
+            CDDraftProduct.delete((draftProduct?.localId)!)
+            Constant.showBadgeDialog("Berhasil", message: "Draft barang berhasil dihapus", badge: "info", view: self, isBack: true)
         }
     }
     
@@ -1930,6 +1948,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 share.sendProductBeforeScreen = self.screenBeforeAddProduct
                 share.sendProductKondisi = self.kodindisiId
                 share.shouldSkipBack = false
+                share.localId = self.draftMode ? (self.draftProduct?.localId)! : self.uniqueCodeString
                 
                 self.navigationController?.pushViewController(share, animated: true)
             }))
@@ -2018,44 +2037,43 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     // MARK: - saveDraft
     
     func saveDraft(isBack: Bool) {
-        //  0  styleName : String
-        //  1  serialNumber : String
-        //  2  purchaseLocation : String
-        //  3  purchaseYear : String
-        //  4  originalBox : String
-        //  5  originalDustbox : String
-        //  6  receipt : String
-        //  7  authenticityCard : String
-        
-        var luxuryData : Array<String> = ["", "", "", "", "", "", "", ""]
-        
-        if (self.isOriginalBoxChecked || self.isOriginalDustboxChecked || self.isReceiptChecked || self.isAuthCardChecked) {
-            luxuryData[0] = self.txtLuxStyleName.text!
-            luxuryData[1] = self.txtLuxSerialNumber.text!
-            luxuryData[2] = self.txtLuxLokasiBeli.text!
-            luxuryData[3] = self.txtLuxTahunBeli.text!
-            luxuryData[4] = self.isOriginalBoxChecked.description
-            luxuryData[5] = self.isOriginalDustboxChecked.description
-            luxuryData[6] = self.isReceiptChecked.description
-            luxuryData[7] = self.isAuthCardChecked.description
-        }
-        
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
                                             qos: .background,
                                             target: nil)
         backgroundQueue.async {
             print("Work on background queue")
-        
+            
+            //  0  styleName : String
+            //  1  serialNumber : String
+            //  2  purchaseLocation : String
+            //  3  purchaseYear : String
+            //  4  originalBox : String
+            //  5  originalDustbox : String
+            //  6  receipt : String
+            //  7  authenticityCard : String
+            
+            var luxuryData : Array<String> = ["", "", "", "", "", "", "", ""]
+            
+            if (self.isOriginalBoxChecked || self.isOriginalDustboxChecked || self.isReceiptChecked || self.isAuthCardChecked) {
+                luxuryData[0] = self.txtLuxStyleName.text!
+                luxuryData[1] = self.txtLuxSerialNumber.text!
+                luxuryData[2] = self.txtLuxLokasiBeli.text!
+                luxuryData[3] = self.txtLuxTahunBeli.text!
+                luxuryData[4] = self.isOriginalBoxChecked.description
+                luxuryData[5] = self.isOriginalDustboxChecked.description
+                luxuryData[6] = self.isReceiptChecked.description
+                luxuryData[7] = self.isAuthCardChecked.description
+            }
             
             // save image first if from camera
             self.saveImages(self.images)
             
             // save to core data
-            CDDraftProduct.saveDraft(self.txtName.text!, descriptionText: self.txtDescription.text, weight: self.txtWeight.text != nil ? self.txtWeight.text! : "", freeOngkir: self.freeOngkir, priceOriginal: self.txtOldPrice.text != nil ? self.txtOldPrice.text! : "", price: self.txtNewPrice.text != nil ? self.txtNewPrice.text! : "", commission: self.txtCommission.text != nil ? self.txtCommission.text!.replace(" %", template: "") : "", category: self.captionKategori.text != nil ? self.captionKategori.text! : "", categoryId: self.productCategoryId, isCategWomenOrMenSelected: self.isCategWomenOrMenSelected, condition: self.captionKondisi.text != nil ? self.captionKondisi.text! : "", conditionId: self.kodindisiId, brand: self.captionMerek.text != nil ? self.captionMerek.text! : "", brandId: self.merekId, imagePath: self.localPath, imageOrientation: self.imageOrientation, size: self.txtSize.text != nil ? self.txtSize.text! : "", defectDescription: self.txtDeskripsiCacat.text != nil ? self.txtDeskripsiCacat.text! : "", sellReason: self.txtAlasanJual.text != nil ? self.txtAlasanJual.text! : "", specialStory: self.txtSpesial.text != nil ? self.txtSpesial.text! : "", luxuryData: luxuryData)
+            CDDraftProduct.saveDraft(self.draftMode == true ? (self.draftProduct?.localId)! : self.uniqueCodeString, name: self.txtName.text!, descriptionText: self.txtDescription.text, weight: self.txtWeight.text != nil ? self.txtWeight.text! : "", freeOngkir: self.freeOngkir, priceOriginal: self.txtOldPrice.text != nil ? self.txtOldPrice.text! : "", price: self.txtNewPrice.text != nil ? self.txtNewPrice.text! : "", commission: self.txtCommission.text != nil ? self.txtCommission.text! : "", category: self.captionKategori.text != nil ? self.captionKategori.text! : "", categoryId: self.productCategoryId, isCategWomenOrMenSelected: self.isCategWomenOrMenSelected, condition: self.captionKondisi.text != nil ? self.captionKondisi.text! : "", conditionId: self.kodindisiId, brand: self.captionMerek.text != nil ? self.captionMerek.text! : "", brandId: self.merekId, imagePath: self.localPath, imageOrientation: self.imageOrientation, size: self.txtSize.text != nil ? self.txtSize.text! : "", defectDescription: self.txtDeskripsiCacat.text != nil ? self.txtDeskripsiCacat.text! : "", sellReason: self.txtAlasanJual.text != nil ? self.txtAlasanJual.text! : "", specialStory: self.txtSpesial.text != nil ? self.txtSpesial.text! : "", luxuryData: luxuryData)
         }
         
         if isBack {
-            Constant.showBadgeDialog("Berhasil", message: "Draft barang berhasil disimpan", badge: "info", view: self, isBack: isBack)
+            Constant.showBadgeDialog("Berhasil", message: "Draft barang berhasil disimpan di menu Jualan Saya. Jika belum muncul, mohon tunggu beberapa saat dan coba untuk memperbarui menu Jualan Saya.", badge: "info", view: self, isBack: isBack)
         }
     }
     

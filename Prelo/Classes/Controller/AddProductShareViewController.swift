@@ -52,6 +52,8 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
     
     var pathSender : AddProductShareButton?
     
+    var localId : String = ""
+    
     func updateButtons(_ sender : AddProductShareButton) {
         let tag = sender.tag
         let arr = arrayRows[tag]
@@ -378,6 +380,9 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
             "Instagram Username" : igUsername,
             "Time" : Date().isoFormatted
         ] as [String : Any]
+        
+        // set state is uploading
+        CDDraftProduct.setUploading(self.localId, isUploading: true)
         
         // Add product to product uploader
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {

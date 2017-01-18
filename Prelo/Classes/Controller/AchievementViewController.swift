@@ -64,25 +64,24 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        showLoading()
-        
-        // Setup table
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.tableFooterView = UIView()
-        
-        //TOP, LEFT, BOTTOM, RIGHT
-        let inset = UIEdgeInsetsMake(5, 0, 5, 0)
-        tableView.contentInset = inset
-        
-        
-        tableView.separatorStyle = .none
-        
-        tableView.backgroundColor = UIColor(hex: "E5E9EB")
-        
         if isFirst {
-            getAchievement()
             isFirst = false
+            showLoading()
+            
+            // Setup table
+            tableView.dataSource = self
+            tableView.delegate = self
+            tableView.tableFooterView = UIView()
+            
+            //TOP, LEFT, BOTTOM, RIGHT
+            let inset = UIEdgeInsetsMake(5, 0, 5, 0)
+            tableView.contentInset = inset
+            
+            tableView.separatorStyle = .none
+            
+            tableView.backgroundColor = UIColor(hex: "E5E9EB")
+        
+            getAchievement()
         }
         
     }
@@ -123,10 +122,12 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                     
                     // achievement unlock popup items
                     // TODO: - ganti dengan real
-                    if let arr = json["achievements"].array {
-                        for i in 0...arr.count - 1 {
-                            let achievementUnlocked = AchievementUnlockedItem.instance(arr[i])
-                            self.achievementsUnlocked?.append(achievementUnlocked!)
+                    if let arr = json["notifications"].array {
+                        if (arr.count > 0) {
+                            for i in 0...arr.count - 1 {
+                                let achievementUnlocked = AchievementUnlockedItem.instance(arr[i])
+                                self.achievementsUnlocked?.append(achievementUnlocked!)
+                            }
                         }
                     }
                     

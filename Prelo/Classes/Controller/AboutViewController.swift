@@ -133,7 +133,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
             }
         }
         
-        CDDraftProduct.delete()
+        CDDraftProduct.deleteAll()
     }
     
     @IBAction func logout()

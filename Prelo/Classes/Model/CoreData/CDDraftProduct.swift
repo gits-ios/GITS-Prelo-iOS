@@ -12,6 +12,7 @@ import CoreData
 @objc(CDDraftProduct)
 class CDDraftProduct: NSManagedObject {
     
+    @NSManaged var localId: String
     @NSManaged var name: String
     @NSManaged var descriptionText : String
     @NSManaged var weight : String
@@ -49,8 +50,62 @@ class CDDraftProduct: NSManagedObject {
     @NSManaged var luxuryData_receipt : String
     @NSManaged var luxuryData_authenticityCard : String
     
-    static func getOne() -> CDDraftProduct? {
-        let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName : "CDDraftProduct")
+    @NSManaged var isUploading : Bool
+    
+    static func getAll() -> [CDDraftProduct] {
+        let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDDraftProduct")
+        fetchReq.sortDescriptors = [NSSortDescriptor(key: "localId", ascending: false)]
+        
+        do {
+            let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq) as? [CDDraftProduct]
+            return r!
+        } catch {
+            return []
+        }
+    }
+    
+    static func deleteAll() -> Bool {
+        let m = UIApplication.appDelegate.managedObjectContext
+        let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDDraftProduct")
+        fetchRequest.includesPropertyValues = false
+        
+        do {
+            let r = try m.fetch(fetchRequest) as? [NSManagedObject]
+            if let results = r
+            {
+                for result in results {
+                    m.delete(result)
+                }
+                
+                if (m.saveSave() != false) {
+                    print("deleteAll CDDraftProduct success")
+                }
+            }
+        } catch
+        {
+            return false
+        }
+        
+        return true
+    }
+    
+    static func getAllIsDraft() -> [CDDraftProduct] {
+        let predicate = NSPredicate(format: "isUploading != %@", NSNumber(value: true as Bool))
+        let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDDraftProduct")
+        fetchReq.predicate = predicate
+        
+        do {
+            let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq) as? [CDDraftProduct]
+            return r!
+        } catch {
+            return []
+        }
+    }
+    
+    static func getOne(_ localId: String) -> CDDraftProduct? {
+        let predicate = NSPredicate(format: "localId == %@", localId)
+        let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDDraftProduct")
+        fetchReq.predicate = predicate
         
         do {
             let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq)
@@ -60,10 +115,35 @@ class CDDraftProduct: NSManagedObject {
         }
     }
     
-    static func saveDraft(_ name: String, descriptionText : String, weight : String, freeOngkir : Int, priceOriginal : String, price : String, commission : String, category : String, categoryId : String, isCategWomenOrMenSelected : Bool, condition : String, conditionId : String, brand : String, brandId : String, imagePath : [String], imageOrientation : [Int], size : String, defectDescription : String, sellReason : String, specialStory : String, luxuryData : [String]) {
+    static func getOneIsUploading() -> CDDraftProduct? {
+        let predicate = NSPredicate(format: "isUploading == %@", NSNumber(value: true as Bool))
+        let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDDraftProduct")
+        fetchReq.predicate = predicate
+        
+        do {
+            let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq)
+            return r.count == 0 ? nil : r.first as? CDDraftProduct
+        } catch {
+            return nil
+        }
+    }
+    
+//    static func getCount() -> Int {
+//        let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDDraftProduct")
+//        
+//        do {
+//            let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq);
+//            return r.count
+//        } catch {
+//            return 0
+//        }
+//    }
+    
+    // new localId = -1
+    static func saveDraft(_ localId: String, name: String, descriptionText : String, weight : String, freeOngkir : Int, priceOriginal : String, price : String, commission : String, category : String, categoryId : String, isCategWomenOrMenSelected : Bool, condition : String, conditionId : String, brand : String, brandId : String, imagePath : [String], imageOrientation : [Int], size : String, defectDescription : String, sellReason : String, specialStory : String, luxuryData : [String]) {
         
         let m = UIApplication.appDelegate.managedObjectContext
-        let draft : CDDraftProduct? = self.getOne()
+        let draft : CDDraftProduct? = self.getOne(localId)
         if (draft != nil) {
             // Update
             draft?.name = name
@@ -105,6 +185,7 @@ class CDDraftProduct: NSManagedObject {
         } else {
             // Make new
             let newVer = NSEntityDescription.insertNewObject(forEntityName: "CDDraftProduct", into: m) as! CDDraftProduct
+            newVer.localId = localId // generate when save
             newVer.name = name
             newVer.descriptionText = descriptionText
             newVer.weight = weight
@@ -150,9 +231,23 @@ class CDDraftProduct: NSManagedObject {
         }
     }
     
-    static func delete() {
+    static func setUploading(_ localId: String, isUploading: Bool) {
         let m = UIApplication.appDelegate.managedObjectContext
-        let result : CDDraftProduct? = self.getOne()
+        let draft : CDDraftProduct? = self.getOne(localId)
+        if (draft != nil) {
+            draft?.isUploading = isUploading
+        }
+        
+        if (m.saveSave() == false) {
+            print("saveDraft failed")
+        } else {
+            print("saveDraft success")
+        }
+    }
+    
+    static func delete(_ localId: String) {
+        let m = UIApplication.appDelegate.managedObjectContext
+        let result : CDDraftProduct? = self.getOne(localId)
         if (result != nil) {
             m.delete(result!)
         }
@@ -163,8 +258,8 @@ class CDDraftProduct: NSManagedObject {
         }
     }
     
-    static func isLuxury() -> Bool {
-        let result : CDDraftProduct? = self.getOne()
+    static func isLuxury(_ localId: String) -> Bool {
+        let result : CDDraftProduct? = self.getOne(localId)
         if (result != nil) {
             return !(result!.luxuryData_styleName == "" &&
                 result!.luxuryData_serialNumber == "" &&
@@ -179,8 +274,8 @@ class CDDraftProduct: NSManagedObject {
         }
     }
 
-    static func getImagePaths() -> Array<String> {
-        let result : CDDraftProduct? = self.getOne()
+    static func getImagePaths(_ localId: String) -> Array<String> {
+        let result : CDDraftProduct? = self.getOne(localId)
         var imagePaths : Array<String> = []
         if (result != nil) {
             imagePaths.append(result!.imagePath1)
@@ -198,8 +293,8 @@ class CDDraftProduct: NSManagedObject {
         return imagePaths
     }
     
-    static func getImageOrientations() -> Array<Int> {
-        let result : CDDraftProduct? = self.getOne()
+    static func getImageOrientations(_ localId: String) -> Array<Int> {
+        let result : CDDraftProduct? = self.getOne(localId)
         var imageOrientation : Array<Int> = []
         if (result != nil) {
             imageOrientation.append(result!.imageOrientation1 as Int)
