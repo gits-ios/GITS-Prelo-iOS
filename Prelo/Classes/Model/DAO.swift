@@ -3683,3 +3683,38 @@ class AchievementConditionItem : NSObject {
     }
     
 }
+
+class AchievementUnlockedItem : NSObject {
+    var json : JSON = JSON([:])
+    
+    static func instance(_ json : JSON?) -> AchievementUnlockedItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let n = AchievementUnlockedItem()
+            n.json = json!
+            return n
+        }
+    }
+    
+    var name : String {
+        if let j = json["name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var icon : URL? {
+        if let j = json["icon"].string {
+            return URL(string: j)!
+        }
+        return nil
+    }
+    
+    var desc : String {
+        if let j = json["description"].string {
+            return j
+        }
+        return ""
+    }
+}

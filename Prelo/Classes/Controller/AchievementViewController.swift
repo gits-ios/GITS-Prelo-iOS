@@ -18,7 +18,19 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
     var achievements: Array<AchievementItem>? // badges --> AchievementItem, Diamonds
     var diamonds: Int = 0
     var isOpens: Array<Bool> = []
+    var isFirst: Bool = true
     
+    // for new achievement unlock -- pop up
+    @IBOutlet var vwBackgroundOverlay: UIView! // hidden
+    @IBOutlet var vwOverlayPopUp: UIView! // hidden
+    @IBOutlet var imgAchivement: UIImageView!
+    @IBOutlet var lblAchievement: UILabel!
+    @IBOutlet var lblDescription: UILabel!
+    @IBOutlet var consCenteryPopUp: NSLayoutConstraint! // align center y --> 603 [window height] -> 0
+    @IBOutlet var vwPopUp: UIView!
+    
+    var achievementsUnlocked: Array<AchievementUnlockedItem>? // pop up --> achievement achievementsUnlocked
+    var achievementsUnlockedPosition: Int = 0
     
     // MARK: - Init
     override func viewDidLoad() {
@@ -68,8 +80,10 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
         
         tableView.backgroundColor = UIColor(hex: "E5E9EB")
         
-        getAchievement()
-        
+        if isFirst {
+            getAchievement()
+            isFirst = false
+        }
         
     }
     
@@ -84,6 +98,8 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
         // clean badges
         self.achievements = []
         self.isOpens = []
+        
+        self.achievementsUnlocked = []
         
         self.isOpens.append(false)
         
@@ -105,8 +121,26 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                         }
                     }
                     
+                    // achievement unlock popup items
+                    // TODO: - ganti dengan real
+                    if let arr = json["achievements"].array {
+                        for i in 0...arr.count - 1 {
+                            let achievementUnlocked = AchievementUnlockedItem.instance(arr[i])
+                            self.achievementsUnlocked?.append(achievementUnlocked!)
+                        }
+                    }
+                    
                     self.tableView.reloadData()
                     self.hideLoading()
+                    
+                    // show pop up
+                    if (self.achievementsUnlocked?.count)! > 0 {
+                        self.initPopUp()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                            self.setupPopUp((self.achievementsUnlocked?[0])!)
+                            self.displayPopUp()
+                        })
+                    }
                 }
                 
             } else {
@@ -311,7 +345,94 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
             }
         }
     }
-
+    
+    // MARK: - Pop up
+    func setupPopUp(_ achievementUnlocked: AchievementUnlockedItem) {
+        self.imgAchivement?.layoutIfNeeded()
+        self.imgAchivement?.layer.cornerRadius = (self.imgAchivement?.width ?? 0) / 2
+        self.imgAchivement?.layer.masksToBounds = true
+        
+        self.imgAchivement?.afSetImage(withURL: achievementUnlocked.icon!)
+        
+        self.lblAchievement.text = achievementUnlocked.name
+        self.lblDescription.text = achievementUnlocked.desc
+    }
+    
+    func initPopUp() {
+        self.vwBackgroundOverlay.isHidden = false
+        self.vwOverlayPopUp.isHidden = false
+        
+        let screenSize = UIScreen.main.bounds
+        let screenHeight = screenSize.height - 64 // navbar
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = screenHeight
+    }
+    
+    func displayPopUp() {
+        let screenSize = UIScreen.main.bounds
+        let screenHeight = screenSize.height - 64 // navbar
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = screenHeight
+        
+        // 1
+        let placeSelectionBar = { () -> () in
+            // parent
+            var curView = self.vwPopUp.frame
+            curView.origin.y = (screenHeight - self.vwPopUp.frame.height) / 2
+            self.vwPopUp.frame = curView
+        }
+        
+        // 2
+        UIView.animate(withDuration: 0.3, animations: {
+            placeSelectionBar()
+        })
+        
+        self.consCenteryPopUp.constant = 0
+    }
+    
+    func unDisplayPopUp() {
+        let screenSize = UIScreen.main.bounds
+        let screenHeight = screenSize.height - 64 // navbar
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = 0
+        
+        // 1
+        let placeSelectionBar = { () -> () in
+            // parent
+            var curView = self.vwPopUp.frame
+            curView.origin.y = screenHeight + (screenHeight - self.vwPopUp.frame.height) / 2
+            self.vwPopUp.frame = curView
+        }
+        
+        // 2
+        UIView.animate(withDuration: 0.3, animations: {
+            placeSelectionBar()
+        })
+        
+        self.consCenteryPopUp.constant = screenHeight
+    }
+    
+    @IBAction func btnAchievementPressed(_ sender: Any) {
+        self.unDisplayPopUp()
+        
+        // increase position
+        self.achievementsUnlockedPosition += 1
+        
+        if ((self.achievementsUnlocked?.count)! > self.achievementsUnlockedPosition) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                self.setupPopUp((self.achievementsUnlocked?[self.achievementsUnlockedPosition])!)
+                self.displayPopUp()
+            })
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                self.vwOverlayPopUp.isHidden = true
+                self.vwBackgroundOverlay.isHidden = true
+            })
+        }
+    }
 }
 
 class AchievementCelliOS9xx: UITableViewCell { // height 75 ++
