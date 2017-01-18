@@ -335,12 +335,12 @@ class BalanceMutationCell : UITableViewCell {
         lblDescription.text = mutation.reasonDetail
         lblReasonAdmin.text = mutation.reasonAdmin
         var rectDesc = lblDescription.frame.size
-        rectDesc.width = UIScreen.main.bounds.size.width - 111
+//        rectDesc.width = UIScreen.main.bounds.size.width - 111
         var rectReason = lblReasonAdmin.frame.size
-        rectReason.width = UIScreen.main.bounds.size.width - 111
-        let sizeFixDesc = lblDescription.sizeThatFits(rectDesc)
-        let sizeFixReasonAdmin = lblReasonAdmin.sizeThatFits(rectReason)
-        return 56 + sizeFixDesc.height + sizeFixReasonAdmin.height
+//        rectReason.width = UIScreen.main.bounds.size.width - 111
+        let sizeFixDesc = mutation.reasonDetail.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectDesc.width)
+        let sizeFixReasonAdmin = mutation.reasonAdmin.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectReason.width)
+        return 56 + sizeFixDesc.height + (lblReasonAdmin.text! != "" ? sizeFixReasonAdmin.height : 0)
     }
     
     func adapt(_ mutation : BalanceMutationItem) {
@@ -370,12 +370,12 @@ class BalanceMutationCell : UITableViewCell {
         
         // Label height fix
         var rectDesc = lblDescription.frame.size
-        rectDesc.width = UIScreen.main.bounds.size.width - 111
-        var rectReason = lblReasonAdmin.frame.size
-        rectReason.width = UIScreen.main.bounds.size.width - 111
-        let sizeFixDesc = lblDescription.sizeThatFits(rectDesc)
+//        rectDesc.width = UIScreen.main.bounds.size.width - 111
+        let sizeFixDesc = mutation.reasonDetail.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectDesc.width)
         consHeightLblDescription.constant = sizeFixDesc.height
-        let sizeFixReasonAdmin = lblReasonAdmin.sizeThatFits(rectReason)
-        consHeightLblReasonAdmin.constant = sizeFixReasonAdmin.height
+        var rectReason = lblReasonAdmin.frame.size
+//        rectReason.width = UIScreen.main.bounds.size.width - 111
+        let sizeFixReasonAdmin = mutation.reasonAdmin.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectReason.width)
+        consHeightLblReasonAdmin.constant = (mutation.reasonAdmin != "" ? sizeFixReasonAdmin.height : 0)
     }
 }
