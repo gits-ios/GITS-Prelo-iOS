@@ -886,7 +886,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 
                 let screenSize = UIScreen.main.bounds
                 let screenHeight = screenSize.height - (170 + 45)
-                let height = self.gridView.contentSize.height
+                let height = CGFloat((self.products?.count)! + 1) * 65
                 
                 var bottom = CGFloat(25)
                 if (height < screenHeight) {

@@ -129,7 +129,7 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
         let screenSize = UIScreen.main.bounds
         let screenHeight = screenSize.height - (170 + 45)
         
-        let tableHeight = CGFloat(self.userAchievements.count * 85) // min height
+        let tableHeight = CGFloat(self.userAchievements.count * 65) // min height
         
         var bottom = CGFloat(25)
         if (tableHeight < screenHeight) {
