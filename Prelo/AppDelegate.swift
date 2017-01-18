@@ -44,6 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let RedirAchievement = "achievement"
     
     var redirAlert : UIAlertView?
+    var redirAlertInit : UIAlertView?
     var RedirWaitAmount : Int = 10000000
     
     var produkUploader : ProdukUploader!
@@ -184,7 +185,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         targetId = tId
                     }
 //                    Constant.showDialog(tipe, message: targetId! )
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(4), execute: {
+                    self.showRedirAlertInit()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
+                        self.hideRedirAlertInitWithDelay(0)
                         self.deeplinkRedirect(tipe, targetId: targetId)
                     })
                     
@@ -772,6 +775,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         redirAlert?.title = "Redirection Failed"
         redirAlert?.message = "Terdapat kesalahan saat memproses data"
         self.hideRedirAlertWithDelay(3.0)
+    }
+    
+    func showRedirAlertInit() {
+        redirAlertInit = UIAlertView()
+        redirAlertInit!.title = "Redirecting..."
+        redirAlertInit!.message = "Harap tunggu beberapa saat"
+        redirAlertInit!.show()
+    }
+    
+    func hideRedirAlertInitWithDelay(_ delay: Double) {
+        let delayTime = delay * Double(NSEC_PER_SEC)
+        let time = DispatchTime.now() + Double(Int64(delayTime)) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time, execute: {
+            self.redirAlertInit?.dismiss(withClickedButtonIndex: -1, animated: false)
+        })
     }
     
     func redirectProduct(_ productId : String) {
