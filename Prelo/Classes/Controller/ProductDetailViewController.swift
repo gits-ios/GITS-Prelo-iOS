@@ -291,7 +291,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         {
             pDetailCover?.labels = labels
         }
-        pDetailCover?.height = UIScreen.main.bounds.size.width * 340 / 480
+        pDetailCover?.height = UIScreen.main.bounds.size.width * 340 / 480 + (pDetailCover?.topBannerHeight)!
         tableView?.tableHeaderView = pDetailCover
         
         if (detail?.json["_data"]["price"].int?.asPrice) != nil
@@ -873,6 +873,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             self.tableView?.isHidden = true
             self.getDetail()
         }
+        a.topBannerText = (detail?.rejectionText)
         // API Migrasi
         let _ = request(APIProduct.detail(productId: detail!.productID, forEdit: 1)).responseJSON {resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Barang")) {

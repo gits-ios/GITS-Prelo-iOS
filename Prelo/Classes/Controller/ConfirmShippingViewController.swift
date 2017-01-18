@@ -252,11 +252,11 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                 self.imgResi.image = img
                 self.isPictSelected = true
             } else {
-                Constant.showDialog("Oops", message: "Foto resi gagal diperbaharui, mohon untuk difoto ulang")
+                Constant.showDialog("Oops", message: "Foto resi gagal diperbaharui. Silakan coba ambil gambar lagi")
             }
             
             if (data[0] as! String == "") {
-                Constant.showDialog("Oops", message: "Nomor resi tidak ditemukan, mohon untuk difoto ulang / diketik")
+                Constant.showDialog("Oops", message: "Nomor resi pengiriman tidak ditemukan. Silakan coba ambil gambar lagi atau ketik langsung di kolom Nomor Resi.")
             } else {
 //                Constant.showDialog("Nomor Resi", message: data[0] as! String)
                 self.txtFldNoResi.text = data[0] as? String

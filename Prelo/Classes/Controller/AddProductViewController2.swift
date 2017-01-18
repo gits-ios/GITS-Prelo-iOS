@@ -128,6 +128,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     var notPicked = true
     var allowLaunchLogin = true
     
+    var topBannerText: String!
+    @IBOutlet var vwTopBannerParent: UIView!
+    @IBOutlet var consHeightTopBannerParent: NSLayoutConstraint!
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -396,6 +400,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 self.groupKelengkapan.isHidden = true
                 self.conTopOngkirGroup.constant = 8
             }
+            
+            setupTopBanner()
         }
         else if (CDDraftProduct.getOne() != nil)
         {
@@ -2050,6 +2056,32 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         if isBack {
             Constant.showBadgeDialog("Berhasil", message: "Draft barang berhasil disimpan", badge: "info", view: self, isBack: isBack)
+        }
+    }
+    
+    // MARK: - Warning top bar
+    func setupTopBanner() {
+        if let tbText = self.topBannerText {
+            if (editProduct?.status != nil && !tbText.isEmpty) {
+                let screenSize: CGRect = UIScreen.main.bounds
+                let screenWidth = screenSize.width
+                var topBannerHeight : CGFloat = 30.0
+                let textRect = tbText.boundsWithFontSize(UIFont.systemFont(ofSize: 11), width: screenWidth - 16)
+                topBannerHeight += textRect.height
+                let topLabelMargin : CGFloat = 8.0
+                let topBanner : UIView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: topBannerHeight), backgroundColor: Theme.ThemeOrange)
+                let topLabel : UILabel = UILabel(frame: CGRect(x: topLabelMargin, y: 0, width: screenWidth - (topLabelMargin * 2), height: topBannerHeight))
+                topLabel.textColor = UIColor.white
+                topLabel.font = UIFont.systemFont(ofSize: 11)
+                topLabel.lineBreakMode = .byWordWrapping
+                topLabel.numberOfLines = 0
+                topBanner.addSubview(topLabel)
+                if (editProduct?.status == 5) {
+                    topLabel.text = tbText
+                    self.vwTopBannerParent.addSubview(topBanner)
+                    self.consHeightTopBannerParent.constant = topBannerHeight
+                }
+            }
         }
     }
     
