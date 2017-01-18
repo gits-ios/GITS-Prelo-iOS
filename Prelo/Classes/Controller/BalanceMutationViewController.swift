@@ -190,6 +190,11 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
         if balanceMutationItems?.count > 0 {
             if let b = balanceMutationItems?[(indexPath as NSIndexPath).item] {
                 cell.adapt(b)
+                if b.isHold {
+                    cell.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1) //UIColor(hex: "E5E9EB")
+                } else {
+                    cell.backgroundColor = UIColor.clear
+                }
             }
         }
         cell.selectionStyle = .none

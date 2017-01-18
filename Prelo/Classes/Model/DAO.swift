@@ -3475,6 +3475,13 @@ class BalanceMutationItem : NSObject {
         }
         return nil
     }
+    
+    var isHold : Bool {
+        if let j = json["is_hold"].bool {
+            return j
+        }
+        return false
+    }
 }
 
 class AchievementItem : NSObject {
