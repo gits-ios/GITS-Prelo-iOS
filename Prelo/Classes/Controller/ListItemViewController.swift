@@ -883,7 +883,19 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.refresher?.endRefreshing()
                 
                 self.setupGrid()
-                self.gridView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+                
+                let screenSize = UIScreen.main.bounds
+                let screenHeight = screenSize.height - (170 + 45)
+                let height = self.gridView.contentSize.height
+                
+                var bottom = CGFloat(25)
+                if (height < screenHeight) {
+                    bottom += screenHeight - height
+                }
+
+                //TOP, LEFT, BOTTOM, RIGHT
+                let inset = UIEdgeInsetsMake(0, 0, bottom, 0)
+                self.gridView.contentInset = inset
             }
         }
         
@@ -1270,13 +1282,23 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func scrollViewHeaderShop(_ scrollView: UIScrollView) {
-        let pointY = CGFloat(1) //CGFloat(170 - 64 - 45)
-        let screenSize = UIScreen.main.bounds
-        let screenHeight = screenSize.height
-        if (scrollView.contentOffset.y < pointY && scrollView.contentSize.height >= screenHeight) {
+//        let pointY = CGFloat(1)
+//        let screenSize = UIScreen.main.bounds
+//        let screenHeight = screenSize.height - 170
+//        let height = scrollView.contentSize.height
+//        if (scrollView.contentOffset.y < pointY && height >= screenHeight) {
+//            self.delegate?.increaseHeader()
+//            self.transparentNavigationBar(true)
+//        } else if (scrollView.contentOffset.y >= pointY && height >= screenHeight) {
+//            self.delegate?.dereaseHeader()
+//            self.transparentNavigationBar(false)
+//        }
+        
+        let pointY = CGFloat(1)
+        if (scrollView.contentOffset.y < pointY) {
             self.delegate?.increaseHeader()
             self.transparentNavigationBar(true)
-        } else if (scrollView.contentOffset.y >= pointY && scrollView.contentSize.height >= screenHeight) {
+        } else if (scrollView.contentOffset.y >= pointY) {
             self.delegate?.dereaseHeader()
             self.transparentNavigationBar(false)
         }

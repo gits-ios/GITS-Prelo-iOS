@@ -60,10 +60,9 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
             loadingPanel.isHidden = false
             loading.startAnimating()
             
+            tableView.isHidden = true
+            lblEmpty.isHidden = true
         }
-        tableView.isHidden = true
-        
-        lblEmpty.isHidden = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -129,6 +128,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         self.loading.stopAnimating()
         if (self.userReviews.count <= 0) {
             self.lblEmpty.isHidden = false
+            self.tableView.isHidden = true
         } else {
             self.tableView.isHidden = false
             self.setupTable()
@@ -141,13 +141,15 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
             self.tableView.delegate = self
         }
         
-//        let height = self.tableView.height //CGFloat(self.userReviews.count * 65)
-//        let mainHeight = self.view.height - 64
+        let screenSize = UIScreen.main.bounds
+        let screenHeight = screenSize.height - (170 + 45)
+        
+        let tableHeight = CGFloat((self.userReviews.count + (self.userReviews.count > 5 ? 2 : 1)) * 65) // min height
+        
         var bottom = CGFloat(25)
-//
-//        if (height < mainHeight) {
-//            bottom += mainHeight - height
-//        }
+        if (tableHeight < screenHeight) {
+            bottom += (screenHeight - tableHeight)
+        }
         
         //TOP, LEFT, BOTTOM, RIGHT
         let inset = UIEdgeInsetsMake(0, 0, bottom, 0)
@@ -267,13 +269,23 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func scrollViewHeaderShop(_ scrollView: UIScrollView) {
-        let pointY = CGFloat(1) //CGFloat(170 - 64)
-        let screenSize = UIScreen.main.bounds
-        let screenHeight = screenSize.height
-        if (scrollView.contentOffset.y < pointY && scrollView.contentSize.height >= screenHeight) {
+//        let pointY = CGFloat(1)
+//        let screenSize = UIScreen.main.bounds
+//        let screenHeight = screenSize.height - 170
+//        let height = scrollView.contentSize.height
+//        if (scrollView.contentOffset.y < pointY && height >= screenHeight) {
+//            self.delegate?.increaseHeader()
+//            self.transparentNavigationBar(true)
+//        } else if (scrollView.contentOffset.y >= pointY && height >= screenHeight) {
+//            self.delegate?.dereaseHeader()
+//            self.transparentNavigationBar(false)
+//        }
+        
+        let pointY = CGFloat(1)
+        if (scrollView.contentOffset.y < pointY) {
             self.delegate?.increaseHeader()
             self.transparentNavigationBar(true)
-        } else if (scrollView.contentOffset.y >= pointY && scrollView.contentSize.height >= screenHeight) {
+        } else if (scrollView.contentOffset.y >= pointY) {
             self.delegate?.dereaseHeader()
             self.transparentNavigationBar(false)
         }
