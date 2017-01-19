@@ -126,7 +126,6 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                     }
                     
                     // achievement unlock popup items
-                    // TODO: - ganti dengan real
                     if let arr = json["notifications"].array {
                         if (arr.count > 0) {
                             for i in 0...arr.count - 1 {

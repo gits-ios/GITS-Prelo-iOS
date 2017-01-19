@@ -31,6 +31,8 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     
     var contactUs : UIViewController?
     
+    var feedback: FeedbackPopup?
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -134,6 +136,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         tableView?.tableFooterView = UIView()
         
         tableView?.contentInset = UIEdgeInsetsMake(0, 0, 40, 0)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -425,7 +428,26 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     }
 
     func launchRateUs() {
-        Constant.showDialog("Feedback", message: "Coba!")
+//        Constant.showDialog("Feedback", message: "Coba!")
+        self.setupPopUp()
+        self.feedback?.isHidden = false
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.feedback?.setupPopUp()
+            self.feedback?.displayPopUp()
+        })
+    }
+    
+    func rateApp(appId: String, completion: @escaping ((_ success: Bool)->())) {
+        guard let url = URL(string : "itms-apps://itunes.apple.com/app/" + appId) else {
+            completion(false)
+            return
+        }
+        guard #available(iOS 10, *) else {
+            completion(UIApplication.shared.openURL(url))
+            return
+        }
+        UIApplication.shared.open(url, options: [:], completionHandler: completion)
     }
     
     func lauchTestingFeature() {
@@ -476,6 +498,84 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         }
         controller.dismiss(animated: true, completion: nil)
     }
+    
+    // MARK: - Setup popup
+    func setupPopUp() {
+        // setup popup
+        if (self.feedback == nil) {
+            self.feedback = Bundle.main.loadNibNamed("FeedbackPopup", owner: nil, options: nil)?.first as? FeedbackPopup
+            self.feedback?.frame = self.view.frame
+            self.feedback?.tag = 100
+            self.feedback?.isHidden = true
+            self.feedback?.backgroundColor = UIColor.clear
+            self.view.addSubview(self.feedback!)
+            
+            self.feedback?.initPopUp()
+            
+            self.feedback?.disposePopUp = {
+                self.feedback?.isHidden = true
+                self.feedback = nil
+                print("Start remove sibview")
+                if let viewWithTag = self.view.viewWithTag(100) {
+                    viewWithTag.removeFromSuperview()
+                } else {
+                    print("No!")
+                }
+            }
+            
+            self.feedback?.sendMail = {
+                let my_device = UserDefaults().value(forKey: UserDefaultsKey.UserAgent)
+                //        print("this is my_device")
+                //        print(my_device)
+                
+                //        Constant.showDialog("Device Info", message: String(describing: my_device))
+                
+                let composer = MFMailComposeViewController()
+                if (MFMailComposeViewController.canSendMail()) {
+                    composer.mailComposeDelegate = self
+                    composer.setToRecipients(["contact@prelo.co.id"])
+                    
+                    // adding title and message email
+                    composer.setSubject("Feedback")
+                    
+                    var msg = ""
+                    let user = CDUser.getOne()
+                    let username = user?.username
+                    let no_hp = user?.profiles.phone
+                    
+                    msg += "Love: " + (self.feedback?.rate)!.description + "\n"
+                    msg += "Feedback / Masukan: \n\n" + "\n---\n"
+                    
+                    
+                    if (user != nil) {
+                        msg += "Username: " + username! + "\n"
+                        msg += "No. HP: " + no_hp! + "\n"
+                    }
+                    
+                    msg += "Versi App: " + (CDVersion.getOne()?.appVersion)! + "\n"
+                    msg += "User Agent: " + String(describing: my_device)
+                    
+                    composer.setMessageBody(msg, isHTML: false)
+                    
+                    self.present(composer, animated: true, completion: nil)
+                } else {
+                    Constant.showDialog("No Active E-mail", message: "Untuk dapat menghubungi Prelo via e-mail, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
+                }
+                
+            }
+            
+            self.feedback?.openStore = {
+                /** URL APP STORE PRELO
+                 https://itunes.apple.com/id/app/prelo-jual-beli-barang-bekas/id1027248488?mt=8
+                 **/
+                
+                self.rateApp(appId: "id1027248488") { success in
+                    print("RateApp \(success)")
+                }
+            }
+        }
+
+    }
 }
 
 // MARK: - Class
@@ -487,4 +587,124 @@ class DashboardCell : UITableViewCell {
 
 class BottomCell: UITableViewCell { // rate us, about
     
+}
+
+// MARK: - Pop up Feedback
+
+class FeedbackPopup: UIView, FloatRatingViewDelegate {
+    @IBOutlet weak var vwBackgroundOverlay: UIView!
+    @IBOutlet weak var vwOverlayPopUp: UIView!
+    @IBOutlet weak var vwLove: UIView!
+    @IBOutlet weak var vwPopUp: UIView!
+    @IBOutlet weak var consCenteryPopUp: NSLayoutConstraint!
+    
+    var floatRatingView: FloatRatingView!
+    var rate : Float = 5
+    
+    var disposePopUp : ()->() = {}
+    var sendMail : ()->() = {}
+    var openStore : ()->() = {}
+    
+    func setupPopUp() {
+        // Love floatable
+        self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 0, width: 268, height: 50))
+        self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
+        self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
+        // Optional params
+        self.floatRatingView.delegate = self
+        self.floatRatingView.contentMode = UIViewContentMode.scaleAspectFit
+        self.floatRatingView.maxRating = 5
+        self.floatRatingView.minRating = 1
+        self.floatRatingView.rating = rate
+        self.floatRatingView.editable = true
+        self.floatRatingView.halfRatings = false
+        self.floatRatingView.floatRatings = false
+        self.floatRatingView.tintColor = Theme.ThemeRed
+        
+        self.vwLove.addSubview(self.floatRatingView )
+    }
+    
+    func initPopUp() {
+        self.vwBackgroundOverlay.isHidden = false
+        self.vwOverlayPopUp.isHidden = false
+        
+        let screenSize = UIScreen.main.bounds
+        let screenHeight = screenSize.height - 64 // navbar
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = screenHeight
+    }
+    
+    func displayPopUp() {
+        let screenSize = UIScreen.main.bounds
+        let screenHeight = screenSize.height - 64 // navbar
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = screenHeight
+        
+        // 1
+        let placeSelectionBar = { () -> () in
+            // parent
+            var curView = self.vwPopUp.frame
+            curView.origin.y = (screenHeight - self.vwPopUp.frame.height) / 2
+            self.vwPopUp.frame = curView
+        }
+        
+        // 2
+        UIView.animate(withDuration: 0.3, animations: {
+            placeSelectionBar()
+        })
+        
+        self.consCenteryPopUp.constant = 0
+    }
+    
+    func unDisplayPopUp() {
+        let screenSize = UIScreen.main.bounds
+        let screenHeight = screenSize.height - 64 // navbar
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = 0
+        
+        // 1
+        let placeSelectionBar = { () -> () in
+            // parent
+            var curView = self.vwPopUp.frame
+            curView.origin.y = screenHeight + (screenHeight - self.vwPopUp.frame.height) / 2
+            self.vwPopUp.frame = curView
+        }
+        
+        // 2
+        UIView.animate(withDuration: 0.3, animations: {
+            placeSelectionBar()
+        })
+        
+        self.consCenteryPopUp.constant = screenHeight
+    }
+    
+    @IBAction func btnSendPressed(_ sender: Any) {
+        self.unDisplayPopUp()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.vwOverlayPopUp.isHidden = true
+            self.vwBackgroundOverlay.isHidden = true
+            if (Int(self.rate) >= 4) {
+                // rate to store
+                self.openStore()
+            } else {
+                // send email
+                self.sendMail()
+            }
+            self.disposePopUp()
+        })
+    }
+    
+    // MARK: - FloatRatingViewDelegate
+    
+    func floatRatingView(_ ratingView: FloatRatingView, isUpdating rating:Float) {
+        self.rate = self.floatRatingView.rating
+    }
+    
+    func floatRatingView(_ ratingView: FloatRatingView, didUpdate rating: Float) {
+        self.rate = self.floatRatingView.rating
+    }
 }

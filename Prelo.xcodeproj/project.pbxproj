@@ -638,6 +638,7 @@
 		B275BA671E10DBD200BB5C64 /* libFDHotlineSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B275BA611E10DBD200BB5C64 /* libFDHotlineSDK.a */; };
 		B275BA681E10DBD200BB5C64 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = B275BA621E10DBD200BB5C64 /* LICENSE */; };
 		B275BA691E10DBD200BB5C64 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = B275BA631E10DBD200BB5C64 /* ReleaseNotes.txt */; };
+		B29F69671E30E717009E2BC8 /* FeedbackPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = B29F69661E30E717009E2BC8 /* FeedbackPopup.xib */; };
 		B2B4DCC41E2D24B900EBBD33 /* ShopReviewAverageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B4DCC31E2D24B900EBBD33 /* ShopReviewAverageCell.xib */; };
 		B2BE2DF01E29EBBD006B6903 /* StorePageTabBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */; };
 		B2BE2E001E29F2AF006B6903 /* StorePageTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2BE2DFF1E29F2AF006B6903 /* StorePageTabBarViewController.swift */; };
@@ -1588,6 +1589,7 @@
 		B275BA611E10DBD200BB5C64 /* libFDHotlineSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFDHotlineSDK.a; sourceTree = "<group>"; };
 		B275BA621E10DBD200BB5C64 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		B275BA631E10DBD200BB5C64 /* ReleaseNotes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReleaseNotes.txt; sourceTree = "<group>"; };
+		B29F69661E30E717009E2BC8 /* FeedbackPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedbackPopup.xib; sourceTree = "<group>"; };
 		B2B4DCC31E2D24B900EBBD33 /* ShopReviewAverageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReviewAverageCell.xib; sourceTree = "<group>"; };
 		B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StorePageTabBar.xib; sourceTree = "<group>"; };
 		B2BE2DFF1E29F2AF006B6903 /* StorePageTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorePageTabBarViewController.swift; sourceTree = "<group>"; };
@@ -2231,6 +2233,7 @@
 				B2C3A3C71E2B8E450082A15D /* ShopAchievementViewController.swift */,
 				FDB19FFF1BFD8454001F2600 /* ShopReviewViewController.swift */,
 				217A18221BB41C26008D1AD8 /* StatusBarContainerViewController.swift */,
+				B2BE2DFF1E29F2AF006B6903 /* StorePageTabBarViewController.swift */,
 				217A18241BB4286E008D1AD8 /* TarikTunaiController.swift */,
 				21629A291BC51A4A00ACD014 /* TawarViewController.swift */,
 				21621CCC1BA1337D009BBACB /* TourViewController.swift */,
@@ -2238,7 +2241,6 @@
 				21104AB81BAA8ECC00947E7F /* TransactionListCell.swift */,
 				21156EB91B8F5B4C001D7842 /* UserProfileViewController.swift */,
 				21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */,
-				B2BE2DFF1E29F2AF006B6903 /* StorePageTabBarViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2773,6 +2775,7 @@
 				58C23B5D1C9C177F00E4C929 /* ConfirmShippingCell.xib */,
 				58EC90BC1D78100400712E8A /* ExpiringProducts.xib */,
 				58EC90BE1D78142F00712E8A /* ExpiringProductsCell.xib */,
+				B29F69661E30E717009E2BC8 /* FeedbackPopup.xib */,
 				5894DB3D1D586BAD00874A56 /* Filter.xib */,
 				5894DB431D58765200874A56 /* FilterCheckboxCell.xib */,
 				5894DB3F1D58705F00874A56 /* FilterChecklistCell.xib */,
@@ -2822,10 +2825,10 @@
 				FDB1A0011BFD84A8001F2600 /* ShopReview.xib */,
 				B2B4DCC31E2D24B900EBBD33 /* ShopReviewAverageCell.xib */,
 				FDB1A0031BFD8BD0001F2600 /* ShopReviewCell.xib */,
+				B2BE2E011E29FA42006B6903 /* StorePageShopHeader.xib */,
+				B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */,
 				21104AD01BAA8F1200947E7F /* TransactionListCell.xib */,
 				21156EBB1B8F5B5D001D7842 /* UserProfile.xib */,
-				B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */,
-				B2BE2E011E29FA42006B6903 /* StorePageShopHeader.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -3553,6 +3556,7 @@
 				58C23B601C9DC86300E4C929 /* ic_share.png in Resources */,
 				58F0A41C1C7C634A002A488F /* cchmrk_imgzoom.png in Resources */,
 				21156ECA1B8F5DBC001D7842 /* btn_checkbox_purple_checked.png in Resources */,
+				B29F69671E30E717009E2BC8 /* FeedbackPopup.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

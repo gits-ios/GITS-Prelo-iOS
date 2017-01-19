@@ -2370,7 +2370,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     // MARK: - FloatRatingViewDelegate
     
     func floatRatingView(_ ratingView: FloatRatingView, isUpdating rating:Float) {
-//        self.loveValue = Int(self.floatRatingView.rating)
+        self.loveValue = Int(self.floatRatingView.rating)
     }
     
     func floatRatingView(_ ratingView: FloatRatingView, didUpdate rating: Float) {
