@@ -12,7 +12,7 @@ import Foundation
 
 // MARK: - NewShopHeader Protocol
 
-protocol NewShopHeaderDelegate {
+protocol NewShopHeaderDelegate: class {
     func dereaseHeader() // --> min 64
     func increaseHeader() // --> max
     func setupBanner(json: JSON)
@@ -36,24 +36,24 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     // shop header
     var shopId : String! = ""
     
-    @IBOutlet var imageVIew: UIView! // hide
-    @IBOutlet var shopAvatar: UIImageView!
-    @IBOutlet var shopName: UILabel! // hide
-    @IBOutlet var shopLocation: UILabel!
-    @IBOutlet var shopBadges: UICollectionView!
+    @IBOutlet weak var imageVIew: UIView! // hide
+    @IBOutlet weak var shopAvatar: UIImageView!
+    @IBOutlet weak var shopName: UILabel! // hide
+    @IBOutlet weak var shopLocation: UILabel!
+    @IBOutlet weak var shopBadges: UICollectionView!
     
-    @IBOutlet var vwHeaderTabBar: UIView!
-    @IBOutlet var vwChild: UIView!
-    @IBOutlet var vwToko: UIView!
-    @IBOutlet var vwReview: UIView!
-    @IBOutlet var vwBadge: UIView!
-    @IBOutlet var consTopVw: NSLayoutConstraint! // 0 --> -170
-    @IBOutlet var consWidthCollectionView: NSLayoutConstraint!
+    @IBOutlet weak var vwHeaderTabBar: UIView!
+    @IBOutlet weak var vwChild: UIView!
+    @IBOutlet weak var vwToko: UIView!
+    @IBOutlet weak var vwReview: UIView!
+    @IBOutlet weak var vwBadge: UIView!
+    @IBOutlet weak var consTopVw: NSLayoutConstraint! // 0 --> -170
+    @IBOutlet weak var consWidthCollectionView: NSLayoutConstraint!
     
-    @IBOutlet var vwCollection: UIView! // hide
-    @IBOutlet var vwGeolocation: UIView! // hide
+    @IBOutlet weak var vwCollection: UIView! // hide
+    @IBOutlet weak var vwGeolocation: UIView! // hide
     
-    @IBOutlet var loadingPanel: UIView!
+    @IBOutlet weak var loadingPanel: UIView!
     
     var isTransparent : Bool = true
     var isFirst : Bool = true
@@ -63,12 +63,12 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     
     var curIndex = 0
     
-    @IBOutlet var vwNavBar: UIView!
+    @IBOutlet weak var vwNavBar: UIView!
     var segmentView : SMSegmentView!
     var seletionBar: UIView = UIView()
-    @IBOutlet var consCenterVwChild: NSLayoutConstraint! // 375 | 0 | -375
+    @IBOutlet weak var consCenterVwChild: NSLayoutConstraint! // 375 | 0 | -375
     
-    @IBOutlet var dashboardCover: UIImageView!
+    @IBOutlet weak var dashboardCover: UIImageView!
     
     // MARK: - Init
     override func viewDidLoad() {

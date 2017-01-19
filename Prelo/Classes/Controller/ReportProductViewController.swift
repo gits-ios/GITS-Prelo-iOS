@@ -64,6 +64,11 @@ class ReportProductViewController: BaseViewController, UITextViewDelegate {
         view.addGestureRecognizer(tap)
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
     // MARK: - action
     
     //== KW

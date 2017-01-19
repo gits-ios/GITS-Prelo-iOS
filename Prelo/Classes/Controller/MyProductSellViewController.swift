@@ -13,9 +13,9 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
 
     @IBOutlet weak var loading: UIActivityIndicatorView!
     @IBOutlet weak var lblEmpty: UILabel!
-    @IBOutlet var btnRefresh: UIButton!
-    @IBOutlet var searchBar: UISearchBar!
-    @IBOutlet var tableView : UITableView!
+    @IBOutlet weak var btnRefresh: UIButton!
+    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var tableView : UITableView!
     @IBOutlet weak var bottomLoading: UIActivityIndicatorView!
     @IBOutlet weak var consBottomTableView: NSLayoutConstraint!
     let ConsBottomTableViewWhileUpdating : CGFloat = 36

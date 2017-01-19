@@ -21,13 +21,13 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     @IBOutlet weak var loadingPanel: UIView!
     @IBOutlet weak var loading: UIActivityIndicatorView!
     
-    var userReviews : [UserReview] = []
+    var userReviews : Array<UserReview> = []
     var sellerName : String = ""
     var sellerId : String = ""
     
     var currentMode : ReviewMode! = .default
     
-    var delegate : NewShopHeaderDelegate?
+    weak var delegate : NewShopHeaderDelegate?
     var isTransparent = false
     var averageRate : Float = 0.0
     var countReview : Int = 0
@@ -74,7 +74,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         // Get reviews
         
         if (currentMode == .default) {
-            self.userReviews = []
+//            self.userReviews = []
             self.getUserReviews()
         }
         
@@ -87,6 +87,11 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         
         // Google Analytics
         GAI.trackPageVisit(PageName.ShopReviews)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
     func getUserReviews() {

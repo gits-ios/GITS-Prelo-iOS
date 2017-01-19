@@ -21,13 +21,13 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
     @IBOutlet weak var loadingPanel: UIView!
     @IBOutlet weak var loading: UIActivityIndicatorView!
     
-    var userAchievements : [UserAchievement] = []
+    var userAchievements : Array<UserAchievement> = []
     var sellerId : String = ""
     var sellerName : String = ""
     
     var currentMode : AchievementMode! = .default
     
-    var delegate : NewShopHeaderDelegate?
+    weak var delegate : NewShopHeaderDelegate?
     
     // MARK: - Init
     
@@ -66,12 +66,17 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
         // Get achievements
         
         if (currentMode == .default) {
-            self.userAchievements = []
+//            self.userAchievements = []
             self.getUserAchievements()
         }
         
         // Google Analytics
         GAI.trackPageVisit(PageName.ShopAchievements)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
     func getUserAchievements() {

@@ -16,13 +16,13 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
     // MARK: - Properties
     
     // Views
-    @IBOutlet var tableView : UITableView!
-    @IBOutlet var lblEmpty : UILabel!
-    @IBOutlet var btnRefresh: UIButton!
-    @IBOutlet var loading : UIActivityIndicatorView!
-    @IBOutlet var bottomLoading: UIActivityIndicatorView!
-    @IBOutlet var consBottomTableView: NSLayoutConstraint!
-    @IBOutlet var searchBar: UISearchBar!
+    @IBOutlet weak var tableView : UITableView!
+    @IBOutlet weak var lblEmpty : UILabel!
+    @IBOutlet weak var btnRefresh: UIButton!
+    @IBOutlet weak var loading : UIActivityIndicatorView!
+    @IBOutlet weak var bottomLoading: UIActivityIndicatorView!
+    @IBOutlet weak var consBottomTableView: NSLayoutConstraint!
+    @IBOutlet weak var searchBar: UISearchBar!
     var refreshControl : UIRefreshControl!
     
     // Data container

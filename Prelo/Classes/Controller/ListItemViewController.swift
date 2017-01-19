@@ -172,7 +172,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var floatRatingView: FloatRatingView!
     
     // delegate for newShop
-    var delegate: NewShopHeaderDelegate?
+    weak var delegate: NewShopHeaderDelegate?
     var newShopHeader : StoreInfo?
     var shopData: JSON!
     var isExpand = false
@@ -302,15 +302,6 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             _ = self.navigationController?.popToViewController(viewControllers[1], animated: true);
         } else {
             _ = self.navigationController?.popViewController(animated: true)
-        }
-        
-        // clear
-        if (currentMode == .shop || currentMode == .newShop) {
-            if (self.gridView != nil) {
-                self.gridView.delegate = nil
-                self.gridView = nil
-            }
-            self.products = nil
         }
     }
     
@@ -2131,11 +2122,11 @@ class StoreHeader : UIView, UICollectionViewDataSource, UICollectionViewDelegate
 }
 
 class StoreInfo : UICollectionViewCell {
-    @IBOutlet var captionDesc : UILabel!
-    @IBOutlet var captionTotal : UILabel!
-    @IBOutlet var captionLastActive: UILabel!
-    @IBOutlet var captionChatPercentage: UILabel!
-    @IBOutlet var vwGroup: UIView!
+    @IBOutlet weak var captionDesc : UILabel!
+    @IBOutlet weak var captionTotal : UILabel!
+    @IBOutlet weak var captionLastActive: UILabel!
+    @IBOutlet weak var captionChatPercentage: UILabel!
+    @IBOutlet weak var vwGroup: UIView!
     
     var completeDesc : String = ""
     

@@ -92,6 +92,11 @@ class LocationFilterViewController : BaseViewController, UITableViewDataSource, 
         }
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
     func getRegion(_selectedLocation : String, _selectedLocationName : String) {
         let loc = Bundle.main.loadNibNamed(Tags.XibNameLocationFilter, owner: nil, options: nil)?.first as! LocationFilterViewController
         loc.root = self.root

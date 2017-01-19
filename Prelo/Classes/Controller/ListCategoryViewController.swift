@@ -89,6 +89,11 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         }
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
     func grandRefresh() {
         listItemViews.removeAll(keepingCapacity: false)
         

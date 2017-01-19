@@ -32,7 +32,7 @@ fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 // MARK: - NotifAnggiConversation Protocol
 
-protocol NotifAnggiConversationDelegate {
+protocol NotifAnggiConversationDelegate: class {
     func decreaseConversationBadgeNumber()
 }
 
@@ -68,7 +68,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     
     var notifications : [NotificationObj]?
     
-    var delegate : NotifAnggiConversationDelegate?
+    weak var delegate : NotifAnggiConversationDelegate?
     
     var isToDelete : Bool = false
     

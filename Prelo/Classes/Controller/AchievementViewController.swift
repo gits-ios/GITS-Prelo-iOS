@@ -13,21 +13,21 @@ import Alamofire
 // MARK: - Class
 class AchievementViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
     // MARK: - Properties
-    @IBOutlet var tableView: UITableView!
-    @IBOutlet var loadingPanel: UIView!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var loadingPanel: UIView!
     var achievements: Array<AchievementItem>? // badges --> AchievementItem, Diamonds
     var diamonds: Int = 0
     var isOpens: Array<Bool> = []
     var isFirst: Bool = true
     
     // for new achievement unlock -- pop up
-    @IBOutlet var vwBackgroundOverlay: UIView! // hidden
-    @IBOutlet var vwOverlayPopUp: UIView! // hidden
-    @IBOutlet var imgAchivement: UIImageView!
-    @IBOutlet var lblAchievement: UILabel!
-    @IBOutlet var lblDescription: UILabel!
-    @IBOutlet var consCenteryPopUp: NSLayoutConstraint! // align center y --> 603 [window height] -> 0
-    @IBOutlet var vwPopUp: UIView!
+    @IBOutlet weak var vwBackgroundOverlay: UIView! // hidden
+    @IBOutlet weak var vwOverlayPopUp: UIView! // hidden
+    @IBOutlet weak var imgAchivement: UIImageView!
+    @IBOutlet weak var lblAchievement: UILabel!
+    @IBOutlet weak var lblDescription: UILabel!
+    @IBOutlet weak var consCenteryPopUp: NSLayoutConstraint! // align center y --> 603 [window height] -> 0
+    @IBOutlet weak var vwPopUp: UIView!
     
     var achievementsUnlocked: Array<AchievementUnlockedItem>? // pop up --> achievement achievementsUnlocked
     var achievementsUnlockedPosition: Int = 0
@@ -91,6 +91,11 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
         
         // Google Analytics
         GAI.trackPageVisit(PageName.Achievement)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
     func getAchievement() {
@@ -437,14 +442,14 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
 }
 
 class AchievementCelliOS9xx: UITableViewCell { // height 75 ++
-    @IBOutlet var badgeImage: UIImageView!
-    @IBOutlet var lblTitke: UILabel!
-    @IBOutlet var lblArrow: UILabel! // V
-    @IBOutlet var vwProgressBar: UIView! // default hidden
-    @IBOutlet var progressView: UIProgressView!
-    @IBOutlet var lblProgressView: UILabel!
-    @IBOutlet var consHeightLblTitke: NSLayoutConstraint! // default 56 --> 40
-    @IBOutlet var vwBorder: UIView!
+    @IBOutlet weak var badgeImage: UIImageView!
+    @IBOutlet weak var lblTitke: UILabel!
+    @IBOutlet weak var lblArrow: UILabel! // V
+    @IBOutlet weak var vwProgressBar: UIView! // default hidden
+    @IBOutlet weak var progressView: UIProgressView!
+    @IBOutlet weak var lblProgressView: UILabel!
+    @IBOutlet weak var consHeightLblTitke: NSLayoutConstraint! // default 56 --> 40
+    @IBOutlet weak var vwBorder: UIView!
     
     var achievement : AchievementItem!
     
@@ -493,13 +498,13 @@ class AchievementCelliOS9xx: UITableViewCell { // height 75 ++
 }
 
 class AchievementCellDescriptionCell : UITableViewCell { // height depent on description
-    @IBOutlet var lblDesc: UILabel! // hidden
-    @IBOutlet var vwBorder: UIView!
+    @IBOutlet weak var lblDesc: UILabel! // hidden
+    @IBOutlet weak var vwBorder: UIView!
 }
 
 class AchievementCellProgressCell: UITableViewCell { // height 30
-    @IBOutlet var lblCondition: UILabel!
-    @IBOutlet var lblFullfilled: UILabel!
+    @IBOutlet weak var lblCondition: UILabel!
+    @IBOutlet weak var lblFullfilled: UILabel!
     
 //    // adapt
 //    func adapt(_ condition: [String:Bool]) {
@@ -595,11 +600,11 @@ class AchievementCellBadgeCell: UITableViewCell, UICollectionViewDataSource, UIC
 
 // MARK: - DiamondCell top
 class AchievementDiamondCell: UITableViewCell { // 135 + lbldesc
-    @IBOutlet var badgeImage: UIImageView!
-    @IBOutlet var lblDiamond: UILabel!
-    @IBOutlet var lblArrow: UILabel! // V
-    @IBOutlet var lblDesc: UILabel! // hidden
-    @IBOutlet var vwBorder: UIView!
+    @IBOutlet weak var badgeImage: UIImageView!
+    @IBOutlet weak var lblDiamond: UILabel!
+    @IBOutlet weak var lblArrow: UILabel! // V
+    @IBOutlet weak var lblDesc: UILabel! // hidden
+    @IBOutlet weak var vwBorder: UIView!
     
     static func heightFor(_ isOpen: Bool) -> CGFloat {
         let standardHeight : CGFloat = 125.0
