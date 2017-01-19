@@ -520,7 +520,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             }
             
             // Luxury fields
-            if let luxData = try? CDDraftProduct.isLuxury((product?.localId)!), luxData == true {
+            if (product?.isLuxury)! {
                 // Show luxury fields
                 self.groupVerifAuth.isHidden = false
                 self.groupKelengkapan.isHidden = false
@@ -1320,6 +1320,17 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     self.isCategWomenOrMenSelected = false
                 }
             }
+            
+            // Show luxury fields if isLuxury
+            if (self.merekIsLuxury && self.isCategWomenOrMenSelected) {
+                self.groupVerifAuth.isHidden = false
+                self.groupKelengkapan.isHidden = false
+                self.conTopOngkirGroup.constant = 498
+            } else {
+                self.groupVerifAuth.isHidden = true
+                self.groupKelengkapan.isHidden = true
+                self.conTopOngkirGroup.constant = 8
+            }
         }
         p.root = self
         self.navigationController?.pushViewController(p, animated: true)
@@ -2077,7 +2088,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             self.saveImages(self.images)
             
             // save to core data
-            CDDraftProduct.saveDraft(self.draftMode == true ? (self.draftProduct?.localId)! : self.uniqueCodeString, name: self.txtName.text!, descriptionText: self.txtDescription.text, weight: self.txtWeight.text != nil ? self.txtWeight.text! : "", freeOngkir: self.freeOngkir, priceOriginal: self.txtOldPrice.text != nil ? self.txtOldPrice.text! : "", price: self.txtNewPrice.text != nil ? self.txtNewPrice.text! : "", commission: self.txtCommission.text != nil ? self.txtCommission.text! : "", category: self.captionKategori.text != nil ? self.captionKategori.text! : "", categoryId: self.productCategoryId, isCategWomenOrMenSelected: self.isCategWomenOrMenSelected, condition: self.captionKondisi.text != nil ? self.captionKondisi.text! : "", conditionId: self.kodindisiId, brand: self.captionMerek.text != nil ? self.captionMerek.text! : "", brandId: self.merekId, imagePath: self.localPath, imageOrientation: self.imageOrientation, size: self.txtSize.text != nil ? self.txtSize.text! : "", defectDescription: self.txtDeskripsiCacat.text != nil ? self.txtDeskripsiCacat.text! : "", sellReason: self.txtAlasanJual.text != nil ? self.txtAlasanJual.text! : "", specialStory: self.txtSpesial.text != nil ? self.txtSpesial.text! : "", luxuryData: luxuryData)
+            CDDraftProduct.saveDraft(self.draftMode == true ? (self.draftProduct?.localId)! : self.uniqueCodeString, name: self.txtName.text!, descriptionText: self.txtDescription.text, weight: self.txtWeight.text != nil ? self.txtWeight.text! : "", freeOngkir: self.freeOngkir, priceOriginal: self.txtOldPrice.text != nil ? self.txtOldPrice.text! : "", price: self.txtNewPrice.text != nil ? self.txtNewPrice.text! : "", commission: self.txtCommission.text != nil ? self.txtCommission.text! : "", category: self.captionKategori.text != nil ? self.captionKategori.text! : "", categoryId: self.productCategoryId, isCategWomenOrMenSelected: self.isCategWomenOrMenSelected, condition: self.captionKondisi.text != nil ? self.captionKondisi.text! : "", conditionId: self.kodindisiId, brand: self.captionMerek.text != nil ? self.captionMerek.text! : "", brandId: self.merekId, imagePath: self.localPath, imageOrientation: self.imageOrientation, size: self.txtSize.text != nil ? self.txtSize.text! : "", defectDescription: self.txtDeskripsiCacat.text != nil ? self.txtDeskripsiCacat.text! : "", sellReason: self.txtAlasanJual.text != nil ? self.txtAlasanJual.text! : "", specialStory: self.txtSpesial.text != nil ? self.txtSpesial.text!: "", luxuryData: luxuryData, isLuxury: self.merekIsLuxury)
         }
         
         if isBack {
