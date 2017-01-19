@@ -28,13 +28,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V4v-bj-Qhj">
-                        <rect key="frame" x="49" y="8" width="305" height="27"/>
+                        <rect key="frame" x="56" y="8" width="298" height="27"/>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hEU-zw-Loy">
-                        <rect key="frame" x="21" y="12" width="20" height="20"/>
+                        <rect key="frame" x="23" y="12" width="20" height="20"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9h5-QS-iI6">
                                 <rect key="frame" x="1" y="1" width="18" height="18"/>
@@ -72,9 +72,9 @@
                     <constraint firstItem="zQF-5M-qcb" firstAttribute="leading" secondItem="sgD-va-9IQ" secondAttribute="leading" constant="5" id="Jhs-HY-1Sf"/>
                     <constraint firstItem="hEU-zw-Loy" firstAttribute="centerY" secondItem="sgD-va-9IQ" secondAttribute="centerY" id="SdH-TB-HGV"/>
                     <constraint firstAttribute="trailing" secondItem="zQF-5M-qcb" secondAttribute="trailing" constant="5" id="THs-b1-fVi"/>
-                    <constraint firstItem="hEU-zw-Loy" firstAttribute="leading" secondItem="sgD-va-9IQ" secondAttribute="leadingMargin" constant="13" id="VDg-oO-Ksk"/>
+                    <constraint firstItem="hEU-zw-Loy" firstAttribute="leading" secondItem="sgD-va-9IQ" secondAttribute="leadingMargin" constant="15" id="VDg-oO-Ksk"/>
                     <constraint firstAttribute="trailingMargin" secondItem="V4v-bj-Qhj" secondAttribute="trailing" constant="13" id="br9-nV-MZ3"/>
-                    <constraint firstItem="V4v-bj-Qhj" firstAttribute="leading" secondItem="hEU-zw-Loy" secondAttribute="trailing" constant="8" id="nbQ-2C-JvC"/>
+                    <constraint firstItem="V4v-bj-Qhj" firstAttribute="leading" secondItem="hEU-zw-Loy" secondAttribute="trailing" constant="13" id="nbQ-2C-JvC"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

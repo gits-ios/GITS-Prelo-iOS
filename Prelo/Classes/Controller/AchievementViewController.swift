@@ -179,7 +179,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (section > 0 && section <= (achievements?.count)!) {
             if (isOpens[section]) {
-                return 1 + 1 + achievements![section - 1].conditions.count + (achievements![section - 1].tierIcons.count > 0 ? 1 : 0) + (achievements![section - 1].actionUri != nil ? 1 : 0) + 1
+                return 1 + 1 + achievements![section - 1].conditions.count + achievements![section - 1].tiers.count + (achievements![section - 1].actionUri != nil ? 1 : 0) + 1
             } else {
                 return 1
             }
@@ -200,11 +200,12 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                 let textRect = achievements![(indexPath as NSIndexPath).section - 1].desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 42)
                 return CGFloat(Int(textRect.height + 4))
             } else if ((indexPath as NSIndexPath).row > 1 && (indexPath as NSIndexPath).row <= achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1) { // condition cell
-                let textRect = achievements![(indexPath as NSIndexPath).section - 1].conditions[(indexPath as NSIndexPath).row - 2].conditionText.boundsWithFontSize(UIFont.systemFont(ofSize: 11), width: UIScreen.main.bounds.size.width - 42)
+                let textRect = achievements![(indexPath as NSIndexPath).section - 1].conditions[(indexPath as NSIndexPath).row - 2].conditionText.boundsWithFontSize(UIFont.systemFont(ofSize: 11), width: UIScreen.main.bounds.size.width - 80)
                 return (textRect.height < 30 ? 30 : CGFloat(Int(textRect.height)) + 4)
-            } else if ((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 2 && achievements![(indexPath as NSIndexPath).section - 1].tierIcons.count > 0) { // tier icons cell
-                return 40 + 4
-            } else if (((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 3 && achievements![(indexPath as NSIndexPath).section - 1].tierIcons.count > 0 && (achievements![(indexPath as NSIndexPath).section - 1].actionUri != nil)) || ((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 2 && achievements![(indexPath as NSIndexPath).section - 1].tierIcons.count == 0 && (achievements![(indexPath as NSIndexPath).section - 1].actionUri != nil))) { // action cell
+            } else if ((indexPath as NSIndexPath).row > achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1 && (indexPath as NSIndexPath).row <= achievements![(indexPath as NSIndexPath).section - 1].tiers.count + achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1) { // tier icons cell
+                let textRect = achievements![(indexPath as NSIndexPath).section - 1].tiers[(indexPath as NSIndexPath).row - (achievements?[(indexPath as NSIndexPath).section - 1].conditions.count)! - 2].name.boundsWithFontSize(UIFont.systemFont(ofSize: 11), width: UIScreen.main.bounds.size.width - 80)
+                return (textRect.height < 30 ? 30 : CGFloat(Int(textRect.height)) + 4)
+            } else if ((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].tiers.count + achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1 + 1 && achievements![(indexPath as NSIndexPath).section - 1].actionUri != nil) { // action cell
                 let textRect = achievements![(indexPath as NSIndexPath).section - 1].actionTitle.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 42)
                 return CGFloat(Int(textRect.height + 4))
             } else {
@@ -278,17 +279,22 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                 cell.adapt((achievements?[(indexPath as NSIndexPath).section - 1].conditions[(indexPath as NSIndexPath).row - 2])!)
                 
                 return cell
-            } else if ((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 2 && achievements![(indexPath as NSIndexPath).section - 1].tierIcons.count > 0) { // tier icons cell
+            } else if ((indexPath as NSIndexPath).row > achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1 && (indexPath as NSIndexPath).row <= achievements![(indexPath as NSIndexPath).section - 1].tiers.count + achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1) { // tier icons cell
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementCellBadgeCell") as! AchievementCellBadgeCell
                 
                 cell.selectionStyle = .none
                 cell.backgroundColor = UIColor(hex: "E5E9EB")
                 cell.clipsToBounds = true
-                cell.setupCollection()
-                cell.adapt((achievements?[(indexPath as NSIndexPath).section - 1].tierIcons)!)
+                
+                if ((indexPath as NSIndexPath).row - (achievements?[(indexPath as NSIndexPath).section - 1].conditions.count)! - 2) == 0 {
+                    cell.vwSeparator.isHidden = false
+                    cell.vwSeparator.backgroundColor = Theme.GrayDark
+                }
+                
+                cell.adapt((achievements?[(indexPath as NSIndexPath).section - 1].tiers[(indexPath as NSIndexPath).row - (achievements?[(indexPath as NSIndexPath).section - 1].conditions.count)! - 2])!)
                 
                 return cell
-            } else if (((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 3 && achievements![(indexPath as NSIndexPath).section - 1].tierIcons.count > 0 && (achievements![(indexPath as NSIndexPath).section - 1].actionUri != nil)) || ((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 2 && achievements![(indexPath as NSIndexPath).section - 1].tierIcons.count == 0 && (achievements![(indexPath as NSIndexPath).section - 1].actionUri != nil))) { // action cell
+            } else if ((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].tiers.count + achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1 + 1 && achievements![(indexPath as NSIndexPath).section - 1].actionUri != nil) { // action cell
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementCellDescriptionCell") as! AchievementCellDescriptionCell
                 
                 cell.selectionStyle = .none
@@ -328,7 +334,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
             if ((indexPath as NSIndexPath).row == 0) {
                 isOpens[(indexPath as NSIndexPath).section] = !isOpens[(indexPath as NSIndexPath).section]
                 tableView.reloadData()
-            } else if (((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 3 && achievements![(indexPath as NSIndexPath).section - 1].tierIcons.count > 0 && (achievements![(indexPath as NSIndexPath).section - 1].actionUri != nil)) || ((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 2 && achievements![(indexPath as NSIndexPath).section - 1].tierIcons.count == 0 && (achievements![(indexPath as NSIndexPath).section - 1].actionUri != nil))) { // action cell
+            } else if ((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].tiers.count + achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1 + 1 && achievements![(indexPath as NSIndexPath).section - 1].actionUri != nil) { // action cell
                 
                 // deeplinking
                 
@@ -531,70 +537,28 @@ class AchievementCellProgressCell: UITableViewCell { // height 30
     }
 }
 
-class AchievementCellBadgeCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate { // height 40
-    @IBOutlet weak var progressIcon: UICollectionView!
+class AchievementCellBadgeCell: UITableViewCell { // height 30
+    @IBOutlet weak var tierImage: UIImageView!
+    @IBOutlet weak var lblTierName: UILabel!
+    @IBOutlet weak var vwBorder: UIView!
+    @IBOutlet weak var vwSeparator: UIView! // height 1 default hidden
     
-    var imageURLS : Array<URL>! = []
+    override func prepareForReuse() {
+        self.vwSeparator.isHidden = true
+    }
     
     // adapt
-    func adapt(_ imageURLS: Array<URL>) {
-        self.imageURLS = imageURLS
-        self.progressIcon.reloadData()
-    }
-    
-    func setupCollection() {
+    func adapt(_ tier: AchievementTierItem) {
         
-        // Set collection view
-        self.progressIcon.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "collcProgressCell")
-        self.progressIcon.delegate = self
-        self.progressIcon.dataSource = self
-        //        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(NotifAnggiTransactionCell.handleTap))
-        //        tapGestureRecognizer.delegate = self
-        self.progressIcon.backgroundView = UIView(frame: self.progressIcon.bounds)
-        //        collcTrxProgress.backgroundView!.addGestureRecognizer(tapGestureRecognizer)
-        self.progressIcon.backgroundColor = UIColor.clear
+        self.tierImage?.layoutIfNeeded()
+        self.tierImage?.layer.cornerRadius = (self.tierImage?.width ?? 0) / 2
+        self.tierImage?.layer.masksToBounds = true
+        // local image
+        self.tierImage?.afSetImage(withURL: tier.icon!)
         
-        self.progressIcon.isScrollEnabled = false
+        self.lblTierName.text = tier.name
+        self.lblTierName.textColor = (tier.isAchieved ? Theme.GrayDark : Theme.GrayLight)
     }
-    
-    // MARK: - CollectionView delegate functions
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.imageURLS.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        // Create cell
-        let cell = self.progressIcon.dequeueReusableCell(withReuseIdentifier: "collcProgressCell", for: indexPath)
-        
-        if (imageURLS.count > (indexPath as NSIndexPath).row) {
-            // Create icon view
-            let vwIcon : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
-            
-            let img = UIImageView(frame: CGRect(x: 2, y: 2, width: 28, height: 28))
-            img.layoutIfNeeded()
-            img.layer.cornerRadius = (img.width ) / 2
-            img.layer.masksToBounds = true
-            img.afSetImage(withURL: imageURLS[(indexPath as NSIndexPath).row])
-            
-            vwIcon.addSubview(img)
-            
-            // Add view to cell
-            cell.addSubview(vwIcon)
-        }
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 30, height: 30)
-    }
-    
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        if (idx != nil) {
-//            delegate?.cellCollectionTapped(self.idx!)
-//        }
-//    }
 }
 
 

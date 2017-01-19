@@ -3539,25 +3539,42 @@ class AchievementItem : NSObject {
         return 0
     }
     
-    var tier : Int {
-        if let j = json["tier"].int {
-            return j
-        }
-        return 0
-    }
+//    var tier : Int {
+//        if let j = json["tier"].int {
+//            return j
+//        }
+//        return 0
+//    }
+//    
+//    var tierIcons : Array<URL> {
+//        if let arr = json["tier_icons"].array {
+//            var Urls: Array<URL> = []
+//            if arr.count > 0 {
+//                for i in 0...arr.count-1 {
+//                    Urls.append(URL(string: arr[i].string!)!)
+//                }
+//            }
+//            return Urls
+//        }
+//        return []
+//    }
     
-    var tierIcons : Array<URL> {
-        if let arr = json["tier_icons"].array {
-            var Urls: Array<URL> = []
+    var tiers : Array<AchievementTierItem> {
+        if let arr = json["tiers"].array { // tiers , icon, achieved
+            
+            var innerTiers : Array<AchievementTierItem> = []
             if arr.count > 0 {
                 for i in 0...arr.count-1 {
-                    Urls.append(URL(string: arr[i].string!)!)
+                    innerTiers.append(AchievementTierItem.instance(arr[i])!)
                 }
             }
-            return Urls
+            
+            return innerTiers
+            
         }
         return []
     }
+
     
 //    var conditions : Array<[String:Bool]> {
 //        if let arr = json["conditions"].array { // fulfilled , condition_text
@@ -3716,5 +3733,40 @@ class AchievementUnlockedItem : NSObject {
             return j
         }
         return ""
+    }
+}
+
+class AchievementTierItem : NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> AchievementTierItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = AchievementTierItem()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var name : String {
+        if let j = json["name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var icon : URL? {
+        if let j = json["icon"].string {
+            return URL(string: j)!
+        }
+        return nil
+    }
+    
+    var isAchieved : Bool {
+        if let j = json["achieved"].bool {
+            return j
+        }
+        return false
     }
 }
