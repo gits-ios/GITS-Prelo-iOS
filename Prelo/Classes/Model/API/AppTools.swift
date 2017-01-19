@@ -261,7 +261,9 @@ extension UIImageView {
     }
     
     func afSetImage(withURL: URL) {
-        self.af_setImage(withURL: withURL)
+        self.af_setImage(withURL: withURL)        
+//        let placeholderImage = UIImage(named: "raisa.jpg")!
+//        self.af_setImage(withURL: withURL, placeholderImage: placeholderImage)
     }
 }
 

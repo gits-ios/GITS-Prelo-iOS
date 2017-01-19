@@ -1790,7 +1790,7 @@ class ListItemCell : UICollectionViewCell {
         
         let obj = product.json
         captionTitle.text = product.name
-        captionPrice.text = (product.isAggregate ? "mulai dari " : "") + product.price
+        captionPrice.text = product.price
         let loveCount = obj["love"].int
         captionLove.text = String(loveCount == nil ? 0 : loveCount!)
         let commentCount = obj["discussions"].int
@@ -1871,7 +1871,7 @@ class ListItemCell : UICollectionViewCell {
             consbtnWidthLove.constant = 0
         }
         
-        _ = obj["display_picts"][0].string
+//        _ = obj["display_picts"][0].string
         ivCover.image = nil
         ivCover.afSetImage(withURL: product.coverImageURL!)
         
@@ -1909,7 +1909,17 @@ class ListItemCell : UICollectionViewCell {
             consWidthAffiliateLogo.constant = const / 3 * 8
             consHeightAffiliateLogo.constant = const
             affiliateLogo.isHidden = false
-//            affiliateLogo.createBordersWithColor(UIColor.red , radius: 3, width: 1)
+            
+            captionOldPrice.text = "Mulai dari"
+            
+            // not good
+//            if let data = NSData(contentsOf: product.coverImageURL!) {
+//                if let imageUrl = UIImage(data: data as Data) {
+//                    
+//                    ivCover.image = imageUrl
+//                }
+//                
+//            }
         }
         
         if let status = product.status {
