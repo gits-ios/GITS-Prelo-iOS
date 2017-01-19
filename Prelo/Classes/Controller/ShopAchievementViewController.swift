@@ -131,12 +131,15 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
             self.tableView.delegate = self
         }
         
+        self.tableView.reloadData()
+        
         let screenSize = UIScreen.main.bounds
-        let screenHeight = screenSize.height - (170 + 45)
+        let screenHeight = screenSize.height - (64 + 45) // (170 + 45)
         
-        let tableHeight = CGFloat(self.userAchievements.count * 65) // min height
+//        let tableHeight = CGFloat(self.userAchievements.count * 65) // min height
+        let tableHeight = self.tableView.contentSize.height
         
-        var bottom = CGFloat(25)
+        var bottom = CGFloat(24)
         if (tableHeight < screenHeight) {
             bottom += (screenHeight - tableHeight)
         }
@@ -149,8 +152,6 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
         tableView.separatorStyle = .none
         
         tableView.backgroundColor = UIColor(hex: "E5E9EB")
-        
-        self.tableView.reloadData()
     }
     
     // MARK: - UITableView Functions

@@ -850,10 +850,12 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func getNewShopProducts() {
+        let current = self.products!.count
+        
         self.requesting = true
         
         // API Migrasi
-        let _ = request(APIUser.getShopPage(id: shopId, current: self.products!.count, limit: itemsPerReq)).responseJSON { resp in
+        let _ = request(APIUser.getShopPage(id: shopId, current: current, limit: itemsPerReq)).responseJSON { resp in
             self.requesting = false
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Data Shop Pengguna")) {
                 self.setupData(resp.result.value)
@@ -862,7 +864,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 
                 self.shopData = json
                 
-                self.delegate?.setupBanner(json: json)
+                if (current == 0) {
+                    self.delegate?.setupBanner(json: json)
+                }
                 
                 self.shopName = json["username"].stringValue
                 
@@ -875,18 +879,30 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 
                 self.setupGrid()
                 
-                let screenSize = UIScreen.main.bounds
-                let screenHeight = screenSize.height - (170 + 45)
-                let height = CGFloat((self.products?.count)! + 1) * 65
-                
-                var bottom = CGFloat(25)
-                if (height < screenHeight) {
-                    bottom += screenHeight - height
-                }
+                if (current == 0) {
+                    let screenSize = UIScreen.main.bounds
+                    let screenHeight = screenSize.height - (64 + 45) // (170 + 45)
+//                    let height = CGFloat((self.products?.count)! + 1) * 65
+                    
+                    var height = StoreInfo.heightFor(self.shopData, isExpand: self.isExpand) + 12
 
-                //TOP, LEFT, BOTTOM, RIGHT
-                let inset = UIEdgeInsetsMake(0, 0, bottom, 0)
-                self.gridView.contentInset = inset
+                    if AppTools.isIPad {
+                        height += CGFloat((self.products?.count)! / 3) * (self.itemCellWidth! + 70)
+                    } else {
+                        height += CGFloat((self.products?.count)! / 2) * (self.itemCellWidth! + 70)
+                    }
+                    
+                    
+                    var bottom = CGFloat(24)
+                    if (height < screenHeight) {
+                        bottom += screenHeight - height
+                    }
+                    
+                    //TOP, LEFT, BOTTOM, RIGHT
+                    let inset = UIEdgeInsetsMake(0, 0, bottom, 0)
+                    self.gridView.contentInset = inset
+                    
+                }
             }
         }
         
@@ -960,7 +976,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
         
         gridView.reloadData()
-        gridView.contentInset = UIEdgeInsetsMake(0, 0, 24, 0)
+        if (currentMode != .newShop) {
+            gridView.contentInset = UIEdgeInsetsMake(0, 0, 24, 0)
+        }
         gridView.isHidden = false
         vwFilterZeroResult.isHidden = true
     }

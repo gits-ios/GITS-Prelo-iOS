@@ -146,12 +146,15 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
             self.tableView.delegate = self
         }
         
+        self.tableView.reloadData()
+        
         let screenSize = UIScreen.main.bounds
-        let screenHeight = screenSize.height - (170 + 45)
+        let screenHeight = screenSize.height - (64 + 45) // (170 + 45)
         
-        let tableHeight = CGFloat((self.userReviews.count + (self.userReviews.count > 5 ? 2 : 1)) * 65) // min height
+//        let tableHeight = CGFloat((self.userReviews.count + (self.userReviews.count > 5 ? 2 : 1)) * 65) // min height
+        let tableHeight = self.tableView.contentSize.height
         
-        var bottom = CGFloat(25)
+        var bottom = CGFloat(24)
         if (tableHeight < screenHeight) {
             bottom += (screenHeight - tableHeight)
         }
@@ -159,9 +162,6 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         //TOP, LEFT, BOTTOM, RIGHT
         let inset = UIEdgeInsetsMake(0, 0, bottom, 0)
         tableView.contentInset = inset
-
-        
-        self.tableView.reloadData()
     }
     
     // MARK: - UITableView Functions
