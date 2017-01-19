@@ -167,7 +167,7 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
         let h : CGFloat = size.height
         
         let reloadDistance : CGFloat = 0
-        if (y > h + reloadDistance) {
+        if (y > h + reloadDistance && self.userProducts.count >= 10) {
             // Load next items only if all items not loaded yet and if its not currently loading items
             if (!self.isAllItemLoaded && self.bottomLoading.isHidden) {
                 // Show bottomLoading
