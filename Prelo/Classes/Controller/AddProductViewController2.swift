@@ -1916,12 +1916,20 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             if let img = images[i] as? UIImage {
                 //print("Resizing image no-\(i) with width = \(img.size.width)")
                 if let imgResized = img.resizeWithMaxWidth(2048) {
-                    if let imgData = ImageHelper.removeExifData(UIImagePNGRepresentation(imgResized)!) {
-                        images[i] = UIImage(data: imgData)!
-                    } else {
+//                    if let imgData = ImageHelper.removeExifData(UIImagePNGRepresentation(imgResized)!) {
+//                        images[i] = UIImage(data: imgData)!
+//                    } else {
+//                        images[i] = imgResized
+//                    }
+                    //print("Image no-\(i) has been resized")
+                    
+                    if (SYSTEM_VERSION_LESS_THAN("10.0")) {
+                        let curImage = UIImage(cgImage: imgResized.cgImage!, scale: 1.0, orientation: img.imageOrientation)
+                        images[i] = curImage
+                    }
+                    else {
                         images[i] = imgResized
                     }
-                    //print("Image no-\(i) has been resized")
                 }
             }
         }
