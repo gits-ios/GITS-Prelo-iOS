@@ -1888,7 +1888,7 @@ class ListItemCell : UICollectionViewCell {
         consHeightAffiliateLogo.constant = 0
         
         if product.isAggregate {
-            captionOldPrice.isHidden = true
+            captionOldPrice.text = "Mulai dari"
         } else if product.isAffiliate {
             var const : CGFloat = CGFloat(30)
             
@@ -1909,8 +1909,6 @@ class ListItemCell : UICollectionViewCell {
             consWidthAffiliateLogo.constant = const / 3 * 8
             consHeightAffiliateLogo.constant = const
             affiliateLogo.isHidden = false
-            
-            captionOldPrice.text = "Mulai dari"
             
             // not good
 //            if let data = NSData(contentsOf: product.coverImageURL!) {
