@@ -109,11 +109,10 @@
                                     </constraints>
                                 </view>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7O4-1I-kZa" userLabel="YA">
-                                    <rect key="frame" x="150" y="138" width="149.5" height="40"/>
+                                    <rect key="frame" x="150.5" y="138" width="149" height="40"/>
                                     <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="40" id="BOh-eN-kOb"/>
-                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="Ce6-dD-nmb"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                     <state key="normal" title="YA">
@@ -129,7 +128,6 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstItem="VKV-lk-Pvd" firstAttribute="top" secondItem="SrC-gd-nw6" secondAttribute="top" constant="16" id="1Rj-NA-g5C"/>
-                                <constraint firstItem="7O4-1I-kZa" firstAttribute="leading" secondItem="xK4-FE-zi6" secondAttribute="trailing" id="8cF-Wy-bUK"/>
                                 <constraint firstAttribute="bottom" secondItem="7O4-1I-kZa" secondAttribute="bottom" id="DNg-Ub-AHP"/>
                                 <constraint firstItem="7O4-1I-kZa" firstAttribute="top" secondItem="VKV-lk-Pvd" secondAttribute="bottom" constant="16" id="LLf-Ni-aMX"/>
                                 <constraint firstAttribute="bottom" secondItem="H0S-ue-PaV" secondAttribute="bottom" id="MDO-oD-E3T"/>
@@ -137,6 +135,7 @@
                                 <constraint firstItem="VKV-lk-Pvd" firstAttribute="leading" secondItem="SrC-gd-nw6" secondAttribute="leading" constant="16" id="PNh-Qm-MR1"/>
                                 <constraint firstItem="xK4-FE-zi6" firstAttribute="leading" secondItem="SrC-gd-nw6" secondAttribute="leading" id="UpY-de-3hK"/>
                                 <constraint firstItem="xK4-FE-zi6" firstAttribute="top" secondItem="VKV-lk-Pvd" secondAttribute="bottom" constant="16" id="YCp-jn-zpM"/>
+                                <constraint firstItem="7O4-1I-kZa" firstAttribute="leading" secondItem="H0S-ue-PaV" secondAttribute="trailing" id="dhI-3T-eWR"/>
                                 <constraint firstAttribute="bottom" secondItem="xK4-FE-zi6" secondAttribute="bottom" id="erj-AP-Zwd"/>
                                 <constraint firstAttribute="trailing" secondItem="7O4-1I-kZa" secondAttribute="trailing" id="jxw-TF-FaZ"/>
                                 <constraint firstItem="H0S-ue-PaV" firstAttribute="centerX" secondItem="SrC-gd-nw6" secondAttribute="centerX" id="qvF-n6-hVF"/>
@@ -181,10 +180,9 @@
                                     </constraints>
                                 </view>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wio-nZ-Pwq" userLabel="YA">
-                                    <rect key="frame" x="150" y="138" width="149.5" height="40"/>
+                                    <rect key="frame" x="150.5" y="138" width="149" height="40"/>
                                     <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="7lw-Di-knq"/>
                                         <constraint firstAttribute="height" constant="40" id="b71-cf-Nzr"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -204,9 +202,9 @@
                                 <constraint firstAttribute="bottom" secondItem="wio-nZ-Pwq" secondAttribute="bottom" id="G1i-96-dI4"/>
                                 <constraint firstItem="wio-nZ-Pwq" firstAttribute="top" secondItem="mHs-6P-d4f" secondAttribute="bottom" constant="16" id="J1Z-cj-ZEt"/>
                                 <constraint firstAttribute="bottom" secondItem="52n-rQ-can" secondAttribute="bottom" id="JYM-ip-mNw"/>
-                                <constraint firstItem="wio-nZ-Pwq" firstAttribute="leading" secondItem="a4t-3V-wpa" secondAttribute="trailing" id="Ppj-vq-Ect"/>
                                 <constraint firstAttribute="trailing" secondItem="wio-nZ-Pwq" secondAttribute="trailing" id="UVq-lR-eSp"/>
                                 <constraint firstAttribute="trailing" secondItem="mHs-6P-d4f" secondAttribute="trailing" constant="16" id="V1v-TS-k5D"/>
+                                <constraint firstItem="wio-nZ-Pwq" firstAttribute="leading" secondItem="52n-rQ-can" secondAttribute="trailing" id="Wqj-Dw-Gkh"/>
                                 <constraint firstItem="a4t-3V-wpa" firstAttribute="leading" secondItem="1qU-jo-38S" secondAttribute="leading" id="aSW-VI-nez"/>
                                 <constraint firstItem="a4t-3V-wpa" firstAttribute="top" secondItem="mHs-6P-d4f" secondAttribute="bottom" constant="16" id="bV3-nr-cNJ"/>
                                 <constraint firstItem="52n-rQ-can" firstAttribute="leading" secondItem="a4t-3V-wpa" secondAttribute="trailing" id="dg4-us-thA"/>
