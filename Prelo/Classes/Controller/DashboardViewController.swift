@@ -8,6 +8,7 @@
 
 import UIKit
 import MessageUI
+import Alamofire
 
 // MARK: - Class
 
@@ -200,7 +201,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         let m : [String : String] = (menus?.objectAtCircleIndex((indexPath as NSIndexPath).row))!
         
         if m["type"] == "iconic" {
-            var cell : DashboardCell = tableView.dequeueReusableCell(withIdentifier: "cell") as! DashboardCell
+            let cell : DashboardCell = tableView.dequeueReusableCell(withIdentifier: "cell") as! DashboardCell
             
             if let isPreloAwesome = m["PreloAwesome"] { // Icon is from font
                 if (isPreloAwesome == "1") {
@@ -434,7 +435,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
             self.feedback?.setupPopUp()
-            self.feedback?.displayPopUp()
+            self.feedback?.displayPopUp(.rate)
         })
     }
     
@@ -590,13 +591,22 @@ class BottomCell: UITableViewCell { // rate us, about
 }
 
 // MARK: - Pop up Feedback
+enum PopUpRateMode {
+    case rate
+    case openStore
+    case sendMail
+}
 
 class FeedbackPopup: UIView, FloatRatingViewDelegate {
     @IBOutlet weak var vwBackgroundOverlay: UIView!
     @IBOutlet weak var vwOverlayPopUp: UIView!
     @IBOutlet weak var vwLove: UIView!
     @IBOutlet weak var vwPopUp: UIView!
+    @IBOutlet weak var vwPopUpStore: UIView!
+    @IBOutlet weak var vwPopUpMail: UIView!
     @IBOutlet weak var consCenteryPopUp: NSLayoutConstraint!
+    @IBOutlet weak var consCenteryPopUpStore: NSLayoutConstraint!
+    @IBOutlet weak var consCenteryPopUpMail: NSLayoutConstraint!
     
     var floatRatingView: FloatRatingView!
     var rate : Float = 5
@@ -633,9 +643,11 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
         
         // force to bottom first
         self.consCenteryPopUp.constant = screenHeight
+        self.consCenteryPopUpStore.constant = screenHeight
+        self.consCenteryPopUpMail.constant = screenHeight
     }
     
-    func displayPopUp() {
+    func displayPopUp(_ type: PopUpRateMode) {
         let screenSize = UIScreen.main.bounds
         let screenHeight = screenSize.height - 64 // navbar
         
@@ -645,9 +657,21 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
         // 1
         let placeSelectionBar = { () -> () in
             // parent
-            var curView = self.vwPopUp.frame
-            curView.origin.y = (screenHeight - self.vwPopUp.frame.height) / 2
-            self.vwPopUp.frame = curView
+            
+            switch(type) {
+            case .rate:
+                var curView = self.vwPopUp.frame
+                curView.origin.y = (screenHeight - self.vwPopUp.frame.height) / 2
+                self.vwPopUp.frame = curView
+            case .openStore:
+                var curView = self.vwPopUpStore.frame
+                curView.origin.y = (screenHeight - self.vwPopUpStore.frame.height) / 2
+                self.vwPopUpStore.frame = curView
+            case .sendMail:
+                var curView = self.vwPopUpMail.frame
+                curView.origin.y = (screenHeight - self.vwPopUpMail.frame.height) / 2
+                self.vwPopUpMail.frame = curView
+            }
         }
         
         // 2
@@ -655,7 +679,14 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
             placeSelectionBar()
         })
         
-        self.consCenteryPopUp.constant = 0
+        switch(type) {
+        case .rate:
+            self.consCenteryPopUp.constant = 0
+        case .openStore:
+            self.consCenteryPopUpStore.constant = 0
+        case .sendMail:
+            self.consCenteryPopUpMail.constant = 0
+        }
     }
     
     func unDisplayPopUp() {
@@ -668,9 +699,19 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
         // 1
         let placeSelectionBar = { () -> () in
             // parent
+            
             var curView = self.vwPopUp.frame
             curView.origin.y = screenHeight + (screenHeight - self.vwPopUp.frame.height) / 2
             self.vwPopUp.frame = curView
+            
+            var cur2View = self.vwPopUpStore.frame
+            cur2View.origin.y = screenHeight + (screenHeight - self.vwPopUpStore.frame.height) / 2
+            self.vwPopUpStore.frame = cur2View
+            
+            var cur3View = self.vwPopUpMail.frame
+            cur3View.origin.y = screenHeight + (screenHeight - self.vwPopUpMail.frame.height) / 2
+            self.vwPopUpMail.frame = cur3View
+
         }
         
         // 2
@@ -679,21 +720,62 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
         })
         
         self.consCenteryPopUp.constant = screenHeight
+        self.consCenteryPopUpStore.constant = screenHeight
+        self.consCenteryPopUpMail.constant = screenHeight
     }
     
     @IBAction func btnSendPressed(_ sender: Any) {
         self.unDisplayPopUp()
         
+        let appVersion = CDVersion.getOne()?.appVersion
+        
+        let _ = request(APIUser.rateApp(appVersion: appVersion!, rate: Int(self.rate), review: "")).responseJSON { resp in
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Rate App")) {
+                print("rated")
+            }
+        }
+        
+        if (Int(self.rate) >= 4) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                 // rate to store
+                self.displayPopUp(.openStore)
+            })
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                // send email
+                self.displayPopUp(.sendMail)
+            })
+        }
+    }
+    
+    @IBAction func btnOpenStorePressed(_ sender: Any) {
+        self.unDisplayPopUp()
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
             self.vwOverlayPopUp.isHidden = true
             self.vwBackgroundOverlay.isHidden = true
-            if (Int(self.rate) >= 4) {
-                // rate to store
-                self.openStore()
-            } else {
-                // send email
-                self.sendMail()
-            }
+            self.openStore()
+            self.disposePopUp()
+        })
+    }
+    
+    @IBAction func btnSendMailPressed(_ sender: Any) {
+        self.unDisplayPopUp()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.vwOverlayPopUp.isHidden = true
+            self.vwBackgroundOverlay.isHidden = true
+            self.sendMail()
+            self.disposePopUp()
+        })
+    }
+    
+    @IBAction func btnTidakPressed(_ sender: Any) {
+        self.unDisplayPopUp()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.vwOverlayPopUp.isHidden = true
+            self.vwBackgroundOverlay.isHidden = true
             self.disposePopUp()
         })
     }

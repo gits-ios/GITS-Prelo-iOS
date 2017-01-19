@@ -1434,6 +1434,7 @@ enum APIUser : URLRequestConvertible {
     case getSellerReviews(id : String)
     case testUser(username : String)
     case getAchievement(id : String)
+    case rateApp(appVersion : String, rate: Int, review: String)
 
     public func asURLRequest() throws -> URLRequest {
         let basePath = "user/"
@@ -1450,6 +1451,7 @@ enum APIUser : URLRequestConvertible {
         case .getSellerReviews(_) : return .get
         case .testUser(_) : return .get
         case .getAchievement(_) : return .get
+        case .rateApp(_, _, _) : return .post
         }
     }
     
@@ -1459,6 +1461,7 @@ enum APIUser : URLRequestConvertible {
         case .getSellerReviews(let id) : return "\(id)/review"
         case .testUser(let username) : return "\(username)/id"
         case .getAchievement(let id) : return "\(id)/achievements"
+        case .rateApp(_, _, _) : return "rate_app"
         }
     }
     
@@ -1469,6 +1472,12 @@ enum APIUser : URLRequestConvertible {
             p = [
                 "current" : NSNumber(value: current as Int),
                 "limit" : NSNumber(value: limit as Int)
+            ]
+        case .rateApp(let appVersion, let rate, let review) :
+            p = [
+                "app_version" : appVersion,
+                "rate_num" : rate,
+                "rate_text" : review
             ]
         default : break
         }
