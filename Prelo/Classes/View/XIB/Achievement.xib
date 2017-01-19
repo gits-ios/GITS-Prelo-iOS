@@ -31,26 +31,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mid-EW-4MT" userLabel="PopUp">
-                                <rect key="frame" x="16" y="87.5" width="343" height="429"/>
+                                <rect key="frame" x="37.5" y="91.5" width="300" height="421"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="u7a-H6-cyn" userLabel="Achievement Badge">
-                                        <rect key="frame" x="71" y="16" width="200" height="200"/>
+                                        <rect key="frame" x="49.5" y="16" width="200" height="200"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="200" id="1c8-54-Haz"/>
                                             <constraint firstAttribute="height" constant="200" id="YQu-6V-l6c"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Achievement Name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YvT-uv-xU6">
-                                        <rect key="frame" x="16" y="232" width="311" height="50"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Achievement Name Achievement Name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YvT-uv-xU6">
+                                        <rect key="frame" x="16" y="232" width="268" height="42"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="4zv-Sb-RDs"/>
+                                            <constraint firstAttribute="height" constant="42" id="4zv-Sb-RDs"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description Text" textAlignment="center" lineBreakMode="clip" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="0cx-Hy-TR3">
-                                        <rect key="frame" x="16" y="298" width="311" height="75"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description Text ... Description Text ... Description Text ..." textAlignment="center" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="0cx-Hy-TR3">
+                                        <rect key="frame" x="16" y="290" width="268" height="75"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="75" id="lDB-le-mSq"/>
                                         </constraints>
@@ -59,7 +59,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="368-y4-3Kn">
-                                        <rect key="frame" x="0.0" y="389" width="343" height="40"/>
+                                        <rect key="frame" x="0.0" y="381" width="300" height="40"/>
                                         <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="H62-3v-QRu"/>
@@ -88,14 +88,14 @@
                                     <constraint firstItem="u7a-H6-cyn" firstAttribute="centerX" secondItem="Mid-EW-4MT" secondAttribute="centerX" id="ioY-tR-bd6"/>
                                     <constraint firstItem="YvT-uv-xU6" firstAttribute="top" secondItem="u7a-H6-cyn" secondAttribute="bottom" constant="16" id="mkM-jE-6Vn"/>
                                     <constraint firstItem="0cx-Hy-TR3" firstAttribute="top" secondItem="YvT-uv-xU6" secondAttribute="bottom" constant="16" id="tig-1X-gSm"/>
+                                    <constraint firstAttribute="width" constant="300" id="vaL-ty-eLb"/>
                                     <constraint firstItem="0cx-Hy-TR3" firstAttribute="leading" secondItem="Mid-EW-4MT" secondAttribute="leading" constant="16" id="xzj-Q3-rW5"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="Mid-EW-4MT" firstAttribute="leading" secondItem="oIQ-Qr-UJO" secondAttribute="leading" constant="16" id="Ckt-zY-HWo"/>
+                            <constraint firstItem="Mid-EW-4MT" firstAttribute="centerX" secondItem="oIQ-Qr-UJO" secondAttribute="centerX" id="NRl-dA-ihQ"/>
                             <constraint firstItem="Mid-EW-4MT" firstAttribute="centerY" secondItem="oIQ-Qr-UJO" secondAttribute="centerY" id="gqh-Un-ePP"/>
-                            <constraint firstAttribute="trailing" secondItem="Mid-EW-4MT" secondAttribute="trailing" constant="16" id="iNb-D6-0Fn"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UeK-eX-XVS" userLabel="loadingPanel" customClass="AchievementCell" customModule="Prelo" customModuleProvider="target">

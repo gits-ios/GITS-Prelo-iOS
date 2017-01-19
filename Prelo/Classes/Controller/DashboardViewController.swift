@@ -91,8 +91,8 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                     "iconimg":"ic_faq"
                 ],
                 [
-                    "type":"text",
-                    "title":"Rate Us",
+                    "type":"text-separator",
+                    "title":"Feedback",
                 ],
                 [
                     "type":"text",
@@ -120,11 +120,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                     "iconimg":"ic_faq"
                 ],
                 [
-                    "type":"text",
-                    "title":"Rate Us",
-                ],
-                [
-                    "type":"text",
+                    "type":"text-separator",
                     "title":"About",
                     "iconimg":"ic_about" // not use
                 ]
@@ -232,7 +228,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             
             return cell
             
-        } else if m ["type"] == "text" {
+        } else if m["type"] == "text" || m["type"] == "text-separator" {
             let cell = tableView.dequeueReusableCell(withIdentifier: "BottomCell")
             cell?.textLabel?.font = UIFont.systemFont(ofSize: 16)
             cell?.textLabel?.textColor = UIColor(hex: "555555")
@@ -240,7 +236,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             cell?.textLabel!.text = m["title"]
             cell?.selectionStyle = .none
             
-            if m["title"] == "Rate Us" {
+            if m["type"] == "text-separator" {
                 let inView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: 1), backgroundColor: UIColor(hex: "AAAAAA"))
             
                 cell?.contentView.addSubview(inView)
@@ -269,7 +265,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 self.launchAchievement()
             } else if ((indexPath as NSIndexPath).row == 4) { // Bantuan
                 self.launchFAQ()
-            } else if ((indexPath as NSIndexPath).row == 5) { // Rate Us
+            } else if ((indexPath as NSIndexPath).row == 5) { // Feedback
                 self.launchRateUs()
             } else if ((indexPath as NSIndexPath).row == 6) { // About
                 self.launchAbout()
@@ -281,9 +277,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 self.launchFreeVoucher()
             } else if ((indexPath as NSIndexPath).row == 1) { // Bantuan
                 self.launchFAQ()
-            } else if ((indexPath as NSIndexPath).row == 2) { // Rate Us
-                self.launchRateUs()
-            } else if ((indexPath as NSIndexPath).row == 3) { // About
+            } else if ((indexPath as NSIndexPath).row == 2) { // About
                 self.launchAbout()
             }
         }
@@ -292,7 +286,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let m : [String : String] = (menus?.objectAtCircleIndex((indexPath as NSIndexPath).row))!
         
-        if m["title"] == "Rate Us" {
+        if m["title"] == "Feedback" {
             return 45 + 1 // separator
             
         } else {
@@ -431,7 +425,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     }
 
     func launchRateUs() {
-        Constant.showDialog("Rate Us", message: "Coba!")
+        Constant.showDialog("Feedback", message: "Coba!")
     }
     
     func lauchTestingFeature() {
