@@ -378,6 +378,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             
             // Luxury fields
             if let luxData = editProduct?.json["_data"]["luxury_data"] , luxData.count > 0 {
+                self.merekIsLuxury = true
+                
                 // Show luxury fields
                 self.groupVerifAuth.isHidden = false
                 self.groupKelengkapan.isHidden = false
@@ -519,6 +521,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 self.getSizes()
             }
             
+            self.merekIsLuxury = (product?.isLuxury)!
+            
             // Luxury fields
             if (product?.isLuxury)! {
                 // Show luxury fields
@@ -571,7 +575,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
         
         
-        if (editMode == false)
+        if (!editMode && !draftMode)
         {
             self.title = PageName.AddProduct
             self.btnSubmit.setTitle("LANJUTKAN", for: UIControlState())
