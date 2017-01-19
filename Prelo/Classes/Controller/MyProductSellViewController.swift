@@ -279,7 +279,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 // Socmed share status
                 cell.vwShareStatus.isHidden = false
                 
-                cell.lblPercentage.text = "10%"
+                cell.lblPercentage.text = "90%"
             } else {
                 let p = products[(indexPath as NSIndexPath).row]
                 
