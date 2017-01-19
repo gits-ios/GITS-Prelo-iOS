@@ -1038,10 +1038,10 @@ open class Product : NSObject
             return nil
         }
         
-        if json["display_picts"][0].error != nil
-        {
-            return URL(string: "http://dev.kleora.com/images/products/")
-        }
+//        if json["display_picts"][0].error != nil
+//        {
+//            return URL(string: "http://dev.kleora.com/images/products/")
+//        }
         if let base = json["display_picts"][0].string
         {
             if let url = URL(string : base)

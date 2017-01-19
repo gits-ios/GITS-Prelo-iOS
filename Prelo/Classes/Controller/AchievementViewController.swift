@@ -204,7 +204,11 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                 return (textRect.height < 30 ? 30 : CGFloat(Int(textRect.height)) + 4)
             } else if ((indexPath as NSIndexPath).row > achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1 && (indexPath as NSIndexPath).row <= achievements![(indexPath as NSIndexPath).section - 1].tiers.count + achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1) { // tier icons cell
                 let textRect = achievements![(indexPath as NSIndexPath).section - 1].tiers[(indexPath as NSIndexPath).row - (achievements?[(indexPath as NSIndexPath).section - 1].conditions.count)! - 2].name.boundsWithFontSize(UIFont.systemFont(ofSize: 11), width: UIScreen.main.bounds.size.width - 80)
-                return (textRect.height < 30 ? 30 : CGFloat(Int(textRect.height)) + 4)
+                var incrementConstant = CGFloat(4)
+                if ((indexPath as NSIndexPath).row - (achievements?[(indexPath as NSIndexPath).section - 1].conditions.count)! - 2) == 0 {
+                    incrementConstant = 6
+                }
+                return (textRect.height < 30 ? 30 : CGFloat(Int(textRect.height)) + incrementConstant)
             } else if ((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].tiers.count + achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1 + 1 && achievements![(indexPath as NSIndexPath).section - 1].actionUri != nil) { // action cell
                 let textRect = achievements![(indexPath as NSIndexPath).section - 1].actionTitle.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 42)
                 return CGFloat(Int(textRect.height + 4))
@@ -289,6 +293,8 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                 if ((indexPath as NSIndexPath).row - (achievements?[(indexPath as NSIndexPath).section - 1].conditions.count)! - 2) == 0 {
                     cell.vwSeparator.isHidden = false
                     cell.vwSeparator.backgroundColor = Theme.GrayDark
+                    cell.consCentery.constant = 3
+                    cell.consCenteryImage.constant = 3
                 }
                 
                 cell.adapt((achievements?[(indexPath as NSIndexPath).section - 1].tiers[(indexPath as NSIndexPath).row - (achievements?[(indexPath as NSIndexPath).section - 1].conditions.count)! - 2])!)
@@ -512,21 +518,6 @@ class AchievementCellProgressCell: UITableViewCell { // height 30
     @IBOutlet weak var lblCondition: UILabel!
     @IBOutlet weak var lblFullfilled: UILabel!
     
-//    // adapt
-//    func adapt(_ condition: [String:Bool]) {
-//        
-//        for (key, value) in condition {
-//            self.lblCondition.text = key
-////            self.lblFullfilled.isHidden = !value
-//            self.lblFullfilled.isHidden = false
-//            
-//            self.lblFullfilled.backgroundColor = (value == false ? UIColor.lightGray : Theme.PrimaryColor)
-//            
-//            print(key)
-//            print(value)
-//        }
-//    }
-    
     // adapt
     func adapt(_ condition: AchievementConditionItem) {
         
@@ -542,9 +533,13 @@ class AchievementCellBadgeCell: UITableViewCell { // height 30
     @IBOutlet weak var lblTierName: UILabel!
     @IBOutlet weak var vwBorder: UIView!
     @IBOutlet weak var vwSeparator: UIView! // height 1 default hidden
+    @IBOutlet weak var consCentery: NSLayoutConstraint!
+    @IBOutlet weak var consCenteryImage: NSLayoutConstraint!
     
     override func prepareForReuse() {
         self.vwSeparator.isHidden = true
+        self.consCentery.constant = 0
+        self.consCenteryImage.constant = 0
     }
     
     // adapt

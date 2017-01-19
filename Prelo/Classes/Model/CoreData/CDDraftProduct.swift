@@ -41,6 +41,7 @@ class CDDraftProduct: NSManagedObject {
     @NSManaged var defectDescription : String
     @NSManaged var sellReason : String
     @NSManaged var specialStory : String
+    @NSManaged var isLuxury : Bool
     @NSManaged var luxuryData_styleName : String
     @NSManaged var luxuryData_serialNumber : String
     @NSManaged var luxuryData_purchaseLocation : String
@@ -141,7 +142,7 @@ class CDDraftProduct: NSManagedObject {
 //    }
     
     // new localId = -1
-    static func saveDraft(_ localId: String, name: String, descriptionText : String, weight : String, freeOngkir : Int, priceOriginal : String, price : String, commission : String, category : String, categoryId : String, isCategWomenOrMenSelected : Bool, condition : String, conditionId : String, brand : String, brandId : String, imagePath : [String], imageOrientation : [Int], size : String, defectDescription : String, sellReason : String, specialStory : String, luxuryData : [String]) {
+    static func saveDraft(_ localId: String, name: String, descriptionText: String, weight: String, freeOngkir: Int, priceOriginal: String, price: String, commission: String, category: String, categoryId: String, isCategWomenOrMenSelected: Bool, condition: String, conditionId: String, brand: String, brandId: String, imagePath: [String], imageOrientation: [Int], size: String, defectDescription: String, sellReason: String, specialStory: String, luxuryData: [String], isLuxury: Bool) {
         
         let m = UIApplication.appDelegate.managedObjectContext
         let draft : CDDraftProduct? = self.getOne(localId)
@@ -183,6 +184,7 @@ class CDDraftProduct: NSManagedObject {
             draft?.luxuryData_originalDustbox = luxuryData[5]
             draft?.luxuryData_receipt = luxuryData[6]
             draft?.luxuryData_authenticityCard = luxuryData[7]
+            draft?.isLuxury = isLuxury
         } else {
             // Make new
             let newVer = NSEntityDescription.insertNewObject(forEntityName: "CDDraftProduct", into: m) as! CDDraftProduct
@@ -223,6 +225,7 @@ class CDDraftProduct: NSManagedObject {
             newVer.luxuryData_originalDustbox = luxuryData[5]
             newVer.luxuryData_receipt = luxuryData[6]
             newVer.luxuryData_authenticityCard = luxuryData[7]
+            newVer.isLuxury = isLuxury
             
             newVer.isUploading = false
         }
@@ -258,22 +261,6 @@ class CDDraftProduct: NSManagedObject {
             print("deleteDraft success")
         } else {
             print("deleteDraft failed")
-        }
-    }
-    
-    static func isLuxury(_ localId: String) -> Bool {
-        let result : CDDraftProduct? = self.getOne(localId)
-        if (result != nil) {
-            return !(result!.luxuryData_styleName == "" &&
-                result!.luxuryData_serialNumber == "" &&
-                result!.luxuryData_purchaseLocation == "" &&
-                result!.luxuryData_purchaseYear == "" &&
-                result!.luxuryData_originalBox == "" &&
-                result!.luxuryData_originalDustbox == "" &&
-                result!.luxuryData_receipt == "" &&
-                result!.luxuryData_authenticityCard == "")
-        } else {
-            return false
         }
     }
 

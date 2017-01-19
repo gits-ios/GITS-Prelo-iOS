@@ -43,7 +43,6 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="1lR-UH-Sz4" firstAttribute="leading" secondItem="Ckf-xO-6bf" secondAttribute="trailing" constant="8" id="5Eo-x0-CAO"/>
                             <constraint firstAttribute="bottom" secondItem="1lR-UH-Sz4" secondAttribute="bottom" constant="8" id="6IF-Up-ZG4"/>
                             <constraint firstAttribute="trailing" secondItem="1lR-UH-Sz4" secondAttribute="trailing" constant="13" id="GA8-6N-TQg"/>
                             <constraint firstItem="1lR-UH-Sz4" firstAttribute="leading" secondItem="Ckf-xO-6bf" secondAttribute="trailing" constant="8" id="H6T-OQ-Lnb"/>
@@ -65,6 +64,8 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="consCentery" destination="j3H-XT-0LM" id="GzC-d4-gQH"/>
+                <outlet property="consCenteryImage" destination="8vq-hI-ouh" id="wED-VF-aad"/>
                 <outlet property="lblTierName" destination="1lR-UH-Sz4" id="oy7-vG-Pk7"/>
                 <outlet property="tierImage" destination="Ckf-xO-6bf" id="tuL-ah-XpJ"/>
                 <outlet property="vwBorder" destination="HQI-lm-K7g" id="gFu-yi-Mdy"/>
