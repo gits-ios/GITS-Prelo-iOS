@@ -93,6 +93,7 @@ class CDDraftProduct: NSManagedObject {
         let predicate = NSPredicate(format: "isUploading != %@", NSNumber(value: true as Bool))
         let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDDraftProduct")
         fetchReq.predicate = predicate
+        fetchReq.sortDescriptors = [NSSortDescriptor(key: "localId", ascending: false)]
         
         do {
             let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq) as? [CDDraftProduct]
@@ -222,6 +223,8 @@ class CDDraftProduct: NSManagedObject {
             newVer.luxuryData_originalDustbox = luxuryData[5]
             newVer.luxuryData_receipt = luxuryData[6]
             newVer.luxuryData_authenticityCard = luxuryData[7]
+            
+            newVer.isUploading = false
         }
         
         if (m.saveSave() == false) {

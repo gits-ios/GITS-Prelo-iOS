@@ -206,7 +206,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     func getLocalProducts() {
-        localProducts = CDDraftProduct.getAll()
+        localProducts = CDDraftProduct.getAllIsDraft()
     }
     
     func refresh(_ sender: AnyObject, isSearchMode : Bool) {
@@ -264,16 +264,22 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                         let img = UIImage(cgImage: imageUrl.cgImage!, scale: 1.0, orientation: UIImageOrientation(rawValue: p.imageOrientation1 as Int)!)
                         cell.imgProduct.image = img
                     }
+                } else {
+                    cell.imgProduct.image = UIImage(named: "raisa.jpg")
                 }
                 
                 cell.lblOrderStatus.text = "DRAFT"
+                cell.lblOrderStatus.textColor = UIColor.blue
                 
                 // Fix product status text width
                 let sizeThatShouldFitTheContent = cell.lblOrderStatus.sizeThatFits(cell.lblOrderStatus.frame.size)
                 //print("size untuk '\(cell.lblOrderStatus.text)' = \(sizeThatShouldFitTheContent)")
                 cell.consWidthLblOrderStatus.constant = sizeThatShouldFitTheContent.width
                 
-                cell.lblPercentage.text = "\(100 - p.commission.int) %"
+                // Socmed share status
+                cell.vwShareStatus.isHidden = false
+                
+                cell.lblPercentage.text = "10%"
             } else {
                 let p = products[(indexPath as NSIndexPath).row]
                 
@@ -303,7 +309,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 cell.lblOrderStatus.text = status.uppercased()
                 if (p.isLokal)
                 {
-                    cell.lblOrderStatus.text = "Uploading"
+                    cell.lblOrderStatus.text = "UPLOADING"
                 }
                 
                 if (status.lowercased() == "aktif") {
@@ -330,7 +336,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 if (p.isSharedTwitter) {
                     cell.lblTwitter.textColor = Theme.PrimaryColor
                 }
-                cell.lblPercentage.text = "\(100 - p.commission) %"
+                cell.lblPercentage.text = "\(100 - p.commission)%"
             }
         }
         

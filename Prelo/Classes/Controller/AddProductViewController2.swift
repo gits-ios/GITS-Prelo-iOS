@@ -312,7 +312,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             
             if let commission = editProduct?.json["_data"]["commission"].int
             {
-                txtCommission.text = "\(String(commission)) %"
+                txtCommission.text = "\(String(commission))%"
             }
             
             if let category_breadcrumbs = editProduct?.json["_data"]["category_breadcrumbs"].array
@@ -1070,7 +1070,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             // save again if from album
             if picker.sourceType != .camera {
                 let imageURL = info[UIImagePickerControllerReferenceURL] as! NSURL
-                let imageName = imageURL.path!.lastPathComponent + "_" + index.string
+                let imageName = imageURL.path!.lastPathComponent + "_" + index.string + "_" + (draftMode ? draftProduct?.localId : uniqueCodeString)!
                 let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
                 let localPath = documentDirectory.stringByAppendingPathComponent(imageName)
                 

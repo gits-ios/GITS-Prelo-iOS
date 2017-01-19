@@ -58,6 +58,8 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
         self.refreshControl.addTarget(self, action: #selector(NotifAnggiTransactionViewController.refreshPage), for: UIControlEvents.valueChanged)
         self.tableView.addSubview(refreshControl)
         
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
+        
         // Search bar setup
         searchBar.delegate = self
         searchBar.placeholder = "Cari Barang"
