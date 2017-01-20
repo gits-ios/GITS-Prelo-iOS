@@ -767,6 +767,14 @@ open class ProductDetail : NSObject, TawarItem
         return ""
     }
     
+    var priceInt : Int {
+        if let j = json["_data"]["price"].int
+        {
+            return j
+        }
+        return 0
+    }
+    
     var buyerId = ""
     var buyerName = ""
     var buyerImage = ""
@@ -2922,31 +2930,31 @@ class InboxMessage : NSObject
         
         if (messageType == 1)
         {
-            return "Tawar \n" + message.int.asPrice
+            return "Tawar\n" + message.int.asPrice
         }
         
         if (messageType == 2)
         {
-            if (message.int != 0)
-            {
-                return "Terima tawaran " + message.int.asPrice
-            } else
-            {
+            if (message.int != 0) {
+                return "Terima tawaran\n" + message.int.asPrice
+            } else if (message.contains("Terima tawaran")) {
+                return message.replace("Terima tawaran ", template: "Terima tawaran\n")
+            } else {
                 return message
             }
         }
         
         if (messageType == 3)
         {
-            if (message.int != 0)
-            {
-                return "Tolak tawaran " + message.int.asPrice
-            } else
-            {
+            if (message.int != 0) {
+                return "Tolak tawaran\n" + message.int.asPrice
+            } else if (message.contains("Membatalkan tawaran")) {
+                return message.replace("Membatalkan tawaran ", template: "Membatalkan tawaran\n")
+            } else if (message.contains("Tolak tawaran")) {
+                return message.replace("Tolak tawaran ", template: "Tolak tawaran\n")
+            } else {
                 return message
             }
-//            return "Tolak Tawar\n" + message.int.asPrice
-//            return message
         }
         
         return message

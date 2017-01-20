@@ -76,12 +76,12 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     @IBOutlet weak var consHeightPaymentReminder: NSLayoutConstraint!
     
     // Table, loading, label, send btn
-    @IBOutlet var tableView : UITableView!
-    @IBOutlet var captionNoItem: UILabel!
-    @IBOutlet var loadingCart: UIActivityIndicatorView!
-    @IBOutlet var lblSend: UILabel!
-    @IBOutlet var consHeightLblSend: NSLayoutConstraint!
-    @IBOutlet var btnSend : UIButton!
+    @IBOutlet weak var tableView : UITableView!
+    @IBOutlet weak var captionNoItem: UILabel!
+    @IBOutlet weak var loadingCart: UIActivityIndicatorView!
+    @IBOutlet weak var lblSend: UILabel!
+    @IBOutlet weak var consHeightLblSend: NSLayoutConstraint!
+    @IBOutlet weak var btnSend : UIButton!
     
     // Metode pembayaran
     var selectedPayment : PaymentMethod = .bankTransfer
@@ -172,6 +172,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 tableView.isHidden = true
                 LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
             } else { // Show cart
+                initUserDataSections()
                 synchCart()
             }
             
@@ -206,7 +207,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         // Reset data
         isUsingPreloBalance = false
         discountItems = []
-        initUserDataSections()
+//        initUserDataSections()
         
         // Prepare parameter for API refresh cart
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
