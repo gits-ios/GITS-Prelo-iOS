@@ -115,7 +115,8 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         if (isRefundMode) {
             self.lblKurir.text = "JNE"
         } else {
-            self.lblKurir.text = trxDetail.requestCourier.characters.split{$0 == "("}.map(String.init)[0]
+            let kurir = trxDetail.requestCourier.characters.split{$0 == "("}.map(String.init)[0]
+            self.lblKurir.text = (kurir == "Free Ongkir" ? "Pilih Kurir" : kurir)
         }
     }
     
@@ -214,30 +215,56 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
             self.showFldKurirLainnya()
             kurirAlert.dismiss(animated: true, completion: nil)
         }))
+        kurirAlert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in
+            kurirAlert.dismiss(animated: true, completion: nil)
+        }))
         self.present(kurirAlert, animated: true, completion: nil)
     }
     
     @IBAction func btnResiPressed(_ sender: AnyObject) {
-        let i = UIImagePickerController()
-        i.sourceType = .photoLibrary
-        i.delegate = self
+//        let i = UIImagePickerController()
+//        i.sourceType = .photoLibrary
+//        i.delegate = self
+//        
+//        if (UIImagePickerController.isSourceTypeAvailable(.camera)) {
+//            let a = UIAlertController(title: "Ambil gambar dari:", message: nil, preferredStyle: .actionSheet)
+//            a.popoverPresentationController?.sourceView = self.imgResi
+//            a.popoverPresentationController?.sourceRect = self.imgResi.bounds
+//            a.addAction(UIAlertAction(title: "Kamera", style: .default, handler: { act in
+//                i.sourceType = .camera
+//                self.present(i, animated: true, completion: nil)
+//            }))
+//            a.addAction(UIAlertAction(title: "Album", style: .default, handler: { act in
+//                self.present(i, animated: true, completion: nil)
+//            }))
+//            a.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in }))
+//            self.present(a, animated: true, completion: nil)
+//        } else {
+//            self.present(i, animated: true, completion: nil)
+//        }
         
-        if (UIImagePickerController.isSourceTypeAvailable(.camera)) {
-            let a = UIAlertController(title: "Ambil gambar dari:", message: nil, preferredStyle: .actionSheet)
-            a.popoverPresentationController?.sourceView = self.imgResi
-            a.popoverPresentationController?.sourceRect = self.imgResi.bounds
-            a.addAction(UIAlertAction(title: "Kamera", style: .default, handler: { act in
-                i.sourceType = .camera
-                self.present(i, animated: true, completion: nil)
-            }))
-            a.addAction(UIAlertAction(title: "Album", style: .default, handler: { act in
-                self.present(i, animated: true, completion: nil)
-            }))
-            a.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { act in }))
-            self.present(a, animated: true, completion: nil)
-        } else {
-            self.present(i, animated: true, completion: nil)
+        
+        
+        let ScannerVC = Bundle.main.loadNibNamed(Tags.XibNameScanner, owner: nil, options: nil)?.first as! ScannerViewController
+        ScannerVC.root = self
+        ScannerVC.blockDone = { data in // [0] -> nomor resi : String, [1] -> foto resi : UIImage
+            if let img = data[1] as? UIImage {
+                self.imgResi.image = img
+                self.isPictSelected = true
+            } else {
+                Constant.showDialog("Oops", message: "Foto resi gagal diperbaharui. Silakan coba ambil gambar lagi")
+            }
+            
+            if (data[0] as! String == "") {
+                Constant.showDialog("Oops", message: "Nomor resi pengiriman tidak ditemukan. Silakan coba ambil gambar lagi atau ketik langsung di kolom Nomor Resi.")
+            } else {
+//                Constant.showDialog("Nomor Resi", message: data[0] as! String)
+                self.txtFldNoResi.text = data[0] as? String
+            }
+            // coba screenshot
+//            self.imgResi.image = self.view?.snapshot
         }
+        self.navigationController?.pushViewController(ScannerVC, animated: true)
     }
     
     @IBAction func btnKonfKirimPressed(_ sender: AnyObject) {
@@ -248,7 +275,8 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                 let url = "\(AppTools.PreloBaseUrl)/api/transaction_product/\(self.tpId)/refund_sent"
                 let param = [
                     "kurir" : self.lblKurir.text?.lowercased() != "lainnya" ? self.lblKurir.text! : self.txtFldKurirLainnya.text!,
-                    "resi_number" : self.txtFldNoResi.text == nil ? "" : self.txtFldNoResi.text!
+                    "resi_number" : self.txtFldNoResi.text == nil ? "" : self.txtFldNoResi.text!,
+                    "platform_sent_from" : "ios"
                 ]
                 var images : [UIImage] = []
                 if let imgR = imgResi.image {
@@ -317,7 +345,8 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                 let param = [
                     "confirmation_data" : confirmData,
                     "kurir" : self.lblKurir.text?.lowercased() != "lainnya" ? self.lblKurir.text! : self.txtFldKurirLainnya.text!,
-                    "resi_number" : self.txtFldNoResi.text == nil ? "" : self.txtFldNoResi.text!
+                    "resi_number" : self.txtFldNoResi.text == nil ? "" : self.txtFldNoResi.text!,
+                    "platform_sent_from" : "ios"
                 ]
                 var images : [UIImage] = []
                 if let imgR = imgResi.image {
@@ -419,7 +448,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     }
     
     func validateShippingFields() -> Bool {
-        if (self.lblKurir.text == "") {
+        if (self.lblKurir.text == "" || self.lblKurir.text == "Pilih Kurir") {
             Constant.showDialog("Warning", message: "Field kurir harus diisi")
             return false
         }

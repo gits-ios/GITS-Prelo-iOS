@@ -10,10 +10,11 @@
 
 import Foundation
 import Alamofire
+import MessageUI
 
 // MARK: - Class
 
-class TransactionDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate {
+class TransactionDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, FloatRatingViewDelegate {
     
     // Table and loading
     @IBOutlet weak var tableView: UITableView!
@@ -68,6 +69,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     @IBOutlet weak var txtvwReview: UITextView!
     @IBOutlet weak var btnRvwBatal: UIButton!
     @IBOutlet weak var btnRvwKirim: UIButton!
+    // disable
     var btnsRvwLove: [UIButton] = []
     @IBOutlet var btnLove1: UIButton!
     @IBOutlet var btnLove2: UIButton!
@@ -80,6 +82,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     @IBOutlet var lblLove3: UILabel!
     @IBOutlet var lblLove4: UILabel!
     @IBOutlet var lblLove5: UILabel!
+    // new
+    @IBOutlet var vwLoveWithListener: UIView!
     var loveValue : Int = 5
     var txtvwReviewGrowHandler : GrowingTextViewHandler!
     @IBOutlet weak var consHeightTxtvwReview: NSLayoutConstraint!
@@ -100,6 +104,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     var isShowBankBRI : Bool = false
     var veritransRedirectUrl : String = ""
     var isRefundable : Bool = false
+    
+    var floatRatingView: FloatRatingView!
     
     // MARK: - Init
     
@@ -212,11 +218,11 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     }
                     
                     // Mixpanel
-                    let param = [
-                        "ID" : ((self.trxId != nil) ? self.trxId! : ((self.trxProductId != nil) ? self.trxProductId! : "")),
-                        "Progress" : ((self.progress != nil) ? "\(self.progress!)" : "")
-                    ]
-                    Mixpanel.trackPageVisit(PageName.TransactionDetail, otherParam: param)
+//                    let param = [
+//                        "ID" : ((self.trxId != nil) ? self.trxId! : ((self.trxProductId != nil) ? self.trxProductId! : "")),
+//                        "Progress" : ((self.progress != nil) ? "\(self.progress!)" : "")
+//                    ]
+//                    Mixpanel.trackPageVisit(PageName.TransactionDetail, otherParam: param)
                     
                     self.setupHideableCell()
                     self.setupHideProductCell()
@@ -231,16 +237,33 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     func setupPopUpContent() {
         // Review seller pop up
         // Set btnLoves and lblLoves manually
-        btnsRvwLove.append(self.btnLove1)
-        btnsRvwLove.append(self.btnLove2)
-        btnsRvwLove.append(self.btnLove3)
-        btnsRvwLove.append(self.btnLove4)
-        btnsRvwLove.append(self.btnLove5)
-        lblsRvwLove.append(self.lblLove1)
-        lblsRvwLove.append(self.lblLove2)
-        lblsRvwLove.append(self.lblLove3)
-        lblsRvwLove.append(self.lblLove4)
-        lblsRvwLove.append(self.lblLove5)
+//        btnsRvwLove.append(self.btnLove1)
+//        btnsRvwLove.append(self.btnLove2)
+//        btnsRvwLove.append(self.btnLove3)
+//        btnsRvwLove.append(self.btnLove4)
+//        btnsRvwLove.append(self.btnLove5)
+//        lblsRvwLove.append(self.lblLove1)
+//        lblsRvwLove.append(self.lblLove2)
+//        lblsRvwLove.append(self.lblLove3)
+//        lblsRvwLove.append(self.lblLove4)
+//        lblsRvwLove.append(self.lblLove5)
+        
+        // Love floatable
+        self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 0, width: 217, height: 37))
+        self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
+        self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
+        // Optional params
+        self.floatRatingView.delegate = self
+        self.floatRatingView.contentMode = UIViewContentMode.scaleAspectFit
+        self.floatRatingView.maxRating = 5
+        self.floatRatingView.minRating = 1
+        self.floatRatingView.rating = Float(loveValue)
+        self.floatRatingView.editable = true
+        self.floatRatingView.halfRatings = false
+        self.floatRatingView.floatRatings = false
+        self.floatRatingView.tintColor = Theme.ThemeRed
+        
+        self.vwLoveWithListener.addSubview(self.floatRatingView )
         
         if (trxProductDetail != nil) {
             self.lblRvwSellerName.text = trxProductDetail!.sellerUsername
@@ -288,20 +311,21 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             if (userIsSeller()) {
                 hideableCell[3] = true
                 hideableCell[6] = true
+                hideableCell[9] = false // force open
             } else {
                 hideableCell[3] = true
                 hideableCell[6] = true
-                hideableCell[9] = true
+                hideableCell[9] = false // force open
             }
         } else if (progress == TransactionDetailTools.ProgressReviewed) {
             if (userIsSeller()) {
                 hideableCell[3] = true
                 hideableCell[6] = true
-                hideableCell[9] = true
+                hideableCell[9] = false // force open
             } else {
                 hideableCell[3] = true
                 hideableCell[6] = true
-                hideableCell[9] = true
+                hideableCell[9] = false // force open
             }
         } else if (progress == TransactionDetailTools.ProgressReserved) {
             hideableCell[3] = true
@@ -368,7 +392,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             }
         } else if (progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived) {
             if (userIsSeller()) {
-                return 10
+                return 12 //9 //10
             } else {
                 if (isRefundable) {
                     return 13
@@ -651,6 +675,12 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 8) {
                     return DefaultHeight
                 } else if (idx == 9) {
+                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1, boolParam: isRefundable)
+                } else if (idx == 10) {
+                    return DefaultHeight // text
+                } else if (idx == 11) {
+                    return DefaultHeight // hubungi pembeli
+                } else if (idx == 12) {
                     return ContactPreloHeight
                 }
             } else {
@@ -1038,7 +1068,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createDescriptionCell(1)
                 } else if (idx == 2) {
-                    return self.createBorderedButtonCell(1)
+//                    return self.createBorderedButtonCell(1)
+                    return self.createButtonCell(1)
                 } else if (idx == 3) {
                     return self.createContactPreloCell()
                 }
@@ -1050,7 +1081,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false, isFroze: false)
                 } else if (idx == 3) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranSeller)
                 } else if (idx == 4) {
@@ -1064,7 +1095,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false, isFroze: false)
                 } else if (idx == 3) {
                     if (trxProductDetail != nil) {
                         return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
@@ -1098,7 +1129,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false, isFroze: false)
                 } else if (idx == 3) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranBuyer)
                 } else if (idx == 4) {
@@ -1118,7 +1149,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 2) {
                     return self.createSeparatorCell()
                 } else if (idx == 3) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [4])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [4], isOpen: false, isFroze: false)
                 } else if (idx == 4) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranSeller)
                 } else if (idx == 5) {
@@ -1130,13 +1161,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false, isFroze: false)
                 } else if (idx == 3) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranBuyer)
                 } else if (idx == 4) {
                     return self.createSeparatorCell()
                 } else if (idx == 5) {
-                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6], isOpen: false, isFroze: false)
                 } else if (idx == 6) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanBuyer)
                 } else if (idx == 7) {
@@ -1152,13 +1183,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false, isFroze: false)
                 } else if (idx == 3) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranSeller)
                 } else if (idx == 4) {
                     return self.createSeparatorCell()
                 } else if (idx == 5) {
-                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6], isOpen: false, isFroze: false)
                 } else if (idx == 6) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanSeller)
                 } else if (idx == 7) {
@@ -1178,7 +1209,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false, isFroze: false)
                 } else if (idx == 3) {
                     if (trxProductDetail != nil) {
                         return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
@@ -1186,7 +1217,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 4) {
                     return self.createSeparatorCell()
                 } else if (idx == 5) {
-                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6], isOpen: false, isFroze: false)
                 } else if (idx == 6) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanBuyer)
                 } else if (idx == 7) {
@@ -1204,20 +1235,24 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false, isFroze: false)
                 } else if (idx == 3) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranSeller)
                 } else if (idx == 4) {
                     return self.createSeparatorCell()
                 } else if (idx == 5) {
-                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6], isOpen: false, isFroze: false)
                 } else if (idx == 6) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanSeller)
                 } else if (idx == 7) {
                     return self.createSeparatorCell()
                 } else if (idx == 8) {
-                    return self.createBorderedButtonCell(1)
+                    return self.createTitleCell(TitleReview, detailCellIndexes: [9], isOpen: false, isFroze: true)
                 } else if (idx == 9) {
+                    return self.createDescriptionCell(1)
+                } else if (idx == 10) {
+                    return self.createBorderedButtonCell(1)
+                } else if (idx == 11) {
                     return self.createContactPreloCell()
                 }
             } else {
@@ -1226,7 +1261,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false, isFroze: false)
                 } else if (idx == 3) {
                     if (trxProductDetail != nil) {
                         return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
@@ -1234,13 +1269,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 4) {
                     return self.createSeparatorCell()
                 } else if (idx == 5) {
-                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6], isOpen: false, isFroze: false)
                 } else if (idx == 6) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanBuyer)
                 } else if (idx == 7) {
                     return self.createSeparatorCell()
                 } else if (idx == 8) {
-                    return self.createTitleCell(TitleReview, detailCellIndexes: [9])
+                    return self.createTitleCell(TitleReview, detailCellIndexes: [9], isOpen: false, isFroze: true)
                 } else if (idx == 9) {
                     return self.createDescriptionCell(1)
                 } else if (idx == 10) {
@@ -1262,19 +1297,19 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false, isFroze: false)
                 } else if (idx == 3) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranSeller)
                 } else if (idx == 4) {
                     return self.createSeparatorCell()
                 } else if (idx == 5) {
-                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6], isOpen: false, isFroze: false)
                 } else if (idx == 6) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanSeller)
                 } else if (idx == 7) {
                     return self.createSeparatorCell()
                 } else if (idx == 8) {
-                    return self.createTitleCell(TitleReview, detailCellIndexes: [9])
+                    return self.createTitleCell(TitleReview, detailCellIndexes: [9], isOpen: true, isFroze: false)
                 } else if (idx == 9) {
                     return self.createReviewCell()
                 } else if (idx == 10) {
@@ -1286,7 +1321,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false, isFroze: false)
                 } else if (idx == 3) {
                     if (trxProductDetail != nil) {
                         return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
@@ -1294,13 +1329,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 4) {
                     return self.createSeparatorCell()
                 } else if (idx == 5) {
-                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6], isOpen: false, isFroze: false)
                 } else if (idx == 6) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanBuyer)
                 } else if (idx == 7) {
                     return self.createSeparatorCell()
                 } else if (idx == 8) {
-                    return self.createTitleCell(TitleReview, detailCellIndexes: [9])
+                    return self.createTitleCell(TitleReview, detailCellIndexes: [9], isOpen: true, isFroze: false)
                 } else if (idx == 9) {
                     return self.createReviewCell()
                 } else if (idx == 10) {
@@ -1313,7 +1348,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else if (idx == 1) {
                 return self.createSeparatorCell()
             } else if (idx == 2) {
-                return self.createTitleCell(TitleReserved, detailCellIndexes: [3])
+                return self.createTitleCell(TitleReserved, detailCellIndexes: [3], isOpen: false, isFroze: false)
             } else if (idx == 3) {
                 return self.createDescriptionCell(1)
             } else if (idx == 4) {
@@ -1331,7 +1366,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else if (idx == 1) {
                 return self.createSeparatorCell()
             } else if (idx == 2) {
-                return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false, isFroze: false)
             } else if (idx == 3) {
                 return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranReservasi)
             } else if (idx == 4) {
@@ -1366,13 +1401,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false, isFroze: false)
                 } else if (idx == 3) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranSeller)
                 } else if (idx == 4) {
                     return self.createSeparatorCell()
                 } else if (idx == 5) {
-                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6], isOpen: false, isFroze: false)
                 } else if (idx == 6) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanSeller)
                 } else if (idx == 7) {
@@ -1388,7 +1423,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false, isFroze: false)
                 } else if (idx == 3) {
                     if (trxProductDetail != nil) {
                         return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
@@ -1408,13 +1443,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false, isFroze: false)
                 } else if (idx == 3) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranSeller)
                 } else if (idx == 4) {
                     return self.createSeparatorCell()
                 } else if (idx == 5) {
-                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6], isOpen: false, isFroze: false)
                 } else if (idx == 6) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanSeller)
                 } else if (idx == 7) {
@@ -1432,7 +1467,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false, isFroze: false)
                 } else if (idx == 3) {
                     if (trxProductDetail != nil) {
                         return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
@@ -1456,13 +1491,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false, isFroze: false)
                 } else if (idx == 3) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranSeller)
                 } else if (idx == 4) {
                     return self.createSeparatorCell()
                 } else if (idx == 5) {
-                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6], isOpen: false, isFroze: false)
                 } else if (idx == 6) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanSeller)
                 } else if (idx == 7) {
@@ -1482,7 +1517,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false, isFroze: false)
                 } else if (idx == 3) {
                     if (trxProductDetail != nil) {
                         return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
@@ -1504,13 +1539,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false, isFroze: false)
                 } else if (idx == 3) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranSeller)
                 } else if (idx == 4) {
                     return self.createSeparatorCell()
                 } else if (idx == 5) {
-                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6], isOpen: false, isFroze: false)
                 } else if (idx == 6) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanSeller)
                 } else if (idx == 7) {
@@ -1526,7 +1561,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return self.createSeparatorCell()
                 } else if (idx == 2) {
-                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                    return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3], isOpen: false, isFroze: false)
                 } else if (idx == 3) {
                     if (trxProductDetail != nil) {
                         return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
@@ -1604,6 +1639,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     func createTableTitleContentsCell(_ titleContentType : String) -> TransactionDetailTableCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailTableCellId) as! TransactionDetailTableCell
         
+        cell.root = self
+        
         // Adapt cell
         if (self.progress == TransactionDetailTools.ProgressExpired || self.progress == TransactionDetailTools.ProgressNotPaid || self.progress == TransactionDetailTools.ProgressClaimedPaid || self.progress == TransactionDetailTools.ProgressFraudDetected) {
             if (trxDetail != nil) {
@@ -1655,11 +1692,11 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         return cell
     }
     
-    func createTitleCell(_ title : String, detailCellIndexes : [Int]) -> TransactionDetailTitleCell {
+    func createTitleCell(_ title : String, detailCellIndexes : [Int], isOpen : Bool, isFroze : Bool) -> TransactionDetailTitleCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailTitleCellId) as! TransactionDetailTitleCell
         
         // Adapt cell
-        cell.adapt(title, detailCellIndexes: detailCellIndexes)
+        cell.adapt(title, detailCellIndexes: detailCellIndexes, isOpen: isOpen, isFroze: isFroze)
         
         // Configure actions
         cell.switchDetail = {
@@ -1712,6 +1749,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 orderConfirmVC.isFromCheckout = false
                 orderConfirmVC.isBackToRoot = false
                 orderConfirmVC.isShowBankBRI = self.isShowBankBRI
+                orderConfirmVC.date = self.trxDetail!.expireTime
                 self.navigationController?.pushViewController(orderConfirmVC, animated: true)
             }
         }
@@ -1728,7 +1766,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 o.transactionId = self.trxDetail!.id
                 o.isBackTwice = true
                 o.isShowBankBRI = self.isShowBankBRI
-                
+                o.date = self.trxDetail!.expireTime
                 var imgs : [URL] = []
                 for i in 0..<self.trxDetail!.transactionProducts.count {
                     if let u = self.trxDetail!.transactionProducts[i].productImageURL {
@@ -1778,6 +1816,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         }
         cell.confirmReturned = {
             let alert : UIAlertController = UIAlertController(title: "Perhatian", message: "Dengan melakukan konfirmasi penerimaan, artinya kamu sudah menerima kembali barang refund. Uang akan dikembalikan kepada pembeli. Lanjutkan?", preferredStyle: UIAlertControllerStyle.alert)
+            
+            alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
             alert.addAction(UIAlertAction(title: "Lanjutkan", style: .default, handler: { action in
                 _ = request(APITransactionProduct.confirmReceiveRefundedProduct(tpId: self.trxProductId!)).responseJSON { resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Konfirmasi Penerimaan")) {
@@ -1792,21 +1832,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     }
                 }
             }))
-            alert.addAction(UIAlertAction(title: "Batal", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
-        
-        return cell
-    }
-    
-    func createBorderedButtonCell(_ order : Int) -> TransactionDetailBorderedButtonCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailBorderedButtonCellId) as! TransactionDetailBorderedButtonCell
-        
-        // Adapt cell
-        if (progress != nil) {
-            cell.adapt(self.progress, isSeller: isSeller, order: order)
-        }
-        
         // Configure actions
         cell.orderAgain = {
             if (self.trxDetail != nil) {
@@ -1826,6 +1853,38 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 self.performSegue(withIdentifier: "segCart", sender: nil)
             }
         }
+
+        
+        return cell
+    }
+    
+    func createBorderedButtonCell(_ order : Int) -> TransactionDetailBorderedButtonCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailBorderedButtonCellId) as! TransactionDetailBorderedButtonCell
+        
+        // Adapt cell
+        if (progress != nil) {
+            cell.adapt(self.progress, isSeller: isSeller, order: order)
+        }
+        
+//        // Configure actions
+//        cell.orderAgain = {
+//            if (self.trxDetail != nil) {
+//                var success = true
+//                let tProducts = self.trxDetail!.transactionProducts
+//                for i in 0...(tProducts.count - 1) {
+//                    let tProduct : TransactionProductDetail = tProducts[i]
+//                    if (!CartProduct.isExist(tProduct.productId, email: User.EmailOrEmptyString)) {
+//                        if (CartProduct.newOne(tProduct.productId, email: User.EmailOrEmptyString, name: tProduct.productName) == nil) {
+//                            success = false
+//                        }
+//                    }
+//                }
+//                if (!success) {
+//                    Constant.showDialog("Add to Cart", message: "Terdapat kesalahan saat menambahkan barang ke keranjang belanja")
+//                }
+//                self.performSegue(withIdentifier: "segCart", sender: nil)
+//            }
+//        }
         cell.rejectTransaction = {
             self.vwShadow.isHidden = false
             self.vwTolakPesanan.isHidden = false
@@ -1979,6 +2038,19 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             let baseNavC = BaseNavigationController()
             baseNavC.setViewControllers([helpVC], animated: false)
             self.present(baseNavC, animated: true, completion: nil)
+            
+            // Hotline
+            
+//            FAQOptions *options = [FAQOptions new];
+//            options.showContactUsOnFaqScreens = NO;
+//            options.showContactUsOnAppBar=NO;
+//            [[Hotline sharedInstance]showFAQs:self withOptions:options];
+            
+//            let options : FAQOptions = FAQOptions()
+//            options.showContactUsOnFaqScreens = true
+//            options.showContactUsOnAppBar = false
+//            options.showFaqCategoriesAsGrid = true
+//            Hotline.sharedInstance().showFAQs(self, with: options)
         }
         
         return cell
@@ -2294,6 +2366,17 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             return TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer
         }
     }
+    
+    // MARK: - FloatRatingViewDelegate
+    
+    func floatRatingView(_ ratingView: FloatRatingView, isUpdating rating:Float) {
+        self.loveValue = Int(self.floatRatingView.rating)
+    }
+    
+    func floatRatingView(_ ratingView: FloatRatingView, didUpdate rating: Float) {
+        self.loveValue = Int(self.floatRatingView.rating)
+//        Constant.showDialog("Rate / Love", message: "Original \(self.floatRatingView.rating.description) --> \(self.loveValue.string)")
+    }
 }
 
 // MARK: - Class
@@ -2343,7 +2426,7 @@ class TransactionDetailTools : NSObject {
     static let TextHubungiBuyer = "Beritahu pembeli bahwa barang sudah dikirim. Minta pembeli untuk memberikan review apabila barang sudah diterima."
     static let TextDikembalikan = "Pembayaran barang ini telah dikembalikan kepada pembeli."
     static let TextReimburse1 = "Mohon maaf, pesanan kamu tidak bisa dikirim karena keterbatasan pada penjual. Jangan khawatir, pembayaranmu telah disimpan dalam bentuk:"
-    static let TextReimburse2 = "Kamu dapat menggunakannya untuk transaksi selanjutnya atau tarik uang PreloBalance."
+    static let TextReimburse2 = "Kamu dapat menggunakannya untuk transaksi selanjutnya atau tarik uang Prelo Balance."
     static let TextNotPaid = "Transaksi ini belum dibayar dan akan expired pada "
     static let TextNotPaidSeller = "Ingatkan pembeli untuk segera membayar."
     static let TextNotPaidBuyerTransfer = "Segera konfirmasi pembayaran."
@@ -2354,11 +2437,11 @@ class TransactionDetailTools : NSObject {
     static let TextConfirmedPaidSeller2 = "Jika kamu tidak mengirimkan sampai waktu tersebut, transaksi akan dibatalkan serta uang akan dikembalikan kepada pembeli."
     static let TextConfirmedPaidBuyer1 = "Pesanan kamu belum dikirim dan akan expired pada "
     static let TextConfirmedPaidBuyer2 = "Ingatkan penjual untuk mengirim pesanan."
-    static let TextSentSeller = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak barang diterima. Uang dapat langsung kamu tarik setelah Waktu Jaminan Prelo berakhir atau jika barang telah selesai direview. Ingatkan pembeli untuk memberi review."
-    static let TextSentBuyer = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak barang diterima. REFUND dapat dilakukan selama jangka waktu tersebut jika terdapat keluhan terkait barang."
+    static let TextSentSeller = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak barang diterima. Uang dapat langsung kamu tarik setelah Waktu Jaminan Prelo berakhir atau jika barang telah selesai direview. \n\nIngatkan pembeli untuk memberi review."
+    static let TextSentBuyer = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak barang diterima. Refund dapat dilakukan selama jangka waktu tersebut jika terdapat keluhan terkait barang."
     static let TextSentBuyerNoRefund = "Refund sudah tidak dapat dilakukan karena sudah melebihi batas Waktu Jaminan Prelo (3x24 jam sejak barang diterima). Jangan lupa lakukan review."
-    static let TextReceivedSeller = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak barang diterima. Uang dapat langsung kamu tarik setelah Waktu Jaminan Prelo berakhir atau jika barang telah selesai direview. Ingatkan pembeli untuk memberi review. "
-    static let TextReceivedBuyer = "Barang semestinya sudah kamu terima. Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak barang diterima. Refund dapat dilakukan selama jangka waktu tersebut jika terdapat keluhan terkait barang. Belum terima barang? Hubungi Prelo."
+    static let TextReceivedSeller = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak barang diterima. Uang dapat langsung kamu tarik setelah Waktu Jaminan Prelo berakhir atau jika barang telah selesai direview. \n\nIngatkan pembeli untuk memberi review. "
+    static let TextReceivedBuyer = "Barang semestinya sudah kamu terima. Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak barang diterima. Refund dapat dilakukan selama jangka waktu tersebut jika terdapat keluhan terkait barang. \n\nBelum terima barang? Hubungi Prelo."
     static let TextReceivedBuyerNoRefund = "Refund sudah tidak dapat dilakukan karena sudah melebihi batas Waktu Jaminan Prelo (3x24 jam sejak barang diterima). Jangan lupa lakukan review."
     static let TextReserved1 = "Barang ini telah direservasi khusus untuk kamu. Kamu dapat menyelesaikan pembelian barang ini dengan menyelesaikan pembayaran pada"
     static let TextReserved2 = "Apabila kamu tidak menyelesaikan pembelian sampai dengan batas waktu yang ditentukan, reservasi barang kamu akan dibatalkan.\n\nTunjukkan halaman ini sebagai bukti reservasi kamu."
@@ -2424,6 +2507,8 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
     var toProductDetail : (String) -> () = { _ in }
     var switchDetailProduct : (Int) -> () = { _ in }
     
+    var root : UIViewController?
+    
     static func heightForProducts(_ hideProductCell : [Bool]) -> CGFloat {
         var height : CGFloat = 0
         for i in 0...hideProductCell.count - 1 {
@@ -2447,11 +2532,16 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.totalPrice.asPrice)
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.bankTransferDigit.asPrice)
             height += TransactionDetailTitleContentCell.heightFor((trxDetail.totalPrice + trxDetail.bankTransferDigit).asPrice)
+//            height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentMethod)
+//            height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentDate)
+//            height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentBankTarget)
+//            height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentNominal.asPrice)
         } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentMethod)
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentDate)
         } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanBuyer) {
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingRecipientName)
+            height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingRecipientPhone)
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingAddress)
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingSubdistrictName)
             if let r = CDRegion.getRegionNameWithID(trxDetail.shippingRegionId) {
@@ -2461,8 +2551,15 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 height += TransactionDetailTitleContentCell.heightFor(p)
             }
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingPostalCode)
-            height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingName)
-            height += TransactionDetailTitleContentCell.heightFor(trxDetail.resiNumber)
+            if let img = TransactionDetailTools.ImgCouriers[trxDetail.shippingName.components(separatedBy: " ")[0].lowercased()] {
+               height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingName, image: img!)
+            } else {
+                height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingName)
+            }
+            if trxDetail.resiNumber != "" {
+                height += TransactionDetailTitleContentCell.heightFor(trxDetail.resiNumber)
+                height += TransactionDetailTitleContentCell.heightFor("Lihat foto resiœ")
+            }
             if trxDetail.isShowShipHistory {
                 if let msg = trxDetail.shipHistoryMsg {
                     height += TransactionDetailTitleContentHeaderCell.heightFor(msg)
@@ -2490,6 +2587,10 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 image = img!
             }
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.requestCourier, image: image)
+            if trxDetail.resiNumber != "" {
+                height += TransactionDetailTitleContentCell.heightFor(trxDetail.resiNumber)
+                height += TransactionDetailTitleContentCell.heightFor("Lihat foto resiœ")
+            }
             if trxDetail.isShowShipHistory {
                 if let msg = trxDetail.shipHistoryMsg {
                     height += TransactionDetailTitleContentHeaderCell.heightFor(msg)
@@ -2531,6 +2632,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentDate)
         } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanBuyer) {
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingRecipientName)
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingRecipientPhone)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingAddress)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingSubdistrictName)
             if let r = CDRegion.getRegionNameWithID(trxProductDetail.shippingRegionId) {
@@ -2540,8 +2642,15 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 height += TransactionDetailTitleContentCell.heightFor(p)
             }
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingPostalCode)
-            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingName)
-            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.resiNumber)
+            if let img = TransactionDetailTools.ImgCouriers[trxProductDetail.shippingName.components(separatedBy: " ")[0].lowercased()] {
+                height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingName, image: img!)
+            } else {
+                height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingName)
+            }
+            if trxProductDetail.resiNumber != "" {
+                height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.resiNumber)
+                height += TransactionDetailTitleContentCell.heightFor("Lihat foto resiœ")
+            }
             if trxProductDetail.isShowShipHistory {
                 if let msg = trxProductDetail.shipHistoryMsg {
                     height += TransactionDetailTitleContentHeaderCell.heightFor(msg)
@@ -2569,6 +2678,10 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 image = img!
             }
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.requestCourier, image: image)
+            if trxProductDetail.resiNumber != "" {
+                height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.resiNumber)
+                height += TransactionDetailTitleContentCell.heightFor("Lihat foto resiœ")
+            }
             if trxProductDetail.isShowShipHistory {
                 if let msg = trxProductDetail.shipHistoryMsg {
                     height += TransactionDetailTitleContentHeaderCell.heightFor(msg)
@@ -2629,7 +2742,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             return trxProducts.count
         } else {
             if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
-                return 7
+                return 7 //4
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer) {
                 return 4
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidCC) {
@@ -2641,7 +2754,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
                 return 2
             } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanBuyer) {
-                var nRow = 8
+                var nRow = 10
                 if (isTrxDetail()) {
                     if trxDetail!.isShowShipHistory {
                         nRow += 1
@@ -2655,7 +2768,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 }
                 return nRow
             } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanSeller) {
-                var nRow = 8
+                var nRow = 10
                 if (isTrxDetail()) {
                     if trxDetail!.isShowShipHistory {
                         nRow += 1
@@ -2833,17 +2946,23 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     }
                 } else if (idx == 1) {
                     if (isTrxDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingRecipientPhone)
+                    } else if (isTrxProductDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingRecipientPhone)
+                    }
+                } else if (idx == 2) {
+                    if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingAddress)
                     } else if (isTrxProductDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingAddress)
                     }
-                } else if (idx == 2) {
+                } else if (idx == 3) {
                     if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingSubdistrictName)
                     } else if (isTrxProductDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingSubdistrictName)
                     }
-                } else if (idx == 3) {
+                } else if (idx == 4) {
                     if (isTrxDetail()) {
                         if let r = CDRegion.getRegionNameWithID(trxDetail!.shippingRegionId) {
                             return TransactionDetailTitleContentCell.heightFor(r)
@@ -2853,7 +2972,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                             return TransactionDetailTitleContentCell.heightFor(r)
                         }
                     }
-                } else if (idx == 4) {
+                } else if (idx == 5) {
                     if (isTrxDetail()) {
                         if let p = CDProvince.getProvinceNameWithID(trxDetail!.shippingProvinceId) {
                             return TransactionDetailTitleContentCell.heightFor(p)
@@ -2863,25 +2982,38 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                             return TransactionDetailTitleContentCell.heightFor(p)
                         }
                     }
-                } else if (idx == 5) {
+                } else if (idx == 6) {
                     if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingPostalCode)
                     } else if (isTrxProductDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingPostalCode)
                     }
-                } else if (idx == 6) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingName)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingName)
-                    }
                 } else if (idx == 7) {
+//                    if (isTrxDetail()) {
+//                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingName)
+//                    } else if (isTrxProductDetail()) {
+//                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingName)
+//                    }
+                    var content = ""
+                    if (isTrxDetail()) {
+                        content = trxDetail!.shippingName
+                    } else if (isTrxProductDetail()) {
+                        content = trxProductDetail!.shippingName
+                    }
+                    if let img = TransactionDetailTools.ImgCouriers[content.components(separatedBy: " ")[0].lowercased()] {
+                        return TransactionDetailTitleContentCell.heightFor(content, image: img!)
+                    } else {
+                        return TransactionDetailTitleContentCell.heightFor(content)
+                    }
+                } else if (idx == 8) {
                     if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.resiNumber)
                     } else if (isTrxProductDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.resiNumber)
                     }
-                } else if (idx == 8) {
+                } else if (idx == 9) {
+                    return TransactionDetailTitleContentCell.heightFor("Lihat foto resiœ")
+                } else if (idx == 10) {
                     if (isTrxDetail()) {
                         if let msg = trxDetail!.shipHistoryMsg {
                             return TransactionDetailTitleContentHeaderCell.heightFor(msg)
@@ -2895,11 +3027,11 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                             return TransactionDetailTitleContentHeaderCell.DefaultCellHeight
                         }
                     }
-                } else if (idx > 8) {
+                } else if (idx > 10) {
                     if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shipHistory[idx - 9].date, content: trxDetail!.shipHistory[idx - 9].status)
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shipHistory[idx - 11].date, content: trxDetail!.shipHistory[idx - 11].status)
                     } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shipHistory[idx - 9].date, content: trxProductDetail!.shipHistory[idx - 9].status)
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shipHistory[idx - 11].date, content: trxProductDetail!.shipHistory[idx - 11].status)
                     }
                 }
             } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanSeller) {
@@ -2967,6 +3099,14 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     return TransactionDetailTitleContentCell.heightFor(content, image: image)
                 } else if (idx == 8) {
                     if (isTrxDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.resiNumber)
+                    } else if (isTrxProductDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.resiNumber)
+                    }
+                } else if (idx == 9) {
+                    return TransactionDetailTitleContentCell.heightFor("Lihat foto resiœ")
+                } else if (idx == 10) {
+                    if (isTrxDetail()) {
                         if let msg = trxDetail!.shipHistoryMsg {
                             return TransactionDetailTitleContentHeaderCell.heightFor(msg)
                         } else {
@@ -2979,11 +3119,11 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                             return TransactionDetailTitleContentHeaderCell.DefaultCellHeight
                         }
                     }
-                } else if (idx > 8) {
+                } else if (idx > 10) {
                     if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shipHistory[idx - 9].date, content: trxDetail!.shipHistory[idx - 9].status)
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shipHistory[idx - 11].date, content: trxDetail!.shipHistory[idx - 11].status)
                     } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shipHistory[idx - 9].date, content: trxProductDetail!.shipHistory[idx - 9].status)
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shipHistory[idx - 11].date, content: trxProductDetail!.shipHistory[idx - 11].status)
                     }
                 }
             } else if (titleContentType == TransactionDetailTools.TitleContentReimburse) {
@@ -3096,7 +3236,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 } else if (idx == 6) {
                     var content = ""
                     var textToCopy = ""
-                    content = "Copy "
+                    content = " "
                     if (isTrxDetail()) {
                         var p = trxDetail!.totalPrice
                         if (trxDetail!.paymentMethodInt == 1) {
@@ -3257,12 +3397,20 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 } else if (idx == 1) {
                     var content = ""
                     if (isTrxDetail()) {
+                        content = trxDetail!.shippingRecipientPhone
+                    } else if (isTrxProductDetail()) {
+                        content = trxProductDetail!.shippingRecipientPhone
+                    }
+                    return self.createTitleContentCell("Nomor Telepon", content: content)
+                } else if (idx == 2) {
+                    var content = ""
+                    if (isTrxDetail()) {
                         content = trxDetail!.shippingAddress
                     } else if (isTrxProductDetail()) {
                         content = trxProductDetail!.shippingAddress
                     }
                     return self.createTitleContentCell("Alamat", content: content)
-                } else if (idx == 2) {
+                } else if (idx == 3) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = trxDetail!.shippingSubdistrictName
@@ -3270,7 +3418,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         content = trxProductDetail!.shippingSubdistrictName
                     }
                     return self.createTitleContentCell("Kecamatan", content: content)
-                } else if (idx == 3) {
+                } else if (idx == 4) {
                     var content = ""
                     if (isTrxDetail()) {
                         if let r = CDRegion.getRegionNameWithID(trxDetail!.shippingRegionId) {
@@ -3282,7 +3430,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         }
                     }
                     return self.createTitleContentCell("Kota", content: content)
-                } else if (idx == 4) {
+                } else if (idx == 5) {
                     var content = ""
                     if (isTrxDetail()) {
                         if let p = CDProvince.getProvinceNameWithID(trxDetail!.shippingProvinceId) {
@@ -3294,7 +3442,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         }
                     }
                     return self.createTitleContentCell("Provinsi", content: content)
-                } else if (idx == 5) {
+                } else if (idx == 6) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = trxDetail!.shippingPostalCode
@@ -3302,23 +3450,47 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         content = trxProductDetail!.shippingPostalCode
                     }
                     return self.createTitleContentCell("Kode Pos", content: content)
-                } else if (idx == 6) {
+                } else if (idx == 7) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = trxDetail!.shippingName
                     } else if (isTrxProductDetail()) {
                         content = trxProductDetail!.shippingName
                     }
-                    return self.createTitleContentCell("Kurir", content: content)
-                } else if (idx == 7) {
+                    
+                    if let img = TransactionDetailTools.ImgCouriers[content.components(separatedBy: " ")[0].lowercased()] {
+                        return self.createTitleContentCell("Kurir", content: content, image: img!)
+                    } else {
+                        return self.createTitleContentCell("Kurir", content: content)
+                    }
+                } else if (idx == 8) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = trxDetail!.resiNumber
                     } else if (isTrxProductDetail()) {
                         content = trxProductDetail!.resiNumber
                     }
-                    return self.createTitleContentCell("Nomor Resi", content: content)
-                } else if (idx == 8) {
+                    if (content != "") {
+                        return self.createTitleContentCell("Nomor Resi", content: content + " ", alignment: nil, url: nil, textToCopy: content)
+//                        return self.createTitleContentCell("Nomor Resi", content: content)
+                    }
+                } else if (idx == 9) {
+                    var content = "Lihat foto resiœ"
+                    if (isTrxDetail()) {
+                        content += trxDetail!.resiPhotoUrl
+                    } else if (isTrxProductDetail()) {
+                        content += trxProductDetail!.resiPhotoUrl
+                    }
+                    var nrcontent = ""
+                    if (isTrxDetail()) {
+                        nrcontent = trxDetail!.resiNumber
+                    } else if (isTrxProductDetail()) {
+                        nrcontent = trxProductDetail!.resiNumber
+                    }
+                    if (nrcontent != "") {
+                        return self.createTitleContentCell("", content: content)
+                    }
+                } else if (idx == 10) {
                     var msg : String?
                     if (isTrxDetail()) {
                         msg = trxDetail!.shipHistoryMsg
@@ -3326,15 +3498,15 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         msg = trxProductDetail!.shipHistoryMsg
                     }
                     return self.createTitleContentHeaderCellShipHistory(msg)
-                } else if (idx > 8) {
+                } else if (idx > 10) {
                     var date = ""
                     var status = ""
                     if (isTrxDetail()) {
-                        date = trxDetail!.shipHistory[idx - 9].date
-                        status = trxDetail!.shipHistory[idx - 9].status
+                        date = trxDetail!.shipHistory[idx - 11].date
+                        status = trxDetail!.shipHistory[idx - 11].status
                     } else if (isTrxProductDetail()) {
-                        date = trxProductDetail!.shipHistory[idx - 9].date
-                        status = trxProductDetail!.shipHistory[idx - 9].status
+                        date = trxProductDetail!.shipHistory[idx - 11].date
+                        status = trxProductDetail!.shipHistory[idx - 11].status
                     }
                     return self.createTitleContentCellShipHistory(date, status: status)
                 }
@@ -3410,12 +3582,40 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     } else if (isTrxProductDetail()) {
                         content = trxProductDetail!.requestCourier
                     }
-                    var image = UIImage()
+                    
                     if let img = TransactionDetailTools.ImgCouriers[content.components(separatedBy: " ")[0].lowercased()] {
-                        image = img!
+                        return self.createTitleContentCell("Kurir", content: content, image: img!)
+                    } else {
+                        return self.createTitleContentCell("Kurir", content: (content.contains("Free Ongkir") ? "" : content))
                     }
-                    return self.createTitleContentCell("Request Kurir", content: content, image: image)
                 } else if (idx == 8) {
+                    var content = ""
+                    if (isTrxDetail()) {
+                        content = trxDetail!.resiNumber
+                    } else if (isTrxProductDetail()) {
+                        content = trxProductDetail!.resiNumber
+                    }
+                    if (content != "") {
+//                        return self.createTitleContentCell("Nomor Resi", content: content)
+                        return self.createTitleContentCell("Nomor Resi", content: content + " ", alignment: nil, url: nil, textToCopy: content)
+                    }
+                } else if (idx == 9) {
+                    var content = "Lihat foto resiœ"
+                    if (isTrxDetail()) {
+                        content += trxDetail!.resiPhotoUrl
+                    } else if (isTrxProductDetail()) {
+                        content += trxProductDetail!.resiPhotoUrl
+                    }
+                    var nrcontent = ""
+                    if (isTrxDetail()) {
+                        nrcontent = trxDetail!.resiNumber
+                    } else if (isTrxProductDetail()) {
+                        nrcontent = trxProductDetail!.resiNumber
+                    }
+                    if (nrcontent != "") {
+                        return self.createTitleContentCell("", content: content)
+                    }
+                } else if (idx == 10) {
                     var msg : String?
                     if (isTrxDetail()) {
                         msg = trxDetail!.shipHistoryMsg
@@ -3423,15 +3623,15 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         msg = trxProductDetail!.shipHistoryMsg
                     }
                     return self.createTitleContentHeaderCellShipHistory(msg)
-                } else if (idx > 8) {
+                } else if (idx > 10) {
                     var date = ""
                     var status = ""
                     if (isTrxDetail()) {
-                        date = trxDetail!.shipHistory[idx - 9].date
-                        status = trxDetail!.shipHistory[idx - 9].status
+                        date = trxDetail!.shipHistory[idx - 11].date
+                        status = trxDetail!.shipHistory[idx - 11].status
                     } else if (isTrxProductDetail()) {
-                        date = trxProductDetail!.shipHistory[idx - 9].date
-                        status = trxProductDetail!.shipHistory[idx - 9].status
+                        date = trxProductDetail!.shipHistory[idx - 11].date
+                        status = trxProductDetail!.shipHistory[idx - 11].status
                     }
                     return self.createTitleContentCellShipHistory(date, status: status)
                 }
@@ -3486,7 +3686,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     }
                 } else if (cell.textToCopy != "") {
                     UIPasteboard.general.string = cell.textToCopy
-                    Constant.showDialog("Copied", message: "\(cell.lblTitle.text!) telah di-copy ke clipboard")
+                    Constant.showDialog("Copied!", message: "\(cell.lblTitle.text!) telah disalin ke clipboard")
                 }
             }
         }
@@ -3508,6 +3708,8 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         
         // Adapt cell
         cell.adapt(title, content: content)
+        
+        cell.root = self.root!
         
         return cell
     }
@@ -3750,13 +3952,13 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     textRect = text.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                 }
             } else if (progress == TransactionDetailTools.ProgressSent) {
-                if (isSeller! == true) {
-                    textRect = TransactionDetailTools.TextSentSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
-                }
+//                if (isSeller! == true) {
+//                    textRect = TransactionDetailTools.TextSentSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+//                }
             } else if (progress == TransactionDetailTools.ProgressReceived) {
-                if (isSeller! == true) {
-                    textRect = TransactionDetailTools.TextReceivedSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
-                }
+//                if (isSeller! == true) {
+//                    textRect = TransactionDetailTools.TextReceivedSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+//                }
             } else if (progress == TransactionDetailTools.ProgressReserved) {
                 if (order == 1) {
                     textRect = TransactionDetailTools.TextReserved1.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
@@ -3828,6 +4030,10 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                         textRect = TransactionDetailTools.TextReceivedBuyer.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                     } else {
                         textRect = TransactionDetailTools.TextReceivedBuyerNoRefund.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                    }
+                } else {
+                    if (isSeller! == true) {
+                        textRect = TransactionDetailTools.TextReceivedSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                     }
                 }
             }
@@ -3976,7 +4182,10 @@ class TransactionDetailTitleCell : UITableViewCell {
     var switchDetail : () -> () = {}
     var detailCellIndexes : [Int] = []
     
-    func adapt(_ title : String, detailCellIndexes : [Int]) {
+    var isFirst = true
+    var isFroze = false
+    
+    func adapt(_ title : String, detailCellIndexes : [Int], isOpen : Bool, isFroze : Bool) {
         lblTitle.text = title
         self.detailCellIndexes = detailCellIndexes
         if (detailCellIndexes.count > 0) {
@@ -3986,18 +4195,32 @@ class TransactionDetailTitleCell : UITableViewCell {
             lblDetail.isHidden = true
             lblDetail.isHidden = true
         }
+        
+        if (isFirst && isOpen) {
+            lblDetailIcon.text = TransactionDetailTools.IcUpArrow
+            isFirst = false
+        }
+        
+        self.isFroze = isFroze
     }
     
     @IBAction func detailPressed(_ sender: AnyObject) {
-        if (lblDetailIcon.text == TransactionDetailTools.IcDownArrow) {
-            lblDetailIcon.text = TransactionDetailTools.IcUpArrow
-        } else {
-            lblDetailIcon.text = TransactionDetailTools.IcDownArrow
-        }
-        if (detailCellIndexes.count > 0) {
-            self.switchDetail()
+        if !isFroze {
+            if (lblDetailIcon.text == TransactionDetailTools.IcDownArrow) {
+                lblDetailIcon.text = TransactionDetailTools.IcUpArrow
+            } else {
+                lblDetailIcon.text = TransactionDetailTools.IcDownArrow
+            }
+            if (detailCellIndexes.count > 0) {
+                self.switchDetail()
+            }
         }
     }
+}
+
+// MARK: - class oveeride tapgesture
+class MyTapGestureRecognizer: UITapGestureRecognizer {
+    var headline: String?
 }
 
 // MARK: - Class
@@ -4013,6 +4236,8 @@ class TransactionDetailTitleContentCell : UITableViewCell {
     
     var tapUrl : String = ""
     var textToCopy : String = ""
+    
+    var root : UIViewController?
     
     override func prepareForReuse() {
         consWidthLblTitle.constant = 130
@@ -4044,12 +4269,40 @@ class TransactionDetailTitleContentCell : UITableViewCell {
         return ((titleRect.height >= contentRect.height ? titleRect.height : contentRect.height) + 4.0)
     }
     
+    func tapFunction2(sender:MyTapGestureRecognizer) {
+        if let url = sender.headline {
+            if url != "" {
+                let c = CoverZoomController()
+                c.labels = ["foto resi"]
+                c.images = [url]
+                c.index = 0
+                self.root!.navigationController?.present(c, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    func formatURL(loc:String) -> Array<String> {
+        // Create a NSCharacterSet of delimiters.
+        let separators = NSCharacterSet(charactersIn: "œ")
+        // Split based on characters.
+        return loc.components(separatedBy: separators as CharacterSet)
+    }
+    
     func adapt(_ title : String, content : String) {
         self.lblTitle.text = title
         if (content.isEmpty) {
             self.lblContent.text = "-"
         } else {
-            self.lblContent.text = content
+            if title == "" && content.contains("Lihat foto resiœ") == true {
+                self.lblContent.isUserInteractionEnabled = true
+                self.lblContent.textColor = Theme.PrimaryColor
+                let tap = MyTapGestureRecognizer(target: self, action: #selector(TransactionDetailTitleContentCell.tapFunction2))
+                tap.headline = formatURL(loc: content)[1]
+                self.lblContent.addGestureRecognizer(tap)
+                self.lblContent.text = "Lihat foto resi"
+            } else {
+                self.lblContent.text = content
+            }
         }
     }
     
@@ -4071,7 +4324,8 @@ class TransactionDetailTitleContentCell : UITableViewCell {
             self.textToCopy = textToCopy!
             let attrStr = NSMutableAttributedString(string: content)
             attrStr.addAttributes([NSForegroundColorAttributeName:Theme.GrayDark], range: NSMakeRange(0, content.length))
-            attrStr.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColor], range: (content as NSString).range(of: "Copy"))
+            attrStr.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColor], range: (content as NSString).range(of: ""))
+            attrStr.addAttributes([NSFontAttributeName:UIFont(name: "preloAwesome", size: 14.0)!], range: (content as NSString).range(of: ""))
             self.lblContent.attributedText = attrStr
         } else {
             self.lblContent.textColor = Theme.GrayDark
@@ -4116,7 +4370,7 @@ class TransactionDetailTitleContentHeaderCell : UITableViewCell {
     
     static func heightFor(_ text : String) -> CGFloat {
         let textRect : CGRect = text.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (4 * TransactionDetailTools.Margin))
-        return textRect.height + 33
+        return textRect.height + 33 + 20
     }
     
     func adaptShipHistory(_ msg : String?) {
@@ -4150,6 +4404,7 @@ class TransactionDetailButtonCell : UITableViewCell {
     var seeFAQ : () -> () = {}
     var confirmReturnShipping : () -> () = {}
     var confirmReturned : () -> () = {}
+    var orderAgain : () -> () = {}
     
     func adapt(_ progress : Int?, order : Int) {
         self.progress = progress
@@ -4174,6 +4429,9 @@ class TransactionDetailButtonCell : UITableViewCell {
             btn.setTitle("KONFIRMASI PENERIMAAN", for: UIControlState())
         } else if (progress == TransactionDetailTools.ProgressRefundSuccess) {
             btn.setTitle("TARIK UANG", for: UIControlState())
+        } else if (progress == TransactionDetailTools.ProgressExpired) {
+            let TitlePesanLagi = "PESAN LAGI BARANG YANG SAMA"
+            btn.setTitle(TitlePesanLagi, for: UIControlState())
         }
     }
     
@@ -4198,6 +4456,8 @@ class TransactionDetailButtonCell : UITableViewCell {
             self.confirmReturned()
         } else if (progress == TransactionDetailTools.ProgressRefundSuccess) {
             self.retrieveCash()
+        } else if (progress == TransactionDetailTools.ProgressExpired) {
+            self.orderAgain()
         }
     }
 }
@@ -4210,7 +4470,7 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
     var progress : Int?
     var order : Int?
     var isSeller : Bool?
-    var orderAgain : () -> () = {}
+//    var orderAgain : () -> () = {}
     var rejectTransaction : () -> () = {}
     var contactBuyer : () -> () = {}
     var contactSeller : () -> () = {}
@@ -4218,7 +4478,7 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
     var delayShipping : () -> () = {}
     var initRefund : () -> () = {}
     
-    let TitlePesanLagi = "PESAN LAGI BARANG YANG SAMA"
+//    let TitlePesanLagi = "PESAN LAGI BARANG YANG SAMA"
     let TitleHubungiBuyer = "HUBUNGI PEMBELI"
     let TitleHubungiSeller = "HUBUNGI PENJUAL"
     let TitleTolakPesanan = "Tolak Pesanan"
@@ -4230,9 +4490,10 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
         self.progress = progress
         self.order = order
         self.isSeller = isSeller
-        if (progress == TransactionDetailTools.ProgressExpired) {
-            btn.setTitle(TitlePesanLagi, for: UIControlState())
-        } else if (progress == TransactionDetailTools.ProgressRejectedBySeller) {
+//        if (progress == TransactionDetailTools.ProgressExpired) {
+//            btn.setTitle(TitlePesanLagi, for: UIControlState())
+//        } else
+        if (progress == TransactionDetailTools.ProgressRejectedBySeller) {
             btn.setTitle(TitleHubungiBuyer, for: UIControlState())
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
             if (order == 1) {
@@ -4282,9 +4543,10 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
     }
     
     @IBAction func btnPressed(_ sender: AnyObject) {
-        if (progress == TransactionDetailTools.ProgressExpired) {
-            self.orderAgain()
-        } else if (progress == TransactionDetailTools.ProgressRejectedBySeller) {
+//        if (progress == TransactionDetailTools.ProgressExpired) {
+//            self.orderAgain()
+//        } else
+        if (progress == TransactionDetailTools.ProgressRejectedBySeller) {
             self.contactBuyer()
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
             if (order == 1) {
@@ -4333,6 +4595,8 @@ class TransactionDetailReviewCell : UITableViewCell {
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var lblLove: UILabel!
     @IBOutlet weak var lblContent: UILabel!
+    @IBOutlet var vwLove: UIView!
+    var floatRatingView: FloatRatingView!
     
     static func heightFor(_ reviewComment : String) -> CGFloat {
         let imgReviewerWidth : CGFloat = 64.0
@@ -4342,6 +4606,11 @@ class TransactionDetailReviewCell : UITableViewCell {
     
     func adapt(_ trxProductDetail : TransactionProductDetail) {
         // Image
+        
+        self.imgReviewer?.layoutIfNeeded()
+        self.imgReviewer?.layer.cornerRadius = (self.imgReviewer?.width ?? 0) / 2
+        self.imgReviewer?.layer.masksToBounds = true
+
         if let url = trxProductDetail.reviewerImageURL {
             imgReviewer.afSetImage(withURL: url)
         }
@@ -4350,19 +4619,36 @@ class TransactionDetailReviewCell : UITableViewCell {
         lblName.text = trxProductDetail.reviewerName
         lblContent.text = trxProductDetail.reviewComment
         
-        // Love
-        var loveText = ""
-        let star = trxProductDetail.reviewStar
-        for i in 0 ..< 5 {
-            if (i < star) {
-                loveText += ""
-            } else {
-                loveText += ""
-            }
-        }
-        let attrStringLove = NSMutableAttributedString(string: loveText)
-        attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length))
-        lblLove.attributedText = attrStringLove
+//        // Love
+//        var loveText = ""
+//        let star = trxProductDetail.reviewStar
+//        for i in 0 ..< 5 {
+//            if (i < star) {
+//                loveText += ""
+//            } else {
+//                loveText += ""
+//            }
+//        }
+//        let attrStringLove = NSMutableAttributedString(string: loveText)
+//        attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length))
+//        lblLove.attributedText = attrStringLove
+        
+        // Love floatable
+        self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 2.5, width: 90, height: 16))
+        self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
+        self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
+        // Optional params
+        //                self.floatRatingView.delegate = self
+        self.floatRatingView.contentMode = UIViewContentMode.scaleAspectFit
+        self.floatRatingView.maxRating = 5
+        self.floatRatingView.minRating = 0
+        self.floatRatingView.rating = Float(trxProductDetail.reviewStar)
+        self.floatRatingView.editable = false
+        self.floatRatingView.halfRatings = true
+        self.floatRatingView.floatRatings = true
+        self.floatRatingView.tintColor = Theme.ThemeRed
+        
+        self.vwLove.addSubview(self.floatRatingView )
     }
 }
 

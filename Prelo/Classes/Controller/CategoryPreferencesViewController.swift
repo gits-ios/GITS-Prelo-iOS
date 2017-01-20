@@ -44,7 +44,7 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
         self.collcCategory.isHidden = true
 
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.SetCategoryPreferences)
+//        Mixpanel.trackPageVisit(PageName.SetCategoryPreferences)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.SetCategoryPreferences)

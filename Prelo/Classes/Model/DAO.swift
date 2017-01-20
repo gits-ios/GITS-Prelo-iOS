@@ -32,6 +32,8 @@ open class User : NSObject
     fileprivate static var IdKey = "user_id"
     fileprivate static var EmailKey = "user_email"
     
+    fileprivate static var badgeCount = 0
+    
     static var IsLoggedIn : Bool
     {
         guard let _ = UserDefaults.standard.string(forKey: User.TokenKey), let _ = CDUser.getOne(), let _ = CDUserProfile.getOne(), let _ = CDUserOther.getOne() else {
@@ -153,6 +155,14 @@ open class User : NSObject
         if let userID = store.session()?.userID {
             store.logOutUserID(userID)
         }
+    }
+    
+    static func storeNotif(_ count: Int) {
+        badgeCount = count
+    }
+    
+    static func getNotifCount() -> Int {
+        return badgeCount
     }
 }
 
@@ -964,6 +974,28 @@ open class ProductDetail : NSObject, TawarItem
     func setSharedViaTwitter() {
         json["_data"]["share_status"]["TWITTER"] = JSON(true)
     }
+    
+    var isFakeApprove: Bool {
+        if let j = json["_data"]["ab_test"].array {
+            if j.contains("fake_approve") {
+                return true
+            } else  {
+                return false
+            }
+        }
+        return false
+    }
+    
+    var isFakeApproveV2: Bool {
+        if let j = json["_data"]["ab_test"].array {
+            if j.contains("fake_approve_v2") {
+                return true
+            } else  {
+                return false
+            }
+        }
+        return false
+    }
 }
 
 open class Product : NSObject
@@ -1006,10 +1038,10 @@ open class Product : NSObject
             return nil
         }
         
-        if json["display_picts"][0].error != nil
-        {
-            return URL(string: "http://dev.kleora.com/images/products/")
-        }
+//        if json["display_picts"][0].error != nil
+//        {
+//            return URL(string: "http://dev.kleora.com/images/products/")
+//        }
         if let base = json["display_picts"][0].string
         {
             if let url = URL(string : base)
@@ -1182,6 +1214,20 @@ open class Product : NSObject
         }
         return false
     }
+    
+    var isAggregate : Bool {
+        if let j = json["aggregate_data"]["num_products"].int {
+            return true
+        }
+        return false
+    }
+    
+    var isAffiliate : Bool {
+        if let j = json["affiliate_data"]["affiliate_name"].string {
+            return true
+        }
+        return false
+    }
 }
 
 class MyProductItem : Product {
@@ -1255,7 +1301,7 @@ class ProductDiscussion : NSObject
         }
     }
     
-    var sender_id : String
+    var senderId : String
     {
         if let n = json["sender_id"].string
         {
@@ -1734,6 +1780,13 @@ class TransactionDetail : NSObject {
         return ""
     }
     
+    var resiPhotoUrl : String {
+        if let j = json["resi_photo_url"].string {
+            return j
+        }
+        return ""
+    }
+    
     func isBuyer(_ compareId : String) -> Bool
     {
         if let buyerId = json["buyer_id"].string {
@@ -2031,6 +2084,13 @@ class TransactionProductDetail : NSObject {
         } else {
             return ""
         }
+    }
+    
+    var resiPhotoUrl : String {
+        if let j = json["resi_photo_url"].string {
+            return j
+        }
+        return ""
     }
     
     var shippingDate : String {
@@ -2856,6 +2916,8 @@ class InboxMessage : NSObject
     var bargainPrice = ""
     var dynamicMessage : String {
         
+        message = message.replacingOccurrences(of: "Rp ", with: "Rp", options: .literal, range: nil)
+        
 //        return message
         
         if (messageType == 1)
@@ -2970,7 +3032,7 @@ class InboxMessage : NSObject
 //        i.senderId = CDUser.getOne()?.id
         i.id = String(localIndex)
         i.messageType = type
-        i.message = message
+        i.message = message.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         i.time = time
         i.attachmentType = attachmentType
         i.attachmentURL = attachmentURL
@@ -3009,13 +3071,15 @@ class InboxMessage : NSObject
             let json = JSON(res!)
             let isSuccess = json["_data"].boolValue
             if (isSuccess) {
-                
+                self.sending = false
             } else {
                 self.failedToSend = true
+                self.sending = false
             }
             completion(self)
         }, failure: { op, err in
             self.failedToSend = true
+            self.sending = false
             completion(self)
         })
     }
@@ -3410,5 +3474,299 @@ class BalanceMutationItem : NSObject {
             return j
         }
         return nil
+    }
+    
+    var isHold : Bool {
+        if let j = json["is_hold"].bool {
+            return j
+        }
+        return false
+    }
+}
+
+class AchievementItem : NSObject {
+    var json : JSON = JSON([:])
+    
+    static func instance(_ json : JSON?) -> AchievementItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let n = AchievementItem()
+            n.json = json!
+            return n
+        }
+    }
+    
+    var name : String {
+        if let j = json["name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var icon : URL? {
+        if let j = json["icon"].string {
+            return URL(string: j)!
+        }
+        return nil
+    }
+    
+    var isAchieved : Bool {
+        if let j = json["is_achieved"].bool {
+            return j
+        }
+        return false
+    }
+    
+    var desc : String {
+        if let j = json["description"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var progressCurrent : Int {
+        if let j = json["progress"]["current"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var progressMax : Int {
+        if let j = json["progress"]["max"].int {
+            return j
+        }
+        return 0
+    }
+    
+//    var tier : Int {
+//        if let j = json["tier"].int {
+//            return j
+//        }
+//        return 0
+//    }
+//    
+//    var tierIcons : Array<URL> {
+//        if let arr = json["tier_icons"].array {
+//            var Urls: Array<URL> = []
+//            if arr.count > 0 {
+//                for i in 0...arr.count-1 {
+//                    Urls.append(URL(string: arr[i].string!)!)
+//                }
+//            }
+//            return Urls
+//        }
+//        return []
+//    }
+    
+    var tiers : Array<AchievementTierItem> {
+        if let arr = json["tiers"].array { // tiers , icon, achieved
+            
+            var innerTiers : Array<AchievementTierItem> = []
+            if arr.count > 0 {
+                for i in 0...arr.count-1 {
+                    innerTiers.append(AchievementTierItem.instance(arr[i])!)
+                }
+            }
+            
+            return innerTiers
+            
+        }
+        return []
+    }
+
+    
+//    var conditions : Array<[String:Bool]> {
+//        if let arr = json["conditions"].array { // fulfilled , condition_text
+//            
+//            var innerConditions : Array<[String:Bool]> = []
+//            if arr.count > 0 {
+//                for i in 0...arr.count-1 {
+//                    let d = arr[i]
+//                    let fulfilled = d["fulfilled"].bool
+//                    let conditionText = d["condition_text"].string
+//                    
+//                    let condition : [String:Bool] = [conditionText!:fulfilled!]
+//                    
+//                    innerConditions.append(condition)
+//                }
+//            }
+//            
+//            return innerConditions
+//            
+//        }
+//        return []
+//    }
+    
+    var conditions : Array<AchievementConditionItem> {
+        if let arr = json["conditions"].array { // fulfilled , condition_text
+            
+            var innerConditions : Array<AchievementConditionItem> = []
+            if arr.count > 0 {
+                for i in 0...arr.count-1 {
+                    innerConditions.append(AchievementConditionItem.instance(arr[i])!)
+                }
+            }
+            
+            return innerConditions
+            
+        }
+        return []
+    }
+    
+    var actionTitle : String {
+        if let j = json["action"]["caption"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var actionUri : URL? {
+        if let j = json["action"]["uri"].string {
+            return URL(string: j)!
+        }
+        return nil
+    }
+}
+
+class UserAchievement : NSObject {
+    
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> UserAchievement? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = UserAchievement()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var name : String {
+        if let j = json["name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var icon : URL? {
+        if let j = json["icon"].string {
+            return URL(string: j)!
+        }
+        return nil
+    }
+    
+    var desc : String {
+        if let j = json["description"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var date : String {
+        if let j = json["date"].string {
+            return j
+        }
+        return ""
+    }
+}
+
+class AchievementConditionItem : NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> AchievementConditionItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = AchievementConditionItem()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var fulfilled : Bool {
+        if let j = json["fulfilled"].bool {
+            return j
+        }
+        return false
+    }
+    
+    var conditionText : String {
+        if let j = json["condition_text"].string {
+            return j
+        }
+        return ""
+    }
+    
+}
+
+class AchievementUnlockedItem : NSObject {
+    var json : JSON = JSON([:])
+    
+    static func instance(_ json : JSON?) -> AchievementUnlockedItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let n = AchievementUnlockedItem()
+            n.json = json!
+            return n
+        }
+    }
+    
+    var name : String {
+        if let j = json["name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var icon : URL? {
+        if let j = json["icon"].string {
+            return URL(string: j)!
+        }
+        return nil
+    }
+    
+    var desc : String {
+        if let j = json["description"].string {
+            return j
+        }
+        return ""
+    }
+}
+
+class AchievementTierItem : NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> AchievementTierItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = AchievementTierItem()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var name : String {
+        if let j = json["name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var icon : URL? {
+        if let j = json["icon"].string {
+            return URL(string: j)!
+        }
+        return nil
+    }
+    
+    var isAchieved : Bool {
+        if let j = json["achieved"].bool {
+            return j
+        }
+        return false
     }
 }

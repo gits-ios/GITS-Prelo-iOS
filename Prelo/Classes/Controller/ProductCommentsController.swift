@@ -79,16 +79,16 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        // Mixpanel
-        let p = [
-            "Product" : ((pDetail != nil) ? (pDetail!.name) : ""),
-            "Product ID" : ((pDetail != nil) ? (pDetail!.productID) : ""),
-            "Category 1" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 1) ? (pDetail!.categoryBreadcrumbs[1]["name"].string!) : ""),
-            "Category 2" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 2) ? (pDetail!.categoryBreadcrumbs[2]["name"].string!) : ""),
-            "Category 3" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 3) ? (pDetail!.categoryBreadcrumbs[3]["name"].string!) : ""),
-            "Seller" : ((pDetail != nil) ? (pDetail!.theirName) : "")
-        ]
-        //Mixpanel.trackPageVisit(PageName.ProductDetailComment, otherParam: p)
+//        // Mixpanel
+//        let p = [
+//            "Product" : ((pDetail != nil) ? (pDetail!.name) : ""),
+//            "Product ID" : ((pDetail != nil) ? (pDetail!.productID) : ""),
+//            "Category 1" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 1) ? (pDetail!.categoryBreadcrumbs[1]["name"].string!) : ""),
+//            "Category 2" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 2) ? (pDetail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+//            "Category 3" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 3) ? (pDetail!.categoryBreadcrumbs[3]["name"].string!) : ""),
+//            "Seller" : ((pDetail != nil) ? (pDetail!.theirName) : "")
+//        ]
+//        Mixpanel.trackPageVisit(PageName.ProductDetailComment, otherParam: p)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.ProductDetailComment)
@@ -165,7 +165,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
             "Category 3" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 3) ? (pDetail!.categoryBreadcrumbs[3]["name"].string!) : ""),
             "Seller Name" : ((pDetail != nil) ? (pDetail!.theirName) : "")
         ]
-        //Mixpanel.trackEvent(MixpanelEvent.CommentedProduct, properties: pt)
+        Mixpanel.trackEvent(MixpanelEvent.CommentedProduct, properties: pt)
         
         self.btnSend.isHidden = true
         
@@ -218,6 +218,8 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         let i = comment.isSeller(sellerId) ? "cell2" : "cell1"
         let c = tableView.dequeueReusableCell(withIdentifier: i) as! ProductCellDiscussion
         
+        c.setupCover()
+        
         if (comment.posterImageURL != nil) {
             c.ivCover?.afSetImage(withURL: comment.posterImageURL!)
         }
@@ -232,10 +234,11 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         c.captionName?.text = comment.name
         c.captionDate?.text = comment.timestamp
         
-        let userid = CDUser.getOne()?.id
-        let senderid = comment.sender_id
+        let userId = CDUser.getOne()?.id
+        let senderId = comment.senderId
+        c.senderId = senderId
         
-        if userid != senderid && comment.isDeleted == false {
+        if userId != senderId && comment.isDeleted == false {
         c.showReportAlert = { sender, commentId in
             let alert = UIAlertController(title: nil, message: "Laporkan Komentar", preferredStyle: .actionSheet)
             alert.popoverPresentationController?.sourceView = sender
@@ -248,7 +251,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
                 self.reportComment(commentId: commentId, reportType: 1)
                 alert.dismiss(animated: true, completion: nil)
             }))
-            alert.addAction(UIAlertAction(title: "Batal", style: .destructive, handler: { act in
+            alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in
                 alert.dismiss(animated: true, completion: nil)
             }))
             self.present(alert, animated: true, completion: nil)
@@ -258,11 +261,17 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
             c.lblReport.isHidden = true
         }
         c.goToProfile = { userId in
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
-            vc.currentMode = .shop
-            vc.shopId = userId
-            
-            self.navigationController?.pushViewController(vc, animated: true)
+            if (!AppTools.isNewShop) {
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+                vc.currentMode = .shop
+                vc.shopId = userId
+                
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else {
+                let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+                storePageTabBarVC.shopId = userId
+                self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+            }
         }
         
         return c

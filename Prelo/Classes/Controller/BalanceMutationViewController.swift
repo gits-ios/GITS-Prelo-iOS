@@ -98,7 +98,7 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
         self.balanceMutationItems = []
         self.nextIdx = 0
         self.isAllItemLoaded = false
-        self.showLoading()
+//        self.showLoading()
         
         getBalanceMutations()
     }
@@ -177,16 +177,25 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let cell : BalanceMutationCell = self.tblMutation.dequeueReusableCell(withIdentifier: "BalanceMutationCell") as! BalanceMutationCell
-        if let b = balanceMutationItems?[(indexPath as NSIndexPath).row] {
-            return BalanceMutationCell.heightFor(b, lblDescription: cell.lblDescription, lblReasonAdmin: cell.lblReasonAdmin)
+        if balanceMutationItems?.count > 0 {
+            if let b = balanceMutationItems?[(indexPath as NSIndexPath).row] {
+                return BalanceMutationCell.heightFor(b, lblDescription: cell.lblDescription, lblReasonAdmin: cell.lblReasonAdmin)
+            }
         }
         return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : BalanceMutationCell = self.tblMutation.dequeueReusableCell(withIdentifier: "BalanceMutationCell") as! BalanceMutationCell
-        if let b = balanceMutationItems?[(indexPath as NSIndexPath).item] {
-            cell.adapt(b)
+        if balanceMutationItems?.count > 0 {
+            if let b = balanceMutationItems?[(indexPath as NSIndexPath).item] {
+                cell.adapt(b)
+                if b.isHold {
+                    cell.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1) //UIColor(hex: "E5E9EB")
+                } else {
+                    cell.backgroundColor = UIColor.clear
+                }
+            }
         }
         cell.selectionStyle = .none
         return cell
@@ -224,7 +233,7 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
         let h : CGFloat = size.height
         
         let reloadDistance : CGFloat = 0
-        if (y > h + reloadDistance) {
+        if (y > h + reloadDistance && self.balanceMutationItems?.count > 0) {
             // Load next items only if all items not loaded yet and if its not currently loading items
             if (!self.isAllItemLoaded && self.bottomLoadingPanel.isHidden) {
                 // Show bottomLoading
@@ -326,12 +335,12 @@ class BalanceMutationCell : UITableViewCell {
         lblDescription.text = mutation.reasonDetail
         lblReasonAdmin.text = mutation.reasonAdmin
         var rectDesc = lblDescription.frame.size
-        rectDesc.width = UIScreen.main.bounds.size.width - 111
+//        rectDesc.width = UIScreen.main.bounds.size.width - 111
         var rectReason = lblReasonAdmin.frame.size
-        rectReason.width = UIScreen.main.bounds.size.width - 111
-        let sizeFixDesc = lblDescription.sizeThatFits(rectDesc)
-        let sizeFixReasonAdmin = lblReasonAdmin.sizeThatFits(rectReason)
-        return 56 + sizeFixDesc.height + sizeFixReasonAdmin.height
+//        rectReason.width = UIScreen.main.bounds.size.width - 111
+        let sizeFixDesc = mutation.reasonDetail.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectDesc.width)
+        let sizeFixReasonAdmin = mutation.reasonAdmin.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectReason.width)
+        return 56 + sizeFixDesc.height + (lblReasonAdmin.text! != "" ? sizeFixReasonAdmin.height : 0)
     }
     
     func adapt(_ mutation : BalanceMutationItem) {
@@ -361,12 +370,12 @@ class BalanceMutationCell : UITableViewCell {
         
         // Label height fix
         var rectDesc = lblDescription.frame.size
-        rectDesc.width = UIScreen.main.bounds.size.width - 111
-        var rectReason = lblReasonAdmin.frame.size
-        rectReason.width = UIScreen.main.bounds.size.width - 111
-        let sizeFixDesc = lblDescription.sizeThatFits(rectDesc)
+//        rectDesc.width = UIScreen.main.bounds.size.width - 111
+        let sizeFixDesc = mutation.reasonDetail.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectDesc.width)
         consHeightLblDescription.constant = sizeFixDesc.height
-        let sizeFixReasonAdmin = lblReasonAdmin.sizeThatFits(rectReason)
-        consHeightLblReasonAdmin.constant = sizeFixReasonAdmin.height
+        var rectReason = lblReasonAdmin.frame.size
+//        rectReason.width = UIScreen.main.bounds.size.width - 111
+        let sizeFixReasonAdmin = mutation.reasonAdmin.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectReason.width)
+        consHeightLblReasonAdmin.constant = (mutation.reasonAdmin != "" ? sizeFixReasonAdmin.height : 0)
     }
 }

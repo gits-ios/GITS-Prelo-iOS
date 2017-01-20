@@ -129,7 +129,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         
         // Mixpanel
         if (!self.isMixpanelPageVisitSent) {
-            Mixpanel.trackPageVisit(PageName.SetupAccount)
+//            Mixpanel.trackPageVisit(PageName.SetupAccount)
             
             // Google Analytics
             GAI.trackPageVisit(PageName.SetupAccount)
@@ -199,11 +199,11 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     
     override func backPressed(_ sender: UIBarButtonItem) {
         let alert : UIAlertController = UIAlertController(title: "Perhatian", message: "Setelan akun belum selesai. Halaman ini akan muncul lagi ketika kamu login. Keluar?", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Tidak", style: .default, handler: nil))
         alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
             User.Logout()
             self.dismiss(animated: true, completion: nil)
         }))
+        alert.addAction(UIAlertAction(title: "Tidak", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     

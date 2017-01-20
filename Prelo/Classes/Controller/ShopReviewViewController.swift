@@ -9,16 +9,28 @@
 import Foundation
 import Alamofire
 
-class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
+enum ReviewMode {
+    case `default`
+    case inject
+}
+
+class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
     
     @IBOutlet weak var lblEmpty: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var loadingPanel: UIView!
     @IBOutlet weak var loading: UIActivityIndicatorView!
     
-    var userReviews : [UserReview] = []
+    var userReviews : Array<UserReview> = []
     var sellerName : String = ""
     var sellerId : String = ""
+    
+    var currentMode : ReviewMode! = .default
+    
+    weak var delegate : NewShopHeaderDelegate?
+    var isTransparent = false
+    var averageRate : Float = 0.0
+    var countReview : Int = 0
     
     // MARK: - Init
     
@@ -31,16 +43,26 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         // Register custom cell
         let myLovelistCellNib = UINib(nibName: "ShopReviewCell", bundle: nil)
         tableView.register(myLovelistCellNib, forCellReuseIdentifier: "ShopReviewCell")
+        
+        let myLovelistAverageCellNib = UINib(nibName: "ShopReviewAverageCell", bundle: nil)
+        tableView.register(myLovelistAverageCellNib, forCellReuseIdentifier: "ShopReviewAverageCell")
+        
+        // for button baca lebih lanjut
+        tableView.register(ButtonCell.self, forCellReuseIdentifier: "ButtonCell")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
-        loadingPanel.isHidden = false
-        loading.startAnimating()
-        tableView.isHidden = true
-        lblEmpty.isHidden = true
+        
+        if (currentMode == .default) {
+            loadingPanel.isHidden = false
+            loading.startAnimating()
+            
+            tableView.isHidden = true
+            lblEmpty.isHidden = true
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -50,17 +72,26 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         self.title = "Review " + self.sellerName
         
         // Get reviews
-        self.getUserReviews()
+        
+        if (currentMode == .default) {
+//            self.userReviews = []
+            self.getUserReviews()
+        }
         
         // Mixpanel
-        let p = [
-            "Seller" : self.sellerName,
-            "Seller ID" : self.sellerId
-        ]
-        //Mixpanel.trackPageVisit(PageName.ShopReviews, otherParam: p)
+//        let p = [
+//            "Seller" : self.sellerName,
+//            "Seller ID" : self.sellerId
+//        ]
+//        Mixpanel.trackPageVisit(PageName.ShopReviews, otherParam: p)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.ShopReviews)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
     func getUserReviews() {
@@ -88,6 +119,27 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         }
     }
     
+    func setUserReviews(_ reviewData: JSON) {
+        let data = reviewData
+        // Store data into variable
+        for (_, item) in data {
+            let r = UserReview.instance(item)
+            if (r != nil) {
+                self.userReviews.append(r!)
+            }
+        }
+        
+        self.loadingPanel.isHidden = true
+        self.loading.stopAnimating()
+        if (self.userReviews.count <= 0) {
+            self.lblEmpty.isHidden = false
+            self.tableView.isHidden = true
+        } else {
+            self.tableView.isHidden = false
+            self.setupTable()
+        }
+    }
+    
     func setupTable() {
         if (self.tableView.delegate == nil) {
             self.tableView.dataSource = self
@@ -95,31 +147,188 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         }
         
         self.tableView.reloadData()
+        
+        let screenSize = UIScreen.main.bounds
+        let screenHeight = screenSize.height - (64 + 45) // (170 + 45)
+        
+//        let tableHeight = CGFloat((self.userReviews.count + (self.userReviews.count > 5 ? 2 : 1)) * 65) // min height
+        let tableHeight = self.tableView.contentSize.height
+        
+        var bottom = CGFloat(24)
+        if (tableHeight < screenHeight) {
+            bottom += (screenHeight - tableHeight)
+        }
+        
+        //TOP, LEFT, BOTTOM, RIGHT
+        let inset = UIEdgeInsetsMake(0, 0, bottom, 0)
+        tableView.contentInset = inset
     }
     
     // MARK: - UITableView Functions
+    func numberOfSections(in tableView: UITableView) -> Int {
+        if (currentMode == .inject) {
+            if (countReview > 5) {
+                return 3
+            } else {
+                return 2
+            }
+        } else {
+            return 1
+        }
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.userReviews.count
+        if (currentMode == .inject) {
+            if (section == 1) {
+                return self.userReviews.count
+            } else {
+                return 1
+            }
+        } else {
+            return self.userReviews.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell : ShopReviewCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
-        cell.selectionStyle = .none
-        let u = userReviews[(indexPath as NSIndexPath).item]
-        cell.adapt(u)
-        return cell
+        if (currentMode == .inject) {
+            if ((indexPath as NSIndexPath).section == 0) {
+                let cell : ShopReviewAverageCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewAverageCell") as! ShopReviewAverageCell
+                cell.selectionStyle = .none
+                cell.adapt(self.averageRate)
+                return cell
+            } else if ((indexPath as NSIndexPath).section == 2) {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell") as! ButtonCell
+                
+                cell.selectionStyle = .none
+                cell.backgroundColor = UIColor.clear
+                cell.clipsToBounds = true
+                
+                let lblButton = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.width - 10, height: 40))
+                
+                lblButton.text = "LIHAT SEMUA"
+                lblButton.textColor = Theme.PrimaryColor
+                lblButton.backgroundColor = UIColor.clear
+                lblButton.textAlignment = .center
+                
+                let vwBorder = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: 40))
+                
+                vwBorder.backgroundColor = UIColor.white
+                
+                vwBorder.addSubview(lblButton)
+                
+                cell.contentView.addSubview(vwBorder)
+                
+                return cell
+
+            } else {
+                let cell : ShopReviewCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
+                cell.selectionStyle = .none
+                let u = userReviews[(indexPath as NSIndexPath).row]
+                cell.adapt(u)
+                return cell
+            }
+        } else {
+            let cell : ShopReviewCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
+            cell.selectionStyle = .none
+            let u = userReviews[(indexPath as NSIndexPath).row]
+            cell.adapt(u)
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (currentMode == .inject && (indexPath as NSIndexPath).section == 2) {
+            let shopReviewVC = Bundle.main.loadNibNamed(Tags.XibNameShopReview, owner: nil, options: nil)?.first as! ShopReviewViewController
+            shopReviewVC.sellerId = self.sellerId
+            shopReviewVC.sellerName = self.sellerName
+            self.navigationController?.pushViewController(shopReviewVC, animated: true)
+        }
         //print("Row \(indexPath.row) selected")
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath:  IndexPath) -> CGFloat {
-        let u = userReviews[(indexPath as NSIndexPath).item]
-        let commentHeight = u.comment.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: 240).height
-        return 65 + commentHeight
+        if (currentMode == .inject) {
+            if ((indexPath as NSIndexPath).section == 0) {
+                return 150
+            } else if ((indexPath as NSIndexPath).section == 2) {
+                return 40
+                
+            } else {
+                let u = userReviews[(indexPath as NSIndexPath).item]
+                let commentHeight = u.comment.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: 240).height
+                return 65 + commentHeight
+            }
+        } else {
+            let u = userReviews[(indexPath as NSIndexPath).item]
+            let commentHeight = u.comment.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: 240).height
+            return 65 + commentHeight
+        }
     }
+    
+    // MARK: - UIScrollView Functions
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (currentMode == .inject) {
+            scrollViewHeaderShop(scrollView)
+        }
+    }
+    
+    func scrollViewHeaderShop(_ scrollView: UIScrollView) {
+//        let pointY = CGFloat(1)
+//        let screenSize = UIScreen.main.bounds
+//        let screenHeight = screenSize.height - 170
+//        let height = scrollView.contentSize.height
+//        if (scrollView.contentOffset.y < pointY && height >= screenHeight) {
+//            self.delegate?.increaseHeader()
+//            self.transparentNavigationBar(true)
+//        } else if (scrollView.contentOffset.y >= pointY && height >= screenHeight) {
+//            self.delegate?.dereaseHeader()
+//            self.transparentNavigationBar(false)
+//        }
+        
+        let pointY = CGFloat(1)
+        if (scrollView.contentOffset.y < pointY) {
+            self.delegate?.increaseHeader()
+            self.transparentNavigationBar(true)
+        } else if (scrollView.contentOffset.y >= pointY) {
+            self.delegate?.dereaseHeader()
+            self.transparentNavigationBar(false)
+        }
+    }
+    
+    // MARK: - navbar styler
+    func transparentNavigationBar(_ isActive: Bool) {
+        if (currentMode == .inject) {
+            if isActive && !(self.delegate?.getTransparentcy())! {
+                UIView.animate(withDuration: 0.5) {
+                    // Transparent navigation bar
+                    self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+                    self.navigationController?.navigationBar.shadowImage = UIImage()
+                    self.navigationController?.navigationBar.isTranslucent = true
+                    
+                    self.navigationController?.navigationBar.layoutIfNeeded()
+                    
+                    self.delegate?.setShopTitle("")
+                }
+                self.delegate?.setTransparentcy(true)
+            } else if !isActive && (self.delegate?.getTransparentcy())!  {
+                UIView.animate(withDuration: 0.5) {
+                    self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
+                    self.navigationController?.navigationBar.shadowImage = nil
+                    self.navigationController?.navigationBar.isTranslucent = true
+                    
+                    // default prelo
+                    UINavigationBar.appearance().barTintColor = Theme.PrimaryColor
+                    
+                    self.navigationController?.navigationBar.layoutIfNeeded()
+                    
+                    self.delegate?.setShopTitle(self.sellerName)
+                }
+                self.delegate?.setTransparentcy(false)
+            }
+        }
+    }
+
 }
 
 class ShopReviewCell : UITableViewCell {
@@ -129,9 +338,15 @@ class ShopReviewCell : UITableViewCell {
     @IBOutlet var lblStar: UILabel!
     @IBOutlet var lblComment: UILabel!
     
+    @IBOutlet var vwLove: UIView!
+    var floatRatingView: FloatRatingView!
+    
     override func prepareForReuse() {
         imgBuyer.image = nil
         lblStar.attributedText = nil
+        if self.floatRatingView != nil {
+            self.floatRatingView.rating = 0
+        }
     }
     
     func adapt(_ userReview : UserReview) {
@@ -142,17 +357,66 @@ class ShopReviewCell : UITableViewCell {
         lblBuyerName.text = userReview.buyerUsername
         lblComment.text = userReview.comment
         
-        // Love
-        var loveText = ""
-        for i in 0 ..< 5 {
-            if (i < userReview.star) {
-                loveText += ""
-            } else {
-                loveText += ""
-            }
-        }
-        let attrStringLove = NSMutableAttributedString(string: loveText)
-        attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length))
-        lblStar.attributedText = attrStringLove
+//        // Love
+//        var loveText = ""
+//        for i in 0 ..< 5 {
+//            if (i < userReview.star) {
+//                loveText += ""
+//            } else {
+//                loveText += ""
+//            }
+//        }
+//        let attrStringLove = NSMutableAttributedString(string: loveText)
+//        attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length))
+//        lblStar.attributedText = attrStringLove
+        
+        let star = Float(userReview.star)
+        
+        // Love floatable
+        self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 2.5, width: 90, height: 16))
+        self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
+        self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
+        // Optional params
+        //                self.floatRatingView.delegate = self
+        self.floatRatingView.contentMode = UIViewContentMode.scaleAspectFit
+        self.floatRatingView.maxRating = 5
+        self.floatRatingView.minRating = 0
+        self.floatRatingView.rating = star
+        self.floatRatingView.editable = false
+        self.floatRatingView.halfRatings = true
+        self.floatRatingView.floatRatings = true
+        self.floatRatingView.tintColor = Theme.ThemeRed
+        
+        self.vwLove.addSubview(self.floatRatingView )
+    }
+}
+
+class ShopReviewAverageCell : UITableViewCell {
+    @IBOutlet var vwLove: UIView!
+    @IBOutlet var circularBtn: UIButton!
+    
+    var floatRatingView: FloatRatingView!
+    
+    func adapt(_ star : Float) {
+        circularBtn.createBordersWithColor(UIColor.black, radius: circularBtn.width/2, width: 2)
+
+        circularBtn.setTitle(NSString(format: "%.1f", star) as String, for: .normal )
+        
+        // Love floatable
+        self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 0, width: 175, height: 30))
+        self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
+        self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
+        // Optional params
+        //                self.floatRatingView.delegate = self
+        self.floatRatingView.contentMode = UIViewContentMode.scaleAspectFit
+        self.floatRatingView.maxRating = 5
+        self.floatRatingView.minRating = 0
+        self.floatRatingView.rating = star
+        self.floatRatingView.editable = false
+        self.floatRatingView.halfRatings = true
+        self.floatRatingView.floatRatings = true
+        self.floatRatingView.tintColor = Theme.ThemeRed
+        
+        self.vwLove.addSubview(self.floatRatingView )
     }
 }

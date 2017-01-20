@@ -88,15 +88,15 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         sharer = s
         
         // Mixpanel
-        let p = [
-            "Product" : ((detail != nil) ? (detail!.name) : ""),
-            "Product ID" : ((detail != nil) ? (detail!.productID) : ""),
-            "Category 1" : ((detail != nil && detail?.categoryBreadcrumbs.count > 1) ? (detail!.categoryBreadcrumbs[1]["name"].string!) : ""),
-            "Category 2" : ((detail != nil && detail?.categoryBreadcrumbs.count > 2) ? (detail!.categoryBreadcrumbs[2]["name"].string!) : ""),
-            "Category 3" : ((detail != nil && detail?.categoryBreadcrumbs.count > 3) ? (detail!.categoryBreadcrumbs[3]["name"].string!) : ""),
-            "Seller" : ((detail != nil) ? (detail!.theirName) : "")
-        ]
-        //Mixpanel.trackPageVisit(PageName.ProductDetailShare, otherParam: p)
+//        let p = [
+//            "Product" : ((detail != nil) ? (detail!.name) : ""),
+//            "Product ID" : ((detail != nil) ? (detail!.productID) : ""),
+//            "Category 1" : ((detail != nil && detail?.categoryBreadcrumbs.count > 1) ? (detail!.categoryBreadcrumbs[1]["name"].string!) : ""),
+//            "Category 2" : ((detail != nil && detail?.categoryBreadcrumbs.count > 2) ? (detail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+//            "Category 3" : ((detail != nil && detail?.categoryBreadcrumbs.count > 3) ? (detail!.categoryBreadcrumbs[3]["name"].string!) : ""),
+//            "Seller" : ((detail != nil) ? (detail!.theirName) : "")
+//        ]
+//        Mixpanel.trackPageVisit(PageName.ProductDetailShare, otherParam: p)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.ProductDetailShare)

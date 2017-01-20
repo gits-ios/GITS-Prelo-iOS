@@ -18,8 +18,65 @@ class Constant: NSObject {
         let a = UIAlertView()
         a.title = title
         a.message = message
-        a.addButton(withTitle: "OK")
+        a.addButton(withTitle: "Oke")
         a.show()
+    }
+    
+    static func showBadgeDialog(_ title : String, message : String, badge : String, view : UIViewController, isBack : Bool)
+    {
+        var name = ""
+        var color : UIColor!
+        if badge == "warning" {
+            name = ""
+            color = UIColor.orange  //(hex: "Ffa800")
+        } else if badge == "error" {
+            name = ""
+            color = UIColor.red
+        } else if badge == "info" {
+            name = ""
+            color = UIColor.black
+        }
+
+        
+        let content = name + " " + title
+        
+        let a = UIAlertController(title: content, message: message, preferredStyle: .alert)
+        
+        let attrStr = NSMutableAttributedString(string: content)
+        
+        attrStr.addAttributes([NSFontAttributeName: UIFont.boldSystemFont(ofSize: 16.0)], range: (content as NSString).range(of: title))
+        
+        attrStr.addAttributes([NSForegroundColorAttributeName:color], range: (content as NSString).range(of: name))
+        attrStr.addAttributes([NSFontAttributeName:UIFont(name: "preloAwesome", size: 16.0)!], range: (content as NSString).range(of: name))
+        
+        a.setValue(attrStr, forKeyPath: "attributedTitle")
+        
+        let action = UIAlertAction(title: "Oke", style: .default, handler: {  act in
+            a.dismiss(animated: true, completion: nil)
+            if isBack {
+                view.navigationController?.popViewController(animated: true)
+            }
+        })
+        
+        a.addAction(action)
+        
+//        let imageView = UIImageView(frame: CGRect(x: 10, y: 10, width: 40, height: 40))
+//        
+//        var name = ""
+//        if badge == "warning" {
+//            name = "exclamation31.png"
+//        }
+//        
+//        let bkgImg = UIImage(named: name)?.withRenderingMode(.alwaysTemplate)
+//        imageView.image = bkgImg
+//        
+//        if badge == "warning" {
+//            imageView.tintColor = UIColor.red
+//        }
+//        
+//        a.view.addSubview(imageView)
+        
+        view.present(a, animated: true, completion: nil)
     }
     
 }
@@ -150,7 +207,8 @@ extension Foundation.Date
         let detik = Int(fabs(self.timeIntervalSinceNow))
         if (detik < 60)
         {
-            return "\(detik) detik yang lalu"
+//            return "\(detik) detik yang lalu"
+            return "Beberapa saat yang lalu"
         }
         
         let menit = detik / 60

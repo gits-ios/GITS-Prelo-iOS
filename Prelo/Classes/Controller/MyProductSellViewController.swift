@@ -13,9 +13,9 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
 
     @IBOutlet weak var loading: UIActivityIndicatorView!
     @IBOutlet weak var lblEmpty: UILabel!
-    @IBOutlet var btnRefresh: UIButton!
-    @IBOutlet var searchBar: UISearchBar!
-    @IBOutlet var tableView : UITableView!
+    @IBOutlet weak var btnRefresh: UIButton!
+    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var tableView : UITableView!
     @IBOutlet weak var bottomLoading: UIActivityIndicatorView!
     @IBOutlet weak var consBottomTableView: NSLayoutConstraint!
     let ConsBottomTableViewWhileUpdating : CGFloat = 36
@@ -28,6 +28,10 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     
     var products : Array<Product> = []
     
+    var localProducts : Array<CDDraftProduct> = []
+    
+    var delegate: MyProductDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -37,13 +41,13 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         self.btnRefresh.isHidden = true
         self.loading.startAnimating()
         self.loading.isHidden = false
-//        getProducts()
         
         tableView.dataSource = self
         tableView.delegate = self
         
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
         
+        self.getLocalProducts()
         self.getProducts()
         
         // Register custom cell
@@ -71,7 +75,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         super.viewWillAppear(animated)
         
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.MyProducts, otherParam: ["Tab" : "Active"])
+//        Mixpanel.trackPageVisit(PageName.MyProducts, otherParam: ["Tab" : "Active"])
         
         // Google Analytics
         GAI.trackPageVisit(PageName.MyProducts)
@@ -82,6 +86,13 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         }
         
         first = false
+        
+        if (self.delegate?.getFromDraftOrNew())!
+        {
+            self.refresh(0 as AnyObject, isSearchMode: false)
+        }
+        
+        self.delegate?.setFromDraftOrNew(false)
         
         ProdukUploader.AddObserverForUploadSuccess(self, selector: #selector(MyProductSellViewController.uploadProdukSukses(_:)))
         ProdukUploader.AddObserverForUploadFailed(self, selector: #selector(MyProductSellViewController.uploadProdukGagal(_:)))
@@ -96,13 +107,29 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     func uploadProdukSukses(_ notif : Foundation.Notification)
     {
         refresh(0 as AnyObject, isSearchMode: false)
-        Constant.showDialog("Upload Barang Berhasil", message: "Proses review barang akan memakan waktu maksimal 2 hari kerja. Mohon tunggu :)")
+        //        Constant.showDialog("Upload Barang Berhasil", message: "Proses review barang akan memakan waktu maksimal 2 hari kerja. Mohon tunggu :)")
+        
+//        print(notif.object)
+        let metaJson = JSON(notif.object)
+        let metadata = metaJson["_data"]
+//        print(metadata)
+        if let message = metadata["message"].string {
+            Constant.showDialog("Upload Barang Berhasil", message: message)
+        }
+        
+        // clear uploaded draft
+        let uploadedProduct = CDDraftProduct.getOneIsUploading()
+        CDDraftProduct.delete((uploadedProduct?.localId)!)
     }
     
     func uploadProdukGagal(_ notif : Foundation.Notification)
     {
         refresh(0 as AnyObject, isSearchMode: false)
         Constant.showDialog("Upload Barang Gagal", message: "Oops, upload barang gagal")
+        
+        // set status uploading
+        let uploadedProduct = CDDraftProduct.getOneIsUploading()
+        CDDraftProduct.setUploading((uploadedProduct?.localId)!, isUploading: false)
     }
     
     func addUploadingProducts()
@@ -178,6 +205,10 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
+    func getLocalProducts() {
+        localProducts = CDDraftProduct.getAllIsDraft()
+    }
+    
     func refresh(_ sender: AnyObject, isSearchMode : Bool) {
         // Reset data
         self.products = []
@@ -190,6 +221,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         self.lblEmpty.isHidden = true
         self.btnRefresh.isHidden = true
         self.loading.isHidden = false
+        
+        getLocalProducts()
         getProducts()
     }
     
@@ -202,69 +235,109 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         // Dispose of any resources that can be recreated.
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2 // local , onstore
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return products.count
+        if (section == 0) {
+            return localProducts.count
+        } else {
+            return products.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : TransactionListCell = self.tableView.dequeueReusableCell(withIdentifier: "TransactionListCell") as! TransactionListCell
         if (!refreshControl.isRefreshing) {
-            let p = products[(indexPath as NSIndexPath).row]
-            
-            cell.lblProductName.text = p.name
-            cell.lblPrice.text = p.price
-            cell.lblOrderTime.text = p.time
-            
-            if (p.isFreeOngkir) {
-                cell.imgFreeOngkir.isHidden = false
-            }
-            
-            let commentCount : Int = (p.json["num_comment"] != nil) ? p.json["num_comment"].int! : 0
-            cell.lblCommentCount.text = "\(commentCount)"
-            
-            let loveCount : Int = (p.json["num_lovelist"] != nil) ? p.json["num_lovelist"].int! : 0
-            cell.lblLoveCount.text = "\(loveCount)"
-            
-            cell.imgProduct.image = nil
-            if let url = p.coverImageURL {
-                cell.imgProduct.afSetImage(withURL: url)
-            } else if let img = p.placeHolderImage
-            {
-                cell.imgProduct.image = img
-            }
-            
-            let status : String = (p.json["status_text"] != nil) ? p.json["status_text"].string! : "-"
-            cell.lblOrderStatus.text = status.uppercased()
-            if (p.isLokal)
-            {
-                cell.lblOrderStatus.text = "Uploading"
-            }
-            
-            if (status.lowercased() == "aktif") {
-                cell.lblOrderStatus.textColor = Theme.PrimaryColor
-            } else if (status.lowercased() == "direview admin") {
-                cell.lblOrderStatus.textColor = Theme.ThemeOrange
+            if (indexPath as NSIndexPath).section == 0 {
+                let p = localProducts[(indexPath as NSIndexPath).row]
+                
+                cell.lblProductName.text = p.name
+                cell.lblPrice.text = p.price.int.asPrice
+                cell.lblOrderTime.text = ""
+                
+                cell.imgProduct.image = nil
+                
+                if let data = NSData(contentsOfFile: p.imagePath1){
+                    if let imageUrl = UIImage(data: data as Data) {
+                        let img = UIImage(cgImage: imageUrl.cgImage!, scale: 1.0, orientation: UIImageOrientation(rawValue: p.imageOrientation1 as Int)!)
+                        cell.imgProduct.image = img
+                    }
+                } else {
+                    cell.imgProduct.image = UIImage(named: "raisa.jpg")
+                }
+                
+                cell.lblOrderStatus.text = "DRAFT"
+                cell.lblOrderStatus.textColor = UIColor.blue
+                
+                // Fix product status text width
+                let sizeThatShouldFitTheContent = cell.lblOrderStatus.sizeThatFits(cell.lblOrderStatus.frame.size)
+                //print("size untuk '\(cell.lblOrderStatus.text)' = \(sizeThatShouldFitTheContent)")
+                cell.consWidthLblOrderStatus.constant = sizeThatShouldFitTheContent.width
+                
+                // Socmed share status
+                cell.vwShareStatus.isHidden = false
+                
+                cell.lblPercentage.text = "90%"
             } else {
-                cell.lblOrderStatus.textColor = UIColor.red
+                let p = products[(indexPath as NSIndexPath).row]
+                
+                cell.lblProductName.text = p.name
+                cell.lblPrice.text = p.price
+                cell.lblOrderTime.text = p.time
+                
+                if (p.isFreeOngkir) {
+                    cell.imgFreeOngkir.isHidden = false
+                }
+                
+                let commentCount : Int = (p.json["num_comment"] != nil) ? p.json["num_comment"].int! : 0
+                cell.lblCommentCount.text = "\(commentCount)"
+                
+                let loveCount : Int = (p.json["num_lovelist"] != nil) ? p.json["num_lovelist"].int! : 0
+                cell.lblLoveCount.text = "\(loveCount)"
+                
+                cell.imgProduct.image = nil
+                if let url = p.coverImageURL {
+                    cell.imgProduct.afSetImage(withURL: url)
+                } else if let img = p.placeHolderImage
+                {
+                    cell.imgProduct.image = img
+                }
+                
+                let status : String = (p.json["status_text"] != nil) ? p.json["status_text"].string! : "-"
+                cell.lblOrderStatus.text = status.uppercased()
+                if (p.isLokal)
+                {
+                    cell.lblOrderStatus.text = "UPLOADING"
+                }
+                
+                if (status.lowercased() == "aktif") {
+                    cell.lblOrderStatus.textColor = Theme.PrimaryColor
+                } else if (status.lowercased() == "direview admin") {
+                    cell.lblOrderStatus.textColor = Theme.ThemeOrange
+                } else {
+                    cell.lblOrderStatus.textColor = UIColor.red
+                }
+                
+                // Fix product status text width
+                let sizeThatShouldFitTheContent = cell.lblOrderStatus.sizeThatFits(cell.lblOrderStatus.frame.size)
+                //print("size untuk '\(cell.lblOrderStatus.text)' = \(sizeThatShouldFitTheContent)")
+                cell.consWidthLblOrderStatus.constant = sizeThatShouldFitTheContent.width
+                
+                // Socmed share status
+                cell.vwShareStatus.isHidden = false
+                if (p.isSharedInstagram) {
+                    cell.lblInstagram.textColor = Theme.PrimaryColor
+                }
+                if (p.isSharedFacebook) {
+                    cell.lblFacebook.textColor = Theme.PrimaryColor
+                }
+                if (p.isSharedTwitter) {
+                    cell.lblTwitter.textColor = Theme.PrimaryColor
+                }
+                cell.lblPercentage.text = "\(100 - p.commission)%"
             }
-            
-            // Fix product status text width
-            let sizeThatShouldFitTheContent = cell.lblOrderStatus.sizeThatFits(cell.lblOrderStatus.frame.size)
-            //print("size untuk '\(cell.lblOrderStatus.text)' = \(sizeThatShouldFitTheContent)")
-            cell.consWidthLblOrderStatus.constant = sizeThatShouldFitTheContent.width
-            
-            // Socmed share status
-            cell.vwShareStatus.isHidden = false
-            if (p.isSharedInstagram) {
-                cell.lblInstagram.textColor = Theme.PrimaryColor
-            }
-            if (p.isSharedFacebook) {
-                cell.lblFacebook.textColor = Theme.PrimaryColor
-            }
-            if (p.isSharedTwitter) {
-                cell.lblTwitter.textColor = Theme.PrimaryColor
-            }
-            cell.lblPercentage.text = "\(100 - p.commission) %"
         }
         
         return cell
@@ -299,19 +372,26 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     
     var selectedProduct : Product?
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        selectedProduct = products[(indexPath as NSIndexPath).row]
-        if (selectedProduct!.isLokal)
-        {
-            return
+        if (indexPath as NSIndexPath).section == 0 {
+            self.delegate?.setFromDraftOrNew(true)
+            let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
+            add.screenBeforeAddProduct = PageName.MyProducts
+            add.draftMode = true
+            add.draftProduct = localProducts[(indexPath as NSIndexPath).row]
+            self.navigationController?.pushViewController(add, animated: true)
+        } else {
+            selectedProduct = products[(indexPath as NSIndexPath).row]
+            if (selectedProduct!.isLokal)
+            {
+                return
+            }
+            
+            let d:ProductDetailViewController = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+            d.product = selectedProduct!
+            
+            self.previousController?.navigationController?.pushViewController(d, animated: true)
         }
-        
-        let d:ProductDetailViewController = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
-        d.product = selectedProduct!
-        
-        self.previousController?.navigationController?.pushViewController(d, animated: true)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -323,7 +403,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         let h : CGFloat = size.height
         
         let reloadDistance : CGFloat = 0
-        if (y > h + reloadDistance) {
+        if (y > h + reloadDistance && self.products.count >= 10) {
             // Load next items only if all items not loaded yet and if its not currently loading items
             if (!self.isAllItemLoaded && !self.bottomLoading.isAnimating) {
                 // Tampilkan loading di bawah

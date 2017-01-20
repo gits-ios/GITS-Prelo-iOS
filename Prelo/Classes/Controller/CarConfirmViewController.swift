@@ -50,7 +50,7 @@ class CarConfirmViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         // Mixpanel
-        //Mixpanel.trackPageVisit(PageName.CheckoutConfirmation)
+//        Mixpanel.trackPageVisit(PageName.CheckoutConfirmation)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.CheckoutConfirmation)

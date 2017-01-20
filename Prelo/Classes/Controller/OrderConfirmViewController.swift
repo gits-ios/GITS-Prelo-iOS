@@ -37,6 +37,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     @IBOutlet var captionBankInfoBankNumber : UILabel?
     @IBOutlet var captionBankInfoBankCabang : UILabel?
     @IBOutlet var captionBankInfoBankAtasNama : UILabel?
+    @IBOutlet weak var consHeightBankInfo: NSLayoutConstraint!
     
     // Payment pop up
     @IBOutlet var vwPaymentPopUp: UIView!
@@ -61,29 +62,31 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     var total : Int = 0
     var kodeTransfer = 0
     
+    var date : String?
+    
     // Prelo account data
     var rekenings = [
         [
             "name":"KLEO APPARA INDONESIA PT",
-            "no":"777-16-13-113",
+            "no":"777-16-13-113 ",
             "cabang":"KCU Dago",
             "bank_name":"BCA"
         ],
         [
             "name":"PT KLEO APPARA INDONESIA",
-            "no":"131-0050-313-131",
+            "no":"131-0050-313-131 ",
             "cabang":"KCP Bandung Dago",
             "bank_name":"Mandiri"
         ],
         [
             "name":"PT KLEO APPARA INDONESIA",
-            "no":"042-390-6140",
+            "no":"042-390-6140 ",
             "cabang":"Perguruan Tinggi Bandung",
             "bank_name":"BNI"
         ],
         [
             "name":"KLEO APPARA INDONESIA",
-            "no":"040-501-000-570-304",
+            "no":"040-501-000-570-304 ",
             "cabang":"Dago",
             "bank_name":"BRI"
         ]
@@ -126,8 +129,12 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             self.vwUnpaidTrx.isHidden = true
             self.btnFreeTrx.isHidden = false
         } else {
+            let date = Date().dateByAddingDays(1) // tomorrow after expire or after now
+            let f = DateFormatter()
+            f.dateFormat = "dd/MM/yyyy HH:mm:ss"
+            let time = f.string(from: date)
             // Arrange views
-            let text = "Lakukan pembayaran TEPAT hingga 3 digit terakhir. Perbedaan jumlah transfer akan memperlambat proses verifikasi."
+            let text = "Lakukan pembayaran TEPAT hingga 3 digit terakhir dalam waktu 24 jam (" + (self.date != nil ? self.date! : time) + ") ke salah satu rekening di bawah. Perbedaan jumlah transfer akan memperlambat proses verifikasi."
             let mtext = NSMutableAttributedString(string: text)
             mtext.addAttributes([NSForegroundColorAttributeName:UIColor.darkGray], range: NSMakeRange(0, text.length))
             mtext.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: 14)], range: (text as NSString).range(of: "TEPAT"))
@@ -182,18 +189,33 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         
         // Date picker init
         datePicker.setValue(UIColor.darkGray, forKey: "textColor")
+        
+        // copy rek number
+        self.captionBankInfoBankNumber?.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(OrderConfirmViewController.tapFunction))
+        self.captionBankInfoBankNumber?.addGestureRecognizer(tap)
+        
+        let content = self.captionBankInfoBankNumber?.text!
+        let attrStr = NSMutableAttributedString(string: content!)
+        attrStr.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColor], range: (content! as NSString).range(of: ""))
+        attrStr.addAttributes([NSFontAttributeName:UIFont(name: "preloAwesome", size: 14.0)!], range: (content! as NSString).range(of: ""))
+        self.captionBankInfoBankNumber?.attributedText = attrStr
+        
+        self.captionBankInfoBankName?.isHidden = true
+        self.consHeightBankInfo.constant = 0
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Mixpanel
-        let p = [
-            "ID" : self.orderID,
-            "Items" : "\(self.images.count)",
-            "Price" : "\(self.total + self.kodeTransfer)"
-        ]
-        Mixpanel.trackPageVisit(PageName.PaymentConfirmation, otherParam: p)
+//        let p = [
+//            "ID" : self.orderID,
+//            "Items" : "\(self.images.count)",
+//            "Price" : "\(self.total + self.kodeTransfer)"
+//        ]
+//        Mixpanel.trackPageVisit(PageName.PaymentConfirmation, otherParam: p)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.PaymentConfirmation)
@@ -230,11 +252,18 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     
     // MARK: - Actions
     
+    func tapFunction(sender:MyTapGestureRecognizer) {
+        let bankName = self.captionBankInfoBankName?.text
+        Constant.showDialog("Copied!", message: "Nomor Rekening \(bankName!) telah disalin ke clipboard!")
+        let textToCopy = self.captionBankInfoBankNumber?.text?.replacingOccurrences(of: "-", with: "").trimmingCharacters(in: NSCharacterSet (charactersIn: " ") as CharacterSet )
+        UIPasteboard.general.string = textToCopy
+    }
+    
     @IBAction func copyPrice() {
         let s = String((total + kodeTransfer))
         UIPasteboard.general.string = s
-        let a = UIAlertController(title: "Copied!", message: "Total harga sudah ada di clipboard!", preferredStyle: .alert)
-        a.addAction(UIAlertAction(title: "OK", style: .default, handler: { act in }))
+        let a = UIAlertController(title: "Copied!", message: "Total harga telah disalin ke clipboard!", preferredStyle: .alert)
+        a.addAction(UIAlertAction(title: "Oke", style: .default, handler: { act in }))
         self.present(a, animated: true, completion: nil)
     }
     
@@ -269,15 +298,21 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     func setupViewRekening(_ data : [String : String]) {
         captionBankInfoBankAtasNama?.text = data["name"]
         captionBankInfoBankCabang?.text = data["cabang"]
-        captionBankInfoBankName?.text = "Transfer melalui Bank " + data["bank_name"]!
+        captionBankInfoBankName?.text = "Bank \(data["bank_name"]!)" // "Transfer melalui Bank " + data["bank_name"]!
         captionBankInfoBankNumber?.text = data["no"]
+        
+        let content = self.captionBankInfoBankNumber?.text!
+        let attrStr = NSMutableAttributedString(string: content!)
+        attrStr.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColor], range: (content! as NSString).range(of: ""))
+        attrStr.addAttributes([NSFontAttributeName:UIFont(name: "preloAwesome", size: 14.0)!], range: (content! as NSString).range(of: ""))
+        self.captionBankInfoBankNumber?.attributedText = attrStr
     }
     
     override func backPressed(_ sender: UIBarButtonItem) {
         if (isFreeTransaction) {
             // Pop ke home, kemudian buka list belanjaan saya jika dari checkout
             if (self.isFromCheckout) {
-                UserDefaults.setObjectAndSync(PageName.MyOrders as AnyObject?, forKey: UserDefaultsKey.RedirectFromHome)
+//                UserDefaults.setObjectAndSync(PageName.MyOrders as AnyObject?, forKey: UserDefaultsKey.RedirectFromHome)
             }
             if (isBackToRoot) {
                 _ = self.navigationController?.popToRootViewController(animated: true)
@@ -331,7 +366,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
                 bankAlert.dismiss(animated: true, completion: nil)
             }))
         }
-        bankAlert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { act in
+        bankAlert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in
             bankAlert.dismiss(animated: true, completion: nil)
         }))
         self.present(bankAlert, animated: true, completion: nil)
@@ -346,10 +381,17 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             Constant.showDialog("Perhatian", message: "Nominal transfer harus diisi")
             return
         }
+        
+        let timePaid = datePicker.date
+        
+        if timePaid.compare(Date()).rawValue > 0 {
+            Constant.showDialog("Perhatian", message: "Tanggal transfer tidak boleh melebihi hari ini")
+            return
+        }
+        
         btnKirimPayment.setTitle("MENGIRIM...", for: UIControlState())
         btnKirimPayment.isUserInteractionEnabled = false
         
-        let timePaid = datePicker.date
         let timePaidFormatter = DateFormatter()
         timePaidFormatter.dateFormat = "EEEE, dd MMMM yyyy"
         let timePaidString = timePaidFormatter.string(from: timePaid)

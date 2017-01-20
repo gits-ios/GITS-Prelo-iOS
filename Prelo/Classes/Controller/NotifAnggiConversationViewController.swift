@@ -32,7 +32,7 @@ fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 // MARK: - NotifAnggiConversation Protocol
 
-protocol NotifAnggiConversationDelegate {
+protocol NotifAnggiConversationDelegate: class {
     func decreaseConversationBadgeNumber()
 }
 
@@ -48,6 +48,19 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     @IBOutlet weak var bottomLoadingPanel: UIView!
     @IBOutlet weak var bottomLoading: UIActivityIndicatorView!
     
+    
+    // for delete notif
+    @IBOutlet weak var consHeightCheckBoxAll: NSLayoutConstraint! // default : 0 --> 64
+    @IBOutlet weak var lblCheckBox: UILabel! // default : hidden
+    
+    @IBOutlet weak var consHeightButtonView: NSLayoutConstraint! // default : 0 --> 56
+    @IBOutlet weak var btnBatal: UIButton!
+    @IBOutlet weak var btnHapus: UIButton! // to update label with count
+    
+    // for confirm delete
+    @IBOutlet weak var overlayPopUp: UIView!
+    @IBOutlet weak var backgroundOverlay: UIView!
+    
     var refreshControl : UIRefreshControl!
     var currentPage : Int = 0
     let ItemPerLoad : Int = 10
@@ -55,7 +68,13 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     
     var notifications : [NotificationObj]?
     
-    var delegate : NotifAnggiConversationDelegate?
+    weak var delegate : NotifAnggiConversationDelegate?
+    
+    var isToDelete : Bool = false
+    
+    var notifIds : [String] = []
+    
+    var isMacro : Bool = false
     
     // MARK: - Init
     
@@ -83,6 +102,16 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         // Transparent panel
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
         bottomLoadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+        
+//        btnBatal.layer.borderWidth = 1
+//        btnBatal.layer.borderColor = UIColor.white.cgColor
+//        
+//        btnHapus.layer.borderWidth = 1
+//        btnHapus.layer.borderColor = UIColor.white.cgColor
+        
+        
+        // Transparent panel
+        self.backgroundOverlay.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.2)
     }
     
     func refreshPage() {
@@ -130,6 +159,14 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
             // Hide refreshControl (for refreshing)
             self.refreshControl.endRefreshing()
             
+            if self.isMacro {
+                self.notifIds = []
+                for idx in 0...(self.notifications?.count)!-1 {
+                    self.notifIds.append(self.notifications![idx].id)
+                }
+                self.tableView.reloadData()
+            }
+            
             // Show content
             self.showContent()
         }
@@ -148,39 +185,71 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell : NotifAnggiConversationCell = self.tableView.dequeueReusableCell(withIdentifier: "NotifAnggiConversationCell") as? NotifAnggiConversationCell, notifications != nil, notifications!.count > (indexPath as NSIndexPath).item {
             cell.selectionStyle = .none
-            let n = notifications?[(indexPath as NSIndexPath).item]
-            cell.adapt(n!)
+            if let n = notifications?[(indexPath as NSIndexPath).item] {
+                cell.adapt(n)
+            
+                if isToDelete {
+                    cell.vwCheckBox.isHidden = false
+                    cell.consLeadingImage.constant = 48
+                    
+                    let idx = notifIds.index(of: n.id)
+                    if idx != nil {
+                        cell.lblCheckBox.isHidden = false
+                    } else {
+                        cell.lblCheckBox.isHidden = true
+                    }
+                    self.btnHapus.setTitle("HAPUS (" + notifIds.count.string + ")",for: .normal)
+                } else {
+                    cell.vwCheckBox.isHidden = true
+                    cell.consLeadingImage.constant = 0
+                    
+                    cell.lblCheckBox.isHidden = true
+                }
+            }
+            
             return cell
         }
         return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.showLoading()
-        if let n = notifications?[(indexPath as NSIndexPath).item] {
-            if (!n.read) {
-                // API Migrasi
-                let _ = request(APINotification.readNotif(tab: "conversation", id: n.objectId, type: n.type.string)).responseJSON {resp in
-                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Percakapan")) {
-                        let json = JSON(resp.result.value!)
-                        let data : Bool? = json["_data"].bool
-                        if (data != nil && data == true) {
-                            self.notifications?[(indexPath as NSIndexPath).item].setRead()
-                            self.delegate?.decreaseConversationBadgeNumber()
-                            self.navigateReadNotif(n)
-                        } else {
-                            Constant.showDialog("Notifikasi - Percakapan", message: "Oops, terdapat masalah pada notifikasi")
-                            self.hideLoading()
-                        }
-                    } else {
-                        self.hideLoading()
-                    }
+        if (isToDelete) {
+            if let n = notifications?[(indexPath as NSIndexPath).item] {
+                let idx = notifIds.index(of: n.id)
+                if idx != nil {
+                    notifIds.remove(at: idx!)
+                } else {
+                    notifIds.append(n.id)
                 }
-            } else {
-                self.navigateReadNotif(n)
+                tableView.reloadData()
             }
         } else {
-            self.hideLoading()
+            self.showLoading()
+            if let n = notifications?[(indexPath as NSIndexPath).item] {
+                if (!n.read) {
+                    // API Migrasi
+                    let _ = request(APINotification.readNotif(tab: "conversation", id: n.objectId, type: n.type.string)).responseJSON {resp in
+                        if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Percakapan")) {
+                            let json = JSON(resp.result.value!)
+                            let data : Bool? = json["_data"].bool
+                            if (data != nil && data == true) {
+                                self.notifications?[(indexPath as NSIndexPath).item].setRead()
+                                self.delegate?.decreaseConversationBadgeNumber()
+                                self.navigateReadNotif(n)
+                            } else {
+                                Constant.showDialog("Notifikasi - Percakapan", message: "Oops, terdapat masalah pada notifikasi")
+                                self.hideLoading()
+                            }
+                        } else {
+                            self.hideLoading()
+                        }
+                    }
+                } else {
+                    self.navigateReadNotif(n)
+                }
+            } else {
+                self.hideLoading()
+            }
         }
     }
     
@@ -213,6 +282,75 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     
     @IBAction func refreshPressed(_ sender: AnyObject) {
         self.refreshPage()
+    }
+    
+    @IBAction func btnCheckBoxAllPressed(_ sender: Any) {
+        if (isMacro) {
+            self.lblCheckBox.isHidden = true
+            self.isMacro = false
+            self.notifIds = []
+            self.tableView.reloadData()
+
+        } else {
+            self.lblCheckBox.isHidden = false
+            self.isMacro = true
+            self.notifIds = []
+            for idx in 0...(self.notifications?.count)!-1 {
+                notifIds.append(self.notifications![idx].id)
+            }
+            self.tableView.reloadData()
+        }
+    }
+    
+    @IBAction func btnBatalPressed(_ sender: Any) {
+        self.isToDelete = false
+        self.consHeightCheckBoxAll.constant = 0
+        self.lblCheckBox.isHidden = true
+        self.consHeightButtonView.constant = 0
+        self.notifIds = []
+        self.tableView.reloadData()
+    }
+    
+    @IBAction func btnHapusPressed(_ sender: Any) {
+        // do something
+        if notifIds.count > 0 {
+            self.backgroundOverlay.isHidden = false
+            self.overlayPopUp.isHidden = false
+        } else {
+            Constant.showDialog("Perhatian", message: "Pesan wajib dipilih")
+        }
+        
+    }
+    
+    @IBAction func btnBatalPopUpPressed(_ sender: Any) {
+        self.backgroundOverlay.isHidden = true
+        self.overlayPopUp.isHidden = true
+    }
+    
+    @IBAction func btnHapusPopUpPressed(_ sender: Any) {
+        self.backgroundOverlay.isHidden = true
+        self.overlayPopUp.isHidden = true
+        // call api
+        
+        let _ = request(APINotification.deleteNotif(tab: "conversation", notifIds: AppToolsObjC.jsonString(from: self.notifIds))).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Delete Notifications")) {
+                
+                self.refreshPage()
+                self.notifIds = []
+                self.isMacro = false
+                
+                self.isToDelete = false
+                self.consHeightCheckBoxAll.constant = 0
+                self.lblCheckBox.isHidden = true
+                self.consHeightButtonView.constant = 0
+                
+                Constant.showDialog("Hapus Pesan", message: "Pesan telah berhasil dihapus")
+            }
+        }
+
+        
+        // messagebox --> inside success api
+//        Constant.showDialog("Hapus Pesan", message: "Pesan berhasil dihapus")
     }
     
     // MARK: - Other functions
@@ -349,6 +487,13 @@ class NotifAnggiConversationCell: UITableViewCell {
     @IBOutlet var vwPreviewNTimeOnly: UIView!
     @IBOutlet var lblPreview2: UILabel!
     @IBOutlet var lblTime2: UILabel!
+    @IBOutlet var lblProductName2: UILabel!
+    @IBOutlet weak var consHeightLblProductName2: NSLayoutConstraint!
+    
+    // for delete notif
+    @IBOutlet weak var vwCheckBox: UIView! // default : hidden
+    @IBOutlet weak var consLeadingImage: NSLayoutConstraint! // default : 0 --> 48
+    @IBOutlet weak var lblCheckBox: UILabel! // default : hidden (uncheck)
     
     override func awakeFromNib() {
         vwPreviewNTimeOnly.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0)
@@ -391,6 +536,14 @@ class NotifAnggiConversationCell: UITableViewCell {
             // Set labels
             lblPreview2.text = notif.shortPreview
             lblTime2.text = notif.time
+            
+            if (notif.type == 4001) {
+                consHeightLblProductName2.constant = 16
+                lblProductName2.text = notif.objectName
+            } else {
+                consHeightLblProductName2.constant = 0
+                lblProductName2.isHidden = true
+            }
             
             // Bold subtext in label
             lblPreview2.boldSubstring(notif.userUsernameFrom)

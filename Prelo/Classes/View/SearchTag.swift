@@ -28,12 +28,32 @@ class SearchTag: BorderedView {
         s.captionHide.text = tagString
         s.captionHide.sizeToFit()
         
-        s.bounds = CGRect(x: 0, y: 0, width: s.captionHide.width+16, height: s.captionHide.height+8)
+        var isOke = false
+        var width : CGFloat = 0
+        var multiplier : CGFloat = 1
+        while (!isOke) {
+            if (s.captionHide.width/multiplier+16*multiplier <= UIScreen.main.bounds.width-16) {
+                width = s.captionHide.width/multiplier+16*multiplier
+                isOke = true
+            } else {
+                multiplier += 1
+            }
+        }
         
-        s.layer.cornerRadius = s.height/2
+        let area = s.captionHide.text?.boundsWithFontSize(s.captionHide.font, width: width)
+        
+        let halfOriginalHeight = (s.captionHide.height+8)/2
+        
+        s.bounds = CGRect(x: 0, y: 0, width: width, height: s.captionHide.height+8 >= (area?.height)!+8 ? s.captionHide.height+8 : (area?.height)!+8)
+        
+        s.layer.cornerRadius = halfOriginalHeight
         s.layer.masksToBounds = true
+        
+        s.captionTitle.numberOfLines = 0
+//        s.captionTitle.textAlignment = NSTextAlignment.left
+//        s.captionTitle.layoutMargins = UIEdgeInsetsMake(4, 8, 4, 8)
         
         return s
     }
-
+    
 }

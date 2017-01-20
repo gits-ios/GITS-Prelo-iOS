@@ -26,6 +26,27 @@ class ProductDetailCover: UIView {
     
     var isFeaturedProduct : Bool = false
     
+    var isFakeApprove : Bool = false
+    var isFakeApproveV2 : Bool = false
+    
+    @IBOutlet var vwTopBannerParent1: UIView!
+    @IBOutlet var consHeightTopBannerParent1: NSLayoutConstraint!
+    
+    @IBOutlet var vwTopBannerParent2: UIView!
+    @IBOutlet var consHeightTopBannerParent2: NSLayoutConstraint!
+    
+    @IBOutlet var vwTopBannerParent3: UIView!
+    @IBOutlet var consHeightTopBannerParent3: NSLayoutConstraint!
+    
+    @IBOutlet var vwTopBannerParent4: UIView!
+    @IBOutlet var consHeightTopBannerParent4: NSLayoutConstraint!
+    
+    @IBOutlet var vwTopBannerParent5: UIView!
+    @IBOutlet var consHeightTopBannerParent5: NSLayoutConstraint!
+    
+    var topBannerHeight : CGFloat = 0
+    
+    
     fileprivate func setup(_ images : Array<String>)
     {
         imageURLS = images
@@ -65,7 +86,9 @@ class ProductDetailCover: UIView {
             if (status != nil && !tbText.isEmpty) {
                 let screenSize: CGRect = UIScreen.main.bounds
                 let screenWidth = screenSize.width
-                let topBannerHeight : CGFloat = 30.0
+                topBannerHeight = 30.0
+                let textRect = tbText.boundsWithFontSize(UIFont.systemFont(ofSize: 11), width: screenWidth - 16)
+                topBannerHeight += textRect.height
                 let topLabelMargin : CGFloat = 8.0
                 let topBanner : UIView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: topBannerHeight), backgroundColor: Theme.ThemeOrange)
                 let topLabel : UILabel = UILabel(frame: CGRect(x: topLabelMargin, y: 0, width: screenWidth - (topLabelMargin * 2), height: topBannerHeight))
@@ -76,7 +99,22 @@ class ProductDetailCover: UIView {
                 topBanner.addSubview(topLabel)
                 if (status == 5) {
                     topLabel.text = tbText
-                    self.addSubview(topBanner)
+                    if (imageURLS.count == 1) {
+                        self.vwTopBannerParent1.addSubview(topBanner)
+                        self.consHeightTopBannerParent1.constant = topBannerHeight
+                    } else if (imageURLS.count == 2) {
+                        self.vwTopBannerParent2.addSubview(topBanner)
+                        self.consHeightTopBannerParent2.constant = topBannerHeight
+                    } else if (imageURLS.count == 3) {
+                        self.vwTopBannerParent3.addSubview(topBanner)
+                        self.consHeightTopBannerParent3.constant = topBannerHeight
+                    } else if (imageURLS.count == 4) {
+                        self.vwTopBannerParent4.addSubview(topBanner)
+                        self.consHeightTopBannerParent4.constant = topBannerHeight
+                    } else if (imageURLS.count == 5) {
+                        self.vwTopBannerParent4.addSubview(topBanner)
+                        self.consHeightTopBannerParent4.constant = topBannerHeight
+                    }
                 }
             }
         }
@@ -88,19 +126,13 @@ class ProductDetailCover: UIView {
     }
     
     func setupBanner() {
-        var isFakeApprove = false
-        if let fakeApprove = UserDefaults.standard.object(forKey: UserDefaultsKey.AbTestFakeApprove) as! Bool? {
-            if (fakeApprove == true) {
-                isFakeApprove = fakeApprove
-            }
-        }
         if (status != nil) {
             let screenSize: CGRect = UIScreen.main.bounds
             let screenWidth = screenSize.width
-            if (status == 2 && !isFakeApprove) { // under review
+            if (status == 2 && !isFakeApprove && !isFakeApproveV2) { // under review
                 banner = UIImageView(image: UIImage(named: "banner_review.png"))
                 if (banner != nil) {
-                    banner!.frame = CGRect(x: screenWidth - 150, y: 0, width: 150, height: 149)
+                    banner!.frame = CGRect(x: screenWidth - 150, y: self.topBannerHeight, width: 150, height: 149)
                     self.addSubview(banner!)
                 }
             } else if (status == 4) { // sold
@@ -108,13 +140,13 @@ class ProductDetailCover: UIView {
             } else if (status == 7) { // reserved
                 banner = UIImageView(image: UIImage(named: "banner_reserved.png"))
                 if (banner != nil) {
-                    banner!.frame = CGRect(x: screenWidth - 150, y: 0, width: 150, height: 150)
+                    banner!.frame = CGRect(x: screenWidth - 150, y: self.topBannerHeight, width: 150, height: 150)
                     self.addSubview(banner!)
                 }
             } else if (isFeaturedProduct) {
                 banner = UIImageView(image: UIImage(named: "banner_featured.png"))
                 if (banner != nil) {
-                    banner!.frame = CGRect(x: screenWidth - 150, y: 0, width: 150, height: 150)
+                    banner!.frame = CGRect(x: screenWidth - 150, y: self.topBannerHeight, width: 150, height: 150)
                     self.addSubview(banner!)
                 }
             } else {
@@ -128,7 +160,7 @@ class ProductDetailCover: UIView {
         let screenWidth = screenSize.width
         banner = UIImageView(image: UIImage(named: "banner_sold.png"))
         if (banner != nil) {
-            banner!.frame = CGRect(x: screenWidth - 150, y: 0, width: 150, height: 148)
+            banner!.frame = CGRect(x: screenWidth - 150, y: self.topBannerHeight, width: 150, height: 148)
             self.addSubview(banner!)
         }
     }
@@ -151,7 +183,7 @@ class ProductDetailCover: UIView {
     }
     */
     
-    class func instance(_ images : Array<String>, status: Int, topBannerText : String?)->ProductDetailCover?
+    class func instance(_ images : Array<String>, status: Int, topBannerText : String?, isFakeApprove: Bool, isFakeApproveV2: Bool)->ProductDetailCover?
     {
         var p : ProductDetailCover?
         if (images.count == 1) {
@@ -165,6 +197,9 @@ class ProductDetailCover: UIView {
         } else if (images.count >= 5) {
             p = Bundle.main.loadNibNamed("ProductDetailCover", owner: nil, options: nil)?.objectAtCircleIndex(4) as? ProductDetailCover
         }
+        
+        p?.isFakeApprove = isFakeApprove
+        p?.isFakeApproveV2 = isFakeApproveV2
         
         p?.status = status
         

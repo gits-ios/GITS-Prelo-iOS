@@ -32,7 +32,7 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
         super.viewWillAppear(animated)
         
         // Mixpanel
-        //Mixpanel.trackPageVisit(PageName.Inbox)
+//        Mixpanel.trackPageVisit(PageName.Inbox)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.Inbox)

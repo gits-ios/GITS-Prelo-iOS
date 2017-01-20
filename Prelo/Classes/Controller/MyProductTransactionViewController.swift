@@ -16,13 +16,13 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
     // MARK: - Properties
     
     // Views
-    @IBOutlet var tableView : UITableView!
-    @IBOutlet var lblEmpty : UILabel!
-    @IBOutlet var btnRefresh: UIButton!
-    @IBOutlet var loading : UIActivityIndicatorView!
-    @IBOutlet var bottomLoading: UIActivityIndicatorView!
-    @IBOutlet var consBottomTableView: NSLayoutConstraint!
-    @IBOutlet var searchBar: UISearchBar!
+    @IBOutlet weak var tableView : UITableView!
+    @IBOutlet weak var lblEmpty : UILabel!
+    @IBOutlet weak var btnRefresh: UIButton!
+    @IBOutlet weak var loading : UIActivityIndicatorView!
+    @IBOutlet weak var bottomLoading: UIActivityIndicatorView!
+    @IBOutlet weak var consBottomTableView: NSLayoutConstraint!
+    @IBOutlet weak var searchBar: UISearchBar!
     var refreshControl : UIRefreshControl!
     
     // Data container
@@ -57,6 +57,8 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
         self.refreshControl.tintColor = Theme.PrimaryColor
         self.refreshControl.addTarget(self, action: #selector(NotifAnggiTransactionViewController.refreshPage), for: UIControlEvents.valueChanged)
         self.tableView.addSubview(refreshControl)
+        
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
         
         // Search bar setup
         searchBar.delegate = self
@@ -165,7 +167,7 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
         let h : CGFloat = size.height
         
         let reloadDistance : CGFloat = 0
-        if (y > h + reloadDistance) {
+        if (y > h + reloadDistance && self.userProducts.count >= 10) {
             // Load next items only if all items not loaded yet and if its not currently loading items
             if (!self.isAllItemLoaded && self.bottomLoading.isHidden) {
                 // Show bottomLoading

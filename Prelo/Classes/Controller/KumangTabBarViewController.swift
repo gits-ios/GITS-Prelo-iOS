@@ -170,7 +170,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
     func subdistrictProfileCheck() {
         if (User.IsLoggedIn && CDUser.getOne() != nil && CDUserProfile.getOne() != nil && CDUserOther.getOne() != nil && (CDUserProfile.getOne()?.subdistrictID == nil || CDUserProfile.getOne()?.subdistrictID == "")) {
             let sdAlert = UIAlertController(title: "Perhatian", message: "Lengkapi kecamatan di profil kamu sekarang untuk ongkos kirim yang lebih akurat", preferredStyle: .alert)
-            sdAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+            sdAlert.addAction(UIAlertAction(title: "Oke", style: .default, handler: { action in
                 let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
                 self.navigationController?.pushViewController(userProfileVC, animated: true)
             }))
@@ -298,6 +298,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
     @IBAction func switchController(_ sender: AnyObject) {
         let btn : AppButton = sender as! AppButton
         if (btn.stringTag == Tags.Browse) {
+            if isAlreadyGetCategory == false {
+                self.showLoading()
+            }
             self.setupNormalOptions() // Agar notification terupdate
             changeToController(controllerBrowse!)
             
@@ -308,6 +311,8 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
             }
             
         } else {
+            self.hideLoading()
+            
             if (User.IsLoggedIn) {
                 print("To Dashboard")
                 controllerDashboard?.previousController = self

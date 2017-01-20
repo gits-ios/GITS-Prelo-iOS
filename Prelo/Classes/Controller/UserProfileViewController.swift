@@ -86,7 +86,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         super.viewDidAppear(animated)
         
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.EditProfile)
+//        Mixpanel.trackPageVisit(PageName.EditProfile)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.EditProfile)
@@ -303,7 +303,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             a.addAction(UIAlertAction(title: "Album", style: .default, handler: { act in
                 self.present(i, animated: true, completion: nil)
             }))
-            a.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { act in }))
+            a.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in }))
             self.present(a, animated: true, completion: nil)
         } else {
             self.present(i, animated: true, completion: nil)
@@ -865,7 +865,8 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                     "region":selectedKabKotaID,
                     "postal_code":fieldKodePos.text == nil ? "" : fieldKodePos.text!,
                     "description":tentangShop,
-                    "shipping":shipping
+                    "shipping":shipping,
+                    "platform_sent_from" : "ios"
                 ]
                 var images : [UIImage] = []
                 images.append(imgUser.image!)

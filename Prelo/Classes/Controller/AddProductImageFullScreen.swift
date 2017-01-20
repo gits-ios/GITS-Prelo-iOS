@@ -11,7 +11,7 @@ import UIKit
 protocol AddProductImageFullScreenDelegate
 {
     func imageFullScreenDidDelete(_ controller : AddProductImageFullScreen)
-    func imageFullScreenDidReplace(_ controller : AddProductImageFullScreen, image : APImage)
+    func imageFullScreenDidReplace(_ controller : AddProductImageFullScreen, image : APImage, isCamera : Bool, name : String)
 }
 
 class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate /* AVIARY IS DISABLED , AdobeUXImageEditorViewControllerDelegate*/
@@ -26,6 +26,8 @@ class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate, UIIma
     @IBOutlet var popOverSourceView: UIView!
     var index = 0
     var apImage : APImage!
+    var isCamera : Bool = false
+    var name : String = ""
     
     /* AVIARY IS DISABLED var imgEditor : AdobeUXImageEditorViewController?*/
     
@@ -67,7 +69,7 @@ class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate, UIIma
     
     @IBAction func done()
     {
-        fullScreenDelegate?.imageFullScreenDidReplace(self, image: apImage)
+        fullScreenDelegate?.imageFullScreenDidReplace(self, image: apImage, isCamera: isCamera, name: name)
         self.batal()
     }
     
@@ -136,6 +138,14 @@ class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate, UIIma
         {
             self.apImage.image = img
             self.imageView.image = img
+        }
+        
+        if picker.sourceType == .camera {
+            isCamera = true
+        } else  {
+            let imageURL = info[UIImagePickerControllerReferenceURL] as! NSURL
+            let imageName = imageURL.path!.lastPathComponent + "_" + index.string
+            name = imageName
         }
         
         picker.dismiss(animated: true, completion: nil)

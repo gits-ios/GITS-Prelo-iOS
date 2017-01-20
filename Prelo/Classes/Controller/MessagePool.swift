@@ -89,6 +89,14 @@ class MessagePool: NSObject
                                 }
                                 
                                 
+                                if let at = d["attachment_type"] as? String {
+                                    i.attachmentType = at
+                                }
+                                
+                                if let au = d["attachment_url"] as? String {
+                                    i.attachmentURL = URL(string: au)!
+                                }
+                                
                                 i.isMe = i.senderId == CDUser.getOne()?.id
                                 i.time = ""
                                 i.id = ""

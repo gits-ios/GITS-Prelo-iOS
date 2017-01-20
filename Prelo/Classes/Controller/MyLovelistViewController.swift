@@ -84,7 +84,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         lblEmpty.isHidden = true
         
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.Lovelist)
+//        Mixpanel.trackPageVisit(PageName.Lovelist)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.Lovelist)
@@ -274,7 +274,7 @@ class MyLovelistCell : UITableViewCell {
                 Constant.showDialog("Warning", message: "Gagal menyimpan barang ke keranjang belanja")
             } else { // Success
                 // TODO: Kirim API add to cart
-                Constant.showDialog("Success", message: "Barang berhasil ditambahkan ke keranjang belanja")
+//                Constant.showDialog("Success", message: "Barang berhasil ditambahkan ke keranjang belanja")
                 self.delegate?.gotoCart()
             }
         }

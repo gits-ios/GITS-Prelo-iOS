@@ -52,6 +52,8 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
     
     var pathSender : AddProductShareButton?
     
+    var localId : String = ""
+    
     func updateButtons(_ sender : AddProductShareButton) {
         let tag = sender.tag
         let arr = arrayRows[tag]
@@ -267,7 +269,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         super.viewWillAppear(animated)
         
         // Mixpanel
-        //Mixpanel.trackPageVisit(PageName.ShareAddedProduct)
+//        Mixpanel.trackPageVisit(PageName.ShareAddedProduct)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.ShareAddedProduct)
@@ -376,8 +378,12 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
             "Twitter Username" : twUsername,
             "Is Instagram Shared" : instagram == "1" ? true : false,
             "Instagram Username" : igUsername,
-            "Time" : Date().isoFormatted
+            "Time" : Date().isoFormatted,
+            "platform_sent_from" : "ios"
         ] as [String : Any]
+        
+        // set state is uploading
+        CDDraftProduct.setUploading(self.localId, isUploading: true)
         
         // Add product to product uploader
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {

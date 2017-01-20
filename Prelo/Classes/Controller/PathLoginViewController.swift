@@ -34,7 +34,7 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
         super.viewDidLoad()
         
         self.navigationController?.navigationBar.tintColor = UIColor.white
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(PathLoginViewController.batal))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Batal", style: UIBarButtonItemStyle.plain, target: self, action: #selector(PathLoginViewController.batal))
         
         let url = URL(string: "https://partner.path.com/oauth2/authenticate?response_type=code&client_id=\(pathClientId)")
         let requestObj = Foundation.URLRequest(url: url!)

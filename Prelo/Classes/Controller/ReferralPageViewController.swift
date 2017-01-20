@@ -66,7 +66,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         loading.startAnimating()
         
         // Mixpanel
-        //Mixpanel.trackPageVisit(PageName.Referral)
+//        Mixpanel.trackPageVisit(PageName.Referral)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.Referral)
@@ -87,6 +87,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                     a.message = "Mohon verifikasi e-mail kamu untuk mendapatkan referral bonus dari Prelo"
                     a.addButton(withTitle: "Batal")
                     a.addButton(withTitle: "Kirim E-mail Konfirmasi")
+                    a.cancelButtonIndex = 0
                     a.delegate = self
                     a.show()
                 } else {
@@ -176,7 +177,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                 }
                 
                 // Set shareText
-                self.shareText = "Download aplikasi Prelo dan dapatkan bonus Rp 25.000 dengan mengisikan referral: \(self.lblKodeReferral.text!)"
+                self.shareText = "Download aplikasi Prelo dan dapatkan bonus Rp25.000 dengan mengisikan referral: \(self.lblKodeReferral.text!)"
                 
                 self.loadingPanel.isHidden = true
                 self.loading.stopAnimating()

@@ -207,11 +207,11 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     
     func setupContent() {
         // Mixpanel
-        let param = [
-            "ID" : ((self.transactionId != nil) ? self.transactionId! : ""),
-            "Progress" : ((self.transactionDetail != nil) ? "\(self.transactionDetail!.progress)" : "")
-        ]
-        Mixpanel.trackPageVisit(PageName.TransactionDetail, otherParam: param)
+//        let param = [
+//            "ID" : ((self.transactionId != nil) ? self.transactionId! : ""),
+//            "Progress" : ((self.transactionDetail != nil) ? "\(self.transactionDetail!.progress)" : "")
+//        ]
+//        Mixpanel.trackPageVisit(PageName.TransactionDetail, otherParam: param)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.TransactionDetail)
@@ -531,7 +531,8 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
             noHp = p
         }
         let param = [
-            "resi_number" : noHp
+            "resi_number" : noHp,
+            "platform_sent_from" : "ios"
         ]
         var images : [UIImage] = []
         images.append(imgFotoBukti.image!)

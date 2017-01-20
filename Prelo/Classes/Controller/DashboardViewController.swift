@@ -8,6 +8,7 @@
 
 import UIKit
 import MessageUI
+import Alamofire
 
 // MARK: - Class
 
@@ -31,10 +32,16 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     
     var contactUs : UIViewController?
     
+    var feedback: FeedbackPopup?
+    
     // MARK: - Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // regiter cell
+        
+        tableView?.register(BottomCell.self, forCellReuseIdentifier: "BottomCell")
         
         let c = CDUser.getOne()
         captionName?.text = c?.username
@@ -62,24 +69,41 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             vwHeaderLoggedOut.isHidden = true
             menus = [
                 [
+                    "type":"iconic",
                     "title":"Request",
                     "iconimg":"ic_request",
                 ],
                 [
+                    "type":"iconic",
                     "title":"Tarik Uang",
                     "iconimg":"ic_tarik_uang",
                 ],
                 [
+                    "type":"iconic",
                     "title":"Referral Bonus",
                     "iconimg":"ic_voucher"
                 ],
+//                [
+//                    "type":"iconic",
+//                    "title":"Achievement",
+//                    "iconimg":"ic_achievement"
+//                ],
                 [
+                    "type":"iconic",
                     "title":"Bantuan",
                     "iconimg":"ic_faq"
                 ],
                 [
+                    "type":"text-separator",
+                    "title":"Feedback",
+                ],
+                [
+                    "type":"text",
                     "title":"About",
-                    "iconimg":"ic_about"
+                    "iconimg":"ic_about" // not uses
+                ],
+                [
+                    "type":"blank"
                 ]
             ]
         } else {
@@ -89,17 +113,21 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             vwTopMenu.frame = CGRect(x: vwTopMenuFrame.origin.x, y: vwTopMenuFrame.origin.y, width: vwTopMenuFrame.width, height: VwTopMenuHeightLoggedOut)
             menus = [
                 [
+                    "type":"iconic",
                     "title":"Referral Bonus",
                     "iconimg":"ic_voucher"
                 ],
                 [
+                    "type":"iconic",
                     "title":"Bantuan",
                     "iconimg":"ic_faq"
                 ],
                 [
+                    "type":"text-separator",
                     "title":"About",
-                    "iconimg":"ic_about"
+                    "iconimg":"ic_about" // not use
                 ]
+
             ]
         }
         
@@ -109,6 +137,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         tableView?.tableFooterView = UIView()
         
         tableView?.contentInset = UIEdgeInsetsMake(0, 0, 40, 0)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -116,13 +145,13 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         
         if (User.IsLoggedIn) {
             // Mixpanel
-            //Mixpanel.trackPageVisit(PageName.DashboardLoggedIn)
+//            Mixpanel.trackPageVisit(PageName.DashboardLoggedIn)
             
             // Google Analytics
             GAI.trackPageVisit(PageName.DashboardLoggedIn)
         } else {
             // Mixpanel
-            //Mixpanel.trackPageVisit(PageName.DashboardLoggedOut)
+//            Mixpanel.trackPageVisit(PageName.DashboardLoggedOut)
             
             // Google Analytics
             GAI.trackPageVisit(PageName.DashboardLoggedOut)
@@ -169,30 +198,62 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell : DashboardCell = tableView.dequeueReusableCell(withIdentifier: "cell") as! DashboardCell
         let m : [String : String] = (menus?.objectAtCircleIndex((indexPath as NSIndexPath).row))!
         
-        if let isPreloAwesome = m["PreloAwesome"] { // Icon is from font
-            if (isPreloAwesome == "1") {
-                cell.captionIcon?.font = AppFont.preloAwesome.getFont(24)!
-            } else {
-                cell.captionIcon?.font = AppFont.prelo2.getFont(24)!
+        if m["type"] == "iconic" {
+            let cell : DashboardCell = tableView.dequeueReusableCell(withIdentifier: "cell") as! DashboardCell
+            
+            if let isPreloAwesome = m["PreloAwesome"] { // Icon is from font
+                if (isPreloAwesome == "1") {
+                    cell.captionIcon?.font = AppFont.preloAwesome.getFont(24)!
+                } else {
+                    cell.captionIcon?.font = AppFont.prelo2.getFont(24)!
+                }
+                cell.captionIcon?.text = m["icon"]
+            } else { // Icon is from image
+                cell.captionIcon?.text = ""
+                let img = UIImage(named: m["iconimg"]!)
+                let iconImg = UIImageView(image: img)
+                iconImg.tintColor = Theme.PrimaryColorDark
+                iconImg.frame = CGRect(x: 8, y: 10, width: 26, height: 26)
+                
+                // if raisa.jpg
+//                if m["title"] == "Achievement" {
+//                    iconImg.layoutIfNeeded()
+//                    iconImg.layer.cornerRadius = (iconImg.width) / 2
+//                    iconImg.layer.masksToBounds = true
+//                }
+                
+                cell.addSubview(iconImg)
             }
-            cell.captionIcon?.text = m["icon"]
-        } else { // Icon is from image
-            cell.captionIcon?.text = ""
-            let img = UIImage(named: m["iconimg"]!)
-            let iconImg = UIImageView(image: img)
-            iconImg.tintColor = Theme.PrimaryColorDark
-            iconImg.frame = CGRect(x: 8, y: 10, width: 26, height: 26)
-            cell.addSubview(iconImg)
+            
+            cell.captionTitle?.text = m["title"]
+            cell.selectionStyle = .none
+            
+            return cell
+            
+        } else if m["type"] == "text" || m["type"] == "text-separator" {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "BottomCell")
+            cell?.textLabel?.font = UIFont.systemFont(ofSize: 16)
+            cell?.textLabel?.textColor = UIColor(hex: "555555")
+            
+            cell?.textLabel!.text = m["title"]
+            cell?.selectionStyle = .none
+            
+            if m["type"] == "text-separator" {
+                let inView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: 1), backgroundColor: UIColor(hex: "AAAAAA"))
+            
+                cell?.contentView.addSubview(inView)
+            }
+            return cell!
+
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "BottomCell")
+            cell?.textLabel!.text = ""
+            cell?.selectionStyle = .none
+            
+            return cell!
         }
-        
-        cell.captionTitle?.text = m["title"]
-        cell.selectionStyle = .none
-        
-        
-        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -204,11 +265,17 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 self.launchTarikUang()
             } else if ((indexPath as NSIndexPath).row == 2) { // Referral bonus
                 self.launchFreeVoucher()
-            } else if ((indexPath as NSIndexPath).row == 3) { // Bantuan
+            } /*else if ((indexPath as NSIndexPath).row == 3) { // Achievement
+                self.launchAchievement()
+            }*/ else if ((indexPath as NSIndexPath).row == 3) { // Bantuan
                 self.launchFAQ()
-            } else if ((indexPath as NSIndexPath).row == 4) { // About
+            } else if ((indexPath as NSIndexPath).row == 4) { // Feedback
+                self.launchRateUs()
+            } else if ((indexPath as NSIndexPath).row == 5) { // About
                 self.launchAbout()
-            }
+            } /*else if (AppTools.isDev) { // row 7
+                self.lauchTestingFeature()
+            }*/
         } else {
             if ((indexPath as NSIndexPath).row == 0) { // Referral bonus
                 self.launchFreeVoucher()
@@ -217,6 +284,18 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             } else if ((indexPath as NSIndexPath).row == 2) { // About
                 self.launchAbout()
             }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let m : [String : String] = (menus?.objectAtCircleIndex((indexPath as NSIndexPath).row))!
+        
+        if m["title"] == "Feedback" {
+            return 45 + 1 // separator
+            
+        } else {
+            return 45
+            
         }
     }
     
@@ -284,11 +363,17 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     
     func launchMyPage() {
         if let me = CDUser.getOne() {
-            let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
-            l.currentMode = .shop
-            l.shopName = me.username
-            l.shopId = me.id
-            self.navigationController?.pushViewController(l, animated: true)
+            if (!AppTools.isNewShop) {
+                let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+                l.currentMode = .shop
+                l.shopName = me.username
+                l.shopId = me.id
+                self.navigationController?.pushViewController(l, animated: true)
+            } else {
+                let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+                storePageTabBarVC.shopId = me.id
+                self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+            }
         }
     }
     
@@ -340,6 +425,41 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         }
     }
     
+    func launchAchievement() {
+        let AchievementVC = Bundle.main.loadNibNamed(Tags.XibNameAchievement, owner: nil, options: nil)?.first as! AchievementViewController
+        self.navigationController?.pushViewController(AchievementVC, animated: true)
+    }
+
+    func launchRateUs() {
+//        Constant.showDialog("Feedback", message: "Coba!")
+        self.setupPopUp()
+        self.feedback?.isHidden = false
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.feedback?.setupPopUp()
+            self.feedback?.displayPopUp(.rate)
+        })
+    }
+    
+    func rateApp(appId: String, completion: @escaping ((_ success: Bool)->())) {
+        guard let url = URL(string : "itms-apps://itunes.apple.com/app/" + appId) else {
+            completion(false)
+            return
+        }
+        guard #available(iOS 10, *) else {
+            completion(UIApplication.shared.openURL(url))
+            return
+        }
+        UIApplication.shared.open(url, options: [:], completionHandler: completion)
+    }
+    
+    func lauchTestingFeature() {
+        // new shop page -- OKE
+        let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+        storePageTabBarVC.shopId = CDUser.getOne()?.id
+        self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+    }
+    
     func launchFAQ() {
         let helpVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
         helpVC.url = "https://prelo.co.id/faq?ref=preloapp"
@@ -348,6 +468,20 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         let baseNavC = BaseNavigationController()
         baseNavC.setViewControllers([helpVC], animated: false)
         self.present(baseNavC, animated: true, completion: nil)
+        
+        
+        // Hotline
+        
+        //            FAQOptions *options = [FAQOptions new];
+        //            options.showContactUsOnFaqScreens = NO;
+        //            options.showContactUsOnAppBar=NO;
+        //            [[Hotline sharedInstance]showFAQs:self withOptions:options];
+        
+//        let options : FAQOptions = FAQOptions()
+//        options.showContactUsOnFaqScreens = true
+//        options.showContactUsOnAppBar = false
+//        options.showFaqCategoriesAsGrid = true
+//        Hotline.sharedInstance().showFAQs(self, with: options)
     }
     
     func launchAbout() {
@@ -367,6 +501,84 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         }
         controller.dismiss(animated: true, completion: nil)
     }
+    
+    // MARK: - Setup popup
+    func setupPopUp() {
+        // setup popup
+        if (self.feedback == nil) {
+            self.feedback = Bundle.main.loadNibNamed("FeedbackPopup", owner: nil, options: nil)?.first as? FeedbackPopup
+            self.feedback?.frame = self.view.frame
+            self.feedback?.tag = 100
+            self.feedback?.isHidden = true
+            self.feedback?.backgroundColor = UIColor.clear
+            self.view.addSubview(self.feedback!)
+            
+            self.feedback?.initPopUp()
+            
+            self.feedback?.disposePopUp = {
+                self.feedback?.isHidden = true
+                self.feedback = nil
+                print("Start remove sibview")
+                if let viewWithTag = self.view.viewWithTag(100) {
+                    viewWithTag.removeFromSuperview()
+                } else {
+                    print("No!")
+                }
+            }
+            
+            self.feedback?.sendMail = {
+                let my_device = UserDefaults().value(forKey: UserDefaultsKey.UserAgent)
+                //        print("this is my_device")
+                //        print(my_device)
+                
+                //        Constant.showDialog("Device Info", message: String(describing: my_device))
+                
+                let composer = MFMailComposeViewController()
+                if (MFMailComposeViewController.canSendMail()) {
+                    composer.mailComposeDelegate = self
+                    composer.setToRecipients(["contact@prelo.co.id"])
+                    
+                    // adding title and message email
+                    composer.setSubject("Feedback")
+                    
+                    var msg = ""
+                    let user = CDUser.getOne()
+                    let username = user?.username
+                    let no_hp = user?.profiles.phone
+                    
+                    msg += "Love: " + (self.feedback?.rate)!.description + "\n"
+                    msg += "Feedback / Masukan: \n\n" + "\n---\n"
+                    
+                    
+                    if (user != nil) {
+                        msg += "Username: " + username! + "\n"
+                        msg += "No. HP: " + no_hp! + "\n"
+                    }
+                    
+                    msg += "Versi App: " + (CDVersion.getOne()?.appVersion)! + "\n"
+                    msg += "User Agent: " + String(describing: my_device)
+                    
+                    composer.setMessageBody(msg, isHTML: false)
+                    
+                    self.present(composer, animated: true, completion: nil)
+                } else {
+                    Constant.showDialog("No Active E-mail", message: "Untuk dapat menghubungi Prelo via e-mail, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
+                }
+                
+            }
+            
+            self.feedback?.openStore = {
+                /** URL APP STORE PRELO
+                 https://itunes.apple.com/id/app/prelo-jual-beli-barang-bekas/id1027248488?mt=8
+                 **/
+                
+                self.rateApp(appId: "id1027248488") { success in
+                    print("RateApp \(success)")
+                }
+            }
+        }
+
+    }
 }
 
 // MARK: - Class
@@ -374,4 +586,212 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
 class DashboardCell : UITableViewCell {
     @IBOutlet var captionTitle : UILabel?
     @IBOutlet var captionIcon : UILabel?
+}
+
+class BottomCell: UITableViewCell { // rate us, about
+    
+}
+
+// MARK: - Pop up Feedback
+enum PopUpRateMode {
+    case rate
+    case openStore
+    case sendMail
+}
+
+class FeedbackPopup: UIView, FloatRatingViewDelegate {
+    @IBOutlet weak var vwBackgroundOverlay: UIView!
+    @IBOutlet weak var vwOverlayPopUp: UIView!
+    @IBOutlet weak var vwLove: UIView!
+    @IBOutlet weak var vwPopUp: UIView!
+    @IBOutlet weak var vwPopUpStore: UIView!
+    @IBOutlet weak var vwPopUpMail: UIView!
+    @IBOutlet weak var consCenteryPopUp: NSLayoutConstraint!
+    @IBOutlet weak var consCenteryPopUpStore: NSLayoutConstraint!
+    @IBOutlet weak var consCenteryPopUpMail: NSLayoutConstraint!
+    
+    var floatRatingView: FloatRatingView!
+    var rate : Float = 0
+    
+    var disposePopUp : ()->() = {}
+    var sendMail : ()->() = {}
+    var openStore : ()->() = {}
+    
+    func setupPopUp() {
+        // Love floatable
+        self.floatRatingView = FloatRatingView(frame: CGRect(x: 27, y: 5, width: 214, height: 40)) // 268 50
+        self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
+        self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
+        // Optional params
+        self.floatRatingView.delegate = self
+        self.floatRatingView.contentMode = UIViewContentMode.scaleAspectFit
+        self.floatRatingView.maxRating = 5
+        self.floatRatingView.minRating = 0
+        self.floatRatingView.rating = rate
+        self.floatRatingView.editable = true
+        self.floatRatingView.halfRatings = false
+        self.floatRatingView.floatRatings = false
+        self.floatRatingView.tintColor = Theme.ThemeRed
+        
+        self.vwLove.addSubview(self.floatRatingView )
+    }
+    
+    func initPopUp() {
+        // Transparent panel
+        self.vwBackgroundOverlay.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.2)
+        
+        self.vwBackgroundOverlay.isHidden = false
+        self.vwOverlayPopUp.isHidden = false
+        
+        let screenSize = UIScreen.main.bounds
+        let screenHeight = screenSize.height - 64 // navbar
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = screenHeight
+        self.consCenteryPopUpStore.constant = screenHeight
+        self.consCenteryPopUpMail.constant = screenHeight
+    }
+    
+    func displayPopUp(_ type: PopUpRateMode) {
+        let screenSize = UIScreen.main.bounds
+        let screenHeight = screenSize.height - 64 // navbar
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = screenHeight
+        
+        // 1
+        let placeSelectionBar = { () -> () in
+            // parent
+            
+            switch(type) {
+            case .rate:
+                var curView = self.vwPopUp.frame
+                curView.origin.y = (screenHeight - self.vwPopUp.frame.height) / 2
+                self.vwPopUp.frame = curView
+            case .openStore:
+                var curView = self.vwPopUpStore.frame
+                curView.origin.y = (screenHeight - self.vwPopUpStore.frame.height) / 2
+                self.vwPopUpStore.frame = curView
+            case .sendMail:
+                var curView = self.vwPopUpMail.frame
+                curView.origin.y = (screenHeight - self.vwPopUpMail.frame.height) / 2
+                self.vwPopUpMail.frame = curView
+            }
+        }
+        
+        // 2
+        UIView.animate(withDuration: 0.3, animations: {
+            placeSelectionBar()
+        })
+        
+        switch(type) {
+        case .rate:
+            self.consCenteryPopUp.constant = 0
+        case .openStore:
+            self.consCenteryPopUpStore.constant = 0
+        case .sendMail:
+            self.consCenteryPopUpMail.constant = 0
+        }
+    }
+    
+    func unDisplayPopUp() {
+        let screenSize = UIScreen.main.bounds
+        let screenHeight = screenSize.height - 64 // navbar
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = 0
+        
+        // 1
+        let placeSelectionBar = { () -> () in
+            // parent
+            
+            var curView = self.vwPopUp.frame
+            curView.origin.y = screenHeight + (screenHeight - self.vwPopUp.frame.height) / 2
+            self.vwPopUp.frame = curView
+            
+            var cur2View = self.vwPopUpStore.frame
+            cur2View.origin.y = screenHeight + (screenHeight - self.vwPopUpStore.frame.height) / 2
+            self.vwPopUpStore.frame = cur2View
+            
+            var cur3View = self.vwPopUpMail.frame
+            cur3View.origin.y = screenHeight + (screenHeight - self.vwPopUpMail.frame.height) / 2
+            self.vwPopUpMail.frame = cur3View
+
+        }
+        
+        // 2
+        UIView.animate(withDuration: 0.3, animations: {
+            placeSelectionBar()
+        })
+        
+        self.consCenteryPopUp.constant = screenHeight
+        self.consCenteryPopUpStore.constant = screenHeight
+        self.consCenteryPopUpMail.constant = screenHeight
+    }
+    
+    @IBAction func btnSendPressed(_ sender: Any) {
+        self.unDisplayPopUp()
+        
+        let appVersion = CDVersion.getOne()?.appVersion
+        
+        let _ = request(APIUser.rateApp(appVersion: appVersion!, rate: Int(self.rate), review: "")).responseJSON { resp in
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Rate App")) {
+                print("rated")
+            }
+        }
+        
+        if (Int(self.rate) >= 4) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                 // rate to store
+                self.displayPopUp(.openStore)
+            })
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                // send email
+                self.displayPopUp(.sendMail)
+            })
+        }
+    }
+    
+    @IBAction func btnOpenStorePressed(_ sender: Any) {
+        self.unDisplayPopUp()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.vwOverlayPopUp.isHidden = true
+            self.vwBackgroundOverlay.isHidden = true
+            self.openStore()
+            self.disposePopUp()
+        })
+    }
+    
+    @IBAction func btnSendMailPressed(_ sender: Any) {
+        self.unDisplayPopUp()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.vwOverlayPopUp.isHidden = true
+            self.vwBackgroundOverlay.isHidden = true
+            self.sendMail()
+            self.disposePopUp()
+        })
+    }
+    
+    @IBAction func btnTidakPressed(_ sender: Any) {
+        self.unDisplayPopUp()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.vwOverlayPopUp.isHidden = true
+            self.vwBackgroundOverlay.isHidden = true
+            self.disposePopUp()
+        })
+    }
+    
+    // MARK: - FloatRatingViewDelegate
+    
+    func floatRatingView(_ ratingView: FloatRatingView, isUpdating rating:Float) {
+        self.rate = self.floatRatingView.rating
+    }
+    
+    func floatRatingView(_ ratingView: FloatRatingView, didUpdate rating: Float) {
+        self.rate = self.floatRatingView.rating
+    }
 }

@@ -58,15 +58,17 @@ class LocationFilterViewController : BaseViewController, UITableViewDataSource, 
             let new_locations : [String] = ["Semua Provinsi"]
             locations?.insert(contentsOf: new_locations, at: 0)
             tableView.reloadData()
+            self.hideLoading()
             self.title = "Daftar Provinsi"
         } else if deep == 1 {
             locations = CDRegion.getRegionPickerItems(selectedLocation!) as [String]
             let new_locations : [String] = ["Semua Kota/Kabupaten di " + selectedLocationName!]
             locations?.insert(contentsOf: new_locations, at: 0)
             tableView.reloadData()
+            self.hideLoading()
             self.title = "Daftar Kota/Kabupaten"
         } else {
-            self.showLoading()
+//            self.showLoading()
             let new_locations : [String] = ["Semua Kecamatan di " + selectedLocationName!]
             locations?.insert(contentsOf: new_locations, at: 0)
             let _ = request(APIMisc.getSubdistrictsByRegionID(id: selectedLocation!)).responseJSON { resp in
@@ -88,6 +90,11 @@ class LocationFilterViewController : BaseViewController, UITableViewDataSource, 
             }
             self.title = "Daftar Kecamatan"
         }
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
     func getRegion(_selectedLocation : String, _selectedLocationName : String) {

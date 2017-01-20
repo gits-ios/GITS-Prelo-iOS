@@ -84,8 +84,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     var mgInstagram : MGInstagram?
     
-    var isFakeApprove : Bool = false
-    
     // Up barang pop up
     @IBOutlet var vwUpBarangPopUp: UIView!
     @IBOutlet var vwUpBarangPopUpPanel: UIView!
@@ -121,12 +119,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         self.hideUpPopUp()
         self.vwUpBarangPopUp.backgroundColor = UIColor.white.withAlphaComponent(0.5)
-        
-        if let fakeApprove = UserDefaults.standard.object(forKey: UserDefaultsKey.AbTestFakeApprove) as! Bool? {
-            if (fakeApprove == true) {
-                self.isFakeApprove = fakeApprove
-            }
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -162,23 +154,23 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.slide)
         }
         
-        let p = [
-            "Product" : ((product != nil) ? (product!.name) : ""),
-            "Product ID" : ((product != nil) ? (product!.id) : ""),
-            "Category 1" : ((detail != nil && detail?.categoryBreadcrumbs.count > 1) ? (detail!.categoryBreadcrumbs[1]["name"].string!) : ""),
-            "Category 2" : ((detail != nil && detail?.categoryBreadcrumbs.count > 2) ? (detail!.categoryBreadcrumbs[2]["name"].string!) : ""),
-            "Category 3" : ((detail != nil && detail?.categoryBreadcrumbs.count > 3) ? (detail!.categoryBreadcrumbs[3]["name"].string!) : ""),
-            "Seller" : ((detail != nil) ? (detail!.theirName) : "")
-        ]
+//        let p = [
+//            "Product" : ((product != nil) ? (product!.name) : ""),
+//            "Product ID" : ((product != nil) ? (product!.id) : ""),
+//            "Category 1" : ((detail != nil && detail?.categoryBreadcrumbs.count > 1) ? (detail!.categoryBreadcrumbs[1]["name"].string!) : ""),
+//            "Category 2" : ((detail != nil && detail?.categoryBreadcrumbs.count > 2) ? (detail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+//            "Category 3" : ((detail != nil && detail?.categoryBreadcrumbs.count > 3) ? (detail!.categoryBreadcrumbs[3]["name"].string!) : ""),
+//            "Seller" : ((detail != nil) ? (detail!.theirName) : "")
+//        ]
         if (detail != nil && detail!.isMyProduct == true) {
             // Mixpanel
-            Mixpanel.trackPageVisit(PageName.ProductDetailMine, otherParam: p)
+//            Mixpanel.trackPageVisit(PageName.ProductDetailMine, otherParam: p)
             
             // Google Analytics
             GAI.trackPageVisit(PageName.ProductDetailMine)
         } else {
             // Mixpanel
-            Mixpanel.trackPageVisit(PageName.ProductDetail, otherParam: p)
+//            Mixpanel.trackPageVisit(PageName.ProductDetail, otherParam: p)
             
             // Google Analytics
             GAI.trackPageVisit(PageName.ProductDetail)
@@ -195,8 +187,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 {
                     self.detail = ProductDetail.instance(JSON(resp.result.value!))
                     self.activated = (self.detail?.isActive)!
-                    self.adjustButtonByStatus()
                     print(self.detail?.json)
+                    
+                    self.adjustButtonByStatus()
                     
                     // Setup add comment view
                     self.vwAddComment.isHidden = false
@@ -223,10 +216,10 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     func adjustButtonByStatus() {
-        if (self.detail?.status == 0) { // Inactive or under review
+        if (self.detail?.status == 0 && !((self.detail?.isFakeApproveV2)!)) { // Inactive or under review
             self.disableButton(self.btnUp)
             self.disableButton(self.btnSold)
-        } else if (self.detail?.status == 2 && !isFakeApprove) { // Under review
+        } else if (self.detail?.status == 2 && !((self.detail?.isFakeApprove)!) && !((self.detail?.isFakeApproveV2)!)) { // Under review (bukan v2)
             self.disableButton(self.btnUp)
             self.disableButton(self.btnSold)
         } else if (self.detail?.status == 3 || self.detail?.status == 4) { // sold or deleted
@@ -287,7 +280,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         {
             return
         }
-        pDetailCover = ProductDetailCover.instance((detail?.displayPicturers)!, status: (detail?.status)!, topBannerText: (detail?.rejectionText))
+        pDetailCover = ProductDetailCover.instance((detail?.displayPicturers)!, status: (detail?.status)!, topBannerText: (detail?.rejectionText), isFakeApprove: (detail?.isFakeApprove)!, isFakeApproveV2: (detail?.isFakeApproveV2)!)
         pDetailCover?.parent = self
         pDetailCover?.largeImageURLS = (detail?.originalPicturers)!
         if let isFeatured = self.product?.isFeatured , isFeatured {
@@ -298,7 +291,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         {
             pDetailCover?.labels = labels
         }
-        pDetailCover?.height = UIScreen.main.bounds.size.width * 340 / 480
+        pDetailCover?.height = UIScreen.main.bounds.size.width * 340 / 480 + (pDetailCover?.topBannerHeight)!
         tableView?.tableHeaderView = pDetailCover
         
         if (detail?.json["_data"]["price"].int?.asPrice) != nil
@@ -438,7 +431,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         //        a.show(in: self.view)
         
         a.addButton(withTitle: "Batal")
-        a.destructiveButtonIndex = 1
+        a.cancelButtonIndex = 1
         
         // bound location
         let screenSize: CGRect = UIScreen.main.bounds
@@ -578,7 +571,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             }
                             instagramSharePreview.copyAndShare = {
                                 UIPasteboard.general.string = "\(textToShare)\(hashtags)"
-                                Constant.showDialog("Text sudah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
+                                Constant.showDialog("Data telah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
                                 self.mgInstagram = MGInstagram()
                                 self.mgInstagram?.post(img, withCaption: textToShare, in: self.view, delegate: self)
                                 let _ = request(APIProduct.shareCommission(pId: (self.detail?.productID)!, instagram: "1", path: "0", facebook: "0", twitter: "0")).responseJSON { resp in
@@ -696,39 +689,45 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             let cell : ProductCellDiscussion = (tableView.dequeueReusableCell(withIdentifier: "cell_disc_1") as? ProductCellDiscussion)!
             cell.adapt(detail?.discussions?.objectAtCircleIndex((indexPath as NSIndexPath).row-3))
             
-            let userid = CDUser.getOne()?.id
-            let senderid = cell.senderId
+            let userId = CDUser.getOne()?.id
+            let senderId = cell.senderId
             
-            if userid != senderid && cell.isDeleted == false {
+            if userId != senderId && cell.isDeleted == false {
             
-            cell.showReportAlert = { sender, commentId in
-                let alert = UIAlertController(title: nil, message: "Laporkan Komentar", preferredStyle: .actionSheet)
-                alert.popoverPresentationController?.sourceView = sender
-                alert.popoverPresentationController?.sourceRect = sender.bounds
-                alert.addAction(UIAlertAction(title: "Mengganggu / spam", style: .default, handler: { act in
-                    self.reportComment(commentId: commentId, reportType: 0)
-                    alert.dismiss(animated: true, completion: nil)
-                }))
-                alert.addAction(UIAlertAction(title: "Tidak layak", style: .default, handler: { act in
-                    self.reportComment(commentId: commentId, reportType: 1)
-                    alert.dismiss(animated: true, completion: nil)
-                }))
-                alert.addAction(UIAlertAction(title: "Batal", style: .destructive, handler: { act in
-                    alert.dismiss(animated: true, completion: nil)
-                }))
-                self.present(alert, animated: true, completion: nil)
-
-            }
+                cell.showReportAlert = { sender, commentId in
+                    let alert = UIAlertController(title: nil, message: "Laporkan Komentar", preferredStyle: .actionSheet)
+                    alert.popoverPresentationController?.sourceView = sender
+                    alert.popoverPresentationController?.sourceRect = sender.bounds
+                    alert.addAction(UIAlertAction(title: "Mengganggu / spam", style: .default, handler: { act in
+                        self.reportComment(commentId: commentId, reportType: 0)
+                        alert.dismiss(animated: true, completion: nil)
+                    }))
+                    alert.addAction(UIAlertAction(title: "Tidak layak", style: .default, handler: { act in
+                        self.reportComment(commentId: commentId, reportType: 1)
+                        alert.dismiss(animated: true, completion: nil)
+                    }))
+                    alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in
+                        alert.dismiss(animated: true, completion: nil)
+                    }))
+                    self.present(alert, animated: true, completion: nil)
+                    
+                }
                 
             } else{
                 cell.doHide()
             }
             cell.goToProfile = { userId in
-                let vc = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
-                vc.currentMode = .shop
-                vc.shopId = userId
-                
-                self.navigationController?.pushViewController(vc, animated: true)
+                if (!AppTools.isNewShop) {
+                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+                    vc.currentMode = .shop
+                    vc.shopId = userId
+                    
+                    self.navigationController?.pushViewController(vc, animated: true)
+                } else {
+                    let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+                    storePageTabBarVC.shopId = userId
+                    self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+                }
             }
             return cell
         }
@@ -783,7 +782,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             } else if ((indexPath as NSIndexPath).row == 1) {
                 return ProductCellSeller.heightFor(detail?.json)
             } else {
-                return ProductCellDescription.heightFor(detail) + 50 - (detail?.specialStory != "" ? 0 : 20)
+                return ProductCellDescription.heightFor(detail) - (detail?.specialStory != "" ? 0 : 10) //+ 50
             }
         } else {
             return ProductCellDiscussion.heightFor(detail?.discussions?.objectAtCircleIndex((indexPath as NSIndexPath).row-3))
@@ -793,19 +792,25 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if ((indexPath as NSIndexPath).section == 0 && (indexPath as NSIndexPath).row == 1)
         {
-            let d = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
-            d.currentMode = .shop
-            if let name = detail?.json["_data"]["seller"]["username"].string
-            {
-                d.shopName = name
+            if (!AppTools.isNewShop) {
+                let d = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+                d.currentMode = .shop
+                if let name = detail?.json["_data"]["seller"]["username"].string
+                {
+                    d.shopName = name
+                }
+                
+                if let name = detail?.json["_data"]["seller"]["_id"].string
+                {
+                    d.shopId = name
+                }
+                
+                self.navigationController?.pushViewController(d, animated: true)
+            } else {
+                let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+                storePageTabBarVC.shopId = detail?.json["_data"]["seller"]["_id"].string
+                self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
             }
-            
-            if let name = detail?.json["_data"]["seller"]["_id"].string
-            {
-                d.shopId = name
-            }
-            
-            self.navigationController?.pushViewController(d, animated: true)
         }
     }
     
@@ -841,7 +846,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
     @IBAction func soldPressed(_ sender: AnyObject) {
         let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah terjual? (Aksi ini tidak bisa dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Tidak", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Tidak", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
             self.showLoading()
             if let productId = self.detail?.productID {
@@ -872,6 +877,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             self.tableView?.isHidden = true
             self.getDetail()
         }
+        a.topBannerText = (detail?.rejectionText)
         // API Migrasi
         let _ = request(APIProduct.detail(productId: detail!.productID, forEdit: 1)).responseJSON {resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Barang")) {
@@ -1567,6 +1573,10 @@ class ProductCellSeller : UITableViewCell
     @IBOutlet var captionLastSeen: UILabel!
     @IBOutlet var ivSellerAvatar : UIImageView?
     
+    // love floatable
+    @IBOutlet var vwLove: UIView!
+    var floatRatingView: FloatRatingView!
+    
     static func heightFor(_ obj : JSON?)->CGFloat
     {
         return 86
@@ -1581,18 +1591,36 @@ class ProductCellSeller : UITableViewCell
         
         captionSellerName?.text = product["seller"]["username"].stringValue
         let average_star = product["seller"]["average_star"].floatValue
-        var stars = ""
-        for x in 0...4
-        {
-            if (Float(x) <= average_star - 0.5)
-            {
-                stars = stars+""
-            } else
-            {
-                stars = stars+""
-            }
-        }
-        captionSellerRating?.text = stars
+//        var stars = ""
+//        for x in 0...4
+//        {
+//            if (Float(x) <= average_star - 0.5)
+//            {
+//                stars = stars+""
+//            } else
+//            {
+//                stars = stars+""
+//            }
+//        }
+//        captionSellerRating?.text = stars
+        
+        // Love floatable
+        self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 0, width: 90, height: 16))
+        self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
+        self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
+        // Optional params
+        //                self.floatRatingView.delegate = self
+        self.floatRatingView.contentMode = UIViewContentMode.scaleAspectFit
+        self.floatRatingView.maxRating = 5
+        self.floatRatingView.minRating = 0
+        self.floatRatingView.rating = average_star
+        self.floatRatingView.editable = false
+        self.floatRatingView.halfRatings = true
+        self.floatRatingView.floatRatings = true
+        self.floatRatingView.tintColor = Theme.ThemeRed
+        
+        self.vwLove.addSubview(self.floatRatingView )
+        
         let lastSeenSeller = obj!.lastSeenSeller
         if (lastSeenSeller != "") {
             let formatter = DateFormatter()
@@ -1626,6 +1654,9 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
     @IBOutlet var captionMerk : ZSWTappableLabel?
     @IBOutlet var captionCategory : ZSWTappableLabel?
     
+    @IBOutlet var consHeightWaktuJaminan: NSLayoutConstraint!
+    
+    
     var cellDelegate : ProductCellDelegate?
     
     override func awakeFromNib() {
@@ -1658,7 +1689,9 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         
         let size = desc2.boundingRect(with: cons, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName:font], context: nil)
         
-        let s = "Jaminan 100% uang kembali jika pesananmu tidak sampai".boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: UIScreen.main.bounds.size.width-66)
+        let string : String = "Waktu Jaminan Prelo: Belanja bergaransi dengan waktu jaminan hingga 3x24 jam setelah barang diterima jika barang terbukti KW, memiliki cacat yang tidak diinformasikan, atau berbeda dari yang dipesan"
+        
+        let s = string.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: UIScreen.main.bounds.size.width-66)
         
         let arr = product["category_breadcrumbs"].array!
         var categoryString : String = ""
@@ -1798,6 +1831,12 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
             defect = "-"
         }
         captionConditionDesc?.text = defect
+        
+        let string : String = "Waktu Jaminan Prelo: Belanja bergaransi dengan waktu jaminan hingga 3x24 jam setelah barang diterima jika barang terbukti KW, memiliki cacat yang tidak diinformasikan, atau berbeda dari yang dipesan"
+        
+        let s2 = string.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: UIScreen.main.bounds.size.width-66)
+        
+        self.consHeightWaktuJaminan.constant = s2.height
     }
     
     func tappableLabel(_ tappableLabel: ZSWTappableLabel!, tappedAt idx: Int, withAttributes attributes: [AnyHashable: Any]!) {
@@ -1845,11 +1884,19 @@ class ProductCellDiscussion : UITableViewCell
         return h
     }
     
+    func setupCover() {
+        ivCover?.layoutIfNeeded()
+        ivCover?.layer.cornerRadius = (ivCover?.frame.size.width)!/2
+        ivCover?.layer.masksToBounds = true
+    }
+    
     func adapt(_ obj : ProductDiscussion?)
     {
         if (obj == nil) {
             return
         }
+        setupCover()
+        
         var json = (obj?.json)!
         commentId = json["_id"].stringValue
         senderId = json["sender_id"].stringValue

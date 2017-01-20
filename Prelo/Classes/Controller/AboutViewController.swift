@@ -63,7 +63,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         super.viewWillAppear(animated)
         
         // Mixpanel
-        //Mixpanel.trackPageVisit(PageName.About)
+//        Mixpanel.trackPageVisit(PageName.About)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.About)
@@ -97,12 +97,16 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         a.message = "Reload App Data membutuhkan waktu beberapa saat. Lanjutkan?"
         a.addButton(withTitle: "Batal")
         a.addButton(withTitle: "Reload App Data")
+        a.cancelButtonIndex = 0
         a.delegate = self
         a.show()
     }
     
-    @IBAction func clearCache()
-    {
+    @IBAction func clearCache() {
+        toClearCache(isButton: true)
+    }
+    
+    func toClearCache(isButton : Bool) {
         disableBtnClearCache()
         //UIImageView.sharedImageCache().clearAll()
         
@@ -121,15 +125,22 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Clear Cache")) {
                 self.enableBtnClearCache()
                 
-                UIAlertView.SimpleShow("Clear Cache", message: "Clear Cache telah berhasil")
+                if isButton {
+                    Constant.showDialog("Clear Cache", message: "Clear Cache telah berhasil")
+                }
             } else {
                 self.enableBtnClearCache()
             }
         }
+        
+        CDDraftProduct.deleteAll()
     }
     
     @IBAction func logout()
     {
+        // Clear Cache --> for handling login another account
+//        toClearCache(isButton: false)
+        
         // Remove deviceRegId so the device won't receive push notification
         LoginViewController.SendDeviceRegId()
         

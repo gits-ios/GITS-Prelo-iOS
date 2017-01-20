@@ -28,7 +28,7 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
         }
         
         // Mixpanel
-        //Mixpanel.trackPageVisit(PageName.Contact)
+//        Mixpanel.trackPageVisit(PageName.Contact)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.Contact)
@@ -52,7 +52,6 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
                 Constant.showDialog("Perhatian", message: "Nomor kami sudah ada di clipboard :)")
             }
         }
-        
         self.batal(nil)
     }
     
@@ -119,6 +118,7 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
         self.batal(nil)
     }
 
+    // disabled
     @IBAction func wasap(_ sender : UIView)
     {
         Constant.showDialog("Whatsapp", message: "Find us on Whatsapp\nNumber : 08112353131\n\nInformasi kontak sudah disalin ke clipboard")
@@ -126,6 +126,7 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
         self.batal(nil)
     }
     
+    // disabled
     @IBAction func bbm(_ sender : UIView)
     {
         Constant.showDialog("BBM", message: "Find us on Whatsapp\nPIN : 51ac2b2e\n\nInformasi kontak sudah disalin ke clipboard")

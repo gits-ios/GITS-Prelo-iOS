@@ -62,7 +62,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         self.view.addGestureRecognizer(pinchIn)
         
         // Mixpanel
-        //Mixpanel.trackPageVisit(PageName.Home, otherParam: ["Category" : "All"])
+//        Mixpanel.trackPageVisit(PageName.Home, otherParam: ["Category" : "All"])
         //Mixpanel.sharedInstance().timeEvent(MixpanelEvent.CategoryBrowsed)
         
         // Google Analytics
@@ -87,6 +87,11 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             }
             UserDefaults.standard.removeObject(forKey: UserDefaultsKey.RedirectFromHome)
         }
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
     func grandRefresh() {
@@ -422,7 +427,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 UIApplication.shared.openURL(URL(string: "itms-apps://itunes.apple.com/id/app/prelo/id1027248488")!)
             }))
             if let isForceUpdate = UserDefaults.standard.object(forKey: UserDefaultsKey.UpdatePopUpForced) as? Bool , !isForceUpdate {
-                alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+                alert.addAction(UIAlertAction(title: "Batal", style: .default, handler: nil))
             }
             UserDefaults.standard.set("", forKey: UserDefaultsKey.UpdatePopUpVer)
             UserDefaults.standard.synchronize()
@@ -583,7 +588,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 let pt = [
                     "Category" : categoriesFix[i]["name"].string!
                 ]
-                //Mixpanel.trackPageVisit(PageName.Home, otherParam: pt)
+//                Mixpanel.trackPageVisit(PageName.Home, otherParam: pt)
                 Mixpanel.sharedInstance().timeEvent(MixpanelEvent.CategoryBrowsed)
                 Mixpanel.trackEvent(MixpanelEvent.CategoryBrowsed, properties: pt)
                 isPageTracked = true

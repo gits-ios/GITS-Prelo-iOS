@@ -30,7 +30,7 @@ class PhoneReverificationViewController : BaseViewController {
         super.viewDidAppear(animated)
         
         // Mixpanel
-        //Mixpanel.trackPageVisit(PageName.ChangePhone)
+//        Mixpanel.trackPageVisit(PageName.ChangePhone)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.ChangePhone)

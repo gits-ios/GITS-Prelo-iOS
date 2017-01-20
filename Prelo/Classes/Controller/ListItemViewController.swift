@@ -39,7 +39,6 @@ fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   }
 }
 
-
 // MARK: - Class
 
 enum ListItemSectionType {
@@ -48,6 +47,7 @@ enum ListItemSectionType {
     case subcategories
     case segments
     case products
+    case aboutShop
 }
 
 enum ListItemMode {
@@ -57,6 +57,7 @@ enum ListItemMode {
     case featured
     case segment
     case filter
+    case newShop
 }
 
 class ListItemViewController: BaseViewController, MFMailComposeViewControllerDelegate, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, FilterDelegate, CategoryPickerDelegate, ListBrandDelegate {
@@ -121,6 +122,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var shopId = ""
     var shopName = ""
     var shopHeader : StoreHeader?
+    var shopAvatar : URL?
     // For segment mode
     var segments : [SegmentItem] = []
     var selectedSegment : String = ""
@@ -138,6 +140,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var fltrSizes : [String] = []
     var fltrSortBy : String = "" // "recent"/"lowest_price"/"highest_price"/"popular"
     var fltrLocation : [String] = ["Semua Provinsi", "", "0", "Semua Province  "] // name , id, type --> 0: province, 1: region, 2: subdistrict
+    var fltrAggregateId : String = "" // agregateid
     // Views
     @IBOutlet var vwTopHeaderFilter: UIView!
     @IBOutlet var consTopTopHeaderFilter: NSLayoutConstraint!
@@ -161,10 +164,28 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var isShowSubcategory : Bool = false
     var subcategoryItems : [SubcategoryItem] = []
     
+    // state navbar for .shop
+    var isFirst = true
+    var isTransparent = true
+    var initY = CGFloat(0)
+    
+    var floatRatingView: FloatRatingView!
+    
+    // delegate for newShop
+    weak var delegate: NewShopHeaderDelegate?
+    var newShopHeader : StoreInfo?
+    var shopData: JSON!
+    var isExpand = false
+    
     // MARK: - Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if (currentMode == .newShop) {
+            let StoreInfo = UINib(nibName: "StorePageShopHeader", bundle: nil)
+            gridView.register(StoreInfo, forCellWithReuseIdentifier: "StorePageShopHeader")
+        }
         
         // listStage initiation
         if (AppTools.isIPad) {
@@ -177,8 +198,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         switch currentMode {
         case .standalone:
             self.title = standaloneCategoryName
-        case .shop:
-            self.title = shopName
+//        case .shop:
+//            self.title = shopName
         default:
             if let name = categoryJson?["name"].string {
                 self.title = name
@@ -195,7 +216,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         self.gridView.addSubview(refresher!)
         
         // Setup content for filter, shop, or standalone mode
-        if (currentMode == .standalone || currentMode == .shop || currentMode == .filter) {
+        if (currentMode == .standalone || currentMode == .shop || currentMode == .filter || currentMode == .newShop) {
             self.setupContent()
         }
     }
@@ -226,6 +247,11 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         if (currentMode == .filter) {
             self.setStatusBarBackgroundColor(color: UIColor.clear)
         }
+        
+        if (currentMode == .shop || currentMode == .newShop) {
+            self.defaultNavigationBar()
+        }
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -238,24 +264,35 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
         
         // Mixpanel for store mode
-        if (currentMode == .shop) {
+        if (currentMode == .shop || currentMode == .newShop) {
             if (User.IsLoggedIn && self.shopId == User.Id!) {
                 // Mixpanel
-                Mixpanel.trackPageVisit(PageName.ShopMine)
+//                Mixpanel.trackPageVisit(PageName.ShopMine)
                 
                 // Google Analytics
                 GAI.trackPageVisit(PageName.ShopMine)
             } else {
                 // Mixpanel
-                let p = [
-                    "Seller" : shopName,
-                    "Seller ID" : self.shopId
-                ]
-                Mixpanel.trackPageVisit(PageName.Shop, otherParam: p)
+//                let p = [
+//                    "Seller" : shopName,
+//                    "Seller ID" : self.shopId
+//                ]
+//                Mixpanel.trackPageVisit(PageName.Shop, otherParam: p)
                 
                 // Google Analytics
                 GAI.trackPageVisit(PageName.Shop)
             }
+        }
+        
+        // for handle navigation
+//        self.isTransparent = !self.isTransparent
+        if (currentMode == .shop && self.isTransparent) {
+            self.isTransparent = !self.isTransparent
+            self.transparentNavigationBar(true)
+            self.isFirst = false
+        } else if (currentMode == .newShop && (self.delegate?.getTransparentcy())!) {
+            self.delegate?.setTransparentcy(!((self.delegate?.getTransparentcy())!))
+            self.transparentNavigationBar(true)
         }
     }
     
@@ -335,7 +372,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             
             // Adjust content base on the mode
             switch (currentMode) {
-            case .default, .standalone, .shop:
+            case .default, .standalone, .shop, .newShop:
                 // Upper 4px padding handling
                 self.consTopTopHeader.constant = 0
                 
@@ -439,6 +476,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func refresh() {
+        if (self.currentMode == .shop && self.isFirst == false) {
+            self.transparentNavigationBar(false)
+        }
+        
         self.requesting = true
         self.products = []
         self.done = false
@@ -446,7 +487,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         self.setupGrid() // Agar muncul loading
         
         switch (currentMode) {
-        case .shop, .filter:
+        case .shop, .filter, .newShop:
             self.getProducts()
         case .featured:
             self.getFeaturedProducts()
@@ -509,6 +550,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             }
         case .filter:
             self.getFilteredProducts()
+        
+        case .newShop:
+            self.getNewShopProducts()
         }
     }
     
@@ -560,7 +604,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         let regionId =  self.fltrLocation[2].int == 1 ? self.fltrLocation[1] : ""
         let subDistrictId =  self.fltrLocation[2].int == 2 ? self.fltrLocation[1] : ""
         
-        let _ = request(APISearch.productByFilter(name: fltrName, categoryId: fltrCategId, brandIds: AppToolsObjC.jsonString(from: [String](fltrBrands.values)), productConditionIds: AppToolsObjC.jsonString(from: fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonString(from: fltrSizes), sortBy: fltrSortBy, current: NSNumber(value: products!.count), limit: NSNumber(value: itemsPerReq), lastTimeUuid: lastTimeUuid, provinceId : provinceId, regionId: regionId, subDistrictId: subDistrictId)).responseJSON { resp in
+        let _ = request(APISearch.productByFilter(name: fltrName, aggregateId: fltrAggregateId, categoryId: fltrCategId, brandIds: AppToolsObjC.jsonString(from: [String](fltrBrands.values)), productConditionIds: AppToolsObjC.jsonString(from: fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonString(from: fltrSizes), sortBy: fltrSortBy, current: NSNumber(value: products!.count), limit: NSNumber(value: itemsPerReq), lastTimeUuid: lastTimeUuid, provinceId : provinceId, regionId: regionId, subDistrictId: subDistrictId)).responseJSON { resp in
             if (fltrNameReq == self.fltrName) { // Jika response ini sesuai dengan request terakhir
                 self.requesting = false
                 if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Filter Product")) {
@@ -573,10 +617,13 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func getShopProducts() {
+        // need for navbar
+        let current = self.products!.count
+        
         self.requesting = true
         
         // API Migrasi
-        let _ = request(APIUser.getShopPage(id: shopId, current: products!.count, limit: itemsPerReq)).responseJSON { resp in
+        let _ = request(APIUser.getShopPage(id: shopId, current: current, limit: itemsPerReq)).responseJSON { resp in
             self.requesting = false
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Data Shop Pengguna")) {
                 self.setupData(resp.result.value)
@@ -591,9 +638,12 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 
                 self.shopName = json["username"].stringValue
                 self.shopHeader?.captionName.text = self.shopName
-                self.title = self.shopName
+//                UIView.animate(withDuration: 0.5) {
+//                    self.title = self.shopName
+//                }
                 let avatarThumbnail = json["profile"]["pict"].stringValue
-                self.shopHeader?.avatar.afSetImage(withURL: URL(string: avatarThumbnail)!)
+                self.shopAvatar = URL(string: avatarThumbnail)!
+                self.shopHeader?.avatar.afSetImage(withURL: self.shopAvatar!)
                 let avatarFull = avatarThumbnail.replacingOccurrences(of: "thumbnails/", with: "", options: NSString.CompareOptions.literal, range: nil)
                 self.shopHeader?.avatarUrls.append(avatarFull)
                 
@@ -610,6 +660,23 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 let attrStringLove = NSMutableAttributedString(string: loveText)
                 attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length))
                 self.shopHeader?.captionLove.attributedText = attrStringLove
+                
+                // Love floatable
+                self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 0, width: 90, height: 16))
+                self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
+                self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
+                // Optional params
+//                self.floatRatingView.delegate = self
+                self.floatRatingView.contentMode = UIViewContentMode.scaleAspectFit
+                self.floatRatingView.maxRating = 5
+                self.floatRatingView.minRating = 0
+                self.floatRatingView.rating = reviewScore
+                self.floatRatingView.editable = false
+                self.floatRatingView.halfRatings = true
+                self.floatRatingView.floatRatings = true
+                self.floatRatingView.tintColor = Theme.ThemeRed
+                
+                self.shopHeader?.vwLove.addSubview(self.floatRatingView )
                 
                 // Reviewer count
                 let numReview = json["num_reviewer"].intValue
@@ -648,21 +715,25 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                         self.shopHeader?.captionDesc.text = desc
                         descHeight = Int(desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-16).height)
                     }
-                    height = 338 + descHeight
+                    // 388 -> 398
+                    height = 388 + descHeight
                 } else {
                     self.shopHeader?.captionDesc.text = "Belum ada deskripsi."
                     self.shopHeader?.captionDesc.textColor = UIColor.lightGray
-                    height = 338 + Int("Belum ada deskripsi.".boundsWithFontSize(UIFont.systemFont(ofSize: 16), width: UIScreen.main.bounds.width-14).height)
+                    height = 388 + Int("Belum ada deskripsi.".boundsWithFontSize(UIFont.systemFont(ofSize: 16), width: UIScreen.main.bounds.width-14).height)
                 }
                 self.shopHeader?.width = UIScreen.main.bounds.width
                 self.shopHeader?.height = CGFloat(height)
                 self.shopHeader?.y = CGFloat(-height)
                 
+                // bound to top
+                self.initY = CGFloat(-height)
+                
                 self.shopHeader?.seeMoreBlock = {
                     if let completeDesc = self.shopHeader?.completeDesc {
                         self.shopHeader?.captionDesc.text = completeDesc
                         let descHeight = completeDesc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-16).height
-                        let newHeight : CGFloat = descHeight + 338.0
+                        let newHeight : CGFloat = descHeight + 388
                         self.shopHeader?.height = newHeight
                         self.shopHeader?.y = -newHeight
                         self.gridView.contentInset = UIEdgeInsetsMake(newHeight, 0, 0, 0)
@@ -673,6 +744,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                             refresherBound!.origin.y = CGFloat(newHeight)
                             self.refresher?.bounds = refresherBound!
                         }
+                        
+                        // bound to top
+                        self.initY = CGFloat(-newHeight)
                     }
                 }
                 
@@ -685,9 +759,32 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 {
                     if (id == me.id)
                     {
-                        self.shopHeader?.btnEdit.isHidden = false
+//                        self.shopHeader?.btnEdit.isHidden = false
+                        self.setEditButton()
                     }
                 }
+                
+                // setup badge
+                
+//                self.shopHeader?.badges = [ (URL(string: "https://trello-avatars.s3.amazonaws.com/c86b504990d8edbb569ab7c02fb55e3d/50.png")!), (URL(string: "https://trello-avatars.s3.amazonaws.com/3a83ed4d4b42810c05608cdc5547e709/50.png")!), (URL(string: "https://trello-avatars.s3.amazonaws.com/7a98b746bc71ccaf9af1d16c4a6b152e/50.png")!) ]
+                
+                self.shopHeader?.badges = []
+                
+                if (AppTools.isOldShopWithBadges) {
+                    if let arr = json["featured_badges"].array {
+                        if arr.count > 0 {
+                            for i in 0...arr.count-1 {
+                                self.shopHeader?.badges.append(URL(string: arr[i]["icon"].string!)!)
+                            }
+                        }
+                    }
+                    
+                    self.shopHeader?.consTopVwImage.constant = 28
+                } else {
+                    self.shopHeader?.consTopVwImage.constant = 58
+                }
+                
+                self.shopHeader?.setupCollection()
                 
                 // Total products and sold products
                 if let productCount = json["total_product"].int {
@@ -713,10 +810,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     }
                 }
 
-                self.shopHeader?.editBlock = {
-                    let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
-                    self.navigationController?.pushViewController(userProfileVC, animated: true)
-                }
+//                self.shopHeader?.editBlock = {
+//                    let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
+//                    self.navigationController?.pushViewController(userProfileVC, animated: true)
+//                }
                 
                 self.shopHeader?.reviewBlock = {
                     let shopReviewVC = Bundle.main.loadNibNamed(Tags.XibNameShopReview, owner: nil, options: nil)?.first as! ShopReviewViewController
@@ -733,16 +830,87 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     self.navigationController?.present(c, animated: true, completion: nil)
                 }
                 
+                self.shopHeader?.badgesBlock = {
+                    let shopAchievementVC = Bundle.main.loadNibNamed(Tags.XibNameShopAchievement, owner: nil, options: nil)?.first as! ShopAchievementViewController
+                    shopAchievementVC.sellerId = self.shopId
+                    shopAchievementVC.sellerName = self.shopName
+                    self.navigationController?.pushViewController(shopAchievementVC, animated: true)
+                }
+                
                 self.refresher?.endRefreshing()
                 var refresherBound = self.refresher?.bounds
                 if (refresherBound != nil) {
                     refresherBound!.origin.y = CGFloat(height)
                     self.refresher?.bounds = refresherBound!
                 }
+                
                 self.setupGrid()
                 self.gridView.contentInset = UIEdgeInsetsMake(CGFloat(height), 0, 0, 0)
+                
+                if (self.isFirst == false && current == 0) {
+                    self.transparentNavigationBar(true)
+                }
             }
         }
+    }
+    
+    func getNewShopProducts() {
+        let current = self.products!.count
+        
+        self.requesting = true
+        
+        // API Migrasi
+        let _ = request(APIUser.getShopPage(id: shopId, current: current, limit: itemsPerReq)).responseJSON { resp in
+            self.requesting = false
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Data Shop Pengguna")) {
+                self.setupData(resp.result.value)
+                
+                let json = JSON(resp.result.value!)["_data"]
+                
+                self.shopData = json
+                
+                if (current == 0) {
+                    self.delegate?.setupBanner(json: json)
+                }
+                
+                self.shopName = json["username"].stringValue
+                
+                if self.listItemSections.count > 1 {
+                    self.listItemSections.remove(at: 0)
+                }
+                self.listItemSections.insert(.aboutShop, at: 0)
+                
+                self.refresher?.endRefreshing()
+                
+                self.setupGrid()
+                
+                if (current == 0) {
+                    let screenSize = UIScreen.main.bounds
+                    let screenHeight = screenSize.height - (64 + 45) // (170 + 45)
+//                    let height = CGFloat((self.products?.count)! + 1) * 65
+                    
+                    var height = StoreInfo.heightFor(self.shopData, isExpand: self.isExpand) + 12
+
+                    if AppTools.isIPad {
+                        height += CGFloat((self.products?.count)! / 3) * (self.itemCellWidth! + 70)
+                    } else {
+                        height += CGFloat((self.products?.count)! / 2) * (self.itemCellWidth! + 70)
+                    }
+                    
+                    
+                    var bottom = CGFloat(24)
+                    if (height < screenHeight) {
+                        bottom += screenHeight - height
+                    }
+                    
+                    //TOP, LEFT, BOTTOM, RIGHT
+                    let inset = UIEdgeInsetsMake(0, 0, bottom, 0)
+                    self.gridView.contentInset = inset
+                    
+                }
+            }
+        }
+        
     }
     
     func setupData(_ res : Any?) {
@@ -813,7 +981,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
         
         gridView.reloadData()
-        gridView.contentInset = UIEdgeInsetsMake(0, 0, 24, 0)
+        if (currentMode != .newShop) {
+            gridView.contentInset = UIEdgeInsetsMake(0, 0, 24, 0)
+        }
         gridView.isHidden = false
         vwFilterZeroResult.isHidden = true
     }
@@ -839,6 +1009,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 return p.count
             }
             return 0
+        case .aboutShop:
+            return 1
         }
     }
     
@@ -869,7 +1041,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             return cell
         case .products:
             // Load next products here
-            if (currentMode == .default || currentMode == .standalone || currentMode == .shop || currentMode == .filter || (currentMode == .segment && listItemSections.contains(.products))) {
+            if (currentMode == .default || currentMode == .standalone || currentMode == .shop || currentMode == .filter || (currentMode == .segment && listItemSections.contains(.products)) || currentMode == .newShop) {
                 if ((indexPath as NSIndexPath).row == (products?.count)! - 4 && requesting == false && done == false) {
                     getProducts()
                 }
@@ -879,12 +1051,16 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             let cell : ListItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ListItemCell
             if (products?.count > (indexPath as NSIndexPath).item) {
                 let p = products?[(indexPath as NSIndexPath).item]
-                cell.adapt(p!, listStage: self.listStage)
+                cell.adapt(p!, listStage: self.listStage, currentMode: self.currentMode, shopAvatar: self.shopAvatar, parent: self)
             }
             if (currentMode == .featured) {
                 // Hide featured ribbon
                 cell.imgFeatured.isHidden = true
             }
+            return cell
+        case .aboutShop:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "StorePageShopHeader", for: indexPath) as! StoreInfo
+            cell.adapt(self.shopData, count: self.products!.count, isExpand: self.isExpand)
             return cell
         }
     }
@@ -910,6 +1086,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             return CGSize(width: viewWidthMinusMargin, height: segHeight)
         case .products:
             return CGSize(width: itemCellWidth!, height: itemCellWidth! + 66)
+        case . aboutShop:
+            return CGSize(width: viewWidthMinusMargin, height: StoreInfo.heightFor(shopData, isExpand: isExpand))
         }
     }
     
@@ -972,10 +1150,26 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             self.refresh()
         case .products:
             self.selectedProduct = products?[(indexPath as NSIndexPath).item]
-            if (currentMode == .featured) {
-                selectedProduct?.setToFeatured()
+            if self.selectedProduct?.isAggregate == false && self.selectedProduct?.isAffiliate == false {
+                if (currentMode == .featured) {
+                    self.selectedProduct?.setToFeatured()
+                }
+                self.launchDetail()
+            } else if self.selectedProduct?.isAffiliate == false {
+                let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+                l.currentMode = .filter
+                l.fltrAggregateId = (self.selectedProduct?.id)!
+                l.fltrName = ""
+                self.navigationController?.pushViewController(l, animated: true)
+            } else {
+                let urlString = self.selectedProduct?.json["affiliate_data"]["affiliate_url"].stringValue
+                
+                let url = NSURL(string: urlString!)!
+                UIApplication.shared.openURL(url as URL)
             }
-            self.launchDetail()
+        case .aboutShop:
+            self.isExpand = !self.isExpand
+            self.gridView.reloadData()
         }
     }
     
@@ -1082,6 +1276,45 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     }
                 }
             }
+        }
+        if (currentMode == .shop) {
+            scrollViewShop(scrollView)
+        } else if (currentMode == .newShop) {
+            // hidding header smoothly
+            scrollViewHeaderShop(scrollView)
+        }
+    }
+    
+    func scrollViewShop(_ scrollView: UIScrollView) {
+//        let pointY = (self.shopHeader?.height)! - 33 // --> 214 -> 207 --> 388 -> 33 // minus
+        let pointY = self.initY + 170 // 214 - 44
+        if (scrollView.contentOffset.y < pointY) {
+            self.transparentNavigationBar(true)
+        } else if (scrollView.contentOffset.y >= pointY) {
+            self.transparentNavigationBar(false)
+        }
+    }
+    
+    func scrollViewHeaderShop(_ scrollView: UIScrollView) {
+//        let pointY = CGFloat(1)
+//        let screenSize = UIScreen.main.bounds
+//        let screenHeight = screenSize.height - 170
+//        let height = scrollView.contentSize.height
+//        if (scrollView.contentOffset.y < pointY && height >= screenHeight) {
+//            self.delegate?.increaseHeader()
+//            self.transparentNavigationBar(true)
+//        } else if (scrollView.contentOffset.y >= pointY && height >= screenHeight) {
+//            self.delegate?.dereaseHeader()
+//            self.transparentNavigationBar(false)
+//        }
+        
+        let pointY = CGFloat(1)
+        if (scrollView.contentOffset.y < pointY) {
+            self.delegate?.increaseHeader()
+            self.transparentNavigationBar(true)
+        } else if (scrollView.contentOffset.y >= pointY) {
+            self.delegate?.dereaseHeader()
+            self.transparentNavigationBar(false)
         }
     }
     
@@ -1292,6 +1525,100 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             self.gridView.reloadData()
         }, completion: nil)
     }
+    
+    // MARK: - navbar styler
+    func transparentNavigationBar(_ isActive: Bool) {
+        if (currentMode == .shop) {
+            if isActive && !self.isTransparent {
+                UIView.animate(withDuration: 0.5) {
+                    // Transparent navigation bar
+                    self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+                    self.navigationController?.navigationBar.shadowImage = UIImage()
+                    self.navigationController?.navigationBar.isTranslucent = true
+                    
+                    self.navigationController?.navigationBar.layoutIfNeeded()
+                    
+                    self.title = ""
+                }
+                self.isTransparent = true
+            } else if !isActive && self.isTransparent {
+                UIView.animate(withDuration: 0.5) {
+                    self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
+                    self.navigationController?.navigationBar.shadowImage = nil
+                    self.navigationController?.navigationBar.isTranslucent = true
+                    
+                    // default prelo
+                    UINavigationBar.appearance().barTintColor = Theme.PrimaryColor
+                    
+                    self.navigationController?.navigationBar.layoutIfNeeded()
+                    
+                    self.title = self.shopName
+                }
+                self.isTransparent = false
+            }
+        } else if (currentMode == .newShop) {
+            if isActive && !(self.delegate?.getTransparentcy())! {
+                UIView.animate(withDuration: 0.5) {
+                    // Transparent navigation bar
+                    self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+                    self.navigationController?.navigationBar.shadowImage = UIImage()
+                    self.navigationController?.navigationBar.isTranslucent = true
+                    
+                    self.navigationController?.navigationBar.layoutIfNeeded()
+                    
+                    self.delegate?.setShopTitle("")
+                }
+                self.delegate?.setTransparentcy(true)
+            } else if !isActive && (self.delegate?.getTransparentcy())!  {
+                UIView.animate(withDuration: 0.5) {
+                    self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
+                    self.navigationController?.navigationBar.shadowImage = nil
+                    self.navigationController?.navigationBar.isTranslucent = true
+                    
+                    // default prelo
+                    UINavigationBar.appearance().barTintColor = Theme.PrimaryColor
+                    
+                    self.navigationController?.navigationBar.layoutIfNeeded()
+                    
+                    self.delegate?.setShopTitle(self.shopName)
+                }
+                self.delegate?.setTransparentcy(false)
+            }
+        }
+    }
+    
+    func defaultNavigationBar() {
+        UIView.animate(withDuration: 0.5) {
+            self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
+            self.navigationController?.navigationBar.shadowImage = nil
+//            self.navigationController?.navigationBar.tintColor = nil
+            self.navigationController?.navigationBar.isTranslucent = false
+            
+            // default prelo
+            UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white]
+            UINavigationBar.appearance().barTintColor = Theme.PrimaryColor
+            self.navigationController?.navigationBar.tintColor = UIColor.white
+            
+            self.navigationController?.navigationBar.layoutIfNeeded()
+        }
+    }
+    
+    // MARK: - Edit Profile button (right top) .shop
+    func setEditButton() {
+        let btnEdit = self.createButtonWithIcon(AppFont.preloAwesome, icon: "")
+        
+        btnEdit.addTarget(self, action: #selector(StorePageTabBarViewController.editProfile), for: UIControlEvents.touchUpInside)
+        
+        if (self.navigationItem.rightBarButtonItem == nil) {
+            self.navigationItem.rightBarButtonItem = btnEdit.toBarButton()
+        }
+    }
+    
+    func editProfile()
+    {
+        let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
+        self.navigationController?.pushViewController(userProfileVC, animated: true)
+    }
 }
 
 // MARK: - Class
@@ -1414,36 +1741,42 @@ class ListItemFeaturedHeaderCell : UICollectionViewCell {
 // MARK: - Class ListItemCell
 
 class ListItemCell : UICollectionViewCell {
-    @IBOutlet var ivCover: UIImageView!
-    @IBOutlet var captionTitle: UILabel!
-    @IBOutlet var captionPrice: UILabel!
-    @IBOutlet var captionOldPrice: UILabel!
-    @IBOutlet var captionLove: UILabel!
-    @IBOutlet var captionMyLove: UILabel!
-    @IBOutlet var captionComment: UILabel!
-    @IBOutlet var sectionLove : UIView!
-    @IBOutlet var avatar : UIImageView!
-    @IBOutlet var captionSpecialStory : UILabel!
-    @IBOutlet var sectionSpecialStory : UIView!
-    @IBOutlet var imgSold: UIImageView!
-    @IBOutlet var imgReserved: UIImageView!
-    @IBOutlet var imgFeatured: UIImageView!
-    @IBOutlet var imgFreeOngkir: UIImageView!
-    @IBOutlet weak var lblLove: UILabel!
+    @IBOutlet weak var ivCover: UIImageView!
+    @IBOutlet weak var captionTitle: UILabel!
+    @IBOutlet weak var captionPrice: UILabel!
+    @IBOutlet weak var captionOldPrice: UILabel!
+    @IBOutlet weak var captionLove: UILabel!
+    @IBOutlet weak var captionMyLove: UILabel!
+    @IBOutlet weak var captionComment: UILabel!
+    @IBOutlet weak var sectionLove : UIView!
+    @IBOutlet weak var avatar : UIImageView!
+    @IBOutlet weak var captionSpecialStory : UILabel!
+    @IBOutlet weak var sectionSpecialStory : UIView!
+    @IBOutlet weak var imgSold: UIImageView!
+    @IBOutlet weak var imgReserved: UIImageView!
+    @IBOutlet weak var imgFeatured: UIImageView!
+    @IBOutlet weak var imgFreeOngkir: UIImageView!
     @IBOutlet weak var btnTawar: UIButton!
     @IBOutlet weak var btnLove: UIButton!
     
+    @IBOutlet weak var consHeightFO: NSLayoutConstraint!
+    @IBOutlet weak var consWidthFO: NSLayoutConstraint!
+    
     @IBOutlet weak var consbtnWidthTawar: NSLayoutConstraint!
-    @IBOutlet weak var consWidthLove: NSLayoutConstraint!
     @IBOutlet weak var consbtnWidthLove: NSLayoutConstraint!
     @IBOutlet weak var consbtnHeightTawar: NSLayoutConstraint!
-    @IBOutlet weak var consHeightLove: NSLayoutConstraint!
     @IBOutlet weak var consbtnHeightLove: NSLayoutConstraint!
+    
+    @IBOutlet weak var affiliateLogo: UIImageView!
+    @IBOutlet weak var consWidthAffiliateLogo: NSLayoutConstraint!
+    @IBOutlet weak var consHeightAffiliateLogo: NSLayoutConstraint!
     
     var newLove : Bool?
     var pid : String?
     var cid : String?
     var sid : String?
+    
+    var parent : BaseViewController!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -1462,9 +1795,6 @@ class ListItemCell : UICollectionViewCell {
 //        btnTawar.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
         
         
-        // unused
-        lblLove.isHidden = true
-        consWidthLove.constant = 0
     }
     
     override func prepareForReuse() {
@@ -1472,9 +1802,15 @@ class ListItemCell : UICollectionViewCell {
         imgReserved.isHidden = true
         imgFeatured.isHidden = true
         imgFreeOngkir.isHidden = true
+        btnTawar.isHidden = true
+        btnLove.isHidden = true
+        affiliateLogo.isHidden = true
+        captionOldPrice.isHidden = false
     }
     
-    func adapt(_ product : Product, listStage : Int) {
+    func adapt(_ product : Product, listStage : Int, currentMode : ListItemMode, shopAvatar : URL?, parent: BaseViewController) {
+        self.parent = parent
+        
         let obj = product.json
         captionTitle.text = product.name
         captionPrice.text = product.price
@@ -1492,6 +1828,17 @@ class ListItemCell : UICollectionViewCell {
         avatar.layer.cornerRadius = avatar.bounds.width / 2
         avatar.layer.masksToBounds = true
         
+        // if without special story still using profpic
+//        sectionSpecialStory.isHidden = false
+//        captionSpecialStory.text = ""
+//        
+//        if (product.specialStory == nil || product.specialStory == "") {
+//            sectionSpecialStory.backgroundColor = UIColor.clear
+//        } else {
+//            sectionSpecialStory.backgroundColor = UIColor.darkGray.alpha(0.65) // darkgray transparent
+//            captionSpecialStory.text = "\"\(product.specialStory!)\""
+//        }
+        
         if (product.specialStory == nil || product.specialStory == "") {
             sectionSpecialStory.isHidden = true
         } else {
@@ -1499,6 +1846,8 @@ class ListItemCell : UICollectionViewCell {
             captionSpecialStory.text = "\"\(product.specialStory!)\""
             if let url = product.avatar {
                 avatar.afSetImage(withURL: url)
+            } else if currentMode == .shop {
+                avatar.afSetImage(withURL: shopAvatar!)
             } else {
                 avatar.image = nil
             }
@@ -1511,40 +1860,41 @@ class ListItemCell : UICollectionViewCell {
             captionMyLove.text = ""
         }
         
-        if (User.IsLoggedIn == true) {
+        let myId = CDUser.getOne()?.id
+        if ((self.sid != myId) && product.isAggregate == false && product.isAffiliate == false) {
+            btnLove.isHidden = false
             var const : CGFloat = CGFloat(30)
             
-            if listStage == 1 {
+            if listStage == 1 && AppTools.isIPad == false {
                 const = CGFloat(15)
+            } else if listStage == 3 {
+                if AppTools.isIPad == false  {
+                    const = CGFloat(39)
+                } else {
+                    const = CGFloat(45)
+                }
                 
-//                lblLove.font = UIFont(name: "prelo2", size: 13.0)
-            } else {
-//                lblLove.font = UIFont(name: "prelo2", size: 28.0)
             }
             
-//            consWidthLove.constant = const
-//            consHeightLove.constant = const
             consbtnWidthLove.constant = const
             consbtnHeightLove.constant = const
             btnLove.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
             
+            consHeightFO.constant = const
+            consWidthFO.constant = const
+            
             newLove = obj["love"].bool
             if (newLove == true) {
-//                lblLove.text = ""
-//                lblLove.textColor = Theme.ThemeRed
                 buttonLoveChange(isLoved: true)
             } else {
-//                lblLove.text = ""
-//                lblLove.textColor = Theme.GrayLight
                 buttonLoveChange(isLoved: false)
             }
         } else {
-//            lblLove.isHidden = true
             btnLove.isHidden = true
             consbtnWidthLove.constant = 0
         }
         
-        _ = obj["display_picts"][0].string
+//        _ = obj["display_picts"][0].string
         ivCover.image = nil
         ivCover.afSetImage(withURL: product.coverImageURL!)
         
@@ -1554,6 +1904,43 @@ class ListItemCell : UICollectionViewCell {
             let attString = NSMutableAttributedString(string: s as String)
             attString.addAttributes([NSStrikethroughStyleAttributeName:NSUnderlineStyle.styleSingle.rawValue], range: s.range(of: s as String))
             captionOldPrice.attributedText = attString
+        }
+        
+        
+        consWidthAffiliateLogo.constant = 0
+        consHeightAffiliateLogo.constant = 0
+        
+        if product.isAggregate {
+            captionOldPrice.text = "Mulai dari"
+        } else if product.isAffiliate {
+            var const : CGFloat = CGFloat(30)
+            
+            if listStage == 1 && AppTools.isIPad == false {
+                const = CGFloat(15)
+            } else if listStage == 3 {
+                if AppTools.isIPad == false  {
+                    const = CGFloat(39)
+                } else {
+                    const = CGFloat(45)
+                }
+                
+            }
+            let url = URL(string: product.json["affiliate_data"]["affiliate_icon"].stringValue)
+            affiliateLogo.afSetImage(withURL: url!)
+            
+            affiliateLogo.contentMode = .scaleAspectFit
+            consWidthAffiliateLogo.constant = const / 3 * 8
+            consHeightAffiliateLogo.constant = const
+            affiliateLogo.isHidden = false
+            
+            // not good
+//            if let data = NSData(contentsOf: product.coverImageURL!) {
+//                if let imageUrl = UIImage(data: data as Data) {
+//                    
+//                    ivCover.image = imageUrl
+//                }
+//                
+//            }
         }
         
         if let status = product.status {
@@ -1588,19 +1975,16 @@ class ListItemCell : UICollectionViewCell {
         if (User.IsLoggedIn == true) {
             if (newLove == true) {
                 newLove = false
-//                lblLove.text = ""
-//                lblLove.textColor = Theme.GrayLight
                 buttonLoveChange(isLoved: false)
                 callApiUnlove()
             } else {
                 newLove = true
-//                lblLove.text = ""
-//                lblLove.textColor = Theme.ThemeRed
                 buttonLoveChange(isLoved: true)
                 callApiLove()
             }
         } else {
-//            LoginViewController.Show(self.parent!, userRelatedDelegate: self, animated: true)
+            // call login
+            LoginViewController.Show(self.parent.previousController!, userRelatedDelegate: self.parent.previousController as! UserRelatedDelegate?, animated: true)
         }
     }
 
@@ -1619,13 +2003,10 @@ class ListItemCell : UICollectionViewCell {
             print(resp)
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Love Product"))
             {
-                
+//                Constant.showDialog("Lovelist", message: self.captionTitle.text! + " berhasil ditambahkan ke Lovelist")
             } else
             {
                 self.newLove = false
-//                self.lblLove.text = ""
-//                self.lblLove.textColor = Theme.GrayLight
-//                self.btnLove.tintColor = Theme.GrayLight
                 self.buttonLoveChange(isLoved: false)
             }
         }
@@ -1638,13 +2019,10 @@ class ListItemCell : UICollectionViewCell {
             print(resp)
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Unlove Product"))
             {
-                
+//                Constant.showDialog("Lovelist", message: self.captionTitle.text! + " berhasil dihapus dari Lovelist")
             } else
             {
                 self.newLove = true
-//                self.lblLove.text = ""
-//                self.lblLove.textColor = Theme.ThemeRed
-//                self.btnLove.tintColor = Theme.ThemeRed
                 self.buttonLoveChange(isLoved: true)
             }
         }
@@ -1654,9 +2032,9 @@ class ListItemCell : UICollectionViewCell {
 // MARK: - Class
 
 class ListFooter : UICollectionReusableView {
-    @IBOutlet var loading : UIActivityIndicatorView!
-    @IBOutlet var btnFooter: UIButton!
-    @IBOutlet var lblFooter: UILabel!
+    @IBOutlet weak var loading : UIActivityIndicatorView!
+    @IBOutlet weak var btnFooter: UIButton!
+    @IBOutlet weak var lblFooter: UILabel!
     
     var btnFooterAction : () -> () = {}
     
@@ -1667,19 +2045,23 @@ class ListFooter : UICollectionReusableView {
 
 // MARK: - Class
 
-class StoreHeader : UIView {
-    @IBOutlet var captionName : UILabel!
-    @IBOutlet var captionLocation : UILabel!
-    @IBOutlet var captionDesc : UILabel!
-    @IBOutlet var captionLove: UILabel!
-    @IBOutlet var captionReview : UILabel!
-    @IBOutlet var avatar : UIImageView!
-    @IBOutlet var btnEdit : UIButton!
-    @IBOutlet var captionTotal : UILabel!
-    @IBOutlet var captionLastActive: UILabel!
-    @IBOutlet var captionChatPercentage: UILabel!
-    
+class StoreHeader : UIView, UICollectionViewDataSource, UICollectionViewDelegate {
+    @IBOutlet weak var captionName : UILabel!
+    @IBOutlet weak var captionLocation : UILabel!
+    @IBOutlet weak var captionDesc : UILabel!
+    @IBOutlet weak var captionLove: UILabel!
+    @IBOutlet weak var captionReview : UILabel!
+    @IBOutlet weak var avatar : UIImageView!
+    @IBOutlet weak var btnEdit : UIButton!
+    @IBOutlet weak var captionTotal : UILabel!
+    @IBOutlet weak var captionLastActive: UILabel!
+    @IBOutlet weak var captionChatPercentage: UILabel!
+    @IBOutlet weak var colectionView: UICollectionView!
+    @IBOutlet weak var consWidthColectionView: NSLayoutConstraint!
+    @IBOutlet weak var consTopVwImage: NSLayoutConstraint! // 28 --> 58
+    @IBOutlet weak var vwCollectionView: UIView!
     var completeDesc : String = ""
+    @IBOutlet weak var vwLove: UIView!
     
     var editBlock : ()->() = {}
     var reviewBlock : ()->() = {}
@@ -1687,6 +2069,9 @@ class StoreHeader : UIView {
     var seeMoreBlock : ()->() = {}
     
     var avatarUrls : [String] = []
+    
+    var badges : Array<URL>! = []
+    var badgesBlock : ()->() = {}
     
     @IBAction func edit() {
         self.editBlock()
@@ -1703,6 +2088,160 @@ class StoreHeader : UIView {
     @IBAction func seeMore(_ sender: AnyObject) {
         if (self.completeDesc != "" && self.captionDesc.text != self.completeDesc) {
             self.seeMoreBlock()
+        }
+    }
+    
+    @IBAction func btnBadgesPressed(_ sender: Any) {
+        self.badgesBlock()
+    }
+    
+    func setupCollection() {
+        
+        let width = 35 * CGFloat(self.badges.count) + 5
+        
+        // Set collection view
+        self.colectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "collcProgressCell")
+        self.colectionView.delegate = self
+        self.colectionView.dataSource = self
+        self.colectionView.backgroundView = UIView(frame: self.colectionView.bounds)
+        self.colectionView.backgroundColor = UIColor.clear
+        
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+        layout.itemSize = CGSize(width: 30, height: 30)
+        layout.minimumInteritemSpacing = 5
+        layout.minimumLineSpacing = 5
+        self.colectionView.collectionViewLayout = layout
+        
+        self.colectionView.isScrollEnabled = false
+        self.consWidthColectionView.constant = width
+    }
+    
+    // MARK: - CollectionView delegate functions
+    
+    
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.badges!.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        // Create cell
+        let cell = self.colectionView.dequeueReusableCell(withReuseIdentifier: "collcProgressCell", for: indexPath)
+//        if (badges.count > (indexPath as NSIndexPath).row) {
+            // Create icon view
+            let vwIcon : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+            
+            let img = UIImageView(frame: CGRect(x: 2, y: 2, width: 28, height: 28))
+            img.layoutIfNeeded()
+            img.layer.cornerRadius = (img.width ) / 2
+            img.layer.masksToBounds = true
+            img.afSetImage(withURL: badges[(indexPath as NSIndexPath).row])
+            
+            vwIcon.addSubview(img)
+            
+            // Add view to cell
+            cell.addSubview(vwIcon)
+//        }
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 30, height: 30)
+    }
+}
+
+class StoreInfo : UICollectionViewCell {
+    @IBOutlet weak var captionDesc : UILabel!
+    @IBOutlet weak var captionTotal : UILabel!
+    @IBOutlet weak var captionLastActive: UILabel!
+    @IBOutlet weak var captionChatPercentage: UILabel!
+    @IBOutlet weak var vwGroup: UIView!
+    
+    var completeDesc : String = ""
+    
+    var seeMoreBlock : ()->() = {}
+    
+    
+    static func heightFor(_ json: JSON, isExpand: Bool) -> CGFloat {
+        var height = 112
+        var completeDesc = ""
+        if let desc = json["profile"]["description"].string
+        {
+            completeDesc = desc
+            let descLengthCollapse = 160
+            var descHeight : Int = 0
+            
+            if isExpand == false {
+                if (desc.length > descLengthCollapse) { let descToWrite = desc.substringToIndex(descLengthCollapse - 1) + "... Selengkapnya"
+                    descHeight = Int(descToWrite.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-16).height)
+                } else {
+                    descHeight = Int(desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-16).height)
+                }
+                
+            } else {
+                descHeight = Int(desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-16).height)
+            }
+            height += descHeight
+            
+        } else {
+            completeDesc = "Belum ada deskripsi."
+            height += Int(completeDesc.boundsWithFontSize(UIFont.systemFont(ofSize: 16), width: UIScreen.main.bounds.width-14).height)
+        }
+        
+        return CGFloat(height)
+    }
+    
+    func adapt(_ json:JSON, count: Int, isExpand: Bool) {
+        // Last seen
+        if let lastSeenDateString = json["others"]["last_seen"].string {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+            if let lastSeenDate = formatter.date(from: lastSeenDateString) {
+                self.captionLastActive.text = lastSeenDate.relativeDescription
+            }
+        }
+        
+        // Chat percentage
+        if let chatPercentage = json["others"]["replied_chat_percentage"].int {
+            self.captionChatPercentage.text = "\(chatPercentage)%"
+        }
+        
+        if let desc = json["profile"]["description"].string
+        {
+            completeDesc = desc
+            let descLengthCollapse = 160
+            
+            if isExpand == false {
+                if (desc.length > descLengthCollapse) {
+                    let descToWrite = desc.substringToIndex(descLengthCollapse - 1) + "... Selengkapnya"
+                    let descMutableString : NSMutableAttributedString = NSMutableAttributedString(string: descToWrite, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)])
+                    descMutableString.addAttribute(NSForegroundColorAttributeName, value: Theme.PrimaryColorDark, range: NSRange(location: descLengthCollapse + 3, length: 12))
+                    self.captionDesc.attributedText = descMutableString
+                    self.captionDesc.text = descToWrite
+                } else {
+                    self.captionDesc.text = desc
+                }
+            } else {
+                self.captionDesc.text = desc
+            }
+            
+        } else {
+            self.captionDesc.text = "Belum ada deskripsi."
+            self.captionDesc.textColor = UIColor.lightGray
+        }
+        
+        
+        // Total products and sold products
+        if let productCount = json["total_product"].int {
+            if let soldProductCount = json["total_product_sold"].int {
+                self.captionTotal.text = "\(productCount) BARANG | \(soldProductCount) TERJUAL"
+            } else {
+                self.captionTotal.text = "\(productCount) BARANG"
+            }
+        } else {
+            self.captionTotal.text = String(count) + " BARANG"
         }
     }
 }

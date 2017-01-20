@@ -193,11 +193,11 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     
     func setupContent() {
         // Mixpanel
-        let param = [
-            "ID" : ((self.transactionId != nil) ? self.transactionId! : ""),
-            "Progress" : ((self.transactionDetail != nil) ? "\(self.transactionDetail!.progress)" : "")
-        ]
-        Mixpanel.trackPageVisit(PageName.TransactionDetail, otherParam: param)
+//        let param = [
+//            "ID" : ((self.transactionId != nil) ? self.transactionId! : ""),
+//            "Progress" : ((self.transactionDetail != nil) ? "\(self.transactionDetail!.progress)" : "")
+//        ]
+//        Mixpanel.trackPageVisit(PageName.TransactionDetail, otherParam: param)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.TransactionDetail)

@@ -116,7 +116,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         super.viewWillAppear(animated)
         
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.Checkout)
+//        Mixpanel.trackPageVisit(PageName.Checkout)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.Checkout)
@@ -153,18 +153,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         self.title = PageName.Checkout
         
-        // Get unpaid transaction
-        let _ = request(APITransactionCheck.checkUnpaidTransaction).responseJSON { resp in
-            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Checkout - Unpaid Transaction")) {
-                let json = JSON(resp.result.value!)
-                let data = json["_data"]
-                if (data["user_has_unpaid_transaction"].boolValue == true) {
-                    let nUnpaid = data["n_transaction_unpaid"].intValue
-                    self.lblPaymentReminder.text = "Kamu memiliki \(nUnpaid) transaksi yg belum dibayar"
-                    self.consHeightPaymentReminder.constant = 40
-                }
-            }
-        }
+        self.getUnpaid()
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let notifListener = appDelegate.preloNotifListener
+        notifListener?.setCartCount(0)
         
         // Get cart products
         cartProducts = CartProduct.getAll(User.EmailOrEmptyString)
@@ -181,6 +174,27 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             } else { // Show cart
                 synchCart()
             }
+            
+            notifListener?.increaseCartCount(cartProducts.count)
+        }
+    }
+    
+    func getUnpaid() {
+        // Get unpaid transaction
+        let _ = request(APITransactionCheck.checkUnpaidTransaction).responseJSON { resp in
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Checkout - Unpaid Transaction")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                if (data["user_has_unpaid_transaction"].boolValue == true) {
+                    let nUnpaid = data["n_transaction_unpaid"].intValue
+                    self.lblPaymentReminder.text = "Kamu memiliki \(nUnpaid) transaksi yg belum dibayar"
+                    self.consHeightPaymentReminder.constant = 40
+                    
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    let notifListener = appDelegate.preloNotifListener
+                    notifListener?.increaseCartCount(nUnpaid)
+                }
+            }
         }
     }
     
@@ -196,7 +210,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         // Prepare parameter for API refresh cart
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
-        if (c.count <= 0) {
+        if (c.count <= 0 && self.shouldBack == false) {
             _ = self.navigationController?.popViewController(animated: true)
             return
         }
@@ -474,7 +488,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
         
         // Create 'Subtotal' cell in cellsData
-        let i = IndexPath(row: self.cartProducts.count + 1, section: self.sectionProducts)
+        let i = IndexPath(row: self.cartProducts.count + (arrayItem.count > 2 ? 1 : 0), section: self.sectionProducts)
         let i2 = IndexPath(row: 0, section: self.sectionPaySummary)
         let b = BaseCartData.instance("Subtotal", placeHolder: nil, enable : false)
         if let totalPrice = self.currentCart?["total_price"].int {
@@ -540,8 +554,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
         
         // Determine payment charge & set cellsData for payment charge
-        let creditCardCharge = 2500 + (priceAfterDiscounts * 32 / 1000)
-        var indomaretCharge = priceAfterDiscounts * 2 / 100
+        let creditCardCharge = 2500 + Int((Double(priceAfterDiscounts) * 0.032) + 0.5)
+        var indomaretCharge = Int((Double(priceAfterDiscounts) * 0.02) + 0.5)
         if (indomaretCharge < 5000) {
             indomaretCharge = 5000
         }
@@ -659,7 +673,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (section == sectionProducts) {
-            return arrayItem.count + 2 // Total products + clear all cell + subtotal cell
+            return arrayItem.count + (arrayItem.count > 2 ? 2 : 1) // Total products + clear all cell + subtotal cell
         } else if (section == sectionDataUser) {
             return 2
         } else if (section == sectionAlamatUser) {
@@ -683,21 +697,21 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         var cell : UITableViewCell = UITableViewCell()
         
         if (section == sectionProducts) {
-            if (row == 0) { // Clear all
+            if (arrayItem.count > 2 && row == 0) { // Clear all
                 cell = tableView.dequeueReusableCell(withIdentifier: "cell_clearall") as! CartCellClearAll
-            } else if (row == arrayItem.count + 1) { // Subtotal
+            } else if (row == (arrayItem.count + (arrayItem.count > 2 ? 1 : 0))) { // Subtotal
                 cell = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input", isShowBottomLine: false)
             } else { // Cart product
                 let i = tableView.dequeueReusableCell(withIdentifier: "cell_item2") as! CartCellItem
-                let cp = cartProducts[(indexPath as NSIndexPath).row - 1]
+                let cp = cartProducts[(indexPath as NSIndexPath).row - (arrayItem.count > 2 ? 1 : 0)]
                 i.selectedPaymentId = cp.packageId
                 //i.selectedPaymentId = "" // debug
-                i.adapt(arrayItem[(indexPath as NSIndexPath).row - 1])
+                i.adapt(arrayItem[(indexPath as NSIndexPath).row - (arrayItem.count > 2 ? 1 : 0)])
                 i.cartItemCellDelegate = self
                 
-                if (row != 0) {
+//                if (row != 0) {
                     i.topLine?.isHidden = true
-                }
+//                }
                 
                 i.indexPath = indexPath
                 
@@ -773,12 +787,12 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         let row = (indexPath as NSIndexPath).row
         
         if (section == sectionProducts) {
-            if (row == 0) { // Clear all
+            if (arrayItem.count > 2 && row == 0) { // Clear all
                 return 32
-            } else if (row == arrayItem.count + 1) { // Subtotal
+            } else if (row == (arrayItem.count + (arrayItem.count > 2 ? 1 : 0))) { // Subtotal
                 return 44
             } else { // Cart product
-                let json = arrayItem[(indexPath as NSIndexPath).row - 1]
+                let json = arrayItem[(indexPath as NSIndexPath).row - (arrayItem.count > 2 ? 1 : 0)]
                 if let error = json["_error"].string {
                     let options : NSStringDrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
                     let h = (error as NSString).boundingRect(with: CGSize(width: UIScreen.main.bounds.width - 114, height: 0), options: options, attributes: [NSFontAttributeName:UIFont.systemFont(ofSize: 14)], context: nil).height
@@ -855,18 +869,22 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if ((indexPath as NSIndexPath).section == sectionProducts) {
-            if ((indexPath as NSIndexPath).row == 0) { // Clear all
+            if (arrayItem.count > 2 && (indexPath as NSIndexPath).row == 0) { // Clear all
                 let alert = UIAlertController(title: "Hapus Keranjang", message: "Kamu yakin ingin menghapus semua barang dalam keranjang?", preferredStyle: .alert)
+                
+                alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in
+                    alert.dismiss(animated: true, completion: nil)
+                }))
                 alert.addAction(UIAlertAction(title: "Hapus", style: .default, handler: { act in
                     alert.dismiss(animated: true, completion: nil)
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    let notifListener = appDelegate.preloNotifListener
+                    notifListener?.increaseCartCount(-1 * self.arrayItem.count)
                     self.arrayItem.removeAll()
                     CartProduct.deleteAll()
                     self.shouldBack = true
-                    self.cellsData = [:]
+                    //                    self.cellsData = [:]
                     self.synchCart()
-                }))
-                alert.addAction(UIAlertAction(title: "Batal", style: .default, handler: { act in
-                    alert.dismiss(animated: true, completion: nil)
                 }))
                 self.present(alert, animated: true, completion: nil)
             }
@@ -1047,12 +1065,13 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
         
         let alert : UIAlertController = UIAlertController(title: "Perhatian", message: "Kamu akan melakukan transaksi sebesar \(self.grandTotal.asPrice) menggunakan \(self.selectedPayment.value). Lanjutkan?", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { action in
+            self.btnSend.isEnabled = true
+        }))
         alert.addAction(UIAlertAction(title: "Lanjutkan", style: .default, handler: { action in
             self.performCheckout(p!, address: a!, usedBalance: usedBalance, usedBonus: usedBonus)
         }))
-        alert.addAction(UIAlertAction(title: "Batal", style: .default, handler: { action in
-            self.btnSend.isEnabled = true
-        }))
+        
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -1194,6 +1213,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     MoEngage.sharedInstance().trackEvent(MixpanelEvent.Checkout, builderPayload: moeEventTracker)
                 }
                 
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let notifListener = appDelegate.preloNotifListener
+                notifListener?.increaseCartCount(1)
+                
                 // Prepare to navigate to next page
                 if (self.selectedPayment == .bankTransfer) {
                     self.navigateToOrderConfirmVC()
@@ -1249,6 +1272,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         o.isBackTwice = true
         o.isShowBankBRI = self.isShowBankBRI
         
+        if (self.checkoutResult?["expire_time"].string) != nil {
+            o.date = (self.checkoutResult?["expire_time"].string)! // expire_time not found
+        }
+        
         var imgs : [URL] = []
         for i in 0...self.arrayItem.count - 1 {
             let json = self.arrayItem[i]
@@ -1277,9 +1304,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     }
     
     func itemNeedDelete(_ indexPath: IndexPath) {
-        let j = arrayItem[(indexPath as NSIndexPath).row - 1]
+        let j = arrayItem[(indexPath as NSIndexPath).row - (arrayItem.count > 2 ? 1 : 0)]
         print(j)
-        arrayItem.remove(at: (indexPath as NSIndexPath).row - 1)
+        arrayItem.remove(at: (indexPath as NSIndexPath).row - (arrayItem.count > 2 ? 1 : 0))
         
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
         let x = AppToolsObjC.jsonString(from: c)
@@ -1304,16 +1331,20 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             UIApplication.appDelegate.saveContext()
         }
         
-        tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+//        tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
         if (arrayItem.count == 0) {
             self.shouldBack = true
         }
-        cellsData = [:]
+//        cellsData = [:]
         synchCart()
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let notifListener = appDelegate.preloNotifListener
+        notifListener?.increaseCartCount(-1)
     }
     
     func itemNeedUpdateShipping(_ indexPath: IndexPath) {
-        let j = arrayItem[(indexPath as NSIndexPath).row - 1]
+        let j = arrayItem[(indexPath as NSIndexPath).row - (arrayItem.count > 2 ? 1 : 0)]
         let jid = j["product_id"].stringValue
         var cartProduct : CartProduct?
         for cp in cartProducts {
@@ -1800,7 +1831,7 @@ class CartCellItem : UITableViewCell
             let sellerLocationID = json["seller_region"].stringValue
             if let regionName = CDRegion.getRegionNameWithID(sellerLocationID)
             {
-                self.captionFrom?.text = "Dikirim dari " + regionName
+                self.captionFrom?.text = "Dari " + regionName
             } else
             {
                 self.captionFrom?.text = ""
@@ -1845,7 +1876,7 @@ class CartCellItem : UITableViewCell
             let sellerLocationID = json["seller_region"].stringValue
             if let regionName = CDRegion.getRegionNameWithID(sellerLocationID)
             {
-                self.captionFrom?.text = "Dikirim dari " + regionName
+                self.captionFrom?.text = "Dari " + regionName
             } else
             {
                 self.captionFrom?.text = ""

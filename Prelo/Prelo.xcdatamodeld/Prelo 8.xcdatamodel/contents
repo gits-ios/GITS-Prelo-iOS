@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11542" systemVersion="16A323" minimumToolsVersion="Xcode 7.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16A323" minimumToolsVersion="Xcode 7.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
     <entity name="CartProduct" representedClassName="CartProduct" syncable="YES">
         <attribute name="cpID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
@@ -33,6 +33,44 @@
         <attribute name="typeOrder" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="typeSizes" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="v" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+    </entity>
+    <entity name="CDDraftProduct" representedClassName="CDDraftProduct" syncable="YES">
+        <attribute name="brand" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="brandId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="categoryId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="commission" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="condition" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="conditionId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="defectDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="descriptionText" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="freeOngkir" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="imageOrientation1" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="imageOrientation2" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="imageOrientation3" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="imageOrientation4" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="imageOrientation5" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="imagePath1" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imagePath2" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imagePath3" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imagePath4" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imagePath5" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isCategWomenOrMenSelected" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="luxuryData_authenticityCard" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="luxuryData_originalBox" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="luxuryData_originalDustbox" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="luxuryData_purchaseLocation" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="luxuryData_purchaseYear" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="luxuryData_receipt" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="luxuryData_serialNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="luxuryData_styleName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="price" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="priceOriginal" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sellReason" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="size" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="specialStory" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="weight" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="CDNotification" representedClassName="CDNotification" syncable="YES">
         <attribute name="ids" optional="YES" attributeType="String" syncable="YES"/>
@@ -137,6 +175,7 @@
         <element name="CDBrand" positionX="27" positionY="-270" width="128" height="105"/>
         <element name="CDCategory" positionX="-11" positionY="117" width="128" height="225"/>
         <element name="CDCategorySize" positionX="144" positionY="63" width="128" height="133"/>
+        <element name="CDDraftProduct" positionX="27" positionY="-270" width="128" height="585"/>
         <element name="CDNotification" positionX="-180" positionY="180" width="128" height="270"/>
         <element name="CDProductCondition" positionX="153" positionY="216" width="128" height="103"/>
         <element name="CDProvince" positionX="-180" positionY="72" width="128" height="90"/>

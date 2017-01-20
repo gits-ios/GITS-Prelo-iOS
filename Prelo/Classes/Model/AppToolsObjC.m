@@ -62,6 +62,21 @@ static UIDocumentInteractionController *staticDocController = NULL;
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
++ (NSInteger) indexOfSearch:(NSString *)keyword
+{
+    NSMutableArray *arr = [AppToolsObjC searchHistories].mutableCopy;
+    return [arr indexOfObject:keyword];
+}
+
++ (void) removeSearchAt:(NSInteger)index
+{
+    NSMutableArray *arr = [AppToolsObjC searchHistories].mutableCopy;
+    [arr removeObjectAtIndex:index];
+//    NSLog(@"array: %@", arr);
+    [[NSUserDefaults standardUserDefaults] setObject:arr forKey:@"search"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 + (NSString *)stringWithData:(NSData *)data
 {
     return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];

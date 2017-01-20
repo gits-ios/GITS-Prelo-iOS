@@ -86,7 +86,7 @@ class MyPurchaseCompletedViewController: BaseViewController, UITableViewDataSour
         btnRefresh.isHidden = true
         
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.MyOrders, otherParam: ["Tab" : "Complete"])
+//        Mixpanel.trackPageVisit(PageName.MyOrders, otherParam: ["Tab" : "Complete"])
         
         // Google Analytics
         GAI.trackPageVisit(PageName.MyOrders)

@@ -8,20 +8,30 @@
 
 import UIKit
 
-class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate {
+// MARK: - NewShopHeader Protocol
+
+protocol MyProductDelegate {
+    func setFromDraftOrNew(_ isFromDraft: Bool)
+    func getFromDraftOrNew() -> Bool
+}
+
+class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate, MyProductDelegate {
     
     var tabSwipe : CarbonTabSwipeNavigation?
     
-    var productSell : BaseViewController?
-    var productTransaction : BaseViewController?
+    var productSell : MyProductSellViewController?
+    var productTransaction : MyProductTransactionViewController?
 
     @IBOutlet weak var viewJualButton: UIView!
+    
+    var isFromDraft = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        productSell = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdMyProductSell) as? BaseViewController
+        productSell = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdMyProductSell) as? MyProductSellViewController
         productSell?.previousController = self
+        productSell?.delegate = self
         
         productTransaction = Bundle.main.loadNibNamed(Tags.XibNameMyProductTransaction, owner: nil, options: nil)?.first as! MyProductTransactionViewController
         
@@ -83,9 +93,19 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate {
     }
     
     @IBAction func jualPressed(_ sender: AnyObject) {
+        self.isFromDraft = true
         let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
         add.screenBeforeAddProduct = PageName.MyProducts
         self.navigationController?.pushViewController(add, animated: true)
+    }
+    
+    // MARK: - Delegate
+    func setFromDraftOrNew(_ isFromDraft: Bool) {
+        self.isFromDraft = isFromDraft
+    }
+    
+    func getFromDraftOrNew() -> Bool {
+        return self.isFromDraft
     }
 
     /*

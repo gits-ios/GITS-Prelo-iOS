@@ -14,6 +14,7 @@ import TwitterKit
 import Bolts
 import FBSDKCoreKit
 import Alamofire
+import AVFoundation
 
 //import AdobeCreativeSDKCore
 
@@ -39,8 +40,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let RedirTrxPBuyer = "transaction_product_buyer"
     let RedirTrxPSeller = "transaction_product_seller"
     let RedirCategory = "category"
+    let RedirLove = "lovers"
+    let RedirAchievement = "achievement"
     
     var redirAlert : UIAlertView?
+    var redirAlertInit : UIAlertView?
     var RedirWaitAmount : Int = 10000000
     
     var produkUploader : ProdukUploader!
@@ -106,7 +110,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.SplashScreen)
+//        Mixpanel.trackPageVisit(PageName.SplashScreen)
         
         // Configure GAI options.
         let gai = GAI.sharedInstance()
@@ -175,18 +179,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Kepanggil hanya jika app baru saja dibuka, jika dibuka ketika sedang dalam background mode maka tidak terpanggil
         if (launchOptions != nil) {
             if let remoteNotif = launchOptions![UIApplicationLaunchOptionsKey.remoteNotification] as? NSDictionary {
-                if let remoteNotifAps = remoteNotif["aps"] as? NSDictionary {
-                    //Constant.showDialog("Push Notification", message: "remoteNotifAps = \(remoteNotifAps)")
-                    if let tipe = remoteNotifAps.object(forKey: "tipe") as? String {
-                        var targetId : String?
-                        if let tId = remoteNotifAps.object(forKey: "target_id") as? String {
-                            targetId = tId
-                        }
-                        self.deeplinkRedirect(tipe, targetId: targetId)
+                if let tipe = remoteNotif.object(forKey: "tipe") as? String {
+                    var targetId : String?
+                    if let tId = remoteNotif.object(forKey: "target_id") as? String {
+                        targetId = tId
                     }
+//                    Constant.showDialog(tipe, message: targetId! )
+                    self.showRedirAlertInit()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
+                        self.hideRedirAlertInitWithDelay(0)
+                        self.deeplinkRedirect(tipe, targetId: targetId)
+                    })
+                    
                 }
+                
+//                Constant.showDialog("APNS", message: remoteNotif.description )
             }
         }
+        
+        /**
+         * HOTLINE
+         * 1
+         **/
+        /*
+        let config = HotlineConfig.init(appID: "aa37ac74-0ad1-4450-856e-136e59a810c9", andAppKey: "d66d7946-557f-44ef-96c1-9f27585a94fc")
+        Hotline.sharedInstance().initWith(config)
+        
+        /* Enable remote notifications */
+//        let settings = UIUserNotificationSettings(forTypes: [.alert, .badge, .sound], categories: nil)
+        UIApplication.shared.registerUserNotificationSettings(settings)
+        UIApplication.shared.registerForRemoteNotifications()
+        
+        
+        if Hotline.sharedInstance().isHotlineNotification(launchOptions){
+            Hotline.sharedInstance().handleRemoteNotification(launchOptions, andAppstate: application.applicationState)
+        }
+        
+        // re init for upgrade app version
+        self.setupHotline()
+         */
         
         // Handling facebook deferred deep linking
         // Kepanggil hanya jika app baru saja dibuka, jika dibuka ketika sedang dalam background mode maka tidak terpanggil
@@ -247,7 +278,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UserDefaults.setObjectAndSync(userAgent as AnyObject?, forKey: UserDefaultsKey.UserAgent)
         
         // Remove app badge if any
-        UIApplication.shared.applicationIconBadgeNumber = 0
+//        UIApplication.shared.applicationIconBadgeNumber = 0
         
         // Set status bar color
         self.setStatusBarBackgroundColor(color: UIColor.clear)
@@ -355,6 +386,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
+        
+        /**
+         * HOTLINE
+         * 3
+         **/
+//        Hotline.sharedInstance().updateDeviceToken(deviceToken)
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -373,11 +410,126 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().processRemoteNotification(userInfo)
         
-        if (application.applicationState == UIApplicationState.active) {
-            print("App were active when receiving remote notification")
-        } else {
-            print("App weren't active when receiving remote notification")
+        // APNS handle
+        var title = ""
+        var body = ""
+        
+        var alert = ""
+        
+        var tipe = ""
+        var targetId = ""
+        
+        if let remoteNotifAps = userInfo["aps"] as? NSDictionary {
+            if let remoteNotifAlert = remoteNotifAps["alert"] as? NSDictionary {
+                if let _title = remoteNotifAlert.object(forKey: "title") as? String {
+                    title = _title
+                }
+                if let _body = remoteNotifAlert.object(forKey: "body") as? String {
+                    body = _body
+                }
+            } else {
+                if let remoteNotifAlert = remoteNotifAps["alert"] as? String {
+                    alert = remoteNotifAlert
+                }
+            }
         }
+        
+        // deeplink
+        if let t = userInfo["tipe"] as? String {
+            tipe = t
+        }
+        if let tId = userInfo["target_id"] as? String {
+            targetId = tId
+        }
+        
+        // check current view
+        var isDoing = true
+        var rootViewController : UINavigationController?
+        if let childVCs = self.window!.rootViewController?.childViewControllers {
+            if (childVCs.count > 0) {
+                if let rootVC = childVCs[0] as? UINavigationController {
+                    rootViewController = rootVC
+                }
+            }
+        }
+        
+        if tipe.lowercased() == self.RedirInbox && rootViewController?.childViewControllers.last is TawarViewController {
+            //do something if it's an instance of that class
+//            
+//            let x = rootViewController?.childViewControllers.last
+//            let c = x  is TawarViewController
+            
+            if let tawarVC = rootViewController?.childViewControllers.last as? TawarViewController {
+                if tawarVC.tawarItem.threadId == targetId {
+                    isDoing = false
+                }
+            }
+        }
+        
+        if (application.applicationState == UIApplicationState.active) { // active mode
+            print("App were active when receiving remote notification")
+            
+//            Constant.showDialog("APNS", message: userInfo.description)
+            
+            let tipeLowercase = tipe.lowercased()
+            var imageName = "banner_"
+            if (tipeLowercase == self.RedirProduct || tipeLowercase == self.RedirUser || tipeLowercase == self.RedirInbox || tipeLowercase == self.RedirNotif) {
+                // notif
+                imageName += "notif"
+            } else if (tipeLowercase == self.RedirComment) {
+                // comment
+                imageName += "comment"
+            } else if (tipeLowercase == self.RedirConfirm || tipeLowercase == self.RedirTrxBuyer || tipeLowercase == self.RedirTrxSeller || tipeLowercase == self.RedirTrxPBuyer || tipeLowercase == self.RedirTrxPSeller) {
+                // harga
+                imageName += "harga"
+            } else if (tipeLowercase == self.RedirCategory) {
+                // exclamation
+                imageName += "exclamation"
+            } else if (tipeLowercase == self.RedirLove) {
+                // love
+                imageName += "love"
+            } else if (tipeLowercase == self.RedirAchievement) {
+                imageName += "achievement"
+            }
+            imageName += ".png"
+            
+            let imageBanner = UIImage(named: imageName)
+            
+            if (title != "" || alert != "") {
+                // banner
+                let banner = Banner(title: title != "" ? title : alert, subtitle: body != "" ? body : nil, image: imageBanner, backgroundColor: Theme.PrimaryColor, didTapBlock: {
+                    if isDoing {
+                        self.deeplinkRedirect(tipe, targetId: targetId)
+                    }
+                })
+                
+                banner.dismissesOnTap = true
+                
+                AudioServicesPlaySystemSound(SystemSoundID(1000))
+                AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+                
+                banner.show(duration: 3.0)
+            }
+            
+        } else { // background mode
+            print("App weren't active when receiving remote notification")
+            
+//            Constant.showDialog("APNS", message: userInfo.description)
+            
+            if isDoing {
+                self.deeplinkRedirect(tipe, targetId: targetId)
+            }
+        }
+        
+        /**
+         * HOTLINE
+         * 4
+         **/
+        /*
+        if Hotline.sharedInstance().isHotlineNotification(userInfo){
+            Hotline.sharedInstance().handleRemoteNotification(userInfo, andAppstate: application.applicationState)
+        }
+         */
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
@@ -388,6 +540,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        self.saveContext()
         
         // MoEngage
         MoEngage.sharedInstance().stop(application)
@@ -405,6 +558,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
         
 //        produkUploader.start()
+        
+        // init hotline for chat
+        // re init for upgrade app version
+//        self.setupHotline()
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -412,7 +569,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FBSDKAppEvents.activateApp()
         
         // Remove app badge if any
-        UIApplication.shared.applicationIconBadgeNumber = 0
+        // show badge
+        UIApplication.shared.applicationIconBadgeNumber = User.getNotifCount() as NSInteger
         
         // AppsFlyer
         // Track Installs, updates & sessions(app opens) (You must include this API to enable tracking)
@@ -420,6 +578,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // MoEngage
         MoEngage.sharedInstance().applicationBecameActiveinApplication(application)
+        
+        /**
+         * HOTLINE
+         * 2
+         **/
+        /*
+        let unreadCount : NSInteger = Hotline.sharedInstance().unreadCount()
+        UIApplication.shared.applicationIconBadgeNumber = (User.getNotifCount() as NSInteger + unreadCount)
+        */
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
@@ -441,7 +608,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func handleUniversalLink(_ url : URL, path : String, param : [URLQueryItem]) {
         self.showRedirAlert()
-        if (path.contains("/p/")) {
+        if (path.contains(".html")) {
+            let permalink = path.replace("/", template: "").replacingOccurrences(of: ".html", with: "")
+            let _ = request(APIProduct.getIdByPermalink(permalink: permalink)).responseJSON { resp in
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Produk")) {
+                    let json = JSON(resp.result.value!)
+                    let pId = json["_data"].stringValue
+                    if (pId != "") {
+                        self.redirectProduct(pId)
+                    } else {
+                        self.showFailedRedirAlert()
+                    }
+                } else {
+                    self.showFailedRedirAlert()
+                }
+            }
+        } else if (path.contains("/p/")) { // old
             let splittedPath = path.characters.split{$0 == "/"}.map(String.init)
             if (splittedPath.count > 1) {
                 let permalink = splittedPath[1].replacingOccurrences(of: ".html", with: "")
@@ -477,7 +659,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else if (path.contains("/c/") || path.contains("/bekas/")) {
             let splittedPath = path.characters.split{$0 == "/"}.map(String.init)
             if (splittedPath.count > 1) {
-                let permalink = splittedPath[1].replacingOccurrences(of: ".html", with: "")
+                let permalink = splittedPath[1] //.replacingOccurrences(of: ".html", with: "")
                 let _ = request(APIReference.getCategoryByPermalink(permalink: permalink)).responseJSON { resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Get Category ID")) {
                         let json = JSON(resp.result.value!)
@@ -497,10 +679,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else if (path.contains("/checkout")) {
             self.redirectCart()
         } else {
-            self.hideRedirAlertWithDelay(1.0)
-            // Choose one method
-            UIApplication.shared.openURL(url) // Open in safari
-            //self.redirectWebview(url.absoluteString) // Open in prelo's webview
+            let _ = request(APIUser.testUser(username: path.replace("/", template: ""))).responseJSON { resp in
+                
+                if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Data Shop Pengguna")) {
+                    
+                    let json = JSON(resp.result.value!)["_data"]
+                    if let userId = json["_id"].string {
+                        self.redirectShopPage(userId)
+                    } else {
+                        self.hideRedirAlertWithDelay(1.0)
+                        // Choose one method
+                        UIApplication.shared.openURL(url) // Open in safari
+                        //self.redirectWebview(url.absoluteString) // Open in prelo's webview
+                    }
+                } else {
+                    self.hideRedirAlertWithDelay(1.0)
+                    // Choose one method
+                    UIApplication.shared.openURL(url) // Open in safari
+                    //self.redirectWebview(url.absoluteString) // Open in prelo's webview
+                }
+            }
         }
     }
     
@@ -562,6 +760,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 self.showRedirAlert()
                 self.redirectCategory(targetId!)
             }
+        } else if (tipeLowercase == self.RedirLove) {
+            if (targetId != nil && targetId != "") {
+                self.showRedirAlert()
+                self.redirectLove(targetId!)
+            }
+        } else if (tipeLowercase == self.RedirAchievement) {
+            self.showRedirAlert()
+            self.redirectAchievement()
         }
     }
     
@@ -584,6 +790,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         redirAlert?.title = "Redirection Failed"
         redirAlert?.message = "Terdapat kesalahan saat memproses data"
         self.hideRedirAlertWithDelay(3.0)
+    }
+    
+    func showRedirAlertInit() {
+        redirAlertInit = UIAlertView()
+        redirAlertInit!.title = "Redirecting..."
+        redirAlertInit!.message = "Harap tunggu beberapa saat"
+        redirAlertInit!.show()
+    }
+    
+    func hideRedirAlertInitWithDelay(_ delay: Double) {
+        let delayTime = delay * Double(NSEC_PER_SEC)
+        let time = DispatchTime.now() + Double(Int64(delayTime)) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time, execute: {
+            self.redirAlertInit?.dismiss(withClickedButtonIndex: -1, animated: false)
+        })
     }
     
     func redirectProduct(_ productId : String) {
@@ -673,7 +894,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
         listItemVC.currentMode = .shop
         listItemVC.shopId = userId
-
+        
         var rootViewController : UINavigationController?
         if let rVC = self.window?.rootViewController {
             if (rVC.childViewControllers.count > 0) {
@@ -692,7 +913,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let noBtn = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
             listItemVC.navigationItem.leftBarButtonItem = noBtn
         }
-        rootViewController!.pushViewController(listItemVC, animated: true)
+        
+        
+        if (!AppTools.isNewShop) {
+            rootViewController!.pushViewController(listItemVC, animated: true)
+            
+        } else { // new shop
+            let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+            storePageTabBarVC.shopId = userId
+            rootViewController!.pushViewController(storePageTabBarVC, animated: true)
+        }
     }
     
     func redirectInbox(_ inboxId : String?) {
@@ -917,6 +1147,69 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         rootViewController!.pushViewController(listItemVC, animated: true)
     }
     
+    func redirectLove(_ productId : String) {
+        var rootViewController : UINavigationController?
+        
+        // Tunggu sampai UINavigationController terbentuk
+        var wait = true
+        var waitCount = self.RedirWaitAmount
+        while (wait) {
+            if let childVCs = self.window!.rootViewController?.childViewControllers {
+                if (childVCs.count > 0) {
+                    if let rootVC = childVCs[0] as? UINavigationController {
+                        rootViewController = rootVC
+                    }
+                    wait = false
+                }
+            }
+            waitCount -= 1
+            if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                wait = false
+            }
+        }
+        
+        // Redirect setelah selesai menunggu
+        if (rootViewController != nil) {
+            // API Migrasi
+            let productLovelistVC = Bundle.main.loadNibNamed(Tags.XibNameProductLovelist, owner: nil, options: nil)?.first as! ProductLovelistViewController
+            productLovelistVC.productId = productId
+            rootViewController!.pushViewController(productLovelistVC, animated: true)
+        } else {
+            self.showFailedRedirAlert()
+        }
+    }
+    
+    func redirectAchievement() {
+        var rootViewController : UINavigationController?
+        
+        // Tunggu sampai UINavigationController terbentuk
+        var wait = true
+        var waitCount = self.RedirWaitAmount
+        while (wait) {
+            if let childVCs = self.window!.rootViewController?.childViewControllers {
+                if (childVCs.count > 0) {
+                    if let rootVC = childVCs[0] as? UINavigationController {
+                        rootViewController = rootVC
+                    }
+                    wait = false
+                }
+            }
+            waitCount -= 1
+            if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                wait = false
+            }
+        }
+        
+        // Redirect setelah selesai menunggu
+        if (rootViewController != nil) {
+            // API Migrasi
+            let AchievementVC = Bundle.main.loadNibNamed(Tags.XibNameAchievement, owner: nil, options: nil)?.first as! AchievementViewController
+            rootViewController!.pushViewController(AchievementVC, animated: true)
+        } else {
+            self.showFailedRedirAlert()
+        }
+    }
+    
     func redirectWebview(_ url : String) {
         let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let webVC = mainStoryboard.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
@@ -1067,4 +1360,107 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        super.touchesBegan(touches, withEvent: event)
 //        
 //    }
+    
+    // MARK: - orintation screen
+    
+    var orientations:UIInterfaceOrientation = UIApplication.shared.statusBarOrientation
+    
+    func application(_ application: UIApplication, didChangeStatusBarOrientation oldStatusBarOrientation: UIInterfaceOrientation) {
+        adjustViewsForOrientation(orientation: UIApplication.shared.statusBarOrientation)
+    }
+    
+    func adjustViewsForOrientation(orientation: UIInterfaceOrientation) {
+        if (orientation == UIInterfaceOrientation.portrait || orientation == UIInterfaceOrientation.portraitUpsideDown)
+        {
+            if(orientation != orientations) {
+                print("Portrait")
+                
+                
+                //Do Rotation stuff here
+                orientations = orientation
+            }
+        }
+        else if (orientation == UIInterfaceOrientation.landscapeLeft || orientation == UIInterfaceOrientation.landscapeRight)
+        {
+            if(orientation != orientations) {
+                print("Landscape")
+                
+                Constant.showDialog("Device Orientation", message: "Halo Prelovers, Prelo menyarankan untuk menggunakan aplikasi Prelo dengan orientasi portrait atau tegak")
+                
+                //Do Rotation stuff here
+                orientations = orientation
+            }
+        }
+    }
+    
+    // MARK: - Hotline
+    /*
+    func setupHotline() {
+        /*
+         * Following three methods are to identify a user.
+         * These user properties will be viewable on the Hotline web dashboard.
+         * The externalID (identifier) set will also be used to identify the specific user for any APIs
+         * targeting a user or list of users in pro-active messaging or marketing
+         */
+        
+        // Create a user object
+        let user = HotlineUser.sharedInstance();
+        
+        // To set an identifiable name for the user
+//        user?.name = CDUser.getOne()?.fullname
+        user?.name = CDUser.getOne()?.username
+        
+        //To set user's email id
+        user?.email = CDUser.getOne()?.email
+        
+        //To set user's phone number
+        //        user?.phoneCountryCode="62"; // indonesia
+        user?.phoneNumber = CDUser.getOne()?.profiles.phone
+        
+        
+        
+        //To set user's identifier (external id to map the user to a user in your system. Setting an external ID is COMPULSARY for many of Hotline’s APIs
+        user?.externalID = UIDevice.current.identifierForVendor!.uuidString
+        
+        
+        // FINALLY, REMEMBER TO SEND THE USER INFORMATION SET TO HOTLINE SERVERS
+        Hotline.sharedInstance().update(user)
+        
+        /* Custom properties & Segmentation - You can add any number of custom properties. An example is given below.
+         These properties give context for your conversation with the user and also serve as segmentation criteria for your marketing messages
+         */
+        
+        //        //You can set custom user properties for a particular user
+        //        Hotline.sharedInstance().updateUserPropertyforKey("customerType", withValue: "Premium")
+        
+        let city = CDUser.getOne()?.profiles.subdistrictName
+        
+        //You can set user demographic information
+        Hotline.sharedInstance().updateUserPropertyforKey("city", withValue: city)
+        
+        //You can segment based on where the user is in their journey of using your app
+        Hotline.sharedInstance().updateUserPropertyforKey("loggedIn", withValue: User.IsLoggedIn.description)
+        
+        //        //You can capture a state of the user that includes what the user has done in your app
+        //        Hotline.sharedInstance().updateUserPropertyforKey("transactionCount", withValue: "3")
+        
+        
+        /* If you want to indicate to the user that he has unread messages in his inbox, you can retrieve the unread count to display. */
+        //returns an int indicating the of number of unread messages for the user
+//        Hotline.sharedInstance().unreadCount()
+        
+        
+        //        /*
+        //         Managing Badge number for unread messages - Manual
+        //         */
+        //        Hotline.sharedInstance().initWithConfig(config)
+        //        print("Unread messages count \(Hotline.sharedInstance().unreadCount()) .")
+        //
+        //
+        //        Hotline.sharedInstance().unreadCountWithCompletion { (count:Int) -> Void in
+        //            print("Unread count (Async) :\(count)")
+        //        }
+        
+    }
+     */
 }

@@ -23,6 +23,9 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
     @IBOutlet var tblLovers: UITableView!
     var refreshControl : UIRefreshControl!
     
+    @IBOutlet weak var loadingPanel: UIView!
+    
+    
     // Data container
     var productLovelistItems : [ProductLovelistItem] = []
     
@@ -41,14 +44,14 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
         let productLovelistCellNib = UINib(nibName: "ProductLovelistCell", bundle: nil)
         tblLovers.register(productLovelistCellNib, forCellReuseIdentifier: "ProductLovelistCell")
 
-        // Refresh control
+//         Refresh control
         self.refreshControl = UIRefreshControl()
         self.refreshControl.tintColor = Theme.PrimaryColor
         self.refreshControl.addTarget(self, action: #selector(ProductLovelistViewController.refreshTable), for: UIControlEvents.valueChanged)
         self.tblLovers.addSubview(refreshControl)
         
         // Set title
-        self.title = "Product Lovelist"
+//        self.title = "Product Lovelist"
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -64,7 +67,16 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
         self.getProducts()
     }
     
+    func showLoading() {
+        self.loadingPanel.isHidden = false
+    }
+    
+    func hideLoading() {
+        self.loadingPanel.isHidden = true
+    }
+    
     func getProducts() {
+        showLoading()
         _ = request(APIProduct.getProductLovelist(productId: productId)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Product Lovelist")) {
                 let json = JSON(resp.result.value!)
@@ -84,10 +96,19 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
                         self.productLovelistItems.append(p!)
                     }
                 }
+                
+                // Set title
+                self.title = data["name"].stringValue
+                self.hideLoading()
+
+            } else {
+                // back to previous UI
+                self.navigationController?.popViewController(animated: true)
             }
             
             // Hide refresh control
             self.refreshControl.endRefreshing()
+            self.hideLoading()
             
             // Setup table
             if (self.productLovelistItems.count > 0) {
@@ -117,16 +138,42 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
         cell.selectionStyle = .none
         cell.chatPressed = {
             self.tblLovers.isHidden = true
-            _ = request(APIProduct.detail(productId: self.productId, forEdit: 0)).responseJSON {resp in
-                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Barang")) {
-                    let pDetail = ProductDetail.instance(JSON(resp.result.value!))
+            
+            var productId = self.productId
+            var buyer = self.productLovelistItems[indexPath.row]
+            
+            // Get product detail from API
+            let _ = request(APIProduct.detail(productId: productId, forEdit: 0)).responseJSON {resp in
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Hubungi Pembeli")) {
+                    let json = JSON(resp.result.value!)
+                    if let pDetail = ProductDetail.instance(json) {
+                        // Goto chat
+                        let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
                     
-                    let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    let t = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
-                    t.tawarItem = pDetail
-                    t.loadInboxFirst = true
-                    t.prodId = self.productId
-                    self.navigationController?.pushViewController(t, animated: true)
+                        // API Migrasi
+                        let _ = request(APIInbox.getInboxByProductIDSeller(productId: pDetail.productID, buyerId: buyer.id)).responseJSON {resp in
+                            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Hubungi Pembeli")) {
+                                let json = JSON(resp.result.value!)
+                                if (json["_data"]["_id"].stringValue != "") { // Sudah pernah chat
+                                    t.tawarItem = Inbox(jsn: json["_data"])
+                                    self.navigationController?.pushViewController(t, animated: true)
+                                } else { // Belum pernah chat
+                                    
+                                    pDetail.buyerId = buyer.id
+                                    pDetail.buyerName = buyer.username
+                                    pDetail.buyerImage = (buyer.imageURL?.absoluteString)!
+                                    pDetail.reverse()
+                                        
+                                    t.tawarItem = pDetail
+                                    t.fromSeller = true
+                                    
+                                    t.toId = buyer.id
+                                    t.prodId = t.tawarItem.itemId
+                                    self.navigationController?.pushViewController(t, animated: true)
+                                }
+                            }
+                        }
+                    }
                 } else {
                     Constant.showDialog("Product Lovelist", message: "Oops, terdapat kesalahan saat mengakses detail produk")
                 }
@@ -138,11 +185,17 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tblLovers.isHidden = true
-        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
-        listItemVC.currentMode = .shop
-        listItemVC.shopId = self.productLovelistItems[indexPath.row].id
-        self.navigationController?.pushViewController(listItemVC, animated: true)
+        if (!AppTools.isNewShop) {
+            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+            listItemVC.currentMode = .shop
+            listItemVC.shopId = self.productLovelistItems[indexPath.row].id
+            self.navigationController?.pushViewController(listItemVC, animated: true)
+        } else {
+            let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+            storePageTabBarVC.shopId = self.productLovelistItems[indexPath.row].id
+            self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+        }
     }
     
     // MARK: - Other functions

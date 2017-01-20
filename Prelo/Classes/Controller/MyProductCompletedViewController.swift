@@ -86,7 +86,7 @@ class MyProductCompletedViewController : BaseViewController, UITableViewDataSour
         btnRefresh.isHidden = true
         
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.MyProducts, otherParam: ["Tab" : "Complete"])
+//        Mixpanel.trackPageVisit(PageName.MyProducts, otherParam: ["Tab" : "Complete"])
         
         // Google Analytics
         GAI.trackPageVisit(PageName.MyProducts)

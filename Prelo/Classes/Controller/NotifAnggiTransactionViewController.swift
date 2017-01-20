@@ -32,7 +32,7 @@ fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 // MARK: - NotifAnggiTransaction Protocol
 
-protocol NotifAnggiTransactionDelegate {
+protocol NotifAnggiTransactionDelegate: class {
     func decreaseTransactionBadgeNumber()
 }
 
@@ -48,6 +48,19 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     @IBOutlet weak var bottomLoadingPanel: UIView!
     @IBOutlet weak var bottomLoading: UIActivityIndicatorView!
     
+    
+    // for delete notif
+    @IBOutlet weak var consHeightCheckBoxAll: NSLayoutConstraint! // default : 0 --> 64
+    @IBOutlet weak var lblCheckBox: UILabel! // default : hidden
+    
+    @IBOutlet weak var consHeightButtonView: NSLayoutConstraint! // default : 0 --> 56
+    @IBOutlet weak var btnBatal: UIButton!
+    @IBOutlet weak var btnHapus: UIButton! // to update label with count
+    
+    // for confirm delete
+    @IBOutlet weak var overlayPopUp: UIView!
+    @IBOutlet weak var backgroundOverlay: UIView!
+    
     var refreshControl : UIRefreshControl!
     var currentPage : Int = 0
     let ItemPerLoad : Int = 10
@@ -55,7 +68,13 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     
     var notifications : [NotificationObj]?
 
-    var delegate : NotifAnggiTransactionDelegate?
+    weak var delegate : NotifAnggiTransactionDelegate?
+    
+    var isToDelete : Bool = false
+    
+    var notifIds : [String] = []
+    
+    var isMacro : Bool = false
     
     // MARK: - Init
     
@@ -83,6 +102,15 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         // Transparent panel
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
         bottomLoadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+        
+//        btnBatal.layer.borderWidth = 1
+//        btnBatal.layer.borderColor = UIColor.white.cgColor
+//        
+//        btnHapus.layer.borderWidth = 1
+//        btnHapus.layer.borderColor = UIColor.white.cgColor
+        
+        // Transparent panel
+        self.backgroundOverlay.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.2)
     }
     
     func refreshPage() {
@@ -130,6 +158,14 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
             // Hide refreshControl (for refreshing)
             self.refreshControl.endRefreshing()
             
+            if self.isMacro {
+                self.notifIds = []
+                for idx in 0...(self.notifications?.count)!-1 {
+                    self.notifIds.append(self.notifications![idx].id)
+                }
+                self.tableView.reloadData()
+            }
+            
             // Show content
             self.showContent()
         }
@@ -148,16 +184,50 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell : NotifAnggiTransactionCell = self.tableView.dequeueReusableCell(withIdentifier: "NotifAnggiTransactionCell") as? NotifAnggiTransactionCell, notifications != nil, notifications!.count > (indexPath as NSIndexPath).item {
             cell.selectionStyle = .none
-            let n = notifications?[(indexPath as NSIndexPath).item]
-            cell.adapt(n!, idx: (indexPath as NSIndexPath).item)
-            cell.delegate = self
+            if let n = notifications?[(indexPath as NSIndexPath).item] {
+                cell.adapt(n, idx: (indexPath as NSIndexPath).item)
+                cell.delegate = self
+                
+                if isToDelete {
+                    cell.vwCheckBox.isHidden = false
+                    cell.consLeadingImage.constant = 48
+                    cell.vwOverlay.isHidden = false
+                    
+                    let idx = notifIds.index(of: n.id)
+                    if idx != nil {
+                        cell.lblCheckBox.isHidden = false
+                    } else {
+                        cell.lblCheckBox.isHidden = true
+                    }
+                    self.btnHapus.setTitle("HAPUS (" + notifIds.count.string + ")",for: .normal)
+                } else {
+                    cell.vwCheckBox.isHidden = true
+                    cell.consLeadingImage.constant = 0
+                    
+                    cell.lblCheckBox.isHidden = true
+                    cell.vwOverlay.isHidden = true
+                }
+            }
+            
             return cell
         }
         return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.readNotif((indexPath as NSIndexPath).item)
+        if (isToDelete) {
+            if let n = notifications?[(indexPath as NSIndexPath).item] {
+                let idx = notifIds.index(of: n.id)
+                if idx != nil {
+                    notifIds.remove(at: idx!)
+                } else {
+                    notifIds.append(n.id)
+                }
+                tableView.reloadData()
+            }
+        } else {
+            self.readNotif((indexPath as NSIndexPath).item)
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -195,6 +265,74 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     
     @IBAction func refreshPressed(_ sender: AnyObject) {
         self.refreshPage()
+    }
+    
+    @IBAction func btnCheckBoxAllPressed(_ sender: Any) {
+        if (isMacro) {
+            self.lblCheckBox.isHidden = true
+            self.isMacro = false
+            self.notifIds = []
+            self.tableView.reloadData()
+            
+        } else {
+            self.lblCheckBox.isHidden = false
+            self.isMacro = true
+            self.notifIds = []
+            for idx in 0...(self.notifications?.count)!-1 {
+                notifIds.append(self.notifications![idx].id)
+            }
+            self.tableView.reloadData()
+        }
+    }
+    
+    @IBAction func btnBatalPressed(_ sender: Any) {
+        self.isToDelete = false
+        self.consHeightCheckBoxAll.constant = 0
+        self.lblCheckBox.isHidden = true
+        self.consHeightButtonView.constant = 0
+        self.notifIds = []
+        self.tableView.reloadData()
+    }
+    
+    @IBAction func btnHapusPressed(_ sender: Any) {
+        // do something
+        if notifIds.count > 0 {
+            self.backgroundOverlay.isHidden = false
+            self.overlayPopUp.isHidden = false
+        } else {
+            Constant.showDialog("Perhatian", message: "Pesan wajib dipilih")
+        }
+    }
+    
+    @IBAction func btnBatalPopUpPressed(_ sender: Any) {
+        self.backgroundOverlay.isHidden = true
+        self.overlayPopUp.isHidden = true
+    }
+    
+    @IBAction func btnHapusPopUpPressed(_ sender: Any) {
+        self.backgroundOverlay.isHidden = true
+        self.overlayPopUp.isHidden = true
+        // call api
+        
+        let _ = request(APINotification.deleteNotif(tab: "transaction", notifIds: AppToolsObjC.jsonString(from: self.notifIds))).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Delete Notifications")) {
+                
+                self.refreshPage()
+                self.notifIds = []
+                self.isMacro = false
+                
+                self.isToDelete = false
+                self.consHeightCheckBoxAll.constant = 0
+                self.lblCheckBox.isHidden = true
+                self.consHeightButtonView.constant = 0
+                
+                Constant.showDialog("Hapus Pesan", message: "Pesan telah berhasil dihapus")
+            }
+        }
+        
+        
+        // messagebox --> inside success api
+//        Constant.showDialog("Hapus Pesan", message: "Pesan berhasil dihapus")
     }
     
     // MARK: - Other functions
@@ -357,6 +495,13 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
     @IBOutlet weak var lblPrice: UILabel!
     @IBOutlet weak var lblTime: UILabel!
     @IBOutlet weak var collcTrxProgress: UICollectionView!
+    
+    // for delete notif
+    @IBOutlet weak var consLeadingImage: NSLayoutConstraint! // default : 0 --> 48
+    @IBOutlet weak var vwCheckBox: UIView! // default : hidden
+    @IBOutlet weak var lblCheckBox: UILabel! // default : hidden
+    @IBOutlet weak var vwOverlay: UIView! // default : hidden
+    
     
     var notif : NotificationObj?
     var idx : Int?

@@ -45,6 +45,12 @@ class AppTools: NSObject {
     static var screenHeight : CGFloat {
         return UIScreen.main.bounds.height
     }
+    
+    static var isNewShop : Bool { // new shop, TODO: - bisa setting di app
+        return false
+    }
+    
+    static let isOldShopWithBadges : Bool = false // set true kalau jadi bisa nampilin badge
 }
 
 enum AppFont {
@@ -97,11 +103,25 @@ extension UIView {
     class func fromNib<T : UIView>() -> T {
         return Bundle.main.loadNibNamed(String(describing: T.self), owner: nil, options: nil)![0] as! T
     }
+    var snapshot: UIImage {
+//        UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
+//        drawHierarchy(in: bounds, afterScreenUpdates: true)
+//        let result = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//        return result!
+        
+        UIGraphicsBeginImageContext(self.bounds.size);
+        let context = UIGraphicsGetCurrentContext();
+        self.layer.render(in: context!)
+        let screenShot = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        return screenShot!
+    }
 }
 
 extension UIAlertView {
     static func SimpleShow(_ title : String, message : String) {
-        let a = UIAlertView(title: title, message: message, delegate: nil, cancelButtonTitle: "OK")
+        let a = UIAlertView(title: title, message: message, delegate: nil, cancelButtonTitle: "Oke")
         a.show()
     }
 }
@@ -126,6 +146,37 @@ extension UILabel {
             let start = text.string.characters.distance(from: text.string.startIndex, to: range.lowerBound)
             let length = text.string.characters.distance(from: range.lowerBound, to: range.upperBound)
             attr.addAttributes([NSFontAttributeName: UIFont.boldSystemFont(ofSize: self.font.pointSize)], range: NSMakeRange(start, length))
+            self.attributedText = attr
+        }
+    }
+    
+    func boldSubstring(_ substr: String) {
+        let range = self.text?.range(of: substr)
+        if let r = range {
+            boldRange(r)
+        }
+    }
+    
+    func setSubstringColor(_ substr: String, color: UIColor) {
+        if let range = self.text?.range(of: substr) {
+            if let text = self.attributedText {
+                let attr = NSMutableAttributedString(attributedString: text)
+                let start = text.string.characters.distance(from: text.string.startIndex, to: range.lowerBound)
+                let length = text.string.characters.distance(from: range.lowerBound, to: range.upperBound)
+                attr.addAttributes([NSForegroundColorAttributeName: color], range: NSMakeRange(start, length))
+                self.attributedText = attr
+            }
+        }
+    }
+}
+
+extension UITextView {
+    func boldRange(_ range: Range<String.Index>) {
+        if let text = self.attributedText {
+            let attr = NSMutableAttributedString(attributedString: text)
+            let start = text.string.characters.distance(from: text.string.startIndex, to: range.lowerBound)
+            let length = text.string.characters.distance(from: range.lowerBound, to: range.upperBound)
+            attr.addAttributes([NSFontAttributeName: UIFont.boldSystemFont(ofSize: (self.font?.pointSize)!)], range: NSMakeRange(start, length))
             self.attributedText = attr
         }
     }
@@ -216,7 +267,9 @@ extension UIImageView {
     }
     
     func afSetImage(withURL: URL) {
-        self.af_setImage(withURL: withURL)
+        self.af_setImage(withURL: withURL)        
+//        let placeholderImage = UIImage(named: "raisa.jpg")!
+//        self.af_setImage(withURL: withURL, placeholderImage: placeholderImage)
     }
 }
 
@@ -326,6 +379,10 @@ class Tags : NSObject {
     static let XibNameRequestRefund = "RefundRequest"
     static let XibNameProductReport = "ReportProducts"
     static let XibNameLocationFilter = "LocationFilters"
+    static let XibNameScanner = "Scanner"
+    static let XibNameAchievement = "Achievement"
+    static let XibNameStorePage = "StorePageTabBar"
+    static let XibNameShopAchievement = "ShopAchievement"
 }
 
 class OrderStatus : NSObject {
@@ -394,6 +451,8 @@ class PageName {
     static let CheckoutTutorial = "Checkout Tutorial"
     static let Mutation = "Mutasi"
     static let BarangExpired = "Barang Expired"
+    static let Achievement = "Achievements"
+    static let ShopAchievements = "Shop Achievements"
 }
 
 extension Mixpanel {
@@ -456,6 +515,7 @@ class MixpanelEvent {
     static let RequestedWithdrawMoney = "Requested Withdraw Money"
     static let Checkout = "Checkout"
     static let AddedProduct = "Added Product"
+    static let ChatMarkAsSold = "Chat Mark as Sold"
 }
 
 extension GAI {
@@ -604,7 +664,8 @@ class ImageHelper {
             return nil
         }
         
-        return mutableData;*/
+        return mutableData
+        */
         
         return NSData(data: data) as Data
     }

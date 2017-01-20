@@ -71,39 +71,39 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     // MARK: - Properties
     
     // Outlets
-    @IBOutlet var tableView : UITableView!
-    @IBOutlet var loadingPanel: UIView!
+    @IBOutlet weak var tableView : UITableView!
+    @IBOutlet weak var loadingPanel: UIView!
     // Outlets in header section
-    @IBOutlet var header : TawarHeader!
-    @IBOutlet var conMarginHeightOptions : NSLayoutConstraint!
-    @IBOutlet var btnTawar1 : UIButton!
-    @IBOutlet var btnTawar2 : UIButton!
-    @IBOutlet var btnBeli : UIButton!
-    @IBOutlet var btnBatal : UIButton!
-    @IBOutlet var btnTolak : UIButton!
-    @IBOutlet var btnTolak2 : UIButton!
-    @IBOutlet var btnConfirm : UIButton!
-    @IBOutlet var btnSold: UIButton!
-    @IBOutlet var btnBeliSold: UIButton!
+    @IBOutlet weak var header : TawarHeader!
+    @IBOutlet weak var conMarginHeightOptions : NSLayoutConstraint!
+    @IBOutlet weak var btnTawar1 : UIButton!
+    @IBOutlet weak var btnTawar2 : UIButton!
+    @IBOutlet weak var btnBeli : UIButton!
+    @IBOutlet weak var btnBatal : UIButton!
+    @IBOutlet weak var btnTolak : UIButton!
+    @IBOutlet weak var btnTolak2 : UIButton!
+    @IBOutlet weak var btnConfirm : UIButton!
+    @IBOutlet weak var btnSold: UIButton!
+    @IBOutlet weak var btnBeliSold: UIButton!
     // Outlets in chat field section
-    @IBOutlet var btnSend : UIButton!
-    @IBOutlet var textView : UITextView!
-    @IBOutlet var conMarginBottom : NSLayoutConstraint!
-    @IBOutlet var conHeightTextView : NSLayoutConstraint!
-    @IBOutlet var vwMediaButton: UIView!
+    @IBOutlet weak var btnSend : UIButton!
+    @IBOutlet weak var textView : UITextView!
+    @IBOutlet weak var conMarginBottom : NSLayoutConstraint!
+    @IBOutlet weak var conHeightTextView : NSLayoutConstraint!
+    @IBOutlet weak var vwMediaButton: UIView!
     // Outlets in tawar pop up
-    @IBOutlet var txtTawar : UITextField!
-    @IBOutlet var captionTawarHargaOri : UILabel!
-    @IBOutlet var sectionTawar : UIView!
-    @IBOutlet var conMarginBottomSectionTawar : NSLayoutConstraint!
+    @IBOutlet weak var txtTawar : UITextField!
+    @IBOutlet weak var captionTawarHargaOri : UILabel!
+    @IBOutlet weak var sectionTawar : UIView!
+    @IBOutlet weak var conMarginBottomSectionTawar : NSLayoutConstraint!
     // Outlets in upload gambar pop up
-    @IBOutlet var sectionUploadGbr: UIView!
-    @IBOutlet var conBottomSectionUploadGbr: NSLayoutConstraint!
-    @IBOutlet var imgUploadGbr: UIImageView!
-    @IBOutlet var txtVwUploadGbr: UITextView!
-    @IBOutlet var conHeightTxtVwUploadGbr: NSLayoutConstraint!
-    @IBOutlet var btnBatalUploadGbr: UIButton!
-    @IBOutlet var btnKirimUploadGbr: UIButton!
+    @IBOutlet weak var sectionUploadGbr: UIView!
+    @IBOutlet weak var conBottomSectionUploadGbr: NSLayoutConstraint!
+    @IBOutlet weak var imgUploadGbr: UIImageView!
+    @IBOutlet weak var txtVwUploadGbr: UITextView!
+    @IBOutlet weak var conHeightTxtVwUploadGbr: NSLayoutConstraint!
+    @IBOutlet weak var btnBatalUploadGbr: UIButton!
+    @IBOutlet weak var btnKirimUploadGbr: UIButton!
     
     // Grow handler
     var textViewGrowHandler : GrowingTextViewHandler!
@@ -218,13 +218,30 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         if (User.IsLoggedIn) {
             firstSetup()
         }
+        
+        
+        // OVERRIDE BUTTON COLOR
+        // ORANYE PRELO
+        btnTawar1.backgroundColor = Theme.ThemeOrange
+        btnTawar2.backgroundColor = Theme.ThemeOrange
+        
+        // WHITE
+        //        btnTolak
+        //        btnTolak2
+        //        btnBatal
+        
+        // HIJAU PRELO
+        btnConfirm.backgroundColor = Theme.PrimaryColor
+        btnSold.backgroundColor = Theme.PrimaryColor
+        btnBeli.backgroundColor = Theme.PrimaryColor
+        btnBeliSold.backgroundColor = Theme.PrimaryColor
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.InboxDetail)
+//        Mixpanel.trackPageVisit(PageName.InboxDetail)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.InboxDetail)
@@ -398,8 +415,12 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                     self.conMarginHeightOptions.constant = 114
                 }
             } else { // Product is sold
-                self.conMarginHeightOptions.constant = 80
-                return
+                if (tawarItem.markAsSoldTo == tawarItem.theirId) { // mark as sold, im seller
+                    self.conMarginHeightOptions.constant = 114
+                } else {
+                    self.conMarginHeightOptions.constant = 80
+                    return
+                }
             }
         }
         
@@ -407,6 +428,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         if (self.prodStatus != 1) { // Product is sold
             if (tawarItem.opIsMe && tawarItem.markAsSoldTo == User.Id) { // I am buyer & mark as sold to me
                 btnBeliSold.isHidden = false
+            } else if (!tawarItem.opIsMe && tawarItem.markAsSoldTo == tawarItem.theirId) { // I am seller & mark as sold to their
+                btnTawar2.isHidden = false
             }
         } else { // Product isn't sold
             if (threadState == 0 || threadState == 2 || threadState == 3) { // No one is bargaining
@@ -614,7 +637,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         // Create a URL in the /tmp directory
         var imageURL = URL(string: "http://lorempixel.com/output/animals-q-g-640-480-4.jpg")
         if (image != nil) {
-            if let url = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tempImg.png") {
+            if let url = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tempImg-" + self.inboxMessages.count.string + ".png") {
                 imageURL = url
             }
             if (imageURL != nil) {
@@ -679,14 +702,16 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         var param = [
             "product_id" : prodId,
             "message_type" : String(type),
-            "message" : message
+            "message" : message,
+            "platform_sent_from" : "ios"
             ] as [String : Any]
         if (fromSeller) {
             param = [
                 "product_id" : prodId,
                 "message_type" : String(type),
                 "message" : message,
-                "to" : toId
+                "to" : toId,
+                "platform_sent_from" : "ios"
             ]
         }
         var images : [UIImage] = []
@@ -705,7 +730,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             // Create a URL in the /tmp directory
             var imageURL = URL(string: "http://lorempixel.com/output/animals-q-g-640-480-4.jpg")
             if (withImg != nil) {
-                if let url = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tempImg.png") {
+                if let url = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tempImg-" + self.inboxMessages.count.string + ".png") {
                     imageURL = url
                 }
                 if (imageURL != nil) {
@@ -817,7 +842,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             a.addAction(UIAlertAction(title: "Album", style: .default, handler: { act in
                 self.present(i, animated: true, completion: nil)
             }))
-            a.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { act in }))
+            a.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in }))
             self.present(a, animated: true, completion: nil)
         } else {
             self.present(i, animated: true, completion: nil)
@@ -868,8 +893,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             var originalPrice = tawarItem.price.replacingOccurrences(of: "Rp", with: "", options: .literal, range: nil)
             originalPrice = originalPrice.replacingOccurrences(of: ".", with: "", options: .literal, range: nil)
             let halfPrice = originalPrice.int / 2
-            if m <= halfPrice {
-                Constant.showDialog("Tawar", message: "Tawaran kamu terlalu rendah, hanya penjual yang dapat memberikan penawaran dengan harga tersebut")
+            if m <= halfPrice && CDUser.getOne()?.id == tawarItem!.myId && tawarItem!.opIsMe == true {
+                Constant.showDialog("Tawar", message: "Tawaran yang kamu ajukan terlalu rendah, hanya penjual yang dapat memberikan penawaran dengan harga tersebut")
                 return
             }
             self.hideTawar(nil)
@@ -998,10 +1023,16 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     @IBAction func gotoShopPage(_ sender: AnyObject) {
         if (!isChatWithPreloMessage() && tawarItem.theirId != "") {
-            let shopPage = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
-            shopPage.currentMode = .shop
-            shopPage.shopId = tawarItem.theirId
-            self.navigationController?.pushViewController(shopPage, animated: true)
+            if (!AppTools.isNewShop) {
+                let shopPage = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+                shopPage.currentMode = .shop
+                shopPage.shopId = tawarItem.theirId
+                self.navigationController?.pushViewController(shopPage, animated: true)
+            } else {
+                let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+                storePageTabBarVC.shopId = tawarItem.theirId
+                self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+            }
         }
     }
     
@@ -1031,7 +1062,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     func markAsSold() {
         let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah dibeli dan diterima oleh pembeli? (Aksi ini tidak bisa dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Batal", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
             self.prodStatus = 2
             Constant.showDialog("Success", message: "Barang telah ditandai sebagai barang terjual")
@@ -1042,6 +1073,15 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 finalPrice = self.tawarItem.price
             }
             self.sendChat(4, message: "Barang ini dijual kepada \(self.tawarItem.theirName) dengan harga \(finalPrice)", image: nil)
+            
+            // Mixpanel
+            let pt = [
+                "Product Id" : self.prodId,
+                "Seller Id" : CDUser.getOne()?.id, // seller
+                "Buyer Id" : self.toId, // buyer
+                "Price" : finalPrice
+            ]
+            Mixpanel.trackEvent(MixpanelEvent.ChatMarkAsSold, properties: pt)
         }))
         self.present(alert, animated: true, completion: nil)
     }
@@ -1082,6 +1122,9 @@ class TawarCell : UITableViewCell {
     @IBOutlet var btnRetry : UIButton?
     @IBOutlet var imgMessage: UIImageView?
     
+    @IBOutlet weak var newCaptionMessage: UITextView!
+    
+    
     var zoomImgMessage : () -> () = {}
     
     var inboxMessage : InboxMessage?
@@ -1095,6 +1138,7 @@ class TawarCell : UITableViewCell {
     
     override func prepareForReuse() {
         imgMessage?.image = nil
+        captionTime.date = nil
     }
     
     func decor(){
@@ -1115,29 +1159,29 @@ class TawarCell : UITableViewCell {
         if let m = inboxMessage {
             if (m.isMe) {
                 self.sectionMessage.backgroundColor = Theme.PrimaryColor
-                self.captionMessage?.textColor = UIColor.white
+                self.newCaptionMessage?.textColor = UIColor.white
             } else {
                 self.sectionMessage.backgroundColor = UIColor(hexString: "#E8ECEE")
-                self.captionMessage?.textColor = UIColor.darkGray
+                self.newCaptionMessage?.textColor = UIColor.darkGray
             }
             
             self.btnRetry?.isHidden = true
             self.captionSending?.isHidden = true
             
             if (m.failedToSend) {
-                self.captionMessage?.text = "[GAGAL MENGIRIM]\n\n" + m.message
-                self.captionMessage?.textColor = UIColor.white
+                self.newCaptionMessage?.text = "[GAGAL MENGIRIM]\n\n" + m.message
+                self.newCaptionMessage?.textColor = UIColor.white
                 self.sectionMessage.backgroundColor = UIColor(hexString : "#AC281C")
                 self.btnRetry?.isHidden = false
             } else {
                 if (m.attachmentType == "image") {
-                    self.captionMessage?.isHidden = true
+                    self.newCaptionMessage?.isHidden = true
                     self.imgMessage?.isHidden = false
                     self.imgMessage?.afSetImage(withURL: m.attachmentURL)
                 } else {
-                    self.captionMessage?.isHidden = false
+                    self.newCaptionMessage?.isHidden = false
                     self.imgMessage?.isHidden = true
-                    self.captionMessage?.text = m.dynamicMessage
+                    self.newCaptionMessage?.text = m.dynamicMessage
                 }
             }
             
@@ -1149,13 +1193,19 @@ class TawarCell : UITableViewCell {
             }
             
             if (m.messageType == 1) {
-                self.sectionMessage.backgroundColor = Theme.ThemeOrage
-                self.captionMessage?.textColor = UIColor.white
+                self.sectionMessage.backgroundColor = Theme.ThemeOrange
+                self.newCaptionMessage?.textColor = UIColor.white
             }
             
             if (m.messageType == 3) {
                 self.sectionMessage.backgroundColor = UIColor(hexString: "#E8ECEE")
-                self.captionMessage?.textColor = UIColor.darkGray
+                self.newCaptionMessage?.textColor = UIColor.darkGray
+            }
+            
+            if (m.attachmentType != "image" && m.dynamicMessage.range(of: "Tawar \n") != nil) {
+                let boldText = m.dynamicMessage.replace("Tawar \n", template: "")
+                
+                self.newCaptionMessage.boldSubstring(boldText)
             }
             
             self.captionArrow.textColor = self.sectionMessage.backgroundColor
@@ -1176,6 +1226,7 @@ class TawarCell : UITableViewCell {
     @IBAction func gotoShopPage(_ sender: AnyObject) {
         self.toShopPage()
     }
+    
 }
 
 // MARK: - Class

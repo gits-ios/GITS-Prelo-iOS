@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <viewController id="Ir0-WN-WCK" customClass="ShopAchievementViewController" customModule="Prelo" customModuleProvider="target">
+            <layoutGuides>
+                <viewControllerLayoutGuide type="top" id="oZx-xe-mmr"/>
+                <viewControllerLayoutGuide type="bottom" id="Vga-bl-mGY"/>
+            </layoutGuides>
+            <view key="view" contentMode="scaleToFill" id="l6y-Ew-yB6">
+                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Belum ada badge untuk user ini" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g7K-V3-0qg">
+                        <rect key="frame" x="16" y="25" width="343" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="16" id="cgR-6t-AQ7"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="lb2-Dc-paj">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </tableView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7bZ-X7-1rR" userLabel="loadingPanel">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="emh-5e-MPJ" userLabel="loading">
+                                <rect key="frame" x="178" y="25" width="20" height="20"/>
+                                <color key="color" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="emh-5e-MPJ" firstAttribute="top" secondItem="7bZ-X7-1rR" secondAttribute="top" constant="25" id="5xy-wM-CU5"/>
+                            <constraint firstAttribute="centerX" secondItem="emh-5e-MPJ" secondAttribute="centerX" id="HnU-Dc-SZD"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstItem="7bZ-X7-1rR" firstAttribute="top" secondItem="l6y-Ew-yB6" secondAttribute="top" id="2AF-jH-sOB"/>
+                    <constraint firstAttribute="trailing" secondItem="7bZ-X7-1rR" secondAttribute="trailing" id="96E-MP-8xm"/>
+                    <constraint firstItem="lb2-Dc-paj" firstAttribute="top" secondItem="oZx-xe-mmr" secondAttribute="bottom" id="A1O-wo-qUq"/>
+                    <constraint firstAttribute="trailing" secondItem="lb2-Dc-paj" secondAttribute="trailing" id="WH1-Q8-cu4"/>
+                    <constraint firstItem="lb2-Dc-paj" firstAttribute="leading" secondItem="l6y-Ew-yB6" secondAttribute="leading" id="dTD-yY-PJl"/>
+                    <constraint firstItem="g7K-V3-0qg" firstAttribute="top" secondItem="oZx-xe-mmr" secondAttribute="bottom" constant="25" id="eeF-ig-tJ8"/>
+                    <constraint firstItem="7bZ-X7-1rR" firstAttribute="leading" secondItem="l6y-Ew-yB6" secondAttribute="leading" id="efW-Ny-no3"/>
+                    <constraint firstItem="g7K-V3-0qg" firstAttribute="leading" secondItem="l6y-Ew-yB6" secondAttribute="leadingMargin" id="m3n-kS-q40"/>
+                    <constraint firstAttribute="bottom" secondItem="7bZ-X7-1rR" secondAttribute="bottom" id="nmS-Jo-fWO"/>
+                    <constraint firstItem="g7K-V3-0qg" firstAttribute="trailing" secondItem="l6y-Ew-yB6" secondAttribute="trailingMargin" id="uLp-gp-eHY"/>
+                    <constraint firstItem="Vga-bl-mGY" firstAttribute="top" secondItem="lb2-Dc-paj" secondAttribute="bottom" id="wY9-Gr-7YF"/>
+                </constraints>
+            </view>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+            <connections>
+                <outlet property="lblEmpty" destination="g7K-V3-0qg" id="qlw-N5-G50"/>
+                <outlet property="loading" destination="emh-5e-MPJ" id="xSz-Oj-gsg"/>
+                <outlet property="loadingPanel" destination="7bZ-X7-1rR" id="4dp-XD-6c6"/>
+                <outlet property="tableView" destination="lb2-Dc-paj" id="4vS-GX-PfP"/>
+            </connections>
+            <point key="canvasLocation" x="-149.5" y="-82.5"/>
+        </viewController>
+    </objects>
+</document>

@@ -85,6 +85,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 let json = JSON(resp.result.value!)
                 if let data = json["_data"].array {
                     if (data.count > 0) {
+                        var saveY : CGFloat! = 0
                         var lastView : UIView?
                         for i in 0...data.count - 1 {
                             let ts = data[i]
@@ -95,11 +96,12 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                             // Adjust search tag
                             let searchTag = SearchTag.instance(name)
                             if let lv = lastView {
+                                saveY = lv.maxY > saveY ? lv.maxY : saveY
                                 let x = lv.maxX + 8
                                 searchTag.x = x
                                 
                                 if (searchTag.maxX + 8 > self.sectionTopSearch.width) {
-                                    searchTag.y = lv.maxY + 4
+                                    searchTag.y = saveY + 4
                                     searchTag.x = 0
                                 } else {
                                     searchTag.y = lv.y
@@ -116,7 +118,8 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                             lastView = searchTag
                         }
                         if let lv = lastView {
-                            self.conHeightSectionTopSearch.constant = lv.maxY
+                            saveY = lv.maxY > saveY ? lv.maxY : saveY
+                            self.conHeightSectionTopSearch.constant = saveY
                         }
                         self.sectionTopSearch.layoutIfNeeded()
                     }
@@ -136,7 +139,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     override func viewWillAppear(_ animated: Bool) {
         
         // Mixpanel
-        //Mixpanel.trackPageVisit(PageName.Search)
+//        Mixpanel.trackPageVisit(PageName.Search)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.Search)
@@ -393,8 +396,8 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                         }
                     }
                     // Save history
-                    AppToolsObjC.insertNewSearch(searchText)
-                    setupHistory()
+                    doSearch(keyword: searchText)
+                    
                 }
                 
                 let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
@@ -416,12 +419,26 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                     }
                 }
                 // Save history
-                AppToolsObjC.insertNewSearch(foundItems[(indexPath as NSIndexPath).row].name)
-                setupHistory()
+                doSearch(keyword: foundItems[(indexPath as NSIndexPath).row].name)
                 
-                let d = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
-                d.product = foundItems[(indexPath as NSIndexPath).row]
-                self.navigationController?.pushViewController(d, animated: true)
+                let selectedProduct = foundItems[(indexPath as NSIndexPath).row]
+                
+                if selectedProduct.isAggregate == false && selectedProduct.isAffiliate == false {
+                    let d = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+                    d.product = foundItems[(indexPath as NSIndexPath).row]
+                    self.navigationController?.pushViewController(d, animated: true)
+                } else if selectedProduct.isAffiliate == false {
+                    let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+                    l.currentMode = .filter
+                    l.fltrAggregateId = selectedProduct.id
+                    l.fltrName = ""
+                    self.navigationController?.pushViewController(l, animated: true)
+                } else {
+                    let urlString = selectedProduct.json["affiliate_data"]["affiliate_url"].stringValue
+                    
+                    let url = NSURL(string: urlString)!
+                    UIApplication.shared.openURL(url as URL)
+                }
             }
         } else if ((indexPath as NSIndexPath).section == SectionUser) {
             if ((indexPath as NSIndexPath).row == foundUsers.count) {
@@ -431,24 +448,29 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                     // Insert top search
                     let _ = request(APISearch.insertTopSearch(search: searchText))
                     // Save history
-                    AppToolsObjC.insertNewSearch(searchText)
-                    setupHistory()
+                    doSearch(keyword: searchText)
+                    
                 }
                 self.navigationController?.pushViewController(u, animated: true)
             } else {
-                let d = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
                 let u = foundUsers[(indexPath as NSIndexPath).row]
-                d.currentMode = .shop
-                d.shopName = u.username
                 
                 // Insert top search
                 let _ = request(APISearch.insertTopSearch(search: u.username))
                 // Save history
-                AppToolsObjC.insertNewSearch(u.username)
-                setupHistory()
+                doSearch(keyword: u.username)
                 
-                d.shopId = u.id
-                self.navigationController?.pushViewController(d, animated: true)
+                if (!AppTools.isNewShop) {
+                    let d = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+                    d.currentMode = .shop
+                    d.shopName = u.username
+                    d.shopId = u.id
+                    self.navigationController?.pushViewController(d, animated: true)
+                } else {
+                    let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+                    storePageTabBarVC.shopId = u.id
+                    self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+                }
             }
         } else if ((indexPath as NSIndexPath).section == SectionBrand) {
             let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
@@ -467,8 +489,8 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                     // Insert top search
                     let _ = request(APISearch.insertTopSearch(search: searchText))
                     // Save history
-                    AppToolsObjC.insertNewSearch(searchText)
-                    setupHistory()
+                    doSearch(keyword: searchText)
+                    
                 }
             } else {
                 let brand = foundBrands[(indexPath as NSIndexPath).row]
@@ -477,8 +499,8 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 // Insert top search
                 let _ = request(APISearch.insertTopSearch(search: brand.name))
                 // Save history
-                AppToolsObjC.insertNewSearch(brand.name)
-                setupHistory()
+                doSearch(keyword: brand.name)
+                
             }
             l.fltrBrands = fltrBrands
             self.navigationController?.pushViewController(l, animated: true)
@@ -486,6 +508,15 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     }
     
     // MARK: - Search functions
+    
+    func doSearch(keyword : String) {
+        let index = AppToolsObjC.index(ofSearch: keyword)
+        if index != NSNotFound {
+            AppToolsObjC.removeSearch(at: index)
+        }
+        AppToolsObjC.insertNewSearch(keyword)
+        setupHistory()
+    }
     
     func searchTopKey(_ sender : UITapGestureRecognizer) {
         let searchTag = sender.view as! SearchTag
