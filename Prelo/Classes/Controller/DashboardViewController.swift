@@ -635,6 +635,9 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
     }
     
     func initPopUp() {
+        // Transparent panel
+        self.vwBackgroundOverlay.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.2)
+        
         self.vwBackgroundOverlay.isHidden = false
         self.vwOverlayPopUp.isHidden = false
         
