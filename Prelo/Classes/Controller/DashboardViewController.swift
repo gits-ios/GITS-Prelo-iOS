@@ -455,9 +455,9 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     
     func lauchTestingFeature() {
         // new shop page -- OKE
-//        let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
-//        storePageTabBarVC.shopId = CDUser.getOne()?.id
-//        self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+        let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+        storePageTabBarVC.shopId = CDUser.getOne()?.id
+        self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
     }
     
     func launchFAQ() {
@@ -611,7 +611,7 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
     @IBOutlet weak var consCenteryPopUpMail: NSLayoutConstraint!
     
     var floatRatingView: FloatRatingView!
-    var rate : Float = 5
+    var rate : Float = 0
     
     var disposePopUp : ()->() = {}
     var sendMail : ()->() = {}
@@ -619,14 +619,14 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
     
     func setupPopUp() {
         // Love floatable
-        self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 0, width: 268, height: 50))
+        self.floatRatingView = FloatRatingView(frame: CGRect(x: 27, y: 5, width: 214, height: 40)) // 268 50
         self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
         self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
         // Optional params
         self.floatRatingView.delegate = self
         self.floatRatingView.contentMode = UIViewContentMode.scaleAspectFit
         self.floatRatingView.maxRating = 5
-        self.floatRatingView.minRating = 1
+        self.floatRatingView.minRating = 0
         self.floatRatingView.rating = rate
         self.floatRatingView.editable = true
         self.floatRatingView.halfRatings = false

@@ -30,7 +30,7 @@
                                         <constraint firstAttribute="height" constant="40" id="hHA-DW-c65"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                    <nil key="textColor"/>
+                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q1Z-iK-0ti" userLabel="View Love">
@@ -40,8 +40,32 @@
                                         <constraint firstAttribute="height" constant="50" id="77B-ot-wXP"/>
                                     </constraints>
                                 </view>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="00m-pI-ZHR">
+                                    <rect key="frame" x="0.0" y="138" width="149" height="40"/>
+                                    <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="40" id="aAX-0t-ge9"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                    <state key="normal" title="BATAL">
+                                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <state key="disabled" title="LOADING.."/>
+                                    <connections>
+                                        <action selector="btnTidakPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="tcS-mr-FYB"/>
+                                    </connections>
+                                </button>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ny7-0l-zh9">
+                                    <rect key="frame" x="149" y="138" width="1" height="40"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="1" id="riW-8R-5oH"/>
+                                        <constraint firstAttribute="height" constant="40" id="unV-pX-g16"/>
+                                    </constraints>
+                                </view>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iej-lG-bWx">
-                                    <rect key="frame" x="0.0" y="138" width="300" height="40"/>
+                                    <rect key="frame" x="150" y="138" width="150" height="40"/>
                                     <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="40" id="vcS-yW-2nT"/>
@@ -60,16 +84,21 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstItem="Q1Z-iK-0ti" firstAttribute="leading" secondItem="Be8-oU-fW5" secondAttribute="leading" constant="16" id="3Wl-Al-fzq"/>
+                                <constraint firstAttribute="bottom" secondItem="00m-pI-ZHR" secondAttribute="bottom" id="5jl-qR-dXI"/>
                                 <constraint firstAttribute="trailing" secondItem="Q1Z-iK-0ti" secondAttribute="trailing" constant="16" id="Btm-uE-V5j"/>
                                 <constraint firstAttribute="trailing" secondItem="oML-kA-VF7" secondAttribute="trailing" constant="16" id="FTr-Mx-gGG"/>
                                 <constraint firstItem="iej-lG-bWx" firstAttribute="top" secondItem="Q1Z-iK-0ti" secondAttribute="bottom" constant="16" id="Fcm-JQ-eA2"/>
+                                <constraint firstAttribute="bottom" secondItem="ny7-0l-zh9" secondAttribute="bottom" id="QJw-EH-TcB"/>
                                 <constraint firstItem="oML-kA-VF7" firstAttribute="top" secondItem="Be8-oU-fW5" secondAttribute="top" constant="16" id="SAn-PQ-T5c"/>
+                                <constraint firstItem="00m-pI-ZHR" firstAttribute="leading" secondItem="Be8-oU-fW5" secondAttribute="leading" id="XK7-3X-4KL"/>
                                 <constraint firstAttribute="bottom" secondItem="iej-lG-bWx" secondAttribute="bottom" id="ZGQ-d4-rgo"/>
                                 <constraint firstItem="oML-kA-VF7" firstAttribute="leading" secondItem="Be8-oU-fW5" secondAttribute="leading" constant="16" id="aag-Ed-KAh"/>
+                                <constraint firstItem="ny7-0l-zh9" firstAttribute="leading" secondItem="00m-pI-ZHR" secondAttribute="trailing" id="cj5-Tb-G2R"/>
                                 <constraint firstAttribute="width" constant="300" id="dIz-EZ-NRX"/>
                                 <constraint firstAttribute="trailing" secondItem="iej-lG-bWx" secondAttribute="trailing" id="hBC-Yb-z65"/>
                                 <constraint firstItem="Q1Z-iK-0ti" firstAttribute="top" secondItem="oML-kA-VF7" secondAttribute="bottom" constant="16" id="iuf-WI-eIg"/>
-                                <constraint firstItem="iej-lG-bWx" firstAttribute="leading" secondItem="Be8-oU-fW5" secondAttribute="leading" id="wth-xd-Bcp"/>
+                                <constraint firstItem="ny7-0l-zh9" firstAttribute="centerX" secondItem="Be8-oU-fW5" secondAttribute="centerX" id="uat-ut-A7D"/>
+                                <constraint firstItem="iej-lG-bWx" firstAttribute="leading" secondItem="ny7-0l-zh9" secondAttribute="trailing" id="xQe-en-9IG"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SrC-gd-nw6" userLabel="PopUp OpenApp">
@@ -81,7 +110,7 @@
                                         <constraint firstAttribute="height" constant="106" id="f9S-44-2Jt"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                    <nil key="textColor"/>
+                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xK4-FE-zi6" userLabel="TIDAK">
@@ -152,7 +181,7 @@
                                         <constraint firstAttribute="height" constant="106" id="rgA-Tx-aLo"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                    <nil key="textColor"/>
+                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a4t-3V-wpa" userLabel="TIDAK">
