@@ -11,7 +11,7 @@ import CoreData
 import AlamofireImage
 
 class AppTools: NSObject {
-    static let isDev = false // Set true for demo/testing purpose only
+    static let isDev = true // Set true for demo/testing purpose only
     
     fileprivate static var devURL = "http://dev.prelo.id"
     fileprivate static var prodURL = "https://prelo.co.id"
