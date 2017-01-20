@@ -865,7 +865,8 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                     "region":selectedKabKotaID,
                     "postal_code":fieldKodePos.text == nil ? "" : fieldKodePos.text!,
                     "description":tentangShop,
-                    "shipping":shipping
+                    "shipping":shipping,
+                    "platform_sent_from" : "ios"
                 ]
                 var images : [UIImage] = []
                 images.append(imgUser.image!)

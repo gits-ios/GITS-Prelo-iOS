@@ -14,7 +14,7 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" image="Default-Portrait-2048h.png" translatesAutoresizingMaskIntoConstraints="NO" id="yXt-hQ-iR0">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" image="Default-New-Splash-Screen.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="yXt-hQ-iR0">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                 </imageView>
             </subviews>
@@ -30,6 +30,6 @@
         </view>
     </objects>
     <resources>
-        <image name="Default-Portrait-2048h.png" width="16" height="16"/>
+        <image name="Default-New-Splash-Screen.jpg" width="1888" height="1888"/>
     </resources>
 </document>

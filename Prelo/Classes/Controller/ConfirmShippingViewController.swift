@@ -275,7 +275,8 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                 let url = "\(AppTools.PreloBaseUrl)/api/transaction_product/\(self.tpId)/refund_sent"
                 let param = [
                     "kurir" : self.lblKurir.text?.lowercased() != "lainnya" ? self.lblKurir.text! : self.txtFldKurirLainnya.text!,
-                    "resi_number" : self.txtFldNoResi.text == nil ? "" : self.txtFldNoResi.text!
+                    "resi_number" : self.txtFldNoResi.text == nil ? "" : self.txtFldNoResi.text!,
+                    "platform_sent_from" : "ios"
                 ]
                 var images : [UIImage] = []
                 if let imgR = imgResi.image {
@@ -344,7 +345,8 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                 let param = [
                     "confirmation_data" : confirmData,
                     "kurir" : self.lblKurir.text?.lowercased() != "lainnya" ? self.lblKurir.text! : self.txtFldKurirLainnya.text!,
-                    "resi_number" : self.txtFldNoResi.text == nil ? "" : self.txtFldNoResi.text!
+                    "resi_number" : self.txtFldNoResi.text == nil ? "" : self.txtFldNoResi.text!,
+                    "platform_sent_from" : "ios"
                 ]
                 var images : [UIImage] = []
                 if let imgR = imgResi.image {

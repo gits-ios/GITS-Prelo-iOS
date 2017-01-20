@@ -531,7 +531,8 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
             noHp = p
         }
         let param = [
-            "resi_number" : noHp
+            "resi_number" : noHp,
+            "platform_sent_from" : "ios"
         ]
         var images : [UIImage] = []
         images.append(imgFotoBukti.image!)

@@ -59,7 +59,7 @@ enum APIPathAuth : URLRequestConvertible {
     var param : String {
         switch self {
         case .getToken(let clientId, let clientSecret, let code) :
-            let p = "grant_type=authorization_code&client_id=\(clientId)&client_secret=\(clientSecret)&code=\(code)"
+            let p = "grant_type=authorization_code&client_id=\(clientId)&client_secret=\(clientSecret)&code=\(code)&platform_sent_from=ios"
             return p
         }
     }

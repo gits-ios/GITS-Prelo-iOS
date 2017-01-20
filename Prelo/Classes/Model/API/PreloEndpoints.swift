@@ -239,12 +239,14 @@ enum APIAuth : URLRequestConvertible {
                 "email" : email,
                 "password" : password,
                 "device_id" : UIDevice.current.identifierForVendor!.uuidString,
-                "fa_id" : UIDevice.current.identifierForVendor!.uuidString
+                "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
+                "platform_sent_from" : "ios"
             ]
         case .login(let usernameOrEmail, let password) :
             p = [
                 "username_or_email" : usernameOrEmail,
-                "password" : password
+                "password" : password,
+                "platform_sent_from" : "ios"
             ]
         case .loginFacebook(let email, let fullname, let fbId, let fbUsername, let fbAccessToken) :
             p = [
@@ -252,14 +254,16 @@ enum APIAuth : URLRequestConvertible {
                 "fullname" : fullname,
                 "fb_id" : fbId,
                 "fb_username" : fbUsername,
-                "fb_access_token" : fbAccessToken
+                "fb_access_token" : fbAccessToken,
+                "platform_sent_from" : "ios"
             ]
         case .loginPath(let email, let fullname, let pathId, let pathAccessToken) :
             p = [
                 "email" : email,
                 "fullname" : fullname,
                 "path_id" : pathId,
-                "path_access_token" : pathAccessToken
+                "path_access_token" : pathAccessToken,
+                "platform_sent_from" : "ios"
             ]
         case .loginTwitter(let email, let fullname, let username, let id, let accessToken, let tokenSecret) :
             p = [
@@ -268,11 +272,17 @@ enum APIAuth : URLRequestConvertible {
                 "twitter_username" : username,
                 "twitter_id" : id,
                 "twitter_access_token" : accessToken,
-                "twitter_token_secret" : tokenSecret
+                "twitter_token_secret" : tokenSecret,
+                "platform_sent_from" : "ios"
+            ]
+        case .logout:
+            p = [
+                "platform_sent_from" : "ios"
             ]
         case .forgotPassword(let email) :
             p = [
-                "email" : email
+                "email" : email,
+                "platform_sent_from" : "ios"
             ]
         default : break
         }
@@ -317,7 +327,8 @@ enum APICart : URLRequestConvertible {
             p = [
                 "cart_products":cart,
                 "shipping_address":address,
-                "voucher_serial":(voucher == nil) ? "" : voucher!
+                "voucher_serial":(voucher == nil) ? "" : voucher!,
+                "platform_sent_from" : "ios"
             ]
         case .checkout(let cart, let address, let voucher, let payment, let usedBalance, let usedBonus, let kodeTransfer) :
             p = [
@@ -325,7 +336,8 @@ enum APICart : URLRequestConvertible {
                 "shipping_address":address,
                 "banktransfer_digit":NSNumber(value: 1 as Int),
                 "voucher_serial":(voucher == nil) ? "" : voucher!,
-                "payment_method":payment
+                "payment_method":payment,
+                "platform_sent_from" : "ios"
                 ] as [String : Any]
             if usedBalance != 0 {
                 p["prelobalance_used"] = NSNumber(value: usedBalance as Int)
@@ -342,7 +354,8 @@ enum APICart : URLRequestConvertible {
                 "shipping_address":address,
                 "banktransfer_digit":NSNumber(value: 1 as Int),
                 "voucher_serial":(voucher == nil) ? "" : voucher!,
-                "payment_method":payment
+                "payment_method":payment,
+                "platform_sent_from" : "ios"
                 ] as [String : Any]
             if usedBalance != 0 {
                 p["prelobalance_used"] = NSNumber(value: usedBalance as Int)
@@ -421,11 +434,13 @@ enum APIGarageSale : URLRequestConvertible {
         switch self {
         case .createReservation(let productId) :
             p = [
-                "product_id" : productId
+                "product_id" : productId,
+                "platform_sent_from" : "ios"
             ]
         case .cancelReservation(let productId) :
             p = [
-                "product_id" : productId
+                "product_id" : productId,
+                "platform_sent_from" : "ios"
             ]
         }
         return p
@@ -483,19 +498,22 @@ enum APIInbox : URLRequestConvertible {
             p = [
                 "product_id" : prodId,
                 "message_type" : String(type),
-                "message" : m
+                "message" : m,
+                "platform_sent_from" : "ios"
             ]
         case .startNewOneBySeller(let prodId, let type, let m, let toId) :
             p = [
                 "product_id" : prodId,
                 "message_type" : String(type),
                 "message" : m,
-                "to" : toId
+                "to" : toId,
+                "platform_sent_from" : "ios"
             ]
         case .sendTo (_, let type, let message) :
             p = [
                 "message_type" : type,
-                "message" : message
+                "message" : message,
+                "platform_sent_from" : "ios"
             ]
         default : break
         }
@@ -590,13 +608,19 @@ enum APIMe : URLRequestConvertible {
         case .login(let email, let password):
             p = [
                 "email":email,
-                "password":password
+                "password":password,
+                "platform_sent_from" : "ios"
             ]
         case .register(let fullname, let email, let password):
             p = [
                 "fullname":fullname,
                 "email":email,
-                "password":password
+                "password":password,
+                "platform_sent_from" : "ios"
+            ]
+        case .logout():
+            p = [
+                "platform_sent_from" : "ios"
             ]
         case .orderList(let status):
             p = [
@@ -614,7 +638,8 @@ enum APIMe : URLRequestConvertible {
                 "referral_code":referralCode,
                 "device_id":deviceId,
                 "device_registration_id":deviceRegId,
-                "device_type":"APNS"
+                "device_type":"APNS",
+                "platform_sent_from" : "ios"
             ]
             if (gender == 0 || gender == 1) {
                 p["gender"] = gender
@@ -628,41 +653,52 @@ enum APIMe : URLRequestConvertible {
                 "subdistrict":subdistrict,
                 "postal_code":postalCode,
                 "description":description,
-                "shipping":shipping
+                "shipping":shipping,
+                "platform_sent_from" : "ios"
             ]
         case .resendVerificationSms(let phone) :
             p = [
-                "phone" : phone
+                "phone" : phone,
+                "platform_sent_from" : "ios"
             ]
         case .verifyPhone(let phone, let phoneCode) :
             p = [
                 "phone" : phone,
-                "phone_code" : phoneCode
+                "phone_code" : phoneCode,
+                "platform_sent_from" : "ios"
             ]
         case .setReferral(let referralCode, let deviceId) :
             p = [
                 "referral_code" : referralCode,
-                "device_id" : deviceId
+                "device_id" : deviceId,
+                "platform_sent_from" : "ios"
             ]
         case .setDeviceRegId(let deviceRegId) :
             p = [
                 "registered_device_id" : deviceRegId,
-                "device_type" : "APNS"
+                "device_type" : "APNS",
+                "platform_sent_from" : "ios"
             ]
         case .setUserPreferencedCategories(let categ1, let categ2, let categ3) :
             p = [
                 "category1" : categ1,
                 "category2" : categ2,
-                "category3" : categ3
+                "category3" : categ3,
+                "platform_sent_from" : "ios"
             ]
         case .getBalanceMutations(let current, let limit) :
             p = [
                 "current" : current,
                 "limit" : limit
             ]
+        case .resendVerificationEmail:
+            p = [
+                "platform_sent_from" : "ios"
+            ]
         case .setUserUUID :
             p = [
-                "fa_id" : UIDevice.current.identifierForVendor!.uuidString
+                "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
+                "platform_sent_from" : "ios"
             ]
         default : break
         }
@@ -758,11 +794,13 @@ enum APINotification : URLRequestConvertible {
         case .readNotif(_, let id, let type) :
             p = [
                 "object_id" : id,
-                "type" : type
+                "type" : type,
+                "platform_sent_from" : "ios"
             ]
         case .deleteNotif(_, let notifIds) :
             p = [
-                "notif_ids" : notifIds
+                "notif_ids" : notifIds,
+                "platform_sent_from" : "ios"
             ]
         default : break
         }
@@ -894,21 +932,25 @@ enum APIProduct : URLRequestConvertible {
                 "category":category,
                 "price":price,
                 "weight":weight,
-                "description":desc
+                "description":desc,
+                "platform_sent_from" : "ios"
             ]
         case .love(let pId) :
             p = [
-                "product_id" : pId
+                "product_id" : pId,
+                "platform_sent_from" : "ios"
             ]
         case .unlove(let pId) :
             p = [
-                "product_id" : pId
+                "product_id" : pId,
+                "platform_sent_from" : "ios"
             ]
         case .postComment(let pId, let m, let mentions) :
             p = [
                 "product_id" : pId,
                 "comment" : m,
-                "mentions" : mentions
+                "mentions" : mentions,
+                "platform_sent_from" : "ios"
             ]
         case .myProduct(let c, let l, let n) :
             p = [
@@ -916,22 +958,57 @@ enum APIProduct : URLRequestConvertible {
                 "limit" : l,
                 "name" : n
             ]
+        case .push(_) :
+            p = [
+                "platform_sent_from" : "ios"
+            ]
+        case .paidPush(_):
+            p = [
+                "platform_sent_from" : "ios"
+            ]
         case .markAsSold(_, let soldTo) :
             p = [
                 "sold_from" : "ios",
-                "sold_to" : soldTo
+                "sold_to" : soldTo,
+                "platform_sent_from" : "ios"
+            ]
+        case .setSoldExpiringProduct(_):
+            p = [
+                "platform_sent_from" : "ios"
+            ]
+        case .setUnsoldExpiringProduct(_):
+            p = [
+                "platform_sent_from" : "ios"
+            ]
+        case .finishExpiringProducts:
+            p = [
+                "platform_sent_from" : "ios"
             ]
         case .shareCommission(_, let i, let pth, let f, let t) :
             p = [
                 "instagram" : i,
                 "facebook" : f,
                 "path" : pth,
-                "twitter" : t
+                "twitter" : t,
+                "platform_sent_from" : "ios"
+            ]
+        case .delete(_):
+            p = [
+                "platform_sent_from" : "ios"
             ]
         case .postReview(_, let comment, let star) :
             p = [
                 "comment" : comment,
-                "star" : star
+                "star" : star,
+                "platform_sent_from" : "ios"
+            ]
+        case .activate(_):
+            p = [
+                "platform_sent_from" : "ios"
+            ]
+        case .deactivate(_):
+            p = [
+                "platform_sent_from" : "ios"
             ]
         case .getProductAggregatePage(_, let current, let limit) :
             p = [
@@ -941,14 +1018,16 @@ enum APIProduct : URLRequestConvertible {
         case .reportComment(_, let commentId, let reportType) :
             p = [
                 "comment_id" : commentId,
-                "report_type" : reportType
+                "report_type" : reportType,
+                "platform_sent_from" : "ios"
             ]
         case .reportProduct(_, let sellerId, let reportType, let reasonText, let categoryIdCorrection) :
             p = [
                 "seller_id" : sellerId,
                 "report_reason" : reportType,
                 "report_reason_text" : reasonText,
-                "category_id_correction" : categoryIdCorrection
+                "category_id_correction" : categoryIdCorrection,
+                "platform_sent_from" : "ios"
             ]
         default : break
         }
@@ -1115,7 +1194,8 @@ enum APISearch : URLRequestConvertible {
             ]
         case .insertTopSearch(let s):
             p = [
-                "name" : s
+                "name" : s,
+                "platform_sent_from" : "ios"
             ]
         case .brands(let name, let current, let limit):
             p = [
@@ -1189,32 +1269,37 @@ enum APISocmed : URLRequestConvertible {
         switch self {
         case .storeInstagramToken(let appType) :
             p = [
-                "access_token" : appType
+                "access_token" : appType,
+                "platform_sent_from" : "ios"
             ]
         case .postInstagramData(let id, let username, let token) :
             p = [
                 "instagram_id" : id,
                 "instagram_username" : username,
-                "access_token" : token
+                "access_token" : token,
+                "platform_sent_from" : "ios"
             ]
         case .postFacebookData(let id, let username, let token) :
             p = [
                 "fb_id" : id,
                 "fb_username" : username,
-                "access_token" : token
+                "access_token" : token,
+                "platform_sent_from" : "ios"
             ]
         case .postPathData(let id, let username, let token) :
             p = [
                 "path_id" : id,
                 "path_username" : username,
-                "access_token" : token
+                "access_token" : token,
+                "platform_sent_from" : "ios"
             ]
         case .postTwitterData(let id, let username, let token, let secret) :
             p = [
                 "twitter_id" : id,
                 "twitter_username" : username,
                 "access_token" : token,
-                "token_secret" : secret
+                "token_secret" : secret,
+                "platform_sent_from" : "ios"
             ]
         }
         return p
@@ -1257,7 +1342,8 @@ enum APITransaction : URLRequestConvertible {
                 "source_bank":bankFrom,
                 "name":nama,
                 "nominal":nominal,
-                "time_paid":timePaid
+                "time_paid":timePaid,
+                "platform_sent_from" : "ios"
             ]
         default : break
         }
@@ -1303,7 +1389,8 @@ enum APITransactionAnggi : URLRequestConvertible {
         switch self {
         case .delayShipping(let arrTpId) :
             p = [
-                "arr_tp_id" : arrTpId
+                "arr_tp_id" : arrTpId,
+                "platform_sent_from" : "ios"
             ]
         default : break
         }
@@ -1407,7 +1494,8 @@ enum APITransactionProduct : URLRequestConvertible
             ]
         case .confirmShipping(_, let resiNum) :
             p = [
-                "resi_number" : resiNum
+                "resi_number" : resiNum,
+                "platform_sent_from" : "ios"
             ]
         case .checkoutList(let current, let limit) :
             p = [
@@ -1416,12 +1504,18 @@ enum APITransactionProduct : URLRequestConvertible
             ]
         case .rejectTransaction(_, let reason) :
             p = [
-                "reason" : reason
+                "reason" : reason,
+                "platform_sent_from" : "ios"
             ]
         case .refundRequest(_, let reason, let reasonNote) :
             p = [
                 "reason" : reason,
-                "reason_note" : reasonNote
+                "reason_note" : reasonNote,
+                "platform_sent_from" : "ios"
+            ]
+        case .confirmReceiveRefundedProduct(_):
+            p = [
+                "platform_sent_from" : "ios"
             ]
         default : break
         }
@@ -1477,7 +1571,8 @@ enum APIUser : URLRequestConvertible {
             p = [
                 "app_version" : appVersion,
                 "rate_num" : rate,
-                "rate_text" : review
+                "rate_text" : review,
+                "platform_sent_from" : "ios"
             ]
         default : break
         }
@@ -1515,7 +1610,8 @@ enum APIVisitors : URLRequestConvertible {
         case .updateVisitor(let deviceRegId) :
             p = [
                 "device_type" : "APNS",
-                "device_registration_id" : deviceRegId
+                "device_registration_id" : deviceRegId,
+                "platform_sent_from" : "ios"
             ]
         }
         return p
@@ -1558,7 +1654,8 @@ enum APIWallet : URLRequestConvertible {
                 "target_bank" : namaBank,
                 "nomor_rekening" : norek,
                 "name" : namarek,
-                "password" : password
+                "password" : password,
+                "platform_sent_from" : "ios"
             ]
         default : break
         }

@@ -666,6 +666,7 @@
 		B2D481CB1E02A7AD006006CC /* ReportProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D481C91E02A7AD006006CC /* ReportProductViewController.swift */; };
 		B2D481DC1E02A7E2006006CC /* LocationFilters.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D481DA1E02A7E1006006CC /* LocationFilters.xib */; };
 		B2D481DD1E02A7E2006006CC /* ReportProducts.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D481DB1E02A7E2006006CC /* ReportProducts.xib */; };
+		B2DBBB951E31C20000F74543 /* Default-New-Splash-Screen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B2DBBB941E31C20000F74543 /* Default-New-Splash-Screen.jpg */; };
 		FD3C6D481C1963AC0002C7B4 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FD3C6D471C1963AC0002C7B4 /* libz.dylib */; };
 		FD3C6D4A1C1964390002C7B4 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD3C6D491C1964390002C7B4 /* libGoogleAnalyticsServices.a */; };
 		FD3C8DEC1C43A42B00D40EF8 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 216799951B9010E900F18F90 /* Crashlytics.framework */; };
@@ -1625,6 +1626,7 @@
 		B2D481C91E02A7AD006006CC /* ReportProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportProductViewController.swift; sourceTree = "<group>"; };
 		B2D481DA1E02A7E1006006CC /* LocationFilters.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LocationFilters.xib; sourceTree = "<group>"; };
 		B2D481DB1E02A7E2006006CC /* ReportProducts.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReportProducts.xib; sourceTree = "<group>"; };
+		B2DBBB941E31C20000F74543 /* Default-New-Splash-Screen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Default-New-Splash-Screen.jpg"; sourceTree = "<group>"; };
 		FD3C6D3D1C1963190002C7B4 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
 		FD3C6D3E1C1963190002C7B4 /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
 		FD3C6D3F1C1963190002C7B4 /* GAIEcommerceFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceFields.h; sourceTree = "<group>"; };
@@ -2595,6 +2597,7 @@
 		21C6587A1B8EE4E10037F85F /* default */ = {
 			isa = PBXGroup;
 			children = (
+				B2DBBB941E31C20000F74543 /* Default-New-Splash-Screen.jpg */,
 				2116BAF71BAC1D74009B27C8 /* Default-Landscape@2x.png */,
 				2116BAF91BAC1DC9009B27C8 /* Default-Portrait-2048h.png */,
 			);
@@ -3495,6 +3498,7 @@
 				212007BC1B6A087F00D9C84B /* ic_logo_white@2x.png in Resources */,
 				21E7A7671B9FF2BC00FC9B38 /* LKActivity@2x.png in Resources */,
 				585887561DBEDC1F006EC6D5 /* ShopReviewCell.xib in Resources */,
+				B2DBBB951E31C20000F74543 /* Default-New-Splash-Screen.jpg in Resources */,
 				210DF0EB1B730764004AE3D9 /* ic_dollar@2x.png in Resources */,
 				585887421DBEDAC3006EC6D5 /* MyProductProcessing.xib in Resources */,
 				215C526D1B6B5CCE00EA4E61 /* ic_love@2x.png in Resources */,

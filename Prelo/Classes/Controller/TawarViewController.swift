@@ -685,14 +685,16 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         var param = [
             "product_id" : prodId,
             "message_type" : String(type),
-            "message" : message
+            "message" : message,
+            "platform_sent_from" : "ios"
             ] as [String : Any]
         if (fromSeller) {
             param = [
                 "product_id" : prodId,
                 "message_type" : String(type),
                 "message" : message,
-                "to" : toId
+                "to" : toId,
+                "platform_sent_from" : "ios"
             ]
         }
         var images : [UIImage] = []

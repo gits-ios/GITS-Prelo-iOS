@@ -378,7 +378,8 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
             "Twitter Username" : twUsername,
             "Is Instagram Shared" : instagram == "1" ? true : false,
             "Instagram Username" : igUsername,
-            "Time" : Date().isoFormatted
+            "Time" : Date().isoFormatted,
+            "platform_sent_from" : "ios"
         ] as [String : Any]
         
         // set state is uploading

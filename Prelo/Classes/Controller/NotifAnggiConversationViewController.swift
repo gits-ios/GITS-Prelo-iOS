@@ -108,6 +108,10 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
 //        
 //        btnHapus.layer.borderWidth = 1
 //        btnHapus.layer.borderColor = UIColor.white.cgColor
+        
+        
+        // Transparent panel
+        self.backgroundOverlay.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.2)
     }
     
     func refreshPage() {
