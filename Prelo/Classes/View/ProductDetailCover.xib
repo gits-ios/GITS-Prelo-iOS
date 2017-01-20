@@ -136,13 +136,13 @@
                     </constraints>
                 </view>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cpH-Me-DGE">
-                    <rect key="frame" x="0.0" y="0.0" width="187" height="667"/>
+                    <rect key="frame" x="0.0" y="0.0" width="186.5" height="667"/>
                 </imageView>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="v4S-iA-VX3">
-                    <rect key="frame" x="189" y="0.0" width="186" height="333"/>
+                    <rect key="frame" x="188.5" y="0.0" width="186.5" height="332.5"/>
                 </imageView>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nv7-2b-2Nb">
-                    <rect key="frame" x="189" y="335" width="186" height="332"/>
+                    <rect key="frame" x="188.5" y="334.5" width="186.5" height="332.5"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -199,16 +199,16 @@
                     </constraints>
                 </view>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DjO-WG-G55">
-                    <rect key="frame" x="0.0" y="0.0" width="187" height="667"/>
+                    <rect key="frame" x="0.0" y="0.0" width="186.5" height="667"/>
                 </imageView>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1fz-rn-OlC">
-                    <rect key="frame" x="189" y="0.0" width="186" height="333"/>
+                    <rect key="frame" x="188.5" y="0.0" width="186.5" height="333"/>
                 </imageView>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jz5-iW-Vbg">
                     <rect key="frame" x="283" y="334" width="92" height="333"/>
                 </imageView>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lfZ-mK-gYH">
-                    <rect key="frame" x="189" y="335" width="92" height="332"/>
+                    <rect key="frame" x="188.5" y="335" width="92.5" height="332"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -254,7 +254,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" tag="14" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OVF-Gk-GID" userLabel="5">
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" tag="14" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OVF-Gk-GID" userLabel="5">
                     <rect key="frame" x="0.0" y="323" width="375" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -268,7 +268,7 @@
                     </constraints>
                 </view>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Bw3-55-sl6">
-                    <rect key="frame" x="0.0" y="0.0" width="187" height="667"/>
+                    <rect key="frame" x="0.0" y="0.0" width="186.5" height="667"/>
                 </imageView>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Hg2-Dg-gOT">
                     <rect key="frame" x="283" y="0.0" width="92" height="333"/>
@@ -277,10 +277,10 @@
                     <rect key="frame" x="283" y="335" width="92" height="332"/>
                 </imageView>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LVj-J5-Du8">
-                    <rect key="frame" x="189" y="335" width="92" height="332"/>
+                    <rect key="frame" x="188.5" y="335" width="92.5" height="332"/>
                 </imageView>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9ld-Te-d4G">
-                    <rect key="frame" x="189" y="0.0" width="92" height="333"/>
+                    <rect key="frame" x="188.5" y="0.0" width="92.5" height="333"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -986,26 +986,27 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     func saveImages(_ images: Array<AnyObject>) {
         for index in 0...images.count - 1 {
             if self.isCamera[index] == true {
-                let img = images[index] as! UIImage
-                CustomPhotoAlbum.sharedInstance.save(image: img)
-                
-                let photoURLpath = CustomPhotoAlbum.sharedInstance.fetchLastPhotoTakenFromAlbum()
-                let imageURL = NSURL(fileURLWithPath: fileInDocumentsDirectory(filename: photoURLpath))
-                let imageName = imageURL.path!.lastPathComponent + "_" + index.string
-                let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
-                let localPath = documentDirectory.stringByAppendingPathComponent(imageName)
-                
-                let data = UIImagePNGRepresentation(img)
-                
-                do {
-                    try data?.write(to: URL(fileURLWithPath: localPath), options: .atomic)
-                } catch {
-                    print("err")
+                if let img = (images[index] as! UIImage).resizeWithMaxWidth(2048) {
+                    CustomPhotoAlbum.sharedInstance.save(image: img)
+                    
+                    let photoURLpath = CustomPhotoAlbum.sharedInstance.fetchLastPhotoTakenFromAlbum()
+                    let imageURL = NSURL(fileURLWithPath: fileInDocumentsDirectory(filename: photoURLpath))
+                    let imageName = imageURL.path!.lastPathComponent + "_" + index.string
+                    let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
+                    let localPath = documentDirectory.stringByAppendingPathComponent(imageName)
+                    
+                    let data = UIImagePNGRepresentation(img)
+                    
+                    do {
+                        try data?.write(to: URL(fileURLWithPath: localPath), options: .atomic)
+                    } catch {
+                        print("err")
+                    }
+                    let photoURL = NSURL(fileURLWithPath: localPath)
+                    
+                    self.localPath[index] = (photoURL.path)!
+                    self.imageOrientation[index] = img.imageOrientation.rawValue
                 }
-                let photoURL = NSURL(fileURLWithPath: localPath)
-                
-                self.localPath[index] = (photoURL.path)!
-                self.imageOrientation[index] = img.imageOrientation.rawValue
             }
         }
     }
@@ -1931,20 +1932,21 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             if let img = images[i] as? UIImage {
                 //print("Resizing image no-\(i) with width = \(img.size.width)")
                 if let imgResized = img.resizeWithMaxWidth(2048) {
-//                    if let imgData = ImageHelper.removeExifData(UIImagePNGRepresentation(imgResized)!) {
-//                        images[i] = UIImage(data: imgData)!
-//                    } else {
-//                        images[i] = imgResized
-//                    }
+                    var curImg : UIImage?
+                    if let imgData = ImageHelper.removeExifData(UIImagePNGRepresentation(imgResized)!) {
+                        curImg = UIImage(data: imgData)!
+                    } else {
+                        curImg = imgResized
+                    }
                     //print("Image no-\(i) has been resized")
                     
+                    // handle rotate
                     if (SYSTEM_VERSION_LESS_THAN("10.0")) {
-                        let curImage = UIImage(cgImage: imgResized.cgImage!, scale: 1.0, orientation: img.imageOrientation)
-                        images[i] = curImage
+                        images[i] = UIImage(cgImage: (curImg?.cgImage)!, scale: 1.0, orientation: img.imageOrientation)
+                    } else {
+                        images[i] = curImg!
                     }
-                    else {
-                        images[i] = imgResized
-                    }
+                    curImg = nil
                 }
             }
         }

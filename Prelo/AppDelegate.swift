@@ -608,7 +608,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func handleUniversalLink(_ url : URL, path : String, param : [URLQueryItem]) {
         self.showRedirAlert()
-        if (path.contains("/p/")) {
+        if (path.contains(".html")) {
+            let permalink = path.replace("/", template: "").replacingOccurrences(of: ".html", with: "")
+            let _ = request(APIProduct.getIdByPermalink(permalink: permalink)).responseJSON { resp in
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Produk")) {
+                    let json = JSON(resp.result.value!)
+                    let pId = json["_data"].stringValue
+                    if (pId != "") {
+                        self.redirectProduct(pId)
+                    } else {
+                        self.showFailedRedirAlert()
+                    }
+                } else {
+                    self.showFailedRedirAlert()
+                }
+            }
+        } else if (path.contains("/p/")) { // old
             let splittedPath = path.characters.split{$0 == "/"}.map(String.init)
             if (splittedPath.count > 1) {
                 let permalink = splittedPath[1].replacingOccurrences(of: ".html", with: "")
@@ -644,7 +659,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else if (path.contains("/c/") || path.contains("/bekas/")) {
             let splittedPath = path.characters.split{$0 == "/"}.map(String.init)
             if (splittedPath.count > 1) {
-                let permalink = splittedPath[1].replacingOccurrences(of: ".html", with: "")
+                let permalink = splittedPath[1] //.replacingOccurrences(of: ".html", with: "")
                 let _ = request(APIReference.getCategoryByPermalink(permalink: permalink)).responseJSON { resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Get Category ID")) {
                         let json = JSON(resp.result.value!)
