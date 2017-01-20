@@ -71,39 +71,39 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     // MARK: - Properties
     
     // Outlets
-    @IBOutlet var tableView : UITableView!
-    @IBOutlet var loadingPanel: UIView!
+    @IBOutlet weak var tableView : UITableView!
+    @IBOutlet weak var loadingPanel: UIView!
     // Outlets in header section
-    @IBOutlet var header : TawarHeader!
-    @IBOutlet var conMarginHeightOptions : NSLayoutConstraint!
-    @IBOutlet var btnTawar1 : UIButton!
-    @IBOutlet var btnTawar2 : UIButton!
-    @IBOutlet var btnBeli : UIButton!
-    @IBOutlet var btnBatal : UIButton!
-    @IBOutlet var btnTolak : UIButton!
-    @IBOutlet var btnTolak2 : UIButton!
-    @IBOutlet var btnConfirm : UIButton!
-    @IBOutlet var btnSold: UIButton!
-    @IBOutlet var btnBeliSold: UIButton!
+    @IBOutlet weak var header : TawarHeader!
+    @IBOutlet weak var conMarginHeightOptions : NSLayoutConstraint!
+    @IBOutlet weak var btnTawar1 : UIButton!
+    @IBOutlet weak var btnTawar2 : UIButton!
+    @IBOutlet weak var btnBeli : UIButton!
+    @IBOutlet weak var btnBatal : UIButton!
+    @IBOutlet weak var btnTolak : UIButton!
+    @IBOutlet weak var btnTolak2 : UIButton!
+    @IBOutlet weak var btnConfirm : UIButton!
+    @IBOutlet weak var btnSold: UIButton!
+    @IBOutlet weak var btnBeliSold: UIButton!
     // Outlets in chat field section
-    @IBOutlet var btnSend : UIButton!
-    @IBOutlet var textView : UITextView!
-    @IBOutlet var conMarginBottom : NSLayoutConstraint!
-    @IBOutlet var conHeightTextView : NSLayoutConstraint!
-    @IBOutlet var vwMediaButton: UIView!
+    @IBOutlet weak var btnSend : UIButton!
+    @IBOutlet weak var textView : UITextView!
+    @IBOutlet weak var conMarginBottom : NSLayoutConstraint!
+    @IBOutlet weak var conHeightTextView : NSLayoutConstraint!
+    @IBOutlet weak var vwMediaButton: UIView!
     // Outlets in tawar pop up
-    @IBOutlet var txtTawar : UITextField!
-    @IBOutlet var captionTawarHargaOri : UILabel!
-    @IBOutlet var sectionTawar : UIView!
-    @IBOutlet var conMarginBottomSectionTawar : NSLayoutConstraint!
+    @IBOutlet weak var txtTawar : UITextField!
+    @IBOutlet weak var captionTawarHargaOri : UILabel!
+    @IBOutlet weak var sectionTawar : UIView!
+    @IBOutlet weak var conMarginBottomSectionTawar : NSLayoutConstraint!
     // Outlets in upload gambar pop up
-    @IBOutlet var sectionUploadGbr: UIView!
-    @IBOutlet var conBottomSectionUploadGbr: NSLayoutConstraint!
-    @IBOutlet var imgUploadGbr: UIImageView!
-    @IBOutlet var txtVwUploadGbr: UITextView!
-    @IBOutlet var conHeightTxtVwUploadGbr: NSLayoutConstraint!
-    @IBOutlet var btnBatalUploadGbr: UIButton!
-    @IBOutlet var btnKirimUploadGbr: UIButton!
+    @IBOutlet weak var sectionUploadGbr: UIView!
+    @IBOutlet weak var conBottomSectionUploadGbr: NSLayoutConstraint!
+    @IBOutlet weak var imgUploadGbr: UIImageView!
+    @IBOutlet weak var txtVwUploadGbr: UITextView!
+    @IBOutlet weak var conHeightTxtVwUploadGbr: NSLayoutConstraint!
+    @IBOutlet weak var btnBatalUploadGbr: UIButton!
+    @IBOutlet weak var btnKirimUploadGbr: UIButton!
     
     // Grow handler
     var textViewGrowHandler : GrowingTextViewHandler!
@@ -218,6 +218,23 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         if (User.IsLoggedIn) {
             firstSetup()
         }
+        
+        
+        // OVERRIDE BUTTON COLOR
+        // ORANYE PRELO
+        btnTawar1.backgroundColor = Theme.ThemeOrange
+        btnTawar2.backgroundColor = Theme.ThemeOrange
+        
+        // WHITE
+        //        btnTolak
+        //        btnTolak2
+        //        btnBatal
+        
+        // HIJAU PRELO
+        btnConfirm.backgroundColor = Theme.PrimaryColor
+        btnSold.backgroundColor = Theme.PrimaryColor
+        btnBeli.backgroundColor = Theme.PrimaryColor
+        btnBeliSold.backgroundColor = Theme.PrimaryColor
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -1176,7 +1193,7 @@ class TawarCell : UITableViewCell {
             }
             
             if (m.messageType == 1) {
-                self.sectionMessage.backgroundColor = Theme.ThemeOrage
+                self.sectionMessage.backgroundColor = Theme.ThemeOrange
                 self.newCaptionMessage?.textColor = UIColor.white
             }
             

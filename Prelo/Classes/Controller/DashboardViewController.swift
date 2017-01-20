@@ -83,11 +83,11 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                     "title":"Referral Bonus",
                     "iconimg":"ic_voucher"
                 ],
-                [
-                    "type":"iconic",
-                    "title":"Achievement",
-                    "iconimg":"ic_achievement"
-                ],
+//                [
+//                    "type":"iconic",
+//                    "title":"Achievement",
+//                    "iconimg":"ic_achievement"
+//                ],
                 [
                     "type":"iconic",
                     "title":"Bantuan",
@@ -265,17 +265,17 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 self.launchTarikUang()
             } else if ((indexPath as NSIndexPath).row == 2) { // Referral bonus
                 self.launchFreeVoucher()
-            } else if ((indexPath as NSIndexPath).row == 3) { // Achievement
+            } /*else if ((indexPath as NSIndexPath).row == 3) { // Achievement
                 self.launchAchievement()
-            } else if ((indexPath as NSIndexPath).row == 4) { // Bantuan
+            }*/ else if ((indexPath as NSIndexPath).row == 3) { // Bantuan
                 self.launchFAQ()
-            } else if ((indexPath as NSIndexPath).row == 5) { // Feedback
+            } else if ((indexPath as NSIndexPath).row == 4) { // Feedback
                 self.launchRateUs()
-            } else if ((indexPath as NSIndexPath).row == 6) { // About
+            } else if ((indexPath as NSIndexPath).row == 5) { // About
                 self.launchAbout()
-            } else if (AppTools.isDev) { // row 7
+            } /*else if (AppTools.isDev) { // row 7
                 self.lauchTestingFeature()
-            }
+            }*/
         } else {
             if ((indexPath as NSIndexPath).row == 0) { // Referral bonus
                 self.launchFreeVoucher()

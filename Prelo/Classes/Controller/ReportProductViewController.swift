@@ -197,7 +197,7 @@ class ReportProductViewController: BaseViewController, UITextViewDelegate {
             reportProduct(reportType: checklist, reasonText: report, categoryIdCorrection: category_id_sebenarnya)
             
             // notif
-            Constant.showDialog("Close", message: "Terima kasih, Prelo akan meninjau laporan kamu")
+//            Constant.showDialog("Close", message: "Terima kasih, Prelo akan meninjau laporan kamu")
             
             // back to previos window
             if let r = self.root {
@@ -208,7 +208,7 @@ class ReportProductViewController: BaseViewController, UITextViewDelegate {
     
     func reportProduct(reportType : Int, reasonText : String, categoryIdCorrection : String) {
         request(APIProduct.reportProduct(productId: (self.pDetail?.productID)!, sellerId: (self.pDetail?.theirId)!, reportType: reportType, reasonText: reasonText, categoryIdCorrection: categoryIdCorrection)).responseJSON { resp in
-            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Laporkan Barang")) {
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Laporkan Barang")) {
                 let json = JSON(resp.result.value!)
                 if (json["_data"].boolValue == true) {
                     Constant.showDialog("Barang Dilaporkan", message: "Terima kasih, Prelo akan meninjau laporan kamu")

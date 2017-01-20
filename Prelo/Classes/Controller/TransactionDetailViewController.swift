@@ -3582,11 +3582,12 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     } else if (isTrxProductDetail()) {
                         content = trxProductDetail!.requestCourier
                     }
-                    var image = UIImage()
+                    
                     if let img = TransactionDetailTools.ImgCouriers[content.components(separatedBy: " ")[0].lowercased()] {
-                        image = img!
+                        return self.createTitleContentCell("Kurir", content: content, image: img!)
+                    } else {
+                        return self.createTitleContentCell("Kurir", content: (content.contains("Free Ongkir") ? "" : content))
                     }
-                    return self.createTitleContentCell("Kurir", content: content, image: image)
                 } else if (idx == 8) {
                     var content = ""
                     if (isTrxDetail()) {
