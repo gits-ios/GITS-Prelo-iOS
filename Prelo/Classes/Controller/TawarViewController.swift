@@ -239,6 +239,12 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         btnSold.backgroundColor = Theme.PrimaryColor
         btnBeli.backgroundColor = Theme.PrimaryColor
         btnBeliSold.backgroundColor = Theme.PrimaryColor
+        
+        if (User.IsLoggedIn) {
+            if isTawarkan {
+                self.startNew(1, message : isTawarkan_originalPrice, withImg: nil)
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -271,10 +277,6 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         if (!User.IsLoggedIn && isShowLogin) {
             isShowLogin = false
             LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
-        } else {
-            if isTawarkan {
-                self.startNew(1, message : isTawarkan_originalPrice, withImg: nil)
-            }
         }
     }
     

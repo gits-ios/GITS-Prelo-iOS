@@ -172,6 +172,8 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
                                     
                                     t.isTawarkan = true
                                     t.isTawarkan_originalPrice = pDetail.priceInt.string
+                                    t.tawarFromMe = true
+                                    t.threadState = 1
                                     
                                     self.navigationController?.pushViewController(t, animated: true)
                                 }
