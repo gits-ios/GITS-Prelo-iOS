@@ -2541,6 +2541,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentDate)
         } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanBuyer) {
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingRecipientName)
+            height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingRecipientPhone)
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingAddress)
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingSubdistrictName)
             if let r = CDRegion.getRegionNameWithID(trxDetail.shippingRegionId) {
@@ -2631,6 +2632,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentDate)
         } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanBuyer) {
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingRecipientName)
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingRecipientPhone)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingAddress)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingSubdistrictName)
             if let r = CDRegion.getRegionNameWithID(trxProductDetail.shippingRegionId) {
@@ -2752,7 +2754,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
                 return 2
             } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanBuyer) {
-                var nRow = 9
+                var nRow = 10
                 if (isTrxDetail()) {
                     if trxDetail!.isShowShipHistory {
                         nRow += 1
@@ -2944,17 +2946,23 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     }
                 } else if (idx == 1) {
                     if (isTrxDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingRecipientPhone)
+                    } else if (isTrxProductDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingRecipientPhone)
+                    }
+                } else if (idx == 2) {
+                    if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingAddress)
                     } else if (isTrxProductDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingAddress)
                     }
-                } else if (idx == 2) {
+                } else if (idx == 3) {
                     if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingSubdistrictName)
                     } else if (isTrxProductDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingSubdistrictName)
                     }
-                } else if (idx == 3) {
+                } else if (idx == 4) {
                     if (isTrxDetail()) {
                         if let r = CDRegion.getRegionNameWithID(trxDetail!.shippingRegionId) {
                             return TransactionDetailTitleContentCell.heightFor(r)
@@ -2964,7 +2972,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                             return TransactionDetailTitleContentCell.heightFor(r)
                         }
                     }
-                } else if (idx == 4) {
+                } else if (idx == 5) {
                     if (isTrxDetail()) {
                         if let p = CDProvince.getProvinceNameWithID(trxDetail!.shippingProvinceId) {
                             return TransactionDetailTitleContentCell.heightFor(p)
@@ -2974,13 +2982,13 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                             return TransactionDetailTitleContentCell.heightFor(p)
                         }
                     }
-                } else if (idx == 5) {
+                } else if (idx == 6) {
                     if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingPostalCode)
                     } else if (isTrxProductDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingPostalCode)
                     }
-                } else if (idx == 6) {
+                } else if (idx == 7) {
 //                    if (isTrxDetail()) {
 //                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingName)
 //                    } else if (isTrxProductDetail()) {
@@ -2997,15 +3005,15 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     } else {
                         return TransactionDetailTitleContentCell.heightFor(content)
                     }
-                } else if (idx == 7) {
+                } else if (idx == 8) {
                     if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.resiNumber)
                     } else if (isTrxProductDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.resiNumber)
                     }
-                } else if (idx == 8) {
-                    return TransactionDetailTitleContentCell.heightFor("Lihat foto resiœ")
                 } else if (idx == 9) {
+                    return TransactionDetailTitleContentCell.heightFor("Lihat foto resiœ")
+                } else if (idx == 10) {
                     if (isTrxDetail()) {
                         if let msg = trxDetail!.shipHistoryMsg {
                             return TransactionDetailTitleContentHeaderCell.heightFor(msg)
@@ -3019,11 +3027,11 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                             return TransactionDetailTitleContentHeaderCell.DefaultCellHeight
                         }
                     }
-                } else if (idx > 9) {
+                } else if (idx > 10) {
                     if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shipHistory[idx - 10].date, content: trxDetail!.shipHistory[idx - 10].status)
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shipHistory[idx - 11].date, content: trxDetail!.shipHistory[idx - 11].status)
                     } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shipHistory[idx - 10].date, content: trxProductDetail!.shipHistory[idx - 10].status)
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shipHistory[idx - 11].date, content: trxProductDetail!.shipHistory[idx - 11].status)
                     }
                 }
             } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanSeller) {
@@ -3389,12 +3397,20 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 } else if (idx == 1) {
                     var content = ""
                     if (isTrxDetail()) {
+                        content = trxDetail!.shippingRecipientPhone
+                    } else if (isTrxProductDetail()) {
+                        content = trxProductDetail!.shippingRecipientPhone
+                    }
+                    return self.createTitleContentCell("Nomor Telepon", content: content)
+                } else if (idx == 2) {
+                    var content = ""
+                    if (isTrxDetail()) {
                         content = trxDetail!.shippingAddress
                     } else if (isTrxProductDetail()) {
                         content = trxProductDetail!.shippingAddress
                     }
                     return self.createTitleContentCell("Alamat", content: content)
-                } else if (idx == 2) {
+                } else if (idx == 3) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = trxDetail!.shippingSubdistrictName
@@ -3402,7 +3418,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         content = trxProductDetail!.shippingSubdistrictName
                     }
                     return self.createTitleContentCell("Kecamatan", content: content)
-                } else if (idx == 3) {
+                } else if (idx == 4) {
                     var content = ""
                     if (isTrxDetail()) {
                         if let r = CDRegion.getRegionNameWithID(trxDetail!.shippingRegionId) {
@@ -3414,7 +3430,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         }
                     }
                     return self.createTitleContentCell("Kota", content: content)
-                } else if (idx == 4) {
+                } else if (idx == 5) {
                     var content = ""
                     if (isTrxDetail()) {
                         if let p = CDProvince.getProvinceNameWithID(trxDetail!.shippingProvinceId) {
@@ -3426,7 +3442,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         }
                     }
                     return self.createTitleContentCell("Provinsi", content: content)
-                } else if (idx == 5) {
+                } else if (idx == 6) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = trxDetail!.shippingPostalCode
@@ -3434,7 +3450,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         content = trxProductDetail!.shippingPostalCode
                     }
                     return self.createTitleContentCell("Kode Pos", content: content)
-                } else if (idx == 6) {
+                } else if (idx == 7) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = trxDetail!.shippingName
@@ -3447,7 +3463,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     } else {
                         return self.createTitleContentCell("Kurir", content: content)
                     }
-                } else if (idx == 7) {
+                } else if (idx == 8) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = trxDetail!.resiNumber
@@ -3458,7 +3474,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         return self.createTitleContentCell("Nomor Resi", content: content + " ", alignment: nil, url: nil, textToCopy: content)
 //                        return self.createTitleContentCell("Nomor Resi", content: content)
                     }
-                } else if (idx == 8) {
+                } else if (idx == 9) {
                     var content = "Lihat foto resiœ"
                     if (isTrxDetail()) {
                         content += trxDetail!.resiPhotoUrl
@@ -3474,7 +3490,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     if (nrcontent != "") {
                         return self.createTitleContentCell("", content: content)
                     }
-                } else if (idx == 9) {
+                } else if (idx == 10) {
                     var msg : String?
                     if (isTrxDetail()) {
                         msg = trxDetail!.shipHistoryMsg
@@ -3482,15 +3498,15 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         msg = trxProductDetail!.shipHistoryMsg
                     }
                     return self.createTitleContentHeaderCellShipHistory(msg)
-                } else if (idx > 9) {
+                } else if (idx > 10) {
                     var date = ""
                     var status = ""
                     if (isTrxDetail()) {
-                        date = trxDetail!.shipHistory[idx - 10].date
-                        status = trxDetail!.shipHistory[idx - 10].status
+                        date = trxDetail!.shipHistory[idx - 11].date
+                        status = trxDetail!.shipHistory[idx - 11].status
                     } else if (isTrxProductDetail()) {
-                        date = trxProductDetail!.shipHistory[idx - 10].date
-                        status = trxProductDetail!.shipHistory[idx - 10].status
+                        date = trxProductDetail!.shipHistory[idx - 11].date
+                        status = trxProductDetail!.shipHistory[idx - 11].status
                     }
                     return self.createTitleContentCellShipHistory(date, status: status)
                 }
