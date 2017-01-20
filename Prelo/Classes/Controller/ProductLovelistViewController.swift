@@ -169,6 +169,10 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
                                     
                                     t.toId = buyer.id
                                     t.prodId = t.tawarItem.itemId
+                                    
+                                    t.isTawarkan = true
+                                    t.isTawarkan_originalPrice = pDetail.priceInt.string
+                                    
                                     self.navigationController?.pushViewController(t, animated: true)
                                 }
                             }

@@ -132,6 +132,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     var starting = false // True if currently sending start chat API
     var isShowBubble = true // True if should show yellow bubble
     
+    // dipakai jika start dari lovelist --> tawarkan
+    var isTawarkan : Bool = false
+    var isTawarkan_originalPrice : String = ""
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -267,6 +271,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         if (!User.IsLoggedIn && isShowLogin) {
             isShowLogin = false
             LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
+        } else {
+            if isTawarkan {
+                self.startNew(1, message : isTawarkan_originalPrice, withImg: nil)
+            }
         }
     }
     
@@ -403,7 +411,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 if (tawarItem.markAsSoldTo == User.Id) { // Mark as sold to me
                     self.conMarginHeightOptions.constant = 114
                 } else {
-                    self.conMarginHeightOptions.constant = 80
+                    self.conMarginHeightOptions.constant = 114 // 80
                     return
                 }
             }
@@ -416,6 +424,13 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 }
             } else { // Product is sold
                 if (tawarItem.markAsSoldTo == tawarItem.theirId) { // mark as sold, im seller
+//                    self.conMarginHeightOptions.constant = 149 // 114 // 80
+                    if (threadState == 0 || threadState == 2 || threadState == 3) {
+                        self.conMarginHeightOptions.constant = 114 // 149
+                    } else if (threadState == 1) {
+                        self.conMarginHeightOptions.constant = 114
+                    }
+                } else if (threadState == 4 || threadState == 1 || threadState == 3) { // start chat from seller
                     self.conMarginHeightOptions.constant = 114
                 } else {
                     self.conMarginHeightOptions.constant = 80
@@ -426,11 +441,39 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         
         // Arrange buttons
         if (self.prodStatus != 1) { // Product is sold
+            /*
             if (tawarItem.opIsMe && tawarItem.markAsSoldTo == User.Id) { // I am buyer & mark as sold to me
-                btnBeliSold.isHidden = false
+                btnTawar1.isHidden = false
+                btnBeli.isHidden = false
+//                btnBeliSold.isHidden = false // default
             } else if (!tawarItem.opIsMe && tawarItem.markAsSoldTo == tawarItem.theirId) { // I am seller & mark as sold to their
                 btnTawar2.isHidden = false
+                btnSold.isHidden = false
             }
+             */
+            if (threadState == 0 || threadState == 2 || threadState == 3 || threadState == 4) { // No one is bargaining
+                if (tawarItem.opIsMe && tawarItem.markAsSoldTo == User.Id) { // I am buyer & mark as sold to me
+                    btnTawar1.isHidden = false
+                    btnBeli.isHidden = false
+                } else if (!tawarItem.opIsMe && tawarItem.markAsSoldTo == tawarItem.theirId) { // I am seller & mark as sold to their
+                    btnTawar2.isHidden = false
+//                    btnSold.isHidden = false
+                } else if (threadState == 4 || threadState == 3) { // start chat from seller
+                    btnTawar2.isHidden = false
+                }
+            } else if (threadState == 1) { // Someone is bargaining
+                if (tawarFromMe) { // I am bargaining
+                    if (tawarItem.opIsMe) { // I am buyer
+                        btnTolak2.isHidden = false
+                    } else { // I am seller
+                        btnTolak2.isHidden = false
+                    }
+                } else { // Other is bargaining
+                    btnTolak.isHidden = false
+                    btnConfirm.isHidden = false
+                }
+            }
+
         } else { // Product isn't sold
             if (threadState == 0 || threadState == 2 || threadState == 3) { // No one is bargaining
                 if (tawarItem.opIsMe) { // I am buyer
@@ -663,6 +706,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 tawarItem.setBargainPrice(message.int)
             }
         }
+        
         inboxMessages.append(i)
         
         // Reset textview
@@ -692,6 +736,13 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     }
     
     func startNew(_ type : Int, message : String, withImg : UIImage?) {
+        // Set tawarFromMe
+        if (type == 1) {
+            tawarFromMe = true
+        } else if (type != 0) {
+            tawarFromMe = false
+        }
+        
         // Make sure this is executed once
         if (starting) {
             return
@@ -747,8 +798,18 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             f.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
             let time = f.string(from: date)
             let i = InboxMessage.messageFromMe(localId, type: type, message: message, time: time, attachmentType: (withImg != nil ? "image" : ""), attachmentURL: imageURL!)
+            if (type == 1) {
+                self.tawarItem.setBargainPrice(message.int)
+            }
+
             self.inboxMessages.append(i)
             self.textView.text = ""
+            
+            // Change threadState
+            if (type != 0) { // Kalo type = 0 gak ada arti apapun, gak perlu rubah state.
+                self.threadState = type
+            }
+            
             self.adjustButtons()
             self.tableView.reloadData()
             self.scrollToBottom()
@@ -1192,9 +1253,9 @@ class TawarCell : UITableViewCell {
                 self.captionTime.date = m.dateTime
             }
             
-            if (m.messageType == 1) {
-                self.sectionMessage.backgroundColor = Theme.ThemeOrange
-                self.newCaptionMessage?.textColor = UIColor.white
+            if (m.messageType == 1 && !m.isMe) {
+                self.sectionMessage.backgroundColor = UIColor(hexString: "#E8ECEE") // Theme.ThemeOrange
+                self.newCaptionMessage?.textColor = UIColor.darkGray // UIColor.white
             }
             
             if (m.messageType == 3) {
