@@ -453,22 +453,24 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 }
                 self.navigationController?.pushViewController(u, animated: true)
             } else {
-//                let d = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
                 let u = foundUsers[(indexPath as NSIndexPath).row]
-//                d.currentMode = .shop
-//                d.shopName = u.username
                 
                 // Insert top search
                 let _ = request(APISearch.insertTopSearch(search: u.username))
                 // Save history
                 doSearch(keyword: u.username)
                 
-//                d.shopId = u.id
-//                self.navigationController?.pushViewController(d, animated: true)
-                
-                let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
-                storePageTabBarVC.shopId = u.id
-                self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+                if (!AppTools.isNewShop) {
+                    let d = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+                    d.currentMode = .shop
+                    d.shopName = u.username
+                    d.shopId = u.id
+                    self.navigationController?.pushViewController(d, animated: true)
+                } else {
+                    let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+                    storePageTabBarVC.shopId = u.id
+                    self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+                }
             }
         } else if ((indexPath as NSIndexPath).section == SectionBrand) {
             let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController

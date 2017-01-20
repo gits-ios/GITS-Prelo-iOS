@@ -770,16 +770,21 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 
                 self.shopHeader?.badges = []
                 
-                if let arr = json["featured_badges"].array {
-                    if arr.count > 0 {
-                        for i in 0...arr.count-1 {
-                            self.shopHeader?.badges.append(URL(string: arr[i]["icon"].string!)!)
+                if (AppTools.isOldShopWithBadges) {
+                    if let arr = json["featured_badges"].array {
+                        if arr.count > 0 {
+                            for i in 0...arr.count-1 {
+                                self.shopHeader?.badges.append(URL(string: arr[i]["icon"].string!)!)
+                            }
                         }
                     }
+                    
+                    self.shopHeader?.consTopVwImage.constant = 28
+                } else {
+                    self.shopHeader?.consTopVwImage.constant = 58
                 }
                 
                 self.shopHeader?.setupCollection()
-//                self.shopHeader?.colectionView.reloadData()
                 
                 // Total products and sold products
                 if let productCount = json["total_product"].int {
@@ -1736,21 +1741,21 @@ class ListItemFeaturedHeaderCell : UICollectionViewCell {
 // MARK: - Class ListItemCell
 
 class ListItemCell : UICollectionViewCell {
-    @IBOutlet var ivCover: UIImageView!
-    @IBOutlet var captionTitle: UILabel!
-    @IBOutlet var captionPrice: UILabel!
-    @IBOutlet var captionOldPrice: UILabel!
-    @IBOutlet var captionLove: UILabel!
-    @IBOutlet var captionMyLove: UILabel!
-    @IBOutlet var captionComment: UILabel!
-    @IBOutlet var sectionLove : UIView!
-    @IBOutlet var avatar : UIImageView!
-    @IBOutlet var captionSpecialStory : UILabel!
-    @IBOutlet var sectionSpecialStory : UIView!
-    @IBOutlet var imgSold: UIImageView!
-    @IBOutlet var imgReserved: UIImageView!
-    @IBOutlet var imgFeatured: UIImageView!
-    @IBOutlet var imgFreeOngkir: UIImageView!
+    @IBOutlet weak var ivCover: UIImageView!
+    @IBOutlet weak var captionTitle: UILabel!
+    @IBOutlet weak var captionPrice: UILabel!
+    @IBOutlet weak var captionOldPrice: UILabel!
+    @IBOutlet weak var captionLove: UILabel!
+    @IBOutlet weak var captionMyLove: UILabel!
+    @IBOutlet weak var captionComment: UILabel!
+    @IBOutlet weak var sectionLove : UIView!
+    @IBOutlet weak var avatar : UIImageView!
+    @IBOutlet weak var captionSpecialStory : UILabel!
+    @IBOutlet weak var sectionSpecialStory : UIView!
+    @IBOutlet weak var imgSold: UIImageView!
+    @IBOutlet weak var imgReserved: UIImageView!
+    @IBOutlet weak var imgFeatured: UIImageView!
+    @IBOutlet weak var imgFreeOngkir: UIImageView!
     @IBOutlet weak var btnTawar: UIButton!
     @IBOutlet weak var btnLove: UIButton!
     
@@ -2027,9 +2032,9 @@ class ListItemCell : UICollectionViewCell {
 // MARK: - Class
 
 class ListFooter : UICollectionReusableView {
-    @IBOutlet var loading : UIActivityIndicatorView!
-    @IBOutlet var btnFooter: UIButton!
-    @IBOutlet var lblFooter: UILabel!
+    @IBOutlet weak var loading : UIActivityIndicatorView!
+    @IBOutlet weak var btnFooter: UIButton!
+    @IBOutlet weak var lblFooter: UILabel!
     
     var btnFooterAction : () -> () = {}
     
@@ -2041,22 +2046,22 @@ class ListFooter : UICollectionReusableView {
 // MARK: - Class
 
 class StoreHeader : UIView, UICollectionViewDataSource, UICollectionViewDelegate {
-    @IBOutlet var captionName : UILabel!
-    @IBOutlet var captionLocation : UILabel!
-    @IBOutlet var captionDesc : UILabel!
-    @IBOutlet var captionLove: UILabel!
-    @IBOutlet var captionReview : UILabel!
-    @IBOutlet var avatar : UIImageView!
-    @IBOutlet var btnEdit : UIButton!
-    @IBOutlet var captionTotal : UILabel!
-    @IBOutlet var captionLastActive: UILabel!
-    @IBOutlet var captionChatPercentage: UILabel!
-    @IBOutlet var colectionView: UICollectionView!
-    @IBOutlet var consWidthColectionView: NSLayoutConstraint!
-    
-    @IBOutlet var vwCollectionView: UIView!
+    @IBOutlet weak var captionName : UILabel!
+    @IBOutlet weak var captionLocation : UILabel!
+    @IBOutlet weak var captionDesc : UILabel!
+    @IBOutlet weak var captionLove: UILabel!
+    @IBOutlet weak var captionReview : UILabel!
+    @IBOutlet weak var avatar : UIImageView!
+    @IBOutlet weak var btnEdit : UIButton!
+    @IBOutlet weak var captionTotal : UILabel!
+    @IBOutlet weak var captionLastActive: UILabel!
+    @IBOutlet weak var captionChatPercentage: UILabel!
+    @IBOutlet weak var colectionView: UICollectionView!
+    @IBOutlet weak var consWidthColectionView: NSLayoutConstraint!
+    @IBOutlet weak var consTopVwImage: NSLayoutConstraint! // 28 --> 58
+    @IBOutlet weak var vwCollectionView: UIView!
     var completeDesc : String = ""
-    @IBOutlet var vwLove: UIView!
+    @IBOutlet weak var vwLove: UIView!
     
     var editBlock : ()->() = {}
     var reviewBlock : ()->() = {}

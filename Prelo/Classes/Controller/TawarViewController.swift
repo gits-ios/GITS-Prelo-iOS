@@ -1006,14 +1006,16 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     @IBAction func gotoShopPage(_ sender: AnyObject) {
         if (!isChatWithPreloMessage() && tawarItem.theirId != "") {
-//            let shopPage = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
-//            shopPage.currentMode = .shop
-//            shopPage.shopId = tawarItem.theirId
-//            self.navigationController?.pushViewController(shopPage, animated: true)
-            
-            let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
-            storePageTabBarVC.shopId = tawarItem.theirId
-            self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+            if (!AppTools.isNewShop) {
+                let shopPage = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+                shopPage.currentMode = .shop
+                shopPage.shopId = tawarItem.theirId
+                self.navigationController?.pushViewController(shopPage, animated: true)
+            } else {
+                let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+                storePageTabBarVC.shopId = tawarItem.theirId
+                self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+            }
         }
     }
     

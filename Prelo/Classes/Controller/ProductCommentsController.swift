@@ -261,15 +261,17 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
             c.lblReport.isHidden = true
         }
         c.goToProfile = { userId in
-//            let vc = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
-//            vc.currentMode = .shop
-//            vc.shopId = userId
-//            
-//            self.navigationController?.pushViewController(vc, animated: true)
-            
-            let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
-            storePageTabBarVC.shopId = userId
-            self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+            if (!AppTools.isNewShop) {
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+                vc.currentMode = .shop
+                vc.shopId = userId
+                
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else {
+                let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+                storePageTabBarVC.shopId = userId
+                self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+            }
         }
         
         return c

@@ -875,10 +875,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func redirectShopPage(_ userId : String) {
-//        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//        let listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
-//        listItemVC.currentMode = .shop
-//        listItemVC.shopId = userId
+        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+        listItemVC.currentMode = .shop
+        listItemVC.shopId = userId
         
         var rootViewController : UINavigationController?
         if let rVC = self.window?.rootViewController {
@@ -895,14 +895,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             rootViewController?.navigationBar.tintColor = UIColor.white
             rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
             self.window?.rootViewController = rootViewController
-//            let noBtn = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-//            listItemVC.navigationItem.leftBarButtonItem = noBtn
+            let noBtn = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+            listItemVC.navigationItem.leftBarButtonItem = noBtn
         }
-//        rootViewController!.pushViewController(listItemVC, animated: true)
         
-        let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
-        storePageTabBarVC.shopId = userId
-        rootViewController!.pushViewController(storePageTabBarVC, animated: true)
+        
+        if (!AppTools.isNewShop) {
+            rootViewController!.pushViewController(listItemVC, animated: true)
+            
+        } else { // new shop
+            let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+            storePageTabBarVC.shopId = userId
+            rootViewController!.pushViewController(storePageTabBarVC, animated: true)
+        }
     }
     
     func redirectInbox(_ inboxId : String?) {

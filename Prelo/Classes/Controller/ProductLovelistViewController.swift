@@ -185,15 +185,17 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tblLovers.isHidden = true
-//        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//        let listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
-//        listItemVC.currentMode = .shop
-//        listItemVC.shopId = self.productLovelistItems[indexPath.row].id
-//        self.navigationController?.pushViewController(listItemVC, animated: true)
-        
-        let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
-        storePageTabBarVC.shopId = self.productLovelistItems[indexPath.row].id
-        self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+        if (!AppTools.isNewShop) {
+            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+            listItemVC.currentMode = .shop
+            listItemVC.shopId = self.productLovelistItems[indexPath.row].id
+            self.navigationController?.pushViewController(listItemVC, animated: true)
+        } else {
+            let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+            storePageTabBarVC.shopId = self.productLovelistItems[indexPath.row].id
+            self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+        }
     }
     
     // MARK: - Other functions

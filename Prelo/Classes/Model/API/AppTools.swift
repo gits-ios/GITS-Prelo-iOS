@@ -45,6 +45,12 @@ class AppTools: NSObject {
     static var screenHeight : CGFloat {
         return UIScreen.main.bounds.height
     }
+    
+    static var isNewShop : Bool { // new shop, TODO: - bisa setting di app
+        return false
+    }
+    
+    static let isOldShopWithBadges : Bool = false // set true kalau jadi bisa nampilin badge
 }
 
 enum AppFont {

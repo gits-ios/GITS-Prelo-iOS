@@ -96,16 +96,19 @@ class UserSearchViewController: BaseViewController, UITableViewDataSource, UITab
             getUsers()
         } else
         {
-//            let d = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
             let u = users[(indexPath as NSIndexPath).row]
-//            d.currentMode = .shop
-//            d.shopName = u.username
-//            d.shopId = u.id
-//            self.navigationController?.pushViewController(d, animated: true)
             
-            let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
-            storePageTabBarVC.shopId = u.id
-            self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+            if (!AppTools.isNewShop) {
+                let d = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+                d.currentMode = .shop
+                d.shopName = u.username
+                d.shopId = u.id
+                self.navigationController?.pushViewController(d, animated: true)
+            } else {
+                let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+                storePageTabBarVC.shopId = u.id
+                self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+            }
         }
         
         tableView.deselectRow(at: indexPath, animated: true)

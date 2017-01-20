@@ -717,15 +717,17 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 cell.doHide()
             }
             cell.goToProfile = { userId in
-//                let vc = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
-//                vc.currentMode = .shop
-//                vc.shopId = userId
-//                
-//                self.navigationController?.pushViewController(vc, animated: true)
-                
-                let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
-                storePageTabBarVC.shopId = userId
-                self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+                if (!AppTools.isNewShop) {
+                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+                    vc.currentMode = .shop
+                    vc.shopId = userId
+                    
+                    self.navigationController?.pushViewController(vc, animated: true)
+                } else {
+                    let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+                    storePageTabBarVC.shopId = userId
+                    self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+                }
             }
             return cell
         }
@@ -790,23 +792,25 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if ((indexPath as NSIndexPath).section == 0 && (indexPath as NSIndexPath).row == 1)
         {
-//            let d = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
-//            d.currentMode = .shop
-//            if let name = detail?.json["_data"]["seller"]["username"].string
-//            {
-//                d.shopName = name
-//            }
-//            
-//            if let name = detail?.json["_data"]["seller"]["_id"].string
-//            {
-//                d.shopId = name
-//            }
-//            
-//            self.navigationController?.pushViewController(d, animated: true)
-            
-            let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
-            storePageTabBarVC.shopId = detail?.json["_data"]["seller"]["_id"].string
-            self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+            if (!AppTools.isNewShop) {
+                let d = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+                d.currentMode = .shop
+                if let name = detail?.json["_data"]["seller"]["username"].string
+                {
+                    d.shopName = name
+                }
+                
+                if let name = detail?.json["_data"]["seller"]["_id"].string
+                {
+                    d.shopId = name
+                }
+                
+                self.navigationController?.pushViewController(d, animated: true)
+            } else {
+                let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+                storePageTabBarVC.shopId = detail?.json["_data"]["seller"]["_id"].string
+                self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+            }
         }
     }
     

@@ -71,16 +71,16 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NZW-se-uxQ">
-                            <rect key="frame" x="273" y="142" width="54" height="20"/>
+                            <rect key="frame" x="273.5" y="142" width="53.5" height="20"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hy6-4R-a2l">
-                                    <rect key="frame" x="0.0" y="0.0" width="10" height="20"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="9.5" height="20"/>
                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1mu-VH-8iT">
-                                    <rect key="frame" x="18" y="0.0" width="36" height="20"/>
+                                    <rect key="frame" x="17.5" y="0.0" width="36" height="20"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
@@ -186,7 +186,7 @@
                     <rect key="frame" x="0.0" y="234" width="600" height="32"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s2o-3L-eo2">
-                            <rect key="frame" x="196" y="0.0" width="208" height="32"/>
+                            <rect key="frame" x="196.5" y="0.0" width="207.5" height="32"/>
                             <subviews>
                                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="    " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vj7-rR-iJJ">
                                     <rect key="frame" x="0.0" y="8" width="112" height="16"/>
@@ -205,7 +205,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GRl-5S-hIq">
-                                    <rect key="frame" x="196" y="8" width="12" height="16"/>
+                                    <rect key="frame" x="196" y="8" width="11.5" height="16"/>
                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                     <color key="textColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
@@ -263,16 +263,16 @@
                     <rect key="frame" x="0.0" y="266" width="600" height="128"/>
                     <subviews>
                         <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tzd-fY-nES">
-                            <rect key="frame" x="273" y="0.0" width="54" height="0.0"/>
+                            <rect key="frame" x="273.5" y="0.0" width="53.5" height="0.0"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D3e-eQ-h0d">
-                                    <rect key="frame" x="0.0" y="0.0" width="10" height="0.0"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="9.5" height="0.0"/>
                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                     <color key="textColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lRC-ca-Odg">
-                                    <rect key="frame" x="18" y="0.0" width="36" height="0.0"/>
+                                    <rect key="frame" x="17.5" y="0.0" width="36" height="0.0"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
@@ -511,6 +511,7 @@ Label</string>
                 <outlet property="captionReview" destination="UPR-yg-QdW" id="qo4-Vs-OTo"/>
                 <outlet property="captionTotal" destination="wFQ-5s-HE1" id="J1M-ZG-GhS"/>
                 <outlet property="colectionView" destination="fpL-te-LsZ" id="t8D-tC-6oM"/>
+                <outlet property="consTopVwImage" destination="mhe-Uv-u74" id="yx0-Mp-sZ4"/>
                 <outlet property="consWidthColectionView" destination="Por-Gm-LYv" id="no8-3l-03b"/>
                 <outlet property="vwCollectionView" destination="6Xu-ho-GN6" id="bai-WX-0dh"/>
                 <outlet property="vwLove" destination="wkR-P6-Wgc" id="LfE-IF-6Y3"/>
