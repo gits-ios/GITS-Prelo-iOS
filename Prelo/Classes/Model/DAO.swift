@@ -533,6 +533,10 @@ open class ProductDetail : NSObject, TawarItem
         json["_data"]["bought_by_me"] = JSON(val)
     }
     
+    var weight : Int {
+        return json["_data"]["weight"].int!
+    }
+    
     var size : String {
         return json["_data"]["size"].stringValue
     }
