@@ -59,7 +59,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     @IBOutlet weak var btnTolakKirim: UIButton!
     var txtvwTolakGrowHandler : GrowingTextViewHandler!
     @IBOutlet weak var consHeightTxtvwAlasanTolak: NSLayoutConstraint!
-    @IBOutlet weak var consTopVwTolakPesanan: NSLayoutConstraint!
+    @IBOutlet weak var consTopVwTolakPesanan: NSLayoutConstraint! // centery
     let TxtvwAlasanTolakPlaceholder = "Tulis alasan penolakan pesanan"
     
     // ReviewSeller pop up
@@ -87,14 +87,14 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     var loveValue : Int = 5
     var txtvwReviewGrowHandler : GrowingTextViewHandler!
     @IBOutlet weak var consHeightTxtvwReview: NSLayoutConstraint!
-    @IBOutlet weak var consTopVwReviewSeller: NSLayoutConstraint!
+    @IBOutlet weak var consTopVwReviewSeller: NSLayoutConstraint! // centery
     let TxtvwReviewPlaceholder = "Tulis review tentang penjual ini"
     @IBOutlet var lblChkRvwAgreement: UILabel!
     var isRvwAgreed = false
     
     // TundaPengiriman pop up
     @IBOutlet var vwTundaPengiriman: UIView!
-    @IBOutlet var consTopVwTundaPengiriman: NSLayoutConstraint!
+    @IBOutlet var consTopVwTundaPengiriman: NSLayoutConstraint! // centery
     @IBOutlet var lblChkTundaAgreement: UILabel!
     var isTundaAgreed = false
     @IBOutlet var btnTundaBatal: UIButton!
@@ -123,16 +123,16 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         // Transparent panel
         vwShadow.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.2)
         
-        // Penanganan kemunculan keyboard
+        // Penanganan kemunculan keyboard // top is centery
         self.an_subscribeKeyboard (animations: { r, t, o in
             if (o) {
-                self.consTopVwTolakPesanan.constant = 10
-                self.consTopVwReviewSeller.constant = 10
-                self.consTopVwTundaPengiriman.constant = 10
+                self.consTopVwTolakPesanan.constant = -90
+                self.consTopVwReviewSeller.constant = -90
+                self.consTopVwTundaPengiriman.constant = -90
             } else {
-                self.consTopVwTolakPesanan.constant = 100
-                self.consTopVwReviewSeller.constant = 100
-                self.consTopVwTundaPengiriman.constant = 100
+                self.consTopVwTolakPesanan.constant = 0
+                self.consTopVwReviewSeller.constant = 0
+                self.consTopVwTundaPengiriman.constant = 0
             }
         }, completion: nil)
         

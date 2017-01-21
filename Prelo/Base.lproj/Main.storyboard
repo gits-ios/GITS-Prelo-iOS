@@ -2278,7 +2278,7 @@ diterima dan refund 100%</string>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="2QS-YU-5jg">
-                                                            <rect key="frame" x="33" y="12" width="40" height="40"/>
+                                                            <rect key="frame" x="33.5" y="12" width="40" height="40"/>
                                                             <color key="tintColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="40" id="8h7-oX-2az"/>
@@ -2326,7 +2326,7 @@ diterima dan refund 100%</string>
                                                             </constraints>
                                                         </view>
                                                         <imageView opaque="NO" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="txG-F6-hp7">
-                                                            <rect key="frame" x="33" y="12" width="40" height="40"/>
+                                                            <rect key="frame" x="33.5" y="12" width="40" height="40"/>
                                                             <color key="tintColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="24" id="0JT-74-M27"/>
@@ -3971,7 +3971,7 @@ in Bandung</string>
                                                             <rect key="frame" x="0.0" y="0.0" width="118.5" height="80"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt; 1 Kg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="waS-Tm-crL">
-                                                                    <rect key="frame" x="34.5" y="29" width="48" height="21"/>
+                                                                    <rect key="frame" x="35" y="29" width="48" height="21"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
@@ -4045,7 +4045,7 @@ in Bandung</string>
                                                             <rect key="frame" x="126.5" y="0.0" width="106" height="80"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 - 2 Kg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ceB-V7-D8A">
-                                                                    <rect key="frame" x="23" y="29" width="59" height="21"/>
+                                                                    <rect key="frame" x="23.5" y="29" width="59" height="21"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
@@ -17796,7 +17796,7 @@ in Bandung</string>
                                 </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nH2-9b-w7K" userLabel="Tunda Pengiriman Pop Up">
-                                <rect key="frame" x="175" y="131" width="250" height="215"/>
+                                <rect key="frame" x="175" y="192.5" width="250" height="215"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TUNDA PENGIRIMAN" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e9b-59-zjD">
                                         <rect key="frame" x="8" y="8" width="234" height="21"/>
@@ -17938,7 +17938,7 @@ in Bandung</string>
                                 </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rz5-Ll-5uz" userLabel="Review Seller Pop Up">
-                                <rect key="frame" x="174" y="60" width="250" height="386"/>
+                                <rect key="frame" x="174" y="107" width="250" height="386"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="REVIEW PENJUAL" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="85Y-eJ-7tH">
                                         <rect key="frame" x="8" y="8" width="234" height="21"/>
@@ -18242,11 +18242,11 @@ in Bandung</string>
                                     <constraint firstItem="4Gt-VW-2Ps" firstAttribute="leading" secondItem="rz5-Ll-5uz" secondAttribute="leading" constant="8" id="5aX-Uq-0sy"/>
                                     <constraint firstItem="eAe-QZ-mEc" firstAttribute="leading" secondItem="rz5-Ll-5uz" secondAttribute="leading" constant="17" id="5qr-hu-9rq"/>
                                     <constraint firstItem="GCT-B8-jrY" firstAttribute="top" secondItem="WJT-Yl-2wl" secondAttribute="bottom" constant="8" id="6bM-gI-JBU"/>
+                                    <constraint firstItem="532-cJ-u2Q" firstAttribute="top" secondItem="4Gt-VW-2Ps" secondAttribute="bottom" constant="8" id="8oA-GT-NYS"/>
                                     <constraint firstAttribute="trailing" secondItem="STK-4c-gwX" secondAttribute="trailing" id="9De-7T-Jia"/>
                                     <constraint firstItem="eAe-QZ-mEc" firstAttribute="top" secondItem="XFM-9m-KBQ" secondAttribute="bottom" constant="17" id="DnK-Gw-QZn"/>
                                     <constraint firstItem="88V-g1-IeE" firstAttribute="leading" secondItem="rz5-Ll-5uz" secondAttribute="leading" constant="8" id="E5R-QD-Vyt"/>
                                     <constraint firstItem="88V-g1-IeE" firstAttribute="top" secondItem="eAe-QZ-mEc" secondAttribute="bottom" constant="11" id="G9h-d1-Pew"/>
-                                    <constraint firstAttribute="height" constant="386" id="Iro-TS-V2Y"/>
                                     <constraint firstItem="GCT-B8-jrY" firstAttribute="leading" secondItem="rz5-Ll-5uz" secondAttribute="leading" constant="8" id="JW3-lD-xL3"/>
                                     <constraint firstAttribute="trailing" secondItem="88V-g1-IeE" secondAttribute="trailing" constant="8" id="MBv-dG-jfZ"/>
                                     <constraint firstItem="85Y-eJ-7tH" firstAttribute="top" secondItem="rz5-Ll-5uz" secondAttribute="top" constant="8" id="N5p-3C-giz"/>
@@ -18262,6 +18262,7 @@ in Bandung</string>
                                     <constraint firstItem="XFM-9m-KBQ" firstAttribute="leading" secondItem="rz5-Ll-5uz" secondAttribute="leading" constant="8" id="i02-aX-kCc"/>
                                     <constraint firstAttribute="trailing" secondItem="eAe-QZ-mEc" secondAttribute="trailing" constant="16" id="jfQ-bj-VKd"/>
                                     <constraint firstItem="85Y-eJ-7tH" firstAttribute="leading" secondItem="rz5-Ll-5uz" secondAttribute="leading" constant="8" id="m14-yy-BQA"/>
+                                    <constraint firstItem="Rf6-Ax-3AM" firstAttribute="top" secondItem="4Gt-VW-2Ps" secondAttribute="bottom" constant="8" id="mRG-uj-gMK"/>
                                     <constraint firstAttribute="bottom" secondItem="532-cJ-u2Q" secondAttribute="bottom" id="rud-mz-vnv"/>
                                     <constraint firstItem="WJT-Yl-2wl" firstAttribute="top" secondItem="85Y-eJ-7tH" secondAttribute="bottom" constant="8" id="uKl-Pe-Hxx"/>
                                     <constraint firstAttribute="bottom" secondItem="Rf6-Ax-3AM" secondAttribute="bottom" id="wMm-qF-9Hg"/>
@@ -18279,11 +18280,10 @@ in Bandung</string>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="cHb-FI-jaE" secondAttribute="trailing" id="4Oh-pm-7oB"/>
                             <constraint firstAttribute="centerY" secondItem="LQE-PP-b44" secondAttribute="centerY" id="8tn-L4-YT6"/>
+                            <constraint firstItem="rz5-Ll-5uz" firstAttribute="centerY" secondItem="5lk-pf-0sp" secondAttribute="centerY" id="AiG-x4-ZwB"/>
                             <constraint firstAttribute="centerX" secondItem="rz5-Ll-5uz" secondAttribute="centerX" constant="1" id="DjV-4Z-UrI"/>
-                            <constraint firstItem="LQE-PP-b44" firstAttribute="top" secondItem="fEC-hZ-e2V" secondAttribute="bottom" constant="226" id="LdQ-oH-zdM"/>
-                            <constraint firstItem="rz5-Ll-5uz" firstAttribute="top" secondItem="fEC-hZ-e2V" secondAttribute="bottom" constant="60" id="Y6O-NZ-il2"/>
+                            <constraint firstItem="nH2-9b-w7K" firstAttribute="centerY" secondItem="5lk-pf-0sp" secondAttribute="centerY" id="FRP-jM-hiz"/>
                             <constraint firstItem="F7M-5m-kiG" firstAttribute="top" secondItem="fEC-hZ-e2V" secondAttribute="bottom" constant="25" id="YBr-29-ps5"/>
-                            <constraint firstItem="nH2-9b-w7K" firstAttribute="top" secondItem="fEC-hZ-e2V" secondAttribute="bottom" constant="131" id="Yw5-nX-UoF"/>
                             <constraint firstItem="m84-1O-8RA" firstAttribute="top" secondItem="fEC-hZ-e2V" secondAttribute="bottom" id="Z1J-wJ-DOb"/>
                             <constraint firstItem="geI-Ua-W0h" firstAttribute="top" secondItem="cHb-FI-jaE" secondAttribute="bottom" id="ZD6-qf-dkv"/>
                             <constraint firstAttribute="centerX" secondItem="LQE-PP-b44" secondAttribute="centerX" id="bQE-qS-cxf"/>
@@ -18291,6 +18291,7 @@ in Bandung</string>
                             <constraint firstAttribute="centerX" secondItem="F7M-5m-kiG" secondAttribute="centerX" id="iX9-Ca-2W0"/>
                             <constraint firstItem="cHb-FI-jaE" firstAttribute="top" secondItem="fEC-hZ-e2V" secondAttribute="bottom" id="njU-8o-ziI"/>
                             <constraint firstItem="nH2-9b-w7K" firstAttribute="centerX" secondItem="5lk-pf-0sp" secondAttribute="centerX" id="pRo-mN-3IV"/>
+                            <constraint firstItem="LQE-PP-b44" firstAttribute="centerY" secondItem="5lk-pf-0sp" secondAttribute="centerY" id="qg1-Uf-C0C"/>
                             <constraint firstItem="geI-Ua-W0h" firstAttribute="top" secondItem="m84-1O-8RA" secondAttribute="bottom" id="sfF-Oq-cBE"/>
                             <constraint firstItem="cHb-FI-jaE" firstAttribute="leading" secondItem="5lk-pf-0sp" secondAttribute="leading" id="uFn-6y-9QQ"/>
                             <constraint firstAttribute="trailing" secondItem="m84-1O-8RA" secondAttribute="trailing" id="ucI-Tj-D3L"/>
@@ -18322,9 +18323,9 @@ in Bandung</string>
                         <outlet property="btnTundaKirim" destination="3DA-ZM-Lzg" id="Kyr-TI-v0F"/>
                         <outlet property="consHeightTxtvwAlasanTolak" destination="6JQ-Hk-CGj" id="7yT-ja-ysH"/>
                         <outlet property="consHeightTxtvwReview" destination="8Yr-Re-FfH" id="ZCM-Ei-nYL"/>
-                        <outlet property="consTopVwReviewSeller" destination="Y6O-NZ-il2" id="VVa-KS-YkQ"/>
-                        <outlet property="consTopVwTolakPesanan" destination="LdQ-oH-zdM" id="QyU-Na-Puk"/>
-                        <outlet property="consTopVwTundaPengiriman" destination="Yw5-nX-UoF" id="oSg-Ta-YfZ"/>
+                        <outlet property="consTopVwReviewSeller" destination="AiG-x4-ZwB" id="c3n-3b-yXI"/>
+                        <outlet property="consTopVwTolakPesanan" destination="qg1-Uf-C0C" id="xx7-9t-xMj"/>
+                        <outlet property="consTopVwTundaPengiriman" destination="FRP-jM-hiz" id="JMw-MJ-qkG"/>
                         <outlet property="lblChkRvwAgreement" destination="QK5-1P-qgg" id="Xyg-Qo-BY1"/>
                         <outlet property="lblChkTundaAgreement" destination="fke-yY-sds" id="VdD-LI-ddd"/>
                         <outlet property="lblLove1" destination="IZT-VN-zRi" id="SrD-8V-KHP"/>
@@ -18415,6 +18416,6 @@ in Bandung</string>
         <segue reference="W6Y-eo-D2Q"/>
         <segue reference="cuL-Ez-B43"/>
         <segue reference="5pQ-qG-4MR"/>
-        <segue reference="dW2-MQ-HC6"/>
+        <segue reference="ksh-6D-t59"/>
     </inferredMetricsTieBreakers>
 </document>
