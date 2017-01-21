@@ -816,9 +816,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     func cellTappedCategory(_ categoryName: String, categoryID: String) {
         let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
-        l.currentMode = .standalone
-        l.standaloneCategoryName = categoryName
-        l.standaloneCategoryID = categoryID
+//        l.currentMode = .standalone
+//        l.standaloneCategoryName = categoryName
+//        l.standaloneCategoryID = categoryID
+        l.currentMode = .filter
+        l.fltrSortBy = "recent"
+        l.fltrCategId = categoryID
         self.navigationController?.pushViewController(l, animated: true)
     }
     
@@ -1701,7 +1704,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
                 let name = d["name"].string!
                 categoryString += name
                 if (i != arr.count-1) {
-                    categoryString += " > "
+                    categoryString += "  "
                 }
             }
         }
@@ -1784,7 +1787,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
             captionFrom?.text = name
         }
         
-        var w = obj!.weight
+        let w = obj!.weight
         if (w > 1000)
         {
             captionWeight?.text = (Float(w) * 0.001).description + " kg"
@@ -1797,7 +1800,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         var categoryString : String = ""
         var param : Array<[String : Any]> = []
         if (arr.count > 0) {
-            for i in 0...arr.count-1
+            for i in 1...arr.count-1
             {
                 let d = arr[i]
                 let name = d["name"].string!
@@ -1814,16 +1817,41 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
                 
                 categoryString += name
                 if (i != arr.count-1) {
-                    categoryString += " > "
+                    categoryString += "  "
                 }
             }
         }
+        
+        let mystr = categoryString
+        let searchstr = ""
+        let ranges: [NSRange]
+        
+        do {
+            // Create the regular expression.
+            let regex = try NSRegularExpression(pattern: searchstr, options: [])
+            
+            // Use the regular expression to get an array of NSTextCheckingResult.
+            // Use map to extract the range from each result.
+            ranges = regex.matches(in: mystr, options: [], range: NSMakeRange(0, mystr.characters.count)).map {$0.range}
+        }
+        catch {
+            // There was a problem creating the regular expression
+            ranges = []
+        }
+        
+        print(ranges)  // prints [(0,3), (18,3), (27,3)]
         
         let attString : NSMutableAttributedString = NSMutableAttributedString(string: categoryString)
         for p in param
         {
             let r = NSRangeFromString(p["range"] as! String)
             attString.addAttributes(p, range: r)
+            if ranges.count > 0 {
+                for i in 0...ranges.count-1 {
+                    attString.addAttributes([NSFontAttributeName:UIFont(name: "prelo2", size: 14.0)!], range: ranges[i])
+                }
+            }
+
         }
         
         captionCategory?.attributedText = attString
