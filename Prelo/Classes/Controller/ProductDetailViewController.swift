@@ -782,7 +782,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             } else if ((indexPath as NSIndexPath).row == 1) {
                 return ProductCellSeller.heightFor(detail?.json)
             } else {
-                return ProductCellDescription.heightFor(detail) - (detail?.specialStory != "" ? 0 : 10) //+ 50
+                return ProductCellDescription.heightFor(detail)
             }
         } else {
             return ProductCellDiscussion.heightFor(detail?.discussions?.objectAtCircleIndex((indexPath as NSIndexPath).row-3))
@@ -816,9 +816,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     func cellTappedCategory(_ categoryName: String, categoryID: String) {
         let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
-        l.currentMode = .standalone
-        l.standaloneCategoryName = categoryName
-        l.standaloneCategoryID = categoryID
+//        l.currentMode = .standalone
+//        l.standaloneCategoryName = categoryName
+//        l.standaloneCategoryID = categoryID
+        l.currentMode = .filter
+        l.fltrSortBy = "recent"
+        l.fltrCategId = categoryID
         self.navigationController?.pushViewController(l, animated: true)
     }
     
@@ -1643,16 +1646,15 @@ class ProductCellSeller : UITableViewCell
 
 class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
 {
-    @IBOutlet var captionDesc : UILabel?
-    @IBOutlet var captionDate : UILabel?
-    @IBOutlet var captionSize : UILabel?
+    @IBOutlet weak var captionSpecialStory: UILabel!
+    @IBOutlet var captionWeight : UILabel?
     @IBOutlet var captionCondition : UILabel?
     @IBOutlet var captionFrom : UILabel?
-    @IBOutlet var captionConditionDesc : UILabel?
     @IBOutlet var captionAlasanJual : UILabel?
-    
     @IBOutlet var captionMerk : ZSWTappableLabel?
     @IBOutlet var captionCategory : ZSWTappableLabel?
+    @IBOutlet var captionDesc : UILabel?
+    @IBOutlet var captionDate : UILabel?
     
     @IBOutlet var consHeightWaktuJaminan: NSLayoutConstraint!
     
@@ -1674,20 +1676,20 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         let cons = CGSize(width: UIScreen.main.bounds.size.width-16, height: 0)
         let font = UIFont.systemFont(ofSize: 14)
         let desc = product["description"].string!
-        var desc2 : NSString = NSString(string: desc)
+        let desc2 : NSString = NSString(string: desc)
         
         var desc3 : NSString = NSString(string: "")
         if let ss = obj?.specialStory
         {
             if (ss != "")
             {
-                desc3 = NSString(string: "\"" + ss + "\"\n\n")
+                desc3 = NSString(string: " " + ss)
             }
         }
         
-        desc2 = desc3.appending(desc2 as String) as NSString
+        let size = desc3.boundingRect(with: cons, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName:font], context: nil)
         
-        let size = desc2.boundingRect(with: cons, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName:font], context: nil)
+        let size2 = desc2.boundingRect(with: cons, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName:font], context: nil)
         
         let string : String = "Waktu Jaminan Prelo: Belanja bergaransi dengan waktu jaminan hingga 3x24 jam setelah barang diterima jika barang terbukti KW, memiliki cacat yang tidak diinformasikan, atau berbeda dari yang dipesan"
         
@@ -1702,7 +1704,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
                 let name = d["name"].string!
                 categoryString += name
                 if (i != arr.count-1) {
-                    categoryString += " > "
+                    categoryString += "  "
                 }
             }
         }
@@ -1724,7 +1726,9 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         }
         let alSize = sellReason.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width-100)
         
-        return 163+size.height+s.height+cs.height+8+8+cs2Size.height+8+alSize.height
+        let control = CGFloat((desc2 == "" && desc3 == "") ? -40 : ((desc2 == "" || desc3 == "") ? -20 : 0))
+        
+        return 163+size.height+size2.height+s.height+cs.height+8+8+cs2Size.height+8+alSize.height + control
     }
     
     func adapt(_ obj : ProductDetail?)
@@ -1739,11 +1743,20 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         {
             if (ss != "")
             {
-                desc = "\"" + ss + "\"\n\n"
+                desc = " " + ss
             }
         }
         
-        captionDesc?.text = desc + product["description"].string!
+        let attrStr = NSMutableAttributedString(string: desc)
+//        attrStr.addAttributes([NSForegroundColorAttributeName:Theme.GrayDark], range: NSMakeRange(0, desc.length))
+        attrStr.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColor], range: (desc as NSString).range(of: ""))
+        attrStr.addAttributes([NSFontAttributeName:UIFont(name: "preloAwesome", size: 17.0)!], range: (desc as NSString).range(of: ""))
+        
+        captionSpecialStory?.text = desc
+        captionSpecialStory?.attributedText = attrStr
+        
+        
+        captionDesc?.text = product["description"].string!
         captionDate?.text = product["time"].string!
         captionCondition?.text = product["condition"].string!
         if let region = product["seller_region"]["name"].string
@@ -1774,18 +1787,20 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
             captionFrom?.text = name
         }
         
-        var s = obj!.size
-        if (s == "")
+        let w = obj!.weight
+        if (w > 1000)
         {
-            s = "-"
+            captionWeight?.text = (Float(w) * 0.001).description + " kg"
+        } else {
+            captionWeight?.text = w.description + ".0 gram"
         }
-        captionSize?.text = s;
+        
         
         let arr = product["category_breadcrumbs"].array!
         var categoryString : String = ""
         var param : Array<[String : Any]> = []
         if (arr.count > 0) {
-            for i in 0...arr.count-1
+            for i in 1...arr.count-1
             {
                 let d = arr[i]
                 let name = d["name"].string!
@@ -1802,16 +1817,41 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
                 
                 categoryString += name
                 if (i != arr.count-1) {
-                    categoryString += " > "
+                    categoryString += "  "
                 }
             }
         }
+        
+        let mystr = categoryString
+        let searchstr = ""
+        let ranges: [NSRange]
+        
+        do {
+            // Create the regular expression.
+            let regex = try NSRegularExpression(pattern: searchstr, options: [])
+            
+            // Use the regular expression to get an array of NSTextCheckingResult.
+            // Use map to extract the range from each result.
+            ranges = regex.matches(in: mystr, options: [], range: NSMakeRange(0, mystr.characters.count)).map {$0.range}
+        }
+        catch {
+            // There was a problem creating the regular expression
+            ranges = []
+        }
+        
+        print(ranges)  // prints [(0,3), (18,3), (27,3)]
         
         let attString : NSMutableAttributedString = NSMutableAttributedString(string: categoryString)
         for p in param
         {
             let r = NSRangeFromString(p["range"] as! String)
             attString.addAttributes(p, range: r)
+            if ranges.count > 0 {
+                for i in 0...ranges.count-1 {
+                    attString.addAttributes([NSFontAttributeName:UIFont(name: "prelo2", size: 14.0)!], range: ranges[i])
+                }
+            }
+
         }
         
         captionCategory?.attributedText = attString
@@ -1824,13 +1864,6 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         
         captionAlasanJual?.numberOfLines = 0
         captionAlasanJual?.text = sellReason
-        
-        var defect = (obj?.defectDescription)!
-        if (defect == "")
-        {
-            defect = "-"
-        }
-        captionConditionDesc?.text = defect
         
         let string : String = "Waktu Jaminan Prelo: Belanja bergaransi dengan waktu jaminan hingga 3x24 jam setelah barang diterima jika barang terbukti KW, memiliki cacat yang tidak diinformasikan, atau berbeda dari yang dipesan"
         

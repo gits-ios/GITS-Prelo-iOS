@@ -428,11 +428,13 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 if (tawarItem.markAsSoldTo == tawarItem.theirId) { // mark as sold, im seller
 //                    self.conMarginHeightOptions.constant = 149 // 114 // 80
                     if (threadState == 0 || threadState == 2 || threadState == 3) {
-                        self.conMarginHeightOptions.constant = 114 // 149
+                        self.conMarginHeightOptions.constant = 149
                     } else if (threadState == 1) {
                         self.conMarginHeightOptions.constant = 114
                     }
-                } else if (threadState == 4 || threadState == 1 || threadState == 3) { // start chat from seller
+                } else if (threadState == 4) { // start chat from seller
+                    self.conMarginHeightOptions.constant = 149
+                } else if (threadState == 1 || threadState == 3) {
                     self.conMarginHeightOptions.constant = 114
                 } else {
                     self.conMarginHeightOptions.constant = 80
@@ -459,9 +461,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                     btnBeli.isHidden = false
                 } else if (!tawarItem.opIsMe && tawarItem.markAsSoldTo == tawarItem.theirId) { // I am seller & mark as sold to their
                     btnTawar2.isHidden = false
-//                    btnSold.isHidden = false
+                    btnSold.isHidden = false
                 } else if (threadState == 4 || threadState == 3) { // start chat from seller
                     btnTawar2.isHidden = false
+                    btnSold.isHidden = false
                 }
             } else if (threadState == 1) { // Someone is bargaining
                 if (tawarFromMe) { // I am bargaining

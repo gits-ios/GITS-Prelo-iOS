@@ -76,6 +76,8 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     
     var isMacro : Bool = false
     
+    var countDecreaseNotifCount = 0
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -218,8 +220,14 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                 let idx = notifIds.index(of: n.id)
                 if idx != nil {
                     notifIds.remove(at: idx!)
+                    if !((self.notifications?[(indexPath as NSIndexPath).item].read)!) {
+                        self.countDecreaseNotifCount -= 1
+                    }
                 } else {
                     notifIds.append(n.id)
+                    if !((self.notifications?[(indexPath as NSIndexPath).item].read)!) {
+                        self.countDecreaseNotifCount += 1
+                    }
                 }
                 tableView.reloadData()
             }
@@ -345,6 +353,12 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                 self.consHeightButtonView.constant = 0
                 
                 Constant.showDialog("Hapus Pesan", message: "Pesan telah berhasil dihapus")
+                
+                if self.countDecreaseNotifCount > 0 {
+                    for i in 0...self.countDecreaseNotifCount-1 {
+                        self.delegate?.decreaseConversationBadgeNumber()
+                    }
+                }
             }
         }
 

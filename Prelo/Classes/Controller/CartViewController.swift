@@ -110,6 +110,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     var isShowBankBRI : Bool = false
     var isEnableCCPayment : Bool = false
     
+    var transactionCount = 0
+    
     // MARK: - Init
     
     override func viewWillAppear(_ animated: Bool) {
@@ -190,6 +192,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     let nUnpaid = data["n_transaction_unpaid"].intValue
                     self.lblPaymentReminder.text = "Kamu memiliki \(nUnpaid) transaksi yg belum dibayar"
                     self.consHeightPaymentReminder.constant = 40
+                    
+                    self.transactionCount = nUnpaid
                     
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     let notifListener = appDelegate.preloNotifListener
@@ -1214,13 +1218,18 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     MoEngage.sharedInstance().trackEvent(MixpanelEvent.Checkout, builderPayload: moeEventTracker)
                 }
                 
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                let notifListener = appDelegate.preloNotifListener
-                notifListener?.increaseCartCount(1)
+//                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//                let notifListener = appDelegate.preloNotifListener
+//                notifListener?.increaseCartCount(1)
                 
                 // Prepare to navigate to next page
                 if (self.selectedPayment == .bankTransfer) {
                     self.navigateToOrderConfirmVC()
+                    
+                    // set 0 badge
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    let notifListener = appDelegate.preloNotifListener
+                    notifListener?.setCartCount(1 + self.transactionCount)
                 } else { // Credit card, indomaret
                     let webVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
                     webVC.url = self.checkoutResult!["veritrans_redirect_url"].stringValue
@@ -1228,6 +1237,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     webVC.creditCardMode = true
                     webVC.ccPaymentSucceed = {
                         self.navigateToOrderConfirmVC()
+                        
+                        // set 0 badge
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        let notifListener = appDelegate.preloNotifListener
+                        notifListener?.setCartCount(1 + self.transactionCount)
                     }
                     webVC.ccPaymentUnfinished = {
                         Constant.showDialog("Pembayaran \(self.selectedPayment.value)", message: "Pembayaran tertunda")
