@@ -19,7 +19,6 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
     // for capture image
     let stillImageOutput = AVCaptureStillImageOutput()
     
-    var root : BaseViewController?
     var blockDone : BlockScanner?
     
     var counter = 0
@@ -34,6 +33,8 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.title = "Barcode Reader"
         
         view.backgroundColor = UIColor.black
         captureSession = AVCaptureSession()
@@ -87,7 +88,6 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
         
         captureSession.startRunning();
         
-        self.title = "Barcode Reader"
     }
     
     func failed() {
@@ -168,9 +168,7 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
         
         self.blockDone!([code as AnyObject, postImage != nil ? postImage! : NSNull()] as [AnyObject])
         
-        if let r = self.root {
-            self.navigationController?.popToViewController(r, animated: true)
-        }
+        self.navigationController?.popViewController(animated: true)
         
         dismiss(animated: true)
     }
@@ -227,9 +225,7 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
         
         self.blockDone!(["" as AnyObject, postImage != nil ? postImage! : NSNull()] as [AnyObject])
         
-        if let r = self.root {
-            self.navigationController?.popToViewController(r, animated: true)
-        }
+        self.navigationController?.popViewController(animated: true)
     }
     
     // MARK: - Override layout

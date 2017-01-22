@@ -1159,6 +1159,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
                 l.currentMode = .filter
                 l.fltrAggregateId = (self.selectedProduct?.id)!
+                l.fltrSortBy = "recent"
                 l.fltrName = ""
                 self.navigationController?.pushViewController(l, animated: true)
             } else {
