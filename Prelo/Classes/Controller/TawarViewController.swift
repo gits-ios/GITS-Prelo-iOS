@@ -1258,15 +1258,15 @@ class TawarCell : UITableViewCell {
                 self.captionTime.date = m.dateTime
             }
             
-            if (m.messageType == 1 && !m.isMe) {
-                self.sectionMessage.backgroundColor = UIColor(hexString: "#E8ECEE") // Theme.ThemeOrange
-                self.newCaptionMessage?.textColor = UIColor.darkGray // UIColor.white
-            }
-            
-            if (m.messageType == 3) {
-                self.sectionMessage.backgroundColor = UIColor(hexString: "#E8ECEE")
-                self.newCaptionMessage?.textColor = UIColor.darkGray
-            }
+//            if (m.messageType == 1 && !m.isMe) {
+//                self.sectionMessage.backgroundColor = UIColor(hexString: "#E8ECEE") // Theme.ThemeOrange
+//                self.newCaptionMessage?.textColor = UIColor.darkGray // UIColor.white
+//            }
+//            
+//            if (m.messageType == 3) {
+//                self.sectionMessage.backgroundColor = UIColor(hexString: "#E8ECEE")
+//                self.newCaptionMessage?.textColor = UIColor.darkGray
+//            }
             
             if (m.attachmentType != "image" && m.dynamicMessage.range(of: "Tawar \n") != nil) {
                 let boldText = m.dynamicMessage.replace("Tawar \n", template: "")
