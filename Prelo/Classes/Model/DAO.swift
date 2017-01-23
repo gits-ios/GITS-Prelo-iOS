@@ -3494,6 +3494,13 @@ class BalanceMutationItem : NSObject {
         }
         return false
     }
+    
+    var notes : String {
+        if let j = json["notes"].string {
+            return j
+        }
+        return ""
+    }
 }
 
 class AchievementItem : NSObject {
