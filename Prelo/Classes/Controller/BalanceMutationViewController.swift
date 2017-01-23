@@ -340,7 +340,7 @@ class BalanceMutationCell : UITableViewCell {
             wjpSize += (sizeFixWJP.height + 16)
         }
         
-        return 56 + sizeFixDesc.height + (lblReasonAdmin.text! != "" ? sizeFixReasonAdmin.height : 0) + wjpSize
+        return 56 + sizeFixDesc.height + 4 + (lblReasonAdmin.text! != "" ? sizeFixReasonAdmin.height + 4 : 0) + wjpSize
     }
     
     func adapt(_ mutation : BalanceMutationItem) {
@@ -371,11 +371,11 @@ class BalanceMutationCell : UITableViewCell {
         // Label height fix
         let rectDesc = lblDescription.frame.size
         let sizeFixDesc = mutation.reasonDetail.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectDesc.width)
-        consHeightLblDescription.constant = sizeFixDesc.height
+        consHeightLblDescription.constant = sizeFixDesc.height + 4
         
         let rectReason = lblReasonAdmin.frame.size
         let sizeFixReasonAdmin = mutation.reasonAdmin.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectReason.width)
-        consHeightLblReasonAdmin.constant = (mutation.reasonAdmin != "" ? sizeFixReasonAdmin.height : 0)
+        consHeightLblReasonAdmin.constant = (mutation.reasonAdmin != "" ? sizeFixReasonAdmin.height + 4 : 0)
         
         if (mutation.isHold) {
 //            let wjp = " Pemasukan transaksi ini masih dalam Waktu Jaminan Prelo sehingga tidak bisa ditarik (tunggu hingga 3x24 jam setelah barang diterima)"
