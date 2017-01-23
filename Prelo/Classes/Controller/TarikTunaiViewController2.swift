@@ -368,6 +368,11 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
         for i in 0...bankCount - 1 {
             bankAlert.addAction(UIAlertAction(title: items[i], style: .default, handler: { act in
                 self.txtNamaBank.text = items[i]
+                if (items[i] == "Bank Lainnya") {
+                    self.consHeightCustomBank.constant = 70
+                } else {
+                    self.consHeightCustomBank.constant = 0
+                }
                 bankAlert.dismiss(animated: true, completion: nil)
             }))
         }
