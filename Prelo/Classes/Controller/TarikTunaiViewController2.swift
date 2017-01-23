@@ -97,8 +97,8 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
         scrollView.delegate = self
         
         captionPreloBalance.text = "..."
-        captionPreloWJP.text = "..."
-        captionWithdrawAmount.text = "..."
+//        captionPreloWJP.text = "..."
+//        captionWithdrawAmount.text = "..."
         
         self.consHeightCustomBank.constant = 0
         
