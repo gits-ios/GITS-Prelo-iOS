@@ -248,8 +248,11 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     // MARK: - Actions
     
     @IBAction func tarikUangPressed(_ sender: AnyObject) {
-        let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let t = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdTarikTunai) as! TarikTunaiController
+//        let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//        let t = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdTarikTunai) as! TarikTunaiController
+//        self.navigationController?.pushViewController(t, animated: true)
+        
+        let t = Bundle.main.loadNibNamed(Tags.XibNameTarikTunai2, owner: nil, options: nil)?.first as! TarikTunaiViewController2
         self.navigationController?.pushViewController(t, animated: true)
     }
     

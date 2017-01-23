@@ -383,6 +383,7 @@ class Tags : NSObject {
     static let XibNameAchievement = "Achievement"
     static let XibNameStorePage = "StorePageTabBar"
     static let XibNameShopAchievement = "ShopAchievement"
+    static let XibNameTarikTunai2 = "TarikTunai2"
 }
 
 class OrderStatus : NSObject {

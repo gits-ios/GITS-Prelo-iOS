@@ -1621,6 +1621,7 @@ enum APIVisitors : URLRequestConvertible {
 enum APIWallet : URLRequestConvertible {
     case getBalance
     case withdraw(amount : String, targetBank : String, norek : String, namarek : String, password : String)
+    case getBalanceAndWithdraw
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "wallet/"
@@ -1635,6 +1636,7 @@ enum APIWallet : URLRequestConvertible {
         switch self {
         case .withdraw(_, _, _, _, _) : return .post
         case .getBalance : return .get
+        case .getBalanceAndWithdraw : return .get
         }
     }
     
@@ -1642,6 +1644,7 @@ enum APIWallet : URLRequestConvertible {
         switch self {
         case .withdraw(_, _, _, _, _) : return "withdraw"
         case .getBalance : return "balance"
+        case .getBalanceAndWithdraw : return "balance_and_withdraw"
         }
     }
     

@@ -3789,3 +3789,38 @@ class AchievementTierItem : NSObject {
         return false
     }
 }
+
+class HistoryWithdrawItem : NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> HistoryWithdrawItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = HistoryWithdrawItem()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var ticketNumber : String {
+        if let j = json["ticket_number"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var createTime : String {
+        if let j = json["create_time"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var amount : Int {
+        if let j = json["amount"].int {
+            return j
+        }
+        return 0
+    }
+}
