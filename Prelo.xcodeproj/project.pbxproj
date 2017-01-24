@@ -642,6 +642,8 @@
 		B27948231E35C700002CEED4 /* TarikTunai2.xib in Resources */ = {isa = PBXBuildFile; fileRef = B27948221E35C700002CEED4 /* TarikTunai2.xib */; };
 		B27948251E35D971002CEED4 /* TarikTunaiViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27948241E35D971002CEED4 /* TarikTunaiViewController2.swift */; };
 		B29F69671E30E717009E2BC8 /* FeedbackPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = B29F69661E30E717009E2BC8 /* FeedbackPopup.xib */; };
+		B2B34BCF1E37042D001B653F /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B34BCE1E37042D001B653F /* NotificationService.swift */; };
+		B2B34BD31E37042D001B653F /* PushNotif.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B2B34BCC1E37042C001B653F /* PushNotif.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B2B4DCC41E2D24B900EBBD33 /* ShopReviewAverageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B4DCC31E2D24B900EBBD33 /* ShopReviewAverageCell.xib */; };
 		B2BE2DF01E29EBBD006B6903 /* StorePageTabBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */; };
 		B2BE2E001E29F2AF006B6903 /* StorePageTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2BE2DFF1E29F2AF006B6903 /* StorePageTabBarViewController.swift */; };
@@ -793,6 +795,13 @@
 			remoteGlobalIDString = F8111E3219A95C8B0040E7D1;
 			remoteInfo = "Alamofire iOS";
 		};
+		B2B34BD11E37042D001B653F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2115E6C01B4A27E500509D2A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B2B34BCB1E37042C001B653F;
+			remoteInfo = PushNotif;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -806,6 +815,17 @@
 				5870CFDC1DC6F85900E22EFF /* AlamofireImage.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B2B34BE51E37042D001B653F /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				B2B34BD31E37042D001B653F /* PushNotif.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -1597,6 +1617,9 @@
 		B27948221E35C700002CEED4 /* TarikTunai2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunai2.xib; sourceTree = "<group>"; };
 		B27948241E35D971002CEED4 /* TarikTunaiViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiViewController2.swift; sourceTree = "<group>"; };
 		B29F69661E30E717009E2BC8 /* FeedbackPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedbackPopup.xib; sourceTree = "<group>"; };
+		B2B34BCC1E37042C001B653F /* PushNotif.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PushNotif.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2B34BCE1E37042D001B653F /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		B2B34BD01E37042D001B653F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2B4DCC31E2D24B900EBBD33 /* ShopReviewAverageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReviewAverageCell.xib; sourceTree = "<group>"; };
 		B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StorePageTabBar.xib; sourceTree = "<group>"; };
 		B2BE2DFF1E29F2AF006B6903 /* StorePageTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorePageTabBarViewController.swift; sourceTree = "<group>"; };
@@ -1709,6 +1732,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B2B34BC91E37042C001B653F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -1764,6 +1794,7 @@
 				21D387641B6B969600D0FA90 /* Prelo-Bridging-Header.h */,
 				2115E6CA1B4A27E500509D2A /* Prelo */,
 				2115E6E31B4A27E500509D2A /* PreloTests */,
+				B2B34BCD1E37042D001B653F /* PushNotif */,
 				2115E6C91B4A27E500509D2A /* Products */,
 				163B49F396DAE9C45C1A8F32 /* Frameworks */,
 			);
@@ -1773,6 +1804,7 @@
 			isa = PBXGroup;
 			children = (
 				2115E6C81B4A27E500509D2A /* Prelo.app */,
+				B2B34BCC1E37042C001B653F /* PushNotif.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3051,6 +3083,15 @@
 			path = HotlineSDK;
 			sourceTree = "<group>";
 		};
+		B2B34BCD1E37042D001B653F /* PushNotif */ = {
+			isa = PBXGroup;
+			children = (
+				B2B34BCE1E37042D001B653F /* NotificationService.swift */,
+				B2B34BD01E37042D001B653F /* Info.plist */,
+			);
+			path = PushNotif;
+			sourceTree = "<group>";
+		};
 		B2C59A9B1E2E4B31002E4597 /* SMSegmentView */ = {
 			isa = PBXGroup;
 			children = (
@@ -3105,17 +3146,36 @@
 				2115E6C51B4A27E500509D2A /* Frameworks */,
 				2115E6C61B4A27E500509D2A /* Resources */,
 				58F5BEFA1DB088D1009B0E0B /* Embed Frameworks */,
+				B2B34BE51E37042D001B653F /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				58F5BEF91DB088D1009B0E0B /* PBXTargetDependency */,
 				5870CFDE1DC6F85900E22EFF /* PBXTargetDependency */,
+				B2B34BD21E37042D001B653F /* PBXTargetDependency */,
 			);
 			name = Prelo;
 			productName = Prelo;
 			productReference = 2115E6C81B4A27E500509D2A /* Prelo.app */;
 			productType = "com.apple.product-type.application";
+		};
+		B2B34BCB1E37042C001B653F /* PushNotif */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B2B34BE41E37042D001B653F /* Build configuration list for PBXNativeTarget "PushNotif" */;
+			buildPhases = (
+				B2B34BC81E37042C001B653F /* Sources */,
+				B2B34BC91E37042C001B653F /* Frameworks */,
+				B2B34BCA1E37042C001B653F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PushNotif;
+			productName = PushNotif;
+			productReference = B2B34BCC1E37042C001B653F /* PushNotif.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -3123,7 +3183,7 @@
 		2115E6C01B4A27E500509D2A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0700;
+				LastSwiftUpdateCheck = 0820;
 				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = "GITS Indonesia";
 				TargetAttributes = {
@@ -3142,6 +3202,11 @@
 								enabled = 1;
 							};
 						};
+					};
+					B2B34BCB1E37042C001B653F = {
+						CreatedOnToolsVersion = 8.2;
+						DevelopmentTeam = A72B22UTXM;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -3178,6 +3243,7 @@
 			projectRoot = "";
 			targets = (
 				2115E6C71B4A27E500509D2A /* Prelo */,
+				B2B34BCB1E37042C001B653F /* PushNotif */,
 			);
 		};
 /* End PBXProject section */
@@ -3575,6 +3641,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B2B34BCA1E37042C001B653F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -3927,6 +4000,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B2B34BC81E37042C001B653F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B2B34BCF1E37042D001B653F /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -3939,6 +4020,11 @@
 			isa = PBXTargetDependency;
 			name = "Alamofire iOS";
 			targetProxy = 58F5BEF81DB088D1009B0E0B /* PBXContainerItemProxy */;
+		};
+		B2B34BD21E37042D001B653F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B2B34BCB1E37042C001B653F /* PushNotif */;
+			targetProxy = B2B34BD11E37042D001B653F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -4151,6 +4237,53 @@
 			};
 			name = Release;
 		};
+		B2B34BD41E37042D001B653F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: M. R. Al-ghazali (QEA6HEZ3FA)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: M. R. Al-ghazali (QEA6HEZ3FA)";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = A72B22UTXM;
+				ENABLE_TESTABILITY = YES;
+				INFOPLIST_FILE = PushNotif/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.prelo.ios.Prelo.PushNotif;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "da71f3c8-78ad-4f8a-922e-97f7d9ebc20d";
+				PROVISIONING_PROFILE_SPECIFIER = PreloKleora_Development;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		B2B34BD51E37042D001B653F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: M. R. Al-ghazali (QEA6HEZ3FA)";
+				DEVELOPMENT_TEAM = A72B22UTXM;
+				INFOPLIST_FILE = PushNotif/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.prelo.ios.Prelo.PushNotif;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "da71f3c8-78ad-4f8a-922e-97f7d9ebc20d";
+				PROVISIONING_PROFILE_SPECIFIER = PreloKleora_Development;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -4171,6 +4304,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		B2B34BE41E37042D001B653F /* Build configuration list for PBXNativeTarget "PushNotif" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B2B34BD41E37042D001B653F /* Debug */,
+				B2B34BD51E37042D001B653F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 
