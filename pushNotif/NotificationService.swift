@@ -32,7 +32,9 @@ final class NotificationService: UNNotificationServiceExtension {
         
         guard let imageData = NSData(contentsOf:NSURL(string: attachmentURL)! as URL) else { return failEarly() }
         
-        guard let attachment = UNNotificationAttachment.create(imageFileIdentifier: "image.gif", data: imageData, options: nil) else { return failEarly() }
+        let imageName = "prelo-image-notif" + UNNotificationAttachment.contentTypeForImageData(imageData: imageData)
+        
+        guard let attachment = UNNotificationAttachment.create(imageFileIdentifier: imageName, data: imageData, options: nil) else { return failEarly() }
         
         content.attachments = [attachment]
         contentHandler(content.copy() as! UNNotificationContent)
@@ -49,6 +51,25 @@ final class NotificationService: UNNotificationServiceExtension {
 }
 
 extension UNNotificationAttachment {
+    static func contentTypeForImageData(imageData: NSData) -> String {
+        var c = [UInt32](repeating: 0, count: 1)
+        imageData.getBytes(&c, length: 1)
+        
+        switch (c[0]) {
+        case 0xFF:
+            return ".jpg"
+        case 0x89:
+            return ".png"
+        case 0x47:
+            return ".gif"
+        case 0x49, 0x4D:
+            return ".tiff"
+        default:
+            return ".tmp"
+        }
+    }
+    
+    
     /// Save the image to disk
     static func create(imageFileIdentifier: String, data: NSData, options: [NSObject : AnyObject]?) -> UNNotificationAttachment? {
         let fileManager = FileManager.default
