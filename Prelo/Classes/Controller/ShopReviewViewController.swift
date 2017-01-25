@@ -390,6 +390,10 @@ class ShopReviewCell : UITableViewCell {
         imgBuyer.layoutIfNeeded()
         imgBuyer.layer.masksToBounds = true
         imgBuyer.layer.cornerRadius = (imgBuyer.frame.size.width) / 2
+        
+        imgBuyer.layer.borderColor = Theme.GrayLight.cgColor
+        imgBuyer.layer.borderWidth = 2
+        
         lblBuyerName.text = userReview.buyerUsername
         lblComment.text = userReview.comment
         

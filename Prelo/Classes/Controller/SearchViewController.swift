@@ -357,6 +357,9 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             c.ivImage.afSetImage(withURL: URL(string : u.pict)!)
             c.ivImage.layer.cornerRadius = (c.ivImage.frame.size.width) / 2
             c.ivImage.clipsToBounds = true
+            
+            c.ivImage.layer.borderColor = Theme.GrayLight.cgColor
+            c.ivImage.layer.borderWidth = 1.5
             return c
         } else if ((indexPath as NSIndexPath).section == SectionBrand) {
             if ((indexPath as NSIndexPath).row == foundBrands.count) { // View more

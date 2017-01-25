@@ -436,6 +436,9 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         self.shopAvatar.superview?.layer.cornerRadius = (self.shopAvatar.width)/2
         self.shopAvatar.superview?.layer.masksToBounds = true
         
+        self.shopAvatar.superview?.layer.borderColor = Theme.GrayLight.cgColor
+        self.shopAvatar.superview?.layer.borderWidth = 3.5
+        
         self.shopName.text = json["username"].stringValue
         let avatarThumbnail = json["profile"]["pict"].stringValue
         let shopAvatar = URL(string: avatarThumbnail)!

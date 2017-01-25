@@ -1641,6 +1641,9 @@ class ProductCellSeller : UITableViewCell
         ivSellerAvatar?.layoutIfNeeded()
         ivSellerAvatar?.layer.cornerRadius = (ivSellerAvatar?.frame.size.width)!/2
         ivSellerAvatar?.layer.masksToBounds = true
+        
+        ivSellerAvatar?.layer.borderColor = Theme.GrayLight.cgColor
+        ivSellerAvatar?.layer.borderWidth = 2
     }
 }
 
@@ -1921,6 +1924,9 @@ class ProductCellDiscussion : UITableViewCell
         ivCover?.layoutIfNeeded()
         ivCover?.layer.cornerRadius = (ivCover?.frame.size.width)!/2
         ivCover?.layer.masksToBounds = true
+        
+        ivCover?.layer.borderColor = Theme.GrayLight.cgColor
+        ivCover?.layer.borderWidth = 2
     }
     
     func adapt(_ obj : ProductDiscussion?)

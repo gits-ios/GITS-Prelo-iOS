@@ -138,6 +138,13 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         
         tableView?.contentInset = UIEdgeInsetsMake(0, 0, 40, 0)
         
+        
+        imgCover?.layer.cornerRadius = (imgCover?.frame.size.width)!/2
+        imgCover?.layer.masksToBounds = true
+        
+        imgCover?.layer.borderColor = Theme.GrayLight.cgColor
+        imgCover?.layer.borderWidth = 3
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -167,8 +174,11 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             let url = URL(string: uProf!.pict)
             if (url != nil) {
                 imgCover?.afSetImage(withURL: url!)
-                imgCover?.layer.cornerRadius = (imgCover?.frame.size.width)!/2
-                imgCover?.layer.masksToBounds = true
+//                imgCover?.layer.cornerRadius = (imgCover?.frame.size.width)!/2
+//                imgCover?.layer.masksToBounds = true
+//                
+//                imgCover?.layer.borderColor = Theme.GrayLight.cgColor
+//                imgCover?.layer.borderWidth = 3
             }
         }
         

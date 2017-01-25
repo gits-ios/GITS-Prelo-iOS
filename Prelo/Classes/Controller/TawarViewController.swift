@@ -1213,6 +1213,10 @@ class TawarCell : UITableViewCell {
             self.avatar?.layoutIfNeeded()
             self.avatar?.layer.cornerRadius = (self.avatar?.width ?? 0) / 2
             self.avatar?.layer.masksToBounds = true
+            
+            self.avatar?.layer.borderColor = Theme.GrayLight.cgColor
+            self.avatar?.layer.borderWidth = 2
+            
             self.sectionMessage.layer.cornerRadius = 4
             self.sectionMessage.layer.masksToBounds = true
             decorated = true

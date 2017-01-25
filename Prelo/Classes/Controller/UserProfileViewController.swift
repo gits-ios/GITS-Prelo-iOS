@@ -155,6 +155,9 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 self.imgUser.afSetImage(withURL: url!)
                 self.imgUser.layer.cornerRadius = (self.imgUser.frame.size.width)/2
                 self.imgUser.layer.masksToBounds = true
+                
+                self.imgUser.layer.borderColor = Theme.GrayLight.cgColor
+                self.imgUser.layer.borderWidth = 3
             }
         }
         if (user.fullname != nil) {

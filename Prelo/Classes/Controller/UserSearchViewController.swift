@@ -150,6 +150,10 @@ class SearchUserCell2 : UITableViewCell
         self.iv.layoutIfNeeded()
         self.iv.layer.cornerRadius = self.iv.width / 2
         self.iv.layer.masksToBounds = true
+        
+        self.iv.layer.borderColor = Theme.GrayLight.cgColor
+        self.iv.layer.borderWidth = 1.5
+
         decorated = true
     }
 }

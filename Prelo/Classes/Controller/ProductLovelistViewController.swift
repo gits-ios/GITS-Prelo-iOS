@@ -224,6 +224,9 @@ class ProductLovelistCell : UITableViewCell {
         if let url = productLovelistItem.imageURL {
             imgUser.afSetImage(withURL: url)
             imgUser.layer.cornerRadius = (imgUser.frame.size.width) / 2
+            
+            imgUser.layer.borderColor = Theme.GrayLight.cgColor
+            imgUser.layer.borderWidth = 2
         }
         lblName.text = productLovelistItem.username
     }

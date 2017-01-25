@@ -754,6 +754,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.shopHeader?.avatar.superview?.layer.cornerRadius = (self.shopHeader?.avatar.width)!/2
                 self.shopHeader?.avatar.superview?.layer.masksToBounds = true
                 
+                self.shopHeader?.layer.borderColor = Theme.GrayLight.cgColor
+                self.shopHeader?.layer.borderWidth = 3.5
+                
                 self.shopHeader?.btnEdit.isHidden = true
                 if let id = json["_id"].string, let me = CDUser.getOne()
                 {
@@ -1828,6 +1831,9 @@ class ListItemCell : UICollectionViewCell {
         avatar.layoutIfNeeded()
         avatar.layer.cornerRadius = avatar.bounds.width / 2
         avatar.layer.masksToBounds = true
+        
+        avatar.layer.borderColor = Theme.GrayLight.cgColor
+        avatar.layer.borderWidth = 1
         
         // if without special story still using profpic
 //        sectionSpecialStory.isHidden = false
