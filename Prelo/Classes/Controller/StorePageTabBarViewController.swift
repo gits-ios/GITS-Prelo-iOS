@@ -478,9 +478,13 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         if self.segmentView.numberOfSegments == 0 {
             self.segmentView.addSegmentWithTitle("Toko", onSelectionImage: nil, offSelectionImage: nil)
             
-            self.segmentView.addSegmentWithTitle("Review (" + countReview!.string + ")", onSelectionImage: nil, offSelectionImage: nil)
+            self.segmentView.addSegmentWithTitle("Review", onSelectionImage: nil, offSelectionImage: nil)
             
-            self.segmentView.addSegmentWithTitle("Badge (" + countAchievement!.string + ")", onSelectionImage: nil, offSelectionImage: nil)
+            self.segmentView.addSegmentWithTitle("Badge", onSelectionImage: nil, offSelectionImage: nil)
+            
+//            self.segmentView.addSegmentWithTitle("Review (" + countReview!.string + ")", onSelectionImage: nil, offSelectionImage: nil)
+            
+//            self.segmentView.addSegmentWithTitle("Badge (" + countAchievement!.string + ")", onSelectionImage: nil, offSelectionImage: nil)
         }
         self.loadingPanel.isHidden = true
         
