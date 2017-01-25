@@ -40,6 +40,13 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
     @IBOutlet weak var consHeightSection2: NSLayoutConstraint! // 104 --> 0
     @IBOutlet weak var consHeightSeparator3: NSLayoutConstraint! // 7 --> 0
     
+    // for wjp -- pop up
+    @IBOutlet weak var vwBackgroundOverlay: UIView! // hidden
+    @IBOutlet weak var vwOverlayPopUp: UIView! // hidden
+    @IBOutlet weak var lblDescription: UILabel!
+    @IBOutlet weak var consCenteryPopUp: NSLayoutConstraint! // align center y --> 603 [window height] -> 0
+    @IBOutlet weak var vwPopUp: UIView!
+    
     var initHeight = CGFloat(0) // 67 + 104 + height table row + 36 + 7
     
     var viewSetupPassword : SetupPasswordPopUp? // TarikTunaiController.swift
@@ -384,7 +391,13 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
     }
     
     @IBAction func wjpPressed(_ sender: Any) {
-        Constant.showDialog("WJP", message: "coba")
+        //Constant.showDialog("WJP", message: "coba")
+        // show pop up
+        self.initPopUp()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.setupPopUp()
+            self.displayPopUp()
+        })
     }
     
     @IBAction func historyPressed(_ sender: Any) {
@@ -443,7 +456,111 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
             }
         }
     }
+    
+    // MARK: - Pop up
+    func setupPopUp() {
+        let wjpDetail = "Waktu Jaminan Prelo adalah waktu untuk para Pembeli memeriksa barang yang dia terima (terhitung sejak 3x24 jam setelah barang diterima oleh Pembeli).\n\nPembeli bisa melakukan pengembalian barang dan refund jika:\n- barang terbukti KW\n- ada cacat yang tidak diinformasikan\n- barang berbeda dari yang dipesan\n\nPenjual dapat melakukan tarik uang setelah Waktu Jaminan Prelo selesai."
+        
+        self.lblDescription.text = wjpDetail
+        
+        let mystr = wjpDetail
+        let searchstr = "Waktu Jaminan Prelo|3x24 jam"
+        let ranges: [NSRange]
+        
+        do {
+            // Create the regular expression.
+            let regex = try NSRegularExpression(pattern: searchstr, options: [])
+            
+            // Use the regular expression to get an array of NSTextCheckingResult.
+            // Use map to extract the range from each result.
+            ranges = regex.matches(in: mystr, options: [], range: NSMakeRange(0, mystr.characters.count)).map {$0.range}
+        }
+        catch {
+            // There was a problem creating the regular expression
+            ranges = []
+        }
+        
+        let attString : NSMutableAttributedString = NSMutableAttributedString(string: wjpDetail)
+        for i in 0...ranges.count-1 {
+            attString.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: 14)], range: ranges[i])
+        }
+        
+        attString.addAttributes([NSFontAttributeName:UIFont.italicSystemFont(ofSize: 14)], range: (wjpDetail as NSString).range(of: "refund"))
+        
+        self.lblDescription.attributedText = attString
+    }
+    
+    func initPopUp() {
+        // Transparent panel
+        self.vwBackgroundOverlay.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.2)
+        
+        self.vwBackgroundOverlay.isHidden = false
+        self.vwOverlayPopUp.isHidden = false
+        
+        let screenSize = UIScreen.main.bounds
+        let screenHeight = screenSize.height - 64 // navbar
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = screenHeight
+    }
+    
+    func displayPopUp() {
+        let screenSize = UIScreen.main.bounds
+        let screenHeight = screenSize.height - 64 // navbar
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = screenHeight
+        
+        // 1
+        let placeSelectionBar = { () -> () in
+            // parent
+            var curView = self.vwPopUp.frame
+            curView.origin.y = (screenHeight - self.vwPopUp.frame.height) / 2
+            self.vwPopUp.frame = curView
+        }
+        
+        // 2
+        UIView.animate(withDuration: 0.3, animations: {
+            placeSelectionBar()
+        })
+        
+        self.consCenteryPopUp.constant = 0
+    }
+    
+    func unDisplayPopUp() {
+        let screenSize = UIScreen.main.bounds
+        let screenHeight = screenSize.height - 64 // navbar
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = 0
+        
+        // 1
+        let placeSelectionBar = { () -> () in
+            // parent
+            var curView = self.vwPopUp.frame
+            curView.origin.y = screenHeight + (screenHeight - self.vwPopUp.frame.height) / 2
+            self.vwPopUp.frame = curView
+        }
+        
+        // 2
+        UIView.animate(withDuration: 0.3, animations: {
+            placeSelectionBar()
+        })
+        
+        self.consCenteryPopUp.constant = screenHeight
+    }
+    
+    @IBAction func btnOkePressed(_ sender: Any) {
+        self.unDisplayPopUp()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.vwOverlayPopUp.isHidden = true
+            self.vwBackgroundOverlay.isHidden = true
+        })
+    }
+
 }
+// MARK: - class TarikTunaiCell
 
 class TarikTunaiCell: UITableViewCell {
     @IBOutlet weak var lblTiket: UILabel!

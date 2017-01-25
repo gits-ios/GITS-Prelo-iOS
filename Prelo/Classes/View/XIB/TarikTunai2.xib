@@ -705,14 +705,81 @@
                             <constraint firstAttribute="trailing" secondItem="3MW-cE-cTg" secondAttribute="trailing" id="wgn-08-rd7"/>
                         </constraints>
                     </scrollView>
+                    <view hidden="YES" alpha="0.75" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uNq-8h-yPg" userLabel="Background Overlay">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="936"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hD9-dx-D0n" userLabel="Overlay PopUp">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="936"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="72g-Ja-IES" userLabel="PopUp">
+                                <rect key="frame" x="38" y="324" width="300" height="289.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="clip" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="hJp-jt-l3j">
+                                        <rect key="frame" x="16" y="16" width="268" height="217.5"/>
+                                        <string key="text">Waktu Jaminan Prelo adalah waktu untuk para Pembeli memeriksa barang yang dia terima (terhitung sejak 3x24 jam setelah barang diterima oleh Pembeli).
+
+Pembeli bisa melakukan pengembalian barang dan refund jika: 
+- barang terbukti KW
+- ada cacat yang tidak diinformasikan
+- barang berbeda dari yang dipesan
+
+Penjual dapat melakukan tarik uang setelah Waktu Jaminan Prelo selesai.</string>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CNj-lq-fx6">
+                                        <rect key="frame" x="0.0" y="249.5" width="300" height="40"/>
+                                        <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="jwj-lg-8yQ"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="OK">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <state key="disabled" title="LOADING.."/>
+                                        <connections>
+                                            <action selector="btnOkePressed:" destination="1F4-ld-pnb" eventType="touchUpInside" id="Ulz-iL-Hzb"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="hJp-jt-l3j" secondAttribute="trailing" constant="16" id="1n4-FM-5FP"/>
+                                    <constraint firstItem="hJp-jt-l3j" firstAttribute="top" secondItem="72g-Ja-IES" secondAttribute="top" constant="16" id="A42-kw-XiU"/>
+                                    <constraint firstAttribute="trailing" secondItem="CNj-lq-fx6" secondAttribute="trailing" id="Ec2-ao-uBF"/>
+                                    <constraint firstItem="CNj-lq-fx6" firstAttribute="leading" secondItem="72g-Ja-IES" secondAttribute="leading" id="Mff-gM-tND"/>
+                                    <constraint firstItem="CNj-lq-fx6" firstAttribute="top" secondItem="hJp-jt-l3j" secondAttribute="bottom" constant="16" id="Vig-JY-fqR"/>
+                                    <constraint firstAttribute="width" constant="300" id="v7x-Zt-m4U"/>
+                                    <constraint firstAttribute="bottom" secondItem="CNj-lq-fx6" secondAttribute="bottom" id="wn6-Ra-y50"/>
+                                    <constraint firstItem="hJp-jt-l3j" firstAttribute="leading" secondItem="72g-Ja-IES" secondAttribute="leading" constant="16" id="xDI-lF-Soz"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="72g-Ja-IES" firstAttribute="centerY" secondItem="hD9-dx-D0n" secondAttribute="centerY" id="28F-dX-4oN"/>
+                            <constraint firstItem="72g-Ja-IES" firstAttribute="centerX" secondItem="hD9-dx-D0n" secondAttribute="centerX" id="9rr-gN-3QR"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
+                    <constraint firstItem="uNq-8h-yPg" firstAttribute="leading" secondItem="esu-bv-4xE" secondAttribute="leading" id="68j-5u-Co6"/>
+                    <constraint firstItem="hD9-dx-D0n" firstAttribute="top" secondItem="esu-bv-4xE" secondAttribute="top" id="8V0-b5-DuU"/>
                     <constraint firstItem="HlW-cL-hVh" firstAttribute="leading" secondItem="esu-bv-4xE" secondAttribute="leading" id="ONB-YJ-cj8"/>
                     <constraint firstAttribute="trailing" secondItem="HlW-cL-hVh" secondAttribute="trailing" id="QYA-0S-w2d"/>
+                    <constraint firstAttribute="trailing" secondItem="hD9-dx-D0n" secondAttribute="trailing" id="Qn6-fc-VTX"/>
                     <constraint firstItem="3MW-cE-cTg" firstAttribute="width" secondItem="esu-bv-4xE" secondAttribute="width" id="Qvv-kT-YfT"/>
+                    <constraint firstItem="hD9-dx-D0n" firstAttribute="leading" secondItem="esu-bv-4xE" secondAttribute="leading" id="USa-FR-Fhg"/>
                     <constraint firstItem="HlW-cL-hVh" firstAttribute="top" secondItem="esu-bv-4xE" secondAttribute="top" id="VIi-nu-sMA"/>
+                    <constraint firstAttribute="trailing" secondItem="uNq-8h-yPg" secondAttribute="trailing" id="VTK-cv-BHd"/>
+                    <constraint firstAttribute="bottom" secondItem="hD9-dx-D0n" secondAttribute="bottom" id="qdU-5f-16J"/>
                     <constraint firstItem="eNX-tz-6z9" firstAttribute="top" secondItem="HlW-cL-hVh" secondAttribute="bottom" id="uLq-mM-dIB"/>
+                    <constraint firstItem="uNq-8h-yPg" firstAttribute="top" secondItem="esu-bv-4xE" secondAttribute="top" id="wpZ-WO-BFt"/>
+                    <constraint firstAttribute="bottom" secondItem="uNq-8h-yPg" secondAttribute="bottom" id="yez-iX-dwV"/>
                 </constraints>
             </view>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
@@ -723,6 +790,7 @@
                 <outlet property="captionPreloBalance" destination="eah-Fc-rkg" id="DtR-F2-xaA"/>
                 <outlet property="captionPreloWJP" destination="zbi-72-FPL" id="mVg-nX-gA7"/>
                 <outlet property="captionWithdrawAmount" destination="blA-Tn-v8a" id="hVb-gw-vRr"/>
+                <outlet property="consCenteryPopUp" destination="28F-dX-4oN" id="lGH-ID-RoO"/>
                 <outlet property="consHeightCustomBank" destination="C6Y-ty-4JJ" id="eGo-JD-TNw"/>
                 <outlet property="consHeightHistory" destination="u68-N5-Y1f" id="5sP-ed-ars"/>
                 <outlet property="consHeightSection1" destination="Jr1-B0-WXv" id="yqF-Qj-Lon"/>
@@ -730,6 +798,7 @@
                 <outlet property="consHeightSeparator3" destination="2Rx-aO-bG9" id="v4u-N2-Q5J"/>
                 <outlet property="consHeightSeparatorHeaderTable" destination="0hn-Xf-aKt" id="kUm-4C-ipc"/>
                 <outlet property="consHeightVwWJP" destination="L6O-aE-dn7" id="8vv-y3-egx"/>
+                <outlet property="lblDescription" destination="hJp-jt-l3j" id="Ums-cL-6hp"/>
                 <outlet property="lblDropdownBank" destination="E6g-MT-Zxy" id="dyD-aw-9qq"/>
                 <outlet property="lblDropdownHistory" destination="BZj-dr-3zT" id="oRc-qo-sJ0"/>
                 <outlet property="scrollView" destination="HlW-cL-hVh" id="0De-I0-lm0"/>
@@ -740,7 +809,10 @@
                 <outlet property="txtNamaRekening" destination="fFx-yZ-UUe" id="MhH-Vm-9LB"/>
                 <outlet property="txtNomerRekening" destination="iTv-c5-TCg" id="3ag-8p-6zo"/>
                 <outlet property="txtPassword" destination="nco-1b-b0d" id="zC9-cK-5VH"/>
+                <outlet property="vwBackgroundOverlay" destination="uNq-8h-yPg" id="sV6-mI-Zxi"/>
                 <outlet property="vwBankKamu" destination="jWC-mB-FyD" id="lSr-CH-3I3"/>
+                <outlet property="vwOverlayPopUp" destination="hD9-dx-D0n" id="paE-SG-yZj"/>
+                <outlet property="vwPopUp" destination="72g-Ja-IES" id="xNX-jy-p6t"/>
             </connections>
             <point key="canvasLocation" x="-809.5" y="-2204"/>
         </viewController>
