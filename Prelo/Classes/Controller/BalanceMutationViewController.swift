@@ -114,11 +114,12 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
                 if (self.nextIdx == 0) { // First request
                     self.totalPreloBalance = json["_data"]["total_prelo_balance"].intValue
                 }
-                let f = NumberFormatter()
-                f.numberStyle = NumberFormatter.Style.currency
-                f.currencySymbol = ""
-                f.locale = Locale(identifier: "id_ID")
-                self.lblBalanceAmount.text = f.string(from: NSNumber(value: self.totalPreloBalance as Int))
+//                let f = NumberFormatter()
+//                f.numberStyle = NumberFormatter.Style.currency
+//                f.currencySymbol = ""
+//                f.locale = Locale(identifier: "id_ID")
+//                self.lblBalanceAmount.text = f.string(from: NSNumber(value: self.totalPreloBalance as Int))
+                self.lblBalanceAmount.text = self.totalPreloBalance.asPrice
                 
                 // Store data into variable
                 var nextTotalAmount = self.totalPreloBalance
@@ -312,6 +313,7 @@ class BalanceMutationCell : UITableViewCell {
     @IBOutlet weak var lblReasonAdmin: UILabel!
     @IBOutlet weak var lblTime: UILabel!
     @IBOutlet weak var lblWJP: UILabel!
+    @IBOutlet weak var imgWJP: UIImageView! // default hide
     
     @IBOutlet weak var consHeightLblDescription: NSLayoutConstraint!
     @IBOutlet weak var consHeightLblReasonAdmin: NSLayoutConstraint!
@@ -328,9 +330,9 @@ class BalanceMutationCell : UITableViewCell {
         
         var wjpSize = CGFloat(0)
         if (mutation.isHold) {
-//            let wjp = " Pemasukan transaksi ini masih dalam Waktu Jaminan Prelo sehingga tidak bisa ditarik (tunggu hingga 3x24 jam setelah barang diterima)"
+//            let wjp = "Pemasukan transaksi ini masih dalam Waktu Jaminan Prelo sehingga tidak bisa ditarik (tunggu hingga 3x24 jam setelah barang diterima)"
             
-            let wjp = " " + mutation.notes
+            let wjp = mutation.notes
             
             lblWJP.text = wjp
             let rectWJP = lblWJP.frame.size
@@ -340,7 +342,7 @@ class BalanceMutationCell : UITableViewCell {
             wjpSize += (sizeFixWJP.height + 16)
         }
         
-        return 56 + sizeFixDesc.height + 4 + (lblReasonAdmin.text! != "" ? sizeFixReasonAdmin.height + 4 : 0) + wjpSize
+        return 56 + sizeFixDesc.height + 2 + (lblReasonAdmin.text! != "" ? sizeFixReasonAdmin.height + 2 : 0) + wjpSize
     }
     
     func adapt(_ mutation : BalanceMutationItem) {
@@ -371,24 +373,22 @@ class BalanceMutationCell : UITableViewCell {
         // Label height fix
         let rectDesc = lblDescription.frame.size
         let sizeFixDesc = mutation.reasonDetail.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectDesc.width)
-        consHeightLblDescription.constant = sizeFixDesc.height + 4
+        consHeightLblDescription.constant = sizeFixDesc.height + 2
         
         let rectReason = lblReasonAdmin.frame.size
         let sizeFixReasonAdmin = mutation.reasonAdmin.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectReason.width)
-        consHeightLblReasonAdmin.constant = (mutation.reasonAdmin != "" ? sizeFixReasonAdmin.height + 4 : 0)
+        consHeightLblReasonAdmin.constant = (mutation.reasonAdmin != "" ? sizeFixReasonAdmin.height + 2 : 0)
         
         if (mutation.isHold) {
-//            let wjp = " Pemasukan transaksi ini masih dalam Waktu Jaminan Prelo sehingga tidak bisa ditarik (tunggu hingga 3x24 jam setelah barang diterima)"
+//            let wjp = "Pemasukan transaksi ini masih dalam Waktu Jaminan Prelo sehingga tidak bisa ditarik (tunggu hingga 3x24 jam setelah barang diterima)"
             
-            let wjp = " " + mutation.notes
+            let wjp = mutation.notes
             
             lblWJP.text = wjp
             
             let attrStr = NSMutableAttributedString(string: wjp)
             
             attrStr.addAttributes([NSFontAttributeName: UIFont.boldSystemFont(ofSize: 10.0)], range: (wjp as NSString).range(of: "Waktu Jaminan Prelo"))
-            
-            attrStr.addAttributes([NSFontAttributeName:UIFont(name: "preloAwesome", size: 14.0)!], range: (wjp as NSString).range(of: ""))
             
             lblWJP.attributedText = attrStr
             
@@ -398,8 +398,10 @@ class BalanceMutationCell : UITableViewCell {
             
             
             consHeightLblWJP.constant = sizeFixWJP.height + 8
+            imgWJP.isHidden = false
         } else {
             consHeightLblWJP.constant = 0
+            imgWJP.isHidden = true
         }
 
     }

@@ -169,11 +169,12 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
                 else {
                     if let i = data["total_prelo_balance"].int
                     {
-                        let f = NumberFormatter()
-                        f.numberStyle = NumberFormatter.Style.currency
-                        f.currencySymbol = ""
-                        f.locale = Locale(identifier: "id_ID")
-                        self.captionPreloBalance.text = f.string(from: NSNumber(value: i as Int))
+//                        let f = NumberFormatter()
+//                        f.numberStyle = NumberFormatter.Style.currency
+//                        f.currencySymbol = ""
+//                        f.locale = Locale(identifier: "id_ID")
+//                        self.captionPreloBalance.text = f.string(from: NSNumber(value: i as Int))
+                        self.captionPreloBalance.text = i.asPrice
                     }
                     
                     if let i = data["total_protected_balance"].int
@@ -353,13 +354,13 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
     
     @IBAction func selectBank()
     {
-        var items = ["Bank Mandiri", "Bank BCA", "Bank BNI"]
+        var items = ["BCA", "Mandiri", "BNI"]
         
         if isShowBankBRI {
-            items.append("Bank BRI")
+            items.append("BRI")
         }
         
-        items.append("Bank Lainnya")
+        items.append("Lainnya")
         
         let bankCount = items.count
         let bankAlert = UIAlertController(title: "Pilih Bank", message: nil, preferredStyle: .actionSheet)
@@ -368,7 +369,7 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
         for i in 0...bankCount - 1 {
             bankAlert.addAction(UIAlertAction(title: items[i], style: .default, handler: { act in
                 self.txtNamaBank.text = items[i]
-                if (items[i] == "Bank Lainnya") {
+                if (items[i] == "Lainnya") {
                     self.consHeightCustomBank.constant = 70
                 } else {
                     self.consHeightCustomBank.constant = 0

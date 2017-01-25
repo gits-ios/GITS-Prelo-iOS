@@ -20,7 +20,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="103"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SlX-29-To2" id="vlr-Dc-tBO">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="102"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="102.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UGK-Gd-hJc">
@@ -80,8 +80,15 @@
                         <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_exclamation_grey.png" translatesAutoresizingMaskIntoConstraints="NO" id="Mt7-GO-CYn">
+                        <rect key="frame" x="24" y="82.5" width="12" height="12"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="12" id="BEX-kJ-f2D"/>
+                            <constraint firstAttribute="height" constant="12" id="Cbc-B8-T87"/>
+                        </constraints>
+                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uaz-ML-E3v">
-                        <rect key="frame" x="24" y="83" width="288" height="11"/>
+                        <rect key="frame" x="42" y="83" width="270" height="11"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="11" id="zs7-0B-11t"/>
                         </constraints>
@@ -98,17 +105,19 @@
                     <constraint firstItem="XTw-xu-gkf" firstAttribute="width" secondItem="Ya9-5f-S2c" secondAttribute="width" id="4wk-Mg-Qqf"/>
                     <constraint firstItem="VSP-gG-hia" firstAttribute="leading" secondItem="Ya9-5f-S2c" secondAttribute="trailing" constant="-16" id="5hR-0b-DNy"/>
                     <constraint firstItem="UGK-Gd-hJc" firstAttribute="top" secondItem="vlr-Dc-tBO" secondAttribute="top" constant="6" id="A30-4g-L5q"/>
-                    <constraint firstItem="uaz-ML-E3v" firstAttribute="leading" secondItem="vlr-Dc-tBO" secondAttribute="leadingMargin" constant="16" id="Fb1-O7-9P4"/>
                     <constraint firstItem="nrJ-9M-bun" firstAttribute="leading" secondItem="UGK-Gd-hJc" secondAttribute="trailing" id="JaQ-jT-fIp"/>
                     <constraint firstAttribute="trailing" secondItem="VSP-gG-hia" secondAttribute="trailing" constant="8" id="Jc2-Xr-KBi"/>
                     <constraint firstItem="pzB-7C-2OX" firstAttribute="top" secondItem="XTw-xu-gkf" secondAttribute="bottom" constant="5.5" id="K4e-AF-gvz"/>
                     <constraint firstAttribute="trailing" secondItem="Ya9-5f-S2c" secondAttribute="trailing" constant="8" id="Kxg-Dx-hAw"/>
                     <constraint firstItem="pzB-7C-2OX" firstAttribute="width" secondItem="Ya9-5f-S2c" secondAttribute="width" id="NTw-hw-aqF"/>
                     <constraint firstItem="XTw-xu-gkf" firstAttribute="top" secondItem="Ya9-5f-S2c" secondAttribute="bottom" constant="2.5" id="Pih-8f-wXA"/>
+                    <constraint firstItem="uaz-ML-E3v" firstAttribute="leading" secondItem="Mt7-GO-CYn" secondAttribute="trailing" constant="6" id="ZqZ-t0-0Xh"/>
                     <constraint firstItem="Ya9-5f-S2c" firstAttribute="top" secondItem="VSP-gG-hia" secondAttribute="bottom" constant="2" id="awb-2w-7jh"/>
                     <constraint firstAttribute="trailing" secondItem="pzB-7C-2OX" secondAttribute="trailing" constant="8" id="bzF-s0-qAV"/>
+                    <constraint firstItem="Mt7-GO-CYn" firstAttribute="leading" secondItem="vlr-Dc-tBO" secondAttribute="leading" constant="24" id="dYf-BJ-lPN"/>
                     <constraint firstItem="UGK-Gd-hJc" firstAttribute="leading" secondItem="vlr-Dc-tBO" secondAttribute="leading" constant="8" id="kbf-cm-ijp"/>
                     <constraint firstItem="pzB-7C-2OX" firstAttribute="top" secondItem="Ya9-5f-S2c" secondAttribute="bottom" constant="5" id="lt3-ki-6C3"/>
+                    <constraint firstItem="Mt7-GO-CYn" firstAttribute="centerY" secondItem="uaz-ML-E3v" secondAttribute="centerY" id="ncY-zg-bPB"/>
                     <constraint firstItem="nrJ-9M-bun" firstAttribute="top" secondItem="vlr-Dc-tBO" secondAttribute="top" constant="4" id="oLb-IK-FPX"/>
                     <constraint firstItem="Ya9-5f-S2c" firstAttribute="leading" secondItem="vlr-Dc-tBO" secondAttribute="leading" constant="24" id="rru-yB-84W"/>
                     <constraint firstItem="uaz-ML-E3v" firstAttribute="trailing" secondItem="vlr-Dc-tBO" secondAttribute="trailingMargin" id="t3R-jh-OPY"/>
@@ -126,6 +135,7 @@
                 <outlet property="consHeightLblDescription" destination="RBy-uW-k0t" id="f0N-wO-gS6"/>
                 <outlet property="consHeightLblReasonAdmin" destination="2uy-PZ-rd3" id="r4h-nq-RLN"/>
                 <outlet property="consHeightLblWJP" destination="zs7-0B-11t" id="IPU-WQ-RPg"/>
+                <outlet property="imgWJP" destination="Mt7-GO-CYn" id="6qk-Wv-Y3X"/>
                 <outlet property="lblBalance" destination="VSP-gG-hia" id="q9E-nd-wWt"/>
                 <outlet property="lblDescription" destination="Ya9-5f-S2c" id="fuh-dJ-DJ2"/>
                 <outlet property="lblMutation" destination="nrJ-9M-bun" id="LN9-AE-qbK"/>
@@ -137,4 +147,7 @@
             <point key="canvasLocation" x="240" y="397.5"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="ic_exclamation_grey.png" width="48" height="48"/>
+    </resources>
 </document>
