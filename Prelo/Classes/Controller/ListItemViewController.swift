@@ -878,6 +878,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 
                 self.shopName = json["username"].stringValue
                 
+                let avatarThumbnail = json["profile"]["pict"].stringValue
+                self.shopAvatar = URL(string: avatarThumbnail)!
+                
                 if self.listItemSections.count > 1 {
                     self.listItemSections.remove(at: 0)
                 }
@@ -895,9 +898,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     var height = StoreInfo.heightFor(self.shopData, isExpand: self.isExpand) + 12
 
                     if AppTools.isIPad {
-                        height += CGFloat((self.products?.count)! / 3) * (self.itemCellWidth! + 70)
+                        height += CGFloat(Int(CGFloat((self.products?.count)!) / 3.0 + 0.7)) * (self.itemCellWidth! + 70)
                     } else {
-                        height += CGFloat((self.products?.count)! / 2) * (self.itemCellWidth! + 70)
+                        height += CGFloat(Int(CGFloat((self.products?.count)!) / 2.0 + 0.5)) * (self.itemCellWidth! + 70)
                     }
                     
                     
