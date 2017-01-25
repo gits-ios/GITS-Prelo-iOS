@@ -49,6 +49,9 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         
         // for button baca lebih lanjut
         tableView.register(ButtonCell.self, forCellReuseIdentifier: "ButtonCell")
+        
+        // Belum ada review untuk user ini
+        tableView.register(ProvinceCell.self, forCellReuseIdentifier: "cell")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -131,13 +134,13 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         
         self.loadingPanel.isHidden = true
         self.loading.stopAnimating()
-        if (self.userReviews.count <= 0) {
-            self.lblEmpty.isHidden = false
-            self.tableView.isHidden = true
-        } else {
-            self.tableView.isHidden = false
+//        if (self.userReviews.count <= 0) {
+//            self.lblEmpty.isHidden = false
+//            self.tableView.isHidden = true
+//        } else {
+//            self.tableView.isHidden = false
             self.setupTable()
-        }
+//        }
     }
     
     func setupTable() {
@@ -162,15 +165,24 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         //TOP, LEFT, BOTTOM, RIGHT
         let inset = UIEdgeInsetsMake(0, 0, bottom, 0)
         tableView.contentInset = inset
+        
+        if (userReviews.count <= 0) {
+            
+            tableView.separatorStyle = .none
+        }
     }
     
     // MARK: - UITableView Functions
     func numberOfSections(in tableView: UITableView) -> Int {
         if (currentMode == .inject) {
-            if (countReview > 5) {
-                return 3
+            if (self.userReviews.count > 0) {
+                if (countReview > 5) {
+                    return 3
+                } else {
+                    return 2
+                }
             } else {
-                return 2
+                return 1
             }
         } else {
             return 1
@@ -179,8 +191,12 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (currentMode == .inject) {
-            if (section == 1) {
-                return self.userReviews.count
+            if (self.userReviews.count > 0) {
+                if (section == 1) {
+                    return self.userReviews.count
+                } else {
+                    return 1
+                }
             } else {
                 return 1
             }
@@ -191,41 +207,53 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if (currentMode == .inject) {
-            if ((indexPath as NSIndexPath).section == 0) {
-                let cell : ShopReviewAverageCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewAverageCell") as! ShopReviewAverageCell
-                cell.selectionStyle = .none
-                cell.adapt(self.averageRate)
-                return cell
-            } else if ((indexPath as NSIndexPath).section == 2) {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell") as! ButtonCell
+            if (self.userReviews.count > 0) {
+                if ((indexPath as NSIndexPath).section == 0) {
+                    let cell : ShopReviewAverageCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewAverageCell") as! ShopReviewAverageCell
+                    cell.selectionStyle = .none
+                    cell.adapt(self.averageRate)
+                    return cell
+                } else if ((indexPath as NSIndexPath).section == 2) {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell") as! ButtonCell
+                    
+                    cell.selectionStyle = .none
+                    cell.backgroundColor = UIColor.clear
+                    cell.clipsToBounds = true
+                    
+                    let lblButton = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.width - 10, height: 40))
+                    
+                    lblButton.text = "LIHAT SEMUA"
+                    lblButton.textColor = Theme.PrimaryColor
+                    lblButton.backgroundColor = UIColor.clear
+                    lblButton.textAlignment = .center
+                    
+                    let vwBorder = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: 40))
+                    
+                    vwBorder.backgroundColor = UIColor.white
+                    
+                    vwBorder.addSubview(lblButton)
+                    
+                    cell.contentView.addSubview(vwBorder)
+                    
+                    return cell
+                    
+                } else {
+                    let cell : ShopReviewCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
+                    cell.selectionStyle = .none
+                    let u = userReviews[(indexPath as NSIndexPath).row]
+                    cell.adapt(u)
+                    return cell
+                }
+            } else { // Belum ada review untuk user ini
+                let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
                 
-                cell.selectionStyle = .none
-                cell.backgroundColor = UIColor.clear
-                cell.clipsToBounds = true
+                cell?.selectionStyle = .none
                 
-                let lblButton = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.width - 10, height: 40))
+                cell?.textLabel!.text = "Belum ada review untuk user ini"
+                cell?.textLabel!.font = UIFont.systemFont(ofSize: 12)
+                cell?.textLabel!.textAlignment = .center
                 
-                lblButton.text = "LIHAT SEMUA"
-                lblButton.textColor = Theme.PrimaryColor
-                lblButton.backgroundColor = UIColor.clear
-                lblButton.textAlignment = .center
-                
-                let vwBorder = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: 40))
-                
-                vwBorder.backgroundColor = UIColor.white
-                
-                vwBorder.addSubview(lblButton)
-                
-                cell.contentView.addSubview(vwBorder)
-                
-                return cell
-
-            } else {
-                let cell : ShopReviewCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
-                cell.selectionStyle = .none
-                let u = userReviews[(indexPath as NSIndexPath).row]
-                cell.adapt(u)
-                return cell
+                return cell!
             }
         } else {
             let cell : ShopReviewCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
@@ -248,15 +276,19 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath:  IndexPath) -> CGFloat {
         if (currentMode == .inject) {
-            if ((indexPath as NSIndexPath).section == 0) {
-                return 150
-            } else if ((indexPath as NSIndexPath).section == 2) {
-                return 40
-                
+            if (self.userReviews.count > 0) {
+                if ((indexPath as NSIndexPath).section == 0) {
+                    return 150
+                } else if ((indexPath as NSIndexPath).section == 2) {
+                    return 40
+                    
+                } else {
+                    let u = userReviews[(indexPath as NSIndexPath).item]
+                    let commentHeight = u.comment.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: 240).height
+                    return 65 + commentHeight
+                }
             } else {
-                let u = userReviews[(indexPath as NSIndexPath).item]
-                let commentHeight = u.comment.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: 240).height
-                return 65 + commentHeight
+                return 90
             }
         } else {
             let u = userReviews[(indexPath as NSIndexPath).item]
