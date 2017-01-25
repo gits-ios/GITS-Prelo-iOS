@@ -189,6 +189,7 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
                 cell?.textLabel!.text = "Belum ada badge untuk user ini"
                 cell?.textLabel!.font = UIFont.systemFont(ofSize: 12)
                 cell?.textLabel!.textAlignment = .center
+                cell?.textLabel!.textColor = Theme.GrayDark
                 
                 return cell!
             }

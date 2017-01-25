@@ -255,6 +255,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
                 cell?.textLabel!.text = "Belum ada review untuk user ini"
                 cell?.textLabel!.font = UIFont.systemFont(ofSize: 12)
                 cell?.textLabel!.textAlignment = .center
+                cell?.textLabel!.textColor = Theme.GrayDark
                 
                 return cell!
             }
