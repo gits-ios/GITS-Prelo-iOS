@@ -136,7 +136,13 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         
         troli.addTarget(self, action: #selector(BaseViewController.launchCart), for: UIControlEvents.touchUpInside)
         
+        let troliRecognizer = UITapGestureRecognizer(target: self, action: #selector(BaseViewController.launchCart))
+        troli.viewWithTag(100)?.addGestureRecognizer(troliRecognizer)
+        
         bell.addTarget(self, action: #selector(BaseViewController.launchNotifPage), for: UIControlEvents.touchUpInside)
+        
+        let bellRecognizer = UITapGestureRecognizer(target: self, action: #selector(BaseViewController.launchNotifPage))
+        bell.viewWithTag(100)?.addGestureRecognizer(bellRecognizer)
         
         search.addTarget(self, action: #selector(BaseViewController.launchSearch), for: UIControlEvents.touchUpInside)
         
@@ -193,6 +199,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
             badge.backgroundColor = Theme.ThemeOrage
             badge.topOffset = 9
             badge.rightOffset = 5
+            badge.tag = 100
             b.addSubview(badge)
         }
         return b
@@ -210,6 +217,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
             badge.backgroundColor = Theme.ThemeOrage
             badge.topOffset = 14
             badge.rightOffset = 5
+            badge.tag = 100
             b.addSubview(badge)
         }
         return b
