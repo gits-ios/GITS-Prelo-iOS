@@ -456,9 +456,9 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     
     func lauchTestingFeature() {
         // new shop page -- OKE
-        let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
-        storePageTabBarVC.shopId = CDUser.getOne()?.id
-        self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+//        let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+//        storePageTabBarVC.shopId = CDUser.getOne()?.id
+//        self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
     }
     
     func launchFAQ() {

@@ -221,16 +221,16 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
                     cell.clipsToBounds = true
                     cell.separatorInset = UIEdgeInsetsMake(0, cell.bounds.size.width, 0, 0);
                     
-                    let lblButton = UILabel(frame: CGRect(x: 8, y: 8, width: tableView.width - 16, height: 40))
+                    let lblButton = UILabel(frame: CGRect(x: 16, y: 16, width: tableView.width - 32, height: 30))
                     
                     lblButton.text = "LIHAT SEMUA REVIEW (\(self.countReview))"
-                    lblButton.textColor = Theme.PrimaryColor
+                    lblButton.textColor = Theme.GrayLight
                     lblButton.backgroundColor = UIColor.clear
                     lblButton.textAlignment = .center
-                    lblButton.font = UIFont.boldSystemFont(ofSize: 14)
-                    lblButton.createBordersWithColor(Theme.PrimaryColor, radius: 4, width: 1)
+                    lblButton.font = UIFont.systemFont(ofSize: 15)
+                    lblButton.createBordersWithColor(Theme.GrayLight, radius: 4, width: 1)
                     
-                    let vwBorder = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: 56))
+                    let vwBorder = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: 62))
                     
                     vwBorder.backgroundColor = UIColor.white
                     
@@ -284,7 +284,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
                 if ((indexPath as NSIndexPath).section == 0) {
                     return 150
                 } else if ((indexPath as NSIndexPath).section == 2) {
-                    return 56
+                    return 62
                     
                 } else {
                     let u = userReviews[(indexPath as NSIndexPath).item]
