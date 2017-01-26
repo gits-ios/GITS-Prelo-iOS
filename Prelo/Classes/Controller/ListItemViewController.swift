@@ -1856,7 +1856,7 @@ class ListItemCell : UICollectionViewCell {
             captionSpecialStory.text = "\"\(product.specialStory!)\""
             if let url = product.avatar {
                 avatar.afSetImage(withURL: url)
-            } else if currentMode == .shop {
+            } else if currentMode == .shop || currentMode == .newShop {
                 avatar.afSetImage(withURL: shopAvatar!)
             } else {
                 avatar.image = nil
