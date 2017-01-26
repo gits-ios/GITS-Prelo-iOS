@@ -109,6 +109,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     // Others
     var isShowBankBRI : Bool = false
     var isEnableCCPayment : Bool = false
+    var isEnableIndomaretPayment : Bool = false
     
     var transactionCount = 0
     
@@ -246,6 +247,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 self.customBonusPercent = 0
                 self.isShowBankBRI = false
                 self.isEnableCCPayment = false
+                self.isEnableIndomaretPayment = false
                 if let ab = data["ab_test"].array {
                     for i in 0...ab.count - 1 {
                         if (ab[i].stringValue.lowercased() == "half_bonus") {
@@ -254,6 +256,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             self.isShowBankBRI = true
                         } else if (ab[i].stringValue.lowercased() == "cc") {
                             self.isEnableCCPayment = true
+                        } else if (ab[i].stringValue.lowercased() == "indomaret") {
+                            self.isEnableIndomaretPayment = true
                         } else if (ab[i].stringValue.lowercased().range(of: "bonus:") != nil) {
                             self.customBonusPercent = Int(ab[i].stringValue.components(separatedBy: "bonus:")[1])!
                         }
@@ -654,6 +658,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     func createPayMethodCell(_ tableView : UITableView, indexPath : IndexPath) -> CartPaymethodCell {
         let cell : CartPaymethodCell = tableView.dequeueReusableCell(withIdentifier: "cell_paymethod") as! CartPaymethodCell
         cell.isEnableCCPayment = isEnableCCPayment
+        cell.isEnableIndomaretPayment = isEnableIndomaretPayment
         cell.methodChosen = { mthd in
             self.setPaymentOption(mthd)
             self.adjustRingkasan()
@@ -2084,6 +2089,7 @@ class CartPaymethodCell : UITableViewCell {
     @IBOutlet var vw3Banks: UIView!
     @IBOutlet var vw4Banks: UIView!
     var isEnableCCPayment : Bool = false
+    var isEnableIndomaretPayment : Bool = false
     
     @IBOutlet var lblDesc: [UILabel]!
     
@@ -2123,7 +2129,11 @@ class CartPaymethodCell : UITableViewCell {
     }
     
     @IBAction func methodPressed(_ sender: UIButton) {
-        if (sender.tag == 1 && !isEnableCCPayment) { // Disabled method
+        if (sender.tag == tagCreditCard && !isEnableCCPayment) { // Disabled method
+            UIAlertView.SimpleShow("Coming Soon", message: "Metode pembayaran ini belum tersedia")
+            return
+        }
+        if (sender.tag == tagIndomaret && !isEnableIndomaretPayment) { // Disabled method
             UIAlertView.SimpleShow("Coming Soon", message: "Metode pembayaran ini belum tersedia")
             return
         }
