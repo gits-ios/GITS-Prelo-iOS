@@ -616,7 +616,13 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 }
                 
                 let s = m.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: w)
-                return 57 + s.height
+                
+                var c = CGFloat(0)
+                if chat.dynamicMessage.lowercased().range(of: "tawar") != nil && (chat.dynamicMessage.range(of: "Rp") != nil) {
+                    c = 6
+                }
+                
+                return 57 + s.height + c
             }
         }
     }
@@ -1272,10 +1278,25 @@ class TawarCell : UITableViewCell {
 //                self.newCaptionMessage?.textColor = UIColor.darkGray
 //            }
             
-            if (m.attachmentType != "image" && m.dynamicMessage.range(of: "Tawar \n") != nil) {
-                let boldText = m.dynamicMessage.replace("Tawar \n", template: "")
+//            if (m.attachmentType != "image" && m.dynamicMessage.range(of: "Tawar \n") != nil) {
+//                let boldText = m.dynamicMessage.replace("Tawar \n", template: "")
+//
+//                self.newCaptionMessage.boldSubstring(boldText)
+//            }
+            
+            if (m.attachmentType != "image" && m.dynamicMessage.lowercased().range(of: "tawar") != nil && m.dynamicMessage.range(of: "Rp") != nil) {
+                let mystr = m.dynamicMessage
                 
-                self.newCaptionMessage.boldSubstring(boldText)
+                let strs = ["Terima tawaran\n", "Tolak tawaran\n", "Membatalkan tawaran\n", "Tawar\n"]
+                
+                for i in 0...strs.count-1 {
+                    if (mystr.contains(strs[i])) {
+                        self.newCaptionMessage.boldSubstring(strs[i])
+                    }
+                }
+                
+                let idx = mystr.index(of: "Rp")
+                self.newCaptionMessage.increaseSizeSubstring(mystr.substring(from: idx!), size: 20)
             }
             
             self.captionArrow.textColor = self.sectionMessage.backgroundColor

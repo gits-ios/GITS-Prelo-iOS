@@ -139,6 +139,34 @@ extension Int {
     }
 }
 
+extension String {
+    func index(of string: String, options: String.CompareOptions = .literal) -> String.Index? {
+        return range(of: string, options: options)?.lowerBound
+    }
+    func indexes(of string: String, options: String.CompareOptions = .literal) -> [String.Index] {
+        var result: [String.Index] = []
+        var start = startIndex
+        while let range = range(of: string, options: options, range: start..<endIndex) {
+            result.append(range.lowerBound)
+            start = range.upperBound
+        }
+        return result
+    }
+    func ranges(of string: String, options: String.CompareOptions = .literal) -> [Range<String.Index>] {
+        var result: [Range<String.Index>] = []
+        var start = startIndex
+        while let range = range(of: string, options: options, range: start..<endIndex) {
+            result.append(range)
+            start = range.upperBound
+        }
+        return result
+    }
+    func indexDistance(of character: Character) -> Int? {
+        guard let index = characters.index(of: character) else { return nil }
+        return distance(from: startIndex, to: index)
+    }
+}
+
 extension UILabel {
     func boldRange(_ range: Range<String.Index>) {
         if let text = self.attributedText {
@@ -195,6 +223,18 @@ extension UITextView {
                 let start = text.string.characters.distance(from: text.string.startIndex, to: range.lowerBound)
                 let length = text.string.characters.distance(from: range.lowerBound, to: range.upperBound)
                 attr.addAttributes([NSForegroundColorAttributeName: color], range: NSMakeRange(start, length))
+                self.attributedText = attr
+            }
+        }
+    }
+    
+    func increaseSizeSubstring(_ substr: String, size: CGFloat) {
+        if let range = self.text?.range(of: substr) {
+            if let text = self.attributedText {
+                let attr = NSMutableAttributedString(attributedString: text)
+                let start = text.string.characters.distance(from: text.string.startIndex, to: range.lowerBound)
+                let length = text.string.characters.distance(from: range.lowerBound, to: range.upperBound)
+                attr.addAttributes([NSFontAttributeName: UIFont.systemFont(ofSize: size)], range: NSMakeRange(start, length))
                 self.attributedText = attr
             }
         }
