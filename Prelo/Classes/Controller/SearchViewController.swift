@@ -17,17 +17,18 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     // MARK: - Properties
     
     // Views
-    @IBOutlet var scrollView : UIScrollView!
-    @IBOutlet var tableView : UITableView!
-    @IBOutlet var sectionTopSearch : UIView!
-    @IBOutlet var sectionHistorySearch : UIView!
-    @IBOutlet var topSearchLoading : UIActivityIndicatorView!
-    @IBOutlet var conHeightSectionTopSearch : NSLayoutConstraint!
-    @IBOutlet var conHeightSectionHistorySearch : NSLayoutConstraint!
-    @IBOutlet var vwZeroResult: UIView!
-    @IBOutlet var lblZeroResult: UILabel!
-    @IBOutlet var loadingPanel: UIView!
+    @IBOutlet weak var scrollView : UIScrollView!
+    @IBOutlet weak var tableView : UITableView!
+    @IBOutlet weak var sectionTopSearch : UIView!
+    @IBOutlet weak var sectionHistorySearch : UIView!
+    @IBOutlet weak var topSearchLoading : UIActivityIndicatorView!
+    @IBOutlet weak var conHeightSectionTopSearch : NSLayoutConstraint!
+    @IBOutlet weak var conHeightSectionHistorySearch : NSLayoutConstraint!
+    @IBOutlet weak var vwZeroResult: UIView!
+    @IBOutlet weak var lblZeroResult: UILabel!
+    @IBOutlet weak var loadingPanel: UIView!
     var searchBar : UISearchBar!
+    @IBOutlet weak var btnHapusRiwayat: BorderedButton!
     
     // Data container
     var foundItems : [Product] = []
@@ -203,6 +204,12 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             sectionHistorySearch.addSubview(tag)
             conHeightSectionHistorySearch.constant = tag.maxY
             x = tag.maxX + 8
+        }
+        
+        if arr.count == 0 {
+            self.btnHapusRiwayat.isHidden = true
+        } else {
+            self.btnHapusRiwayat.isHidden = false
         }
     }
     
