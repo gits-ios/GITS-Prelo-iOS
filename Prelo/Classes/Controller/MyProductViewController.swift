@@ -8,14 +8,14 @@
 
 import UIKit
 
-// MARK: - NewShopHeader Protocol
+//// MARK: - NewShopHeader Protocol
+//
+//protocol MyProductDelegate {
+//    func setFromDraftOrNew(_ isFromDraft: Bool)
+//    func getFromDraftOrNew() -> Bool
+//}
 
-protocol MyProductDelegate {
-    func setFromDraftOrNew(_ isFromDraft: Bool)
-    func getFromDraftOrNew() -> Bool
-}
-
-class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate, MyProductDelegate {
+class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate /*, MyProductDelegate*/ {
     
     var tabSwipe : CarbonTabSwipeNavigation?
     
@@ -31,7 +31,7 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate, MyPro
         
         productSell = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdMyProductSell) as? MyProductSellViewController
         productSell?.previousController = self
-        productSell?.delegate = self
+//        productSell?.delegate = self
         
         productTransaction = Bundle.main.loadNibNamed(Tags.XibNameMyProductTransaction, owner: nil, options: nil)?.first as! MyProductTransactionViewController
         
@@ -99,14 +99,14 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate, MyPro
         self.navigationController?.pushViewController(add, animated: true)
     }
     
-    // MARK: - Delegate
-    func setFromDraftOrNew(_ isFromDraft: Bool) {
-        self.isFromDraft = isFromDraft
-    }
-    
-    func getFromDraftOrNew() -> Bool {
-        return self.isFromDraft
-    }
+//    // MARK: - Delegate
+//    func setFromDraftOrNew(_ isFromDraft: Bool) {
+//        self.isFromDraft = isFromDraft
+//    }
+//    
+//    func getFromDraftOrNew() -> Bool {
+//        return self.isFromDraft
+//    }
 
     /*
     // MARK: - Navigation

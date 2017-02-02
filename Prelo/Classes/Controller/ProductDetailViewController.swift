@@ -123,9 +123,10 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     override func viewWillAppear(_ animated: Bool) {
         UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: true)
-        if (detail == nil) {
+        detail = nil
+//        if (detail == nil) {
             getDetail()
-        }
+//        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

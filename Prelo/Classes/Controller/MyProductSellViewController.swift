@@ -30,7 +30,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     
     var localProducts : Array<CDDraftProduct> = []
     
-    var delegate: MyProductDelegate?
+//    var delegate: MyProductDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,12 +87,12 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         
         first = false
         
-        if (self.delegate?.getFromDraftOrNew())!
-        {
+//        if (self.delegate?.getFromDraftOrNew())!
+//        {
             self.refresh(0 as AnyObject, isSearchMode: false)
-        }
+//        }
         
-        self.delegate?.setFromDraftOrNew(false)
+//        self.delegate?.setFromDraftOrNew(false)
         
         ProdukUploader.AddObserverForUploadSuccess(self, selector: #selector(MyProductSellViewController.uploadProdukSukses(_:)))
         ProdukUploader.AddObserverForUploadFailed(self, selector: #selector(MyProductSellViewController.uploadProdukGagal(_:)))
@@ -374,7 +374,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if (indexPath as NSIndexPath).section == 0 {
-            self.delegate?.setFromDraftOrNew(true)
+//            self.delegate?.setFromDraftOrNew(true)
             let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
             add.screenBeforeAddProduct = PageName.MyProducts
             add.draftMode = true
