@@ -413,7 +413,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 if (tawarItem.markAsSoldTo == User.Id) { // Mark as sold to me
                     self.conMarginHeightOptions.constant = 114
                 } else {
-                    self.conMarginHeightOptions.constant = 114 // 80
+                    self.conMarginHeightOptions.constant = 80
                     return
                 }
             }
@@ -432,9 +432,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                     } else if (threadState == 1) {
                         self.conMarginHeightOptions.constant = 114
                     }
-                } else if (threadState == 4) { // start chat from seller
+                } else if (threadState == 4 || threadState == 3) { // start chat from seller
                     self.conMarginHeightOptions.constant = 149
-                } else if (threadState == 1 || threadState == 3) {
+                } else if (threadState == 1) {
                     self.conMarginHeightOptions.constant = 114
                 } else {
                     self.conMarginHeightOptions.constant = 80
@@ -1133,27 +1133,56 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     }
     
     func markAsSold() {
-        let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah dibeli dan diterima oleh pembeli? (Aksi ini tidak bisa dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
+//        let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah dibeli dan diterima oleh pembeli? (Aksi ini tidak bisa dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
+//        alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
+//        alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
+//            self.prodStatus = 2
+//            Constant.showDialog("Success", message: "Barang telah ditandai sebagai barang terjual")
+//            var finalPrice = ""
+//            if (self.tawarItem.bargainPrice != 0 && self.tawarItem.threadState == 2) {
+//                finalPrice = self.tawarItem.bargainPrice.asPrice
+//            } else {
+//                finalPrice = self.tawarItem.price
+//            }
+//            self.sendChat(4, message: "Barang ini dijual kepada \(self.tawarItem.theirName) dengan harga \(finalPrice)", image: nil)
+//            
+//            // Mixpanel
+//            let pt = [
+//                "Product Id" : self.prodId,
+//                "Seller Id" : CDUser.getOne()?.id, // seller
+//                "Buyer Id" : self.toId, // buyer
+//                "Price" : finalPrice
+//            ]
+//            Mixpanel.trackEvent(MixpanelEvent.ChatMarkAsSold, properties: pt)
+//        }))
+//        self.present(alert, animated: true, completion: nil)
+        
+        let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah dibeli dan/atau diterima oleh pembeli ini? (Aksi ini tidak dapat dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
-            self.prodStatus = 2
-            Constant.showDialog("Success", message: "Barang telah ditandai sebagai barang terjual")
-            var finalPrice = ""
-            if (self.tawarItem.bargainPrice != 0 && self.tawarItem.threadState == 2) {
-                finalPrice = self.tawarItem.bargainPrice.asPrice
-            } else {
-                finalPrice = self.tawarItem.price
-            }
-            self.sendChat(4, message: "Barang ini dijual kepada \(self.tawarItem.theirName) dengan harga \(finalPrice)", image: nil)
-            
-            // Mixpanel
-            let pt = [
-                "Product Id" : self.prodId,
-                "Seller Id" : CDUser.getOne()?.id, // seller
-                "Buyer Id" : self.toId, // buyer
-                "Price" : finalPrice
-            ]
-            Mixpanel.trackEvent(MixpanelEvent.ChatMarkAsSold, properties: pt)
+            let alert2 : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah kamu yakin? (Aksi ini benar-benar tidak dapat dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
+            alert2.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
+            alert2.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
+                self.prodStatus = 2
+                Constant.showDialog("Success", message: "Barang telah ditandai sebagai barang terjual")
+                var finalPrice = ""
+                if (self.tawarItem.bargainPrice != 0 && self.tawarItem.threadState == 2) {
+                    finalPrice = self.tawarItem.bargainPrice.asPrice
+                } else {
+                    finalPrice = self.tawarItem.price
+                }
+                self.sendChat(4, message: "Barang ini dijual kepada \(self.tawarItem.theirName) dengan harga \(finalPrice)", image: nil)
+                
+                // Mixpanel
+                let pt = [
+                    "Product Id" : self.prodId,
+                    "Seller Id" : CDUser.getOne()?.id, // seller
+                    "Buyer Id" : self.toId, // buyer
+                    "Price" : finalPrice
+                ]
+                Mixpanel.trackEvent(MixpanelEvent.ChatMarkAsSold, properties: pt)
+            }))
+            self.present(alert2, animated: true, completion: nil)
         }))
         self.present(alert, animated: true, completion: nil)
     }
