@@ -1005,9 +1005,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         gridView.isHidden = false
         vwFilterZeroResult.isHidden = true
         
-//        if (currentMode == .filter) {
-//            configureAdManagerAndLoadAds()
-//        }
+        if (currentMode == .filter) {
+            configureAdManagerAndLoadAds()
+        }
     }
     
     // MARK: - Collection view functions
@@ -1077,7 +1077,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 }
                 
                 var idx  = (indexPath as NSIndexPath).item
-                if (currentMode == .filter) {
+                if (adsCellProvider != nil) {
                     idx = indexPath.row - indexPath.row / adRowStep
                 }
                 
@@ -1194,7 +1194,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             self.refresh()
         case .products:
             var idx  = (indexPath as NSIndexPath).item
-            if (currentMode == .filter) {
+            if (adsCellProvider != nil) {
                 idx = indexPath.row - indexPath.row / adRowStep
             }
             
