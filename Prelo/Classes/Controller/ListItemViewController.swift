@@ -178,7 +178,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var isExpand = false
     
     // FB-ads
-    let adRowStep = 19 // fit for 1, 2, 3
+    let adRowStep: Int = 19 // fit for 1, 2, 3
     
     var adsManager: FBNativeAdsManager!
     
@@ -238,9 +238,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         NotificationCenter.default.addObserver(self, selector: #selector(ListItemViewController.statusBarTapped), name: NSNotification.Name(rawValue: AppDelegate.StatusBarTapNotificationName), object: nil)
         
 //        // ads
-//        if (currentMode == .filter) {
-//            configureAdManagerAndLoadAds()
-//        }
+        if (currentMode == .filter) {
+            configureAdManagerAndLoadAds()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -1005,9 +1005,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         gridView.isHidden = false
         vwFilterZeroResult.isHidden = true
         
-        if (currentMode == .filter) {
-            configureAdManagerAndLoadAds()
-        }
+//        if (currentMode == .filter) {
+//            configureAdManagerAndLoadAds()
+//        }
     }
     
     // MARK: - Collection view functions
@@ -1027,7 +1027,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         case .segments:
             return self.segments.count
         case .products:
-            if let p = products, adsCellProvider != nil {
+            if let p = products, adsCellProvider != nil && p.count > 0 {
                 return Int(adsCellProvider.adjustCount(UInt(p.count), forStride: UInt(adRowStep)))
             }
             else if let p = products {
@@ -1077,7 +1077,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 }
                 
                 var idx  = (indexPath as NSIndexPath).item
-                if (adsCellProvider != nil) {
+                if (adsCellProvider != nil && adRowStep != 0) {
                     idx = indexPath.row - indexPath.row / adRowStep
                 }
                 
@@ -1194,7 +1194,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             self.refresh()
         case .products:
             var idx  = (indexPath as NSIndexPath).item
-            if (adsCellProvider != nil) {
+            if (adsCellProvider != nil && adRowStep != 0) {
                 idx = indexPath.row - indexPath.row / adRowStep
             }
             
@@ -1290,7 +1290,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if (draggingScrollView) {
+        if (draggingScrollView && !requesting) {
             if (currentMode == .default || currentMode == .featured || currentMode == .filter || (currentMode == .segment && listItemSections.contains(.products))) {
                 if (currScrollPoint.y < scrollView.contentOffset.y) {
                     if ((self.navigationController?.isNavigationBarHidden)! == false) {
