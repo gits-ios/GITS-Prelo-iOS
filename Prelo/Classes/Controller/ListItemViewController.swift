@@ -1722,7 +1722,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         if (adsCellProvider == nil) {
 //            adsCellProvider = FBNativeAdCollectionViewCellProvider(manager: adsManager, for: FBNativeAdViewType.genericHeight120)
-            adsCellProvider = FBNativeAdCollectionViewCellProvider(manager: adsManager, for: FBNativeAdViewType.genericHeight100, for: attributes)
+            adsCellProvider = FBNativeAdCollectionViewCellProvider(manager: adsManager, for: FBNativeAdViewType.genericHeight120, for: attributes)
             
             adsCellProvider.delegate = self
         }
