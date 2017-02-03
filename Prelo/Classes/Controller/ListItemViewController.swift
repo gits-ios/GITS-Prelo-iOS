@@ -60,7 +60,7 @@ enum ListItemMode {
     case newShop
 }
 
-class ListItemViewController: BaseViewController, MFMailComposeViewControllerDelegate, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, FilterDelegate, CategoryPickerDelegate, ListBrandDelegate {
+class ListItemViewController: BaseViewController, MFMailComposeViewControllerDelegate, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, FilterDelegate, CategoryPickerDelegate, ListBrandDelegate, FBNativeAdDelegate, FBNativeAdsManagerDelegate {
     
     // MARK: - Struct
     
@@ -177,6 +177,13 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var shopData: JSON!
     var isExpand = false
     
+    // FB-ads
+    let adRowStep = 19 // fit for 1, 2, 3
+    
+    var adsManager: FBNativeAdsManager!
+    
+    var adsCellProvider: FBNativeAdCollectionViewCellProvider!
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -229,6 +236,11 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         // Add status bar tap observer
         NotificationCenter.default.addObserver(self, selector: #selector(ListItemViewController.statusBarTapped), name: NSNotification.Name(rawValue: AppDelegate.StatusBarTapNotificationName), object: nil)
+        
+//        // ads
+//        if (currentMode == .filter) {
+//            configureAdManagerAndLoadAds()
+//        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -992,6 +1004,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
         gridView.isHidden = false
         vwFilterZeroResult.isHidden = true
+        
+//        if (currentMode == .filter) {
+//            configureAdManagerAndLoadAds()
+//        }
     }
     
     // MARK: - Collection view functions
@@ -1011,7 +1027,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         case .segments:
             return self.segments.count
         case .products:
-            if let p = products {
+            if let p = products, adsCellProvider != nil {
+                return Int(adsCellProvider.adjustCount(UInt(p.count), forStride: UInt(adRowStep)))
+            }
+            else if let p = products {
                 return p.count
             }
             return 0
@@ -1046,24 +1065,33 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             cell.imgSegment.image = segments[(indexPath as NSIndexPath).item].image
             return cell
         case .products:
-            // Load next products here
-            if (currentMode == .default || currentMode == .standalone || currentMode == .shop || currentMode == .filter || (currentMode == .segment && listItemSections.contains(.products)) || currentMode == .newShop) {
-                if ((indexPath as NSIndexPath).row == (products?.count)! - 4 && requesting == false && done == false) {
-                    getProducts()
+            if adsCellProvider != nil && adsCellProvider.isAdCell(at: indexPath, forStride: UInt(adRowStep)) {
+                return adsCellProvider.collectionView(gridView, cellForItemAt: indexPath)
+            }
+            else {
+                // Load next products here
+                if (currentMode == .default || currentMode == .standalone || currentMode == .shop || currentMode == .filter || (currentMode == .segment && listItemSections.contains(.products)) || currentMode == .newShop) {
+                    if ((indexPath as NSIndexPath).row == (products?.count)! - 4 && requesting == false && done == false) {
+                        getProducts()
+                    }
                 }
+                
+                var idx  = (indexPath as NSIndexPath).item
+                if (currentMode == .filter) {
+                    idx = indexPath.row - indexPath.row / adRowStep
+                }
+                
+                let cell : ListItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ListItemCell
+                if (products?.count > idx) {
+                    let p = products?[idx]
+                    cell.adapt(p!, listStage: self.listStage, currentMode: self.currentMode, shopAvatar: self.shopAvatar, parent: self)
+                }
+                if (currentMode == .featured) {
+                    // Hide featured ribbon
+                    cell.imgFeatured.isHidden = true
+                }
+                return cell
             }
-            
-            
-            let cell : ListItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ListItemCell
-            if (products?.count > (indexPath as NSIndexPath).item) {
-                let p = products?[(indexPath as NSIndexPath).item]
-                cell.adapt(p!, listStage: self.listStage, currentMode: self.currentMode, shopAvatar: self.shopAvatar, parent: self)
-            }
-            if (currentMode == .featured) {
-                // Hide featured ribbon
-                cell.imgFeatured.isHidden = true
-            }
-            return cell
         case .aboutShop:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "StorePageShopHeader", for: indexPath) as! StoreInfo
             cell.adapt(self.shopData, count: self.products!.count, isExpand: self.isExpand)
@@ -1091,14 +1119,24 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             let segHeight = viewWidthMinusMargin * segments[(indexPath as NSIndexPath).item].image.size.height / segments[(indexPath as NSIndexPath).item].image.size.width
             return CGSize(width: viewWidthMinusMargin, height: segHeight)
         case .products:
-            return CGSize(width: itemCellWidth!, height: itemCellWidth! + 66)
+            if adsCellProvider != nil && adsCellProvider.isAdCell(at: indexPath, forStride: UInt(adRowStep)) {
+                return CGSize(width: ((UIScreen.main.bounds.size.width - 8) / 1), height: adsCellProvider.collectionView(gridView, heightForRowAt: indexPath))
+            }
+            else {
+                return CGSize(width: itemCellWidth!, height: itemCellWidth! + 66)
+            }
         case . aboutShop:
             return CGSize(width: viewWidthMinusMargin, height: StoreInfo.heightFor(shopData, isExpand: isExpand))
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        switch listItemSections[section] {
+        case .products:
+            return 4
+        default:
+            return 0
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -1155,7 +1193,12 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             self.listItemSections.append(.products)
             self.refresh()
         case .products:
-            self.selectedProduct = products?[(indexPath as NSIndexPath).item]
+            var idx  = (indexPath as NSIndexPath).item
+            if (currentMode == .filter) {
+                idx = indexPath.row - indexPath.row / adRowStep
+            }
+            
+            self.selectedProduct = products?[idx]
             if self.selectedProduct?.isAggregate == false && self.selectedProduct?.isAffiliate == false {
                 if (currentMode == .featured) {
                     self.selectedProduct?.setToFeatured()
@@ -1625,6 +1668,76 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     {
         let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
         self.navigationController?.pushViewController(userProfileVC, animated: true)
+    }
+    
+    // MARK: - Ads
+    func configureAdManagerAndLoadAds() {
+        if adsManager == nil {
+//            if (AppTools.isDev) {
+//                FBAdSettings.setLogLevel(FBAdLogLevel.log)
+            
+//                var hashedIds : Array<String> = []
+//                hashedIds.append("b602d594afd2b0b327e07a06f36ca6a7e42546d0") // pw
+//                hashedIds.append("HASHED_ID") // nadine
+//                FBAdSettings.addTestDevices(hashedIds)
+            
+            
+//                FBAdSettings.setLogLevel(FBAdLogLevel.none)
+//                FBAdSettings.clearTestDevices()
+//            }
+            
+            adsManager = FBNativeAdsManager(placementID: "860723977338277_1233930046684333", forNumAdsRequested: 5)
+            adsManager.delegate = self
+            adsManager.loadAds()
+        }
+    }
+    
+    func nativeAdsLoaded() {
+        
+        /*
+         FBNativeAdViewAttributes *attributes = [[FBNativeAdViewAttributes alloc] init];
+         
+         attributes.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1];
+         attributes.buttonColor = [UIColor colorWithRed:66/255.0 green:108/255.0 blue:173/255.0 alpha:1];
+         attributes.buttonTitleColor = [UIColor whiteColor];
+         
+         FBNativeAdView *adView = [FBNativeAdView nativeAdViewWithNativeAd:nativeAd
+         withType:FBNativeAdViewTypeGenericHeight300 withAttributes:attributes];
+         
+         [self.view addSubview:adView];
+         
+         CGSize size = self.view.bounds.size;
+         CGFloat xOffset = size.width / 2 - 160;
+         CGFloat yOffset = (size.height > size.width) ? 100 : 20;
+         adView.frame = CGRectMake(xOffset, yOffset, 320, 300);
+         
+         // Register the native ad view and its view controller with the native ad instance
+         [nativeAd registerViewForInteraction:adView withViewController:self];
+         */
+        
+        let attributes = FBNativeAdViewAttributes.init()
+        attributes.backgroundColor = UIColor.white
+        attributes.buttonColor = Theme.PrimaryColor
+        attributes.buttonTitleColor = UIColor.white
+        
+        if (adsCellProvider == nil) {
+//            adsCellProvider = FBNativeAdCollectionViewCellProvider(manager: adsManager, for: FBNativeAdViewType.genericHeight120)
+            adsCellProvider = FBNativeAdCollectionViewCellProvider(manager: adsManager, for: FBNativeAdViewType.genericHeight100, for: attributes)
+            
+            adsCellProvider.delegate = self
+        }
+        
+        if gridView != nil {
+            gridView.reloadData()
+        }
+    }
+    
+    func nativeAdsFailedToLoadWithError(_ error: Error) {
+        print(error)
+    }
+    
+    func nativeAdDidClick(_ nativeAd: FBNativeAd) {
+        print("Ad tapped: \(nativeAd.title)")
     }
 }
 
