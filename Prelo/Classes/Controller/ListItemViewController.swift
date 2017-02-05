@@ -246,6 +246,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         // Status bar color
         if (currentMode == .filter) {
             self.setStatusBarBackgroundColor(color: UIColor.clear)
+            
+            // reset header
+            self.consTopTopHeaderFilter.constant = 0
+            self.consTopGridView.constant = 0
         }
         
         if (currentMode == .shop || currentMode == .newShop) {
