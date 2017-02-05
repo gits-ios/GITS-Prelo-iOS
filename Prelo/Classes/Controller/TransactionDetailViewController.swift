@@ -4199,8 +4199,10 @@ class TransactionDetailTitleCell : UITableViewCell {
         if (isFirst && isOpen) {
             lblDetailIcon.text = TransactionDetailTools.IcUpArrow
             isFirst = false
+        } else if (isFirst && !isOpen) {
+            lblDetailIcon.text = TransactionDetailTools.IcDownArrow
+            isFirst = false
         }
-        
         self.isFroze = isFroze
     }
     
