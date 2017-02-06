@@ -1123,7 +1123,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             let segHeight = viewWidthMinusMargin * segments[(indexPath as NSIndexPath).item].image.size.height / segments[(indexPath as NSIndexPath).item].image.size.width
             return CGSize(width: viewWidthMinusMargin, height: segHeight)
         case .products:
-            if adsCellProvider != nil && adsCellProvider.isAdCell(at: indexPath, forStride: UInt(adRowStep)) {
+            if !AppTools.isIPad && adsCellProvider != nil && adsCellProvider.isAdCell(at: indexPath, forStride: UInt(adRowStep)) {
                 return CGSize(width: ((UIScreen.main.bounds.size.width - 8) / 1), height: adsCellProvider.collectionView(gridView, heightForRowAt: indexPath))
             }
             else {
@@ -1731,7 +1731,17 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         if (adsCellProvider == nil) {
 //            adsCellProvider = FBNativeAdCollectionViewCellProvider(manager: adsManager, for: FBNativeAdViewType.genericHeight120)
-            adsCellProvider = FBNativeAdCollectionViewCellProvider(manager: adsManager, for: FBNativeAdViewType.genericHeight120, for: attributes)
+            
+            var l = FBNativeAdViewType.genericHeight120
+            if AppTools.isIPad {
+                if self.itemCellWidth! + 66 > 400 {
+                    l = FBNativeAdViewType.genericHeight400
+                } else if if self.itemCellWidth! + 66 > 300 {
+                    l = FBNativeAdViewType.genericHeight300
+                }
+            }
+            
+            adsCellProvider = FBNativeAdCollectionViewCellProvider(manager: adsManager, for: l, for: attributes)
             
             adsCellProvider.delegate = self
         }
