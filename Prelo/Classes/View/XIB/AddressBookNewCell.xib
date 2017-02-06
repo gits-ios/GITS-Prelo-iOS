@@ -11,13 +11,17 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="57" id="FDm-oU-tjY">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="57"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="62" id="FDm-oU-tjY" customClass="AddressBookNewCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="62"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FDm-oU-tjY" id="wtG-kh-lcL">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="61"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Osn-mc-HJJ" userLabel="Vw Border">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="57.5"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9ka-Q8-mhv">
                         <rect key="frame" x="8" y="8" width="40" height="40"/>
                         <subviews>
@@ -48,13 +52,20 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="9ka-Q8-mhv" firstAttribute="leading" secondItem="wtG-kh-lcL" secondAttribute="leadingMargin" id="0FK-ER-l6U"/>
+                    <constraint firstItem="Osn-mc-HJJ" firstAttribute="leading" secondItem="wtG-kh-lcL" secondAttribute="leading" id="1Lc-Oq-Jiu"/>
+                    <constraint firstAttribute="trailing" secondItem="Osn-mc-HJJ" secondAttribute="trailing" id="6yX-6V-ppn"/>
+                    <constraint firstAttribute="bottom" secondItem="Osn-mc-HJJ" secondAttribute="bottom" constant="4" id="Vc0-PF-Pcf"/>
                     <constraint firstItem="NyH-Ga-b9f" firstAttribute="centerY" secondItem="9ka-Q8-mhv" secondAttribute="centerY" id="kEi-LG-YS1"/>
                     <constraint firstItem="9ka-Q8-mhv" firstAttribute="top" secondItem="wtG-kh-lcL" secondAttribute="topMargin" id="nyL-cg-Enu"/>
                     <constraint firstItem="NyH-Ga-b9f" firstAttribute="leading" secondItem="9ka-Q8-mhv" secondAttribute="trailing" constant="8" id="qnb-Hz-1OG"/>
+                    <constraint firstItem="Osn-mc-HJJ" firstAttribute="top" secondItem="wtG-kh-lcL" secondAttribute="top" id="vvO-WZ-Slw"/>
                     <constraint firstAttribute="trailingMargin" secondItem="NyH-Ga-b9f" secondAttribute="trailing" id="ynJ-c7-56P"/>
                 </constraints>
             </tableViewCellContentView>
-            <point key="canvasLocation" x="204.5" y="-56.5"/>
+            <connections>
+                <outlet property="vwPlus" destination="9ka-Q8-mhv" id="JRA-nO-GCw"/>
+            </connections>
+            <point key="canvasLocation" x="204.5" y="-54"/>
         </tableViewCell>
     </objects>
 </document>

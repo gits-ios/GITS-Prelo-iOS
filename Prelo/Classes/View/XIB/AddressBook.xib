@@ -10,7 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <viewController id="r2q-Mt-Szu">
+        <viewController id="r2q-Mt-Szu" customClass="AddressBookViewController" customModule="Prelo" customModuleProvider="target">
             <layoutGuides>
                 <viewControllerLayoutGuide type="top" id="gnp-Hv-lO1"/>
                 <viewControllerLayoutGuide type="bottom" id="n2M-S4-XS0"/>
@@ -54,6 +54,9 @@
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <state key="disabled" title="LOADING.."/>
+                                        <connections>
+                                            <action selector="btnTidakPressed:" destination="r2q-Mt-Szu" eventType="touchUpInside" id="Nsk-0H-I1L"/>
+                                        </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hBe-tA-uap">
                                         <rect key="frame" x="149" y="138" width="1" height="40"/>
@@ -75,6 +78,9 @@
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <state key="disabled" title="LOADING.."/>
+                                        <connections>
+                                            <action selector="btnOkePressed:" destination="r2q-Mt-Szu" eventType="touchUpInside" id="fr4-2Q-nKe"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -137,6 +143,15 @@
                 </constraints>
             </view>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+            <connections>
+                <outlet property="consCenteryPopUp" destination="3JV-SJ-9Lt" id="nLX-sx-HOt"/>
+                <outlet property="lblDescription" destination="Alb-5h-ah2" id="Qh0-s6-cb5"/>
+                <outlet property="loadingPanel" destination="Oxo-ue-zqC" id="zK2-lh-JeO"/>
+                <outlet property="tableView" destination="7eD-hf-ymk" id="QXF-4L-En5"/>
+                <outlet property="vwBackgroundOverlay" destination="7Dy-Gc-BfK" id="SXX-Pd-aYk"/>
+                <outlet property="vwOverlayPopUp" destination="60D-ZM-GNc" id="Bh3-2s-I8b"/>
+                <outlet property="vwPopUp" destination="Ub0-xf-Ilx" id="T0N-nS-QxV"/>
+            </connections>
             <point key="canvasLocation" x="25.5" y="-680.5"/>
         </viewController>
     </objects>

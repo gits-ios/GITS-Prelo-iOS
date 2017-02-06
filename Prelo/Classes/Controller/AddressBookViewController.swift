@@ -23,16 +23,17 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
     @IBOutlet weak var lblDescription: UILabel!
     @IBOutlet weak var consCenteryPopUp: NSLayoutConstraint! // align center y --> 603 [window height] -> 0
     @IBOutlet weak var vwPopUp: UIView!
+    var selectedIndexForSetAsMain: Int = 0
     
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        let AchievementDiamondCell = UINib(nibName: "AchievementDiamondCell", bundle: nil)
-//        tableView.register(AchievementDiamondCell, forCellReuseIdentifier: "AchievementDiamondCell")
-//        
-//        let AchievementCelliOS9xx = UINib(nibName: "AchievementCelliOS9xx", bundle: nil)
-//        tableView.register(AchievementCelliOS9xx, forCellReuseIdentifier: "AchievementCell")
+        let AddressBookCell = UINib(nibName: "AddressBookCell", bundle: nil)
+        tableView.register(AddressBookCell, forCellReuseIdentifier: "AddressBookCell")
+        
+        let AddressBookNewCell = UINib(nibName: "AddressBookNewCell", bundle: nil)
+        tableView.register(AddressBookNewCell, forCellReuseIdentifier: "AddressBookNewCell")
         
         self.title = "Daftar Alamat"
     }
@@ -50,7 +51,7 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
             tableView.tableFooterView = UIView()
             
             //TOP, LEFT, BOTTOM, RIGHT
-            let inset = UIEdgeInsetsMake(5, 0, 5, 0)
+            let inset = UIEdgeInsetsMake(4, 0, 0, 0)
             tableView.contentInset = inset
             
             tableView.separatorStyle = .none
@@ -77,17 +78,26 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
     func getAddresses() {
         self.addresses = []
         
-//        let fakeres = [
-//            "name":names[s],
-//            "icon":images[s],
-//            "progress": 0,
-//            "progress_icon": [images[t], images[u]],
-//            "conditions": [["fullfilled":(i % 2 == 0 ? true : false), "condition_text":"mantap"],["fullfilled":(i % 2 == 0 ? false : true), "condition_text":"gg"]]
-//            ] as [String : Any]
-//        
-//        let json = JSON(fakeres)
-//        let address = AddressItem.instance(json)
-//        self.addresses?.append(address!)
+        for i in 0...2 {
+            let fakeres = [
+                "address_name":"coba-" + i.description,
+                "recipient_name":"djuned",
+                "address": "Jl kartini 44",
+                "province_id": "533f81506d07364195779449", // jawa timur
+                "region_id": "53a6e369490cd61d3a00001b", // kab kediri
+                "subdistrict_id":"5758f2a1f8ec1c50289c78d5", // plemahan
+                "subdistrict_name":"Plemahan",
+                "phone": "087759035853",
+                "postal_code": "64155",
+                "is_main_address": i % 3 == 0
+                ] as [String : Any]
+            
+            let json = JSON(fakeres)
+            let address = AddressItem.instance(json)
+            self.addresses?.append(address!)
+        }
+        
+        self.hideLoading()
         
         // TODO: - use API
         
@@ -108,31 +118,40 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if ((indexPath as NSIndexPath).item < (self.addresses?.count)!) {
-            return 185
+            return 204
         } else {
-            return 57
+            return 60
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if ((indexPath as NSIndexPath).item < (self.addresses?.count)!) {
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementDiamondCell") as! AchievementDiamondCell
-//            
-//            cell.selectionStyle = .none
-//            cell.backgroundColor = UIColor(hex: "E5E9EB")
-//            cell.clipsToBounds = true
-//            cell.adapt(diamonds, isOpen: isOpens[(indexPath as NSIndexPath).row])
-//            
-//            return cell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AddressBookCell") as! AddressBookCell
+            
+            let idx = (indexPath as NSIndexPath).item
+            
+            cell.selectionStyle = .none
+            cell.backgroundColor = UIColor(hex: "E5E9EB")
+            cell.clipsToBounds = true
+            cell.adapt((addresses?[idx])!)
+            
+            cell.btnSetMainAction = {
+                self.initPopUp()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                    self.setupPopUp(idx)
+                    self.displayPopUp()
+                })
+            }
+            
+            return cell
         } else {
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementDiamondCell") as! AchievementDiamondCell
-//            
-//            cell.selectionStyle = .none
-//            cell.backgroundColor = UIColor(hex: "E5E9EB")
-//            cell.clipsToBounds = true
-//            cell.adapt(diamonds, isOpen: isOpens[(indexPath as NSIndexPath).row])
-//            
-//            return cell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AddressBookNewCell") as! AddressBookNewCell
+            
+            cell.selectionStyle = .none
+            cell.backgroundColor = UIColor(hex: "E5E9EB")
+            cell.clipsToBounds = true
+            
+            return cell
         }
     }
     
@@ -141,9 +160,10 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
     }
     
     // MARK: - Pop up
-    func setupPopUp() {
+    func setupPopUp(_ index: Int) {
         self.lblDescription.text = "Alamat Utama adalah alamat yang digunakan untuk menghitung biaya pengiriman barang jualan kamu."
         
+        selectedIndexForSetAsMain = index
         // TODO: - attribute text - bold
     }
     
@@ -215,6 +235,7 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
             self.vwBackgroundOverlay.isHidden = true
             
             // TODO: - Set main Address
+            // by index
         })
     }
     
@@ -226,4 +247,60 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
             self.vwBackgroundOverlay.isHidden = true
         })
     }
+}
+
+
+// MARK: - Class AddressBookCell
+class AddressBookCell: UITableViewCell { // height 204
+    @IBOutlet weak var lblType: UILabel!
+    @IBOutlet weak var lblName: UILabel!
+    @IBOutlet weak var lblAddress: UILabel!
+    @IBOutlet weak var lblRegion: UILabel! // subdistrict, region
+    @IBOutlet weak var lblProvince: UILabel! // province postal_code
+    @IBOutlet weak var lblPhone: UILabel!
+    @IBOutlet weak var vwMain: UIView!
+    @IBOutlet weak var btnSetMain: UIButton!
+    
+    var btnSetMainAction : () -> () = {}
+    
+    func adapt(_ address: AddressItem) {
+        let regionName = CDRegion.getRegionNameWithID(address.regionId)
+        let provinceName = CDProvince.getProvinceNameWithID(address.provinceId)
+        
+        lblType.text = address.addressName
+        lblName.text = address.recipientName
+        lblAddress.text = address.address
+        lblRegion.text = address.subdisrictName + ", " + regionName!
+        lblProvince.text = provinceName! + " " + address.postalCode
+        lblPhone.text = address.phone
+        
+        if address.isMainAddress {
+            vwMain.isHidden = false
+            btnSetMain.isHidden = true
+        } else {
+            vwMain.isHidden = true
+            btnSetMain.isHidden = false
+        }
+    }
+    
+    @IBAction func btnEditAddressPressed(_ sender: Any) {
+    }
+    
+    @IBAction func btnDeleteAddressPressed(_ sender: Any) {
+    }
+    
+    @IBAction func btnSetMainPressed(_ sender: Any) {
+        btnSetMainAction()
+    }
+}
+
+class AddressBookNewCell: UITableViewCell { // height 60
+    @IBOutlet weak var vwPlus: UIView!
+    
+    func adapt(_ achievement : AchievementItem, isOpen: Bool) {
+        self.vwPlus?.layoutIfNeeded()
+        self.vwPlus?.layer.cornerRadius = (self.vwPlus?.width ?? 0) / 2
+        self.vwPlus?.layer.masksToBounds = true
+    }
+    
 }
