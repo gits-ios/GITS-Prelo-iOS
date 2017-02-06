@@ -567,7 +567,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             }
             
             hideFakeScrollView()
-        } else {
+        }
+        
+        if (!draftMode) {
             // set init id
             
             let uniqueCode : TimeInterval = Date().timeIntervalSinceReferenceDate
