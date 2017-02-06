@@ -1666,6 +1666,8 @@
 		B2DF58481E484131005B6CF1 /* AddressBookCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressBookCell.xib; sourceTree = "<group>"; };
 		B2DF584A1E4844B9005B6CF1 /* AddressBookNewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressBookNewCell.xib; sourceTree = "<group>"; };
 		B2DF584C1E484605005B6CF1 /* AddressBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBookViewController.swift; sourceTree = "<group>"; };
+		B2DF58841E48924C005B6CF1 /* AddressAddEdit.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressAddEdit.xib; sourceTree = "<group>"; };
+		B2DF58961E48A9DA005B6CF1 /* AddressAddEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressAddEditViewController.swift; sourceTree = "<group>"; };
 		FD3C6D3D1C1963190002C7B4 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
 		FD3C6D3E1C1963190002C7B4 /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
 		FD3C6D3F1C1963190002C7B4 /* GAIEcommerceFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceFields.h; sourceTree = "<group>"; };
@@ -2293,6 +2295,7 @@
 				21156EB91B8F5B4C001D7842 /* UserProfileViewController.swift */,
 				21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */,
 				B2DF584C1E484605005B6CF1 /* AddressBookViewController.swift */,
+				B2DF58961E48A9DA005B6CF1 /* AddressAddEditViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2888,6 +2891,7 @@
 				B2DF58381E484092005B6CF1 /* AddressBook.xib */,
 				B2DF58481E484131005B6CF1 /* AddressBookCell.xib */,
 				B2DF584A1E4844B9005B6CF1 /* AddressBookNewCell.xib */,
+				B2DF58841E48924C005B6CF1 /* AddressAddEdit.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -3959,6 +3963,7 @@
 				583234351DB8D6290059B3A2 /* DummyGridViewController.swift in Sources */,
 				585887851DBF275C006EC6D5 /* AddProductShareViewController.swift in Sources */,
 				21679A4C1B901C5300F18F90 /* MPUIFontToNSDictionaryValueTransformer.m in Sources */,
+				B2DF58971E48A9DA005B6CF1 /* AddressAddEditViewController.swift in Sources */,
 				216345091CC3A855005CBA37 /* MKTableViewCell.swift in Sources */,
 				5847E1531DBD9BAB00C1B2BA /* CDUserOther.swift in Sources */,
 				585887601DBEEAE2006EC6D5 /* ProdukUploader.swift in Sources */,

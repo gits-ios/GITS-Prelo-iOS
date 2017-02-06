@@ -425,6 +425,7 @@ class Tags : NSObject {
     static let XibNameShopAchievement = "ShopAchievement"
     static let XibNameTarikTunai2 = "TarikTunai2"
     static let XibNameAddressBook = "AddressBook"
+    static let XibNameAddressAddEdit = "AddressAddEdit"
 }
 
 class OrderStatus : NSObject {
@@ -495,6 +496,9 @@ class PageName {
     static let BarangExpired = "Barang Expired"
     static let Achievement = "Achievements"
     static let ShopAchievements = "Shop Achievements"
+    static let AddressBook = "Address Book"
+    static let AddAddress = "Add Address"
+    static let EditAddress = "Edit Address"
 }
 
 extension Mixpanel {

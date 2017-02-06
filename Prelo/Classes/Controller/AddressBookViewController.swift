@@ -17,12 +17,13 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
     var addresses: Array<AddressItem>? // addresses
     var isFirst: Bool = true
 
-    // for new achievement unlock -- pop up
+    // fpop up
     @IBOutlet weak var vwBackgroundOverlay: UIView! // hidden
     @IBOutlet weak var vwOverlayPopUp: UIView! // hidden
     @IBOutlet weak var lblDescription: UILabel!
     @IBOutlet weak var consCenteryPopUp: NSLayoutConstraint! // align center y --> 603 [window height] -> 0
     @IBOutlet weak var vwPopUp: UIView!
+    
     var selectedIndexForSetAsMain: Int = 0
     
     // MARK: - Init
@@ -67,7 +68,7 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
         super.viewWillAppear(animated)
         
         // Google Analytics
-        GAI.trackPageVisit(PageName.Achievement)
+        GAI.trackPageVisit(PageName.AddressBook)
     }
     
     override func didReceiveMemoryWarning() {
@@ -112,6 +113,8 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
     func hideLoading() {
         self.loadingPanel.isHidden = true
     }
+    
+    // MARK: - Tableview delegate
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
     }
@@ -134,6 +137,18 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
             cell.backgroundColor = UIColor(hex: "E5E9EB")
             cell.clipsToBounds = true
             cell.adapt((addresses?[idx])!)
+            
+            cell.btnEditAction = {
+                let EditAddressVC = Bundle.main.loadNibNamed(Tags.XibNameAddressAddEdit, owner: nil, options: nil)?.first as! AddressAddEditViewController
+                EditAddressVC.editMode = true
+                // TODO: - ganti idx dengan address Id
+                EditAddressVC.addressId = idx.string
+                self.navigationController?.pushViewController(EditAddressVC, animated: true)
+            }
+            
+            cell.btnDeleteAction = {
+                // delete
+            }
             
             cell.btnSetMainAction = {
                 self.initPopUp()
@@ -161,6 +176,8 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
             // do nothing
         } else {
             // new address - tambah alamat
+            let AddAddressVC = Bundle.main.loadNibNamed(Tags.XibNameAddressAddEdit, owner: nil, options: nil)?.first as! AddressAddEditViewController
+            self.navigationController?.pushViewController(AddAddressVC, animated: true)
         }
     }
     
@@ -270,6 +287,8 @@ class AddressBookCell: UITableViewCell { // height 204
     @IBOutlet weak var vwMain: UIView!
     @IBOutlet weak var btnSetMain: UIButton!
     
+    var btnEditAction : () -> () = {}
+    var btnDeleteAction : () -> () = {}
     var btnSetMainAction : () -> () = {}
     
     func adapt(_ address: AddressItem) {
@@ -293,9 +312,11 @@ class AddressBookCell: UITableViewCell { // height 204
     }
     
     @IBAction func btnEditAddressPressed(_ sender: Any) {
+        btnEditAction()
     }
     
     @IBAction func btnDeleteAddressPressed(_ sender: Any) {
+        btnDeleteAction()
     }
     
     @IBAction func btnSetMainPressed(_ sender: Any) {
