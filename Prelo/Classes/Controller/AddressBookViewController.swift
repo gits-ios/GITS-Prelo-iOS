@@ -150,21 +150,30 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
             cell.selectionStyle = .none
             cell.backgroundColor = UIColor(hex: "E5E9EB")
             cell.clipsToBounds = true
+            cell.adapt()
             
             return cell
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // do nothing
+        if ((indexPath as NSIndexPath).item < (self.addresses?.count)!) {
+            // do nothing
+        } else {
+            // new address - tambah alamat
+        }
     }
     
     // MARK: - Pop up
     func setupPopUp(_ index: Int) {
-        self.lblDescription.text = "Alamat Utama adalah alamat yang digunakan untuk menghitung biaya pengiriman barang jualan kamu."
+        let desc = "Alamat Utama adalah alamat yang digunakan untuk menghitung biaya pengiriman barang jualan kamu."
         
-        selectedIndexForSetAsMain = index
-        // TODO: - attribute text - bold
+        self.lblDescription.text = desc
+        
+        let attString : NSMutableAttributedString = NSMutableAttributedString(string: desc)
+        attString.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: 16)], range: (desc as NSString).range(of: "Alamat Utama"))
+        
+        self.lblDescription.attributedText = attString
     }
     
     func initPopUp() {
@@ -294,13 +303,17 @@ class AddressBookCell: UITableViewCell { // height 204
     }
 }
 
+
+// MARK: - Class AddressBookNewCell
 class AddressBookNewCell: UITableViewCell { // height 60
     @IBOutlet weak var vwPlus: UIView!
     
-    func adapt(_ achievement : AchievementItem, isOpen: Bool) {
+    func adapt() {
         self.vwPlus?.layoutIfNeeded()
         self.vwPlus?.layer.cornerRadius = (self.vwPlus?.width ?? 0) / 2
         self.vwPlus?.layer.masksToBounds = true
+        
+        self.vwPlus?.backgroundColor = UIColor(hex: "E5E9EB")
     }
     
 }
