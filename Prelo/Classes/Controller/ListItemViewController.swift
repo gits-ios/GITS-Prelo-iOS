@@ -1736,7 +1736,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             if AppTools.isIPad {
                 if self.itemCellWidth! + 66 > 400 {
                     l = FBNativeAdViewType.genericHeight400
-                } else if if self.itemCellWidth! + 66 > 300 {
+                } else {
                     l = FBNativeAdViewType.genericHeight300
                 }
             }
