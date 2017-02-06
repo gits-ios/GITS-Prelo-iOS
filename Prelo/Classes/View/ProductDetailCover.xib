@@ -43,16 +43,8 @@
                 </mask>
             </variation>
             <connections>
-                <outlet property="consHeightTopBannerParent1" destination="LFR-V7-GpO" id="yuZ-Nu-SUE"/>
-                <outlet property="consHeightTopBannerParent2" destination="xai-7w-bES" id="ppx-UV-dLN"/>
-                <outlet property="consHeightTopBannerParent3" destination="b86-6a-aMN" id="IjD-cI-ZQb"/>
-                <outlet property="consHeightTopBannerParent4" destination="GeR-nj-NU9" id="BJQ-6X-5HI"/>
-                <outlet property="consHeightTopBannerParent5" destination="o1G-Cb-nwK" id="5JR-n9-9NJ"/>
-                <outlet property="vwTopBannerParent1" destination="RuX-JW-J7S" id="5QF-ng-f3Q"/>
-                <outlet property="vwTopBannerParent2" destination="I1o-W2-EZD" id="cT5-tN-ggI"/>
-                <outlet property="vwTopBannerParent3" destination="NYB-HS-tdY" id="6np-fS-AXt"/>
-                <outlet property="vwTopBannerParent4" destination="NO3-TL-UcE" id="uqa-tB-oM0"/>
-                <outlet property="vwTopBannerParent5" destination="OvF-Tm-dXU" id="BWD-rO-jg5"/>
+                <outlet property="consHeightTopBannerParent" destination="LFR-V7-GpO" id="TR5-bP-6oM"/>
+                <outlet property="vwTopBannerParent" destination="RuX-JW-J7S" id="Rg6-N4-G8U"/>
                 <outletCollection property="imageViews" destination="Xf6-PK-ugh" collectionClass="NSMutableArray" id="YhN-yd-4l9"/>
             </connections>
             <point key="canvasLocation" x="-468" y="-681"/>
@@ -113,6 +105,8 @@
                 </mask>
             </variation>
             <connections>
+                <outlet property="consHeightTopBannerParent" destination="xai-7w-bES" id="hbq-5H-Vz8"/>
+                <outlet property="vwTopBannerParent" destination="I1o-W2-EZD" id="Mbx-dy-FEh"/>
                 <outletCollection property="imageViews" destination="jcg-22-ipU" collectionClass="NSMutableArray" id="spm-FQ-X3Q"/>
                 <outletCollection property="imageViews" destination="TmP-Ua-lxf" collectionClass="NSMutableArray" id="gq9-Q6-j9v"/>
             </connections>
@@ -175,6 +169,8 @@
                 </mask>
             </variation>
             <connections>
+                <outlet property="consHeightTopBannerParent" destination="b86-6a-aMN" id="M9D-Kf-bb0"/>
+                <outlet property="vwTopBannerParent" destination="NYB-HS-tdY" id="f1h-EH-27a"/>
                 <outletCollection property="imageViews" destination="cpH-Me-DGE" collectionClass="NSMutableArray" id="QD4-4R-kuI"/>
                 <outletCollection property="imageViews" destination="v4S-iA-VX3" collectionClass="NSMutableArray" id="HQF-OM-qIT"/>
                 <outletCollection property="imageViews" destination="nv7-2b-2Nb" collectionClass="NSMutableArray" id="pYZ-uw-iyW"/>
@@ -243,6 +239,8 @@
                 </mask>
             </variation>
             <connections>
+                <outlet property="consHeightTopBannerParent" destination="GeR-nj-NU9" id="ARr-gf-7Aa"/>
+                <outlet property="vwTopBannerParent" destination="NO3-TL-UcE" id="tsE-na-pgQ"/>
                 <outletCollection property="imageViews" destination="DjO-WG-G55" collectionClass="NSMutableArray" id="N6H-Fl-UGE"/>
                 <outletCollection property="imageViews" destination="1fz-rn-OlC" collectionClass="NSMutableArray" id="heb-pH-Zd7"/>
                 <outletCollection property="imageViews" destination="lfZ-mK-gYH" collectionClass="NSMutableArray" id="GMm-oz-ne1"/>
@@ -321,6 +319,8 @@
                 </mask>
             </variation>
             <connections>
+                <outlet property="consHeightTopBannerParent" destination="o1G-Cb-nwK" id="kHs-wD-g3f"/>
+                <outlet property="vwTopBannerParent" destination="OvF-Tm-dXU" id="1wK-af-wu6"/>
                 <outletCollection property="imageViews" destination="Bw3-55-sl6" collectionClass="NSMutableArray" id="haV-xb-NAz"/>
                 <outletCollection property="imageViews" destination="9ld-Te-d4G" collectionClass="NSMutableArray" id="JB2-Mf-Hcg"/>
                 <outletCollection property="imageViews" destination="Hg2-Dg-gOT" collectionClass="NSMutableArray" id="uWh-oV-Umk"/>
