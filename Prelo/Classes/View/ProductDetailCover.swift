@@ -29,20 +29,8 @@ class ProductDetailCover: UIView {
     var isFakeApprove : Bool = false
     var isFakeApproveV2 : Bool = false
     
-    @IBOutlet var vwTopBannerParent1: UIView!
-    @IBOutlet var consHeightTopBannerParent1: NSLayoutConstraint!
-    
-    @IBOutlet var vwTopBannerParent2: UIView!
-    @IBOutlet var consHeightTopBannerParent2: NSLayoutConstraint!
-    
-    @IBOutlet var vwTopBannerParent3: UIView!
-    @IBOutlet var consHeightTopBannerParent3: NSLayoutConstraint!
-    
-    @IBOutlet var vwTopBannerParent4: UIView!
-    @IBOutlet var consHeightTopBannerParent4: NSLayoutConstraint!
-    
-    @IBOutlet var vwTopBannerParent5: UIView!
-    @IBOutlet var consHeightTopBannerParent5: NSLayoutConstraint!
+    @IBOutlet var vwTopBannerParent: UIView!
+    @IBOutlet var consHeightTopBannerParent: NSLayoutConstraint!
     
     var topBannerHeight : CGFloat = 0
     
@@ -99,22 +87,8 @@ class ProductDetailCover: UIView {
                 topBanner.addSubview(topLabel)
                 if (status == 5) {
                     topLabel.text = tbText
-                    if (imageURLS.count == 1) {
-                        self.vwTopBannerParent1.addSubview(topBanner)
-                        self.consHeightTopBannerParent1.constant = topBannerHeight
-                    } else if (imageURLS.count == 2) {
-                        self.vwTopBannerParent2.addSubview(topBanner)
-                        self.consHeightTopBannerParent2.constant = topBannerHeight
-                    } else if (imageURLS.count == 3) {
-                        self.vwTopBannerParent3.addSubview(topBanner)
-                        self.consHeightTopBannerParent3.constant = topBannerHeight
-                    } else if (imageURLS.count == 4) {
-                        self.vwTopBannerParent4.addSubview(topBanner)
-                        self.consHeightTopBannerParent4.constant = topBannerHeight
-                    } else if (imageURLS.count == 5) {
-                        self.vwTopBannerParent4.addSubview(topBanner)
-                        self.consHeightTopBannerParent4.constant = topBannerHeight
-                    }
+                    self.vwTopBannerParent.addSubview(topBanner)
+                    self.consHeightTopBannerParent.constant = topBannerHeight
                 }
             }
         }
