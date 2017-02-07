@@ -67,10 +67,10 @@
                     </constraints>
                 </view>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jcg-22-ipU">
-                    <rect key="frame" x="2" y="2" width="186.5" height="663"/>
+                    <rect key="frame" x="2" y="2" width="187" height="663"/>
                 </imageView>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TmP-Ua-lxf">
-                    <rect key="frame" x="190.5" y="2" width="182.5" height="663"/>
+                    <rect key="frame" x="191" y="2" width="182" height="663"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -130,13 +130,13 @@
                     </constraints>
                 </view>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cpH-Me-DGE">
-                    <rect key="frame" x="2" y="2" width="186.5" height="663"/>
+                    <rect key="frame" x="2" y="2" width="187" height="663"/>
                 </imageView>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="v4S-iA-VX3">
-                    <rect key="frame" x="190.5" y="2" width="182.5" height="330.5"/>
+                    <rect key="frame" x="191" y="2" width="182" height="331"/>
                 </imageView>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nv7-2b-2Nb">
-                    <rect key="frame" x="190.5" y="334.5" width="182.5" height="330.5"/>
+                    <rect key="frame" x="191" y="335" width="182" height="330"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -195,16 +195,16 @@
                     </constraints>
                 </view>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DjO-WG-G55">
-                    <rect key="frame" x="2" y="2" width="186.5" height="663"/>
+                    <rect key="frame" x="2" y="2" width="187" height="663"/>
                 </imageView>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1fz-rn-OlC">
-                    <rect key="frame" x="190.5" y="2" width="182.5" height="331"/>
+                    <rect key="frame" x="191" y="2" width="182" height="331"/>
                 </imageView>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jz5-iW-Vbg">
                     <rect key="frame" x="283" y="334" width="90" height="331"/>
                 </imageView>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lfZ-mK-gYH">
-                    <rect key="frame" x="190.5" y="335" width="90.5" height="330"/>
+                    <rect key="frame" x="191" y="335" width="90" height="330"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -266,7 +266,7 @@
                     </constraints>
                 </view>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Bw3-55-sl6">
-                    <rect key="frame" x="2" y="2" width="186.5" height="663"/>
+                    <rect key="frame" x="2" y="2" width="187" height="663"/>
                 </imageView>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Hg2-Dg-gOT">
                     <rect key="frame" x="281" y="2" width="92" height="331"/>
@@ -275,10 +275,10 @@
                     <rect key="frame" x="281" y="335" width="92" height="330"/>
                 </imageView>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LVj-J5-Du8">
-                    <rect key="frame" x="190.5" y="335" width="88.5" height="330"/>
+                    <rect key="frame" x="191" y="335" width="88" height="330"/>
                 </imageView>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9ld-Te-d4G">
-                    <rect key="frame" x="190.5" y="2" width="88.5" height="331"/>
+                    <rect key="frame" x="191" y="2" width="88" height="331"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
