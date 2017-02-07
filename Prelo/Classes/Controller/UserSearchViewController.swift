@@ -83,7 +83,7 @@ class UserSearchViewController: BaseViewController, UITableViewDataSource, UITab
         
         c.captionFullname.text = s.fullname
         c.captionUsername.text = s.username
-        c.iv.afSetImage(withURL: URL(string : s.pict)!)
+        c.iv.afSetImage(withURL: URL(string : s.pict)!, withFilter: "circle")
         
         c.decorate()
         

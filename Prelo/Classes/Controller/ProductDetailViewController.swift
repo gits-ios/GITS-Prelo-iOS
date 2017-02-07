@@ -281,7 +281,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         {
             return
         }
-        pDetailCover = ProductDetailCover.instance((detail?.displayPicturers)!, status: (detail?.status)!, topBannerText: (detail?.rejectionText), isFakeApprove: (detail?.isFakeApprove)!, isFakeApproveV2: (detail?.isFakeApproveV2)!)
+        pDetailCover = ProductDetailCover.instance((detail?.displayPicturers)!, status: (detail?.status)!, topBannerText: (detail?.rejectionText), isFakeApprove: (detail?.isFakeApprove)!, isFakeApproveV2: (detail?.isFakeApproveV2)!, width: UIScreen.main.bounds.size.width)
         pDetailCover?.parent = self
         pDetailCover?.largeImageURLS = (detail?.originalPicturers)!
         if let isFeatured = self.product?.isFeatured , isFeatured {
@@ -1634,7 +1634,7 @@ class ProductCellSeller : UITableViewCell
             }
         }
 
-        ivSellerAvatar?.afSetImage(withURL: (obj?.shopAvatarURL)!)
+        ivSellerAvatar?.afSetImage(withURL: (obj?.shopAvatarURL)!, withFilter: "circle")
     }
     
     override func awakeFromNib() {
@@ -1952,7 +1952,7 @@ class ProductCellDiscussion : UITableViewCell
             captionMessage?.textColor = UIColor.darkGray
         }
         captionName?.text = json["sender_username"].string!
-        ivCover?.afSetImage(withURL: (obj?.posterImageURL)!)
+        ivCover?.afSetImage(withURL: (obj?.posterImageURL)!, withFilter: "circle")
         
         if (User.IsLoggedIn) {
             consWidthBtnReport.constant = 25

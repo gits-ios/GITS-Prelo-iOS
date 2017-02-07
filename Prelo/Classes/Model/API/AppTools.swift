@@ -272,6 +272,19 @@ extension UIImage {
         }
         return self
     }
+    
+    func correctlyOrientedImage() -> UIImage {
+//        if self.imageOrientation == UIImageOrientation.up {
+//            return self
+//        }
+        
+        UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
+        self.draw(in: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
+        let normalizedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!;
+        UIGraphicsEndImageContext();
+        
+        return normalizedImage;
+    }
 }
 
 extension UIImageView {
@@ -306,10 +319,72 @@ extension UIImageView {
         downloadedFrom(url: url, contentMode: mode)
     }
     
+    // default fill
     func afSetImage(withURL: URL) {
-        self.af_setImage(withURL: withURL)        
+//        self.af_setImage(withURL: withURL)
+        
 //        let placeholderImage = UIImage(named: "raisa.jpg")!
 //        self.af_setImage(withURL: withURL, placeholderImage: placeholderImage)
+        
+        // default fill
+        let filter = AspectScaledToFillSizeFilter(
+            size: self.frame.size
+        )
+        
+        self.af_setImage(
+            withURL: withURL,
+            filter: filter,
+            imageTransition: .crossDissolve(0.3)
+        )
+        
+    }
+    
+    func afSetImage(withURL: URL, withFilter: String) {
+        
+        if withFilter == "fit" {
+            let filter = AspectScaledToFitSizeFilter(
+                size: self.frame.size
+            )
+            
+            self.af_setImage(
+                withURL: withURL,
+                filter: filter,
+                imageTransition: .crossDissolve(0.3)
+            )
+        }
+        
+        else if withFilter == "circle" {
+            let filter = AspectScaledToFillSizeCircleFilter(
+                size: self.frame.size
+            )
+            
+            self.af_setImage(
+                withURL: withURL,
+                filter: filter,
+                imageTransition: .crossDissolve(0.3)
+            )
+        }
+        
+        else if withFilter == "none" {
+            
+            self.af_setImage(
+                withURL: withURL,
+                imageTransition: .crossDissolve(0.3)
+            )
+        }
+        
+            // default fill
+        else {
+            let filter = AspectScaledToFillSizeFilter(
+                size: self.frame.size
+            )
+            
+            self.af_setImage(
+                withURL: withURL,
+                filter: filter,
+                imageTransition: .crossDissolve(0.3)
+            )
+        }
     }
 }
 

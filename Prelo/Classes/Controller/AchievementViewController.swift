@@ -74,7 +74,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
             tableView.tableFooterView = UIView()
             
             //TOP, LEFT, BOTTOM, RIGHT
-            let inset = UIEdgeInsetsMake(5, 0, 5, 0)
+            let inset = UIEdgeInsetsMake(4, 0, 4, 0)
             tableView.contentInset = inset
             
             tableView.separatorStyle = .none
@@ -234,14 +234,14 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
             cell.backgroundColor = UIColor(hex: "E5E9EB")
             cell.clipsToBounds = true
             
-            let lblButton = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.width - 10, height: 40))
+            let lblButton = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.width - 8, height: 40))
             
             lblButton.text = "BACA LEBIH LANJUT"
             lblButton.textColor = Theme.PrimaryColor
             lblButton.backgroundColor = UIColor.clear
             lblButton.textAlignment = .center
             
-            let vwBorder = UIView(frame: CGRect(x: 5, y: 5, width: tableView.width - 10, height: 40))
+            let vwBorder = UIView(frame: CGRect(x: 4, y: 4, width: tableView.width - 8, height: 40))
             
             vwBorder.backgroundColor = UIColor.white
             
@@ -369,7 +369,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
         self.imgAchivement?.layer.cornerRadius = (self.imgAchivement?.width ?? 0) / 2
         self.imgAchivement?.layer.masksToBounds = true
         
-        self.imgAchivement?.afSetImage(withURL: achievementUnlocked.icon!)
+        self.imgAchivement?.afSetImage(withURL: achievementUnlocked.icon!, withFilter: "circle")
         
         self.lblAchievement.text = achievementUnlocked.name
         self.lblDescription.text = achievementUnlocked.desc
@@ -493,7 +493,7 @@ class AchievementCelliOS9xx: UITableViewCell { // height 75 ++
         self.badgeImage?.layer.cornerRadius = (self.badgeImage?.width ?? 0) / 2
         self.badgeImage?.layer.masksToBounds = true
         
-        self.badgeImage?.afSetImage(withURL: achievement.icon!)
+        self.badgeImage?.afSetImage(withURL: achievement.icon!, withFilter: "circle")
         
         self.lblTitke.text = achievement.name
         
@@ -551,7 +551,7 @@ class AchievementCellBadgeCell: UITableViewCell { // height 30
         self.tierImage?.layer.cornerRadius = (self.tierImage?.width ?? 0) / 2
         self.tierImage?.layer.masksToBounds = true
         // local image
-        self.tierImage?.afSetImage(withURL: tier.icon!)
+        self.tierImage?.afSetImage(withURL: tier.icon!, withFilter: "circle")
         
         self.lblTierName.text = tier.name
         self.lblTierName.textColor = (tier.isAchieved ? Theme.GrayDark : Theme.GrayLight)
