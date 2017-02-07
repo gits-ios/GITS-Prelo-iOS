@@ -625,8 +625,8 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         let cell = collcTrxProgress.dequeueReusableCell(withReuseIdentifier: "collcTrxProgressCell", for: indexPath) 
         
         // Create icon view
-        let vwIcon : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
-        vwIcon.layer.cornerRadius = (vwIcon.frame.size.width) / 2
+        let vwIcon : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+//        vwIcon.layer.cornerRadius = 12
         
         // Set background color
         let idx = (indexPath as NSIndexPath).row + 1
@@ -735,19 +735,20 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         }
         if (imgName != nil) {
             if let imgIcon = UIImage(named: imgName!) {
-                let imgVwIcon : UIImageView = UIImageView(frame: CGRect(x: 5, y: 5, width: 15, height: 15), image: imgIcon)
+                let imgVwIcon : UIImageView = UIImageView(frame: CGRect(x: 4, y: 4, width: 16, height: 16), image: imgIcon)
                 vwIcon.addSubview(imgVwIcon)
             }
         }
         
         // Add view to cell
+        cell.createBordersWithColor(UIColor.clear, radius: cell.width/2, width: 0)
         cell.addSubview(vwIcon)
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 25, height: 25)
+        return CGSize(width: 24, height: 24)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

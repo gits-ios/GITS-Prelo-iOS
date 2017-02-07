@@ -35,7 +35,7 @@ class ProductDetailCover: UIView {
     var topBannerHeight : CGFloat = 0
     
     
-    fileprivate func setup(_ images : Array<String>)
+    fileprivate func setup(_ images : Array<String>, width: CGFloat, height: CGFloat)
     {
         imageURLS = images
         for i in 0...images.count
@@ -62,6 +62,47 @@ class ProductDetailCover: UIView {
             iv?.tag = i
             iv?.isUserInteractionEnabled = true
             iv?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ProductDetailCover.tapped(_:))))
+            
+            
+            // set frame size
+            if (i == 0) {
+                if images.count == 1 {
+                    iv?.width = width - 4
+                    iv?.height = height - 4
+                } else {
+                    iv?.width = width/2 - 6
+                    iv?.height = height - 4
+                }
+            }
+            
+            else if (i == 1) {
+                if images.count == 2 {
+                    iv?.width = width/2 - 6
+                    iv?.height = height - 4
+                } else if images.count == 5 {
+                    iv?.width = (width/2)/2 - 8
+                    iv?.height = height/2 - 6
+                } else {
+                    iv?.width = width/2 - 6
+                    iv?.height = height/2 - 6
+                }
+            }
+            
+            else if (i == 2) {
+                if images.count == 3 {
+                    iv?.width = width/2 - 6
+                    iv?.height = height/2 - 6
+                } else {
+                    iv?.width = (width/2)/2 - 8
+                    iv?.height = height/2 - 6
+                }
+            }
+            
+            else {
+                iv?.width = (width/2)/2 - 8
+                iv?.height = height/2 - 6
+            }
+            
             iv?.afSetImage(withURL: URL(string: images.objectAtCircleIndex(i))!)
         }
         
@@ -157,7 +198,7 @@ class ProductDetailCover: UIView {
     }
     */
     
-    class func instance(_ images : Array<String>, status: Int, topBannerText : String?, isFakeApprove: Bool, isFakeApproveV2: Bool)->ProductDetailCover?
+    class func instance(_ images : Array<String>, status: Int, topBannerText : String?, isFakeApprove: Bool, isFakeApproveV2: Bool, width: CGFloat)->ProductDetailCover?
     {
         var p : ProductDetailCover?
         if (images.count == 1) {
@@ -172,6 +213,10 @@ class ProductDetailCover: UIView {
             p = Bundle.main.loadNibNamed("ProductDetailCover", owner: nil, options: nil)?.objectAtCircleIndex(4) as? ProductDetailCover
         }
         
+        let height = width * 17 / 24
+        
+        p?.frame = CGRect(x: 0, y: 0, width: width, height: height)
+        
         p?.isFakeApprove = isFakeApprove
         p?.isFakeApproveV2 = isFakeApproveV2
         
@@ -179,7 +224,7 @@ class ProductDetailCover: UIView {
         
         p?.topBannerText = topBannerText
         
-        p?.setup(images)
+        p?.setup(images, width: width, height: height)
         
         return p
     }
@@ -219,7 +264,7 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
             let s = UIScrollView(frame : (scrollView?.bounds)!)
             let iv = UIImageView(frame : s.bounds)
             iv.contentMode = UIViewContentMode.scaleAspectFit
-            iv.afSetImage(withURL: URL(string: i)!)
+            iv.afSetImage(withURL: URL(string: i)!, withFilter: "fit")
             iv.tag = 1
             s.addSubview(iv)
             s.x = x

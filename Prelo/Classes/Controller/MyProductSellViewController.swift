@@ -30,6 +30,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     
     var localProducts : Array<CDDraftProduct> = []
     
+    var localProductPrimaryImages: Array<UIImage> = []
+    
 //    var delegate: MyProductDelegate?
     
     override func viewDidLoad() {
@@ -82,14 +84,14 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         
         if (!first)
         {
-            //self.refresh(0 as AnyObject, isSearchMode: false)
+            self.refresh(0 as AnyObject, isSearchMode: false)
         }
         
         first = false
         
 //        if (self.delegate?.getFromDraftOrNew())!
 //        {
-            self.refresh(0 as AnyObject, isSearchMode: false)
+//            self.refresh(0 as AnyObject, isSearchMode: false)
 //        }
         
 //        self.delegate?.setFromDraftOrNew(false)
@@ -207,6 +209,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     
     func getLocalProducts() {
         localProducts = CDDraftProduct.getAllIsDraft()
+        localProductPrimaryImages = []
     }
     
     func refresh(_ sender: AnyObject, isSearchMode : Bool) {
@@ -251,7 +254,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         let cell : TransactionListCell = self.tableView.dequeueReusableCell(withIdentifier: "TransactionListCell") as! TransactionListCell
         if (!refreshControl.isRefreshing) {
             if (indexPath as NSIndexPath).section == 0 {
-                let p = localProducts[(indexPath as NSIndexPath).row]
+                let idx = (indexPath as NSIndexPath).row
+                let p = localProducts[idx]
                 
                 cell.lblProductName.text = p.name
                 cell.lblPrice.text = p.price.int.asPrice
@@ -259,13 +263,21 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 
                 cell.imgProduct.image = nil
                 
-                if let data = NSData(contentsOfFile: p.imagePath1){
-                    if let imageUrl = UIImage(data: data as Data) {
-                        let img = UIImage(cgImage: imageUrl.cgImage!, scale: 1.0, orientation: UIImageOrientation(rawValue: p.imageOrientation1 as Int)!)
-                        cell.imgProduct.image = img
+                if localProductPrimaryImages.count <= idx {
+                    var image : UIImage?
+                    if let data = NSData(contentsOfFile: p.imagePath1){
+                        if let imageUrl = UIImage(data: data as Data) {
+                            let img = UIImage(cgImage: imageUrl.cgImage!, scale: 1, orientation: UIImageOrientation(rawValue: p.imageOrientation1 as Int)!).resizeWithWidth(120)
+                            image = img
+                        }
+                    } else {
+                        image = UIImage(named: "raisa.jpg")?.resizeWithWidth(120)
                     }
+                    
+                    localProductPrimaryImages.append(image!)
+                    cell.imgProduct.image = image!
                 } else {
-                    cell.imgProduct.image = UIImage(named: "raisa.jpg")
+                    cell.imgProduct.image = localProductPrimaryImages[idx]
                 }
                 
                 cell.lblOrderStatus.text = "DRAFT"

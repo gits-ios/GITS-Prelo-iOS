@@ -18,7 +18,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8u3-jv-CAr" userLabel="Vw Border">
-                        <rect key="frame" x="5" y="0.0" width="365" height="64"/>
+                        <rect key="frame" x="4" y="0.0" width="367" height="64"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ps5-jv-YBG">
@@ -31,12 +31,12 @@
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="ps5-jv-YBG" secondAttribute="bottom" id="0l8-dA-8gf"/>
                     <constraint firstItem="ps5-jv-YBG" firstAttribute="leading" secondItem="kUM-ZJ-p4I" secondAttribute="leading" constant="21" id="7bu-8t-sPs"/>
-                    <constraint firstAttribute="trailing" secondItem="8u3-jv-CAr" secondAttribute="trailing" constant="5" id="DwW-8M-2cf"/>
+                    <constraint firstAttribute="trailing" secondItem="8u3-jv-CAr" secondAttribute="trailing" constant="4" id="DwW-8M-2cf"/>
                     <constraint firstItem="8u3-jv-CAr" firstAttribute="top" secondItem="kUM-ZJ-p4I" secondAttribute="top" id="E32-KS-qTk"/>
                     <constraint firstAttribute="trailing" secondItem="ps5-jv-YBG" secondAttribute="trailing" constant="21" id="GUY-1O-abf"/>
                     <constraint firstItem="ps5-jv-YBG" firstAttribute="top" secondItem="kUM-ZJ-p4I" secondAttribute="top" id="IEn-KE-ztW"/>
                     <constraint firstAttribute="bottom" secondItem="8u3-jv-CAr" secondAttribute="bottom" id="XWG-VW-xhR"/>
-                    <constraint firstItem="8u3-jv-CAr" firstAttribute="leading" secondItem="kUM-ZJ-p4I" secondAttribute="leading" constant="5" id="g4A-1q-8AU"/>
+                    <constraint firstItem="8u3-jv-CAr" firstAttribute="leading" secondItem="kUM-ZJ-p4I" secondAttribute="leading" constant="4" id="g4A-1q-8AU"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

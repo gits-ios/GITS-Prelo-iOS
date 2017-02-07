@@ -297,7 +297,7 @@ class ShopAchievementCell : UITableViewCell {
     }
     
     func adapt(_ userAchievement : UserAchievement) {
-        imgBadge.afSetImage(withURL: userAchievement.icon!)
+        imgBadge.afSetImage(withURL: userAchievement.icon!, withFilter: "circle")
         imgBadge.layoutIfNeeded()
         imgBadge.layer.masksToBounds = true
         imgBadge.layer.cornerRadius = (imgBadge.frame.size.width) / 2

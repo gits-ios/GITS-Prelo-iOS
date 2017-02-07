@@ -659,7 +659,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
 //                }
                 let avatarThumbnail = json["profile"]["pict"].stringValue
                 self.shopAvatar = URL(string: avatarThumbnail)!
-                self.shopHeader?.avatar.afSetImage(withURL: self.shopAvatar!)
+                self.shopHeader?.avatar.afSetImage(withURL: self.shopAvatar!, withFilter: "circle")
                 let avatarFull = avatarThumbnail.replacingOccurrences(of: "thumbnails/", with: "", options: NSString.CompareOptions.literal, range: nil)
                 self.shopHeader?.avatarUrls.append(avatarFull)
                 
@@ -1989,9 +1989,9 @@ class ListItemCell : UICollectionViewCell {
             sectionSpecialStory.isHidden = false
             captionSpecialStory.text = "\"\(product.specialStory!)\""
             if let url = product.avatar {
-                avatar.afSetImage(withURL: url)
+                avatar.afSetImage(withURL: url, withFilter: "circle")
             } else if currentMode == .shop || currentMode == .newShop {
-                avatar.afSetImage(withURL: shopAvatar!)
+                avatar.afSetImage(withURL: shopAvatar!, withFilter: "circle")
             } else {
                 avatar.image = nil
             }
@@ -2280,7 +2280,7 @@ class StoreHeader : UIView, UICollectionViewDataSource, UICollectionViewDelegate
             img.layoutIfNeeded()
             img.layer.cornerRadius = (img.width ) / 2
             img.layer.masksToBounds = true
-            img.afSetImage(withURL: badges[(indexPath as NSIndexPath).row])
+            img.afSetImage(withURL: badges[(indexPath as NSIndexPath).row], withFilter: "circle")
             
             vwIcon.addSubview(img)
             

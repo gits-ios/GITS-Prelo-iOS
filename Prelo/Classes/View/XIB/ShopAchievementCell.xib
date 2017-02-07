@@ -18,7 +18,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ge8-lI-LE0" userLabel="Vw Border">
-                        <rect key="frame" x="5" y="5" width="365" height="116.5"/>
+                        <rect key="frame" x="4" y="4" width="367" height="117.5"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4Vs-p4-IkO">
                                 <rect key="frame" x="8" y="8" width="54" height="54"/>
@@ -28,7 +28,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The Inspector (level B)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vrB-HW-Cuj">
-                                <rect key="frame" x="70" y="8" width="287" height="54"/>
+                                <rect key="frame" x="70" y="8" width="289" height="54"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="54" id="EWq-G5-Q7r"/>
                                 </constraints>
@@ -37,7 +37,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seller pernah melaporkan barang di Prelo sudah terbukti palsu (KW) sebanyak 3 kali." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GW1-Oe-wvm">
-                                <rect key="frame" x="13" y="70" width="339" height="39"/>
+                                <rect key="frame" x="13" y="70" width="341" height="40"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -58,9 +58,9 @@
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="Ge8-lI-LE0" secondAttribute="trailing" constant="5" id="IEJ-bY-gQa"/>
-                    <constraint firstItem="Ge8-lI-LE0" firstAttribute="leading" secondItem="x1p-u5-3Br" secondAttribute="leading" constant="5" id="aa5-Kz-VE2"/>
-                    <constraint firstItem="Ge8-lI-LE0" firstAttribute="top" secondItem="x1p-u5-3Br" secondAttribute="top" constant="5" id="hzA-pw-v1l"/>
+                    <constraint firstAttribute="trailing" secondItem="Ge8-lI-LE0" secondAttribute="trailing" constant="4" id="IEJ-bY-gQa"/>
+                    <constraint firstItem="Ge8-lI-LE0" firstAttribute="leading" secondItem="x1p-u5-3Br" secondAttribute="leading" constant="4" id="aa5-Kz-VE2"/>
+                    <constraint firstItem="Ge8-lI-LE0" firstAttribute="top" secondItem="x1p-u5-3Br" secondAttribute="top" constant="4" id="hzA-pw-v1l"/>
                     <constraint firstAttribute="bottom" secondItem="Ge8-lI-LE0" secondAttribute="bottom" id="iR4-xS-qkR"/>
                 </constraints>
             </tableViewCellContentView>

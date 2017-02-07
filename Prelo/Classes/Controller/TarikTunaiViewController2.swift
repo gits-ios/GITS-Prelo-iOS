@@ -38,7 +38,7 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
     @IBOutlet weak var consHeightVwWJP: NSLayoutConstraint! // 178 --> [67 104 height table row + 36] 0
     @IBOutlet weak var consHeightSection1: NSLayoutConstraint! // 67 --> 0
     @IBOutlet weak var consHeightSection2: NSLayoutConstraint! // 104 --> 0
-    @IBOutlet weak var consHeightSeparator3: NSLayoutConstraint! // 7 --> 0
+    @IBOutlet weak var consHeightSeparator3: NSLayoutConstraint! // 4 --> 0
     
     // for wjp -- pop up
     @IBOutlet weak var vwBackgroundOverlay: UIView! // hidden
@@ -47,7 +47,7 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
     @IBOutlet weak var consCenteryPopUp: NSLayoutConstraint! // align center y --> 603 [window height] -> 0
     @IBOutlet weak var vwPopUp: UIView!
     
-    var initHeight = CGFloat(0) // 67 + 104 + height table row + 36 + 7
+    var initHeight = CGFloat(0) // 67 + 104 + height table row + 36 + 4
     
     var viewSetupPassword : SetupPasswordPopUp? // TarikTunaiController.swift
     var viewShadow : UIView?
@@ -219,8 +219,8 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
                     
                     self.consHeightVwWJP.constant = self.consHeightSection1.constant + self.consHeightSection2.constant
                     if  self.consHeightVwWJP.constant != 0 {
-                        self.consHeightVwWJP.constant += 7
-                        self.consHeightSeparator3.constant = 7
+                        self.consHeightVwWJP.constant += 4
+                        self.consHeightSeparator3.constant = 4
                     }
                     self.initHeight = self.consHeightVwWJP.constant
                     

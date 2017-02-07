@@ -59,7 +59,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     var isFirst : Bool = true
     var curTop : CGFloat = 0
     var isOnTop : Bool = false
-    var isLeft : Bool = false
+//    var isLeft : Bool = false
     
     var curIndex = 0
     
@@ -160,7 +160,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         
-        self.isLeft = true
+//        self.isLeft = true
     }
     
     override func backPressed(_ sender: UIBarButtonItem) {
@@ -358,11 +358,11 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
                 self.vwHeaderTabBar.frame = curView
                 
                 var cur2View = self.vwNavBar.frame
-                cur2View.origin.y = 170
+                cur2View.origin.y = 170 + 64
                 self.vwNavBar.frame = cur2View
                 
                 var cur3View = self.vwChild.frame
-                cur3View.origin.y = 215
+                cur3View.origin.y = 215 + 64
                 self.vwChild.frame = cur3View
                 
                 var cur4View = self.dashboardCover.frame
@@ -376,7 +376,9 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
             })
             
             // inject center (fixer)
-            self.consTopVw.constant = 0
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                self.consTopVw.constant = 0
+            })
         }
     }
     
@@ -394,11 +396,11 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
             
             
             var margin = CGFloat(0)
-            if self.isLeft {
-                
+//            if self.isLeft {
+            
                 // navbar
                 margin = 64
-            }
+//            }
             
             // 1
             let placeSelectionBar = { () -> () in
@@ -442,7 +444,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         self.shopName.text = json["username"].stringValue
         let avatarThumbnail = json["profile"]["pict"].stringValue
         let shopAvatar = URL(string: avatarThumbnail)!
-        self.shopAvatar.afSetImage(withURL: shopAvatar)
+        self.shopAvatar.afSetImage(withURL: shopAvatar, withFilter: "circle")
         let avatarFull = avatarThumbnail.replacingOccurrences(of: "thumbnails/", with: "", options: NSString.CompareOptions.literal, range: nil)
         self.avatarUrls.append(avatarFull)
         
@@ -558,7 +560,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         img.layoutIfNeeded()
         img.layer.cornerRadius = (img.width ) / 2
         img.layer.masksToBounds = true
-        img.afSetImage(withURL: badges[(indexPath as NSIndexPath).row])
+        img.afSetImage(withURL: badges[(indexPath as NSIndexPath).row], withFilter: "circle")
         
         vwIcon.addSubview(img)
         
