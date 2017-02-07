@@ -356,7 +356,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     let o = arr[i]
                     if let s = o as? String
                     {
-                        imageViews[i].afSetImage(withURL: URL(string: s)!)
+                        imageViews[i].afSetImage(withURL: URL(string: s)!, withFilter: "none")
                     }
                 }
             }

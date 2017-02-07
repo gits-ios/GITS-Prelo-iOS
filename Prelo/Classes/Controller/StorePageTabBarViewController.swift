@@ -59,7 +59,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     var isFirst : Bool = true
     var curTop : CGFloat = 0
     var isOnTop : Bool = false
-    var isLeft : Bool = false
+//    var isLeft : Bool = false
     
     var curIndex = 0
     
@@ -160,7 +160,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         
-        self.isLeft = true
+//        self.isLeft = true
     }
     
     override func backPressed(_ sender: UIBarButtonItem) {
@@ -396,11 +396,11 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
             
             
             var margin = CGFloat(0)
-            if self.isLeft {
-                
+//            if self.isLeft {
+            
                 // navbar
                 margin = 64
-            }
+//            }
             
             // 1
             let placeSelectionBar = { () -> () in
