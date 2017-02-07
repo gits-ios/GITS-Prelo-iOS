@@ -152,7 +152,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             if (url != nil) {
                 self.imgUser.layoutIfNeeded()
                 self.imgUser.image = nil
-                self.imgUser.afSetImage(withURL: url!)
+                self.imgUser.afSetImage(withURL: url!, withFilter: "circle")
                 self.imgUser.layer.cornerRadius = (self.imgUser.frame.size.width)/2
                 self.imgUser.layer.masksToBounds = true
                 

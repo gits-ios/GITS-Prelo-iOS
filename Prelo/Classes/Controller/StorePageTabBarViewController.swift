@@ -442,7 +442,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         self.shopName.text = json["username"].stringValue
         let avatarThumbnail = json["profile"]["pict"].stringValue
         let shopAvatar = URL(string: avatarThumbnail)!
-        self.shopAvatar.afSetImage(withURL: shopAvatar)
+        self.shopAvatar.afSetImage(withURL: shopAvatar, withFilter: "circle")
         let avatarFull = avatarThumbnail.replacingOccurrences(of: "thumbnails/", with: "", options: NSString.CompareOptions.literal, range: nil)
         self.avatarUrls.append(avatarFull)
         
@@ -558,7 +558,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         img.layoutIfNeeded()
         img.layer.cornerRadius = (img.width ) / 2
         img.layer.masksToBounds = true
-        img.afSetImage(withURL: badges[(indexPath as NSIndexPath).row])
+        img.afSetImage(withURL: badges[(indexPath as NSIndexPath).row], withFilter: "circle")
         
         vwIcon.addSubview(img)
         

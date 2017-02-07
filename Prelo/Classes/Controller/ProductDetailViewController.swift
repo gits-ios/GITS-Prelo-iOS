@@ -1634,7 +1634,7 @@ class ProductCellSeller : UITableViewCell
             }
         }
 
-        ivSellerAvatar?.afSetImage(withURL: (obj?.shopAvatarURL)!)
+        ivSellerAvatar?.afSetImage(withURL: (obj?.shopAvatarURL)!, withFilter: "circle")
     }
     
     override func awakeFromNib() {
@@ -1952,7 +1952,7 @@ class ProductCellDiscussion : UITableViewCell
             captionMessage?.textColor = UIColor.darkGray
         }
         captionName?.text = json["sender_username"].string!
-        ivCover?.afSetImage(withURL: (obj?.posterImageURL)!)
+        ivCover?.afSetImage(withURL: (obj?.posterImageURL)!, withFilter: "circle")
         
         if (User.IsLoggedIn) {
             consWidthBtnReport.constant = 25
