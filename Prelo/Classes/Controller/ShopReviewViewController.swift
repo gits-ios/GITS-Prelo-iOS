@@ -386,7 +386,7 @@ class ShopReviewCell : UITableViewCell {
     }
     
     func adapt(_ userReview : UserReview) {
-        imgBuyer.afSetImage(withURL: userReview.buyerPictURL!)
+        imgBuyer.afSetImage(withURL: userReview.buyerPictURL!, withFilter: "circle")
         imgBuyer.layoutIfNeeded()
         imgBuyer.layer.masksToBounds = true
         imgBuyer.layer.cornerRadius = (imgBuyer.frame.size.width) / 2

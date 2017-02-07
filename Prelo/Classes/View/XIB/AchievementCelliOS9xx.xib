@@ -24,7 +24,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qUs-M2-cm3">
-                        <rect key="frame" x="5" y="5" width="365" height="78.5"/>
+                        <rect key="frame" x="4" y="4" width="367" height="79.5"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eT5-l1-8Ms">
@@ -86,7 +86,7 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="qUs-M2-cm3" secondAttribute="trailing" constant="5" id="2zD-Bf-aU6"/>
+                    <constraint firstAttribute="trailing" secondItem="qUs-M2-cm3" secondAttribute="trailing" constant="4" id="2zD-Bf-aU6"/>
                     <constraint firstItem="Oao-1m-LFJ" firstAttribute="leading" secondItem="eT5-l1-8Ms" secondAttribute="trailing" constant="8" id="54l-fz-mQU"/>
                     <constraint firstItem="eT5-l1-8Ms" firstAttribute="leading" secondItem="Tu9-jI-n19" secondAttribute="leadingMargin" constant="5" id="CdJ-qk-SWR"/>
                     <constraint firstItem="Irf-oq-kxh" firstAttribute="leading" secondItem="eT5-l1-8Ms" secondAttribute="trailing" constant="8" id="Nod-7p-Q4U"/>
@@ -94,11 +94,11 @@
                     <constraint firstAttribute="trailingMargin" secondItem="eBL-9x-Wbe" secondAttribute="trailing" constant="5" id="WIi-kJ-N0R"/>
                     <constraint firstItem="eBL-9x-Wbe" firstAttribute="leading" secondItem="Oao-1m-LFJ" secondAttribute="trailing" constant="8" id="XYv-sz-Wg0"/>
                     <constraint firstItem="eBL-9x-Wbe" firstAttribute="leading" secondItem="Irf-oq-kxh" secondAttribute="trailing" constant="8" id="Xg0-3v-bvD"/>
-                    <constraint firstItem="qUs-M2-cm3" firstAttribute="leading" secondItem="Tu9-jI-n19" secondAttribute="leading" constant="5" id="a8P-Bm-3ah"/>
+                    <constraint firstItem="qUs-M2-cm3" firstAttribute="leading" secondItem="Tu9-jI-n19" secondAttribute="leading" constant="4" id="a8P-Bm-3ah"/>
                     <constraint firstItem="eBL-9x-Wbe" firstAttribute="top" secondItem="Tu9-jI-n19" secondAttribute="topMargin" constant="25" id="lxB-uO-dbg"/>
                     <constraint firstItem="Oao-1m-LFJ" firstAttribute="top" secondItem="Tu9-jI-n19" secondAttribute="topMargin" constant="8" id="s69-uO-dPO"/>
                     <constraint firstItem="eT5-l1-8Ms" firstAttribute="top" secondItem="Tu9-jI-n19" secondAttribute="topMargin" constant="8" id="s7V-rE-Eg3"/>
-                    <constraint firstItem="qUs-M2-cm3" firstAttribute="top" secondItem="Tu9-jI-n19" secondAttribute="top" constant="5" id="vYR-ot-zGB"/>
+                    <constraint firstItem="qUs-M2-cm3" firstAttribute="top" secondItem="Tu9-jI-n19" secondAttribute="top" constant="4" id="vYR-ot-zGB"/>
                     <constraint firstItem="Irf-oq-kxh" firstAttribute="top" secondItem="Tu9-jI-n19" secondAttribute="topMargin" constant="8" id="wOC-vj-mve"/>
                 </constraints>
             </tableViewCellContentView>

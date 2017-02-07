@@ -563,7 +563,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             cell.decor()
             
             if (!m.isMe) {
-                cell.avatar?.afSetImage(withURL: tawarItem.theirImage)
+                cell.avatar?.afSetImage(withURL: tawarItem.theirImage, withFilter: "circle")
             }
             
             cell.toShopPage = {
