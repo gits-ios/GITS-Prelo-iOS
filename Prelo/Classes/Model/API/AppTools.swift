@@ -328,62 +328,66 @@ extension UIImageView {
     
     // default fill
     func afSetImage(withURL: URL) {
-        let filter = AspectScaledToFillSizeFilter(
-            size: self.frame.size
-        )
+//        let filter = AspectScaledToFillSizeFilter(
+//            size: self.frame.size
+//        )
+//        
+//        self.af_setImage(
+//            withURL: withURL,
+//            filter: filter,
+//            imageTransition: .crossDissolve(0.3)
+//        )
         
-        self.af_setImage(
-            withURL: withURL,
-            filter: filter,
-            imageTransition: .crossDissolve(0.3)
-        )
+        self.sd_setImage(with: withURL, placeholderImage: nil, options: SDWebImageOptions.scaleDownLargeImages)
     }
     
     func afSetImage(withURL: URL, withFilter: String) {
-        if withFilter == "fit" {
-            let filter = AspectScaledToFitSizeFilter(
-                size: self.frame.size
-            )
-            
-            self.af_setImage(
-                withURL: withURL,
-                filter: filter,
-                imageTransition: .crossDissolve(0.3)
-            )
-        }
+//        if withFilter == "fit" {
+//            let filter = AspectScaledToFitSizeFilter(
+//                size: self.frame.size
+//            )
+//            
+//            self.af_setImage(
+//                withURL: withURL,
+//                filter: filter,
+//                imageTransition: .crossDissolve(0.3)
+//            )
+//        }
+//        
+//        else if withFilter == "circle" {
+//            let filter = AspectScaledToFillSizeCircleFilter(
+//                size: self.frame.size
+//            )
+//            
+//            self.af_setImage(
+//                withURL: withURL,
+//                filter: filter,
+//                imageTransition: .crossDissolve(0.3)
+//            )
+//        }
+//        
+//        else if withFilter == "none" {
+//            
+//            self.af_setImage(
+//                withURL: withURL,
+//                imageTransition: .crossDissolve(0.3)
+//            )
+//        }
+//        
+//        // default fill
+//        else {
+//            let filter = AspectScaledToFillSizeFilter(
+//                size: self.frame.size
+//            )
+//            
+//            self.af_setImage(
+//                withURL: withURL,
+//                filter: filter,
+//                imageTransition: .crossDissolve(0.3)
+//            )
+//        }
         
-        else if withFilter == "circle" {
-            let filter = AspectScaledToFillSizeCircleFilter(
-                size: self.frame.size
-            )
-            
-            self.af_setImage(
-                withURL: withURL,
-                filter: filter,
-                imageTransition: .crossDissolve(0.3)
-            )
-        }
-        
-        else if withFilter == "none" {
-            
-            self.af_setImage(
-                withURL: withURL,
-                imageTransition: .crossDissolve(0.3)
-            )
-        }
-        
-        // default fill
-        else {
-            let filter = AspectScaledToFillSizeFilter(
-                size: self.frame.size
-            )
-            
-            self.af_setImage(
-                withURL: withURL,
-                filter: filter,
-                imageTransition: .crossDissolve(0.3)
-            )
-        }
+        self.sd_setImage(with: withURL, placeholderImage: nil, options: SDWebImageOptions.scaleDownLargeImages)
     }
 }
 
