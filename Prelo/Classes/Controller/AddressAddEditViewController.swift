@@ -115,13 +115,13 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate {
     
     func setupLocation(_ isActive: Bool) {
         if isActive {
-            lblProvinsi.textColor = Theme.GrayDark
-            lblKotaKabupaten.textColor = Theme.GrayDark
-            lblKecamatan.textColor = Theme.GrayDark
+            lblProvinsi.textColor = UIColor.darkGray
+            lblKotaKabupaten.textColor = UIColor.darkGray
+            lblKecamatan.textColor = UIColor.darkGray
         } else {
-            lblProvinsi.textColor = Theme.GrayLight
-            lblKotaKabupaten.textColor = Theme.GrayLight
-            lblKecamatan.textColor = Theme.GrayLight
+            lblProvinsi.textColor = UIColor(hex: "C9C9CE")
+            lblKotaKabupaten.textColor = UIColor(hex: "C9C9CE")
+            lblKecamatan.textColor = UIColor(hex: "C9C9CE")
         }
     }
     
@@ -141,6 +141,10 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate {
         selectedProvinceId = address.provinceId
         selectedRegionId = address.regionId
         selectedSubdistrictId = address.subdisrictId
+        
+        if selectedSubdistrictId == "" {
+            lblKecamatan.textColor = UIColor(hex: "C9C9CE")
+        }
     }
     
     func validateField() -> Bool {
@@ -195,10 +199,12 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate {
         p?.pickerDelegate = self
         p?.selectBlock = { string in
             self.selectedProvinceId = PickerViewController.RevealHiddenString(string)
+            self.selectedRegionId = ""
+            self.selectedSubdistrictId = ""
             self.lblKotaKabupaten.text = "Pilih Kota/Kabupaten"
             self.lblKecamatan.text = "Pilih Kecamatan"
-            self.lblKotaKabupaten.textColor = Theme.GrayLight
-            self.lblKecamatan.textColor = Theme.GrayLight
+            self.lblKotaKabupaten.textColor = UIColor(hex: "C9C9CE")
+            self.lblKecamatan.textColor = UIColor(hex: "C9C9CE")
         }
         p?.title = "Provinsi"
         self.view.endEditing(true)
@@ -216,8 +222,9 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate {
             p?.pickerDelegate = self
             p?.selectBlock = { string in
                 self.selectedRegionId = PickerViewController.RevealHiddenString(string)
+                self.selectedSubdistrictId = ""
                 self.lblKecamatan.text = "Pilih Kecamatan"
-                self.lblKecamatan.textColor = Theme.GrayLight
+                self.lblKecamatan.textColor = UIColor(hex: "C9C9CE")
             }
             p?.title = "Kota/Kabupaten"
             self.view.endEditing(true)
@@ -291,16 +298,16 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate {
     func pickerDidSelect(_ item: String) {
         if (isPickingProvinsi) {
             lblProvinsi?.text = PickerViewController.HideHiddenString(item)
-            lblProvinsi.textColor = Theme.GrayDark
+            lblProvinsi.textColor = UIColor.darkGray
             isPickingProvinsi = false
         } else if (isPickingKabKota) {
             lblKotaKabupaten?.text = PickerViewController.HideHiddenString(item)
-            lblKotaKabupaten.textColor = Theme.GrayDark
+            lblKotaKabupaten.textColor = UIColor.darkGray
             isPickingKabKota = false
             kecamatanPickerItems = []
         } else if (isPickingKecamatan) {
             lblKecamatan?.text = PickerViewController.HideHiddenString(item)
-            lblKecamatan.textColor = Theme.GrayDark
+            lblKecamatan.textColor = UIColor.darkGray
             isPickingKecamatan = false
         }
     }
