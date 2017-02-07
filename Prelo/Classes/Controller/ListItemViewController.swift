@@ -1687,10 +1687,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
 //            if (AppTools.isDev) {
 //                FBAdSettings.setLogLevel(FBAdLogLevel.log)
             
-//                var hashedIds : Array<String> = []
-//                hashedIds.append("b602d594afd2b0b327e07a06f36ca6a7e42546d0") // pw
-//                hashedIds.append("81c2cf31791f7f7513d28f30c48d4186ca00b11f") // nadine - ipad
-//                FBAdSettings.addTestDevices(hashedIds)
+                var hashedIds : Array<String> = []
+                hashedIds.append("b602d594afd2b0b327e07a06f36ca6a7e42546d0") // pw
+                hashedIds.append("81c2cf31791f7f7513d28f30c48d4186ca00b11f") // nadine - ipad
+                FBAdSettings.addTestDevices(hashedIds)
             
             
 //                FBAdSettings.setLogLevel(FBAdLogLevel.none)
