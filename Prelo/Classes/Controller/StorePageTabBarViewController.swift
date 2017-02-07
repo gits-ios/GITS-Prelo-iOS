@@ -358,11 +358,11 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
                 self.vwHeaderTabBar.frame = curView
                 
                 var cur2View = self.vwNavBar.frame
-                cur2View.origin.y = 170
+                cur2View.origin.y = 170 + 64
                 self.vwNavBar.frame = cur2View
                 
                 var cur3View = self.vwChild.frame
-                cur3View.origin.y = 215
+                cur3View.origin.y = 215 + 64
                 self.vwChild.frame = cur3View
                 
                 var cur4View = self.dashboardCover.frame
@@ -376,7 +376,9 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
             })
             
             // inject center (fixer)
-            self.consTopVw.constant = 0
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                self.consTopVw.constant = 0
+            })
         }
     }
     
