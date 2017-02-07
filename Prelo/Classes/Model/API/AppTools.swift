@@ -51,6 +51,8 @@ class AppTools: NSObject {
     }
     
     static let isOldShopWithBadges : Bool = false // set true kalau jadi bisa nampilin badge
+    
+    static var loadImageCounter: Int = 0
 }
 
 enum AppFont {
@@ -319,14 +321,13 @@ extension UIImageView {
         downloadedFrom(url: url, contentMode: mode)
     }
     
+    func sdSetImage(withURL: URL) {
+//        self.sd_setImage(with: withURL)
+        self.sd_setImage(with: withURL, placeholderImage: nil, options: SDWebImageOptions.scaleDownLargeImages)
+    }
+    
     // default fill
     func afSetImage(withURL: URL) {
-//        self.af_setImage(withURL: withURL)
-        
-//        let placeholderImage = UIImage(named: "raisa.jpg")!
-//        self.af_setImage(withURL: withURL, placeholderImage: placeholderImage)
-        
-        // default fill
         let filter = AspectScaledToFillSizeFilter(
             size: self.frame.size
         )
@@ -336,11 +337,9 @@ extension UIImageView {
             filter: filter,
             imageTransition: .crossDissolve(0.3)
         )
-        
     }
     
     func afSetImage(withURL: URL, withFilter: String) {
-        
         if withFilter == "fit" {
             let filter = AspectScaledToFitSizeFilter(
                 size: self.frame.size
@@ -373,7 +372,7 @@ extension UIImageView {
             )
         }
         
-            // default fill
+        // default fill
         else {
             let filter = AspectScaledToFillSizeFilter(
                 size: self.frame.size

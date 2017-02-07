@@ -43,5 +43,6 @@
 #import <ImageIO/ImageIO.h>
 #import "BFKit.h"
 //#import "Hotline.h"
+#import "UIImageView+WebCache.h"
 
 #endif
