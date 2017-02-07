@@ -54,10 +54,10 @@
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gC5-qo-qLz">
-                        <rect key="frame" x="72" y="0.0" width="260" height="73"/>
+                        <rect key="frame" x="76" y="0.0" width="256" height="73"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HFc-mN-0gu">
-                                <rect key="frame" x="0.0" y="8" width="122" height="20"/>
+                                <rect key="frame" x="0.0" y="8" width="118" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="bgy-To-a9f"/>
                                 </constraints>
@@ -66,7 +66,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CONV STATUS" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y3t-GN-bYF">
-                                <rect key="frame" x="130" y="8" width="130" height="20"/>
+                                <rect key="frame" x="126" y="8" width="130" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="9Qm-Fh-MFm"/>
                                     <constraint firstAttribute="width" constant="130" id="Z8o-dF-X9t"/>
@@ -76,7 +76,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Product Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="14d-DG-Men">
-                                <rect key="frame" x="0.0" y="28" width="127" height="16"/>
+                                <rect key="frame" x="0.0" y="28" width="123" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="16" id="XoS-RN-dvG"/>
                                     <constraint firstAttribute="width" constant="107" id="unm-KP-Pd4"/>
@@ -91,7 +91,7 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000 tahun lamanya" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qf5-mi-GH6">
-                                <rect key="frame" x="135" y="28" width="125" height="16"/>
+                                <rect key="frame" x="131" y="28" width="125" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="16" id="cVz-39-jNU"/>
                                     <constraint firstAttribute="width" constant="125" id="gyC-lX-DxE"/>
@@ -101,7 +101,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem ipsum dolor sit amet amet jabang bayi" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rIb-Ok-G9D">
-                                <rect key="frame" x="0.0" y="48" width="260" height="25"/>
+                                <rect key="frame" x="0.0" y="48" width="256" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="cRq-rd-g5h"/>
                                 </constraints>
@@ -129,7 +129,7 @@
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VNV-Wm-XDT">
-                        <rect key="frame" x="72" y="0.0" width="260" height="72"/>
+                        <rect key="frame" x="76" y="0.0" width="256" height="72"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Product Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m2l-lN-PlF">
                                 <rect key="frame" x="0.0" y="8" width="93" height="0.0"/>
@@ -147,7 +147,7 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem ipsum dolor sit amet  " lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FYy-Xo-MBV">
-                                <rect key="frame" x="0.0" y="12" width="260" height="36"/>
+                                <rect key="frame" x="0.0" y="12" width="256" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="0.52156862745098043" green="0.52156862745098043" blue="0.52156862745098043" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -176,16 +176,16 @@
                         </constraints>
                     </view>
                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g2D-Re-AOz" userLabel="Single Image">
-                        <rect key="frame" x="8" y="8" width="56" height="57.5"/>
+                        <rect key="frame" x="8" y="6" width="60" height="60"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="raisa.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="4w4-5K-NXh">
-                                <rect key="frame" x="0.0" y="0.0" width="56" height="57.5"/>
+                                <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="itE-bR-BVf" userLabel="Caption">
-                                <rect key="frame" x="0.0" y="40.5" width="56" height="17"/>
+                                <rect key="frame" x="0.0" y="43" width="60" height="17"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jual" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JNb-za-W2G">
-                                        <rect key="frame" x="0.0" y="0.0" width="56" height="17"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="60" height="17"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -193,7 +193,6 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="56" id="2bE-Nt-yPK"/>
                                     <constraint firstItem="JNb-za-W2G" firstAttribute="leading" secondItem="itE-bR-BVf" secondAttribute="leading" id="Djj-ro-JaK"/>
                                     <constraint firstItem="JNb-za-W2G" firstAttribute="top" secondItem="itE-bR-BVf" secondAttribute="top" id="Rng-iS-IWr"/>
                                     <constraint firstAttribute="trailing" secondItem="JNb-za-W2G" secondAttribute="trailing" id="VDh-gs-g96"/>
@@ -204,11 +203,12 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstAttribute="height" constant="60" id="1NG-dh-n0m"/>
                             <constraint firstItem="itE-bR-BVf" firstAttribute="leading" secondItem="g2D-Re-AOz" secondAttribute="leading" id="2jV-rc-zCy"/>
                             <constraint firstAttribute="trailing" secondItem="itE-bR-BVf" secondAttribute="trailing" id="GbI-mu-u08"/>
                             <constraint firstAttribute="bottom" secondItem="itE-bR-BVf" secondAttribute="bottom" id="NCj-z7-sEV"/>
                             <constraint firstItem="4w4-5K-NXh" firstAttribute="top" secondItem="g2D-Re-AOz" secondAttribute="top" id="aNw-Db-bVy"/>
-                            <constraint firstAttribute="width" constant="56" id="b5T-fs-fk8"/>
+                            <constraint firstAttribute="width" constant="60" id="b5T-fs-fk8"/>
                             <constraint firstItem="4w4-5K-NXh" firstAttribute="leading" secondItem="g2D-Re-AOz" secondAttribute="leading" id="e9y-Pg-nhQ"/>
                             <constraint firstAttribute="trailing" secondItem="4w4-5K-NXh" secondAttribute="trailing" id="hgc-8G-b17"/>
                             <constraint firstAttribute="bottom" secondItem="4w4-5K-NXh" secondAttribute="bottom" id="ibe-mc-gry"/>
@@ -217,8 +217,7 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="VNV-Wm-XDT" firstAttribute="leading" secondItem="g2D-Re-AOz" secondAttribute="trailing" constant="8" id="2KY-04-SzJ"/>
-                    <constraint firstAttribute="bottom" secondItem="g2D-Re-AOz" secondAttribute="bottom" constant="8" id="9BP-TM-AA8"/>
-                    <constraint firstItem="g2D-Re-AOz" firstAttribute="top" secondItem="LLU-78-kRo" secondAttribute="topMargin" id="AAI-eQ-sQV"/>
+                    <constraint firstItem="g2D-Re-AOz" firstAttribute="centerY" secondItem="LLU-78-kRo" secondAttribute="centerY" id="Avb-rU-317"/>
                     <constraint firstItem="WBL-8M-UMe" firstAttribute="leading" secondItem="LLU-78-kRo" secondAttribute="leading" constant="16" id="E85-h4-WTJ"/>
                     <constraint firstAttribute="trailing" secondItem="gC5-qo-qLz" secondAttribute="trailing" constant="8" id="OZJ-f3-A5A"/>
                     <constraint firstItem="WBL-8M-UMe" firstAttribute="top" secondItem="LLU-78-kRo" secondAttribute="topMargin" constant="18" id="VVF-dF-GTR"/>
