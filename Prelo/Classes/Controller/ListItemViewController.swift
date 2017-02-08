@@ -1271,21 +1271,19 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                         }
                     }
                 } else {
-                    if ((self.navigationController?.isNavigationBarHidden)! == true) {
-                        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
-                        self.navigationController?.setNavigationBarHidden(false, animated: true)
-                        self.showStatusBar()
-                        if (selectedSegment != "") {
-                            consHeightVwTopHeader.constant = 40 // Show top header
-                            UIView.animate(withDuration: 0.2, animations: {
-                                self.view.layoutIfNeeded()
-                            })
-                        }
-                        self.repositionScrollCategoryNameContent()
-                        if (currentMode == .filter) {
-                            self.consTopTopHeaderFilter.constant = 0
-                            self.consTopGridView.constant = 0
-                        }
+                    NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
+                    self.navigationController?.setNavigationBarHidden(false, animated: true)
+                    self.showStatusBar()
+                    if (selectedSegment != "") {
+                        consHeightVwTopHeader.constant = 40 // Show top header
+                        UIView.animate(withDuration: 0.2, animations: {
+                            self.view.layoutIfNeeded()
+                        })
+                    }
+                    self.repositionScrollCategoryNameContent()
+                    if (currentMode == .filter) {
+                        self.consTopTopHeaderFilter.constant = 0
+                        self.consTopGridView.constant = 0
                     }
                 }
             }
@@ -2172,6 +2170,7 @@ class StoreHeader : UIView, UICollectionViewDataSource, UICollectionViewDelegate
     }
 }
 
+// MARK: - cell Store Info / Header
 class StoreInfo : UICollectionViewCell {
     @IBOutlet weak var captionDesc : UILabel!
     @IBOutlet weak var captionTotal : UILabel!
@@ -2185,7 +2184,7 @@ class StoreInfo : UICollectionViewCell {
     
     
     static func heightFor(_ json: JSON, isExpand: Bool) -> CGFloat {
-        var height = 112
+        var height = 94
         var completeDesc = ""
         if let desc = json["profile"]["description"].string
         {

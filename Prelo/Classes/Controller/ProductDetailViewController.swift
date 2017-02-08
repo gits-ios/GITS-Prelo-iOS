@@ -1800,9 +1800,9 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         let w = obj!.weight
         if (w > 1000)
         {
-            captionWeight?.text = (Float(w) * 0.001).description + " kg"
+            captionWeight?.text = (Float(w) / 1000.0).clean + " kg"
         } else {
-            captionWeight?.text = w.description + ".0 gram"
+            captionWeight?.text = w.description + " gram"
         }
         
         
