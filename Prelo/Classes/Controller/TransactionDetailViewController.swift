@@ -4653,6 +4653,9 @@ class TransactionDetailReviewCell : UITableViewCell {
         self.imgReviewer?.layoutIfNeeded()
         self.imgReviewer?.layer.cornerRadius = (self.imgReviewer?.width ?? 0) / 2
         self.imgReviewer?.layer.masksToBounds = true
+        
+        self.imgReviewer?.layer.borderColor = Theme.GrayLight.cgColor
+        self.imgReviewer?.layer.borderWidth = 3
 
         if let url = trxProductDetail.reviewerImageURL {
             imgReviewer.afSetImage(withURL: url)
