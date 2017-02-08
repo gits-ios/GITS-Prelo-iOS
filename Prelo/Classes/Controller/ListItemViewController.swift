@@ -2172,6 +2172,7 @@ class StoreHeader : UIView, UICollectionViewDataSource, UICollectionViewDelegate
     }
 }
 
+// MARK: - cell Store Info / Header
 class StoreInfo : UICollectionViewCell {
     @IBOutlet weak var captionDesc : UILabel!
     @IBOutlet weak var captionTotal : UILabel!
@@ -2185,7 +2186,7 @@ class StoreInfo : UICollectionViewCell {
     
     
     static func heightFor(_ json: JSON, isExpand: Bool) -> CGFloat {
-        var height = 112
+        var height = 94
         var completeDesc = ""
         if let desc = json["profile"]["description"].string
         {
