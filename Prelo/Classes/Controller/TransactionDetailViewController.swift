@@ -3818,7 +3818,10 @@ class TransactionDetailProductCell : UITableViewCell {
     var switchDetail : () -> () = {}
     
     override func prepareForReuse() {
-        imgProduct.image = UIImage(named: "raisa.jpg")
+        super.prepareForReuse()
+        
+//        imgProduct.image = UIImage(named: "raisa.jpg")
+        imgProduct.afCancelRequest()
         imgVwIcon?.removeFromSuperview()
         vwTransactionStatus.backgroundColor = Theme.GrayDark
         lblTransactionStatus.textColor = Theme.GrayDark
@@ -4632,6 +4635,12 @@ class TransactionDetailReviewCell : UITableViewCell {
     @IBOutlet var vwLove: UIView!
     var floatRatingView: FloatRatingView!
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        imgReviewer.afCancelRequest()
+    }
+    
     static func heightFor(_ reviewComment : String) -> CGFloat {
         let imgReviewerWidth : CGFloat = 64.0
         let textRect : CGRect = reviewComment.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (3 * TransactionDetailTools.Margin) - imgReviewerWidth)
@@ -4644,6 +4653,9 @@ class TransactionDetailReviewCell : UITableViewCell {
         self.imgReviewer?.layoutIfNeeded()
         self.imgReviewer?.layer.cornerRadius = (self.imgReviewer?.width ?? 0) / 2
         self.imgReviewer?.layer.masksToBounds = true
+        
+        self.imgReviewer?.layer.borderColor = Theme.GrayLight.cgColor
+        self.imgReviewer?.layer.borderWidth = 3
 
         if let url = trxProductDetail.reviewerImageURL {
             imgReviewer.afSetImage(withURL: url)

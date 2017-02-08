@@ -221,7 +221,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         c.setupCover()
         
         if (comment.posterImageURL != nil) {
-            c.ivCover?.afSetImage(withURL: comment.posterImageURL!, withFilter: "circle")
+            c.ivCover?.afSetImage(withURL: comment.posterImageURL!, withFilter: .circle)
         }
         c.captionMessage?.text = comment.message
         if (comment.isDeleted) {

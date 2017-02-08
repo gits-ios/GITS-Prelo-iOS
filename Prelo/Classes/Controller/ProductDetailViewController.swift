@@ -1586,6 +1586,12 @@ class ProductCellSeller : UITableViewCell
         return 86
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        ivSellerAvatar?.afCancelRequest()
+    }
+    
     func adapt(_ obj : ProductDetail?)
     {
         if (obj == nil) {
@@ -1634,7 +1640,7 @@ class ProductCellSeller : UITableViewCell
             }
         }
 
-        ivSellerAvatar?.afSetImage(withURL: (obj?.shopAvatarURL)!, withFilter: "circle")
+        ivSellerAvatar?.afSetImage(withURL: (obj?.shopAvatarURL)!, withFilter: .circle)
     }
     
     override func awakeFromNib() {
@@ -1909,6 +1915,12 @@ class ProductCellDiscussion : UITableViewCell
     var showReportAlert : (UIView, String) -> () = { _, _ in }
     var goToProfile : (String) -> () = { _ in }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        ivCover?.afCancelRequest()
+    }
+    
     static func heightFor(_ obj : ProductDiscussion?)->CGFloat
     {
         if (obj == nil) {
@@ -1952,7 +1964,7 @@ class ProductCellDiscussion : UITableViewCell
             captionMessage?.textColor = UIColor.darkGray
         }
         captionName?.text = json["sender_username"].string!
-        ivCover?.afSetImage(withURL: (obj?.posterImageURL)!, withFilter: "circle")
+        ivCover?.afSetImage(withURL: (obj?.posterImageURL)!, withFilter: .circle)
         
         if (User.IsLoggedIn) {
             consWidthBtnReport.constant = 25

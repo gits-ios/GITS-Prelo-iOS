@@ -220,9 +220,15 @@ class ProductLovelistCell : UITableViewCell {
     
     // MARK: - Methods
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        imgUser.afCancelRequest()
+    }
+    
     func adapt(productLovelistItem : ProductLovelistItem) {
         if let url = productLovelistItem.imageURL {
-            imgUser.afSetImage(withURL: url, withFilter: "circle")
+            imgUser.afSetImage(withURL: url, withFilter: .circle)
             imgUser.layer.cornerRadius = (imgUser.frame.size.width) / 2
             
             imgUser.layer.borderColor = Theme.GrayLight.cgColor
