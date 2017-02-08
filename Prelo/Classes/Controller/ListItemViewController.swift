@@ -1684,8 +1684,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     // MARK: - Ads
     func configureAdManagerAndLoadAds() {
         if adsManager == nil {
-//            if (AppTools.isDev) {
-//                FBAdSettings.setLogLevel(FBAdLogLevel.log)
+            if (AppTools.isDev) {
+                FBAdSettings.setLogLevel(FBAdLogLevel.log)
             
                 var hashedIds : Array<String> = []
                 hashedIds.append("b602d594afd2b0b327e07a06f36ca6a7e42546d0") // pw
@@ -1695,7 +1695,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             
 //                FBAdSettings.setLogLevel(FBAdLogLevel.none)
 //                FBAdSettings.clearTestDevices()
-//            }
+            }
             
             adsManager = FBNativeAdsManager(placementID: "860723977338277_1233930046684333", forNumAdsRequested: 5)
             adsManager.delegate = self
