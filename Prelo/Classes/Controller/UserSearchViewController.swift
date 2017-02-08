@@ -83,7 +83,7 @@ class UserSearchViewController: BaseViewController, UITableViewDataSource, UITab
         
         c.captionFullname.text = s.fullname
         c.captionUsername.text = s.username
-        c.iv.afSetImage(withURL: URL(string : s.pict)!, withFilter: "circle")
+        c.iv.afSetImage(withURL: URL(string : s.pict)!, withFilter: .circle)
         
         c.decorate()
         
@@ -144,6 +144,12 @@ class SearchUserCell2 : UITableViewCell
     @IBOutlet var captionUsername : UILabel!
     
     var decorated = false
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        iv.afCancelRequest()
+    }
     
     func decorate()
     {

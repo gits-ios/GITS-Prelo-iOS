@@ -361,7 +361,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             let c = tableView.dequeueReusableCell(withIdentifier: "user") as! SearchUserCell
             let u = foundUsers[(indexPath as NSIndexPath).row]
             c.captionName.text = u.username
-            c.ivImage.afSetImage(withURL: URL(string : u.pict)!, withFilter: "circle")
+            c.ivImage.afSetImage(withURL: URL(string : u.pict)!, withFilter: .circle)
             c.ivImage.layer.cornerRadius = (c.ivImage.frame.size.width) / 2
             c.ivImage.clipsToBounds = true
             
@@ -693,6 +693,12 @@ class SearchUserCell : UITableViewCell {
     @IBOutlet var captionName : UILabel!
     @IBOutlet var btnFollow : BorderedButton!
     @IBOutlet var ivImage : UIImageView!
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        ivImage.afCancelRequest()
+    }
 }
 
 // MARK: - Class
@@ -701,6 +707,12 @@ class SearchItemCell : UITableViewCell {
     @IBOutlet var captionName : UILabel!
     @IBOutlet var captionPrice : UILabel!
     @IBOutlet var ivImage : UIImageView!
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        ivImage.afCancelRequest()
+    }
 }
 
 // MARK: - Class

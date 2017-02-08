@@ -173,12 +173,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         if (uProf != nil) {
             let url = URL(string: uProf!.pict)
             if (url != nil) {
-                imgCover?.afSetImage(withURL: url!, withFilter: "circle")
-//                imgCover?.layer.cornerRadius = (imgCover?.frame.size.width)!/2
-//                imgCover?.layer.masksToBounds = true
-//                
-//                imgCover?.layer.borderColor = Theme.GrayLight.cgColor
-//                imgCover?.layer.borderWidth = 3
+                imgCover?.afSetImage(withURL: url!, withFilter: .circle)
             }
         }
         
@@ -474,20 +469,6 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         let baseNavC = BaseNavigationController()
         baseNavC.setViewControllers([helpVC], animated: false)
         self.present(baseNavC, animated: true, completion: nil)
-        
-        
-        // Hotline
-        
-        //            FAQOptions *options = [FAQOptions new];
-        //            options.showContactUsOnFaqScreens = NO;
-        //            options.showContactUsOnAppBar=NO;
-        //            [[Hotline sharedInstance]showFAQs:self withOptions:options];
-        
-//        let options : FAQOptions = FAQOptions()
-//        options.showContactUsOnFaqScreens = true
-//        options.showContactUsOnAppBar = false
-//        options.showFaqCategoriesAsGrid = true
-//        Hotline.sharedInstance().showFAQs(self, with: options)
     }
     
     func launchAbout() {

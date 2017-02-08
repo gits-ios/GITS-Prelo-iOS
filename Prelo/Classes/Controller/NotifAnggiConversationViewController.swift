@@ -516,9 +516,11 @@ class NotifAnggiConversationCell: UITableViewCell {
     
     override func prepareForReuse() {
         self.contentView.backgroundColor = UIColor.white.withAlphaComponent(0)
-        imgSingle.image = UIImage(named: "raisa.jpg")
+//        imgSingle.image = UIImage(named: "raisa.jpg")
         vwCaption.backgroundColor = Theme.GrayDark
         lblConvStatus.textColor = Theme.GrayDark
+        
+        imgSingle.afCancelRequest()
     }
     
     func adapt(_ notif : NotificationObj) {
