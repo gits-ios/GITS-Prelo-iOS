@@ -2070,19 +2070,6 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             let baseNavC = BaseNavigationController()
             baseNavC.setViewControllers([helpVC], animated: false)
             self.present(baseNavC, animated: true, completion: nil)
-            
-            // Hotline
-            
-//            FAQOptions *options = [FAQOptions new];
-//            options.showContactUsOnFaqScreens = NO;
-//            options.showContactUsOnAppBar=NO;
-//            [[Hotline sharedInstance]showFAQs:self withOptions:options];
-            
-//            let options : FAQOptions = FAQOptions()
-//            options.showContactUsOnFaqScreens = true
-//            options.showContactUsOnAppBar = false
-//            options.showFaqCategoriesAsGrid = true
-//            Hotline.sharedInstance().showFAQs(self, with: options)
         }
         
         return cell
