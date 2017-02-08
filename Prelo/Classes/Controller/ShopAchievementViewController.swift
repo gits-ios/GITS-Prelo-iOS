@@ -293,11 +293,14 @@ class ShopAchievementCell : UITableViewCell {
     @IBOutlet var lblDesc: UILabel!
     
     override func prepareForReuse() {
-        imgBadge.image = nil
+        super.prepareForReuse()
+        
+//        imgBadge.image = nil
+        imgBadge.afCancelRequest()
     }
     
     func adapt(_ userAchievement : UserAchievement) {
-        imgBadge.afSetImage(withURL: userAchievement.icon!, withFilter: "circle")
+        imgBadge.afSetImage(withURL: userAchievement.icon!, withFilter: .circle)
         imgBadge.layoutIfNeeded()
         imgBadge.layer.masksToBounds = true
         imgBadge.layer.cornerRadius = (imgBadge.frame.size.width) / 2

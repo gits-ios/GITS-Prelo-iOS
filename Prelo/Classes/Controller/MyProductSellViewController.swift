@@ -270,7 +270,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                             let img = UIImage(cgImage: imageUrl.cgImage!, scale: 1, orientation: UIImageOrientation(rawValue: p.imageOrientation1 as Int)!).resizeWithWidth(120)
                             image = img
                         }
-                    } else {
+                    } else { // placeholder image
                         image = UIImage(named: "raisa.jpg")?.resizeWithWidth(120)
                     }
                     
@@ -312,10 +312,10 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 cell.imgProduct.image = nil
                 if let url = p.coverImageURL {
                     cell.imgProduct.afSetImage(withURL: url)
-                } else if let img = p.placeHolderImage
+                } /*else if let img = p.placeHolderImage
                 {
                     cell.imgProduct.image = img
-                }
+                }*/
                 
                 let status : String = (p.json["status_text"] != nil) ? p.json["status_text"].string! : "-"
                 cell.lblOrderStatus.text = status.uppercased()
@@ -443,4 +443,10 @@ class MyProductCell : UITableViewCell
     @IBOutlet var captionTotalLove : UILabel!
     @IBOutlet var captionTotalComment : UILabel!
     @IBOutlet var ivCover : UIImageView!
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        ivCover.afCancelRequest()
+    }
 }

@@ -10,6 +10,15 @@ import UIKit
 import CoreData
 import AlamofireImage
 
+enum imageFilterMode {
+    case fit
+    case fill
+    case circle
+    case none
+    case fitWithoutPlaceHolder
+    case noneWithoutPlaceHolder
+}
+
 class AppTools: NSObject {
     static let isDev = true // Set true for demo/testing purpose only
     
@@ -321,27 +330,33 @@ extension UIImageView {
     
     // default fill
     func afSetImage(withURL: URL) {
+        
 //        self.af_setImage(withURL: withURL)
         
 //        let placeholderImage = UIImage(named: "raisa.jpg")!
 //        self.af_setImage(withURL: withURL, placeholderImage: placeholderImage)
         
         // default fill
+        
+        let placeholderImage = UIImage(named: "raisa.jpg")!
+        
         let filter = AspectScaledToFillSizeFilter(
             size: self.frame.size
         )
         
         self.af_setImage(
             withURL: withURL,
+            placeholderImage: placeholderImage,
             filter: filter,
             imageTransition: .crossDissolve(0.3)
         )
-        
     }
     
-    func afSetImage(withURL: URL, withFilter: String) {
+    func afSetImage(withURL: URL, withFilter: imageFilterMode) {
         
-        if withFilter == "fit" {
+        let placeholderImage = UIImage(named: "raisa.jpg")!
+        
+        if withFilter == .fitWithoutPlaceHolder {
             let filter = AspectScaledToFitSizeFilter(
                 size: self.frame.size
             )
@@ -353,19 +368,33 @@ extension UIImageView {
             )
         }
         
-        else if withFilter == "circle" {
+        else if withFilter == .fit {
+            let filter = AspectScaledToFitSizeFilter(
+                size: self.frame.size
+            )
+            
+            self.af_setImage(
+                withURL: withURL,
+                placeholderImage: placeholderImage,
+                filter: filter,
+                imageTransition: .crossDissolve(0.3)
+            )
+        }
+        
+        else if withFilter == .circle {
             let filter = AspectScaledToFillSizeCircleFilter(
                 size: self.frame.size
             )
             
             self.af_setImage(
                 withURL: withURL,
+                placeholderImage: placeholderImage,
                 filter: filter,
                 imageTransition: .crossDissolve(0.3)
             )
         }
-        
-        else if withFilter == "none" {
+            
+        else if withFilter == .noneWithoutPlaceHolder {
             
             self.af_setImage(
                 withURL: withURL,
@@ -373,7 +402,16 @@ extension UIImageView {
             )
         }
         
-            // default fill
+        else if withFilter == .none {
+            
+            self.af_setImage(
+                withURL: withURL,
+                placeholderImage: placeholderImage,
+                imageTransition: .crossDissolve(0.3)
+            )
+        }
+        
+        // default fill
         else {
             let filter = AspectScaledToFillSizeFilter(
                 size: self.frame.size
@@ -381,10 +419,17 @@ extension UIImageView {
             
             self.af_setImage(
                 withURL: withURL,
+                placeholderImage: placeholderImage,
                 filter: filter,
                 imageTransition: .crossDissolve(0.3)
             )
         }
+    }
+    
+    func afCancelRequest() {
+        self.af_cancelImageRequest()
+        self.layer.removeAllAnimations()
+        self.image = nil
     }
 }
 

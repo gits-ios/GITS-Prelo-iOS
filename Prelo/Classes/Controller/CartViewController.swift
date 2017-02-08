@@ -1811,6 +1811,12 @@ class CartCellItem : UITableViewCell
     var selectedPaymentId : String = ""
     var cartItemCellDelegate : CartItemCellDelegate?
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        ivCover?.afCancelRequest()
+    }
+    
     func adapt (_ json : JSON)
     {
         print(json)
@@ -1831,7 +1837,7 @@ class CartCellItem : UITableViewCell
             
             if (ori.count > 0)
             {
-                ivCover?.image = nil
+//                ivCover?.image = nil
                 let u = URL(string: ori.first!)
                 ivCover?.afSetImage(withURL: u!)
             }

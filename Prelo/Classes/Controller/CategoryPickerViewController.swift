@@ -119,7 +119,7 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
         
         if let imageName = j["image_name"].string {
             c.imageView.backgroundColor = UIColor.white
-            c.imageView.afSetImage(withURL: URL(string: imageName)!, withFilter: "fit")
+            c.imageView.afSetImage(withURL: URL(string: imageName)!, withFilter: .fit)
         }
         
         c.createBordersWithColor(UIColor.lightGray, radius: 0, width: 1)
@@ -188,6 +188,12 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
 class CategoryPickerParentCell : UICollectionViewCell {
     @IBOutlet var imageView : UIImageView!
     @IBOutlet var captionTitle : UILabel!
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        imageView.afCancelRequest()
+    }
 }
 
 // MARK: - Class
