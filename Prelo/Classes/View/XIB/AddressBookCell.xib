@@ -28,7 +28,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TYPE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i3c-N8-zLk">
-                        <rect key="frame" x="8" y="8" width="256" height="21"/>
+                        <rect key="frame" x="8" y="8" width="44" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="3wG-b5-Lz5"/>
                         </constraints>
@@ -37,7 +37,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="niy-I6-cqm" userLabel="ALAMAT UTAMA">
-                        <rect key="frame" x="272" y="8" width="95" height="21"/>
+                        <rect key="frame" x="60" y="8" width="95" height="21"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alamat Utama" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h6c-m5-KhJ">
                                 <rect key="frame" x="0.0" y="0.0" width="95" height="21"/>
@@ -168,7 +168,6 @@
                     <constraint firstItem="ji4-bF-9wf" firstAttribute="top" secondItem="27s-Re-5gu" secondAttribute="bottom" constant="8" id="exu-cn-R50"/>
                     <constraint firstItem="OXc-rc-BQa" firstAttribute="leading" secondItem="eBW-mE-cLd" secondAttribute="leadingMargin" id="fYv-O9-hZl"/>
                     <constraint firstItem="i3c-N8-zLk" firstAttribute="top" secondItem="eBW-mE-cLd" secondAttribute="topMargin" id="fxJ-k2-stX"/>
-                    <constraint firstItem="niy-I6-cqm" firstAttribute="trailing" secondItem="eBW-mE-cLd" secondAttribute="trailingMargin" id="h4Q-kU-LTi"/>
                     <constraint firstItem="27s-Re-5gu" firstAttribute="top" secondItem="FDM-qH-vbu" secondAttribute="bottom" id="hF4-3b-WGa"/>
                     <constraint firstItem="ji4-bF-9wf" firstAttribute="leading" secondItem="0PN-2u-xBZ" secondAttribute="trailing" constant="8" id="hrT-SS-dff"/>
                     <constraint firstItem="4Jy-Zc-mqP" firstAttribute="top" secondItem="eBW-mE-cLd" secondAttribute="top" id="i0Q-1Y-kED"/>

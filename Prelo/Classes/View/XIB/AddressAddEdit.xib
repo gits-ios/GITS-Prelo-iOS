@@ -15,7 +15,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <viewController storyboardIdentifier="TarikTunai" id="i67-3u-Hqn" customClass="AddressAddEditViewController" customModule="Prelo" customModuleProvider="target">
+        <viewController storyboardIdentifier="TarikTunai" id="i67-3u-Hqn" customClass="AddressAddEditViewController" customModule="Prelo">
             <layoutGuides>
                 <viewControllerLayoutGuide type="top" id="UZa-ae-9tv"/>
                 <viewControllerLayoutGuide type="bottom" id="Arj-Kt-vHr"/>

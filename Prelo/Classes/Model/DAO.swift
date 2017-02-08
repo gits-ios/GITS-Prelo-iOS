@@ -3839,6 +3839,13 @@ class AddressItem : NSObject {
         }
     }
     
+    var id : String {
+        if let j = json["_id"].string {
+            return j
+        }
+        return ""
+    }
+    
     var addressName : String {
         if let j = json["address_name"].string {
             return j
@@ -3847,7 +3854,7 @@ class AddressItem : NSObject {
     }
     
     var recipientName : String {
-        if let j = json["recipient_name"].string {
+        if let j = json["owner_name"].string {
             return j
         }
         return ""
@@ -3867,8 +3874,22 @@ class AddressItem : NSObject {
         return ""
     }
     
+    var provinceName : String {
+        if let j = json["province_name"].string {
+            return j
+        }
+        return ""
+    }
+    
     var regionId : String {
         if let j = json["region_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var regionName : String {
+        if let j = json["region_name"].string {
             return j
         }
         return ""
@@ -3903,7 +3924,7 @@ class AddressItem : NSObject {
     }
     
     var isMainAddress : Bool {
-        if let j = json["is_main_address"].bool {
+        if let j = json["is_default"].bool {
             return j
         }
         return false

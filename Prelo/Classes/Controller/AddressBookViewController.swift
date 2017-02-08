@@ -44,7 +44,6 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
         
         if isFirst {
             isFirst = false
-            showLoading()
             
             // Setup table
             tableView.dataSource = self
@@ -58,10 +57,9 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
             tableView.separatorStyle = .none
             
             tableView.backgroundColor = UIColor(hex: "E5E9EB")
-            
-            getAddresses()
         }
         
+        getAddresses()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -77,30 +75,56 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
     }
     
     func getAddresses() {
+        showLoading()
+        
         self.addresses = []
         
-        for i in 0...2 {
-            let fakeres = [
-                "address_name":"coba-" + i.description,
-                "recipient_name":"djuned",
-                "address": "Jl kartini 44",
-                "province_id": "533f81506d07364195779449", // jawa timur
-                "region_id": "53a6e369490cd61d3a00001b", // kab kediri
-                "subdistrict_id":"5758f2a1f8ec1c50289c78d5", // plemahan
-                "subdistrict_name":"Plemahan",
-                "phone": "087759035853",
-                "postal_code": "64155",
-                "is_main_address": i % 3 == 0
-                ] as [String : Any]
-            
-            let json = JSON(fakeres)
-            let address = AddressItem.instance(json)
-            self.addresses?.append(address!)
-        }
-        
-        self.hideLoading()
+//        for i in 0...2 {
+//            let fakeres = [
+//                "address_name":"coba-" + i.description,
+//                "owner_name":"djuned",
+//                "address": "Jl kartini 44",
+//                "province_id": "533f81506d07364195779449", // jawa timur
+//                "region_id": "53a6e369490cd61d3a00001b", // kab kediri
+//                "subdistrict_id":"5758f2a1f8ec1c50289c78d5", // plemahan
+//                "subdistrict_name":"Plemahan",
+//                "phone": "087759035853",
+//                "postal_code": "64155",
+//                "is_default": i % 3 == 0
+//                ] as [String : Any]
+//            
+//            let json = JSON(fakeres)
+//            let address = AddressItem.instance(json)
+//            self.addresses?.append(address!)
+//        }
+//        
+//        self.hideLoading()
         
         // TODO: - use API
+        // use API
+        let _ = request(APIMe.getAddressBook).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Address Book")) {
+                if let x: AnyObject = resp.result.value as AnyObject? {
+                    var json = JSON(x)
+                    json = json["_data"]
+                    
+                    if let arr = json.array {
+                        for i in 0...arr.count - 1 {
+                            let address = AddressItem.instance(arr[i])
+                            self.addresses?.append(address!)
+                        }
+                    }
+                    
+                    self.tableView.reloadData()
+                    self.hideLoading()
+                }
+                
+            } else {
+                
+                self.hideLoading()
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
         
     }
     
@@ -141,17 +165,33 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
             cell.btnEditAction = {
                 let EditAddressVC = Bundle.main.loadNibNamed(Tags.XibNameAddressAddEdit, owner: nil, options: nil)?.first as! AddressAddEditViewController
                 EditAddressVC.editMode = true
-                // TODO: - ganti idx dengan address Id
-                EditAddressVC.addressId = idx.string
+                EditAddressVC.address = self.addresses?[idx]
                 self.navigationController?.pushViewController(EditAddressVC, animated: true)
             }
             
             cell.btnDeleteAction = {
                 // delete
+                
+                let alert : UIAlertController = UIAlertController(title: "Hapus Alamat", message: "Apakah kamu yakin ingin menghapus alamat \"" + (self.addresses?[idx].addressName)! + "\"? (Aksi ini tidak dapat dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
+                    // api delete
+                    let _ = request(APIMe.deleteAddress(addressId: (self.addresses?[idx].id)!)).responseJSON { resp in
+                        if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Hapus Alamat")) {
+                            Constant.showDialog("Hapus Alamat", message: "Alamat berhasil dihapus")
+                            self.addresses?.remove(at: idx)
+                            tableView.reloadData()
+                        }
+                    }
+                }))
+                self.present(alert, animated: true, completion: nil)
             }
             
             cell.btnSetMainAction = {
                 self.initPopUp()
+                
+                self.selectedIndexForSetAsMain = idx
+                
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
                     self.setupPopUp(idx)
                     self.displayPopUp()
@@ -256,12 +296,18 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
     @IBAction func btnOkePressed(_ sender: Any) {
         self.unDisplayPopUp()
         
+        // api set default
+        let _ = request(APIMe.setDefaultAddress(addressId: (self.addresses?[self.selectedIndexForSetAsMain].id)!)).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Set Default Alamat")) {
+                Constant.showDialog("Set Default Alamat", message: "Alamat default berhasil diperbarui")
+                
+                self.getAddresses()
+            }
+        }
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
             self.vwOverlayPopUp.isHidden = true
             self.vwBackgroundOverlay.isHidden = true
-            
-            // TODO: - Set main Address
-            // by index
         })
     }
     

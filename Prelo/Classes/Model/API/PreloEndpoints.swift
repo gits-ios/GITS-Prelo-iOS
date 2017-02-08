@@ -542,6 +542,11 @@ enum APIMe : URLRequestConvertible {
     case getBalanceMutations(current : Int, limit : Int)
     case setUserUUID
     case achievement
+    case getAddressBook
+    case updateAddress(addressId: String, addressName: String, recipientName: String, phone: String, provinceId: String, provinceName: String, regionId: String, regionName: String, subdistrictId: String, subdistricName: String, address: String, postalCode: String, isMainAddress: Bool)
+    case createAddress(addressName: String, recipientName: String, phone: String, provinceId: String, provinceName: String, regionId: String, regionName: String, subdistrictId: String, subdistricName: String, address: String, postalCode: String)
+    case deleteAddress(addressId: String)
+    case setDefaultAddress(addressId: String)
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "me/"
@@ -574,6 +579,11 @@ enum APIMe : URLRequestConvertible {
         case .getBalanceMutations(_, _) : return .get
         case .setUserUUID : return .post
         case .achievement : return .get
+        case .getAddressBook : return .get
+        case .updateAddress(_, _, _, _, _, _, _, _, _, _, _, _, _) : return .post
+        case .createAddress(_, _, _, _, _, _, _, _, _, _, _) : return .post
+        case .deleteAddress(_) : return .post
+        case .setDefaultAddress(_) : return .post
         }
     }
     
@@ -599,6 +609,11 @@ enum APIMe : URLRequestConvertible {
         case .getBalanceMutations(_, _) : return "getprelobalances"
         case .setUserUUID : return "setgafaid"
         case .achievement : return "achievements"
+        case .getAddressBook : return "address_book"
+        case .updateAddress(_, _, _, _, _, _, _, _, _, _, _, _, _) : return "address_book/update"
+        case .createAddress(_, _, _, _, _, _, _, _, _, _, _) : return "address_book/add"
+        case .deleteAddress(_) : return "address_book/delete"
+        case .setDefaultAddress(_) : return "address_book/set_default"
         }
     }
     
@@ -698,6 +713,48 @@ enum APIMe : URLRequestConvertible {
         case .setUserUUID :
             p = [
                 "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
+                "platform_sent_from" : "ios"
+            ]
+        case .updateAddress(let addressId, let addressName, let recipientName, let phone, let provinceId, let provinceName, let regionId, let regionName, let subdistrictId, let subdistricName, let address, let postalCode, let isMainAddress) :
+            p = [
+                "address_id": addressId,
+                "address_name": addressName,
+                "owner_name": recipientName,
+                "phone": phone,
+                "province_id": provinceId,
+                "province_name": provinceName,
+                "region_id": regionId,
+                "region_name": regionName,
+                "subdistrict_id": subdistrictId,
+                "subdistrict_name": subdistricName,
+                "address": address,
+                "postal_code": postalCode,
+                "is_default": (isMainAddress == true ? 1 : 0),
+                "platform_sent_from" : "ios"
+            ]
+        case .createAddress(let addressName, let recipientName, let phone, let provinceId, let provinceName, let regionId, let regionName, let subdistrictId, let subdistricName, let address, let postalCode) :
+            p = [
+                "address_name": addressName,
+                "owner_name": recipientName,
+                "phone": phone,
+                "province_id": provinceId,
+                "province_name": provinceName,
+                "region_id": regionId,
+                "region_name": regionName,
+                "subdistrict_id": subdistrictId,
+                "subdistrict_name": subdistricName,
+                "address": address,
+                "postal_code": postalCode,
+                "platform_sent_from" : "ios"
+            ]
+        case .deleteAddress(let addressId) :
+            p = [
+                "address_id": addressId,
+                "platform_sent_from" : "ios"
+            ]
+        case .setDefaultAddress(let addressId) :
+            p = [
+                "address_id": addressId,
                 "platform_sent_from" : "ios"
             ]
         default : break

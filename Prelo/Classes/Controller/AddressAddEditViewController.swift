@@ -27,7 +27,7 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate {
     @IBOutlet weak var loadingPanel: UIView!
     
     var editMode: Bool = false
-    var addressId: String = ""
+    var address: AddressItem?
     
     var selectedProvinceId: String = ""
     var selectedRegionId: String = ""
@@ -76,7 +76,7 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate {
                 self.title = "Edit Alamat"
                 self.btnAction.setTitle("EDIT ALAMAT", for: .normal)
                 
-                getAddress(addressId)
+                getAddress()
                 self.setupLocation(true)
             } else {
                 self.title = "Tambah Alamat"
@@ -89,28 +89,12 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate {
         }
     }
     
-    func getAddress(_ addressId: String) {
-        let fakeres = [
-            "address_name":"coba-" + addressId,
-            "recipient_name":"djuned",
-            "address": "Jl kartini 44",
-            "province_id": "533f81506d07364195779449", // jawa timur
-            "region_id": "53a6e369490cd61d3a00001b", // kab kediri
-            "subdistrict_id":"5758f2a1f8ec1c50289c78d5", // plemahan
-            "subdistrict_name":"Plemahan",
-            "phone": "087759035853",
-            "postal_code": "64155",
-            "is_main_address": addressId.int % 3 == 0
-            ] as [String : Any]
-        
-        let json = JSON(fakeres)
-        let address = AddressItem.instance(json)
+    func getAddress() {
+        // load from API
         
         setupAddress(address!)
         
         self.hideLoading()
-
-        // TODO: - load from API
     }
     
     func setupLocation(_ isActive: Bool) {
@@ -282,6 +266,23 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate {
     @IBAction func btnActionPressed(_ sender: Any) {
         if validateField() {
             // execute
+            if editMode {
+                let _ = request(APIMe.updateAddress(addressId: (address?.id)!, addressName: txtNamaAlamat.text!, recipientName: txtNama.text!, phone: txtTelepon.text!, provinceId: selectedProvinceId, provinceName: lblProvinsi.text!, regionId: selectedRegionId, regionName: lblKotaKabupaten.text!, subdistrictId: selectedSubdistrictId, subdistricName: lblKecamatan.text!, address: txtAlamat.text!, postalCode: txtKodePos.text!, isMainAddress: (address?.isMainAddress)!)).responseJSON { resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Edit Alamat")) {
+                        Constant.showDialog("Edit Alamat", message: "Alamat berhasil diperbarui")
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                }
+                
+            } else { // insert new
+                let _ = request(APIMe.createAddress(addressName: txtNamaAlamat.text!, recipientName: txtNama.text!, phone: txtTelepon.text!, provinceId: selectedProvinceId, provinceName: lblProvinsi.text!, regionId: selectedRegionId, regionName: lblKotaKabupaten.text!, subdistrictId: selectedSubdistrictId, subdistricName: lblKecamatan.text!, address: txtAlamat.text!, postalCode: txtKodePos.text!)).responseJSON { resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Tambah Alamat")) {
+                        Constant.showDialog("Tambah Alamat", message: "Alamat berhasil ditambahkan")
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                }
+                
+            }
         }
     }
     
