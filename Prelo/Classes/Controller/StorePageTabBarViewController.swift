@@ -192,6 +192,12 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         segmentView.tintColor = UIColor.clear
         segmentView.addTarget(self, action: #selector(StorePageTabBarViewController.navigateSegment(_:)), for: .valueChanged)
         
+        segmentView.addSegmentWithTitle("Toko", onSelectionImage: nil, offSelectionImage: nil)
+        
+        segmentView.addSegmentWithTitle("Review", onSelectionImage: nil, offSelectionImage: nil)
+        
+        segmentView.addSegmentWithTitle("Badge", onSelectionImage: nil, offSelectionImage: nil)
+        
         self.vwNavBar.addSubview(segmentView)
         
         // only 3 -- toko, review, badge
@@ -480,7 +486,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         let countReview = json["num_reviewer"].int
         let countAchievement = (json["achievements"].array)?.count
         
-        if self.segmentView.numberOfSegments == 0 {
+        /*if self.segmentView.numberOfSegments == 0 {
             self.segmentView.addSegmentWithTitle("Toko", onSelectionImage: nil, offSelectionImage: nil)
             
             self.segmentView.addSegmentWithTitle("Review", onSelectionImage: nil, offSelectionImage: nil)
@@ -490,7 +496,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
 //            self.segmentView.addSegmentWithTitle("Review (" + countReview!.string + ")", onSelectionImage: nil, offSelectionImage: nil)
             
 //            self.segmentView.addSegmentWithTitle("Badge (" + countAchievement!.string + ")", onSelectionImage: nil, offSelectionImage: nil)
-        }
+        }*/
         self.loadingPanel.isHidden = true
         
         // setup review
@@ -530,7 +536,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
-        layout.itemSize = CGSize(width: 30, height: 30)
+        layout.itemSize = CGSize(width: 38, height: 38)
         layout.minimumInteritemSpacing = 5
         layout.minimumLineSpacing = 5
         self.shopBadges.collectionViewLayout = layout
@@ -554,9 +560,9 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         let cell = self.shopBadges.dequeueReusableCell(withReuseIdentifier: "collcProgressCell", for: indexPath)
         //        if (badges.count > (indexPath as NSIndexPath).row) {
         // Create icon view
-        let vwIcon : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        let vwIcon : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 38, height: 38))
         
-        let img = UIImageView(frame: CGRect(x: 2, y: 2, width: 28, height: 28))
+        let img = UIImageView(frame: CGRect(x: 2, y: 2, width: 34, height: 34))
         img.layoutIfNeeded()
         img.layer.cornerRadius = (img.width ) / 2
         img.layer.masksToBounds = true
@@ -572,7 +578,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 30, height: 30)
+        return CGSize(width: 38, height: 38)
     }
 
 }

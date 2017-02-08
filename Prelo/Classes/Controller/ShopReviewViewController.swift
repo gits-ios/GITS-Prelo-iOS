@@ -282,7 +282,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         if (currentMode == .inject) {
             if (self.userReviews.count > 0) {
                 if ((indexPath as NSIndexPath).section == 0) {
-                    return 150
+                    return 140
                 } else if ((indexPath as NSIndexPath).section == 2) {
                     return 62
                     
@@ -436,14 +436,19 @@ class ShopReviewCell : UITableViewCell {
 
 class ShopReviewAverageCell : UITableViewCell {
     @IBOutlet var vwLove: UIView!
-    @IBOutlet var circularBtn: UIButton!
+    @IBOutlet weak var circularView: UIView!
+    @IBOutlet weak var averageStar: UILabel!
     
     var floatRatingView: FloatRatingView!
     
     func adapt(_ star : Float) {
-        circularBtn.createBordersWithColor(UIColor.black, radius: circularBtn.width/2, width: 2)
+        circularView.createBordersWithColor(UIColor.clear, radius: circularView.width/2, width: 0)
 
-        circularBtn.setTitle(NSString(format: "%.1f", star) as String, for: .normal )
+        circularView.backgroundColor = Theme.GrayLight
+        
+        averageStar.text = star.clean
+        
+        averageStar.textColor = UIColor.white
         
         // Love floatable
         self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 0, width: 175, height: 30))
