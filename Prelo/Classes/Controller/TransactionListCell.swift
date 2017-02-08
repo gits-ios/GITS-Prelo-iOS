@@ -50,8 +50,12 @@ class TransactionListCell : UITableViewCell {
         lblOrderTime.text = "-"
         
         imgProduct.afCancelRequest()
-        imgProduct2.afCancelRequest()
-        imgProduct3.afCancelRequest()
+        if imgProduct2 != nil {
+            imgProduct2.afCancelRequest()
+        }
+        if imgProduct3 != nil {
+            imgProduct3.afCancelRequest()
+        }
     }
     
     func adaptItem(_ userPurchase : UserTransactionItem) {

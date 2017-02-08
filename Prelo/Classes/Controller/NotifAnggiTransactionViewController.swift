@@ -532,9 +532,15 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         vwCaption.backgroundColor = Theme.GrayDark
         lblTrxStatus.textColor = Theme.GrayDark
         
-        imgSingle.afCancelRequest()
-        imgDouble1.afCancelRequest()
-        imgDouble2.afCancelRequest()
+        if imgSingle != nil {
+            imgSingle.afCancelRequest()
+        }
+        if imgDouble1 != nil {
+            imgDouble1.afCancelRequest()
+        }
+        if imgDouble2 != nil {
+            imgDouble2.afCancelRequest()
+        }
     }
 
     func adapt(_ notif : NotificationObj, idx : Int) {

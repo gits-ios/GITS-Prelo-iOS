@@ -103,6 +103,9 @@ class ProductDetailCover: UIView {
                 iv?.height = height/2 - 6
             }
             
+//            let fr = iv?.frame
+//            print(fr)
+            
             iv?.afSetImage(withURL: URL(string: images.objectAtCircleIndex(i))!)
         }
         
