@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AlamofireImage
 
 // MARK: - Protocol
 
@@ -107,6 +108,12 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         if let redirAlert = appDelegate.redirAlert {
             redirAlert.dismiss(withClickedButtonIndex: -1, animated: true)
         }
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        
+        AutoPurgingImageCache().removeAllImages()
     }
     
     func backPressed(_ sender: UIBarButtonItem) {

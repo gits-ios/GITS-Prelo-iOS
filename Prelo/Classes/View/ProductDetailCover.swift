@@ -241,6 +241,8 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
     
     var labels : [String] = []
     
+    var indicator : UIActivityIndicatorView?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -252,6 +254,8 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
         
         self.view.addSubview(scrollView!)
         
+        self.showLoading()
+        
         let b = self.dismissButton
         b.y = 20
         b.x = 16
@@ -259,13 +263,13 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
         self.view.addSubview(b)
         
         var x : CGFloat = 0
-        for i in images
+        for i in 0...images.count - 1
         {
             let s = UIScrollView(frame : (scrollView?.bounds)!)
             let iv = UIImageView(frame : s.bounds)
             iv.contentMode = UIViewContentMode.scaleAspectFit
-            iv.afSetImage(withURL: URL(string: i)!, withFilter: "fit")
-            iv.tag = 1
+            iv.afSetImage(withURL: URL(string: images[i])!, withFilter: .fit)
+            iv.tag = i
             s.addSubview(iv)
             s.x = x
             scrollView?.addSubview(s)
@@ -303,6 +307,8 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
         super.viewDidAppear(animated)
         scrollView?.contentOffset = CGPoint(x: index*Int((scrollView?.width)!), y: 0)
         scrollView?.isHidden = false
+        
+        self.hideLoading()
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -335,6 +341,7 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
             if (currentPage != Int(p))
             {
                 currentPage = Int(p)
+                
                 var text = ""
                 if (Int(p) < labels.count)
                 {
@@ -344,5 +351,22 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
                 rearrangeLabel()
             }
         }
+    }
+    
+    func showLoading() {
+        indicator = UIActivityIndicatorView()
+        indicator?.center = CGPoint(x: UIScreen.main.bounds.width/2 , y: UIScreen.main.bounds.height/2)
+        indicator?.startAnimating()
+        indicator?.color = UIColor.white
+        indicator?.tag = 888
+        
+        self.view.addSubview(indicator!)
+    }
+    
+    func hideLoading() {
+        indicator?.isHidden = true
+        indicator?.stopAnimating()
+        
+        self.view.viewWithTag(888)?.removeFromSuperview()
     }
 }

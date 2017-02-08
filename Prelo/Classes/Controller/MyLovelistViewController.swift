@@ -256,6 +256,12 @@ class MyLovelistCell : UITableViewCell {
     
     var delegate : MyLovelistCellDelegate?
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        imgProduct.afCancelRequest()
+    }
+    
     func adapt(_ lovedProduct : LovedProduct) {
         imgProduct.afSetImage(withURL: lovedProduct.productImageURL!)
         lblProductName.text = lovedProduct.name

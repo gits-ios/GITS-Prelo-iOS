@@ -3818,7 +3818,10 @@ class TransactionDetailProductCell : UITableViewCell {
     var switchDetail : () -> () = {}
     
     override func prepareForReuse() {
-        imgProduct.image = UIImage(named: "raisa.jpg")
+        super.prepareForReuse()
+        
+//        imgProduct.image = UIImage(named: "raisa.jpg")
+        imgProduct.afCancelRequest()
         imgVwIcon?.removeFromSuperview()
         vwTransactionStatus.backgroundColor = Theme.GrayDark
         lblTransactionStatus.textColor = Theme.GrayDark
@@ -4631,6 +4634,12 @@ class TransactionDetailReviewCell : UITableViewCell {
     @IBOutlet weak var lblContent: UILabel!
     @IBOutlet var vwLove: UIView!
     var floatRatingView: FloatRatingView!
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        imgReviewer.afCancelRequest()
+    }
     
     static func heightFor(_ reviewComment : String) -> CGFloat {
         let imgReviewerWidth : CGFloat = 64.0

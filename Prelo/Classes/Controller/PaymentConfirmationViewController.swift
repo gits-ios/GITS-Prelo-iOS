@@ -201,6 +201,17 @@ class PaymentConfirmationCell : UITableViewCell {
         super.layoutSubviews()
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        if (imgProducts.count > 0) {
+            let imgCount = imgProducts.count
+            for i in 1 ..< imgCount {
+                imgProducts[imgCount - i].afCancelRequest()
+            }
+        }
+    }
+    
     func adapt(_ userCheckout : UserCheckout) {
         lblOrderId.text = "Order ID #\(userCheckout.orderId)"
         lblOrderTime.text = userCheckout.time
@@ -215,9 +226,9 @@ class PaymentConfirmationCell : UITableViewCell {
         lblProductCount.text = "\(pCount) Barang"
         
         // Kosongkan gambar terlebih dahulu
-        for j in 0 ..< imgProducts.count {
-            imgProducts[j].image = nil
-        }
+//        for j in 0 ..< imgProducts.count {
+//            imgProducts[j].image = nil
+//        }
         
         // Tentukan jumlah gambar yang akan dimunculkan
         var imgCount = pCount

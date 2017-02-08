@@ -378,7 +378,10 @@ class ShopReviewCell : UITableViewCell {
     var floatRatingView: FloatRatingView!
     
     override func prepareForReuse() {
-        imgBuyer.image = nil
+        super.prepareForReuse()
+        
+//        imgBuyer.image = nil
+        imgBuyer.afCancelRequest()
         lblStar.attributedText = nil
         if self.floatRatingView != nil {
             self.floatRatingView.rating = 0
@@ -386,7 +389,7 @@ class ShopReviewCell : UITableViewCell {
     }
     
     func adapt(_ userReview : UserReview) {
-        imgBuyer.afSetImage(withURL: userReview.buyerPictURL!, withFilter: "circle")
+        imgBuyer.afSetImage(withURL: userReview.buyerPictURL!, withFilter: .circle)
         imgBuyer.layoutIfNeeded()
         imgBuyer.layer.masksToBounds = true
         imgBuyer.layer.cornerRadius = (imgBuyer.frame.size.width) / 2

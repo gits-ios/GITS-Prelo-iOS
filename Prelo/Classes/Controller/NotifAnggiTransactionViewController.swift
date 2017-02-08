@@ -526,11 +526,15 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
     
     override func prepareForReuse() {
         self.contentView.backgroundColor = UIColor.white.withAlphaComponent(0)
-        imgSingle.image = UIImage(named: "raisa.jpg")
+//        imgSingle.image = UIImage(named: "raisa.jpg")
         vwSingleImage.isHidden = false
         vwDoubleImage.isHidden = true
         vwCaption.backgroundColor = Theme.GrayDark
         lblTrxStatus.textColor = Theme.GrayDark
+        
+        imgSingle.afCancelRequest()
+        imgDouble1.afCancelRequest()
+        imgDouble2.afCancelRequest()
     }
 
     func adapt(_ notif : NotificationObj, idx : Int) {

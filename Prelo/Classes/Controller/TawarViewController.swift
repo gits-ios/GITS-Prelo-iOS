@@ -189,6 +189,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         } else { // If I am seller
             header.captionUsername.text = tawarItem.myName
         }
+        
+        header.ivProduct.image = nil
+        
         // Product image
         header.ivProduct.afSetImage(withURL: tawarItem.productImage)
         
@@ -563,7 +566,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             cell.decor()
             
             if (!m.isMe) {
-                cell.avatar?.afSetImage(withURL: tawarItem.theirImage, withFilter: "circle")
+                cell.avatar?.afSetImage(withURL: tawarItem.theirImage, withFilter: .circle)
             }
             
             cell.toShopPage = {
@@ -1238,7 +1241,10 @@ class TawarCell : UITableViewCell {
     var toShopPage : () -> () = {}
     
     override func prepareForReuse() {
-        imgMessage?.image = nil
+        super.prepareForReuse()
+        
+//        imgMessage?.image = nil
+        imgMessage?.afCancelRequest()
         captionTime.date = nil
     }
     

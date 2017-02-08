@@ -647,7 +647,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
 //                }
                 let avatarThumbnail = json["profile"]["pict"].stringValue
                 self.shopAvatar = URL(string: avatarThumbnail)!
-                self.shopHeader?.avatar.afSetImage(withURL: self.shopAvatar!, withFilter: "circle")
+                self.shopHeader?.avatar.afSetImage(withURL: self.shopAvatar!, withFilter: .circle)
                 let avatarFull = avatarThumbnail.replacingOccurrences(of: "thumbnails/", with: "", options: NSString.CompareOptions.literal, range: nil)
                 self.shopHeader?.avatarUrls.append(avatarFull)
                 
@@ -1819,6 +1819,10 @@ class ListItemCell : UICollectionViewCell {
         btnLove.isHidden = true
         affiliateLogo.isHidden = true
         captionOldPrice.isHidden = false
+        
+        ivCover.afCancelRequest()
+        avatar.afCancelRequest()
+        affiliateLogo.afCancelRequest()
     }
     
     func adapt(_ product : Product, listStage : Int, currentMode : ListItemMode, shopAvatar : URL?, parent: BaseViewController) {
@@ -1861,9 +1865,9 @@ class ListItemCell : UICollectionViewCell {
             sectionSpecialStory.isHidden = false
             captionSpecialStory.text = "\"\(product.specialStory!)\""
             if let url = product.avatar {
-                avatar.afSetImage(withURL: url, withFilter: "circle")
+                avatar.afSetImage(withURL: url, withFilter: .circle)
             } else if currentMode == .shop || currentMode == .newShop {
-                avatar.afSetImage(withURL: shopAvatar!, withFilter: "circle")
+                avatar.afSetImage(withURL: shopAvatar!, withFilter: .circle)
             } else {
                 avatar.image = nil
             }
@@ -1942,7 +1946,7 @@ class ListItemCell : UICollectionViewCell {
                 
             }
             let url = URL(string: product.json["affiliate_data"]["affiliate_icon"].stringValue)
-            affiliateLogo.afSetImage(withURL: url!)
+            affiliateLogo.afSetImage(withURL: url!, withFilter: .noneWithoutPlaceHolder)
             
             affiliateLogo.contentMode = .scaleAspectFit
             consWidthAffiliateLogo.constant = const / 3 * 8
@@ -2152,7 +2156,7 @@ class StoreHeader : UIView, UICollectionViewDataSource, UICollectionViewDelegate
             img.layoutIfNeeded()
             img.layer.cornerRadius = (img.width ) / 2
             img.layer.masksToBounds = true
-            img.afSetImage(withURL: badges[(indexPath as NSIndexPath).row], withFilter: "circle")
+            img.afSetImage(withURL: badges[(indexPath as NSIndexPath).row], withFilter: .circle)
             
             vwIcon.addSubview(img)
             
