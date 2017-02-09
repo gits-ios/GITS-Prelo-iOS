@@ -96,6 +96,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     // up barang coin - diamond
     var isCoinUse = false
     
+    var isNeedReload = false
+    
     weak var delegate: MyProductDelegate?
     
     override func viewDidLoad() {
@@ -128,10 +130,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     override func viewWillAppear(_ animated: Bool) {
         UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: true)
-        detail = nil
-//        if (detail == nil) {
+
+        if (detail == nil || isNeedReload) {
             getDetail()
-//        }
+            
+            isNeedReload = false
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -880,6 +884,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     @IBAction func editPressed(_ sender: AnyObject) {
         self.showLoading()
+        
+        isNeedReload = true
+        
         let a = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
         a.editMode = true
         a.editDoneBlock = {
@@ -918,6 +925,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
         } else
         {
+            isNeedReload = true
+            
             self.performSegue(withIdentifier: "segAddComment", sender: nil)
         }
     }
@@ -929,6 +938,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     func userLoggedIn() {
         if (loginComment)
         {
+            isNeedReload = true
+            
             self.performSegue(withIdentifier: "segAddComment", sender: nil)
         }
     }
@@ -949,6 +960,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     @IBAction func btnReservationPressed(_ sender: AnyObject) {
         if (detail != nil) {
+            
+            isNeedReload = true
+            
             if (detail!.status == ProductStatusActive) { // Product is available
                 // Reserve product
                 self.setBtnReservationToLoading()
@@ -1053,6 +1067,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     // MARK: - If product is bought
     
     @IBAction func toPaymentConfirm(_ sender: AnyObject) {
+        
+        isNeedReload = true
+        
         let paymentConfirmationVC = Bundle.main.loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil)?.first as! PaymentConfirmationViewController
         self.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
     }

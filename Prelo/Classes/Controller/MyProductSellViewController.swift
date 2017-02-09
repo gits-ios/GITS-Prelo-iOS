@@ -92,9 +92,9 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         if (self.delegate?.getFromDraftOrNew())!
         {
             self.refresh(0 as AnyObject, isSearchMode: false)
+            
+            self.delegate?.setFromDraftOrNew(false)
         }
-        
-        self.delegate?.setFromDraftOrNew(false)
         
         ProdukUploader.AddObserverForUploadSuccess(self, selector: #selector(MyProductSellViewController.uploadProdukSukses(_:)))
         ProdukUploader.AddObserverForUploadFailed(self, selector: #selector(MyProductSellViewController.uploadProdukGagal(_:)))
