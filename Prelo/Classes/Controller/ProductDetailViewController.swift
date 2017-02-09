@@ -512,6 +512,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 self.detail?.setSharedViaFacebook()
                 if let fbUsername = CDUserOther.getOne()?.fbUsername {
                     Constant.showDialog("Share to Facebook", message: "Barang berhasil di-share di akun Facebook \(fbUsername)")
+                    self.delegate?.setFromDraftOrNew(true)
                 }
             }
             self.hideLoading()
@@ -526,6 +527,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 self.detail?.setSharedViaTwitter()
                 if let twUsername = CDUserOther.getOne()?.twitterUsername {
                     Constant.showDialog("Share to Twitter", message: "Barang berhasil di-share di akun Twitter \(twUsername)")
+                    self.delegate?.setFromDraftOrNew(true)
                 }
             }
             self.hideLoading()
@@ -585,6 +587,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             instagramSharePreview.copyAndShare = {
                                 UIPasteboard.general.string = "\(textToShare)\(hashtags)"
                                 Constant.showDialog("Data telah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
+                                self.delegate?.setFromDraftOrNew(true)
                                 self.mgInstagram = MGInstagram()
                                 self.mgInstagram?.post(img, withCaption: textToShare, in: self.view, delegate: self)
                                 let _ = request(APIProduct.shareCommission(pId: (self.detail?.productID)!, instagram: "1", path: "0", facebook: "0", twitter: "0")).responseJSON { resp in
