@@ -594,7 +594,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 isPageTracked = true
                 
                 // Jika masuk ke kategori 'Women', munculkan navbar dkk karena kemungkinan scroll atas-bawah mati karena konten tidak panjang
-                if (categoriesFix[i]["name"].stringValue.lowercased() == "women") {
+                /*if (categoriesFix[i]["name"].stringValue.lowercased() == "women") {
                     NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
                     self.navigationController?.setNavigationBarHidden(false, animated: true)
                     
@@ -603,7 +603,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                     self.scrollCategoryName.setContentOffset(bottomOffset, animated: false)
                     
                     self.showStatusBar()
-                }
+                }*/
                 
                 // Set current category id
                 self.currentCategoryId = categoriesFix[i]["_id"].stringValue
