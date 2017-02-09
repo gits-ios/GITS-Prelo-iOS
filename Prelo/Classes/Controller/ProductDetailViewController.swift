@@ -93,6 +93,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     @IBOutlet var lblUpOther: UILabel!
     @IBOutlet var consHeightUpBarang: NSLayoutConstraint!
     
+    // up barang coin - diamond
+    var isCoinUse = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -1087,10 +1090,13 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     let message = json["_data"]["message"].stringValue
                     let paidAmount = json["_data"]["paid_amount"].intValue
                     let preloBalance = json["_data"]["my_prelo_balance"].intValue
+                    let coinAmount = json["_data"]["diamond_amount"].intValue
+                    let coin = json["_data"]["my_total_diamonds"].intValue
+                    
                     if (isSuccess) {
-                        self.showUpPopUp(withText: message, isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance)
+                        self.showUpPopUp(withText: message, isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
                     } else {
-                        self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: true, paidAmount: paidAmount, preloBalance: preloBalance)
+                        self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: true, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
                     }
                 }
                 self.hideLoading()
@@ -1098,7 +1104,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
-    func showUpPopUp(withText : String, isShowUpOther : Bool, isShowPaidUp : Bool, paidAmount : Int, preloBalance: Int) {
+    func showUpPopUp(withText: String, isShowUpOther: Bool, isShowPaidUp: Bool, paidAmount: Int, preloBalance: Int, coinAmount: Int, coin: Int) {
         self.vwUpBarangPopUp.isHidden = false
         if (isShowUpOther) {
             self.lblUpOther.isHidden = false
@@ -1108,10 +1114,26 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         if (isShowPaidUp) {
             self.vwBtnSet1UpBarang.isHidden = false
             self.vwBtnSet2UpBarang.isHidden = true
-            self.lblUpBarang.text = withText + "\n\n" + "Atau kamu bisa UP sekarang dengan membayar " + paidAmount.asPrice + " (akan otomatis ditarik dari Prelo Balance)\n"  + "Prelo Balance kamu: " + preloBalance.asPrice
+            
+            if coin >= coinAmount { // with coin / diamond
+                self.lblUpBarang.text = withText + "\n\n" + "Atau kamu bisa UP sekarang menggunakan " + coinAmount.string + " Poin\n\n"  + "Poin kamu sekarang: " + coin.string
+                
+                isCoinUse = true
+                
+                self.lblUpBarang.boldSubstring(coinAmount.string + " Poin")
+                self.lblUpBarang.boldSubstring(coin.string)
+                
+            } else { // with prelo balance
+                self.lblUpBarang.text = withText + "\n\n" + "Atau kamu bisa UP sekarang dengan membayar " + paidAmount.asPrice + " (akan otomatis ditarik dari Prelo Balance)\n\n"  + "Prelo Balance kamu: " + preloBalance.asPrice
+            
+                isCoinUse = false
+                
+                self.lblUpBarang.boldSubstring(paidAmount.asPrice)
+                self.lblUpBarang.boldSubstring(preloBalance.asPrice)
+                
+            }
+            
             self.lblUpBarang.boldSubstring("sekarang")
-            self.lblUpBarang.boldSubstring(paidAmount.asPrice)
-            self.lblUpBarang.boldSubstring(preloBalance.asPrice)
         } else {
             self.vwBtnSet1UpBarang.isHidden = true
             self.vwBtnSet2UpBarang.isHidden = false
@@ -1140,20 +1162,49 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         self.hideUpPopUp()
         self.showLoading()
         if let productId = detail?.productID {
-            let _ = request(APIProduct.paidPush(productId: productId)).responseJSON { resp in
-                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
-                    let json = JSON(resp.result.value!)
-                    let isSuccess = json["_data"]["result"].boolValue
-                    let message = json["_data"]["message"].stringValue
-                    let paidAmount = json["_data"]["paid_amount"].intValue
-                    let preloBalance = json["_data"]["my_prelo_balance"].intValue
-                    if (isSuccess) {
-                        self.showUpPopUp(withText: message, isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance)
-                    } else {
-                        self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance)
+            
+            
+            if isCoinUse == true {
+            
+                let _ = request(APIProduct.paidPushWithCoin(productId: productId)).responseJSON { resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
+                        let json = JSON(resp.result.value!)
+                        let isSuccess = json["_data"]["result"].boolValue
+                        let message = json["_data"]["message"].stringValue
+                        let paidAmount = json["_data"]["paid_amount"].intValue
+                        let preloBalance = json["_data"]["my_prelo_balance"].intValue
+                        let coinAmount = json["_data"]["diamond_amount"].intValue
+                        let coin = json["_data"]["my_total_diamonds"].intValue
+                        
+                        if (isSuccess) {
+                            self.showUpPopUp(withText: message, isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                        } else {
+                            self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                        }
                     }
+                    self.hideLoading()
                 }
-                self.hideLoading()
+                
+            } else {
+                
+                let _ = request(APIProduct.paidPush(productId: productId)).responseJSON { resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
+                        let json = JSON(resp.result.value!)
+                        let isSuccess = json["_data"]["result"].boolValue
+                        let message = json["_data"]["message"].stringValue
+                        let paidAmount = json["_data"]["paid_amount"].intValue
+                        let preloBalance = json["_data"]["my_prelo_balance"].intValue
+                        let coinAmount = json["_data"]["diamond_amount"].intValue
+                        let coin = json["_data"]["my_total_diamonds"].intValue
+                        
+                        if (isSuccess) {
+                            self.showUpPopUp(withText: message, isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                        } else {
+                            self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                        }
+                    }
+                    self.hideLoading()
+                }
             }
         }
     }
