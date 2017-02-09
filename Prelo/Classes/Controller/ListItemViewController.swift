@@ -262,16 +262,16 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         self.navigationController?.setNavigationBarHidden(false, animated: true)
 //        self.repositionScrollCategoryNameContent()
 //        self.showStatusBar()
-        /*
+        
         // Status bar color
         if (currentMode == .filter) {
             self.setStatusBarBackgroundColor(color: UIColor.clear)
-            
+         
             // reset header
-            self.consTopTopHeaderFilter.constant = 0
-            self.consTopGridView.constant = 0
+//            self.consTopTopHeaderFilter.constant = 0
+//            self.consTopGridView.constant = 0
         }
-        */
+        
         if (currentMode == .shop || currentMode == .newShop) {
             self.defaultNavigationBar()
         }
