@@ -35,10 +35,12 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-protocol ProductCellDelegate
+protocol ProductCellDelegate: class
 {
     func cellTappedCategory(_ categoryName : String, categoryID : String)
     func cellTappedBrand(_ brandId : String, brandName : String)
+    
+    func cellTappedComment()
 }
 
 class ProductDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, ProductCellDelegate, UIActionSheetDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate, UserRelatedDelegate
@@ -552,6 +554,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     cellTitle = tableView.dequeueReusableCell(withIdentifier: "cell_title") as? ProductCellTitle
                 }
                 cellTitle?.parent = self
+                cellTitle?.cellDelegate = self
                 cellTitle?.product = self.product
                 cellTitle?.adapt(detail)
                 
@@ -756,6 +759,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
+    // MARK: - table delegate
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if (section == 0) {
             return nil
@@ -824,6 +829,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
+    // MARK: - Product cell delegate
+    
     func cellTappedCategory(_ categoryName: String, categoryID: String) {
         let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
 //        l.currentMode = .standalone
@@ -842,6 +849,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         l.fltrBrands = [brandName : brandId]
         self.navigationController?.pushViewController(l, animated: true)
     }
+    
+    func cellTappedComment() {
+        isNeedReload = true
+    }
+    
+    // MARK: - button
     
     @IBAction func addToCart(_ sender: UIButton) {
         if (alreadyInCart) {
@@ -1285,6 +1298,8 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     var product : Product?
     var detail : ProductDetail?
     
+    weak var cellDelegate : ProductCellDelegate?
+    
     static func heightFor(_ obj : ProductDetail?)->CGFloat
     {
         if (obj == nil) {
@@ -1369,6 +1384,8 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
             LoginViewController.Show(self.parent!, userRelatedDelegate: self, animated: true)
         } else
         {
+            self.cellDelegate?.cellTappedComment()
+            
             self.parent?.performSegue(withIdentifier: "segAddComment", sender: nil)
         }
     }
@@ -1740,7 +1757,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
     @IBOutlet var consHeightWaktuJaminan: NSLayoutConstraint!
     
     
-    var cellDelegate : ProductCellDelegate?
+    weak var cellDelegate : ProductCellDelegate?
     
     override func awakeFromNib() {
         captionCategory?.tapDelegate = self
