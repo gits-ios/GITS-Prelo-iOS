@@ -193,26 +193,38 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
         } else if ((indexPath as NSIndexPath).section == (achievements?.count)! + 1) {
             return 45
         } else {
-            if ((indexPath as NSIndexPath).row == 0) { // always open
+            // always open
+            if ((indexPath as NSIndexPath).row == 0) {
                 return 80
-            } else if ((indexPath as NSIndexPath).row == 1) { // description cell
+                
+                // description cell
+            } else if ((indexPath as NSIndexPath).row == 1) {
                 let textRect = achievements![(indexPath as NSIndexPath).section - 1].desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 42)
-                return CGFloat(Int(textRect.height + 4))
-            } else if ((indexPath as NSIndexPath).row > 1 && (indexPath as NSIndexPath).row <= achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1) { // condition cell
+                return CGFloat(Int(textRect.height + 4.5))
+                
+                // condition cell
+            } else if ((indexPath as NSIndexPath).row > 1 && (indexPath as NSIndexPath).row <= achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1) {
                 let textRect = achievements![(indexPath as NSIndexPath).section - 1].conditions[(indexPath as NSIndexPath).row - 2].conditionText.boundsWithFontSize(UIFont.systemFont(ofSize: 11), width: UIScreen.main.bounds.size.width - 80)
-                return (textRect.height < 30 ? 30 : CGFloat(Int(textRect.height)) + 4)
-            } else if ((indexPath as NSIndexPath).row > achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1 && (indexPath as NSIndexPath).row <= achievements![(indexPath as NSIndexPath).section - 1].tiers.count + achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1) { // tier icons cell
+                return CGFloat(Int(textRect.height + 17.5)) + 4
+                
+                // tier icons cell
+            } else if ((indexPath as NSIndexPath).row > achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1 && (indexPath as NSIndexPath).row <= achievements![(indexPath as NSIndexPath).section - 1].tiers.count + achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1) {
                 let textRect = achievements![(indexPath as NSIndexPath).section - 1].tiers[(indexPath as NSIndexPath).row - (achievements?[(indexPath as NSIndexPath).section - 1].conditions.count)! - 2].name.boundsWithFontSize(UIFont.systemFont(ofSize: 11), width: UIScreen.main.bounds.size.width - 80)
                 var incrementConstant = CGFloat(4)
                 if ((indexPath as NSIndexPath).row - (achievements?[(indexPath as NSIndexPath).section - 1].conditions.count)! - 2) == 0 {
                     incrementConstant = 6
                 }
-                return (textRect.height < 30 ? 30 : CGFloat(Int(textRect.height)) + incrementConstant)
-            } else if ((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].tiers.count + achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1 + 1 && achievements![(indexPath as NSIndexPath).section - 1].actionUri != nil) { // action cell
+                return CGFloat(Int(textRect.height + 17.5)) + incrementConstant
+                
+                // action cell
+            } else if ((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].tiers.count + achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1 + 1 && achievements![(indexPath as NSIndexPath).section - 1].actionUri != nil) {
                 let textRect = achievements![(indexPath as NSIndexPath).section - 1].actionTitle.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 42)
-                return CGFloat(Int(textRect.height + 4))
+                return CGFloat(Int(textRect.height + 4.5))
+                
+                // border bottom
             } else {
-                return 7 // border bottom
+                return 7
+                
             }
         }
     }

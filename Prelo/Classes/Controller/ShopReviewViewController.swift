@@ -157,7 +157,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
 //        let tableHeight = CGFloat((self.userReviews.count + (self.userReviews.count > 5 ? 2 : 1)) * 65) // min height
         let tableHeight = self.tableView.contentSize.height
         
-        var bottom = CGFloat(24)
+        var bottom = CGFloat(1)
         if (tableHeight < screenHeight) {
             bottom += (screenHeight - tableHeight)
         }
@@ -219,7 +219,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
                     cell.selectionStyle = .none
                     cell.backgroundColor = UIColor.clear
                     cell.clipsToBounds = true
-                    cell.separatorInset = UIEdgeInsetsMake(0, cell.bounds.size.width, 0, 0);
+                    cell.separatorInset = UIEdgeInsetsMake(0, UIScreen.main.bounds.size.width, 0, 0);
                     
                     let lblButton = UILabel(frame: CGRect(x: 16, y: 16, width: tableView.width - 32, height: 30))
                     

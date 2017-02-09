@@ -418,6 +418,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
         else if (draftMode)
         {
+            self.title = PageName.AddProduct
+            
             let product = draftProduct
             
             txtName.text = product?.name
