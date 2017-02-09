@@ -910,6 +910,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             self.getDetail()
         }
         a.topBannerText = (detail?.rejectionText)
+        
+        a.delegate = self.delegate
+        
         // API Migrasi
         let _ = request(APIProduct.detail(productId: detail!.productID, forEdit: 1)).responseJSON {resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Barang")) {

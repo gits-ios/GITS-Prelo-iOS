@@ -137,6 +137,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     var uniqueCodeString : String!
     
+    // for refresh product sell list when product deleted
+    weak var delegate: MyProductDelegate?
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -1708,6 +1711,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                         {
                             v.removeLast()
                             v.removeLast()
+                            
+                            self.delegate?.setFromDraftOrNew(true)
                             self.navigationController?.setViewControllers(v, animated: true)
                         }
                         
