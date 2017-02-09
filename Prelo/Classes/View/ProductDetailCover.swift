@@ -140,10 +140,11 @@ class ProductDetailCover: UIView {
         if (status != nil) {
             let screenSize: CGRect = UIScreen.main.bounds
             let screenWidth = screenSize.width
+            let bannerWidth = screenWidth/3 // 150
             if (status == 2 && !isFakeApprove && !isFakeApproveV2) { // under review
                 banner = UIImageView(image: UIImage(named: "banner_review.png"))
                 if (banner != nil) {
-                    banner!.frame = CGRect(x: screenWidth - 150, y: self.topBannerHeight, width: 150, height: 149)
+                    banner!.frame = CGRect(x: screenWidth - bannerWidth - 2, y: self.topBannerHeight + 2, width: bannerWidth, height: bannerWidth)
                     self.addSubview(banner!)
                 }
             } else if (status == 4) { // sold
@@ -151,13 +152,13 @@ class ProductDetailCover: UIView {
             } else if (status == 7) { // reserved
                 banner = UIImageView(image: UIImage(named: "banner_reserved.png"))
                 if (banner != nil) {
-                    banner!.frame = CGRect(x: screenWidth - 150, y: self.topBannerHeight, width: 150, height: 150)
+                    banner!.frame = CGRect(x: screenWidth - bannerWidth - 2, y: self.topBannerHeight + 2, width: bannerWidth, height: bannerWidth)
                     self.addSubview(banner!)
                 }
             } else if (isFeaturedProduct) {
                 banner = UIImageView(image: UIImage(named: "banner_featured.png"))
                 if (banner != nil) {
-                    banner!.frame = CGRect(x: screenWidth - 150, y: self.topBannerHeight, width: 150, height: 150)
+                    banner!.frame = CGRect(x: screenWidth - bannerWidth - 2, y: self.topBannerHeight + 2, width: bannerWidth, height: bannerWidth)
                     self.addSubview(banner!)
                 }
             } else {
@@ -169,9 +170,10 @@ class ProductDetailCover: UIView {
     func addSoldBanner() {
         let screenSize: CGRect = UIScreen.main.bounds
         let screenWidth = screenSize.width
+        let bannerWidth = screenWidth/3 // 150
         banner = UIImageView(image: UIImage(named: "banner_sold.png"))
         if (banner != nil) {
-            banner!.frame = CGRect(x: screenWidth - 150, y: self.topBannerHeight, width: 150, height: 148)
+            banner!.frame = CGRect(x: screenWidth - bannerWidth - 2, y: self.topBannerHeight + 2, width: bannerWidth, height: bannerWidth)
             self.addSubview(banner!)
         }
     }

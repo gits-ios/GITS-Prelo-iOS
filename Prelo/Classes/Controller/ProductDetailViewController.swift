@@ -887,6 +887,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             self.disableMyProductBtnSet()
                             self.pDetailCover?.addSoldBanner()
                             Constant.showDialog("Success", message: "Barang telah ditandai sebagai barang terjual")
+                            
+                            self.delegate?.setFromDraftOrNew(true)
                         } else {
                             Constant.showDialog("Failed", message: "Oops, terdapat kesalahan")
                         }
