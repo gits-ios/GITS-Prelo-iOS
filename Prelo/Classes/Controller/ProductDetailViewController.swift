@@ -96,6 +96,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     // up barang coin - diamond
     var isCoinUse = false
     
+    weak var delegate: MyProductDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -1108,6 +1110,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         self.vwUpBarangPopUp.isHidden = false
         if (isShowUpOther) {
             self.lblUpOther.isHidden = false
+            self.delegate?.setFromDraftOrNew(true)
         } else {
             self.lblUpOther.isHidden = true
         }
