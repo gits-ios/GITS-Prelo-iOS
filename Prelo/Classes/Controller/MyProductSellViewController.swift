@@ -32,7 +32,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     
     var localProductPrimaryImages: Array<UIImage> = []
     
-//    var delegate: MyProductDelegate?
+    weak var delegate: MyProductDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,19 +82,19 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         // Google Analytics
         GAI.trackPageVisit(PageName.MyProducts)
         
-        if (!first)
-        {
-            self.refresh(0 as AnyObject, isSearchMode: false)
-        }
-        
-        first = false
-        
-//        if (self.delegate?.getFromDraftOrNew())!
+//        if (!first)
 //        {
 //            self.refresh(0 as AnyObject, isSearchMode: false)
 //        }
         
-//        self.delegate?.setFromDraftOrNew(false)
+//        first = false
+        
+        if (self.delegate?.getFromDraftOrNew())!
+        {
+            self.refresh(0 as AnyObject, isSearchMode: false)
+            
+            self.delegate?.setFromDraftOrNew(false)
+        }
         
         ProdukUploader.AddObserverForUploadSuccess(self, selector: #selector(MyProductSellViewController.uploadProdukSukses(_:)))
         ProdukUploader.AddObserverForUploadFailed(self, selector: #selector(MyProductSellViewController.uploadProdukGagal(_:)))
@@ -271,7 +271,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                             image = img
                         }
                     } else { // placeholder image
-                        image = UIImage(named: "raisa.jpg")?.resizeWithWidth(120)
+                        image = UIImage(named: "placeholder-standar")?.resizeWithWidth(120)
                     }
                     
                     localProductPrimaryImages.append(image!)
@@ -279,6 +279,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 } else {
                     cell.imgProduct.image = localProductPrimaryImages[idx]
                 }
+                
+                cell.imgProduct.afInflate()
                 
                 cell.lblOrderStatus.text = "DRAFT"
                 cell.lblOrderStatus.textColor = UIColor.blue
@@ -386,7 +388,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if (indexPath as NSIndexPath).section == 0 {
-//            self.delegate?.setFromDraftOrNew(true)
+            self.delegate?.setFromDraftOrNew(true)
             let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
             add.screenBeforeAddProduct = PageName.MyProducts
             add.draftMode = true
@@ -401,6 +403,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
             
             let d:ProductDetailViewController = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
             d.product = selectedProduct!
+            
+            d.delegate = self.delegate
             
             self.previousController?.navigationController?.pushViewController(d, animated: true)
         }
