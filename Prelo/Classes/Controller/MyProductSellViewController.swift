@@ -271,7 +271,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                             image = img
                         }
                     } else { // placeholder image
-                        image = UIImage(named: "raisa.jpg")?.resizeWithWidth(120)
+                        image = UIImage(named: "placeholder-standar")?.resizeWithWidth(120)
                     }
                     
                     localProductPrimaryImages.append(image!)
@@ -279,6 +279,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 } else {
                     cell.imgProduct.image = localProductPrimaryImages[idx]
                 }
+                
+                cell.imgProduct.afInflate()
                 
                 cell.lblOrderStatus.text = "DRAFT"
                 cell.lblOrderStatus.textColor = UIColor.blue
