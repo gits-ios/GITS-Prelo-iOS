@@ -119,7 +119,7 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
         
         if let imageName = j["image_name"].string {
             c.imageView.backgroundColor = UIColor.white
-            c.imageView.afSetImage(withURL: URL(string: imageName)!, withFilter: .fit)
+            c.imageView.afSetImage(withURL: URL(string: imageName)!, withFilter: .fitWithPreloPlaceHolder)
         }
         
         c.createBordersWithColor(UIColor.lightGray, radius: 0, width: 1)

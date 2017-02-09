@@ -192,7 +192,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         segmentView.tintColor = UIColor.clear
         segmentView.addTarget(self, action: #selector(StorePageTabBarViewController.navigateSegment(_:)), for: .valueChanged)
         
-        segmentView.addSegmentWithTitle("Toko", onSelectionImage: nil, offSelectionImage: nil)
+        segmentView.addSegmentWithTitle("Shop", onSelectionImage: nil, offSelectionImage: nil)
         
         segmentView.addSegmentWithTitle("Review", onSelectionImage: nil, offSelectionImage: nil)
         

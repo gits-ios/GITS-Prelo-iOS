@@ -267,7 +267,7 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
             cell?.backgroundColor = UIColor.colorWithColor(UIColor.gray, alpha: 0.2)
             cell?.selectionStyle = .none
             
-            cell?.textLabel!.text = "Belum ada History"
+            cell?.textLabel!.text = "Belum ada riwayat"
             cell?.textLabel!.font = UIFont.systemFont(ofSize: 10)
             cell?.textLabel!.textColor = UIColor.darkGray
             cell?.textLabel!.textAlignment = .center

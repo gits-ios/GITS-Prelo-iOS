@@ -38,20 +38,13 @@ class ProductDetailCover: UIView {
     fileprivate func setup(_ images : Array<String>, width: CGFloat, height: CGFloat)
     {
         imageURLS = images
-        for i in 0...images.count
-        {
-            if (i >= imageViews!.count)
-            {
-                break
-            }
+        for i in 0...images.count - 1 {
+            
             var iv : UIImageView?
             
-            for v in self.subviews
-            {
-                if v is UIImageView
-                {
-                    if (i == v.tag)
-                    {
+            for v in self.subviews {
+                if v is UIImageView {
+                    if (i == v.tag) {
                         iv = v as? UIImageView
                         break
                     }
@@ -59,10 +52,6 @@ class ProductDetailCover: UIView {
             }
             
             print("Cover TAG : " + String(iv!.tag))
-            iv?.tag = i
-            iv?.isUserInteractionEnabled = true
-            iv?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ProductDetailCover.tapped(_:))))
-            
             
             // set frame size
             if (i == 0) {
@@ -103,8 +92,12 @@ class ProductDetailCover: UIView {
                 iv?.height = height/2 - 6
             }
             
-//            let fr = iv?.frame
-//            print(fr)
+            let fr = iv?.frame
+            print(fr)
+            
+            iv?.tag = i
+            iv?.isUserInteractionEnabled = true
+            iv?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ProductDetailCover.tapped(_:))))
             
             iv?.afSetImage(withURL: URL(string: images.objectAtCircleIndex(i))!)
         }
@@ -272,7 +265,7 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
             let iv = UIImageView(frame : s.bounds)
             iv.contentMode = UIViewContentMode.scaleAspectFit
             iv.afSetImage(withURL: URL(string: images[i])!, withFilter: .fit)
-            iv.tag = i
+            iv.tag = 1
             s.addSubview(iv)
             s.x = x
             scrollView?.addSubview(s)

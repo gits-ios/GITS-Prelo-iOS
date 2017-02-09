@@ -444,7 +444,7 @@ class ShopReviewAverageCell : UITableViewCell {
     func adapt(_ star : Float) {
         circularView.createBordersWithColor(UIColor.clear, radius: circularView.width/2, width: 0)
 
-        circularView.backgroundColor = Theme.GrayLight
+        circularView.backgroundColor = UIColor.init(hex: "D1D1D1")
         
         averageStar.text = star.clean
         
