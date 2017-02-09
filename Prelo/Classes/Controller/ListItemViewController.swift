@@ -249,6 +249,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.consTopGridView.constant = UIApplication.shared.statusBarFrame.height
             }
         }
+        
+        if currentMode == .filter {
+            self.setStatusBarBackgroundColor(color: Theme.PrimaryColor)
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -2222,7 +2226,7 @@ class StoreInfo : UICollectionViewCell {
                 }
                 
             } else {
-                descHeight = Int(desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-16).height)
+                descHeight = Int(completeDesc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-16).height)
             }
             height += descHeight
             
@@ -2260,12 +2264,16 @@ class StoreInfo : UICollectionViewCell {
                     let descMutableString : NSMutableAttributedString = NSMutableAttributedString(string: descToWrite, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)])
                     descMutableString.addAttribute(NSForegroundColorAttributeName, value: Theme.PrimaryColorDark, range: NSRange(location: descLengthCollapse + 3, length: 12))
                     self.captionDesc.attributedText = descMutableString
-                    self.captionDesc.text = descToWrite
+//                    self.captionDesc.text = descToWrite
                 } else {
-                    self.captionDesc.text = desc
+                    let descMutableString : NSMutableAttributedString = NSMutableAttributedString(string: desc, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)])
+                    self.captionDesc.attributedText = descMutableString
+//                    self.captionDesc.text = desc
                 }
             } else {
-                self.captionDesc.text = desc
+                let descMutableString : NSMutableAttributedString = NSMutableAttributedString(string: completeDesc, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)])
+                self.captionDesc.attributedText = descMutableString
+//                self.captionDesc.text = completeDesc
             }
             
         } else {
