@@ -908,7 +908,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     }
                     
                     
-                    var bottom = CGFloat(24)
+                    var bottom = CGFloat(1)
                     if (height < screenHeight) {
                         bottom += screenHeight - height
                     }

@@ -157,7 +157,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
 //        let tableHeight = CGFloat((self.userReviews.count + (self.userReviews.count > 5 ? 2 : 1)) * 65) // min height
         let tableHeight = self.tableView.contentSize.height
         
-        var bottom = CGFloat(24)
+        var bottom = CGFloat(1)
         if (tableHeight < screenHeight) {
             bottom += (screenHeight - tableHeight)
         }

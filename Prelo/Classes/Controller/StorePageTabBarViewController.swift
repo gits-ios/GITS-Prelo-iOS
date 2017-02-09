@@ -22,10 +22,9 @@ protocol NewShopHeaderDelegate: class {
 }
 
 // MARK: - Class
-class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
+class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate {
     
     // MARK: - Properties
-//    var tabSwipe : CarbonTabSwipeNavigation?
     var listItemVC : ListItemViewController?
     var shopReviewVC : ShopReviewViewController?
     var shopBadgeVC : ShopAchievementViewController?
@@ -54,19 +53,18 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     @IBOutlet weak var vwGeolocation: UIView! // hide
     
     @IBOutlet weak var loadingPanel: UIView!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     var isTransparent : Bool = true
     var isFirst : Bool = true
     var curTop : CGFloat = 0
     var isOnTop : Bool = false
-//    var isLeft : Bool = false
     
-    var curIndex = 0
+    var currentPage = 0
     
     @IBOutlet weak var vwNavBar: UIView!
     var segmentView : SMSegmentView!
     var seletionBar: UIView = UIView()
-    @IBOutlet weak var consCenterVwChild: NSLayoutConstraint! // 375 | 0 | -375
     
     @IBOutlet weak var dashboardCover: UIImageView!
     
@@ -93,13 +91,9 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         shopBadgeVC?.currentMode = .inject
         shopBadgeVC?.delegate = self
         
-        let swipeRight = UISwipeGestureRecognizer(target: self, action:  #selector(StorePageTabBarViewController.swiped(_:)))
-        swipeRight.direction = UISwipeGestureRecognizerDirection.right
-        self.vwChild.addGestureRecognizer(swipeRight)
-        
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action:  #selector(StorePageTabBarViewController.swiped(_:)))
-        swipeLeft.direction = UISwipeGestureRecognizerDirection.left
-        self.vwChild.addGestureRecognizer(swipeLeft)
+        scrollView.isPagingEnabled = true
+        scrollView.delegate = self
+        scrollView.showsHorizontalScrollIndicator = false
         
         // Set title
         self.title = "" // clear title
@@ -139,13 +133,12 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
             
             setupNavBar()
             setupSubView()
-            setSubVC(0)
             setSelectionBar(0)
+            segmentView.selectedSegmentIndex = 0
             
             isFirst = false
         }
         
-//        self.consTopVw.constant = self.curTop
         UIView.animate(withDuration: 0.5) {
             self.navigationController?.navigationBar.isTranslucent = true
         }
@@ -155,19 +148,6 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
             self.dereaseHeader()
         }
         }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-        
-//        self.isLeft = true
-    }
-    
-    override func backPressed(_ sender: UIBarButtonItem) {
-        super.backPressed(sender)
-        
-        setSubVC(0)
-        setSelectionBar(0)
     }
     
     func setupNavBar() {
@@ -230,47 +210,8 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         vc3?.didMove(toParentViewController: self)
     }
     
-    func setSubVC(_ index: Int) {
-        
-        let width = self.vwNavBar.width
-        var origin = CGFloat(0)
-        var center = CGFloat(0)
-        
-        switch (index) {
-        case 0:
-            origin = 0
-            center = width
-        case 1:
-            origin = -width
-            center = 0
-        case 2:
-            origin = 2 * -width
-            center = -width
-        default:
-            print("default")
-        }
-        
-        // 1
-        let placeSelectionBar = { () -> () in
-            // parent
-            var curView = self.vwChild.frame
-            curView.origin.x = origin
-            self.vwChild.frame = curView
-        }
-        
-        // 2
-        UIView.animate(withDuration: 0.3, animations: {
-            placeSelectionBar()
-        })
-        
-        // inject center (fixer)
-        self.consCenterVwChild.constant = center
-        
-        curIndex = index
-        if segmentView.selectedSegmentIndex != index {
-            segmentView.selectedSegmentIndex = index
-        }
-        
+    func scrollSubVC(_ index: Int) {
+        scrollView.setContentOffset(CGPoint(x: CGFloat(CGFloat(index) * UIScreen.main.bounds.width), y: CGFloat(0)), animated: true)
     }
     
     func setSelectionBar(_ index: Int) {
@@ -293,21 +234,20 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         }
     }
     
-    func swiped(_ gesture: UIGestureRecognizer) {
-        if let swipeGesture = gesture as? UISwipeGestureRecognizer{
-            switch swipeGesture.direction {
-            case UISwipeGestureRecognizerDirection.right:
-                if curIndex > 0 {
-                    setSubVC(curIndex - 1)
-                }
-                print("right swipe")
-            case UISwipeGestureRecognizerDirection.left:
-                if curIndex < 2 {
-                    setSubVC(curIndex + 1)
-                }
-                print("left swipe")
-            default:
-                print("other swipe")
+    // MARK: - Scrollview delegate
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (scrollView == self.scrollView)
+        {
+            var p : CGFloat = 0
+            if (scrollView.bounds.width > 0) {
+                p = scrollView.contentOffset.x / scrollView.bounds.width
+            }
+
+            if (currentPage != Int(p + 0.5) && p.remainder(dividingBy: 1) == 0)
+            {
+                currentPage = Int(p)
+                setSelectionBar(currentPage)
+                segmentView.selectedSegmentIndex = currentPage
             }
         }
     }
@@ -340,17 +280,12 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     // button move view VC
     func navigateSegment(_ segmentView: SMSegmentView) {
         print("Select segment at index: \(segmentView.selectedSegmentIndex)")
-        setSubVC(segmentView.selectedSegmentIndex)
         setSelectionBar(segmentView.selectedSegmentIndex)
+        scrollSubVC(segmentView.selectedSegmentIndex)
     }
     
     // MARK: - delegate
     func increaseHeader() {
-//        if (self.consTopVw.constant < 0) {
-//            self.consTopVw.constant += 10
-//            
-//            self.curTop = self.consTopVw.constant
-//        }
         
         
         if (self.isOnTop) {
@@ -390,23 +325,8 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     
     func dereaseHeader() {
         
-//        if (self.consTopVw.constant > -170) {
-//            self.consTopVw.constant -= 10
-//            
-//            self.curTop = self.consTopVw.constant
-//        }
-        
-        
         if (!self.isOnTop) {
             self.isOnTop = true
-            
-            
-            var margin = CGFloat(0)
-//            if self.isLeft {
-            
-                // navbar
-                margin = 64
-//            }
             
             // 1
             let placeSelectionBar = { () -> () in
@@ -416,11 +336,11 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
                 self.vwHeaderTabBar.frame = curView
                 
                 var cur2View = self.vwNavBar.frame
-                cur2View.origin.y = 0 + margin
+                cur2View.origin.y = 0 + 64
                 self.vwNavBar.frame = cur2View
                 
                 var cur3View = self.vwChild.frame
-                cur3View.origin.y = 45 + margin
+                cur3View.origin.y = 45 + 64
                 self.vwChild.frame = cur3View
                 
                 var cur4View = self.dashboardCover.frame
@@ -484,7 +404,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         self.vwGeolocation.isHidden = false
         
         let countReview = json["num_reviewer"].int
-        let countAchievement = (json["achievements"].array)?.count
+//        let countAchievement = (json["achievements"].array)?.count
         
         /*if self.segmentView.numberOfSegments == 0 {
             self.segmentView.addSegmentWithTitle("Toko", onSelectionImage: nil, offSelectionImage: nil)
@@ -525,7 +445,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     
     func setupCollection() {
         
-        let width = 35 * CGFloat(self.badges.count) + 5
+        let width = 43 * CGFloat(self.badges.count) + 5
         
         // Set collection view
         self.shopBadges.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "collcProgressCell")
@@ -558,7 +478,6 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create cell
         let cell = self.shopBadges.dequeueReusableCell(withReuseIdentifier: "collcProgressCell", for: indexPath)
-        //        if (badges.count > (indexPath as NSIndexPath).row) {
         // Create icon view
         let vwIcon : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 38, height: 38))
         
@@ -572,7 +491,6 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         
         // Add view to cell
         cell.addSubview(vwIcon)
-        //        }
         
         return cell
     }
