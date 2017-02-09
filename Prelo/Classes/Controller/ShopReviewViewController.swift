@@ -219,7 +219,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
                     cell.selectionStyle = .none
                     cell.backgroundColor = UIColor.clear
                     cell.clipsToBounds = true
-                    cell.separatorInset = UIEdgeInsetsMake(0, cell.bounds.size.width, 0, 0);
+                    cell.separatorInset = UIEdgeInsetsMake(0, UIScreen.main.bounds.size.width, 0, 0);
                     
                     let lblButton = UILabel(frame: CGRect(x: 16, y: 16, width: tableView.width - 32, height: 30))
                     
