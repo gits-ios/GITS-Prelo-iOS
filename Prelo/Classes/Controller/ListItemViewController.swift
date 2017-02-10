@@ -401,7 +401,16 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             
             // Adjust content base on the mode
             switch (currentMode) {
-            case .default, .standalone, .shop, .newShop:
+            case .default, .standalone, .shop:
+                // Upper 4px padding handling
+                self.consTopTopHeader.constant = 4
+                
+                // Top header setup
+                self.consHeightVwTopHeader.constant = 0
+                
+                // Get initial products
+                self.getInitialProducts()
+            case .newShop:
                 // Upper 4px padding handling
                 self.consTopTopHeader.constant = 0
                 
@@ -926,7 +935,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     let screenHeight = screenSize.height - (64 + 45) // (170 + 45)
 //                    let height = CGFloat((self.products?.count)! + 1) * 65
                     
-                    var height = StoreInfo.heightFor(self.shopData, isExpand: self.isExpand) + 12
+                    var height = StoreInfo.heightFor(self.shopData, isExpand: self.isExpand) + 8
 
                     if AppTools.isIPad {
                         height += CGFloat(Int(CGFloat((self.products?.count)!) / 3.0 + 0.7)) * (self.itemCellWidth! + 70)
@@ -938,6 +947,12 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     var bottom = CGFloat(1)
                     if (height < screenHeight) {
                         bottom += screenHeight - height
+                    }
+                    
+                    if bottom > 50 {
+                        bottom -= 50
+                    } else  {
+                        bottom = 1
                     }
                     
                     //TOP, LEFT, BOTTOM, RIGHT
@@ -1151,6 +1166,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             if (currentMode == .filter) {
                 return UIEdgeInsetsMake(0, 4, 0, 4)
             }
+        }
+        if (listItemSections[section] == .subcategories) {
+            return UIEdgeInsetsMake(0, 4, 0, 4)
         }
         return UIEdgeInsetsMake(4, 4, 0, 4)
     }
