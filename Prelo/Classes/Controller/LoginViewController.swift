@@ -526,49 +526,91 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                 var twEmail = ""
                 
                 let twShareEmailVC = TWTRShareEmailViewController() { email, error in
-                    if (email != nil) {
-                        twEmail = email!
+                    
+                    let err = error.debugDescription
+                    print(err)
+                    
+                    if (email != nil || err.contains("Your application may not have access to email addresses or the user may not have an email address.")) {
+                        
+                        var isExecute = false
+                        
+                        if (email != nil) {
+                            twEmail = email!
+                            
+                            isExecute = true
+                        } else {
+                            twEmail = (CDUser.getOne()?.email)!
+                            
+                            isExecute = true
+                            
+                            /*
+                            let x = UIAlertController(title: "Share Twitter", message: "Masukkan E-mail akun Twitter kamu", preferredStyle: .alert)
+                            x.addTextField(configurationHandler: { textfield in
+                                textfield.placeholder = "E-mail"
+                                textfield.text = twEmail
+                            })
+                            
+                            let actionOK = UIAlertAction(title: "Kirim", style: .default, handler: { act in
+                                
+                                twEmail = x.textFields![0].text!
+                                isExecute = true
+                            })
+                            
+                            let actionCancel = UIAlertAction(title: "Batal", style: .cancel, handler: { act in
+                                
+                                isExecute = false
+                            })
+                            
+                            x.addAction(actionOK)
+                            x.addAction(actionCancel)
+                            UIApplication.shared.keyWindow?.rootViewController?.present(x, animated: true, completion: nil)
+                            */
+                        }
                         //print("twEmail = \(twEmail)")
                         
-                        let twClient = TWTRAPIClient()
-                        let twShowUserEndpoint = "https://api.twitter.com/1.1/users/show.json"
-                        let twParams = [
-                            "user_id" : twId,
-                            "screen_name" : twUsername
-                        ]
-                        var twErr : NSError?
-                        
-                        let twReq = Twitter.sharedInstance().apiClient.urlRequest(withMethod: "GET", url: twShowUserEndpoint, parameters: twParams, error: &twErr)
-                        
-                        if (twErr != nil) { // Error
-                            LoginViewController.LoginTwitterCancelled(sender, reason: "Error getting twitter data")
-                        } else {
-                            twClient.sendTwitterRequest(twReq, completion: { (resp, res, err) -> Void in
-                                if (err != nil) { // Error
-                                    LoginViewController.LoginTwitterCancelled(sender, reason: "Error getting twitter data")
-                                } else { // Succes
-                                    do {
-                                        let json : Any = try JSONSerialization.jsonObject(with: res!, options: .allowFragments)
-                                        let data = JSON(json)
-                                        print("Twitter user show json: \(data)")
-                                        
-                                        twFullname = data["name"].string!
-                                        
-                                        let resultDict = NSMutableDictionary()
-                                        resultDict.setValue(sender, forKey: "sender")
-                                        resultDict.setValue(screenBeforeLogin, forKey: "screenBeforeLogin")
-                                        resultDict.setValue(twEmail, forKey: "twEmail")
-                                        resultDict.setValue(twFullname, forKey: "twFullname")
-                                        resultDict.setValue(twUsername, forKey: "twUsername")
-                                        resultDict.setValue(twId, forKey: "twId")
-                                        resultDict.setValue(twToken, forKey: "twToken")
-                                        resultDict.setValue(twSecret, forKey: "twSecret")
-                                        onFinish(resultDict)
-                                    } catch {
+                        if isExecute {
+                            let twClient = TWTRAPIClient()
+                            let twShowUserEndpoint = "https://api.twitter.com/1.1/users/show.json"
+                            let twParams = [
+                                "user_id" : twId,
+                                "screen_name" : twUsername
+                            ]
+                            var twErr : NSError?
+                            
+                            let twReq = Twitter.sharedInstance().apiClient.urlRequest(withMethod: "GET", url: twShowUserEndpoint, parameters: twParams, error: &twErr)
+                            
+                            if (twErr != nil) { // Error
+                                LoginViewController.LoginTwitterCancelled(sender, reason: "Error getting twitter data")
+                            } else {
+                                twClient.sendTwitterRequest(twReq, completion: { (resp, res, err) -> Void in
+                                    if (err != nil) { // Error
                                         LoginViewController.LoginTwitterCancelled(sender, reason: "Error getting twitter data")
+                                    } else { // Succes
+                                        do {
+                                            let json : Any = try JSONSerialization.jsonObject(with: res!, options: .allowFragments)
+                                            let data = JSON(json)
+                                            print("Twitter user show json: \(data)")
+                                            
+                                            twFullname = data["name"].string!
+                                            
+                                            let resultDict = NSMutableDictionary()
+                                            resultDict.setValue(sender, forKey: "sender")
+                                            resultDict.setValue(screenBeforeLogin, forKey: "screenBeforeLogin")
+                                            resultDict.setValue(twEmail, forKey: "twEmail")
+                                            resultDict.setValue(twFullname, forKey: "twFullname")
+                                            resultDict.setValue(twUsername, forKey: "twUsername")
+                                            resultDict.setValue(twId, forKey: "twId")
+                                            resultDict.setValue(twToken, forKey: "twToken")
+                                            resultDict.setValue(twSecret, forKey: "twSecret")
+                                            onFinish(resultDict)
+                                        } catch {
+                                            LoginViewController.LoginTwitterCancelled(sender, reason: "Error getting twitter data")
+                                        }
                                     }
-                                }
-                            })
+                                })
+                            }
+                        } else {
+                            LoginViewController.LoginTwitterCancelled(sender, reason: "Error: E-mail gagal didapatkan karena e-mail akun twitter belum diverifikasi, atau gagal diakses oleh Prelo")
                         }
                     } else {
                         LoginViewController.LoginTwitterCancelled(sender, reason: "Error: E-mail gagal didapatkan karena e-mail akun twitter belum diverifikasi, atau gagal diakses oleh Prelo")
