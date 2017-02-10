@@ -15,11 +15,11 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="171"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3gq-Ba-z2H" id="77I-5z-6j9">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="170"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="170.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rB8-e0-ciH">
-                        <rect key="frame" x="147.5" y="8" width="80" height="80"/>
+                        <rect key="frame" x="147.5" y="12" width="80" height="80"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4.68" textAlignment="center" lineBreakMode="clip" minimumFontSize="30" translatesAutoresizingMaskIntoConstraints="NO" id="hoM-jJ-yTB">
                                 <rect key="frame" x="8" y="8" width="64" height="64"/>
@@ -39,18 +39,18 @@
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SS9-9X-09f">
-                        <rect key="frame" x="99.5" y="96" width="175" height="30"/>
+                        <rect key="frame" x="126" y="104" width="122.5" height="21"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="30" id="A6m-tI-mqU"/>
-                            <constraint firstAttribute="width" constant="175" id="VIB-gg-MB4"/>
+                            <constraint firstAttribute="height" constant="21" id="A6m-tI-mqU"/>
+                            <constraint firstAttribute="width" constant="122.5" id="VIB-gg-MB4"/>
                         </constraints>
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="rB8-e0-ciH" firstAttribute="top" secondItem="77I-5z-6j9" secondAttribute="topMargin" id="OBc-Sy-snc"/>
+                    <constraint firstItem="rB8-e0-ciH" firstAttribute="top" secondItem="77I-5z-6j9" secondAttribute="topMargin" constant="4" id="OBc-Sy-snc"/>
                     <constraint firstItem="SS9-9X-09f" firstAttribute="centerX" secondItem="77I-5z-6j9" secondAttribute="centerX" id="Vqz-m3-c3w"/>
-                    <constraint firstItem="SS9-9X-09f" firstAttribute="top" secondItem="rB8-e0-ciH" secondAttribute="bottom" constant="8" id="bq5-5Q-Xbm"/>
+                    <constraint firstItem="SS9-9X-09f" firstAttribute="top" secondItem="rB8-e0-ciH" secondAttribute="bottom" constant="12" id="bq5-5Q-Xbm"/>
                     <constraint firstItem="rB8-e0-ciH" firstAttribute="centerX" secondItem="77I-5z-6j9" secondAttribute="centerX" id="g3W-G0-Wn2"/>
                 </constraints>
             </tableViewCellContentView>

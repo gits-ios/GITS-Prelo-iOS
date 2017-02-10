@@ -485,7 +485,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         img.layoutIfNeeded()
         img.layer.cornerRadius = (img.width ) / 2
         img.layer.masksToBounds = true
-        img.afSetImage(withURL: badges[(indexPath as NSIndexPath).row], withFilter: .circle)
+        img.afSetImage(withURL: badges[(indexPath as NSIndexPath).row], withFilter: .circleWithBadgePlaceHolder)
         
         vwIcon.addSubview(img)
         

@@ -451,7 +451,7 @@ class ShopReviewAverageCell : UITableViewCell {
         averageStar.textColor = UIColor.white
         
         // Love floatable
-        self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 0, width: 175, height: 30))
+        self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 0, width: 122.5, height: 21)) // 175 -> 122.5  30 -> 21
         self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
         self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
         // Optional params

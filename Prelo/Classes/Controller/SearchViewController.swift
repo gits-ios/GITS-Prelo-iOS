@@ -330,7 +330,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if ((indexPath as NSIndexPath).section == SectionItem) {
+        if ((indexPath as NSIndexPath).section == SectionItem && (indexPath as NSIndexPath).row <= foundItems.count) {
             if ((indexPath as NSIndexPath).row == foundItems.count) { // View more
                 var c = tableView.dequeueReusableCell(withIdentifier: "viewmore")
                 if (c == nil) {
