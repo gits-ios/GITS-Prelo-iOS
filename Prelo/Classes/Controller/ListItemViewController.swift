@@ -926,7 +926,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     let screenHeight = screenSize.height - (64 + 45) // (170 + 45)
 //                    let height = CGFloat((self.products?.count)! + 1) * 65
                     
-                    var height = StoreInfo.heightFor(self.shopData, isExpand: self.isExpand) + 12
+                    var height = StoreInfo.heightFor(self.shopData, isExpand: self.isExpand) + 8
 
                     if AppTools.isIPad {
                         height += CGFloat(Int(CGFloat((self.products?.count)!) / 3.0 + 0.7)) * (self.itemCellWidth! + 70)
@@ -938,6 +938,12 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     var bottom = CGFloat(1)
                     if (height < screenHeight) {
                         bottom += screenHeight - height
+                    }
+                    
+                    if bottom > 50 {
+                        bottom -= 50
+                    } else  {
+                        bottom = 1
                     }
                     
                     //TOP, LEFT, BOTTOM, RIGHT
