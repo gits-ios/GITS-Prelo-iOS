@@ -324,10 +324,10 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         
         let pointY = CGFloat(1)
         if (scrollView.contentOffset.y < pointY) {
-            self.delegate?.increaseHeader()
+//            self.delegate?.increaseHeader()
             self.transparentNavigationBar(true)
         } else if (scrollView.contentOffset.y >= pointY) {
-            self.delegate?.dereaseHeader()
+//            self.delegate?.dereaseHeader()
             self.transparentNavigationBar(false)
         }
     }
@@ -336,6 +336,8 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     func transparentNavigationBar(_ isActive: Bool) {
         if (currentMode == .inject) {
             if isActive && !(self.delegate?.getTransparentcy())! {
+                self.delegate?.increaseHeader()
+                
                 UIView.animate(withDuration: 0.5) {
                     // Transparent navigation bar
                     self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
@@ -348,6 +350,8 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
                 }
                 self.delegate?.setTransparentcy(true)
             } else if !isActive && (self.delegate?.getTransparentcy())!  {
+                self.delegate?.dereaseHeader()
+                
                 UIView.animate(withDuration: 0.5) {
                     self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
                     self.navigationController?.navigationBar.shadowImage = nil

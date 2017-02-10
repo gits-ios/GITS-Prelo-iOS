@@ -174,9 +174,9 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         
         segmentView.addSegmentWithTitle("Shop", onSelectionImage: nil, offSelectionImage: nil)
         
-        segmentView.addSegmentWithTitle("Review", onSelectionImage: nil, offSelectionImage: nil)
-        
-        segmentView.addSegmentWithTitle("Badge", onSelectionImage: nil, offSelectionImage: nil)
+//        segmentView.addSegmentWithTitle("Review", onSelectionImage: nil, offSelectionImage: nil)
+//        
+//        segmentView.addSegmentWithTitle("Badge", onSelectionImage: nil, offSelectionImage: nil)
         
         self.vwNavBar.addSubview(segmentView)
         
@@ -406,17 +406,19 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         let countReview = json["num_reviewer"].int
 //        let countAchievement = (json["achievements"].array)?.count
         
-        /*if self.segmentView.numberOfSegments == 0 {
+        if self.segmentView.numberOfSegments == 1 {
+            /*
             self.segmentView.addSegmentWithTitle("Toko", onSelectionImage: nil, offSelectionImage: nil)
             
             self.segmentView.addSegmentWithTitle("Review", onSelectionImage: nil, offSelectionImage: nil)
             
             self.segmentView.addSegmentWithTitle("Badge", onSelectionImage: nil, offSelectionImage: nil)
+            */
             
-//            self.segmentView.addSegmentWithTitle("Review (" + countReview!.string + ")", onSelectionImage: nil, offSelectionImage: nil)
+            self.segmentView.addSegmentWithTitle("Review (" + countReview!.string + ")", onSelectionImage: nil, offSelectionImage: nil)
             
-//            self.segmentView.addSegmentWithTitle("Badge (" + countAchievement!.string + ")", onSelectionImage: nil, offSelectionImage: nil)
-        }*/
+            self.segmentView.addSegmentWithTitle("Badge", onSelectionImage: nil, offSelectionImage: nil)
+        }
         self.loadingPanel.isHidden = true
         
         // setup review

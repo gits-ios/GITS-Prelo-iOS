@@ -176,6 +176,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var newShopHeader : StoreInfo?
     var shopData: JSON!
     var isExpand = false
+    var star = Float(0)
     
     // home
     var isHiddenTop = false
@@ -906,6 +907,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 
                 self.shopName = json["username"].stringValue
                 
+                self.star = json["average_star"].float!
+                
                 let avatarThumbnail = json["profile"]["pict"].stringValue
                 self.shopAvatar = URL(string: avatarThumbnail)!
                 
@@ -1094,7 +1097,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             return cell
         case .aboutShop:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "StorePageShopHeader", for: indexPath) as! StoreInfo
-            cell.adapt(self.shopData, count: self.products!.count, isExpand: self.isExpand)
+            cell.adapt(self.shopData, count: self.products!.count, isExpand: self.isExpand, star: self.star)
             return cell
         }
     }
@@ -1347,10 +1350,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         let pointY = CGFloat(1)
         if (scrollView.contentOffset.y < pointY) {
-            self.delegate?.increaseHeader()
+//            self.delegate?.increaseHeader()
             self.transparentNavigationBar(true)
         } else if (scrollView.contentOffset.y >= pointY) {
-            self.delegate?.dereaseHeader()
+//            self.delegate?.dereaseHeader()
             self.transparentNavigationBar(false)
         }
     }
@@ -1595,6 +1598,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             }
         } else if (currentMode == .newShop) {
             if isActive && !(self.delegate?.getTransparentcy())! {
+                self.delegate?.increaseHeader()
+
                 UIView.animate(withDuration: 0.5) {
                     // Transparent navigation bar
                     self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
@@ -1607,6 +1612,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 }
                 self.delegate?.setTransparentcy(true)
             } else if !isActive && (self.delegate?.getTransparentcy())!  {
+                self.delegate?.dereaseHeader()
+                
                 UIView.animate(withDuration: 0.5) {
                     self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
                     self.navigationController?.navigationBar.shadowImage = nil
@@ -2208,9 +2215,11 @@ class StoreInfo : UICollectionViewCell {
     
     var seeMoreBlock : ()->() = {}
     
+    @IBOutlet var vwLove: UIView!
+    var floatRatingView: FloatRatingView!
     
     static func heightFor(_ json: JSON, isExpand: Bool) -> CGFloat {
-        var height = 94
+        var height = 21 + 94
         var completeDesc = ""
         if let desc = json["profile"]["description"].string
         {
@@ -2238,7 +2247,27 @@ class StoreInfo : UICollectionViewCell {
         return CGFloat(height)
     }
     
-    func adapt(_ json:JSON, count: Int, isExpand: Bool) {
+    func adapt(_ json:JSON, count: Int, isExpand: Bool, star: Float) {
+        // love
+        
+        // Love floatable
+        self.floatRatingView = FloatRatingView(frame: CGRect(x: UIScreen.main.bounds.width - 90 - 24 - 118 - 8, y: 0, width: 90, height: 16))
+        self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
+        self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
+        // Optional params
+        //                self.floatRatingView.delegate = self
+        self.floatRatingView.contentMode = UIViewContentMode.scaleAspectFit
+        self.floatRatingView.maxRating = 5
+        self.floatRatingView.minRating = 0
+        self.floatRatingView.rating = star
+        self.floatRatingView.editable = false
+        self.floatRatingView.halfRatings = true
+        self.floatRatingView.floatRatings = true
+        self.floatRatingView.tintColor = Theme.ThemeRed
+        
+        self.vwLove.addSubview(self.floatRatingView )
+        
+        
         // Last seen
         if let lastSeenDateString = json["others"]["last_seen"].string {
             let formatter = DateFormatter()
