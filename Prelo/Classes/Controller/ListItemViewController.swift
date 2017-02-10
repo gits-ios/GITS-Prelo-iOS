@@ -401,7 +401,16 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             
             // Adjust content base on the mode
             switch (currentMode) {
-            case .default, .standalone, .shop, .newShop:
+            case .default, .standalone, .shop:
+                // Upper 4px padding handling
+                self.consTopTopHeader.constant = 4
+                
+                // Top header setup
+                self.consHeightVwTopHeader.constant = 0
+                
+                // Get initial products
+                self.getInitialProducts()
+            case .newShop:
                 // Upper 4px padding handling
                 self.consTopTopHeader.constant = 0
                 
@@ -1157,6 +1166,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             if (currentMode == .filter) {
                 return UIEdgeInsetsMake(0, 4, 0, 4)
             }
+        }
+        if (listItemSections[section] == .subcategories) {
+            return UIEdgeInsetsMake(0, 4, 0, 4)
         }
         return UIEdgeInsetsMake(4, 4, 0, 4)
     }
