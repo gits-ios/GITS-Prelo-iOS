@@ -538,7 +538,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                             twEmail = email!
                             
                             isExecute = true
-                        } else {
+                        } else if User.IsLoggedIn {
                             twEmail = (CDUser.getOne()?.email)!
                             
                             isExecute = true
