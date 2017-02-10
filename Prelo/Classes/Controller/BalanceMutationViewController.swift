@@ -323,10 +323,10 @@ class BalanceMutationCell : UITableViewCell {
         
         lblDescription.text = mutation.reasonDetail
         lblReasonAdmin.text = mutation.reasonAdmin
-        let rectDesc = lblDescription.frame.size
-        let rectReason = lblReasonAdmin.frame.size
-        let sizeFixDesc = mutation.reasonDetail.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectDesc.width)
-        let sizeFixReasonAdmin = mutation.reasonAdmin.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectReason.width)
+        let rectDesc = UIScreen.main.bounds.size.width - 118
+        let rectReason = UIScreen.main.bounds.size.width - 118
+        let sizeFixDesc = mutation.reasonDetail.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectDesc)
+        let sizeFixReasonAdmin = mutation.reasonAdmin.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectReason)
         
         var wjpSize = CGFloat(0)
         if (mutation.isHold) {
@@ -335,9 +335,9 @@ class BalanceMutationCell : UITableViewCell {
             let wjp = mutation.notes
             
             lblWJP.text = wjp
-            let rectWJP = lblWJP.frame.size
+            let rectWJP = UIScreen.main.bounds.size.width - 50
             
-            let sizeFixWJP = wjp.boundsWithFontSize(UIFont.systemFont(ofSize: 10), width: rectWJP.width)
+            let sizeFixWJP = wjp.boundsWithFontSize(UIFont.systemFont(ofSize: 10), width: rectWJP)
             
             wjpSize += (sizeFixWJP.height + 16)
         }
@@ -371,12 +371,12 @@ class BalanceMutationCell : UITableViewCell {
         self.lblDescription.attributedText = attrStrDesc
         
         // Label height fix
-        let rectDesc = lblDescription.frame.size
-        let sizeFixDesc = mutation.reasonDetail.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectDesc.width)
+        let rectDesc = UIScreen.main.bounds.size.width - 118
+        let sizeFixDesc = mutation.reasonDetail.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectDesc)
         consHeightLblDescription.constant = sizeFixDesc.height + 2
         
-        let rectReason = lblReasonAdmin.frame.size
-        let sizeFixReasonAdmin = mutation.reasonAdmin.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectReason.width)
+        let rectReason = UIScreen.main.bounds.size.width - 118
+        let sizeFixReasonAdmin = mutation.reasonAdmin.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectReason)
         consHeightLblReasonAdmin.constant = (mutation.reasonAdmin != "" ? sizeFixReasonAdmin.height + 2 : 0)
         
         if (mutation.isHold) {
@@ -392,9 +392,9 @@ class BalanceMutationCell : UITableViewCell {
             
             lblWJP.attributedText = attrStr
             
-            let rectWJP = lblWJP.frame.size
+            let rectWJP = UIScreen.main.bounds.size.width - 50
             
-            let sizeFixWJP = wjp.boundsWithFontSize(UIFont.systemFont(ofSize: 10), width: rectWJP.width)
+            let sizeFixWJP = wjp.boundsWithFontSize(UIFont.systemFont(ofSize: 10), width: rectWJP)
             
             
             consHeightLblWJP.constant = sizeFixWJP.height + 8

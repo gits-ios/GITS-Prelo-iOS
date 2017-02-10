@@ -635,9 +635,9 @@
 		B26DB3F11E2D3C6F00224675 /* ic_achievement.png in Resources */ = {isa = PBXBuildFile; fileRef = B26DB3F01E2D3C6F00224675 /* ic_achievement.png */; };
 		B27948231E35C700002CEED4 /* TarikTunai2.xib in Resources */ = {isa = PBXBuildFile; fileRef = B27948221E35C700002CEED4 /* TarikTunai2.xib */; };
 		B27948251E35D971002CEED4 /* TarikTunaiViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27948241E35D971002CEED4 /* TarikTunaiViewController2.swift */; };
+		B27EE2071E4DBD230018E8A0 /* PushNotif.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B2B34BCC1E37042C001B653F /* PushNotif.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B29F69671E30E717009E2BC8 /* FeedbackPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = B29F69661E30E717009E2BC8 /* FeedbackPopup.xib */; };
 		B2B34BCF1E37042D001B653F /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B34BCE1E37042D001B653F /* NotificationService.swift */; };
-		B2B34BD31E37042D001B653F /* PushNotif.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B2B34BCC1E37042C001B653F /* PushNotif.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B2B34BE71E388395001B653F /* ic_exclamation_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B34BE61E388395001B653F /* ic_exclamation_grey.png */; };
 		B2B4DCC41E2D24B900EBBD33 /* ShopReviewAverageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B4DCC31E2D24B900EBBD33 /* ShopReviewAverageCell.xib */; };
 		B2BC10271E442D72003DF4D7 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BC10261E442D72003DF4D7 /* CoreMotion.framework */; };
@@ -645,6 +645,12 @@
 		B2BE2DF01E29EBBD006B6903 /* StorePageTabBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */; };
 		B2BE2E001E29F2AF006B6903 /* StorePageTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2BE2DFF1E29F2AF006B6903 /* StorePageTabBarViewController.swift */; };
 		B2BE2E021E29FA42006B6903 /* StorePageShopHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2BE2E011E29FA42006B6903 /* StorePageShopHeader.xib */; };
+		B2BEBC601E4C190D009982F9 /* ic_coin.png in Resources */ = {isa = PBXBuildFile; fileRef = B2BEBC5F1E4C190D009982F9 /* ic_coin.png */; };
+		B2BEBC761E4C27EC009982F9 /* placeholder-circle.png in Resources */ = {isa = PBXBuildFile; fileRef = B2BEBC731E4C27EC009982F9 /* placeholder-circle.png */; };
+		B2BEBC771E4C27EC009982F9 /* placeholder-standar.png in Resources */ = {isa = PBXBuildFile; fileRef = B2BEBC741E4C27EC009982F9 /* placeholder-standar.png */; };
+		B2BEBC781E4C27EC009982F9 /* placeholder-transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = B2BEBC751E4C27EC009982F9 /* placeholder-transparent.png */; };
+		B2BEBC7A1E4C29FD009982F9 /* placeholder-badge.png in Resources */ = {isa = PBXBuildFile; fileRef = B2BEBC791E4C29FD009982F9 /* placeholder-badge.png */; };
+		B2BEBC7C1E4C30BF009982F9 /* placeholder-transparent-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B2BEBC7B1E4C30BF009982F9 /* placeholder-transparent-ipad.png */; };
 		B2C3A3BC1E2B6B550082A15D /* FloatRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3A3BB1E2B6B550082A15D /* FloatRatingView.swift */; };
 		B2C3A3C41E2B8E2D0082A15D /* ShopAchievement.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2C3A3C31E2B8E2D0082A15D /* ShopAchievement.xib */; };
 		B2C3A3C61E2B8E370082A15D /* ShopAchievementCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2C3A3C51E2B8E370082A15D /* ShopAchievementCell.xib */; };
@@ -820,7 +826,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				B2B34BD31E37042D001B653F /* PushNotif.appex in Embed App Extensions */,
+				B27EE2071E4DBD230018E8A0 /* PushNotif.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1617,6 +1623,12 @@
 		B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StorePageTabBar.xib; sourceTree = "<group>"; };
 		B2BE2DFF1E29F2AF006B6903 /* StorePageTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorePageTabBarViewController.swift; sourceTree = "<group>"; };
 		B2BE2E011E29FA42006B6903 /* StorePageShopHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StorePageShopHeader.xib; sourceTree = "<group>"; };
+		B2BEBC5F1E4C190D009982F9 /* ic_coin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_coin.png; sourceTree = "<group>"; };
+		B2BEBC731E4C27EC009982F9 /* placeholder-circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-circle.png"; sourceTree = "<group>"; };
+		B2BEBC741E4C27EC009982F9 /* placeholder-standar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-standar.png"; sourceTree = "<group>"; };
+		B2BEBC751E4C27EC009982F9 /* placeholder-transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-transparent.png"; sourceTree = "<group>"; };
+		B2BEBC791E4C29FD009982F9 /* placeholder-badge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-badge.png"; sourceTree = "<group>"; };
+		B2BEBC7B1E4C30BF009982F9 /* placeholder-transparent-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-transparent-ipad.png"; sourceTree = "<group>"; };
 		B2C3A3BB1E2B6B550082A15D /* FloatRatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatRatingView.swift; sourceTree = "<group>"; };
 		B2C3A3C31E2B8E2D0082A15D /* ShopAchievement.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopAchievement.xib; sourceTree = "<group>"; };
 		B2C3A3C51E2B8E370082A15D /* ShopAchievementCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopAchievementCell.xib; sourceTree = "<group>"; };
@@ -2345,6 +2357,7 @@
 			isa = PBXGroup;
 			children = (
 				B2D1198A1E290BE20064045B /* banner */,
+				B2BEBC7D1E4C30C9009982F9 /* placeholder */,
 				2109BCAB1BDE2489004F36C5 /* checkout_tour_1.jpg */,
 				581E87AF1CE08EE00055CCDD /* cover-shop-page.jpg */,
 				21AE67B71B4A61C600D2CF63 /* dummy@2x.jpg */,
@@ -2417,6 +2430,7 @@
 				58BED8E51DA62CB20063E11E /* ic_chat_tawar_white.png */,
 				589A6F961D8C08F600654CDD /* ic_chat_tawar.png */,
 				214864CE1B6F235900EF49EF /* ic_chat@2x.png */,
+				B2BEBC5F1E4C190D009982F9 /* ic_coin.png */,
 				589A6F971D8C08F600654CDD /* ic_comment.png */,
 				589A6F981D8C08F600654CDD /* ic_delete.png */,
 				589A6F991D8C08F600654CDD /* ic_dipakai.png */,
@@ -3074,6 +3088,18 @@
 			path = PushNotif;
 			sourceTree = "<group>";
 		};
+		B2BEBC7D1E4C30C9009982F9 /* placeholder */ = {
+			isa = PBXGroup;
+			children = (
+				B2BEBC791E4C29FD009982F9 /* placeholder-badge.png */,
+				B2BEBC731E4C27EC009982F9 /* placeholder-circle.png */,
+				B2BEBC741E4C27EC009982F9 /* placeholder-standar.png */,
+				B2BEBC751E4C27EC009982F9 /* placeholder-transparent.png */,
+				B2BEBC7B1E4C30BF009982F9 /* placeholder-transparent-ipad.png */,
+			);
+			name = placeholder;
+			sourceTree = "<group>";
+		};
 		B2C59A9B1E2E4B31002E4597 /* SMSegmentView */ = {
 			isa = PBXGroup;
 			children = (
@@ -3368,6 +3394,7 @@
 				FDF0AC951C0C4A6200FC7D61 /* wm_logo@2x.png in Resources */,
 				58A223CA1C898CB600619518 /* ic_trx_shipped.png in Resources */,
 				B2D119901E290BF80064045B /* banner_notif.png in Resources */,
+				B2BEBC781E4C27EC009982F9 /* placeholder-transparent.png in Resources */,
 				B2BE2DF01E29EBBD006B6903 /* StorePageTabBar.xib in Resources */,
 				585887511DBEDBD5006EC6D5 /* PhoneReverification.xib in Resources */,
 				21156ECB1B8F5DBC001D7842 /* btn_checkbox_purple_empty.png in Resources */,
@@ -3449,6 +3476,7 @@
 				FDF39A301C3CF43B002A5DF6 /* banner_sold.png in Resources */,
 				21156EC91B8F5DBC001D7842 /* arrow_right.png in Resources */,
 				585887571DBEDC28006EC6D5 /* TransactionListCell.xib in Resources */,
+				B2BEBC7C1E4C30BF009982F9 /* placeholder-transparent-ipad.png in Resources */,
 				440AF6671BE1090800074CBC /* ic_round_instagram.png in Resources */,
 				585887481DBEDB6D006EC6D5 /* MyPurchaseTransaction.xib in Resources */,
 				589A6FB21D8C08F600654CDD /* ic_belanjaan_saya.png in Resources */,
@@ -3475,6 +3503,7 @@
 				581E87AE1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg in Resources */,
 				210702E41BE7A8F100DD9E52 /* cu_wasap@2x.png in Resources */,
 				589A6FAF1D8C08F600654CDD /* ic_1kg.png in Resources */,
+				B2BEBC7A1E4C29FD009982F9 /* placeholder-badge.png in Resources */,
 				210702E11BE7A8F100DD9E52 /* cu_email@2x.png in Resources */,
 				216799751B8F879A00F18F90 /* rsz_ic_mandiri@2x.png in Resources */,
 				212007C01B6A0CD100D9C84B /* basic_orange@2x.png in Resources */,
@@ -3511,6 +3540,7 @@
 				B27948231E35C700002CEED4 /* TarikTunai2.xib in Resources */,
 				5858874D1DBEDBA3006EC6D5 /* NotifAnggiTransactionCell.xib in Resources */,
 				B2BE2E021E29FA42006B6903 /* StorePageShopHeader.xib in Resources */,
+				B2BEBC601E4C190D009982F9 /* ic_coin.png in Resources */,
 				58DD4E8A1DEC377D00B130C5 /* ic_camera.png in Resources */,
 				5858875D1DBEEA28006EC6D5 /* StoreHeader.xib in Resources */,
 				440AF6681BE1090800074CBC /* ic_round_line.png in Resources */,
@@ -3564,10 +3594,12 @@
 				5858872F1DBED978006EC6D5 /* ProfileSetup.xib in Resources */,
 				589A6FB91D8C08F600654CDD /* ic_dipakai.png in Resources */,
 				B23417741E2322FA003247D7 /* sms5.png in Resources */,
+				B2BEBC771E4C27EC009982F9 /* placeholder-standar.png in Resources */,
 				21EEB4731B87095C00CAD5C9 /* ic_bubble.png in Resources */,
 				589A6FC01D8C08F600654CDD /* ic_hubungi_prelo.png in Resources */,
 				216799731B8F879A00F18F90 /* rsz_ic_bca@2x.png in Resources */,
 				58A99A4E1C6D866000E3E7D7 /* Prelo.entitlements in Resources */,
+				B2BEBC761E4C27EC009982F9 /* placeholder-circle.png in Resources */,
 				211BC9921B96AC9100FDB1DC /* category_placeholder@2x.png in Resources */,
 				B2D481DD1E02A7E2006006CC /* ReportProducts.xib in Resources */,
 				B2D119921E290BF80064045B /* banner_harga.png in Resources */,

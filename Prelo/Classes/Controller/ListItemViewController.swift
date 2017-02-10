@@ -176,6 +176,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var newShopHeader : StoreInfo?
     var shopData: JSON!
     var isExpand = false
+    var star = Float(0)
+    
+    // home
+    var isHiddenTop = false
     
     // FB-ads
     let adRowStep: Int = 19 // fit for 1, 2, 3
@@ -237,9 +241,30 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         // Add status bar tap observer
         NotificationCenter.default.addObserver(self, selector: #selector(ListItemViewController.statusBarTapped), name: NSNotification.Name(rawValue: AppDelegate.StatusBarTapNotificationName), object: nil)
         
-//        // ads
+        // ads
         if (currentMode == .filter) {
             configureAdManagerAndLoadAds()
+        }
+        
+        if isHiddenTop {
+            NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "hideBottomBar"), object: nil)
+            self.navigationController?.setNavigationBarHidden(true, animated: true)
+            self.hideStatusBar()
+            if (selectedSegment != "") {
+                consHeightVwTopHeader.constant = 0 // Hide top header
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.view.layoutIfNeeded()
+                })
+            }
+            self.repositionScrollCategoryNameContent()
+            if (currentMode == .filter) {
+                self.consTopTopHeaderFilter.constant = UIApplication.shared.statusBarFrame.height
+                self.consTopGridView.constant = UIApplication.shared.statusBarFrame.height
+            }
+        }
+        
+        if currentMode == .filter {
+            self.setStatusBarBackgroundColor(color: Theme.PrimaryColor)
         }
     }
     
@@ -252,16 +277,16 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         // Show navbar
         self.navigationController?.setNavigationBarHidden(false, animated: true)
-        self.repositionScrollCategoryNameContent()
-        self.showStatusBar()
+//        self.repositionScrollCategoryNameContent()
+//        self.showStatusBar()
         
         // Status bar color
         if (currentMode == .filter) {
             self.setStatusBarBackgroundColor(color: UIColor.clear)
-            
+         
             // reset header
-            self.consTopTopHeaderFilter.constant = 0
-            self.consTopGridView.constant = 0
+//            self.consTopTopHeaderFilter.constant = 0
+//            self.consTopGridView.constant = 0
         }
         
         if (currentMode == .shop || currentMode == .newShop) {
@@ -388,7 +413,16 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             
             // Adjust content base on the mode
             switch (currentMode) {
-            case .default, .standalone, .shop, .newShop:
+            case .default, .standalone, .shop:
+                // Upper 4px padding handling
+                self.consTopTopHeader.constant = 4
+                
+                // Top header setup
+                self.consHeightVwTopHeader.constant = 0
+                
+                // Get initial products
+                self.getInitialProducts()
+            case .newShop:
                 // Upper 4px padding handling
                 self.consTopTopHeader.constant = 0
                 
@@ -894,6 +928,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 
                 self.shopName = json["username"].stringValue
                 
+                self.star = json["average_star"].float!
+                
                 let avatarThumbnail = json["profile"]["pict"].stringValue
                 self.shopAvatar = URL(string: avatarThumbnail)!
                 
@@ -911,7 +947,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     let screenHeight = screenSize.height - (64 + 45) // (170 + 45)
 //                    let height = CGFloat((self.products?.count)! + 1) * 65
                     
-                    var height = StoreInfo.heightFor(self.shopData, isExpand: self.isExpand) + 12
+                    var height = StoreInfo.heightFor(self.shopData, isExpand: self.isExpand) + 8
 
                     if AppTools.isIPad {
                         height += CGFloat(Int(CGFloat((self.products?.count)!) / 3.0 + 0.7)) * (self.itemCellWidth! + 70)
@@ -920,9 +956,15 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     }
                     
                     
-                    var bottom = CGFloat(24)
+                    var bottom = CGFloat(1)
                     if (height < screenHeight) {
                         bottom += screenHeight - height
+                    }
+                    
+                    if bottom > 50 {
+                        bottom -= 50
+                    } else  {
+                        bottom = 1
                     }
                     
                     //TOP, LEFT, BOTTOM, RIGHT
@@ -1098,7 +1140,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             }
         case .aboutShop:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "StorePageShopHeader", for: indexPath) as! StoreInfo
-            cell.adapt(self.shopData, count: self.products!.count, isExpand: self.isExpand)
+            cell.adapt(self.shopData, count: self.products!.count, isExpand: self.isExpand, star: self.star)
             return cell
         }
     }
@@ -1167,6 +1209,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             if (currentMode == .filter) {
                 return UIEdgeInsetsMake(0, 4, 0, 4)
             }
+        }
+        if (listItemSections[section] == .subcategories) {
+            return UIEdgeInsetsMake(0, 4, 0, 4)
         }
         return UIEdgeInsetsMake(4, 4, 0, 4)
     }
@@ -1253,10 +1298,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             if (currentMode == .featured && products?.count > 0) { // 'Lihat semua barang' button, only show if featured products is loaded
                 f.btnFooter.isHidden = false
                 f.btnFooterAction = {
-                    NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
-                    self.navigationController?.setNavigationBarHidden(false, animated: true)
-                    self.repositionScrollCategoryNameContent()
-                    self.showStatusBar()
+//                    NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
+//                    self.navigationController?.setNavigationBarHidden(false, animated: true)
+//                    self.repositionScrollCategoryNameContent()
+//                    self.showStatusBar()
                     
                     let p = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
                     p.currentMode = .filter
@@ -1303,6 +1348,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             if (currentMode == .default || currentMode == .featured || currentMode == .filter || (currentMode == .segment && listItemSections.contains(.products))) {
                 if (currScrollPoint.y < scrollView.contentOffset.y) {
                     if ((self.navigationController?.isNavigationBarHidden)! == false) {
+                        isHiddenTop = true
                         NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "hideBottomBar"), object: nil)
                         self.navigationController?.setNavigationBarHidden(true, animated: true)
                         self.hideStatusBar()
@@ -1319,21 +1365,20 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                         }
                     }
                 } else {
-                    if ((self.navigationController?.isNavigationBarHidden)! == true) {
-                        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
-                        self.navigationController?.setNavigationBarHidden(false, animated: true)
-                        self.showStatusBar()
-                        if (selectedSegment != "") {
-                            consHeightVwTopHeader.constant = 40 // Show top header
-                            UIView.animate(withDuration: 0.2, animations: {
-                                self.view.layoutIfNeeded()
-                            })
-                        }
-                        self.repositionScrollCategoryNameContent()
-                        if (currentMode == .filter) {
-                            self.consTopTopHeaderFilter.constant = 0
-                            self.consTopGridView.constant = 0
-                        }
+                    isHiddenTop = false
+                    NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
+                    self.navigationController?.setNavigationBarHidden(false, animated: true)
+                    self.showStatusBar()
+                    if (selectedSegment != "") {
+                        consHeightVwTopHeader.constant = 40 // Show top header
+                        UIView.animate(withDuration: 0.2, animations: {
+                            self.view.layoutIfNeeded()
+                        })
+                    }
+                    self.repositionScrollCategoryNameContent()
+                    if (currentMode == .filter) {
+                        self.consTopTopHeaderFilter.constant = 0
+                        self.consTopGridView.constant = 0
                     }
                 }
             }
@@ -1371,10 +1416,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         let pointY = CGFloat(1)
         if (scrollView.contentOffset.y < pointY) {
-            self.delegate?.increaseHeader()
+//            self.delegate?.increaseHeader()
             self.transparentNavigationBar(true)
         } else if (scrollView.contentOffset.y >= pointY) {
-            self.delegate?.dereaseHeader()
+//            self.delegate?.dereaseHeader()
             self.transparentNavigationBar(false)
         }
     }
@@ -1619,6 +1664,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             }
         } else if (currentMode == .newShop) {
             if isActive && !(self.delegate?.getTransparentcy())! {
+                self.delegate?.increaseHeader()
+
                 UIView.animate(withDuration: 0.5) {
                     // Transparent navigation bar
                     self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
@@ -1631,6 +1678,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 }
                 self.delegate?.setTransparentcy(true)
             } else if !isActive && (self.delegate?.getTransparentcy())!  {
+                self.delegate?.dereaseHeader()
+                
                 UIView.animate(withDuration: 0.5) {
                     self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
                     self.navigationController?.navigationBar.shadowImage = nil
@@ -2284,7 +2333,7 @@ class StoreHeader : UIView, UICollectionViewDataSource, UICollectionViewDelegate
             img.layoutIfNeeded()
             img.layer.cornerRadius = (img.width ) / 2
             img.layer.masksToBounds = true
-            img.afSetImage(withURL: badges[(indexPath as NSIndexPath).row], withFilter: .circle)
+            img.afSetImage(withURL: badges[(indexPath as NSIndexPath).row], withFilter: .circleWithBadgePlaceHolder)
             
             vwIcon.addSubview(img)
             
@@ -2300,6 +2349,7 @@ class StoreHeader : UIView, UICollectionViewDataSource, UICollectionViewDelegate
     }
 }
 
+// MARK: - cell Store Info / Header
 class StoreInfo : UICollectionViewCell {
     @IBOutlet weak var captionDesc : UILabel!
     @IBOutlet weak var captionTotal : UILabel!
@@ -2311,9 +2361,11 @@ class StoreInfo : UICollectionViewCell {
     
     var seeMoreBlock : ()->() = {}
     
+    @IBOutlet var vwLove: UIView!
+    var floatRatingView: FloatRatingView!
     
     static func heightFor(_ json: JSON, isExpand: Bool) -> CGFloat {
-        var height = 112
+        var height = 21 + 94
         var completeDesc = ""
         if let desc = json["profile"]["description"].string
         {
@@ -2323,25 +2375,45 @@ class StoreInfo : UICollectionViewCell {
             
             if isExpand == false {
                 if (desc.length > descLengthCollapse) { let descToWrite = desc.substringToIndex(descLengthCollapse - 1) + "... Selengkapnya"
-                    descHeight = Int(descToWrite.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-16).height)
+                    descHeight = Int(descToWrite.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-24).height)
                 } else {
-                    descHeight = Int(desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-16).height)
+                    descHeight = Int(desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-24).height)
                 }
                 
             } else {
-                descHeight = Int(desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-16).height)
+                descHeight = Int(completeDesc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-24).height)
             }
             height += descHeight
             
         } else {
             completeDesc = "Belum ada deskripsi."
-            height += Int(completeDesc.boundsWithFontSize(UIFont.systemFont(ofSize: 16), width: UIScreen.main.bounds.width-14).height)
+            height += Int(completeDesc.boundsWithFontSize(UIFont.systemFont(ofSize: 16), width: UIScreen.main.bounds.width-24).height)
         }
         
         return CGFloat(height)
     }
     
-    func adapt(_ json:JSON, count: Int, isExpand: Bool) {
+    func adapt(_ json:JSON, count: Int, isExpand: Bool, star: Float) {
+        // love
+        
+        // Love floatable
+        self.floatRatingView = FloatRatingView(frame: CGRect(x: UIScreen.main.bounds.width - 90 - 24 - 118 - 8, y: 0, width: 90, height: 16))
+        self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
+        self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
+        // Optional params
+        //                self.floatRatingView.delegate = self
+        self.floatRatingView.contentMode = UIViewContentMode.scaleAspectFit
+        self.floatRatingView.maxRating = 5
+        self.floatRatingView.minRating = 0
+        self.floatRatingView.rating = star
+        self.floatRatingView.editable = false
+        self.floatRatingView.halfRatings = true
+        self.floatRatingView.floatRatings = true
+        self.floatRatingView.tintColor = Theme.ThemeRed
+        
+        self.vwLove.addSubview(self.floatRatingView )
+        
+        
         // Last seen
         if let lastSeenDateString = json["others"]["last_seen"].string {
             let formatter = DateFormatter()
@@ -2367,12 +2439,16 @@ class StoreInfo : UICollectionViewCell {
                     let descMutableString : NSMutableAttributedString = NSMutableAttributedString(string: descToWrite, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)])
                     descMutableString.addAttribute(NSForegroundColorAttributeName, value: Theme.PrimaryColorDark, range: NSRange(location: descLengthCollapse + 3, length: 12))
                     self.captionDesc.attributedText = descMutableString
-                    self.captionDesc.text = descToWrite
+//                    self.captionDesc.text = descToWrite
                 } else {
-                    self.captionDesc.text = desc
+                    let descMutableString : NSMutableAttributedString = NSMutableAttributedString(string: desc, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)])
+                    self.captionDesc.attributedText = descMutableString
+//                    self.captionDesc.text = desc
                 }
             } else {
-                self.captionDesc.text = desc
+                let descMutableString : NSMutableAttributedString = NSMutableAttributedString(string: completeDesc, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)])
+                self.captionDesc.attributedText = descMutableString
+//                self.captionDesc.text = completeDesc
             }
             
         } else {

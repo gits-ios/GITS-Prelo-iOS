@@ -83,8 +83,7 @@ class Constant: NSObject {
 
 extension String
 {
-    func boundsWithFontSize(_ font : UIFont, width : CGFloat) -> CGRect
-    {
+    func boundsWithFontSize(_ font : UIFont, width : CGFloat) -> CGRect {
         let cons = CGSize(width: width, height: 0)
         
         return self.boundingRect(with: cons, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName:font], context: nil)

@@ -35,10 +35,12 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-protocol ProductCellDelegate
+protocol ProductCellDelegate: class
 {
     func cellTappedCategory(_ categoryName : String, categoryID : String)
     func cellTappedBrand(_ brandId : String, brandName : String)
+    
+    func cellTappedComment()
 }
 
 class ProductDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, ProductCellDelegate, UIActionSheetDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate, UserRelatedDelegate
@@ -93,6 +95,13 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     @IBOutlet var lblUpOther: UILabel!
     @IBOutlet var consHeightUpBarang: NSLayoutConstraint!
     
+    // up barang coin - diamond
+    var isCoinUse = false
+    
+    var isNeedReload = false
+    
+    weak var delegate: MyProductDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -123,10 +132,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     override func viewWillAppear(_ animated: Bool) {
         UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: true)
-        detail = nil
-//        if (detail == nil) {
+
+        if (detail == nil || isNeedReload) {
             getDetail()
-//        }
+            
+            isNeedReload = false
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -501,6 +512,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 self.detail?.setSharedViaFacebook()
                 if let fbUsername = CDUserOther.getOne()?.fbUsername {
                     Constant.showDialog("Share to Facebook", message: "Barang berhasil di-share di akun Facebook \(fbUsername)")
+                    self.delegate?.setFromDraftOrNew(true)
                 }
             }
             self.hideLoading()
@@ -515,6 +527,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 self.detail?.setSharedViaTwitter()
                 if let twUsername = CDUserOther.getOne()?.twitterUsername {
                     Constant.showDialog("Share to Twitter", message: "Barang berhasil di-share di akun Twitter \(twUsername)")
+                    self.delegate?.setFromDraftOrNew(true)
                 }
             }
             self.hideLoading()
@@ -543,6 +556,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     cellTitle = tableView.dequeueReusableCell(withIdentifier: "cell_title") as? ProductCellTitle
                 }
                 cellTitle?.parent = self
+                cellTitle?.cellDelegate = self
                 cellTitle?.product = self.product
                 cellTitle?.adapt(detail)
                 
@@ -573,6 +587,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             instagramSharePreview.copyAndShare = {
                                 UIPasteboard.general.string = "\(textToShare)\(hashtags)"
                                 Constant.showDialog("Data telah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
+                                self.delegate?.setFromDraftOrNew(true)
                                 self.mgInstagram = MGInstagram()
                                 self.mgInstagram?.post(img, withCaption: textToShare, in: self.view, delegate: self)
                                 let _ = request(APIProduct.shareCommission(pId: (self.detail?.productID)!, instagram: "1", path: "0", facebook: "0", twitter: "0")).responseJSON { resp in
@@ -747,6 +762,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
+    // MARK: - table delegate
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if (section == 0) {
             return nil
@@ -815,6 +832,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
+    // MARK: - Product cell delegate
+    
     func cellTappedCategory(_ categoryName: String, categoryID: String) {
         let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
 //        l.currentMode = .standalone
@@ -833,6 +852,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         l.fltrBrands = [brandName : brandId]
         self.navigationController?.pushViewController(l, animated: true)
     }
+    
+    func cellTappedComment() {
+        isNeedReload = true
+    }
+    
+    // MARK: - button
     
     @IBAction func addToCart(_ sender: UIButton) {
         if (alreadyInCart) {
@@ -862,6 +887,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             self.disableMyProductBtnSet()
                             self.pDetailCover?.addSoldBanner()
                             Constant.showDialog("Success", message: "Barang telah ditandai sebagai barang terjual")
+                            
+                            self.delegate?.setFromDraftOrNew(true)
                         } else {
                             Constant.showDialog("Failed", message: "Oops, terdapat kesalahan")
                         }
@@ -875,6 +902,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     @IBAction func editPressed(_ sender: AnyObject) {
         self.showLoading()
+        
+        isNeedReload = true
+        
         let a = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
         a.editMode = true
         a.editDoneBlock = {
@@ -882,6 +912,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             self.getDetail()
         }
         a.topBannerText = (detail?.rejectionText)
+        
+        a.delegate = self.delegate
+        
         // API Migrasi
         let _ = request(APIProduct.detail(productId: detail!.productID, forEdit: 1)).responseJSON {resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Barang")) {
@@ -913,6 +946,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
         } else
         {
+            isNeedReload = true
+            
             self.performSegue(withIdentifier: "segAddComment", sender: nil)
         }
     }
@@ -924,6 +959,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     func userLoggedIn() {
         if (loginComment)
         {
+            isNeedReload = true
+            
             self.performSegue(withIdentifier: "segAddComment", sender: nil)
         }
     }
@@ -944,6 +981,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     @IBAction func btnReservationPressed(_ sender: AnyObject) {
         if (detail != nil) {
+            
+            isNeedReload = true
+            
             if (detail!.status == ProductStatusActive) { // Product is available
                 // Reserve product
                 self.setBtnReservationToLoading()
@@ -1048,6 +1088,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     // MARK: - If product is bought
     
     @IBAction func toPaymentConfirm(_ sender: AnyObject) {
+        
+        isNeedReload = true
+        
         let paymentConfirmationVC = Bundle.main.loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil)?.first as! PaymentConfirmationViewController
         self.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
     }
@@ -1087,10 +1130,13 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     let message = json["_data"]["message"].stringValue
                     let paidAmount = json["_data"]["paid_amount"].intValue
                     let preloBalance = json["_data"]["my_prelo_balance"].intValue
+                    let coinAmount = json["_data"]["diamond_amount"].intValue
+                    let coin = json["_data"]["my_total_diamonds"].intValue
+                    
                     if (isSuccess) {
-                        self.showUpPopUp(withText: message, isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance)
+                        self.showUpPopUp(withText: message, isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
                     } else {
-                        self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: true, paidAmount: paidAmount, preloBalance: preloBalance)
+                        self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: true, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
                     }
                 }
                 self.hideLoading()
@@ -1098,20 +1144,37 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
-    func showUpPopUp(withText : String, isShowUpOther : Bool, isShowPaidUp : Bool, paidAmount : Int, preloBalance: Int) {
+    func showUpPopUp(withText: String, isShowUpOther: Bool, isShowPaidUp: Bool, paidAmount: Int, preloBalance: Int, coinAmount: Int, coin: Int) {
         self.vwUpBarangPopUp.isHidden = false
         if (isShowUpOther) {
             self.lblUpOther.isHidden = false
+            self.delegate?.setFromDraftOrNew(true)
         } else {
             self.lblUpOther.isHidden = true
         }
         if (isShowPaidUp) {
             self.vwBtnSet1UpBarang.isHidden = false
             self.vwBtnSet2UpBarang.isHidden = true
-            self.lblUpBarang.text = withText + "\n\n" + "Atau kamu bisa UP sekarang dengan membayar " + paidAmount.asPrice + " (akan otomatis ditarik dari Prelo Balance)\n"  + "Prelo Balance kamu: " + preloBalance.asPrice
+            
+            if coin >= coinAmount { // with coin / diamond
+                self.lblUpBarang.text = withText + "\n\n" + "Atau kamu bisa UP sekarang menggunakan " + coinAmount.string + " Poin\n\n"  + "Poin kamu sekarang: " + coin.string
+                
+                isCoinUse = true
+                
+                self.lblUpBarang.boldSubstring(coinAmount.string + " Poin")
+                self.lblUpBarang.boldSubstring(coin.string)
+                
+            } else { // with prelo balance
+                self.lblUpBarang.text = withText + "\n\n" + "Atau kamu bisa UP sekarang dengan membayar " + paidAmount.asPrice + " (akan otomatis ditarik dari Prelo Balance)\n\n"  + "Prelo Balance kamu: " + preloBalance.asPrice
+            
+                isCoinUse = false
+                
+                self.lblUpBarang.boldSubstring(paidAmount.asPrice)
+                self.lblUpBarang.boldSubstring(preloBalance.asPrice)
+                
+            }
+            
             self.lblUpBarang.boldSubstring("sekarang")
-            self.lblUpBarang.boldSubstring(paidAmount.asPrice)
-            self.lblUpBarang.boldSubstring(preloBalance.asPrice)
         } else {
             self.vwBtnSet1UpBarang.isHidden = true
             self.vwBtnSet2UpBarang.isHidden = false
@@ -1140,20 +1203,49 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         self.hideUpPopUp()
         self.showLoading()
         if let productId = detail?.productID {
-            let _ = request(APIProduct.paidPush(productId: productId)).responseJSON { resp in
-                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
-                    let json = JSON(resp.result.value!)
-                    let isSuccess = json["_data"]["result"].boolValue
-                    let message = json["_data"]["message"].stringValue
-                    let paidAmount = json["_data"]["paid_amount"].intValue
-                    let preloBalance = json["_data"]["my_prelo_balance"].intValue
-                    if (isSuccess) {
-                        self.showUpPopUp(withText: message, isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance)
-                    } else {
-                        self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance)
+            
+            
+            if isCoinUse == true {
+            
+                let _ = request(APIProduct.paidPushWithCoin(productId: productId)).responseJSON { resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
+                        let json = JSON(resp.result.value!)
+                        let isSuccess = json["_data"]["result"].boolValue
+                        let message = json["_data"]["message"].stringValue
+                        let paidAmount = json["_data"]["paid_amount"].intValue
+                        let preloBalance = json["_data"]["my_prelo_balance"].intValue
+                        let coinAmount = json["_data"]["diamond_amount"].intValue
+                        let coin = json["_data"]["my_total_diamonds"].intValue
+                        
+                        if (isSuccess) {
+                            self.showUpPopUp(withText: message, isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                        } else {
+                            self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                        }
                     }
+                    self.hideLoading()
                 }
-                self.hideLoading()
+                
+            } else {
+                
+                let _ = request(APIProduct.paidPush(productId: productId)).responseJSON { resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
+                        let json = JSON(resp.result.value!)
+                        let isSuccess = json["_data"]["result"].boolValue
+                        let message = json["_data"]["message"].stringValue
+                        let paidAmount = json["_data"]["paid_amount"].intValue
+                        let preloBalance = json["_data"]["my_prelo_balance"].intValue
+                        let coinAmount = json["_data"]["diamond_amount"].intValue
+                        let coin = json["_data"]["my_total_diamonds"].intValue
+                        
+                        if (isSuccess) {
+                            self.showUpPopUp(withText: message, isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                        } else {
+                            self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                        }
+                    }
+                    self.hideLoading()
+                }
             }
         }
     }
@@ -1213,6 +1305,8 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     
     var product : Product?
     var detail : ProductDetail?
+    
+    weak var cellDelegate : ProductCellDelegate?
     
     static func heightFor(_ obj : ProductDetail?)->CGFloat
     {
@@ -1298,6 +1392,8 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
             LoginViewController.Show(self.parent!, userRelatedDelegate: self, animated: true)
         } else
         {
+            self.cellDelegate?.cellTappedComment()
+            
             self.parent?.performSegue(withIdentifier: "segAddComment", sender: nil)
         }
     }
@@ -1669,7 +1765,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
     @IBOutlet var consHeightWaktuJaminan: NSLayoutConstraint!
     
     
-    var cellDelegate : ProductCellDelegate?
+    weak var cellDelegate : ProductCellDelegate?
     
     override func awakeFromNib() {
         captionCategory?.tapDelegate = self
@@ -1800,9 +1896,9 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         let w = obj!.weight
         if (w > 1000)
         {
-            captionWeight?.text = (Float(w) * 0.001).description + " kg"
+            captionWeight?.text = (Float(w) / 1000.0).clean + " kg"
         } else {
-            captionWeight?.text = w.description + ".0 gram"
+            captionWeight?.text = w.description + " gram"
         }
         
         

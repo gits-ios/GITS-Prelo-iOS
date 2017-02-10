@@ -157,7 +157,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
 //        let tableHeight = CGFloat((self.userReviews.count + (self.userReviews.count > 5 ? 2 : 1)) * 65) // min height
         let tableHeight = self.tableView.contentSize.height
         
-        var bottom = CGFloat(24)
+        var bottom = CGFloat(1)
         if (tableHeight < screenHeight) {
             bottom += (screenHeight - tableHeight)
         }
@@ -219,7 +219,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
                     cell.selectionStyle = .none
                     cell.backgroundColor = UIColor.clear
                     cell.clipsToBounds = true
-                    cell.separatorInset = UIEdgeInsetsMake(0, cell.bounds.size.width, 0, 0);
+                    cell.separatorInset = UIEdgeInsetsMake(0, UIScreen.main.bounds.size.width, 0, 0);
                     
                     let lblButton = UILabel(frame: CGRect(x: 16, y: 16, width: tableView.width - 32, height: 30))
                     
@@ -282,7 +282,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         if (currentMode == .inject) {
             if (self.userReviews.count > 0) {
                 if ((indexPath as NSIndexPath).section == 0) {
-                    return 150
+                    return 140
                 } else if ((indexPath as NSIndexPath).section == 2) {
                     return 62
                     
@@ -324,10 +324,10 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         
         let pointY = CGFloat(1)
         if (scrollView.contentOffset.y < pointY) {
-            self.delegate?.increaseHeader()
+//            self.delegate?.increaseHeader()
             self.transparentNavigationBar(true)
         } else if (scrollView.contentOffset.y >= pointY) {
-            self.delegate?.dereaseHeader()
+//            self.delegate?.dereaseHeader()
             self.transparentNavigationBar(false)
         }
     }
@@ -336,6 +336,8 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     func transparentNavigationBar(_ isActive: Bool) {
         if (currentMode == .inject) {
             if isActive && !(self.delegate?.getTransparentcy())! {
+                self.delegate?.increaseHeader()
+                
                 UIView.animate(withDuration: 0.5) {
                     // Transparent navigation bar
                     self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
@@ -348,6 +350,8 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
                 }
                 self.delegate?.setTransparentcy(true)
             } else if !isActive && (self.delegate?.getTransparentcy())!  {
+                self.delegate?.dereaseHeader()
+                
                 UIView.animate(withDuration: 0.5) {
                     self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
                     self.navigationController?.navigationBar.shadowImage = nil
@@ -436,17 +440,22 @@ class ShopReviewCell : UITableViewCell {
 
 class ShopReviewAverageCell : UITableViewCell {
     @IBOutlet var vwLove: UIView!
-    @IBOutlet var circularBtn: UIButton!
+    @IBOutlet weak var circularView: UIView!
+    @IBOutlet weak var averageStar: UILabel!
     
     var floatRatingView: FloatRatingView!
     
     func adapt(_ star : Float) {
-        circularBtn.createBordersWithColor(UIColor.black, radius: circularBtn.width/2, width: 2)
+        circularView.createBordersWithColor(UIColor.clear, radius: circularView.width/2, width: 0)
 
-        circularBtn.setTitle(NSString(format: "%.1f", star) as String, for: .normal )
+        circularView.backgroundColor = UIColor.init(hex: "D1D1D1")
+        
+        averageStar.text = star.clean
+        
+        averageStar.textColor = UIColor.white
         
         // Love floatable
-        self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 0, width: 175, height: 30))
+        self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 0, width: 122.5, height: 21)) // 175 -> 122.5  30 -> 21
         self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
         self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
         // Optional params
