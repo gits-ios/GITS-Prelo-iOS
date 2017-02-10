@@ -2220,19 +2220,19 @@ class StoreInfo : UICollectionViewCell {
             
             if isExpand == false {
                 if (desc.length > descLengthCollapse) { let descToWrite = desc.substringToIndex(descLengthCollapse - 1) + "... Selengkapnya"
-                    descHeight = Int(descToWrite.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-16).height)
+                    descHeight = Int(descToWrite.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-24).height)
                 } else {
-                    descHeight = Int(desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-16).height)
+                    descHeight = Int(desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-24).height)
                 }
                 
             } else {
-                descHeight = Int(completeDesc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-16).height)
+                descHeight = Int(completeDesc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-24).height)
             }
             height += descHeight
             
         } else {
             completeDesc = "Belum ada deskripsi."
-            height += Int(completeDesc.boundsWithFontSize(UIFont.systemFont(ofSize: 16), width: UIScreen.main.bounds.width-14).height)
+            height += Int(completeDesc.boundsWithFontSize(UIFont.systemFont(ofSize: 16), width: UIScreen.main.bounds.width-24).height)
         }
         
         return CGFloat(height)

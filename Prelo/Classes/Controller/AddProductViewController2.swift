@@ -386,7 +386,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 // Show luxury fields
                 self.groupVerifAuth.isHidden = false
                 self.groupKelengkapan.isHidden = false
-                self.conTopOngkirGroup.constant = 498
+                self.conTopOngkirGroup.constant = 498 + 16
                 
                 // Set texts
                 txtLuxStyleName.text = luxData["style_name"].stringValue
@@ -533,7 +533,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 // Show luxury fields
                 self.groupVerifAuth.isHidden = false
                 self.groupKelengkapan.isHidden = false
-                self.conTopOngkirGroup.constant = 498
+                self.conTopOngkirGroup.constant = 498 + 16
                 
                 
                 //  0  styleName : String
@@ -1337,7 +1337,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             if (self.merekIsLuxury && self.isCategWomenOrMenSelected) {
                 self.groupVerifAuth.isHidden = false
                 self.groupKelengkapan.isHidden = false
-                self.conTopOngkirGroup.constant = 498
+                self.conTopOngkirGroup.constant = 498 + 16
             } else {
                 self.groupVerifAuth.isHidden = true
                 self.groupKelengkapan.isHidden = true
@@ -1567,7 +1567,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                         if (self.merekIsLuxury && self.isCategWomenOrMenSelected) {
                             self.groupVerifAuth.isHidden = false
                             self.groupKelengkapan.isHidden = false
-                            self.conTopOngkirGroup.constant = 498
+                            self.conTopOngkirGroup.constant = 498 + 16
                         } else {
                             self.groupVerifAuth.isHidden = true
                             self.groupKelengkapan.isHidden = true
