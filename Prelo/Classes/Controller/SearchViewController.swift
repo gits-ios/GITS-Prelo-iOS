@@ -330,7 +330,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if ((indexPath as NSIndexPath).section == SectionItem) {
+        if ((indexPath as NSIndexPath).section == SectionItem && (indexPath as NSIndexPath).row <= foundItems.count) {
             if ((indexPath as NSIndexPath).row == foundItems.count) { // View more
                 var c = tableView.dequeueReusableCell(withIdentifier: "viewmore")
                 if (c == nil) {
@@ -348,7 +348,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 c.ivImage.afSetImage(withURL: url)
             }
             return c
-        } else if ((indexPath as NSIndexPath).section == SectionUser) {
+        } else if ((indexPath as NSIndexPath).section == SectionUser && (indexPath as NSIndexPath).row <= foundUsers.count) {
             if ((indexPath as NSIndexPath).row == foundUsers.count) { // View more
                 var c = tableView.dequeueReusableCell(withIdentifier: "viewmore")
                 if (c == nil) {
@@ -368,7 +368,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             c.ivImage.layer.borderColor = Theme.GrayLight.cgColor
             c.ivImage.layer.borderWidth = 1.5
             return c
-        } else if ((indexPath as NSIndexPath).section == SectionBrand) {
+        } else if ((indexPath as NSIndexPath).section == SectionBrand && (indexPath as NSIndexPath).row <= foundBrands.count) {
             if ((indexPath as NSIndexPath).row == foundBrands.count) { // View more
                 var c = tableView.dequeueReusableCell(withIdentifier: "viewmore")
                 if (c == nil) {
