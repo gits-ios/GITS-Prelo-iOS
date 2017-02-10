@@ -302,6 +302,14 @@ extension UIImage {
         
         return normalizedImage;
     }
+    
+    func compress(_ quality: CGFloat) -> UIImage {
+        return UIImage(data: UIImageJPEGRepresentation(self, quality)!)!
+    }
+    
+    func afInflate() {
+        self.af_inflate()
+    }
 }
 
 extension UIImageView {
