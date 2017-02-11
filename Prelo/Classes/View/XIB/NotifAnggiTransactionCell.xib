@@ -24,7 +24,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eVQ-YP-ZUd">
-                        <rect key="frame" x="16" y="24.5" width="20" height="20"/>
+                        <rect key="frame" x="16" y="27" width="20" height="20"/>
                         <subviews>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cLr-ui-r5V">
                                 <rect key="frame" x="1" y="1" width="18" height="18"/>
@@ -210,11 +210,11 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="VCl-bp-ctv" firstAttribute="leading" secondItem="1Sv-4W-dod" secondAttribute="trailing" constant="8" id="5kN-oX-dPM"/>
-                    <constraint firstItem="eVQ-YP-ZUd" firstAttribute="top" secondItem="zQ8-SH-ku8" secondAttribute="topMargin" constant="16" id="6gp-kH-qlN"/>
                     <constraint firstAttribute="trailing" secondItem="VCl-bp-ctv" secondAttribute="trailing" constant="8" id="8eh-Vq-FTT"/>
                     <constraint firstItem="eVQ-YP-ZUd" firstAttribute="leading" secondItem="zQ8-SH-ku8" secondAttribute="leadingMargin" constant="8" id="Jk8-qq-RYj"/>
                     <constraint firstItem="1Sv-4W-dod" firstAttribute="centerY" secondItem="zQ8-SH-ku8" secondAttribute="centerY" id="Qcn-eZ-F8I"/>
                     <constraint firstItem="1Sv-4W-dod" firstAttribute="leading" secondItem="zQ8-SH-ku8" secondAttribute="leadingMargin" id="UeB-vx-qVm"/>
+                    <constraint firstItem="eVQ-YP-ZUd" firstAttribute="centerY" secondItem="zQ8-SH-ku8" secondAttribute="centerY" id="fg8-a6-GAO"/>
                     <constraint firstItem="VCl-bp-ctv" firstAttribute="top" secondItem="zQ8-SH-ku8" secondAttribute="top" id="tZJ-A5-6Qd"/>
                 </constraints>
             </tableViewCellContentView>
