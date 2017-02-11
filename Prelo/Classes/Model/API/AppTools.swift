@@ -307,6 +307,15 @@ extension UIImage {
         return UIImage(data: UIImageJPEGRepresentation(self, quality)!)!
     }
     
+    func applyBlurEffect() -> UIImage {
+        let imageToBlur = CIImage(image: self)
+        let blurfilter = CIFilter(name: "CIGaussianBlur")
+        blurfilter?.setValue(imageToBlur, forKey: "inputImage")
+        let resultImage = blurfilter?.value(forKey: "outputImage") as! CIImage
+        let blurredImage = UIImage(ciImage: resultImage)
+        return blurredImage
+    }
+    
     func afInflate() {
         self.af_inflate()
     }

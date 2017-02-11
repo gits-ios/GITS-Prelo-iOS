@@ -993,7 +993,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     func saveImages(_ images: Array<AnyObject>) {
         for index in 0...images.count - 1 {
             if self.isCamera[index] == true {
-                if let img = (images[index] as! UIImage).resizeWithMaxWidth(2048) {
+                if let img = (images[index] as! UIImage).resizeWithMaxWidth(1600) {
                     CustomPhotoAlbum.sharedInstance.save(image: img)
                     
                     let photoURLpath = CustomPhotoAlbum.sharedInstance.fetchLastPhotoTakenFromAlbum()
@@ -1940,7 +1940,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         for i in 0...images.count - 1 {
             if let img = images[i] as? UIImage {
                 //print("Resizing image no-\(i) with width = \(img.size.width)")
-                if let imgResized = img.resizeWithMaxWidth(2048) {
+                if let imgResized = img.resizeWithMaxWidth(1600) {
                     var curImg : UIImage?
 //                    if let imgData = ImageHelper.removeExifData(UIImagePNGRepresentation(imgResized)!) {
 //                        curImg = UIImage(data: imgData)!
@@ -1949,6 +1949,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 //                    }
                     //print("Image no-\(i) has been resized")
                     
+                    // optimize
+//                    var curImg = imgResized.compress(0.6)
+//                    curImg = curImg.applyBlurEffect()
+                    
                     // handle rotate
                     if (SYSTEM_VERSION_LESS_THAN("10.0")) {
                         curImg = UIImage(cgImage: (imgResized.cgImage)!, scale: 1.0, orientation: img.imageOrientation)
@@ -1956,7 +1960,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                         curImg = imgResized
                     }
                     
-                    images[i] = curImg!.correctlyOrientedImage()
+                    images[i] = (curImg?.correctlyOrientedImage())!
                 }
             }
         }
