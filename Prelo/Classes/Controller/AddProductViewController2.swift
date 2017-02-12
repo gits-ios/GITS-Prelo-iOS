@@ -851,7 +851,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         let index = controller.index
         // try save again if from album
         if isCamera == false {
-            let imageName = name
+            let imageName = name + "_" + index.string + "_" + (draftMode ? draftProduct?.localId : uniqueCodeString)!
             let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
             let localPath = documentDirectory.stringByAppendingPathComponent(imageName)
             
@@ -870,10 +870,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             self.imageOrientation[index] = img.imageOrientation.rawValue
         
         } else {
+            // reset
+            self.localPath[index] = ""
+            
             self.isCamera[index] = true
             
             // fast technique
-            self.saveImages(self.images, index: index)
+            self.saveImages(self.images, index: index, uniqueCode: (draftMode ? draftProduct?.localId : uniqueCodeString)!)
         }
 
     }
@@ -993,7 +996,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
     }
 
-    func saveImages(_ images: Array<AnyObject>, index: Int) {
+    func saveImages(_ images: Array<AnyObject>, index: Int, uniqueCode: String) {
 //        for index in 0...images.count - 1 {
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
                                             qos: .background,
@@ -1006,7 +1009,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     // save & get
                     let photoURLpath = CustomPhotoAlbum.sharedInstance.save(image: img)
                     let imageURL = NSURL(fileURLWithPath: self.fileInDocumentsDirectory(filename: photoURLpath))
-                    let imageName = imageURL.path!.lastPathComponent + "_" + index.string
+                    let imageName = imageURL.path!.lastPathComponent + "_" + index.string + "_" + uniqueCode
                     let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
                     let localPath = documentDirectory.stringByAppendingPathComponent(imageName)
                     
@@ -1086,7 +1089,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 self.isCamera[index] = true
                 
                 // fast technique
-                self.saveImages(self.images, index: index)
+                self.saveImages(self.images, index: index, uniqueCode: (draftMode ? draftProduct?.localId : uniqueCodeString)!)
             }
         }
         
@@ -2089,8 +2092,19 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 luxuryData[7] = self.isAuthCardChecked.description
             }
             
-            // save image first if from camera
-//            self.saveImages(self.images)
+            // wait for all image saved
+            for i in 0...self.images.count-1 {
+                // save image first if from camera
+                // now handling after image choose or taken by camera (auto save first)
+//                self.saveImages(self.images, index: i, uniqueCode: (self.draftMode ? (self.draftProduct?.localId)! : self.uniqueCodeString)!)
+                while (true) {
+                    if (!self.isCamera[i]) {
+                        break
+                    } else if (self.isCamera[i] && self.localPath[i] != "") {
+                        break
+                    }
+                }
+            }
             
             // save to core data
             CDDraftProduct.saveDraft(self.draftMode == true ? (self.draftProduct?.localId)! : self.uniqueCodeString, name: self.txtName.text!, descriptionText: self.txtDescription.text, weight: self.txtWeight.text != nil ? self.txtWeight.text! : "", freeOngkir: self.freeOngkir, priceOriginal: self.txtOldPrice.text != nil ? self.txtOldPrice.text! : "", price: self.txtNewPrice.text != nil ? self.txtNewPrice.text! : "", commission: self.txtCommission.text != nil ? self.txtCommission.text! : "", category: self.captionKategori.text != nil ? self.captionKategori.text! : "", categoryId: self.productCategoryId, isCategWomenOrMenSelected: self.isCategWomenOrMenSelected, condition: self.captionKondisi.text != nil ? self.captionKondisi.text! : "", conditionId: self.kodindisiId, brand: self.captionMerek.text != nil ? self.captionMerek.text! : "", brandId: self.merekId, imagePath: self.localPath, imageOrientation: self.imageOrientation, size: self.txtSize.text != nil ? self.txtSize.text! : "", defectDescription: self.txtDeskripsiCacat.text != nil ? self.txtDeskripsiCacat.text! : "", sellReason: self.txtAlasanJual.text != nil ? self.txtAlasanJual.text! : "", specialStory: self.txtSpesial.text != nil ? self.txtSpesial.text!: "", luxuryData: luxuryData, isLuxury: self.merekIsLuxury)
