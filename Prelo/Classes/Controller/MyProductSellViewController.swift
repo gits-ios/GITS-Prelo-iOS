@@ -314,10 +314,11 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 cell.imgProduct.image = nil
                 if let url = p.coverImageURL {
                     cell.imgProduct.afSetImage(withURL: url)
-                } /*else if let img = p.placeHolderImage
+                } else if let img = p.placeHolderImage
                 {
-                    cell.imgProduct.image = img
-                }*/
+                    cell.imgProduct.image = img.resizeWithWidth(120)
+                    cell.imgProduct.afInflate()
+                }
                 
                 let status : String = (p.json["status_text"] != nil) ? p.json["status_text"].string! : "-"
                 cell.lblOrderStatus.text = status.uppercased()
