@@ -93,7 +93,11 @@ class CustomPhotoAlbum: NSObject {
             
         }, completionHandler: completion)
         
-        return filename
+        while (true) {
+            if (filename != "") {
+                return filename
+            }
+        }
     }
     
     func fetchLastPhotoTakenFromAlbum() -> String {
