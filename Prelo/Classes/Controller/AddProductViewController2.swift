@@ -849,7 +849,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         let img = images[controller.index] as! UIImage
         let index = controller.index
-        // save again if from album
+        // try save again if from album
         if isCamera == false {
             let imageName = name
             let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
@@ -867,10 +867,12 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             self.localPath[index] = (photoURL.path)!
             self.isCamera[index] = false
             self.imageOrientation[index] = img.imageOrientation.rawValue
-        }
-            // from camera save after out
-        else {
+        
+        } else {
             self.isCamera[index] = true
+            
+            // fast technique
+            self.saveImages(self.images, index: index)
         }
 
     }
@@ -989,15 +991,20 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         return fileURL!.path
         
     }
-    
-    func saveImages(_ images: Array<AnyObject>) {
-        for index in 0...images.count - 1 {
+
+    func saveImages(_ images: Array<AnyObject>, index: Int) {
+//        for index in 0...images.count - 1 {
+        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
+                                            qos: .background,
+                                            target: nil)
+        backgroundQueue.async {
+            print("Work on background queue -- Save Image \(index)")
             if self.isCamera[index] == true {
                 if let img = (images[index] as! UIImage).resizeWithMaxWidth(1600) {
-                    CustomPhotoAlbum.sharedInstance.save(image: img)
                     
-                    let photoURLpath = CustomPhotoAlbum.sharedInstance.fetchLastPhotoTakenFromAlbum()
-                    let imageURL = NSURL(fileURLWithPath: fileInDocumentsDirectory(filename: photoURLpath))
+                    // save & get
+                    let photoURLpath = CustomPhotoAlbum.sharedInstance.save(image: img)
+                    let imageURL = NSURL(fileURLWithPath: self.fileInDocumentsDirectory(filename: photoURLpath))
                     let imageName = imageURL.path!.lastPathComponent + "_" + index.string
                     let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
                     let localPath = documentDirectory.stringByAppendingPathComponent(imageName)
@@ -1016,6 +1023,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 }
             }
         }
+//        }
     }
     
     // MARK: - UIImagePickerController functions
@@ -1079,7 +1087,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 //            self.localPath[index] = (photoURL.path)!
 //
 //         
-            // save again if from album
+            // try save again if from album
             if picker.sourceType != .camera {
                 let imageURL = info[UIImagePickerControllerReferenceURL] as! NSURL
                 let imageName = imageURL.path!.lastPathComponent + "_" + index.string + "_" + (draftMode ? draftProduct?.localId : uniqueCodeString)!
@@ -1098,10 +1106,12 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 self.localPath[index] = (photoURL.path)!
                 self.isCamera[index] = false
                 self.imageOrientation[index] = img.imageOrientation.rawValue
-            }
-            // from camera save after out
-            else {
+                
+            } else {
                 self.isCamera[index] = true
+                
+                // fast technique
+                self.saveImages(self.images, index: index)
             }
         }
         
@@ -2105,7 +2115,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             }
             
             // save image first if from camera
-            self.saveImages(self.images)
+//            self.saveImages(self.images)
             
             // save to core data
             CDDraftProduct.saveDraft(self.draftMode == true ? (self.draftProduct?.localId)! : self.uniqueCodeString, name: self.txtName.text!, descriptionText: self.txtDescription.text, weight: self.txtWeight.text != nil ? self.txtWeight.text! : "", freeOngkir: self.freeOngkir, priceOriginal: self.txtOldPrice.text != nil ? self.txtOldPrice.text! : "", price: self.txtNewPrice.text != nil ? self.txtNewPrice.text! : "", commission: self.txtCommission.text != nil ? self.txtCommission.text! : "", category: self.captionKategori.text != nil ? self.captionKategori.text! : "", categoryId: self.productCategoryId, isCategWomenOrMenSelected: self.isCategWomenOrMenSelected, condition: self.captionKondisi.text != nil ? self.captionKondisi.text! : "", conditionId: self.kodindisiId, brand: self.captionMerek.text != nil ? self.captionMerek.text! : "", brandId: self.merekId, imagePath: self.localPath, imageOrientation: self.imageOrientation, size: self.txtSize.text != nil ? self.txtSize.text! : "", defectDescription: self.txtDeskripsiCacat.text != nil ? self.txtDeskripsiCacat.text! : "", sellReason: self.txtAlasanJual.text != nil ? self.txtAlasanJual.text! : "", specialStory: self.txtSpesial.text != nil ? self.txtSpesial.text!: "", luxuryData: luxuryData, isLuxury: self.merekIsLuxury)
