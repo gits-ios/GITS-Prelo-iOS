@@ -855,13 +855,14 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
             let localPath = documentDirectory.stringByAppendingPathComponent(imageName)
             
+            // for temporer use
             let data = UIImagePNGRepresentation(img)
-            
             do {
                 try data?.write(to: URL(fileURLWithPath: localPath), options: .atomic)
             } catch {
                 print("err")
             }
+            
             let photoURL = NSURL(fileURLWithPath: localPath)
             
             self.localPath[index] = (photoURL.path)!
@@ -1009,13 +1010,14 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
                     let localPath = documentDirectory.stringByAppendingPathComponent(imageName)
                     
+                    // for temporer use
                     let data = UIImagePNGRepresentation(img)
-                    
                     do {
                         try data?.write(to: URL(fileURLWithPath: localPath), options: .atomic)
                     } catch {
                         print("err")
                     }
+                    
                     let photoURL = NSURL(fileURLWithPath: localPath)
                     
                     self.localPath[index] = (photoURL.path)!
@@ -1059,34 +1061,6 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 }
             }
             
-//            var imageURL : NSURL
-//            
-//            if (picker.sourceType == .camera) {
-//                CustomPhotoAlbum.sharedInstance.save(image: img)
-//                
-//                let photoURLpath = CustomPhotoAlbum.sharedInstance.fetchLastPhotoTakenFromAlbum()
-//                
-//                // Define the specific path, image name
-//                imageURL = NSURL(fileURLWithPath: fileInDocumentsDirectory(filename: photoURLpath))
-//            } else {
-//                imageURL = info[UIImagePickerControllerReferenceURL] as! NSURL
-//            }
-//            let imageName = imageURL.path!.lastPathComponent + "_" + index.string
-//            let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
-//            let localPath = documentDirectory.stringByAppendingPathComponent(imageName)
-//            
-//            let data = UIImagePNGRepresentation(img)
-//            
-//            do {
-//                try data?.write(to: URL(fileURLWithPath: localPath), options: .atomic)
-//            } catch {
-//                print("err")
-//            }
-//            let photoURL = NSURL(fileURLWithPath: localPath)
-//            
-//            self.localPath[index] = (photoURL.path)!
-//
-//         
             // try save again if from album
             if picker.sourceType != .camera {
                 let imageURL = info[UIImagePickerControllerReferenceURL] as! NSURL
@@ -1094,13 +1068,14 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
                 let localPath = documentDirectory.stringByAppendingPathComponent(imageName)
                 
+                // for temporer use
                 let data = UIImagePNGRepresentation(img)
-                
                 do {
                     try data?.write(to: URL(fileURLWithPath: localPath), options: .atomic)
                 } catch {
                     print("err")
                 }
+                
                 let photoURL = NSURL(fileURLWithPath: localPath)
                 
                 self.localPath[index] = (photoURL.path)!
