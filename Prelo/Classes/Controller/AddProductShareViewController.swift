@@ -418,12 +418,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         // DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default)
         DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
             AppDelegate.Instance.produkUploader.addToQueue(ProdukUploader.ProdukLokal(produkParam: self.sendProductParam, produkImages: self.sendProductImages, mixpanelParam: pt as [AnyHashable: Any]))
-            let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
-                                                qos: .background,
-                                                target: nil)
-            backgroundQueue.async {
-            
-//            DispatchQueue.main.async(execute: {
+            DispatchQueue.main.async(execute: {
                 if (AppDelegate.Instance.produkUploader.getQueue().count > 0) {
                     
                     // set state is uploading
@@ -436,7 +431,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                     Constant.showDialog("Warning", message: "Oops, terdapat kesalahan saat mengupload barang kamu")
                     self.btnSend.isEnabled = true
                 }
-            }
+            })
         })
         return
         
