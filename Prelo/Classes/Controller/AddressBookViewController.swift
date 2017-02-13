@@ -333,11 +333,15 @@ class AddressBookCell: UITableViewCell { // height 204
     @IBOutlet weak var vwMain: UIView!
     @IBOutlet weak var btnSetMain: UIButton!
     
+    var address: AddressItem!
+    
     var btnEditAction : () -> () = {}
     var btnDeleteAction : () -> () = {}
     var btnSetMainAction : () -> () = {}
     
     func adapt(_ address: AddressItem) {
+        self.address = address
+        
         let regionName = CDRegion.getRegionNameWithID(address.regionId)
         let provinceName = CDProvince.getProvinceNameWithID(address.provinceId)
         
@@ -366,8 +370,33 @@ class AddressBookCell: UITableViewCell { // height 204
     }
     
     @IBAction func btnSetMainPressed(_ sender: Any) {
+        setupProfile()
         btnSetMainAction()
     }
+    
+    // MARK: - Update user Profile
+    func setupProfile() {
+        let m = UIApplication.appDelegate.managedObjectContext
+        
+        if let userProfile = CDUserProfile.getOne() {
+            userProfile.address = address.address
+            userProfile.postalCode = address.postalCode
+            userProfile.regionID = address.regionId
+            userProfile.provinceID = address.provinceId
+            userProfile.subdistrictID = address.subdisrictId
+            userProfile.subdistrictName = address.subdisrictName
+            userProfile.addressName = address.addressName
+            userProfile.recipientName = address.recipientName
+        }
+        
+        // Save data
+        if (m.saveSave() == false) {
+            print("Failed")
+        } else {
+            print("Data saved")
+        }
+    }
+
 }
 
 

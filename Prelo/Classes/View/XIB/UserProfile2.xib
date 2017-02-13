@@ -19,7 +19,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <viewController id="On8-ij-MJD">
+        <viewController id="On8-ij-MJD" customClass="UserProfileViewController2" customModule="Prelo" customModuleProvider="target">
             <layoutGuides>
                 <viewControllerLayoutGuide type="top" id="P4n-px-uNO"/>
                 <viewControllerLayoutGuide type="bottom" id="rYB-2j-zLg"/>
@@ -32,7 +32,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="1184"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dNF-CU-kOd" userLabel="Content View">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="1184"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="999"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sgl-Sw-0oj" userLabel="Separator 1">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="4"/>
@@ -105,6 +105,9 @@
                                                     <color key="titleColor" red="0.66014617679999998" green="0.66012644769999995" blue="0.66013765339999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="pilihFotoPressed:" destination="On8-ij-MJD" eventType="touchUpInside" id="QNr-df-OQm"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
@@ -147,6 +150,9 @@
                                                 <state key="normal" image="ic_socmed_facebook.png">
                                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="loginFacebookPressed:" destination="On8-ij-MJD" eventType="touchUpInside" id="KEl-j2-gya"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xgq-dU-iB5">
                                                 <rect key="frame" x="63" y="33" width="521" height="40"/>
@@ -160,6 +166,9 @@
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="loginFacebookPressed:" destination="On8-ij-MJD" eventType="touchUpInside" id="d8v-Y7-xLR"/>
+                                                </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LOGIN FACEBOOK" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oWX-lF-j9K">
                                                 <rect key="frame" x="82" y="33" width="483" height="40"/>
@@ -179,6 +188,9 @@
                                                 <state key="normal" image="ic_socmed_twitter.png">
                                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="loginTwitterPressed:" destination="On8-ij-MJD" eventType="touchUpInside" id="uRe-2q-6oX"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9SK-wY-rVz">
                                                 <rect key="frame" x="63" y="81" width="521" height="40"/>
@@ -192,6 +204,9 @@
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="loginTwitterPressed:" destination="On8-ij-MJD" eventType="touchUpInside" id="dna-i9-crq"/>
+                                                </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LOGIN TWITTER" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yTp-Nj-VIe">
                                                 <rect key="frame" x="82" y="81" width="483" height="40"/>
@@ -326,6 +341,9 @@
                                                             <color key="titleColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="jenisKelaminPressed:" destination="On8-ij-MJD" eventType="touchUpInside" id="NwR-wa-Rhu"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <constraints>
@@ -401,6 +419,9 @@
                                                             <color key="titleColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="nomorHpPressed:" destination="On8-ij-MJD" eventType="touchUpInside" id="xD4-eb-ffw"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <constraints>
@@ -460,7 +481,6 @@
                                                     <constraint firstItem="Qnu-9p-0Gk" firstAttribute="top" secondItem="t5C-94-zeP" secondAttribute="bottom" constant="8" id="TE0-IR-hrI"/>
                                                     <constraint firstItem="t5C-94-zeP" firstAttribute="leading" secondItem="pFn-tM-4Yy" secondAttribute="leading" id="f7T-Vl-AJo"/>
                                                     <constraint firstAttribute="trailing" secondItem="Qnu-9p-0Gk" secondAttribute="trailing" id="kDT-K2-1bc"/>
-                                                    <constraint firstAttribute="height" constant="40" id="vpT-Kd-H3K"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
@@ -521,10 +541,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alamat" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2jI-DQ-Hyq">
-                                                <rect key="frame" x="0.0" y="76" width="584" height="17"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="17" id="UBC-Fd-Rbz"/>
-                                                </constraints>
+                                                <rect key="frame" x="0.0" y="80" width="584" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -563,6 +580,9 @@
                                                             <color key="titleColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="AddressBookPressed:" destination="On8-ij-MJD" eventType="touchUpInside" id="fQD-Rc-Xly"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <constraints>
@@ -581,7 +601,7 @@
                                             </view>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="xz2-CD-bCd" firstAttribute="top" secondItem="2jI-DQ-Hyq" secondAttribute="bottom" constant="17" id="0Vj-vW-Iuh"/>
+                                            <constraint firstItem="xz2-CD-bCd" firstAttribute="top" secondItem="2jI-DQ-Hyq" secondAttribute="bottom" constant="13" id="0Vj-vW-Iuh"/>
                                             <constraint firstItem="NSO-ZT-4nM" firstAttribute="leading" secondItem="eeW-uS-khR" secondAttribute="leading" id="15d-ek-io4"/>
                                             <constraint firstItem="xz2-CD-bCd" firstAttribute="leading" secondItem="eeW-uS-khR" secondAttribute="leading" constant="-8" id="5YB-GM-znd"/>
                                             <constraint firstAttribute="trailing" secondItem="NSO-ZT-4nM" secondAttribute="trailing" id="6l5-il-ZQO"/>
@@ -591,7 +611,7 @@
                                             <constraint firstAttribute="trailing" secondItem="2jI-DQ-Hyq" secondAttribute="trailing" id="Q1e-8D-fcc"/>
                                             <constraint firstItem="Ofw-1K-twm" firstAttribute="top" secondItem="eeW-uS-khR" secondAttribute="top" id="SUF-lu-ZAn"/>
                                             <constraint firstAttribute="trailing" secondItem="CD4-5d-wq8" secondAttribute="trailing" id="W4O-B9-zSu"/>
-                                            <constraint firstItem="2jI-DQ-Hyq" firstAttribute="top" secondItem="91S-7p-ksR" secondAttribute="bottom" id="W8J-jy-Tbk"/>
+                                            <constraint firstItem="2jI-DQ-Hyq" firstAttribute="top" secondItem="91S-7p-ksR" secondAttribute="bottom" constant="4" id="W8J-jy-Tbk"/>
                                             <constraint firstItem="Ofw-1K-twm" firstAttribute="leading" secondItem="eeW-uS-khR" secondAttribute="leading" id="Ygu-Nn-uDd"/>
                                             <constraint firstItem="2jI-DQ-Hyq" firstAttribute="leading" secondItem="eeW-uS-khR" secondAttribute="leading" id="Z6e-3F-rdM"/>
                                             <constraint firstAttribute="bottom" secondItem="CD4-5d-wq8" secondAttribute="bottom" constant="8" id="fC3-Fn-Ggz"/>
@@ -661,6 +681,9 @@
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <state key="disabled" title="LOADING.."/>
+                                        <connections>
+                                            <action selector="simpanDataPressed:" destination="On8-ij-MJD" eventType="touchUpInside" id="294-Ty-QF5"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -674,7 +697,7 @@
                                     <constraint firstAttribute="trailing" secondItem="2KZ-GY-Tho" secondAttribute="trailing" constant="8" id="Brw-Qe-Prc"/>
                                     <constraint firstAttribute="trailing" secondItem="DEW-pw-WYS" secondAttribute="trailing" id="CIr-1p-qqo"/>
                                     <constraint firstAttribute="trailing" secondItem="8YU-da-NVS" secondAttribute="trailing" constant="8" id="Kiq-Wu-xdD"/>
-                                    <constraint firstAttribute="height" constant="1184" id="O4q-cL-Ahm"/>
+                                    <constraint firstAttribute="bottom" secondItem="PzZ-cX-2dY" secondAttribute="bottom" constant="32" id="O6Q-rp-j1a"/>
                                     <constraint firstItem="8YU-da-NVS" firstAttribute="leading" secondItem="dNF-CU-kOd" secondAttribute="leading" constant="8" id="PpX-QH-zHq"/>
                                     <constraint firstItem="sgl-Sw-0oj" firstAttribute="leading" secondItem="dNF-CU-kOd" secondAttribute="leading" id="SLo-VL-6zI"/>
                                     <constraint firstItem="2KZ-GY-Tho" firstAttribute="top" secondItem="bLR-aZ-6gk" secondAttribute="bottom" constant="22" id="Vir-yl-8pG"/>
@@ -705,8 +728,8 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="qJS-Xl-pCO"/>
                                 <exclude reference="L9I-0Z-kgu"/>
+                                <exclude reference="qJS-Xl-pCO"/>
                             </mask>
                         </variation>
                     </scrollView>
@@ -741,14 +764,36 @@
                 </constraints>
                 <variation key="default">
                     <mask key="constraints">
-                        <exclude reference="lBn-UJ-6ye"/>
                         <exclude reference="in6-El-Ff9"/>
+                        <exclude reference="lBn-UJ-6ye"/>
                     </mask>
                 </variation>
             </view>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <size key="freeformSize" width="600" height="1248"/>
+            <connections>
+                <outlet property="btnSimpanData" destination="PzZ-cX-2dY" id="cMM-1J-qmz"/>
+                <outlet property="btnUserImage" destination="CtZ-ki-qEz" id="bxA-yx-nFi"/>
+                <outlet property="consHeightShippingOptions" destination="4SX-Uq-SGs" id="p5Y-dO-eZy"/>
+                <outlet property="fieldNama" destination="rQe-D7-AC6" id="dy2-Of-pTj"/>
+                <outlet property="fieldTentangShop" destination="t5C-94-zeP" id="N6g-SS-IBR"/>
+                <outlet property="fieldTentangShopHeightConstraint" destination="3mN-Yd-uh3" id="2VB-bm-S5d"/>
+                <outlet property="imgUser" destination="Cdg-o9-kAS" id="nLh-3L-uEr"/>
+                <outlet property="lblAddress" destination="2jI-DQ-Hyq" id="zlv-Ct-KMn"/>
+                <outlet property="lblAddressName" destination="NSO-ZT-4nM" id="lPA-jH-ZM9"/>
+                <outlet property="lblEmail" destination="hfy-sx-4Yc" id="Wb1-c6-Be2"/>
+                <outlet property="lblJenisKelamin" destination="kJf-gF-yRC" id="RBZ-6U-uvg"/>
+                <outlet property="lblLoginFacebook" destination="oWX-lF-j9K" id="mQt-6c-5wy"/>
+                <outlet property="lblLoginTwitter" destination="yTp-Nj-VIe" id="K3H-0R-vRW"/>
+                <outlet property="lblNoHP" destination="yND-zT-oc4" id="JK3-Ex-N5x"/>
+                <outlet property="lblRecipientName" destination="91S-7p-ksR" id="ut5-Xj-5Rh"/>
+                <outlet property="lblUsername" destination="RlO-Ge-4wt" id="9TT-1z-Dfd"/>
+                <outlet property="loading" destination="kxN-E5-e5J" id="Tsc-pD-pdr"/>
+                <outlet property="loadingPanel" destination="CHA-oh-PNi" id="9az-mA-VWZ"/>
+                <outlet property="scrollView" destination="Fwd-Ux-DKf" id="kLj-XD-ZnU"/>
+                <outlet property="tableShipping" destination="lmL-R7-RC2" id="pka-kG-ivX"/>
+            </connections>
             <point key="canvasLocation" x="-504" y="426"/>
         </viewController>
     </objects>

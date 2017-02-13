@@ -455,10 +455,13 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
 //        storePageTabBarVC.shopId = CDUser.getOne()?.id
 //        self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
         
-        // address book
-        let addressBookVC = Bundle.main.loadNibNamed(Tags.XibNameAddressBook, owner: nil, options: nil)?.first as! AddressBookViewController
-        self.navigationController?.pushViewController(addressBookVC, animated: true)
+        // address book -- OKE
+//        let addressBookVC = Bundle.main.loadNibNamed(Tags.XibNameAddressBook, owner: nil, options: nil)?.first as! AddressBookViewController
+//        self.navigationController?.pushViewController(addressBookVC, animated: true)
         
+        // edit profile - baru
+        let userProfileVC2 = Bundle.main.loadNibNamed(Tags.XibNameUserProfile2, owner: nil, options: nil)?.first as! UserProfileViewController2
+        self.navigationController?.pushViewController(userProfileVC2, animated: true)
     }
     
     func launchFAQ() {
