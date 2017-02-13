@@ -428,7 +428,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                     self.navigationController?.pushViewController(b!, animated: true)
                 } else {
                     Crashlytics.sharedInstance().recordCustomExceptionName("ProdukUploader", reason: "Empty Queue", frameArray: [])
-                    Constant.showDialog("Warning", message: "Oops, terdapat kesalahan saat mengupload barang kamu")
+                    Constant.showDialog("Warning", message: "Oops, terdapat kesalahan saat mengupload barang kamu.\nMohon coba upload foto utama dan foto merek terlebih dahulu, kemudian tambah foto melalui fitur edit.")
                     self.btnSend.isEnabled = true
                 }
             })
