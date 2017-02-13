@@ -447,7 +447,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     
     func setupCollection() {
         
-        let width = 43 * CGFloat(self.badges.count) + 5
+        let width = 39 * CGFloat(self.badges.count) + 9
         
         // Set collection view
         self.shopBadges.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "collcProgressCell")
@@ -459,8 +459,8 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
         layout.itemSize = CGSize(width: 38, height: 38)
-        layout.minimumInteritemSpacing = 5
-        layout.minimumLineSpacing = 5
+        layout.minimumInteritemSpacing = 1
+        layout.minimumLineSpacing = 1
         self.shopBadges.collectionViewLayout = layout
         
         self.shopBadges.isScrollEnabled = false
