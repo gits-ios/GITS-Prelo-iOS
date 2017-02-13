@@ -2269,7 +2269,7 @@ class StoreInfo : UICollectionViewCell {
         // love
         
         // Love floatable
-        self.floatRatingView = FloatRatingView(frame: CGRect(x: UIScreen.main.bounds.width - 90 - 24 - 118 - 8, y: 0, width: 90, height: 16))
+        self.floatRatingView = FloatRatingView(frame: CGRect(x: UIScreen.main.bounds.width - 90 - 24 - 118 - 8, y: 2, width: 90, height: 16))
         self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
         self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
         // Optional params
