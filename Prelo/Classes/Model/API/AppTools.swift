@@ -58,7 +58,7 @@ class AppTools: NSObject {
     }
     
     static var isNewShop : Bool { // new shop, TODO: - bisa setting di app
-        return false
+        return true
     }
     
     static let isOldShopWithBadges : Bool = true // set true kalau jadi bisa nampilin badge
