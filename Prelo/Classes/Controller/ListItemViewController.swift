@@ -401,7 +401,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             
             // Adjust content base on the mode
             switch (currentMode) {
-            case .default, .standalone, .shop:
+            case .default, .standalone:
                 // Upper 4px padding handling
                 self.consTopTopHeader.constant = 4
                 
@@ -410,7 +410,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 
                 // Get initial products
                 self.getInitialProducts()
-            case .newShop:
+            case .shop, .newShop:
                 // Upper 4px padding handling
                 self.consTopTopHeader.constant = 0
                 
@@ -792,8 +792,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.shopHeader?.avatar.superview?.layer.cornerRadius = (self.shopHeader?.avatar.width)!/2
                 self.shopHeader?.avatar.superview?.layer.masksToBounds = true
                 
-                self.shopHeader?.layer.borderColor = Theme.GrayLight.cgColor
-                self.shopHeader?.layer.borderWidth = 3.5
+                self.shopHeader?.avatar.superview?.layer.borderColor = Theme.GrayLight.cgColor
+                self.shopHeader?.avatar.superview?.layer.borderWidth = 3.5
                 
                 self.shopHeader?.btnEdit.isHidden = true
                 if let id = json["_id"].string, let me = CDUser.getOne()
@@ -2166,7 +2166,7 @@ class StoreHeader : UIView, UICollectionViewDataSource, UICollectionViewDelegate
     
     func setupCollection() {
         
-        let width = 35 * CGFloat(self.badges.count) + 5
+        let width = 39 * CGFloat(self.badges.count) + 9
         
         // Set collection view
         self.colectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "collcProgressCell")
@@ -2177,9 +2177,9 @@ class StoreHeader : UIView, UICollectionViewDataSource, UICollectionViewDelegate
         
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
-        layout.itemSize = CGSize(width: 30, height: 30)
-        layout.minimumInteritemSpacing = 5
-        layout.minimumLineSpacing = 5
+        layout.itemSize = CGSize(width: 38, height: 38)
+        layout.minimumInteritemSpacing = 1
+        layout.minimumLineSpacing = 1
         self.colectionView.collectionViewLayout = layout
         
         self.colectionView.isScrollEnabled = false
@@ -2199,9 +2199,9 @@ class StoreHeader : UIView, UICollectionViewDataSource, UICollectionViewDelegate
         let cell = self.colectionView.dequeueReusableCell(withReuseIdentifier: "collcProgressCell", for: indexPath)
 //        if (badges.count > (indexPath as NSIndexPath).row) {
             // Create icon view
-            let vwIcon : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+            let vwIcon : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 38, height: 38))
             
-            let img = UIImageView(frame: CGRect(x: 2, y: 2, width: 28, height: 28))
+            let img = UIImageView(frame: CGRect(x: 2, y: 2, width: 34, height: 34))
             img.layoutIfNeeded()
             img.layer.cornerRadius = (img.width ) / 2
             img.layer.masksToBounds = true
@@ -2217,7 +2217,7 @@ class StoreHeader : UIView, UICollectionViewDataSource, UICollectionViewDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 30, height: 30)
+        return CGSize(width: 38, height: 38)
     }
 }
 

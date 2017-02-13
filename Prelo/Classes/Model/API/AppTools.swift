@@ -58,10 +58,10 @@ class AppTools: NSObject {
     }
     
     static var isNewShop : Bool { // new shop, TODO: - bisa setting di app
-        return true
+        return false
     }
     
-    static let isOldShopWithBadges : Bool = false // set true kalau jadi bisa nampilin badge
+    static let isOldShopWithBadges : Bool = true // set true kalau jadi bisa nampilin badge
 }
 
 enum AppFont {
