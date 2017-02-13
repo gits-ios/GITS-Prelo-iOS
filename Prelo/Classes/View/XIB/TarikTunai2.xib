@@ -186,12 +186,12 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BZj-dr-3zT">
-                                                        <rect key="frame" x="159" y="67" width="21" height="21"/>
+                                                        <rect key="frame" x="163" y="67" width="21" height="21"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="21" id="MuE-Bh-EQu"/>
                                                             <constraint firstAttribute="height" constant="21" id="fZK-rT-rpb"/>
                                                         </constraints>
-                                                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="17"/>
+                                                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="14"/>
                                                         <color key="textColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
@@ -280,7 +280,7 @@
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
-                                                    <constraint firstItem="BZj-dr-3zT" firstAttribute="leading" secondItem="ppq-7X-P32" secondAttribute="trailing" id="0hx-1O-P7h"/>
+                                                    <constraint firstItem="BZj-dr-3zT" firstAttribute="leading" secondItem="ppq-7X-P32" secondAttribute="trailing" constant="4" id="0hx-1O-P7h"/>
                                                     <constraint firstItem="ppq-7X-P32" firstAttribute="top" secondItem="blA-Tn-v8a" secondAttribute="bottom" constant="8" id="3TD-Cv-wVE"/>
                                                     <constraint firstItem="j4R-LW-Sa5" firstAttribute="leading" secondItem="uD4-83-rid" secondAttribute="leading" constant="16" id="4Bo-TY-Qrl"/>
                                                     <constraint firstItem="h14-2W-a4F" firstAttribute="leading" secondItem="uD4-83-rid" secondAttribute="leading" id="4hV-4V-fCy"/>
@@ -341,13 +341,13 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E6g-MT-Zxy">
-                                                <rect key="frame" x="342" y="13" width="17" height="17"/>
-                                                <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="17"/>
+                                                <rect key="frame" x="343" y="13.5" width="16" height="16"/>
+                                                <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="16"/>
                                                 <color key="textColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pilih Bank" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8NM-0o-uYd">
-                                                <rect key="frame" x="263" y="12" width="71" height="20"/>
+                                                <rect key="frame" x="264" y="12" width="71" height="20"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
