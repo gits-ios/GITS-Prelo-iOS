@@ -342,7 +342,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
             let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let helpVC = mainStoryboard.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
             helpVC.url = "https://prelo.co.id/syarat-ketentuan/badge-achievement"
-            helpVC.titleString = "Bantuan"
+            helpVC.titleString = "Syarat dan Ketentuan"
             helpVC.contactPreloMode = true
             let baseNavC = BaseNavigationController()
             baseNavC.setViewControllers([helpVC], animated: false)
