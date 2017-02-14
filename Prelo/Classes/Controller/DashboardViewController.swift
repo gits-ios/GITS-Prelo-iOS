@@ -208,6 +208,11 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         if m["type"] == "iconic" {
             let cell : DashboardCell = tableView.dequeueReusableCell(withIdentifier: "cell") as! DashboardCell
             
+            // clean
+            if (cell.viewWithTag(888) != nil) {
+                cell.viewWithTag(888)?.removeFromSuperview()
+            }
+            
             if let isPreloAwesome = m["PreloAwesome"] { // Icon is from font
                 if (isPreloAwesome == "1") {
                     cell.captionIcon?.font = AppFont.preloAwesome.getFont(24)!
@@ -221,6 +226,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 let iconImg = UIImageView(image: img)
                 iconImg.tintColor = Theme.PrimaryColorDark
                 iconImg.frame = CGRect(x: 8, y: 10, width: 26, height: 26)
+                iconImg.tag = 888
                 cell.addSubview(iconImg)
             }
             
@@ -231,6 +237,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             
         } else if m["type"] == "text" || m["type"] == "text-separator" {
             let cell = tableView.dequeueReusableCell(withIdentifier: "BottomCell")
+            
             cell?.textLabel?.font = UIFont.systemFont(ofSize: 16)
             cell?.textLabel?.textColor = UIColor(hex: "555555")
             
@@ -241,6 +248,9 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 let inView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: 1), backgroundColor: UIColor(hex: "AAAAAA"))
             
                 cell?.contentView.addSubview(inView)
+            } else {
+                
+                cell?.contentView.removeAllSubviews()
             }
             return cell!
 
