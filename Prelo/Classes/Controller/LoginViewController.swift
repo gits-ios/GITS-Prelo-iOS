@@ -162,6 +162,11 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     userProfile.postalCode = userProfileData!.postalCode
                     userProfile.address = userProfileData!.address
                     userProfile.desc = userProfileData!.desc
+                    // default address
+                    let addressName = data["default_address"]["address_name"].string ?? ""
+                    let recipientName = data["default_address"]["owner_name"].string ?? ""
+                    userProfile.addressName = addressName
+                    userProfile.recipientName = recipientName
                     
                     CDUserOther.deleteAll()
                     let userOther : CDUserOther = (NSEntityDescription.insertNewObject(forEntityName: "CDUserOther", into: m) as! CDUserOther)

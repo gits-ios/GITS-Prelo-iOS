@@ -629,6 +629,12 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
             userProfile.provinceID = profile.provinceId
             userProfile.subdistrictID = profile.subdistrictId
             userProfile.subdistrictName = profile.subdistrictName
+            
+            // default address
+            let addressName = data["default_address"]["address_name"].string ?? ""
+            let recipientName = data["default_address"]["owner_name"].string ?? ""
+            userProfile.addressName = addressName
+            userProfile.recipientName = recipientName
         }
         
         if let userOther = CDUserOther.getOne() {

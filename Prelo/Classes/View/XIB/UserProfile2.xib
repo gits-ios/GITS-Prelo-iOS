@@ -32,7 +32,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="1184"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dNF-CU-kOd" userLabel="Content View">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="1034"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="1010"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sgl-Sw-0oj" userLabel="Separator 1">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="4"/>
@@ -719,7 +719,7 @@
                                     <constraint firstAttribute="trailing" secondItem="2KZ-GY-Tho" secondAttribute="trailing" constant="8" id="Brw-Qe-Prc"/>
                                     <constraint firstAttribute="trailing" secondItem="DEW-pw-WYS" secondAttribute="trailing" id="CIr-1p-qqo"/>
                                     <constraint firstAttribute="trailing" secondItem="8YU-da-NVS" secondAttribute="trailing" constant="8" id="Kiq-Wu-xdD"/>
-                                    <constraint firstAttribute="bottom" secondItem="PzZ-cX-2dY" secondAttribute="bottom" constant="32" id="O6Q-rp-j1a"/>
+                                    <constraint firstAttribute="bottom" secondItem="PzZ-cX-2dY" secondAttribute="bottom" constant="8" id="O6Q-rp-j1a"/>
                                     <constraint firstItem="8YU-da-NVS" firstAttribute="leading" secondItem="dNF-CU-kOd" secondAttribute="leading" constant="8" id="PpX-QH-zHq"/>
                                     <constraint firstItem="sgl-Sw-0oj" firstAttribute="leading" secondItem="dNF-CU-kOd" secondAttribute="leading" id="SLo-VL-6zI"/>
                                     <constraint firstItem="2KZ-GY-Tho" firstAttribute="top" secondItem="bLR-aZ-6gk" secondAttribute="bottom" constant="22" id="Vir-yl-8pG"/>
