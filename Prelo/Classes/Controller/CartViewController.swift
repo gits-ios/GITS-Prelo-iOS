@@ -659,17 +659,21 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         let cell : CartPaymethodCell = tableView.dequeueReusableCell(withIdentifier: "cell_paymethod") as! CartPaymethodCell
         cell.isEnableCCPayment = isEnableCCPayment
         cell.isEnableIndomaretPayment = isEnableIndomaretPayment
+        cell.isShowBankBRI = isShowBankBRI
+        // new
+        cell.isDropdownMode = true
+        cell.parent = self
         cell.methodChosen = { mthd in
             self.setPaymentOption(mthd)
             self.adjustRingkasan()
         }
-        if (self.isShowBankBRI) {
-            cell.vw3Banks.isHidden = true
-            cell.vw4Banks.isHidden = false
-        } else {
-            cell.vw3Banks.isHidden = false
-            cell.vw4Banks.isHidden = true
-        }
+//        if (self.isShowBankBRI) {
+//            cell.vw3Banks.isHidden = true
+//            cell.vw4Banks.isHidden = false
+//        } else {
+//            cell.vw3Banks.isHidden = false
+//            cell.vw4Banks.isHidden = true
+//        }
         cell.adapt(selectedPayment: selectedPayment)
         
         return cell
@@ -2092,10 +2096,16 @@ class CartGrandTotalCell : BaseCartCell
 // MARK: - Class - Metode pembayaran
 
 class CartPaymethodCell : UITableViewCell {
-    @IBOutlet var vw3Banks: UIView!
-    @IBOutlet var vw4Banks: UIView!
+    @IBOutlet weak var vw3Banks: UIView!
+    @IBOutlet weak var vw4Banks: UIView!
+    @IBOutlet weak var vwDropdownBanks: UIView!
+    @IBOutlet weak var vwDropdown: UIView! // borderview
+    @IBOutlet weak var lblDropdown: UILabel! // bank name
     var isEnableCCPayment : Bool = false
     var isEnableIndomaretPayment : Bool = false
+    var isShowBankBRI : Bool = false
+    var isDropdownMode : Bool = false
+    var parent: UIViewController?
     
     @IBOutlet var lblDesc: [UILabel]!
     
@@ -2113,6 +2123,18 @@ class CartPaymethodCell : UITableViewCell {
     var methodChosen : (PaymentMethod) -> () = { _ in }
     
     func adapt(selectedPayment : PaymentMethod) {
+        if isDropdownMode {
+            // assign new methd
+            vw3Banks.isHidden = true
+            vw4Banks.isHidden = true
+            vwDropdownBanks.isHidden = false
+            vwDropdown.layer.borderColor = Theme.GrayLight.cgColor
+            vwDropdown.layer.borderWidth = 1
+            lblDropdown.text = "Pilih Bank Tujuan Transfer"
+        } else {
+            vwDropdownBanks.isHidden = true
+        }
+        
         if (selectedPayment == .indomaret) {
             imgIndomaret.tint = false
         } else {
@@ -2163,6 +2185,30 @@ class CartPaymethodCell : UITableViewCell {
                 }
             }
         }
+    }
+    
+    @IBAction func dropDownPressed(_ sender: Any) {
+        // dropdown menu
+        var items = ["BCA", "Mandiri", "BNI"]
+        
+        if isShowBankBRI {
+            items.append("BRI")
+        }
+        
+        let bankCount = items.count
+        let bankAlert = UIAlertController(title: "Pilih Bank", message: nil, preferredStyle: .actionSheet)
+        bankAlert.popoverPresentationController?.sourceView = self.vwDropdown
+        bankAlert.popoverPresentationController?.sourceRect = self.vwDropdown.frame
+        for i in 0...bankCount - 1 {
+            bankAlert.addAction(UIAlertAction(title: items[i], style: .default, handler: { act in
+                self.lblDropdown.text = items[i]
+                bankAlert.dismiss(animated: true, completion: nil)
+            }))
+        }
+        bankAlert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in
+            bankAlert.dismiss(animated: true, completion: nil)
+        }))
+        parent?.present(bankAlert, animated: true, completion: nil)
     }
 }
 
@@ -2224,4 +2270,56 @@ extension BorderedView
             }
         }
     }
+}
+
+// MARK: - DropdownCell [NEW]
+// cell_dropDown
+class DropdownCell: UITableViewCell {
+    @IBOutlet weak var vwDropdown: UIView!
+    @IBOutlet weak var lblDropdown: UILabel!
+    
+    func adapt(_ address: AddressItem) {
+        vwDropdown.layer.borderColor = Theme.GrayLight.cgColor
+        vwDropdown.layer.borderWidth = 1
+        
+        let text = address.recipientName + " (" + address.addressName + ") " + address.address + " " + address.subdisrictName + ", " + address.regionName + " " + address.provinceName + " " + address.postalCode
+        
+        let attString : NSMutableAttributedString = NSMutableAttributedString(string: text)
+        
+        attString.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: 14)], range: (text as NSString).range(of: address.recipientName))
+        
+        lblDropdown.attributedText = attString
+    }
+    
+}
+
+// MARK: - SaveAlamatCell [NEW]
+// cell_saveAddress
+class SaveAlamatCell: UITableViewCell {
+    @IBOutlet weak var lblCheckbox: UILabel! // hidden
+    
+    // checked -> isHidden false
+    func adapt(_ isChecked: Bool) {
+        lblCheckbox.isHidden = !isChecked
+    }
+    
+}
+
+// MARK: - FullAlamatCell [NEW]
+// cell_fullAddress
+class FullAlamatCell: UITableViewCell { // height 120
+    @IBOutlet weak var lblRecipientName: UILabel!
+    @IBOutlet weak var lblAddress: UILabel!
+    @IBOutlet weak var lblSubdistrictRegion: UILabel!
+    @IBOutlet weak var lblProvince: UILabel!
+    @IBOutlet weak var lblPhone: UILabel!
+    
+    func adapt(_ address: AddressItem) {
+        lblRecipientName.text = address.recipientName
+        lblAddress.text = address.address
+        lblSubdistrictRegion.text = address.subdisrictName + " " + address.recipientName
+        lblProvince.text = address.provinceName + " " + address.postalCode
+        lblPhone.text = "Telepon " + address.phone
+    }
+    
 }
