@@ -40,7 +40,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>2</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -70,6 +70,8 @@
 	<string>860723977338277</string>
 	<key>FacebookDisplayName</key>
 	<string>Prelo</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fb</string>
@@ -131,7 +133,5 @@
 	<false/>
 	<key>branch_key</key>
 	<string>key_live_pbbQ76J8PDVeNXyR7wR22fncBBoiBLk5</string>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
 </dict>
 </plist>

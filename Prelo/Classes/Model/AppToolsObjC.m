@@ -200,7 +200,7 @@ static UIDocumentInteractionController *staticDocController = NULL;
             NSString *name = [NSString stringWithFormat:@"image"];
             if ([images[0] isKindOfClass:[UIImage class]])
             {
-                NSData *data = UIImageJPEGRepresentation(images[0], 0.1);
+                NSData *data = UIImageJPEGRepresentation(images[0], 0.3);
                 [formData appendPartWithFileData:data name:name fileName:@"image.jpeg" mimeType:@"image/jpeg"];
             }
         } else if (images.count > 0) {
@@ -209,7 +209,7 @@ static UIDocumentInteractionController *staticDocController = NULL;
                 NSString *name = [NSString stringWithFormat:@"image%@", @(i+1)];
                 if ([images[i] isKindOfClass:[UIImage class]])
                 {
-                    NSData *data = UIImageJPEGRepresentation(images[i], 0.1);
+                    NSData *data = UIImageJPEGRepresentation(images[i], 0.3);
                     [formData appendPartWithFileData:data name:name fileName:@"wat.jpeg" mimeType:@"image/jpeg"];
                 }
             }

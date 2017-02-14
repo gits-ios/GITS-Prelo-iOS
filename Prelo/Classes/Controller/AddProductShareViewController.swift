@@ -414,20 +414,21 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
             "platform_sent_from" : "ios"
         ] as [String : Any]
         
-        // set state is uploading
-        CDDraftProduct.setUploading(self.localId, isUploading: true)
-        
         // Add product to product uploader
         // DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default)
         DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
             AppDelegate.Instance.produkUploader.addToQueue(ProdukUploader.ProdukLokal(produkParam: self.sendProductParam, produkImages: self.sendProductImages, mixpanelParam: pt as [AnyHashable: Any]))
             DispatchQueue.main.async(execute: {
                 if (AppDelegate.Instance.produkUploader.getQueue().count > 0) {
+                    
+                    // set state is uploading
+                    CDDraftProduct.setUploading(self.localId, isUploading: true)
+                    
                     let b = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdMyProducts)
                     self.navigationController?.pushViewController(b!, animated: true)
                 } else {
                     Crashlytics.sharedInstance().recordCustomExceptionName("ProdukUploader", reason: "Empty Queue", frameArray: [])
-                    Constant.showDialog("Warning", message: "Oops, terdapat kesalahan saat mengupload barang kamu")
+                    Constant.showDialog("Warning", message: "Oops, terdapat kesalahan saat mengupload barang kamu.\nMohon coba upload foto utama dan foto merek terlebih dahulu, kemudian tambah foto melalui fitur edit.")
                     self.btnSend.isEnabled = true
                 }
             })

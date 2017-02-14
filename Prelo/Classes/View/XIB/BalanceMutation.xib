@@ -39,6 +39,9 @@
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.000.000.000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Ga7-K5-gUd">
                                 <rect key="frame" x="159" y="33" width="282" height="50.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50.5" id="1G6-wX-rb9"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="42"/>
                                 <color key="textColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -104,6 +107,7 @@
                             <constraint firstItem="0xD-ev-HFU" firstAttribute="top" secondItem="sdU-fT-9wu" secondAttribute="bottom" constant="17" id="dP6-HF-yGS"/>
                             <constraint firstItem="Ga7-K5-gUd" firstAttribute="centerX" secondItem="08X-Rf-cIO" secondAttribute="centerX" id="e5f-Py-iWb"/>
                             <constraint firstAttribute="trailing" secondItem="fZ1-vu-Hh9" secondAttribute="trailing" id="fZS-PO-wCM"/>
+                            <constraint firstItem="Ga7-K5-gUd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="08X-Rf-cIO" secondAttribute="leading" constant="8" id="gIi-1Y-w9b"/>
                             <constraint firstItem="FCb-Fk-bwu" firstAttribute="top" secondItem="08X-Rf-cIO" secondAttribute="top" constant="8" id="ufr-C0-ORi"/>
                             <constraint firstItem="fZ1-vu-Hh9" firstAttribute="leading" secondItem="08X-Rf-cIO" secondAttribute="leading" id="xh2-J6-TKF"/>
                         </constraints>
