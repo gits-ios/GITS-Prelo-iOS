@@ -760,6 +760,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         self.tableView.delegate = self
         self.tableView.isHidden = false
         self.tableView.reloadData()
+//        
+//        let inset = UIEdgeInsetsMake(4, 0, 4, 0)
+//        self.tableView.contentInset = inset
+//        self.tableView.backgroundColor = UIColor(hex: "E5E9EB")
     }
     
     // MARK: - Cell creations
@@ -837,6 +841,22 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 5
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if (section == 0 || section == 2) {
+            return 4
+        } else {
+            return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let v = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 4))
+        
+        v.backgroundColor = UIColor(hex: "E5E9EB")
+        
+        return v
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -1054,7 +1074,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if (section != 1) {
+        /*if (section == 0) {
+            return 48
+        } else*/ if (section != 1) {
             return 44
         } else {
             return 0
@@ -1062,13 +1084,17 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let height = CGFloat(44)
+//        if (section == 0) {
+//            height += 4
+//        }
         
-        let v = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44))
+        let v = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: height))
         
         v.backgroundColor = UIColor.white
         
         var lblFrame = CGRect.zero
-        lblFrame.origin.x = 0
+        lblFrame.origin.x = 8
         let l = UILabel(frame: lblFrame)
         l.font = UIFont.boldSystemFont(ofSize: 16)
         l.textColor = UIColor.darkGray
@@ -1087,9 +1113,17 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         l.sizeToFit()
         
-        l.y = (v.height - l.height) / 2
+        l.y = (v.height - l.height) / 2 //+ (section == 0 ? 2 : 0)
         
         v.addSubview(l)
+        
+//        if section == 0 {
+//            let v1 = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 4))
+//            
+//            v1.backgroundColor = UIColor(hex: "E5E9EB")
+//            
+//            v.addSubview(v1)
+//        }
         
         return v
     }
