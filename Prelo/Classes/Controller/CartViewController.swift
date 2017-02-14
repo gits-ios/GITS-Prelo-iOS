@@ -96,7 +96,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     // Field titles
     let titleNama = "Nama"
     let titleTelepon = "Telepon"
-    let titleAlamat = "Mis: Jl. Tamansari III no. 1"
+    let titleAlamat = "Alamat" //"Mis: Jl. Tamansari III no. 1"
     let titleProvinsi = "Provinsi"
     let titleKota = "Kota/Kab"
     let titleKecamatan = "Kecamatan"
@@ -112,6 +112,13 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     var isEnableIndomaretPayment : Bool = false
     
     var transactionCount = 0
+    
+    // AddressBok
+    var addresses: Array<AddressItem> = []
+    var isNeedSetup = false
+    var selectedIndex = 0
+    var isSave = false
+    var isFirst = true
     
     // MARK: - Init
     
@@ -156,11 +163,13 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         self.title = PageName.Checkout
         
-        self.getUnpaid()
-        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let notifListener = appDelegate.preloNotifListener
         notifListener?.setCartCount(0)
+        
+        if (user != nil) {
+            self.getUnpaid()
+        }
         
         // Get cart products
         cartProducts = CartProduct.getAll(User.EmailOrEmptyString)
@@ -175,11 +184,38 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 tableView.isHidden = true
                 LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
             } else { // Show cart
+                notifListener?.increaseCartCount(cartProducts.count)
+                
                 initUserDataSections()
                 synchCart()
+                
+                self.getAddresses()
             }
             
-            notifListener?.increaseCartCount(cartProducts.count)
+        }
+    }
+    
+    func getAddresses() {
+        let _ = request(APIMe.getAddressBook).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Address Book")) {
+                if let x: AnyObject = resp.result.value as AnyObject? {
+                    var json = JSON(x)
+                    json = json["_data"]
+                    
+                    if let arr = json.array {
+                        for i in 0...arr.count - 1 {
+                            let address = AddressItem.instance(arr[i])
+                            self.addresses.append(address!)
+                            if (address?.isMainAddress)! {
+                                self.selectedIndex = i
+                            }
+                        }
+                        
+                        self.tableView.reloadData()
+                    }
+                }
+                
+            }
         }
     }
     
@@ -208,6 +244,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     func synchCart() {
         // Hide table
         tableView.isHidden = true
+        loadingCart.isHidden = false
         
         // Reset data
         isUsingPreloBalance = false
@@ -310,7 +347,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     // Membuat cellsData untuk section data user dan alamat user
     func initUserDataSections() {
         
-        // Prepare textfield value
+        // Prepare textfield value --> global
         var fullname = ""
         var phone = ""
         var address = ""
@@ -319,6 +356,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         var rID = ""
         var sdID = ""
         
+        if isFirst {
+            isFirst = false
         if let x = user?.fullname {
             fullname = x
         }
@@ -359,11 +398,32 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 sdID = (profile.subdistrictName != "") ? profile.subdistrictName : "Pilih Kecamatan"
             }
         }
+        }
+        
+        if (addresses.count > selectedIndex) {
+            fullname = addresses[selectedIndex].recipientName
+            phone = addresses[selectedIndex].phone
+            address = addresses[selectedIndex].address
+            postalcode = addresses[selectedIndex].postalCode
+            selectedProvinsiID = addresses[selectedIndex].provinceId
+            pID = addresses[selectedIndex].provinceName
+            selectedKotaID = addresses[selectedIndex].regionId
+            rID = addresses[selectedIndex].regionName
+            selectedKecamatanID = addresses[selectedIndex].subdisrictId
+            sdID = addresses[selectedIndex].subdisrictName
+            
+            synchCart()
+        }
+        
+        if (address == "" || postalcode == "") {
+            isNeedSetup = true
+        }
         
         // Fill cellsData
         let c = BaseCartData.instance(titlePostal, placeHolder: "Kode Pos", value : postalcode)
         c.keyboardType = UIKeyboardType.numberPad
         self.cellsData = [
+            /*
             IndexPath(row: 0, section: sectionDataUser):BaseCartData.instance(titleNama, placeHolder: "Nama Lengkap Kamu", value : fullname),
             IndexPath(row: 1, section: sectionDataUser):BaseCartData.instance(titleTelepon, placeHolder: "Nomor Telepon Kamu", value : phone),
             IndexPath(row: 0, section: sectionAlamatUser):BaseCartData.instance(titleAlamat, placeHolder: "Alamat Lengkap Kamu", value : address),
@@ -456,6 +516,100 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 }
             }),
             IndexPath(row: 4, section: sectionAlamatUser):c
+            */
+            
+            IndexPath(row: 1, section: sectionAlamatUser):BaseCartData.instance(titleNama, placeHolder: "Nama Lengkap Kamu", value : fullname),
+            IndexPath(row: 2, section: sectionAlamatUser):BaseCartData.instance(titleTelepon, placeHolder: "Nomor Telepon Kamu", value : phone),
+            IndexPath(row: 3, section: sectionAlamatUser):BaseCartData.instance(titleProvinsi, placeHolder: nil, value: pID, pickerPrepBlock: { picker in
+                
+                picker.items = CDProvince.getProvincePickerItems()
+                picker.textTitle = "Pilih Provinsi"
+                picker.doneLoading()
+                
+                picker.selectBlock = { string in
+                    self.selectedProvinsiID = PickerViewController.RevealHiddenString(string)
+                    
+                    // Set picked address
+                    self.selectedKotaID = ""
+                    self.selectedKecamatanID = ""
+                    self.selectedKecamatanName = ""
+                    let idxs = [IndexPath(row: 4, section: self.sectionAlamatUser), IndexPath(row: 5, section: self.sectionAlamatUser)]
+                    self.cellsData[idxs[0]]?.value = "Pilih Kota/Kabupaten"
+                    self.cellsData[idxs[1]]?.value = "Pilih Kecamatan"
+                    self.tableView.reloadRows(at: idxs, with: .fade)
+                }
+            }),
+            IndexPath(row: 4, section: sectionAlamatUser):BaseCartData.instance(titleKota, placeHolder: nil, value: rID, pickerPrepBlock: { picker in
+                
+                picker.items = CDRegion.getRegionPickerItems(self.selectedProvinsiID)
+                picker.textTitle = "Pilih Kota/Kabupaten"
+                picker.doneLoading()
+                
+                picker.selectBlock = { string in
+                    self.kecamatanPickerItems = []
+                    self.selectedKotaID = PickerViewController.RevealHiddenString(string)
+                    self.refreshByLocationChange = true
+                    
+                    self.synchCart()
+                    
+                    // Set picked address value
+                    self.selectedKecamatanID = ""
+                    self.selectedKecamatanName = ""
+                    let idxs = [IndexPath(row: 3, section: self.sectionAlamatUser), IndexPath(row: 4, section: self.sectionAlamatUser), IndexPath(row: 5, section: self.sectionAlamatUser)]
+                    self.cellsData[idxs[0]]?.value = CDProvince.getProvinceNameWithID(self.selectedProvinsiID)
+                    self.cellsData[idxs[1]]?.value = string.components(separatedBy: PickerViewController.TAG_START_HIDDEN)[0]
+                    self.cellsData[idxs[2]]?.value = "Pilih Kecamatan"
+                }
+            }),
+            IndexPath(row: 5, section: sectionAlamatUser):BaseCartData.instance(titleKecamatan, placeHolder: nil, value: sdID, pickerPrepBlock: { picker in
+                
+                if (self.kecamatanPickerItems.count <= 0) {
+                    self.tableView.isHidden = true
+                    self.loadingCart.isHidden = false
+                    let _ = request(APIMisc.getSubdistrictsByRegionID(id: self.selectedKotaID)).responseJSON { resp in
+                        if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Daftar Kecamatan")) {
+                            let json = JSON(resp.result.value!)
+                            let data = json["_data"].arrayValue
+                            
+                            if (data.count > 0) {
+                                for i in 0...data.count - 1 {
+                                    self.kecamatanPickerItems.append(data[i]["name"].stringValue + PickerViewController.TAG_START_HIDDEN + data[i]["_id"].stringValue + PickerViewController.TAG_END_HIDDEN)
+                                }
+                                
+                                picker.items = self.kecamatanPickerItems
+                                picker.textTitle = "Pilih Kecamatan"
+                                picker.doneLoading()
+                                
+                                picker.tableView.reloadData()
+                            } else {
+                                Constant.showDialog("Warning", message: "Oops, kecamatan tidak ditemukan")
+                            }
+                        }
+                        self.tableView.isHidden = false
+                        self.loadingCart.isHidden = true
+                    }
+                } else {
+                    picker.items = self.kecamatanPickerItems
+                    picker.textTitle = "Pilih Kecamatan"
+                    picker.doneLoading()
+                }
+                
+                picker.selectBlock = { string in
+                    self.selectedKecamatanID = PickerViewController.RevealHiddenString(string)
+                    self.selectedKecamatanName = string.components(separatedBy: PickerViewController.TAG_START_HIDDEN)[0]
+                    self.refreshByLocationChange = true
+                    
+                    self.synchCart()
+                    
+                    // Set picked address value
+                    let idxs = [IndexPath(row: 3, section: self.sectionAlamatUser), IndexPath(row: 4, section: self.sectionAlamatUser), IndexPath(row: 5, section: self.sectionAlamatUser)]
+                    self.cellsData[idxs[0]]?.value = CDProvince.getProvinceNameWithID(self.selectedProvinsiID)
+                    self.cellsData[idxs[1]]?.value = CDRegion.getRegionNameWithID(self.selectedKotaID)
+                    self.cellsData[idxs[2]]?.value = string.components(separatedBy: PickerViewController.TAG_START_HIDDEN)[0]
+                }
+            }),
+            IndexPath(row: 6, section: sectionAlamatUser):BaseCartData.instance(titleAlamat, placeHolder: "Alamat Lengkap Kamu", value : address),
+            IndexPath(row: 7, section: sectionAlamatUser):BaseCartData.instance(titlePostal, placeHolder: "Kode Pos Kamu", value : postalcode)
         ]
     }
     
@@ -689,9 +843,14 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         if (section == sectionProducts) {
             return arrayItem.count + (arrayItem.count > 2 ? 2 : 1) // Total products + clear all cell + subtotal cell
         } else if (section == sectionDataUser) {
-            return 2
+            return 0 // 2
         } else if (section == sectionAlamatUser) {
-            return 5
+            if isNeedSetup {
+                return 9
+            } else {
+                return 2
+            }
+//            return 5
         } else if (section == sectionPayMethod) {
             if (isVoucherApplied) {
                 return 2 // Pay method, Prelo balance switch
@@ -731,7 +890,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 
                 cell = i
             }
-        } else if (section == sectionDataUser) {
+        } /*else if (section == sectionDataUser) {
             if (row == 2) { // Currently not used because max row idx is 1
                 cell = tableView.dequeueReusableCell(withIdentifier: "cell_edit")!
             } else if (row == 0) { // Nama
@@ -747,6 +906,45 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             } else if (row == 4) { // Kode Pos
                 cell = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input", isShowBottomLine: false)
             }
+         }*/ else if (section == sectionAlamatUser) {
+            if (isNeedSetup) { // 9 row
+                if (row == 0) { // dropdown
+                    let c = tableView.dequeueReusableCell(withIdentifier: "cell_dropDown") as! DropdownCell
+                    if addresses.count > selectedIndex {
+                        c.adapt(addresses[selectedIndex])
+                    } else {
+                        c.adaptNew("Alamat Baru")
+                    }
+                    c.selectionStyle = .none
+                    cell = c
+                } else if (row == 1 || row == 2) { // Nama, Telepon
+                    cell = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input", isShowBottomLine: true)
+                } else if (row == 3 || row == 4 || row == 5) { // Provinsi, Kab/Kota, Kecamatan
+                    cell = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input_2", isShowBottomLine: true)
+                } else if (row == 6) { // Alamat
+                    cell = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input", isShowBottomLine: true)
+                } else if (row == 7) { // Kode Pos
+                    cell = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input", isShowBottomLine: false)
+                } else {
+                    let c = tableView.dequeueReusableCell(withIdentifier: "cell_saveAddress") as! SaveAlamatCell
+                    c.adapt(isSave)
+                    c.selectionStyle = .none
+                    cell = c
+                }
+            } else { // 2 row
+                if (row == 0) { // dropdown
+                    let c = tableView.dequeueReusableCell(withIdentifier: "cell_dropDown") as! DropdownCell
+                    c.adapt(addresses[selectedIndex])
+                    c.selectionStyle = .none
+                    cell = c
+                } else { // Provinsi, Kab/Kota, Kode Pos, Kecamatan
+                    let c = tableView.dequeueReusableCell(withIdentifier: "cell_fullAddress") as! FullAlamatCell
+                    c.adapt(addresses[selectedIndex])
+                    c.selectionStyle = .none
+                    cell = c
+                }
+            }
+            
         } else if (section == sectionPayMethod) {
             if (row == 0) { // Payment method
                 cell = createPayMethodCell(tableView, indexPath: indexPath)
@@ -814,7 +1012,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 }
                 return 94
             }
-        } else if (section == sectionDataUser) {
+        } /*else if (section == sectionDataUser) {
             if (row == 2) { // Currently not used because max row idx is 1
                 return 20
             } else { // Nama, Telepon
@@ -826,6 +1024,17 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             } else { // Provinsi, Kab/Kota, Kode Pos, Kecamatan
                 return 44
             }
+         }*/ else if (section == sectionAlamatUser) {
+            if (isNeedSetup) {
+                return 44
+            } else {
+                if (row == 0) { // dropdown
+                    return 44
+                } else { // Provinsi, Kab/Kota, Kode Pos, Kecamatan
+                    return 120
+                }
+            }
+            
         } else if (section == sectionPayMethod) {
             if (row == 0) { // Payment method
                 if (selectedPayment == .bankTransfer) {
@@ -845,7 +1054,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 44
+        if (section != 1) {
+            return 44
+        } else {
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -862,9 +1075,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         if (section == sectionProducts) {
             l.text = "RINGKASAN BARANG"
-        } else if (section == sectionDataUser) {
+        } /*else if (section == sectionDataUser) {
             l.text = "DATA KAMU"
-        } else if (section == sectionAlamatUser) {
+        }*/ else if (section == sectionAlamatUser) {
             l.text = "ALAMAT PENGIRIMAN"
         } else if (section == sectionPayMethod) {
             l.text = "METODE PEMBAYARAN"
@@ -903,16 +1116,58 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 self.present(alert, animated: true, completion: nil)
             }
         } else if ((indexPath as NSIndexPath).section == sectionAlamatUser) {
-            if ((indexPath as NSIndexPath).row == 3) { // Kecamatan
+            if ((indexPath as NSIndexPath).row == 0) { // Choose address book
+                let c = tableView.cellForRow(at: indexPath) as! DropdownCell
+                
+                // dropdown menu
+                var items = addresses
+                
+                let alamatCount = items.count
+                let alamatAlert = UIAlertController(title: "Daftar Alamat", message: nil, preferredStyle: .actionSheet)
+                alamatAlert.popoverPresentationController?.sourceView = c
+                alamatAlert.popoverPresentationController?.sourceRect = c.vwDropdown.frame
+                for i in 0...alamatCount - 1 {
+                    alamatAlert.addAction(UIAlertAction(title: items[i].addressName, style: .default, handler: { act in
+                        if (self.selectedIndex != i) {
+                            self.isNeedSetup = false
+                            self.selectedIndex = i
+                            self.initUserDataSections()
+                            self.tableView.reloadData()
+                        }
+                        alamatAlert.dismiss(animated: true, completion: nil)
+                    }))
+                }
+                
+                if (alamatCount < 5) {
+                    alamatAlert.addAction(UIAlertAction(title: "Alamat Baru", style: .default, handler: { act in
+                        if (self.selectedIndex != alamatCount) {
+                            self.isNeedSetup = true
+                            self.selectedIndex = alamatCount
+                            self.initUserDataSections()
+                            self.tableView.reloadData()
+                        }
+                        alamatAlert.dismiss(animated: true, completion: nil)
+                    }))
+                }
+                
+                alamatAlert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in
+                    alamatAlert.dismiss(animated: true, completion: nil)
+                }))
+                self.present(alamatAlert, animated: true, completion: nil)
+                
+            } else if ((indexPath as NSIndexPath).row == 6 /*3*/) { // Kecamatan
                 if (selectedKotaID == "") {
                     Constant.showDialog("Perhatian", message: "Pilih kota/kabupaten terlebih dahulu")
                     return
                 }
-            } else if ((indexPath as NSIndexPath).row == 2) { // Kota/Kab
+            } else if ((indexPath as NSIndexPath).row == 5 /*2*/) { // Kota/Kab
                 if (selectedProvinsiID == "") {
                     Constant.showDialog("Perhatian", message: "Pilih provinsi terlebih dahulu")
                     return
                 }
+            } else if ((indexPath as NSIndexPath).row == 8) { // save
+                isSave = !isSave
+                tableView.reloadData()
             }
         }
         
@@ -1111,6 +1366,15 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 
                 // Send tracking data before navigate
                 if (self.checkoutResult != nil) {
+                    // insert new address if needed
+                    if (self.isSave) {
+                        // update
+                            // do nothing - auto
+                        
+                        // new
+                            self.insertNewAddress()
+                    }
+                    
                     // Mixpanel
                     var pName : String? = ""
                     var rName : String? = ""
@@ -1542,7 +1806,58 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
         
     }
+    
+    // MARK: - New Address
+    
+    func insertNewAddress() {
+        var fullname = ""
+        var phone = ""
+        var address = ""
+        var postalcode = ""
+        var pID = ""
+        var rID = ""
+        var sdID = ""
+        
+        for i in cellsData.keys {
+            let b = cellsData[i]
 
+//            print(b?.value!)
+            
+            if (b?.title == titleNama) {
+                fullname = (b?.value)!
+            }
+            
+            if (b?.title == titleTelepon) {
+                phone = (b?.value)!
+            }
+            
+            if (b?.title == titleAlamat) {
+                address = (b?.value)!
+            }
+            
+            if (b?.title == titlePostal) {
+                postalcode = (b?.value)!
+            }
+            
+            if (b?.title == titleProvinsi) {
+                pID = (b?.value)!
+            }
+            
+            if (b?.title == titleKota) {
+                rID = (b?.value)!
+            }
+            
+            if (b?.title == titleKecamatan) {
+                sdID = (b?.value)!
+            }
+        }
+        
+        let _ = request(APIMe.createAddress(addressName: "", recipientName: fullname, phone: phone, provinceId: selectedProvinsiID, provinceName: pID, regionId: selectedKotaID, regionName: rID, subdistrictId: selectedKecamatanID, subdistricName: sdID, address: address, postalCode: postalcode)).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Alamat Baru")) {
+//                Constant.showDialog("Alamat Baru", message: "Alamat berhasil ditambahkan")
+            }
+        }
+    }
 }
 
 // MARK: - Class
@@ -1655,7 +1970,7 @@ class BaseCartCell : UITableViewCell {
 
 class CartCellInput : BaseCartCell, UITextFieldDelegate {
     @IBOutlet var txtField : UITextField!
-    @IBOutlet var consWidthTxtField: NSLayoutConstraint!
+//    @IBOutlet var consWidthTxtField: NSLayoutConstraint!
     
     var textChangedBlock : (IndexPath, String) -> () = { _, _ in }
     
@@ -1685,9 +2000,9 @@ class CartCellInput : BaseCartCell, UITextFieldDelegate {
             txtField.placeholder = placeholder
         }
         if (item.title?.lowercased() == "nama") {
-            consWidthTxtField.constant = 200
+//            consWidthTxtField.constant = 200
         } else {
-            consWidthTxtField.constant = 115
+//            consWidthTxtField.constant = 115
         }
         
         let value = item.value
@@ -2291,6 +2606,10 @@ class DropdownCell: UITableViewCell {
         lblDropdown.attributedText = attString
     }
     
+    func adaptNew(_ title: String) {
+        lblDropdown.text = title
+    }
+    
 }
 
 // MARK: - SaveAlamatCell [NEW]
@@ -2317,7 +2636,7 @@ class FullAlamatCell: UITableViewCell { // height 120
     func adapt(_ address: AddressItem) {
         lblRecipientName.text = address.recipientName
         lblAddress.text = address.address
-        lblSubdistrictRegion.text = address.subdisrictName + " " + address.recipientName
+        lblSubdistrictRegion.text = address.subdisrictName + ", " + address.regionName
         lblProvince.text = address.provinceName + " " + address.postalCode
         lblPhone.text = "Telepon " + address.phone
     }
