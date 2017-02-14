@@ -854,6 +854,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
 //                self.shopHeader?.editBlock = {
 //                    let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
 //                    self.navigationController?.pushViewController(userProfileVC, animated: true)
+                
+//                    let userProfileVC2 = Bundle.main.loadNibNamed(Tags.XibNameUserProfile2, owner: nil, options: nil)?.first as! UserProfileViewController2
+//                    self.navigationController?.pushViewController(userProfileVC2, animated: true)
 //                }
                 
                 self.shopHeader?.reviewBlock = {
@@ -1678,8 +1681,11 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     func editProfile()
     {
-        let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
-        self.navigationController?.pushViewController(userProfileVC, animated: true)
+//        let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
+//        self.navigationController?.pushViewController(userProfileVC, animated: true)
+//        
+        let userProfileVC2 = Bundle.main.loadNibNamed(Tags.XibNameUserProfile2, owner: nil, options: nil)?.first as! UserProfileViewController2
+        self.navigationController?.pushViewController(userProfileVC2, animated: true)
     }
 }
 

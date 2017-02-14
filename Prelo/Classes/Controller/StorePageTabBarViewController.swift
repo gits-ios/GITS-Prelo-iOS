@@ -264,8 +264,11 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     func editProfile()
     {
         // open edit profile vc
-        let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
-        self.navigationController?.pushViewController(userProfileVC, animated: true)
+//        let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
+//        self.navigationController?.pushViewController(userProfileVC, animated: true)
+        
+        let userProfileVC2 = Bundle.main.loadNibNamed(Tags.XibNameUserProfile2, owner: nil, options: nil)?.first as! UserProfileViewController2
+        self.navigationController?.pushViewController(userProfileVC2, animated: true)
     }
     
     // MARK: - button

@@ -345,8 +345,11 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     @IBAction func editProfilePressed(_ sender: UIButton) {
-        let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
-        self.previousController!.navigationController?.pushViewController(userProfileVC, animated: true)
+//        let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
+//        self.previousController!.navigationController?.pushViewController(userProfileVC, animated: true)
+        
+        let userProfileVC2 = Bundle.main.loadNibNamed(Tags.XibNameUserProfile2, owner: nil, options: nil)?.first as! UserProfileViewController2
+        self.navigationController?.pushViewController(userProfileVC2, animated: true)
     }
     
     @IBAction func topMenu1Pressed(_ sender: AnyObject) {
@@ -469,9 +472,9 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
 //        let addressBookVC = Bundle.main.loadNibNamed(Tags.XibNameAddressBook, owner: nil, options: nil)?.first as! AddressBookViewController
 //        self.navigationController?.pushViewController(addressBookVC, animated: true)
         
-        // edit profile - baru
-        let userProfileVC2 = Bundle.main.loadNibNamed(Tags.XibNameUserProfile2, owner: nil, options: nil)?.first as! UserProfileViewController2
-        self.navigationController?.pushViewController(userProfileVC2, animated: true)
+        // edit profile - baru -- OKE
+//        let userProfileVC2 = Bundle.main.loadNibNamed(Tags.XibNameUserProfile2, owner: nil, options: nil)?.first as! UserProfileViewController2
+//        self.navigationController?.pushViewController(userProfileVC2, animated: true)
     }
     
     func launchFAQ() {
