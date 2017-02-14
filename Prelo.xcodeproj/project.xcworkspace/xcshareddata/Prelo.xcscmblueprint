@@ -4,20 +4,27 @@
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
-    "B1F1AB1FA74A2504EAB6EFD22499C87D883ECD55" : 0,
     "D2AD29AE1B693121D0EDBB4855C96B75ECBB0D86" : 9223372036854775807,
+    "6575E401F0E075B1FD6E179DAD8CCDF3853A7A8E" : 9223372036854775807,
+    "B1F1AB1FA74A2504EAB6EFD22499C87D883ECD55" : 0,
     "67620B5EFA902936DF04070AF595B76AB0333747" : 9223372036854775807
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "A61D16D6-241F-440A-B4EF-CB0FB9F85FB4",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "B1F1AB1FA74A2504EAB6EFD22499C87D883ECD55" : "ios_prelo\/",
     "D2AD29AE1B693121D0EDBB4855C96B75ECBB0D86" : "ios_prelo\/AlamofireImage\/",
+    "6575E401F0E075B1FD6E179DAD8CCDF3853A7A8E" : "ios_prelo\/DropDown\/",
+    "B1F1AB1FA74A2504EAB6EFD22499C87D883ECD55" : "ios_prelo\/",
     "67620B5EFA902936DF04070AF595B76AB0333747" : "ios_prelo\/Alamofire\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "Prelo",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
   "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Prelo.xcodeproj",
   "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:AssistoLab\/DropDown.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "6575E401F0E075B1FD6E179DAD8CCDF3853A7A8E"
+    },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Alamofire\/Alamofire.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",

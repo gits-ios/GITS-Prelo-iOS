@@ -9,6 +9,7 @@
 import UIKit
 import Crashlytics
 import Alamofire
+import DropDown
 
 // MARK: - Class
 
@@ -120,6 +121,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     var isSave = false
     var isFirst = true
     
+    var dropDown: DropDown!
+    
+    var selectedBankIndex = -1
+    
     // MARK: - Init
     
     override func viewWillAppear(_ animated: Bool) {
@@ -211,12 +216,76 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             }
                         }
                         
+                        self.setupDropdownAddress()
+                        
                         self.tableView.reloadData()
                     }
                 }
                 
             }
         }
+    }
+    
+    func setupDropdownAddress() {
+        dropDown = DropDown()
+        
+        // The list of items to display. Can be changed dynamically
+        //                dropDown.dataSource = ["Car", "Motorcycle", "Truck"]
+        dropDown.dataSource = []
+        
+        for i in 0...addresses.count - 1 {
+//            dropDown.dataSource.append(addresses[i].addressName)
+            
+            let address = addresses[i]
+            let text = address.recipientName + " (" + address.addressName + ") " + address.address + " " + address.subdisrictName + ", " + address.regionName + " " + address.provinceName + " " + address.postalCode
+            
+//            let attString : NSMutableAttributedString = NSMutableAttributedString(string: text)
+//            
+//            attString.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: 14)], range: (text as NSString).range(of: address.recipientName))
+//            
+            dropDown.dataSource.append(text)
+        }
+        
+        if (addresses.count < 5) {
+            dropDown.dataSource.append("Alamat Baru")
+        }
+        
+        dropDown.customCellConfiguration = { (index: Index, item: String, cell: DropDownCell) -> Void in
+            if index < self.addresses.count {
+            let attString : NSMutableAttributedString = NSMutableAttributedString(string: item)
+            
+            attString.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: 14)], range: (item as NSString).range(of: self.addresses[index].recipientName))
+            
+            // Setup your custom UI components
+            cell.optionLabel.attributedText = attString
+            }
+        }
+        
+        
+        // Action triggered on selection
+        dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
+            if index != self.selectedIndex {
+                if index < self.addresses.count {
+                    self.isNeedSetup = false
+                    self.selectedIndex = index
+                } else {
+                    self.isNeedSetup = true
+                    self.selectedIndex = self.addresses.count
+                }
+                
+                self.initUserDataSections()
+                self.tableView.reloadData()
+            }
+        }
+        
+        dropDown.textFont = UIFont.systemFont(ofSize: 14)
+        
+        dropDown.width = UIScreen.main.bounds.width - 16
+        
+//        dropDown.cellHeight = 30
+        
+        dropDown.selectRow(at: self.selectedIndex)
+        
     }
     
     func getUnpaid() {
@@ -243,9 +312,12 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     // Refresh data cart dan seluruh tampilan
     func synchCart() {
         // Hide table
-        tableView.isHidden = true
-        loadingCart.isHidden = false
-        
+        if isFirst {
+            tableView.isHidden = true
+            loadingCart.isHidden = false
+            isFirst = false
+        }
+            
         // Reset data
         isUsingPreloBalance = false
         discountItems = []
@@ -357,7 +429,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         var sdID = ""
         
         if isFirst {
-            isFirst = false
+//            isFirst = false
         if let x = user?.fullname {
             fullname = x
         }
@@ -821,6 +893,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         // new
         cell.isDropdownMode = true
         cell.parent = self
+        cell.selectedBankIndex = self.selectedBankIndex
         cell.methodChosen = { mthd in
             self.setPaymentOption(mthd)
             self.adjustRingkasan()
@@ -936,6 +1009,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         c.adaptNew("Alamat Baru")
                     }
                     c.selectionStyle = .none
+                    dropDown.anchorView = c.vwDropdown
                     cell = c
                 } else if (row == 1 || row == 2) { // Nama, Telepon
                     cell = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input", isShowBottomLine: true)
@@ -956,6 +1030,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     let c = tableView.dequeueReusableCell(withIdentifier: "cell_dropDown") as! DropdownCell
                     c.adapt(addresses[selectedIndex])
                     c.selectionStyle = .none
+                    dropDown.anchorView = c.vwDropdown
                     cell = c
                 } else { // Provinsi, Kab/Kota, Kode Pos, Kecamatan
                     let c = tableView.dequeueReusableCell(withIdentifier: "cell_fullAddress") as! FullAlamatCell
@@ -1151,8 +1226,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             }
         } else if ((indexPath as NSIndexPath).section == sectionAlamatUser) {
             if ((indexPath as NSIndexPath).row == 0) { // Choose address book
-                let c = tableView.cellForRow(at: indexPath) as! DropdownCell
                 
+                let c = tableView.cellForRow(at: indexPath) as! DropdownCell
+                /*
                 // dropdown menu
                 var items = addresses
                 
@@ -1188,6 +1264,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     alamatAlert.dismiss(animated: true, completion: nil)
                 }))
                 self.present(alamatAlert, animated: true, completion: nil)
+                */
+                
+                dropDown.show()
                 
             } else if ((indexPath as NSIndexPath).row == 6 /*3*/) { // Kecamatan
                 if (selectedKotaID == "") {
@@ -2458,6 +2537,9 @@ class CartPaymethodCell : UITableViewCell {
     
     @IBOutlet var lblDesc: [UILabel]!
     
+    var dropDown: DropDown!
+    var selectedBankIndex = -1
+    
     // Tag set in storyboard
     // 0 = Transfer Bank
     // 1 = Kartu Kredit
@@ -2480,6 +2562,8 @@ class CartPaymethodCell : UITableViewCell {
             vwDropdown.layer.borderColor = Theme.GrayLight.cgColor
             vwDropdown.layer.borderWidth = 1
             lblDropdown.text = "Pilih Bank Tujuan Transfer"
+            
+            self.setupDropdownBank()
         } else {
             vwDropdownBanks.isHidden = true
         }
@@ -2538,6 +2622,7 @@ class CartPaymethodCell : UITableViewCell {
     
     @IBAction func dropDownPressed(_ sender: Any) {
         // dropdown menu
+        /*
         var items = ["BCA", "Mandiri", "BNI"]
         
         if isShowBankBRI {
@@ -2558,6 +2643,41 @@ class CartPaymethodCell : UITableViewCell {
             bankAlert.dismiss(animated: true, completion: nil)
         }))
         parent?.present(bankAlert, animated: true, completion: nil)
+         */
+        
+        dropDown.show()
+    }
+    
+    func setupDropdownBank() {
+        dropDown = DropDown()
+        
+        var items = ["BCA", "Mandiri", "BNI"]
+        
+        if isShowBankBRI {
+            items.append("BRI")
+        }
+        
+        // The list of items to display. Can be changed dynamically
+        dropDown.dataSource = items
+        
+        // Action triggered on selection
+        dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
+            self.lblDropdown.text = items[index]
+            self.selectedBankIndex = index
+            let p = self.parent as! CartViewController
+            p.selectedBankIndex = index
+        }
+        
+        dropDown.textFont = UIFont.systemFont(ofSize: 14)
+        
+        dropDown.width = self.vwDropdown.width - 16
+        
+        dropDown.anchorView = self.vwDropdown
+        
+        if selectedBankIndex > -1 {
+            dropDown.selectRow(at: selectedBankIndex)
+            lblDropdown.text = items[selectedBankIndex]
+        }
     }
 }
 
