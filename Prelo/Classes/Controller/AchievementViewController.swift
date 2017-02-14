@@ -474,19 +474,10 @@ class AchievementCelliOS9xx: UITableViewCell { // height 75 ++
     @IBOutlet weak var vwProgressBar: UIView! // default hidden
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var lblProgressView: UILabel!
-    @IBOutlet weak var consHeightLblTitke: NSLayoutConstraint! // default 56 --> 40
+    @IBOutlet weak var consHeightLblTitke: NSLayoutConstraint! // default 0 -> 15 -- progressbar height
     @IBOutlet weak var vwBorder: UIView!
     
     var achievement : AchievementItem!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
-    override func prepareForReuse() {
-        self.consHeightLblTitke.constant = 56
-        self.vwProgressBar.isHidden = true
-    }
     
     // kalau point point (fullfilled, condition) + progressicon
     static func heightFor(_ conditionCount: Int, isOpen: Bool, isProgress: Bool, desc: String) -> CGFloat {
@@ -510,11 +501,14 @@ class AchievementCelliOS9xx: UITableViewCell { // height 75 ++
         self.lblTitke.text = achievement.name
         
         if achievement.progressMax > 0 {
-            self.consHeightLblTitke.constant = 40
-            self.vwProgressBar.isHidden = false
+            self.consHeightLblTitke.constant = 15
+            
             self.progressView.setProgress(Float(achievement.progressCurrent) / Float(achievement.progressMax) , animated: false)
             self.lblProgressView.text = achievement.progressCurrent.string + " / " + achievement.progressMax.string
             self.lblProgressView.textColor = (achievement.progressCurrent == 0 ? Theme.GrayLight : Theme.PrimaryColor)
+        } else {
+            self.consHeightLblTitke.constant = 0
+            
         }
         
         
