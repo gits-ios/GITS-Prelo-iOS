@@ -47,6 +47,7 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
     @IBOutlet var tableView : UITableView!
     @IBOutlet var btnSubmit: UIButton!
     var searchBar : UISearchBar!
+    @IBOutlet weak var consBottomVwFilte: NSLayoutConstraint!
     
     // Data containers
     var brands : [String : String] = [:] // [<merkName> : <merkId>]
@@ -99,6 +100,16 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.an_subscribeKeyboard(animations: { r, t, o in
+            if (o) {
+                self.consBottomVwFilte.constant = r.height
+            } else {
+                self.consBottomVwFilte.constant = 0
+            }
+        }, completion: nil)
+        
         // Get initial brands
         getBrands()
     }
