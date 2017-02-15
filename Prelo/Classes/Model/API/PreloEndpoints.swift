@@ -292,7 +292,7 @@ enum APIAuth : URLRequestConvertible {
 
 enum APICart : URLRequestConvertible {
     case refresh(cart : String, address : String, voucher : String?)
-    case checkout(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int, usedReferralBonus : Int, kodeTransfer : Int)
+    case checkout(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int, usedReferralBonus : Int, kodeTransfer : Int, targetBank : String)
     case generateVeritransUrl(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int, usedReferralBonus : Int, kodeTransfer : Int)
     
     public func asURLRequest() throws -> URLRequest {
@@ -307,7 +307,7 @@ enum APICart : URLRequestConvertible {
     var method : HTTPMethod {
         switch self {
         case .refresh(_, _, _) : return .post
-        case .checkout(_, _, _, _, _, _, _) : return .post
+        case .checkout(_, _, _, _, _, _, _, _) : return .post
         case .generateVeritransUrl(_, _, _, _, _, _, _) : return .post
         }
     }
@@ -315,7 +315,7 @@ enum APICart : URLRequestConvertible {
     var path : String {
         switch self {
         case .refresh(_, _, _) : return ""
-        case .checkout(_, _, _, _, _, _, _) : return "checkout"
+        case .checkout(_, _, _, _, _, _, _, _) : return "checkout"
         case .generateVeritransUrl(_, _, _, _, _, _, _) : return "generate_veritrans_url"
         }
     }
@@ -330,14 +330,15 @@ enum APICart : URLRequestConvertible {
                 "voucher_serial":(voucher == nil) ? "" : voucher!,
                 "platform_sent_from" : "ios"
             ]
-        case .checkout(let cart, let address, let voucher, let payment, let usedBalance, let usedBonus, let kodeTransfer) :
+        case .checkout(let cart, let address, let voucher, let payment, let usedBalance, let usedBonus, let kodeTransfer, let targetBank) :
             p = [
                 "cart_products":cart,
                 "shipping_address":address,
                 "banktransfer_digit":NSNumber(value: 1 as Int),
                 "voucher_serial":(voucher == nil) ? "" : voucher!,
                 "payment_method":payment,
-                "platform_sent_from" : "ios"
+                "platform_sent_from" : "ios",
+                "target_bank": targetBank
                 ] as [String : Any]
             if usedBalance != 0 {
                 p["prelobalance_used"] = NSNumber(value: usedBalance as Int)

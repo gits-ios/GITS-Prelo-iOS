@@ -124,6 +124,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     var dropDown: DropDown!
     
     var selectedBankIndex = -1
+    var targetBank = ""
     
     // MARK: - Init
     
@@ -1351,6 +1352,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     @IBAction override func confirm()
     {
+        if (selectedPayment == .bankTransfer && targetBank == "")
+        {
+            Constant.showDialog("Perhatian", message: "Bank Tujuan Transfer harus diisi")
+            return
+        }
         if (voucherTyped != "" && !isVoucherApplied) {
             Constant.showDialog("Perhatian", message: "Mohon klik Apply untuk menggunakan voucher")
             return
@@ -1458,7 +1464,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     }
     
     func performCheckout(_ cart : String, address : String, usedBalance : Int, usedBonus : Int) {
-        let _ = request(APICart.checkout(cart: cart, address: address, voucher: voucherApplied, payment: selectedPayment.value, usedPreloBalance: usedBalance, usedReferralBonus: usedBonus, kodeTransfer: bankTransferDigit)).responseJSON { resp in
+        let _ = request(APICart.checkout(cart: cart, address: address, voucher: voucherApplied, payment: selectedPayment.value, usedPreloBalance: usedBalance, usedReferralBonus: usedBonus, kodeTransfer: bankTransferDigit, targetBank: (self.selectedPayment == .bankTransfer ? targetBank : ""))).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Checkout")) {
                 let json = JSON(resp.result.value!)
                 self.checkoutResult = json["_data"]
@@ -2666,6 +2672,7 @@ class CartPaymethodCell : UITableViewCell {
             self.selectedBankIndex = index
             let p = self.parent as! CartViewController
             p.selectedBankIndex = index
+            p.targetBank = items[index]
         }
         
         dropDown.textFont = UIFont.systemFont(ofSize: 14)
