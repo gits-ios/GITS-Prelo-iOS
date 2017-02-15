@@ -1760,7 +1760,10 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         
         // Configure actions
         cell.retrieveCash = {
-            let t = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdTarikTunai) as! TarikTunaiController
+//            let t = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdTarikTunai) as! TarikTunaiController
+//            self.navigationController?.pushViewController(t, animated: true)
+            
+            let t = Bundle.main.loadNibNamed(Tags.XibNameTarikTunai2, owner: nil, options: nil)?.first as! TarikTunaiViewController2
             self.navigationController?.pushViewController(t, animated: true)
         }
         cell.confirmPayment = {
