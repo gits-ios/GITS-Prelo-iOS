@@ -459,6 +459,7 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
     
     // MARK: - Pop up
     func setupPopUp() {
+        
         let wjpDetail = "Waktu Jaminan Prelo adalah waktu untuk para Pembeli memeriksa barang yang dia terima (terhitung sejak 3x24 jam setelah barang diterima oleh Pembeli).\n\nPembeli bisa melakukan pengembalian barang dan refund jika:\n- barang terbukti KW\n- ada cacat yang tidak diinformasikan\n- barang berbeda dari yang dipesan\n\nPenjual dapat melakukan tarik uang setelah Waktu Jaminan Prelo selesai."
         
         self.lblDescription.text = wjpDetail
@@ -488,6 +489,15 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
         attString.addAttributes([NSFontAttributeName:UIFont.italicSystemFont(ofSize: 14)], range: (wjpDetail as NSString).range(of: "refund"))
         
         self.lblDescription.attributedText = attString
+ 
+        /* coba pakai html tag */
+        /*
+        let attrStr = try! NSAttributedString(
+            data: "<p style='font-size:14pt'><b>Waktu Jaminan Prelo</b> adalah waktu untuk para Pembeli memeriksa barang yang dia terima (terhitung sejak <b>3x24</b> jam setelah barang diterima oleh Pembeli).<br/><br/>Pembeli bisa melakukan pengembalian barang dan refund jika:<br/>- barang terbukti KW<br/>- ada cacat yang tidak diinformasikan<br/>- barang berbeda dari yang dipesan<br/><br/>Penjual dapat melakukan tarik uang setelah <b>Waktu Jaminan Prelo</b> selesai.</p>".data(using: String.Encoding.unicode, allowLossyConversion: true)!,
+            options: [ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
+            documentAttributes: nil)
+        self.lblDescription.attributedText = attrStr
+         */
     }
     
     func initPopUp() {
