@@ -1678,6 +1678,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         o.transactionId = (self.checkoutResult?["transaction_id"].string)!
         o.isBackTwice = true
         o.isShowBankBRI = self.isShowBankBRI
+        o.targetBank = self.targetBank
         
         if (self.checkoutResult?["expire_time"].string) != nil {
             o.date = (self.checkoutResult?["expire_time"].string)! // expire_time not found

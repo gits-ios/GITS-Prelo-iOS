@@ -14,38 +14,38 @@ import Alamofire
 class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITextFieldDelegate, PickerViewDelegate {
 
     // Main views
-    @IBOutlet var scrollView : UIScrollView!
-    @IBOutlet var consHeightContentView: NSLayoutConstraint!
-    @IBOutlet var vwTrxSummary: UIView!
-    @IBOutlet var captionTitle : UILabel!
-    @IBOutlet var captionOrderID : UILabel!
-    @IBOutlet var captionOrderTotal : UILabel!
-    @IBOutlet var captionMore : UILabel!
-    @IBOutlet var img1 : UIImageView!
-    @IBOutlet var img2 : UIImageView!
-    @IBOutlet var img3 : UIImageView!
+    @IBOutlet weak var scrollView : UIScrollView!
+    @IBOutlet weak var consHeightContentView: NSLayoutConstraint!
+    @IBOutlet weak var vwTrxSummary: UIView!
+    @IBOutlet weak var captionTitle : UILabel!
+    @IBOutlet weak var captionOrderID : UILabel!
+    @IBOutlet weak var captionOrderTotal : UILabel!
+    @IBOutlet weak var captionMore : UILabel!
+    @IBOutlet weak var img1 : UIImageView!
+    @IBOutlet weak var img2 : UIImageView!
+    @IBOutlet weak var img3 : UIImageView!
     @IBOutlet var imgs : [UIView] = []
-    @IBOutlet var captionDesc : UILabel!
-    @IBOutlet var btnFreeTrx : UIButton! // Back button (for free transaction)
-    @IBOutlet var vwUnpaidTrx: UIView! // Views for unfree transaction
+    @IBOutlet weak var captionDesc : UILabel!
+    @IBOutlet weak var btnFreeTrx : UIButton! // Back button (for free transaction)
+    @IBOutlet weak var vwUnpaidTrx: UIView! // Views for unfree transaction
     @IBOutlet var sectionRekOptions : [BorderedView] = []
-    @IBOutlet var btnDefault3Banks: UIButton!
-    @IBOutlet var btnDefault4Banks: UIButton!
-    @IBOutlet var vw3Banks: UIView!
-    @IBOutlet var vw4Banks: UIView!
-    @IBOutlet var captionBankInfoBankName : UILabel?
-    @IBOutlet var captionBankInfoBankNumber : UILabel?
-    @IBOutlet var captionBankInfoBankCabang : UILabel?
-    @IBOutlet var captionBankInfoBankAtasNama : UILabel?
+    @IBOutlet weak var btnDefault3Banks: UIButton!
+    @IBOutlet weak var btnDefault4Banks: UIButton!
+    @IBOutlet weak var vw3Banks: UIView!
+    @IBOutlet weak var vw4Banks: UIView!
+    @IBOutlet weak var captionBankInfoBankName : UILabel?
+    @IBOutlet weak var captionBankInfoBankNumber : UILabel?
+    @IBOutlet weak var captionBankInfoBankCabang : UILabel?
+    @IBOutlet weak var captionBankInfoBankAtasNama : UILabel?
     @IBOutlet weak var consHeightBankInfo: NSLayoutConstraint!
     
     // Payment pop up
-    @IBOutlet var vwPaymentPopUp: UIView!
-    @IBOutlet var lblBankTujuan: UILabel!
-    @IBOutlet var fldNominalTrf: UITextField!
-    @IBOutlet var consTopPaymentPopUp: NSLayoutConstraint!
-    @IBOutlet var btnKirimPayment: UIButton!
-    @IBOutlet var datePicker: UIDatePicker!
+    @IBOutlet weak var vwPaymentPopUp: UIView!
+    @IBOutlet weak var lblBankTujuan: UILabel!
+    @IBOutlet weak var fldNominalTrf: UITextField!
+    @IBOutlet weak var consTopPaymentPopUp: NSLayoutConstraint!
+    @IBOutlet weak var btnKirimPayment: UIButton!
+    @IBOutlet weak var datePicker: UIDatePicker!
     
     // Flags
     var isFromCheckout = true
@@ -62,6 +62,14 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     var total : Int = 0
     var kodeTransfer = 0
     
+    // new UI
+    var targetBank : String!
+    @IBOutlet weak var vw1Bank: UIView!
+    @IBOutlet weak var imgSelectedBank: TintedImageView! // -> setup image
+    @IBOutlet weak var lblDropdownBank: UILabel! // -> hidden
+    @IBOutlet weak var btnDropdownBank: UIButton! // -> hidden
+    @IBOutlet weak var consTraillingLblDropdownBank: NSLayoutConstraint! // 0 -> -22
+    
     var date : String?
     
     // Prelo account data
@@ -70,25 +78,29 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             "name":"KLEO APPARA INDONESIA PT",
             "no":"777-16-13-113 ",
             "cabang":"KCU Dago",
-            "bank_name":"BCA"
+            "bank_name":"BCA",
+            "icon":"rsz_ic_bca@2x"
         ],
         [
             "name":"PT KLEO APPARA INDONESIA",
             "no":"131-0050-313-131 ",
             "cabang":"KCP Bandung Dago",
-            "bank_name":"Mandiri"
+            "bank_name":"Mandiri",
+            "icon":"rsz_ic_mandiri@2x"
         ],
         [
             "name":"PT KLEO APPARA INDONESIA",
             "no":"042-390-6140 ",
             "cabang":"Perguruan Tinggi Bandung",
-            "bank_name":"BNI"
+            "bank_name":"BNI",
+            "icon":"rsz_ic_bni@2x"
         ],
         [
             "name":"KLEO APPARA INDONESIA",
             "no":"040-501-000-570-304 ",
             "cabang":"Dago",
-            "bank_name":"BRI"
+            "bank_name":"BRI",
+            "icon":"rsz_ic_bri@2x"
         ]
     ]
     
@@ -134,7 +146,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             f.dateFormat = "dd/MM/yyyy HH:mm:ss"
             let time = f.string(from: date)
             // Arrange views
-            let text = "Lakukan pembayaran TEPAT hingga 3 digit terakhir dalam waktu 24 jam (" + (self.date != nil ? self.date! : time) + ") ke salah satu rekening di bawah. Perbedaan jumlah transfer akan memperlambat proses verifikasi."
+            let text = "Lakukan pembayaran TEPAT hingga 3 digit terakhir dalam waktu 24 jam (" + (self.date != nil ? self.date! : time) + ") ke " + (targetBank != nil && targetBank != "" ? "" : "salah satu ") + "rekening di bawah. Perbedaan jumlah transfer akan memperlambat proses verifikasi."
             let mtext = NSMutableAttributedString(string: text)
             mtext.addAttributes([NSForegroundColorAttributeName:UIColor.darkGray], range: NSMakeRange(0, text.length))
             mtext.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: 14)], range: (text as NSString).range(of: "TEPAT"))
@@ -167,6 +179,29 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         captionOrderID.text = orderID
         captionOrderTotal.text = (total + kodeTransfer).asPrice
         
+        // new UI
+        if (targetBank != nil && targetBank != "") {
+            self.vw3Banks.isHidden = true
+            self.vw4Banks.isHidden = true
+            
+            self.vw1Bank.isHidden = false
+            
+            for i in 0...rekenings.count - 1 {
+                if (rekenings[i]["bank_name"] == targetBank) {
+                    self.imgSelectedBank.image = UIImage(named: rekenings[i]["icon"]!)
+                    self.setupViewRekening(rekenings[i])
+                    self.lblBankTujuan.text = targetBank
+                    break
+                }
+            }
+            
+            self.lblDropdownBank.isHidden = true
+            self.btnDropdownBank.isHidden = true
+            self.consTraillingLblDropdownBank.constant = -22 // hide this
+        }
+        else {
+            self.vw1Bank.isHidden = true
+            
         if (self.isShowBankBRI) {
             self.vw3Banks.isHidden = true
             self.vw4Banks.isHidden = false
@@ -180,6 +215,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             self.rekOptionsTapped(btnDefault4Banks)
         } else {
             self.rekOptionsTapped(btnDefault3Banks)
+        }
         }
         
         // Pop up init

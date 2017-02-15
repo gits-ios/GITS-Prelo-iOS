@@ -735,7 +735,7 @@
                                                     <rect key="frame" x="166" y="166" width="26" height="26"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bXc-uy-4CD">
-                                                            <rect key="frame" x="5.5" y="5" width="16" height="16"/>
+                                                            <rect key="frame" x="5" y="5" width="16" height="16"/>
                                                             <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -6066,7 +6066,7 @@ in Bandung</string>
                                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fn5-W5-hj0">
-                                                            <rect key="frame" x="28" y="28.5" width="44" height="44"/>
+                                                            <rect key="frame" x="28" y="28" width="44" height="44"/>
                                                             <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="44"/>
                                                             <color key="textColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -9387,7 +9387,7 @@ in Bandung</string>
                                                             <rect key="frame" x="10" y="0.0" width="44" height="44"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fDk-jQ-LO8">
-                                                                    <rect key="frame" x="12" y="12" width="20" height="20"/>
+                                                                    <rect key="frame" x="12" y="12.5" width="20" height="20"/>
                                                                     <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="20"/>
                                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
@@ -10244,20 +10244,20 @@ in Bandung</string>
                                                     <rect key="frame" x="8" y="8" width="359" height="100"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ig9-PR-J0K" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="0.0" width="107.5" height="100"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="108" height="100"/>
                                                             <subviews>
                                                                 <imageView tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_harga.png" translatesAutoresizingMaskIntoConstraints="NO" id="6o5-O9-k7P" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
-                                                                    <rect key="frame" x="8" y="8" width="91.5" height="64"/>
+                                                                    <rect key="frame" x="8" y="8" width="92" height="64"/>
                                                                     <color key="tintColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 </imageView>
                                                                 <label opaque="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" verticalCompressionResistancePriority="759" text="Transfer Bank" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5gC-4R-YuS">
-                                                                    <rect key="frame" x="8" y="81" width="91.5" height="15"/>
+                                                                    <rect key="frame" x="8" y="81" width="92" height="15"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                     <color key="textColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pbt-hW-WS7">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="107.5" height="100"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="108" height="100"/>
                                                                     <connections>
                                                                         <action selector="methodPressed:" destination="KHQ-aq-GW6" eventType="touchUpInside" id="v81-Ja-jnU"/>
                                                                     </connections>
@@ -10288,7 +10288,7 @@ in Bandung</string>
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
                                                         <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Isn-nc-5D2" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                                                            <rect key="frame" x="115.5" y="0.0" width="117.5" height="100"/>
+                                                            <rect key="frame" x="116" y="0.0" width="117.5" height="100"/>
                                                             <subviews>
                                                                 <imageView tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_kartu_kredit.png" translatesAutoresizingMaskIntoConstraints="NO" id="cOn-ZK-ehn" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                                                     <rect key="frame" x="8" y="8" width="101.5" height="64"/>
@@ -10332,20 +10332,20 @@ in Bandung</string>
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
                                                         <view tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YHs-6e-2NK" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                                                            <rect key="frame" x="241" y="0.0" width="118" height="100"/>
+                                                            <rect key="frame" x="241.5" y="0.0" width="117.5" height="100"/>
                                                             <subviews>
                                                                 <imageView tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_indomaret.png" translatesAutoresizingMaskIntoConstraints="NO" id="9DM-Tl-pgT" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
-                                                                    <rect key="frame" x="8" y="8" width="102" height="64"/>
+                                                                    <rect key="frame" x="8" y="8" width="101.5" height="64"/>
                                                                     <color key="tintColor" red="0.048671051860000002" green="0.38238310809999998" blue="0.41029164200000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 </imageView>
                                                                 <label opaque="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" verticalCompressionResistancePriority="759" text="Indomaret" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QlO-6b-j75">
-                                                                    <rect key="frame" x="8" y="81" width="102" height="15"/>
+                                                                    <rect key="frame" x="8" y="81" width="101.5" height="15"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                     <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zE9-n6-oZa">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="118" height="100"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="117.5" height="100"/>
                                                                     <connections>
                                                                         <action selector="methodPressed:" destination="KHQ-aq-GW6" eventType="touchUpInside" id="eci-8H-7Hd"/>
                                                                     </connections>
@@ -11750,6 +11750,24 @@ in Bandung</string>
                                                             </mask>
                                                         </variation>
                                                     </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="717-V1-Bvw" userLabel="1 Bank">
+                                                        <rect key="frame" x="8" y="0.0" width="584" height="80"/>
+                                                        <subviews>
+                                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wlq-rH-PgS" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
+                                                                <rect key="frame" x="192" y="8" width="200" height="64"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="200" id="L1L-ud-Sfe"/>
+                                                                </constraints>
+                                                            </imageView>
+                                                        </subviews>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="bottom" secondItem="wlq-rH-PgS" secondAttribute="bottom" constant="8" id="1Sz-eD-I5b"/>
+                                                            <constraint firstItem="wlq-rH-PgS" firstAttribute="top" secondItem="717-V1-Bvw" secondAttribute="top" constant="8" id="9C3-Mn-F4H"/>
+                                                            <constraint firstAttribute="height" constant="80" id="j3A-xg-AK0"/>
+                                                            <constraint firstItem="wlq-rH-PgS" firstAttribute="centerX" secondItem="717-V1-Bvw" secondAttribute="centerX" id="lIA-Ub-QoS"/>
+                                                        </constraints>
+                                                    </view>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Transfer melalui Bank &lt;bank_name&gt;" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OPq-rr-ir8">
                                                         <rect key="frame" x="8" y="88" width="584" height="20"/>
                                                         <constraints>
@@ -11842,8 +11860,10 @@ in Bandung</string>
                                                     <constraint firstItem="FC3-Pg-gvf" firstAttribute="leading" secondItem="jV2-dr-jjU" secondAttribute="trailing" constant="8" id="6Wc-sP-aZJ"/>
                                                     <constraint firstAttribute="trailing" secondItem="E8C-lv-MTz" secondAttribute="trailing" constant="8" id="C2Q-pt-ruR"/>
                                                     <constraint firstItem="xJW-En-LnI" firstAttribute="top" secondItem="1MH-qV-lcJ" secondAttribute="top" id="Chp-lj-A33"/>
+                                                    <constraint firstAttribute="trailing" secondItem="717-V1-Bvw" secondAttribute="trailing" constant="8" id="HKM-90-DPQ"/>
                                                     <constraint firstItem="OPq-rr-ir8" firstAttribute="top" secondItem="cYb-ie-HSg" secondAttribute="bottom" constant="8" id="LZy-XR-8rk"/>
                                                     <constraint firstItem="xJW-En-LnI" firstAttribute="leading" secondItem="QRs-TT-eUT" secondAttribute="leading" constant="8" id="Lsa-PG-6FN"/>
+                                                    <constraint firstItem="717-V1-Bvw" firstAttribute="top" secondItem="QRs-TT-eUT" secondAttribute="top" id="MmO-vh-hj8"/>
                                                     <constraint firstAttribute="trailing" secondItem="cYb-ie-HSg" secondAttribute="trailing" constant="8" id="Mud-kR-jIz"/>
                                                     <constraint firstItem="1MH-qV-lcJ" firstAttribute="top" secondItem="aPr-bi-mcX" secondAttribute="bottom" constant="8" id="Npx-fk-Gzi"/>
                                                     <constraint firstItem="E8C-lv-MTz" firstAttribute="leading" secondItem="QRs-TT-eUT" secondAttribute="leading" constant="8" id="Plf-lU-vsk"/>
@@ -11851,6 +11871,7 @@ in Bandung</string>
                                                     <constraint firstAttribute="trailing" secondItem="rsZ-cb-9kq" secondAttribute="trailing" constant="8" id="T8f-13-88t"/>
                                                     <constraint firstAttribute="trailing" secondItem="aPr-bi-mcX" secondAttribute="trailing" constant="8" id="UcO-Cz-VXQ"/>
                                                     <constraint firstAttribute="trailing" secondItem="1MH-qV-lcJ" secondAttribute="trailing" constant="8" id="VGg-Zv-6qq"/>
+                                                    <constraint firstItem="OPq-rr-ir8" firstAttribute="top" secondItem="717-V1-Bvw" secondAttribute="bottom" constant="8" id="VbF-Jm-J7t"/>
                                                     <constraint firstItem="6Jl-gh-ytc" firstAttribute="top" secondItem="jV2-dr-jjU" secondAttribute="bottom" constant="8" id="Vl9-cA-cNp"/>
                                                     <constraint firstAttribute="bottom" secondItem="E8C-lv-MTz" secondAttribute="bottom" constant="11" id="XF3-Ye-ZcX"/>
                                                     <constraint firstItem="FC3-Pg-gvf" firstAttribute="top" secondItem="OPq-rr-ir8" secondAttribute="bottom" constant="10" id="YWn-Uf-N5s"/>
@@ -11866,6 +11887,7 @@ in Bandung</string>
                                                     <constraint firstItem="6Jl-gh-ytc" firstAttribute="leading" secondItem="QRs-TT-eUT" secondAttribute="leading" constant="8" id="iCD-c3-niu"/>
                                                     <constraint firstItem="OPq-rr-ir8" firstAttribute="leading" secondItem="QRs-TT-eUT" secondAttribute="leading" constant="8" id="iDB-Gt-8uN"/>
                                                     <constraint firstItem="sos-fS-tR5" firstAttribute="leading" secondItem="QRs-TT-eUT" secondAttribute="leading" constant="8" id="mby-34-exI"/>
+                                                    <constraint firstItem="717-V1-Bvw" firstAttribute="leading" secondItem="QRs-TT-eUT" secondAttribute="leading" constant="8" id="p9v-SK-dPk"/>
                                                     <constraint firstItem="E8C-lv-MTz" firstAttribute="top" secondItem="rsZ-cb-9kq" secondAttribute="bottom" constant="8" id="rmO-ZI-xKg"/>
                                                     <constraint firstAttribute="trailing" secondItem="OPq-rr-ir8" secondAttribute="trailing" constant="8" id="sq6-hl-Mzc"/>
                                                     <constraint firstItem="cYb-ie-HSg" firstAttribute="top" secondItem="QRs-TT-eUT" secondAttribute="top" id="t4b-EO-Tio"/>
@@ -12176,6 +12198,7 @@ in Bandung</string>
                     <connections>
                         <outlet property="btnDefault3Banks" destination="bKX-KO-1Sg" id="m9K-LK-xOV"/>
                         <outlet property="btnDefault4Banks" destination="cuM-4f-9L9" id="fjF-8I-2Ah"/>
+                        <outlet property="btnDropdownBank" destination="vUN-bj-Zd4" id="D4v-4S-TQc"/>
                         <outlet property="btnFreeTrx" destination="q91-nr-GBa" id="TLC-3Z-8BF"/>
                         <outlet property="btnKirimPayment" destination="Xzx-kz-do6" id="Svw-4e-fff"/>
                         <outlet property="captionBankInfoBankAtasNama" destination="1MH-qV-lcJ" id="vm8-6L-pKx"/>
@@ -12190,13 +12213,17 @@ in Bandung</string>
                         <outlet property="consHeightBankInfo" destination="iij-od-4OV" id="v1R-Oh-J7o"/>
                         <outlet property="consHeightContentView" destination="OuG-yJ-udk" id="c2f-7W-Nka"/>
                         <outlet property="consTopPaymentPopUp" destination="smo-Zo-LGl" id="xyn-IX-cTL"/>
+                        <outlet property="consTraillingLblDropdownBank" destination="MFi-NG-9I5" id="KMR-aS-c9F"/>
                         <outlet property="datePicker" destination="HBf-tq-E4D" id="6Y2-Th-FPK"/>
                         <outlet property="fldNominalTrf" destination="bgx-CB-GC7" id="ZRa-rN-kdK"/>
                         <outlet property="img1" destination="Y8H-Ng-uG1" id="81l-Of-red"/>
                         <outlet property="img2" destination="d1n-bt-wrd" id="o74-gl-WEV"/>
                         <outlet property="img3" destination="qfv-4p-jj0" id="HOZ-1S-E0V"/>
+                        <outlet property="imgSelectedBank" destination="wlq-rH-PgS" id="Eeh-AF-In9"/>
                         <outlet property="lblBankTujuan" destination="Tbw-Lg-gSu" id="nZj-Yd-Czd"/>
+                        <outlet property="lblDropdownBank" destination="zdg-z5-qPG" id="WTR-7S-HhK"/>
                         <outlet property="scrollView" destination="iTW-uw-yB4" id="f2l-rz-uiO"/>
+                        <outlet property="vw1Bank" destination="717-V1-Bvw" id="6Df-ma-78i"/>
                         <outlet property="vw3Banks" destination="sos-fS-tR5" id="mEj-X7-sqn"/>
                         <outlet property="vw4Banks" destination="cYb-ie-HSg" id="ckH-hO-5Ci"/>
                         <outlet property="vwPaymentPopUp" destination="Z6I-mm-Mqj" id="W1X-wl-VYR"/>
