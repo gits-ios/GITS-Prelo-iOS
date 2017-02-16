@@ -3716,6 +3716,7 @@ class AchievementConditionItem : NSObject {
             return j
         }
         return ""
+//        return "coba panjang banget yak, wkwkwk pingin lihat bisa 5 baris ndak lho lho lho, cob aterus aja ya wkwkwkkkw, 1234567890 qwertyuiop[] asdfghjkl;' zxcvbnm,./ |\\ ckckkc djuned coba panjang banget teks nya"
     }
     
 }
@@ -3773,6 +3774,7 @@ class AchievementTierItem : NSObject {
             return j
         }
         return ""
+        return "coba panjang banget yak, wkwkwk pingin lihat bisa 5 baris ndak lho lho lho, cob aterus aja ya wkwkwkkkw, 1234567890 qwertyuiop[] asdfghjkl;' zxcvbnm,./ |\\ ckckkc djuned coba panjang banget teks nya"
     }
     
     var icon : URL? {
