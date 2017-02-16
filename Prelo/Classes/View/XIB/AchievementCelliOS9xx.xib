@@ -20,7 +20,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="84"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HWW-de-ASW" id="Tu9-jI-n19">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="83"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="83.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qUs-M2-cm3">
@@ -63,10 +63,9 @@
                                             <constraint firstAttribute="height" constant="4" id="a4r-SW-O4d"/>
                                         </constraints>
                                     </progressView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lku-QV-NCo">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lku-QV-NCo">
                                         <rect key="frame" x="227" y="0.0" width="31" height="15"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="15" id="idB-Nr-OCO"/>
                                             <constraint firstAttribute="width" constant="31" id="oSa-KF-eI4"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -76,10 +75,10 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="OVe-lk-UQc" firstAttribute="centerY" secondItem="Irf-oq-kxh" secondAttribute="centerY" id="L18-e3-4e7"/>
+                                    <constraint firstItem="lku-QV-NCo" firstAttribute="centerY" secondItem="OVe-lk-UQc" secondAttribute="centerY" id="GDG-8s-1WV"/>
                                     <constraint firstAttribute="height" constant="15" id="PUb-za-xLt"/>
+                                    <constraint firstItem="OVe-lk-UQc" firstAttribute="centerY" secondItem="Irf-oq-kxh" secondAttribute="centerY" id="TFX-sX-xJT"/>
                                     <constraint firstAttribute="trailing" secondItem="lku-QV-NCo" secondAttribute="trailing" id="tga-Ai-0yh"/>
-                                    <constraint firstItem="lku-QV-NCo" firstAttribute="centerY" secondItem="Irf-oq-kxh" secondAttribute="centerY" id="two-kx-bq2"/>
                                     <constraint firstItem="OVe-lk-UQc" firstAttribute="leading" secondItem="Irf-oq-kxh" secondAttribute="leading" id="wss-nx-P56"/>
                                     <constraint firstItem="lku-QV-NCo" firstAttribute="leading" secondItem="OVe-lk-UQc" secondAttribute="trailing" constant="8" symbolic="YES" id="xCv-D8-wki"/>
                                 </constraints>
