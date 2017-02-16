@@ -170,10 +170,11 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
                                     t.toId = buyer.id
                                     t.prodId = t.tawarItem.itemId
                                     
-                                    t.isTawarkan = true
+                                    // disable // enable auto tawarkan
+                                    t.isTawarkan = false //true
                                     t.isTawarkan_originalPrice = pDetail.priceInt.string
                                     t.tawarFromMe = true
-                                    t.threadState = 1
+                                    t.threadState = 0 //1
                                     
                                     self.navigationController?.pushViewController(t, animated: true)
                                 }
