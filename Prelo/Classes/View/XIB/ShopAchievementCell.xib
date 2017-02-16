@@ -14,7 +14,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="122"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8NH-S6-gAh" id="x1p-u5-3Br">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="121"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="121.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ge8-lI-LE0" userLabel="Vw Border">
@@ -37,7 +37,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seller pernah melaporkan barang di Prelo sudah terbukti palsu (KW) sebanyak 3 kali." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GW1-Oe-wvm">
-                                <rect key="frame" x="13" y="70" width="341" height="40"/>
+                                <rect key="frame" x="13" y="70" width="341" height="33.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -45,9 +45,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="GW1-Oe-wvm" secondAttribute="bottom" constant="8" id="2VJ-Kb-Brs"/>
                             <constraint firstAttribute="trailing" secondItem="GW1-Oe-wvm" secondAttribute="trailing" constant="13" id="4QU-fP-0jG"/>
                             <constraint firstItem="4Vs-p4-IkO" firstAttribute="leading" secondItem="Ge8-lI-LE0" secondAttribute="leading" constant="8" id="Aan-dD-XPj"/>
+                            <constraint firstItem="vrB-HW-Cuj" firstAttribute="centerY" secondItem="4Vs-p4-IkO" secondAttribute="centerY" id="AlC-yg-YXa"/>
                             <constraint firstItem="vrB-HW-Cuj" firstAttribute="leading" secondItem="4Vs-p4-IkO" secondAttribute="trailing" constant="8" id="Ids-C9-YFj"/>
                             <constraint firstItem="GW1-Oe-wvm" firstAttribute="top" secondItem="vrB-HW-Cuj" secondAttribute="bottom" constant="8" id="Tb1-6x-OJg"/>
                             <constraint firstItem="4Vs-p4-IkO" firstAttribute="top" secondItem="Ge8-lI-LE0" secondAttribute="top" constant="8" id="Xtz-Zc-qen"/>
