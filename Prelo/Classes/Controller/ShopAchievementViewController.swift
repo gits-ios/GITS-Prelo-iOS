@@ -213,7 +213,7 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath:  IndexPath) -> CGFloat {
         if (self.userAchievements.count > 0) {
             let u = userAchievements[(indexPath as NSIndexPath).item]
-            let descHeight = u.desc.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: tableView.width - 42).height
+            let descHeight = u.desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: tableView.width - 42).height
             return 85 + CGFloat(Int(descHeight)) + 4
         } else {
             return 90
