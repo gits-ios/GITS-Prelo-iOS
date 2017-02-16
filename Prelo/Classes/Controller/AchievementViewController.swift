@@ -205,7 +205,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                 // condition cell
             } else if ((indexPath as NSIndexPath).row > 1 && (indexPath as NSIndexPath).row <= achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1) {
                 let textRect = achievements![(indexPath as NSIndexPath).section - 1].conditions[(indexPath as NSIndexPath).row - 2].conditionText.boundsWithFontSize(UIFont.systemFont(ofSize: 11), width: UIScreen.main.bounds.size.width - 80)
-                return CGFloat(Int(textRect.height + 17.5)) + 4
+                return CGFloat(Int(textRect.height + (textRect.height < 15 ? 17.5 : 9.5))) + 4
                 
                 // tier icons cell
             } else if ((indexPath as NSIndexPath).row > achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1 && (indexPath as NSIndexPath).row <= achievements![(indexPath as NSIndexPath).section - 1].tiers.count + achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1) {
@@ -214,7 +214,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                 if ((indexPath as NSIndexPath).row - (achievements?[(indexPath as NSIndexPath).section - 1].conditions.count)! - 2) == 0 {
                     incrementConstant = 6
                 }
-                return CGFloat(Int(textRect.height + 17.5)) + incrementConstant
+                return CGFloat(Int(textRect.height + (textRect.height < 15 ? 17.5 : 9.5))) + incrementConstant
                 
                 // action cell
             } else if ((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].tiers.count + achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1 + 1 && achievements![(indexPath as NSIndexPath).section - 1].actionUri != nil) {
