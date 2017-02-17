@@ -1753,17 +1753,19 @@ class ProductCellSeller : UITableViewCell
 class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
 {
     @IBOutlet weak var captionSpecialStory: UILabel!
-    @IBOutlet var captionWeight : UILabel?
-    @IBOutlet var captionCondition : UILabel?
-    @IBOutlet var captionFrom : UILabel?
-    @IBOutlet var captionAlasanJual : UILabel?
-    @IBOutlet var captionMerk : ZSWTappableLabel?
-    @IBOutlet var captionCategory : ZSWTappableLabel?
-    @IBOutlet var captionDesc : UILabel?
-    @IBOutlet var captionDate : UILabel?
+    @IBOutlet weak var captionWeight : UILabel?
+    @IBOutlet weak var captionCondition : UILabel?
+    @IBOutlet weak var captionFrom : UILabel?
+    @IBOutlet weak var captionAlasanJual : UILabel?
+    @IBOutlet weak var captionMerk : ZSWTappableLabel?
+    @IBOutlet weak var captionCategory : ZSWTappableLabel?
+    @IBOutlet weak var captionDesc : UILabel?
+    @IBOutlet weak var captionDate : UILabel?
+    @IBOutlet weak var captionCacat: UILabel!
     
-    @IBOutlet var consHeightWaktuJaminan: NSLayoutConstraint!
+    @IBOutlet weak var consHeightWaktuJaminan: NSLayoutConstraint!
     
+    @IBOutlet weak var consHeightCacat: NSLayoutConstraint!
     
     weak var cellDelegate : ProductCellDelegate?
     
@@ -1832,9 +1834,17 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         }
         let alSize = sellReason.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width-100)
         
+        // cacat
+        let condition = product["condition"].string
+        let cacat = product["defect_description"].string
+        var defectSize = CGFloat(0)
+        if cacat != nil && cacat != "" && condition == "Cukup ( < 70%)" {
+            defectSize = 21
+        }
+        
         let control = CGFloat((desc2 == "" && desc3 == "") ? -40 : ((desc2 == "" || desc3 == "") ? -20 : 0))
         
-        return 163+size.height+size2.height+s.height+cs.height+8+8+cs2Size.height+8+alSize.height + control
+        return 163+size.height+size2.height+s.height+cs.height+8+8+cs2Size.height+8+alSize.height+defectSize+control
     }
     
     func adapt(_ obj : ProductDetail?)
@@ -1864,7 +1874,18 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         
         captionDesc?.text = product["description"].string!
         captionDate?.text = product["time"].string!
-        captionCondition?.text = product["condition"].string!
+        
+        let condition = product["condition"].string
+        captionCondition?.text = condition!
+        
+        let cacat = product["defect_description"].string
+        if cacat != nil && cacat != "" && condition == "Cukup ( < 70%)" {
+            captionCacat?.text = product["defect_description"].string!
+            consHeightCacat.constant = 21
+        } else {
+            consHeightCacat.constant = 0
+        }
+        
         if let region = product["seller_region"]["name"].string
         {
             captionFrom?.text = region
