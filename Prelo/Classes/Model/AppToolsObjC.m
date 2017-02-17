@@ -341,13 +341,22 @@ static UIDocumentInteractionController *staticDocController = NULL;
         
         CGImageDestinationRef destination = CGImageDestinationCreateWithData((CFMutableDataRef)mutableData, type, count, NULL);
         
-        NSDictionary *removeExifProperties = @{(id)kCGImagePropertyExifDictionary: (id)kCFNull,
-                                               (id)kCGImagePropertyGPSDictionary : (id)kCFNull,
-                                               (id)kCGImagePropertyJFIFDictionary: (id)kCFNull};
+//        NSDictionary *removeExifProperties = @{(id)kCGImagePropertyExifDictionary: (id)kCFNull,
+//                                               (id)kCGImagePropertyGPSDictionary : (id)kCFNull,
+//                                               (id)kCGImagePropertyJFIFDictionary: (id)kCFNull};
+        
+        NSMutableDictionary *exifDict = [[NSMutableDictionary alloc] init];
         
         if (destination) {
             for (size_t index = 0; index < count; index++) {
-                CGImageDestinationAddImageFromSource(destination, source, index, (__bridge CFDictionaryRef)removeExifProperties);
+//                CGImageDestinationAddImageFromSource(destination, source, index, (__bridge CFDictionaryRef)removeExifProperties);
+                
+                CGImageDestinationAddImageFromSource(destination,
+                                                     source,
+                                                     index,
+                                                     (__bridge CFDictionaryRef) [NSDictionary dictionaryWithObjectsAndKeys:
+                                                                                 exifDict, (__bridge NSString *) kCGImagePropertyExifDictionary,
+                                                                                 nil]);
             }
             
             if (!CGImageDestinationFinalize(destination)) {
