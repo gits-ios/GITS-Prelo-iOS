@@ -162,6 +162,7 @@ static UIDocumentInteractionController *staticDocController = NULL;
             {
                 NSString *fileName = [NSString stringWithFormat:@"%@.jpeg", [[NSProcessInfo processInfo] globallyUniqueString]];
                 NSData *data = UIImageJPEGRepresentation(images[0], 0.3);
+//                NSData *newData = [self dataByRemovingExif:data];
                 [formData appendPartWithFileData:data name:name fileName:fileName mimeType:@"image/jpeg"];
             }
         } else if (images.count > 0) {
@@ -171,6 +172,7 @@ static UIDocumentInteractionController *staticDocController = NULL;
                 if ([images[i] isKindOfClass:[UIImage class]])
                 {
                     NSData *data = UIImageJPEGRepresentation(images[i], 0.3);
+//                    NSData *newData = [self dataByRemovingExif:data];
                     [formData appendPartWithFileData:data name:name fileName:@"wat.jpeg" mimeType:@"image/jpeg"];
                 }
             }
@@ -201,6 +203,7 @@ static UIDocumentInteractionController *staticDocController = NULL;
             if ([images[0] isKindOfClass:[UIImage class]])
             {
                 NSData *data = UIImageJPEGRepresentation(images[0], 0.3);
+//                NSData *newData = [self dataByRemovingExif:data];
                 [formData appendPartWithFileData:data name:name fileName:@"image.jpeg" mimeType:@"image/jpeg"];
             }
         } else if (images.count > 0) {
@@ -210,6 +213,7 @@ static UIDocumentInteractionController *staticDocController = NULL;
                 if ([images[i] isKindOfClass:[UIImage class]])
                 {
                     NSData *data = UIImageJPEGRepresentation(images[i], 0.3);
+//                    NSData *newData = [self dataByRemovingExif:data];
                     [formData appendPartWithFileData:data name:name fileName:@"wat.jpeg" mimeType:@"image/jpeg"];
                 }
             }
@@ -323,6 +327,40 @@ static UIDocumentInteractionController *staticDocController = NULL;
     UIGraphicsEndImageContext();
     
     return image;
+}
+
++ (NSData *)dataByRemovingExif:(NSData *)data
+{
+    CGImageSourceRef source = CGImageSourceCreateWithData((CFDataRef)data, NULL);
+    NSMutableData *mutableData = nil;
+    
+    if (source) {
+        CFStringRef type = CGImageSourceGetType(source);
+        size_t count = CGImageSourceGetCount(source);
+        mutableData = [NSMutableData data];
+        
+        CGImageDestinationRef destination = CGImageDestinationCreateWithData((CFMutableDataRef)mutableData, type, count, NULL);
+        
+        NSDictionary *removeExifProperties = @{(id)kCGImagePropertyExifDictionary: (id)kCFNull,
+                                               (id)kCGImagePropertyGPSDictionary : (id)kCFNull,
+                                               (id)kCGImagePropertyJFIFDictionary: (id)kCFNull};
+        
+        if (destination) {
+            for (size_t index = 0; index < count; index++) {
+                CGImageDestinationAddImageFromSource(destination, source, index, (__bridge CFDictionaryRef)removeExifProperties);
+            }
+            
+            if (!CGImageDestinationFinalize(destination)) {
+                NSLog(@"CGImageDestinationFinalize failed");
+            }
+            
+            CFRelease(destination);
+        }
+        
+        CFRelease(source);
+    }
+    
+    return mutableData;
 }
 
 @end
