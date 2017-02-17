@@ -856,7 +856,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             let localPath = documentDirectory.stringByAppendingPathComponent(imageName)
             
             // for temporer use
-            let data = UIImagePNGRepresentation(img)
+            let data = UIImageJPEGRepresentation(img, 1)
             do {
                 try data?.write(to: URL(fileURLWithPath: localPath), options: .atomic)
             } catch {
@@ -997,14 +997,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     }
 
     func saveImages(_ images: Array<AnyObject>, index: Int, uniqueCode: String) {
-//        for index in 0...images.count - 1 {
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
                                             qos: .background,
                                             target: nil)
         backgroundQueue.async {
             print("Work on background queue -- Save Image \(index)")
             if self.isCamera[index] == true {
-                if let img = (images[index] as! UIImage).resizeWithMaxWidth(1600) {
+                if let img = (images[index] as! UIImage).resizeWithMaxWidthOrHeight(1600) {
                     
                     // save & get
                     let photoURLpath = CustomPhotoAlbum.sharedInstance.save(image: img)
@@ -1014,7 +1013,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     let localPath = documentDirectory.stringByAppendingPathComponent(imageName)
                     
                     // for temporer use
-                    let data = UIImagePNGRepresentation(img)
+                    let data = UIImageJPEGRepresentation(img, 1)
                     do {
                         try data?.write(to: URL(fileURLWithPath: localPath), options: .atomic)
                     } catch {
@@ -1028,7 +1027,6 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 }
             }
         }
-//        }
     }
     
     // MARK: - UIImagePickerController functions
@@ -1072,7 +1070,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 let localPath = documentDirectory.stringByAppendingPathComponent(imageName)
                 
                 // for temporer use
-                let data = UIImagePNGRepresentation(img)
+                let data = UIImageJPEGRepresentation(img, 1)
                 do {
                     try data?.write(to: URL(fileURLWithPath: localPath), options: .atomic)
                 } catch {
@@ -1928,8 +1926,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         for i in 0...images.count - 1 {
             if let img = images[i] as? UIImage {
                 //print("Resizing image no-\(i) with width = \(img.size.width)")
-                if let imgResized = img.resizeWithMaxWidth(1600) {
-                    var curImg : UIImage?
+                if let imgResized = img.resizeWithMaxWidthOrHeight(1600) { // max 1600 * 1600
+//                    var curImg : UIImage?
 //                    if let imgData = ImageHelper.removeExifData(UIImagePNGRepresentation(imgResized)!) {
 //                        curImg = UIImage(data: imgData)!
 //                    } else {
@@ -1942,13 +1940,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 //                    curImg = curImg.applyBlurEffect()
                     
                     // handle rotate
-                    if (SYSTEM_VERSION_LESS_THAN("10.0")) {
-                        curImg = UIImage(cgImage: (imgResized.cgImage)!, scale: 1.0, orientation: img.imageOrientation)
-                    } else {
-                        curImg = imgResized
-                    }
+//                    if (SYSTEM_VERSION_LESS_THAN("10.0")) {
+//                        curImg = UIImage(cgImage: (imgResized.cgImage)!, scale: 1.0, orientation: img.imageOrientation)
+//                    } else {
+//                        curImg = imgResized
+//                    }
                     
-                    images[i] = (curImg?.correctlyOrientedImage())!
+                    images[i] = imgResized.correctlyOrientedImage()
                 }
             }
         }
