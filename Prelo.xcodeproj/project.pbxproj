@@ -640,6 +640,7 @@
 		B27948231E35C700002CEED4 /* TarikTunai2.xib in Resources */ = {isa = PBXBuildFile; fileRef = B27948221E35C700002CEED4 /* TarikTunai2.xib */; };
 		B27948251E35D971002CEED4 /* TarikTunaiViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27948241E35D971002CEED4 /* TarikTunaiViewController2.swift */; };
 		B27EE2071E4DBD230018E8A0 /* PushNotif.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B2B34BCC1E37042C001B653F /* PushNotif.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B285789E1E56B8F7008995F4 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B285789D1E56B8F7008995F4 /* ImageIO.framework */; };
 		B29F69671E30E717009E2BC8 /* FeedbackPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = B29F69661E30E717009E2BC8 /* FeedbackPopup.xib */; };
 		B2B34BCF1E37042D001B653F /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B34BCE1E37042D001B653F /* NotificationService.swift */; };
 		B2B34BE71E388395001B653F /* ic_exclamation_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B34BE61E388395001B653F /* ic_exclamation_grey.png */; };
@@ -1652,6 +1653,7 @@
 		B26DB3F01E2D3C6F00224675 /* ic_achievement.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_achievement.png; sourceTree = "<group>"; };
 		B27948221E35C700002CEED4 /* TarikTunai2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunai2.xib; sourceTree = "<group>"; };
 		B27948241E35D971002CEED4 /* TarikTunaiViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiViewController2.swift; sourceTree = "<group>"; };
+		B285789D1E56B8F7008995F4 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		B29F69661E30E717009E2BC8 /* FeedbackPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedbackPopup.xib; sourceTree = "<group>"; };
 		B2B34BCC1E37042C001B653F /* PushNotif.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PushNotif.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2B34BCE1E37042D001B653F /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -1733,6 +1735,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B285789E1E56B8F7008995F4 /* ImageIO.framework in Frameworks */,
 				21EEB43C1B86FA2800CAD5C9 /* Accelerate.framework in Frameworks */,
 				FD4E8BF31C31258100501F7A /* AdSupport.framework in Frameworks */,
 				2127A2AC1B7B45B300469CFC /* AssetsLibrary.framework in Frameworks */,
@@ -1791,6 +1794,7 @@
 		163B49F396DAE9C45C1A8F32 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B285789D1E56B8F7008995F4 /* ImageIO.framework */,
 				58BE535A1D460E2E00E358EB /* CoreSpotlight.framework */,
 				58D7D5241CD9B6FC00308A50 /* iAd.framework */,
 				58AB577F1CB24CFB0081094B /* Security.framework */,

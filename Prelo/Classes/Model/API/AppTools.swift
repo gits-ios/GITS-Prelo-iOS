@@ -290,10 +290,20 @@ extension UIImage {
         return self
     }
     
+    func resizeWithMaxWidthOrHeight(_ max: CGFloat) -> UIImage? {
+        if (self.size.width >= self.size.height && self.size.width > max) {
+            return self.resizeWithWidth(max)
+        } else if (self.size.width < self.size.height && self.size.height > max) {
+            let newWidth = max * self.size.width / self.size.height
+            return self.resizeWithWidth(newWidth)
+        }
+        return self
+    }
+    
     func correctlyOrientedImage() -> UIImage {
-//        if self.imageOrientation == UIImageOrientation.up {
-//            return self
-//        }
+        if self.imageOrientation == UIImageOrientation.up {
+            return self
+        }
         
         UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
         self.draw(in: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
