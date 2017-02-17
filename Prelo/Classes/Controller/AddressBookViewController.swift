@@ -332,6 +332,7 @@ class AddressBookCell: UITableViewCell { // height 204
     @IBOutlet weak var lblPhone: UILabel!
     @IBOutlet weak var vwMain: UIView!
     @IBOutlet weak var btnSetMain: UIButton!
+    @IBOutlet weak var btnDelete: UIButton!
     
     var address: AddressItem!
     
@@ -355,9 +356,13 @@ class AddressBookCell: UITableViewCell { // height 204
         if address.isMainAddress {
             vwMain.isHidden = false
             btnSetMain.isHidden = true
+            btnDelete.isEnabled = false
+            btnDelete.setTitleColor(UIColor.lightGray)
         } else {
             vwMain.isHidden = true
             btnSetMain.isHidden = false
+            btnDelete.isEnabled = true
+            btnDelete.setTitleColor(UIColor.darkGray)
         }
     }
     

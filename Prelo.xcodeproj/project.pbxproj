@@ -641,6 +641,8 @@
 		B27948251E35D971002CEED4 /* TarikTunaiViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27948241E35D971002CEED4 /* TarikTunaiViewController2.swift */; };
 		B27EE2071E4DBD230018E8A0 /* PushNotif.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B2B34BCC1E37042C001B653F /* PushNotif.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B285789E1E56B8F7008995F4 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B285789D1E56B8F7008995F4 /* ImageIO.framework */; };
+		B28578C31E570C0B008995F4 /* DropDown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B24FCEFD1E536E8000B517A9 /* DropDown.framework */; };
+		B28578C41E570C0B008995F4 /* DropDown.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B24FCEFD1E536E8000B517A9 /* DropDown.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B29F69671E30E717009E2BC8 /* FeedbackPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = B29F69661E30E717009E2BC8 /* FeedbackPopup.xib */; };
 		B2B34BCF1E37042D001B653F /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B34BCE1E37042D001B653F /* NotificationService.swift */; };
 		B2B34BE71E388395001B653F /* ic_exclamation_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B34BE61E388395001B653F /* ic_exclamation_grey.png */; };
@@ -833,6 +835,13 @@
 			remoteGlobalIDString = 0AB5D8701D0EEECD002D3A17;
 			remoteInfo = DropDown;
 		};
+		B28578C51E570C0B008995F4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B24FCEF21E536E8000B517A9 /* DropDown.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0AB5D8701D0EEECD002D3A17;
+			remoteInfo = DropDown;
+		};
 		B2B34BD11E37042D001B653F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2115E6C01B4A27E500509D2A /* Project object */;
@@ -851,6 +860,7 @@
 			files = (
 				58F5BEF71DB088D1009B0E0B /* Alamofire.framework in Embed Frameworks */,
 				5870CFDC1DC6F85900E22EFF /* AlamofireImage.framework in Embed Frameworks */,
+				B28578C41E570C0B008995F4 /* DropDown.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1754,6 +1764,7 @@
 				4453F4401BBBFF6D00FE7CB5 /* FBSDKLoginKit.framework in Frameworks */,
 				21EEB4401B86FABE00CAD5C9 /* Foundation.framework in Frameworks */,
 				58D7D5251CD9B6FC00308A50 /* iAd.framework in Frameworks */,
+				B28578C31E570C0B008995F4 /* DropDown.framework in Frameworks */,
 				21EEB4461B86FADF00CAD5C9 /* MessageUI.framework in Frameworks */,
 				21EEB44C1B86FB0600CAD5C9 /* MobileCoreServices.framework in Frameworks */,
 				21EEB4481B86FAEE00CAD5C9 /* OpenGLES.framework in Frameworks */,
@@ -3224,6 +3235,7 @@
 				58F5BEF91DB088D1009B0E0B /* PBXTargetDependency */,
 				5870CFDE1DC6F85900E22EFF /* PBXTargetDependency */,
 				B2B34BD21E37042D001B653F /* PBXTargetDependency */,
+				B28578C61E570C0B008995F4 /* PBXTargetDependency */,
 			);
 			name = Prelo;
 			productName = Prelo;
@@ -4130,6 +4142,11 @@
 			isa = PBXTargetDependency;
 			name = DropDown;
 			targetProxy = B24FCEFE1E536FB900B517A9 /* PBXContainerItemProxy */;
+		};
+		B28578C61E570C0B008995F4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = DropDown;
+			targetProxy = B28578C51E570C0B008995F4 /* PBXContainerItemProxy */;
 		};
 		B2B34BD21E37042D001B653F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

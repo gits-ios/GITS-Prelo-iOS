@@ -126,6 +126,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     var selectedBankIndex = -1
     var targetBank = ""
     
+    @IBOutlet weak var loadingPanel: UIView!
+    
     // MARK: - Init
     
     override func viewWillAppear(_ animated: Bool) {
@@ -166,6 +168,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // loader for refresh ongkir
+        self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+        self.hideLoading()
         
         self.title = PageName.Checkout
         
@@ -317,6 +323,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             tableView.isHidden = true
             loadingCart.isHidden = false
             isFirst = false
+        } else {
+            self.showLoading()
         }
             
         // Reset data
@@ -413,6 +421,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 
                 // Reset refreshByLocationChange
                 self.refreshByLocationChange = false
+                
+                self.hideLoading()
             }
         }
     }
@@ -592,7 +602,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             */
             
             IndexPath(row: 1, section: sectionAlamatUser):BaseCartData.instance(titleNama, placeHolder: "Nama Lengkap Kamu", value : fullname),
-            IndexPath(row: 2, section: sectionAlamatUser):BaseCartData.instance(titleTelepon, placeHolder: "Nomor Telepon Kamu", value : phone),
+            IndexPath(row: 2, section: sectionAlamatUser):BaseCartData.instance(titleTelepon, placeHolder: "Nomor Telepon Kamu", value : phone, keyboardType: UIKeyboardType.phonePad),
             IndexPath(row: 3, section: sectionAlamatUser):BaseCartData.instance(titleProvinsi, placeHolder: nil, value: pID, pickerPrepBlock: { picker in
                 
                 picker.items = CDProvince.getProvincePickerItems()
@@ -682,7 +692,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 }
             }),
             IndexPath(row: 6, section: sectionAlamatUser):BaseCartData.instance(titleAlamat, placeHolder: "Alamat Lengkap Kamu", value : address),
-            IndexPath(row: 7, section: sectionAlamatUser):BaseCartData.instance(titlePostal, placeHolder: "Kode Pos Kamu", value : postalcode)
+            IndexPath(row: 7, section: sectionAlamatUser):BaseCartData.instance(titlePostal, placeHolder: "Kode Pos Kamu", value : postalcode, keyboardType: UIKeyboardType.numberPad)
         ]
     }
     
@@ -1978,6 +1988,15 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             }
         }
     }
+    
+    // MARK: - loader
+    func showLoading() {
+        self.loadingPanel.isHidden = false
+    }
+    
+    func hideLoading() {
+        self.loadingPanel.isHidden = true
+    }
 }
 
 // MARK: - Class
@@ -2041,6 +2060,17 @@ class BaseCartData : NSObject
         b.placeHolder = placeHolder
         b.value = value
         b.enable = enable
+        
+        return b
+    }
+    
+    static func instance(_ title : String?, placeHolder : String?, value : String?, keyboardType : UIKeyboardType ) -> BaseCartData {
+        let b = BaseCartData()
+        b.title = title
+        b.placeHolder = placeHolder
+        b.value = value
+        b.enable = true
+        b.keyboardType = keyboardType
         
         return b
     }

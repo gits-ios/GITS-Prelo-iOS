@@ -180,6 +180,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="btnDelete" destination="ji4-bF-9wf" id="4V7-cc-yRd"/>
                 <outlet property="btnSetMain" destination="2Jy-Wi-cFm" id="CyQ-LL-9bn"/>
                 <outlet property="lblAddress" destination="OXc-rc-BQa" id="YDZ-Q6-kAV"/>
                 <outlet property="lblName" destination="2EC-eC-lRD" id="Eqz-aT-ZbF"/>
