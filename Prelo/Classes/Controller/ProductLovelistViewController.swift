@@ -37,6 +37,8 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+        
         // Menghilangkan garis antar cell di baris kosong
         tblLovers.tableFooterView = UIView()
         
