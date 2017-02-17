@@ -171,6 +171,8 @@ static UIDocumentInteractionController *staticDocController = NULL;
                 NSString *name = [NSString stringWithFormat:@"image%@", @(i+1)];
                 if ([images[i] isKindOfClass:[UIImage class]])
                 {
+//                    long int lc = [[images objectAtIndex:i] imageOrientation];
+//                    NSLog(@"orientation %ld", lc);
                     NSData *data = UIImageJPEGRepresentation(images[i], 0.3);
 //                    NSData *newData = [self dataByRemovingExif:data];
                     [formData appendPartWithFileData:data name:name fileName:@"wat.jpeg" mimeType:@"image/jpeg"];

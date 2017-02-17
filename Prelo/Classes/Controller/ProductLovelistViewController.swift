@@ -54,10 +54,16 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
 //        self.title = "Product Lovelist"
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//        
+//        // Refresh table for the first time
+//        self.refreshTable()
+//    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        // Refresh table for the first time
         self.refreshTable()
     }
     
@@ -137,7 +143,8 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
         cell.adapt(productLovelistItem: productLovelistItems[indexPath.row])
         cell.selectionStyle = .none
         cell.chatPressed = {
-            self.tblLovers.isHidden = true
+//            self.tblLovers.isHidden = true
+            self.showLoading()
             
             var productId = self.productId
             var buyer = self.productLovelistItems[indexPath.row]
@@ -177,21 +184,22 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
                                     t.threadState = 0 //1
                                     
                                     self.navigationController?.pushViewController(t, animated: true)
+                                    self.hideLoading()
                                 }
                             }
                         }
                     }
                 } else {
                     Constant.showDialog("Product Lovelist", message: "Oops, terdapat kesalahan saat mengakses detail produk")
+                    self.hideLoading()
                 }
-                self.tblLovers.isHidden = false
             }
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.tblLovers.isHidden = true
+//        self.tblLovers.isHidden = true
         if (!AppTools.isNewShop) {
             let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
