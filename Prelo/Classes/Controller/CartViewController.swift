@@ -500,6 +500,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         if (address == "" || postalcode == "") {
             isNeedSetup = true
+            
+            if selectedIndex == 0 {
+                isSave = true // always true
+            }
         }
         
         // Fill cellsData
@@ -1290,8 +1294,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     return
                 }
             } else if ((indexPath as NSIndexPath).row == 8) { // save
-                isSave = !isSave
-                tableView.reloadData()
+                if selectedIndex != 0 {
+                    isSave = !isSave
+                    tableView.reloadData()
+                }
             }
         }
         
@@ -1496,7 +1502,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 // Send tracking data before navigate
                 if (self.checkoutResult != nil) {
                     // insert new address if needed
-                    if (self.isSave) {
+                    if (self.isSave && self.selectedIndex != 0) {
                         // update
                             // do nothing - auto
                         
