@@ -1744,6 +1744,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             o.date = (self.checkoutResult?["expire_time"].string)! // expire_time not found
         }
         
+        if (self.checkoutResult?["payment_expired_remaining"].int) != nil {
+            o.remaining = (self.checkoutResult?["payment_expired_remaining"].int)! // payment_expired_remaining not found
+        }
+        
         var imgs : [URL] = []
         for i in 0...self.arrayItem.count - 1 {
             let json = self.arrayItem[i]

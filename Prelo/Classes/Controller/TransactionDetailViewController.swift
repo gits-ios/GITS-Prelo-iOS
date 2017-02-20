@@ -1786,6 +1786,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 orderConfirmVC.isShowBankBRI = self.isShowBankBRI
                 orderConfirmVC.date = self.trxDetail!.expireTime
                 orderConfirmVC.targetBank = self.trxDetail!.paymentBankTarget
+                orderConfirmVC.remaining = self.trxDetail!.remainingTime
                 self.navigationController?.pushViewController(orderConfirmVC, animated: true)
             }
         }
@@ -1803,6 +1804,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 o.isBackTwice = true
                 o.isShowBankBRI = self.isShowBankBRI
                 o.date = self.trxDetail!.expireTime
+                o.remaining = self.trxDetail!.remainingTime
                 var imgs : [URL] = []
                 for i in 0..<self.trxDetail!.transactionProducts.count {
                     if let u = self.trxDetail!.transactionProducts[i].productImageURL {
