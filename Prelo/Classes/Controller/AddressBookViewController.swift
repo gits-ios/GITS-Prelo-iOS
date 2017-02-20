@@ -77,7 +77,7 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
     func getAddresses() {
         showLoading()
         
-        self.addresses = []
+        addresses = []
         
 //        for i in 0...2 {
 //            let fakeres = [

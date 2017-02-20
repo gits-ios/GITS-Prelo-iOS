@@ -125,6 +125,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     var selectedBankIndex = -1
     var targetBank = ""
+    var isDropdownMode = false
     
     @IBOutlet weak var loadingPanel: UIView!
     
@@ -201,7 +202,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 initUserDataSections()
                 synchCart()
                 
-                self.getAddresses()
+                getAddresses()
+                
+                DropDown.startListeningToKeyboard()
             }
             
         }
@@ -287,12 +290,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         dropDown.textFont = UIFont.systemFont(ofSize: 14)
         
-        dropDown.width = UIScreen.main.bounds.width - 16
-        
 //        dropDown.cellHeight = 30
         
         dropDown.selectRow(at: self.selectedIndex)
         
+        dropDown.direction = .bottom
     }
     
     func getUnpaid() {
@@ -366,6 +368,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 self.isShowBankBRI = false
                 self.isEnableCCPayment = false
                 self.isEnableIndomaretPayment = false
+                self.isDropdownMode = false
                 if let ab = data["ab_test"].array {
                     for i in 0...ab.count - 1 {
                         if (ab[i].stringValue.lowercased() == "half_bonus") {
@@ -378,6 +381,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             self.isEnableIndomaretPayment = true
                         } else if (ab[i].stringValue.lowercased().range(of: "bonus:") != nil) {
                             self.customBonusPercent = Int(ab[i].stringValue.components(separatedBy: "bonus:")[1])!
+                        } else {
+                            // TODO: - from backend
+                            self.isDropdownMode = true
                         }
                     }
                 }
@@ -905,21 +911,27 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         cell.isEnableCCPayment = isEnableCCPayment
         cell.isEnableIndomaretPayment = isEnableIndomaretPayment
         cell.isShowBankBRI = isShowBankBRI
-        // new
-        cell.isDropdownMode = true
-        cell.parent = self
-        cell.selectedBankIndex = self.selectedBankIndex
+        
         cell.methodChosen = { mthd in
             self.setPaymentOption(mthd)
             self.adjustRingkasan()
         }
-//        if (self.isShowBankBRI) {
-//            cell.vw3Banks.isHidden = true
-//            cell.vw4Banks.isHidden = false
-//        } else {
-//            cell.vw3Banks.isHidden = false
-//            cell.vw4Banks.isHidden = true
-//        }
+        
+        // new
+        if isDropdownMode {
+            cell.isDropdownMode = true
+            cell.parent = self
+            cell.selectedBankIndex = self.selectedBankIndex
+        } else {
+            if (self.isShowBankBRI) {
+                cell.vw3Banks.isHidden = true
+                cell.vw4Banks.isHidden = false
+            } else {
+                cell.vw3Banks.isHidden = false
+                cell.vw4Banks.isHidden = true
+            }
+        }
+        
         cell.adapt(selectedPayment: selectedPayment)
         
         return cell
@@ -1024,7 +1036,21 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         c.adaptNew("Alamat Baru")
                     }
                     c.selectionStyle = .none
-                    dropDown.anchorView = c.vwDropdown
+                    
+                    if (dropDown != nil) {
+                    
+                        // dropDown.width = c.vwDropdown.width - 16
+                        
+                        dropDown.anchorView = c.vwDropdown
+                        
+                        // Top of drop down will be below the anchorView
+                        dropDown.bottomOffset = CGPoint(x: 0, y:(dropDown.anchorView?.plainView.bounds.height)!)
+                        
+                        // When drop down is displayed with `Direction.top`, it will be above the anchorView
+                        // dropDown.topOffset = CGPoint(x: 0, y:-(dropDown.anchorView?.plainView.bounds.height)!)
+                        
+                    }
+                    
                     cell = c
                 } else if (row == 1 || row == 2) { // Nama, Telepon
                     cell = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input", isShowBottomLine: true)
@@ -1043,9 +1069,27 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             } else { // 2 row
                 if (row == 0) { // dropdown
                     let c = tableView.dequeueReusableCell(withIdentifier: "cell_dropDown") as! DropdownCell
-                    c.adapt(addresses[selectedIndex])
+                    if addresses.count > selectedIndex {
+                        c.adapt(addresses[selectedIndex])
+                    } else { // wait if data not loaded
+                        c.adaptNew("...")
+                    }
                     c.selectionStyle = .none
-                    dropDown.anchorView = c.vwDropdown
+                    
+                    if (dropDown != nil) {
+                    
+                        // dropDown.width = c.vwDropdown.width - 16
+                        
+                        dropDown.anchorView = c.vwDropdown
+                        
+                        // Top of drop down will be below the anchorView
+                        dropDown.bottomOffset = CGPoint(x: 0, y:(dropDown.anchorView?.plainView.bounds.height)!)
+                        
+                        // When drop down is displayed with `Direction.top`, it will be above the anchorView
+                        // dropDown.topOffset = CGPoint(x: 0, y:-(dropDown.anchorView?.plainView.bounds.height)!)
+                        
+                    }
+                    
                     cell = c
                 } else { // Provinsi, Kab/Kota, Kode Pos, Kecamatan
                     let c = tableView.dequeueReusableCell(withIdentifier: "cell_fullAddress") as! FullAlamatCell
@@ -1368,7 +1412,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     @IBAction override func confirm()
     {
-        if (selectedPayment == .bankTransfer && targetBank == "")
+        if (isDropdownMode == true && selectedPayment == .bankTransfer && targetBank == "")
         {
             Constant.showDialog("Perhatian", message: "Bank Tujuan Transfer harus diisi")
             return
@@ -2714,7 +2758,7 @@ class CartPaymethodCell : UITableViewCell {
         
         dropDown.textFont = UIFont.systemFont(ofSize: 14)
         
-        dropDown.width = self.vwDropdown.width - 16
+//        dropDown.width = self.vwDropdown.width - 16
         
         dropDown.anchorView = self.vwDropdown
         
@@ -2722,6 +2766,14 @@ class CartPaymethodCell : UITableViewCell {
             dropDown.selectRow(at: selectedBankIndex)
             lblDropdown.text = items[selectedBankIndex]
         }
+        
+        // Top of drop down will be below the anchorView
+        dropDown.bottomOffset = CGPoint(x: 0, y:(dropDown.anchorView?.plainView.bounds.height)!)
+        
+        // When drop down is displayed with `Direction.top`, it will be above the anchorView
+        // dropDown.topOffset = CGPoint(x: 0, y:-(dropDown.anchorView?.plainView.bounds.height)!)
+        
+        dropDown.direction = .bottom
     }
 }
 
