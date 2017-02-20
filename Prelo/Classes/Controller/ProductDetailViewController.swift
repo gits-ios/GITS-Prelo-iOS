@@ -198,6 +198,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Barang"))
                 {
                     self.detail = ProductDetail.instance(JSON(resp.result.value!))
+                    
+                    self.title = self.detail?.name
+                    
                     self.activated = (self.detail?.isActive)!
                     print(self.detail?.json)
                     

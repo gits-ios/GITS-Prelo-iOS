@@ -1996,6 +1996,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             
             if (self.editMode)
             {
+                self.delegate?.setFromDraftOrNew(true)
+                
                 //Mixpanel.sharedInstance().track("Editing Product", properties: ["success":"1"])
                 self.editDoneBlock()
                 self.navigationController?.popViewController(animated: true)
