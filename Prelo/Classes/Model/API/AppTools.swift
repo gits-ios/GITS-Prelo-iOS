@@ -37,6 +37,33 @@ class AppTools: NSObject {
         }
     }
     
+    // analytics
+    fileprivate static var devAnalyticURL = "http://dev.prelo.id"
+    fileprivate static var prodAnalyticURL = "https://prelo.co.id"
+    
+    fileprivate static var _PreloAnalyticBaseUrl = isDev ? devAnalyticURL : prodAnalyticURL
+    static var PreloAnalyticBaseUrl : String {
+        set {
+            _PreloAnalyticBaseUrl = newValue
+        }
+        get {
+            return _PreloAnalyticBaseUrl
+        }
+    }
+    
+    // analytics skeleton
+    static var skeletonData : [String : Any] {
+        let v = CDVersion.getOne()!
+        let d =  [
+            "OS" : UIDevice.current.systemVersion,
+            "App version" : v,
+            "Device Model" : UIDevice.current.model,
+            "Previous Screen" : "", // override it
+            "Login Method" : "" // override it
+        ] as [String : Any]
+        return d
+    }
+    
     static var IsPreloProduction : Bool {
         return (PreloBaseUrl == "https://prelo.co.id")
     }
