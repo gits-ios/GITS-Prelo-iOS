@@ -1225,7 +1225,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                         let coin = json["_data"]["my_total_diamonds"].intValue
                         
                         if (isSuccess) {
-                            self.showUpPopUp(withText: message + " (" + coinAmount.string + " Poin telah otomatis ditarik dari Poin kamu)", isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                            self.showUpPopUp(withText: message + " (" + coinAmount.string + " Poin kamu telah otomatis ditarik)", isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
                         } else {
                             self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
                         }
