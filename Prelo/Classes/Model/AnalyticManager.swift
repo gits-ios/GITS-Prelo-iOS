@@ -15,6 +15,8 @@ class AnalyticManager: NSObject {
     let devAnalyticURL = "http://dev.prelo.id"
     let prodAnalyticURL = "https://prelo.co.id"
     
+    var isShowDialog = false
+    
     var PreloAnalyticBaseUrl : String {
         return (AppTools.isDev ? devAnalyticURL : prodAnalyticURL)
     }
@@ -39,16 +41,22 @@ class AnalyticManager: NSObject {
         wrappedData.update(other: data)
         
         let _ = request(APIAnalytic.event(eventType: eventType, data: wrappedData)).responseJSON {resp in
-            if (PreloAnalyticEndpoints.validate(false, dataResp: resp, reqAlias: "Analytics - " + eventType)) {
+            if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - " + eventType)) {
                 print("Analytics - " + eventType + ", Sent!")
+                if self.isShowDialog {
+                    Constant.showDialog("Analytics - " + eventType, message: "Success")
+                }
             }
         }
     }
     
     func updateUser() {
         let _ = request(APIAnalytic.user).responseJSON {resp in
-            if (PreloAnalyticEndpoints.validate(false, dataResp: resp, reqAlias: "Analytics - User")) {
+            if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - User")) {
                 print("Analytics - User, Sent!")
+                if self.isShowDialog {
+                    Constant.showDialog("Analytics - User", message: "Success")
+                }
             }
         }
     }

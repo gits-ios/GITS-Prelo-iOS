@@ -206,6 +206,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     // Send uuid to server
                     let _ = request(APIMe.setUserUUID)
                     
+                    /*
                     // Mixpanel
                     if let c = CDUser.getOne() {
                         let provinceName = CDProvince.getProvinceNameWithID(c.profiles.provinceID)
@@ -232,6 +233,15 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         
                         Mixpanel.sharedInstance().identify(c.id)
                     }
+                     */
+                    
+                    // Prelo Analytic
+                    let pdata = [
+                        "Username" : (CDUser.getOne()?.username)!,
+                        "Username History" : ""
+                    ]
+                    AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.Login, data: pdata, previousScreen: screenBeforeLogin, loginMethod: loginMethod)
+                    AnalyticManager.sharedInstance.updateUser()
                     
                     // Set crashlytics user information
                     Crashlytics.sharedInstance().setUserIdentifier(user.profiles.phone!)
@@ -444,6 +454,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     user!.profiles = p
                     UIApplication.appDelegate.saveContext()
                     
+                    /*
                     // Mixpanel event for login/register with facebook
                     var pMixpanel = [
                         "Previous Screen" : screenBeforeLogin,
@@ -457,6 +468,27 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     } else if let _ = sender as? RegisterViewController {
                         Mixpanel.trackEvent(MixpanelEvent.Register, properties: pMixpanel)
                     }
+                     */
+                    
+                    // Prelo Analytic
+                    var pdata : [String : Any] = [:]
+                    var eventType = ""
+                    if let _ = sender as? LoginViewController {
+                        eventType = MixpanelEvent.Login
+                        pdata = [
+                            "Username" : (CDUser.getOne()?.username)!,
+                            "Username History" : ""
+                        ]
+                    } else if let _ = sender as? RegisterViewController {
+                        eventType = MixpanelEvent.Register
+                        pdata = [
+                            "Email" : user!.email,
+                            "Username" : (CDUser.getOne()?.username)!,
+                            "Register OS" : "iOS"
+                        ]
+                    }
+                    AnalyticManager.sharedInstance.send(eventType: eventType, data: pdata, previousScreen: screenBeforeLogin, loginMethod: "Facebook")
+                    AnalyticManager.sharedInstance.updateUser()
                     
                     // Check if user have set his account
                     //self.checkProfileSetup(data["token"].string!)
@@ -669,6 +701,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     UserDefaults.standard.set(twToken, forKey: "twittertoken")
                     UserDefaults.standard.synchronize()
                     
+                    /*
                     // Mixpanel event for login/register with facebook
                     var pMixpanel = [
                         "Previous Screen" : screenBeforeLogin,
@@ -683,6 +716,27 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     } else if let _ = sender as? RegisterViewController {
                         Mixpanel.trackEvent(MixpanelEvent.Register, properties: pMixpanel)
                     }
+                     */
+                    
+                    // Prelo Analytic
+                    var pdata : [String : Any] = [:]
+                    var eventType = ""
+                    if let _ = sender as? LoginViewController {
+                        eventType = MixpanelEvent.Login
+                        pdata = [
+                            "Username" : (CDUser.getOne()?.username)!,
+                            "Username History" : ""
+                        ]
+                    } else if let _ = sender as? RegisterViewController {
+                        eventType = MixpanelEvent.Register
+                        pdata = [
+                            "Email" : user!.email,
+                            "Username" : (CDUser.getOne()?.username)!,
+                            "Register OS" : "iOS"
+                        ]
+                    }
+                    AnalyticManager.sharedInstance.send(eventType: eventType, data: pdata, previousScreen: screenBeforeLogin, loginMethod: "Twitter")
+                    AnalyticManager.sharedInstance.updateUser()
                     
                     // Check if user have set his account
                     LoginViewController.CheckProfileSetup(sender, token: data["token"].stringValue, isSocmedAccount: true, loginMethod: "Twitter", screenBeforeLogin: screenBeforeLogin)

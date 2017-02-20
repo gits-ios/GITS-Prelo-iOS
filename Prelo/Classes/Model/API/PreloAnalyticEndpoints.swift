@@ -65,7 +65,7 @@ class PreloAnalyticEndpoints: NSObject {
                     }
                 } else if (res == nil && showErrorDialog) {
                     if (response.statusCode > 500) {
-                        Constant.showDialog(reqAlias, message: "Server Prelo sedang lelah, silahkan coba beberapa saat lagi")
+                        Constant.showDialog(reqAlias, message: "Server Analytic Prelo sedang lelah, silahkan coba beberapa saat lagi")
                     } else {
                         Constant.showDialog(reqAlias, message: "Oops, silahkan coba beberapa saat lagi")
                     }
@@ -97,7 +97,7 @@ class PreloAnalyticEndpoints: NSObject {
 }
 
 extension URLRequest {
-    func defaultURLRequest() -> URLRequest {
+    func defaultAnalyticURLRequest() -> URLRequest {
         var urlRequest = URLRequest(url: self.url!)
         
         // Set token
@@ -124,8 +124,8 @@ enum APIAnalytic : URLRequestConvertible {
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = ""
-        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
-        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        let url = URL(string: preloAnalyticHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultAnalyticURLRequest()
         urlRequest.httpMethod = method.rawValue
         let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloAnalyticEndpoints.ProcessParam(param))
         return encodedURLRequest
