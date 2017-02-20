@@ -1182,10 +1182,14 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             self.vwBtnSet1UpBarang.isHidden = true
             self.vwBtnSet2UpBarang.isHidden = false
             self.lblUpBarang.text = withText
+            
+            self.lblUpBarang.boldSubstring(paidAmount.asPrice)
+            self.lblUpBarang.boldSubstring(coinAmount.string + " Poin")
         }
         self.lblUpBarang.sizeToFit()
         self.consHeightUpBarang.constant = 120 + lblUpBarang.height
         self.vwUpBarangPopUpPanel.setNeedsLayout()
+        self.lblUpBarang.boldSubstring(coinAmount.string + " Poin")
     }
     
     func hideUpPopUp() {
@@ -1221,7 +1225,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                         let coin = json["_data"]["my_total_diamonds"].intValue
                         
                         if (isSuccess) {
-                            self.showUpPopUp(withText: message, isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                            self.showUpPopUp(withText: message + " (" + coinAmount.string + " Poin telah otomatis ditarik dari Poin kamu)", isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
                         } else {
                             self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
                         }
@@ -1242,7 +1246,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                         let coin = json["_data"]["my_total_diamonds"].intValue
                         
                         if (isSuccess) {
-                            self.showUpPopUp(withText: message, isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                            self.showUpPopUp(withText: message + " (" + paidAmount.asPrice + " telah otomatis ditarik dari Prelo Balance)", isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
                         } else {
                             self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
                         }
