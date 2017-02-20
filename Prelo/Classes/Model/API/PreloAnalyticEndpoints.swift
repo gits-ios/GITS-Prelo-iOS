@@ -12,7 +12,7 @@ import Alamofire
 
 var preloAnalyticHost : String {
 get {
-    return "\(AppTools.PreloAnalyticBaseUrl)/api/"
+    return "\(AnalyticManager.sharedInstance.PreloAnalyticBaseUrl)/api/"
 }
 }
 
