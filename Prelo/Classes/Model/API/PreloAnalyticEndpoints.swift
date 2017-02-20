@@ -123,11 +123,12 @@ enum APIAnalytic : URLRequestConvertible {
     case user
     
     public func asURLRequest() throws -> URLRequest {
-        let basePath = ""
+        let basePath = "analytics/"
         let url = URL(string: preloAnalyticHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
         var urlRequest = URLRequest(url: url).defaultAnalyticURLRequest()
         urlRequest.httpMethod = method.rawValue
         let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloAnalyticEndpoints.ProcessParam(param))
+        
         return encodedURLRequest
     }
     
@@ -161,7 +162,7 @@ enum APIAnalytic : URLRequestConvertible {
             let regionName = CDRegion.getRegionNameWithID((CDUser.getOne()?.profiles.regionID)!) ?? ""
             d =  [
                     "device_model" : [
-                        "append" : UIDevice.current.model
+                        "append" : UIDevice.current.model + " - " + UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")"
                     ],
                     "apns_id" : [
                         "append" : UserDefaults.standard.string(forKey: "deviceregid")!

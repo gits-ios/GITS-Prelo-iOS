@@ -12,8 +12,8 @@ import Alamofire
 class AnalyticManager: NSObject {
     static let sharedInstance = AnalyticManager()
     
-    let devAnalyticURL = "http://dev.prelo.id"
-    let prodAnalyticURL = "https://prelo.co.id"
+    let devAnalyticURL = "http://analytics.dev.prelo.id"
+    let prodAnalyticURL = "https://analytics.prelo.co.id"
     
     var isShowDialog = false
     
