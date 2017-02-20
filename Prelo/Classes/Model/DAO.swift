@@ -1544,6 +1544,13 @@ class TransactionDetail : NSObject {
         return ""
     }
     
+    var remainingTime : Int {
+        if let j = json["payment_expired_remaining"].int {
+            return j
+        }
+        return 24
+    }
+    
     var shippingExpireTime : String {
         if let j = json["shipping_expire_time"].string {
             return j
