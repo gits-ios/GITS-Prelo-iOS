@@ -132,7 +132,7 @@ enum APIAnalytic : URLRequestConvertible {
         let url = URL(string: preloAnalyticHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
         var urlRequest = URLRequest(url: url).defaultAnalyticURLRequest()
         urlRequest.httpMethod = method.rawValue
-        urlRequest.httpBody = ("payload = " + JSONstring).data(using: String.Encoding.ascii, allowLossyConversion: true)
+        urlRequest.httpBody = ("payload=" + JSONstring).data(using: String.Encoding.ascii, allowLossyConversion: true)
         let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: nil)
 //        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloAnalyticEndpoints.ProcessParam(param))
         
@@ -167,7 +167,7 @@ enum APIAnalytic : URLRequestConvertible {
         case .user :
             let _user = CDUser.getOne()
             let regionName = CDRegion.getRegionNameWithID((_user?.profiles.regionID)!) ?? ""
-            let deviceToken = (User.IsLoggedIn && UserDefaults.standard.string(forKey: "deviceregid") != nil ? UserDefaults.standard.string(forKey: "deviceregid")! : "")
+            let deviceToken = (User.IsLoggedIn && UserDefaults.standard.string(forKey: "deviceregid") != nil && UserDefaults.standard.string(forKey: "deviceregid") != "" ? UserDefaults.standard.string(forKey: "deviceregid")! : "...simulator...")
             let d : [String : [String : Any]] =  [
                 "device_model" : [
                     "append" : UIDevice.current.model + " - " + UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")"

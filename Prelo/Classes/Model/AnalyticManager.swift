@@ -25,9 +25,9 @@ class AnalyticManager: NSObject {
     
     // skeleton data -- copy it to your temporer data
     let skeletonData =  [
-        "OS" : UIDevice.current.systemVersion,
+        "OS" : UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")",
         "App version" : CDVersion.getOne()!.appVersion,
-        "Device Model" : UIDevice.current.model,
+        "Device Model" : (AppTools.isSimulator ? "Simulator" : UIDevice.current.model),
         //"Previous Screen" : "", // override it
         //"Login Method" : "" // override it
     ] as [String : Any]
