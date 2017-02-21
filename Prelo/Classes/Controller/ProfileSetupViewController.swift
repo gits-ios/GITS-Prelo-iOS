@@ -643,6 +643,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         return
                     }
                     
+                    /*
                     // Mixpanel
                     let sp = [
                         "User ID" : userProfileData.id,
@@ -680,6 +681,25 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         "Activation Screen" : "Setup Account"
                     ]
                     Mixpanel.trackEvent(MixpanelEvent.ReferralUsed, properties: pt2)
+                     */
+                    
+                    // Prelo Analytic
+                    let pdata = [
+                        "Username" : userProfileData.username,
+                        "Email" : userProfileData.email,
+                        "Gender" : userProfileData.gender,
+                        "Province" : CDProvince.getProvinceNameWithID(userProfileData.provinceId)!,
+                        "City" : CDRegion.getRegionNameWithID(userProfileData.regionId)!,
+                        "Subdistrict" : self.lblKecamatan.text
+                    ]
+                    AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.SetupAccount, data: pdata, previousScreen: self.screenBeforeLogin, loginMethod: self.loginMethod)
+//                    let pdata2 = [
+//                        "Referral Code Used" : userReferral,
+//                        "Is Succeed" : userProfileData.email,
+//                        "Failed Reason" : userProfileData.gender
+//                    ]
+//                    AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.ReferralUsed, data: pdata2, previousScreen: self.screenBeforeLogin, loginMethod: self.loginMethod)
+                    AnalyticManager.sharedInstance.updateUser()
                     
                     let phoneVerificationVC = Bundle.main.loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil)?.first as! PhoneVerificationViewController
                     phoneVerificationVC.userRelatedDelegate = self.userRelatedDelegate
