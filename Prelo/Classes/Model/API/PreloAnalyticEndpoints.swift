@@ -111,6 +111,10 @@ extension URLRequest {
             urlRequest.setValue(userAgent, forHTTPHeaderField: "User-Agent")
         }
         
+        // ERR
+//        // json
+//        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
         // Set crashlytics custom key
         Crashlytics.sharedInstance().setObjectValue(urlRequest, forKey: "last_req_url")
         
@@ -179,6 +183,8 @@ enum APIAnalytic : URLRequestConvertible {
                 "data" : d
             ]
         }
+        print(p.debugDescription)
+        print(p.description)
         return p
     }
 }

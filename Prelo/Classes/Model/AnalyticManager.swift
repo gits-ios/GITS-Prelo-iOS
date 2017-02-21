@@ -24,7 +24,7 @@ class AnalyticManager: NSObject {
     // skeleton data -- copy it to your temporer data
     let skeletonData =  [
         "OS" : UIDevice.current.systemVersion,
-        "App version" : CDVersion.getOne()!,
+        "App version" : CDVersion.getOne()!.appVersion,
         "Device Model" : UIDevice.current.model,
         //"Previous Screen" : "", // override it
         //"Login Method" : "" // override it
@@ -48,6 +48,36 @@ class AnalyticManager: NSObject {
                 }
             }
         }
+        
+        /*
+        let p = [
+            "user_id" : (User.IsLoggedIn ? User.Id! : ""),
+            "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
+            "device_id" : UIDevice.current.identifierForVendor!.uuidString,
+            "event_type" : eventType,
+            "data" : wrappedData
+        ] as [String : Any]
+        
+        Alamofire.request("\(AnalyticManager.sharedInstance.PreloAnalyticBaseUrl)/api/analytics.event", method: .post, parameters: p, encoding: JSONEncoding.default)
+            .responseJSON { response in
+                print(response)
+                //to get status code
+                if let status = response.response?.statusCode {
+                    switch(status){
+                    case 201:
+                        print("example success")
+                    default:
+                        print("error with response status: \(status)")
+                    }
+                }
+                //to get JSON return value
+                if let result = response.result.value {
+                    let JSON = result as! NSDictionary
+                    print(JSON)
+                }
+                
+        }
+         */
     }
     
     func updateUser() {
@@ -60,6 +90,19 @@ class AnalyticManager: NSObject {
             }
         }
     }
+    
+    // helper
+//    func dictToJSON(dict:[String: AnyObject]) -> AnyObject {
+//        let jsonData = try! JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted)
+//        let decoded = try! JSONSerialization.jsonObject(with: jsonData, options: [])
+//        return decoded as AnyObject
+//    }
+//    
+//    func arrayToJSON(array:[String]) -> AnyObject {
+//        let jsonData = try! JSONSerialization.data(withJSONObject: array, options: .prettyPrinted)
+//        let decoded = try! JSONSerialization.jsonObject(with: jsonData, options: [])
+//        return decoded as AnyObject
+//    }
 }
 
 extension Dictionary {
