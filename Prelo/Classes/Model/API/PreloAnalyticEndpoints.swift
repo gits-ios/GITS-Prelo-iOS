@@ -101,10 +101,7 @@ extension URLRequest {
         var urlRequest = URLRequest(url: self.url!)
         
         // Set token
-        if let token = User.Token {
-            urlRequest.setValue("Token \(token)", forHTTPHeaderField: "Authorization")
-            print("User token = \(token)")
-        }
+        urlRequest.setValue("Token \(AnalyticManager.sharedInstance.token)", forHTTPHeaderField: "Authorization")
         
         // Set user agent
         if let userAgent = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String {
@@ -127,11 +124,17 @@ enum APIAnalytic : URLRequestConvertible {
     case user
     
     public func asURLRequest() throws -> URLRequest {
+        //convert the JSON to a raw String
+        let prettyJSONstring = JSON(param).rawString()
+        let JSONstring = prettyJSONstring!.replace("\n", template: "")
+        
         let basePath = "analytics/"
         let url = URL(string: preloAnalyticHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
         var urlRequest = URLRequest(url: url).defaultAnalyticURLRequest()
         urlRequest.httpMethod = method.rawValue
-        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloAnalyticEndpoints.ProcessParam(param))
+        urlRequest.httpBody = ("payload = " + JSONstring).data(using: String.Encoding.ascii, allowLossyConversion: true)
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: nil)
+//        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloAnalyticEndpoints.ProcessParam(param))
         
         return encodedURLRequest
     }
@@ -152,7 +155,6 @@ enum APIAnalytic : URLRequestConvertible {
     
     var param : [String : Any] {
         var p : [String : Any] = [:]
-        var d : [String : [String : Any]] = [:]
         switch self {
         case .event(let eventType, let data) :
             p = [
@@ -163,28 +165,30 @@ enum APIAnalytic : URLRequestConvertible {
                 "data" : data
             ]
         case .user :
-            let regionName = CDRegion.getRegionNameWithID((CDUser.getOne()?.profiles.regionID)!) ?? ""
-            d =  [
-                    "device_model" : [
-                        "append" : UIDevice.current.model + " - " + UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")"
-                    ],
-                    "apns_id" : [
-                        "append" : UserDefaults.standard.string(forKey: "deviceregid")!
-                    ],
-                    "region" : [
-                        "update" : regionName
-                    ]
+            let _user = CDUser.getOne()
+            let regionName = CDRegion.getRegionNameWithID((_user?.profiles.regionID)!) ?? ""
+            let deviceToken = (User.IsLoggedIn && UserDefaults.standard.string(forKey: "deviceregid") != nil ? UserDefaults.standard.string(forKey: "deviceregid")! : "")
+            let d : [String : [String : Any]] =  [
+                "device_model" : [
+                    "append" : UIDevice.current.model + " - " + UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")"
+                ],
+                "apns_id" : [
+                    "append" : deviceToken
+                ],
+                "region" : [
+                    "update" : regionName
                 ]
+            ]
             p = [
                 "user_id" : (User.IsLoggedIn ? User.Id! : ""),
                 "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
                 "device_id" : UIDevice.current.identifierForVendor!.uuidString,
-                "username" : (User.IsLoggedIn ? (CDUser.getOne()?.username)! : ""),
+                "username" : (User.IsLoggedIn ? (_user?.username)! : ""),
                 "data" : d
             ]
         }
         print(p.debugDescription)
-        print(p.description)
+//        print(p.description)
         return p
     }
 }

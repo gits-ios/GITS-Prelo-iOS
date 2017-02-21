@@ -12,10 +12,12 @@ import Alamofire
 class AnalyticManager: NSObject {
     static let sharedInstance = AnalyticManager()
     
+    let token = "ZldVDK0Xca1v_osoTSiCdCngZ_r7iR1ZW6fpC3BscfCuHOYUYjLrlw"
+    
     let devAnalyticURL = "http://analytics.dev.prelo.id"
     let prodAnalyticURL = "https://analytics.prelo.co.id"
     
-    var isShowDialog = false
+    var isShowDialog = true
     
     var PreloAnalyticBaseUrl : String {
         return (AppTools.isDev ? devAnalyticURL : prodAnalyticURL)
@@ -40,6 +42,7 @@ class AnalyticManager: NSObject {
         
         wrappedData.update(other: data)
         
+        
         let _ = request(APIAnalytic.event(eventType: eventType, data: wrappedData)).responseJSON {resp in
             if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - " + eventType)) {
                 print("Analytics - " + eventType + ", Sent!")
@@ -48,8 +51,15 @@ class AnalyticManager: NSObject {
                 }
             }
         }
-        
+ 
         /*
+        let userAgent = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String ?? ""
+        
+        let headers = [
+            "Authorization": "Token \(self.token)",
+            "User-Agent": userAgent
+        ]
+        
         let p = [
             "user_id" : (User.IsLoggedIn ? User.Id! : ""),
             "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
@@ -58,7 +68,16 @@ class AnalyticManager: NSObject {
             "data" : wrappedData
         ] as [String : Any]
         
-        Alamofire.request("\(AnalyticManager.sharedInstance.PreloAnalyticBaseUrl)/api/analytics.event", method: .post, parameters: p, encoding: JSONEncoding.default)
+        // create a custom session configuration
+        let configuration = URLSessionConfiguration.default
+        // add the headers
+        configuration.httpAdditionalHeaders = headers
+        
+        // create a session manager with the configuration
+        let sessionManager = Alamofire.SessionManager(configuration: configuration)
+        
+        // make calls with the session manager
+        sessionManager.request("\(self.PreloAnalyticBaseUrl)/api/analytics/event", method: .post, parameters: p, encoding: JSONEncoding.default)
             .responseJSON { response in
                 print(response)
                 //to get status code
@@ -91,18 +110,20 @@ class AnalyticManager: NSObject {
         }
     }
     
+    /*
     // helper
-//    func dictToJSON(dict:[String: AnyObject]) -> AnyObject {
-//        let jsonData = try! JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted)
-//        let decoded = try! JSONSerialization.jsonObject(with: jsonData, options: [])
-//        return decoded as AnyObject
-//    }
-//    
-//    func arrayToJSON(array:[String]) -> AnyObject {
-//        let jsonData = try! JSONSerialization.data(withJSONObject: array, options: .prettyPrinted)
-//        let decoded = try! JSONSerialization.jsonObject(with: jsonData, options: [])
-//        return decoded as AnyObject
-//    }
+    func dictToJSON(dict:[String: AnyObject]) -> AnyObject {
+        let jsonData = try! JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted)
+        let decoded = try! JSONSerialization.jsonObject(with: jsonData, options: [])
+        return decoded as AnyObject
+    }
+    
+    func arrayToJSON(array:[String]) -> AnyObject {
+        let jsonData = try! JSONSerialization.data(withJSONObject: array, options: .prettyPrinted)
+        let decoded = try! JSONSerialization.jsonObject(with: jsonData, options: [])
+        return decoded as AnyObject
+    }
+     */
 }
 
 extension Dictionary {
