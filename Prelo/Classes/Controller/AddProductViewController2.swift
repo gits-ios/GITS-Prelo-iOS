@@ -1541,6 +1541,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                         if (hiddenStr.count >= 2) {
                             self.merekId = hiddenStr[0]
                             self.merekIsLuxury = (hiddenStr[1] == "1") ? true : false
+                        } else {
+                            self.merekId = ""
+                            self.merekIsLuxury = false
                         }
                         var x : String = PickerViewController.HideHiddenString(s)
                         
@@ -1963,6 +1966,80 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 self.btnSubmit.isEnabled = true
             }))
             alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
+                
+                // Prelo Analytic - Submit Product
+                let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
+                                                    qos: .background,
+                                                    target: nil)
+                backgroundQueue.async {
+                    print("Work on background queue")
+                    
+                    let loginMethod = User.LoginMethod ?? ""
+                    
+                    var pdata = [
+                        "Product Name" : name,
+                        "Condition" : self.captionKondisi.text,
+                        "Product Brand" : self.captionMerek.text,
+                        "New Brand" : (self.merekId != "" ? false : true),
+                        "Free Shipping" : (self.freeOngkir == 1 ? true : false),
+                        "Weight" : self.txtWeight.text,
+                        "Price Original" : self.txtOldPrice.text,
+                        "Price" : self.txtNewPrice.text
+                    ] as [String : Any]
+                    
+                    // cat
+                    var cat : Array<String> = []
+                    var temp = CDCategory.getCategoryWithID(self.productCategoryId)!
+                    cat.append(temp.name)
+                    while (true) {
+                        if let cur = CDCategory.getLv1CategIDFromID(temp.id) {
+                            temp = CDCategory.getCategoryWithID(cur)!
+                            cat.append(temp.name)
+                        } else {
+                            break
+                        }
+                    }
+                    var iter = 1
+                    for item in cat.reversed() {
+                        pdata["Category " + iter.string] = item
+                        iter += 1
+                    }
+                    
+                    // imgae
+                    var count = 0
+                    for i in 0...self.images.count - 1 {
+                        if let _ = self.images[i] as? UIImage {
+                            count += 1
+                            if (i == 0) {
+                                pdata["Main Picture Exist"] = true
+                            } else if (i == 1) {
+                                pdata["Back Picture Exist"] = true
+                            } else if (i == 2) {
+                                pdata["Wear Picture Exist"] = true
+                            } else if (i == 3) {
+                                pdata["Label Picture Exist"] = true
+                            } else if (i == 4) {
+                                pdata["Defect Picture Exist"] = true
+                            }
+                        } else {
+                            if (i == 0) {
+                                pdata["Main Picture Exist"] = false
+                            } else if (i == 1) {
+                                pdata["Back Picture Exist"] = false
+                            } else if (i == 2) {
+                                pdata["Wear Picture Exist"] = false
+                            } else if (i == 3) {
+                                pdata["Label Picture Exist"] = false
+                            } else if (i == 4) {
+                                pdata["Defect Picture Exist"] = false
+                            }
+                        }
+                    }
+                    pdata["Number of Picture Uploaded"] = count
+                    
+                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SubmitProduct, data: pdata, previousScreen: self.screenBeforeAddProduct, loginMethod: loginMethod)
+                }
+                
                 self.btnSubmit.isEnabled = true
                 let share = self.storyboard?.instantiateViewController(withIdentifier: "share") as! AddProductShareViewController
                 share.sendProductParam = param
@@ -1970,7 +2047,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 share.basePrice = (newPrice.int)
                 share.productName = name
                 share.productImgImage = self.images.first as? UIImage
-                share.sendProductBeforeScreen = self.screenBeforeAddProduct
+                share.sendProductBeforeScreen = PageName.AddProduct //self.screenBeforeAddProduct
                 share.sendProductKondisi = self.kodindisiId
                 share.shouldSkipBack = false
                 share.localId = self.draftMode ? (self.draftProduct?.localId)! : self.uniqueCodeString

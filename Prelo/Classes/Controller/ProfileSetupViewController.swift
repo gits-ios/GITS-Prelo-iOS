@@ -692,7 +692,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         "City" : CDRegion.getRegionNameWithID(userProfileData.regionId)!,
                         "Subdistrict" : self.lblKecamatan.text
                     ]
-                    AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.SetupAccount, data: pdata, previousScreen: self.screenBeforeLogin, loginMethod: self.loginMethod)
+                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SetupAccount, data: pdata, previousScreen: self.screenBeforeLogin, loginMethod: self.loginMethod)
                     
                     // Prelo Analytic - Update User
                     AnalyticManager.sharedInstance.updateUser()

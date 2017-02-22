@@ -2092,7 +2092,7 @@ class ListItemCell : UICollectionViewCell {
                     "Screen" : (self.currentMode != .filter ? (self.currentMode == .shop || self.currentMode == .newShop ? PageName.Shop : PageName.Home ) :  PageName.SearchResult ),
                     "Is Featured" : self.isFeatured
                     ] as [String : Any]
-                AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.LoveProduct, data: pdata, previousScreen: self.parent.previousScreen, loginMethod: loginMethod)
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.LoveProduct, data: pdata, previousScreen: self.parent.previousScreen, loginMethod: loginMethod)
             } else
             {
                 self.newLove = false
@@ -2118,7 +2118,7 @@ class ListItemCell : UICollectionViewCell {
                     "Screen" : (self.currentMode != .filter ? (self.currentMode == .shop || self.currentMode == .newShop ? PageName.Shop : PageName.Home ) :  PageName.SearchResult ),
                     "Is Featured" : self.isFeatured
                     ] as [String : Any]
-                AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.UnloveProduct, data: pdata, previousScreen: self.parent.previousScreen, loginMethod: loginMethod)
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.UnloveProduct, data: pdata, previousScreen: self.parent.previousScreen, loginMethod: loginMethod)
             } else
             {
                 self.newLove = true

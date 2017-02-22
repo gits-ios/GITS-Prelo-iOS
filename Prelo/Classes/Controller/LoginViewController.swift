@@ -241,7 +241,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         "Username" : username,
                         "Username History" : User.UsernameHistory
                     ] as [String : Any]
-                    AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.Login, data: pdata, previousScreen: screenBeforeLogin, loginMethod: loginMethod)
+                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Login, data: pdata, previousScreen: screenBeforeLogin, loginMethod: loginMethod)
                     User.UpdateUsernameHistory(username)
                     User.SetLoginMethod(loginMethod)
                     
@@ -483,7 +483,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                             "Username" : (CDUser.getOne()?.username)!,
                             "Register OS" : "iOS"
                         ]
-                        AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.Register, data: pdata, previousScreen: screenBeforeLogin, loginMethod: "Facebook")
+                        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Register, data: pdata, previousScreen: screenBeforeLogin, loginMethod: "Facebook")
                     }
                     
                     // Check if user have set his account
@@ -721,7 +721,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                             "Username" : (CDUser.getOne()?.username)!,
                             "Register OS" : "iOS"
                         ]
-                        AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.Register, data: pdata, previousScreen: screenBeforeLogin, loginMethod: "Twitter")
+                        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Register, data: pdata, previousScreen: screenBeforeLogin, loginMethod: "Twitter")
                     }
                     
                     // Check if user have set his account

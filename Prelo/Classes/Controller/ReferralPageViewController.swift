@@ -472,7 +472,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                             "Is Succeed" : true,
                             "Failed Reason" : ""
                             ] as [String : Any]
-                        AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.ReferralUsed, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+                        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.RedeemReferralCode, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
                         
                     } else {
                         let reason = json["_message"].string!
@@ -484,7 +484,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                             "Is Succeed" : false,
                             "Failed Reason" : reason
                             ] as [String : Any]
-                        AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.ReferralUsed, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+                        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.RedeemReferralCode, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
                     }
                 } else {
                     let reason = json["_message"].string!
@@ -496,7 +496,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                         "Is Succeed" : false,
                         "Failed Reason" : reason
                         ] as [String : Any]
-                    AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.ReferralUsed, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.RedeemReferralCode, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
                 }
                 self.hideLoading()
             }

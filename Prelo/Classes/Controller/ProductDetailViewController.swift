@@ -1466,7 +1466,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
                     "Screen" : PageName.ProductDetail,
                     "Is Featured" : ((self.product != nil) ? (self.product!.isFeatured) : false)
                     ] as [String : Any]
-                AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.LoveProduct, data: pdata, previousScreen: self.parent!.previousScreen, loginMethod: loginMethod)
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.LoveProduct, data: pdata, previousScreen: self.parent!.previousScreen, loginMethod: loginMethod)
             } else
             {
                 self.isLoved = false
@@ -1498,7 +1498,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
                     "Screen" : PageName.ProductDetail,
                     "Is Featured" : ((self.product != nil) ? (self.product!.isFeatured) : false)
                     ] as [String : Any]
-                AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.UnloveProduct, data: pdata, previousScreen: self.parent!.previousScreen, loginMethod: loginMethod)
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.UnloveProduct, data: pdata, previousScreen: self.parent!.previousScreen, loginMethod: loginMethod)
             } else
             {
                 self.isLoved = true

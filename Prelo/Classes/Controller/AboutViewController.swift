@@ -163,7 +163,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         let pdata = [
             "Username" : CDUser.getOne()?.username
         ]
-        AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.Logout, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Logout, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
         
         // Clear local data
         User.Logout()

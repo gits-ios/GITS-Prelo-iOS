@@ -237,7 +237,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                     "Username" : data["username"].stringValue,
                     "Register OS" : "iOS"
                 ]
-                AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.Register, data: pdata, previousScreen: self.screenBeforeLogin, loginMethod: "Basic")
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Register, data: pdata, previousScreen: self.screenBeforeLogin, loginMethod: "Basic")
                 
                 self.toProfileSetup(data["_id"].string!, userToken : data["token"].string!, userEmail : data["email"].string!, isSocmedAccount : false, loginMethod : "Basic", screenBeforeLogin : self.screenBeforeLogin)
             } else {

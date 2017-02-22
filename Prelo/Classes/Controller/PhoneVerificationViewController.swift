@@ -279,7 +279,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
         let pdata = [
             "Phone" : noHp
         ]
-        AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.PhoneVerified, data: pdata, previousScreen: self.previousScreen, loginMethod: self.loginMethod)
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SetupPhone, data: pdata, previousScreen: self.previousScreen, loginMethod: self.loginMethod)
         
         // Dismiss view
         Constant.showDialog("Success", message: "Verifikasi berhasil")

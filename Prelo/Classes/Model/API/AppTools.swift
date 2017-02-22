@@ -748,8 +748,28 @@ class MixpanelEvent {
     static let Checkout = "Checkout"
     static let AddedProduct = "Added Product"
     static let ChatMarkAsSold = "Chat Mark as Sold"
-    static let LoveProduct = "Love Product"
-    static let UnloveProduct = "Unlove Product"
+}
+
+class PreloAnalyticEvent {
+    // Auth
+    static let Register = "Auth:Register"
+    static let SetupAccount = "Auth:Setup Account"
+    static let SetupPhone = "Auth:Setup Phone"
+    static let Login = "Auth:Login"
+    static let Logout = "Auth:Logout"
+    
+    // Edit Profile
+    static let ChagePhone = "Edit Profile:Change Phone"
+    
+    // Love
+    static let LoveProduct = "Love:Love Product"
+    static let UnloveProduct = "Love:Unlove Product"
+    
+    // Referral
+    static let RedeemReferralCode = "Referral:Redeem Referral Code"
+    
+    // Add Product
+    static let SubmitProduct = "Add Product:Submit Product"
 }
 
 extension GAI {
