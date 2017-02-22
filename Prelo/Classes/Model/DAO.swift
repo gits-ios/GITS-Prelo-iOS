@@ -31,6 +31,8 @@ open class User : NSObject
     fileprivate static var TokenKey = "user_token"
     fileprivate static var IdKey = "user_id"
     fileprivate static var EmailKey = "user_email"
+    fileprivate static var LoginMethodKey = "login_method"
+    fileprivate static var UsernameHistoryKey = "username_history" // never delete, just append
     
     fileprivate static var badgeCount = 0
     
@@ -131,6 +133,7 @@ open class User : NSObject
         
         UserDefaults.standard.removeObject(forKey: User.IdKey)
         UserDefaults.standard.removeObject(forKey: User.TokenKey)
+        UserDefaults.standard.removeObject(forKey: User.LoginMethodKey)
         UserDefaults.standard.synchronize()
         
         UserDefaults.standard.removeObject(forKey: "pathtoken")
@@ -163,6 +166,48 @@ open class User : NSObject
     
     static func getNotifCount() -> Int {
         return badgeCount
+    }
+    
+    static var LoginMethod : String?
+    {
+        let s = UserDefaults.standard.string(forKey: User.LoginMethodKey)
+        return s
+    }
+    
+    static func SetLoginMethod(_ loginMethod : String?)
+    {
+        UserDefaults.standard.set(loginMethod, forKey: User.LoginMethodKey)
+        UserDefaults.standard.synchronize()
+    }
+    
+    static var UsernameHistory : Array<String>
+    {
+        let s = UserDefaults.standard.string(forKey: User.UsernameHistoryKey)
+        var r: Array<String> = []
+        if (s != nil) {
+            r = s!.components(separatedBy: "; ")
+        }
+        
+        let idxToRemove = r.index(of: "")
+        if (idxToRemove != nil) {
+            r.remove(at: idxToRemove!)
+        }
+        
+        return r
+    }
+    
+    static func UpdateUsernameHistory(_ username : String?)
+    {
+        let s = UserDefaults.standard.string(forKey: User.UsernameHistoryKey) ?? ""
+        var n = username!
+        if !s.contains(n) {
+            n = s + "; " + username!
+        } else if s != "" {
+            n = s
+        }
+        
+        UserDefaults.standard.set(n, forKey: User.UsernameHistoryKey)
+        UserDefaults.standard.synchronize()
     }
 }
 

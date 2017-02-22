@@ -480,6 +480,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         let a = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdAbout) as! AboutViewController
         a.userRelatedDelegate = self.previousController as? UserRelatedDelegate
         a.isShowLogout = User.IsLoggedIn
+        a.previousScreen = PageName.DashboardLoggedIn
         self.previousController?.navigationController?.pushViewController(a, animated: true)
     }
     

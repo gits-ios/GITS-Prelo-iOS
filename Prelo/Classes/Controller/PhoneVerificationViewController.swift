@@ -260,6 +260,8 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
         {
             noHp = p
         }
+        
+        /*
         // Mixpanel
         let sp = [
             "Phone" : noHp,
@@ -271,6 +273,13 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
         ]
         Mixpanel.sharedInstance().people.set(p)
         Mixpanel.trackEvent(MixpanelEvent.PhoneVerified)
+         */
+        
+        // Prelo Analytic
+        let pdata = [
+            "Phone" : noHp
+        ]
+        AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.PhoneVerified, data: pdata, previousScreen: self.previousScreen, loginMethod: self.loginMethod)
         
         // Dismiss view
         Constant.showDialog("Success", message: "Verifikasi berhasil")

@@ -17,7 +17,7 @@ class AnalyticManager: NSObject {
     let devAnalyticURL = "http://analytics.dev.prelo.id"
     let prodAnalyticURL = "https://analytics.prelo.co.id"
     
-    var isShowDialog = true
+    var isShowDialog = false
     
     var PreloAnalyticBaseUrl : String {
         return (AppTools.isDev ? devAnalyticURL : prodAnalyticURL)

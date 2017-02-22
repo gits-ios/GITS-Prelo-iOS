@@ -152,9 +152,18 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
             }
         }
         
+        /*
         // Mixpanel event
         let p = ["User ID" : ((User.Id != nil) ? User.Id! : "")]
         Mixpanel.trackEvent(MixpanelEvent.Logout, properties: p)
+         */
+        
+        // Prelo Analytic
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Username" : CDUser.getOne()?.username
+        ]
+        AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.Logout, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
         
         // Clear local data
         User.Logout()
