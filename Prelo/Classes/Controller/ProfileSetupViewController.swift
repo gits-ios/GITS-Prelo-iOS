@@ -697,16 +697,6 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                     // Prelo Analytic - Update User
                     AnalyticManager.sharedInstance.updateUser()
                     
-                    // TODO: - Prelo Analytics - Referral use
-                    if userReferral != "" {
-                        let pdata2 = [
-                            "Referral Code Used" : userReferral,
-                            "Is Succeed" : true,
-                            "Failed Reason" : ""
-                        ] as [String : Any]
-                        AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.ReferralUsed, data: pdata2, previousScreen: self.screenBeforeLogin, loginMethod: self.loginMethod)
-                    }
-                    
                     let phoneVerificationVC = Bundle.main.loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil)?.first as! PhoneVerificationViewController
                     phoneVerificationVC.userRelatedDelegate = self.userRelatedDelegate
                     phoneVerificationVC.userId = self.userId

@@ -393,6 +393,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     
     func launchFreeVoucher() {
         let referralPageVC = Bundle.main.loadNibNamed(Tags.XibNameReferralPage, owner: nil, options: nil)?.first as! ReferralPageViewController
+        referralPageVC.previousScreen = PageName.DashboardLoggedIn
         self.previousController!.navigationController?.pushViewController(referralPageVC, animated: true)
     }
     

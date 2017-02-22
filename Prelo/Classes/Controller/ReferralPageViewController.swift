@@ -437,9 +437,10 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             self.showLoading()
             let deviceId = UIDevice.current.identifierForVendor!.uuidString
             // API Migrasi
-        let _ = request(APIMe.setReferral(referralCode: self.fieldKodeReferral.text!, deviceId: deviceId)).responseJSON {resp in
+            let _ = request(APIMe.setReferral(referralCode: self.fieldKodeReferral.text!, deviceId: deviceId)).responseJSON {resp in
+                let json = JSON(resp.result.value!)
+                
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Submit Referral Bonus")) {
-                    let json = JSON(resp.result.value!)
                     let isSuccess = json["_data"].bool!
                     if (isSuccess) { // Berhasil
                         Constant.showDialog("Success", message: "Kode referral berhasil ditambahkan")
@@ -451,6 +452,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                         // Sembunyikan field
                         self.vwSubmit.isHidden = true
                         
+                        /*
                         // Mixpanel
                         let p = [
                             "Referral Code Used" : self.fieldKodeReferral.text!
@@ -461,7 +463,40 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                             "Activation Screen" : "Voucher"
                         ]
                         Mixpanel.trackEvent(MixpanelEvent.ReferralUsed, properties: pt)
+                         */
+                        
+                        // Prelo Analytics - Referral use
+                        let loginMethod = User.LoginMethod ?? ""
+                        let pdata = [
+                            "Referral Code Used" : self.fieldKodeReferral.text!,
+                            "Is Succeed" : true,
+                            "Failed Reason" : ""
+                            ] as [String : Any]
+                        AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.ReferralUsed, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+                        
+                    } else {
+                        let reason = json["_message"].string!
+                        
+                        // Prelo Analytics - Referral use
+                        let loginMethod = User.LoginMethod ?? ""
+                        let pdata = [
+                            "Referral Code Used" : self.fieldKodeReferral.text!,
+                            "Is Succeed" : false,
+                            "Failed Reason" : reason
+                            ] as [String : Any]
+                        AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.ReferralUsed, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
                     }
+                } else {
+                    let reason = json["_message"].string!
+                    
+                    // Prelo Analytics - Referral use
+                    let loginMethod = User.LoginMethod ?? ""
+                    let pdata = [
+                        "Referral Code Used" : self.fieldKodeReferral.text!,
+                        "Is Succeed" : false,
+                        "Failed Reason" : reason
+                        ] as [String : Any]
+                    AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.ReferralUsed, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
                 }
                 self.hideLoading()
             }
