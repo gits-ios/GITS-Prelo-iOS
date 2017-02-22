@@ -107,6 +107,12 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
     }
     
     func toClearCache(isButton : Bool) {
+        // Get cart products
+        let cartProducts = CartProduct.getAll(User.EmailOrEmptyString)
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        let notifListener = delegate.preloNotifListener
+        notifListener?.increaseCartCount(-cartProducts.count)
+        
         disableBtnClearCache()
         //UIImageView.sharedImageCache().clearAll()
         
@@ -192,10 +198,16 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
             notifListener?.setNewNotifCount(0)
         }
         
+        if (notifListener?.cartCount != 0) {
+            notifListener?.setCartCount(0)
+        }
+        
+        /*
         // Reset mixpanel
         Mixpanel.sharedInstance().reset()
         let uuid = UIDevice.current.identifierForVendor!.uuidString
         Mixpanel.sharedInstance().identify(uuid)
+         */
         
         // MoEngage reset
         MoEngage.sharedInstance().resetUser()

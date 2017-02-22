@@ -160,7 +160,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let notifListener = appDelegate.preloNotifListener
-        notifListener?.setCartCount(0)
         
         // Get cart products
         cartProducts = CartProduct.getAll(User.EmailOrEmptyString)
@@ -170,6 +169,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             tableView.isHidden = true
             loadingCart.isHidden = true
             captionNoItem.isHidden = false
+            
+            notifListener?.setCartCount(0)
         } else {
             if (user == nil) { // User isn't logged in
                 tableView.isHidden = true
@@ -179,7 +180,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 synchCart()
             }
             
-            notifListener?.increaseCartCount(cartProducts.count)
+            notifListener?.setCartCount(cartProducts.count)
         }
     }
     
