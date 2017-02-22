@@ -1090,6 +1090,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                     let p = Product.instance(data)
                     let productDetailVC = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
                     productDetailVC.product = p!
+                    productDetailVC.previousScreen = PageName.InboxDetail
                     self.navigationController?.pushViewController(productDetailVC, animated: true)
                 }
             }
@@ -1102,6 +1103,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 let shopPage = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
                 shopPage.currentMode = .shop
                 shopPage.shopId = tawarItem.theirId
+                shopPage.previousScreen = PageName.InboxDetail
                 self.navigationController?.pushViewController(shopPage, animated: true)
             } else {
                 let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController

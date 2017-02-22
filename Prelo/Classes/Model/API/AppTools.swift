@@ -683,6 +683,8 @@ class PageName {
     static let BarangExpired = "Barang Expired"
     static let Achievement = "Achievements"
     static let ShopAchievements = "Shop Achievements"
+    static let ProductLovelist = "Tawar Lovelist"
+    static let SearchResult = "Search Result"
 }
 
 extension Mixpanel {
@@ -746,6 +748,8 @@ class MixpanelEvent {
     static let Checkout = "Checkout"
     static let AddedProduct = "Added Product"
     static let ChatMarkAsSold = "Chat Mark as Sold"
+    static let LoveProduct = "Love Product"
+    static let UnloveProduct = "Unlove Product"
 }
 
 extension GAI {

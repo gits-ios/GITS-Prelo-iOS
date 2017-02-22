@@ -299,6 +299,7 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
             l.isBackToFltrSearch = true
             l.fltrBrands = selectedBrands
             l.fltrSortBy = "recent"
+            l.previousScreen = PageName.Search
             self.navigationController?.pushViewController(l, animated: true)
         }
     }

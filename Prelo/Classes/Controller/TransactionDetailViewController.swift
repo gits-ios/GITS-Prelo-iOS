@@ -1652,6 +1652,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     let p = Product.instance(data)
                     let productDetailVC = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
                     productDetailVC.product = p!
+                    productDetailVC.previousScreen = PageName.TransactionDetail
                     self.navigationController?.pushViewController(productDetailVC, animated: true)
                 }
                 self.hideLoading()

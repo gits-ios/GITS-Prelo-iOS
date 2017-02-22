@@ -469,6 +469,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                     // Goto product detail
                     let productDetailVC = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
                     productDetailVC.product  = p
+                    productDetailVC.previousScreen = PageName.Notification
                     self.navigationController?.pushViewController(productDetailVC, animated: true)
                 } else {
                     Constant.showDialog("Notifikasi - Percakapan", message: "Oops, notifikasi komentar tidak bisa dibuka")

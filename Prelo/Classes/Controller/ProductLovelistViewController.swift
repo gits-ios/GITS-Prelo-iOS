@@ -56,12 +56,15 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
 //        self.title = "Product Lovelist"
     }
     
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(animated)
-//        
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.ProductLovelist)
+        
 //        // Refresh table for the first time
 //        self.refreshTable()
-//    }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -207,10 +210,12 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
             let listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
             listItemVC.currentMode = .shop
             listItemVC.shopId = self.productLovelistItems[indexPath.row].id
+            listItemVC.previousScreen = PageName.ProductLovelist
             self.navigationController?.pushViewController(listItemVC, animated: true)
         } else {
             let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
             storePageTabBarVC.shopId = self.productLovelistItems[indexPath.row].id
+            storePageTabBarVC.previousScreen = PageName.ProductLovelist
             self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
         }
     }

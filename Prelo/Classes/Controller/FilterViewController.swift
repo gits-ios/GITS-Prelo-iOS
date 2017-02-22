@@ -478,6 +478,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
             l.fltrSizes = fltrSizes
             l.fltrSortBy = self.SortByDataValue[self.selectedIdxSortBy]
             l.fltrLocation = [self.locationName, self.locationId, self.locationType.string]
+            l.previousScreen = PageName.Search
             self.navigationController?.pushViewController(l, animated: true)
         }
     }

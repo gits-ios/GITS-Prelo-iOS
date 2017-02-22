@@ -415,6 +415,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 l.isBackToFltrSearch = true
                 l.fltrCategId = self.currentCategoryId
                 l.fltrSortBy = "recent"
+                l.previousScreen = PageName.Search
                 if let searchText = self.searchBar.text {
                     l.fltrName = searchText
                 }
@@ -436,12 +437,14 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 if selectedProduct.isAggregate == false && selectedProduct.isAffiliate == false {
                     let d = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
                     d.product = foundItems[(indexPath as NSIndexPath).row]
+                    d.previousScreen = PageName.Search
                     self.navigationController?.pushViewController(d, animated: true)
                 } else if selectedProduct.isAffiliate == false {
                     let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
                     l.currentMode = .filter
                     l.fltrAggregateId = selectedProduct.id
                     l.fltrName = ""
+                    l.previousScreen = PageName.Search
                     self.navigationController?.pushViewController(l, animated: true)
                 } else {
                     let urlString = selectedProduct.json["affiliate_data"]["affiliate_url"].stringValue
@@ -475,10 +478,12 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                     d.currentMode = .shop
                     d.shopName = u.username
                     d.shopId = u.id
+                    d.previousScreen = PageName.Search
                     self.navigationController?.pushViewController(d, animated: true)
                 } else {
                     let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
                     storePageTabBarVC.shopId = u.id
+                    storePageTabBarVC.previousScreen = PageName.Search
                     self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
                 }
             }
@@ -488,6 +493,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             l.isBackToFltrSearch = true
             l.fltrCategId = self.currentCategoryId
             l.fltrSortBy = "recent"
+            l.previousScreen = PageName.Search
             var fltrBrands : [String : String] = [:]
             if ((indexPath as NSIndexPath).row == foundBrands.count) {
                 for i in 0...foundBrands.count - 1 {
@@ -622,6 +628,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         l.currentMode = .filter
         l.isBackToFltrSearch = true
         l.fltrSortBy = "recent"
+        l.previousScreen = PageName.Search
         self.navigationController?.pushViewController(l, animated: true)
         
         /* FOR MORE LOGICAL UX

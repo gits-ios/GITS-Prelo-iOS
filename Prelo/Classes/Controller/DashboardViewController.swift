@@ -375,10 +375,12 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 l.currentMode = .shop
                 l.shopName = me.username
                 l.shopId = me.id
+                l.previousScreen = PageName.DashboardLoggedIn
                 self.navigationController?.pushViewController(l, animated: true)
             } else {
                 let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
                 storePageTabBarVC.shopId = me.id
+                storePageTabBarVC.previousScreen = PageName.DashboardLoggedIn
                 self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
             }
         }

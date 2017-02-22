@@ -141,6 +141,7 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
                 l.isBackToFltrSearch = true
                 l.fltrCategId = selectedCategory!["_id"].stringValue
                 l.fltrSortBy = "recent"
+                l.previousScreen = PageName.Search
                 self.navigationController?.pushViewController(l, animated: true)
             }
             return
@@ -325,6 +326,7 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
                     l.isBackToFltrSearch = true
                     l.fltrCategId = selectedCategory!["_id"].stringValue
                     l.fltrSortBy = "recent"
+                    l.previousScreen = PageName.Search
                     self.navigationController?.pushViewController(l, animated: true)
                 }
             } else {

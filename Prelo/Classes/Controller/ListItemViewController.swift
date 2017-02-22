@@ -1838,6 +1838,10 @@ class ListItemCell : UICollectionViewCell {
     var cid : String?
     var sid : String?
     
+    var sname : String = "" // seller name
+    var isFeatured : Bool = false
+    var currentMode : ListItemMode = .filter
+    
     var parent : BaseViewController!
     
     override func awakeFromNib() {
@@ -1888,6 +1892,10 @@ class ListItemCell : UICollectionViewCell {
         self.pid = obj["_id"].string
         self.cid = obj["category_id"].string
         self.sid = obj["seller_id"].string
+        
+        self.sname = ""
+        self.isFeatured = product.isFeatured
+        self.currentMode = currentMode
         
         avatar.contentMode = .scaleAspectFill
         avatar.layoutIfNeeded()
@@ -2059,6 +2067,7 @@ class ListItemCell : UICollectionViewCell {
 
     func callApiLove()
     {
+        /*
         // Mixpanel
         let pt = [
             "Product Name" : self.captionTitle.text,
@@ -2066,6 +2075,17 @@ class ListItemCell : UICollectionViewCell {
             "Seller Id" : self.sid
         ]
         Mixpanel.trackEvent(MixpanelEvent.ToggledLikeProduct, properties: pt)
+         */
+        
+        // Prelo Analytic - Love
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Product Id": self.pid!,
+            "Seller Username" : self.sname,
+            "Screen" : (self.currentMode != .filter ? PageName.Home : PageName.SearchResult),
+            "Is Featured" : self.isFeatured
+            ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.LoveProduct, data: pdata, previousScreen: self.parent.previousScreen, loginMethod: loginMethod)
         
         // API Migrasi
         let _ = request(APIProduct.love(productID: self.pid!)).responseJSON {resp in
@@ -2083,6 +2103,16 @@ class ListItemCell : UICollectionViewCell {
     
     func callApiUnlove()
     {
+        // Prelo Analytic - UnLove
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Product Id": self.pid!,
+            "Seller Username" : self.sname,
+            "Screen" : (self.currentMode != .filter ? PageName.Home : PageName.SearchResult),
+            "Is Featured" : self.isFeatured
+            ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.UnloveProduct, data: pdata, previousScreen: self.parent.previousScreen, loginMethod: loginMethod)
+        
         // API Migrasi
         let _ = request(APIProduct.unlove(productID: self.pid!)).responseJSON {resp in
             print(resp)

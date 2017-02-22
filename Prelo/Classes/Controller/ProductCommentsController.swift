@@ -265,11 +265,13 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
                 vc.currentMode = .shop
                 vc.shopId = userId
+                vc.previousScreen = PageName.ProductDetailComment
                 
                 self.navigationController?.pushViewController(vc, animated: true)
             } else {
                 let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
                 storePageTabBarVC.shopId = userId
+                storePageTabBarVC.previousScreen = PageName.ProductDetailComment
                 self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
             }
         }

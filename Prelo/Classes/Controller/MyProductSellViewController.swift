@@ -407,6 +407,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
             
             d.delegate = self.delegate
             
+            d.previousScreen = PageName.MyProducts
+            
             self.previousController?.navigationController?.pushViewController(d, animated: true)
         }
     }

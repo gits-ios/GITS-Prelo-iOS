@@ -740,11 +740,13 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     let vc = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
                     vc.currentMode = .shop
                     vc.shopId = userId
+                    vc.previousScreen = PageName.ProductDetail
                     
                     self.navigationController?.pushViewController(vc, animated: true)
                 } else {
                     let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
                     storePageTabBarVC.shopId = userId
+                    storePageTabBarVC.previousScreen = PageName.ProductDetail
                     self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
                 }
             }
@@ -826,10 +828,13 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     d.shopId = name
                 }
                 
+                d.previousScreen = PageName.ProductDetail
+                
                 self.navigationController?.pushViewController(d, animated: true)
             } else {
                 let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
                 storePageTabBarVC.shopId = detail?.json["_data"]["seller"]["_id"].string
+                storePageTabBarVC.previousScreen = PageName.ProductDetail
                 self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
             }
         }
@@ -845,6 +850,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         l.currentMode = .filter
         l.fltrSortBy = "recent"
         l.fltrCategId = categoryID
+        l.previousScreen = PageName.ProductDetail
         self.navigationController?.pushViewController(l, animated: true)
     }
     
@@ -853,6 +859,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         l.currentMode = .filter
         l.fltrSortBy = "recent"
         l.fltrBrands = [brandName : brandId]
+        l.previousScreen = PageName.ProductDetail
         self.navigationController?.pushViewController(l, animated: true)
     }
     
@@ -1308,7 +1315,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     var shareTwitter : () -> () = {}
     var productProfit : Int = 90
     
-    var parent : UIViewController?
+    var parent : BaseViewController?
     
     var product : Product?
     var detail : ProductDetail?
@@ -1421,6 +1428,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     
     func callApiLove()
     {
+        /*
         // Mixpanel
         let pt = [
             "Product Name" : ((product != nil) ? (product!.name) : ""),
@@ -1430,6 +1438,17 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
             "Seller Name" : ((detail != nil) ? (detail!.theirName) : "")
         ]
         Mixpanel.trackEvent(MixpanelEvent.ToggledLikeProduct, properties: pt)
+         */
+        
+        // Prelo Analytic - Love
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Product Id": ((product != nil) ? (product!.id) : ""),
+            "Seller Username" : ((product != nil) ? ((detail?.json)!["seller"]["username"].stringValue) : ""),
+            "Screen" : PageName.ProductDetail,
+            "Is Featured" : ((product != nil) ? (product!.isFeatured) : "")
+            ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.LoveProduct, data: pdata, previousScreen: self.parent!.previousScreen, loginMethod: loginMethod)
         
         if (isLoved)
         {
@@ -1458,6 +1477,16 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     
     func callApiUnlove()
     {
+        // Prelo Analytic - UnLove
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Product Id": ((product != nil) ? (product!.id) : ""),
+            "Seller Username" : ((product != nil) ? ((detail?.json)!["seller"]["username"].stringValue) : ""),
+            "Screen" : PageName.ProductDetail,
+            "Is Featured" : ((product != nil) ? (product!.isFeatured) : "")
+            ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.UnloveProduct, data: pdata, previousScreen: self.parent!.previousScreen, loginMethod: loginMethod)
+        
         isLoved = false
         loveCount-=1
         setupLoveView()

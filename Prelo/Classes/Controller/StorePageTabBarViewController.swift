@@ -82,6 +82,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         
         listItemVC?.currentMode = .newShop
         listItemVC?.delegate = self
+        listItemVC?.previousScreen = self.previousScreen
         
         shopReviewVC = Bundle.main.loadNibNamed(Tags.XibNameShopReview, owner: nil, options: nil)?.first as? ShopReviewViewController
         shopReviewVC?.currentMode = .inject

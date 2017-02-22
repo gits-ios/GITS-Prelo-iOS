@@ -44,7 +44,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
 
     var userRelatedDelegate : UserRelatedDelegate?
     var previousController : UIViewController?
-    var previousScreen : String!
+    var previousScreen : String! = ""
     var badgeView : GIBadgeView!
     fileprivate var _titleText : String?
     var titleText : String? {
