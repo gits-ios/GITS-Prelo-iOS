@@ -400,6 +400,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         // API Migrasi
         let _ = request(APITransaction.confirmPayment(bankFrom: "", bankTo: self.lblBankTujuan.text!, name: "", nominal: Int(fldNominalTrf.text!)!, orderId: self.transactionId, timePaid: timePaidString)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Konfirmasi Bayar")) {
+                /*
                 // Mixpanel
                 let pt = [
                     "Order ID" : self.orderID,
@@ -408,6 +409,21 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
                     "Amount" : self.fldNominalTrf.text!
                 ]
                 Mixpanel.trackEvent(MixpanelEvent.PaymentClaimed, properties: pt)
+                */
+                
+                // Prelo Analytic - Claim Payment
+                let loginMethod = User.LoginMethod ?? ""
+                let pdata = [
+                    "Order ID" : self.orderID,
+                    "Destination Bank" : self.lblBankTujuan.text!,
+                    "Amount" : self.fldNominalTrf.text!
+                    ] as [String : Any]
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ClaimPayment, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+                
+                // reduce badge troli
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let notifListener = appDelegate.preloNotifListener
+                notifListener?.increaseCartCount(-1)
                 
                 Constant.showDialog("Konfirmasi Bayar", message: "Terimakasih! Pembayaran kamu akan segera diverifikasi")
                 self.navigationController?.popToRootViewController(animated: true)

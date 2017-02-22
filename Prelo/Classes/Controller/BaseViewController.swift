@@ -246,8 +246,9 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     // MARK: - Navigation
     
     func launchCart() {
-        let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! BaseViewController
+        let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
         cart.previousController = self
+        cart.previousScreen = PageName.Home
         self.navigationController?.pushViewController(cart, animated: true)
     }
     

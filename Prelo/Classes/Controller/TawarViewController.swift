@@ -1123,7 +1123,11 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         }
         
         if (success) {
-            self.performSegue(withIdentifier: "segCart", sender: nil)
+//            self.performSegue(withIdentifier: "segCart", sender: nil)
+            let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
+            cart.previousController = self
+            cart.previousScreen = PageName.InboxDetail
+            self.navigationController?.pushViewController(cart, animated: true)
         }
     }
     

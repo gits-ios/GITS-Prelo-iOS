@@ -773,6 +773,10 @@ class PreloAnalyticEvent {
     static let SaveAsDraft = "Add Product:Save As Draft"
     static let ShareProduct = "Add Product:Share Product"
     static let UploadSuccess = "Add Product:Upload Success"
+    
+    // Purchase
+    static let Checkout = "Purchase:Checkout"
+    static let ClaimPayment = "Purchase:Claim Payment"
 }
 
 extension GAI {

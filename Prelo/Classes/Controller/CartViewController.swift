@@ -1107,7 +1107,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 
                 // Send tracking data before navigate
                 if (self.checkoutResult != nil) {
-                    // Mixpanel
                     var pName : String? = ""
                     var rName : String? = ""
                     if let u = CDUser.getOne()
@@ -1121,6 +1120,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             rName = ""
                         }
                     }
+                    
+                    // Prelo Analytic - Checkout - Item Data
+                    var itemsObject : Array<[String : Any]> = []
                     
                     var items : [String] = []
                     var itemsId : [String] = []
@@ -1147,9 +1149,24 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         let cPrice = json["price"].intValue * json["commission"].intValue / 100
                         itemsCommissionPrice.append(cPrice)
                         totalCommissionPrice += cPrice
+                        
+                        // Prelo Analytic - Checkout - Item Data
+                        var curItem : [String : Any] = [
+                            "Product ID" : json["product_id"].stringValue,
+                            "Seller Username" : json["seller_username"].stringValue,
+                            "Price" : json["price"].intValue,
+                            "Commission Percentage" : json["commission"].intValue,
+                            "Commission Price" : cPrice,
+                            "Free Shipping" : (json["free_ongkir"].intValue == 1 ? true : false),
+                            "Category ID" : json["category_id"].stringValue
+                        ]
+                        itemsObject.append(curItem)
                     }
                     
                     let orderId = self.checkoutResult!["order_id"].stringValue
+                    
+                    /*
+                    // MixPanel
                     let pt = [
                         "Order ID" : orderId,
                         "Items" : items,
@@ -1167,6 +1184,16 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         "Balance Used" : 0
                         ] as [String : Any]
                     Mixpanel.trackEvent(MixpanelEvent.Checkout, properties: pt as [AnyHashable: Any])
+                    */
+                    
+                    // Prelo Analytic - Checkout
+                    let loginMethod = User.LoginMethod ?? ""
+                    let pdata = [
+                        "Order ID" : orderId,
+                        "Items" : itemsObject,
+                        "Total Price" : totalPrice
+                        ] as [String : Any]
+                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Checkout, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
                     
                     // Answers
                     if (AppTools.IsPreloProduction) {
@@ -1291,6 +1318,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         o.transactionId = (self.checkoutResult?["transaction_id"].string)!
         o.isBackTwice = true
         o.isShowBankBRI = self.isShowBankBRI
+        o.previousScreen = PageName.Checkout
         
         if (self.checkoutResult?["expire_time"].string) != nil {
             o.date = (self.checkoutResult?["expire_time"].string)! // expire_time not found

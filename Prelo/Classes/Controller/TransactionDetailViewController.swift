@@ -1787,6 +1787,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 orderConfirmVC.isShowBankBRI = self.isShowBankBRI
                 orderConfirmVC.date = self.trxDetail!.expireTime
                 orderConfirmVC.remaining = self.trxDetail!.remainingTime
+                orderConfirmVC.previousScreen = PageName.TransactionDetail
                 self.navigationController?.pushViewController(orderConfirmVC, animated: true)
             }
         }
@@ -1888,7 +1889,11 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 if (!success) {
                     Constant.showDialog("Add to Cart", message: "Terdapat kesalahan saat menambahkan barang ke keranjang belanja")
                 }
-                self.performSegue(withIdentifier: "segCart", sender: nil)
+//                self.performSegue(withIdentifier: "segCart", sender: nil)
+                let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
+                cart.previousController = self
+                cart.previousScreen = PageName.TransactionDetail
+                self.navigationController?.pushViewController(cart, animated: true)
             }
         }
 

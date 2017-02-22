@@ -871,7 +871,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     @IBAction func addToCart(_ sender: UIButton) {
         if (alreadyInCart) {
-            self.performSegue(withIdentifier: "segCart", sender: nil)
+//            self.performSegue(withIdentifier: "segCart", sender: nil)
+            let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
+            cart.previousController = self
+            cart.previousScreen = PageName.ProductDetail
+            self.navigationController?.pushViewController(cart, animated: true)
             return
         }
         
@@ -879,7 +883,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             Constant.showDialog("Failed", message: "Gagal Menyimpan")
         } else {
             setupView()
-            self.performSegue(withIdentifier: "segCart", sender: nil)
+//            self.performSegue(withIdentifier: "segCart", sender: nil)
+            let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
+            cart.previousController = self
+            cart.previousScreen = PageName.ProductDetail
+            self.navigationController?.pushViewController(cart, animated: true)
         }
     }
         
