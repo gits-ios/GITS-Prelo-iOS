@@ -1554,7 +1554,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func launchDetail() {
-        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: NotificationName.ShowProduct), object: self.selectedProduct)
+        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: NotificationName.ShowProduct), object: [ self.selectedProduct, (currentMode != .filter ? PageName.Home : (currentMode == .shop || currentMode == .newShop ? PageName.Shop : PageName.SearchResult ) ) ])
     }
     
     // MARK: - Other functions
@@ -2080,9 +2080,9 @@ class ListItemCell : UICollectionViewCell {
         // Prelo Analytic - Love
         let loginMethod = User.LoginMethod ?? ""
         let pdata = [
-            "Product Id": self.pid!,
-            "Seller Username" : self.sname,
-            "Screen" : (self.currentMode != .filter ? PageName.Home : PageName.SearchResult),
+            "Product ID": self.pid!,
+            "Seller ID" : self.sid!,
+            "Screen" : (self.currentMode != .filter ? PageName.Home : (currentMode == .shop || currentMode == .newShop ? PageName.Shop : PageName.SearchResult ) ),
             "Is Featured" : self.isFeatured
             ] as [String : Any]
         AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.LoveProduct, data: pdata, previousScreen: self.parent.previousScreen, loginMethod: loginMethod)
@@ -2106,8 +2106,8 @@ class ListItemCell : UICollectionViewCell {
         // Prelo Analytic - UnLove
         let loginMethod = User.LoginMethod ?? ""
         let pdata = [
-            "Product Id": self.pid!,
-            "Seller Username" : self.sname,
+            "Product ID": self.pid!,
+            "Seller ID" : self.sid!,
             "Screen" : (self.currentMode != .filter ? PageName.Home : PageName.SearchResult),
             "Is Featured" : self.isFeatured
             ] as [String : Any]

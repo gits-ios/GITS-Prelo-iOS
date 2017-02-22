@@ -242,14 +242,22 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         }
     }
     
-    func showProduct(_ sender : AnyObject) {
+    func showProduct(_ sender : Any) {
         let n : Foundation.Notification = sender as! Foundation.Notification
+        let p = n.object as? Array<AnyObject> // for handle with previous page name - [Product, String]
+        
         let d : ProductDetailViewController = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+        d.previousScreen = p?[1] as! String
         let nav = UINavigationController(rootViewController: d)
         nav.navigationBar.isTranslucent = false
         nav.navigationBar.barTintColor = Theme.navBarColor
         nav.navigationBar.tintColor = UIColor.white
-        d.product = n.object as? Product
+        if let pro = p?[0] as? Product {
+            d.product = pro
+        } else if let pro = n.object as? Product {
+            d.product = pro
+        }
+
         self.navigationController?.pushViewController(d, animated: true)
     }
     

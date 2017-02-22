@@ -1443,8 +1443,8 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         // Prelo Analytic - Love
         let loginMethod = User.LoginMethod ?? ""
         let pdata = [
-            "Product Id": ((product != nil) ? (product!.id) : ""),
-            "Seller Username" : ((product != nil) ? ((detail?.json)!["seller"]["username"].stringValue) : ""),
+            "Product ID": ((product != nil) ? (product!.id) : ""),
+            "Seller ID" : ((product != nil) ? (product!.json["seller_id"].string) : ""),
             "Screen" : PageName.ProductDetail,
             "Is Featured" : ((product != nil) ? (product!.isFeatured) : "")
             ] as [String : Any]
@@ -1481,7 +1481,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         let loginMethod = User.LoginMethod ?? ""
         let pdata = [
             "Product Id": ((product != nil) ? (product!.id) : ""),
-            "Seller Username" : ((product != nil) ? ((detail?.json)!["seller"]["username"].stringValue) : ""),
+            "Seller ID" : ((product != nil) ? (product!.json["seller_id"].string) : ""),
             "Screen" : PageName.ProductDetail,
             "Is Featured" : ((product != nil) ? (product!.isFeatured) : "")
             ] as [String : Any]
