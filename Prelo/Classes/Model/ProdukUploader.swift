@@ -54,6 +54,13 @@ class ProdukUploader: NSObject {
             self.mixpanelParam = mixpanelParam
         }
         
+        init(produkParam : [String : String?], produkImages : [AnyObject], preloAnalyticParam : [AnyHashable: Any])
+        {
+            self.param = produkParam
+            self.images = produkImages
+            self.mixpanelParam = preloAnalyticParam
+        }
+        
         var param : [String : String?] = [:]
         var images : [AnyObject] = []
         var mixpanelParam : [AnyHashable: Any] = [:]
@@ -117,8 +124,14 @@ class ProdukUploader: NSObject {
                 print(res)
                 self.currentRetryCount = 0
                 
+                /*
                 // Mixpanel
                 Mixpanel.trackEvent(MixpanelEvent.AddedProduct, properties: p.mixpanelParam)
+                 */
+                
+                // Prelo Analytic - Upload Success
+                let loginMethod = User.LoginMethod ?? ""
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.UploadSuccess, data: p.mixpanelParam as! [String : Any], previousScreen: PageName.ShareAddedProduct, loginMethod: loginMethod)
                 
                 var queue = self.getQueue()
                 if (queue.count > 1)

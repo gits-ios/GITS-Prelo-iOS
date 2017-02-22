@@ -352,6 +352,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
     
     func sendProduct(_ instagram : String = "0", facebook : String = "0", twitter : String = "0")
     {
+        /*
         self.sendProductParam["instagram"] = instagram
         self.sendProductParam["facebook"] = facebook
         self.sendProductParam["twitter"] = twitter
@@ -413,11 +414,24 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
             "Time" : Date().isoFormatted,
             "platform_sent_from" : "ios"
         ] as [String : Any]
+         */
+        
+        // Prelo Analytic - Share Product
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Product Name" : productName,
+            "Commission Percentage" : Int(self.chargePercent),
+            "Facebook" : (facebook != "0" ? true : false),
+            "Twitter" : (twitter != "0" ? true : false),
+            "Instagram" : (instagram != "0" ? true : false),
+        ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ShareProduct, data: pdata, previousScreen: self.sendProductBeforeScreen, loginMethod: loginMethod)
         
         // Add product to product uploader
         // DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default)
         DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
-            AppDelegate.Instance.produkUploader.addToQueue(ProdukUploader.ProdukLokal(produkParam: self.sendProductParam, produkImages: self.sendProductImages, mixpanelParam: pt as [AnyHashable: Any]))
+//            AppDelegate.Instance.produkUploader.addToQueue(ProdukUploader.ProdukLokal(produkParam: self.sendProductParam, produkImages: self.sendProductImages, mixpanelParam: pt as [AnyHashable: Any]))
+            AppDelegate.Instance.produkUploader.addToQueue(ProdukUploader.ProdukLokal(produkParam: self.sendProductParam, produkImages: self.sendProductImages, preloAnalyticParam: pdata as [AnyHashable: Any]))
             DispatchQueue.main.async(execute: {
                 if (AppDelegate.Instance.produkUploader.getQueue().count > 0) {
                     
