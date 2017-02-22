@@ -27,7 +27,7 @@ class AnalyticManager: NSObject {
     let skeletonData =  [
         "OS" : UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")",
         "App version" : CDVersion.getOne()!.appVersion,
-        "Device Model" : (AppTools.isSimulator ? "Simulator" : UIDevice.current.model),
+        "Device Model" : UIDevice.current.model + (AppTools.isSimulator ? " Simulator" : ""),
         //"Previous Screen" : "", // override it
         //"Login Method" : "" // override it
     ] as [String : Any]
