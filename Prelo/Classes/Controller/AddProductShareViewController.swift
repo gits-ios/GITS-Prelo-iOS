@@ -279,6 +279,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         GAI.trackPageVisit(PageName.ShareAddedProduct)
     }
     
+    /*
     // MARK: - Warning top bar twitter
     func setupTopBanner() {
         let tbText = "Terdapat kesalahan saat mengakses Twitter. Mohon pastikan:\n- Aplikasi Twitter terpasang di device kamu dan ter-login dengan akun yang sama dengan yang akan di-sync, atau\n- Kamu sudah login di menu Settings > Twitter menggunakan akun yang sama dengan yang akan di-sync, atau\n- Belum ada aplikasi Prelo terpasang di akun Twitter (bisa dilihat di web Twitter http://www.twitter.com, di bagian Settings, klik App). Jika sudah, silakan revoke access terlebih dahulu.\n\nSelain itu, pastikan e-mail akun Twitter sudah terverifikasi."
@@ -306,6 +307,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         self.topBarWarning.addSubview(topBanner)
         self.consHeightTopBarWarning.constant = topBannerHeight
     }
+     */
     
     var first = true
     
