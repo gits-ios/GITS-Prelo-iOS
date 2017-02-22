@@ -2077,22 +2077,22 @@ class ListItemCell : UICollectionViewCell {
         Mixpanel.trackEvent(MixpanelEvent.ToggledLikeProduct, properties: pt)
          */
         
-        // Prelo Analytic - Love
-        let loginMethod = User.LoginMethod ?? ""
-        let pdata = [
-            "Product ID": self.pid!,
-            "Seller ID" : self.sid!,
-            "Screen" : (self.currentMode != .filter ? PageName.Home : (currentMode == .shop || currentMode == .newShop ? PageName.Shop : PageName.SearchResult ) ),
-            "Is Featured" : self.isFeatured
-            ] as [String : Any]
-        AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.LoveProduct, data: pdata, previousScreen: self.parent.previousScreen, loginMethod: loginMethod)
-        
         // API Migrasi
         let _ = request(APIProduct.love(productID: self.pid!)).responseJSON {resp in
             print(resp)
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Love Product"))
             {
 //                Constant.showDialog("Lovelist", message: self.captionTitle.text! + " berhasil ditambahkan ke Lovelist")
+                
+                // Prelo Analytic - Love
+                let loginMethod = User.LoginMethod ?? ""
+                let pdata = [
+                    "Product ID": self.pid!,
+                    "Seller ID" : self.sid!,
+                    "Screen" : (self.currentMode != .filter ? PageName.Home : (self.currentMode == .shop || self.currentMode == .newShop ? PageName.Shop : PageName.SearchResult ) ),
+                    "Is Featured" : self.isFeatured
+                    ] as [String : Any]
+                AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.LoveProduct, data: pdata, previousScreen: self.parent.previousScreen, loginMethod: loginMethod)
             } else
             {
                 self.newLove = false
@@ -2103,22 +2103,22 @@ class ListItemCell : UICollectionViewCell {
     
     func callApiUnlove()
     {
-        // Prelo Analytic - UnLove
-        let loginMethod = User.LoginMethod ?? ""
-        let pdata = [
-            "Product ID": self.pid!,
-            "Seller ID" : self.sid!,
-            "Screen" : (self.currentMode != .filter ? PageName.Home : PageName.SearchResult),
-            "Is Featured" : self.isFeatured
-            ] as [String : Any]
-        AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.UnloveProduct, data: pdata, previousScreen: self.parent.previousScreen, loginMethod: loginMethod)
-        
         // API Migrasi
         let _ = request(APIProduct.unlove(productID: self.pid!)).responseJSON {resp in
             print(resp)
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Unlove Product"))
             {
 //                Constant.showDialog("Lovelist", message: self.captionTitle.text! + " berhasil dihapus dari Lovelist")
+                
+                // Prelo Analytic - UnLove
+                let loginMethod = User.LoginMethod ?? ""
+                let pdata = [
+                    "Product ID": self.pid!,
+                    "Seller ID" : self.sid!,
+                    "Screen" : (self.currentMode != .filter ? PageName.Home : (self.currentMode == .shop || self.currentMode == .newShop ? PageName.Shop : PageName.SearchResult ) ),
+                    "Is Featured" : self.isFeatured
+                    ] as [String : Any]
+                AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.UnloveProduct, data: pdata, previousScreen: self.parent.previousScreen, loginMethod: loginMethod)
             } else
             {
                 self.newLove = true

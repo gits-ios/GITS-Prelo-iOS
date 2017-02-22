@@ -1440,16 +1440,6 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         Mixpanel.trackEvent(MixpanelEvent.ToggledLikeProduct, properties: pt)
          */
         
-        // Prelo Analytic - Love
-        let loginMethod = User.LoginMethod ?? ""
-        let pdata = [
-            "Product ID": ((product != nil) ? (product!.id) : ""),
-            "Seller ID" : ((product != nil) ? (product!.json["seller_id"].string) : ""),
-            "Screen" : PageName.ProductDetail,
-            "Is Featured" : ((product != nil) ? (product!.isFeatured) : "")
-            ] as [String : Any]
-        AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.LoveProduct, data: pdata, previousScreen: self.parent!.previousScreen, loginMethod: loginMethod)
-        
         if (isLoved)
         {
             callApiUnlove()
@@ -1467,6 +1457,16 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
                     let ns = s as NSString
                     self.captionCountLove?.text = String(ns.integerValue + 1)
                 }
+                
+                // Prelo Analytic - Love
+                let loginMethod = User.LoginMethod ?? ""
+                let pdata = [
+                    "Product ID": ((self.product != nil) ? (self.product!.id) : ""),
+                    "Seller ID" : ((self.product != nil) ? (self.product!.json["seller_id"].string) : ""),
+                    "Screen" : PageName.ProductDetail,
+                    "Is Featured" : ((self.product != nil) ? (self.product!.isFeatured) : false)
+                    ] as [String : Any]
+                AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.LoveProduct, data: pdata, previousScreen: self.parent!.previousScreen, loginMethod: loginMethod)
             } else
             {
                 self.isLoved = false
@@ -1477,16 +1477,6 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     
     func callApiUnlove()
     {
-        // Prelo Analytic - UnLove
-        let loginMethod = User.LoginMethod ?? ""
-        let pdata = [
-            "Product Id": ((product != nil) ? (product!.id) : ""),
-            "Seller ID" : ((product != nil) ? (product!.json["seller_id"].string) : ""),
-            "Screen" : PageName.ProductDetail,
-            "Is Featured" : ((product != nil) ? (product!.isFeatured) : "")
-            ] as [String : Any]
-        AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.UnloveProduct, data: pdata, previousScreen: self.parent!.previousScreen, loginMethod: loginMethod)
-        
         isLoved = false
         loveCount-=1
         setupLoveView()
@@ -1499,6 +1489,16 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
                     let ns = s as NSString
                     self.captionCountLove?.text = String(ns.integerValue - 1)
                 }
+                
+                // Prelo Analytic - UnLove
+                let loginMethod = User.LoginMethod ?? ""
+                let pdata = [
+                    "Product Id": ((self.product != nil) ? (self.product!.id) : ""),
+                    "Seller ID" : ((self.product != nil) ? (self.product!.json["seller_id"].string) : ""),
+                    "Screen" : PageName.ProductDetail,
+                    "Is Featured" : ((self.product != nil) ? (self.product!.isFeatured) : false)
+                    ] as [String : Any]
+                AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.UnloveProduct, data: pdata, previousScreen: self.parent!.previousScreen, loginMethod: loginMethod)
             } else
             {
                 self.isLoved = true
