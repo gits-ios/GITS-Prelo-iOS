@@ -1554,7 +1554,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func launchDetail() {
-        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: NotificationName.ShowProduct), object: [ self.selectedProduct, (currentMode != .filter ? PageName.Home : (currentMode == .shop || currentMode == .newShop ? PageName.Shop : PageName.SearchResult ) ) ])
+        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: NotificationName.ShowProduct), object: [ self.selectedProduct, (self.currentMode != .filter ? (self.currentMode == .shop || self.currentMode == .newShop ? PageName.Shop : PageName.Home ) :  PageName.SearchResult ) ])
     }
     
     // MARK: - Other functions
@@ -1669,7 +1669,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     func setEditButton() {
         let btnEdit = self.createButtonWithIcon(AppFont.preloAwesome, icon: "")
         
-        btnEdit.addTarget(self, action: #selector(StorePageTabBarViewController.editProfile), for: UIControlEvents.touchUpInside)
+        btnEdit.addTarget(self, action: #selector(ListItemViewController.editProfile), for: UIControlEvents.touchUpInside)
         
         if (self.navigationItem.rightBarButtonItem == nil) {
             self.navigationItem.rightBarButtonItem = btnEdit.toBarButton()
@@ -2089,7 +2089,7 @@ class ListItemCell : UICollectionViewCell {
                 let pdata = [
                     "Product ID": self.pid!,
                     "Seller ID" : self.sid!,
-                    "Screen" : (self.currentMode != .filter ? PageName.Home : (self.currentMode == .shop || self.currentMode == .newShop ? PageName.Shop : PageName.SearchResult ) ),
+                    "Screen" : (self.currentMode != .filter ? (self.currentMode == .shop || self.currentMode == .newShop ? PageName.Shop : PageName.Home ) :  PageName.SearchResult ),
                     "Is Featured" : self.isFeatured
                     ] as [String : Any]
                 AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.LoveProduct, data: pdata, previousScreen: self.parent.previousScreen, loginMethod: loginMethod)
@@ -2115,7 +2115,7 @@ class ListItemCell : UICollectionViewCell {
                 let pdata = [
                     "Product ID": self.pid!,
                     "Seller ID" : self.sid!,
-                    "Screen" : (self.currentMode != .filter ? PageName.Home : (self.currentMode == .shop || self.currentMode == .newShop ? PageName.Shop : PageName.SearchResult ) ),
+                    "Screen" : (self.currentMode != .filter ? (self.currentMode == .shop || self.currentMode == .newShop ? PageName.Shop : PageName.Home ) :  PageName.SearchResult ),
                     "Is Featured" : self.isFeatured
                     ] as [String : Any]
                 AnalyticManager.sharedInstance.send(eventType: MixpanelEvent.UnloveProduct, data: pdata, previousScreen: self.parent.previousScreen, loginMethod: loginMethod)

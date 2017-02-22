@@ -82,7 +82,6 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         
         listItemVC?.currentMode = .newShop
         listItemVC?.delegate = self
-        listItemVC?.previousScreen = self.previousScreen
         
         shopReviewVC = Bundle.main.loadNibNamed(Tags.XibNameShopReview, owner: nil, options: nil)?.first as? ShopReviewViewController
         shopReviewVC?.currentMode = .inject
@@ -122,6 +121,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         
         if isFirst {
             listItemVC?.shopId = self.shopId
+            listItemVC?.previousScreen = self.previousScreen
             shopReviewVC?.sellerId = self.shopId
             shopReviewVC?.sellerName = ""
             shopBadgeVC?.sellerId = self.shopId
