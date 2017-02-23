@@ -1233,7 +1233,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         "Order ID" : orderId,
                         "Items" : itemsObject,
                         "Total Price" : totalPrice
-                        ] as [String : Any]
+                    ] as [String : Any]
                     AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Checkout, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
                     
                     // reset localid

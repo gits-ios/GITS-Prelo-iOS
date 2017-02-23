@@ -417,7 +417,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
                     "Order ID" : self.orderID,
                     "Destination Bank" : self.lblBankTujuan.text!,
                     "Amount" : self.fldNominalTrf.text!
-                    ] as [String : Any]
+                ] as [String : Any]
                 AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ClaimPayment, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
                 
                 // reduce badge troli

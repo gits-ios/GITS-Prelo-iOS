@@ -796,7 +796,7 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
         let loginMethod = User.LoginMethod ?? ""
         let pdata = [
             "Is Cancelled" : isCancelled
-            ] as [String : Any]
+        ] as [String : Any]
         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Rate, data: pdata, previousScreen: PageName.Home, loginMethod: loginMethod)
     }
     

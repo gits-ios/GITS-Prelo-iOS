@@ -2198,8 +2198,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             let pdata = [
                 "Local ID": (self.draftMode == true ? (self.draftProduct?.localId)! : self.uniqueCodeString),
                 "Product Name" : self.txtName.text!,
-                "Username" : CDUser.getOne()?.username
-                ] as [String : Any]
+//                "Username" : CDUser.getOne()?.username
+            ] as [String : Any]
             AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SaveAsDraft, data: pdata, previousScreen: self.screenBeforeAddProduct, loginMethod: loginMethod)
             
             Constant.showBadgeDialog("Berhasil", message: "Draft barang berhasil disimpan di menu Jualan Saya. Jika belum muncul, mohon tunggu beberapa saat dan coba untuk memperbarui menu Jualan Saya.", badge: "info", view: self, isBack: isBack)

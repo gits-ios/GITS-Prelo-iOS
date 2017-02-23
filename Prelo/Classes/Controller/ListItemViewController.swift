@@ -2091,7 +2091,7 @@ class ListItemCell : UICollectionViewCell {
                     "Seller ID" : self.sid!,
                     "Screen" : (self.currentMode != .filter ? (self.currentMode == .shop || self.currentMode == .newShop ? PageName.Shop : PageName.Home ) :  PageName.SearchResult ),
                     "Is Featured" : self.isFeatured
-                    ] as [String : Any]
+                ] as [String : Any]
                 AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.LoveProduct, data: pdata, previousScreen: self.parent.previousScreen, loginMethod: loginMethod)
             } else
             {
@@ -2117,7 +2117,7 @@ class ListItemCell : UICollectionViewCell {
                     "Seller ID" : self.sid!,
                     "Screen" : (self.currentMode != .filter ? (self.currentMode == .shop || self.currentMode == .newShop ? PageName.Shop : PageName.Home ) :  PageName.SearchResult ),
                     "Is Featured" : self.isFeatured
-                    ] as [String : Any]
+                ] as [String : Any]
                 AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.UnloveProduct, data: pdata, previousScreen: self.parent.previousScreen, loginMethod: loginMethod)
             } else
             {
