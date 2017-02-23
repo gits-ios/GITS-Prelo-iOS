@@ -1797,18 +1797,20 @@ class ProductCellSeller : UITableViewCell
 class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
 {
     @IBOutlet weak var captionSpecialStory: UILabel!
-    @IBOutlet weak var captionWeight : UILabel?
-    @IBOutlet weak var captionCondition : UILabel?
-    @IBOutlet weak var captionFrom : UILabel?
-    @IBOutlet weak var captionAlasanJual : UILabel?
+    @IBOutlet weak var captionWeight : UILabel!
+    @IBOutlet weak var captionCondition : UILabel!
+    @IBOutlet weak var captionFrom : UILabel!
+    @IBOutlet weak var captionAlasanJual : UILabel!
     @IBOutlet weak var captionMerk : ZSWTappableLabel?
     @IBOutlet weak var captionCategory : ZSWTappableLabel?
-    @IBOutlet weak var captionDesc : UILabel?
-    @IBOutlet weak var captionDate : UILabel?
+    @IBOutlet weak var captionDesc : UILabel!
+    @IBOutlet weak var captionDate : UILabel!
     @IBOutlet weak var captionCacat: UILabel!
+    @IBOutlet weak var captionUkuran: UILabel!
     
     @IBOutlet weak var consHeightWaktuJaminan: NSLayoutConstraint!
     
+    @IBOutlet weak var consHeightUkuran: NSLayoutConstraint!
     @IBOutlet weak var consHeightCacat: NSLayoutConstraint!
     
     weak var cellDelegate : ProductCellDelegate?
@@ -1886,9 +1888,17 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
             defectSize = 21
         }
         
-        let control = CGFloat((desc2 == "" && desc3 == "") ? -40 : ((desc2 == "" || desc3 == "") ? -20 : 0))
+        // ukuran
+        let ukuran = product["size"].string
+        var sizeSize = CGFloat(0)
+        if ukuran != nil && ukuran != "" {
+            sizeSize = 21
+        }
         
-        return 163+size.height+size2.height+s.height+cs.height+8+8+cs2Size.height+8+alSize.height+defectSize+control
+        let control = CGFloat((desc2 == "" && desc3 == "") ? -40 : ((desc2 == "" || desc3 == "") ? -20 : 0))
+//        let control = CGFloat((desc2 == "") ? -40 : ((desc3 == "") ? -20 : 0))
+        
+        return 163+size.height+size2.height+s.height+cs.height+8+8+cs2Size.height+8+alSize.height+defectSize+sizeSize+control
     }
     
     func adapt(_ obj : ProductDetail?)
@@ -1966,6 +1976,13 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
             captionWeight?.text = w.description + " gram"
         }
         
+        let ukuran = product["size"].string
+        if ukuran != nil && ukuran != "" {
+            captionUkuran?.text = ukuran
+            consHeightUkuran.constant = 21
+        } else {
+            consHeightUkuran.constant = 0
+        }
         
         let arr = product["category_breadcrumbs"].array!
         var categoryString : String = ""
