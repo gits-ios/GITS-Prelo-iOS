@@ -606,6 +606,8 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
     @IBOutlet weak var consCenteryPopUpStore: NSLayoutConstraint!
     @IBOutlet weak var consCenteryPopUpMail: NSLayoutConstraint!
     
+    var popUpMode : PopUpRateMode!
+    
     var floatRatingView: FloatRatingView!
     var rate : Float = 0
     
@@ -649,6 +651,8 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
     }
     
     func displayPopUp(_ type: PopUpRateMode) {
+        self.popUpMode = type
+        
         let screenSize = UIScreen.main.bounds
         let screenHeight = screenSize.height - 64 // navbar
         
@@ -733,6 +737,8 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
         let _ = request(APIUser.rateApp(appVersion: appVersion!, rate: Int(self.rate), review: "")).responseJSON { resp in
             if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Rate App")) {
                 print("rated")
+                
+                self.sentPreloAnalyticRate(false)
             }
         }
         
@@ -774,11 +780,24 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
     @IBAction func btnTidakPressed(_ sender: Any) {
         self.unDisplayPopUp()
         
+        if self.popUpMode == .rate {
+            self.sentPreloAnalyticRate(true)
+        }
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
             self.vwOverlayPopUp.isHidden = true
             self.vwBackgroundOverlay.isHidden = true
             self.disposePopUp()
         })
+    }
+    
+    func sentPreloAnalyticRate(_ isCancelled: Bool) {
+        // Prelo Analytic - Rate
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Is Cancelled" : isCancelled
+            ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Rate, data: pdata, previousScreen: PageName.Home, loginMethod: loginMethod)
     }
     
     // MARK: - FloatRatingViewDelegate

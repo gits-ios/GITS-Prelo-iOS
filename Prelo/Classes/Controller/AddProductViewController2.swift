@@ -1977,6 +1977,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     let loginMethod = User.LoginMethod ?? ""
                     
                     var pdata = [
+                        "Local ID": (self.draftMode == true ? (self.draftProduct?.localId)! : self.uniqueCodeString),
                         "Product Name" : name,
                         "Condition" : self.captionKondisi.text,
                         "Product Brand" : self.captionMerek.text,
@@ -2185,18 +2186,18 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             
             // save to core data
             CDDraftProduct.saveDraft(self.draftMode == true ? (self.draftProduct?.localId)! : self.uniqueCodeString, name: self.txtName.text!, descriptionText: self.txtDescription.text, weight: self.txtWeight.text != nil ? self.txtWeight.text! : "", freeOngkir: self.freeOngkir, priceOriginal: self.txtOldPrice.text != nil ? self.txtOldPrice.text! : "", price: self.txtNewPrice.text != nil ? self.txtNewPrice.text! : "", commission: self.txtCommission.text != nil ? self.txtCommission.text! : "", category: self.captionKategori.text != nil ? self.captionKategori.text! : "", categoryId: self.productCategoryId, isCategWomenOrMenSelected: self.isCategWomenOrMenSelected, condition: self.captionKondisi.text != nil ? self.captionKondisi.text! : "", conditionId: self.kodindisiId, brand: self.captionMerek.text != nil ? self.captionMerek.text! : "", brandId: self.merekId, imagePath: self.localPath, imageOrientation: self.imageOrientation, size: self.txtSize.text != nil ? self.txtSize.text! : "", defectDescription: self.txtDeskripsiCacat.text != nil ? self.txtDeskripsiCacat.text! : "", sellReason: self.txtAlasanJual.text != nil ? self.txtAlasanJual.text! : "", specialStory: self.txtSpesial.text != nil ? self.txtSpesial.text!: "", luxuryData: luxuryData, isLuxury: self.merekIsLuxury)
-            
+        }
+        
+        if isBack {
             // Prelo Analytic - Save As Draft
             let loginMethod = User.LoginMethod ?? ""
             let pdata = [
                 "Local ID": (self.draftMode == true ? (self.draftProduct?.localId)! : self.uniqueCodeString),
                 "Product Name" : self.txtName.text!,
                 "Username" : CDUser.getOne()?.username
-            ] as [String : Any]
+                ] as [String : Any]
             AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SaveAsDraft, data: pdata, previousScreen: self.screenBeforeAddProduct, loginMethod: loginMethod)
-        }
-        
-        if isBack {
+            
             Constant.showBadgeDialog("Berhasil", message: "Draft barang berhasil disimpan di menu Jualan Saya. Jika belum muncul, mohon tunggu beberapa saat dan coba untuk memperbarui menu Jualan Saya.", badge: "info", view: self, isBack: isBack)
         }
     }

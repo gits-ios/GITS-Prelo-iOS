@@ -178,7 +178,8 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func gotoCart() {
-        let c = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdCart) as! BaseViewController
+        let c = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdCart) as! CartViewController
+        c.previousScreen = PageName.Lovelist
         self.navigationController?.pushViewController(c, animated: true)
     }
     

@@ -777,6 +777,9 @@ class PreloAnalyticEvent {
     // Purchase
     static let Checkout = "Purchase:Checkout"
     static let ClaimPayment = "Purchase:Claim Payment"
+    
+    // Feedback
+    static let Rate = "Feedback:Rate"
 }
 
 extension GAI {

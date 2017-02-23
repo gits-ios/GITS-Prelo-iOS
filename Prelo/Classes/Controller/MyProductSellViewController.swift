@@ -112,16 +112,38 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         //        Constant.showDialog("Upload Barang Berhasil", message: "Proses review barang akan memakan waktu maksimal 2 hari kerja. Mohon tunggu :)")
         
 //        print(notif.object)
-        let metaJson = JSON(notif.object)
+        let o = notif.object as! [Any]
+        
+//        let metaJson = JSON(notif.object)
+        let metaJson = JSON(o[0])
         let metadata = metaJson["_data"]
-//        print(metadata)
+        print(metadata)
         if let message = metadata["message"].string {
             Constant.showDialog("Upload Barang Berhasil", message: message)
         }
         
+        let p = o[1] as! [String : Any]
+        var localId = p["Local ID"] as! String
+        
+        if (localId == "") {
+            let uploadedProduct = CDDraftProduct.getOneIsUploading(metadata["name"].string!)
+            localId = (uploadedProduct?.localId)!
+        }
+        
         // clear uploaded draft
-        let uploadedProduct = CDDraftProduct.getOneIsUploading()
-        CDDraftProduct.delete((uploadedProduct?.localId)!)
+        CDDraftProduct.delete(localId)
+        
+        // Prelo Analytic - Upload Success
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Local ID": localId,
+            "Product Name" : metadata["name"].string!,
+            "Commission Percentage" : metadata["commission"].int!,
+            "Facebook" : metadata["share_status"]["FACEBOOK"].int!,
+            "Twitter" : metadata["share_status"]["TWITTER"].int!,
+            "Instagram" : metadata["share_status"]["INSTAGRAM"].int!
+        ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.UploadSuccess, data: pdata, previousScreen: PageName.ShareAddedProduct, loginMethod: loginMethod)
     }
     
     func uploadProdukGagal(_ notif : Foundation.Notification)
@@ -129,9 +151,18 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         refresh(0 as AnyObject, isSearchMode: false)
         Constant.showDialog("Upload Barang Gagal", message: "Oops, upload barang gagal")
         
+        let o = notif.object as! [Any]
+        let p = o[1] as! [String : Any]
+        var localId = p["Local ID"] as! String
+        
+        // if not found
+        if (localId == "") {
+            let uploadedProduct = CDDraftProduct.getOneIsUploading()
+            localId = (uploadedProduct?.localId)!
+        }
+        
         // set status uploading
-        let uploadedProduct = CDDraftProduct.getOneIsUploading()
-        CDDraftProduct.setUploading((uploadedProduct?.localId)!, isUploading: false)
+        CDDraftProduct.setUploading(localId, isUploading: false)
     }
     
     func addUploadingProducts()
