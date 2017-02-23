@@ -54,9 +54,6 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
     
     var localId : String = ""
     
-    @IBOutlet weak var topBarWarning: UIView!
-    @IBOutlet weak var consHeightTopBarWarning: NSLayoutConstraint!
-    
     func updateButtons(_ sender : AddProductShareButton) {
         let tag = sender.tag
         let arr = arrayRows[tag]
@@ -266,7 +263,6 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         adaptCharge()
         
         self.title = "Kesempatan Terbatas"
-//        setupTopBanner()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -277,34 +273,6 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         
         // Google Analytics
         GAI.trackPageVisit(PageName.ShareAddedProduct)
-    }
-    
-    // MARK: - Warning top bar twitter
-    func setupTopBanner() {
-        let tbText = "Terdapat kesalahan saat mengakses Twitter. Mohon pastikan:\n- Aplikasi Twitter terpasang di device kamu dan ter-login dengan akun yang sama dengan yang akan di-sync, atau\n- Kamu sudah login di menu Settings > Twitter menggunakan akun yang sama dengan yang akan di-sync, atau\n- Belum ada aplikasi Prelo terpasang di akun Twitter (bisa dilihat di web Twitter http://www.twitter.com, di bagian Settings, klik App). Jika sudah, silakan revoke access terlebih dahulu.\n\nSelain itu, pastikan e-mail akun Twitter sudah terverifikasi."
-        
-        
-        let screenSize: CGRect = UIScreen.main.bounds
-        let screenWidth = screenSize.width
-        var topBannerHeight : CGFloat = 30.0
-        let textRect = tbText.boundsWithFontSize(UIFont.systemFont(ofSize: 11), width: screenWidth - 16)
-        topBannerHeight += textRect.height
-        let topLabelMargin : CGFloat = 8.0
-        let topBanner : UIView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: topBannerHeight), backgroundColor: Theme.ThemeOrange)
-        let topLabel : UITextView = UITextView(frame: CGRect(x: topLabelMargin, y: 0, width: screenWidth - (topLabelMargin * 2), height: topBannerHeight))
-        topLabel.textColor = UIColor.white
-        topLabel.font = UIFont.systemFont(ofSize: 11)
-//        topLabel.lineBreakMode = .byWordWrapping
-//        topLabel.numberOfLines = 0
-        topLabel.text = tbText
-        topLabel.isEditable = false
-        topLabel.isSelectable = true
-        topLabel.backgroundColor = UIColor.clear
-        topBanner.addSubview(topLabel)
-        
-        
-        self.topBarWarning.addSubview(topBanner)
-        self.consHeightTopBarWarning.constant = topBannerHeight
     }
     
     var first = true
