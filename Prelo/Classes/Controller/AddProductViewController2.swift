@@ -1993,8 +1993,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     var temp = CDCategory.getCategoryWithID(self.productCategoryId)!
                     cat.append(temp.name)
                     while (true) {
-                        if let cur = CDCategory.getLv1CategIDFromID(temp.id) {
-                            temp = CDCategory.getCategoryWithID(cur)!
+                        if let cur = CDCategory.getParent(temp.id) {
+                            temp = cur
                             cat.append(temp.name)
                         } else {
                             break
