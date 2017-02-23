@@ -431,6 +431,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                     // Goto inbox
                     let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
                     t.tawarItem = inboxData
+                    t.previousScreen = PageName.Notification
                     self.navigationController?.pushViewController(t, animated: true)
                 } else {
                     Constant.showDialog("Notifikasi - Percakapan", message: "Oops, notifikasi inbox tidak bisa dibuka")

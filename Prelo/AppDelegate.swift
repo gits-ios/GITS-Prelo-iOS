@@ -946,6 +946,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     
                     let tawarVC = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
                     tawarVC.tawarItem = inbox
+                    tawarVC.previousScreen = "Push Notification"
                     rootViewController!.pushViewController(tawarVC, animated: true)
                 } else {
                     self.showFailedRedirAlert()

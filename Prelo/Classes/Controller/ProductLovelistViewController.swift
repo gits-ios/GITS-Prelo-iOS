@@ -161,6 +161,7 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
                     if let pDetail = ProductDetail.instance(json) {
                         // Goto chat
                         let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
+                        t.previousScreen = PageName.ProductLovelist
                     
                         // API Migrasi
                         let _ = request(APIInbox.getInboxByProductIDSeller(productId: pDetail.productID, buyerId: buyer.id)).responseJSON {resp in

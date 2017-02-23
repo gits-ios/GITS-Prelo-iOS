@@ -951,6 +951,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             t.tawarItem = d
             t.loadInboxFirst = true
             t.prodId = d.productID
+            t.previousScreen = PageName.ProductDetail
             self.navigationController?.pushViewController(t, animated: true)
         }
     }

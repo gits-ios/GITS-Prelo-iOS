@@ -836,6 +836,13 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["from":"MessagePool 3"])
             }
             
+            // Prelo Analytic - Start Chat
+            let loginMethod = User.LoginMethod ?? ""
+            let pdata = [
+                "Product ID" : self.prodId
+            ] as [String : Any]
+            AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.StartChat, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+            
             self.hideLoading()
         }, failure: { op, err in
             self.adjustButtons()
