@@ -170,7 +170,7 @@ enum APIAnalytic : URLRequestConvertible {
             let deviceToken = (User.IsLoggedIn && UserDefaults.standard.string(forKey: "deviceregid") != nil && UserDefaults.standard.string(forKey: "deviceregid") != "" ? UserDefaults.standard.string(forKey: "deviceregid")! : "...simulator...")
             let d : [String : [String : Any]] =  [
                 "device_model" : [
-                    "append" : UIDevice.current.model + (AppTools.isSimulator ? " Simulator" : "") + " - " + UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")"
+                    "append" : (AppTools.isSimulator ? UIDevice.current.model + " Simulator" : AnalyticManager.sharedInstance.platform()) + " - " + UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")"
                 ],
                 "apns_id" : [
                     "append" : deviceToken

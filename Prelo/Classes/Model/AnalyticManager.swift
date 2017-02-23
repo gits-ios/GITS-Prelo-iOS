@@ -27,7 +27,7 @@ class AnalyticManager: NSObject {
     let skeletonData =  [
         "OS" : UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")",
         "App version" : CDVersion.getOne()!.appVersion,
-        "Device Model" : UIDevice.current.model + (AppTools.isSimulator ? " Simulator" : ""),
+        //"Device Model" : UIDevice.current.model + (AppTools.isSimulator ? " Simulator" : ""),
         //"Previous Screen" : "", // override it
         //"Login Method" : "" // override it
     ] as [String : Any]
@@ -37,6 +37,7 @@ class AnalyticManager: NSObject {
         var wrappedData = skeletonData
         
         // still skeleton
+        wrappedData["Device Model"] = (AppTools.isSimulator ? UIDevice.current.model + " Simulator" : platform())
         wrappedData["Previous Screen"] = previousScreen
         wrappedData["Login Method"] = loginMethod
         
@@ -124,6 +125,12 @@ class AnalyticManager: NSObject {
         return decoded as AnyObject
     }
      */
+    
+    func platform() -> String {
+        var sysinfo = utsname()
+        uname(&sysinfo) // ignore return value
+        return String(bytes: Data(bytes: &sysinfo.machine, count: Int(_SYS_NAMELEN)), encoding: .ascii)!.trimmingCharacters(in: .controlCharacters)
+    }
 }
 
 extension Dictionary {
