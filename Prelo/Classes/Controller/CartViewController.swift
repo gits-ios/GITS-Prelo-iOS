@@ -1227,12 +1227,19 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     
                     // Prelo Analytic - Checkout
                     let loginMethod = User.LoginMethod ?? ""
-                    var localId = User.CartLocalId ?? ""
+                    let localId = User.CartLocalId ?? ""
+                    let province = CDProvince.getProvinceNameWithID(self.selectedProvinsiID) ?? ""
+                    let region = CDRegion.getRegionNameWithID(self.selectedKotaID) ?? ""
+                    let shipping = [
+                        "Province" : province,
+                        "Region" : region
+                    ] as [String : Any]
                     let pdata = [
                         "Local ID" : localId,
                         "Order ID" : orderId,
                         "Items" : itemsObject,
-                        "Total Price" : totalPrice
+                        "Total Price" : totalPrice,
+                        "Shipping" : shipping
                     ] as [String : Any]
                     AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Checkout, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
                     
