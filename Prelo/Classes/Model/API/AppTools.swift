@@ -784,6 +784,7 @@ class PreloAnalyticEvent {
     
     // Notification
     static let ClickPushNotification = "Notification:Click Push Notification"
+    static let ClickNotificationInApp = "Notification:Click Notification (in App)"
 }
 
 extension GAI {

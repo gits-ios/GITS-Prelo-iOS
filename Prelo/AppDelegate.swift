@@ -193,9 +193,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     
                     // Prelo Analytic - Click Push Notification
                     if let _ = remoteNotif.object(forKey: "attachment-url") as? String {
-                        sendPushNotifAnalytic(true, previousScreen: "")
+                        sendPushNotifAnalytic(true)
                     } else {
-                        sendPushNotifAnalytic(false, previousScreen: "")
+                        sendPushNotifAnalytic(false)
                     }
                 }
                 
@@ -478,7 +478,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             imageName += ".png"
             
-            var imageBanner = UIImage(named: imageName)
+            let imageBanner = UIImage(named: imageName)
             
             /*
             if imgUrl != "" {
@@ -498,12 +498,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         self.deeplinkRedirect(tipe, targetId: targetId)
                     }
                     
-                    // Prelo Analytic - Click Push Notification
-                    if imgUrl != "" {
-                        self.sendPushNotifAnalytic(true, previousScreen: "")
-                    } else {
-                        self.sendPushNotifAnalytic(false, previousScreen: "")
-                    }
+                    // Prelo Analytic - Click Notification (in App)
+                    let loginMethod = User.LoginMethod ?? ""
+                    let pdata = [
+                        "Target ID" : targetId,
+                        "Type" : tipe
+                    ] as [String : Any]
+                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ClickNotificationInApp, data: pdata, previousScreen: "", loginMethod: loginMethod)
                 })
                 
                 banner.dismissesOnTap = true
@@ -525,9 +526,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             // Prelo Analytic - Click Push Notification
             if imgUrl != "" {
-                sendPushNotifAnalytic(true, previousScreen: "")
+                sendPushNotifAnalytic(true)
             } else {
-                sendPushNotifAnalytic(false, previousScreen: "")
+                sendPushNotifAnalytic(false)
             }
         }
     }
@@ -1381,12 +1382,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     // MARK: - Analytics push notif
-    func sendPushNotifAnalytic(_ isContainImage: Bool, previousScreen: String) {
+    func sendPushNotifAnalytic(_ isContainImage: Bool) {
         // Prelo Analytic - Click Push Notification
         let loginMethod = User.LoginMethod ?? ""
         let pdata = [
             "With Picture" : isContainImage
         ] as [String : Any]
-        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ClickPushNotification, data: pdata, previousScreen: previousScreen, loginMethod: loginMethod)
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ClickPushNotification, data: pdata, previousScreen: "", loginMethod: loginMethod)
     }
 }
