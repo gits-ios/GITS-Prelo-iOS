@@ -254,6 +254,7 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
 //        self.navigationController?.pushViewController(t, animated: true)
         
         let t = Bundle.main.loadNibNamed(Tags.XibNameTarikTunai2, owner: nil, options: nil)?.first as! TarikTunaiViewController2
+        t.previousScreen = PageName.Mutation
         self.navigationController?.pushViewController(t, animated: true)
     }
     

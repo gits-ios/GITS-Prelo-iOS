@@ -170,7 +170,7 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
                 
                 if let m = data.string
                 {
-                    UIAlertView.SimpleShow("Perhatian", message: m)
+                    Constant.showDialog("Perhatian", message: m)
                 }
                 
                 else {
@@ -335,19 +335,29 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
                 let json = JSON(resp.result.value!)
                 if let message = json["_message"].string
                 {
-                    UIAlertView.SimpleShow("Perhatian", message: message)
+                    Constant.showDialog("Perhatian", message: message)
                 } else
                 {
                     //                    self.getBalance()
                     let nDays = (self.txtNamaBank.text?.lowercased() == "bank lainnya") ? 5 : 3
-                    UIAlertView.SimpleShow("Perhatian", message: "Permohonan tarik uang telah diterima. Proses paling lambat membutuhkan \(nDays)x24 jam hari kerja.")
+                    Constant.showDialog("Perhatian", message: "Permohonan tarik uang telah diterima. Proses paling lambat membutuhkan \(nDays)x24 jam hari kerja.")
                     
+                    /*
                     // Mixpanel
                     let pt = [
                         "Destination Bank" : namaBank,
                         "Amount" : i
                         ] as [String : Any]
                     Mixpanel.trackEvent(MixpanelEvent.RequestedWithdrawMoney, properties: pt as [NSObject : AnyObject])
+                    */
+                    
+                    // Prelo Analytic - Request Withdraw Money
+                    let loginMethod = User.LoginMethod ?? ""
+                    let pdata = [
+                        "Destination Bank" : namaBank,
+                        "Amount" : i
+                    ] as [String : Any]
+                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.RequestWithdrawMoney, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
                     
                     self.navigationController?.popToRootViewController(animated: true)
                 }

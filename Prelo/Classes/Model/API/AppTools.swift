@@ -788,6 +788,9 @@ class PreloAnalyticEvent {
     
     // Chat
     static let StartChat = "Chat:Start Chat"
+    
+    // Withdraw
+    static let RequestWithdrawMoney = "Withdraw:Request Withdraw Money"
 }
 
 extension GAI {
