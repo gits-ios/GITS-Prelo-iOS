@@ -781,6 +781,9 @@ class PreloAnalyticEvent {
     
     // Feedback
     static let Rate = "Feedback:Rate"
+    
+    // Notification
+    static let ClickPushNotification = "Notification:Click Push Notification"
 }
 
 extension GAI {

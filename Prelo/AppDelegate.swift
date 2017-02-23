@@ -191,6 +191,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         self.deeplinkRedirect(tipe, targetId: targetId)
                     })
                     
+                    // Prelo Analytic - Click Push Notification
+                    if let _ = remoteNotif.object(forKey: "attachment-url") as? String {
+                        sendPushNotifAnalytic(true, previousScreen: "")
+                    } else {
+                        sendPushNotifAnalytic(false, previousScreen: "")
+                    }
                 }
                 
 //                Constant.showDialog("APNS", message: remoteNotif.description )
@@ -391,6 +397,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var tipe = ""
         var targetId = ""
         
+        var imgUrl = ""
+        
         if let remoteNotifAps = userInfo["aps"] as? NSDictionary {
             if let remoteNotifAlert = remoteNotifAps["alert"] as? NSDictionary {
                 if let _title = remoteNotifAlert.object(forKey: "title") as? String {
@@ -412,6 +420,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         if let tId = userInfo["target_id"] as? String {
             targetId = tId
+        }
+        
+        // image
+        if let img = userInfo["attachment-url"] as? String {
+            imgUrl = img
         }
         
         // check current view
@@ -465,13 +478,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             imageName += ".png"
             
-            let imageBanner = UIImage(named: imageName)
+            var imageBanner = UIImage(named: imageName)
+            
+            /*
+            if imgUrl != "" {
+                if let data = NSData(contentsOf: URL(string: imgUrl)!) {
+                    if let imageUrl = UIImage(data: data as Data) {
+                        
+                        imageBanner = imageUrl
+                    }
+                }
+            }
+             */
             
             if (title != "" || alert != "") {
                 // banner
                 let banner = Banner(title: title != "" ? title : alert, subtitle: body != "" ? body : nil, image: imageBanner, backgroundColor: Theme.PrimaryColor, didTapBlock: {
                     if isDoing {
                         self.deeplinkRedirect(tipe, targetId: targetId)
+                    }
+                    
+                    // Prelo Analytic - Click Push Notification
+                    if imgUrl != "" {
+                        self.sendPushNotifAnalytic(true, previousScreen: "")
+                    } else {
+                        self.sendPushNotifAnalytic(false, previousScreen: "")
                     }
                 })
                 
@@ -490,6 +521,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             if isDoing {
                 self.deeplinkRedirect(tipe, targetId: targetId)
+            }
+            
+            // Prelo Analytic - Click Push Notification
+            if imgUrl != "" {
+                sendPushNotifAnalytic(true, previousScreen: "")
+            } else {
+                sendPushNotifAnalytic(false, previousScreen: "")
             }
         }
     }
@@ -1340,5 +1378,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 orientations = orientation
             }
         }
+    }
+    
+    // MARK: - Analytics push notif
+    func sendPushNotifAnalytic(_ isContainImage: Bool, previousScreen: String) {
+        // Prelo Analytic - Click Push Notification
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "With Picture" : isContainImage
+        ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ClickPushNotification, data: pdata, previousScreen: previousScreen, loginMethod: loginMethod)
     }
 }
