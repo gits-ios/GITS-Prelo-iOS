@@ -140,6 +140,9 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         }
         
         CDDraftProduct.deleteAll()
+        
+        // reset localid
+        User.SetCartLocalId("")
     }
     
     @IBAction func logout()

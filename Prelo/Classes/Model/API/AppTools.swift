@@ -777,6 +777,7 @@ class PreloAnalyticEvent {
     // Purchase
     static let Checkout = "Purchase:Checkout"
     static let ClaimPayment = "Purchase:Claim Payment"
+    static let GoToCart = "Purchase:Go To Cart"
     
     // Feedback
     static let Rate = "Feedback:Rate"

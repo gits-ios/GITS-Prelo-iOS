@@ -178,6 +178,38 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             } else { // Show cart
                 initUserDataSections()
                 synchCart()
+                
+                // Prelo Analytic - Go to cart
+                let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
+                                                    qos: .background,
+                                                    target: nil)
+                backgroundQueue.async {
+                    print("Work on background queue")
+                
+                    let loginMethod = User.LoginMethod ?? ""
+                    
+                    var localId = User.CartLocalId ?? ""
+                    if (localId == "") {
+                        let uniqueCode : TimeInterval = Date().timeIntervalSinceReferenceDate
+                        let uniqueCodeString = uniqueCode.description
+                        localId = UIDevice.current.identifierForVendor!.uuidString + "-" + uniqueCodeString
+                        
+                        User.SetCartLocalId(localId)
+                    }
+                    
+                    var productIds : [String] = []
+                    for i in self.cartProducts {
+                        let curProduct = i.cpID
+                        
+                        productIds.append(curProduct)
+                    }
+                    
+                    let pdata = [
+                        "Local ID" : localId,
+                        "Product IDs" : productIds
+                    ] as [String : Any]
+                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.GoToCart, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+                }
             }
             
             notifListener?.setCartCount(cartProducts.count)
@@ -888,14 +920,20 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 }))
                 alert.addAction(UIAlertAction(title: "Hapus", style: .default, handler: { act in
                     alert.dismiss(animated: true, completion: nil)
+                    
+                    // troli badge
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     let notifListener = appDelegate.preloNotifListener
                     notifListener?.increaseCartCount(-1 * self.arrayItem.count)
+                    
                     self.arrayItem.removeAll()
                     CartProduct.deleteAll()
                     self.shouldBack = true
                     //                    self.cellsData = [:]
                     self.synchCart()
+                    
+                    // reset localid
+                    User.SetCartLocalId("")
                 }))
                 self.present(alert, animated: true, completion: nil)
             }
@@ -1189,12 +1227,17 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     
                     // Prelo Analytic - Checkout
                     let loginMethod = User.LoginMethod ?? ""
+                    var localId = User.CartLocalId ?? ""
                     let pdata = [
+                        "Local ID" : localId,
                         "Order ID" : orderId,
                         "Items" : itemsObject,
                         "Total Price" : totalPrice
                         ] as [String : Any]
                     AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Checkout, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+                    
+                    // reset localid
+                    User.SetCartLocalId("")
                     
                     // Answers
                     if (AppTools.IsPreloProduction) {
@@ -1382,18 +1425,22 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             print(p.cpID)
             UIApplication.appDelegate.managedObjectContext.delete(p)
             UIApplication.appDelegate.saveContext()
+            
+            // troli badge
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let notifListener = appDelegate.preloNotifListener
+            notifListener?.increaseCartCount(-1)
         }
         
 //        tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
         if (arrayItem.count == 0) {
             self.shouldBack = true
+            
+            // reset localid
+            User.SetCartLocalId("")
         }
 //        cellsData = [:]
         synchCart()
-        
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let notifListener = appDelegate.preloNotifListener
-        notifListener?.increaseCartCount(-1)
     }
     
     func itemNeedUpdateShipping(_ indexPath: IndexPath) {

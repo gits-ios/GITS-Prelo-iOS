@@ -33,6 +33,7 @@ open class User : NSObject
     fileprivate static var EmailKey = "user_email"
     fileprivate static var LoginMethodKey = "login_method"
     fileprivate static var UsernameHistoryKey = "username_history" // never delete, just append
+    fileprivate static var CartLocalIdKey = "cart_local_id"
     
     fileprivate static var badgeCount = 0
     
@@ -134,6 +135,7 @@ open class User : NSObject
         UserDefaults.standard.removeObject(forKey: User.IdKey)
         UserDefaults.standard.removeObject(forKey: User.TokenKey)
         UserDefaults.standard.removeObject(forKey: User.LoginMethodKey)
+        UserDefaults.standard.removeObject(forKey: User.CartLocalIdKey)
         UserDefaults.standard.synchronize()
         
         UserDefaults.standard.removeObject(forKey: "pathtoken")
@@ -207,6 +209,18 @@ open class User : NSObject
         }
         
         UserDefaults.standard.set(n, forKey: User.UsernameHistoryKey)
+        UserDefaults.standard.synchronize()
+    }
+    
+    static var CartLocalId : String?
+    {
+        let s = UserDefaults.standard.string(forKey: User.CartLocalIdKey)
+        return s
+    }
+    
+    static func SetCartLocalId(_ loginMethod : String?)
+    {
+        UserDefaults.standard.set(loginMethod, forKey: User.CartLocalIdKey)
         UserDefaults.standard.synchronize()
     }
 }
