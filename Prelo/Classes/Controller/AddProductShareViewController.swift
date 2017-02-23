@@ -386,13 +386,16 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         
         // Prelo Analytic - Share Product
         let loginMethod = User.LoginMethod ?? ""
+        let fb = Int(facebook) ?? 0
+        let tw = Int(twitter) ?? 0
+        let ig = Int(instagram) ?? 0
         let pdata = [
             "Local ID": self.localId,
             "Product Name" : productName,
-            "Commission Percentage" : Int(self.chargePercent),
-            "Facebook" : Int(facebook),
-            "Twitter" : Int(twitter),
-            "Instagram" : Int(instagram)
+//            "Commission Percentage" : Int(self.chargePercent),
+            "Facebook" : fb,
+            "Twitter" : tw,
+            "Instagram" : ig
         ] as [String : Any]
         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ShareProduct, data: pdata, previousScreen: self.sendProductBeforeScreen, loginMethod: loginMethod)
         

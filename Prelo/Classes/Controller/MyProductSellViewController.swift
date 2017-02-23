@@ -135,7 +135,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         
         // Prelo Analytic - Upload Success
         let loginMethod = User.LoginMethod ?? ""
-        let pdata = [
+        var pdata = [
             "Local ID": localId,
             "Product Name" : metadata["name"].string!,
             "Commission Percentage" : metadata["commission"].int!,
@@ -143,6 +143,21 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
             "Twitter" : metadata["share_status"]["TWITTER"].int!,
             "Instagram" : metadata["share_status"]["INSTAGRAM"].int!
         ] as [String : Any]
+        
+        let images = metadata["display_picts"].array!
+        
+        // imgae
+        var imagesOke : [Bool] = []
+        for i in 0...images.count - 1 {
+//            print(images[i].description)
+            if images[i].description != "null" {
+                imagesOke.append(true)
+            } else {
+                imagesOke.append(false)
+            }
+        }
+        pdata["Images"] = imagesOke
+        
         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.UploadSuccess, data: pdata, previousScreen: PageName.ShareAddedProduct, loginMethod: loginMethod)
     }
     

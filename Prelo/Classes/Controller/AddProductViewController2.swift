@@ -2007,36 +2007,40 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     }
                     
                     // imgae
-                    var count = 0
+//                    var count = 0
+                    var imagesOke : [Bool] = []
                     for i in 0...self.images.count - 1 {
                         if let _ = self.images[i] as? UIImage {
-                            count += 1
-                            if (i == 0) {
-                                pdata["Main Picture Exist"] = true
-                            } else if (i == 1) {
-                                pdata["Back Picture Exist"] = true
-                            } else if (i == 2) {
-                                pdata["Wear Picture Exist"] = true
-                            } else if (i == 3) {
-                                pdata["Label Picture Exist"] = true
-                            } else if (i == 4) {
-                                pdata["Defect Picture Exist"] = true
-                            }
+//                            count += 1
+//                            if (i == 0) {
+//                                pdata["Main Picture Exist"] = true
+//                            } else if (i == 1) {
+//                                pdata["Back Picture Exist"] = true
+//                            } else if (i == 2) {
+//                                pdata["Wear Picture Exist"] = true
+//                            } else if (i == 3) {
+//                                pdata["Label Picture Exist"] = true
+//                            } else if (i == 4) {
+//                                pdata["Defect Picture Exist"] = true
+//                            }
+                            imagesOke.append(true)
                         } else {
-                            if (i == 0) {
-                                pdata["Main Picture Exist"] = false
-                            } else if (i == 1) {
-                                pdata["Back Picture Exist"] = false
-                            } else if (i == 2) {
-                                pdata["Wear Picture Exist"] = false
-                            } else if (i == 3) {
-                                pdata["Label Picture Exist"] = false
-                            } else if (i == 4) {
-                                pdata["Defect Picture Exist"] = false
-                            }
+//                            if (i == 0) {
+//                                pdata["Main Picture Exist"] = false
+//                            } else if (i == 1) {
+//                                pdata["Back Picture Exist"] = false
+//                            } else if (i == 2) {
+//                                pdata["Wear Picture Exist"] = false
+//                            } else if (i == 3) {
+//                                pdata["Label Picture Exist"] = false
+//                            } else if (i == 4) {
+//                                pdata["Defect Picture Exist"] = false
+//                            }
+                            imagesOke.append(false)
                         }
                     }
-                    pdata["Number of Picture Uploaded"] = count
+//                    pdata["Number of Picture Uploaded"] = count
+                    pdata["Images"] = imagesOke
                     
                     AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SubmitProduct, data: pdata, previousScreen: self.screenBeforeAddProduct, loginMethod: loginMethod)
                 }
