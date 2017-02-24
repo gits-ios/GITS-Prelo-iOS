@@ -481,7 +481,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         let pdata = [
                             "Email" : user!.email,
                             "Username" : (CDUser.getOne()?.username)!,
-                            "Register OS" : "iOS"
+                            "Register OS" : "iOS",
+                            "Register Method" : "Facebook"
                         ]
                         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Register, data: pdata, previousScreen: screenBeforeLogin, loginMethod: "Facebook")
                     }
@@ -719,7 +720,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         let pdata = [
                             "Email" : user!.email,
                             "Username" : (CDUser.getOne()?.username)!,
-                            "Register OS" : "iOS"
+                            "Register OS" : "iOS",
+                            "Register Method" : "Twitter"
                         ]
                         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Register, data: pdata, previousScreen: screenBeforeLogin, loginMethod: "Twitter")
                     }

@@ -235,7 +235,8 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                 let pdata = [
                     "Email" : data["email"].stringValue,
                     "Username" : data["username"].stringValue,
-                    "Register OS" : "iOS"
+                    "Register OS" : "iOS",
+                    "Register Method" : "Basic"
                 ]
                 AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Register, data: pdata, previousScreen: self.screenBeforeLogin, loginMethod: "Basic")
                 
