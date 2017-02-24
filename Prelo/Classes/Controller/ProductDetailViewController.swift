@@ -517,6 +517,14 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     Constant.showDialog("Share to Facebook", message: "Barang berhasil di-share di akun Facebook \(fbUsername)")
                     self.delegate?.setFromDraftOrNew(true)
                 }
+                // Prelo Analytic - Share for Commission - Facebook
+                self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 1, tw: 0, ig: 0, reason: "")
+            } else {
+                let json = JSON(resp.result.value)
+                let reason = json["_message"].stringValue
+                
+                // Prelo Analytic - Share for Commission - Facebook
+                self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 1, tw: 0, ig: 0, reason: reason)
             }
             self.hideLoading()
         }
@@ -532,6 +540,14 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     Constant.showDialog("Share to Twitter", message: "Barang berhasil di-share di akun Twitter \(twUsername)")
                     self.delegate?.setFromDraftOrNew(true)
                 }
+                // Prelo Analytic - Share for Commission - Twitter
+                self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 0, tw: 1, ig: 0, reason: "")
+            } else {
+                let json = JSON(resp.result.value)
+                let reason = json["_message"].stringValue
+                
+                // Prelo Analytic - Share for Commission - Twitter
+                self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 0, tw: 1, ig: 0, reason: reason)
             }
             self.hideLoading()
         }
@@ -597,6 +613,15 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Share Instagram")) {
                                         self.cellTitle?.sharedViaInstagram()
                                         self.detail?.setSharedViaInstagram()
+                                        
+                                        // Prelo Analytic - Share for Commission - Instagram
+                                        self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 0, tw: 0, ig: 1, reason: "")
+                                    } else {
+                                        let json = JSON(resp.result.value)
+                                        let reason = json["_message"].stringValue
+                                        
+                                        // Prelo Analytic - Share for Commission - Instagram
+                                        self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 0, tw: 0, ig: 1, reason: reason)
                                     }
                                     self.hideLoading()
                                     instagramSharePreview.removeFromSuperview()
@@ -1290,6 +1315,21 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             "Type" : type
         ]
         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.UpProduct, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+    }
+    
+    // Prelo Analytic - Share for Commission
+    func sendShareForCommissionAnalytic(_ productId: String, productName: String, fb: Int, tw: Int, ig: Int, reason: String) {
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Product Name" : productName,
+            "Product ID" : productId,
+            "Username" : (CDUser.getOne()?.username)!,
+            "Facebook" : fb,
+            "Twitter" : tw,
+            "Instagram" : ig,
+            "Reason" : reason
+        ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ShareForCommission, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
     }
     
     @IBAction func btnUpBarangBatalPressed(_ sender: AnyObject) {

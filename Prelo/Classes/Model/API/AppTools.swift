@@ -794,6 +794,7 @@ class PreloAnalyticEvent {
     
     // Product
     static let UpProduct = "Product:Up Product"
+    static let ShareForCommission = "Product:Share for Commission"
     
     // Report
     static let ReportProduct = "Report:Report Product"
