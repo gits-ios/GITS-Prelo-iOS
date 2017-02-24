@@ -577,9 +577,9 @@ class AchievementDiamondCell: UITableViewCell { // 135 + lbldesc
     
     static func heightFor(_ isOpen: Bool) -> CGFloat {
         let standardHeight : CGFloat = 125.0
-        let text = "Kumpulkan Diamond untuk dapat meng-up barang kamu secara gratis!"
-        let textRect : CGRect = text.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 112)
-        return standardHeight + (isOpen ? textRect.height + (AppTools.isIPad ? 30 : 10) : 0) + 10
+        let text = "Kumpulkan Poin untuk digunakan di aplikasi Prelo. Saat ini Poin sudah dapat digunakan untuk meng-up barang secara gratis!"
+        let textRect : CGRect = text.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 16)
+        return standardHeight + (isOpen ? textRect.height + 10 /*(AppTools.isIPad ? 30 : 10)*/ : 0) + 10
     }
     
     func adapt(_ diamonds: Int, isOpen: Bool) {
