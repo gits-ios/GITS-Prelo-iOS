@@ -794,6 +794,9 @@ class PreloAnalyticEvent {
     
     // Product
     static let UpProduct = "Product:Up Product"
+    
+    // Report
+    static let ReportProduct = "Report:Report Product"
 }
 
 extension GAI {

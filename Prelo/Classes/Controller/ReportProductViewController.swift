@@ -213,6 +213,17 @@ class ReportProductViewController: BaseViewController, UITextViewDelegate {
 //                if (json["_data"].boolValue == true) {
                     Constant.showDialog("Barang Dilaporkan", message: "Terima kasih, Prelo akan meninjau laporan kamu")
 //                }
+                
+                // Prelo Analytic - Report Product
+                let loginMethod = User.LoginMethod ?? ""
+                let reportingUsername = (CDUser.getOne()?.username)!
+                let pdata = [
+                    "Product ID" : (self.pDetail?.productID)!,
+                    "Reported Username" : (self.pDetail?.theirName)!,
+                    "Reporting Username" : reportingUsername,
+                    "Reason" : reportType
+                ] as [String : Any]
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ReportProduct, data: pdata, previousScreen: PageName.ProductDetail, loginMethod: loginMethod)
             }
         }
     }
