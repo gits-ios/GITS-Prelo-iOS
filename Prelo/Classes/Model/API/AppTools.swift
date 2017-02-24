@@ -798,6 +798,9 @@ class PreloAnalyticEvent {
     
     // Report
     static let ReportProduct = "Report:Report Product"
+    
+    // Transaction
+    static let ConfirmShipping = "Transaction:Confirm Shipping"
 }
 
 extension GAI {

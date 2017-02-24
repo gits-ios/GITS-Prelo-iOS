@@ -1832,6 +1832,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 let confirmShippingVC = Bundle.main.loadNibNamed(Tags.XibNameConfirmShipping, owner: nil, options: nil)?.first as! ConfirmShippingViewController
                 confirmShippingVC.trxDetail = self.trxDetail!
                 confirmShippingVC.setDefaultKurir()
+                confirmShippingVC.previousScreen = PageName.TransactionDetail
                 self.navigationController?.pushViewController(confirmShippingVC, animated: true)
             }
         }
@@ -1852,6 +1853,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             confirmShippingVC.isRefundMode = true
             confirmShippingVC.tpId = self.trxProductId!
             confirmShippingVC.setDefaultKurir()
+            confirmShippingVC.previousScreen = PageName.TransactionDetail
             self.navigationController?.pushViewController(confirmShippingVC, animated: true)
         }
         cell.confirmReturned = {
