@@ -1190,7 +1190,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         totalCommissionPrice += cPrice
                         
                         // Prelo Analytic - Checkout - Item Data
-                        var curItem : [String : Any] = [
+                        let curItem : [String : Any] = [
                             "Product ID" : json["product_id"].stringValue,
                             "Seller Username" : json["seller_username"].stringValue,
                             "Price" : json["price"].intValue,
@@ -1203,6 +1203,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     }
                     
                     let orderId = self.checkoutResult!["order_id"].stringValue
+                    let paymentMethod = self.checkoutResult!["payment_method"].stringValue
                     
                     /*
                     // MixPanel
@@ -1239,7 +1240,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         "Order ID" : orderId,
                         "Items" : itemsObject,
                         "Total Price" : totalPrice,
-                        "Shipping" : shipping
+                        "Shipping" : shipping,
+                        "Payment Method" : paymentMethod
                     ] as [String : Any]
                     AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Checkout, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
                     

@@ -791,6 +791,9 @@ class PreloAnalyticEvent {
     
     // Withdraw
     static let RequestWithdrawMoney = "Withdraw:Request Withdraw Money"
+    
+    // Product
+    static let UpProduct = "Product:Up Product"
 }
 
 extension GAI {

@@ -167,7 +167,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         Mixpanel.trackEvent(MixpanelEvent.Logout, properties: p)
          */
         
-        // Prelo Analytic
+        // Prelo Analytic - Logout
         let loginMethod = User.LoginMethod ?? ""
         let pdata = [
             "Username" : CDUser.getOne()?.username

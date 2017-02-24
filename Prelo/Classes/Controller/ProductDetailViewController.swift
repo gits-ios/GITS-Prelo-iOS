@@ -1153,6 +1153,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     let coin = json["_data"]["my_total_diamonds"].intValue
                     
                     if (isSuccess) {
+                        // Prelo Analytic - Up Product - Free
+                        self.sendUpProductAnalytic(productId, type: "Free")
+                        
                         self.showUpPopUp(withText: message, isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
                     } else {
                         self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: true, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
@@ -1241,6 +1244,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                         let coin = json["_data"]["my_total_diamonds"].intValue
                         
                         if (isSuccess) {
+                            // Prelo Analytic - Up Product - Point
+                            self.sendUpProductAnalytic(productId, type: "Point")
+                            
                             self.showUpPopUp(withText: message + " (" + coinAmount.string + " Poin kamu telah otomatis ditarik)", isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
                         } else {
                             self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
@@ -1262,6 +1268,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                         let coin = json["_data"]["my_total_diamonds"].intValue
                         
                         if (isSuccess) {
+                            // Prelo Analytic - Up Product - Balance
+                            self.sendUpProductAnalytic(productId, type: "Balance")
+                            
                             self.showUpPopUp(withText: message + " (" + paidAmount.asPrice + " telah otomatis ditarik dari Prelo Balance)", isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
                         } else {
                             self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
@@ -1271,6 +1280,16 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 }
             }
         }
+    }
+    
+    // Prelo Analytic - Up Product
+    func sendUpProductAnalytic(_ productId: String, type: String) {
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Product ID" : productId,
+            "Type" : type
+        ]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.UpProduct, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
     }
     
     @IBAction func btnUpBarangBatalPressed(_ sender: AnyObject) {
