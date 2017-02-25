@@ -2245,6 +2245,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     let dataInt : Int = json["_data"].intValue
                     //print("dataBool = \(dataBool), dataInt = \(dataInt)")
                     if (dataBool == true || dataInt == 1) {
+                        // Prelo Analytic - Review and Rate Seller
+                        self.sendReviewRateSellerAnalytic()
+                        
                         Constant.showDialog("Success", message: "Review berhasil ditambahkan")
                     } else {
                         Constant.showDialog("Success", message: "Terdapat kesalahan saat memproses data")
@@ -2409,6 +2412,39 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     func floatRatingView(_ ratingView: FloatRatingView, didUpdate rating: Float) {
         self.loveValue = Int(self.floatRatingView.rating)
 //        Constant.showDialog("Rate / Love", message: "Original \(self.floatRatingView.rating.description) --> \(self.loveValue.string)")
+    }
+    
+    // Prelo Analytic - Review and Rate Seller
+    func sendReviewRateSellerAnalytic() {
+        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
+                                            qos: .background,
+                                            target: nil)
+        backgroundQueue.async {
+            let tp = self.trxProductDetail!
+            
+            let loginMethod = User.LoginMethod ?? ""
+            let province = CDProvince.getProvinceNameWithID(tp.shippingProvinceId) ?? ""
+            let region = CDRegion.getRegionNameWithID(tp.shippingRegionId) ?? ""
+            
+            let shipping = [
+                "Province" : province,
+                "Region" : region,
+                "Price" : tp.shippingPrice
+            ] as [String : Any]
+            
+            let pdata = [
+                "Order ID" : tp.orderId,
+                "Product ID" : tp.productId ,
+                "Price" : tp.productPrice,
+                "Commission Percentage" : tp.commission,
+                "Commission Price" : tp.commissionPrice,
+                "Seller Username" : tp.sellerUsername,
+                "Shipping" : shipping,
+                "Rate" : self.loveValue,
+                "Current State" : tp.progressText
+            ] as [String : Any]
+            AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ReviewAndRateSeller, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+        }
     }
 }
 
@@ -3987,15 +4023,15 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     let text = TransactionDetailTools.TextConfirmedPaidBuyer1 + "dd/MM/yyyy hh:mm:ss" + TransactionDetailTools.TextConfirmedPaidBuyer2
                     textRect = text.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                 }
-            } else if (progress == TransactionDetailTools.ProgressSent) {
-//                if (isSeller! == true) {
-//                    textRect = TransactionDetailTools.TextSentSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
-//                }
+            } /*else if (progress == TransactionDetailTools.ProgressSent) {
+                if (isSeller! == true) {
+                    textRect = TransactionDetailTools.TextSentSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                }
             } else if (progress == TransactionDetailTools.ProgressReceived) {
-//                if (isSeller! == true) {
-//                    textRect = TransactionDetailTools.TextReceivedSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
-//                }
-            } else if (progress == TransactionDetailTools.ProgressReserved) {
+                if (isSeller! == true) {
+                    textRect = TransactionDetailTools.TextReceivedSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                }
+            }*/ else if (progress == TransactionDetailTools.ProgressReserved) {
                 if (order == 1) {
                     textRect = TransactionDetailTools.TextReserved1.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                 } else if (order == 2) {
@@ -4060,7 +4096,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
     static func heightFor(_ progress : Int?, isSeller : Bool?, order : Int, boolParam : Bool) -> CGFloat {
         if (progress != nil && isSeller != nil) {
             var textRect : CGRect?
-            if (progress == TransactionDetailTools.ProgressReceived || progress == TransactionDetailTools.ProgressSent) {
+            if (progress == TransactionDetailTools.ProgressReceived) {
                 if (isSeller! == false) {
                     if (boolParam == true) { // In this case, boolParam = isRefundable
                         textRect = TransactionDetailTools.TextReceivedBuyer.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
@@ -4070,6 +4106,18 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                 } else {
                     if (isSeller! == true) {
                         textRect = TransactionDetailTools.TextReceivedSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                    }
+                }
+            } else if (progress == TransactionDetailTools.ProgressSent) {
+                if (isSeller! == false) {
+                    if (boolParam == true) { // In this case, boolParam = isRefundable
+                        textRect = TransactionDetailTools.TextSentBuyer.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                    } else {
+                        textRect = TransactionDetailTools.TextSentBuyerNoRefund.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                    }
+                } else {
+                    if (isSeller! == true) {
+                        textRect = TransactionDetailTools.TextSentSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                     }
                 }
             }
