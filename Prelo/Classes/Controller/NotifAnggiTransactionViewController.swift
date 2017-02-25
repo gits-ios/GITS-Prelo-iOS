@@ -455,6 +455,9 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         } else if (notif.caption.lowercased() == "beli") {
             transactionDetailVC.isSeller = false
         }
+        
+        transactionDetailVC.previousScreen = PageName.Notification
+        
         self.navigationController?.pushViewController(transactionDetailVC, animated: true)
         
         // Check if user is seller or buyer

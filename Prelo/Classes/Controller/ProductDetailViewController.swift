@@ -1045,6 +1045,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewController(withIdentifier: "TransactionDetail") as? TransactionDetailViewController)!
                             transactionDetailVC.trxProductId = tpId
                             transactionDetailVC.isSeller = false
+                            transactionDetailVC.previousScreen = PageName.ProductDetail
                             self.navigationController?.pushViewController(transactionDetailVC, animated: true)
                         }
                     } else {

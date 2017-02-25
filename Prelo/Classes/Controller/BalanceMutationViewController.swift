@@ -220,6 +220,8 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
                     transactionDetailVC.isSeller = false
                 }
                 
+                transactionDetailVC.previousScreen = PageName.Mutation
+                
                 self.navigationController?.pushViewController(transactionDetailVC, animated: true)
             }
         }
