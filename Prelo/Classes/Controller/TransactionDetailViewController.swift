@@ -1955,6 +1955,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     
                         // Goto chat
                         let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
+                        
+                        t.previousScreen = PageName.TransactionDetail
                     
                         // API Migrasi
                         let _ = request(APIInbox.getInboxByProductIDSeller(productId: pDetail.productID, buyerId: buyerId)).responseJSON {resp in
@@ -2011,6 +2013,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         t.tawarItem = pDetail
                         t.loadInboxFirst = true
                         t.prodId = pDetail.productID
+                        t.previousScreen = PageName.TransactionDetail
                         self.navigationController?.pushViewController(t, animated: true)
                     }
                 }
