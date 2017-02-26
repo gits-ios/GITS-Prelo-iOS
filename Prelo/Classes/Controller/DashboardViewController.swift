@@ -735,24 +735,35 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
         let appVersion = CDVersion.getOne()?.appVersion
         
         let _ = request(APIUser.rateApp(appVersion: appVersion!, rate: Int(self.rate), review: "")).responseJSON { resp in
-            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Rate App")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Rate App")) {
                 print("rated")
                 
+                // Prelo Analytic - Rate
                 self.sentPreloAnalyticRate(false)
+                
+                if (Int(self.rate) >= 4) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                        // rate to store
+                        self.displayPopUp(.openStore)
+                    })
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                        // send email
+                        self.displayPopUp(.sendMail)
+                    })
+                }
+                
+            } else {
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                    // re rate
+                    self.displayPopUp(.rate)
+                })
+                
             }
         }
         
-        if (Int(self.rate) >= 4) {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
-                 // rate to store
-                self.displayPopUp(.openStore)
-            })
-        } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
-                // send email
-                self.displayPopUp(.sendMail)
-            })
-        }
+        
     }
     
     @IBAction func btnOpenStorePressed(_ sender: Any) {
@@ -780,6 +791,7 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
     @IBAction func btnTidakPressed(_ sender: Any) {
         self.unDisplayPopUp()
         
+        // Prelo Analytic - Rate
         if self.popUpMode == .rate {
             self.sentPreloAnalyticRate(true)
         }
@@ -791,8 +803,8 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
         })
     }
     
+    // Prelo Analytic - Rate
     func sentPreloAnalyticRate(_ isCancelled: Bool) {
-        // Prelo Analytic - Rate
         let loginMethod = User.LoginMethod ?? ""
         let pdata = [
             "Is Cancelled" : isCancelled

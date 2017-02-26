@@ -430,8 +430,9 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     }
     
     func navigateReadNotif(_ notif : NotificationObj) {
-        // Prelo Analytic - Click Notification (in App) - Undefined Notification
-        self.sendClickNotificationAnalytic(notif.objectId, tipe: "Transaction")
+        
+        // Prelo Analytic - Click Notification (in App)
+        self.sendClickNotificationAnalytic(notif.objectId, tipe: notif.type)
         
         let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewController(withIdentifier: "TransactionDetail") as? TransactionDetailViewController)!
@@ -493,7 +494,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     }
     
     // Prelo Analytic - Click Notification (in App)
-    func sendClickNotificationAnalytic(_ targetId: String, tipe: String) {
+    func sendClickNotificationAnalytic(_ targetId: String, tipe: Int) {
         let loginMethod = User.LoginMethod ?? ""
         let pdata = [
             "Target ID" : targetId,

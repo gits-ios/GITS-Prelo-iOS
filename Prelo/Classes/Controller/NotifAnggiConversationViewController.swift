@@ -419,10 +419,11 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     }
     
     func navigateReadNotif(_ notif : NotificationObj) {
+        
+        // Prelo Analytic - Click Notification (in App)
+        self.sendClickNotificationAnalytic(notif.objectId, tipe: notif.type)
+        
         if (notif.type == 2000) { // Chat
-            // Prelo Analytic - Click Notification (in App) - Chat
-            self.sendClickNotificationAnalytic(notif.objectId, tipe: "Chat")
-            
             // Get inbox detail
             // API Migrasi
             let _ = request(APIInbox.getInboxMessage(inboxId: notif.objectId)).responseJSON {resp in
@@ -444,9 +445,6 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
             }
             
         } else if (notif.type == 3000) { // Komentar
-            // Prelo Analytic - Click Notification (in App) - Komentar
-            self.sendClickNotificationAnalytic(notif.objectId, tipe: "Komentar")
-            
             // Get product detail
             let _ = request(APIProduct.detail(productId: notif.objectId, forEdit: 0)).responseJSON {resp in
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Percakapan")) {
@@ -465,17 +463,11 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
             }
             
         } else if (notif.type == 4000) { // Lovelist
-            // Prelo Analytic - Click Notification (in App) - Lovelist
-            self.sendClickNotificationAnalytic(notif.objectId, tipe: "Lovelist")
-            
             let productLovelistVC = Bundle.main.loadNibNamed(Tags.XibNameProductLovelist, owner: nil, options: nil)?.first as! ProductLovelistViewController
             productLovelistVC.productId = notif.objectId
             self.navigationController?.pushViewController(productLovelistVC, animated: true)
             
         } else if (notif.type == 4001) { // Another lovelist
-            // Prelo Analytic - Click Notification (in App) - Another lovelist
-            self.sendClickNotificationAnalytic(notif.objectId, tipe: "Another lovelist")
-            
             // Get product detail
             let _ = request(APIProduct.detail(productId: notif.objectId, forEdit: 0)).responseJSON {resp in
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Percakapan")) {
@@ -494,9 +486,6 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                 }
             }
         } else {
-            // Prelo Analytic - Click Notification (in App) - Undefined Notification
-            self.sendClickNotificationAnalytic(notif.objectId, tipe: "Undefined Notification")
-            
             Constant.showDialog("Notifikasi - Percakapan", message: "Oops, notifikasi tidak bisa dibuka")
             self.hideLoading()
             self.showContent()
@@ -504,7 +493,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     }
     
     // Prelo Analytic - Click Notification (in App)
-    func sendClickNotificationAnalytic(_ targetId: String, tipe: String) {
+    func sendClickNotificationAnalytic(_ targetId: String, tipe: Int) {
         let loginMethod = User.LoginMethod ?? ""
         let pdata = [
             "Target ID" : targetId,
