@@ -1332,12 +1332,14 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         Constant.showDialog("Pembayaran \(self.selectedPayment.value)", message: "Pembayaran tertunda")
                         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
                         notifPageVC.isBackTwice = true
+                        notifPageVC.previousScreen = PageName.Checkout
                         self.navigateToVC(notifPageVC)
                     }
                     webVC.ccPaymentFailed = {
                         Constant.showDialog("Pembayaran \(self.selectedPayment.value)", message: "Pembayaran gagal, silahkan coba beberapa saat lagi")
                         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
                         notifPageVC.isBackTwice = true
+                        notifPageVC.previousScreen = PageName.Checkout
                         self.navigateToVC(notifPageVC)
                     }
                     let baseNavC = BaseNavigationController()
@@ -1493,6 +1495,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     @IBAction func paymentReminderPressed(_ sender: AnyObject) {
         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
+        notifPageVC.previousScreen = PageName.Checkout
         self.navigateToVC(notifPageVC)
     }
     

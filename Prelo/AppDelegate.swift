@@ -193,9 +193,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     
                     // Prelo Analytic - Click Push Notification
                     if let _ = remoteNotif.object(forKey: "attachment-url") as? String {
-                        sendPushNotifAnalytic(true)
+                        sendPushNotifAnalytic(true, isBackgroundMode: true, targetId: targetId!, tipe: tipe)
                     } else {
-                        sendPushNotifAnalytic(false)
+                        sendPushNotifAnalytic(false, isBackgroundMode: true, targetId: targetId!, tipe: tipe)
                     }
                 }
                 
@@ -498,13 +498,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         self.deeplinkRedirect(tipe, targetId: targetId)
                     }
                     
-                    // Prelo Analytic - Click Notification (in App)
-                    let loginMethod = User.LoginMethod ?? ""
-                    let pdata = [
-                        "Target ID" : targetId,
-                        "Type" : tipe
-                    ] as [String : Any]
-                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ClickNotificationInApp, data: pdata, previousScreen: "", loginMethod: loginMethod)
+//                    // Prelo Analytic - Click Notification (in App)
+//                    let loginMethod = User.LoginMethod ?? ""
+//                    let pdata = [
+//                        "Target ID" : targetId,
+//                        "Type" : tipe
+//                    ] as [String : Any]
+//                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ClickNotificationInApp, data: pdata, previousScreen: "", loginMethod: loginMethod)
+                    
+                    // Prelo Analytic - Click Push Notification
+                    if imgUrl != "" {
+                        self.sendPushNotifAnalytic(true, isBackgroundMode: false, targetId: targetId, tipe: tipe)
+                    } else {
+                        self.sendPushNotifAnalytic(false, isBackgroundMode: false, targetId: targetId, tipe: tipe)
+                    }
                 })
                 
                 banner.dismissesOnTap = true
@@ -526,9 +533,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             // Prelo Analytic - Click Push Notification
             if imgUrl != "" {
-                sendPushNotifAnalytic(true)
+                sendPushNotifAnalytic(true, isBackgroundMode: true, targetId: targetId, tipe: tipe)
             } else {
-                sendPushNotifAnalytic(false)
+                sendPushNotifAnalytic(false, isBackgroundMode: true, targetId: targetId, tipe: tipe)
             }
         }
     }
@@ -1383,11 +1390,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     // MARK: - Analytics push notif
-    func sendPushNotifAnalytic(_ isContainImage: Bool) {
+    func sendPushNotifAnalytic(_ isContainImage: Bool, isBackgroundMode: Bool, targetId: String, tipe: String) {
         // Prelo Analytic - Click Push Notification
         let loginMethod = User.LoginMethod ?? ""
         let pdata = [
-            "With Picture" : isContainImage
+            "With Picture" : isContainImage,
+            "Is Background Mode" : isBackgroundMode,
+            "Target ID" : targetId,
+            "Type" : tipe
         ] as [String : Any]
         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ClickPushNotification, data: pdata, previousScreen: "", loginMethod: loginMethod)
     }

@@ -75,6 +75,9 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
             if (isFirstAppear) {
                 isFirstAppear = false
                 
+                self.notifAnggiTransactionVC?.previousScreen = self.previousScreen
+                self.notifAnggiConversationVC?.previousScreen = self.previousScreen
+                
                 self.getUnreadNotifCount()
                 self.refreshNotifPage()
             } else {

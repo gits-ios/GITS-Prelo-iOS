@@ -264,6 +264,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     
     func launchNotifPage() {
         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
+        notifPageVC.previousScreen = PageName.Home
         self.navigationController?.pushViewController(notifPageVC, animated: true)
     }
     
