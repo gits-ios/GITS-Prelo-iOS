@@ -1698,6 +1698,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 let _ = request(APIProduct.delete(productID: prodId)).responseJSON {resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Hapus Barang"))
                     {
+                        // Prelo Analytic - Erase Product
+                        let loginMethod = User.LoginMethod ?? ""
+                        let pdata = [
+                            "Product ID": prodId
+                        ] as [String : Any]
+                        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.EraseProduct, data: pdata, previousScreen: self.screenBeforeAddProduct, loginMethod: loginMethod)
+                        
                         if var v = self.navigationController?.viewControllers
                         {
                             v.removeLast()

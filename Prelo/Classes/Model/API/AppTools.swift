@@ -802,6 +802,9 @@ class PreloAnalyticEvent {
     // Transaction
     static let ConfirmShipping = "Transaction:Confirm Shipping"
     static let ReviewAndRateSeller = "Transaction:Review and Rate Seller"
+    
+    // Product
+    static let EraseProduct = "Product:Erase Product"
 }
 
 extension GAI {

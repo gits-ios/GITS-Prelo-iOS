@@ -958,6 +958,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         a.delegate = self.delegate
         
+        a.screenBeforeAddProduct = PageName.ProductDetailMine
+        
         // API Migrasi
         let _ = request(APIProduct.detail(productId: detail!.productID, forEdit: 1)).responseJSON {resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Barang")) {
