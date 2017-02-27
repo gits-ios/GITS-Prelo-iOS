@@ -1395,9 +1395,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let loginMethod = User.LoginMethod ?? ""
         let pdata = [
             "With Picture" : isContainImage,
-            "Is Background Mode" : isBackgroundMode,
-            "Target ID" : targetId,
-            "Type" : tipe
+//            "Is Background Mode" : isBackgroundMode,
+//            "Target ID" : targetId,
+//            "Type" : tipe
         ] as [String : Any]
         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ClickPushNotification, data: pdata, previousScreen: "", loginMethod: loginMethod)
     }

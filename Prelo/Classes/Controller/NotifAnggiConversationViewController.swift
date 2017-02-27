@@ -494,10 +494,18 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     
     // Prelo Analytic - Click Notification (in App)
     func sendClickNotificationAnalytic(_ targetId: String, tipe: Int) {
+        let type = [
+            1000 : "Transaction",
+            2000 : "Chat",
+            3000 : "Comment",
+            4000 : "Lovelist",
+            4001 : "Another Lovelist"
+        ]
+        
         let loginMethod = User.LoginMethod ?? ""
         let pdata = [
             "Target ID" : targetId,
-            "Type" : tipe
+            "Type" : type[tipe]
         ] as [String : Any]
         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ClickNotificationInApp, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
     }
