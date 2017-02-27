@@ -798,6 +798,7 @@ class PreloAnalyticEvent {
     
     // Report
     static let ReportProduct = "Report:Report Product"
+    static let ReportComment = "Report:Report Comment"
     
     // Transaction
     static let ConfirmShipping = "Transaction:Confirm Shipping"

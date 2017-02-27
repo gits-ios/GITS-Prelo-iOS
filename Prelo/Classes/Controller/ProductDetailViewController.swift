@@ -743,11 +743,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     alert.popoverPresentationController?.sourceView = sender
                     alert.popoverPresentationController?.sourceRect = sender.bounds
                     alert.addAction(UIAlertAction(title: "Mengganggu / spam", style: .default, handler: { act in
-                        self.reportComment(commentId: commentId, reportType: 0)
+                        self.reportComment(commentId: commentId, reportType: 0, reportedUsername: (cell.captionName?.text!)!)
                         alert.dismiss(animated: true, completion: nil)
                     }))
                     alert.addAction(UIAlertAction(title: "Tidak layak", style: .default, handler: { act in
-                        self.reportComment(commentId: commentId, reportType: 1)
+                        self.reportComment(commentId: commentId, reportType: 1, reportedUsername: (cell.captionName?.text!)!)
                         alert.dismiss(animated: true, completion: nil)
                     }))
                     alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in
@@ -779,7 +779,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
-    func reportComment(commentId : String, reportType : Int) {
+    func reportComment(commentId : String, reportType : Int, reportedUsername : String) {
         self.showLoading()
         request(APIProduct.reportComment(productId: (self.product?.id)!, commentId: commentId, reportType: reportType)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Laporkan Komentar")) {
@@ -787,6 +787,18 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 if (json["_data"].boolValue == true) {
                     Constant.showDialog("Komentar Dilaporkan", message: "Terima kasih, Prelo akan meninjau laporan kamu")
                 }
+                
+                // Prelo Analytic - Report Comment
+                let loginMethod = User.LoginMethod ?? ""
+                let reportingUsername = (CDUser.getOne()?.username)!
+                let pdata = [
+                    "Product ID" : (self.product?.id)!,
+                    "Reported Username" : reportedUsername,
+                    "Reporting Username" : reportingUsername,
+                    "Reason" : reportType,
+                    "Comment ID" : commentId
+                ] as [String : Any]
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ReportComment, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
             }
             self.hideLoading()
         }
