@@ -281,6 +281,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             isShowLogin = false
             LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
         }
+        
+        if self.prodId == "" {
+            self.prodId = self.tawarItem.itemId
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -1189,6 +1193,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 }
                 self.sendChat(4, message: "Barang ini dijual kepada \(self.tawarItem.theirName) dengan harga \(finalPrice)", image: nil)
                 
+                /*
                 // Mixpanel
                 let pt = [
                     "Product Id" : self.prodId,
@@ -1197,6 +1202,15 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                     "Price" : finalPrice
                 ]
                 Mixpanel.trackEvent(MixpanelEvent.ChatMarkAsSold, properties: pt)
+                 */
+                
+                // Prelo Analytic - Mark As Sold
+                let loginMethod = User.LoginMethod ?? ""
+                let pdata = [
+                    "Product ID": self.prodId,
+                    "Screen" : PageName.InboxDetail
+                ] as [String : Any]
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.MarkAsSold, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
             }))
             self.present(alert2, animated: true, completion: nil)
         }))

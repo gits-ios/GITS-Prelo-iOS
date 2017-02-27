@@ -932,6 +932,14 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             Constant.showDialog("Success", message: "Barang telah ditandai sebagai barang terjual")
                             
                             self.delegate?.setFromDraftOrNew(true)
+                            
+                            // Prelo Analytic - Mark As Sold
+                            let loginMethod = User.LoginMethod ?? ""
+                            let pdata = [
+                                "Product ID": productId,
+                                "Screen" : PageName.ProductDetailMine
+                            ] as [String : Any]
+                            AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.MarkAsSold, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
                         } else {
                             Constant.showDialog("Failed", message: "Oops, terdapat kesalahan")
                         }
