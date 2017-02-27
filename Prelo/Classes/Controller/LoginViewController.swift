@@ -93,7 +93,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     
     // Check if user have set his account in ProfileSetupVC and PhoneVerificationVC
     // Param token is only used when user have set his account via setup account and phone verification
-    static func CheckProfileSetup(_ sender : BaseViewController, token : String, isSocmedAccount : Bool, loginMethod : String, screenBeforeLogin : String) {
+    static func CheckProfileSetup(_ sender : BaseViewController, token : String, isSocmedAccount : Bool, loginMethod : String, screenBeforeLogin : String, isNeedPayload : Bool) {
         let vcLogin = sender as? LoginViewController
         let vcRegister = sender as? RegisterViewController
         
@@ -246,7 +246,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     User.SetLoginMethod(loginMethod)
                     
                     // Prelo Analytic - Update User
-                    AnalyticManager.sharedInstance.updateUser()
+                    AnalyticManager.sharedInstance.updateUser(isNeedPayload: isNeedPayload)
                     
                     // Set crashlytics user information
                     Crashlytics.sharedInstance().setUserIdentifier(user.profiles.phone!)
@@ -477,6 +477,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                      */
                     
                     // Prelo Analytic - Register
+                    var isNeedPayload = false
                     if let _ = sender as? RegisterViewController {
                         let pdata = [
                             "Email" : user!.email,
@@ -485,11 +486,13 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                             "Register Method" : "Facebook"
                         ]
                         AnalyticManager.sharedInstance.sendWithUserId(eventType: PreloAnalyticEvent.Register, data: pdata, previousScreen: screenBeforeLogin, loginMethod: "Facebook", userId: user!.id)
+                        
+                        isNeedPayload = true
                     }
                     
                     // Check if user have set his account
                     //self.checkProfileSetup(data["token"].string!)
-                    LoginViewController.CheckProfileSetup(sender, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Facebook", screenBeforeLogin: screenBeforeLogin)
+                    LoginViewController.CheckProfileSetup(sender, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Facebook", screenBeforeLogin: screenBeforeLogin, isNeedPayload: isNeedPayload)
                 } else {
                     LoginViewController.LoginFacebookCancelled(sender, reason: nil)
                 }
@@ -716,6 +719,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                      */
                     
                     // Prelo Analytic - Register
+                    var isNeedPayload = false
                     if let _ = sender as? RegisterViewController {
                         let pdata = [
                             "Email" : user!.email,
@@ -724,10 +728,12 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                             "Register Method" : "Twitter"
                         ]
                         AnalyticManager.sharedInstance.sendWithUserId(eventType: PreloAnalyticEvent.Register, data: pdata, previousScreen: screenBeforeLogin, loginMethod: "Twitter", userId: user!.id)
+                        
+                        isNeedPayload = true
                     }
                     
                     // Check if user have set his account
-                    LoginViewController.CheckProfileSetup(sender, token: data["token"].stringValue, isSocmedAccount: true, loginMethod: "Twitter", screenBeforeLogin: screenBeforeLogin)
+                    LoginViewController.CheckProfileSetup(sender, token: data["token"].stringValue, isSocmedAccount: true, loginMethod: "Twitter", screenBeforeLogin: screenBeforeLogin, isNeedPayload: isNeedPayload)
                 }
             } else {
                 LoginViewController.LoginTwitterCancelled(sender, reason: nil)
@@ -890,7 +896,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 //self.getProfile(data["token"].string!)
-                LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: false, loginMethod: "Basic", screenBeforeLogin: self.screenBeforeLogin)
+                LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: false, loginMethod: "Basic", screenBeforeLogin: self.screenBeforeLogin, isNeedPayload: false)
             } else {
                 self.hideLoading()
             }
@@ -997,7 +1003,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                 
                 // Check if user have set his account
                 //self.checkProfileSetup(data["token"].string!)
-                LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Path", screenBeforeLogin: self.screenBeforeLogin)
+                LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Path", screenBeforeLogin: self.screenBeforeLogin, isNeedPayload: false)
             }
         }
     }

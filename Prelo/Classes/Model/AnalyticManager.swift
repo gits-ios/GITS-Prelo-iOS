@@ -121,9 +121,9 @@ class AnalyticManager: NSObject {
     }
     
     // user must login
-    func updateUser() {
+    func updateUser(isNeedPayload: Bool) {
         if (User.IsLoggedIn) {
-            let _ = request(APIAnalytic.user).responseJSON {resp in
+            let _ = request(APIAnalytic.user(isNeedPayload: isNeedPayload)).responseJSON {resp in
                 if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - User")) {
                     print("Analytics - User, Sent!")
                     if self.isShowDialog {

@@ -367,7 +367,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                 
                 // Check if user have set his account
                 //self.checkProfileSetup(data["token"].string!)
-                LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Path", screenBeforeLogin: self.screenBeforeLogin)
+                LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Path", screenBeforeLogin: self.screenBeforeLogin, isNeedPayload: true)
             }
         }
     }

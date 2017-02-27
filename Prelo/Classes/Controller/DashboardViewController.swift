@@ -168,7 +168,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        imgCover?.image = UIImage(named: "ic_user_2.png")
+        imgCover?.image = UIImage(named: "placeholder-circle.png") //UIImage(named: "ic_user_2.png")
         let uProf = CDUserProfile.getOne()
         if (uProf != nil) {
             let url = URL(string: uProf!.pict)

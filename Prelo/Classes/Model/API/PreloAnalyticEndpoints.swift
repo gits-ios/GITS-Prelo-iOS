@@ -123,7 +123,7 @@ enum APIAnalytic : URLRequestConvertible {
     case eventWithUserId(eventType: String, data: [String : Any], userId: String)
     case event(eventType: String, data: [String : Any])
     case userInit(userProfileData: UserProfile)
-    case user
+    case user(isNeedPayload: Bool)
     
     public func asURLRequest() throws -> URLRequest {
         //convert the JSON to a raw String
@@ -150,7 +150,7 @@ enum APIAnalytic : URLRequestConvertible {
         case .eventWithUserId(_, _, _) : return "event"
         case .event(_, _) : return "event"
         case .userInit(_) : return "user"
-        case .user : return "user"
+        case .user(_) : return "user"
         }
     }
     
@@ -211,40 +211,52 @@ enum APIAnalytic : URLRequestConvertible {
                 "username" : userProfileData.username,
                 "data" : d
             ]
-        case .user :
+        case .user(let isNeedPayload) :
             let _user = CDUser.getOne()
-            let regionName = CDRegion.getRegionNameWithID((_user?.profiles.regionID)!) ?? ""
-            let provinceName = CDProvince.getProvinceNameWithID((_user?.profiles.provinceID)!) ?? ""
             let deviceToken = (User.IsLoggedIn && UserDefaults.standard.string(forKey: "deviceregid") != nil && UserDefaults.standard.string(forKey: "deviceregid") != "" ? UserDefaults.standard.string(forKey: "deviceregid")! : "...simulator...")
-            let a : [String : Any] = [
-                "province" : provinceName,
-                "region" : regionName,
-                "subdistrict" : (_user?.profiles.subdistrictName)!
-            ]
-            let d : [String : [String : Any]] =  [
-                "device_model" : [
-                    "append" : (AppTools.isSimulator ? UIDevice.current.model + " Simulator" : AnalyticManager.sharedInstance.platform()) + " - " + UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")"
-                ],
-                "apns_id" : [
-                    "append" : deviceToken
-                ],
-                "username" : [
-                    "update" : (_user?.username)!
-                ],
-                "name" : [
-                    "append" : (_user?.fullname)!
-                ],
-                "email" : [
-                    "update" : (_user?.email)!
-                ],
-                "gender" : [
-                    "update" : (_user?.profiles.gender)!
-                ],
-                "phone" : [
-                    "update" : (_user?.profiles.phone)!
-                ],
-                "address" : a
-            ]
+            var d : [String : [String : Any]] = [:]
+            if (isNeedPayload) {
+                let regionName = CDRegion.getRegionNameWithID((_user?.profiles.regionID)!) ?? ""
+                let provinceName = CDProvince.getProvinceNameWithID((_user?.profiles.provinceID)!) ?? ""
+                let a : [String : Any] = [
+                    "province" : provinceName,
+                    "region" : regionName,
+                    "subdistrict" : (_user?.profiles.subdistrictName)!
+                ]
+                d =  [
+                    "device_model" : [
+                        "append" : (AppTools.isSimulator ? UIDevice.current.model + " Simulator" : AnalyticManager.sharedInstance.platform()) + " - " + UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")"
+                    ],
+                    "apns_id" : [
+                        "append" : deviceToken
+                    ],
+                    "username" : [
+                        "update" : (_user?.username)!
+                    ],
+                    "name" : [
+                        "append" : (_user?.fullname)!
+                    ],
+                    "email" : [
+                        "update" : (_user?.email)!
+                    ],
+                    "gender" : [
+                        "update" : (_user?.profiles.gender)!
+                    ],
+                    "phone" : [
+                        "update" : (_user?.profiles.phone)!
+                    ],
+                    "address" : a
+                ]
+            } else {
+                d =  [
+                    "device_model" : [
+                        "append" : (AppTools.isSimulator ? UIDevice.current.model + " Simulator" : AnalyticManager.sharedInstance.platform()) + " - " + UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")"
+                    ],
+                    "apns_id" : [
+                        "append" : deviceToken
+                    ]
+                ]
+            }
             p = [
                 "user_id" : (User.Id != nil ? User.Id! : (_user?.id)!),
                 "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
