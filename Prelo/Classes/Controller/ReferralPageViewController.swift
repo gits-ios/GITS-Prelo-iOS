@@ -505,7 +505,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         let loginMethod = User.LoginMethod ?? ""
         let pdata = [
             "Referral Code Used" : referralCode,
-            "Is Succeed" : isSucceed,
+            "Success" : isSucceed,
             "Failed Reason" : reason
         ] as [String : Any]
         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.RedeemReferralCode, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
