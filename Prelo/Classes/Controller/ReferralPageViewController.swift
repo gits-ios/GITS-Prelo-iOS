@@ -465,38 +465,20 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                         Mixpanel.trackEvent(MixpanelEvent.ReferralUsed, properties: pt)
                          */
                         
-                        // Prelo Analytics - Referral use
-                        let loginMethod = User.LoginMethod ?? ""
-                        let pdata = [
-                            "Referral Code Used" : self.fieldKodeReferral.text!,
-                            "Is Succeed" : true,
-                            "Failed Reason" : ""
-                            ] as [String : Any]
-                        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.RedeemReferralCode, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+                        // Prelo Analytics - Redeem Referral Code
+                        self.sendRedeemReferralCodeAnalytic(self.fieldKodeReferral.text!, isSucceed: true, reason: "")
                         
                     } else {
                         let reason = json["_message"].string!
                         
-                        // Prelo Analytics - Referral use
-                        let loginMethod = User.LoginMethod ?? ""
-                        let pdata = [
-                            "Referral Code Used" : self.fieldKodeReferral.text!,
-                            "Is Succeed" : false,
-                            "Failed Reason" : reason
-                            ] as [String : Any]
-                        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.RedeemReferralCode, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+                        // Prelo Analytics - Redeem Referral Code
+                        self.sendRedeemReferralCodeAnalytic(self.fieldKodeReferral.text!, isSucceed: false, reason: reason)
                     }
                 } else {
                     let reason = json["_message"].string!
                     
-                    // Prelo Analytics - Referral use
-                    let loginMethod = User.LoginMethod ?? ""
-                    let pdata = [
-                        "Referral Code Used" : self.fieldKodeReferral.text!,
-                        "Is Succeed" : false,
-                        "Failed Reason" : reason
-                        ] as [String : Any]
-                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.RedeemReferralCode, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+                    // Prelo Analytics - Redeem Referral Code
+                    self.sendRedeemReferralCodeAnalytic(self.fieldKodeReferral.text!, isSucceed: false, reason: reason)
                 }
                 self.hideLoading()
             }
@@ -506,11 +488,37 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     // MARK: - Mixpanel
     
     func mixpanelSharedReferral(_ socmed : String, username : String) {
+        /*
         let pt = [
             "Socmed" : socmed,
             "Socmed Username" : username
         ]
         Mixpanel.trackEvent(MixpanelEvent.SharedReferral, properties: pt)
+         */
+        
+        // Prelo Analytic - Share Referral Code
+        sendShareReferralCodeAnalytic(socmed, username: username)
+    }
+    
+    // Prelo Analytics - Redeem Referral Code
+    func sendRedeemReferralCodeAnalytic(_ referralCode: String, isSucceed: Bool, reason: String) {
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Referral Code Used" : referralCode,
+            "Is Succeed" : isSucceed,
+            "Failed Reason" : reason
+        ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.RedeemReferralCode, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+    }
+    
+    // Prelo Analytics - Share Referral Code
+    func sendShareReferralCodeAnalytic(_ socmed: String, username: String) {
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Socmed" : socmed,
+            "Socmed Username" : username
+        ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.RedeemReferralCode, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
     }
     
     // MARK: - UIAlertView Delegate Functions

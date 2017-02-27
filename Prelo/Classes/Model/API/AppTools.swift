@@ -767,6 +767,7 @@ class PreloAnalyticEvent {
     
     // Referral
     static let RedeemReferralCode = "Referral:Redeem Referral Code"
+    static let ShareReferralCode = "Referral:Share Referral Code"
     
     // Add Product
     static let SubmitProduct = "Add Product:Submit Product"
