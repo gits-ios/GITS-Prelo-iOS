@@ -158,7 +158,7 @@ enum APIAnalytic : URLRequestConvertible {
         switch self {
         case .event(let eventType, let data) :
             p = [
-                "user_id" : (User.IsLoggedIn ? User.Id! : ""),
+                "user_id" : (User.IsLoggedIn && User.Id != nil ? User.Id! : ""),
                 "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
                 "device_id" : UIDevice.current.identifierForVendor!.uuidString,
                 "event_type" : eventType,
@@ -180,7 +180,7 @@ enum APIAnalytic : URLRequestConvertible {
                 ]
             ]
             p = [
-                "user_id" : (User.IsLoggedIn ? User.Id! : ""),
+                "user_id" : (User.IsLoggedIn && User.Id != nil ? User.Id! : ""),
                 "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
                 "device_id" : UIDevice.current.identifierForVendor!.uuidString,
                 "username" : (User.IsLoggedIn ? (_user?.username)! : ""),
