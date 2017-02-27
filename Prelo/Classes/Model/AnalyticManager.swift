@@ -120,19 +120,23 @@ class AnalyticManager: NSObject {
         }
     }
     
+    // user must login
     func updateUser() {
-        let _ = request(APIAnalytic.user).responseJSON {resp in
-            if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - User")) {
-                print("Analytics - User, Sent!")
-                if self.isShowDialog {
-                    Constant.showDialog("Analytics - User", message: "Success")
+        if (User.IsLoggedIn) {
+            let _ = request(APIAnalytic.user).responseJSON {resp in
+                if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - User")) {
+                    print("Analytics - User, Sent!")
+                    if self.isShowDialog {
+                        Constant.showDialog("Analytics - User", message: "Success")
+                    }
                 }
             }
         }
     }
     
-    func initUser(userId: String, username: String, regionName : String) {
-        let _ = request(APIAnalytic.userInit(userId: userId, username: username, regionName: regionName)).responseJSON {resp in
+    // only from setup profile, register
+    func initUser(userProfileData: UserProfile) {
+        let _ = request(APIAnalytic.userInit(userProfileData: userProfileData)).responseJSON {resp in
             if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - User")) {
                 print("Analytics - User, Sent!")
                 if self.isShowDialog {

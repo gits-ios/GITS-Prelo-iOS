@@ -122,7 +122,7 @@ extension URLRequest {
 enum APIAnalytic : URLRequestConvertible {
     case eventWithUserId(eventType: String, data: [String : Any], userId: String)
     case event(eventType: String, data: [String : Any])
-    case userInit(userId: String, username: String, regionName: String)
+    case userInit(userProfileData: UserProfile)
     case user
     
     public func asURLRequest() throws -> URLRequest {
@@ -149,7 +149,7 @@ enum APIAnalytic : URLRequestConvertible {
         switch self {
         case .eventWithUserId(_, _, _) : return "event"
         case .event(_, _) : return "event"
-        case .userInit(_, _, _) : return "user"
+        case .userInit(_) : return "user"
         case .user : return "user"
         }
     }
@@ -173,8 +173,13 @@ enum APIAnalytic : URLRequestConvertible {
                 "event_type" : eventType,
                 "data" : data
             ]
-        case .userInit(let userId, let username, let regionName) :
+        case .userInit(let userProfileData) :
             let deviceToken = (User.IsLoggedIn && UserDefaults.standard.string(forKey: "deviceregid") != nil && UserDefaults.standard.string(forKey: "deviceregid") != "" ? UserDefaults.standard.string(forKey: "deviceregid")! : "...simulator...")
+            let a : [String : Any] = [
+                "province" : CDProvince.getProvinceNameWithID(userProfileData.provinceId)!,
+                "region" : CDRegion.getRegionNameWithID(userProfileData.regionId)!,
+                "subdistrict" : userProfileData.subdistrictName
+            ]
             let d : [String : [String : Any]] =  [
                 "device_model" : [
                     "append" : (AppTools.isSimulator ? UIDevice.current.model + " Simulator" : AnalyticManager.sharedInstance.platform()) + " - " + UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")"
@@ -182,21 +187,40 @@ enum APIAnalytic : URLRequestConvertible {
                 "apns_id" : [
                     "append" : deviceToken
                 ],
-                "region" : [
-                    "update" : regionName
-                ]
+                "username" : [
+                    "update" : userProfileData.username
+                ],
+                "name" : [
+                    "append" : userProfileData.fullname
+                ],
+                "email" : [
+                    "update" : userProfileData.email
+                ],
+                "gender" : [
+                    "update" : userProfileData.gender
+                ],
+                "phone" : [
+                    "update" : userProfileData.phone
+                ],
+                "address" : a
             ]
             p = [
-                "user_id" : userId,
+                "user_id" : userProfileData.id,
                 "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
                 "device_id" : UIDevice.current.identifierForVendor!.uuidString,
-                "username" : username,
+                "username" : userProfileData.username,
                 "data" : d
             ]
         case .user :
             let _user = CDUser.getOne()
             let regionName = CDRegion.getRegionNameWithID((_user?.profiles.regionID)!) ?? ""
+            let provinceName = CDProvince.getProvinceNameWithID((_user?.profiles.provinceID)!) ?? ""
             let deviceToken = (User.IsLoggedIn && UserDefaults.standard.string(forKey: "deviceregid") != nil && UserDefaults.standard.string(forKey: "deviceregid") != "" ? UserDefaults.standard.string(forKey: "deviceregid")! : "...simulator...")
+            let a : [String : Any] = [
+                "province" : provinceName,
+                "region" : regionName,
+                "subdistrict" : (_user?.profiles.subdistrictName)!
+            ]
             let d : [String : [String : Any]] =  [
                 "device_model" : [
                     "append" : (AppTools.isSimulator ? UIDevice.current.model + " Simulator" : AnalyticManager.sharedInstance.platform()) + " - " + UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")"
@@ -204,15 +228,28 @@ enum APIAnalytic : URLRequestConvertible {
                 "apns_id" : [
                     "append" : deviceToken
                 ],
-                "region" : [
-                    "update" : regionName
-                ]
+                "username" : [
+                    "update" : (_user?.username)!
+                ],
+                "name" : [
+                    "append" : (_user?.fullname)!
+                ],
+                "email" : [
+                    "update" : (_user?.email)!
+                ],
+                "gender" : [
+                    "update" : (_user?.profiles.gender)!
+                ],
+                "phone" : [
+                    "update" : (_user?.profiles.phone)!
+                ],
+                "address" : a
             ]
             p = [
-                "user_id" : (User.IsLoggedIn ? User.Id! : ""),
+                "user_id" : (User.Id != nil ? User.Id! : (_user?.id)!),
                 "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
                 "device_id" : UIDevice.current.identifierForVendor!.uuidString,
-                "username" : (User.IsLoggedIn ? (_user?.username)! : ""),
+                "username" : (_user?.username)!,
                 "data" : d
             ]
         }

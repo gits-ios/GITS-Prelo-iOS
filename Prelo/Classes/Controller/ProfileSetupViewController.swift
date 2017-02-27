@@ -711,7 +711,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         AnalyticManager.sharedInstance.sendWithUserId(eventType: PreloAnalyticEvent.SetupAccount, data: pdata, previousScreen: self.screenBeforeLogin, loginMethod: self.loginMethod, userId: userProfileData.id)
                         
                         // Prelo Analytic - Update User - Init
-                        AnalyticManager.sharedInstance.initUser(userId: userProfileData.id, username: userProfileData.username, regionName: CDRegion.getRegionNameWithID(userProfileData.regionId)!)
+                        AnalyticManager.sharedInstance.initUser(userProfileData: userProfileData)
                     }
                     
                     let phoneVerificationVC = Bundle.main.loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil)?.first as! PhoneVerificationViewController
