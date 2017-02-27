@@ -484,7 +484,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                             "Register OS" : "iOS",
                             "Register Method" : "Facebook"
                         ]
-                        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Register, data: pdata, previousScreen: screenBeforeLogin, loginMethod: "Facebook")
+                        AnalyticManager.sharedInstance.sendWithUserId(eventType: PreloAnalyticEvent.Register, data: pdata, previousScreen: screenBeforeLogin, loginMethod: "Facebook", userId: user!.id)
                     }
                     
                     // Check if user have set his account
@@ -723,7 +723,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                             "Register OS" : "iOS",
                             "Register Method" : "Twitter"
                         ]
-                        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Register, data: pdata, previousScreen: screenBeforeLogin, loginMethod: "Twitter")
+                        AnalyticManager.sharedInstance.sendWithUserId(eventType: PreloAnalyticEvent.Register, data: pdata, previousScreen: screenBeforeLogin, loginMethod: "Twitter", userId: user!.id)
                     }
                     
                     // Check if user have set his account

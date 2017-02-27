@@ -692,10 +692,10 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         "City" : CDRegion.getRegionNameWithID(userProfileData.regionId)!,
                         "Subdistrict" : self.lblKecamatan.text
                     ]
-                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SetupAccount, data: pdata, previousScreen: self.screenBeforeLogin, loginMethod: self.loginMethod)
+                    AnalyticManager.sharedInstance.sendWithUserId(eventType: PreloAnalyticEvent.SetupAccount, data: pdata, previousScreen: self.screenBeforeLogin, loginMethod: self.loginMethod, userId: userProfileData.id)
                     
-                    // Prelo Analytic - Update User
-                    AnalyticManager.sharedInstance.updateUser()
+                    // Prelo Analytic - Update User - Init
+                    AnalyticManager.sharedInstance.initUser(userId: userProfileData.id, username: userProfileData.username, regionName: CDRegion.getRegionNameWithID(userProfileData.regionId)!)
                     
                     let phoneVerificationVC = Bundle.main.loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil)?.first as! PhoneVerificationViewController
                     phoneVerificationVC.userRelatedDelegate = self.userRelatedDelegate

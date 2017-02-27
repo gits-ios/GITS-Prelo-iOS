@@ -100,8 +100,39 @@ class AnalyticManager: NSObject {
          */
     }
     
+    func sendWithUserId(eventType : String, data : [String : Any], previousScreen : String, loginMethod : String, userId: String) {
+        var wrappedData = skeletonData
+        
+        // still skeleton
+        wrappedData["Device Model"] = (AppTools.isSimulator ? UIDevice.current.model + " Simulator" : platform())
+        wrappedData["Previous Screen"] = previousScreen
+        wrappedData["Login Method"] = loginMethod
+        
+        wrappedData.update(other: data)
+        
+        let _ = request(APIAnalytic.eventWithUserId(eventType: eventType, data: wrappedData, userId: userId)).responseJSON {resp in
+            if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - " + eventType)) {
+                print("Analytics - " + eventType + ", Sent!")
+                if self.isShowDialog {
+                    Constant.showDialog("Analytics - " + eventType, message: "Success")
+                }
+            }
+        }
+    }
+    
     func updateUser() {
         let _ = request(APIAnalytic.user).responseJSON {resp in
+            if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - User")) {
+                print("Analytics - User, Sent!")
+                if self.isShowDialog {
+                    Constant.showDialog("Analytics - User", message: "Success")
+                }
+            }
+        }
+    }
+    
+    func initUser(userId: String, username: String, regionName : String) {
+        let _ = request(APIAnalytic.userInit(userId: userId, username: username, regionName: regionName)).responseJSON {resp in
             if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - User")) {
                 print("Analytics - User, Sent!")
                 if self.isShowDialog {

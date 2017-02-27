@@ -120,7 +120,9 @@ extension URLRequest {
 }
 
 enum APIAnalytic : URLRequestConvertible {
+    case eventWithUserId(eventType: String, data: [String : Any], userId: String)
     case event(eventType: String, data: [String : Any])
+    case userInit(userId: String, username: String, regionName: String)
     case user
     
     public func asURLRequest() throws -> URLRequest {
@@ -140,15 +142,14 @@ enum APIAnalytic : URLRequestConvertible {
     }
     
     var method : HTTPMethod {
-        switch self {
-        case .event(_, _) : return .post
-        case .user : return .post
-        }
+        return .post
     }
     
     var path : String {
         switch self {
+        case .eventWithUserId(_, _, _) : return "event"
         case .event(_, _) : return "event"
+        case .userInit(_, _, _) : return "user"
         case .user : return "user"
         }
     }
@@ -156,13 +157,41 @@ enum APIAnalytic : URLRequestConvertible {
     var param : [String : Any] {
         var p : [String : Any] = [:]
         switch self {
-        case .event(let eventType, let data) :
+        case .eventWithUserId(let eventType, let data, let userId) :
             p = [
-                "user_id" : (User.IsLoggedIn && User.Id != nil ? User.Id! : ""),
+                "user_id" : userId,
                 "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
                 "device_id" : UIDevice.current.identifierForVendor!.uuidString,
                 "event_type" : eventType,
                 "data" : data
+            ]
+        case .event(let eventType, let data) :
+            p = [
+                "user_id" : (User.IsLoggedIn ? User.Id! : ""),
+                "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
+                "device_id" : UIDevice.current.identifierForVendor!.uuidString,
+                "event_type" : eventType,
+                "data" : data
+            ]
+        case .userInit(let userId, let username, let regionName) :
+            let deviceToken = (User.IsLoggedIn && UserDefaults.standard.string(forKey: "deviceregid") != nil && UserDefaults.standard.string(forKey: "deviceregid") != "" ? UserDefaults.standard.string(forKey: "deviceregid")! : "...simulator...")
+            let d : [String : [String : Any]] =  [
+                "device_model" : [
+                    "append" : (AppTools.isSimulator ? UIDevice.current.model + " Simulator" : AnalyticManager.sharedInstance.platform()) + " - " + UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")"
+                ],
+                "apns_id" : [
+                    "append" : deviceToken
+                ],
+                "region" : [
+                    "update" : regionName
+                ]
+            ]
+            p = [
+                "user_id" : userId,
+                "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
+                "device_id" : UIDevice.current.identifierForVendor!.uuidString,
+                "username" : username,
+                "data" : d
             ]
         case .user :
             let _user = CDUser.getOne()
@@ -180,7 +209,7 @@ enum APIAnalytic : URLRequestConvertible {
                 ]
             ]
             p = [
-                "user_id" : (User.IsLoggedIn && User.Id != nil ? User.Id! : ""),
+                "user_id" : (User.IsLoggedIn ? User.Id! : ""),
                 "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
                 "device_id" : UIDevice.current.identifierForVendor!.uuidString,
                 "username" : (User.IsLoggedIn ? (_user?.username)! : ""),
