@@ -134,6 +134,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             // Google Analytics
             GAI.trackPageVisit(PageName.SetupAccount)
             
+            /*
             // Di sini akan dikirim mixpanel event register, hanya jika user baru saja melakukan register 
             // Pengecekan apakah baru register ada 2 lapis
             // Pertama: dicek apakah CDUser tidak nil, karena kalau login dan masuk ke ProfileSetupVC, seharusnya CDUser masih kosong, sedangkan kalau setelah register seharusnya CDUser terisi
@@ -177,6 +178,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                     Mixpanel.trackEvent(MixpanelEvent.Register, properties: pr)
                 }
             }
+             */
             
             self.isMixpanelPageVisitSent = true
         }
@@ -684,18 +686,33 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                      */
                     
                     // Prelo Analytic - Setup Profile
-                    let pdata = [
-                        "Username" : userProfileData.username,
-                        "Email" : userProfileData.email,
-                        "Gender" : userProfileData.gender,
-                        "Province" : CDProvince.getProvinceNameWithID(userProfileData.provinceId)!,
-                        "City" : CDRegion.getRegionNameWithID(userProfileData.regionId)!,
-                        "Subdistrict" : self.lblKecamatan.text
-                    ]
-                    AnalyticManager.sharedInstance.sendWithUserId(eventType: PreloAnalyticEvent.SetupAccount, data: pdata, previousScreen: self.screenBeforeLogin, loginMethod: self.loginMethod, userId: userProfileData.id)
-                    
-                    // Prelo Analytic - Update User - Init
-                    AnalyticManager.sharedInstance.initUser(userId: userProfileData.id, username: userProfileData.username, regionName: CDRegion.getRegionNameWithID(userProfileData.regionId)!)
+                    let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
+                                                        qos: .background,
+                                                        target: nil)
+                    backgroundQueue.async {
+                        print("Work on background queue")
+                        var shippingArrName : Array<String> = []
+                        for i in 0 ..< data["shipping_preferences_ids"].count {
+                            let s : String = data["shipping_preferences_ids"][i].string!
+                            if let sName = CDShipping.getShippingCompleteNameWithId(s) {
+                                shippingArrName.append(sName)
+                            }
+                        }
+                        
+                        let pdata = [
+                            "Username" : userProfileData.username,
+                            "Email" : userProfileData.email,
+                            "Gender" : userProfileData.gender,
+                            "Province" : CDProvince.getProvinceNameWithID(userProfileData.provinceId)!,
+                            "City" : CDRegion.getRegionNameWithID(userProfileData.regionId)!,
+                            "Subdistrict" : userProfileData.subdistrictName,
+                            "Shipping Options" : shippingArrName
+                        ] as [String : Any]
+                        AnalyticManager.sharedInstance.sendWithUserId(eventType: PreloAnalyticEvent.SetupAccount, data: pdata, previousScreen: self.screenBeforeLogin, loginMethod: self.loginMethod, userId: userProfileData.id)
+                        
+                        // Prelo Analytic - Update User - Init
+                        AnalyticManager.sharedInstance.initUser(userId: userProfileData.id, username: userProfileData.username, regionName: CDRegion.getRegionNameWithID(userProfileData.regionId)!)
+                    }
                     
                     let phoneVerificationVC = Bundle.main.loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil)?.first as! PhoneVerificationViewController
                     phoneVerificationVC.userRelatedDelegate = self.userRelatedDelegate
