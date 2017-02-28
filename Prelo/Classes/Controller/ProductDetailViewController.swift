@@ -223,6 +223,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     self.setOptionButton()
                     
                     self.setupView()
+                    
+                    // Prelo Analytic - Visit Product Detail
+                    self.sendVisitProductDetailAnalytic()
                 } else {
                     
                 }
@@ -1367,6 +1370,44 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     func hideLoading() {
         self.loadingPanel.isHidden = true
+    }
+    
+    // Prelo Analytic - Visit Product Detail
+    func sendVisitProductDetailAnalytic() {
+        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
+                                            qos: .background,
+                                            target: nil)
+        backgroundQueue.async {
+            print("Work on background queue")
+            
+            let loginMethod = User.LoginMethod ?? ""
+            var pdata = [
+                "Product ID": (self.product?.id)!,
+                "Seller ID" : (self.product?.json["seller_id"].stringValue)!,
+                "Brand ID" : (self.product?.json["brand_id"].stringValue)!
+            ] as [String : Any]
+            
+            // cat
+            var cat : Array<String> = []
+            var temp = CDCategory.getCategoryWithID((self.detail?.categoryID)!)!
+            cat.append((self.detail?.categoryID)!)
+            while (true) {
+                if let cur = CDCategory.getParent(temp.id) {
+                    temp = cur
+                    cat.append(temp.id)
+                } else {
+                    break
+                }
+            }
+            var iter = 1
+            for item in cat.reversed() {
+                pdata["Category ID " + iter.string] = item
+                iter += 1
+            }
+            
+            AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.VisitProductDetail, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+            
+        }
     }
 }
 
