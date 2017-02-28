@@ -789,6 +789,7 @@ class PreloAnalyticEvent {
     
     // Chat
     static let StartChat = "Chat:Start Chat"
+    static let SuccessfulBargain = "Chat:Successful Bargain"
     
     // Withdraw
     static let RequestWithdrawMoney = "Withdraw:Request Withdraw Money"

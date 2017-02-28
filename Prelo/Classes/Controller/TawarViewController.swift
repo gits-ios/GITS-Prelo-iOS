@@ -995,6 +995,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
 //            btnTawar1.isHidden = true
 //            btnTawar2.isHidden = true
             self.tawarItem.setBargainPrice(m)
+            
+            // Prelo Analytics - Successful Bargain - New
+            self.sendSuccessfulBargainAnalytic("New")
         }
     }
     
@@ -1004,6 +1007,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             message = "Membatalkan tawaran " + tawarItem.bargainPrice.asPrice
         }
         sendChat(3, message: message, image: nil)
+        
+        // Prelo Analytics - Successful Bargain - Reject
+        self.sendSuccessfulBargainAnalytic("Reject")
     }
     
     func confirmTawar(_ sender : UIView?) {
@@ -1011,6 +1017,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         if (tawarItem.bargainPrice != 0) {
             self.tawarItem.setFinalPrice(self.tawarItem.bargainPrice)
         }
+        
+        // Prelo Analytics - Successful Bargain - Accept
+        self.sendSuccessfulBargainAnalytic("Accept")
     }
     
     // MARK: - UploadGbr pop up
@@ -1238,6 +1247,23 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     func isChatWithPreloMessage() -> Bool {
         return (tawarItem.theirId == "56c73cc61b97db64088b4567" || tawarItem.theirId == "56c73e581b97db1b628b4567")
+    }
+    
+    func sendSuccessfulBargainAnalytic(_ bargainType: String) {
+        // Prelo Analytic - Mark As Sold
+        let loginMethod = User.LoginMethod ?? ""
+        let bargainPrice = Double(self.tawarItem.bargainPrice)
+        var _originalPrice = tawarItem.price.replacingOccurrences(of: "Rp", with: "", options: .literal, range: nil)
+        _originalPrice = _originalPrice.replacingOccurrences(of: ".", with: "", options: .literal, range: nil)
+        let originalPrice = Double(_originalPrice.int)
+        let percentagePrice = (bargainPrice * 100.0 / originalPrice)
+        let pdata = [
+            "Product ID" : self.prodId,
+            "User Target" : self.tawarItem.markAsSoldTo,
+            "Bargain Type" : bargainType,
+            "Percentage From Price" : percentagePrice
+        ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SuccessfulBargain, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
     }
 }
 
