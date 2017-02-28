@@ -1984,37 +1984,40 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     let loginMethod = User.LoginMethod ?? ""
                     
                     var pdata = [
-                        "Local ID": (self.draftMode == true ? (self.draftProduct?.localId)! : self.uniqueCodeString),
+                        "Local ID": (self.draftMode == true ? (self.draftProduct?.localId)! : self.uniqueCodeString)!,
                         "Product Name" : name,
-                        "Condition" : self.captionKondisi.text,
-                        "Product Brand" : self.captionMerek.text,
+                        "Condition" : self.captionKondisi.text!,
+                        "Product Brand" : self.captionMerek.text!,
                         "New Brand" : (self.merekId != "" ? false : true),
                         "Free Shipping" : (self.freeOngkir == 1 ? true : false),
-                        "Weight" : self.txtWeight.text,
-                        "Price Original" : self.txtOldPrice.text,
-                        "Price" : self.txtNewPrice.text
+                        "Weight" : self.txtWeight.text!,
+                        "Price Original" : self.txtOldPrice.text!,
+                        "Price" : self.txtNewPrice.text!
                     ] as [String : Any]
                     
                     // cat
-//                    var cat : Array<String> = []
+                    //var cat : Array<String> = []
                     var catId : Array<String> = []
-                    var temp = CDCategory.getCategoryWithID(self.productCategoryId)!
-//                    cat.append(temp.name)
                     catId.append(self.productCategoryId)
+                    var temp = CDCategory.getCategoryWithID(self.productCategoryId)!
+                    //cat.append(temp.name)
                     while (true) {
                         if let cur = CDCategory.getParent(temp.id) {
                             temp = cur
-//                            cat.append(temp.name)
+                            //cat.append(temp.name)
                             catId.append(temp.id)
                         } else {
                             break
                         }
                     }
-//                    var iter = 1
-//                    for item in cat.reversed() {
-//                        pdata["Category " + iter.string] = item
-//                        iter += 1
-//                    }
+                    
+                    /*
+                    var iter = 1
+                    for item in cat.reversed() {
+                        pdata["Category " + iter.string] = item
+                        iter += 1
+                    }
+                     */
                     
                     catId = catId.reversed()
                     pdata["Category ID"] = catId

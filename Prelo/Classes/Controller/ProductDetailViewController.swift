@@ -1383,8 +1383,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             let loginMethod = User.LoginMethod ?? ""
             var pdata = [
                 "Product ID": (self.product?.id)!,
-                "Seller ID" : (self.product?.json["seller_id"].stringValue)!,
-                "Brand ID" : (self.product?.json["brand_id"].stringValue)!
+                "Seller ID" : (self.detail?.json["_data"]["seller"]["_id"].stringValue)!,
+                "Brand ID" : (self.detail?.json["_data"]["brand_id"].stringValue)!
             ] as [String : Any]
             
             // cat
@@ -1399,11 +1399,14 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     break
                 }
             }
-//            var iter = 1
-//            for item in cat.reversed() {
-//                pdata["Category ID " + iter.string] = item
-//                iter += 1
-//            }
+            
+            /*
+            var iter = 1
+            for item in cat.reversed() {
+                pdata["Category ID " + iter.string] = item
+                iter += 1
+            }
+             */
             
             cat = cat.reversed()
             pdata["Category ID"] = cat
