@@ -1399,11 +1399,14 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     break
                 }
             }
-            var iter = 1
-            for item in cat.reversed() {
-                pdata["Category ID " + iter.string] = item
-                iter += 1
-            }
+//            var iter = 1
+//            for item in cat.reversed() {
+//                pdata["Category ID " + iter.string] = item
+//                iter += 1
+//            }
+            
+            cat = cat.reversed()
+            pdata["Category ID"] = cat
             
             AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.VisitProductDetail, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
             

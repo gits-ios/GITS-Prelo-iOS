@@ -1996,22 +1996,28 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     ] as [String : Any]
                     
                     // cat
-                    var cat : Array<String> = []
+//                    var cat : Array<String> = []
+                    var catId : Array<String> = []
                     var temp = CDCategory.getCategoryWithID(self.productCategoryId)!
-                    cat.append(temp.name)
+//                    cat.append(temp.name)
+                    catId.append(self.productCategoryId)
                     while (true) {
                         if let cur = CDCategory.getParent(temp.id) {
                             temp = cur
-                            cat.append(temp.name)
+//                            cat.append(temp.name)
+                            catId.append(temp.id)
                         } else {
                             break
                         }
                     }
-                    var iter = 1
-                    for item in cat.reversed() {
-                        pdata["Category " + iter.string] = item
-                        iter += 1
-                    }
+//                    var iter = 1
+//                    for item in cat.reversed() {
+//                        pdata["Category " + iter.string] = item
+//                        iter += 1
+//                    }
+                    
+                    catId = catId.reversed()
+                    pdata["Category ID"] = catId
                     
                     // imgae
 //                    var count = 0
