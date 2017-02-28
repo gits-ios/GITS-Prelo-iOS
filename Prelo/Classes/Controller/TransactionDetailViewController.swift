@@ -2055,7 +2055,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             let refundReqVC = Bundle.main.loadNibNamed(Tags.XibNameRequestRefund, owner: nil, options: nil)?.first as! RefundRequestViewController
             if (self.trxProductId != nil) {
                 refundReqVC.tpId = self.trxProductId!
+                refundReqVC.pId = (self.trxProductDetail?.productId)!
             }
+            refundReqVC.previousScreen = PageName.TransactionDetail
             self.navigationController?.pushViewController(refundReqVC, animated: true)
         }
         
@@ -2310,6 +2312,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     let msg = json["_data"].stringValue
                     Constant.showDialog("Tunda Pengiriman", message: msg)
                     
+                    // Prelo Analytic - Delay Shipping
+                    self.sendDelayShippingAnalytic()
+                    
                     // Hide pop up
                     self.vwShadow.isHidden = true
                     self.vwTundaPengiriman.isHidden = true
@@ -2447,6 +2452,58 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 "Current State" : tp.progressText
             ] as [String : Any]
             AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ReviewAndRateSeller, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+        }
+    }
+    
+    // Prelo Analytic - Delay Shipping
+    func sendDelayShippingAnalytic() {
+        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
+                                            qos: .background,
+                                            target: nil)
+        backgroundQueue.async {
+            var itemsObject : Array<[String : Any]> = []
+            
+            let arrayProduct = self.trxDetail?.transactionProducts
+            
+            var totalCommissionPrice = 0
+            var i = 0
+            for tp in arrayProduct! {
+                let shippingPrice = Int(tp.shippingPrice) ?? 0
+                
+                let curItem : [String : Any] = [
+                    "Product ID" : tp.productId ,
+                    "Price" : tp.productPrice,
+                    "Commission Percentage" : tp.commission,
+                    "Commission Price" : tp.commissionPrice,
+                    "Shipping Price" : shippingPrice,
+                ]
+                
+                itemsObject.append(curItem)
+                
+                totalCommissionPrice += tp.commissionPrice
+                
+                i += 1
+            }
+            
+            let loginMethod = User.LoginMethod ?? ""
+            let province = CDProvince.getProvinceNameWithID((self.trxDetail?.shippingProvinceId)!) ?? ""
+            let region = CDRegion.getRegionNameWithID((self.trxDetail?.shippingRegionId)!) ?? ""
+            
+            let shipping = [
+                "Province" : province,
+                "Region" : region
+            ] as [String : Any]
+            
+            let pdata = [
+                "Order ID" : (self.trxDetail?.orderId)!,
+                "Seller Username" : (CDUser.getOne()?.username)!, // me
+                "Items" : itemsObject,
+                //                "Total Original Price" : self.trxDetail.totalPrice,
+                "Total Price" : (self.trxDetail?.totalPriceTotall)!,
+                "Total Commission" : totalCommissionPrice,
+                "Shipping" : shipping
+            ] as [String : Any]
+            AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.DelayShipping, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
         }
     }
 }
