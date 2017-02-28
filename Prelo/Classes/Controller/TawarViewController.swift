@@ -748,6 +748,11 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             self.hideLoading()
         })
         
+        // Prelo Analytic - Send Media on Chat
+        if image != nil {
+            self.sendMediaOnChatAnalytic()
+        }
+        
         self.adjustButtons()
         self.tableView.reloadData()
         self.scrollToBottom()
@@ -846,6 +851,11 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 "Product ID" : self.prodId
             ] as [String : Any]
             AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.StartChat, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+            
+            // Prelo Analytic - Send Media on Chat
+            if withImg != nil {
+                self.sendMediaOnChatAnalytic()
+            }
             
             self.hideLoading()
         }, failure: { op, err in
@@ -1249,8 +1259,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         return (tawarItem.theirId == "56c73cc61b97db64088b4567" || tawarItem.theirId == "56c73e581b97db1b628b4567")
     }
     
+    // Prelo Analytic - Successful Bargain
     func sendSuccessfulBargainAnalytic(_ bargainType: String) {
-        // Prelo Analytic - Mark As Sold
         let loginMethod = User.LoginMethod ?? ""
         let bargainPrice = Double(self.tawarItem.bargainPrice)
         var _originalPrice = tawarItem.price.replacingOccurrences(of: "Rp", with: "", options: .literal, range: nil)
@@ -1264,6 +1274,16 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             "Percentage From Price" : percentagePrice
         ] as [String : Any]
         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SuccessfulBargain, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+    }
+    
+    // Prelo Analytic - Send Media on Chat
+    func sendMediaOnChatAnalytic() {
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Seller Username" : (tawarItem.opIsMe ? tawarItem.theirName : tawarItem.myName),
+            "Buyer Username" : (tawarItem.opIsMe ? tawarItem.myName : tawarItem.theirName)
+        ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SendMediaOnChat, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
     }
 }
 
