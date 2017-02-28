@@ -750,7 +750,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         
         // Prelo Analytic - Send Media on Chat
         if image != nil {
-            self.sendMediaOnChatAnalytic()
+            self.sendMediaOnChatAnalytic("Image")
         }
         
         self.adjustButtons()
@@ -854,7 +854,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             
             // Prelo Analytic - Send Media on Chat
             if withImg != nil {
-                self.sendMediaOnChatAnalytic()
+                self.sendMediaOnChatAnalytic("Image")
             }
             
             self.hideLoading()
@@ -1277,11 +1277,12 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     }
     
     // Prelo Analytic - Send Media on Chat
-    func sendMediaOnChatAnalytic() {
+    func sendMediaOnChatAnalytic(_ mediaType: String) {
         let loginMethod = User.LoginMethod ?? ""
         let pdata = [
             "Seller Username" : (tawarItem.opIsMe ? tawarItem.theirName : tawarItem.myName),
-            "Buyer Username" : (tawarItem.opIsMe ? tawarItem.myName : tawarItem.theirName)
+            "Buyer Username" : (tawarItem.opIsMe ? tawarItem.myName : tawarItem.theirName),
+            "Media Type" : mediaType
         ] as [String : Any]
         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SendMediaOnChat, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
     }
