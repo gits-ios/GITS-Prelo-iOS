@@ -355,7 +355,8 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
                     let loginMethod = User.LoginMethod ?? ""
                     let pdata = [
                         "Destination Bank" : namaBank,
-                        "Amount" : i
+                        "Amount" : i,
+                        "Success" : true
                     ] as [String : Any]
                     AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.RequestWithdrawMoney, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
                     
@@ -363,7 +364,14 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
                 }
             } else
             {
-                
+                // Prelo Analytic - Request Withdraw Money
+                let loginMethod = User.LoginMethod ?? ""
+                let pdata = [
+                    "Destination Bank" : namaBank,
+                    "Amount" : i,
+                    "Success" : false
+                ] as [String : Any]
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.RequestWithdrawMoney, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
             }
             
         }

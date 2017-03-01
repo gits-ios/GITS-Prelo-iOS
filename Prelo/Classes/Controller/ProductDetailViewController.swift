@@ -1391,44 +1391,50 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             print("Work on background queue")
             
             let loginMethod = User.LoginMethod ?? ""
-            var pdata = [
-                "Product ID": (self.product?.id)!,
-                "Seller ID" : (self.detail?.json["_data"]["seller"]["_id"].stringValue)!,
-                "Brand ID" : (self.detail?.json["_data"]["brand_id"].stringValue)!
-            ] as [String : Any]
             
-            // cat
+            // category
             var cat : Array<String> = []
-            /*
-            var temp = CDCategory.getCategoryWithID((self.detail?.categoryID)!)!
-            cat.append((self.detail?.categoryID)!)
-            while (true) {
-                if let cur = CDCategory.getParent(temp.id) {
-                    temp = cur
-                    cat.append(temp.id)
-                } else {
-                    break
-                }
-            }
-             */
-            
-            /*
-            var iter = 1
-            for item in cat.reversed() {
-                pdata["Category ID " + iter.string] = item
-                iter += 1
-            }
-             */
-            
-            //cat = cat.reversed()
+            var catId : Array<String> = []
             
             let cb = (self.detail?.categoryBreadcrumbs)!
             
             for i in 1...cb.count-1 {
-                cat.append(cb[i]["_id"].stringValue)
+                cat.append(cb[i]["name"].stringValue)
+                catId.append(cb[i]["_id"].stringValue)
             }
             
-            pdata["Category IDs"] = cat
+            // brand
+            let brand = [
+                "ID" : (self.detail?.json["_data"]["brand_id"].stringValue)!,
+                "Name" : (self.detail?.json["_data"]["brand"].stringValue)!,
+                "Verified" : !((self.detail?.json["_data"]["brand_under_review"].boolValue)!)
+            ] as [String : Any]
+            
+            // segment
+            var seg : Array<String> = []
+            if let arr = (self.detail?.json["_data"]["segments"].arrayValue) {
+                for i in arr {
+                    seg.append(i.stringValue)
+                }
+            }
+            
+            // keywords
+            var key : Array<String> = []
+            if let arr = (self.detail?.json["_data"]["keywords"].arrayValue) {
+                for i in arr {
+                    key.append(i.stringValue)
+                }
+            }
+            
+            let pdata = [
+                "Product ID": (self.product?.id)!,
+                "Seller ID" : (self.detail?.json["_data"]["seller"]["_id"].stringValue)!,
+                "Brand" : brand,
+                "Category Names" : cat,
+                "Category IDs" : catId,
+                "Segments" : seg,
+                "Keywords" : key
+            ] as [String : Any]
             
             AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.VisitProductDetail, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
             
