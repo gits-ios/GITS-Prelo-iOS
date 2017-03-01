@@ -1389,6 +1389,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             
             // cat
             var cat : Array<String> = []
+            /*
             var temp = CDCategory.getCategoryWithID((self.detail?.categoryID)!)!
             cat.append((self.detail?.categoryID)!)
             while (true) {
@@ -1399,6 +1400,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     break
                 }
             }
+             */
             
             /*
             var iter = 1
@@ -1408,7 +1410,14 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             }
              */
             
-            cat = cat.reversed()
+            //cat = cat.reversed()
+            
+            let cb = (self.detail?.categoryBreadcrumbs)!
+            
+            for i in 1...cb.count-1 {
+                cat.append(cb[i]["_id"].stringValue)
+            }
+            
             pdata["Category ID"] = cat
             
             AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.VisitProductDetail, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
