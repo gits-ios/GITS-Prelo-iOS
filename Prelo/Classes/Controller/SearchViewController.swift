@@ -183,6 +183,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         var y : CGFloat = 0.0
         var x : CGFloat = 0.0
         let sw = sectionHistorySearch.width
+        var curMaxY : CGFloat = 0.0
         for s in arr {
             let tag = SearchTag.instance(s)
             tag.x = x
@@ -191,10 +192,14 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             if (maxx > sw) {
                 x = 0
                 tag.x = x
-                let maxY = tag.maxY
-                y = maxY + 4
+                //let maxY = tag.maxY
+                y = curMaxY + 4 //maxY + 4
                 tag.y = y
                 //print("tag new y : \(y)")
+            }
+            
+            if curMaxY < tag.maxY {
+                curMaxY = tag.maxY
             }
 
             let tap = UITapGestureRecognizer(target: self, action: #selector(SearchViewController.searchTopKey(_:)))
