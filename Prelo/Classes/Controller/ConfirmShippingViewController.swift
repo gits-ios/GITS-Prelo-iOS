@@ -532,12 +532,14 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
 
     }
     
-    // Prelo Analytic - Confirm Shipping
+    // Prelo Analytic - Confirm / Reject Shipping
     func sendConfirmShippingAnalytic() {
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
                                             qos: .background,
                                             target: nil)
         backgroundQueue.async {
+            
+            /*
             var itemsObject : Array<[String : Any]> = []
             
             let arrayProduct = self.trxDetail.transactionProducts
@@ -601,6 +603,57 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                 "Barcode Used" : self.isBarcodeUsed
             ] as [String : Any]
             AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ConfirmShipping, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+             */
+            
+            let arrayProduct = self.trxDetail.transactionProducts
+            let loginMethod = User.LoginMethod ?? ""
+            let province = CDProvince.getProvinceNameWithID(self.trxDetail.shippingProvinceId) ?? ""
+            let region = CDRegion.getRegionNameWithID(self.trxDetail.shippingRegionId) ?? ""
+            
+            var i = 0
+            for tp in arrayProduct {
+                let shippingPrice = Int(tp.shippingPrice) ?? 0
+                
+                let shipping = [
+                    "Province" : province,
+                    "Region" : region,
+                    "Price" : shippingPrice
+                ] as [String : Any]
+                
+                var pdata : [String : Any] = [
+                    "Order ID" : tp.orderId,
+                    "Seller Username" : tp.sellerUsername, // me
+                    "Product ID" : tp.productId ,
+                    "Price" : tp.productPrice,
+                    "Commission Percentage" : tp.commission,
+                    "Commission Price" : tp.commissionPrice,
+                    "Shipping" : shipping
+                ]
+                
+                if !self.isCellSelected[i] {
+                    var isAvailable = true
+                    
+                    let cell = self.tableView.cellForRow(at: IndexPath(row: i, section: 0)) as! ConfirmShippingCell
+                    if (cell.selectedAvailability == .soldOut ) {
+                        isAvailable = false
+                    }
+                    
+                    let reason = cell.textView.text!
+                    
+                    pdata["Sold"] = !isAvailable
+                    pdata["Reason"] = reason
+                    
+                    // Prelo Analytic - Reject Shipping
+                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.RejectShipping, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+                } else {
+                    pdata["Barcode Used"] = self.isBarcodeUsed
+                    
+                    // Prelo Analytic - Confirm Shipping
+                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ConfirmShipping, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+                }
+                
+                i += 1
+            }
         }
     }
 }
