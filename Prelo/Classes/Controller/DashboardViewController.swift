@@ -734,6 +734,8 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
         
         let appVersion = CDVersion.getOne()?.appVersion
         
+        let deadline = DispatchTime.now() + 0.3
+        
         let _ = request(APIUser.rateApp(appVersion: appVersion!, rate: Int(self.rate), review: "")).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Rate App")) {
                 print("rated")
@@ -741,29 +743,58 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
                 // Prelo Analytic - Rate
                 self.sentPreloAnalyticRate(false)
                 
-                if (Int(self.rate) >= 4) {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
-                        // rate to store
-                        self.displayPopUp(.openStore)
-                    })
+                // Check if app installed version > server version
+                if let installedVer = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
+                    
+                    // installed version > server version
+                    if (installedVer.compare(appVersion!, options: .numeric, range: nil, locale: nil) == .orderedDescending) {
+                        
+                        if (Int(self.rate) >= 4) {
+                            DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
+                                // rate to store
+                                self.displayPopUp(.openStore)
+                            })
+                        } else {
+                            DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
+                                // send email
+                                self.displayPopUp(.sendMail)
+                            })
+                        }
+                        
+                    } else {
+                        
+                        if (Int(self.rate) >= 4) {
+                            self.openStore()
+                        } else {
+                            self.sendMail()
+                        }
+                    }
+                    
                 } else {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
-                        // send email
-                        self.displayPopUp(.sendMail)
-                    })
+                    
+                    if (Int(self.rate) >= 4) {
+                        DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
+                            // rate to store
+                            self.displayPopUp(.openStore)
+                        })
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
+                            // send email
+                            self.displayPopUp(.sendMail)
+                        })
+                    }
+                    
                 }
                 
             } else {
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
                     // re rate
                     self.displayPopUp(.rate)
                 })
                 
             }
         }
-        
-        
     }
     
     @IBAction func btnOpenStorePressed(_ sender: Any) {
@@ -807,7 +838,8 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
     func sentPreloAnalyticRate(_ isCancelled: Bool) {
         let loginMethod = User.LoginMethod ?? ""
         let pdata = [
-            "Is Cancelled" : isCancelled
+            "Rating" : Int(self.rate),
+            "Cancelled" : isCancelled
         ] as [String : Any]
         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Rate, data: pdata, previousScreen: PageName.Home, loginMethod: loginMethod)
     }
