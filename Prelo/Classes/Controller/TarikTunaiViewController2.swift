@@ -336,6 +336,9 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
                 if let message = json["_message"].string
                 {
                     Constant.showDialog("Perhatian", message: message)
+                    
+                    // Prelo Analytic - Request Withdraw Money
+                    self.sendRequestWithdrwaMoney(namaBank, amount: i, isSuccess: false, reason: message)
                 } else
                 {
                     //                    self.getBalance()
@@ -352,26 +355,17 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
                     */
                     
                     // Prelo Analytic - Request Withdraw Money
-                    let loginMethod = User.LoginMethod ?? ""
-                    let pdata = [
-                        "Destination Bank" : namaBank,
-                        "Amount" : i,
-                        "Success" : true
-                    ] as [String : Any]
-                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.RequestWithdrawMoney, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+                    self.sendRequestWithdrwaMoney(namaBank, amount: i, isSuccess: true, reason: "")
                     
                     self.navigationController?.popToRootViewController(animated: true)
                 }
             } else
             {
+                let json = JSON(resp.result.value!)
+                let reason = json["_message"].string!
+                
                 // Prelo Analytic - Request Withdraw Money
-                let loginMethod = User.LoginMethod ?? ""
-                let pdata = [
-                    "Destination Bank" : namaBank,
-                    "Amount" : i,
-                    "Success" : false
-                ] as [String : Any]
-                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.RequestWithdrawMoney, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+                self.sendRequestWithdrwaMoney(namaBank, amount: i, isSuccess: false, reason: reason)
             }
             
         }
@@ -587,6 +581,17 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
         })
     }
 
+    func sendRequestWithdrwaMoney(_ namaBank: String, amount: Int, isSuccess: Bool, reason: String) {
+        // Prelo Analytic - Request Withdraw Money
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Destination Bank" : namaBank,
+            "Amount" : amount,
+            "Success" : isSuccess,
+            "Failed Reason" : reason
+        ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.RequestWithdrawMoney, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+    }
 }
 // MARK: - class TarikTunaiCell
 
