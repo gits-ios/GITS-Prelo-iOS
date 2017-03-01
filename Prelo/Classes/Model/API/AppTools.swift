@@ -813,6 +813,7 @@ class PreloAnalyticEvent {
     // Product
     static let EraseProduct = "Product:Erase Product"
     static let MarkAsSold = "Product:Mark As Sold"
+    static let CommentOnProduct = "Product:Comment on Product"
 }
 
 extension GAI {

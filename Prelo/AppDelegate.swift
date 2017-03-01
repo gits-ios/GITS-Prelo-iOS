@@ -874,6 +874,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if (rootViewController != nil) {
                     let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdProductComments) as! ProductCommentsController
                     p.pDetail = pDetail
+                    p.previousScreen = "Push Notification"
                     rootViewController!.pushViewController(p, animated: true)
                 } else {
                     self.showFailedRedirAlert()

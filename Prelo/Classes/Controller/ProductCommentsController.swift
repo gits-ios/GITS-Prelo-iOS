@@ -157,6 +157,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
             return
         }
         
+        /*
         // Mixpanel
         let pt = [
             "Product Name" : ((pDetail != nil) ? (pDetail!.name) : ""),
@@ -166,6 +167,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
             "Seller Name" : ((pDetail != nil) ? (pDetail!.theirName) : "")
         ]
         Mixpanel.trackEvent(MixpanelEvent.CommentedProduct, properties: pt)
+         */
         
         self.btnSend.isHidden = true
         
@@ -181,6 +183,15 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
                 self.txtMessage.isEditable = true
                 self.btnSend.isHidden = false
                 self.getComments()
+                
+                // Prelo Analytic - Comment on Product
+                let loginMethod = User.LoginMethod ?? ""
+                let pdata = [
+                    "Product ID" : self.pDetail.productID,
+                    "Seller Username" : self.pDetail.theirName
+                ]
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.CommentOnProduct, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+                
             } else
             {
                 self.txtMessage.isEditable = true
@@ -292,10 +303,6 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
                 // Prelo Analytic - Report Comment
                 let loginMethod = User.LoginMethod ?? ""
                 let reportingUsername = (CDUser.getOne()?.username)!
-                var previousScreen = PageName.ProductDetail
-                if (CDUser.getOne()?.id == self.pDetail.theirId) {
-                    previousScreen = PageName.ProductDetailMine
-                }
                 let pdata = [
                     "Product ID" : (self.pDetail.productID),
                     "Reported Username" : reportedUsername,
@@ -303,7 +310,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
                     "Reason" : reportType,
                     "Comment ID" : commentId
                 ] as [String : Any]
-                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ReportComment, data: pdata, previousScreen: previousScreen, loginMethod: loginMethod)
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ReportComment, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
             }
         }
     }

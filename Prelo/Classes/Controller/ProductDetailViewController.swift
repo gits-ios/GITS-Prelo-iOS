@@ -102,6 +102,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     weak var delegate: MyProductDelegate?
     
+    var thisScreen: String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -180,12 +182,16 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             
             // Google Analytics
             GAI.trackPageVisit(PageName.ProductDetailMine)
+            
+            self.thisScreen = PageName.ProductDetailMine
         } else {
             // Mixpanel
 //            Mixpanel.trackPageVisit(PageName.ProductDetail, otherParam: p)
             
             // Google Analytics
             GAI.trackPageVisit(PageName.ProductDetail)
+            
+            self.thisScreen = PageName.ProductDetail
         }
     }
 
@@ -768,13 +774,13 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     let vc = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
                     vc.currentMode = .shop
                     vc.shopId = userId
-                    vc.previousScreen = PageName.ProductDetail
+                    vc.previousScreen = self.thisScreen
                     
                     self.navigationController?.pushViewController(vc, animated: true)
                 } else {
                     let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
                     storePageTabBarVC.shopId = userId
-                    storePageTabBarVC.previousScreen = PageName.ProductDetail
+                    storePageTabBarVC.previousScreen = self.thisScreen
                     self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
                 }
             }
@@ -868,13 +874,13 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     d.shopId = name
                 }
                 
-                d.previousScreen = PageName.ProductDetail
+                d.previousScreen = thisScreen
                 
                 self.navigationController?.pushViewController(d, animated: true)
             } else {
                 let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
                 storePageTabBarVC.shopId = detail?.json["_data"]["seller"]["_id"].string
-                storePageTabBarVC.previousScreen = PageName.ProductDetail
+                storePageTabBarVC.previousScreen = thisScreen
                 self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
             }
         }
@@ -890,7 +896,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         l.currentMode = .filter
         l.fltrSortBy = "recent"
         l.fltrCategId = categoryID
-        l.previousScreen = PageName.ProductDetail
+        l.previousScreen = thisScreen
         self.navigationController?.pushViewController(l, animated: true)
     }
     
@@ -899,7 +905,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         l.currentMode = .filter
         l.fltrSortBy = "recent"
         l.fltrBrands = [brandName : brandId]
-        l.previousScreen = PageName.ProductDetail
+        l.previousScreen = thisScreen
         self.navigationController?.pushViewController(l, animated: true)
     }
     
@@ -914,7 +920,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
 //            self.performSegue(withIdentifier: "segCart", sender: nil)
             let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
             cart.previousController = self
-            cart.previousScreen = PageName.ProductDetail
+            cart.previousScreen = thisScreen
             self.navigationController?.pushViewController(cart, animated: true)
             return
         }
@@ -926,7 +932,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
 //            self.performSegue(withIdentifier: "segCart", sender: nil)
             let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
             cart.previousController = self
-            cart.previousScreen = PageName.ProductDetail
+            cart.previousScreen = thisScreen
             self.navigationController?.pushViewController(cart, animated: true)
         }
     }
@@ -1001,7 +1007,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             t.tawarItem = d
             t.loadInboxFirst = true
             t.prodId = d.productID
-            t.previousScreen = PageName.ProductDetail
+            t.previousScreen = thisScreen
             self.navigationController?.pushViewController(t, animated: true)
         }
     }
@@ -1070,7 +1076,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewController(withIdentifier: "TransactionDetail") as? TransactionDetailViewController)!
                             transactionDetailVC.trxProductId = tpId
                             transactionDetailVC.isSeller = false
-                            transactionDetailVC.previousScreen = PageName.ProductDetail
+                            transactionDetailVC.previousScreen = self.thisScreen
                             self.navigationController?.pushViewController(transactionDetailVC, animated: true)
                         }
                     } else {
@@ -1181,10 +1187,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         {
             let c = segue.destination as! ProductCommentsController
             c.pDetail = self.detail
+            c.previousScreen = thisScreen
         } else
         {
             let c = segue.destination as! BaseViewController
             c.previousController = self
+            c.previousScreen = thisScreen
         }
     }
     
