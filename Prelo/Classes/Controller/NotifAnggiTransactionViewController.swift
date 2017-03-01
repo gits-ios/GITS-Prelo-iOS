@@ -500,13 +500,15 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
             2000 : "Chat",
             3000 : "Comment",
             4000 : "Lovelist",
-            4001 : "Another Lovelist"
+            4001 : "Sale Lovelist"
         ]
+        
+        let curType = type[tipe] ?? ""
         
         let loginMethod = User.LoginMethod ?? ""
         let pdata = [
             "Target ID" : targetId,
-            "Type" : type[tipe]
+            "Type" : curType
         ] as [String : Any]
         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ClickNotificationInApp, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
     }

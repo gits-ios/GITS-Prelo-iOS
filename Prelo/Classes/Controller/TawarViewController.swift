@@ -1269,9 +1269,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         let percentagePrice = (bargainPrice * 100.0 / originalPrice)
         let pdata = [
             "Product ID" : self.prodId,
-            "User Target" : self.tawarItem.markAsSoldTo,
+            "User Target" : (tawarItem.opIsMe ? tawarItem.myName : tawarItem.theirName),
             "Bargain Type" : bargainType,
-            "Percentage From Price" : percentagePrice
+            "Percentage From Price" : percentagePrice,
+            "From Seller" : !tawarItem.opIsMe
         ] as [String : Any]
         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SuccessfulBargain, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
     }

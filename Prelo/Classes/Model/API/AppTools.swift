@@ -785,7 +785,7 @@ class PreloAnalyticEvent {
     
     // Notification
     static let ClickPushNotification = "Notification:Click Push Notification"
-    static let ClickNotificationInApp = "Notification:Click Notification (in App)"
+    static let ClickNotificationInApp = "Notification:Click Notification"
     
     // Chat
     static let StartChat = "Chat:Start Chat"

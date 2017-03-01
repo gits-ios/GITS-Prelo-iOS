@@ -1426,7 +1426,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 cat.append(cb[i]["_id"].stringValue)
             }
             
-            pdata["Category ID"] = cat
+            pdata["Category IDs"] = cat
             
             AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.VisitProductDetail, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
             
