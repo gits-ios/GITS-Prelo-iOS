@@ -2513,22 +2513,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             let region = CDRegion.getRegionNameWithID((self.trxDetail?.shippingRegionId)!) ?? ""
             
             for tp in arrayProduct! {
-                let shippingPrice = Int(tp.shippingPrice) ?? 0
-                
-                let shipping = [
-                    "Province" : province,
-                    "Region" : region,
-                    "Price" : shippingPrice
-                ] as [String : Any]
-                
                 let pdata : [String : Any] = [
                     "Order ID" : tp.orderId,
                     "Seller Username" : tp.sellerUsername, // me
                     "Product ID" : tp.productId ,
                     "Price" : tp.productPrice,
                     "Commission Percentage" : tp.commission,
-                    "Commission Price" : tp.commissionPrice,
-                    "Shipping" : shipping,
+                    "Commission Price" : tp.commissionPrice
                 ]
                 
                 AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.DelayShipping, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)

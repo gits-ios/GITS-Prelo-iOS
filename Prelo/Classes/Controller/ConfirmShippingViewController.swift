@@ -607,18 +607,10 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
             
             let arrayProduct = self.trxDetail.transactionProducts
             let loginMethod = User.LoginMethod ?? ""
-            let province = CDProvince.getProvinceNameWithID(self.trxDetail.shippingProvinceId) ?? ""
-            let region = CDRegion.getRegionNameWithID(self.trxDetail.shippingRegionId) ?? ""
             
             var i = 0
             for tp in arrayProduct {
                 let shippingPrice = Int(tp.shippingPrice) ?? 0
-                
-                let shipping = [
-                    "Province" : province,
-                    "Region" : region,
-                    "Price" : shippingPrice
-                ] as [String : Any]
                 
                 var pdata : [String : Any] = [
                     "Order ID" : tp.orderId,
@@ -627,7 +619,6 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                     "Price" : tp.productPrice,
                     "Commission Percentage" : tp.commission,
                     "Commission Price" : tp.commissionPrice,
-                    "Shipping" : shipping
                 ]
                 
                 if !self.isCellSelected[i] {
@@ -640,13 +631,30 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                     
                     let reason = cell.textView.text!
                     
-                    pdata["Sold"] = !isAvailable
+                    pdata["Available"] = isAvailable
                     pdata["Reason"] = reason
                     
                     // Prelo Analytic - Reject Shipping
                     AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.RejectShipping, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
                 } else {
                     pdata["Barcode Used"] = self.isBarcodeUsed
+                    
+                    let province = CDProvince.getProvinceNameWithID(self.trxDetail.shippingProvinceId) ?? ""
+                    let region = CDRegion.getRegionNameWithID(self.trxDetail.shippingRegionId) ?? ""
+                    
+                    let shipping = [
+                        "Price" : shippingPrice,
+                        "Kurir" : (self.lblKurir.text?.lowercased() != "lainnya" ? self.lblKurir.text! : self.txtFldKurirLainnya.text!) //tp.shippingName
+                    ] as [String : Any]
+                    
+                    let address = [
+                        "Province" : province,
+                        "Region" : region
+                    ] as [String : Any]
+                    
+                    
+                    pdata["Shipping"] = shipping
+                    pdata["Address"] = address
                     
                     // Prelo Analytic - Confirm Shipping
                     AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ConfirmShipping, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)

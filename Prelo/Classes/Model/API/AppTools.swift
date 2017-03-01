@@ -809,7 +809,7 @@ class PreloAnalyticEvent {
     static let ReviewAndRateSeller = "Transaction:Review and Rate Seller"
     static let RequestRefund = "Transaction:Request Refund"
     static let DelayShipping = "Transaction:Delay Shipping"
-    static let RejectShipping = "Transaction:Reject Shipping"
+    static let RejectShipping = "Transaction:Reject"
     
     // Product
     static let EraseProduct = "Product:Erase Product"
