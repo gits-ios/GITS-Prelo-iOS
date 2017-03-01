@@ -107,6 +107,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.title = product?.name
+        
         // Hide add comment view first
         self.vwAddComment.isHidden = true
         
@@ -145,7 +147,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        self.title = product?.name
+//        self.title = product?.name
         
         if (self.detail) != nil
         {

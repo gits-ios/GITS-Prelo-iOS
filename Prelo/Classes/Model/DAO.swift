@@ -593,7 +593,11 @@ open class ProductDetail : NSObject, TawarItem
     }
     
     var weight : Int {
-        return json["_data"]["weight"].int!
+        if let u = json["_data"]["weight"].int {
+            return u
+        } else {
+            return 1
+        }
     }
     
     var size : String {

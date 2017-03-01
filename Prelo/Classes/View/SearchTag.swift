@@ -32,8 +32,8 @@ class SearchTag: BorderedView {
         var width : CGFloat = 0
         var multiplier : CGFloat = 1
         while (!isOke) {
-            if (s.captionHide.width/multiplier+16*multiplier <= UIScreen.main.bounds.width-16) {
-                width = s.captionHide.width/multiplier+16*multiplier
+            if (s.captionHide.width/multiplier + 16 <= UIScreen.main.bounds.width - 16) {
+                width = s.captionHide.width/multiplier + 16
                 isOke = true
             } else {
                 multiplier += 1
@@ -42,9 +42,11 @@ class SearchTag: BorderedView {
         
         let area = s.captionHide.text?.boundsWithFontSize(s.captionHide.font, width: width)
         
-        let halfOriginalHeight = (s.captionHide.height+8)/2
+        let halfOriginalHeight = (s.captionHide.height+9)/2
         
-        s.bounds = CGRect(x: 0, y: 0, width: width, height: s.captionHide.height+8 >= (area?.height)!+8 ? s.captionHide.height+8 : (area?.height)!+8)
+//        s.bounds = CGRect(x: 0, y: 0, width: width, height: s.captionHide.height+8 >= (area?.height)!+8 ? s.captionHide.height+8 : (area?.height)!+8)
+        
+        s.bounds = CGRect(x: 0, y: 0, width: width, height: (area?.height)! + 9)
         
         s.layer.cornerRadius = halfOriginalHeight
         s.layer.masksToBounds = true
