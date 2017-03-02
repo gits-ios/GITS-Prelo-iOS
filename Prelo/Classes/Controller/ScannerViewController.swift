@@ -168,7 +168,7 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
         
         self.blockDone!([code as AnyObject, postImage != nil ? postImage! : NSNull()] as [AnyObject])
         
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
         
         dismiss(animated: true)
     }
@@ -225,7 +225,7 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
         
         self.blockDone!(["" as AnyObject, postImage != nil ? postImage! : NSNull()] as [AnyObject])
         
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     // MARK: - Override layout

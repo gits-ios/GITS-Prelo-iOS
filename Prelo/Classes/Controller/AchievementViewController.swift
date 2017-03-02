@@ -151,7 +151,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
             } else {
                 
                 self.hideLoading()
-                self.navigationController?.popViewController(animated: true)
+                _ = self.navigationController?.popViewController(animated: true)
             }
         }
     }

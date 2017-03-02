@@ -410,7 +410,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             }
             name = "Temukan barang bekas berkualitas, \(name) hanya dengan harga \(item!.price!). Jangan sampai kehabisan, beli sekarang juga di Prelo! \(item!.permalink!)"
             UIPasteboard.general.string = name
-            UIAlertView.SimpleShow("", message: "Sukses disalin")
+            Constant.showDialog("", message: "Sukses disalin")
             
             self.mixpanelSharedProduct("Copy Info", username: "")
         }
@@ -502,7 +502,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
                 self.present(composer!, animated: true, completion: nil)
             } else
             {
-                UIAlertView.SimpleShow(a.title, message: "Silakan login "+a.title+" dari Settings")
+                Constant.showDialog(a.title, message: "Silakan login "+a.title+" dari Settings")
             }
         }
         

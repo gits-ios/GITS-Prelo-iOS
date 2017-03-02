@@ -929,7 +929,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             self.loading.stopAnimating()
         } else {
             print("Data saved")
-            self.navigationController?.popViewController(animated: true)
+            _ = self.navigationController?.popViewController(animated: true)
         }
     }
 }

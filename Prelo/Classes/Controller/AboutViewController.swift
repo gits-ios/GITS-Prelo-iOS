@@ -133,7 +133,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
             }
         }
         
-        CDDraftProduct.deleteAll()
+        _ = CDDraftProduct.deleteAll()
     }
     
     @IBAction func logout()
@@ -158,6 +158,8 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         
         // Clear local data
         User.Logout()
+        
+        _ = CDDraftProduct.deleteAll()
         
         // Tell delegate class if any
         if let d = self.userRelatedDelegate
@@ -195,7 +197,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         AppDelegate.Instance.produkUploader.clearQueue()
         
         // Back to previous page
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     // MARK: - UIAlertView delegate function

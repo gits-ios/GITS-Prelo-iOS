@@ -142,14 +142,14 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     
                     // Save in core data
                     let m = UIApplication.appDelegate.managedObjectContext
-                    CDUser.deleteAll()
+                    _ = CDUser.deleteAll()
                     let user : CDUser = (NSEntityDescription.insertNewObject(forEntityName: "CDUser", into: m) as! CDUser)
                     user.id = userProfileData!.id
                     user.email = userProfileData!.email
                     user.fullname = userProfileData!.fullname
                     user.username = userProfileData!.username
                     
-                    CDUserProfile.deleteAll()
+                    _ = CDUserProfile.deleteAll()
                     let userProfile : CDUserProfile = (NSEntityDescription.insertNewObject(forEntityName: "CDUserProfile", into: m) as! CDUserProfile)
                     user.profiles = userProfile
                     userProfile.regionID = userProfileData!.regionId
@@ -163,7 +163,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     userProfile.address = userProfileData!.address
                     userProfile.desc = userProfileData!.desc
                     
-                    CDUserOther.deleteAll()
+                    _ = CDUserOther.deleteAll()
                     let userOther : CDUserOther = (NSEntityDescription.insertNewObject(forEntityName: "CDUserOther", into: m) as! CDUserOther)
                     userOther.shippingIDs = NSKeyedArchiver.archivedData(withRootObject: userProfileData!.shippingIds)
                     userOther.lastLogin = userProfileData!.lastLogin
@@ -833,12 +833,12 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         let pwd = txtPassword?.text
         
         if (email == "") {
-            UIAlertView.SimpleShow("Perhatian", message: "Email atau username harus diisi")
+            Constant.showDialog("Perhatian", message: "Email atau username harus diisi")
             self.hideLoading()
             return
         }
         if (pwd == "") {
-            UIAlertView.SimpleShow("Perhatian", message: "Password harus diisi")
+            Constant.showDialog("Perhatian", message: "Password harus diisi")
             self.hideLoading()
             return
         }
