@@ -159,6 +159,8 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         // Clear local data
         User.Logout()
         
+        _ = CDDraftProduct.deleteAll()
+        
         // Tell delegate class if any
         if let d = self.userRelatedDelegate
         {
