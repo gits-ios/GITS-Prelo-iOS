@@ -148,8 +148,8 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
 //            self.tblLovers.isHidden = true
             self.showLoading()
             
-            var productId = self.productId
-            var buyer = self.productLovelistItems[indexPath.row]
+            let productId = self.productId
+            let buyer = self.productLovelistItems[indexPath.row]
             
             // Get product detail from API
             let _ = request(APIProduct.detail(productId: productId, forEdit: 0)).responseJSON {resp in

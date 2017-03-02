@@ -112,7 +112,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         //        Constant.showDialog("Upload Barang Berhasil", message: "Proses review barang akan memakan waktu maksimal 2 hari kerja. Mohon tunggu :)")
         
 //        print(notif.object)
-        let metaJson = JSON(notif.object)
+        let metaJson = JSON((notif.object ?? [:]))
         let metadata = metaJson["_data"]
 //        print(metadata)
         if let message = metadata["message"].string {

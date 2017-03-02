@@ -284,7 +284,6 @@ enum APIAuth : URLRequestConvertible {
                 "email" : email,
                 "platform_sent_from" : "ios"
             ]
-        default : break
         }
         return p
     }

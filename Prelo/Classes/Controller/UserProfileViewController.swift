@@ -878,10 +878,10 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 
                 AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: { op, res in
                     print("Edit profile res = \(res)")
-                    let json = JSON(res)
+                    let json = JSON((res ?? [:]))
                     self.simpanDataSucceed(json)
                 }, failure: { op, err in
-                    print(err) // failed
+                    print((err ?? "")) // failed
                     Constant.showDialog("Edit Profil", message: "Gagal mengupload data")//:err.description)
                     self.btnSimpanData.isEnabled = true
                     self.loadingPanel.isHidden = true
