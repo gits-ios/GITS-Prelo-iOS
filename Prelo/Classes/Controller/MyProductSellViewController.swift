@@ -115,7 +115,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
 //        print(notif.object)
         let o = notif.object as! [Any]
         
-//        let metaJson = JSON(notif.object)
+//        let metaJson = JSON((notif.object ?? [:]))
         let metaJson = JSON(o[0])
         let metadata = metaJson["_data"]
         print(metadata)

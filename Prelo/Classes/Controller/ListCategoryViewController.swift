@@ -154,10 +154,10 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 let string = resp.result.value
                 if (string != nil)
                 {
-                    print(string)
+                    print((string ?? ""))
                 } else
                 {
-                    print(resp.result.error)
+                    print((resp.result.error ?? ""))
                 }
             }
             .responseJSON {resp in

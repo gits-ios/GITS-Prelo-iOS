@@ -2111,7 +2111,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 return
             }
             
-            let json = JSON(res)
+            let json = JSON((res ?? [:]))
             
             let s = self.storyboard?.instantiateViewController(withIdentifier: "share") as! AddProductShareViewController
             if let price = json["_data"]["price"].int

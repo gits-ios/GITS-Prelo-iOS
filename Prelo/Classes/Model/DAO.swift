@@ -128,9 +128,10 @@ open class User : NSObject
         Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
         Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])*/
         
-        CDUser.deleteAll()
-        CDUserProfile.deleteAll()
-        CDUserOther.deleteAll()
+        _ = CDUser.deleteAll()
+        _ = CDUserProfile.deleteAll()
+        _ = CDUserOther.deleteAll()
+        _ = CDDraftProduct.deleteAll()
         
         UserDefaults.standard.removeObject(forKey: User.IdKey)
         UserDefaults.standard.removeObject(forKey: User.TokenKey)
@@ -338,7 +339,7 @@ class UserProfile : NSObject {
     
     var shippingIds : [String] {
         var s : [String] = []
-        if let j : JSON = json["shipping_preferences_ids"] {
+        if let j = json["shipping_preferences_ids"].array {
             for i in 0 ..< j.count {
                 if let shipId = j[i].string {
                     s.append(shipId)
@@ -350,7 +351,7 @@ class UserProfile : NSObject {
     
     var categoryPrefIds : [String] {
         var c : [String] = []
-        if let j : JSON = json["others"]["category_preferences_ids"] {
+        if let j = json["others"]["category_preferences_ids"].array {
             for i in 0 ..< j.count {
                 if let pref = j[i].string {
                     c.append(pref)
@@ -1291,14 +1292,14 @@ open class Product : NSObject
     }
     
     var isAggregate : Bool {
-        if let j = json["aggregate_data"]["num_products"].int {
+        if let _ = json["aggregate_data"]["num_products"].int {
             return true
         }
         return false
     }
     
     var isAffiliate : Bool {
-        if let j = json["affiliate_data"]["affiliate_name"].string {
+        if let _ = json["affiliate_data"]["affiliate_name"].string {
             return true
         }
         return false
@@ -3844,7 +3845,7 @@ class AchievementTierItem : NSObject {
             return j
         }
         return ""
-        return "coba panjang banget yak, wkwkwk pingin lihat bisa 5 baris ndak lho lho lho, cob aterus aja ya wkwkwkkkw, 1234567890 qwertyuiop[] asdfghjkl;' zxcvbnm,./ |\\ ckckkc djuned coba panjang banget teks nya"
+//        return "coba panjang banget yak, wkwkwk pingin lihat bisa 5 baris ndak lho lho lho, cob aterus aja ya wkwkwkkkw, 1234567890 qwertyuiop[] asdfghjkl;' zxcvbnm,./ |\\ ckckkc djuned coba panjang banget teks nya"
     }
     
     var icon : URL? {

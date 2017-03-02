@@ -289,7 +289,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                 
                 let opCategories : Operation = BlockOperation(block: {
                     let psc = UIApplication.appDelegate.persistentStoreCoordinator
-                    let moc = NSManagedObjectContext()
+                    let moc = NSManagedObjectContext.init(concurrencyType: NSManagedObjectContextConcurrencyType.privateQueueConcurrencyType)
                     moc.persistentStoreCoordinator = psc
                     
                     // Update categories
@@ -309,7 +309,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                 
                 let opShippings : Operation = BlockOperation(block: {
                     let psc = UIApplication.appDelegate.persistentStoreCoordinator
-                    let moc = NSManagedObjectContext()
+                    let moc = NSManagedObjectContext.init(concurrencyType: NSManagedObjectContextConcurrencyType.privateQueueConcurrencyType)
                     moc.persistentStoreCoordinator = psc
                     
                     // Update shippings
@@ -328,7 +328,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                 
                 let opProductConditions : Operation = BlockOperation(block: {
                     let psc = UIApplication.appDelegate.persistentStoreCoordinator
-                    let moc = NSManagedObjectContext()
+                    let moc = NSManagedObjectContext.init(concurrencyType: NSManagedObjectContextConcurrencyType.privateQueueConcurrencyType)
                     moc.persistentStoreCoordinator = psc
                     
                     // Update product conditions
@@ -347,7 +347,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                 
                 let opProvincesRegions : Operation = BlockOperation(block: {
                     let psc = UIApplication.appDelegate.persistentStoreCoordinator
-                    let moc = NSManagedObjectContext()
+                    let moc = NSManagedObjectContext.init(concurrencyType: NSManagedObjectContextConcurrencyType.privateQueueConcurrencyType)
                     moc.persistentStoreCoordinator = psc
                     
                     // Update provinces regions

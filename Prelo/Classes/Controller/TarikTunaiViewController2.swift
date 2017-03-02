@@ -357,7 +357,7 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
                     // Prelo Analytic - Request Withdraw Money
                     self.sendRequestWithdrwaMoney(namaBank, amount: i, isSuccess: true, reason: "")
                     
-                    self.navigationController?.popToRootViewController(animated: true)
+                    _ = self.navigationController?.popToRootViewController(animated: true)
                 }
             } else
             {

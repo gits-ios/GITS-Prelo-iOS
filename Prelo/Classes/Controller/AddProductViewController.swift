@@ -338,9 +338,9 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         //Mixpanel.sharedInstance().timeEvent("Adding Product")
         
         AppToolsObjC.sendMultipart(["name":name!, "description":desc!, "category":selectedCategoryID, "price":price!, "weight":currentWeight], images: self.sendIMGs, withToken: User.Token!, success: {op, res in
-            print(res)
+            print((res ?? ""))
             //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"1"])
-            let json = JSON(res)
+            let json = JSON((res ?? [:]))
             let s = self.storyboard?.instantiateViewController(withIdentifier: "share") as! AddProductShareViewController
             if let price = json["_data"]["price"].int
             {
@@ -835,7 +835,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     }
     
     func weightShouldReturn(_ textField: UITextField) {
-        self.textFieldShouldReturn(textField)
+        _ = self.textFieldShouldReturn(textField)
     }
     
     /*
@@ -1112,7 +1112,8 @@ class AddProductImageCell : UICollectionViewCell
                         asset = ALAssetsLibrary()
                     }
                     
-                    DispatchQueue.global( priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
+//                    DispatchQueue.global( priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
+                    DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
                         self.asset?.asset(for: (self._apImage?.url)! as URL, resultBlock: { asset in
                             if let ast = asset {
                                 let rep = ast.defaultRepresentation()

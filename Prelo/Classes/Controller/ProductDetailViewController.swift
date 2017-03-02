@@ -210,7 +210,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     self.title = self.detail?.name
                     
                     self.activated = (self.detail?.isActive)!
-                    print(self.detail?.json)
+                    print((self.detail?.json ?? ""))
                     
                     self.adjustButtonByStatus()
                     
@@ -470,9 +470,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     func actionSheet(_ actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
         if (buttonIndex == 0)
         {
-            guard let pDetail = detail else {
-                return
-            }
+            //            guard let pDetail = detail else {
+            //                return
+            //            }
             //            var username = "Your beloved user"
             //            if let u = CDUser.getOne() {
             //                username = u.username
@@ -492,7 +492,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             //                Constant.showDialog("No Active E-mail", message: "Untuk dapat mengirim Report, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
             //            }
             
-                gotoReport()
+            gotoReport()
         }
     }
     
