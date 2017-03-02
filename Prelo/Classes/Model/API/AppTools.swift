@@ -771,14 +771,14 @@ class PreloAnalyticEvent {
     
     // Add Product
     static let SubmitProduct = "Add Product:Submit Product"
-    static let SaveAsDraft = "Add Product:Save As Draft"
+    static let SaveAsDraft = "Add Product:Save as Draft"
     static let ShareProduct = "Add Product:Share Product"
     static let UploadSuccess = "Add Product:Upload Success"
     
     // Purchase
     static let Checkout = "Purchase:Checkout"
     static let ClaimPayment = "Purchase:Claim Payment"
-    static let GoToCart = "Purchase:Go To Cart"
+    static let GoToCart = "Purchase:Go to Cart"
     
     // Feedback
     static let Rate = "Feedback:Rate"
@@ -813,7 +813,7 @@ class PreloAnalyticEvent {
     
     // Product
     static let EraseProduct = "Product:Erase Product"
-    static let MarkAsSold = "Product:Mark As Sold"
+    static let MarkAsSold = "Product:Mark as Sold"
     static let CommentOnProduct = "Product:Comment on Product"
 }
 

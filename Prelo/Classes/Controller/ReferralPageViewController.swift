@@ -466,19 +466,19 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                          */
                         
                         // Prelo Analytics - Redeem Referral Code
-                        self.sendRedeemReferralCodeAnalytic(self.fieldKodeReferral.text!, isSucceed: true, reason: "")
+                        self.sendRedeemReferralCodeAnalytic(self.fieldKodeReferral.text!, isSuccess: true, reason: "")
                         
                     } else {
                         let reason = json["_message"].string!
                         
                         // Prelo Analytics - Redeem Referral Code
-                        self.sendRedeemReferralCodeAnalytic(self.fieldKodeReferral.text!, isSucceed: false, reason: reason)
+                        self.sendRedeemReferralCodeAnalytic(self.fieldKodeReferral.text!, isSuccess: false, reason: reason)
                     }
                 } else {
                     let reason = json["_message"].string!
                     
                     // Prelo Analytics - Redeem Referral Code
-                    self.sendRedeemReferralCodeAnalytic(self.fieldKodeReferral.text!, isSucceed: false, reason: reason)
+                    self.sendRedeemReferralCodeAnalytic(self.fieldKodeReferral.text!, isSuccess: false, reason: reason)
                 }
                 self.hideLoading()
             }
@@ -501,13 +501,17 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     }
     
     // Prelo Analytics - Redeem Referral Code
-    func sendRedeemReferralCodeAnalytic(_ referralCode: String, isSucceed: Bool, reason: String) {
+    func sendRedeemReferralCodeAnalytic(_ referralCode: String, isSuccess: Bool, reason: String) {
         let loginMethod = User.LoginMethod ?? ""
-        let pdata = [
+        var pdata = [
             "Referral Code Used" : referralCode,
-            "Success" : isSucceed,
-            "Failed Reason" : reason
+            "Success" : isSuccess
         ] as [String : Any]
+        
+        if !isSuccess && reason != "" {
+            pdata["Failed Reason"] = reason
+        }
+        
         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.RedeemReferralCode, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
     }
     

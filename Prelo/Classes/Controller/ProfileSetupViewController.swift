@@ -699,16 +699,24 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                             }
                         }
                         
+                        let address = [
+                            "Province" : CDProvince.getProvinceNameWithID(userProfileData.provinceId)!,
+                            "Region" : CDRegion.getRegionNameWithID(userProfileData.regionId)!,
+                            "Subdistrict" : userProfileData.subdistrictName,
+                        ] as [String : Any]
+                        
                         let pdata = [
                             "Username" : userProfileData.username,
                             "Email" : userProfileData.email,
                             "Gender" : userProfileData.gender,
-                            "Province" : CDProvince.getProvinceNameWithID(userProfileData.provinceId)!,
-                            "City" : CDRegion.getRegionNameWithID(userProfileData.regionId)!,
-                            "Subdistrict" : userProfileData.subdistrictName,
+                            "Address" : address,
                             "Shipping Options" : shippingArrName
                         ] as [String : Any]
+                        
                         AnalyticManager.sharedInstance.sendWithUserId(eventType: PreloAnalyticEvent.SetupAccount, data: pdata, previousScreen: self.screenBeforeLogin, loginMethod: self.loginMethod, userId: userProfileData.id)
+                        
+                        User.UpdateUsernameHistory(userProfileData.username)
+                        User.SetLoginMethod(self.loginMethod)
                         
                         // Prelo Analytic - Update User - Init
                         AnalyticManager.sharedInstance.initUser(userProfileData: userProfileData)
@@ -721,7 +729,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                     phoneVerificationVC.userEmail = userProfileData.email // Tidak menggunakan 'self.userEmail' karena mungkin kosong dan baru diset di halaman ini
                     phoneVerificationVC.isShowBackBtn = false
                     phoneVerificationVC.loginMethod = self.loginMethod
-                    phoneVerificationVC.noHpToVerify = userPhone!
+                    phoneVerificationVC.noHpToVerify = userProfileData.phone //userPhone!
                     phoneVerificationVC.userProfileData = userProfileData
                     phoneVerificationVC.previousScreen = PageName.SetupAccount
                     self.navigationController?.pushViewController(phoneVerificationVC, animated: true)

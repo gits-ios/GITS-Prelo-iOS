@@ -281,6 +281,9 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
         ]
         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SetupPhone, data: pdata, previousScreen: self.previousScreen, loginMethod: self.loginMethod)
         
+        // Prelo Analytic - Update User - phone
+        AnalyticManager.sharedInstance.updateUserPhone(phone: noHp)
+        
         // Dismiss view
         Constant.showDialog("Success", message: "Verifikasi berhasil")
         self.dismiss(animated: true, completion: nil)

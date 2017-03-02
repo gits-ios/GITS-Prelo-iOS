@@ -1983,12 +1983,18 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     
                     let loginMethod = User.LoginMethod ?? ""
                     
+                    // brand
+                    let brand = [
+                        "ID" : self.merekId,
+                        "Name" : self.captionMerek.text!,
+                        "Verified" : (self.merekId != "" ? true : false)
+                    ] as [String : Any]
+                    
                     var pdata = [
                         "Local ID": (self.draftMode == true ? (self.draftProduct?.localId)! : self.uniqueCodeString)!,
                         "Product Name" : name,
                         "Condition" : self.captionKondisi.text!,
-                        "Product Brand" : self.captionMerek.text!,
-                        "New Brand" : (self.merekId != "" ? false : true),
+                        "Brand" : brand,
                         "Free Shipping" : (self.freeOngkir == 1 ? true : false),
                         "Weight" : self.txtWeight.text!,
                         "Price Original" : self.txtOldPrice.text!,

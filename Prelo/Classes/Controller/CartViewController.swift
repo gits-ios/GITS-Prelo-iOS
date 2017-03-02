@@ -316,6 +316,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         }
                     } else {
                         if let voucherError = data["voucher_error"].string {
+                            self.isVoucherApplied = false
                             Constant.showDialog("Invalid Voucher", message: voucherError)
                         }
                     }
@@ -1183,7 +1184,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         itemsCategory.append(cName!)
                         itemsSeller.append(json["seller_username"].stringValue)
                         itemsPrice.append(json["price"].intValue)
-                        totalPrice += json["price"].intValue
+//                        totalPrice += json["price"].intValue
                         itemsCommissionPercentage.append(json["commission"].intValue)
                         let cPrice = json["price"].intValue * json["commission"].intValue / 100
                         itemsCommissionPrice.append(cPrice)
@@ -1204,6 +1205,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     
                     let orderId = self.checkoutResult!["order_id"].stringValue
                     let paymentMethod = self.checkoutResult!["payment_method"].stringValue
+                    
+                    totalPrice = self.checkoutResult!["total_price"].intValue
                     
                     /*
                     // MixPanel
@@ -1235,14 +1238,20 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         "Province" : province,
                         "Region" : region
                     ] as [String : Any]
-                    let pdata = [
+                    var pdata = [
                         "Local ID" : localId,
                         "Order ID" : orderId,
                         "Items" : itemsObject,
                         "Total Price" : totalPrice,
                         "Shipping" : shipping,
-                        "Payment Method" : paymentMethod
+                        "Payment Method" : paymentMethod,
+                        "Prelo Balance Used" : (self.checkoutResult!["prelobalance_used"].intValue != 0 ? true : false)
                     ] as [String : Any]
+                    
+                    if (self.checkoutResult!["voucher_serial"].stringValue != nil && self.checkoutResult!["voucher_serial"].stringValue != "") {
+                        pdata["Voucher Used"] = self.checkoutResult!["voucher_serial"].stringValue
+                    }
+                    
                     AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Checkout, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
                     
                     // reset localid

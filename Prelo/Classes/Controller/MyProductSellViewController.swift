@@ -46,6 +46,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.tableFooterView = UIView()
         
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
         
@@ -139,9 +140,9 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
             "Local ID": localId,
             "Product Name" : metadata["name"].string!,
             "Commission Percentage" : metadata["commission"].int!,
-            "Facebook" : metadata["share_status"]["FACEBOOK"].int!,
-            "Twitter" : metadata["share_status"]["TWITTER"].int!,
-            "Instagram" : metadata["share_status"]["INSTAGRAM"].int!
+            "Facebook" : metadata["share_status"]["shared"]["FACEBOOK"].int!,
+            "Twitter" : metadata["share_status"]["shared"]["TWITTER"].int!,
+            "Instagram" : metadata["share_status"]["shared"]["INSTAGRAM"].int!
         ] as [String : Any]
         
         let images = metadata["display_picts"].array!
@@ -240,7 +241,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 
                 self.addUploadingProducts()
                 
-                if (self.products.count > 0) {
+                if (self.products.count > 0 || self.localProducts.count > 0) {
                     self.lblEmpty.isHidden = true
                     self.tableView.isHidden = false
                     self.tableView.reloadData()

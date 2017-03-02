@@ -320,11 +320,16 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
     
     func sendProduct(_ instagram : String = "0", facebook : String = "0", twitter : String = "0")
     {
-        /*
         self.sendProductParam["instagram"] = instagram
         self.sendProductParam["facebook"] = facebook
         self.sendProductParam["twitter"] = twitter
         
+        // auto approve
+        if AppTools.isDev {
+            self.sendProductParam["status"] = "1"
+        }
+        
+        /*
         // Mixpanel
         var categ = ""
         if let categId = sendProductParam["category_id"] {

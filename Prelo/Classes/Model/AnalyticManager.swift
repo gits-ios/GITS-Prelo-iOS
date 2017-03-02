@@ -26,7 +26,7 @@ class AnalyticManager: NSObject {
     // skeleton data -- copy it to your temporer data
     let skeletonData =  [
         "OS" : UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")",
-        "App version" : CDVersion.getOne()!.appVersion,
+        "App Version" : CDVersion.getOne()!.appVersion,
         //"Device Model" : UIDevice.current.model + (AppTools.isSimulator ? " Simulator" : ""),
         //"Previous Screen" : "", // override it
         //"Login Method" : "" // override it
@@ -137,6 +137,18 @@ class AnalyticManager: NSObject {
     // only from setup profile, register
     func initUser(userProfileData: UserProfile) {
         let _ = request(APIAnalytic.userInit(userProfileData: userProfileData)).responseJSON {resp in
+            if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - User")) {
+                print("Analytics - User, Sent!")
+                if self.isShowDialog {
+                    Constant.showDialog("Analytics - User", message: "Success")
+                }
+            }
+        }
+    }
+    
+    // only from setup, edit phone - verified
+    func updateUserPhone(phone: String) {
+        let _ = request(APIAnalytic.userUpdate(phone: phone)).responseJSON {resp in
             if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - User")) {
                 print("Analytics - User, Sent!")
                 if self.isShowDialog {

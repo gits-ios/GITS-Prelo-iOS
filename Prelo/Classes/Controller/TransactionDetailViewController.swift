@@ -2431,6 +2431,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             let tp = self.trxProductDetail!
             
             let loginMethod = User.LoginMethod ?? ""
+            
+            /*
             let province = CDProvince.getProvinceNameWithID(tp.shippingProvinceId) ?? ""
             let region = CDRegion.getRegionNameWithID(tp.shippingRegionId) ?? ""
             
@@ -2439,18 +2441,20 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 "Region" : region,
                 "Price" : tp.shippingPrice
             ] as [String : Any]
+             */
             
             let pdata = [
                 "Order ID" : tp.orderId,
                 "Product ID" : tp.productId ,
-                "Price" : tp.productPrice,
-                "Commission Percentage" : tp.commission,
-                "Commission Price" : tp.commissionPrice,
+                //"Price" : tp.productPrice,
+                //"Commission Percentage" : tp.commission,
+                //"Commission Price" : tp.commissionPrice,
                 "Seller Username" : tp.sellerUsername,
-                "Shipping" : shipping,
+                //"Shipping" : shipping,
                 "Rate" : self.loveValue,
                 "Current State" : tp.progressText
             ] as [String : Any]
+            
             AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ReviewAndRateSeller, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
         }
     }

@@ -644,7 +644,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                     
                     let shipping = [
                         "Price" : shippingPrice,
-                        "Kurir" : (self.lblKurir.text?.lowercased() != "lainnya" ? self.lblKurir.text! : self.txtFldKurirLainnya.text!) //tp.shippingName
+                        "Courier" : (self.lblKurir.text?.lowercased() != "lainnya" ? self.lblKurir.text! : self.txtFldKurirLainnya.text!) //tp.shippingName
                     ] as [String : Any]
                     
                     let address = [

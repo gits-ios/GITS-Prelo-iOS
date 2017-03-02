@@ -123,6 +123,7 @@ enum APIAnalytic : URLRequestConvertible {
     case eventWithUserId(eventType: String, data: [String : Any], userId: String)
     case event(eventType: String, data: [String : Any])
     case userInit(userProfileData: UserProfile)
+    case userUpdate(phone: String)
     case user(isNeedPayload: Bool)
     
     public func asURLRequest() throws -> URLRequest {
@@ -130,12 +131,21 @@ enum APIAnalytic : URLRequestConvertible {
         let prettyJSONstring = JSON(param).rawString()
         let JSONstring = prettyJSONstring!.replace("\n", template: "")
         
+        let curparam : [String : Any] = [ "payload" : JSONstring ]
+        
         let basePath = "analytics/"
         let url = URL(string: preloAnalyticHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
         var urlRequest = URLRequest(url: url).defaultAnalyticURLRequest()
         urlRequest.httpMethod = method.rawValue
-        urlRequest.httpBody = ("payload=" + JSONstring).data(using: String.Encoding.ascii, allowLossyConversion: true)
-        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: nil)
+        
+        // stringify (cara 2)
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloAnalyticEndpoints.ProcessParam(curparam))
+        
+        // stringify (cara 1) -- error untuk caracter tertentu -> + &
+//        urlRequest.httpBody = ("payload=" + JSONstring).data(using: String.Encoding.ascii, allowLossyConversion: true)
+//        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: nil)
+        
+        // original -- error beda representasi
 //        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloAnalyticEndpoints.ProcessParam(param))
         
         return encodedURLRequest
@@ -150,6 +160,7 @@ enum APIAnalytic : URLRequestConvertible {
         case .eventWithUserId(_, _, _) : return "event"
         case .event(_, _) : return "event"
         case .userInit(_) : return "user"
+        case .userUpdate(_) : return "user"
         case .user(_) : return "user"
         }
     }
@@ -174,7 +185,7 @@ enum APIAnalytic : URLRequestConvertible {
                 "data" : data
             ]
         case .userInit(let userProfileData) :
-            let deviceToken = (User.IsLoggedIn && UserDefaults.standard.string(forKey: "deviceregid") != nil && UserDefaults.standard.string(forKey: "deviceregid") != "" ? UserDefaults.standard.string(forKey: "deviceregid")! : "...simulator...")
+            let deviceToken = (UserDefaults.standard.string(forKey: "deviceregid") != nil && UserDefaults.standard.string(forKey: "deviceregid") != "" ? UserDefaults.standard.string(forKey: "deviceregid")! : "...simulator...")
             let a : [String : Any] = [
                 "province" : CDProvince.getProvinceNameWithID(userProfileData.provinceId)!,
                 "region" : CDRegion.getRegionNameWithID(userProfileData.regionId)!,
@@ -199,9 +210,6 @@ enum APIAnalytic : URLRequestConvertible {
                 "gender" : [
                     "update" : userProfileData.gender
                 ],
-                "phone" : [
-                    "update" : userProfileData.phone
-                ],
                 "address" : a
             ]
             p = [
@@ -211,9 +219,30 @@ enum APIAnalytic : URLRequestConvertible {
                 "username" : userProfileData.username,
                 "data" : d
             ]
+        case .userUpdate(let phone) :
+            let _user = CDUser.getOne()
+            let deviceToken = (UserDefaults.standard.string(forKey: "deviceregid") != nil && UserDefaults.standard.string(forKey: "deviceregid") != "" ? UserDefaults.standard.string(forKey: "deviceregid")! : "...simulator...")
+            let d : [String : [String : Any]] =  [
+                "device_model" : [
+                    "append" : (AppTools.isSimulator ? UIDevice.current.model + " Simulator" : AnalyticManager.sharedInstance.platform()) + " - " + UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")"
+                ],
+                "apns_id" : [
+                    "append" : deviceToken
+                ],
+                "phone" : [
+                    "update" : phone
+                ]
+            ]
+            p = [
+                "user_id" : (User.Id != nil ? User.Id! : (_user?.id)!),
+                "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
+                "device_id" : UIDevice.current.identifierForVendor!.uuidString,
+                "username" : (_user?.username)!,
+                "data" : d
+            ]
         case .user(let isNeedPayload) :
             let _user = CDUser.getOne()
-            let deviceToken = (User.IsLoggedIn && UserDefaults.standard.string(forKey: "deviceregid") != nil && UserDefaults.standard.string(forKey: "deviceregid") != "" ? UserDefaults.standard.string(forKey: "deviceregid")! : "...simulator...")
+            let deviceToken = (UserDefaults.standard.string(forKey: "deviceregid") != nil && UserDefaults.standard.string(forKey: "deviceregid") != "" ? UserDefaults.standard.string(forKey: "deviceregid")! : "...simulator...")
             var d : [String : [String : Any]] = [:]
             if (isNeedPayload) {
                 let regionName = CDRegion.getRegionNameWithID((_user?.profiles.regionID)!) ?? ""
