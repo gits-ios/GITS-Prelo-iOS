@@ -32,8 +32,8 @@ class SearchTag: BorderedView {
         var width : CGFloat = 0
         var multiplier : CGFloat = 1
         while (!isOke) {
-            if (s.captionHide.width/multiplier + 16 <= UIScreen.main.bounds.width - 16) {
-                width = s.captionHide.width/multiplier + 16
+            if (s.captionHide.width/multiplier + 16*multiplier <= UIScreen.main.bounds.width - 16) {
+                width = s.captionHide.width/multiplier + 16*multiplier
                 isOke = true
             } else {
                 multiplier += 1
