@@ -683,7 +683,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         } else {
             alert.addAction(UIAlertAction(title: "Keluar", style: .cancel, handler: { action in
                 
-                self.navigationController?.popViewController(animated: true)
+                _ = self.navigationController?.popViewController(animated: true)
             }))
         }
         
@@ -694,7 +694,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 // save the draft
                 self.saveDraft(isBack: true)
             } else {
-                self.navigationController?.popViewController(animated: true)
+                _ = self.navigationController?.popViewController(animated: true)
             }
         }))
         
@@ -749,7 +749,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     func userCancelLogin() {
         allowLaunchLogin = false
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     // MARK: - Image processing
@@ -2107,7 +2107,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 
                 //Mixpanel.sharedInstance().track("Editing Product", properties: ["success":"1"])
                 self.editDoneBlock()
-                self.navigationController?.popViewController(animated: true)
+                _ = self.navigationController?.popViewController(animated: true)
                 return
             }
             

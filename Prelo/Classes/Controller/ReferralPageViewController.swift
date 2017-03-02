@@ -94,7 +94,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                     self.getReferralData()
                 }
             } else {
-                self.navigationController?.popViewController(animated: true)
+                _ = self.navigationController?.popViewController(animated: true)
             }
         }
         
@@ -182,7 +182,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                 self.loadingPanel.isHidden = true
                 self.loading.stopAnimating()
             } else {
-                self.navigationController?.popViewController(animated: true)
+                _ = self.navigationController?.popViewController(animated: true)
             }
         }
     }
@@ -416,7 +416,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     
     @IBAction func copyPressed(_ sender: AnyObject) {
         UIPasteboard.general.string = shareText
-        UIAlertView.SimpleShow("Copied", message: "Teks telah disalin")
+        Constant.showDialog("Copied", message: "Teks telah disalin")
     }
     
     @IBAction func disableTextFields(_ sender : AnyObject)
@@ -530,7 +530,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
         switch buttonIndex {
         case 0: // Batal
-            self.navigationController?.popViewController(animated: true)
+            _ = self.navigationController?.popViewController(animated: true)
             break
         case 1: // Kirim Email Konfirmasi
             if let email = CDUser.getOne()?.email {
@@ -546,11 +546,11 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                         a.dismiss(withClickedButtonIndex: -1, animated: true)
                         Constant.showDialog("Referral Bonus", message: "E-mail konfirmasi telah terkirim ke \(email)")
                     }
-                    self.navigationController?.popViewController(animated: true)
+                    _ = self.navigationController?.popViewController(animated: true)
                 }
             } else {
                 Constant.showDialog("Referral Bonus", message: "Oops, terdapat masalah saat mencari e-mail kamu")
-                self.navigationController?.popViewController(animated: true)
+                _ = self.navigationController?.popViewController(animated: true)
             }
             break
         default:

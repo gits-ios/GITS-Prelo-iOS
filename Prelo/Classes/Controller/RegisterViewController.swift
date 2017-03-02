@@ -101,7 +101,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
     }
     
     @IBAction func xBackPressed(_ sender: UIButton) {
-        let _ = self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func termConditionPressed(_ sender: AnyObject) {
@@ -207,20 +207,20 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                 let data = json["_data"]
                 
                 let m = UIApplication.appDelegate.managedObjectContext
-                let _ = CDUser.deleteAll()
+                _ = CDUser.deleteAll()
                 let c = NSEntityDescription.insertNewObject(forEntityName: "CDUser", into: m) as! CDUser
                 c.id = data["_id"].stringValue
                 c.email = data["email"].stringValue
                 c.username = data["username"].stringValue
                 c.fullname = data["fullname"].stringValue
                 
-                let _ = CDUserProfile.deleteAll()
+                _ = CDUserProfile.deleteAll()
                 let p = NSEntityDescription.insertNewObject(forEntityName: "CDUserProfile", into: m) as! CDUserProfile
                 let pr = data["profile"]
                 p.pict = pr["pict"].stringValue
                 c.profiles = p
                 
-                let _ = CDUserOther.deleteAll()
+                _ = CDUserOther.deleteAll()
                 let o = NSEntityDescription.insertNewObject(forEntityName: "CDUserOther", into: m) as! CDUserOther
                 let oth = data["others"]
                 o.lastLogin = oth["last_login"].stringValue

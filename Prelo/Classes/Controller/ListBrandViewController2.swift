@@ -292,7 +292,7 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
         
         if (self.previousController != nil) {
             delegate?.adjustBrand(selectedBrands)
-            self.navigationController?.popViewController(animated: true)
+            _ = self.navigationController?.popViewController(animated: true)
         } else {
             let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
             l.currentMode = .filter

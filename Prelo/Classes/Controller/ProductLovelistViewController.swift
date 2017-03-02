@@ -114,7 +114,7 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
 
             } else {
                 // back to previous UI
-                self.navigationController?.popViewController(animated: true)
+                _ = self.navigationController?.popViewController(animated: true)
             }
             
             // Hide refresh control

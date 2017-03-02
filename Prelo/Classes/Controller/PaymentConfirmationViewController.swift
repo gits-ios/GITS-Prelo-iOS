@@ -124,7 +124,7 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
                     self.setupTable()
                 }
             } else {
-                self.navigationController?.popViewController(animated: true)
+                _ = self.navigationController?.popViewController(animated: true)
             }
         }
     }

@@ -939,25 +939,32 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     let screenHeight = screenSize.height - (64 + 45) // (170 + 45)
 //                    let height = CGFloat((self.products?.count)! + 1) * 65
                     
-                    var height = StoreInfo.heightFor(self.shopData, isExpand: self.isExpand) + 8
+                    var height = StoreInfo.heightFor(self.shopData, isExpand: self.isExpand) + 4
 
-                    if AppTools.isIPad {
-                        height += CGFloat(Int(CGFloat((self.products?.count)!) / 3.0 + 0.7)) * (self.itemCellWidth! + 70)
+                    let pCount = (self.products?.count)!
+                    
+                    if pCount > 0 {
+                        if AppTools.isIPad {
+                            height += CGFloat(Int(CGFloat(pCount) / 3.0 + 0.7)) * (self.itemCellWidth! + 70)
+                        } else {
+                            height += CGFloat(Int(CGFloat(pCount) / 2.0 + 0.53)) * (self.itemCellWidth! + 70)
+                        }
                     } else {
-                        height += CGFloat(Int(CGFloat((self.products?.count)!) / 2.0 + 0.5)) * (self.itemCellWidth! + 70)
+                        height += 4
                     }
                     
-                    
-                    var bottom = CGFloat(1)
+                    var bottom = CGFloat(0)
                     if (height < screenHeight) {
                         bottom += screenHeight - height
                     }
                     
+                    /*
                     if bottom > 50 {
                         bottom -= 50
                     } else  {
                         bottom = 1
                     }
+                     */
                     
                     //TOP, LEFT, BOTTOM, RIGHT
                     let inset = UIEdgeInsetsMake(0, 0, bottom, 0)

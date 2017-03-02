@@ -162,14 +162,14 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                             if (self.userProfileData != nil) {
                                 // Save in core data
                                 let m = UIApplication.appDelegate.managedObjectContext
-                                CDUser.deleteAll()
+                                _ = CDUser.deleteAll()
                                 let user : CDUser = (NSEntityDescription.insertNewObject(forEntityName: "CDUser", into: m) as! CDUser)
                                 user.id = self.userProfileData!.id
                                 user.email = self.userProfileData!.email
                                 user.fullname = self.userProfileData!.fullname
                                 user.username = self.userProfileData!.username
                                 
-                                CDUserProfile.deleteAll()
+                                _ = CDUserProfile.deleteAll()
                                 let userProfile : CDUserProfile = (NSEntityDescription.insertNewObject(forEntityName: "CDUserProfile", into: m) as! CDUserProfile)
                                 user.profiles = userProfile
                                 userProfile.regionID = self.userProfileData!.regionId
@@ -183,7 +183,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                                 userProfile.address = self.userProfileData!.address
                                 userProfile.desc = self.userProfileData!.desc
                                 
-                                CDUserOther.deleteAll()
+                                _ = CDUserOther.deleteAll()
                                 let userOther : CDUserOther = (NSEntityDescription.insertNewObject(forEntityName: "CDUserOther", into: m) as! CDUserOther)
                                 userOther.shippingIDs = NSKeyedArchiver.archivedData(withRootObject: self.userProfileData!.shippingIds)
                                 userOther.lastLogin = self.userProfileData!.lastLogin

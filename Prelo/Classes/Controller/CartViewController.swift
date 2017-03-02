@@ -1134,7 +1134,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 // Error handling
                 if (json["_data"]["_have_error"].intValue == 1) {
                     let m = json["_data"]["_message"].stringValue
-                    UIAlertView.SimpleShow("Perhatian", message: m)
+                    Constant.showDialog("Perhatian", message: m)
                     self.btnSend.isEnabled = true
                     return
                 }
@@ -1569,7 +1569,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
         if (balanceFix > balanceAvailable)
         {
-            UIAlertView.SimpleShow("Perhatian", message: "Prelo balance yang tersedia tidak mencukupi")
+            Constant.showDialog("Perhatian", message: "Prelo balance yang tersedia tidak mencukupi")
             return
         }
         if (discountItems.count > 0) {
@@ -1608,7 +1608,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     func userCancelLogin() {
         user = CDUser.getOne()
         if (user == nil) {
-            self.navigationController?.popViewController(animated: true)
+            _ = self.navigationController?.popViewController(animated: true)
         }
     }
     
@@ -2105,7 +2105,7 @@ class PreloBalanceInputCell : UITableViewCell, UITextFieldDelegate
         {
             if let _ = s.rangeOfCharacter(from: CharacterSet(charactersIn: "0987654321").inverted)
             {
-                UIAlertView.SimpleShow("Perhatian", message: "Jumlah prelo balance yang digunakan tidak valid")
+                Constant.showDialog("Perhatian", message: "Jumlah prelo balance yang digunakan tidak valid")
             } else
             {
                 let i = s.int
@@ -2237,11 +2237,11 @@ class CartPaymethodCell : UITableViewCell {
     
     @IBAction func methodPressed(_ sender: UIButton) {
         if (sender.tag == tagCreditCard && !isEnableCCPayment) { // Disabled method
-            UIAlertView.SimpleShow("Coming Soon", message: "Metode pembayaran ini belum tersedia")
+            Constant.showDialog("Coming Soon", message: "Metode pembayaran ini belum tersedia")
             return
         }
         if (sender.tag == tagIndomaret && !isEnableIndomaretPayment) { // Disabled method
-            UIAlertView.SimpleShow("Coming Soon", message: "Metode pembayaran ini belum tersedia")
+            Constant.showDialog("Coming Soon", message: "Metode pembayaran ini belum tersedia")
             return
         }
         for i in 0...btnsMethod.count - 1 {

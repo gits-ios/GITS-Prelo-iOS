@@ -1106,7 +1106,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     }
     
     func userCancelLogin() {
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     // MARK: - Navigation

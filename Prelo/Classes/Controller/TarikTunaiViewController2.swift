@@ -144,7 +144,7 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
                             self.viewSetupPassword!.lblEmail.text = u.email
                         }
                         self.viewSetupPassword!.setPasswordDoneBlock = {
-                            self.navigationController?.popViewController(animated: true)
+                            _ = self.navigationController?.popViewController(animated: true)
                         }
                         self.viewSetupPassword!.disableBackBlock = {
                             self.backEnabled = false
@@ -228,7 +228,7 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
                 }
             } else
             {
-                self.navigationController?.popViewController(animated: true)
+                _ = self.navigationController?.popViewController(animated: true)
             }
             
         }
@@ -307,7 +307,7 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
         /* Minimum transfer disabled
          if i < 50000
          {
-         UIAlertView.SimpleShow("Perhatian", message: "Jumlah penarikan minimum adalah Rp. 50.000")
+         Constant.showDialog("Perhatian", message: "Jumlah penarikan minimum adalah Rp. 50.000")
          return
          }*/
         
@@ -456,7 +456,7 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
     
     override func backPressed(_ sender: UIBarButtonItem) {
         if (self.backEnabled) {
-            self.navigationController?.popViewController(animated: true)
+            _ = self.navigationController?.popViewController(animated: true)
         }
     }
     
