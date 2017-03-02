@@ -576,7 +576,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     
     @IBAction func applyPressed(_ sender: AnyObject) {
         if (fieldsVerified()) {
-            disableTextFields(NSNull)
+            disableTextFields(NSNull.self)
             self.btnApply.isEnabled = false
             
             var username = ""

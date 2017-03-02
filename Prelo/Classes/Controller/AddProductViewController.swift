@@ -835,7 +835,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     }
     
     func weightShouldReturn(_ textField: UITextField) {
-        self.textFieldShouldReturn(textField)
+        _ = self.textFieldShouldReturn(textField)
     }
     
     /*
