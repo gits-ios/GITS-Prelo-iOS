@@ -74,7 +74,8 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         
         // Resume product upload
         if (User.Token != nil && CDUser.getOne() != nil) { // If user is logged in
-            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
+//            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
+            DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
                 AppDelegate.Instance.produkUploader.start()
             })
         }
@@ -488,13 +489,13 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 if let deleteData = data["delete"].array {
-                    CDCategory.deleteCategoriesFromArrayJson(deleteData)
+                    _ = CDCategory.deleteCategoriesFromArrayJson(deleteData)
                 }
                 if let addData = data["add"].array {
-                    CDCategory.saveCategoriesFromArrayJson(addData)
+                    _ = CDCategory.saveCategoriesFromArrayJson(addData)
                 }
                 if let updateData = data["update"].array {
-                    CDCategory.updateCategoriesFromArrayJson(updateData)
+                    _ = CDCategory.updateCategoriesFromArrayJson(updateData)
                 }
             }
             
@@ -518,7 +519,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
                 let json = JSON(resp.result.value!)
                 if let arr = json["_data"].array {
                     if (CDProductCondition.deleteAll(UIApplication.appDelegate.managedObjectContext)) {
-                        CDProductCondition.saveProductConditionsFromArrayJson(arr)
+                        _ = CDProductCondition.saveProductConditionsFromArrayJson(arr)
                     }
                 }
             }
@@ -541,22 +542,22 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 if let deleteDataProv = data["provinces"]["delete"].array {
-                    CDProvince.deleteProvincesFromArrayJson(deleteDataProv)
+                    _ = CDProvince.deleteProvincesFromArrayJson(deleteDataProv)
                 }
                 if let addDataProv = data["provinces"]["add"].array {
-                    CDProvince.saveProvincesFromArrayJson(addDataProv)
+                    _ = CDProvince.saveProvincesFromArrayJson(addDataProv)
                 }
                 if let updateDataProv = data["provinces"]["update"].array {
-                    CDProvince.updateProvincesFromArrayJson(updateDataProv)
+                    _ = CDProvince.updateProvincesFromArrayJson(updateDataProv)
                 }
                 if let deleteDataReg = data["regions"]["delete"].array {
-                    CDRegion.deleteRegionsFromArrayJson(deleteDataReg)
+                    _ = CDRegion.deleteRegionsFromArrayJson(deleteDataReg)
                 }
                 if let addDataReg = data["regions"]["add"].array {
-                    CDRegion.saveRegionsFromArrayJson(addDataReg)
+                    _ = CDRegion.saveRegionsFromArrayJson(addDataReg)
                 }
                 if let updateDataReg = data["regions"]["update"].array {
-                    CDRegion.updateRegionsFromArrayJson(updateDataReg)
+                    _ = CDRegion.updateRegionsFromArrayJson(updateDataReg)
                 }
             }
             
@@ -576,7 +577,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
                 let json = JSON(resp.result.value!)
                 if let arr = json["_data"].array {
                     if (CDShipping.deleteAll(UIApplication.appDelegate.managedObjectContext)) {
-                        CDShipping.saveShippingsFromArrayJson(arr)
+                        _ = CDShipping.saveShippingsFromArrayJson(arr)
                     }
                 }
             }

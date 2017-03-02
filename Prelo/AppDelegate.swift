@@ -227,7 +227,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("launch sessionParams = \(sessionParams)")
             print("launch firstParams = \(firstParams)")
             
-            let params = JSON(sessionParams)
+            let params = JSON((sessionParams ?? [:]))
             if let tipe = params["tipe"].string {
                 var targetId : String?
                 if let tId = params["target_id"].string {
