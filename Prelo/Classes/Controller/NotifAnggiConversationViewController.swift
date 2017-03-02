@@ -507,7 +507,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         
         let loginMethod = User.LoginMethod ?? ""
         let pdata = [
-            "Target ID" : targetId,
+            "Object ID" : targetId,
             "Type" : curType
         ] as [String : Any]
         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ClickNotificationInApp, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)

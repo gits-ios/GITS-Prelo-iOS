@@ -805,7 +805,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 let pdata = [
                     "Product ID" : (self.product?.id)!,
                     "Reported Username" : reportedUsername,
-                    "Reporting Username" : reportingUsername,
+                    "Reporter Username" : reportingUsername,
                     "Reason" : reportType,
                     "Comment ID" : commentId
                 ] as [String : Any]

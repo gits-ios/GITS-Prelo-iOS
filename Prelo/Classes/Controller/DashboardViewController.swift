@@ -764,9 +764,15 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
                     } else {
                         
                         if (Int(self.rate) >= 4) {
+                            self.vwOverlayPopUp.isHidden = true
+                            self.vwBackgroundOverlay.isHidden = true
                             self.openStore()
+                            self.disposePopUp()
                         } else {
+                            self.vwOverlayPopUp.isHidden = true
+                            self.vwBackgroundOverlay.isHidden = true
                             self.sendMail()
+                            self.disposePopUp()
                         }
                     }
                     

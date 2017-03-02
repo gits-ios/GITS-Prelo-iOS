@@ -179,7 +179,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var star = Float(0)
     
     // home
-    var isHiddenTop = false
+    var isHiddenTop: Bool = false
+    
+    var isFeatured: Bool = false
     
     // MARK: - Init
     
@@ -363,6 +365,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             if let isFeatured = self.categoryJson?["is_featured"].bool, isFeatured {
                 self.currentMode = .featured
                 self.listItemSections.insert(.featuredHeader, at: 0)
+                
+                self.isFeatured = true
             }
             // Identify Subcategories
             if let subcatJson = self.categoryJson?["sub_categories"].array, subcatJson.count > 0 {
@@ -1104,6 +1108,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             if (products?.count > (indexPath as NSIndexPath).item) {
                 let p = products?[(indexPath as NSIndexPath).item]
                 cell.adapt(p!, listStage: self.listStage, currentMode: self.currentMode, shopAvatar: self.shopAvatar, parent: self)
+                cell.isFeatured = self.isFeatured
             }
             if (currentMode == .featured) {
                 // Hide featured ribbon
@@ -1876,6 +1881,8 @@ class ListItemCell : UICollectionViewCell {
         ivCover.afCancelRequest()
         avatar.afCancelRequest()
         affiliateLogo.afCancelRequest()
+        
+        isFeatured = false
     }
     
     func adapt(_ product : Product, listStage : Int, currentMode : ListItemMode, shopAvatar : URL?, parent: BaseViewController) {
@@ -1894,7 +1901,11 @@ class ListItemCell : UICollectionViewCell {
         self.sid = obj["seller_id"].string
         
         self.sname = ""
-        self.isFeatured = product.isFeatured
+        
+        if !self.isFeatured {
+            self.isFeatured = product.isFeatured
+        }
+        
         self.currentMode = currentMode
         
         avatar.contentMode = .scaleAspectFill
