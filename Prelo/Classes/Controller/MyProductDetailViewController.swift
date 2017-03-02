@@ -549,7 +549,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                 self.sendMode(false)
             } else { // Berhasil
                 Constant.showDialog("Success", message: "Konfirmasi pengiriman berhasil dilakukan")
-                self.navigationController?.popViewController(animated: true)
+                _ = self.navigationController?.popViewController(animated: true)
             }
         }, failure: { op, err in
             Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal")// dengan error: \(err)")

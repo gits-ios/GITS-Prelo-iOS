@@ -4185,7 +4185,6 @@
 					"$(PROJECT_DIR)/Prelo/Framework/UninstallIO",
 					"$(PROJECT_DIR)/Prelo/Framework/AF-iOS-SDK",
 					"$(PROJECT_DIR)/Prelo/Framework/MoEngageSDK_V2.1",
-					"$(PROJECT_DIR)/Prelo/Classes/External/HotlineSDK",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -4228,7 +4227,6 @@
 					"$(PROJECT_DIR)/Prelo/Framework/UninstallIO",
 					"$(PROJECT_DIR)/Prelo/Framework/AF-iOS-SDK",
 					"$(PROJECT_DIR)/Prelo/Framework/MoEngageSDK_V2.1",
-					"$(PROJECT_DIR)/Prelo/Classes/External/HotlineSDK",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
