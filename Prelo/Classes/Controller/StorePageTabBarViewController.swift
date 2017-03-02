@@ -114,7 +114,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         super.viewDidAppear(animated)
         
         if (self.shopId == nil || self.shopId == "") {
-            self.navigationController?.popViewController(animated: true)
+            _ = self.navigationController?.popViewController(animated: true)
             
             Constant.showDialog("Data Shop Pengguna", message: "Oops, profil seller tidak ditemukan")
         } else {

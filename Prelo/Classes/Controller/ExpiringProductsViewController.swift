@@ -123,7 +123,7 @@ class ExpiringProductsViewController: BaseViewController, UITableViewDelegate, U
                 let json = JSON(resp.result.value!)
                 if let isSuccess = json["_data"].bool , isSuccess {
                     Constant.showDialog("Success", message: "Submit Barang Expired berhasil")
-                    self.navigationController?.popViewController(animated: true)
+                    _ = self.navigationController?.popViewController(animated: true)
                 } else {
                     Constant.showDialog("Oops", message: "Submit Barang Expired gagal, silahkan dicoba kembali")
                 }
