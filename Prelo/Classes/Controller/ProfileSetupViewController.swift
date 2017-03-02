@@ -394,7 +394,8 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                             self.asset = ALAssetsLibrary()
                         }
                         
-                        DispatchQueue.global( priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
+//                        DispatchQueue.global( priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
+                        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
                             self.asset?.asset(for: (img.url)!, resultBlock: { asset in
                                 if let ast = asset {
                                     let rep = ast.defaultRepresentation()
@@ -575,7 +576,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     
     @IBAction func applyPressed(_ sender: AnyObject) {
         if (fieldsVerified()) {
-            disableTextFields(NSNull)
+            disableTextFields(NSNull.self)
             self.btnApply.isEnabled = false
             
             var username = ""

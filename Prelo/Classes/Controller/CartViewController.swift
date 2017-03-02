@@ -1782,7 +1782,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
         let x = AppToolsObjC.jsonString(from: c)
-        print(x)
+        print((x ?? ""))
         
         let pid = j["product_id"].stringValue
         

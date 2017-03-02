@@ -349,7 +349,7 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
                         ] as [String : Any]
                     Mixpanel.trackEvent(MixpanelEvent.RequestedWithdrawMoney, properties: pt as [NSObject : AnyObject])
                     
-                    self.navigationController?.popToRootViewController(animated: true)
+                    _ = self.navigationController?.popToRootViewController(animated: true)
                 }
             } else
             {

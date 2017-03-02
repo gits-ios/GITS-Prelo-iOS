@@ -56,7 +56,7 @@ class ReportProductViewController: BaseViewController, UITextViewDelegate {
         self.title = "Laporkan Barang"
         
         //Looks for single or multiple taps.
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard) /*"dismissKeyboard"*/)
         
         //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
         //tap.cancelsTouchesInView = false
@@ -201,7 +201,7 @@ class ReportProductViewController: BaseViewController, UITextViewDelegate {
             
             // back to previos window
             if let r = self.root {
-                self.navigationController?.popToViewController(r, animated: true)
+                _ = self.navigationController?.popToViewController(r, animated: true)
             }
         }
     }

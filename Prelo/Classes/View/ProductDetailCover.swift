@@ -93,7 +93,7 @@ class ProductDetailCover: UIView {
             }
             
             let fr = iv?.frame
-            print(fr)
+            print((fr ?? ""))
             
             iv?.tag = i
             iv?.isUserInteractionEnabled = true

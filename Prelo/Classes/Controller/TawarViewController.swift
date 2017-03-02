@@ -886,7 +886,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     // Helper untuk simulate ada message masuk
     func sendDummy(_ type : Int = 0, message : String = "DUMMY", delay : TimeInterval = 3)
     {
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
+//        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
             Thread.sleep(forTimeInterval: delay)
             DispatchQueue.main.async(execute: {
                 let i = InboxMessage()

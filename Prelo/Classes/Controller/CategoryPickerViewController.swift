@@ -318,7 +318,7 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
             if (searchMode) {
                 if (self.previousController != nil) {
                     self.delegate?.adjustCategory(selectedCategory!["_id"].stringValue)
-                    self.navigationController?.popToViewController(self.previousController!, animated: true)
+                    _ = self.navigationController?.popToViewController(self.previousController!, animated: true)
                 } else {
                     let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
                     l.currentMode = .filter
@@ -331,11 +331,11 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
                 self.blockDone!(data as [String : AnyObject])
                 
                 if let r = self.root {
-                    self.navigationController?.popToViewController(r, animated: true)
+                    _ = self.navigationController?.popToViewController(r, animated: true)
                 } else {
                     let c = self.navigationController?.viewControllers.count
                     let v = (self.navigationController?.viewControllers[c! - backTreshold])!
-                    self.navigationController?.popToViewController(v, animated: true)
+                    _ = self.navigationController?.popToViewController(v, animated: true)
                 }
             }
         }
