@@ -114,7 +114,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Configure GAI options.
         let gai = GAI.sharedInstance()
-        gai?.tracker(withTrackingId: "UA-68727101-3")
+        _ = gai?.tracker(withTrackingId: "UA-68727101-3")
         gai?.trackUncaughtExceptions = true  // report uncaught exceptions
         gai?.logger.logLevel = GAILogLevel.verbose  // remove before app release
         gai?.defaultTracker.allowIDFACollection = true // Enable IDFA collection
@@ -227,7 +227,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("launch sessionParams = \(sessionParams)")
             print("launch firstParams = \(firstParams)")
             
-            let params = JSON(sessionParams)
+            let params = JSON((sessionParams ?? [:]))
             if let tipe = params["tipe"].string {
                 var targetId : String?
                 if let tId = params["target_id"].string {

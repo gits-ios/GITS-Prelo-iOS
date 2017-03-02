@@ -131,7 +131,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
     
     @IBAction func verifikasiPressed(_ sender: UIButton) {
         if (fieldsVerified()) {
-            disableTextFields(NSNull)
+            disableTextFields(NSNull.self)
             btnVerifikasi.isEnabled = false
             btnKirimUlang.isEnabled = false
             
@@ -280,11 +280,11 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
     func phoneReverificationSucceed() {
         // Pop 2 views (self and phoneReverificationVC)
         let viewControllers: [UIViewController] = (self.navigationController?.viewControllers)!
-        self.navigationController?.popToViewController(viewControllers[viewControllers.count - 3], animated: true);
+        _ = self.navigationController?.popToViewController(viewControllers[viewControllers.count - 3], animated: true);
     }
     
     @IBAction func kirimUlangPressed(_ sender: UIButton) {
-        disableTextFields(NSNull)
+        disableTextFields(NSNull.self)
         btnVerifikasi.isEnabled = false
         btnKirimUlang.isEnabled = false
         

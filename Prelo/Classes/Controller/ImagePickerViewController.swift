@@ -307,7 +307,8 @@ class ImagePickerCell : UICollectionViewCell
                 
                 
                 _url = (_apImage?.url)!.absoluteString
-                DispatchQueue.global( priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
+//                DispatchQueue.global( priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
+                DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
                     self.asset?.asset(for: URL(string: self._url)!, resultBlock: { asset in
                         if let ast = asset {
                             let ref = ast.thumbnail().takeUnretainedValue()

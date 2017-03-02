@@ -54,7 +54,7 @@ class Constant: NSObject {
         let action = UIAlertAction(title: "Oke", style: .default, handler: {  act in
             a.dismiss(animated: true, completion: nil)
             if isBack {
-                view.navigationController?.popViewController(animated: true)
+                _ = view.navigationController?.popViewController(animated: true)
             }
         })
         

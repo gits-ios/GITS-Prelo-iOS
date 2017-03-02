@@ -541,7 +541,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         
         AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: { op, res in
             print("KonfKirim res = \(res)")
-            let json = JSON(res)
+            let json = JSON((res ?? [:]))
             let data : Bool? = json["_data"].bool
             if (data == nil || data == false) { // Gagal
 //                let msg = json["message"]
