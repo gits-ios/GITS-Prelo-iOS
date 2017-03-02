@@ -154,7 +154,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     func alertView(_ alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
         if (buttonIndex == 1)
         {
-            self.navigationController?.popViewController(animated: true)
+            _ = self.navigationController?.popViewController(animated: true)
         }
     }
     
@@ -210,7 +210,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     
     func userCancelLogin() {
         self.first = false
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -304,31 +304,31 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         // validation
         if (name == nil)
         {
-            UIAlertView.SimpleShow("Warning", message: "Nama item masih kosong")
+            Constant.showDialog("Warning", message: "Nama item masih kosong")
             return
         }
         
         if (desc == nil)
         {
-            UIAlertView.SimpleShow("Warning", message: "Deskripsi item masih kosong")
+            Constant.showDialog("Warning", message: "Deskripsi item masih kosong")
             return
         }
         
         if (price == nil)
         {
-            UIAlertView.SimpleShow("Warning", message: "Harga item masih kosong")
+            Constant.showDialog("Warning", message: "Harga item masih kosong")
             return
         }
         let weight = currentWeight as NSString
         if (currentWeight == "" || weight.integerValue == 0)
         {
-            UIAlertView.SimpleShow("Warning", message: "Berat item masih kosong")
+            Constant.showDialog("Warning", message: "Berat item masih kosong")
             return
         }
         
         if (selectedCategoryID == "")
         {
-            UIAlertView.SimpleShow("Warning", message: "Kategori item masih kosong")
+            Constant.showDialog("Warning", message: "Kategori item masih kosong")
             return
         }
         
@@ -352,7 +352,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"0"])
             self.navigationItem.rightBarButtonItem = self.confirmButton.toBarButton()
             self.btnSend.isEnabled = true
-            UIAlertView.SimpleShow("Warning", message: "Gagal")
+            Constant.showDialog("Warning", message: "Gagal")
         })
     
         // mark
@@ -373,7 +373,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             {
                 if (imgs.count == 0)
                 {
-                    self.navigationController?.popViewController(animated: true)
+                    _ = self.navigationController?.popViewController(animated: true)
                 }
                 
                 self.first = false

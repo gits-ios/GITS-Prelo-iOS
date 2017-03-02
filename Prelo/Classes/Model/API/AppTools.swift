@@ -130,12 +130,14 @@ extension UIView {
     }
 }
 
+/*
 extension UIAlertView {
     static func SimpleShow(_ title : String, message : String) {
         let a = UIAlertView(title: title, message: message, delegate: nil, cancelButtonTitle: "Oke")
         a.show()
     }
 }
+ */
 
 extension Int {
     var string : String {

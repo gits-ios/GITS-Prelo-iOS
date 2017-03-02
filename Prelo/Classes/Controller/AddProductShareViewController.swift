@@ -481,7 +481,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
 //                        }
 //                    }
 //                }
-//                UIAlertView.SimpleShow("Upload Barang", message: msgContent)
+//                Constant.showDialog("Upload Barang", message: msgContent)
 //        })
     }
     

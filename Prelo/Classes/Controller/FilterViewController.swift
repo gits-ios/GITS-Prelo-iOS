@@ -464,7 +464,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
         
         if (self.previousController != nil) {
             delegate?.adjustFilter(fltrProdCondIds, fltrPriceMin: fltrPriceMin, fltrPriceMax: fltrPriceMax, fltrIsFreeOngkir: self.isFreeOngkir, fltrSizes: fltrSizes, fltrSortBy: self.SortByDataValue[self.selectedIdxSortBy], fltrLocation: [self.locationName, self.locationId, self.locationType.string])
-            self.navigationController?.popViewController(animated: true)
+            _ = self.navigationController?.popViewController(animated: true)
         } else {
             let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let l = mainStoryboard.instantiateViewController(withIdentifier: "productList") as! ListItemViewController

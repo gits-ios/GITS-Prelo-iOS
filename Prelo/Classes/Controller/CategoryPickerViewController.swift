@@ -134,7 +134,7 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
         if (searchMode && (indexPath as NSIndexPath).row == 0) { // Memilih kategori 'All' (semua kategori)
             if (self.previousController != nil) {
                 self.delegate?.adjustCategory(selectedCategory!["_id"].stringValue)
-                self.navigationController?.popViewController(animated: true)
+                _ = self.navigationController?.popViewController(animated: true)
             } else {
                 let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
                 l.currentMode = .filter
