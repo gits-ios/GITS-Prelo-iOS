@@ -205,6 +205,7 @@ class MyPurchaseCompletedViewController: BaseViewController, UITableViewDataSour
                 let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewController(withIdentifier: "TransactionDetail") as? TransactionDetailViewController)!
                 transactionDetailVC.trxProductId = trxItem.id
                 transactionDetailVC.isSeller = false
+                transactionDetailVC.previousScreen = PageName.MyOrders
                 self.navigationController?.pushViewController(transactionDetailVC, animated: true)
             } else {
                 let myPurchaseDetailVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseDetail, owner: nil, options: nil)?.first as! MyPurchaseDetailViewController

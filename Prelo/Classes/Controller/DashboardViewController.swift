@@ -168,7 +168,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        imgCover?.image = UIImage(named: "ic_user_2.png")
+        imgCover?.image = UIImage(named: "placeholder-circle.png") //UIImage(named: "ic_user_2.png")
         let uProf = CDUserProfile.getOne()
         if (uProf != nil) {
             let url = URL(string: uProf!.pict)
@@ -375,10 +375,12 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 l.currentMode = .shop
                 l.shopName = me.username
                 l.shopId = me.id
+                l.previousScreen = PageName.DashboardLoggedIn
                 self.navigationController?.pushViewController(l, animated: true)
             } else {
                 let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
                 storePageTabBarVC.shopId = me.id
+                storePageTabBarVC.previousScreen = PageName.DashboardLoggedIn
                 self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
             }
         }
@@ -391,6 +393,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     
     func launchFreeVoucher() {
         let referralPageVC = Bundle.main.loadNibNamed(Tags.XibNameReferralPage, owner: nil, options: nil)?.first as! ReferralPageViewController
+        referralPageVC.previousScreen = PageName.DashboardLoggedIn
         self.previousController!.navigationController?.pushViewController(referralPageVC, animated: true)
     }
     
@@ -480,6 +483,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         let a = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdAbout) as! AboutViewController
         a.userRelatedDelegate = self.previousController as? UserRelatedDelegate
         a.isShowLogout = User.IsLoggedIn
+        a.previousScreen = PageName.DashboardLoggedIn
         self.previousController?.navigationController?.pushViewController(a, animated: true)
     }
     
@@ -602,6 +606,8 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
     @IBOutlet weak var consCenteryPopUpStore: NSLayoutConstraint!
     @IBOutlet weak var consCenteryPopUpMail: NSLayoutConstraint!
     
+    var popUpMode : PopUpRateMode!
+    
     var floatRatingView: FloatRatingView!
     var rate : Float = 0
     
@@ -645,6 +651,8 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
     }
     
     func displayPopUp(_ type: PopUpRateMode) {
+        self.popUpMode = type
+        
         let screenSize = UIScreen.main.bounds
         let screenHeight = screenSize.height - 64 // navbar
         
@@ -726,22 +734,72 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
         
         let appVersion = CDVersion.getOne()?.appVersion
         
-        let _ = request(APIUser.rateApp(appVersion: appVersion!, rate: Int(self.rate), review: "")).responseJSON { resp in
-            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Rate App")) {
-                print("rated")
-            }
-        }
+        let deadline = DispatchTime.now() + 0.3
         
-        if (Int(self.rate) >= 4) {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
-                 // rate to store
-                self.displayPopUp(.openStore)
-            })
-        } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
-                // send email
-                self.displayPopUp(.sendMail)
-            })
+        let _ = request(APIUser.rateApp(appVersion: appVersion!, rate: Int(self.rate), review: "")).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Rate App")) {
+                print("rated")
+                
+                // Prelo Analytic - Rate
+                self.sentPreloAnalyticRate(false)
+                
+                // Check if app installed version > server version
+                if let installedVer = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
+                    
+                    // installed version > server version
+                    if (installedVer.compare(appVersion!, options: .numeric, range: nil, locale: nil) == .orderedDescending) {
+                        
+                        if (Int(self.rate) >= 4) {
+                            DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
+                                // rate to store
+                                self.displayPopUp(.openStore)
+                            })
+                        } else {
+                            DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
+                                // send email
+                                self.displayPopUp(.sendMail)
+                            })
+                        }
+                        
+                    } else {
+                        
+                        if (Int(self.rate) >= 4) {
+                            self.vwOverlayPopUp.isHidden = true
+                            self.vwBackgroundOverlay.isHidden = true
+                            self.openStore()
+                            self.disposePopUp()
+                        } else {
+                            self.vwOverlayPopUp.isHidden = true
+                            self.vwBackgroundOverlay.isHidden = true
+                            self.sendMail()
+                            self.disposePopUp()
+                        }
+                    }
+                    
+                } else {
+                    
+                    if (Int(self.rate) >= 4) {
+                        DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
+                            // rate to store
+                            self.displayPopUp(.openStore)
+                        })
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
+                            // send email
+                            self.displayPopUp(.sendMail)
+                        })
+                    }
+                    
+                }
+                
+            } else {
+                
+                DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
+                    // re rate
+                    self.displayPopUp(.rate)
+                })
+                
+            }
         }
     }
     
@@ -770,11 +828,26 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
     @IBAction func btnTidakPressed(_ sender: Any) {
         self.unDisplayPopUp()
         
+        // Prelo Analytic - Rate
+        if self.popUpMode == .rate {
+            self.sentPreloAnalyticRate(true)
+        }
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
             self.vwOverlayPopUp.isHidden = true
             self.vwBackgroundOverlay.isHidden = true
             self.disposePopUp()
         })
+    }
+    
+    // Prelo Analytic - Rate
+    func sentPreloAnalyticRate(_ isCancelled: Bool) {
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Rating" : Int(self.rate),
+            "Cancelled" : isCancelled
+        ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Rate, data: pdata, previousScreen: PageName.Home, loginMethod: loginMethod)
     }
     
     // MARK: - FloatRatingViewDelegate

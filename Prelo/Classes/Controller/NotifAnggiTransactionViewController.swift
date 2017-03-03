@@ -430,6 +430,10 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     }
     
     func navigateReadNotif(_ notif : NotificationObj) {
+        
+        // Prelo Analytic - Click Notification (in App)
+        self.sendClickNotificationAnalytic(notif.objectId, tipe: notif.type)
+        
         let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewController(withIdentifier: "TransactionDetail") as? TransactionDetailViewController)!
         
@@ -455,6 +459,9 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         } else if (notif.caption.lowercased() == "beli") {
             transactionDetailVC.isSeller = false
         }
+        
+        transactionDetailVC.previousScreen = PageName.Notification
+        
         self.navigationController?.pushViewController(transactionDetailVC, animated: true)
         
         // Check if user is seller or buyer
@@ -484,6 +491,26 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
                 self.showContent()
             }
         }*/
+    }
+    
+    // Prelo Analytic - Click Notification (in App)
+    func sendClickNotificationAnalytic(_ targetId: String, tipe: Int) {
+        let type = [
+            1000 : "Transaction",
+            2000 : "Chat",
+            3000 : "Comment",
+            4000 : "Lovelist",
+            4001 : "Sale Lovelist"
+        ]
+        
+        let curType = type[tipe] ?? tipe.string
+        
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Object ID" : targetId,
+            "Type" : curType
+        ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ClickNotificationInApp, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
     }
 }
 

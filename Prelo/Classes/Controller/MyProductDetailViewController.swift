@@ -569,6 +569,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                 
                 // Goto chat
                 let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
+                t.previousScreen = PageName.MyProducts
                 
                 // API Migrasi
                 let _ = request(APIInbox.getInboxByProductIDSeller(productId: (self.detail?.productID)!, buyerId: (self.transactionDetail?.buyerId)!)).responseJSON {resp in

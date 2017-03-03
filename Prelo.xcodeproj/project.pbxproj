@@ -618,6 +618,8 @@
 		58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */ = {isa = PBXBuildFile; fileRef = 58FE766E1D34FB9B00D90F27 /* banner_featured.png */; };
 		B2099F961E1D1A3C00EBB57F /* CDDraftProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2099F951E1D1A3C00EBB57F /* CDDraftProduct.swift */; };
 		B2099FAB1E1E83BB00EBB57F /* CustomPhotoAlbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2099FAA1E1E83BB00EBB57F /* CustomPhotoAlbum.swift */; };
+		B21B3F091E5AD33400FE5DB4 /* PreloAnalyticEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B3F081E5AD33400FE5DB4 /* PreloAnalyticEndpoints.swift */; };
+		B21B3F191E5ADFE600FE5DB4 /* AnalyticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B3F181E5ADFE600FE5DB4 /* AnalyticManager.swift */; };
 		B22357611E35F90800CEC6F5 /* TarikTunai2Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B22357601E35F90800CEC6F5 /* TarikTunai2Cell.xib */; };
 		B22C0E311E090FA900C3D661 /* ic_love_96px.png in Resources */ = {isa = PBXBuildFile; fileRef = B22C0E301E090FA900C3D661 /* ic_love_96px.png */; };
 		B22C0E331E091C2D00C3D661 /* ic_love_96px_trp.png in Resources */ = {isa = PBXBuildFile; fileRef = B22C0E321E091C2D00C3D661 /* ic_love_96px_trp.png */; };
@@ -1594,6 +1596,8 @@
 		58FE766E1D34FB9B00D90F27 /* banner_featured.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_featured.png; sourceTree = "<group>"; };
 		B2099F951E1D1A3C00EBB57F /* CDDraftProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDDraftProduct.swift; sourceTree = "<group>"; };
 		B2099FAA1E1E83BB00EBB57F /* CustomPhotoAlbum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomPhotoAlbum.swift; path = ../Controller/CustomPhotoAlbum.swift; sourceTree = "<group>"; };
+		B21B3F081E5AD33400FE5DB4 /* PreloAnalyticEndpoints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreloAnalyticEndpoints.swift; sourceTree = "<group>"; };
+		B21B3F181E5ADFE600FE5DB4 /* AnalyticManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticManager.swift; sourceTree = "<group>"; };
 		B22357601E35F90800CEC6F5 /* TarikTunai2Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunai2Cell.xib; sourceTree = "<group>"; };
 		B22C0E301E090FA900C3D661 /* ic_love_96px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_love_96px.png; sourceTree = "<group>"; };
 		B22C0E321E091C2D00C3D661 /* ic_love_96px_trp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_love_96px_trp.png; sourceTree = "<group>"; };
@@ -2302,6 +2306,7 @@
 				2127A2A91B7B338900469CFC /* ImageSupplier.swift */,
 				211B1A4E1CF5FAFF00108063 /* ProdukUploader.swift */,
 				B2099FAA1E1E83BB00EBB57F /* CustomPhotoAlbum.swift */,
+				B21B3F181E5ADFE600FE5DB4 /* AnalyticManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2311,6 +2316,7 @@
 			children = (
 				44B93C7C1BBEC40800036173 /* PathEndpoints.swift */,
 				21D0A0061B60C93000D3A050 /* PreloEndpoints.swift */,
+				B21B3F081E5AD33400FE5DB4 /* PreloAnalyticEndpoints.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -3853,10 +3859,12 @@
 				21C6589C1B8EF25E0037F85F /* SWActionSheet.m in Sources */,
 				21679A2E1B901C5300F18F90 /* MPDesignerEventBindingResponseMesssage.m in Sources */,
 				21B467FF1CCE5EDB00E145ED /* UIImageView+BFKit.swift in Sources */,
+				B21B3F191E5ADFE600FE5DB4 /* AnalyticManager.swift in Sources */,
 				58A99A2F1C6D864E00E3E7D7 /* BNCPreferenceHelper.m in Sources */,
 				216799901B8F8AB900F18F90 /* AFURLRequestSerialization.m in Sources */,
 				5847E1961DBE067400C1B2BA /* RegisterViewController.swift in Sources */,
 				21B467E11CCE5EDB00E145ED /* BFApp.swift in Sources */,
+				B21B3F091E5AD33400FE5DB4 /* PreloAnalyticEndpoints.swift in Sources */,
 				21C658961B8EF25E0037F85F /* ActionSheetDatePicker.m in Sources */,
 				21679A1E1B901C5300F18F90 /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,
 				B2C3A3C81E2B8E450082A15D /* ShopAchievementViewController.swift in Sources */,

@@ -685,6 +685,8 @@ class PageName {
     static let BarangExpired = "Barang Expired"
     static let Achievement = "Achievements"
     static let ShopAchievements = "Shop Achievements"
+    static let ProductLovelist = "Tawar Lovelist"
+    static let SearchResult = "Search Result"
 }
 
 extension Mixpanel {
@@ -748,6 +750,71 @@ class MixpanelEvent {
     static let Checkout = "Checkout"
     static let AddedProduct = "Added Product"
     static let ChatMarkAsSold = "Chat Mark as Sold"
+}
+
+class PreloAnalyticEvent {
+    // Auth
+    static let Register = "Auth:Register"
+    static let SetupAccount = "Auth:Setup Account"
+    static let SetupPhone = "Auth:Setup Phone"
+    static let Login = "Auth:Login"
+    static let Logout = "Auth:Logout"
+    
+    // Edit Profile
+    static let ChagePhone = "Edit Profile:Change Phone"
+    
+    // Love
+    static let LoveProduct = "Love:Love Product"
+    static let UnloveProduct = "Love:Unlove Product"
+    
+    // Referral
+    static let RedeemReferralCode = "Referral:Redeem Referral Code"
+    static let ShareReferralCode = "Referral:Share Referral Code"
+    
+    // Add Product
+    static let SubmitProduct = "Add Product:Submit Product"
+    static let SaveAsDraft = "Add Product:Save as Draft"
+    static let ShareProduct = "Add Product:Share Product"
+    static let UploadSuccess = "Add Product:Upload Success"
+    
+    // Purchase
+    static let Checkout = "Purchase:Checkout"
+    static let ClaimPayment = "Purchase:Claim Payment"
+    static let GoToCart = "Purchase:Go to Cart"
+    
+    // Feedback
+    static let Rate = "Feedback:Rate"
+    
+    // Notification
+    static let ClickPushNotification = "Notification:Click Push Notification"
+    static let ClickNotificationInApp = "Notification:Click Notification"
+    
+    // Chat
+    static let StartChat = "Chat:Start Chat"
+    static let SuccessfulBargain = "Chat:Successful Bargain"
+    static let SendMediaOnChat = "Chat:Send Media on Chat"
+    
+    // Withdraw
+    static let RequestWithdrawMoney = "Withdraw:Request Withdraw Money"
+    
+    // Product
+    static let UpProduct = "Product:Up Product"
+    static let ShareForCommission = "Product:Share for Commission"
+    static let VisitProductDetail = "Product:Visit Product Detail"
+    static let EraseProduct = "Product:Erase Product"
+    static let MarkAsSold = "Product:Mark as Sold"
+    static let CommentOnProduct = "Product:Comment on Product"
+    
+    // Report
+    static let ReportProduct = "Report:Report Product"
+    static let ReportComment = "Report:Report Comment"
+    
+    // Transaction
+    static let ConfirmShipping = "Transaction:Confirm Shipping"
+    static let ReviewAndRateSeller = "Transaction:Review and Rate Seller"
+    static let RequestRefund = "Transaction:Request Refund"
+    static let DelayShipping = "Transaction:Delay Shipping"
+    static let RejectShipping = "Transaction:Reject"
 }
 
 extension GAI {

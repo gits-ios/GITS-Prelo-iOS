@@ -44,6 +44,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
 
     var userRelatedDelegate : UserRelatedDelegate?
     var previousController : UIViewController?
+    var previousScreen : String! = ""
     var badgeView : GIBadgeView!
     fileprivate var _titleText : String?
     var titleText : String? {
@@ -245,8 +246,9 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     // MARK: - Navigation
     
     func launchCart() {
-        let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! BaseViewController
+        let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
         cart.previousController = self
+        cart.previousScreen = PageName.Home
         self.navigationController?.pushViewController(cart, animated: true)
     }
     
@@ -262,6 +264,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     
     func launchNotifPage() {
         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
+        notifPageVC.previousScreen = PageName.Home
         self.navigationController?.pushViewController(notifPageVC, animated: true)
     }
     

@@ -121,6 +121,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         
         if isFirst {
             listItemVC?.shopId = self.shopId
+            listItemVC?.previousScreen = self.previousScreen
             shopReviewVC?.sellerId = self.shopId
             shopReviewVC?.sellerName = ""
             shopBadgeVC?.sellerId = self.shopId
