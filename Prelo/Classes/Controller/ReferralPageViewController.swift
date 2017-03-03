@@ -94,7 +94,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                     self.getReferralData()
                 }
             } else {
-                self.navigationController?.popViewController(animated: true)
+                _ = self.navigationController?.popViewController(animated: true)
             }
         }
         
@@ -182,7 +182,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                 self.loadingPanel.isHidden = true
                 self.loading.stopAnimating()
             } else {
-                self.navigationController?.popViewController(animated: true)
+                _ = self.navigationController?.popViewController(animated: true)
             }
         }
     }
@@ -416,7 +416,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     
     @IBAction func copyPressed(_ sender: AnyObject) {
         UIPasteboard.general.string = shareText
-        UIAlertView.SimpleShow("Copied", message: "Teks telah disalin")
+        Constant.showDialog("Copied", message: "Teks telah disalin")
     }
     
     @IBAction func disableTextFields(_ sender : AnyObject)
@@ -437,9 +437,10 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             self.showLoading()
             let deviceId = UIDevice.current.identifierForVendor!.uuidString
             // API Migrasi
-        let _ = request(APIMe.setReferral(referralCode: self.fieldKodeReferral.text!, deviceId: deviceId)).responseJSON {resp in
+            let _ = request(APIMe.setReferral(referralCode: self.fieldKodeReferral.text!, deviceId: deviceId)).responseJSON {resp in
+                let json = JSON(resp.result.value!)
+                
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Submit Referral Bonus")) {
-                    let json = JSON(resp.result.value!)
                     let isSuccess = json["_data"].bool!
                     if (isSuccess) { // Berhasil
                         Constant.showDialog("Success", message: "Kode referral berhasil ditambahkan")
@@ -451,6 +452,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                         // Sembunyikan field
                         self.vwSubmit.isHidden = true
                         
+                        /*
                         // Mixpanel
                         let p = [
                             "Referral Code Used" : self.fieldKodeReferral.text!
@@ -461,7 +463,22 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                             "Activation Screen" : "Voucher"
                         ]
                         Mixpanel.trackEvent(MixpanelEvent.ReferralUsed, properties: pt)
+                         */
+                        
+                        // Prelo Analytics - Redeem Referral Code
+                        self.sendRedeemReferralCodeAnalytic(self.fieldKodeReferral.text!, isSuccess: true, reason: "")
+                        
+                    } else {
+                        let reason = json["_message"].string!
+                        
+                        // Prelo Analytics - Redeem Referral Code
+                        self.sendRedeemReferralCodeAnalytic(self.fieldKodeReferral.text!, isSuccess: false, reason: reason)
                     }
+                } else {
+                    let reason = json["_message"].string!
+                    
+                    // Prelo Analytics - Redeem Referral Code
+                    self.sendRedeemReferralCodeAnalytic(self.fieldKodeReferral.text!, isSuccess: false, reason: reason)
                 }
                 self.hideLoading()
             }
@@ -471,11 +488,41 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     // MARK: - Mixpanel
     
     func mixpanelSharedReferral(_ socmed : String, username : String) {
+        /*
         let pt = [
             "Socmed" : socmed,
             "Socmed Username" : username
         ]
         Mixpanel.trackEvent(MixpanelEvent.SharedReferral, properties: pt)
+         */
+        
+        // Prelo Analytic - Share Referral Code
+        sendShareReferralCodeAnalytic(socmed, username: username)
+    }
+    
+    // Prelo Analytics - Redeem Referral Code
+    func sendRedeemReferralCodeAnalytic(_ referralCode: String, isSuccess: Bool, reason: String) {
+        let loginMethod = User.LoginMethod ?? ""
+        var pdata = [
+            "Referral Code Used" : referralCode,
+            "Success" : isSuccess
+        ] as [String : Any]
+        
+        if !isSuccess && reason != "" {
+            pdata["Failed Reason"] = reason
+        }
+        
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.RedeemReferralCode, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+    }
+    
+    // Prelo Analytics - Share Referral Code
+    func sendShareReferralCodeAnalytic(_ socmed: String, username: String) {
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Socmed" : socmed,
+            "Socmed Username" : username
+        ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.RedeemReferralCode, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
     }
     
     // MARK: - UIAlertView Delegate Functions
@@ -483,7 +530,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
         switch buttonIndex {
         case 0: // Batal
-            self.navigationController?.popViewController(animated: true)
+            _ = self.navigationController?.popViewController(animated: true)
             break
         case 1: // Kirim Email Konfirmasi
             if let email = CDUser.getOne()?.email {
@@ -499,11 +546,11 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                         a.dismiss(withClickedButtonIndex: -1, animated: true)
                         Constant.showDialog("Referral Bonus", message: "E-mail konfirmasi telah terkirim ke \(email)")
                     }
-                    self.navigationController?.popViewController(animated: true)
+                    _ = self.navigationController?.popViewController(animated: true)
                 }
             } else {
                 Constant.showDialog("Referral Bonus", message: "Oops, terdapat masalah saat mencari e-mail kamu")
-                self.navigationController?.popViewController(animated: true)
+                _ = self.navigationController?.popViewController(animated: true)
             }
             break
         default:

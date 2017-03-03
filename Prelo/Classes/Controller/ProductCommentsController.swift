@@ -157,6 +157,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
             return
         }
         
+        /*
         // Mixpanel
         let pt = [
             "Product Name" : ((pDetail != nil) ? (pDetail!.name) : ""),
@@ -166,6 +167,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
             "Seller Name" : ((pDetail != nil) ? (pDetail!.theirName) : "")
         ]
         Mixpanel.trackEvent(MixpanelEvent.CommentedProduct, properties: pt)
+         */
         
         self.btnSend.isHidden = true
         
@@ -181,6 +183,15 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
                 self.txtMessage.isEditable = true
                 self.btnSend.isHidden = false
                 self.getComments()
+                
+                // Prelo Analytic - Comment on Product
+                let loginMethod = User.LoginMethod ?? ""
+                let pdata = [
+                    "Product ID" : self.pDetail.productID,
+                    "Seller Username" : self.pDetail.theirName
+                ]
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.CommentOnProduct, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+                
             } else
             {
                 self.txtMessage.isEditable = true
@@ -220,8 +231,10 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         
         c.setupCover()
         
+        c.commentId = comment.json["_id"].stringValue
+        
         if (comment.posterImageURL != nil) {
-            c.ivCover?.afSetImage(withURL: comment.posterImageURL!)
+            c.ivCover?.afSetImage(withURL: comment.posterImageURL!, withFilter: .circle)
         }
         c.captionMessage?.text = comment.message
         if (comment.isDeleted) {
@@ -244,11 +257,11 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
             alert.popoverPresentationController?.sourceView = sender
             alert.popoverPresentationController?.sourceRect = sender.bounds
             alert.addAction(UIAlertAction(title: "Mengganggu / spam", style: .default, handler: { act in
-                self.reportComment(commentId: commentId, reportType: 0)
+                self.reportComment(commentId: commentId, reportType: 0, reportedUsername: (c.captionName?.text)!)
                 alert.dismiss(animated: true, completion: nil)
             }))
             alert.addAction(UIAlertAction(title: "Tidak layak", style: .default, handler: { act in
-                self.reportComment(commentId: commentId, reportType: 1)
+                self.reportComment(commentId: commentId, reportType: 1, reportedUsername: (c.captionName?.text)!)
                 alert.dismiss(animated: true, completion: nil)
             }))
             alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in
@@ -265,11 +278,13 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
                 vc.currentMode = .shop
                 vc.shopId = userId
+                vc.previousScreen = PageName.ProductDetailComment
                 
                 self.navigationController?.pushViewController(vc, animated: true)
             } else {
                 let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
                 storePageTabBarVC.shopId = userId
+                storePageTabBarVC.previousScreen = PageName.ProductDetailComment
                 self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
             }
         }
@@ -277,13 +292,25 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         return c
     }
     
-    func reportComment(commentId : String, reportType : Int) {
+    func reportComment(commentId : String, reportType : Int, reportedUsername : String) {
         request(APIProduct.reportComment(productId: self.pDetail.productID, commentId: commentId, reportType: reportType)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Laporkan Komentar")) {
                 let json = JSON(resp.result.value!)
                 if (json["_data"].boolValue == true) {
                     Constant.showDialog("Komentar Dilaporkan", message: "Terima kasih, Prelo akan meninjau laporan kamu")
                 }
+                
+                // Prelo Analytic - Report Comment
+                let loginMethod = User.LoginMethod ?? ""
+                let reportingUsername = (CDUser.getOne()?.username)!
+                let pdata = [
+                    "Product ID" : (self.pDetail.productID),
+                    "Reported Username" : reportedUsername,
+                    "Reporting Username" : reportingUsername,
+                    "Reason" : reportType,
+                    "Comment ID" : commentId
+                ] as [String : Any]
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ReportComment, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
             }
         }
     }

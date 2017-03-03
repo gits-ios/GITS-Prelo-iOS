@@ -47,6 +47,7 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
     @IBOutlet var tableView : UITableView!
     @IBOutlet var btnSubmit: UIButton!
     var searchBar : UISearchBar!
+    @IBOutlet weak var consBottomVwFilte: NSLayoutConstraint!
     
     // Data containers
     var brands : [String : String] = [:] // [<merkName> : <merkId>]
@@ -99,6 +100,16 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.an_subscribeKeyboard(animations: { r, t, o in
+            if (o) {
+                self.consBottomVwFilte.constant = r.height
+            } else {
+                self.consBottomVwFilte.constant = 0
+            }
+        }, completion: nil)
+        
         // Get initial brands
         getBrands()
     }
@@ -281,13 +292,14 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
         
         if (self.previousController != nil) {
             delegate?.adjustBrand(selectedBrands)
-            self.navigationController?.popViewController(animated: true)
+            _ = self.navigationController?.popViewController(animated: true)
         } else {
             let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
             l.currentMode = .filter
             l.isBackToFltrSearch = true
             l.fltrBrands = selectedBrands
             l.fltrSortBy = "recent"
+            l.previousScreen = PageName.Search
             self.navigationController?.pushViewController(l, animated: true)
         }
     }
@@ -296,7 +308,7 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
     
     func adaptSortedBrandKeys() {
         self.sortedBrandKeys.removeLast(self.sortedBrandKeys.count - self.selectedBrands.count)
-        self.sortedBrandKeys.append(contentsOf: self.sortCaseInsensitive([String](self.brands.keys)))
+        self.sortedBrandKeys.append(contentsOf: self.sortCaseSensitive([String](self.brands.keys)))
         if (self.selectedBrands["Tanpa Merek"] == nil) { // Which means 'tanpa merek' is unselected
             if let noBrandIdx = self.sortedBrandKeys.index(of: "Tanpa Merek") {
                 self.sortedBrandKeys.insert(self.sortedBrandKeys.remove(at: noBrandIdx), at: self.selectedBrands.count)
@@ -309,6 +321,18 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
         let sortedValues = values.sorted(by: { (value1, value2) -> Bool in
             
             if (value1.lowercased() < value2.lowercased()) {
+                return true
+            } else {
+                return false
+            }
+        })
+        return sortedValues
+    }
+    
+    func sortCaseSensitive(_ values:[String]) -> [String] {
+        let sortedValues = values.sorted(by: { (value1, value2) -> Bool in
+            
+            if (value1 < value2) {
                 return true
             } else {
                 return false

@@ -104,7 +104,7 @@ class MessagePool: NSObject
                             }
                         } else {
                             let error = NSError(domain: "No inbox_id", code: 0, userInfo: nil)
-                            Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: d as? [String : AnyObject])
+                            Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: d as [String : AnyObject])
                         }
                     }
                 }

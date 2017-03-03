@@ -274,6 +274,12 @@ class ProductCompareMainCell : UITableViewCell, ZSWTappableLabelTapDelegate {
         lblBrand.tapDelegate = self
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        imgProduct.afCancelRequest()
+    }
+    
     func adapt(productCompareMain : ProductCompareMain) {
         if let url = productCompareMain.imageURL {
             imgProduct.afSetImage(withURL: url)
@@ -355,6 +361,12 @@ class ProductCompareCell : UITableViewCell {
     var buyPressed : () -> () = {}
     
     // MARK: - Methods
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        imgProduct.afCancelRequest()
+    }
     
     func adapt(productCompareItem : Product) {
         if let url = productCompareItem.coverImageURL {

@@ -31,7 +31,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="0.0"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c72-za-Wm3">
-                                <rect key="frame" x="16" y="16" width="20" height="20"/>
+                                <rect key="frame" x="16" y="-10" width="20" height="20"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fd8-B9-BIP">
                                         <rect key="frame" x="1" y="1" width="18" height="18"/>
@@ -63,7 +63,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pilih Semua" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gg7-S8-0uV">
                                 <rect key="frame" x="52" y="0.0" width="548" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iuk-lf-x72">
@@ -85,7 +85,7 @@
                             <constraint firstItem="iuk-lf-x72" firstAttribute="leading" secondItem="qND-N9-XVk" secondAttribute="leading" id="BDb-xd-JPR"/>
                             <constraint firstAttribute="trailing" secondItem="iuk-lf-x72" secondAttribute="trailing" id="JTA-PQ-aYn"/>
                             <constraint firstItem="Gg7-S8-0uV" firstAttribute="top" secondItem="qND-N9-XVk" secondAttribute="top" id="JeI-Ez-oDA"/>
-                            <constraint firstItem="c72-za-Wm3" firstAttribute="top" secondItem="qND-N9-XVk" secondAttribute="top" constant="16" id="KcF-AN-T8S"/>
+                            <constraint firstItem="c72-za-Wm3" firstAttribute="centerY" secondItem="qND-N9-XVk" secondAttribute="centerY" id="VfM-fu-O8j"/>
                             <constraint firstItem="VwS-cT-w33" firstAttribute="top" secondItem="qND-N9-XVk" secondAttribute="top" id="VnD-uQ-6DK"/>
                             <constraint firstItem="Gg7-S8-0uV" firstAttribute="leading" secondItem="c72-za-Wm3" secondAttribute="trailing" constant="16" id="X8D-sG-Pcb"/>
                             <constraint firstAttribute="trailing" secondItem="VwS-cT-w33" secondAttribute="trailing" id="bM8-Rj-mZl"/>

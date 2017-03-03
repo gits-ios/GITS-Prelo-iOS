@@ -337,7 +337,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
                 Constant.showDialog("Hapus Pesan", message: "Pesan telah berhasil dihapus")
                 
                 if self.countDecreaseNotifCount > 0 {
-                    for i in 0...self.countDecreaseNotifCount-1 {
+                    for _ in 0...self.countDecreaseNotifCount-1 {
                         self.delegate?.decreaseTransactionBadgeNumber()
                     }
                 }
@@ -430,6 +430,10 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     }
     
     func navigateReadNotif(_ notif : NotificationObj) {
+        
+        // Prelo Analytic - Click Notification (in App)
+        self.sendClickNotificationAnalytic(notif.objectId, tipe: notif.type)
+        
         let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewController(withIdentifier: "TransactionDetail") as? TransactionDetailViewController)!
         
@@ -455,6 +459,9 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         } else if (notif.caption.lowercased() == "beli") {
             transactionDetailVC.isSeller = false
         }
+        
+        transactionDetailVC.previousScreen = PageName.Notification
+        
         self.navigationController?.pushViewController(transactionDetailVC, animated: true)
         
         // Check if user is seller or buyer
@@ -484,6 +491,26 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
                 self.showContent()
             }
         }*/
+    }
+    
+    // Prelo Analytic - Click Notification (in App)
+    func sendClickNotificationAnalytic(_ targetId: String, tipe: Int) {
+        let type = [
+            1000 : "Transaction",
+            2000 : "Chat",
+            3000 : "Comment",
+            4000 : "Lovelist",
+            4001 : "Sale Lovelist"
+        ]
+        
+        let curType = type[tipe] ?? tipe.string
+        
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Object ID" : targetId,
+            "Type" : curType
+        ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ClickNotificationInApp, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
     }
 }
 
@@ -526,11 +553,21 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
     
     override func prepareForReuse() {
         self.contentView.backgroundColor = UIColor.white.withAlphaComponent(0)
-        imgSingle.image = UIImage(named: "raisa.jpg")
+//        imgSingle.image = UIImage(named: "raisa.jpg")
         vwSingleImage.isHidden = false
         vwDoubleImage.isHidden = true
         vwCaption.backgroundColor = Theme.GrayDark
         lblTrxStatus.textColor = Theme.GrayDark
+        
+        if imgSingle != nil {
+            imgSingle.afCancelRequest()
+        }
+        if imgDouble1 != nil {
+            imgDouble1.afCancelRequest()
+        }
+        if imgDouble2 != nil {
+            imgDouble2.afCancelRequest()
+        }
     }
 
     func adapt(_ notif : NotificationObj, idx : Int) {
@@ -625,8 +662,8 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         let cell = collcTrxProgress.dequeueReusableCell(withReuseIdentifier: "collcTrxProgressCell", for: indexPath) 
         
         // Create icon view
-        let vwIcon : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
-        vwIcon.layer.cornerRadius = (vwIcon.frame.size.width) / 2
+        let vwIcon : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+//        vwIcon.layer.cornerRadius = 12
         
         // Set background color
         let idx = (indexPath as NSIndexPath).row + 1
@@ -735,19 +772,20 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         }
         if (imgName != nil) {
             if let imgIcon = UIImage(named: imgName!) {
-                let imgVwIcon : UIImageView = UIImageView(frame: CGRect(x: 5, y: 5, width: 15, height: 15), image: imgIcon)
+                let imgVwIcon : UIImageView = UIImageView(frame: CGRect(x: 4, y: 4, width: 16, height: 16), image: imgIcon)
                 vwIcon.addSubview(imgVwIcon)
             }
         }
         
         // Add view to cell
+        cell.createBordersWithColor(UIColor.clear, radius: cell.width/2, width: 0)
         cell.addSubview(vwIcon)
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 25, height: 25)
+        return CGSize(width: 24, height: 24)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

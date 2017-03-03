@@ -32,6 +32,8 @@ class TransactionListCell : UITableViewCell {
     @IBOutlet var imgs : [UIView] = []
     
     override func prepareForReuse() {
+        super.prepareForReuse()
+        
         imgFreeOngkir.isHidden = true
         vwShareStatus.isHidden = true
         lblInstagram.textColor = UIColor.lightGray
@@ -46,6 +48,14 @@ class TransactionListCell : UITableViewCell {
         lblOrderStatus.text = "-"
         lblOrderStatus.textColor = Theme.ThemeOrange
         lblOrderTime.text = "-"
+        
+        imgProduct.afCancelRequest()
+        if imgProduct2 != nil {
+            imgProduct2.afCancelRequest()
+        }
+        if imgProduct3 != nil {
+            imgProduct3.afCancelRequest()
+        }
     }
     
     func adaptItem(_ userPurchase : UserTransactionItem) {

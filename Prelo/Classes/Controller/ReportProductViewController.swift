@@ -56,7 +56,7 @@ class ReportProductViewController: BaseViewController, UITextViewDelegate {
         self.title = "Laporkan Barang"
         
         //Looks for single or multiple taps.
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard) /*"dismissKeyboard"*/)
         
         //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
         //tap.cancelsTouchesInView = false
@@ -201,7 +201,7 @@ class ReportProductViewController: BaseViewController, UITextViewDelegate {
             
             // back to previos window
             if let r = self.root {
-                self.navigationController?.popToViewController(r, animated: true)
+                _ = self.navigationController?.popToViewController(r, animated: true)
             }
         }
     }
@@ -209,10 +209,21 @@ class ReportProductViewController: BaseViewController, UITextViewDelegate {
     func reportProduct(reportType : Int, reasonText : String, categoryIdCorrection : String) {
         request(APIProduct.reportProduct(productId: (self.pDetail?.productID)!, sellerId: (self.pDetail?.theirId)!, reportType: reportType, reasonText: reasonText, categoryIdCorrection: categoryIdCorrection)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Laporkan Barang")) {
-                let json = JSON(resp.result.value!)
-                if (json["_data"].boolValue == true) {
+//                let json = JSON(resp.result.value!)
+//                if (json["_data"].boolValue == true) {
                     Constant.showDialog("Barang Dilaporkan", message: "Terima kasih, Prelo akan meninjau laporan kamu")
-                }
+//                }
+                
+                // Prelo Analytic - Report Product
+                let loginMethod = User.LoginMethod ?? ""
+                let reportingUsername = (CDUser.getOne()?.username)!
+                let pdata = [
+                    "Product ID" : (self.pDetail?.productID)!,
+                    "Reported Username" : (self.pDetail?.theirName)!,
+                    "Reporting Username" : reportingUsername,
+                    "Reason" : reportType
+                ] as [String : Any]
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ReportProduct, data: pdata, previousScreen: PageName.ProductDetail, loginMethod: loginMethod)
             }
         }
     }

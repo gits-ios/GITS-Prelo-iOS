@@ -47,6 +47,8 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     // Contact us view
     var contactUs : UIViewController?
     
+    var isBarcodeUsed = false
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -233,11 +235,13 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         if (UIImagePickerController.isSourceTypeAvailable(.camera)) {
             a.addAction(UIAlertAction(title: "Kamera", style: .default, handler: { act in
                 i.sourceType = .camera
+                self.isBarcodeUsed = false
                 self.present(i, animated: true, completion: nil)
             }))
         }
         
         a.addAction(UIAlertAction(title: "Album", style: .default, handler: { act in
+            self.isBarcodeUsed = false
             self.present(i, animated: true, completion: nil)
         }))
         
@@ -344,11 +348,16 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                     let data = json["_data"].boolValue
                     if (data == true) {
                         Constant.showDialog("Konfirmasi Kirim/Tolak", message: "Konfirmasi berhasil dilakukan")
+                        
+                        // Prelo Analytic - Confirm Shipping
+                        self.sendConfirmShippingAnalytic()
+                        
                         _ = self.navigationController?.popToRootViewController(animated: true)
                     } else {
                         Constant.showDialog("Konfirmasi Kirim/Tolak", message: "Terdapat kesalahan saat memproses data")
                         self.hideLoading()
                     }
+                    
                 }, failure: { op, err in
                     Constant.showDialog("Konfirmasi Kirim/Tolak", message: "Gagal mengupload data")
                     self.hideLoading()
@@ -498,13 +507,21 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
             if let img = data[1] as? UIImage {
                 self.imgResi.image = img
                 self.isPictSelected = true
+                
+                self.isBarcodeUsed = true
             } else {
+                self.isBarcodeUsed = false
+                
                 Constant.showDialog("Oops", message: "Foto resi gagal diperbarui. Silakan coba ambil gambar lagi")
             }
             
             if (data[0] as! String == "") {
+                self.isBarcodeUsed = false
+                
                 Constant.showDialog("Oops", message: "Nomor resi pengiriman tidak ditemukan. Silakan coba ambil gambar lagi atau ketik langsung di kolom Nomor Resi.")
             } else {
+                self.isBarcodeUsed = true
+                
 //                Constant.showDialog("Nomor Resi", message: data[0] as! String)
                 self.txtFldNoResi.text = data[0] as? String
             }
@@ -513,6 +530,141 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         }
         self.navigationController?.pushViewController(ScannerVC, animated: true)
 
+    }
+    
+    // Prelo Analytic - Confirm / Reject Shipping
+    func sendConfirmShippingAnalytic() {
+        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
+                                            qos: .background,
+                                            target: nil)
+        backgroundQueue.async {
+            
+            /*
+            var itemsObject : Array<[String : Any]> = []
+            
+            let arrayProduct = self.trxDetail.transactionProducts
+            
+            var totalCommissionPrice = 0
+            var i = 0
+            for tp in arrayProduct {
+                let shippingPrice = Int(tp.shippingPrice) ?? 0
+                
+                var curItem : [String : Any] = [
+                    "Product ID" : tp.productId ,
+                    "Price" : tp.productPrice,
+                    "Commission Percentage" : tp.commission,
+                    "Commission Price" : tp.commissionPrice,
+                    "Shipping Price" : shippingPrice,
+                    "Rejected" : false
+                ]
+                
+                if !self.isCellSelected[i] {
+                    var isAvailable = true
+                    
+                    let cell = self.tableView.cellForRow(at: IndexPath(row: i, section: 0)) as! ConfirmShippingCell
+                    if (cell.selectedAvailability == .soldOut ) {
+                        isAvailable = false
+                    }
+                    
+                    let reason = cell.textView.text
+                    
+                    let rejectedReason : [String : Any] = [
+                        "Is Available" : isAvailable,
+                        "Reason" : reason
+                    ]
+                    
+                    curItem["Rejected"] = rejectedReason
+                }
+                
+                itemsObject.append(curItem)
+                
+                totalCommissionPrice += tp.commissionPrice
+                
+                i += 1
+            }
+            
+            let loginMethod = User.LoginMethod ?? ""
+            let province = CDProvince.getProvinceNameWithID(self.trxDetail.shippingProvinceId) ?? ""
+            let region = CDRegion.getRegionNameWithID(self.trxDetail.shippingRegionId) ?? ""
+            
+            let shipping = [
+                "Province" : province,
+                "Region" : region
+            ] as [String : Any]
+            
+            let pdata = [
+                "Order ID" : self.trxDetail.orderId,
+                "Seller Username" : (CDUser.getOne()?.username)!, // me
+                "Items" : itemsObject,
+//                "Total Original Price" : self.trxDetail.totalPrice,
+                "Total Price" : self.trxDetail.totalPriceTotall,
+                "Total Commission" : totalCommissionPrice,
+                "Shipping" : shipping,
+                "Barcode Used" : self.isBarcodeUsed
+            ] as [String : Any]
+            AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ConfirmShipping, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+             */
+            
+            let arrayProduct = self.trxDetail.transactionProducts
+            let loginMethod = User.LoginMethod ?? ""
+            
+            var i = 0
+            for tp in arrayProduct {
+                let shippingPrice = Int(tp.shippingPrice) ?? 0
+                
+                var pdata : [String : Any] = [
+                    "Order ID" : tp.orderId,
+                    "Seller Username" : tp.sellerUsername, // me
+                    "Product ID" : tp.productId ,
+                    "Price" : tp.productPrice,
+                    "Commission Percentage" : tp.commission,
+                    "Commission Price" : tp.commissionPrice,
+                ]
+                
+                if !self.isCellSelected[i] {
+                    var isAvailable = true
+                    
+                    let cell = self.tableView.cellForRow(at: IndexPath(row: i, section: 0)) as! ConfirmShippingCell
+                    if (cell.selectedAvailability == .soldOut ) {
+                        isAvailable = false
+                    }
+                    
+                    let reason = cell.textView.text!
+                    
+                    pdata["Available"] = isAvailable
+                    pdata["Reason"] = reason
+                    
+                    // Prelo Analytic - Reject Shipping
+                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.RejectShipping, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+                } else {
+                    pdata["Barcode Used"] = self.isBarcodeUsed
+                    
+                    let province = CDProvince.getProvinceNameWithID(self.trxDetail.shippingProvinceId) ?? ""
+                    let region = CDRegion.getRegionNameWithID(self.trxDetail.shippingRegionId) ?? ""
+                    let subdistrict = self.trxDetail.shippingSubdistrictName
+                    
+                    let shipping = [
+                        "Price" : shippingPrice,
+                        "Courier" : (self.lblKurir.text?.lowercased() != "lainnya" ? self.lblKurir.text! : self.txtFldKurirLainnya.text!) //tp.shippingName
+                    ] as [String : Any]
+                    
+                    let address = [
+                        "Province" : province,
+                        "Region" : region,
+                        "Subdistrict" : subdistrict
+                    ] as [String : Any]
+                    
+                    
+                    pdata["Shipping"] = shipping
+                    pdata["Address"] = address
+                    
+                    // Prelo Analytic - Confirm Shipping
+                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ConfirmShipping, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+                }
+                
+                i += 1
+            }
+        }
     }
 }
 

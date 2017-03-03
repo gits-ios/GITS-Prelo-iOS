@@ -324,6 +324,12 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         self.sendProductParam["facebook"] = facebook
         self.sendProductParam["twitter"] = twitter
         
+        // auto approve
+        if AppTools.isDev {
+            self.sendProductParam["status"] = "1"
+        }
+        
+        /*
         // Mixpanel
         var categ = ""
         if let categId = sendProductParam["category_id"] {
@@ -381,20 +387,39 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
             "Time" : Date().isoFormatted,
             "platform_sent_from" : "ios"
         ] as [String : Any]
+         */
         
-        // set state is uploading
-        CDDraftProduct.setUploading(self.localId, isUploading: true)
+        // Prelo Analytic - Share Product
+        let loginMethod = User.LoginMethod ?? ""
+        let fb = Int(facebook) ?? 0
+        let tw = Int(twitter) ?? 0
+        let ig = Int(instagram) ?? 0
+        let pdata = [
+            "Local ID": self.localId,
+            "Product Name" : productName,
+//            "Commission Percentage" : Int(self.chargePercent),
+            "Facebook" : fb,
+            "Twitter" : tw,
+            "Instagram" : ig
+        ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ShareProduct, data: pdata, previousScreen: self.sendProductBeforeScreen, loginMethod: loginMethod)
         
         // Add product to product uploader
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
-            AppDelegate.Instance.produkUploader.addToQueue(ProdukUploader.ProdukLokal(produkParam: self.sendProductParam, produkImages: self.sendProductImages, mixpanelParam: pt as [AnyHashable: Any]))
+        // DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default)
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
+//            AppDelegate.Instance.produkUploader.addToQueue(ProdukUploader.ProdukLokal(produkParam: self.sendProductParam, produkImages: self.sendProductImages, mixpanelParam: pt as [AnyHashable: Any]))
+            AppDelegate.Instance.produkUploader.addToQueue(ProdukUploader.ProdukLokal(produkParam: self.sendProductParam, produkImages: self.sendProductImages, preloAnalyticParam: pdata as [AnyHashable: Any]))
             DispatchQueue.main.async(execute: {
                 if (AppDelegate.Instance.produkUploader.getQueue().count > 0) {
+                    
+                    // set state is uploading
+                    CDDraftProduct.setUploading(self.localId, isUploading: true)
+                    
                     let b = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdMyProducts)
                     self.navigationController?.pushViewController(b!, animated: true)
                 } else {
                     Crashlytics.sharedInstance().recordCustomExceptionName("ProdukUploader", reason: "Empty Queue", frameArray: [])
-                    Constant.showDialog("Warning", message: "Oops, terdapat kesalahan saat mengupload barang kamu")
+                    Constant.showDialog("Warning", message: "Oops, terdapat kesalahan saat mengupload barang kamu.\nMohon coba upload foto utama dan foto merek terlebih dahulu, kemudian tambah foto melalui fitur edit.")
                     self.btnSend.isEnabled = true
                 }
             })
@@ -479,7 +504,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
 //                        }
 //                    }
 //                }
-//                UIAlertView.SimpleShow("Upload Barang", message: msgContent)
+//                Constant.showDialog("Upload Barang", message: msgContent)
 //        })
     }
     
@@ -532,7 +557,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
     {
         btnSend.isEnabled = false
         
-        var i = "0", p = "0", f = "0", t = "0"
+        var i = "0", /*p = "0",*/ f = "0", t = "0"
         
         for x in 0...3
         {
@@ -545,12 +570,12 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                     {
                         i = "1"
                     }
-                    
+                    /*
                     if (x == 1)
                     {
                         p = "1"
                     }
-                    
+                    */
                     if (x == 2)
                     {
                         f = "1"

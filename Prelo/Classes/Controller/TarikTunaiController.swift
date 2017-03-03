@@ -101,7 +101,7 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
                             self.viewSetupPassword!.lblEmail.text = u.email
                         }
                         self.viewSetupPassword!.setPasswordDoneBlock = {
-                            self.navigationController?.popViewController(animated: true)
+                            _ = self.navigationController?.popViewController(animated: true)
                         }
                         self.viewSetupPassword!.disableBackBlock = {
                             self.backEnabled = false
@@ -128,11 +128,11 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
                     self.captionPreloBalance.text = f.string(from: NSNumber(value: i as Int))
                 } else if let m = json["_data"].string
                 {
-                    UIAlertView.SimpleShow("Perhatian", message: m)
+                    Constant.showDialog("Perhatian", message: m)
                 }
             } else
             {
-                self.navigationController?.popViewController(animated: true)
+                _ = self.navigationController?.popViewController(animated: true)
             }
             
         }
@@ -167,7 +167,7 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
         /* Minimum transfer disabled
         if i < 50000
         {
-            UIAlertView.SimpleShow("Perhatian", message: "Jumlah penarikan minimum adalah Rp. 50.000")
+            Constant.showDialog("Perhatian", message: "Jumlah penarikan minimum adalah Rp. 50.000")
             return
         }*/
         
@@ -195,12 +195,12 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
                 let json = JSON(resp.result.value!)
                 if let message = json["_message"].string
                 {
-                    UIAlertView.SimpleShow("Perhatian", message: message)
+                    Constant.showDialog("Perhatian", message: message)
                 } else
                 {
 //                    self.getBalance()
                     let nDays = (self.txtNamaBank.text?.lowercased() == "bank lainnya") ? 5 : 3
-                    UIAlertView.SimpleShow("Perhatian", message: "Permohonan tarik uang telah diterima. Proses paling lambat membutuhkan \(nDays)x24 jam hari kerja.")
+                    Constant.showDialog("Perhatian", message: "Permohonan tarik uang telah diterima. Proses paling lambat membutuhkan \(nDays)x24 jam hari kerja.")
                     
                     // Mixpanel
                     let pt = [
@@ -209,7 +209,7 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
                     ] as [String : Any]
                     Mixpanel.trackEvent(MixpanelEvent.RequestedWithdrawMoney, properties: pt as [NSObject : AnyObject])
                     
-                    self.navigationController?.popToRootViewController(animated: true)
+                    _ = self.navigationController?.popToRootViewController(animated: true)
                 }
             } else
             {
@@ -239,7 +239,7 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
     
     override func backPressed(_ sender: UIBarButtonItem) {
         if (self.backEnabled) {
-            self.navigationController?.popViewController(animated: true)
+            _ = self.navigationController?.popViewController(animated: true)
         }
     }
 }

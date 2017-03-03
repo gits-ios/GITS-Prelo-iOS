@@ -119,7 +119,7 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
         
         if let imageName = j["image_name"].string {
             c.imageView.backgroundColor = UIColor.white
-            c.imageView.afSetImage(withURL: URL(string: imageName)!)
+            c.imageView.afSetImage(withURL: URL(string: imageName)!, withFilter: .fitWithPreloPlaceHolder)
         }
         
         c.createBordersWithColor(UIColor.lightGray, radius: 0, width: 1)
@@ -134,13 +134,14 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
         if (searchMode && (indexPath as NSIndexPath).row == 0) { // Memilih kategori 'All' (semua kategori)
             if (self.previousController != nil) {
                 self.delegate?.adjustCategory(selectedCategory!["_id"].stringValue)
-                self.navigationController?.popViewController(animated: true)
+                _ = self.navigationController?.popViewController(animated: true)
             } else {
                 let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
                 l.currentMode = .filter
                 l.isBackToFltrSearch = true
                 l.fltrCategId = selectedCategory!["_id"].stringValue
                 l.fltrSortBy = "recent"
+                l.previousScreen = PageName.Search
                 self.navigationController?.pushViewController(l, animated: true)
             }
             return
@@ -188,6 +189,12 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
 class CategoryPickerParentCell : UICollectionViewCell {
     @IBOutlet var imageView : UIImageView!
     @IBOutlet var captionTitle : UILabel!
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        imageView.afCancelRequest()
+    }
 }
 
 // MARK: - Class
@@ -312,24 +319,25 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
             if (searchMode) {
                 if (self.previousController != nil) {
                     self.delegate?.adjustCategory(selectedCategory!["_id"].stringValue)
-                    self.navigationController?.popToViewController(self.previousController!, animated: true)
+                    _ = self.navigationController?.popToViewController(self.previousController!, animated: true)
                 } else {
                     let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
                     l.currentMode = .filter
                     l.isBackToFltrSearch = true
                     l.fltrCategId = selectedCategory!["_id"].stringValue
                     l.fltrSortBy = "recent"
+                    l.previousScreen = PageName.Search
                     self.navigationController?.pushViewController(l, animated: true)
                 }
             } else {
                 self.blockDone!(data as [String : AnyObject])
                 
                 if let r = self.root {
-                    self.navigationController?.popToViewController(r, animated: true)
+                    _ = self.navigationController?.popToViewController(r, animated: true)
                 } else {
                     let c = self.navigationController?.viewControllers.count
                     let v = (self.navigationController?.viewControllers[c! - backTreshold])!
-                    self.navigationController?.popToViewController(v, animated: true)
+                    _ = self.navigationController?.popToViewController(v, animated: true)
                 }
             }
         }

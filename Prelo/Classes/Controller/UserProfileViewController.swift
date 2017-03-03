@@ -152,9 +152,12 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             if (url != nil) {
                 self.imgUser.layoutIfNeeded()
                 self.imgUser.image = nil
-                self.imgUser.afSetImage(withURL: url!)
+                self.imgUser.afSetImage(withURL: url!, withFilter: .circle)
                 self.imgUser.layer.cornerRadius = (self.imgUser.frame.size.width)/2
                 self.imgUser.layer.masksToBounds = true
+                
+                self.imgUser.layer.borderColor = Theme.GrayLight.cgColor
+                self.imgUser.layer.borderWidth = 3
             }
         }
         if (user.fullname != nil) {
@@ -680,7 +683,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                         UIApplication.appDelegate.saveContext()
                         
                         // Adjust instagram button
-                        self.lblLoginInstagram.text = "LOG IN INSTAGRAM"
+                        self.lblLoginInstagram.text = "LOGIN INSTAGRAM"
                         self.isLoggedInInstagram = false
                     }
                     // Hide loading
@@ -702,7 +705,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                         UIApplication.appDelegate.saveContext()
                         
                         // Adjust fb button
-                        self.lblLoginFacebook.text = "LOG IN FACEBOOK"
+                        self.lblLoginFacebook.text = "LOGIN FACEBOOK"
                         self.isLoggedInFacebook = false
                     }
                     // Hide loading
@@ -725,7 +728,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                         UIApplication.appDelegate.saveContext()
                         
                         // Adjust twitter button
-                        self.lblLoginTwitter.text = "LOG IN TWITTER"
+                        self.lblLoginTwitter.text = "LOGIN TWITTER"
                         self.isLoggedInTwitter = false
                     }
                     // Hide loading
@@ -744,7 +747,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                         UIApplication.appDelegate.saveContext()
                         
                         // Adjust path button
-                        self.lblLoginPath.text = "LOG IN PATH"
+                        self.lblLoginPath.text = "LOGIN PATH"
                         self.isLoggedInPath = false
                     }
                     // Hide loading
@@ -875,10 +878,10 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 
                 AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: { op, res in
                     print("Edit profile res = \(res)")
-                    let json = JSON(res)
+                    let json = JSON((res ?? [:]))
                     self.simpanDataSucceed(json)
                 }, failure: { op, err in
-                    print(err) // failed
+                    print((err ?? "")) // failed
                     Constant.showDialog("Edit Profil", message: "Gagal mengupload data")//:err.description)
                     self.btnSimpanData.isEnabled = true
                     self.loadingPanel.isHidden = true
@@ -926,7 +929,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             self.loading.stopAnimating()
         } else {
             print("Data saved")
-            self.navigationController?.popViewController(animated: true)
+            _ = self.navigationController?.popViewController(animated: true)
         }
     }
 }

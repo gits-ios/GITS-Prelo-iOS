@@ -17,17 +17,18 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     // MARK: - Properties
     
     // Views
-    @IBOutlet var scrollView : UIScrollView!
-    @IBOutlet var tableView : UITableView!
-    @IBOutlet var sectionTopSearch : UIView!
-    @IBOutlet var sectionHistorySearch : UIView!
-    @IBOutlet var topSearchLoading : UIActivityIndicatorView!
-    @IBOutlet var conHeightSectionTopSearch : NSLayoutConstraint!
-    @IBOutlet var conHeightSectionHistorySearch : NSLayoutConstraint!
-    @IBOutlet var vwZeroResult: UIView!
-    @IBOutlet var lblZeroResult: UILabel!
-    @IBOutlet var loadingPanel: UIView!
+    @IBOutlet weak var scrollView : UIScrollView!
+    @IBOutlet weak var tableView : UITableView!
+    @IBOutlet weak var sectionTopSearch : UIView!
+    @IBOutlet weak var sectionHistorySearch : UIView!
+    @IBOutlet weak var topSearchLoading : UIActivityIndicatorView!
+    @IBOutlet weak var conHeightSectionTopSearch : NSLayoutConstraint!
+    @IBOutlet weak var conHeightSectionHistorySearch : NSLayoutConstraint!
+    @IBOutlet weak var vwZeroResult: UIView!
+    @IBOutlet weak var lblZeroResult: UILabel!
+    @IBOutlet weak var loadingPanel: UIView!
     var searchBar : UISearchBar!
+    @IBOutlet weak var btnHapusRiwayat: BorderedButton!
     
     // Data container
     var foundItems : [Product] = []
@@ -182,6 +183,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         var y : CGFloat = 0.0
         var x : CGFloat = 0.0
         let sw = sectionHistorySearch.width
+        var curMaxY : CGFloat = 0.0
         for s in arr {
             let tag = SearchTag.instance(s)
             tag.x = x
@@ -190,10 +192,14 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             if (maxx > sw) {
                 x = 0
                 tag.x = x
-                let maxY = tag.maxY
-                y = maxY + 4
+                //let maxY = tag.maxY
+                y = curMaxY + 4 //maxY + 4
                 tag.y = y
                 //print("tag new y : \(y)")
+            }
+            
+            if curMaxY < tag.maxY {
+                curMaxY = tag.maxY
             }
 
             let tap = UITapGestureRecognizer(target: self, action: #selector(SearchViewController.searchTopKey(_:)))
@@ -203,6 +209,12 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             sectionHistorySearch.addSubview(tag)
             conHeightSectionHistorySearch.constant = tag.maxY
             x = tag.maxX + 8
+        }
+        
+        if arr.count == 0 {
+            self.btnHapusRiwayat.isHidden = true
+        } else {
+            self.btnHapusRiwayat.isHidden = false
         }
     }
     
@@ -323,7 +335,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if ((indexPath as NSIndexPath).section == SectionItem) {
+        if ((indexPath as NSIndexPath).section == SectionItem && (indexPath as NSIndexPath).row <= foundItems.count) {
             if ((indexPath as NSIndexPath).row == foundItems.count) { // View more
                 var c = tableView.dequeueReusableCell(withIdentifier: "viewmore")
                 if (c == nil) {
@@ -341,7 +353,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 c.ivImage.afSetImage(withURL: url)
             }
             return c
-        } else if ((indexPath as NSIndexPath).section == SectionUser) {
+        } else if ((indexPath as NSIndexPath).section == SectionUser && (indexPath as NSIndexPath).row <= foundUsers.count) {
             if ((indexPath as NSIndexPath).row == foundUsers.count) { // View more
                 var c = tableView.dequeueReusableCell(withIdentifier: "viewmore")
                 if (c == nil) {
@@ -354,11 +366,14 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             let c = tableView.dequeueReusableCell(withIdentifier: "user") as! SearchUserCell
             let u = foundUsers[(indexPath as NSIndexPath).row]
             c.captionName.text = u.username
-            c.ivImage.afSetImage(withURL: URL(string : u.pict)!)
+            c.ivImage.afSetImage(withURL: URL(string : u.pict)!, withFilter: .circle)
             c.ivImage.layer.cornerRadius = (c.ivImage.frame.size.width) / 2
             c.ivImage.clipsToBounds = true
+            
+            c.ivImage.layer.borderColor = Theme.GrayLight.cgColor
+            c.ivImage.layer.borderWidth = 1.5
             return c
-        } else if ((indexPath as NSIndexPath).section == SectionBrand) {
+        } else if ((indexPath as NSIndexPath).section == SectionBrand && (indexPath as NSIndexPath).row <= foundBrands.count) {
             if ((indexPath as NSIndexPath).row == foundBrands.count) { // View more
                 var c = tableView.dequeueReusableCell(withIdentifier: "viewmore")
                 if (c == nil) {
@@ -405,6 +420,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 l.isBackToFltrSearch = true
                 l.fltrCategId = self.currentCategoryId
                 l.fltrSortBy = "recent"
+                l.previousScreen = PageName.Search
                 if let searchText = self.searchBar.text {
                     l.fltrName = searchText
                 }
@@ -426,12 +442,14 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 if selectedProduct.isAggregate == false && selectedProduct.isAffiliate == false {
                     let d = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
                     d.product = foundItems[(indexPath as NSIndexPath).row]
+                    d.previousScreen = PageName.Search
                     self.navigationController?.pushViewController(d, animated: true)
                 } else if selectedProduct.isAffiliate == false {
                     let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
                     l.currentMode = .filter
                     l.fltrAggregateId = selectedProduct.id
                     l.fltrName = ""
+                    l.previousScreen = PageName.Search
                     self.navigationController?.pushViewController(l, animated: true)
                 } else {
                     let urlString = selectedProduct.json["affiliate_data"]["affiliate_url"].stringValue
@@ -465,10 +483,12 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                     d.currentMode = .shop
                     d.shopName = u.username
                     d.shopId = u.id
+                    d.previousScreen = PageName.Search
                     self.navigationController?.pushViewController(d, animated: true)
                 } else {
                     let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
                     storePageTabBarVC.shopId = u.id
+                    storePageTabBarVC.previousScreen = PageName.Search
                     self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
                 }
             }
@@ -478,6 +498,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             l.isBackToFltrSearch = true
             l.fltrCategId = self.currentCategoryId
             l.fltrSortBy = "recent"
+            l.previousScreen = PageName.Search
             var fltrBrands : [String : String] = [:]
             if ((indexPath as NSIndexPath).row == foundBrands.count) {
                 for i in 0...foundBrands.count - 1 {
@@ -612,6 +633,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         l.currentMode = .filter
         l.isBackToFltrSearch = true
         l.fltrSortBy = "recent"
+        l.previousScreen = PageName.Search
         self.navigationController?.pushViewController(l, animated: true)
         
         /* FOR MORE LOGICAL UX
@@ -683,6 +705,12 @@ class SearchUserCell : UITableViewCell {
     @IBOutlet var captionName : UILabel!
     @IBOutlet var btnFollow : BorderedButton!
     @IBOutlet var ivImage : UIImageView!
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        ivImage.afCancelRequest()
+    }
 }
 
 // MARK: - Class
@@ -691,6 +719,12 @@ class SearchItemCell : UITableViewCell {
     @IBOutlet var captionName : UILabel!
     @IBOutlet var captionPrice : UILabel!
     @IBOutlet var ivImage : UIImageView!
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        ivImage.afCancelRequest()
+    }
 }
 
 // MARK: - Class
