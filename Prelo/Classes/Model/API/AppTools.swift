@@ -804,6 +804,7 @@ class PreloAnalyticEvent {
     static let EraseProduct = "Product:Erase Product"
     static let MarkAsSold = "Product:Mark as Sold"
     static let CommentOnProduct = "Product:Comment on Product"
+    static let VisitAggregate = "Product:Visit Aggregate"
     
     // Report
     static let ReportProduct = "Report:Report Product"

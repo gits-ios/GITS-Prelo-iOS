@@ -1230,6 +1230,28 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 l.fltrAggregateId = (self.selectedProduct?.id)!
                 l.fltrSortBy = "recent"
                 l.fltrName = ""
+                
+                // Prelo Analytic - Visit Aggregate
+                let loginMethod = User.LoginMethod ?? ""
+                let pdata = [
+                    "Aggregate ID": (self.selectedProduct?.id)!,
+                    "Aggregate Name" : (self.selectedProduct?.name)!
+                ] as [String : Any]
+                
+                // previous screen is current screen
+                var currentPage = PageName.Home
+                if currentMode == .filter {
+                    currentPage = PageName.SearchResult
+                } else if currentMode == .shop || currentMode == .newShop {
+                    if User.IsLoggedIn && User.Id! == self.shopId {
+                        currentPage = PageName.ShopMine
+                    } else {
+                        currentPage = PageName.Shop
+                    }
+                }
+                
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.VisitAggregate, data: pdata, previousScreen: currentPage, loginMethod: loginMethod)
+                
                 self.navigationController?.pushViewController(l, animated: true)
             } else {
                 let urlString = self.selectedProduct?.json["affiliate_data"]["affiliate_url"].stringValue
