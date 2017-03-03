@@ -137,6 +137,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     var uniqueCodeString : String!
     
+    // for refresh product sell list when product deleted
+    weak var delegate: MyProductDelegate?
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -356,7 +359,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     let o = arr[i]
                     if let s = o as? String
                     {
-                        imageViews[i].afSetImage(withURL: URL(string: s)!)
+                        imageViews[i].afSetImage(withURL: URL(string: s)!, withFilter: .none)
                     }
                 }
             }
@@ -383,7 +386,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 // Show luxury fields
                 self.groupVerifAuth.isHidden = false
                 self.groupKelengkapan.isHidden = false
-                self.conTopOngkirGroup.constant = 498
+                self.conTopOngkirGroup.constant = 498 + 16
                 
                 // Set texts
                 txtLuxStyleName.text = luxData["style_name"].stringValue
@@ -415,6 +418,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
         else if (draftMode)
         {
+            self.title = PageName.AddProduct
+            
             let product = draftProduct
             
             txtName.text = product?.name
@@ -528,7 +533,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 // Show luxury fields
                 self.groupVerifAuth.isHidden = false
                 self.groupKelengkapan.isHidden = false
-                self.conTopOngkirGroup.constant = 498
+                self.conTopOngkirGroup.constant = 498 + 16
                 
                 
                 //  0  styleName : String
@@ -567,7 +572,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             }
             
             hideFakeScrollView()
-        } else {
+        }
+        
+        if (!draftMode) {
             // set init id
             
             let uniqueCode : TimeInterval = Date().timeIntervalSinceReferenceDate
@@ -676,7 +683,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         } else {
             alert.addAction(UIAlertAction(title: "Keluar", style: .cancel, handler: { action in
                 
-                self.navigationController?.popViewController(animated: true)
+                _ = self.navigationController?.popViewController(animated: true)
             }))
         }
         
@@ -687,7 +694,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 // save the draft
                 self.saveDraft(isBack: true)
             } else {
-                self.navigationController?.popViewController(animated: true)
+                _ = self.navigationController?.popViewController(animated: true)
             }
         }))
         
@@ -742,7 +749,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     func userCancelLogin() {
         allowLaunchLogin = false
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     // MARK: - Image processing
@@ -842,28 +849,34 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         let img = images[controller.index] as! UIImage
         let index = controller.index
-        // save again if from album
+        // try save again if from album
         if isCamera == false {
-            let imageName = name
+            let imageName = name + "_" + index.string + "_" + (draftMode ? draftProduct?.localId : uniqueCodeString)!
             let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
             let localPath = documentDirectory.stringByAppendingPathComponent(imageName)
             
-            let data = UIImagePNGRepresentation(img)
-            
+            // for temporer use
+            let data = UIImageJPEGRepresentation(img, 1)
             do {
                 try data?.write(to: URL(fileURLWithPath: localPath), options: .atomic)
             } catch {
                 print("err")
             }
+            
             let photoURL = NSURL(fileURLWithPath: localPath)
             
             self.localPath[index] = (photoURL.path)!
             self.isCamera[index] = false
             self.imageOrientation[index] = img.imageOrientation.rawValue
-        }
-            // from camera save after out
-        else {
+        
+        } else {
+            // reset
+            self.localPath[index] = ""
+            
             self.isCamera[index] = true
+            
+            // fast technique
+            self.saveImages(self.images, index: index, uniqueCode: (draftMode ? draftProduct?.localId : uniqueCodeString)!)
         }
 
     }
@@ -982,26 +995,31 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         return fileURL!.path
         
     }
-    
-    func saveImages(_ images: Array<AnyObject>) {
-        for index in 0...images.count - 1 {
+
+    func saveImages(_ images: Array<AnyObject>, index: Int, uniqueCode: String) {
+        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
+                                            qos: .background,
+                                            target: nil)
+        backgroundQueue.async {
+            print("Work on background queue -- Save Image \(index)")
             if self.isCamera[index] == true {
-                if let img = (images[index] as! UIImage).resizeWithMaxWidth(2048) {
-                    CustomPhotoAlbum.sharedInstance.save(image: img)
+                if let img = (images[index] as! UIImage).resizeWithMaxWidthOrHeight(1600) {
                     
-                    let photoURLpath = CustomPhotoAlbum.sharedInstance.fetchLastPhotoTakenFromAlbum()
-                    let imageURL = NSURL(fileURLWithPath: fileInDocumentsDirectory(filename: photoURLpath))
-                    let imageName = imageURL.path!.lastPathComponent + "_" + index.string
+                    // save & get
+                    let photoURLpath = CustomPhotoAlbum.sharedInstance.save(image: img)
+                    let imageURL = NSURL(fileURLWithPath: self.fileInDocumentsDirectory(filename: photoURLpath))
+                    let imageName = imageURL.path!.lastPathComponent + "_" + index.string + "_" + uniqueCode
                     let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
                     let localPath = documentDirectory.stringByAppendingPathComponent(imageName)
                     
-                    let data = UIImagePNGRepresentation(img)
-                    
+                    // for temporer use
+                    let data = UIImageJPEGRepresentation(img, 1)
                     do {
                         try data?.write(to: URL(fileURLWithPath: localPath), options: .atomic)
                     } catch {
                         print("err")
                     }
+                    
                     let photoURL = NSURL(fileURLWithPath: localPath)
                     
                     self.localPath[index] = (photoURL.path)!
@@ -1044,57 +1062,32 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 }
             }
             
-//            var imageURL : NSURL
-//            
-//            if (picker.sourceType == .camera) {
-//                CustomPhotoAlbum.sharedInstance.save(image: img)
-//                
-//                let photoURLpath = CustomPhotoAlbum.sharedInstance.fetchLastPhotoTakenFromAlbum()
-//                
-//                // Define the specific path, image name
-//                imageURL = NSURL(fileURLWithPath: fileInDocumentsDirectory(filename: photoURLpath))
-//            } else {
-//                imageURL = info[UIImagePickerControllerReferenceURL] as! NSURL
-//            }
-//            let imageName = imageURL.path!.lastPathComponent + "_" + index.string
-//            let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
-//            let localPath = documentDirectory.stringByAppendingPathComponent(imageName)
-//            
-//            let data = UIImagePNGRepresentation(img)
-//            
-//            do {
-//                try data?.write(to: URL(fileURLWithPath: localPath), options: .atomic)
-//            } catch {
-//                print("err")
-//            }
-//            let photoURL = NSURL(fileURLWithPath: localPath)
-//            
-//            self.localPath[index] = (photoURL.path)!
-//
-//         
-            // save again if from album
+            // try save again if from album
             if picker.sourceType != .camera {
                 let imageURL = info[UIImagePickerControllerReferenceURL] as! NSURL
                 let imageName = imageURL.path!.lastPathComponent + "_" + index.string + "_" + (draftMode ? draftProduct?.localId : uniqueCodeString)!
                 let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
                 let localPath = documentDirectory.stringByAppendingPathComponent(imageName)
                 
-                let data = UIImagePNGRepresentation(img)
-                
+                // for temporer use
+                let data = UIImageJPEGRepresentation(img, 1)
                 do {
                     try data?.write(to: URL(fileURLWithPath: localPath), options: .atomic)
                 } catch {
                     print("err")
                 }
+                
                 let photoURL = NSURL(fileURLWithPath: localPath)
                 
                 self.localPath[index] = (photoURL.path)!
                 self.isCamera[index] = false
                 self.imageOrientation[index] = img.imageOrientation.rawValue
-            }
-            // from camera save after out
-            else {
+                
+            } else {
                 self.isCamera[index] = true
+                
+                // fast technique
+                self.saveImages(self.images, index: index, uniqueCode: (draftMode ? draftProduct?.localId : uniqueCodeString)!)
             }
         }
         
@@ -1330,7 +1323,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             if (self.merekIsLuxury && self.isCategWomenOrMenSelected) {
                 self.groupVerifAuth.isHidden = false
                 self.groupKelengkapan.isHidden = false
-                self.conTopOngkirGroup.constant = 498
+                self.conTopOngkirGroup.constant = 498 + 16
             } else {
                 self.groupVerifAuth.isHidden = true
                 self.groupKelengkapan.isHidden = true
@@ -1548,6 +1541,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                         if (hiddenStr.count >= 2) {
                             self.merekId = hiddenStr[0]
                             self.merekIsLuxury = (hiddenStr[1] == "1") ? true : false
+                        } else {
+                            self.merekId = ""
+                            self.merekIsLuxury = false
                         }
                         var x : String = PickerViewController.HideHiddenString(s)
                         
@@ -1560,7 +1556,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                         if (self.merekIsLuxury && self.isCategWomenOrMenSelected) {
                             self.groupVerifAuth.isHidden = false
                             self.groupKelengkapan.isHidden = false
-                            self.conTopOngkirGroup.constant = 498
+                            self.conTopOngkirGroup.constant = 498 + 16
                         } else {
                             self.groupVerifAuth.isHidden = true
                             self.groupKelengkapan.isHidden = true
@@ -1702,10 +1698,19 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 let _ = request(APIProduct.delete(productID: prodId)).responseJSON {resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Hapus Barang"))
                     {
+                        // Prelo Analytic - Erase Product
+                        let loginMethod = User.LoginMethod ?? ""
+                        let pdata = [
+                            "Product ID": prodId
+                        ] as [String : Any]
+                        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.EraseProduct, data: pdata, previousScreen: self.screenBeforeAddProduct, loginMethod: loginMethod)
+                        
                         if var v = self.navigationController?.viewControllers
                         {
                             v.removeLast()
                             v.removeLast()
+                            
+                            self.delegate?.setFromDraftOrNew(true)
                             self.navigationController?.setViewControllers(v, animated: true)
                         }
                         
@@ -1931,22 +1936,27 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         for i in 0...images.count - 1 {
             if let img = images[i] as? UIImage {
                 //print("Resizing image no-\(i) with width = \(img.size.width)")
-                if let imgResized = img.resizeWithMaxWidth(2048) {
-                    var curImg : UIImage?
-                    if let imgData = ImageHelper.removeExifData(UIImagePNGRepresentation(imgResized)!) {
-                        curImg = UIImage(data: imgData)!
-                    } else {
-                        curImg = imgResized
-                    }
+                if let imgResized = img.resizeWithMaxWidthOrHeight(1600) { // max 1600 * 1600
+//                    var curImg : UIImage?
+//                    if let imgData = ImageHelper.removeExifData(UIImagePNGRepresentation(imgResized)!) {
+//                        curImg = UIImage(data: imgData)!
+//                    } else {
+//                        curImg = imgResized
+//                    }
                     //print("Image no-\(i) has been resized")
                     
+                    // optimize
+//                    var curImg = imgResized.compress(0.6)
+//                    curImg = curImg.applyBlurEffect()
+                    
                     // handle rotate
-                    if (SYSTEM_VERSION_LESS_THAN("10.0")) {
-                        images[i] = UIImage(cgImage: (curImg?.cgImage)!, scale: 1.0, orientation: img.imageOrientation)
-                    } else {
-                        images[i] = curImg!
-                    }
-                    curImg = nil
+//                    if (SYSTEM_VERSION_LESS_THAN("10.0")) {
+//                        curImg = UIImage(cgImage: (imgResized.cgImage)!, scale: 1.0, orientation: img.imageOrientation)
+//                    } else {
+//                        curImg = imgResized
+//                    }
+                    
+                    images[i] = imgResized.correctlyOrientedImage()
                 }
             }
         }
@@ -1963,6 +1973,103 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 self.btnSubmit.isEnabled = true
             }))
             alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
+                
+                // Prelo Analytic - Submit Product
+                let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
+                                                    qos: .background,
+                                                    target: nil)
+                backgroundQueue.async {
+                    print("Work on background queue")
+                    
+                    let loginMethod = User.LoginMethod ?? ""
+                    
+                    // brand
+                    let brand = [
+                        "ID" : self.merekId,
+                        "Name" : self.captionMerek.text!,
+                        "Verified" : (self.merekId != "" ? true : false)
+                    ] as [String : Any]
+                    
+                    var pdata = [
+                        "Local ID": (self.draftMode == true ? (self.draftProduct?.localId)! : self.uniqueCodeString)!,
+                        "Product Name" : name,
+                        "Condition" : self.captionKondisi.text!,
+                        "Brand" : brand,
+                        "Free Shipping" : (self.freeOngkir == 1 ? true : false),
+                        "Weight" : self.txtWeight.text!,
+                        "Price Original" : self.txtOldPrice.text!,
+                        "Price" : self.txtNewPrice.text!
+                    ] as [String : Any]
+                    
+                    // cat
+                    var cat : Array<String> = []
+                    var catId : Array<String> = []
+                    catId.append(self.productCategoryId)
+                    var temp = CDCategory.getCategoryWithID(self.productCategoryId)!
+                    cat.append(temp.name)
+                    while (true) {
+                        if let cur = CDCategory.getParent(temp.id) {
+                            temp = cur
+                            cat.append(temp.name)
+                            catId.append(temp.id)
+                        } else {
+                            break
+                        }
+                    }
+                    
+                    /*
+                    var iter = 1
+                    for item in cat.reversed() {
+                        pdata["Category " + iter.string] = item
+                        iter += 1
+                    }
+                     */
+                    
+                    cat = cat.reversed()
+                    pdata["Category Names"] = cat
+                    
+                    catId = catId.reversed()
+                    pdata["Category IDs"] = catId
+                    
+                    // imgae
+//                    var count = 0
+                    var imagesOke : [Bool] = []
+                    for i in 0...self.images.count - 1 {
+                        if let _ = self.images[i] as? UIImage {
+//                            count += 1
+//                            if (i == 0) {
+//                                pdata["Main Picture Exist"] = true
+//                            } else if (i == 1) {
+//                                pdata["Back Picture Exist"] = true
+//                            } else if (i == 2) {
+//                                pdata["Wear Picture Exist"] = true
+//                            } else if (i == 3) {
+//                                pdata["Label Picture Exist"] = true
+//                            } else if (i == 4) {
+//                                pdata["Defect Picture Exist"] = true
+//                            }
+                            imagesOke.append(true)
+                        } else {
+//                            if (i == 0) {
+//                                pdata["Main Picture Exist"] = false
+//                            } else if (i == 1) {
+//                                pdata["Back Picture Exist"] = false
+//                            } else if (i == 2) {
+//                                pdata["Wear Picture Exist"] = false
+//                            } else if (i == 3) {
+//                                pdata["Label Picture Exist"] = false
+//                            } else if (i == 4) {
+//                                pdata["Defect Picture Exist"] = false
+//                            }
+                            imagesOke.append(false)
+                        }
+                    }
+//                    pdata["Number of Picture Uploaded"] = count
+                    pdata["Images"] = imagesOke
+                    
+                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SubmitProduct, data: pdata, previousScreen: self.screenBeforeAddProduct, loginMethod: loginMethod)
+                }
+                
                 self.btnSubmit.isEnabled = true
                 let share = self.storyboard?.instantiateViewController(withIdentifier: "share") as! AddProductShareViewController
                 share.sendProductParam = param
@@ -1970,7 +2077,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 share.basePrice = (newPrice.int)
                 share.productName = name
                 share.productImgImage = self.images.first as? UIImage
-                share.sendProductBeforeScreen = self.screenBeforeAddProduct
+                share.sendProductBeforeScreen = PageName.AddProduct //self.screenBeforeAddProduct
                 share.sendProductKondisi = self.kodindisiId
                 share.shouldSkipBack = false
                 share.localId = self.draftMode ? (self.draftProduct?.localId)! : self.uniqueCodeString
@@ -1996,13 +2103,15 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             
             if (self.editMode)
             {
+                self.delegate?.setFromDraftOrNew(true)
+                
                 //Mixpanel.sharedInstance().track("Editing Product", properties: ["success":"1"])
                 self.editDoneBlock()
-                self.navigationController?.popViewController(animated: true)
+                _ = self.navigationController?.popViewController(animated: true)
                 return
             }
             
-            let json = JSON(res)
+            let json = JSON((res ?? [:]))
             
             let s = self.storyboard?.instantiateViewController(withIdentifier: "share") as! AddProductShareViewController
             if let price = json["_data"]["price"].int
@@ -2090,14 +2199,34 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 luxuryData[7] = self.isAuthCardChecked.description
             }
             
-            // save image first if from camera
-            self.saveImages(self.images)
+            // wait for all image saved
+            for i in 0...self.images.count-1 {
+                // save image first if from camera
+                // now handling after image choose or taken by camera (auto save first)
+//                self.saveImages(self.images, index: i, uniqueCode: (self.draftMode ? (self.draftProduct?.localId)! : self.uniqueCodeString)!)
+                while (true) {
+                    if (!self.isCamera[i]) {
+                        break
+                    } else if (self.isCamera[i] && self.localPath[i] != "") {
+                        break
+                    }
+                }
+            }
             
             // save to core data
             CDDraftProduct.saveDraft(self.draftMode == true ? (self.draftProduct?.localId)! : self.uniqueCodeString, name: self.txtName.text!, descriptionText: self.txtDescription.text, weight: self.txtWeight.text != nil ? self.txtWeight.text! : "", freeOngkir: self.freeOngkir, priceOriginal: self.txtOldPrice.text != nil ? self.txtOldPrice.text! : "", price: self.txtNewPrice.text != nil ? self.txtNewPrice.text! : "", commission: self.txtCommission.text != nil ? self.txtCommission.text! : "", category: self.captionKategori.text != nil ? self.captionKategori.text! : "", categoryId: self.productCategoryId, isCategWomenOrMenSelected: self.isCategWomenOrMenSelected, condition: self.captionKondisi.text != nil ? self.captionKondisi.text! : "", conditionId: self.kodindisiId, brand: self.captionMerek.text != nil ? self.captionMerek.text! : "", brandId: self.merekId, imagePath: self.localPath, imageOrientation: self.imageOrientation, size: self.txtSize.text != nil ? self.txtSize.text! : "", defectDescription: self.txtDeskripsiCacat.text != nil ? self.txtDeskripsiCacat.text! : "", sellReason: self.txtAlasanJual.text != nil ? self.txtAlasanJual.text! : "", specialStory: self.txtSpesial.text != nil ? self.txtSpesial.text!: "", luxuryData: luxuryData, isLuxury: self.merekIsLuxury)
         }
         
         if isBack {
+            // Prelo Analytic - Save As Draft
+            let loginMethod = User.LoginMethod ?? ""
+            let pdata = [
+                "Local ID": (self.draftMode == true ? (self.draftProduct?.localId)! : self.uniqueCodeString),
+                "Product Name" : self.txtName.text!,
+//                "Username" : CDUser.getOne()?.username
+            ] as [String : Any]
+            AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SaveAsDraft, data: pdata, previousScreen: self.screenBeforeAddProduct, loginMethod: loginMethod)
+            
             Constant.showBadgeDialog("Berhasil", message: "Draft barang berhasil disimpan di menu Jualan Saya. Jika belum muncul, mohon tunggu beberapa saat dan coba untuk memperbarui menu Jualan Saya.", badge: "info", view: self, isBack: isBack)
         }
     }

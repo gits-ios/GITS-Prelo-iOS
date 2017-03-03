@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: - NewShopHeader Protocol
 
-protocol MyProductDelegate {
+protocol MyProductDelegate: class {
     func setFromDraftOrNew(_ isFromDraft: Bool)
     func getFromDraftOrNew() -> Bool
 }

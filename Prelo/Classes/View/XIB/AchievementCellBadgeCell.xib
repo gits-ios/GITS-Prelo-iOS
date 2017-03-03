@@ -14,11 +14,11 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="65"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="prr-vu-ITs" id="ykO-KZ-Svz">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="64.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HQI-lm-K7g" userLabel="Vw Border">
-                        <rect key="frame" x="5" y="0.0" width="365" height="64"/>
+                        <rect key="frame" x="4" y="0.0" width="367" height="64.5"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ckf-xO-6bf">
                                 <rect key="frame" x="13" y="18" width="30" height="30"/>
@@ -27,14 +27,14 @@
                                     <constraint firstAttribute="width" constant="30" id="eZU-Is-KOa"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1lR-UH-Sz4">
-                                <rect key="frame" x="51" y="8" width="301" height="48"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1lR-UH-Sz4">
+                                <rect key="frame" x="51" y="4" width="303" height="56.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VfL-FT-RwO" userLabel="View Separator">
-                                <rect key="frame" x="13" y="0.0" width="339" height="1"/>
+                                <rect key="frame" x="13" y="0.0" width="341" height="1"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="nfl-Zg-SPF"/>
@@ -43,24 +43,24 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="1lR-UH-Sz4" secondAttribute="bottom" constant="8" id="6IF-Up-ZG4"/>
+                            <constraint firstAttribute="bottom" secondItem="1lR-UH-Sz4" secondAttribute="bottom" constant="4" id="6IF-Up-ZG4"/>
                             <constraint firstAttribute="trailing" secondItem="1lR-UH-Sz4" secondAttribute="trailing" constant="13" id="GA8-6N-TQg"/>
                             <constraint firstItem="1lR-UH-Sz4" firstAttribute="leading" secondItem="Ckf-xO-6bf" secondAttribute="trailing" constant="8" id="H6T-OQ-Lnb"/>
                             <constraint firstAttribute="trailing" secondItem="VfL-FT-RwO" secondAttribute="trailing" constant="13" id="Ras-oO-5LA"/>
                             <constraint firstItem="VfL-FT-RwO" firstAttribute="top" secondItem="HQI-lm-K7g" secondAttribute="top" id="RbA-kO-BeZ"/>
                             <constraint firstItem="Ckf-xO-6bf" firstAttribute="leading" secondItem="HQI-lm-K7g" secondAttribute="leading" constant="13" id="bNd-KM-kgc"/>
                             <constraint firstItem="VfL-FT-RwO" firstAttribute="leading" secondItem="HQI-lm-K7g" secondAttribute="leading" constant="13" id="elm-Qq-z91"/>
-                            <constraint firstItem="1lR-UH-Sz4" firstAttribute="top" secondItem="HQI-lm-K7g" secondAttribute="top" constant="8" id="zPv-76-FvY"/>
+                            <constraint firstItem="1lR-UH-Sz4" firstAttribute="top" secondItem="HQI-lm-K7g" secondAttribute="top" constant="4" id="zPv-76-FvY"/>
                         </constraints>
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="HQI-lm-K7g" secondAttribute="bottom" id="8Qj-KJ-HPh"/>
+                    <constraint firstItem="HQI-lm-K7g" firstAttribute="top" secondItem="ykO-KZ-Svz" secondAttribute="top" id="0t3-w5-v9Q"/>
                     <constraint firstItem="Ckf-xO-6bf" firstAttribute="centerY" secondItem="ykO-KZ-Svz" secondAttribute="centerY" id="8vq-hI-ouh"/>
-                    <constraint firstAttribute="trailing" secondItem="HQI-lm-K7g" secondAttribute="trailing" constant="5" id="YNA-9N-oxu"/>
-                    <constraint firstItem="HQI-lm-K7g" firstAttribute="top" secondItem="ykO-KZ-Svz" secondAttribute="top" id="egO-k4-eU6"/>
+                    <constraint firstAttribute="bottom" secondItem="HQI-lm-K7g" secondAttribute="bottom" id="NR8-ne-NkM"/>
+                    <constraint firstAttribute="trailing" secondItem="HQI-lm-K7g" secondAttribute="trailing" constant="4" id="YNA-9N-oxu"/>
                     <constraint firstItem="1lR-UH-Sz4" firstAttribute="centerY" secondItem="ykO-KZ-Svz" secondAttribute="centerY" id="j3H-XT-0LM"/>
-                    <constraint firstItem="HQI-lm-K7g" firstAttribute="leading" secondItem="ykO-KZ-Svz" secondAttribute="leading" constant="5" id="jVZ-mA-2y8"/>
+                    <constraint firstItem="HQI-lm-K7g" firstAttribute="leading" secondItem="ykO-KZ-Svz" secondAttribute="leading" constant="4" id="jVZ-mA-2y8"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

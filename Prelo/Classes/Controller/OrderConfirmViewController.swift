@@ -63,6 +63,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     var kodeTransfer = 0
     
     var date : String?
+    var remaining : Int = 24
     
     // Prelo account data
     var rekenings = [
@@ -134,7 +135,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             f.dateFormat = "dd/MM/yyyy HH:mm:ss"
             let time = f.string(from: date)
             // Arrange views
-            let text = "Lakukan pembayaran TEPAT hingga 3 digit terakhir dalam waktu 24 jam (" + (self.date != nil ? self.date! : time) + ") ke salah satu rekening di bawah. Perbedaan jumlah transfer akan memperlambat proses verifikasi."
+            let text = "Lakukan pembayaran TEPAT hingga 3 digit terakhir dalam waktu " + remaining.string + " jam (" + (self.date != nil ? self.date! : time) + ") ke salah satu rekening di bawah. Perbedaan jumlah transfer akan memperlambat proses verifikasi."
             let mtext = NSMutableAttributedString(string: text)
             mtext.addAttributes([NSForegroundColorAttributeName:UIColor.darkGray], range: NSMakeRange(0, text.length))
             mtext.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: 14)], range: (text as NSString).range(of: "TEPAT"))
@@ -399,6 +400,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         // API Migrasi
         let _ = request(APITransaction.confirmPayment(bankFrom: "", bankTo: self.lblBankTujuan.text!, name: "", nominal: Int(fldNominalTrf.text!)!, orderId: self.transactionId, timePaid: timePaidString)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Konfirmasi Bayar")) {
+                /*
                 // Mixpanel
                 let pt = [
                     "Order ID" : self.orderID,
@@ -407,6 +409,21 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
                     "Amount" : self.fldNominalTrf.text!
                 ]
                 Mixpanel.trackEvent(MixpanelEvent.PaymentClaimed, properties: pt)
+                */
+                
+                // Prelo Analytic - Claim Payment
+                let loginMethod = User.LoginMethod ?? ""
+                let pdata = [
+                    "Order ID" : self.orderID,
+                    "Destination Bank" : self.lblBankTujuan.text!,
+                    "Amount" : self.fldNominalTrf.text!
+                ] as [String : Any]
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ClaimPayment, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+                
+                // reduce badge troli
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let notifListener = appDelegate.preloNotifListener
+                notifListener?.increaseCartCount(-1)
                 
                 Constant.showDialog("Konfirmasi Bayar", message: "Terimakasih! Pembayaran kamu akan segera diverifikasi")
                 self.navigationController?.popToRootViewController(animated: true)

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AlamofireImage
 
 // MARK: - Protocol
 
@@ -43,6 +44,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
 
     var userRelatedDelegate : UserRelatedDelegate?
     var previousController : UIViewController?
+    var previousScreen : String! = ""
     var badgeView : GIBadgeView!
     fileprivate var _titleText : String?
     var titleText : String? {
@@ -109,6 +111,12 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         }
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        
+        AutoPurgingImageCache().removeAllImages()
+    }
+    
     func backPressed(_ sender: UIBarButtonItem) {
         _ = self.navigationController?.popViewController(animated: true)
     }
@@ -136,7 +144,13 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         
         troli.addTarget(self, action: #selector(BaseViewController.launchCart), for: UIControlEvents.touchUpInside)
         
+        let troliRecognizer = UITapGestureRecognizer(target: self, action: #selector(BaseViewController.launchCart))
+        troli.viewWithTag(100)?.addGestureRecognizer(troliRecognizer)
+        
         bell.addTarget(self, action: #selector(BaseViewController.launchNotifPage), for: UIControlEvents.touchUpInside)
+        
+        let bellRecognizer = UITapGestureRecognizer(target: self, action: #selector(BaseViewController.launchNotifPage))
+        bell.viewWithTag(100)?.addGestureRecognizer(bellRecognizer)
         
         search.addTarget(self, action: #selector(BaseViewController.launchSearch), for: UIControlEvents.touchUpInside)
         
@@ -193,6 +207,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
             badge.backgroundColor = Theme.ThemeOrage
             badge.topOffset = 9
             badge.rightOffset = 5
+            badge.tag = 100
             b.addSubview(badge)
         }
         return b
@@ -210,6 +225,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
             badge.backgroundColor = Theme.ThemeOrage
             badge.topOffset = 14
             badge.rightOffset = 5
+            badge.tag = 100
             b.addSubview(badge)
         }
         return b
@@ -230,8 +246,9 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     // MARK: - Navigation
     
     func launchCart() {
-        let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! BaseViewController
+        let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
         cart.previousController = self
+        cart.previousScreen = PageName.Home
         self.navigationController?.pushViewController(cart, animated: true)
     }
     
@@ -247,6 +264,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     
     func launchNotifPage() {
         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
+        notifPageVC.previousScreen = PageName.Home
         self.navigationController?.pushViewController(notifPageVC, animated: true)
     }
     

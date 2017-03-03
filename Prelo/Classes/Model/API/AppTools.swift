@@ -10,6 +10,17 @@ import UIKit
 import CoreData
 import AlamofireImage
 
+enum imageFilterMode {
+    case fit
+    case fill
+    case circle
+    case none
+    case fitWithoutPlaceHolder
+    case noneWithoutPlaceHolder
+    case circleWithBadgePlaceHolder
+    case fitWithPreloPlaceHolder
+}
+
 class AppTools: NSObject {
     static let isDev = false // Set true for demo/testing purpose only
     
@@ -47,10 +58,10 @@ class AppTools: NSObject {
     }
     
     static var isNewShop : Bool { // new shop, TODO: - bisa setting di app
-        return false
+        return true
     }
     
-    static let isOldShopWithBadges : Bool = false // set true kalau jadi bisa nampilin badge
+    static let isOldShopWithBadges : Bool = true // set true kalau jadi bisa nampilin badge
 }
 
 enum AppFont {
@@ -119,12 +130,14 @@ extension UIView {
     }
 }
 
+/*
 extension UIAlertView {
     static func SimpleShow(_ title : String, message : String) {
         let a = UIAlertView(title: title, message: message, delegate: nil, cancelButtonTitle: "Oke")
         a.show()
     }
 }
+ */
 
 extension Int {
     var string : String {
@@ -136,6 +149,40 @@ extension Int {
         f.numberStyle = NumberFormatter.Style.currency
         f.locale = Locale(identifier: "id_ID")
         return f.string(from: NSNumber(value: self as Int))!
+    }
+}
+
+extension Float {
+    var clean: String {
+        return (self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self))
+    }
+}
+
+extension String {
+    func index(of string: String, options: String.CompareOptions = .literal) -> String.Index? {
+        return range(of: string, options: options)?.lowerBound
+    }
+    func indexes(of string: String, options: String.CompareOptions = .literal) -> [String.Index] {
+        var result: [String.Index] = []
+        var start = startIndex
+        while let range = range(of: string, options: options, range: start..<endIndex) {
+            result.append(range.lowerBound)
+            start = range.upperBound
+        }
+        return result
+    }
+    func ranges(of string: String, options: String.CompareOptions = .literal) -> [Range<String.Index>] {
+        var result: [Range<String.Index>] = []
+        var start = startIndex
+        while let range = range(of: string, options: options, range: start..<endIndex) {
+            result.append(range)
+            start = range.upperBound
+        }
+        return result
+    }
+    func indexDistance(of character: Character) -> Int? {
+        guard let index = characters.index(of: character) else { return nil }
+        return distance(from: startIndex, to: index)
     }
 }
 
@@ -199,6 +246,18 @@ extension UITextView {
             }
         }
     }
+    
+    func increaseSizeSubstring(_ substr: String, size: CGFloat) {
+        if let range = self.text?.range(of: substr) {
+            if let text = self.attributedText {
+                let attr = NSMutableAttributedString(attributedString: text)
+                let start = text.string.characters.distance(from: text.string.startIndex, to: range.lowerBound)
+                let length = text.string.characters.distance(from: range.lowerBound, to: range.upperBound)
+                attr.addAttributes([NSFontAttributeName: UIFont.systemFont(ofSize: size)], range: NSMakeRange(start, length))
+                self.attributedText = attr
+            }
+        }
+    }
 }
 
 extension UIImage {
@@ -231,6 +290,46 @@ extension UIImage {
             return self.resizeWithWidth(width)
         }
         return self
+    }
+    
+    func resizeWithMaxWidthOrHeight(_ max: CGFloat) -> UIImage? {
+        if (self.size.width >= self.size.height && self.size.width > max) {
+            return self.resizeWithWidth(max)
+        } else if (self.size.width < self.size.height && self.size.height > max) {
+            let newWidth = max * self.size.width / self.size.height
+            return self.resizeWithWidth(newWidth)
+        }
+        return self
+    }
+    
+    func correctlyOrientedImage() -> UIImage {
+        if self.imageOrientation == UIImageOrientation.up {
+            return self
+        }
+        
+        UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
+        self.draw(in: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
+        let normalizedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!;
+        UIGraphicsEndImageContext();
+        
+        return normalizedImage;
+    }
+    
+    func compress(_ quality: CGFloat) -> UIImage {
+        return UIImage(data: UIImageJPEGRepresentation(self, quality)!)!
+    }
+    
+    func applyBlurEffect() -> UIImage {
+        let imageToBlur = CIImage(image: self)
+        let blurfilter = CIFilter(name: "CIGaussianBlur")
+        blurfilter?.setValue(imageToBlur, forKey: "inputImage")
+        let resultImage = blurfilter?.value(forKey: "outputImage") as! CIImage
+        let blurredImage = UIImage(ciImage: resultImage)
+        return blurredImage
+    }
+    
+    func afInflate() {
+        self.af_inflate()
     }
 }
 
@@ -266,10 +365,142 @@ extension UIImageView {
         downloadedFrom(url: url, contentMode: mode)
     }
     
+    // default fill
     func afSetImage(withURL: URL) {
-        self.af_setImage(withURL: withURL)        
+        
+//        self.af_setImage(withURL: withURL)
+        
 //        let placeholderImage = UIImage(named: "raisa.jpg")!
 //        self.af_setImage(withURL: withURL, placeholderImage: placeholderImage)
+        
+        // default fill
+        
+        let placeholderImage = UIImage(named: "placeholder-standar")!
+        
+        let filter = AspectScaledToFillSizeFilter(
+            size: self.frame.size
+        )
+        
+        self.af_setImage(
+            withURL: withURL,
+            placeholderImage: placeholderImage,
+            filter: filter,
+            imageTransition: .crossDissolve(0.3)
+        )
+        
+        self.image?.af_inflate()
+    }
+    
+    func afSetImage(withURL: URL, withFilter: imageFilterMode) {
+        
+        let placeholderImage = UIImage(named: "placeholder-standar")!
+        
+        if withFilter == .fitWithPreloPlaceHolder {
+            let filter = AspectScaledToFitSizeFilter(
+                size: self.frame.size
+            )
+            
+            self.af_setImage(
+                withURL: withURL,
+                placeholderImage: UIImage(named: "raisa.jpg")!, // prelo hijau
+                filter: filter,
+                imageTransition: .crossDissolve(0.3)
+            )
+        }
+        
+        else if withFilter == .fitWithoutPlaceHolder {
+            let filter = AspectScaledToFitSizeFilter(
+                size: self.frame.size
+            )
+            
+            self.af_setImage(
+                withURL: withURL,
+                filter: filter,
+                imageTransition: .crossDissolve(0.3)
+            )
+        }
+        
+        else if withFilter == .fit { // full screen
+            let filter = AspectScaledToFitSizeFilter(
+                size: self.frame.size
+            )
+            
+            self.af_setImage(
+                withURL: withURL,
+                placeholderImage: UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad" : "placeholder-transparent"))!, // full screen
+                filter: filter,
+                imageTransition: .crossDissolve(0.3)
+            )
+        }
+            
+        else if withFilter == .circleWithBadgePlaceHolder { // badge
+            let filter = AspectScaledToFillSizeCircleFilter(
+                size: self.frame.size
+            )
+            
+            self.af_setImage(
+                withURL: withURL,
+                placeholderImage: UIImage(named: "placeholder-badge")!, // badge
+                filter: filter,
+                imageTransition: .crossDissolve(0.3)
+            )
+        }
+        
+        else if withFilter == .circle { // people
+            let filter = AspectScaledToFillSizeCircleFilter(
+                size: self.frame.size
+            )
+            
+            self.af_setImage(
+                withURL: withURL,
+                placeholderImage: UIImage(named: "placeholder-circle")!, // people
+                filter: filter,
+                imageTransition: .crossDissolve(0.3)
+            )
+        }
+            
+        else if withFilter == .noneWithoutPlaceHolder {
+            
+            self.af_setImage(
+                withURL: withURL,
+                imageTransition: .crossDissolve(0.3)
+            )
+        }
+        
+        else if withFilter == .none {
+            
+            self.af_setImage(
+                withURL: withURL,
+                placeholderImage: placeholderImage,
+                imageTransition: .crossDissolve(0.3)
+            )
+        }
+        
+        // default fill
+        else {
+            let filter = AspectScaledToFillSizeFilter(
+                size: self.frame.size
+            )
+            
+            self.af_setImage(
+                withURL: withURL,
+                placeholderImage: placeholderImage,
+                filter: filter,
+                imageTransition: .crossDissolve(0.3)
+            )
+        }
+        
+        self.image?.af_inflate()
+    }
+    
+    func afCancelRequest() {
+        self.af_cancelImageRequest()
+        self.layer.removeAllAnimations()
+        self.image = nil
+    }
+    
+    func afInflate() {
+        self.image?.af_inflate()
     }
 }
 
@@ -383,6 +614,7 @@ class Tags : NSObject {
     static let XibNameAchievement = "Achievement"
     static let XibNameStorePage = "StorePageTabBar"
     static let XibNameShopAchievement = "ShopAchievement"
+    static let XibNameTarikTunai2 = "TarikTunai2"
 }
 
 class OrderStatus : NSObject {
@@ -453,6 +685,8 @@ class PageName {
     static let BarangExpired = "Barang Expired"
     static let Achievement = "Achievements"
     static let ShopAchievements = "Shop Achievements"
+    static let ProductLovelist = "Tawar Lovelist"
+    static let SearchResult = "Search Result"
 }
 
 extension Mixpanel {
@@ -516,6 +750,71 @@ class MixpanelEvent {
     static let Checkout = "Checkout"
     static let AddedProduct = "Added Product"
     static let ChatMarkAsSold = "Chat Mark as Sold"
+}
+
+class PreloAnalyticEvent {
+    // Auth
+    static let Register = "Auth:Register"
+    static let SetupAccount = "Auth:Setup Account"
+    static let SetupPhone = "Auth:Setup Phone"
+    static let Login = "Auth:Login"
+    static let Logout = "Auth:Logout"
+    
+    // Edit Profile
+    static let ChagePhone = "Edit Profile:Change Phone"
+    
+    // Love
+    static let LoveProduct = "Love:Love Product"
+    static let UnloveProduct = "Love:Unlove Product"
+    
+    // Referral
+    static let RedeemReferralCode = "Referral:Redeem Referral Code"
+    static let ShareReferralCode = "Referral:Share Referral Code"
+    
+    // Add Product
+    static let SubmitProduct = "Add Product:Submit Product"
+    static let SaveAsDraft = "Add Product:Save as Draft"
+    static let ShareProduct = "Add Product:Share Product"
+    static let UploadSuccess = "Add Product:Upload Success"
+    
+    // Purchase
+    static let Checkout = "Purchase:Checkout"
+    static let ClaimPayment = "Purchase:Claim Payment"
+    static let GoToCart = "Purchase:Go to Cart"
+    
+    // Feedback
+    static let Rate = "Feedback:Rate"
+    
+    // Notification
+    static let ClickPushNotification = "Notification:Click Push Notification"
+    static let ClickNotificationInApp = "Notification:Click Notification"
+    
+    // Chat
+    static let StartChat = "Chat:Start Chat"
+    static let SuccessfulBargain = "Chat:Successful Bargain"
+    static let SendMediaOnChat = "Chat:Send Media on Chat"
+    
+    // Withdraw
+    static let RequestWithdrawMoney = "Withdraw:Request Withdraw Money"
+    
+    // Product
+    static let UpProduct = "Product:Up Product"
+    static let ShareForCommission = "Product:Share for Commission"
+    static let VisitProductDetail = "Product:Visit Product Detail"
+    static let EraseProduct = "Product:Erase Product"
+    static let MarkAsSold = "Product:Mark as Sold"
+    static let CommentOnProduct = "Product:Comment on Product"
+    
+    // Report
+    static let ReportProduct = "Report:Report Product"
+    static let ReportComment = "Report:Report Comment"
+    
+    // Transaction
+    static let ConfirmShipping = "Transaction:Confirm Shipping"
+    static let ReviewAndRateSeller = "Transaction:Review and Rate Seller"
+    static let RequestRefund = "Transaction:Request Refund"
+    static let DelayShipping = "Transaction:Delay Shipping"
+    static let RejectShipping = "Transaction:Reject"
 }
 
 extension GAI {

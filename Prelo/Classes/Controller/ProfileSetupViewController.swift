@@ -134,6 +134,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             // Google Analytics
             GAI.trackPageVisit(PageName.SetupAccount)
             
+            /*
             // Di sini akan dikirim mixpanel event register, hanya jika user baru saja melakukan register 
             // Pengecekan apakah baru register ada 2 lapis
             // Pertama: dicek apakah CDUser tidak nil, karena kalau login dan masuk ke ProfileSetupVC, seharusnya CDUser masih kosong, sedangkan kalau setelah register seharusnya CDUser terisi
@@ -177,6 +178,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                     Mixpanel.trackEvent(MixpanelEvent.Register, properties: pr)
                 }
             }
+             */
             
             self.isMixpanelPageVisitSent = true
         }
@@ -394,7 +396,8 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                             self.asset = ALAssetsLibrary()
                         }
                         
-                        DispatchQueue.global( priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
+//                        DispatchQueue.global( priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
+                        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
                             self.asset?.asset(for: (img.url)!, resultBlock: { asset in
                                 if let ast = asset {
                                     let rep = ast.defaultRepresentation()
@@ -575,7 +578,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     
     @IBAction func applyPressed(_ sender: AnyObject) {
         if (fieldsVerified()) {
-            disableTextFields(NSNull)
+            disableTextFields(NSNull.self)
             self.btnApply.isEnabled = false
             
             var username = ""
@@ -643,6 +646,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         return
                     }
                     
+                    /*
                     // Mixpanel
                     let sp = [
                         "User ID" : userProfileData.id,
@@ -680,6 +684,44 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         "Activation Screen" : "Setup Account"
                     ]
                     Mixpanel.trackEvent(MixpanelEvent.ReferralUsed, properties: pt2)
+                     */
+                    
+                    // Prelo Analytic - Setup Profile
+                    let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
+                                                        qos: .background,
+                                                        target: nil)
+                    backgroundQueue.async {
+                        print("Work on background queue")
+                        var shippingArrName : Array<String> = []
+                        for i in 0 ..< data["shipping_preferences_ids"].count {
+                            let s : String = data["shipping_preferences_ids"][i].string!
+                            if let sName = CDShipping.getShippingCompleteNameWithId(s) {
+                                shippingArrName.append(sName)
+                            }
+                        }
+                        
+                        let address = [
+                            "Province" : CDProvince.getProvinceNameWithID(userProfileData.provinceId)!,
+                            "Region" : CDRegion.getRegionNameWithID(userProfileData.regionId)!,
+                            "Subdistrict" : userProfileData.subdistrictName,
+                        ] as [String : Any]
+                        
+                        let pdata = [
+                            "Username" : userProfileData.username,
+                            "Email" : userProfileData.email,
+                            "Gender" : userProfileData.gender,
+                            "Address" : address,
+                            "Shipping Options" : shippingArrName
+                        ] as [String : Any]
+                        
+                        AnalyticManager.sharedInstance.sendWithUserId(eventType: PreloAnalyticEvent.SetupAccount, data: pdata, previousScreen: self.screenBeforeLogin, loginMethod: self.loginMethod, userId: userProfileData.id)
+                        
+                        User.UpdateUsernameHistory(userProfileData.username)
+                        User.SetLoginMethod(self.loginMethod)
+                        
+                        // Prelo Analytic - Update User - Init
+                        AnalyticManager.sharedInstance.initUser(userProfileData: userProfileData)
+                    }
                     
                     let phoneVerificationVC = Bundle.main.loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil)?.first as! PhoneVerificationViewController
                     phoneVerificationVC.userRelatedDelegate = self.userRelatedDelegate
@@ -688,8 +730,9 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                     phoneVerificationVC.userEmail = userProfileData.email // Tidak menggunakan 'self.userEmail' karena mungkin kosong dan baru diset di halaman ini
                     phoneVerificationVC.isShowBackBtn = false
                     phoneVerificationVC.loginMethod = self.loginMethod
-                    phoneVerificationVC.noHpToVerify = userPhone!
+                    phoneVerificationVC.noHpToVerify = userProfileData.phone //userPhone!
                     phoneVerificationVC.userProfileData = userProfileData
+                    phoneVerificationVC.previousScreen = PageName.SetupAccount
                     self.navigationController?.pushViewController(phoneVerificationVC, animated: true)
                 } else {
                     self.btnApply.isEnabled = true

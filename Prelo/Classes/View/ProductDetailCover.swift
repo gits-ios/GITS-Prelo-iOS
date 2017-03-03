@@ -29,41 +29,22 @@ class ProductDetailCover: UIView {
     var isFakeApprove : Bool = false
     var isFakeApproveV2 : Bool = false
     
-    @IBOutlet var vwTopBannerParent1: UIView!
-    @IBOutlet var consHeightTopBannerParent1: NSLayoutConstraint!
-    
-    @IBOutlet var vwTopBannerParent2: UIView!
-    @IBOutlet var consHeightTopBannerParent2: NSLayoutConstraint!
-    
-    @IBOutlet var vwTopBannerParent3: UIView!
-    @IBOutlet var consHeightTopBannerParent3: NSLayoutConstraint!
-    
-    @IBOutlet var vwTopBannerParent4: UIView!
-    @IBOutlet var consHeightTopBannerParent4: NSLayoutConstraint!
-    
-    @IBOutlet var vwTopBannerParent5: UIView!
-    @IBOutlet var consHeightTopBannerParent5: NSLayoutConstraint!
+    @IBOutlet var vwTopBannerParent: UIView!
+    @IBOutlet var consHeightTopBannerParent: NSLayoutConstraint!
     
     var topBannerHeight : CGFloat = 0
     
     
-    fileprivate func setup(_ images : Array<String>)
+    fileprivate func setup(_ images : Array<String>, width: CGFloat, height: CGFloat)
     {
         imageURLS = images
-        for i in 0...images.count
-        {
-            if (i >= imageViews!.count)
-            {
-                break
-            }
+        for i in 0...images.count - 1 {
+            
             var iv : UIImageView?
             
-            for v in self.subviews
-            {
-                if v is UIImageView
-                {
-                    if (i == v.tag)
-                    {
+            for v in self.subviews {
+                if v is UIImageView {
+                    if (i == v.tag) {
                         iv = v as? UIImageView
                         break
                     }
@@ -71,9 +52,53 @@ class ProductDetailCover: UIView {
             }
             
             print("Cover TAG : " + String(iv!.tag))
+            
+            // set frame size
+            if (i == 0) {
+                if images.count == 1 {
+                    iv?.width = width - 4
+                    iv?.height = height - 4
+                } else {
+                    iv?.width = width/2 - 6
+                    iv?.height = height - 4
+                }
+            }
+            
+            else if (i == 1) {
+                if images.count == 2 {
+                    iv?.width = width/2 - 6
+                    iv?.height = height - 4
+                } else if images.count == 5 {
+                    iv?.width = (width/2)/2 - 8
+                    iv?.height = height/2 - 6
+                } else {
+                    iv?.width = width/2 - 6
+                    iv?.height = height/2 - 6
+                }
+            }
+            
+            else if (i == 2) {
+                if images.count == 3 {
+                    iv?.width = width/2 - 6
+                    iv?.height = height/2 - 6
+                } else {
+                    iv?.width = (width/2)/2 - 8
+                    iv?.height = height/2 - 6
+                }
+            }
+            
+            else {
+                iv?.width = (width/2)/2 - 8
+                iv?.height = height/2 - 6
+            }
+            
+            let fr = iv?.frame
+            print((fr ?? ""))
+            
             iv?.tag = i
             iv?.isUserInteractionEnabled = true
             iv?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ProductDetailCover.tapped(_:))))
+            
             iv?.afSetImage(withURL: URL(string: images.objectAtCircleIndex(i))!)
         }
         
@@ -99,22 +124,8 @@ class ProductDetailCover: UIView {
                 topBanner.addSubview(topLabel)
                 if (status == 5) {
                     topLabel.text = tbText
-                    if (imageURLS.count == 1) {
-                        self.vwTopBannerParent1.addSubview(topBanner)
-                        self.consHeightTopBannerParent1.constant = topBannerHeight
-                    } else if (imageURLS.count == 2) {
-                        self.vwTopBannerParent2.addSubview(topBanner)
-                        self.consHeightTopBannerParent2.constant = topBannerHeight
-                    } else if (imageURLS.count == 3) {
-                        self.vwTopBannerParent3.addSubview(topBanner)
-                        self.consHeightTopBannerParent3.constant = topBannerHeight
-                    } else if (imageURLS.count == 4) {
-                        self.vwTopBannerParent4.addSubview(topBanner)
-                        self.consHeightTopBannerParent4.constant = topBannerHeight
-                    } else if (imageURLS.count == 5) {
-                        self.vwTopBannerParent4.addSubview(topBanner)
-                        self.consHeightTopBannerParent4.constant = topBannerHeight
-                    }
+                    self.vwTopBannerParent.addSubview(topBanner)
+                    self.consHeightTopBannerParent.constant = topBannerHeight
                 }
             }
         }
@@ -129,10 +140,11 @@ class ProductDetailCover: UIView {
         if (status != nil) {
             let screenSize: CGRect = UIScreen.main.bounds
             let screenWidth = screenSize.width
+            let bannerWidth = screenWidth/3 // 150
             if (status == 2 && !isFakeApprove && !isFakeApproveV2) { // under review
                 banner = UIImageView(image: UIImage(named: "banner_review.png"))
                 if (banner != nil) {
-                    banner!.frame = CGRect(x: screenWidth - 150, y: self.topBannerHeight, width: 150, height: 149)
+                    banner!.frame = CGRect(x: screenWidth - bannerWidth - 2, y: self.topBannerHeight + 2, width: bannerWidth, height: bannerWidth)
                     self.addSubview(banner!)
                 }
             } else if (status == 4) { // sold
@@ -140,13 +152,13 @@ class ProductDetailCover: UIView {
             } else if (status == 7) { // reserved
                 banner = UIImageView(image: UIImage(named: "banner_reserved.png"))
                 if (banner != nil) {
-                    banner!.frame = CGRect(x: screenWidth - 150, y: self.topBannerHeight, width: 150, height: 150)
+                    banner!.frame = CGRect(x: screenWidth - bannerWidth - 2, y: self.topBannerHeight + 2, width: bannerWidth, height: bannerWidth)
                     self.addSubview(banner!)
                 }
             } else if (isFeaturedProduct) {
                 banner = UIImageView(image: UIImage(named: "banner_featured.png"))
                 if (banner != nil) {
-                    banner!.frame = CGRect(x: screenWidth - 150, y: self.topBannerHeight, width: 150, height: 150)
+                    banner!.frame = CGRect(x: screenWidth - bannerWidth - 2, y: self.topBannerHeight + 2, width: bannerWidth, height: bannerWidth)
                     self.addSubview(banner!)
                 }
             } else {
@@ -158,9 +170,10 @@ class ProductDetailCover: UIView {
     func addSoldBanner() {
         let screenSize: CGRect = UIScreen.main.bounds
         let screenWidth = screenSize.width
+        let bannerWidth = screenWidth/3 // 150
         banner = UIImageView(image: UIImage(named: "banner_sold.png"))
         if (banner != nil) {
-            banner!.frame = CGRect(x: screenWidth - 150, y: self.topBannerHeight, width: 150, height: 148)
+            banner!.frame = CGRect(x: screenWidth - bannerWidth - 2, y: self.topBannerHeight + 2, width: bannerWidth, height: bannerWidth)
             self.addSubview(banner!)
         }
     }
@@ -183,7 +196,7 @@ class ProductDetailCover: UIView {
     }
     */
     
-    class func instance(_ images : Array<String>, status: Int, topBannerText : String?, isFakeApprove: Bool, isFakeApproveV2: Bool)->ProductDetailCover?
+    class func instance(_ images : Array<String>, status: Int, topBannerText : String?, isFakeApprove: Bool, isFakeApproveV2: Bool, width: CGFloat)->ProductDetailCover?
     {
         var p : ProductDetailCover?
         if (images.count == 1) {
@@ -198,6 +211,10 @@ class ProductDetailCover: UIView {
             p = Bundle.main.loadNibNamed("ProductDetailCover", owner: nil, options: nil)?.objectAtCircleIndex(4) as? ProductDetailCover
         }
         
+        let height = width * 17 / 24
+        
+        p?.frame = CGRect(x: 0, y: 0, width: width, height: height)
+        
         p?.isFakeApprove = isFakeApprove
         p?.isFakeApproveV2 = isFakeApproveV2
         
@@ -205,7 +222,7 @@ class ProductDetailCover: UIView {
         
         p?.topBannerText = topBannerText
         
-        p?.setup(images)
+        p?.setup(images, width: width, height: height)
         
         return p
     }
@@ -222,6 +239,8 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
     
     var labels : [String] = []
     
+    var indicator : UIActivityIndicatorView?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -233,19 +252,41 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
         
         self.view.addSubview(scrollView!)
         
+        self.showLoading()
+        
         let b = self.dismissButton
         b.y = 20
         b.x = 16
         b.setTitleColor(Theme.PrimaryColor, for: UIControlState())
         self.view.addSubview(b)
         
+        /*
+        var compressQuality: Array<CGFloat> = [ 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0 ]
         var x : CGFloat = 0
-        for i in images
+        for i in 0...9 {
+            let s = UIScrollView(frame : (scrollView?.bounds)!)
+            let iv = UIImageView(frame : s.bounds)
+            iv.image = UIImage(named:"raisa.jpg")?.compress(compressQuality[i])
+            iv.tag = 1
+            s.addSubview(iv)
+            s.x = x
+            scrollView?.addSubview(s)
+            
+            s.minimumZoomScale = 1
+            s.maximumZoomScale = 3
+            s.delegate = self
+            
+            x += s.width
+        }
+        */
+        
+        var x : CGFloat = 0
+        for i in 0...images.count - 1
         {
             let s = UIScrollView(frame : (scrollView?.bounds)!)
             let iv = UIImageView(frame : s.bounds)
             iv.contentMode = UIViewContentMode.scaleAspectFit
-            iv.afSetImage(withURL: URL(string: i)!)
+            iv.afSetImage(withURL: URL(string: images[i])!, withFilter: .fit)
             iv.tag = 1
             s.addSubview(iv)
             s.x = x
@@ -284,6 +325,8 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
         super.viewDidAppear(animated)
         scrollView?.contentOffset = CGPoint(x: index*Int((scrollView?.width)!), y: 0)
         scrollView?.isHidden = false
+        
+        self.hideLoading()
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -316,6 +359,7 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
             if (currentPage != Int(p))
             {
                 currentPage = Int(p)
+                
                 var text = ""
                 if (Int(p) < labels.count)
                 {
@@ -325,5 +369,22 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
                 rearrangeLabel()
             }
         }
+    }
+    
+    func showLoading() {
+        indicator = UIActivityIndicatorView()
+        indicator?.center = CGPoint(x: UIScreen.main.bounds.width/2 , y: UIScreen.main.bounds.height/2)
+        indicator?.startAnimating()
+        indicator?.color = UIColor.white
+        indicator?.tag = 888
+        
+        self.view.addSubview(indicator!)
+    }
+    
+    func hideLoading() {
+        indicator?.isHidden = true
+        indicator?.stopAnimating()
+        
+        self.view.viewWithTag(888)?.removeFromSuperview()
     }
 }
