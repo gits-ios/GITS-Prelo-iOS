@@ -2590,12 +2590,12 @@ class TransactionDetailTools : NSObject {
     static let TextConfirmedPaidSeller2 = "Jika kamu tidak mengirimkan sampai waktu tersebut, transaksi akan dibatalkan serta uang akan dikembalikan kepada pembeli."
     static let TextConfirmedPaidBuyer1 = "Pesanan kamu belum dikirim dan akan expired pada "
     static let TextConfirmedPaidBuyer2 = "Ingatkan penjual untuk mengirim pesanan."
-    static let TextSentSeller = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak barang diterima. Uang dapat langsung kamu tarik setelah Waktu Jaminan Prelo berakhir atau jika barang telah selesai direview. \n\nIngatkan pembeli untuk memberi review."
-    static let TextSentBuyer = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak barang diterima. Refund dapat dilakukan selama jangka waktu tersebut jika terdapat keluhan terkait barang."
-    static let TextSentBuyerNoRefund = "Refund sudah tidak dapat dilakukan karena sudah melebihi batas Waktu Jaminan Prelo (3x24 jam sejak barang diterima). Jangan lupa lakukan review."
-    static let TextReceivedSeller = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak barang diterima. Uang dapat langsung kamu tarik setelah Waktu Jaminan Prelo berakhir atau jika barang telah selesai direview. \n\nIngatkan pembeli untuk memberi review. "
-    static let TextReceivedBuyer = "Barang semestinya sudah kamu terima. Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak barang diterima. Refund dapat dilakukan selama jangka waktu tersebut jika terdapat keluhan terkait barang. \n\nBelum terima barang? Hubungi Prelo."
-    static let TextReceivedBuyerNoRefund = "Refund sudah tidak dapat dilakukan karena sudah melebihi batas Waktu Jaminan Prelo (3x24 jam sejak barang diterima). Jangan lupa lakukan review."
+    static let TextSentSeller = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo sejak status transaksi menjadi \"Diterima\". Uang dapat langsung kamu tarik setelah Waktu Jaminan Prelo berakhir atau jika barang telah selesai direview.\n\nIngatkan pembeli untuk memberi review."
+    static let TextSentBuyer = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak status transaksi menjadi \"Diterima\". Refund dapat dilakukan selama jangka waktu tersebut jika terdapat keluhan terkait barang. Jangan lupa lakukan review jika barang sudah diterima.\n\nResi tidak valid atau foto resi tidak sesuai? Hubungi Prelo."
+    //static let TextSentBuyerNoRefund = "Refund sudah tidak dapat dilakukan karena sudah melebihi batas Waktu Jaminan Prelo (3x24 jam sejak barang diterima). Jangan lupa lakukan review."
+    static let TextReceivedSeller = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak status transaksi menjadi \"Diterima\". Uang dapat langsung kamu tarik setelah Waktu Jaminan Prelo berakhir atau jika barang telah selesai direview.\n\nIngatkan pembeli untuk memberi review."
+    static let TextReceivedBuyer = "Barang semestinya sudah kamu terima. Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak status transaksi menjadi \"Diterima\". Refund dapat dilakukan selama jangka waktu tersebut jika terdapat keluhan terkait barang. Jangan lupa lakukan review.\n\nResi tidak valid atau foto resi tidak sesuai? Belum terima barang? Hubungi Prelo."
+    static let TextReceivedBuyerNoRefund = "Refund sudah tidak dapat dilakukan karena sudah melebihi batas Waktu Jaminan Prelo (3x24 jam sejak status transaksi menjadi \"Diterima\"). Jangan lupa lakukan review.\n\nResi tidak valid atau foto resi tidak sesuai? Belum terima barang? Hubungi Prelo."
     static let TextReserved1 = "Barang ini telah direservasi khusus untuk kamu. Kamu dapat menyelesaikan pembelian barang ini dengan menyelesaikan pembayaran pada"
     static let TextReserved2 = "Apabila kamu tidak menyelesaikan pembelian sampai dengan batas waktu yang ditentukan, reservasi barang kamu akan dibatalkan.\n\nTunjukkan halaman ini sebagai bukti reservasi kamu."
     static let TextReserveDone = "Terima kasih sudah berbelanja di Prelo! Temukan barang preloved lainnya di Prelo dan tunggu event menarik selanjutnya dari Prelo."
@@ -4183,26 +4183,23 @@ class TransactionDetailDescriptionCell : UITableViewCell {
             if (progress == TransactionDetailTools.ProgressReceived) {
                 if (isSeller! == false) {
                     if (boolParam == true) { // In this case, boolParam = isRefundable
-                        textRect = TransactionDetailTools.TextReceivedBuyer.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                        textRect = TransactionDetailTools.TextReceivedBuyer.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                     } else {
-                        textRect = TransactionDetailTools.TextReceivedBuyerNoRefund.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                        textRect = TransactionDetailTools.TextReceivedBuyerNoRefund.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                     }
                 } else {
-                    if (isSeller! == true) {
-                        textRect = TransactionDetailTools.TextReceivedSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
-                    }
+                    textRect = TransactionDetailTools.TextReceivedSeller.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                 }
             } else if (progress == TransactionDetailTools.ProgressSent) {
                 if (isSeller! == false) {
-                    if (boolParam == true) { // In this case, boolParam = isRefundable
+                    textRect = TransactionDetailTools.TextSentBuyer.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                    /*if (boolParam == true) { // In this case, boolParam = isRefundable
                         textRect = TransactionDetailTools.TextSentBuyer.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                     } else {
                         textRect = TransactionDetailTools.TextSentBuyerNoRefund.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
-                    }
+                    }*/
                 } else {
-                    if (isSeller! == true) {
-                        textRect = TransactionDetailTools.TextSentSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
-                    }
+                    textRect = TransactionDetailTools.TextSentSeller.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                 }
             }
             if (textRect != nil) {
@@ -4277,13 +4274,15 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                 if (isSeller) {
                     lblDesc.text = TransactionDetailTools.TextSentSeller
                 } else {
-                    if (trxProductDetail.refundable) {
+                    lblDesc.text = TransactionDetailTools.TextSentBuyer
+                    /*if (trxProductDetail.refundable) {
                         lblDesc.text = TransactionDetailTools.TextSentBuyer
                     } else {
                         lblDesc.text = TransactionDetailTools.TextSentBuyerNoRefund
-                    }
+                    }*/
                 }
                 lblDesc.boldSubstring("Waktu Jaminan Prelo")
+                lblDesc.boldSubstring("\"Diterima\"")
             } else if (progress == TransactionDetailTools.ProgressReceived) {
                 if (isSeller) {
                     lblDesc.text = TransactionDetailTools.TextReceivedSeller
@@ -4295,6 +4294,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     }
                 }
                 lblDesc.boldSubstring("Waktu Jaminan Prelo")
+                lblDesc.boldSubstring("\"Diterima\"")
             } else if (progress == TransactionDetailTools.ProgressReserved) {
                 if (order == 1) {
                     lblDesc.text = TransactionDetailTools.TextReserved1
