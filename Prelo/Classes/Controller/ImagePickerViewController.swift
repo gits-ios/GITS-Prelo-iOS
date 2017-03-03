@@ -42,7 +42,7 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
                 self.gridView.dataSource = self
                 self.gridView.delegate = self
             }, failed: { m in
-                UIAlertView.SimpleShow("Warning", message: m)
+                Constant.showDialog("Warning", message: m)
         })
         
         self.title = String(selecteds.count) + "/" + String(maxSelectCount) + " Selected"
@@ -307,7 +307,8 @@ class ImagePickerCell : UICollectionViewCell
                 
                 
                 _url = (_apImage?.url)!.absoluteString
-                DispatchQueue.global( priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
+//                DispatchQueue.global( priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
+                DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
                     self.asset?.asset(for: URL(string: self._url)!, resultBlock: { asset in
                         if let ast = asset {
                             let ref = ast.thumbnail().takeUnretainedValue()

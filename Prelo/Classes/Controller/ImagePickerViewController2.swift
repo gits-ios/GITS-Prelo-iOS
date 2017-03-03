@@ -33,7 +33,7 @@ class ImagePickerViewController2: BaseViewController, UICollectionViewDataSource
             self.gridView.dataSource = self
             self.gridView.delegate = self
             }, failed: { m in
-                UIAlertView.SimpleShow("Warning", message: m)
+                Constant.showDialog("Warning", message: m)
         })
         
         self.title = String(selecteds.count) + "/" + String(maxSelectCount) + " Selected"

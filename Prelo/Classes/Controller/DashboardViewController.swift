@@ -83,11 +83,11 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                     "title":"Referral Bonus",
                     "iconimg":"ic_voucher"
                 ],
-//                [
-//                    "type":"iconic",
-//                    "title":"Achievement",
-//                    "iconimg":"ic_achievement"
-//                ],
+                [
+                    "type":"iconic",
+                    "title":"Achievement",
+                    "iconimg":"ic_achievement"
+                ],
                 [
                     "type":"iconic",
                     "title":"Bantuan",
@@ -138,6 +138,13 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         
         tableView?.contentInset = UIEdgeInsetsMake(0, 0, 40, 0)
         
+        
+        imgCover?.layer.cornerRadius = (imgCover?.frame.size.width)!/2
+        imgCover?.layer.masksToBounds = true
+        
+        imgCover?.layer.borderColor = Theme.GrayLight.cgColor
+        imgCover?.layer.borderWidth = 3
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -161,14 +168,12 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        imgCover?.image = UIImage(named: "ic_user_2.png")
+        imgCover?.image = UIImage(named: "placeholder-circle.png") //UIImage(named: "ic_user_2.png")
         let uProf = CDUserProfile.getOne()
         if (uProf != nil) {
             let url = URL(string: uProf!.pict)
             if (url != nil) {
-                imgCover?.afSetImage(withURL: url!)
-                imgCover?.layer.cornerRadius = (imgCover?.frame.size.width)!/2
-                imgCover?.layer.masksToBounds = true
+                imgCover?.afSetImage(withURL: url!, withFilter: .circle)
             }
         }
         
@@ -203,6 +208,11 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         if m["type"] == "iconic" {
             let cell : DashboardCell = tableView.dequeueReusableCell(withIdentifier: "cell") as! DashboardCell
             
+            // clean
+            if (cell.viewWithTag(888) != nil) {
+                cell.viewWithTag(888)?.removeFromSuperview()
+            }
+            
             if let isPreloAwesome = m["PreloAwesome"] { // Icon is from font
                 if (isPreloAwesome == "1") {
                     cell.captionIcon?.font = AppFont.preloAwesome.getFont(24)!
@@ -216,14 +226,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 let iconImg = UIImageView(image: img)
                 iconImg.tintColor = Theme.PrimaryColorDark
                 iconImg.frame = CGRect(x: 8, y: 10, width: 26, height: 26)
-                
-                // if raisa.jpg
-//                if m["title"] == "Achievement" {
-//                    iconImg.layoutIfNeeded()
-//                    iconImg.layer.cornerRadius = (iconImg.width) / 2
-//                    iconImg.layer.masksToBounds = true
-//                }
-                
+                iconImg.tag = 888
                 cell.addSubview(iconImg)
             }
             
@@ -234,6 +237,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             
         } else if m["type"] == "text" || m["type"] == "text-separator" {
             let cell = tableView.dequeueReusableCell(withIdentifier: "BottomCell")
+            
             cell?.textLabel?.font = UIFont.systemFont(ofSize: 16)
             cell?.textLabel?.textColor = UIColor(hex: "555555")
             
@@ -244,6 +248,9 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 let inView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: 1), backgroundColor: UIColor(hex: "AAAAAA"))
             
                 cell?.contentView.addSubview(inView)
+            } else {
+                
+                cell?.contentView.removeAllSubviews()
             }
             return cell!
 
@@ -265,17 +272,17 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 self.launchTarikUang()
             } else if ((indexPath as NSIndexPath).row == 2) { // Referral bonus
                 self.launchFreeVoucher()
-            } /*else if ((indexPath as NSIndexPath).row == 3) { // Achievement
+            } else if ((indexPath as NSIndexPath).row == 3) { // Achievement
                 self.launchAchievement()
-            }*/ else if ((indexPath as NSIndexPath).row == 3) { // Bantuan
+            } else if ((indexPath as NSIndexPath).row == 4) { // Bantuan
                 self.launchFAQ()
-            } else if ((indexPath as NSIndexPath).row == 4) { // Feedback
+            } else if ((indexPath as NSIndexPath).row == 5) { // Feedback
                 self.launchRateUs()
-            } else if ((indexPath as NSIndexPath).row == 5) { // About
+            } else if ((indexPath as NSIndexPath).row == 6) { // About
                 self.launchAbout()
-            } /*else if (AppTools.isDev) { // row 7
+            } else if (AppTools.isDev) { // row 7
                 self.lauchTestingFeature()
-            }*/
+            }
         } else {
             if ((indexPath as NSIndexPath).row == 0) { // Referral bonus
                 self.launchFreeVoucher()
@@ -368,10 +375,12 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 l.currentMode = .shop
                 l.shopName = me.username
                 l.shopId = me.id
+                l.previousScreen = PageName.DashboardLoggedIn
                 self.navigationController?.pushViewController(l, animated: true)
             } else {
                 let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
                 storePageTabBarVC.shopId = me.id
+                storePageTabBarVC.previousScreen = PageName.DashboardLoggedIn
                 self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
             }
         }
@@ -384,6 +393,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     
     func launchFreeVoucher() {
         let referralPageVC = Bundle.main.loadNibNamed(Tags.XibNameReferralPage, owner: nil, options: nil)?.first as! ReferralPageViewController
+        referralPageVC.previousScreen = PageName.DashboardLoggedIn
         self.previousController!.navigationController?.pushViewController(referralPageVC, animated: true)
     }
     
@@ -431,7 +441,6 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     }
 
     func launchRateUs() {
-//        Constant.showDialog("Feedback", message: "Coba!")
         self.setupPopUp()
         self.feedback?.isHidden = false
         
@@ -455,9 +464,9 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     
     func lauchTestingFeature() {
         // new shop page -- OKE
-        let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
-        storePageTabBarVC.shopId = CDUser.getOne()?.id
-        self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+//        let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+//        storePageTabBarVC.shopId = CDUser.getOne()?.id
+//        self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
     }
     
     func launchFAQ() {
@@ -468,26 +477,13 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         let baseNavC = BaseNavigationController()
         baseNavC.setViewControllers([helpVC], animated: false)
         self.present(baseNavC, animated: true, completion: nil)
-        
-        
-        // Hotline
-        
-        //            FAQOptions *options = [FAQOptions new];
-        //            options.showContactUsOnFaqScreens = NO;
-        //            options.showContactUsOnAppBar=NO;
-        //            [[Hotline sharedInstance]showFAQs:self withOptions:options];
-        
-//        let options : FAQOptions = FAQOptions()
-//        options.showContactUsOnFaqScreens = true
-//        options.showContactUsOnAppBar = false
-//        options.showFaqCategoriesAsGrid = true
-//        Hotline.sharedInstance().showFAQs(self, with: options)
     }
     
     func launchAbout() {
         let a = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdAbout) as! AboutViewController
         a.userRelatedDelegate = self.previousController as? UserRelatedDelegate
         a.isShowLogout = User.IsLoggedIn
+        a.previousScreen = PageName.DashboardLoggedIn
         self.previousController?.navigationController?.pushViewController(a, animated: true)
     }
     
@@ -610,6 +606,8 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
     @IBOutlet weak var consCenteryPopUpStore: NSLayoutConstraint!
     @IBOutlet weak var consCenteryPopUpMail: NSLayoutConstraint!
     
+    var popUpMode : PopUpRateMode!
+    
     var floatRatingView: FloatRatingView!
     var rate : Float = 0
     
@@ -653,6 +651,8 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
     }
     
     func displayPopUp(_ type: PopUpRateMode) {
+        self.popUpMode = type
+        
         let screenSize = UIScreen.main.bounds
         let screenHeight = screenSize.height - 64 // navbar
         
@@ -734,22 +734,72 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
         
         let appVersion = CDVersion.getOne()?.appVersion
         
-        let _ = request(APIUser.rateApp(appVersion: appVersion!, rate: Int(self.rate), review: "")).responseJSON { resp in
-            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Rate App")) {
-                print("rated")
-            }
-        }
+        let deadline = DispatchTime.now() + 0.3
         
-        if (Int(self.rate) >= 4) {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
-                 // rate to store
-                self.displayPopUp(.openStore)
-            })
-        } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
-                // send email
-                self.displayPopUp(.sendMail)
-            })
+        let _ = request(APIUser.rateApp(appVersion: appVersion!, rate: Int(self.rate), review: "")).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Rate App")) {
+                print("rated")
+                
+                // Prelo Analytic - Rate
+                self.sentPreloAnalyticRate(false)
+                
+                // Check if app installed version > server version
+                if let installedVer = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
+                    
+                    // installed version > server version
+                    if (installedVer.compare(appVersion!, options: .numeric, range: nil, locale: nil) == .orderedDescending) {
+                        
+                        if (Int(self.rate) >= 4) {
+                            DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
+                                // rate to store
+                                self.displayPopUp(.openStore)
+                            })
+                        } else {
+                            DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
+                                // send email
+                                self.displayPopUp(.sendMail)
+                            })
+                        }
+                        
+                    } else {
+                        
+                        if (Int(self.rate) >= 4) {
+                            self.vwOverlayPopUp.isHidden = true
+                            self.vwBackgroundOverlay.isHidden = true
+                            self.openStore()
+                            self.disposePopUp()
+                        } else {
+                            self.vwOverlayPopUp.isHidden = true
+                            self.vwBackgroundOverlay.isHidden = true
+                            self.sendMail()
+                            self.disposePopUp()
+                        }
+                    }
+                    
+                } else {
+                    
+                    if (Int(self.rate) >= 4) {
+                        DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
+                            // rate to store
+                            self.displayPopUp(.openStore)
+                        })
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
+                            // send email
+                            self.displayPopUp(.sendMail)
+                        })
+                    }
+                    
+                }
+                
+            } else {
+                
+                DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
+                    // re rate
+                    self.displayPopUp(.rate)
+                })
+                
+            }
         }
     }
     
@@ -778,11 +828,26 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
     @IBAction func btnTidakPressed(_ sender: Any) {
         self.unDisplayPopUp()
         
+        // Prelo Analytic - Rate
+        if self.popUpMode == .rate {
+            self.sentPreloAnalyticRate(true)
+        }
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
             self.vwOverlayPopUp.isHidden = true
             self.vwBackgroundOverlay.isHidden = true
             self.disposePopUp()
         })
+    }
+    
+    // Prelo Analytic - Rate
+    func sentPreloAnalyticRate(_ isCancelled: Bool) {
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Rating" : Int(self.rate),
+            "Cancelled" : isCancelled
+        ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Rate, data: pdata, previousScreen: PageName.Home, loginMethod: loginMethod)
     }
     
     // MARK: - FloatRatingViewDelegate

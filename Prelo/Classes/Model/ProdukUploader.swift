@@ -54,6 +54,13 @@ class ProdukUploader: NSObject {
             self.mixpanelParam = mixpanelParam
         }
         
+        init(produkParam : [String : String?], produkImages : [AnyObject], preloAnalyticParam : [AnyHashable: Any])
+        {
+            self.param = produkParam
+            self.images = produkImages
+            self.mixpanelParam = preloAnalyticParam
+        }
+        
         var param : [String : String?] = [:]
         var images : [AnyObject] = []
         var mixpanelParam : [AnyHashable: Any] = [:]
@@ -114,11 +121,13 @@ class ProdukUploader: NSObject {
             currentUploadManager = AppToolsObjC.sendMultipart2(p.param, images: p.images, withToken: User.Token!, andUserAgent: userAgent!, to:url, success: {op, res in
                 
                 print("queue upload success :")
-                print(res)
+                print((res ?? ""))
                 self.currentRetryCount = 0
                 
+                /*
                 // Mixpanel
                 Mixpanel.trackEvent(MixpanelEvent.AddedProduct, properties: p.mixpanelParam)
+                 */
                 
                 var queue = self.getQueue()
                 if (queue.count > 1)
@@ -134,11 +143,11 @@ class ProdukUploader: NSObject {
                 }
                 
                 DispatchQueue.main.async(execute: {
-                    NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: ProdukUploader.ProdukUploader_NOTIFICATION_UPLOAD_SUCCESS), object: res)
+                    NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: ProdukUploader.ProdukUploader_NOTIFICATION_UPLOAD_SUCCESS), object: [ res , p.mixpanelParam ])
                 })
                 
             }, failure: { op, err in
-                print(err)
+                print((err ?? ""))
                 if (self.autoRetry && self.currentRetryCount < self.maxRetry)
                 {
                     self.currentRetryCount = self.currentRetryCount + 1
@@ -160,7 +169,7 @@ class ProdukUploader: NSObject {
                     
                     self.currentRetryCount = 0
                     DispatchQueue.main.async(execute: {
-                        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: ProdukUploader.ProdukUploader_NOTIFICATION_UPLOAD_FAILED), object: err)
+                        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: ProdukUploader.ProdukUploader_NOTIFICATION_UPLOAD_FAILED), object: [ err , p.mixpanelParam ])
                     })
                 }
             })

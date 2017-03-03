@@ -189,6 +189,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         } else { // If I am seller
             header.captionUsername.text = tawarItem.myName
         }
+        
+        header.ivProduct.image = nil
+        
         // Product image
         header.ivProduct.afSetImage(withURL: tawarItem.productImage)
         
@@ -277,6 +280,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         if (!User.IsLoggedIn && isShowLogin) {
             isShowLogin = false
             LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
+        }
+        
+        if self.prodId == "" {
+            self.prodId = self.tawarItem.itemId
         }
     }
     
@@ -413,7 +420,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 if (tawarItem.markAsSoldTo == User.Id) { // Mark as sold to me
                     self.conMarginHeightOptions.constant = 114
                 } else {
-                    self.conMarginHeightOptions.constant = 114 // 80
+                    self.conMarginHeightOptions.constant = 80
                     return
                 }
             }
@@ -432,9 +439,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                     } else if (threadState == 1) {
                         self.conMarginHeightOptions.constant = 114
                     }
-                } else if (threadState == 4) { // start chat from seller
+                } else if (threadState == 4 || threadState == 3) { // start chat from seller
                     self.conMarginHeightOptions.constant = 149
-                } else if (threadState == 1 || threadState == 3) {
+                } else if (threadState == 1) {
                     self.conMarginHeightOptions.constant = 114
                 } else {
                     self.conMarginHeightOptions.constant = 80
@@ -563,7 +570,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             cell.decor()
             
             if (!m.isMe) {
-                cell.avatar?.afSetImage(withURL: tawarItem.theirImage)
+                cell.avatar?.afSetImage(withURL: tawarItem.theirImage, withFilter: .circle)
             }
             
             cell.toShopPage = {
@@ -616,7 +623,13 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 }
                 
                 let s = m.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: w)
-                return 57 + s.height
+                
+                var c = CGFloat(0)
+                if chat.dynamicMessage.lowercased().range(of: "tawar") != nil && (chat.dynamicMessage.range(of: "Rp") != nil) {
+                    c = 6
+                }
+                
+                return 57 + s.height + c
             }
         }
     }
@@ -735,6 +748,11 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             self.hideLoading()
         })
         
+        // Prelo Analytic - Send Media on Chat
+        if image != nil {
+            self.sendMediaOnChatAnalytic("Image")
+        }
+        
         self.adjustButtons()
         self.tableView.reloadData()
         self.scrollToBottom()
@@ -827,6 +845,18 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["from":"MessagePool 3"])
             }
             
+            // Prelo Analytic - Start Chat
+            let loginMethod = User.LoginMethod ?? ""
+            let pdata = [
+                "Product ID" : self.prodId
+            ] as [String : Any]
+            AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.StartChat, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+            
+            // Prelo Analytic - Send Media on Chat
+            if withImg != nil {
+                self.sendMediaOnChatAnalytic("Image")
+            }
+            
             self.hideLoading()
         }, failure: { op, err in
             self.adjustButtons()
@@ -877,7 +907,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     // Helper untuk simulate ada message masuk
     func sendDummy(_ type : Int = 0, message : String = "DUMMY", delay : TimeInterval = 3)
     {
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
+//        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
             Thread.sleep(forTimeInterval: delay)
             DispatchQueue.main.async(execute: {
                 let i = InboxMessage()
@@ -975,6 +1006,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
 //            btnTawar1.isHidden = true
 //            btnTawar2.isHidden = true
             self.tawarItem.setBargainPrice(m)
+            
+            // Prelo Analytics - Successful Bargain - New
+            self.sendSuccessfulBargainAnalytic("New")
         }
     }
     
@@ -984,6 +1018,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             message = "Membatalkan tawaran " + tawarItem.bargainPrice.asPrice
         }
         sendChat(3, message: message, image: nil)
+        
+        // Prelo Analytics - Successful Bargain - Reject
+        self.sendSuccessfulBargainAnalytic("Reject")
     }
     
     func confirmTawar(_ sender : UIView?) {
@@ -991,6 +1028,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         if (tawarItem.bargainPrice != 0) {
             self.tawarItem.setFinalPrice(self.tawarItem.bargainPrice)
         }
+        
+        // Prelo Analytics - Successful Bargain - Accept
+        self.sendSuccessfulBargainAnalytic("Accept")
     }
     
     // MARK: - UploadGbr pop up
@@ -1067,7 +1107,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     }
     
     func userCancelLogin() {
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     // MARK: - Navigation
@@ -1081,6 +1121,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                     let p = Product.instance(data)
                     let productDetailVC = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
                     productDetailVC.product = p!
+                    productDetailVC.previousScreen = PageName.InboxDetail
                     self.navigationController?.pushViewController(productDetailVC, animated: true)
                 }
             }
@@ -1093,6 +1134,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 let shopPage = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
                 shopPage.currentMode = .shop
                 shopPage.shopId = tawarItem.theirId
+                shopPage.previousScreen = PageName.InboxDetail
                 self.navigationController?.pushViewController(shopPage, animated: true)
             } else {
                 let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
@@ -1112,7 +1154,11 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         }
         
         if (success) {
-            self.performSegue(withIdentifier: "segCart", sender: nil)
+//            self.performSegue(withIdentifier: "segCart", sender: nil)
+            let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
+            cart.previousController = self
+            cart.previousScreen = PageName.InboxDetail
+            self.navigationController?.pushViewController(cart, animated: true)
         }
     }
     
@@ -1127,27 +1173,66 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     }
     
     func markAsSold() {
-        let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah dibeli dan diterima oleh pembeli? (Aksi ini tidak bisa dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
+//        let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah dibeli dan diterima oleh pembeli? (Aksi ini tidak bisa dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
+//        alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
+//        alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
+//            self.prodStatus = 2
+//            Constant.showDialog("Success", message: "Barang telah ditandai sebagai barang terjual")
+//            var finalPrice = ""
+//            if (self.tawarItem.bargainPrice != 0 && self.tawarItem.threadState == 2) {
+//                finalPrice = self.tawarItem.bargainPrice.asPrice
+//            } else {
+//                finalPrice = self.tawarItem.price
+//            }
+//            self.sendChat(4, message: "Barang ini dijual kepada \(self.tawarItem.theirName) dengan harga \(finalPrice)", image: nil)
+//            
+//            // Mixpanel
+//            let pt = [
+//                "Product Id" : self.prodId,
+//                "Seller Id" : CDUser.getOne()?.id, // seller
+//                "Buyer Id" : self.toId, // buyer
+//                "Price" : finalPrice
+//            ]
+//            Mixpanel.trackEvent(MixpanelEvent.ChatMarkAsSold, properties: pt)
+//        }))
+//        self.present(alert, animated: true, completion: nil)
+        
+        let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah dibeli dan/atau diterima oleh pembeli ini? (Aksi ini tidak dapat dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
-            self.prodStatus = 2
-            Constant.showDialog("Success", message: "Barang telah ditandai sebagai barang terjual")
-            var finalPrice = ""
-            if (self.tawarItem.bargainPrice != 0 && self.tawarItem.threadState == 2) {
-                finalPrice = self.tawarItem.bargainPrice.asPrice
-            } else {
-                finalPrice = self.tawarItem.price
-            }
-            self.sendChat(4, message: "Barang ini dijual kepada \(self.tawarItem.theirName) dengan harga \(finalPrice)", image: nil)
-            
-            // Mixpanel
-            let pt = [
-                "Product Id" : self.prodId,
-                "Seller Id" : CDUser.getOne()?.id, // seller
-                "Buyer Id" : self.toId, // buyer
-                "Price" : finalPrice
-            ]
-            Mixpanel.trackEvent(MixpanelEvent.ChatMarkAsSold, properties: pt)
+            let alert2 : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah kamu yakin? (Aksi ini benar-benar tidak dapat dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
+            alert2.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
+            alert2.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
+                self.prodStatus = 2
+                Constant.showDialog("Success", message: "Barang telah ditandai sebagai barang terjual")
+                var finalPrice = ""
+                if (self.tawarItem.bargainPrice != 0 && self.tawarItem.threadState == 2) {
+                    finalPrice = self.tawarItem.bargainPrice.asPrice
+                } else {
+                    finalPrice = self.tawarItem.price
+                }
+                self.sendChat(4, message: "Barang ini dijual kepada \(self.tawarItem.theirName) dengan harga \(finalPrice)", image: nil)
+                
+                /*
+                // Mixpanel
+                let pt = [
+                    "Product Id" : self.prodId,
+                    "Seller Id" : CDUser.getOne()?.id, // seller
+                    "Buyer Id" : self.toId, // buyer
+                    "Price" : finalPrice
+                ]
+                Mixpanel.trackEvent(MixpanelEvent.ChatMarkAsSold, properties: pt)
+                 */
+                
+                // Prelo Analytic - Mark As Sold
+                let loginMethod = User.LoginMethod ?? ""
+                let pdata = [
+                    "Product ID": self.prodId,
+                    "Screen" : PageName.InboxDetail
+                ] as [String : Any]
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.MarkAsSold, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+            }))
+            self.present(alert2, animated: true, completion: nil)
         }))
         self.present(alert, animated: true, completion: nil)
     }
@@ -1173,6 +1258,35 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     func isChatWithPreloMessage() -> Bool {
         return (tawarItem.theirId == "56c73cc61b97db64088b4567" || tawarItem.theirId == "56c73e581b97db1b628b4567")
+    }
+    
+    // Prelo Analytic - Successful Bargain
+    func sendSuccessfulBargainAnalytic(_ bargainType: String) {
+        let loginMethod = User.LoginMethod ?? ""
+        let bargainPrice = Double(self.tawarItem.bargainPrice)
+        var _originalPrice = tawarItem.price.replacingOccurrences(of: "Rp", with: "", options: .literal, range: nil)
+        _originalPrice = _originalPrice.replacingOccurrences(of: ".", with: "", options: .literal, range: nil)
+        let originalPrice = Double(_originalPrice.int)
+        let percentagePrice = (bargainPrice * 100.0 / originalPrice)
+        let pdata = [
+            "Product ID" : self.prodId,
+            "User Target" : (tawarItem.opIsMe ? tawarItem.myName : tawarItem.theirName),
+            "Bargain Type" : bargainType,
+            "Percentage From Price" : percentagePrice,
+            "From Seller" : !tawarItem.opIsMe
+        ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SuccessfulBargain, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+    }
+    
+    // Prelo Analytic - Send Media on Chat
+    func sendMediaOnChatAnalytic(_ mediaType: String) {
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Seller Username" : (tawarItem.opIsMe ? tawarItem.theirName : tawarItem.myName),
+            "Buyer Username" : (tawarItem.opIsMe ? tawarItem.myName : tawarItem.theirName),
+            "Media Type" : mediaType
+        ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SendMediaOnChat, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
     }
 }
 
@@ -1203,7 +1317,10 @@ class TawarCell : UITableViewCell {
     var toShopPage : () -> () = {}
     
     override func prepareForReuse() {
-        imgMessage?.image = nil
+        super.prepareForReuse()
+        
+//        imgMessage?.image = nil
+        imgMessage?.afCancelRequest()
         captionTime.date = nil
     }
     
@@ -1213,6 +1330,10 @@ class TawarCell : UITableViewCell {
             self.avatar?.layoutIfNeeded()
             self.avatar?.layer.cornerRadius = (self.avatar?.width ?? 0) / 2
             self.avatar?.layer.masksToBounds = true
+            
+            self.avatar?.layer.borderColor = Theme.GrayLight.cgColor
+            self.avatar?.layer.borderWidth = 2
+            
             self.sectionMessage.layer.cornerRadius = 4
             self.sectionMessage.layer.masksToBounds = true
             decorated = true
@@ -1258,20 +1379,35 @@ class TawarCell : UITableViewCell {
                 self.captionTime.date = m.dateTime
             }
             
-            if (m.messageType == 1 && !m.isMe) {
-                self.sectionMessage.backgroundColor = UIColor(hexString: "#E8ECEE") // Theme.ThemeOrange
-                self.newCaptionMessage?.textColor = UIColor.darkGray // UIColor.white
-            }
+//            if (m.messageType == 1 && !m.isMe) {
+//                self.sectionMessage.backgroundColor = UIColor(hexString: "#E8ECEE") // Theme.ThemeOrange
+//                self.newCaptionMessage?.textColor = UIColor.darkGray // UIColor.white
+//            }
+//            
+//            if (m.messageType == 3) {
+//                self.sectionMessage.backgroundColor = UIColor(hexString: "#E8ECEE")
+//                self.newCaptionMessage?.textColor = UIColor.darkGray
+//            }
             
-            if (m.messageType == 3) {
-                self.sectionMessage.backgroundColor = UIColor(hexString: "#E8ECEE")
-                self.newCaptionMessage?.textColor = UIColor.darkGray
-            }
+//            if (m.attachmentType != "image" && m.dynamicMessage.range(of: "Tawar \n") != nil) {
+//                let boldText = m.dynamicMessage.replace("Tawar \n", template: "")
+//
+//                self.newCaptionMessage.boldSubstring(boldText)
+//            }
             
-            if (m.attachmentType != "image" && m.dynamicMessage.range(of: "Tawar \n") != nil) {
-                let boldText = m.dynamicMessage.replace("Tawar \n", template: "")
+            if (m.attachmentType != "image" && m.dynamicMessage.lowercased().range(of: "tawar") != nil && m.dynamicMessage.range(of: "Rp") != nil) {
+                let mystr = m.dynamicMessage
                 
-                self.newCaptionMessage.boldSubstring(boldText)
+                let strs = ["Terima tawaran\n", "Tolak tawaran\n", "Membatalkan tawaran\n", "Tawar\n"]
+                
+                for i in 0...strs.count-1 {
+                    if (mystr.contains(strs[i])) {
+                        self.newCaptionMessage.boldSubstring(strs[i])
+                    }
+                }
+                
+                let idx = mystr.index(of: "Rp")
+                self.newCaptionMessage.increaseSizeSubstring(mystr.substring(from: idx!), size: 20)
             }
             
             self.captionArrow.textColor = self.sectionMessage.backgroundColor

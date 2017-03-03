@@ -30,7 +30,9 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     
     var localProducts : Array<CDDraftProduct> = []
     
-    var delegate: MyProductDelegate?
+    var localProductPrimaryImages: Array<UIImage> = []
+    
+    weak var delegate: MyProductDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +46,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.tableFooterView = UIView()
         
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
         
@@ -80,19 +83,19 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         // Google Analytics
         GAI.trackPageVisit(PageName.MyProducts)
         
-        if (!first)
-        {
-            //self.refresh(0 as AnyObject, isSearchMode: false)
-        }
+//        if (!first)
+//        {
+//            self.refresh(0 as AnyObject, isSearchMode: false)
+//        }
         
-        first = false
+//        first = false
         
         if (self.delegate?.getFromDraftOrNew())!
         {
             self.refresh(0 as AnyObject, isSearchMode: false)
+            
+            self.delegate?.setFromDraftOrNew(false)
         }
-        
-        self.delegate?.setFromDraftOrNew(false)
         
         ProdukUploader.AddObserverForUploadSuccess(self, selector: #selector(MyProductSellViewController.uploadProdukSukses(_:)))
         ProdukUploader.AddObserverForUploadFailed(self, selector: #selector(MyProductSellViewController.uploadProdukGagal(_:)))
@@ -110,16 +113,53 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         //        Constant.showDialog("Upload Barang Berhasil", message: "Proses review barang akan memakan waktu maksimal 2 hari kerja. Mohon tunggu :)")
         
 //        print(notif.object)
-        let metaJson = JSON(notif.object)
+        let o = notif.object as! [Any]
+        
+//        let metaJson = JSON((notif.object ?? [:]))
+        let metaJson = JSON(o[0])
         let metadata = metaJson["_data"]
-//        print(metadata)
+        print(metadata)
         if let message = metadata["message"].string {
             Constant.showDialog("Upload Barang Berhasil", message: message)
         }
         
+        let p = o[1] as! [String : Any]
+        var localId = p["Local ID"] as! String
+        
+        if (localId == "") {
+            let uploadedProduct = CDDraftProduct.getOneIsUploading(metadata["name"].string!)
+            localId = (uploadedProduct?.localId)!
+        }
+        
         // clear uploaded draft
-        let uploadedProduct = CDDraftProduct.getOneIsUploading()
-        CDDraftProduct.delete((uploadedProduct?.localId)!)
+        CDDraftProduct.delete(localId)
+        
+        // Prelo Analytic - Upload Success
+        let loginMethod = User.LoginMethod ?? ""
+        var pdata = [
+            "Local ID": localId,
+            "Product Name" : metadata["name"].string!,
+            "Commission Percentage" : metadata["commission"].int!,
+            "Facebook" : metadata["share_status"]["shared"]["FACEBOOK"].int!,
+            "Twitter" : metadata["share_status"]["shared"]["TWITTER"].int!,
+            "Instagram" : metadata["share_status"]["shared"]["INSTAGRAM"].int!
+        ] as [String : Any]
+        
+        let images = metadata["display_picts"].array!
+        
+        // imgae
+        var imagesOke : [Bool] = []
+        for i in 0...images.count - 1 {
+//            print(images[i].description)
+            if images[i].description != "null" {
+                imagesOke.append(true)
+            } else {
+                imagesOke.append(false)
+            }
+        }
+        pdata["Images"] = imagesOke
+        
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.UploadSuccess, data: pdata, previousScreen: PageName.ShareAddedProduct, loginMethod: loginMethod)
     }
     
     func uploadProdukGagal(_ notif : Foundation.Notification)
@@ -127,9 +167,18 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         refresh(0 as AnyObject, isSearchMode: false)
         Constant.showDialog("Upload Barang Gagal", message: "Oops, upload barang gagal")
         
+        let o = notif.object as! [Any]
+        let p = o[1] as! [String : Any]
+        var localId = p["Local ID"] as! String
+        
+        // if not found
+        if (localId == "") {
+            let uploadedProduct = CDDraftProduct.getOneIsUploading()
+            localId = (uploadedProduct?.localId)!
+        }
+        
         // set status uploading
-        let uploadedProduct = CDDraftProduct.getOneIsUploading()
-        CDDraftProduct.setUploading((uploadedProduct?.localId)!, isUploading: false)
+        CDDraftProduct.setUploading(localId, isUploading: false)
     }
     
     func addUploadingProducts()
@@ -192,7 +241,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 
                 self.addUploadingProducts()
                 
-                if (self.products.count > 0) {
+                if (self.products.count > 0 || self.localProducts.count > 0) {
                     self.lblEmpty.isHidden = true
                     self.tableView.isHidden = false
                     self.tableView.reloadData()
@@ -207,6 +256,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     
     func getLocalProducts() {
         localProducts = CDDraftProduct.getAllIsDraft()
+        localProductPrimaryImages = []
     }
     
     func refresh(_ sender: AnyObject, isSearchMode : Bool) {
@@ -251,7 +301,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         let cell : TransactionListCell = self.tableView.dequeueReusableCell(withIdentifier: "TransactionListCell") as! TransactionListCell
         if (!refreshControl.isRefreshing) {
             if (indexPath as NSIndexPath).section == 0 {
-                let p = localProducts[(indexPath as NSIndexPath).row]
+                let idx = (indexPath as NSIndexPath).row
+                let p = localProducts[idx]
                 
                 cell.lblProductName.text = p.name
                 cell.lblPrice.text = p.price.int.asPrice
@@ -259,14 +310,24 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 
                 cell.imgProduct.image = nil
                 
-                if let data = NSData(contentsOfFile: p.imagePath1){
-                    if let imageUrl = UIImage(data: data as Data) {
-                        let img = UIImage(cgImage: imageUrl.cgImage!, scale: 1.0, orientation: UIImageOrientation(rawValue: p.imageOrientation1 as Int)!)
-                        cell.imgProduct.image = img
+                if localProductPrimaryImages.count <= idx {
+                    var image : UIImage?
+                    if let data = NSData(contentsOfFile: p.imagePath1){
+                        if let imageUrl = UIImage(data: data as Data) {
+                            let img = UIImage(cgImage: imageUrl.cgImage!, scale: 1, orientation: UIImageOrientation(rawValue: p.imageOrientation1 as Int)!).resizeWithWidth(120)
+                            image = img
+                        }
+                    } else { // placeholder image
+                        image = UIImage(named: "placeholder-standar")?.resizeWithWidth(120)
                     }
+                    
+                    localProductPrimaryImages.append(image!)
+                    cell.imgProduct.image = image!
                 } else {
-                    cell.imgProduct.image = UIImage(named: "raisa.jpg")
+                    cell.imgProduct.image = localProductPrimaryImages[idx]
                 }
+                
+                cell.imgProduct.afInflate()
                 
                 cell.lblOrderStatus.text = "DRAFT"
                 cell.lblOrderStatus.textColor = UIColor.blue
@@ -302,7 +363,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                     cell.imgProduct.afSetImage(withURL: url)
                 } else if let img = p.placeHolderImage
                 {
-                    cell.imgProduct.image = img
+                    cell.imgProduct.image = img.resizeWithWidth(120)
+                    cell.imgProduct.afInflate()
                 }
                 
                 let status : String = (p.json["status_text"] != nil) ? p.json["status_text"].string! : "-"
@@ -390,6 +452,10 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
             let d:ProductDetailViewController = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
             d.product = selectedProduct!
             
+            d.delegate = self.delegate
+            
+            d.previousScreen = PageName.MyProducts
+            
             self.previousController?.navigationController?.pushViewController(d, animated: true)
         }
     }
@@ -431,4 +497,10 @@ class MyProductCell : UITableViewCell
     @IBOutlet var captionTotalLove : UILabel!
     @IBOutlet var captionTotalComment : UILabel!
     @IBOutlet var ivCover : UIImageView!
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        ivCover.afCancelRequest()
+    }
 }

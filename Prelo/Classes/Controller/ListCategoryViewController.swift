@@ -154,10 +154,10 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 let string = resp.result.value
                 if (string != nil)
                 {
-                    print(string)
+                    print((string ?? ""))
                 } else
                 {
-                    print(resp.result.error)
+                    print((resp.result.error ?? ""))
                 }
             }
             .responseJSON {resp in
@@ -568,7 +568,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         
         if (width > 0) {
             Crashlytics.sharedInstance().setObjectValue("width \(width) | offsetX \(contentOffsetX)", forKey: "ListCategoryViewController.scrollViewDidScroll")
-            i = Int(contentOffsetX / width)
+            i = Int(contentOffsetX / width + 0.5)
         }
         currentTabIndex = i
         centerCategoryView(currentTabIndex)
@@ -594,7 +594,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 isPageTracked = true
                 
                 // Jika masuk ke kategori 'Women', munculkan navbar dkk karena kemungkinan scroll atas-bawah mati karena konten tidak panjang
-                if (categoriesFix[i]["name"].stringValue.lowercased() == "women") {
+                /*if (categoriesFix[i]["name"].stringValue.lowercased() == "women") {
                     NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
                     self.navigationController?.setNavigationBarHidden(false, animated: true)
                     
@@ -603,7 +603,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                     self.scrollCategoryName.setContentOffset(bottomOffset, animated: false)
                     
                     self.showStatusBar()
-                }
+                }*/
                 
                 // Set current category id
                 self.currentCategoryId = categoriesFix[i]["_id"].stringValue

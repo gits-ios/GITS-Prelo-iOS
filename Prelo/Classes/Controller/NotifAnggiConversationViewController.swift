@@ -355,7 +355,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                 Constant.showDialog("Hapus Pesan", message: "Pesan telah berhasil dihapus")
                 
                 if self.countDecreaseNotifCount > 0 {
-                    for i in 0...self.countDecreaseNotifCount-1 {
+                    for _ in 0...self.countDecreaseNotifCount-1 {
                         self.delegate?.decreaseConversationBadgeNumber()
                     }
                 }
@@ -419,10 +419,14 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     }
     
     func navigateReadNotif(_ notif : NotificationObj) {
+        
+        // Prelo Analytic - Click Notification (in App)
+        self.sendClickNotificationAnalytic(notif.objectId, tipe: notif.type)
+        
         if (notif.type == 2000) { // Chat
             // Get inbox detail
             // API Migrasi
-        let _ = request(APIInbox.getInboxMessage(inboxId: notif.objectId)).responseJSON {resp in
+            let _ = request(APIInbox.getInboxMessage(inboxId: notif.objectId)).responseJSON {resp in
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Percakapan")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
@@ -431,6 +435,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                     // Goto inbox
                     let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
                     t.tawarItem = inboxData
+                    t.previousScreen = PageName.Notification
                     self.navigationController?.pushViewController(t, animated: true)
                 } else {
                     Constant.showDialog("Notifikasi - Percakapan", message: "Oops, notifikasi inbox tidak bisa dibuka")
@@ -438,6 +443,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                     self.showContent()
                 }
             }
+            
         } else if (notif.type == 3000) { // Komentar
             // Get product detail
             let _ = request(APIProduct.detail(productId: notif.objectId, forEdit: 0)).responseJSON {resp in
@@ -448,6 +454,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                     // Goto product comments
                     let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdProductComments) as! ProductCommentsController
                     p.pDetail = pDetail
+                    p.previousScreen = PageName.Notification
                     self.navigationController?.pushViewController(p, animated: true)
                 } else {
                     Constant.showDialog("Notifikasi - Percakapan", message: "Oops, notifikasi komentar tidak bisa dibuka")
@@ -455,10 +462,12 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                     self.showContent()
                 }
             }
+            
         } else if (notif.type == 4000) { // Lovelist
             let productLovelistVC = Bundle.main.loadNibNamed(Tags.XibNameProductLovelist, owner: nil, options: nil)?.first as! ProductLovelistViewController
             productLovelistVC.productId = notif.objectId
             self.navigationController?.pushViewController(productLovelistVC, animated: true)
+            
         } else if (notif.type == 4001) { // Another lovelist
             // Get product detail
             let _ = request(APIProduct.detail(productId: notif.objectId, forEdit: 0)).responseJSON {resp in
@@ -469,6 +478,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                     // Goto product detail
                     let productDetailVC = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
                     productDetailVC.product  = p
+                    productDetailVC.previousScreen = PageName.Notification
                     self.navigationController?.pushViewController(productDetailVC, animated: true)
                 } else {
                     Constant.showDialog("Notifikasi - Percakapan", message: "Oops, notifikasi komentar tidak bisa dibuka")
@@ -481,6 +491,26 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
             self.hideLoading()
             self.showContent()
         }
+    }
+    
+    // Prelo Analytic - Click Notification (in App)
+    func sendClickNotificationAnalytic(_ targetId: String, tipe: Int) {
+        let type = [
+            1000 : "Transaction",
+            2000 : "Chat",
+            3000 : "Comment",
+            4000 : "Lovelist",
+            4001 : "Sale Lovelist"
+        ]
+        
+        let curType = type[tipe] ?? tipe.string
+        
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Object ID" : targetId,
+            "Type" : curType
+        ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ClickNotificationInApp, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
     }
 }
 
@@ -516,9 +546,11 @@ class NotifAnggiConversationCell: UITableViewCell {
     
     override func prepareForReuse() {
         self.contentView.backgroundColor = UIColor.white.withAlphaComponent(0)
-        imgSingle.image = UIImage(named: "raisa.jpg")
+//        imgSingle.image = UIImage(named: "raisa.jpg")
         vwCaption.backgroundColor = Theme.GrayDark
         lblConvStatus.textColor = Theme.GrayDark
+        
+        imgSingle.afCancelRequest()
     }
     
     func adapt(_ notif : NotificationObj) {

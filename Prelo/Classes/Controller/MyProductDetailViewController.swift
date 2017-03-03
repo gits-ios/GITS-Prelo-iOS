@@ -541,7 +541,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         
         AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: { op, res in
             print("KonfKirim res = \(res)")
-            let json = JSON(res)
+            let json = JSON((res ?? [:]))
             let data : Bool? = json["_data"].bool
             if (data == nil || data == false) { // Gagal
 //                let msg = json["message"]
@@ -549,7 +549,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                 self.sendMode(false)
             } else { // Berhasil
                 Constant.showDialog("Success", message: "Konfirmasi pengiriman berhasil dilakukan")
-                self.navigationController?.popViewController(animated: true)
+                _ = self.navigationController?.popViewController(animated: true)
             }
         }, failure: { op, err in
             Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal")// dengan error: \(err)")
@@ -569,6 +569,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                 
                 // Goto chat
                 let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
+                t.previousScreen = PageName.MyProducts
                 
                 // API Migrasi
                 let _ = request(APIInbox.getInboxByProductIDSeller(productId: (self.detail?.productID)!, buyerId: (self.transactionDetail?.buyerId)!)).responseJSON {resp in

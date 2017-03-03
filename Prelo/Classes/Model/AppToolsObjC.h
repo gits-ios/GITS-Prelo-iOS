@@ -13,6 +13,12 @@
 //#import <AdobeCreativeSDKImage/AdobeCreativeSDKImage.h>
 #import "AFHTTPRequestOperationManager.h"
 
+#import <AssetsLibrary/ALAsset.h>
+#import <AssetsLibrary/ALAssetRepresentation.h>
+#import <ImageIO/CGImageSource.h>
+#import <ImageIO/CGImageProperties.h>
+#import <ImageIO/CGImageDestination.h>
+
 typedef void(^AssetFromAlbumComplete)(NSArray *array);
 typedef void(^AssetFromAlbumFailed)(NSString *message);
 
@@ -48,6 +54,8 @@ typedef void(^AssetFromAlbumFailed)(NSString *message);
 + (void) shareToInstagram:(UIImage *)image from:(UIViewController *)parent;
 
 + (UIImage *)imageFromColor:(UIColor *)color;
+
++ (NSData *)dataByRemovingExif:(NSData *)data;
 
 @end
 
