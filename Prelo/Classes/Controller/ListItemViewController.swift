@@ -1044,7 +1044,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
         
         gridView.reloadData()
-        if (currentMode != .newShop) {
+        
+        // contain button
+        if (self.isFeatured) {
             gridView.contentInset = UIEdgeInsetsMake(0, 0, 24, 0)
         }
         gridView.isHidden = false
