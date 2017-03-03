@@ -1095,9 +1095,9 @@
                                             </connections>
                                         </button>
                                         <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AEW-rg-SAp">
-                                            <rect key="frame" x="4" y="4" width="367" height="40"/>
+                                            <rect key="frame" x="4" y="4" width="367" height="36"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="40" id="KR0-BH-qpl"/>
+                                                <constraint firstAttribute="height" constant="36" id="KR0-BH-qpl"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" red="0.15989552438259125" green="0.15989071130752563" blue="0.1598934680223465" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

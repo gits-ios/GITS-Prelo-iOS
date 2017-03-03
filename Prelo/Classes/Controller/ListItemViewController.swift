@@ -971,6 +971,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     self.gridView.contentInset = inset
                     
                 }
+            } else {
+                self.delegate?.popView()
             }
         }
         
@@ -1045,7 +1047,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         gridView.reloadData()
         if (currentMode == .segment || self.isFeatured == true) {
-            gridView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
+            gridView.contentInset = UIEdgeInsetsMake(0, 0, 48, 0)
         }
         gridView.isHidden = false
         vwFilterZeroResult.isHidden = true
@@ -1260,6 +1262,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             
             // Adapt
             if (currentMode == .featured && products?.count > 0) { // 'Lihat semua barang' button, only show if featured products is loaded
+                f.btnFooter.backgroundColor = Theme.PrimaryColor
+                f.btnFooter.setTitleColor(UIColor.white)
+                
                 f.btnFooter.isHidden = false
                 f.btnFooterAction = {
 //                    NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
@@ -1291,7 +1296,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             if (currentMode == .featured) {
                 return CGSize(width: collectionView.width, height: 42/*66*/)
             }
-            return CGSize(width: collectionView.width, height: 50)
+            return CGSize(width: collectionView.width, height: 48/*50*/)
         }
         return CGSize.zero
     }
