@@ -31,9 +31,6 @@ open class User : NSObject
     fileprivate static var TokenKey = "user_token"
     fileprivate static var IdKey = "user_id"
     fileprivate static var EmailKey = "user_email"
-    fileprivate static var LoginMethodKey = "login_method"
-    fileprivate static var UsernameHistoryKey = "username_history" // never delete, just append
-    fileprivate static var CartLocalIdKey = "cart_local_id"
     
     fileprivate static var badgeCount = 0
     
@@ -128,15 +125,12 @@ open class User : NSObject
         Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
         Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])*/
         
-        _ = CDUser.deleteAll()
-        _ = CDUserProfile.deleteAll()
-        _ = CDUserOther.deleteAll()
-        _ = CDDraftProduct.deleteAll()
+        CDUser.deleteAll()
+        CDUserProfile.deleteAll()
+        CDUserOther.deleteAll()
         
         UserDefaults.standard.removeObject(forKey: User.IdKey)
         UserDefaults.standard.removeObject(forKey: User.TokenKey)
-        UserDefaults.standard.removeObject(forKey: User.LoginMethodKey)
-        UserDefaults.standard.removeObject(forKey: User.CartLocalIdKey)
         UserDefaults.standard.synchronize()
         
         UserDefaults.standard.removeObject(forKey: "pathtoken")
@@ -169,60 +163,6 @@ open class User : NSObject
     
     static func getNotifCount() -> Int {
         return badgeCount
-    }
-    
-    static var LoginMethod : String?
-    {
-        let s = UserDefaults.standard.string(forKey: User.LoginMethodKey)
-        return s
-    }
-    
-    static func SetLoginMethod(_ loginMethod : String?)
-    {
-        UserDefaults.standard.set(loginMethod, forKey: User.LoginMethodKey)
-        UserDefaults.standard.synchronize()
-    }
-    
-    static var UsernameHistory : Array<String>
-    {
-        let s = UserDefaults.standard.string(forKey: User.UsernameHistoryKey)
-        var r: Array<String> = []
-        if (s != nil) {
-            r = s!.components(separatedBy: "; ")
-        }
-        
-        let idxToRemove = r.index(of: "")
-        if (idxToRemove != nil) {
-            r.remove(at: idxToRemove!)
-        }
-        
-        return r
-    }
-    
-    static func UpdateUsernameHistory(_ username : String?)
-    {
-        let s = UserDefaults.standard.string(forKey: User.UsernameHistoryKey) ?? ""
-        var n = username!
-        if !s.contains(n) {
-            n = s + "; " + username!
-        } else if s != "" {
-            n = s
-        }
-        
-        UserDefaults.standard.set(n, forKey: User.UsernameHistoryKey)
-        UserDefaults.standard.synchronize()
-    }
-    
-    static var CartLocalId : String?
-    {
-        let s = UserDefaults.standard.string(forKey: User.CartLocalIdKey)
-        return s
-    }
-    
-    static func SetCartLocalId(_ loginMethod : String?)
-    {
-        UserDefaults.standard.set(loginMethod, forKey: User.CartLocalIdKey)
-        UserDefaults.standard.synchronize()
     }
 }
 
@@ -339,7 +279,7 @@ class UserProfile : NSObject {
     
     var shippingIds : [String] {
         var s : [String] = []
-        if let j = json["shipping_preferences_ids"].array {
+        if let j : JSON = json["shipping_preferences_ids"] {
             for i in 0 ..< j.count {
                 if let shipId = j[i].string {
                     s.append(shipId)
@@ -351,7 +291,7 @@ class UserProfile : NSObject {
     
     var categoryPrefIds : [String] {
         var c : [String] = []
-        if let j = json["others"]["category_preferences_ids"].array {
+        if let j : JSON = json["others"]["category_preferences_ids"] {
             for i in 0 ..< j.count {
                 if let pref = j[i].string {
                     c.append(pref)
@@ -594,11 +534,7 @@ open class ProductDetail : NSObject, TawarItem
     }
     
     var weight : Int {
-        if let u = json["_data"]["weight"].int {
-            return u
-        } else {
-            return 1
-        }
+        return json["_data"]["weight"].int!
     }
     
     var size : String {
@@ -1292,14 +1228,14 @@ open class Product : NSObject
     }
     
     var isAggregate : Bool {
-        if let _ = json["aggregate_data"]["num_products"].int {
+        if let j = json["aggregate_data"]["num_products"].int {
             return true
         }
         return false
     }
     
     var isAffiliate : Bool {
-        if let _ = json["affiliate_data"]["affiliate_name"].string {
+        if let j = json["affiliate_data"]["affiliate_name"].string {
             return true
         }
         return false
@@ -1606,13 +1542,6 @@ class TransactionDetail : NSObject {
             return j
         }
         return ""
-    }
-    
-    var remainingTime : Int {
-        if let j = json["payment_expired_remaining"].int {
-            return j
-        }
-        return 24
     }
     
     var shippingExpireTime : String {
@@ -3565,13 +3494,6 @@ class BalanceMutationItem : NSObject {
         }
         return false
     }
-    
-    var notes : String {
-        if let j = json["notes"].string {
-            return j
-        }
-        return ""
-    }
 }
 
 class AchievementItem : NSObject {
@@ -3787,7 +3709,6 @@ class AchievementConditionItem : NSObject {
             return j
         }
         return ""
-//        return "coba panjang banget yak, wkwkwk pingin lihat bisa 5 baris ndak lho lho lho, cob aterus aja ya wkwkwkkkw, 1234567890 qwertyuiop[] asdfghjkl;' zxcvbnm,./ |\\ ckckkc djuned coba panjang banget teks nya"
     }
     
 }
@@ -3845,7 +3766,6 @@ class AchievementTierItem : NSObject {
             return j
         }
         return ""
-//        return "coba panjang banget yak, wkwkwk pingin lihat bisa 5 baris ndak lho lho lho, cob aterus aja ya wkwkwkkkw, 1234567890 qwertyuiop[] asdfghjkl;' zxcvbnm,./ |\\ ckckkc djuned coba panjang banget teks nya"
     }
     
     var icon : URL? {
@@ -3860,40 +3780,5 @@ class AchievementTierItem : NSObject {
             return j
         }
         return false
-    }
-}
-
-class HistoryWithdrawItem : NSObject {
-    var json : JSON!
-    
-    static func instance(_ json : JSON?) -> HistoryWithdrawItem? {
-        if (json == nil) {
-            return nil
-        } else {
-            let u = HistoryWithdrawItem()
-            u.json = json!
-            return u
-        }
-    }
-    
-    var ticketNumber : String {
-        if let j = json["ticket_number"].string {
-            return j
-        }
-        return ""
-    }
-    
-    var createTime : String {
-        if let j = json["create_time"].string {
-            return j
-        }
-        return ""
-    }
-    
-    var amount : Int {
-        if let j = json["amount"].int {
-            return j
-        }
-        return 0
     }
 }

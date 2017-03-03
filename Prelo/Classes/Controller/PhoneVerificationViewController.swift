@@ -131,7 +131,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
     
     @IBAction func verifikasiPressed(_ sender: UIButton) {
         if (fieldsVerified()) {
-            disableTextFields(NSNull.self)
+            disableTextFields(NSNull)
             btnVerifikasi.isEnabled = false
             btnKirimUlang.isEnabled = false
             
@@ -162,14 +162,14 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                             if (self.userProfileData != nil) {
                                 // Save in core data
                                 let m = UIApplication.appDelegate.managedObjectContext
-                                _ = CDUser.deleteAll()
+                                CDUser.deleteAll()
                                 let user : CDUser = (NSEntityDescription.insertNewObject(forEntityName: "CDUser", into: m) as! CDUser)
                                 user.id = self.userProfileData!.id
                                 user.email = self.userProfileData!.email
                                 user.fullname = self.userProfileData!.fullname
                                 user.username = self.userProfileData!.username
                                 
-                                _ = CDUserProfile.deleteAll()
+                                CDUserProfile.deleteAll()
                                 let userProfile : CDUserProfile = (NSEntityDescription.insertNewObject(forEntityName: "CDUserProfile", into: m) as! CDUserProfile)
                                 user.profiles = userProfile
                                 userProfile.regionID = self.userProfileData!.regionId
@@ -183,7 +183,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                                 userProfile.address = self.userProfileData!.address
                                 userProfile.desc = self.userProfileData!.desc
                                 
-                                _ = CDUserOther.deleteAll()
+                                CDUserOther.deleteAll()
                                 let userOther : CDUserOther = (NSEntityDescription.insertNewObject(forEntityName: "CDUserOther", into: m) as! CDUserOther)
                                 userOther.shippingIDs = NSKeyedArchiver.archivedData(withRootObject: self.userProfileData!.shippingIds)
                                 userOther.lastLogin = self.userProfileData!.lastLogin
@@ -260,8 +260,6 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
         {
             noHp = p
         }
-        
-        /*
         // Mixpanel
         let sp = [
             "Phone" : noHp,
@@ -273,16 +271,6 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
         ]
         Mixpanel.sharedInstance().people.set(p)
         Mixpanel.trackEvent(MixpanelEvent.PhoneVerified)
-         */
-        
-        // Prelo Analytic
-        let pdata = [
-            "Phone" : noHp
-        ]
-        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SetupPhone, data: pdata, previousScreen: self.previousScreen, loginMethod: self.loginMethod)
-        
-        // Prelo Analytic - Update User - phone
-        AnalyticManager.sharedInstance.updateUserPhone(phone: noHp)
         
         // Dismiss view
         Constant.showDialog("Success", message: "Verifikasi berhasil")
@@ -292,11 +280,11 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
     func phoneReverificationSucceed() {
         // Pop 2 views (self and phoneReverificationVC)
         let viewControllers: [UIViewController] = (self.navigationController?.viewControllers)!
-        _ = self.navigationController?.popToViewController(viewControllers[viewControllers.count - 3], animated: true);
+        self.navigationController?.popToViewController(viewControllers[viewControllers.count - 3], animated: true);
     }
     
     @IBAction func kirimUlangPressed(_ sender: UIButton) {
-        disableTextFields(NSNull.self)
+        disableTextFields(NSNull)
         btnVerifikasi.isEnabled = false
         btnKirimUlang.isEnabled = false
         

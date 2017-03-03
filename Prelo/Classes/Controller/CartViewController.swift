@@ -109,7 +109,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     // Others
     var isShowBankBRI : Bool = false
     var isEnableCCPayment : Bool = false
-    var isEnableIndomaretPayment : Bool = false
     
     var transactionCount = 0
     
@@ -160,6 +159,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let notifListener = appDelegate.preloNotifListener
+        notifListener?.setCartCount(0)
         
         // Get cart products
         cartProducts = CartProduct.getAll(User.EmailOrEmptyString)
@@ -169,8 +169,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             tableView.isHidden = true
             loadingCart.isHidden = true
             captionNoItem.isHidden = false
-            
-            notifListener?.setCartCount(0)
         } else {
             if (user == nil) { // User isn't logged in
                 tableView.isHidden = true
@@ -178,41 +176,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             } else { // Show cart
                 initUserDataSections()
                 synchCart()
-                
-                // Prelo Analytic - Go to cart
-                let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
-                                                    qos: .background,
-                                                    target: nil)
-                backgroundQueue.async {
-                    print("Work on background queue")
-                
-                    let loginMethod = User.LoginMethod ?? ""
-                    
-                    var localId = User.CartLocalId ?? ""
-                    if (localId == "") {
-                        let uniqueCode : TimeInterval = Date().timeIntervalSinceReferenceDate
-                        let uniqueCodeString = uniqueCode.description
-                        localId = UIDevice.current.identifierForVendor!.uuidString + "-" + uniqueCodeString
-                        
-                        User.SetCartLocalId(localId)
-                    }
-                    
-                    var productIds : [String] = []
-                    for i in self.cartProducts {
-                        let curProduct = i.cpID
-                        
-                        productIds.append(curProduct)
-                    }
-                    
-                    let pdata = [
-                        "Local ID" : localId,
-                        "Product IDs" : productIds
-                    ] as [String : Any]
-                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.GoToCart, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
-                }
             }
             
-            notifListener?.setCartCount(cartProducts.count)
+            notifListener?.increaseCartCount(cartProducts.count)
         }
     }
     
@@ -280,7 +246,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 self.customBonusPercent = 0
                 self.isShowBankBRI = false
                 self.isEnableCCPayment = false
-                self.isEnableIndomaretPayment = false
                 if let ab = data["ab_test"].array {
                     for i in 0...ab.count - 1 {
                         if (ab[i].stringValue.lowercased() == "half_bonus") {
@@ -289,8 +254,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             self.isShowBankBRI = true
                         } else if (ab[i].stringValue.lowercased() == "cc") {
                             self.isEnableCCPayment = true
-                        } else if (ab[i].stringValue.lowercased() == "indomaret") {
-                            self.isEnableIndomaretPayment = true
                         } else if (ab[i].stringValue.lowercased().range(of: "bonus:") != nil) {
                             self.customBonusPercent = Int(ab[i].stringValue.components(separatedBy: "bonus:")[1])!
                         }
@@ -316,7 +279,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         }
                     } else {
                         if let voucherError = data["voucher_error"].string {
-                            self.isVoucherApplied = false
                             Constant.showDialog("Invalid Voucher", message: voucherError)
                         }
                     }
@@ -692,7 +654,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     func createPayMethodCell(_ tableView : UITableView, indexPath : IndexPath) -> CartPaymethodCell {
         let cell : CartPaymethodCell = tableView.dequeueReusableCell(withIdentifier: "cell_paymethod") as! CartPaymethodCell
         cell.isEnableCCPayment = isEnableCCPayment
-        cell.isEnableIndomaretPayment = isEnableIndomaretPayment
         cell.methodChosen = { mthd in
             self.setPaymentOption(mthd)
             self.adjustRingkasan()
@@ -921,20 +882,14 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 }))
                 alert.addAction(UIAlertAction(title: "Hapus", style: .default, handler: { act in
                     alert.dismiss(animated: true, completion: nil)
-                    
-                    // troli badge
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     let notifListener = appDelegate.preloNotifListener
                     notifListener?.increaseCartCount(-1 * self.arrayItem.count)
-                    
                     self.arrayItem.removeAll()
                     CartProduct.deleteAll()
                     self.shouldBack = true
                     //                    self.cellsData = [:]
                     self.synchCart()
-                    
-                    // reset localid
-                    User.SetCartLocalId("")
                 }))
                 self.present(alert, animated: true, completion: nil)
             }
@@ -1134,7 +1089,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 // Error handling
                 if (json["_data"]["_have_error"].intValue == 1) {
                     let m = json["_data"]["_message"].stringValue
-                    Constant.showDialog("Perhatian", message: m)
+                    UIAlertView.SimpleShow("Perhatian", message: m)
                     self.btnSend.isEnabled = true
                     return
                 }
@@ -1147,6 +1102,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 
                 // Send tracking data before navigate
                 if (self.checkoutResult != nil) {
+                    // Mixpanel
                     var pName : String? = ""
                     var rName : String? = ""
                     if let u = CDUser.getOne()
@@ -1160,9 +1116,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             rName = ""
                         }
                     }
-                    
-                    // Prelo Analytic - Checkout - Item Data
-                    var itemsObject : Array<[String : Any]> = []
                     
                     var items : [String] = []
                     var itemsId : [String] = []
@@ -1184,32 +1137,14 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         itemsCategory.append(cName!)
                         itemsSeller.append(json["seller_username"].stringValue)
                         itemsPrice.append(json["price"].intValue)
-//                        totalPrice += json["price"].intValue
+                        totalPrice += json["price"].intValue
                         itemsCommissionPercentage.append(json["commission"].intValue)
                         let cPrice = json["price"].intValue * json["commission"].intValue / 100
                         itemsCommissionPrice.append(cPrice)
                         totalCommissionPrice += cPrice
-                        
-                        // Prelo Analytic - Checkout - Item Data
-                        let curItem : [String : Any] = [
-                            "Product ID" : json["product_id"].stringValue,
-                            "Seller Username" : json["seller_username"].stringValue,
-                            "Price" : json["price"].intValue,
-                            "Commission Percentage" : json["commission"].intValue,
-                            "Commission Price" : cPrice,
-                            "Free Shipping" : (json["free_ongkir"].intValue == 1 ? true : false),
-                            "Category ID" : json["category_id"].stringValue
-                        ]
-                        itemsObject.append(curItem)
                     }
                     
                     let orderId = self.checkoutResult!["order_id"].stringValue
-                    let paymentMethod = self.checkoutResult!["payment_method"].stringValue
-                    
-                    totalPrice = self.checkoutResult!["total_price"].intValue
-                    
-                    /*
-                    // MixPanel
                     let pt = [
                         "Order ID" : orderId,
                         "Items" : items,
@@ -1227,39 +1162,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         "Balance Used" : 0
                         ] as [String : Any]
                     Mixpanel.trackEvent(MixpanelEvent.Checkout, properties: pt as [AnyHashable: Any])
-                    */
-                    
-                    // Prelo Analytic - Checkout
-                    let loginMethod = User.LoginMethod ?? ""
-                    let localId = User.CartLocalId ?? ""
-                    let province = CDProvince.getProvinceNameWithID(self.selectedProvinsiID) ?? ""
-                    let region = CDRegion.getRegionNameWithID(self.selectedKotaID) ?? ""
-                    let subdistrict = self.selectedKecamatanName
-                    
-                    let address = [
-                        "Province" : province,
-                        "Region" : region,
-                        "Subdistrict" : subdistrict
-                    ] as [String : Any]
-                    
-                    var pdata = [
-                        "Local ID" : localId,
-                        "Order ID" : orderId,
-                        "Items" : itemsObject,
-                        "Total Price" : totalPrice,
-                        "Address" : address,
-                        "Payment Method" : paymentMethod,
-                        "Prelo Balance Used" : (self.checkoutResult!["prelobalance_used"].intValue != 0 ? true : false)
-                    ] as [String : Any]
-                    
-                    if (self.checkoutResult!["voucher_serial"].stringValue != "") {
-                        pdata["Voucher Used"] = self.checkoutResult!["voucher_serial"].stringValue
-                    }
-                    
-                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Checkout, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
-                    
-                    // reset localid
-                    User.SetCartLocalId("")
                     
                     // Answers
                     if (AppTools.IsPreloProduction) {
@@ -1345,14 +1247,12 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         Constant.showDialog("Pembayaran \(self.selectedPayment.value)", message: "Pembayaran tertunda")
                         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
                         notifPageVC.isBackTwice = true
-                        notifPageVC.previousScreen = PageName.Checkout
                         self.navigateToVC(notifPageVC)
                     }
                     webVC.ccPaymentFailed = {
                         Constant.showDialog("Pembayaran \(self.selectedPayment.value)", message: "Pembayaran gagal, silahkan coba beberapa saat lagi")
                         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
                         notifPageVC.isBackTwice = true
-                        notifPageVC.previousScreen = PageName.Checkout
                         self.navigateToVC(notifPageVC)
                     }
                     let baseNavC = BaseNavigationController()
@@ -1386,14 +1286,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         o.transactionId = (self.checkoutResult?["transaction_id"].string)!
         o.isBackTwice = true
         o.isShowBankBRI = self.isShowBankBRI
-        o.previousScreen = PageName.Checkout
         
         if (self.checkoutResult?["expire_time"].string) != nil {
             o.date = (self.checkoutResult?["expire_time"].string)! // expire_time not found
-        }
-        
-        if (self.checkoutResult?["payment_expired_remaining"].int) != nil {
-            o.remaining = (self.checkoutResult?["payment_expired_remaining"].int)! // payment_expired_remaining not found
         }
         
         var imgs : [URL] = []
@@ -1430,7 +1325,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
         let x = AppToolsObjC.jsonString(from: c)
-        print((x ?? ""))
+        print(x)
         
         let pid = j["product_id"].stringValue
         
@@ -1449,22 +1344,18 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             print(p.cpID)
             UIApplication.appDelegate.managedObjectContext.delete(p)
             UIApplication.appDelegate.saveContext()
-            
-            // troli badge
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let notifListener = appDelegate.preloNotifListener
-            notifListener?.increaseCartCount(-1)
         }
         
 //        tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
         if (arrayItem.count == 0) {
             self.shouldBack = true
-            
-            // reset localid
-            User.SetCartLocalId("")
         }
 //        cellsData = [:]
         synchCart()
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let notifListener = appDelegate.preloNotifListener
+        notifListener?.increaseCartCount(-1)
     }
     
     func itemNeedUpdateShipping(_ indexPath: IndexPath) {
@@ -1508,7 +1399,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     @IBAction func paymentReminderPressed(_ sender: AnyObject) {
         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
-        notifPageVC.previousScreen = PageName.Checkout
         self.navigateToVC(notifPageVC)
     }
     
@@ -1573,7 +1463,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
         if (balanceFix > balanceAvailable)
         {
-            Constant.showDialog("Perhatian", message: "Prelo balance yang tersedia tidak mencukupi")
+            UIAlertView.SimpleShow("Perhatian", message: "Prelo balance yang tersedia tidak mencukupi")
             return
         }
         if (discountItems.count > 0) {
@@ -1612,7 +1502,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     func userCancelLogin() {
         user = CDUser.getOne()
         if (user == nil) {
-            _ = self.navigationController?.popViewController(animated: true)
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
@@ -1916,12 +1806,6 @@ class CartCellItem : UITableViewCell
     var selectedPaymentId : String = ""
     var cartItemCellDelegate : CartItemCellDelegate?
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        
-        ivCover?.afCancelRequest()
-    }
-    
     func adapt (_ json : JSON)
     {
         print(json)
@@ -1942,7 +1826,7 @@ class CartCellItem : UITableViewCell
             
             if (ori.count > 0)
             {
-//                ivCover?.image = nil
+                ivCover?.image = nil
                 let u = URL(string: ori.first!)
                 ivCover?.afSetImage(withURL: u!)
             }
@@ -2109,7 +1993,7 @@ class PreloBalanceInputCell : UITableViewCell, UITextFieldDelegate
         {
             if let _ = s.rangeOfCharacter(from: CharacterSet(charactersIn: "0987654321").inverted)
             {
-                Constant.showDialog("Perhatian", message: "Jumlah prelo balance yang digunakan tidak valid")
+                UIAlertView.SimpleShow("Perhatian", message: "Jumlah prelo balance yang digunakan tidak valid")
             } else
             {
                 let i = s.int
@@ -2200,7 +2084,6 @@ class CartPaymethodCell : UITableViewCell {
     @IBOutlet var vw3Banks: UIView!
     @IBOutlet var vw4Banks: UIView!
     var isEnableCCPayment : Bool = false
-    var isEnableIndomaretPayment : Bool = false
     
     @IBOutlet var lblDesc: [UILabel]!
     
@@ -2240,12 +2123,8 @@ class CartPaymethodCell : UITableViewCell {
     }
     
     @IBAction func methodPressed(_ sender: UIButton) {
-        if (sender.tag == tagCreditCard && !isEnableCCPayment) { // Disabled method
-            Constant.showDialog("Coming Soon", message: "Metode pembayaran ini belum tersedia")
-            return
-        }
-        if (sender.tag == tagIndomaret && !isEnableIndomaretPayment) { // Disabled method
-            Constant.showDialog("Coming Soon", message: "Metode pembayaran ini belum tersedia")
+        if (sender.tag == 1 && !isEnableCCPayment) { // Disabled method
+            UIAlertView.SimpleShow("Coming Soon", message: "Metode pembayaran ini belum tersedia")
             return
         }
         for i in 0...btnsMethod.count - 1 {

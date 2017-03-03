@@ -284,6 +284,7 @@ enum APIAuth : URLRequestConvertible {
                 "email" : email,
                 "platform_sent_from" : "ios"
             ]
+        default : break
         }
         return p
     }
@@ -834,7 +835,6 @@ enum APIProduct : URLRequestConvertible {
     case reportComment(productId : String, commentId : String, reportType : Int)
     case getProductLovelist(productId : String)
     case reportProduct(productId : String, sellerId : String, reportType : Int, reasonText : String, categoryIdCorrection : String)
-    case paidPushWithCoin(productId: String)
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "product/"
@@ -873,7 +873,6 @@ enum APIProduct : URLRequestConvertible {
         case .reportComment(_, _, _) : return .post
         case .getProductLovelist(_) : return .get
         case .reportProduct(_, _, _, _, _) : return .post
-        case .paidPushWithCoin(_) : return .post
         }
     }
     
@@ -905,7 +904,7 @@ enum APIProduct : URLRequestConvertible {
         case .reportComment(let productId, _, _) : return "\(productId)/report_comment"
         case .getProductLovelist(let productId) : return "\(productId)/lovelist"
         case .reportProduct(let productId, _, _, _, _) : return "\(productId)/report"
-        case .paidPushWithCoin(let pId) : return "push/\(pId)/with_diamond"
+
         }
     }
     
@@ -1028,10 +1027,6 @@ enum APIProduct : URLRequestConvertible {
                 "report_reason" : reportType,
                 "report_reason_text" : reasonText,
                 "category_id_correction" : categoryIdCorrection,
-                "platform_sent_from" : "ios"
-            ]
-        case .paidPushWithCoin(_):
-            p = [
                 "platform_sent_from" : "ios"
             ]
         default : break
@@ -1626,7 +1621,6 @@ enum APIVisitors : URLRequestConvertible {
 enum APIWallet : URLRequestConvertible {
     case getBalance
     case withdraw(amount : String, targetBank : String, norek : String, namarek : String, password : String)
-    case getBalanceAndWithdraw
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "wallet/"
@@ -1641,7 +1635,6 @@ enum APIWallet : URLRequestConvertible {
         switch self {
         case .withdraw(_, _, _, _, _) : return .post
         case .getBalance : return .get
-        case .getBalanceAndWithdraw : return .get
         }
     }
     
@@ -1649,7 +1642,6 @@ enum APIWallet : URLRequestConvertible {
         switch self {
         case .withdraw(_, _, _, _, _) : return "withdraw"
         case .getBalance : return "balance"
-        case .getBalanceAndWithdraw : return "balance_and_withdraw"
         }
     }
     

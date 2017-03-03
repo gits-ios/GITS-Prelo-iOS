@@ -81,7 +81,6 @@ class PhoneReverificationViewController : BaseViewController {
                     phoneVerificationVC.noHpToVerify = self.fieldNoHP.text == nil ? "" : self.fieldNoHP.text!
                     phoneVerificationVC.isShowBackBtn = true
                     phoneVerificationVC.delegate = self.prevVC
-                    phoneVerificationVC.previousScreen = PageName.ChangePhone
                     self.navigationController?.pushViewController(phoneVerificationVC, animated: true)
                 }
             }

@@ -56,7 +56,7 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
         } else
         {
             self.delegate?.hideLoading()
-            _ = self.navigationController?.popViewController(animated: true)
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
@@ -82,7 +82,7 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
                 self.dismiss(animated: true, completion: nil)
             } else
             {
-                _ = self.navigationController?.popViewController(animated: true)
+                self.navigationController?.popViewController(animated: true)
             }
         } else if (currentURL?.absoluteString.lowercased().range(of: pathLoginSuccessUrlString) != nil) { // User successfully login
             let codeParam : String = (currentURL?.query)!
@@ -127,7 +127,7 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
                 self.dismiss(animated: true, completion: nil)
             } else
             {
-                _ = self.navigationController?.popViewController(animated: true)
+                self.navigationController?.popViewController(animated: true)
             }
         }
     }

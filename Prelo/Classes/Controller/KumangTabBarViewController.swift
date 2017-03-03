@@ -74,8 +74,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         
         // Resume product upload
         if (User.Token != nil && CDUser.getOne() != nil) { // If user is logged in
-//            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
-            DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
+            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
                 AppDelegate.Instance.produkUploader.start()
             })
         }
@@ -243,22 +242,14 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         }
     }
     
-    func showProduct(_ sender : Any) {
+    func showProduct(_ sender : AnyObject) {
         let n : Foundation.Notification = sender as! Foundation.Notification
-        let p = n.object as? Array<AnyObject> // for handle with previous page name - [Product, String]
-        
         let d : ProductDetailViewController = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
-        d.previousScreen = p?[1] as! String
         let nav = UINavigationController(rootViewController: d)
         nav.navigationBar.isTranslucent = false
         nav.navigationBar.barTintColor = Theme.navBarColor
         nav.navigationBar.tintColor = UIColor.white
-        if let pro = p?[0] as? Product {
-            d.product = pro
-        } else if let pro = n.object as? Product {
-            d.product = pro
-        }
-
+        d.product = n.object as? Product
         self.navigationController?.pushViewController(d, animated: true)
     }
     
@@ -497,13 +488,13 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 if let deleteData = data["delete"].array {
-                    _ = CDCategory.deleteCategoriesFromArrayJson(deleteData)
+                    CDCategory.deleteCategoriesFromArrayJson(deleteData)
                 }
                 if let addData = data["add"].array {
-                    _ = CDCategory.saveCategoriesFromArrayJson(addData)
+                    CDCategory.saveCategoriesFromArrayJson(addData)
                 }
                 if let updateData = data["update"].array {
-                    _ = CDCategory.updateCategoriesFromArrayJson(updateData)
+                    CDCategory.updateCategoriesFromArrayJson(updateData)
                 }
             }
             
@@ -527,7 +518,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
                 let json = JSON(resp.result.value!)
                 if let arr = json["_data"].array {
                     if (CDProductCondition.deleteAll(UIApplication.appDelegate.managedObjectContext)) {
-                        _ = CDProductCondition.saveProductConditionsFromArrayJson(arr)
+                        CDProductCondition.saveProductConditionsFromArrayJson(arr)
                     }
                 }
             }
@@ -550,22 +541,22 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 if let deleteDataProv = data["provinces"]["delete"].array {
-                    _ = CDProvince.deleteProvincesFromArrayJson(deleteDataProv)
+                    CDProvince.deleteProvincesFromArrayJson(deleteDataProv)
                 }
                 if let addDataProv = data["provinces"]["add"].array {
-                    _ = CDProvince.saveProvincesFromArrayJson(addDataProv)
+                    CDProvince.saveProvincesFromArrayJson(addDataProv)
                 }
                 if let updateDataProv = data["provinces"]["update"].array {
-                    _ = CDProvince.updateProvincesFromArrayJson(updateDataProv)
+                    CDProvince.updateProvincesFromArrayJson(updateDataProv)
                 }
                 if let deleteDataReg = data["regions"]["delete"].array {
-                    _ = CDRegion.deleteRegionsFromArrayJson(deleteDataReg)
+                    CDRegion.deleteRegionsFromArrayJson(deleteDataReg)
                 }
                 if let addDataReg = data["regions"]["add"].array {
-                    _ = CDRegion.saveRegionsFromArrayJson(addDataReg)
+                    CDRegion.saveRegionsFromArrayJson(addDataReg)
                 }
                 if let updateDataReg = data["regions"]["update"].array {
-                    _ = CDRegion.updateRegionsFromArrayJson(updateDataReg)
+                    CDRegion.updateRegionsFromArrayJson(updateDataReg)
                 }
             }
             
@@ -585,7 +576,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
                 let json = JSON(resp.result.value!)
                 if let arr = json["_data"].array {
                     if (CDShipping.deleteAll(UIApplication.appDelegate.managedObjectContext)) {
-                        _ = CDShipping.saveShippingsFromArrayJson(arr)
+                        CDShipping.saveShippingsFromArrayJson(arr)
                     }
                 }
             }

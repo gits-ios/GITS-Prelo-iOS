@@ -41,9 +41,6 @@ class RefundRequestViewController: BaseViewController, UITextViewDelegate {
     // Predefined value
     var tpId : String = ""
     
-    // Prelo Analytic - Request Refund
-    var pId : String = ""
-    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -130,14 +127,6 @@ class RefundRequestViewController: BaseViewController, UITextViewDelegate {
                 let json = JSON(resp.result.value!)
                 let isSuccess = json["_data"].boolValue
                 if (isSuccess) {
-                    
-                    // Prelo Analytic - Request Refund
-                    let loginMethod = User.LoginMethod ?? ""
-                    let pdata = [
-                        "Product ID" : self.pId
-                    ]
-                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.RequestRefund, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
-                    
                     Constant.showDialog("Pengajuan Refund", message: "Pengajuan refund berhasil dilakukan")
                     _ = self.navigationController?.popViewController(animated: true)
                     return

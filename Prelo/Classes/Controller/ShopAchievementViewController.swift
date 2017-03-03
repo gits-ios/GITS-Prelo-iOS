@@ -40,9 +40,6 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
         // Register custom cell
         let ShopAchievementCell = UINib(nibName: "ShopAchievementCell", bundle: nil)
         tableView.register(ShopAchievementCell, forCellReuseIdentifier: "ShopAchievementCell")
-        
-        // Belum ada badge untuk user ini
-        tableView.register(ProvinceCell.self, forCellReuseIdentifier: "cell")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -119,13 +116,13 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
         
         self.loadingPanel.isHidden = true
         self.loading.stopAnimating()
-//        if (self.userAchievements.count <= 0) {
-//            self.lblEmpty.isHidden = false
-//            self.tableView.isHidden = true
-//        } else {
-//            self.tableView.isHidden = false
+        if (self.userAchievements.count <= 0) {
+            self.lblEmpty.isHidden = false
+            self.tableView.isHidden = true
+        } else {
+            self.tableView.isHidden = false
             self.setupTable()
-//        }
+        }
     }
     
     func setupTable() {
@@ -142,7 +139,7 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
 //        let tableHeight = CGFloat(self.userAchievements.count * 65) // min height
         let tableHeight = self.tableView.contentSize.height
         
-        var bottom = CGFloat(1)
+        var bottom = CGFloat(24)
         if (tableHeight < screenHeight) {
             bottom += (screenHeight - tableHeight)
         }
@@ -154,56 +151,25 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
         
         tableView.separatorStyle = .none
         
-        if (userAchievements.count > 0) {
-            tableView.backgroundColor = UIColor(hex: "E5E9EB")
-        }
+        tableView.backgroundColor = UIColor(hex: "E5E9EB")
     }
     
     // MARK: - UITableView Functions
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (self.userAchievements.count > 0) {
-            return self.userAchievements.count
-        } else {
-            return 1 // Belum ada badge untuk user ini
-        }
+        return self.userAchievements.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if (currentMode == .inject) {
-            if (self.userAchievements.count > 0) {
-                let cell : ShopAchievementCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopAchievementCell") as! ShopAchievementCell
-                
-                cell.selectionStyle = .none
-                cell.backgroundColor = UIColor(hex: "E5E9EB")
-                cell.clipsToBounds = true
-                
-                let u = userAchievements[(indexPath as NSIndexPath).item]
-                cell.adapt(u)
-                return cell
-            } else { // Belum ada badge untuk user ini
-                let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
-                
-                cell?.selectionStyle = .none
-                
-                cell?.textLabel!.text = "Belum ada badge untuk user ini"
-                cell?.textLabel!.font = UIFont.systemFont(ofSize: 12)
-                cell?.textLabel!.textAlignment = .center
-                cell?.textLabel!.textColor = Theme.GrayDark
-                
-                return cell!
-            }
-        } else {
-            let cell : ShopAchievementCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopAchievementCell") as! ShopAchievementCell
-            
-            cell.selectionStyle = .none
-            cell.backgroundColor = UIColor(hex: "E5E9EB")
-            cell.clipsToBounds = true
-            
-            let u = userAchievements[(indexPath as NSIndexPath).item]
-            cell.adapt(u)
-            return cell
-        }
+        let cell : ShopAchievementCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopAchievementCell") as! ShopAchievementCell
+        
+        cell.selectionStyle = .none
+        cell.backgroundColor = UIColor(hex: "E5E9EB")
+        cell.clipsToBounds = true
+        
+        let u = userAchievements[(indexPath as NSIndexPath).item]
+        cell.adapt(u)
+        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -211,13 +177,9 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath:  IndexPath) -> CGFloat {
-        if (self.userAchievements.count > 0) {
-            let u = userAchievements[(indexPath as NSIndexPath).item]
-            let descHeight = u.desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: tableView.width - 42).height
-            return 85 + CGFloat(Int(descHeight)) + 4
-        } else {
-            return 90
-        }
+        let u = userAchievements[(indexPath as NSIndexPath).item]
+        let descHeight = u.desc.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: tableView.width - 42).height
+        return 85 + CGFloat(Int(descHeight)) + 4
     }
     
     // MARK: - UIScrollView Functions
@@ -243,10 +205,10 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
         
         let pointY = CGFloat(1)
         if (scrollView.contentOffset.y < pointY) {
-//            self.delegate?.increaseHeader()
+            self.delegate?.increaseHeader()
             self.transparentNavigationBar(true)
         } else if (scrollView.contentOffset.y >= pointY) {
-//            self.delegate?.dereaseHeader()
+            self.delegate?.dereaseHeader()
             self.transparentNavigationBar(false)
         }
     }
@@ -255,8 +217,6 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
     func transparentNavigationBar(_ isActive: Bool) {
         if (currentMode == .inject) {
             if isActive && !(self.delegate?.getTransparentcy())! {
-                self.delegate?.increaseHeader()
-                
                 UIView.animate(withDuration: 0.5) {
                     // Transparent navigation bar
                     self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
@@ -269,8 +229,6 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
                 }
                 self.delegate?.setTransparentcy(true)
             } else if !isActive && (self.delegate?.getTransparentcy())!  {
-                self.delegate?.dereaseHeader()
-                
                 UIView.animate(withDuration: 0.5) {
                     self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
                     self.navigationController?.navigationBar.shadowImage = nil
@@ -297,14 +255,11 @@ class ShopAchievementCell : UITableViewCell {
     @IBOutlet var lblDesc: UILabel!
     
     override func prepareForReuse() {
-        super.prepareForReuse()
-        
-//        imgBadge.image = nil
-        imgBadge.afCancelRequest()
+        imgBadge.image = nil
     }
     
     func adapt(_ userAchievement : UserAchievement) {
-        imgBadge.afSetImage(withURL: userAchievement.icon!, withFilter: .circle)
+        imgBadge.afSetImage(withURL: userAchievement.icon!)
         imgBadge.layoutIfNeeded()
         imgBadge.layer.masksToBounds = true
         imgBadge.layer.cornerRadius = (imgBadge.frame.size.width) / 2

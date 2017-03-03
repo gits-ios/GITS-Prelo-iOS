@@ -178,8 +178,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func gotoCart() {
-        let c = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdCart) as! CartViewController
-        c.previousScreen = PageName.Lovelist
+        let c = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdCart) as! BaseViewController
         self.navigationController?.pushViewController(c, animated: true)
     }
     
@@ -219,7 +218,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
                 self.selectedProduct = Product.instance(data)
                 
                 // Launch detail scene
-                NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: NotificationName.ShowProduct), object: [ self.selectedProduct, PageName.Notification ])
+                NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: NotificationName.ShowProduct), object: self.selectedProduct)
             }
         }
     }
@@ -256,12 +255,6 @@ class MyLovelistCell : UITableViewCell {
     var productId : String!
     
     var delegate : MyLovelistCellDelegate?
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        
-        imgProduct.afCancelRequest()
-    }
     
     func adapt(_ lovedProduct : LovedProduct) {
         imgProduct.afSetImage(withURL: lovedProduct.productImageURL!)
