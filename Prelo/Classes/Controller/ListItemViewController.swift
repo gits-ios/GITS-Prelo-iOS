@@ -971,6 +971,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     self.gridView.contentInset = inset
                     
                 }
+            } else {
+                self.delegate?.popView()
             }
         }
         
@@ -1044,8 +1046,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
         
         gridView.reloadData()
-        if (currentMode != .newShop) {
-            gridView.contentInset = UIEdgeInsetsMake(0, 0, 24, 0)
+        if (currentMode == .segment || self.isFeatured == true) {
+            gridView.contentInset = UIEdgeInsetsMake(0, 0, 48, 0)
         }
         gridView.isHidden = false
         vwFilterZeroResult.isHidden = true
@@ -1228,6 +1230,28 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 l.fltrAggregateId = (self.selectedProduct?.id)!
                 l.fltrSortBy = "recent"
                 l.fltrName = ""
+                
+                // Prelo Analytic - Visit Aggregate
+                let loginMethod = User.LoginMethod ?? ""
+                let pdata = [
+                    "Aggregate ID": (self.selectedProduct?.id)!,
+                    "Aggregate Name" : (self.selectedProduct?.name)!
+                ] as [String : Any]
+                
+                // previous screen is current screen
+                var currentPage = PageName.Home
+                if currentMode == .filter {
+                    currentPage = PageName.SearchResult
+                } else if currentMode == .shop || currentMode == .newShop {
+                    if User.IsLoggedIn && User.Id! == self.shopId {
+                        currentPage = PageName.ShopMine
+                    } else {
+                        currentPage = PageName.Shop
+                    }
+                }
+                
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.VisitAggregate, data: pdata, previousScreen: currentPage, loginMethod: loginMethod)
+                
                 self.navigationController?.pushViewController(l, animated: true)
             } else {
                 let urlString = self.selectedProduct?.json["affiliate_data"]["affiliate_url"].stringValue
@@ -1260,6 +1284,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             
             // Adapt
             if (currentMode == .featured && products?.count > 0) { // 'Lihat semua barang' button, only show if featured products is loaded
+                f.btnFooter.backgroundColor = Theme.PrimaryColor
+                f.btnFooter.setTitleColor(UIColor.white)
+                
                 f.btnFooter.isHidden = false
                 f.btnFooterAction = {
 //                    NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
@@ -1289,9 +1316,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         if (listItemSections[section] == .products) {
             if (currentMode == .featured) {
-                return CGSize(width: collectionView.width, height: 66)
+                return CGSize(width: collectionView.width, height: 42/*66*/)
             }
-            return CGSize(width: collectionView.width, height: 50)
+            return CGSize(width: collectionView.width, height: 48/*50*/)
         }
         return CGSize.zero
     }

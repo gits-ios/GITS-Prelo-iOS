@@ -199,6 +199,7 @@ class AnalyticManager: NSObject {
             // Product
             PreloAnalyticEvent.UpProduct,
             PreloAnalyticEvent.VisitProductDetail,
+            PreloAnalyticEvent.VisitAggregate,
             
             // Purchase
             PreloAnalyticEvent.GoToCart,
