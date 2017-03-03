@@ -1044,7 +1044,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
         
         gridView.reloadData()
-        gridView.contentInset = UIEdgeInsetsMake(0, 0, 24, 0)
+        if (currentMode == .segment || self.isFeatured == true) {
+            gridView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
+        }
         gridView.isHidden = false
         vwFilterZeroResult.isHidden = true
     }
@@ -1287,7 +1289,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         if (listItemSections[section] == .products) {
             if (currentMode == .featured) {
-                return CGSize(width: collectionView.width, height: 66)
+                return CGSize(width: collectionView.width, height: 42/*66*/)
             }
             return CGSize(width: collectionView.width, height: 50)
         }
