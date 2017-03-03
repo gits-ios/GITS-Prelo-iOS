@@ -19,6 +19,8 @@ protocol NewShopHeaderDelegate: class {
     func setShopTitle(_ title: String)
     func setTransparentcy(_ isTransparent: Bool)
     func getTransparentcy() -> Bool
+    
+    func popView()
 }
 
 // MARK: - Class
@@ -468,6 +470,12 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         self.consWidthCollectionView.constant = width
         
         self.vwCollection.isHidden = false
+    }
+    
+    func popView() {
+        if (self.previousScreen != "Push Notification" || self.previousScreen != "") {
+            _ = self.navigationController?.popViewController(animated: true)
+        }
     }
     
     // MARK: - CollectionView delegate functions
