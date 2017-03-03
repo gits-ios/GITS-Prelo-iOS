@@ -557,7 +557,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
     {
         btnSend.isEnabled = false
         
-        var i = "0", p = "0", f = "0", t = "0"
+        var i = "0", /*p = "0",*/ f = "0", t = "0"
         
         for x in 0...3
         {
@@ -570,12 +570,12 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                     {
                         i = "1"
                     }
-                    
+                    /*
                     if (x == 1)
                     {
                         p = "1"
                     }
-                    
+                    */
                     if (x == 2)
                     {
                         f = "1"

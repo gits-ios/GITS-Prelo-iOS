@@ -355,7 +355,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                 Constant.showDialog("Hapus Pesan", message: "Pesan telah berhasil dihapus")
                 
                 if self.countDecreaseNotifCount > 0 {
-                    for i in 0...self.countDecreaseNotifCount-1 {
+                    for _ in 0...self.countDecreaseNotifCount-1 {
                         self.delegate?.decreaseConversationBadgeNumber()
                     }
                 }

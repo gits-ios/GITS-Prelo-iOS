@@ -121,7 +121,7 @@ class ProdukUploader: NSObject {
             currentUploadManager = AppToolsObjC.sendMultipart2(p.param, images: p.images, withToken: User.Token!, andUserAgent: userAgent!, to:url, success: {op, res in
                 
                 print("queue upload success :")
-                print(res)
+                print((res ?? ""))
                 self.currentRetryCount = 0
                 
                 /*
@@ -147,7 +147,7 @@ class ProdukUploader: NSObject {
                 })
                 
             }, failure: { op, err in
-                print(err)
+                print((err ?? ""))
                 if (self.autoRetry && self.currentRetryCount < self.maxRetry)
                 {
                     self.currentRetryCount = self.currentRetryCount + 1
