@@ -114,7 +114,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Configure GAI options.
         let gai = GAI.sharedInstance()
-        _ = gai?.tracker(withTrackingId: "UA-68727101-3")
+        gai?.tracker(withTrackingId: "UA-68727101-3")
         gai?.trackUncaughtExceptions = true  // report uncaught exceptions
         gai?.logger.logLevel = GAILogLevel.verbose  // remove before app release
         gai?.defaultTracker.allowIDFACollection = true // Enable IDFA collection
@@ -191,17 +191,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         self.deeplinkRedirect(tipe, targetId: targetId)
                     })
                     
-                    // Prelo Analytic - Click Push Notification
-                    if let _ = remoteNotif.object(forKey: "attachment-url") as? String {
-                        sendPushNotifAnalytic(true, isBackgroundMode: true, targetId: targetId!, tipe: tipe)
-                    } else {
-                        sendPushNotifAnalytic(false, isBackgroundMode: true, targetId: targetId!, tipe: tipe)
-                    }
                 }
                 
 //                Constant.showDialog("APNS", message: remoteNotif.description )
             }
         }
+        
+        /**
+         * HOTLINE
+         * 1
+         **/
+        /*
+        let config = HotlineConfig.init(appID: "aa37ac74-0ad1-4450-856e-136e59a810c9", andAppKey: "d66d7946-557f-44ef-96c1-9f27585a94fc")
+        Hotline.sharedInstance().initWith(config)
+        
+        /* Enable remote notifications */
+//        let settings = UIUserNotificationSettings(forTypes: [.alert, .badge, .sound], categories: nil)
+        UIApplication.shared.registerUserNotificationSettings(settings)
+        UIApplication.shared.registerForRemoteNotifications()
+        
+        
+        if Hotline.sharedInstance().isHotlineNotification(launchOptions){
+            Hotline.sharedInstance().handleRemoteNotification(launchOptions, andAppstate: application.applicationState)
+        }
+        
+        // re init for upgrade app version
+        self.setupHotline()
+         */
         
         // Handling facebook deferred deep linking
         // Kepanggil hanya jika app baru saja dibuka, jika dibuka ketika sedang dalam background mode maka tidak terpanggil
@@ -233,7 +249,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("launch sessionParams = \(sessionParams)")
             print("launch firstParams = \(firstParams)")
             
-            let params = JSON((sessionParams ?? [:]))
+            let params = JSON(sessionParams)
             if let tipe = params["tipe"].string {
                 var targetId : String?
                 if let tId = params["target_id"].string {
@@ -370,6 +386,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
+        
+        /**
+         * HOTLINE
+         * 3
+         **/
+//        Hotline.sharedInstance().updateDeviceToken(deviceToken)
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -397,8 +419,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var tipe = ""
         var targetId = ""
         
-        var imgUrl = ""
-        
         if let remoteNotifAps = userInfo["aps"] as? NSDictionary {
             if let remoteNotifAlert = remoteNotifAps["alert"] as? NSDictionary {
                 if let _title = remoteNotifAlert.object(forKey: "title") as? String {
@@ -420,11 +440,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         if let tId = userInfo["target_id"] as? String {
             targetId = tId
-        }
-        
-        // image
-        if let img = userInfo["attachment-url"] as? String {
-            imgUrl = img
         }
         
         // check current view
@@ -480,37 +495,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             let imageBanner = UIImage(named: imageName)
             
-            /*
-            if imgUrl != "" {
-                if let data = NSData(contentsOf: URL(string: imgUrl)!) {
-                    if let imageUrl = UIImage(data: data as Data) {
-                        
-                        imageBanner = imageUrl
-                    }
-                }
-            }
-             */
-            
             if (title != "" || alert != "") {
                 // banner
                 let banner = Banner(title: title != "" ? title : alert, subtitle: body != "" ? body : nil, image: imageBanner, backgroundColor: Theme.PrimaryColor, didTapBlock: {
                     if isDoing {
                         self.deeplinkRedirect(tipe, targetId: targetId)
-                    }
-                    
-//                    // Prelo Analytic - Click Notification (in App)
-//                    let loginMethod = User.LoginMethod ?? ""
-//                    let pdata = [
-//                        "Target ID" : targetId,
-//                        "Type" : tipe
-//                    ] as [String : Any]
-//                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ClickNotificationInApp, data: pdata, previousScreen: "", loginMethod: loginMethod)
-                    
-                    // Prelo Analytic - Click Push Notification
-                    if imgUrl != "" {
-                        self.sendPushNotifAnalytic(true, isBackgroundMode: false, targetId: targetId, tipe: tipe)
-                    } else {
-                        self.sendPushNotifAnalytic(false, isBackgroundMode: false, targetId: targetId, tipe: tipe)
                     }
                 })
                 
@@ -530,14 +519,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if isDoing {
                 self.deeplinkRedirect(tipe, targetId: targetId)
             }
-            
-            // Prelo Analytic - Click Push Notification
-            if imgUrl != "" {
-                sendPushNotifAnalytic(true, isBackgroundMode: true, targetId: targetId, tipe: tipe)
-            } else {
-                sendPushNotifAnalytic(false, isBackgroundMode: true, targetId: targetId, tipe: tipe)
-            }
         }
+        
+        /**
+         * HOTLINE
+         * 4
+         **/
+        /*
+        if Hotline.sharedInstance().isHotlineNotification(userInfo){
+            Hotline.sharedInstance().handleRemoteNotification(userInfo, andAppstate: application.applicationState)
+        }
+         */
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
@@ -566,6 +558,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
         
 //        produkUploader.start()
+        
+        // init hotline for chat
+        // re init for upgrade app version
+//        self.setupHotline()
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -582,6 +578,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // MoEngage
         MoEngage.sharedInstance().applicationBecameActiveinApplication(application)
+        
+        /**
+         * HOTLINE
+         * 2
+         **/
+        /*
+        let unreadCount : NSInteger = Hotline.sharedInstance().unreadCount()
+        UIApplication.shared.applicationIconBadgeNumber = (User.getNotifCount() as NSInteger + unreadCount)
+        */
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
@@ -874,7 +879,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if (rootViewController != nil) {
                     let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdProductComments) as! ProductCommentsController
                     p.pDetail = pDetail
-                    p.previousScreen = "Push Notification"
                     rootViewController!.pushViewController(p, animated: true)
                 } else {
                     self.showFailedRedirAlert()
@@ -954,7 +958,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     
                     let tawarVC = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
                     tawarVC.tawarItem = inbox
-                    tawarVC.previousScreen = "Push Notification"
                     rootViewController!.pushViewController(tawarVC, animated: true)
                 } else {
                     self.showFailedRedirAlert()
@@ -1390,16 +1393,74 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    // MARK: - Analytics push notif
-    func sendPushNotifAnalytic(_ isContainImage: Bool, isBackgroundMode: Bool, targetId: String, tipe: String) {
-        // Prelo Analytic - Click Push Notification
-        let loginMethod = User.LoginMethod ?? ""
-        let pdata = [
-            "With Picture" : isContainImage,
-//            "Is Background Mode" : isBackgroundMode,
-//            "Target ID" : targetId,
-//            "Type" : tipe
-        ] as [String : Any]
-        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ClickPushNotification, data: pdata, previousScreen: "", loginMethod: loginMethod)
+    // MARK: - Hotline
+    /*
+    func setupHotline() {
+        /*
+         * Following three methods are to identify a user.
+         * These user properties will be viewable on the Hotline web dashboard.
+         * The externalID (identifier) set will also be used to identify the specific user for any APIs
+         * targeting a user or list of users in pro-active messaging or marketing
+         */
+        
+        // Create a user object
+        let user = HotlineUser.sharedInstance();
+        
+        // To set an identifiable name for the user
+//        user?.name = CDUser.getOne()?.fullname
+        user?.name = CDUser.getOne()?.username
+        
+        //To set user's email id
+        user?.email = CDUser.getOne()?.email
+        
+        //To set user's phone number
+        //        user?.phoneCountryCode="62"; // indonesia
+        user?.phoneNumber = CDUser.getOne()?.profiles.phone
+        
+        
+        
+        //To set user's identifier (external id to map the user to a user in your system. Setting an external ID is COMPULSARY for many of Hotline’s APIs
+        user?.externalID = UIDevice.current.identifierForVendor!.uuidString
+        
+        
+        // FINALLY, REMEMBER TO SEND THE USER INFORMATION SET TO HOTLINE SERVERS
+        Hotline.sharedInstance().update(user)
+        
+        /* Custom properties & Segmentation - You can add any number of custom properties. An example is given below.
+         These properties give context for your conversation with the user and also serve as segmentation criteria for your marketing messages
+         */
+        
+        //        //You can set custom user properties for a particular user
+        //        Hotline.sharedInstance().updateUserPropertyforKey("customerType", withValue: "Premium")
+        
+        let city = CDUser.getOne()?.profiles.subdistrictName
+        
+        //You can set user demographic information
+        Hotline.sharedInstance().updateUserPropertyforKey("city", withValue: city)
+        
+        //You can segment based on where the user is in their journey of using your app
+        Hotline.sharedInstance().updateUserPropertyforKey("loggedIn", withValue: User.IsLoggedIn.description)
+        
+        //        //You can capture a state of the user that includes what the user has done in your app
+        //        Hotline.sharedInstance().updateUserPropertyforKey("transactionCount", withValue: "3")
+        
+        
+        /* If you want to indicate to the user that he has unread messages in his inbox, you can retrieve the unread count to display. */
+        //returns an int indicating the of number of unread messages for the user
+//        Hotline.sharedInstance().unreadCount()
+        
+        
+        //        /*
+        //         Managing Badge number for unread messages - Manual
+        //         */
+        //        Hotline.sharedInstance().initWithConfig(config)
+        //        print("Unread messages count \(Hotline.sharedInstance().unreadCount()) .")
+        //
+        //
+        //        Hotline.sharedInstance().unreadCountWithCompletion { (count:Int) -> Void in
+        //            print("Unread count (Async) :\(count)")
+        //        }
+        
     }
+     */
 }

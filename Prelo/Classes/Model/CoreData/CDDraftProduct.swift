@@ -130,21 +130,6 @@ class CDDraftProduct: NSManagedObject {
         }
     }
     
-    static func getOneIsUploading(_ name: String) -> CDDraftProduct? {
-        let predicate1 = NSPredicate(format: "isUploading == %@", NSNumber(value: true as Bool))
-        let predicate2 = NSPredicate(format: "name == %@", name)
-        let predicate = NSCompoundPredicate.init(type: .and, subpredicates: [predicate1,predicate2])
-        let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDDraftProduct")
-        fetchReq.predicate = predicate
-        
-        do {
-            let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq)
-            return r.count == 0 ? nil : r.first as? CDDraftProduct
-        } catch {
-            return nil
-        }
-    }
-    
 //    static func getCount() -> Int {
 //        let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDDraftProduct")
 //        

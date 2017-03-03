@@ -230,8 +230,7 @@ class ImageSourceCell : UICollectionViewCell, UIGestureRecognizerDelegate
                     asset = ALAssetsLibrary()
                 }
                 
-//                DispatchQueue.global( priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
-                DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
+                DispatchQueue.global( priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
                     self.asset?.asset(for: (self._apImage?.url)! as URL, resultBlock: { asset in
                         if let ast = asset {
                             let rep = ast.defaultRepresentation()

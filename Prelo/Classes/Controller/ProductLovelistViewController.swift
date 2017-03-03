@@ -37,8 +37,6 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
-        
         // Menghilangkan garis antar cell di baris kosong
         tblLovers.tableFooterView = UIView()
         
@@ -59,16 +57,7 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        // Google Analytics
-        GAI.trackPageVisit(PageName.ProductLovelist)
-        
-//        // Refresh table for the first time
-//        self.refreshTable()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
+        // Refresh table for the first time
         self.refreshTable()
     }
     
@@ -114,7 +103,7 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
 
             } else {
                 // back to previous UI
-                _ = self.navigationController?.popViewController(animated: true)
+                self.navigationController?.popViewController(animated: true)
             }
             
             // Hide refresh control
@@ -148,11 +137,10 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
         cell.adapt(productLovelistItem: productLovelistItems[indexPath.row])
         cell.selectionStyle = .none
         cell.chatPressed = {
-//            self.tblLovers.isHidden = true
-            self.showLoading()
+            self.tblLovers.isHidden = true
             
-            let productId = self.productId
-            let buyer = self.productLovelistItems[indexPath.row]
+            var productId = self.productId
+            var buyer = self.productLovelistItems[indexPath.row]
             
             // Get product detail from API
             let _ = request(APIProduct.detail(productId: productId, forEdit: 0)).responseJSON {resp in
@@ -161,7 +149,6 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
                     if let pDetail = ProductDetail.instance(json) {
                         // Goto chat
                         let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
-                        t.previousScreen = PageName.ProductLovelist
                     
                         // API Migrasi
                         let _ = request(APIInbox.getInboxByProductIDSeller(productId: pDetail.productID, buyerId: buyer.id)).responseJSON {resp in
@@ -183,40 +170,36 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
                                     t.toId = buyer.id
                                     t.prodId = t.tawarItem.itemId
                                     
-                                    // disable // enable auto tawarkan
-                                    t.isTawarkan = false //true
+                                    t.isTawarkan = true
                                     t.isTawarkan_originalPrice = pDetail.priceInt.string
                                     t.tawarFromMe = true
-                                    t.threadState = 0 //1
+                                    t.threadState = 1
                                     
                                     self.navigationController?.pushViewController(t, animated: true)
-                                    self.hideLoading()
                                 }
                             }
                         }
                     }
                 } else {
                     Constant.showDialog("Product Lovelist", message: "Oops, terdapat kesalahan saat mengakses detail produk")
-                    self.hideLoading()
                 }
+                self.tblLovers.isHidden = false
             }
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        self.tblLovers.isHidden = true
+        self.tblLovers.isHidden = true
         if (!AppTools.isNewShop) {
             let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
             listItemVC.currentMode = .shop
             listItemVC.shopId = self.productLovelistItems[indexPath.row].id
-            listItemVC.previousScreen = PageName.ProductLovelist
             self.navigationController?.pushViewController(listItemVC, animated: true)
         } else {
             let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
             storePageTabBarVC.shopId = self.productLovelistItems[indexPath.row].id
-            storePageTabBarVC.previousScreen = PageName.ProductLovelist
             self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
         }
     }
@@ -237,19 +220,10 @@ class ProductLovelistCell : UITableViewCell {
     
     // MARK: - Methods
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        
-        imgUser.afCancelRequest()
-    }
-    
     func adapt(productLovelistItem : ProductLovelistItem) {
         if let url = productLovelistItem.imageURL {
-            imgUser.afSetImage(withURL: url, withFilter: .circle)
+            imgUser.afSetImage(withURL: url)
             imgUser.layer.cornerRadius = (imgUser.frame.size.width) / 2
-            
-            imgUser.layer.borderColor = Theme.GrayLight.cgColor
-            imgUser.layer.borderWidth = 2
         }
         lblName.text = productLovelistItem.username
     }

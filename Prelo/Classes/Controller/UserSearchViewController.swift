@@ -83,7 +83,7 @@ class UserSearchViewController: BaseViewController, UITableViewDataSource, UITab
         
         c.captionFullname.text = s.fullname
         c.captionUsername.text = s.username
-        c.iv.afSetImage(withURL: URL(string : s.pict)!, withFilter: .circle)
+        c.iv.afSetImage(withURL: URL(string : s.pict)!)
         
         c.decorate()
         
@@ -103,12 +103,10 @@ class UserSearchViewController: BaseViewController, UITableViewDataSource, UITab
                 d.currentMode = .shop
                 d.shopName = u.username
                 d.shopId = u.id
-                d.previousScreen = PageName.Search
                 self.navigationController?.pushViewController(d, animated: true)
             } else {
                 let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
                 storePageTabBarVC.shopId = u.id
-                storePageTabBarVC.previousScreen = PageName.Search
                 self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
             }
         }
@@ -147,21 +145,11 @@ class SearchUserCell2 : UITableViewCell
     
     var decorated = false
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        
-        iv.afCancelRequest()
-    }
-    
     func decorate()
     {
         self.iv.layoutIfNeeded()
         self.iv.layer.cornerRadius = self.iv.width / 2
         self.iv.layer.masksToBounds = true
-        
-        self.iv.layer.borderColor = Theme.GrayLight.cgColor
-        self.iv.layer.borderWidth = 1.5
-
         decorated = true
     }
 }

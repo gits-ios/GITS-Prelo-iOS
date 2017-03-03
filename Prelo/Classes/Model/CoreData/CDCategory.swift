@@ -169,7 +169,6 @@ class CDCategory: NSManagedObject {
             c.isParent = childJson["is_parent"].bool!
             c.imageName = childJson["image_name"].string!
             c.categorySizeId = childJson["category_size_id"].string
-            c.parentId = childJson["parent"].string
             if let h = childJson["hashtags"].string {
                 c.hashtags = h
             }
@@ -282,19 +281,6 @@ class CDCategory: NSManagedObject {
                 }
                 return parentId
             }
-        }
-        return nil
-    }
-    
-    static func getParent(_ id : String) -> CDCategory? {
-        if let categ = CDCategory.getCategoryWithID(id) {
-            
-            print(categ.description)
-            
-            if categ.parentId != nil && categ.parentId != "55de6d4e9ffd40362ae310a7", let parent = CDCategory.getCategoryWithID(categ.parentId!) {
-                return parent
-            }
-            return nil
         }
         return nil
     }

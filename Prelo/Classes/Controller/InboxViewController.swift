@@ -167,8 +167,6 @@ class InboxCell : UITableViewCell
     @IBOutlet var iv : UIImageView!
     
     override func prepareForReuse() {
-        
-        iv.afCancelRequest()
-//        iv.image = nil
+        iv.image = nil
     }
 }

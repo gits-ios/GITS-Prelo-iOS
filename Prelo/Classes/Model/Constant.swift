@@ -54,7 +54,7 @@ class Constant: NSObject {
         let action = UIAlertAction(title: "Oke", style: .default, handler: {  act in
             a.dismiss(animated: true, completion: nil)
             if isBack {
-                _ = view.navigationController?.popViewController(animated: true)
+                view.navigationController?.popViewController(animated: true)
             }
         })
         
@@ -83,7 +83,8 @@ class Constant: NSObject {
 
 extension String
 {
-    func boundsWithFontSize(_ font : UIFont, width : CGFloat) -> CGRect {
+    func boundsWithFontSize(_ font : UIFont, width : CGFloat) -> CGRect
+    {
         let cons = CGSize(width: width, height: 0)
         
         return self.boundingRect(with: cons, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName:font], context: nil)

@@ -35,12 +35,10 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-protocol ProductCellDelegate: class
+protocol ProductCellDelegate
 {
     func cellTappedCategory(_ categoryName : String, categoryID : String)
     func cellTappedBrand(_ brandId : String, brandName : String)
-    
-    func cellTappedComment()
 }
 
 class ProductDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, ProductCellDelegate, UIActionSheetDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate, UserRelatedDelegate
@@ -95,19 +93,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     @IBOutlet var lblUpOther: UILabel!
     @IBOutlet var consHeightUpBarang: NSLayoutConstraint!
     
-    // up barang coin - diamond
-    var isCoinUse = false
-    
-    var isNeedReload = false
-    
-    weak var delegate: MyProductDelegate?
-    
-    var thisScreen: String!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.title = product?.name
         
         // Hide add comment view first
         self.vwAddComment.isHidden = true
@@ -136,18 +123,15 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     override func viewWillAppear(_ animated: Bool) {
         UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: true)
-
-        if (detail == nil || isNeedReload) {
+        if (detail == nil) {
             getDetail()
-            
-            isNeedReload = false
         }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-//        self.title = product?.name
+        self.title = product?.name
         
         if (self.detail) != nil
         {
@@ -184,16 +168,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             
             // Google Analytics
             GAI.trackPageVisit(PageName.ProductDetailMine)
-            
-            self.thisScreen = PageName.ProductDetailMine
         } else {
             // Mixpanel
 //            Mixpanel.trackPageVisit(PageName.ProductDetail, otherParam: p)
             
             // Google Analytics
             GAI.trackPageVisit(PageName.ProductDetail)
-            
-            self.thisScreen = PageName.ProductDetail
         }
     }
 
@@ -206,11 +186,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Barang"))
                 {
                     self.detail = ProductDetail.instance(JSON(resp.result.value!))
-                    
-                    self.title = self.detail?.name
-                    
                     self.activated = (self.detail?.isActive)!
-                    print((self.detail?.json ?? ""))
+                    print(self.detail?.json)
                     
                     self.adjustButtonByStatus()
                     
@@ -231,9 +208,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     self.setOptionButton()
                     
                     self.setupView()
-                    
-                    // Prelo Analytic - Visit Product Detail
-                    self.sendVisitProductDetailAnalytic()
                 } else {
                     
                 }
@@ -306,7 +280,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         {
             return
         }
-        pDetailCover = ProductDetailCover.instance((detail?.displayPicturers)!, status: (detail?.status)!, topBannerText: (detail?.rejectionText), isFakeApprove: (detail?.isFakeApprove)!, isFakeApproveV2: (detail?.isFakeApproveV2)!, width: UIScreen.main.bounds.size.width)
+        pDetailCover = ProductDetailCover.instance((detail?.displayPicturers)!, status: (detail?.status)!, topBannerText: (detail?.rejectionText), isFakeApprove: (detail?.isFakeApprove)!, isFakeApproveV2: (detail?.isFakeApproveV2)!)
         pDetailCover?.parent = self
         pDetailCover?.largeImageURLS = (detail?.originalPicturers)!
         if let isFeatured = self.product?.isFeatured , isFeatured {
@@ -470,9 +444,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     func actionSheet(_ actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
         if (buttonIndex == 0)
         {
-            //            guard let pDetail = detail else {
-            //                return
-            //            }
+            guard let pDetail = detail else {
+                return
+            }
             //            var username = "Your beloved user"
             //            if let u = CDUser.getOne() {
             //                username = u.username
@@ -492,7 +466,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             //                Constant.showDialog("No Active E-mail", message: "Untuk dapat mengirim Report, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
             //            }
             
-            gotoReport()
+                gotoReport()
         }
     }
     
@@ -526,16 +500,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 self.detail?.setSharedViaFacebook()
                 if let fbUsername = CDUserOther.getOne()?.fbUsername {
                     Constant.showDialog("Share to Facebook", message: "Barang berhasil di-share di akun Facebook \(fbUsername)")
-                    self.delegate?.setFromDraftOrNew(true)
                 }
-                // Prelo Analytic - Share for Commission - Facebook
-                self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 1, tw: 0, ig: 0, reason: "")
-            } else {
-                let json = JSON(resp.result.value)
-                let reason = json["_message"].stringValue
-                
-                // Prelo Analytic - Share for Commission - Facebook
-                self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 1, tw: 0, ig: 0, reason: reason)
             }
             self.hideLoading()
         }
@@ -549,16 +514,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 self.detail?.setSharedViaTwitter()
                 if let twUsername = CDUserOther.getOne()?.twitterUsername {
                     Constant.showDialog("Share to Twitter", message: "Barang berhasil di-share di akun Twitter \(twUsername)")
-                    self.delegate?.setFromDraftOrNew(true)
                 }
-                // Prelo Analytic - Share for Commission - Twitter
-                self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 0, tw: 1, ig: 0, reason: "")
-            } else {
-                let json = JSON(resp.result.value)
-                let reason = json["_message"].stringValue
-                
-                // Prelo Analytic - Share for Commission - Twitter
-                self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 0, tw: 1, ig: 0, reason: reason)
             }
             self.hideLoading()
         }
@@ -586,7 +542,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     cellTitle = tableView.dequeueReusableCell(withIdentifier: "cell_title") as? ProductCellTitle
                 }
                 cellTitle?.parent = self
-                cellTitle?.cellDelegate = self
                 cellTitle?.product = self.product
                 cellTitle?.adapt(detail)
                 
@@ -617,22 +572,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             instagramSharePreview.copyAndShare = {
                                 UIPasteboard.general.string = "\(textToShare)\(hashtags)"
                                 Constant.showDialog("Data telah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
-                                self.delegate?.setFromDraftOrNew(true)
                                 self.mgInstagram = MGInstagram()
                                 self.mgInstagram?.post(img, withCaption: textToShare, in: self.view, delegate: self)
                                 let _ = request(APIProduct.shareCommission(pId: (self.detail?.productID)!, instagram: "1", path: "0", facebook: "0", twitter: "0")).responseJSON { resp in
                                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Share Instagram")) {
                                         self.cellTitle?.sharedViaInstagram()
                                         self.detail?.setSharedViaInstagram()
-                                        
-                                        // Prelo Analytic - Share for Commission - Instagram
-                                        self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 0, tw: 0, ig: 1, reason: "")
-                                    } else {
-                                        let json = JSON(resp.result.value)
-                                        let reason = json["_message"].stringValue
-                                        
-                                        // Prelo Analytic - Share for Commission - Instagram
-                                        self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 0, tw: 0, ig: 1, reason: reason)
                                     }
                                     self.hideLoading()
                                     instagramSharePreview.removeFromSuperview()
@@ -754,11 +699,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     alert.popoverPresentationController?.sourceView = sender
                     alert.popoverPresentationController?.sourceRect = sender.bounds
                     alert.addAction(UIAlertAction(title: "Mengganggu / spam", style: .default, handler: { act in
-                        self.reportComment(commentId: commentId, reportType: 0, reportedUsername: (cell.captionName?.text!)!)
+                        self.reportComment(commentId: commentId, reportType: 0)
                         alert.dismiss(animated: true, completion: nil)
                     }))
                     alert.addAction(UIAlertAction(title: "Tidak layak", style: .default, handler: { act in
-                        self.reportComment(commentId: commentId, reportType: 1, reportedUsername: (cell.captionName?.text!)!)
+                        self.reportComment(commentId: commentId, reportType: 1)
                         alert.dismiss(animated: true, completion: nil)
                     }))
                     alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in
@@ -776,13 +721,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     let vc = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
                     vc.currentMode = .shop
                     vc.shopId = userId
-                    vc.previousScreen = self.thisScreen
                     
                     self.navigationController?.pushViewController(vc, animated: true)
                 } else {
                     let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
                     storePageTabBarVC.shopId = userId
-                    storePageTabBarVC.previousScreen = self.thisScreen
                     self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
                 }
             }
@@ -790,7 +733,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
-    func reportComment(commentId : String, reportType : Int, reportedUsername : String) {
+    func reportComment(commentId : String, reportType : Int) {
         self.showLoading()
         request(APIProduct.reportComment(productId: (self.product?.id)!, commentId: commentId, reportType: reportType)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Laporkan Komentar")) {
@@ -798,24 +741,10 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 if (json["_data"].boolValue == true) {
                     Constant.showDialog("Komentar Dilaporkan", message: "Terima kasih, Prelo akan meninjau laporan kamu")
                 }
-                
-                // Prelo Analytic - Report Comment
-                let loginMethod = User.LoginMethod ?? ""
-                let reportingUsername = (CDUser.getOne()?.username)!
-                let pdata = [
-                    "Product ID" : (self.product?.id)!,
-                    "Reported Username" : reportedUsername,
-                    "Reporter Username" : reportingUsername,
-                    "Reason" : reportType,
-                    "Comment ID" : commentId
-                ] as [String : Any]
-                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ReportComment, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
             }
             self.hideLoading()
         }
     }
-    
-    // MARK: - table delegate
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if (section == 0) {
@@ -876,19 +805,14 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     d.shopId = name
                 }
                 
-                d.previousScreen = thisScreen
-                
                 self.navigationController?.pushViewController(d, animated: true)
             } else {
                 let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
                 storePageTabBarVC.shopId = detail?.json["_data"]["seller"]["_id"].string
-                storePageTabBarVC.previousScreen = thisScreen
                 self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
             }
         }
     }
-    
-    // MARK: - Product cell delegate
     
     func cellTappedCategory(_ categoryName: String, categoryID: String) {
         let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
@@ -898,7 +822,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         l.currentMode = .filter
         l.fltrSortBy = "recent"
         l.fltrCategId = categoryID
-        l.previousScreen = thisScreen
         self.navigationController?.pushViewController(l, animated: true)
     }
     
@@ -907,23 +830,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         l.currentMode = .filter
         l.fltrSortBy = "recent"
         l.fltrBrands = [brandName : brandId]
-        l.previousScreen = thisScreen
         self.navigationController?.pushViewController(l, animated: true)
     }
     
-    func cellTappedComment() {
-        isNeedReload = true
-    }
-    
-    // MARK: - button
-    
     @IBAction func addToCart(_ sender: UIButton) {
         if (alreadyInCart) {
-//            self.performSegue(withIdentifier: "segCart", sender: nil)
-            let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
-            cart.previousController = self
-            cart.previousScreen = thisScreen
-            self.navigationController?.pushViewController(cart, animated: true)
+            self.performSegue(withIdentifier: "segCart", sender: nil)
             return
         }
         
@@ -931,11 +843,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             Constant.showDialog("Failed", message: "Gagal Menyimpan")
         } else {
             setupView()
-//            self.performSegue(withIdentifier: "segCart", sender: nil)
-            let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
-            cart.previousController = self
-            cart.previousScreen = thisScreen
-            self.navigationController?.pushViewController(cart, animated: true)
+            self.performSegue(withIdentifier: "segCart", sender: nil)
         }
     }
         
@@ -953,16 +861,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             self.disableMyProductBtnSet()
                             self.pDetailCover?.addSoldBanner()
                             Constant.showDialog("Success", message: "Barang telah ditandai sebagai barang terjual")
-                            
-                            self.delegate?.setFromDraftOrNew(true)
-                            
-                            // Prelo Analytic - Mark As Sold
-                            let loginMethod = User.LoginMethod ?? ""
-                            let pdata = [
-                                "Product ID": productId,
-                                "Screen" : PageName.ProductDetailMine
-                            ] as [String : Any]
-                            AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.MarkAsSold, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
                         } else {
                             Constant.showDialog("Failed", message: "Oops, terdapat kesalahan")
                         }
@@ -976,9 +874,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     @IBAction func editPressed(_ sender: AnyObject) {
         self.showLoading()
-        
-        isNeedReload = true
-        
         let a = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
         a.editMode = true
         a.editDoneBlock = {
@@ -986,11 +881,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             self.getDetail()
         }
         a.topBannerText = (detail?.rejectionText)
-        
-        a.delegate = self.delegate
-        
-        a.screenBeforeAddProduct = PageName.ProductDetailMine
-        
         // API Migrasi
         let _ = request(APIProduct.detail(productId: detail!.productID, forEdit: 1)).responseJSON {resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Barang")) {
@@ -1009,7 +899,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             t.tawarItem = d
             t.loadInboxFirst = true
             t.prodId = d.productID
-            t.previousScreen = thisScreen
             self.navigationController?.pushViewController(t, animated: true)
         }
     }
@@ -1023,8 +912,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
         } else
         {
-            isNeedReload = true
-            
             self.performSegue(withIdentifier: "segAddComment", sender: nil)
         }
     }
@@ -1036,8 +923,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     func userLoggedIn() {
         if (loginComment)
         {
-            isNeedReload = true
-            
             self.performSegue(withIdentifier: "segAddComment", sender: nil)
         }
     }
@@ -1058,9 +943,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     @IBAction func btnReservationPressed(_ sender: AnyObject) {
         if (detail != nil) {
-            
-            isNeedReload = true
-            
             if (detail!.status == ProductStatusActive) { // Product is available
                 // Reserve product
                 self.setBtnReservationToLoading()
@@ -1078,7 +960,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewController(withIdentifier: "TransactionDetail") as? TransactionDetailViewController)!
                             transactionDetailVC.trxProductId = tpId
                             transactionDetailVC.isSeller = false
-                            transactionDetailVC.previousScreen = self.thisScreen
                             self.navigationController?.pushViewController(transactionDetailVC, animated: true)
                         }
                     } else {
@@ -1166,9 +1047,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     // MARK: - If product is bought
     
     @IBAction func toPaymentConfirm(_ sender: AnyObject) {
-        
-        isNeedReload = true
-        
         let paymentConfirmationVC = Bundle.main.loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil)?.first as! PaymentConfirmationViewController
         self.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
     }
@@ -1189,12 +1067,10 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         {
             let c = segue.destination as! ProductCommentsController
             c.pDetail = self.detail
-            c.previousScreen = thisScreen
         } else
         {
             let c = segue.destination as! BaseViewController
             c.previousController = self
-            c.previousScreen = thisScreen
         }
     }
     
@@ -1210,16 +1086,10 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     let message = json["_data"]["message"].stringValue
                     let paidAmount = json["_data"]["paid_amount"].intValue
                     let preloBalance = json["_data"]["my_prelo_balance"].intValue
-                    let coinAmount = json["_data"]["diamond_amount"].intValue
-                    let coin = json["_data"]["my_total_diamonds"].intValue
-                    
                     if (isSuccess) {
-                        // Prelo Analytic - Up Product - Free
-                        self.sendUpProductAnalytic(productId, type: "Free")
-                        
-                        self.showUpPopUp(withText: message, isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                        self.showUpPopUp(withText: message, isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance)
                     } else {
-                        self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: true, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                        self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: true, paidAmount: paidAmount, preloBalance: preloBalance)
                     }
                 }
                 self.hideLoading()
@@ -1227,49 +1097,28 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
-    func showUpPopUp(withText: String, isShowUpOther: Bool, isShowPaidUp: Bool, paidAmount: Int, preloBalance: Int, coinAmount: Int, coin: Int) {
+    func showUpPopUp(withText : String, isShowUpOther : Bool, isShowPaidUp : Bool, paidAmount : Int, preloBalance: Int) {
         self.vwUpBarangPopUp.isHidden = false
         if (isShowUpOther) {
             self.lblUpOther.isHidden = false
-            self.delegate?.setFromDraftOrNew(true)
         } else {
             self.lblUpOther.isHidden = true
         }
         if (isShowPaidUp) {
             self.vwBtnSet1UpBarang.isHidden = false
             self.vwBtnSet2UpBarang.isHidden = true
-            
-            if coin >= coinAmount { // with coin / diamond
-                self.lblUpBarang.text = withText + "\n\n" + "Atau kamu bisa UP sekarang menggunakan " + coinAmount.string + " Poin\n\n"  + "Poin kamu sekarang: " + coin.string
-                
-                isCoinUse = true
-                
-                self.lblUpBarang.boldSubstring(coinAmount.string + " Poin")
-                self.lblUpBarang.boldSubstring(coin.string)
-                
-            } else { // with prelo balance
-                self.lblUpBarang.text = withText + "\n\n" + "Atau kamu bisa UP sekarang dengan membayar " + paidAmount.asPrice + " (akan otomatis ditarik dari Prelo Balance)\n\n"  + "Prelo Balance kamu: " + preloBalance.asPrice
-            
-                isCoinUse = false
-                
-                self.lblUpBarang.boldSubstring(paidAmount.asPrice)
-                self.lblUpBarang.boldSubstring(preloBalance.asPrice)
-                
-            }
-            
+            self.lblUpBarang.text = withText + "\n\n" + "Atau kamu bisa UP sekarang dengan membayar " + paidAmount.asPrice + " (akan otomatis ditarik dari Prelo Balance)\n"  + "Prelo Balance kamu: " + preloBalance.asPrice
             self.lblUpBarang.boldSubstring("sekarang")
+            self.lblUpBarang.boldSubstring(paidAmount.asPrice)
+            self.lblUpBarang.boldSubstring(preloBalance.asPrice)
         } else {
             self.vwBtnSet1UpBarang.isHidden = true
             self.vwBtnSet2UpBarang.isHidden = false
             self.lblUpBarang.text = withText
-            
-            self.lblUpBarang.boldSubstring(paidAmount.asPrice)
-            self.lblUpBarang.boldSubstring(coinAmount.string + " Poin")
         }
         self.lblUpBarang.sizeToFit()
         self.consHeightUpBarang.constant = 120 + lblUpBarang.height
         self.vwUpBarangPopUpPanel.setNeedsLayout()
-        self.lblUpBarang.boldSubstring(coinAmount.string + " Poin")
     }
     
     func hideUpPopUp() {
@@ -1290,82 +1139,22 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         self.hideUpPopUp()
         self.showLoading()
         if let productId = detail?.productID {
-            
-            
-            if isCoinUse == true {
-            
-                let _ = request(APIProduct.paidPushWithCoin(productId: productId)).responseJSON { resp in
-                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
-                        let json = JSON(resp.result.value!)
-                        let isSuccess = json["_data"]["result"].boolValue
-                        let message = json["_data"]["message"].stringValue
-                        let paidAmount = json["_data"]["paid_amount"].intValue
-                        let preloBalance = json["_data"]["my_prelo_balance"].intValue
-                        let coinAmount = json["_data"]["diamond_amount"].intValue
-                        let coin = json["_data"]["my_total_diamonds"].intValue
-                        
-                        if (isSuccess) {
-                            // Prelo Analytic - Up Product - Point
-                            self.sendUpProductAnalytic(productId, type: "Point")
-                            
-                            self.showUpPopUp(withText: message + " (" + coinAmount.string + " Poin kamu telah otomatis ditarik)", isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
-                        } else {
-                            self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
-                        }
+            let _ = request(APIProduct.paidPush(productId: productId)).responseJSON { resp in
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
+                    let json = JSON(resp.result.value!)
+                    let isSuccess = json["_data"]["result"].boolValue
+                    let message = json["_data"]["message"].stringValue
+                    let paidAmount = json["_data"]["paid_amount"].intValue
+                    let preloBalance = json["_data"]["my_prelo_balance"].intValue
+                    if (isSuccess) {
+                        self.showUpPopUp(withText: message, isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance)
+                    } else {
+                        self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance)
                     }
-                    self.hideLoading()
                 }
-                
-            } else {
-                
-                let _ = request(APIProduct.paidPush(productId: productId)).responseJSON { resp in
-                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
-                        let json = JSON(resp.result.value!)
-                        let isSuccess = json["_data"]["result"].boolValue
-                        let message = json["_data"]["message"].stringValue
-                        let paidAmount = json["_data"]["paid_amount"].intValue
-                        let preloBalance = json["_data"]["my_prelo_balance"].intValue
-                        let coinAmount = json["_data"]["diamond_amount"].intValue
-                        let coin = json["_data"]["my_total_diamonds"].intValue
-                        
-                        if (isSuccess) {
-                            // Prelo Analytic - Up Product - Balance
-                            self.sendUpProductAnalytic(productId, type: "Balance")
-                            
-                            self.showUpPopUp(withText: message + " (" + paidAmount.asPrice + " telah otomatis ditarik dari Prelo Balance)", isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
-                        } else {
-                            self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
-                        }
-                    }
-                    self.hideLoading()
-                }
+                self.hideLoading()
             }
         }
-    }
-    
-    // Prelo Analytic - Up Product
-    func sendUpProductAnalytic(_ productId: String, type: String) {
-        let loginMethod = User.LoginMethod ?? ""
-        let pdata = [
-            "Product ID" : productId,
-            "Type" : type
-        ]
-        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.UpProduct, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
-    }
-    
-    // Prelo Analytic - Share for Commission
-    func sendShareForCommissionAnalytic(_ productId: String, productName: String, fb: Int, tw: Int, ig: Int, reason: String) {
-        let loginMethod = User.LoginMethod ?? ""
-        let pdata = [
-            "Product Name" : productName,
-            "Product ID" : productId,
-            "Username" : (CDUser.getOne()?.username)!,
-            "Facebook" : fb,
-            "Twitter" : tw,
-            "Instagram" : ig,
-            "Reason" : reason
-        ] as [String : Any]
-        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ShareForCommission, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
     }
     
     @IBAction func btnUpBarangBatalPressed(_ sender: AnyObject) {
@@ -1380,65 +1169,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     func hideLoading() {
         self.loadingPanel.isHidden = true
-    }
-    
-    // Prelo Analytic - Visit Product Detail
-    func sendVisitProductDetailAnalytic() {
-        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
-                                            qos: .background,
-                                            target: nil)
-        backgroundQueue.async {
-            print("Work on background queue")
-            
-            let loginMethod = User.LoginMethod ?? ""
-            
-            // category
-            var cat : Array<String> = []
-            var catId : Array<String> = []
-            
-            let cb = (self.detail?.categoryBreadcrumbs)!
-            
-            for i in 1...cb.count-1 {
-                cat.append(cb[i]["name"].stringValue)
-                catId.append(cb[i]["_id"].stringValue)
-            }
-            
-            // brand
-            let brand = [
-                "ID" : (self.detail?.json["_data"]["brand_id"].stringValue)!,
-                "Name" : (self.detail?.json["_data"]["brand"].stringValue)!,
-                "Verified" : !((self.detail?.json["_data"]["brand_under_review"].boolValue)!)
-            ] as [String : Any]
-            
-            // segment
-            var seg : Array<String> = []
-            if let arr = (self.detail?.json["_data"]["segments"].arrayValue) {
-                for i in arr {
-                    seg.append(i.stringValue)
-                }
-            }
-            
-            // keywords
-            var key : Array<String> = []
-            if let arr = (self.detail?.json["_data"]["keywords"].arrayValue) {
-                for i in arr {
-                    key.append(i.stringValue)
-                }
-            }
-            
-            let pdata = [
-                "Product ID": (self.product?.id)!,
-                "Seller ID" : (self.detail?.json["_data"]["seller"]["_id"].stringValue)!,
-                "Brand" : brand,
-                "Category Names" : cat,
-                "Category IDs" : catId,
-                "Segments" : seg,
-                "Keywords" : key
-            ] as [String : Any]
-            
-            AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.VisitProductDetail, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
-            
-        }
     }
 }
 
@@ -1478,12 +1208,10 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     var shareTwitter : () -> () = {}
     var productProfit : Int = 90
     
-    var parent : BaseViewController?
+    var parent : UIViewController?
     
     var product : Product?
     var detail : ProductDetail?
-    
-    weak var cellDelegate : ProductCellDelegate?
     
     static func heightFor(_ obj : ProductDetail?)->CGFloat
     {
@@ -1569,8 +1297,6 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
             LoginViewController.Show(self.parent!, userRelatedDelegate: self, animated: true)
         } else
         {
-            self.cellDelegate?.cellTappedComment()
-            
             self.parent?.performSegue(withIdentifier: "segAddComment", sender: nil)
         }
     }
@@ -1591,7 +1317,6 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     
     func callApiLove()
     {
-        /*
         // Mixpanel
         let pt = [
             "Product Name" : ((product != nil) ? (product!.name) : ""),
@@ -1601,7 +1326,6 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
             "Seller Name" : ((detail != nil) ? (detail!.theirName) : "")
         ]
         Mixpanel.trackEvent(MixpanelEvent.ToggledLikeProduct, properties: pt)
-         */
         
         if (isLoved)
         {
@@ -1620,16 +1344,6 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
                     let ns = s as NSString
                     self.captionCountLove?.text = String(ns.integerValue + 1)
                 }
-                
-                // Prelo Analytic - Love
-                let loginMethod = User.LoginMethod ?? ""
-                let pdata = [
-                    "Product ID": ((self.product != nil) ? (self.product!.id) : ""),
-                    "Seller ID" : ((self.product != nil) ? (self.product!.json["seller_id"].string) : ""),
-                    "Screen" : PageName.ProductDetail,
-                    "Is Featured" : ((self.product != nil) ? (self.product!.isFeatured) : false)
-                ] as [String : Any]
-                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.LoveProduct, data: pdata, previousScreen: self.parent!.previousScreen, loginMethod: loginMethod)
             } else
             {
                 self.isLoved = false
@@ -1652,16 +1366,6 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
                     let ns = s as NSString
                     self.captionCountLove?.text = String(ns.integerValue - 1)
                 }
-                
-                // Prelo Analytic - UnLove
-                let loginMethod = User.LoginMethod ?? ""
-                let pdata = [
-                    "Product Id": ((self.product != nil) ? (self.product!.id) : ""),
-                    "Seller ID" : ((self.product != nil) ? (self.product!.json["seller_id"].string) : ""),
-                    "Screen" : PageName.ProductDetail,
-                    "Is Featured" : ((self.product != nil) ? (self.product!.isFeatured) : false)
-                ] as [String : Any]
-                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.UnloveProduct, data: pdata, previousScreen: self.parent!.previousScreen, loginMethod: loginMethod)
             } else
             {
                 self.isLoved = true
@@ -1881,12 +1585,6 @@ class ProductCellSeller : UITableViewCell
         return 86
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        
-        ivSellerAvatar?.afCancelRequest()
-    }
-    
     func adapt(_ obj : ProductDetail?)
     {
         if (obj == nil) {
@@ -1935,7 +1633,7 @@ class ProductCellSeller : UITableViewCell
             }
         }
 
-        ivSellerAvatar?.afSetImage(withURL: (obj?.shopAvatarURL)!, withFilter: .circle)
+        ivSellerAvatar?.afSetImage(withURL: (obj?.shopAvatarURL)!)
     }
     
     override func awakeFromNib() {
@@ -1943,32 +1641,25 @@ class ProductCellSeller : UITableViewCell
         ivSellerAvatar?.layoutIfNeeded()
         ivSellerAvatar?.layer.cornerRadius = (ivSellerAvatar?.frame.size.width)!/2
         ivSellerAvatar?.layer.masksToBounds = true
-        
-        ivSellerAvatar?.layer.borderColor = Theme.GrayLight.cgColor
-        ivSellerAvatar?.layer.borderWidth = 2
     }
 }
 
 class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
 {
     @IBOutlet weak var captionSpecialStory: UILabel!
-    @IBOutlet weak var captionWeight : UILabel!
-    @IBOutlet weak var captionCondition : UILabel!
-    @IBOutlet weak var captionFrom : UILabel!
-    @IBOutlet weak var captionAlasanJual : UILabel!
-    @IBOutlet weak var captionMerk : ZSWTappableLabel?
-    @IBOutlet weak var captionCategory : ZSWTappableLabel?
-    @IBOutlet weak var captionDesc : UILabel!
-    @IBOutlet weak var captionDate : UILabel!
-    @IBOutlet weak var captionCacat: UILabel!
-    @IBOutlet weak var captionUkuran: UILabel!
+    @IBOutlet var captionWeight : UILabel?
+    @IBOutlet var captionCondition : UILabel?
+    @IBOutlet var captionFrom : UILabel?
+    @IBOutlet var captionAlasanJual : UILabel?
+    @IBOutlet var captionMerk : ZSWTappableLabel?
+    @IBOutlet var captionCategory : ZSWTappableLabel?
+    @IBOutlet var captionDesc : UILabel?
+    @IBOutlet var captionDate : UILabel?
     
-    @IBOutlet weak var consHeightWaktuJaminan: NSLayoutConstraint!
+    @IBOutlet var consHeightWaktuJaminan: NSLayoutConstraint!
     
-    @IBOutlet weak var consHeightUkuran: NSLayoutConstraint!
-    @IBOutlet weak var consHeightCacat: NSLayoutConstraint!
     
-    weak var cellDelegate : ProductCellDelegate?
+    var cellDelegate : ProductCellDelegate?
     
     override func awakeFromNib() {
         captionCategory?.tapDelegate = self
@@ -2035,25 +1726,9 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         }
         let alSize = sellReason.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width-100)
         
-        // cacat
-        let condition = product["condition"].string
-        let cacat = product["defect_description"].string
-        var defectSize = CGFloat(0)
-        if cacat != nil && cacat != "" && condition == "Cukup ( < 70%)" {
-            defectSize = 21
-        }
-        
-        // ukuran
-        let ukuran = product["size"].string
-        var sizeSize = CGFloat(0)
-        if ukuran != nil && ukuran != "" {
-            sizeSize = 21
-        }
-        
         let control = CGFloat((desc2 == "" && desc3 == "") ? -40 : ((desc2 == "" || desc3 == "") ? -20 : 0))
-//        let control = CGFloat((desc2 == "") ? -40 : ((desc3 == "") ? -20 : 0))
         
-        return 163+size.height+size2.height+s.height+cs.height+8+8+cs2Size.height+8+alSize.height+defectSize+sizeSize+control
+        return 163+size.height+size2.height+s.height+cs.height+8+8+cs2Size.height+8+alSize.height + control
     }
     
     func adapt(_ obj : ProductDetail?)
@@ -2083,18 +1758,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         
         captionDesc?.text = product["description"].string!
         captionDate?.text = product["time"].string!
-        
-        let condition = product["condition"].string
-        captionCondition?.text = condition!
-        
-        let cacat = product["defect_description"].string
-        if cacat != nil && cacat != "" && condition == "Cukup ( < 70%)" {
-            captionCacat?.text = product["defect_description"].string!
-            consHeightCacat.constant = 21
-        } else {
-            consHeightCacat.constant = 0
-        }
-        
+        captionCondition?.text = product["condition"].string!
         if let region = product["seller_region"]["name"].string
         {
             captionFrom?.text = region
@@ -2126,18 +1790,11 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         let w = obj!.weight
         if (w > 1000)
         {
-            captionWeight?.text = (Float(w) / 1000.0).clean + " kg"
+            captionWeight?.text = (Float(w) * 0.001).description + " kg"
         } else {
-            captionWeight?.text = w.description + " gram"
+            captionWeight?.text = w.description + ".0 gram"
         }
         
-        let ukuran = product["size"].string
-        if ukuran != nil && ukuran != "" {
-            captionUkuran?.text = ukuran
-            consHeightUkuran.constant = 21
-        } else {
-            consHeightUkuran.constant = 0
-        }
         
         let arr = product["category_breadcrumbs"].array!
         var categoryString : String = ""
@@ -2248,12 +1905,6 @@ class ProductCellDiscussion : UITableViewCell
     var showReportAlert : (UIView, String) -> () = { _, _ in }
     var goToProfile : (String) -> () = { _ in }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        
-        ivCover?.afCancelRequest()
-    }
-    
     static func heightFor(_ obj : ProductDiscussion?)->CGFloat
     {
         if (obj == nil) {
@@ -2270,9 +1921,6 @@ class ProductCellDiscussion : UITableViewCell
         ivCover?.layoutIfNeeded()
         ivCover?.layer.cornerRadius = (ivCover?.frame.size.width)!/2
         ivCover?.layer.masksToBounds = true
-        
-        ivCover?.layer.borderColor = Theme.GrayLight.cgColor
-        ivCover?.layer.borderWidth = 2
     }
     
     func adapt(_ obj : ProductDiscussion?)
@@ -2297,7 +1945,7 @@ class ProductCellDiscussion : UITableViewCell
             captionMessage?.textColor = UIColor.darkGray
         }
         captionName?.text = json["sender_username"].string!
-        ivCover?.afSetImage(withURL: (obj?.posterImageURL)!, withFilter: .circle)
+        ivCover?.afSetImage(withURL: (obj?.posterImageURL)!)
         
         if (User.IsLoggedIn) {
             consWidthBtnReport.constant = 25

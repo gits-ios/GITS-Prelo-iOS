@@ -227,9 +227,6 @@ class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSo
             } else if (p.caption.lowercased() == "beli") {
                 transactionDetailVC.isSeller = false
             }
-            
-            transactionDetailVC.previousScreen = PageName.MyOrders
-            
             self.navigationController?.pushViewController(transactionDetailVC, animated: true)
         }
     }

@@ -70,18 +70,9 @@ class CustomPhotoAlbum: NSObject {
         return nil
     }
     
-    func save(image: UIImage) -> String {
-        var filename = ""
+    func save(image: UIImage) {
         if assetCollection == nil {
-            return filename                         // if there was an error upstream, skip the save
-        }
-        
-        let completion = { (success: Bool, error: Error?) -> () in
-            if success {
-                filename = self.fetchLastPhotoTakenFromAlbum()
-            } else {
-                print("can't save asset: \(error)")
-            }
+            return                          // if there was an error upstream, skip the save
         }
         
         PHPhotoLibrary.shared().performChanges({
@@ -91,13 +82,7 @@ class CustomPhotoAlbum: NSObject {
             let enumeration: NSArray = [assetPlaceHolder!]
             albumChangeRequest!.addAssets(enumeration)
             
-        }, completionHandler: completion)
-        
-        while (true) {
-            if (filename != "") {
-                return filename
-            }
-        }
+        }, completionHandler: nil)
     }
     
     func fetchLastPhotoTakenFromAlbum() -> String {

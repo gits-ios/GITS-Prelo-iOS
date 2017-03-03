@@ -198,7 +198,7 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let usedItems = items else {
-            _ = self.navigationController?.popViewController(animated: true)
+            self.navigationController?.popViewController(animated: true)
             return
         }
         
@@ -210,7 +210,7 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
             pickerDelegate?.pickerDidSelect!((usedItems.objectAtCircleIndex((indexPath as NSIndexPath).row)))
         }
         
-        _ = self.navigationController?.popViewController(animated: true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -295,7 +295,7 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
             pickerDelegate!.pickerCancelled?()
         }
         if (self.navigationController != nil) {
-            _ = self.navigationController?.popViewController(animated: true)
+            self.navigationController?.popViewController(animated: true)
         } else {
             self.dismiss(animated: true, completion: nil)
         }

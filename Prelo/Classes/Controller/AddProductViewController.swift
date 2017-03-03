@@ -154,7 +154,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     func alertView(_ alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
         if (buttonIndex == 1)
         {
-            _ = self.navigationController?.popViewController(animated: true)
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
@@ -210,7 +210,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     
     func userCancelLogin() {
         self.first = false
-        _ = self.navigationController?.popViewController(animated: true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -304,31 +304,31 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         // validation
         if (name == nil)
         {
-            Constant.showDialog("Warning", message: "Nama item masih kosong")
+            UIAlertView.SimpleShow("Warning", message: "Nama item masih kosong")
             return
         }
         
         if (desc == nil)
         {
-            Constant.showDialog("Warning", message: "Deskripsi item masih kosong")
+            UIAlertView.SimpleShow("Warning", message: "Deskripsi item masih kosong")
             return
         }
         
         if (price == nil)
         {
-            Constant.showDialog("Warning", message: "Harga item masih kosong")
+            UIAlertView.SimpleShow("Warning", message: "Harga item masih kosong")
             return
         }
         let weight = currentWeight as NSString
         if (currentWeight == "" || weight.integerValue == 0)
         {
-            Constant.showDialog("Warning", message: "Berat item masih kosong")
+            UIAlertView.SimpleShow("Warning", message: "Berat item masih kosong")
             return
         }
         
         if (selectedCategoryID == "")
         {
-            Constant.showDialog("Warning", message: "Kategori item masih kosong")
+            UIAlertView.SimpleShow("Warning", message: "Kategori item masih kosong")
             return
         }
         
@@ -338,9 +338,9 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         //Mixpanel.sharedInstance().timeEvent("Adding Product")
         
         AppToolsObjC.sendMultipart(["name":name!, "description":desc!, "category":selectedCategoryID, "price":price!, "weight":currentWeight], images: self.sendIMGs, withToken: User.Token!, success: {op, res in
-            print((res ?? ""))
+            print(res)
             //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"1"])
-            let json = JSON((res ?? [:]))
+            let json = JSON(res)
             let s = self.storyboard?.instantiateViewController(withIdentifier: "share") as! AddProductShareViewController
             if let price = json["_data"]["price"].int
             {
@@ -352,7 +352,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"0"])
             self.navigationItem.rightBarButtonItem = self.confirmButton.toBarButton()
             self.btnSend.isEnabled = true
-            Constant.showDialog("Warning", message: "Gagal")
+            UIAlertView.SimpleShow("Warning", message: "Gagal")
         })
     
         // mark
@@ -373,7 +373,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             {
                 if (imgs.count == 0)
                 {
-                    _ = self.navigationController?.popViewController(animated: true)
+                    self.navigationController?.popViewController(animated: true)
                 }
                 
                 self.first = false
@@ -835,7 +835,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     }
     
     func weightShouldReturn(_ textField: UITextField) {
-        _ = self.textFieldShouldReturn(textField)
+        self.textFieldShouldReturn(textField)
     }
     
     /*
@@ -1112,8 +1112,7 @@ class AddProductImageCell : UICollectionViewCell
                         asset = ALAssetsLibrary()
                     }
                     
-//                    DispatchQueue.global( priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
-                    DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
+                    DispatchQueue.global( priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
                         self.asset?.asset(for: (self._apImage?.url)! as URL, resultBlock: { asset in
                             if let ast = asset {
                                 let rep = ast.defaultRepresentation()

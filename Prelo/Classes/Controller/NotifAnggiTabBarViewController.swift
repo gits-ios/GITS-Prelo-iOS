@@ -75,9 +75,6 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
             if (isFirstAppear) {
                 isFirstAppear = false
                 
-                self.notifAnggiTransactionVC?.previousScreen = self.previousScreen
-                self.notifAnggiConversationVC?.previousScreen = self.previousScreen
-                
                 self.getUnreadNotifCount()
                 self.refreshNotifPage()
             } else {
@@ -137,7 +134,7 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
     
     func userCancelLogin() {
         allowLaunchLogin = false
-        _ = self.navigationController?.popViewController(animated: true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     func userLoggedIn() {

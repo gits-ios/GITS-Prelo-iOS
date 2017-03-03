@@ -43,12 +43,12 @@ fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 class BalanceMutationViewController : BaseViewController, UITableViewDataSource, UITableViewDelegate {
     
-    @IBOutlet weak var lblBalanceAmount: UILabel!
-    @IBOutlet weak var tblMutation: UITableView!
-    @IBOutlet weak var lblEmpty: UILabel!
-    @IBOutlet weak var loadingPanel: UIView!
-    @IBOutlet weak var btnRefresh: UIButton!
-    @IBOutlet weak var bottomLoadingPanel: UIView!
+    @IBOutlet var lblBalanceAmount: UILabel!
+    @IBOutlet var tblMutation: UITableView!
+    @IBOutlet var lblEmpty: UILabel!
+    @IBOutlet var loadingPanel: UIView!
+    @IBOutlet var btnRefresh: UIButton!
+    @IBOutlet var bottomLoadingPanel: UIView!
     
     var refreshControl : UIRefreshControl!
     var nextIdx : Int = 0
@@ -114,12 +114,11 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
                 if (self.nextIdx == 0) { // First request
                     self.totalPreloBalance = json["_data"]["total_prelo_balance"].intValue
                 }
-//                let f = NumberFormatter()
-//                f.numberStyle = NumberFormatter.Style.currency
-//                f.currencySymbol = ""
-//                f.locale = Locale(identifier: "id_ID")
-//                self.lblBalanceAmount.text = f.string(from: NSNumber(value: self.totalPreloBalance as Int))
-                self.lblBalanceAmount.text = self.totalPreloBalance.asPrice
+                let f = NumberFormatter()
+                f.numberStyle = NumberFormatter.Style.currency
+                f.currencySymbol = ""
+                f.locale = Locale(identifier: "id_ID")
+                self.lblBalanceAmount.text = f.string(from: NSNumber(value: self.totalPreloBalance as Int))
                 
                 // Store data into variable
                 var nextTotalAmount = self.totalPreloBalance
@@ -180,7 +179,7 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
         let cell : BalanceMutationCell = self.tblMutation.dequeueReusableCell(withIdentifier: "BalanceMutationCell") as! BalanceMutationCell
         if balanceMutationItems?.count > 0 {
             if let b = balanceMutationItems?[(indexPath as NSIndexPath).row] {
-                return BalanceMutationCell.heightFor(b, lblDescription: cell.lblDescription, lblReasonAdmin: cell.lblReasonAdmin, lblWJP: cell.lblWJP)
+                return BalanceMutationCell.heightFor(b, lblDescription: cell.lblDescription, lblReasonAdmin: cell.lblReasonAdmin)
             }
         }
         return 0
@@ -220,8 +219,6 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
                     transactionDetailVC.isSeller = false
                 }
                 
-                transactionDetailVC.previousScreen = PageName.Mutation
-                
                 self.navigationController?.pushViewController(transactionDetailVC, animated: true)
             }
         }
@@ -251,12 +248,8 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     // MARK: - Actions
     
     @IBAction func tarikUangPressed(_ sender: AnyObject) {
-//        let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//        let t = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdTarikTunai) as! TarikTunaiController
-//        self.navigationController?.pushViewController(t, animated: true)
-        
-        let t = Bundle.main.loadNibNamed(Tags.XibNameTarikTunai2, owner: nil, options: nil)?.first as! TarikTunaiViewController2
-        t.previousScreen = PageName.Mutation
+        let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let t = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdTarikTunai) as! TarikTunaiController
         self.navigationController?.pushViewController(t, animated: true)
     }
     
@@ -309,43 +302,45 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
 
 class BalanceMutationCell : UITableViewCell {
     
-    @IBOutlet weak var lblPlusMinus: UILabel!
-    @IBOutlet weak var lblMutation: UILabel!
-    @IBOutlet weak var lblBalance: UILabel!
-    @IBOutlet weak var lblDescription: UILabel!
-    @IBOutlet weak var lblReasonAdmin: UILabel!
-    @IBOutlet weak var lblTime: UILabel!
-    @IBOutlet weak var lblWJP: UILabel!
-    @IBOutlet weak var imgWJP: UIImageView! // default hide
+    @IBOutlet var lblPlusMinus: UILabel!
+    @IBOutlet var lblMutation: UILabel!
+    @IBOutlet var lblBalance: UILabel!
+    @IBOutlet var lblDescription: UILabel!
+    @IBOutlet var lblReasonAdmin: UILabel!
+    @IBOutlet var lblTime: UILabel!
     
-    @IBOutlet weak var consHeightLblDescription: NSLayoutConstraint!
-    @IBOutlet weak var consHeightLblReasonAdmin: NSLayoutConstraint!
-    @IBOutlet weak var consHeightLblWJP: NSLayoutConstraint!
+    @IBOutlet var consHeightLblDescription: NSLayoutConstraint!
+    @IBOutlet var consHeightLblReasonAdmin: NSLayoutConstraint!
     
-    static func heightFor(_ mutation : BalanceMutationItem, lblDescription : UILabel, lblReasonAdmin : UILabel, lblWJP : UILabel) -> CGFloat {
+    static func heightFor(_ mutation : BalanceMutationItem, lblDescription : UILabel, lblReasonAdmin : UILabel) -> CGFloat {
+        
+//        let maxLblWidth = UIScreen.mainScreen().bounds.size.width - 126
+//        let maxLblHeight = CGFloat.max
+//        
+//        var heightLblDesc : CGFloat = 0
+//        if let h = lblDescription.attributedText?.boundingRectWithSize(CGSizeMake(maxLblWidth, maxLblHeight), options: .UsesLineFragmentOrigin, context: nil).height {
+//            heightLblDesc = h
+//        }
+//        
+//        var heightLblReason : CGFloat = 0
+//        if let h = lblReasonAdmin.text?.boundsWithFontSize(UIFont.systemFontOfSize(12), width: maxLblWidth) {
+//            
+//        }
+//        if let h = lblReasonAdmin.text?.boundingRectWithSize(CGSizeMake(maxLblWidth, maxLblHeight), options: .UsesLineFragmentOrigin, context: nil).height {
+//            heightLblReason = h
+//        }
+//        
+//        return 56 + heightLblDesc + heightLblReason
         
         lblDescription.text = mutation.reasonDetail
         lblReasonAdmin.text = mutation.reasonAdmin
-        let rectDesc = UIScreen.main.bounds.size.width - 118
-        let rectReason = UIScreen.main.bounds.size.width - 118
-        let sizeFixDesc = mutation.reasonDetail.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectDesc)
-        let sizeFixReasonAdmin = mutation.reasonAdmin.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectReason)
-        
-        var wjpSize = CGFloat(0)
-        if (mutation.isHold) {
-//            let wjp = "Pemasukan transaksi ini masih dalam Waktu Jaminan Prelo sehingga tidak bisa ditarik (tunggu hingga 3x24 jam setelah barang diterima)"
-            
-            let wjp = mutation.notes
-            
-            lblWJP.text = wjp
-            let rectWJP = UIScreen.main.bounds.size.width - 50
-            
-            let sizeFixWJP = wjp.boundsWithFontSize(UIFont.systemFont(ofSize: 10), width: rectWJP)
-            
-            wjpSize += (sizeFixWJP.height + 16)
-        }
-        
-        return 56 + sizeFixDesc.height + 2 + (lblReasonAdmin.text! != "" ? sizeFixReasonAdmin.height + 2 : 0) + wjpSize
+        var rectDesc = lblDescription.frame.size
+//        rectDesc.width = UIScreen.main.bounds.size.width - 111
+        var rectReason = lblReasonAdmin.frame.size
+//        rectReason.width = UIScreen.main.bounds.size.width - 111
+        let sizeFixDesc = mutation.reasonDetail.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectDesc.width)
+        let sizeFixReasonAdmin = mutation.reasonAdmin.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectReason.width)
+        return 56 + sizeFixDesc.height + (lblReasonAdmin.text! != "" ? sizeFixReasonAdmin.height : 0)
     }
     
     func adapt(_ mutation : BalanceMutationItem) {
@@ -374,38 +369,13 @@ class BalanceMutationCell : UITableViewCell {
         self.lblDescription.attributedText = attrStrDesc
         
         // Label height fix
-        let rectDesc = UIScreen.main.bounds.size.width - 118
-        let sizeFixDesc = mutation.reasonDetail.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectDesc)
-        consHeightLblDescription.constant = sizeFixDesc.height + 2
-        
-        let rectReason = UIScreen.main.bounds.size.width - 118
-        let sizeFixReasonAdmin = mutation.reasonAdmin.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectReason)
-        consHeightLblReasonAdmin.constant = (mutation.reasonAdmin != "" ? sizeFixReasonAdmin.height + 2 : 0)
-        
-        if (mutation.isHold) {
-//            let wjp = "Pemasukan transaksi ini masih dalam Waktu Jaminan Prelo sehingga tidak bisa ditarik (tunggu hingga 3x24 jam setelah barang diterima)"
-            
-            let wjp = mutation.notes
-            
-            lblWJP.text = wjp
-            
-            let attrStr = NSMutableAttributedString(string: wjp)
-            
-            attrStr.addAttributes([NSFontAttributeName: UIFont.boldSystemFont(ofSize: 10.0)], range: (wjp as NSString).range(of: "Waktu Jaminan Prelo"))
-            
-            lblWJP.attributedText = attrStr
-            
-            let rectWJP = UIScreen.main.bounds.size.width - 50
-            
-            let sizeFixWJP = wjp.boundsWithFontSize(UIFont.systemFont(ofSize: 10), width: rectWJP)
-            
-            
-            consHeightLblWJP.constant = sizeFixWJP.height + 8
-            imgWJP.isHidden = false
-        } else {
-            consHeightLblWJP.constant = 0
-            imgWJP.isHidden = true
-        }
-
+        var rectDesc = lblDescription.frame.size
+//        rectDesc.width = UIScreen.main.bounds.size.width - 111
+        let sizeFixDesc = mutation.reasonDetail.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectDesc.width)
+        consHeightLblDescription.constant = sizeFixDesc.height
+        var rectReason = lblReasonAdmin.frame.size
+//        rectReason.width = UIScreen.main.bounds.size.width - 111
+        let sizeFixReasonAdmin = mutation.reasonAdmin.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectReason.width)
+        consHeightLblReasonAdmin.constant = (mutation.reasonAdmin != "" ? sizeFixReasonAdmin.height : 0)
     }
 }
