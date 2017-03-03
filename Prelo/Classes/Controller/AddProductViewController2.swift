@@ -1541,6 +1541,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                         if (hiddenStr.count >= 2) {
                             self.merekId = hiddenStr[0]
                             self.merekIsLuxury = (hiddenStr[1] == "1") ? true : false
+                        } else {
+                            self.merekId = ""
+                            self.merekIsLuxury = false
                         }
                         var x : String = PickerViewController.HideHiddenString(s)
                         
@@ -1695,6 +1698,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 let _ = request(APIProduct.delete(productID: prodId)).responseJSON {resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Hapus Barang"))
                     {
+                        // Prelo Analytic - Erase Product
+                        let loginMethod = User.LoginMethod ?? ""
+                        let pdata = [
+                            "Product ID": prodId
+                        ] as [String : Any]
+                        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.EraseProduct, data: pdata, previousScreen: self.screenBeforeAddProduct, loginMethod: loginMethod)
+                        
                         if var v = self.navigationController?.viewControllers
                         {
                             v.removeLast()
@@ -1963,6 +1973,103 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 self.btnSubmit.isEnabled = true
             }))
             alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
+                
+                // Prelo Analytic - Submit Product
+                let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
+                                                    qos: .background,
+                                                    target: nil)
+                backgroundQueue.async {
+                    print("Work on background queue")
+                    
+                    let loginMethod = User.LoginMethod ?? ""
+                    
+                    // brand
+                    let brand = [
+                        "ID" : self.merekId,
+                        "Name" : self.captionMerek.text!,
+                        "Verified" : (self.merekId != "" ? true : false)
+                    ] as [String : Any]
+                    
+                    var pdata = [
+                        "Local ID": (self.draftMode == true ? (self.draftProduct?.localId)! : self.uniqueCodeString)!,
+                        "Product Name" : name,
+                        "Condition" : self.captionKondisi.text!,
+                        "Brand" : brand,
+                        "Free Shipping" : (self.freeOngkir == 1 ? true : false),
+                        "Weight" : self.txtWeight.text!,
+                        "Price Original" : self.txtOldPrice.text!,
+                        "Price" : self.txtNewPrice.text!
+                    ] as [String : Any]
+                    
+                    // cat
+                    var cat : Array<String> = []
+                    var catId : Array<String> = []
+                    catId.append(self.productCategoryId)
+                    var temp = CDCategory.getCategoryWithID(self.productCategoryId)!
+                    cat.append(temp.name)
+                    while (true) {
+                        if let cur = CDCategory.getParent(temp.id) {
+                            temp = cur
+                            cat.append(temp.name)
+                            catId.append(temp.id)
+                        } else {
+                            break
+                        }
+                    }
+                    
+                    /*
+                    var iter = 1
+                    for item in cat.reversed() {
+                        pdata["Category " + iter.string] = item
+                        iter += 1
+                    }
+                     */
+                    
+                    cat = cat.reversed()
+                    pdata["Category Names"] = cat
+                    
+                    catId = catId.reversed()
+                    pdata["Category IDs"] = catId
+                    
+                    // imgae
+//                    var count = 0
+                    var imagesOke : [Bool] = []
+                    for i in 0...self.images.count - 1 {
+                        if let _ = self.images[i] as? UIImage {
+//                            count += 1
+//                            if (i == 0) {
+//                                pdata["Main Picture Exist"] = true
+//                            } else if (i == 1) {
+//                                pdata["Back Picture Exist"] = true
+//                            } else if (i == 2) {
+//                                pdata["Wear Picture Exist"] = true
+//                            } else if (i == 3) {
+//                                pdata["Label Picture Exist"] = true
+//                            } else if (i == 4) {
+//                                pdata["Defect Picture Exist"] = true
+//                            }
+                            imagesOke.append(true)
+                        } else {
+//                            if (i == 0) {
+//                                pdata["Main Picture Exist"] = false
+//                            } else if (i == 1) {
+//                                pdata["Back Picture Exist"] = false
+//                            } else if (i == 2) {
+//                                pdata["Wear Picture Exist"] = false
+//                            } else if (i == 3) {
+//                                pdata["Label Picture Exist"] = false
+//                            } else if (i == 4) {
+//                                pdata["Defect Picture Exist"] = false
+//                            }
+                            imagesOke.append(false)
+                        }
+                    }
+//                    pdata["Number of Picture Uploaded"] = count
+                    pdata["Images"] = imagesOke
+                    
+                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SubmitProduct, data: pdata, previousScreen: self.screenBeforeAddProduct, loginMethod: loginMethod)
+                }
+                
                 self.btnSubmit.isEnabled = true
                 let share = self.storyboard?.instantiateViewController(withIdentifier: "share") as! AddProductShareViewController
                 share.sendProductParam = param
@@ -1970,7 +2077,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 share.basePrice = (newPrice.int)
                 share.productName = name
                 share.productImgImage = self.images.first as? UIImage
-                share.sendProductBeforeScreen = self.screenBeforeAddProduct
+                share.sendProductBeforeScreen = PageName.AddProduct //self.screenBeforeAddProduct
                 share.sendProductKondisi = self.kodindisiId
                 share.shouldSkipBack = false
                 share.localId = self.draftMode ? (self.draftProduct?.localId)! : self.uniqueCodeString
@@ -2111,6 +2218,15 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
         
         if isBack {
+            // Prelo Analytic - Save As Draft
+            let loginMethod = User.LoginMethod ?? ""
+            let pdata = [
+                "Local ID": (self.draftMode == true ? (self.draftProduct?.localId)! : self.uniqueCodeString),
+                "Product Name" : self.txtName.text!,
+//                "Username" : CDUser.getOne()?.username
+            ] as [String : Any]
+            AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SaveAsDraft, data: pdata, previousScreen: self.screenBeforeAddProduct, loginMethod: loginMethod)
+            
             Constant.showBadgeDialog("Berhasil", message: "Draft barang berhasil disimpan di menu Jualan Saya. Jika belum muncul, mohon tunggu beberapa saat dan coba untuk memperbarui menu Jualan Saya.", badge: "info", view: self, isBack: isBack)
         }
     }

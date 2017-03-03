@@ -102,6 +102,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     weak var delegate: MyProductDelegate?
     
+    var thisScreen: String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -182,12 +184,16 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             
             // Google Analytics
             GAI.trackPageVisit(PageName.ProductDetailMine)
+            
+            self.thisScreen = PageName.ProductDetailMine
         } else {
             // Mixpanel
 //            Mixpanel.trackPageVisit(PageName.ProductDetail, otherParam: p)
             
             // Google Analytics
             GAI.trackPageVisit(PageName.ProductDetail)
+            
+            self.thisScreen = PageName.ProductDetail
         }
     }
 
@@ -225,6 +231,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     self.setOptionButton()
                     
                     self.setupView()
+                    
+                    // Prelo Analytic - Visit Product Detail
+                    self.sendVisitProductDetailAnalytic()
                 } else {
                     
                 }
@@ -519,6 +528,14 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     Constant.showDialog("Share to Facebook", message: "Barang berhasil di-share di akun Facebook \(fbUsername)")
                     self.delegate?.setFromDraftOrNew(true)
                 }
+                // Prelo Analytic - Share for Commission - Facebook
+                self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 1, tw: 0, ig: 0, reason: "")
+            } else {
+                let json = JSON(resp.result.value)
+                let reason = json["_message"].stringValue
+                
+                // Prelo Analytic - Share for Commission - Facebook
+                self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 1, tw: 0, ig: 0, reason: reason)
             }
             self.hideLoading()
         }
@@ -534,6 +551,14 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     Constant.showDialog("Share to Twitter", message: "Barang berhasil di-share di akun Twitter \(twUsername)")
                     self.delegate?.setFromDraftOrNew(true)
                 }
+                // Prelo Analytic - Share for Commission - Twitter
+                self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 0, tw: 1, ig: 0, reason: "")
+            } else {
+                let json = JSON(resp.result.value)
+                let reason = json["_message"].stringValue
+                
+                // Prelo Analytic - Share for Commission - Twitter
+                self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 0, tw: 1, ig: 0, reason: reason)
             }
             self.hideLoading()
         }
@@ -599,6 +624,15 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Share Instagram")) {
                                         self.cellTitle?.sharedViaInstagram()
                                         self.detail?.setSharedViaInstagram()
+                                        
+                                        // Prelo Analytic - Share for Commission - Instagram
+                                        self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 0, tw: 0, ig: 1, reason: "")
+                                    } else {
+                                        let json = JSON(resp.result.value)
+                                        let reason = json["_message"].stringValue
+                                        
+                                        // Prelo Analytic - Share for Commission - Instagram
+                                        self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 0, tw: 0, ig: 1, reason: reason)
                                     }
                                     self.hideLoading()
                                     instagramSharePreview.removeFromSuperview()
@@ -720,11 +754,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     alert.popoverPresentationController?.sourceView = sender
                     alert.popoverPresentationController?.sourceRect = sender.bounds
                     alert.addAction(UIAlertAction(title: "Mengganggu / spam", style: .default, handler: { act in
-                        self.reportComment(commentId: commentId, reportType: 0)
+                        self.reportComment(commentId: commentId, reportType: 0, reportedUsername: (cell.captionName?.text!)!)
                         alert.dismiss(animated: true, completion: nil)
                     }))
                     alert.addAction(UIAlertAction(title: "Tidak layak", style: .default, handler: { act in
-                        self.reportComment(commentId: commentId, reportType: 1)
+                        self.reportComment(commentId: commentId, reportType: 1, reportedUsername: (cell.captionName?.text!)!)
                         alert.dismiss(animated: true, completion: nil)
                     }))
                     alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in
@@ -742,11 +776,13 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     let vc = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
                     vc.currentMode = .shop
                     vc.shopId = userId
+                    vc.previousScreen = self.thisScreen
                     
                     self.navigationController?.pushViewController(vc, animated: true)
                 } else {
                     let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
                     storePageTabBarVC.shopId = userId
+                    storePageTabBarVC.previousScreen = self.thisScreen
                     self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
                 }
             }
@@ -754,7 +790,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
-    func reportComment(commentId : String, reportType : Int) {
+    func reportComment(commentId : String, reportType : Int, reportedUsername : String) {
         self.showLoading()
         request(APIProduct.reportComment(productId: (self.product?.id)!, commentId: commentId, reportType: reportType)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Laporkan Komentar")) {
@@ -762,6 +798,18 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 if (json["_data"].boolValue == true) {
                     Constant.showDialog("Komentar Dilaporkan", message: "Terima kasih, Prelo akan meninjau laporan kamu")
                 }
+                
+                // Prelo Analytic - Report Comment
+                let loginMethod = User.LoginMethod ?? ""
+                let reportingUsername = (CDUser.getOne()?.username)!
+                let pdata = [
+                    "Product ID" : (self.product?.id)!,
+                    "Reported Username" : reportedUsername,
+                    "Reporter Username" : reportingUsername,
+                    "Reason" : reportType,
+                    "Comment ID" : commentId
+                ] as [String : Any]
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ReportComment, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
             }
             self.hideLoading()
         }
@@ -828,10 +876,13 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     d.shopId = name
                 }
                 
+                d.previousScreen = thisScreen
+                
                 self.navigationController?.pushViewController(d, animated: true)
             } else {
                 let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
                 storePageTabBarVC.shopId = detail?.json["_data"]["seller"]["_id"].string
+                storePageTabBarVC.previousScreen = thisScreen
                 self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
             }
         }
@@ -847,6 +898,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         l.currentMode = .filter
         l.fltrSortBy = "recent"
         l.fltrCategId = categoryID
+        l.previousScreen = thisScreen
         self.navigationController?.pushViewController(l, animated: true)
     }
     
@@ -855,6 +907,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         l.currentMode = .filter
         l.fltrSortBy = "recent"
         l.fltrBrands = [brandName : brandId]
+        l.previousScreen = thisScreen
         self.navigationController?.pushViewController(l, animated: true)
     }
     
@@ -866,7 +919,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     @IBAction func addToCart(_ sender: UIButton) {
         if (alreadyInCart) {
-            self.performSegue(withIdentifier: "segCart", sender: nil)
+//            self.performSegue(withIdentifier: "segCart", sender: nil)
+            let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
+            cart.previousController = self
+            cart.previousScreen = thisScreen
+            self.navigationController?.pushViewController(cart, animated: true)
             return
         }
         
@@ -874,7 +931,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             Constant.showDialog("Failed", message: "Gagal Menyimpan")
         } else {
             setupView()
-            self.performSegue(withIdentifier: "segCart", sender: nil)
+//            self.performSegue(withIdentifier: "segCart", sender: nil)
+            let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
+            cart.previousController = self
+            cart.previousScreen = thisScreen
+            self.navigationController?.pushViewController(cart, animated: true)
         }
     }
         
@@ -894,6 +955,14 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             Constant.showDialog("Success", message: "Barang telah ditandai sebagai barang terjual")
                             
                             self.delegate?.setFromDraftOrNew(true)
+                            
+                            // Prelo Analytic - Mark As Sold
+                            let loginMethod = User.LoginMethod ?? ""
+                            let pdata = [
+                                "Product ID": productId,
+                                "Screen" : PageName.ProductDetailMine
+                            ] as [String : Any]
+                            AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.MarkAsSold, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
                         } else {
                             Constant.showDialog("Failed", message: "Oops, terdapat kesalahan")
                         }
@@ -920,6 +989,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         a.delegate = self.delegate
         
+        a.screenBeforeAddProduct = PageName.ProductDetailMine
+        
         // API Migrasi
         let _ = request(APIProduct.detail(productId: detail!.productID, forEdit: 1)).responseJSON {resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Barang")) {
@@ -938,6 +1009,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             t.tawarItem = d
             t.loadInboxFirst = true
             t.prodId = d.productID
+            t.previousScreen = thisScreen
             self.navigationController?.pushViewController(t, animated: true)
         }
     }
@@ -1006,6 +1078,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewController(withIdentifier: "TransactionDetail") as? TransactionDetailViewController)!
                             transactionDetailVC.trxProductId = tpId
                             transactionDetailVC.isSeller = false
+                            transactionDetailVC.previousScreen = self.thisScreen
                             self.navigationController?.pushViewController(transactionDetailVC, animated: true)
                         }
                     } else {
@@ -1116,10 +1189,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         {
             let c = segue.destination as! ProductCommentsController
             c.pDetail = self.detail
+            c.previousScreen = thisScreen
         } else
         {
             let c = segue.destination as! BaseViewController
             c.previousController = self
+            c.previousScreen = thisScreen
         }
     }
     
@@ -1139,6 +1214,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     let coin = json["_data"]["my_total_diamonds"].intValue
                     
                     if (isSuccess) {
+                        // Prelo Analytic - Up Product - Free
+                        self.sendUpProductAnalytic(productId, type: "Free")
+                        
                         self.showUpPopUp(withText: message, isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
                     } else {
                         self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: true, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
@@ -1227,6 +1305,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                         let coin = json["_data"]["my_total_diamonds"].intValue
                         
                         if (isSuccess) {
+                            // Prelo Analytic - Up Product - Point
+                            self.sendUpProductAnalytic(productId, type: "Point")
+                            
                             self.showUpPopUp(withText: message + " (" + coinAmount.string + " Poin kamu telah otomatis ditarik)", isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
                         } else {
                             self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
@@ -1248,6 +1329,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                         let coin = json["_data"]["my_total_diamonds"].intValue
                         
                         if (isSuccess) {
+                            // Prelo Analytic - Up Product - Balance
+                            self.sendUpProductAnalytic(productId, type: "Balance")
+                            
                             self.showUpPopUp(withText: message + " (" + paidAmount.asPrice + " telah otomatis ditarik dari Prelo Balance)", isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
                         } else {
                             self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
@@ -1257,6 +1341,31 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 }
             }
         }
+    }
+    
+    // Prelo Analytic - Up Product
+    func sendUpProductAnalytic(_ productId: String, type: String) {
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Product ID" : productId,
+            "Type" : type
+        ]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.UpProduct, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+    }
+    
+    // Prelo Analytic - Share for Commission
+    func sendShareForCommissionAnalytic(_ productId: String, productName: String, fb: Int, tw: Int, ig: Int, reason: String) {
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Product Name" : productName,
+            "Product ID" : productId,
+            "Username" : (CDUser.getOne()?.username)!,
+            "Facebook" : fb,
+            "Twitter" : tw,
+            "Instagram" : ig,
+            "Reason" : reason
+        ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ShareForCommission, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
     }
     
     @IBAction func btnUpBarangBatalPressed(_ sender: AnyObject) {
@@ -1271,6 +1380,65 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     func hideLoading() {
         self.loadingPanel.isHidden = true
+    }
+    
+    // Prelo Analytic - Visit Product Detail
+    func sendVisitProductDetailAnalytic() {
+        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
+                                            qos: .background,
+                                            target: nil)
+        backgroundQueue.async {
+            print("Work on background queue")
+            
+            let loginMethod = User.LoginMethod ?? ""
+            
+            // category
+            var cat : Array<String> = []
+            var catId : Array<String> = []
+            
+            let cb = (self.detail?.categoryBreadcrumbs)!
+            
+            for i in 1...cb.count-1 {
+                cat.append(cb[i]["name"].stringValue)
+                catId.append(cb[i]["_id"].stringValue)
+            }
+            
+            // brand
+            let brand = [
+                "ID" : (self.detail?.json["_data"]["brand_id"].stringValue)!,
+                "Name" : (self.detail?.json["_data"]["brand"].stringValue)!,
+                "Verified" : !((self.detail?.json["_data"]["brand_under_review"].boolValue)!)
+            ] as [String : Any]
+            
+            // segment
+            var seg : Array<String> = []
+            if let arr = (self.detail?.json["_data"]["segments"].arrayValue) {
+                for i in arr {
+                    seg.append(i.stringValue)
+                }
+            }
+            
+            // keywords
+            var key : Array<String> = []
+            if let arr = (self.detail?.json["_data"]["keywords"].arrayValue) {
+                for i in arr {
+                    key.append(i.stringValue)
+                }
+            }
+            
+            let pdata = [
+                "Product ID": (self.product?.id)!,
+                "Seller ID" : (self.detail?.json["_data"]["seller"]["_id"].stringValue)!,
+                "Brand" : brand,
+                "Category Names" : cat,
+                "Category IDs" : catId,
+                "Segments" : seg,
+                "Keywords" : key
+            ] as [String : Any]
+            
+            AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.VisitProductDetail, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+            
+        }
     }
 }
 
@@ -1310,7 +1478,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     var shareTwitter : () -> () = {}
     var productProfit : Int = 90
     
-    var parent : UIViewController?
+    var parent : BaseViewController?
     
     var product : Product?
     var detail : ProductDetail?
@@ -1423,6 +1591,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     
     func callApiLove()
     {
+        /*
         // Mixpanel
         let pt = [
             "Product Name" : ((product != nil) ? (product!.name) : ""),
@@ -1432,6 +1601,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
             "Seller Name" : ((detail != nil) ? (detail!.theirName) : "")
         ]
         Mixpanel.trackEvent(MixpanelEvent.ToggledLikeProduct, properties: pt)
+         */
         
         if (isLoved)
         {
@@ -1450,6 +1620,16 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
                     let ns = s as NSString
                     self.captionCountLove?.text = String(ns.integerValue + 1)
                 }
+                
+                // Prelo Analytic - Love
+                let loginMethod = User.LoginMethod ?? ""
+                let pdata = [
+                    "Product ID": ((self.product != nil) ? (self.product!.id) : ""),
+                    "Seller ID" : ((self.product != nil) ? (self.product!.json["seller_id"].string) : ""),
+                    "Screen" : PageName.ProductDetail,
+                    "Is Featured" : ((self.product != nil) ? (self.product!.isFeatured) : false)
+                ] as [String : Any]
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.LoveProduct, data: pdata, previousScreen: self.parent!.previousScreen, loginMethod: loginMethod)
             } else
             {
                 self.isLoved = false
@@ -1472,6 +1652,16 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
                     let ns = s as NSString
                     self.captionCountLove?.text = String(ns.integerValue - 1)
                 }
+                
+                // Prelo Analytic - UnLove
+                let loginMethod = User.LoginMethod ?? ""
+                let pdata = [
+                    "Product Id": ((self.product != nil) ? (self.product!.id) : ""),
+                    "Seller ID" : ((self.product != nil) ? (self.product!.json["seller_id"].string) : ""),
+                    "Screen" : PageName.ProductDetail,
+                    "Is Featured" : ((self.product != nil) ? (self.product!.isFeatured) : false)
+                ] as [String : Any]
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.UnloveProduct, data: pdata, previousScreen: self.parent!.previousScreen, loginMethod: loginMethod)
             } else
             {
                 self.isLoved = true

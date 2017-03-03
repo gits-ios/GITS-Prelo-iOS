@@ -107,6 +107,12 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
     }
     
     func toClearCache(isButton : Bool) {
+        // Get cart products
+        let cartProducts = CartProduct.getAll(User.EmailOrEmptyString)
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        let notifListener = delegate.preloNotifListener
+        notifListener?.increaseCartCount(-cartProducts.count)
+        
         disableBtnClearCache()
         //UIImageView.sharedImageCache().clearAll()
         
@@ -134,6 +140,9 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         }
         
         _ = CDDraftProduct.deleteAll()
+        
+        // reset localid
+        User.SetCartLocalId("")
     }
     
     @IBAction func logout()
@@ -152,9 +161,18 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
             }
         }
         
+        /*
         // Mixpanel event
         let p = ["User ID" : ((User.Id != nil) ? User.Id! : "")]
         Mixpanel.trackEvent(MixpanelEvent.Logout, properties: p)
+         */
+        
+        // Prelo Analytic - Logout
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Username" : CDUser.getOne()?.username
+        ]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Logout, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
         
         // Clear local data
         User.Logout()
@@ -185,10 +203,16 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
             notifListener?.setNewNotifCount(0)
         }
         
+        if (notifListener?.cartCount != 0) {
+            notifListener?.setCartCount(0)
+        }
+        
+        /*
         // Reset mixpanel
         Mixpanel.sharedInstance().reset()
         let uuid = UIDevice.current.identifierForVendor!.uuidString
         Mixpanel.sharedInstance().identify(uuid)
+         */
         
         // MoEngage reset
         MoEngage.sharedInstance().resetUser()

@@ -1652,6 +1652,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     let p = Product.instance(data)
                     let productDetailVC = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
                     productDetailVC.product = p!
+                    productDetailVC.previousScreen = PageName.TransactionDetail
                     self.navigationController?.pushViewController(productDetailVC, animated: true)
                 }
                 self.hideLoading()
@@ -1764,6 +1765,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
 //            self.navigationController?.pushViewController(t, animated: true)
             
             let t = Bundle.main.loadNibNamed(Tags.XibNameTarikTunai2, owner: nil, options: nil)?.first as! TarikTunaiViewController2
+            t.previousScreen = PageName.TransactionDetail
             self.navigationController?.pushViewController(t, animated: true)
         }
         cell.confirmPayment = {
@@ -1786,6 +1788,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 orderConfirmVC.isShowBankBRI = self.isShowBankBRI
                 orderConfirmVC.date = self.trxDetail!.expireTime
                 orderConfirmVC.remaining = self.trxDetail!.remainingTime
+                orderConfirmVC.previousScreen = PageName.TransactionDetail
                 self.navigationController?.pushViewController(orderConfirmVC, animated: true)
             }
         }
@@ -1829,6 +1832,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 let confirmShippingVC = Bundle.main.loadNibNamed(Tags.XibNameConfirmShipping, owner: nil, options: nil)?.first as! ConfirmShippingViewController
                 confirmShippingVC.trxDetail = self.trxDetail!
                 confirmShippingVC.setDefaultKurir()
+                confirmShippingVC.previousScreen = PageName.TransactionDetail
                 self.navigationController?.pushViewController(confirmShippingVC, animated: true)
             }
         }
@@ -1849,6 +1853,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             confirmShippingVC.isRefundMode = true
             confirmShippingVC.tpId = self.trxProductId!
             confirmShippingVC.setDefaultKurir()
+            confirmShippingVC.previousScreen = PageName.TransactionDetail
             self.navigationController?.pushViewController(confirmShippingVC, animated: true)
         }
         cell.confirmReturned = {
@@ -1887,7 +1892,11 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 if (!success) {
                     Constant.showDialog("Add to Cart", message: "Terdapat kesalahan saat menambahkan barang ke keranjang belanja")
                 }
-                self.performSegue(withIdentifier: "segCart", sender: nil)
+//                self.performSegue(withIdentifier: "segCart", sender: nil)
+                let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
+                cart.previousController = self
+                cart.previousScreen = PageName.TransactionDetail
+                self.navigationController?.pushViewController(cart, animated: true)
             }
         }
 
@@ -1946,6 +1955,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     
                         // Goto chat
                         let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
+                        
+                        t.previousScreen = PageName.TransactionDetail
                     
                         // API Migrasi
                         let _ = request(APIInbox.getInboxByProductIDSeller(productId: pDetail.productID, buyerId: buyerId)).responseJSON {resp in
@@ -2002,6 +2013,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         t.tawarItem = pDetail
                         t.loadInboxFirst = true
                         t.prodId = pDetail.productID
+                        t.previousScreen = PageName.TransactionDetail
                         self.navigationController?.pushViewController(t, animated: true)
                     }
                 }
@@ -2043,7 +2055,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             let refundReqVC = Bundle.main.loadNibNamed(Tags.XibNameRequestRefund, owner: nil, options: nil)?.first as! RefundRequestViewController
             if (self.trxProductId != nil) {
                 refundReqVC.tpId = self.trxProductId!
+                refundReqVC.pId = (self.trxProductDetail?.productId)!
             }
+            refundReqVC.previousScreen = PageName.TransactionDetail
             self.navigationController?.pushViewController(refundReqVC, animated: true)
         }
         
@@ -2236,6 +2250,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     let dataInt : Int = json["_data"].intValue
                     //print("dataBool = \(dataBool), dataInt = \(dataInt)")
                     if (dataBool == true || dataInt == 1) {
+                        // Prelo Analytic - Review and Rate Seller
+                        self.sendReviewRateSellerAnalytic()
+                        
                         Constant.showDialog("Success", message: "Review berhasil ditambahkan")
                     } else {
                         Constant.showDialog("Success", message: "Terdapat kesalahan saat memproses data")
@@ -2294,6 +2311,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     let json = JSON(resp.result.value!)
                     let msg = json["_data"].stringValue
                     Constant.showDialog("Tunda Pengiriman", message: msg)
+                    
+                    // Prelo Analytic - Delay Shipping
+                    self.sendDelayShippingAnalytic()
                     
                     // Hide pop up
                     self.vwShadow.isHidden = true
@@ -2400,6 +2420,115 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     func floatRatingView(_ ratingView: FloatRatingView, didUpdate rating: Float) {
         self.loveValue = Int(self.floatRatingView.rating)
 //        Constant.showDialog("Rate / Love", message: "Original \(self.floatRatingView.rating.description) --> \(self.loveValue.string)")
+    }
+    
+    // Prelo Analytic - Review and Rate Seller
+    func sendReviewRateSellerAnalytic() {
+        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
+                                            qos: .background,
+                                            target: nil)
+        backgroundQueue.async {
+            let tp = self.trxProductDetail!
+            
+            let loginMethod = User.LoginMethod ?? ""
+            
+            /*
+            let province = CDProvince.getProvinceNameWithID(tp.shippingProvinceId) ?? ""
+            let region = CDRegion.getRegionNameWithID(tp.shippingRegionId) ?? ""
+            
+            let shipping = [
+                "Province" : province,
+                "Region" : region,
+                "Price" : tp.shippingPrice
+            ] as [String : Any]
+             */
+            
+            let pdata = [
+                "Order ID" : tp.orderId,
+                "Product ID" : tp.productId ,
+                //"Price" : tp.productPrice,
+                //"Commission Percentage" : tp.commission,
+                //"Commission Price" : tp.commissionPrice,
+                "Seller Username" : tp.sellerUsername,
+                //"Shipping" : shipping,
+                "Rate" : self.loveValue,
+                "Current State" : tp.progressText
+            ] as [String : Any]
+            
+            AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ReviewAndRateSeller, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+        }
+    }
+    
+    // Prelo Analytic - Delay Shipping
+    func sendDelayShippingAnalytic() {
+        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
+                                            qos: .background,
+                                            target: nil)
+        backgroundQueue.async {
+            /*
+            var itemsObject : Array<[String : Any]> = []
+            
+            let arrayProduct = self.trxDetail?.transactionProducts
+            
+            var totalCommissionPrice = 0
+            var i = 0
+            for tp in arrayProduct! {
+                let shippingPrice = Int(tp.shippingPrice) ?? 0
+                
+                let curItem : [String : Any] = [
+                    "Product ID" : tp.productId ,
+                    "Price" : tp.productPrice,
+                    "Commission Percentage" : tp.commission,
+                    "Commission Price" : tp.commissionPrice,
+                    "Shipping Price" : shippingPrice,
+                ]
+                
+                itemsObject.append(curItem)
+                
+                totalCommissionPrice += tp.commissionPrice
+                
+                i += 1
+            }
+            
+            let loginMethod = User.LoginMethod ?? ""
+            let province = CDProvince.getProvinceNameWithID((self.trxDetail?.shippingProvinceId)!) ?? ""
+            let region = CDRegion.getRegionNameWithID((self.trxDetail?.shippingRegionId)!) ?? ""
+            
+            let shipping = [
+                "Province" : province,
+                "Region" : region
+            ] as [String : Any]
+            
+            let pdata = [
+                "Order ID" : (self.trxDetail?.orderId)!,
+                "Seller Username" : (CDUser.getOne()?.username)!, // me
+                "Items" : itemsObject,
+                //                "Total Original Price" : self.trxDetail.totalPrice,
+                "Total Price" : (self.trxDetail?.totalPriceTotall)!,
+                "Total Commission" : totalCommissionPrice,
+                "Shipping" : shipping
+            ] as [String : Any]
+            AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.DelayShipping, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+             */
+            
+            let arrayProduct = self.trxDetail?.transactionProducts
+            let loginMethod = User.LoginMethod ?? ""
+            let province = CDProvince.getProvinceNameWithID((self.trxDetail?.shippingProvinceId)!) ?? ""
+            let region = CDRegion.getRegionNameWithID((self.trxDetail?.shippingRegionId)!) ?? ""
+            
+            for tp in arrayProduct! {
+                let pdata : [String : Any] = [
+                    "Order ID" : tp.orderId,
+                    "Seller Username" : tp.sellerUsername, // me
+                    "Product ID" : tp.productId ,
+                    "Price" : tp.productPrice,
+                    "Commission Percentage" : tp.commission,
+                    "Commission Price" : tp.commissionPrice
+                ]
+                
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.DelayShipping, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+            }
+        }
     }
 }
 
@@ -3978,15 +4107,15 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     let text = TransactionDetailTools.TextConfirmedPaidBuyer1 + "dd/MM/yyyy hh:mm:ss" + TransactionDetailTools.TextConfirmedPaidBuyer2
                     textRect = text.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                 }
-            } else if (progress == TransactionDetailTools.ProgressSent) {
-//                if (isSeller! == true) {
-//                    textRect = TransactionDetailTools.TextSentSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
-//                }
+            } /*else if (progress == TransactionDetailTools.ProgressSent) {
+                if (isSeller! == true) {
+                    textRect = TransactionDetailTools.TextSentSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                }
             } else if (progress == TransactionDetailTools.ProgressReceived) {
-//                if (isSeller! == true) {
-//                    textRect = TransactionDetailTools.TextReceivedSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
-//                }
-            } else if (progress == TransactionDetailTools.ProgressReserved) {
+                if (isSeller! == true) {
+                    textRect = TransactionDetailTools.TextReceivedSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                }
+            }*/ else if (progress == TransactionDetailTools.ProgressReserved) {
                 if (order == 1) {
                     textRect = TransactionDetailTools.TextReserved1.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                 } else if (order == 2) {
@@ -4051,7 +4180,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
     static func heightFor(_ progress : Int?, isSeller : Bool?, order : Int, boolParam : Bool) -> CGFloat {
         if (progress != nil && isSeller != nil) {
             var textRect : CGRect?
-            if (progress == TransactionDetailTools.ProgressReceived || progress == TransactionDetailTools.ProgressSent) {
+            if (progress == TransactionDetailTools.ProgressReceived) {
                 if (isSeller! == false) {
                     if (boolParam == true) { // In this case, boolParam = isRefundable
                         textRect = TransactionDetailTools.TextReceivedBuyer.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
@@ -4061,6 +4190,18 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                 } else {
                     if (isSeller! == true) {
                         textRect = TransactionDetailTools.TextReceivedSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                    }
+                }
+            } else if (progress == TransactionDetailTools.ProgressSent) {
+                if (isSeller! == false) {
+                    if (boolParam == true) { // In this case, boolParam = isRefundable
+                        textRect = TransactionDetailTools.TextSentBuyer.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                    } else {
+                        textRect = TransactionDetailTools.TextSentBuyerNoRefund.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                    }
+                } else {
+                    if (isSeller! == true) {
+                        textRect = TransactionDetailTools.TextSentSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                     }
                 }
             }

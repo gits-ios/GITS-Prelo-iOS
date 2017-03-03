@@ -160,7 +160,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let notifListener = appDelegate.preloNotifListener
-        notifListener?.setCartCount(0)
         
         // Get cart products
         cartProducts = CartProduct.getAll(User.EmailOrEmptyString)
@@ -170,6 +169,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             tableView.isHidden = true
             loadingCart.isHidden = true
             captionNoItem.isHidden = false
+            
+            notifListener?.setCartCount(0)
         } else {
             if (user == nil) { // User isn't logged in
                 tableView.isHidden = true
@@ -177,9 +178,41 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             } else { // Show cart
                 initUserDataSections()
                 synchCart()
+                
+                // Prelo Analytic - Go to cart
+                let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
+                                                    qos: .background,
+                                                    target: nil)
+                backgroundQueue.async {
+                    print("Work on background queue")
+                
+                    let loginMethod = User.LoginMethod ?? ""
+                    
+                    var localId = User.CartLocalId ?? ""
+                    if (localId == "") {
+                        let uniqueCode : TimeInterval = Date().timeIntervalSinceReferenceDate
+                        let uniqueCodeString = uniqueCode.description
+                        localId = UIDevice.current.identifierForVendor!.uuidString + "-" + uniqueCodeString
+                        
+                        User.SetCartLocalId(localId)
+                    }
+                    
+                    var productIds : [String] = []
+                    for i in self.cartProducts {
+                        let curProduct = i.cpID
+                        
+                        productIds.append(curProduct)
+                    }
+                    
+                    let pdata = [
+                        "Local ID" : localId,
+                        "Product IDs" : productIds
+                    ] as [String : Any]
+                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.GoToCart, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+                }
             }
             
-            notifListener?.increaseCartCount(cartProducts.count)
+            notifListener?.setCartCount(cartProducts.count)
         }
     }
     
@@ -283,6 +316,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         }
                     } else {
                         if let voucherError = data["voucher_error"].string {
+                            self.isVoucherApplied = false
                             Constant.showDialog("Invalid Voucher", message: voucherError)
                         }
                     }
@@ -887,14 +921,20 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 }))
                 alert.addAction(UIAlertAction(title: "Hapus", style: .default, handler: { act in
                     alert.dismiss(animated: true, completion: nil)
+                    
+                    // troli badge
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     let notifListener = appDelegate.preloNotifListener
                     notifListener?.increaseCartCount(-1 * self.arrayItem.count)
+                    
                     self.arrayItem.removeAll()
                     CartProduct.deleteAll()
                     self.shouldBack = true
                     //                    self.cellsData = [:]
                     self.synchCart()
+                    
+                    // reset localid
+                    User.SetCartLocalId("")
                 }))
                 self.present(alert, animated: true, completion: nil)
             }
@@ -1107,7 +1147,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 
                 // Send tracking data before navigate
                 if (self.checkoutResult != nil) {
-                    // Mixpanel
                     var pName : String? = ""
                     var rName : String? = ""
                     if let u = CDUser.getOne()
@@ -1121,6 +1160,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             rName = ""
                         }
                     }
+                    
+                    // Prelo Analytic - Checkout - Item Data
+                    var itemsObject : Array<[String : Any]> = []
                     
                     var items : [String] = []
                     var itemsId : [String] = []
@@ -1142,14 +1184,32 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         itemsCategory.append(cName!)
                         itemsSeller.append(json["seller_username"].stringValue)
                         itemsPrice.append(json["price"].intValue)
-                        totalPrice += json["price"].intValue
+//                        totalPrice += json["price"].intValue
                         itemsCommissionPercentage.append(json["commission"].intValue)
                         let cPrice = json["price"].intValue * json["commission"].intValue / 100
                         itemsCommissionPrice.append(cPrice)
                         totalCommissionPrice += cPrice
+                        
+                        // Prelo Analytic - Checkout - Item Data
+                        let curItem : [String : Any] = [
+                            "Product ID" : json["product_id"].stringValue,
+                            "Seller Username" : json["seller_username"].stringValue,
+                            "Price" : json["price"].intValue,
+                            "Commission Percentage" : json["commission"].intValue,
+                            "Commission Price" : cPrice,
+                            "Free Shipping" : (json["free_ongkir"].intValue == 1 ? true : false),
+                            "Category ID" : json["category_id"].stringValue
+                        ]
+                        itemsObject.append(curItem)
                     }
                     
                     let orderId = self.checkoutResult!["order_id"].stringValue
+                    let paymentMethod = self.checkoutResult!["payment_method"].stringValue
+                    
+                    totalPrice = self.checkoutResult!["total_price"].intValue
+                    
+                    /*
+                    // MixPanel
                     let pt = [
                         "Order ID" : orderId,
                         "Items" : items,
@@ -1167,6 +1227,39 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         "Balance Used" : 0
                         ] as [String : Any]
                     Mixpanel.trackEvent(MixpanelEvent.Checkout, properties: pt as [AnyHashable: Any])
+                    */
+                    
+                    // Prelo Analytic - Checkout
+                    let loginMethod = User.LoginMethod ?? ""
+                    let localId = User.CartLocalId ?? ""
+                    let province = CDProvince.getProvinceNameWithID(self.selectedProvinsiID) ?? ""
+                    let region = CDRegion.getRegionNameWithID(self.selectedKotaID) ?? ""
+                    let subdistrict = self.selectedKecamatanName
+                    
+                    let address = [
+                        "Province" : province,
+                        "Region" : region,
+                        "Subdistrict" : subdistrict
+                    ] as [String : Any]
+                    
+                    var pdata = [
+                        "Local ID" : localId,
+                        "Order ID" : orderId,
+                        "Items" : itemsObject,
+                        "Total Price" : totalPrice,
+                        "Address" : address,
+                        "Payment Method" : paymentMethod,
+                        "Prelo Balance Used" : (self.checkoutResult!["prelobalance_used"].intValue != 0 ? true : false)
+                    ] as [String : Any]
+                    
+                    if (self.checkoutResult!["voucher_serial"].stringValue != "") {
+                        pdata["Voucher Used"] = self.checkoutResult!["voucher_serial"].stringValue
+                    }
+                    
+                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Checkout, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+                    
+                    // reset localid
+                    User.SetCartLocalId("")
                     
                     // Answers
                     if (AppTools.IsPreloProduction) {
@@ -1252,12 +1345,14 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         Constant.showDialog("Pembayaran \(self.selectedPayment.value)", message: "Pembayaran tertunda")
                         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
                         notifPageVC.isBackTwice = true
+                        notifPageVC.previousScreen = PageName.Checkout
                         self.navigateToVC(notifPageVC)
                     }
                     webVC.ccPaymentFailed = {
                         Constant.showDialog("Pembayaran \(self.selectedPayment.value)", message: "Pembayaran gagal, silahkan coba beberapa saat lagi")
                         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
                         notifPageVC.isBackTwice = true
+                        notifPageVC.previousScreen = PageName.Checkout
                         self.navigateToVC(notifPageVC)
                     }
                     let baseNavC = BaseNavigationController()
@@ -1291,6 +1386,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         o.transactionId = (self.checkoutResult?["transaction_id"].string)!
         o.isBackTwice = true
         o.isShowBankBRI = self.isShowBankBRI
+        o.previousScreen = PageName.Checkout
         
         if (self.checkoutResult?["expire_time"].string) != nil {
             o.date = (self.checkoutResult?["expire_time"].string)! // expire_time not found
@@ -1353,18 +1449,22 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             print(p.cpID)
             UIApplication.appDelegate.managedObjectContext.delete(p)
             UIApplication.appDelegate.saveContext()
+            
+            // troli badge
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let notifListener = appDelegate.preloNotifListener
+            notifListener?.increaseCartCount(-1)
         }
         
 //        tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
         if (arrayItem.count == 0) {
             self.shouldBack = true
+            
+            // reset localid
+            User.SetCartLocalId("")
         }
 //        cellsData = [:]
         synchCart()
-        
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let notifListener = appDelegate.preloNotifListener
-        notifListener?.increaseCartCount(-1)
     }
     
     func itemNeedUpdateShipping(_ indexPath: IndexPath) {
@@ -1408,6 +1508,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     @IBAction func paymentReminderPressed(_ sender: AnyObject) {
         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
+        notifPageVC.previousScreen = PageName.Checkout
         self.navigateToVC(notifPageVC)
     }
     

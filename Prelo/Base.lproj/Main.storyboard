@@ -1082,8 +1082,11 @@
                                             <color key="color" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </activityIndicatorView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Upu-u1-yye">
-                                            <rect key="frame" x="4" y="8" width="367" height="26"/>
+                                            <rect key="frame" x="4" y="4" width="367" height="40"/>
                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="40" id="IIH-bH-Yfc"/>
+                                            </constraints>
                                             <state key="normal" title="LIHAT SEMUA BARANG">
                                                 <color key="titleColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
@@ -1092,9 +1095,9 @@
                                             </connections>
                                         </button>
                                         <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AEW-rg-SAp">
-                                            <rect key="frame" x="4" y="8" width="367" height="26"/>
+                                            <rect key="frame" x="4" y="4" width="367" height="36"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="26" id="KR0-BH-qpl"/>
+                                                <constraint firstAttribute="height" constant="36" id="KR0-BH-qpl"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" red="0.15989552438259125" green="0.15989071130752563" blue="0.1598934680223465" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1102,8 +1105,7 @@
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="Upu-u1-yye" secondAttribute="bottom" constant="16" id="801-wK-Ef0"/>
-                                        <constraint firstItem="Upu-u1-yye" firstAttribute="top" secondItem="7Gi-SV-y92" secondAttribute="top" constant="8" id="Dpl-z0-cMM"/>
+                                        <constraint firstItem="Upu-u1-yye" firstAttribute="top" secondItem="7Gi-SV-y92" secondAttribute="top" constant="4" id="Dpl-z0-cMM"/>
                                         <constraint firstItem="AEW-rg-SAp" firstAttribute="leading" secondItem="7Gi-SV-y92" secondAttribute="leading" constant="4" id="Pbl-sU-vgd"/>
                                         <constraint firstAttribute="centerY" secondItem="8k0-sn-DOi" secondAttribute="centerY" id="PdR-EO-g94"/>
                                         <constraint firstAttribute="trailing" secondItem="Upu-u1-yye" secondAttribute="trailing" constant="4" id="SkA-Re-VCZ"/>
@@ -1111,7 +1113,7 @@
                                         <constraint firstAttribute="centerX" secondItem="8k0-sn-DOi" secondAttribute="centerX" id="grA-Jm-zcc"/>
                                         <constraint firstItem="Upu-u1-yye" firstAttribute="leading" secondItem="7Gi-SV-y92" secondAttribute="leading" constant="4" id="mhF-Rh-Gkq"/>
                                         <constraint firstAttribute="bottom" secondItem="AEW-rg-SAp" secondAttribute="bottom" constant="16" id="pU1-mF-KIo"/>
-                                        <constraint firstItem="AEW-rg-SAp" firstAttribute="top" secondItem="7Gi-SV-y92" secondAttribute="top" constant="8" id="yY0-YW-prH"/>
+                                        <constraint firstItem="AEW-rg-SAp" firstAttribute="top" secondItem="7Gi-SV-y92" secondAttribute="top" constant="4" id="yY0-YW-prH"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
@@ -9456,7 +9458,7 @@ in Bandung</string>
                                                             <rect key="frame" x="10" y="0.0" width="44" height="44"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fDk-jQ-LO8">
-                                                                    <rect key="frame" x="12" y="12.5" width="20" height="20"/>
+                                                                    <rect key="frame" x="12" y="12" width="20" height="20"/>
                                                                     <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="20"/>
                                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
