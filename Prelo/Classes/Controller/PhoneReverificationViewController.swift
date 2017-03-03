@@ -86,6 +86,7 @@ class PhoneReverificationViewController : BaseViewController {
                     } else {
                         phoneVerificationVC.delegate = self.prevVC2
                     }
+                    phoneVerificationVC.previousScreen = PageName.ChangePhone
                     self.navigationController?.pushViewController(phoneVerificationVC, animated: true)
                 }
             }

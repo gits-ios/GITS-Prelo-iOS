@@ -179,7 +179,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var star = Float(0)
     
     // home
-    var isHiddenTop = false
+    var isHiddenTop: Bool = false
+    
+    var isFeatured: Bool = false
     
     // MARK: - Init
     
@@ -363,6 +365,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             if let isFeatured = self.categoryJson?["is_featured"].bool, isFeatured {
                 self.currentMode = .featured
                 self.listItemSections.insert(.featuredHeader, at: 0)
+                
+                self.isFeatured = true
             }
             // Identify Subcategories
             if let subcatJson = self.categoryJson?["sub_categories"].array, subcatJson.count > 0 {
@@ -970,6 +974,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     self.gridView.contentInset = inset
                     
                 }
+            } else {
+                self.delegate?.popView()
             }
         }
         
@@ -1043,8 +1049,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
         
         gridView.reloadData()
-        if (currentMode != .newShop) {
-            gridView.contentInset = UIEdgeInsetsMake(0, 0, 24, 0)
+        if (currentMode == .segment || self.isFeatured == true) {
+            gridView.contentInset = UIEdgeInsetsMake(0, 0, 48, 0)
         }
         gridView.isHidden = false
         vwFilterZeroResult.isHidden = true
@@ -1114,6 +1120,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             if (products?.count > (indexPath as NSIndexPath).item) {
                 let p = products?[(indexPath as NSIndexPath).item]
                 cell.adapt(p!, listStage: self.listStage, currentMode: self.currentMode, shopAvatar: self.shopAvatar, parent: self)
+                cell.isFeatured = self.isFeatured
             }
             if (currentMode == .featured) {
                 // Hide featured ribbon
@@ -1226,6 +1233,28 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 l.fltrAggregateId = (self.selectedProduct?.id)!
                 l.fltrSortBy = "recent"
                 l.fltrName = ""
+                
+                // Prelo Analytic - Visit Aggregate
+                let loginMethod = User.LoginMethod ?? ""
+                let pdata = [
+                    "Aggregate ID": (self.selectedProduct?.id)!,
+                    "Aggregate Name" : (self.selectedProduct?.name)!
+                ] as [String : Any]
+                
+                // previous screen is current screen
+                var currentPage = PageName.Home
+                if currentMode == .filter {
+                    currentPage = PageName.SearchResult
+                } else if currentMode == .shop || currentMode == .newShop {
+                    if User.IsLoggedIn && User.Id! == self.shopId {
+                        currentPage = PageName.ShopMine
+                    } else {
+                        currentPage = PageName.Shop
+                    }
+                }
+                
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.VisitAggregate, data: pdata, previousScreen: currentPage, loginMethod: loginMethod)
+                
                 self.navigationController?.pushViewController(l, animated: true)
             } else {
                 let urlString = self.selectedProduct?.json["affiliate_data"]["affiliate_url"].stringValue
@@ -1258,6 +1287,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             
             // Adapt
             if (currentMode == .featured && products?.count > 0) { // 'Lihat semua barang' button, only show if featured products is loaded
+                f.btnFooter.backgroundColor = Theme.PrimaryColor
+                f.btnFooter.setTitleColor(UIColor.white)
+                
                 f.btnFooter.isHidden = false
                 f.btnFooterAction = {
 //                    NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
@@ -1287,9 +1319,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         if (listItemSections[section] == .products) {
             if (currentMode == .featured) {
-                return CGSize(width: collectionView.width, height: 66)
+                return CGSize(width: collectionView.width, height: 42/*66*/)
             }
-            return CGSize(width: collectionView.width, height: 50)
+            return CGSize(width: collectionView.width, height: 48/*50*/)
         }
         return CGSize.zero
     }
@@ -1564,7 +1596,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func launchDetail() {
-        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: NotificationName.ShowProduct), object: self.selectedProduct)
+        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: NotificationName.ShowProduct), object: [ self.selectedProduct, (self.currentMode != .filter ? (self.currentMode == .shop || self.currentMode == .newShop ? PageName.Shop : PageName.Home ) :  PageName.SearchResult ) ])
     }
     
     // MARK: - Other functions
@@ -1679,7 +1711,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     func setEditButton() {
         let btnEdit = self.createButtonWithIcon(AppFont.preloAwesome, icon: "")
         
-        btnEdit.addTarget(self, action: #selector(StorePageTabBarViewController.editProfile), for: UIControlEvents.touchUpInside)
+        btnEdit.addTarget(self, action: #selector(ListItemViewController.editProfile), for: UIControlEvents.touchUpInside)
         
         if (self.navigationItem.rightBarButtonItem == nil) {
             self.navigationItem.rightBarButtonItem = btnEdit.toBarButton()
@@ -1851,6 +1883,10 @@ class ListItemCell : UICollectionViewCell {
     var cid : String?
     var sid : String?
     
+    var sname : String = "" // seller name
+    var isFeatured : Bool = false
+    var currentMode : ListItemMode = .filter
+    
     var parent : BaseViewController!
     
     override func awakeFromNib() {
@@ -1885,6 +1921,8 @@ class ListItemCell : UICollectionViewCell {
         ivCover.afCancelRequest()
         avatar.afCancelRequest()
         affiliateLogo.afCancelRequest()
+        
+        isFeatured = false
     }
     
     func adapt(_ product : Product, listStage : Int, currentMode : ListItemMode, shopAvatar : URL?, parent: BaseViewController) {
@@ -1901,6 +1939,14 @@ class ListItemCell : UICollectionViewCell {
         self.pid = obj["_id"].string
         self.cid = obj["category_id"].string
         self.sid = obj["seller_id"].string
+        
+        self.sname = ""
+        
+        if !self.isFeatured {
+            self.isFeatured = product.isFeatured
+        }
+        
+        self.currentMode = currentMode
         
         avatar.contentMode = .scaleAspectFill
         avatar.layoutIfNeeded()
@@ -2072,6 +2118,7 @@ class ListItemCell : UICollectionViewCell {
 
     func callApiLove()
     {
+        /*
         // Mixpanel
         let pt = [
             "Product Name" : self.captionTitle.text,
@@ -2079,6 +2126,7 @@ class ListItemCell : UICollectionViewCell {
             "Seller Id" : self.sid
         ]
         Mixpanel.trackEvent(MixpanelEvent.ToggledLikeProduct, properties: pt)
+         */
         
         // API Migrasi
         let _ = request(APIProduct.love(productID: self.pid!)).responseJSON {resp in
@@ -2086,6 +2134,16 @@ class ListItemCell : UICollectionViewCell {
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Love Product"))
             {
 //                Constant.showDialog("Lovelist", message: self.captionTitle.text! + " berhasil ditambahkan ke Lovelist")
+                
+                // Prelo Analytic - Love
+                let loginMethod = User.LoginMethod ?? ""
+                let pdata = [
+                    "Product ID": self.pid!,
+                    "Seller ID" : self.sid!,
+                    "Screen" : (self.currentMode != .filter ? (self.currentMode == .shop || self.currentMode == .newShop ? PageName.Shop : PageName.Home ) :  PageName.SearchResult ),
+                    "Is Featured" : self.isFeatured
+                ] as [String : Any]
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.LoveProduct, data: pdata, previousScreen: self.parent.previousScreen, loginMethod: loginMethod)
             } else
             {
                 self.newLove = false
@@ -2102,6 +2160,16 @@ class ListItemCell : UICollectionViewCell {
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Unlove Product"))
             {
 //                Constant.showDialog("Lovelist", message: self.captionTitle.text! + " berhasil dihapus dari Lovelist")
+                
+                // Prelo Analytic - UnLove
+                let loginMethod = User.LoginMethod ?? ""
+                let pdata = [
+                    "Product ID": self.pid!,
+                    "Seller ID" : self.sid!,
+                    "Screen" : (self.currentMode != .filter ? (self.currentMode == .shop || self.currentMode == .newShop ? PageName.Shop : PageName.Home ) :  PageName.SearchResult ),
+                    "Is Featured" : self.isFeatured
+                ] as [String : Any]
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.UnloveProduct, data: pdata, previousScreen: self.parent.previousScreen, loginMethod: loginMethod)
             } else
             {
                 self.newLove = true

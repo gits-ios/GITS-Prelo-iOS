@@ -281,6 +281,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             isShowLogin = false
             LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
         }
+        
+        if self.prodId == "" {
+            self.prodId = self.tawarItem.itemId
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -744,6 +748,11 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             self.hideLoading()
         })
         
+        // Prelo Analytic - Send Media on Chat
+        if image != nil {
+            self.sendMediaOnChatAnalytic("Image")
+        }
+        
         self.adjustButtons()
         self.tableView.reloadData()
         self.scrollToBottom()
@@ -834,6 +843,18 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             } else {
                 let error = NSError(domain: "Failed to cast AppDelegate", code: 0, userInfo: nil)
                 Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["from":"MessagePool 3"])
+            }
+            
+            // Prelo Analytic - Start Chat
+            let loginMethod = User.LoginMethod ?? ""
+            let pdata = [
+                "Product ID" : self.prodId
+            ] as [String : Any]
+            AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.StartChat, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+            
+            // Prelo Analytic - Send Media on Chat
+            if withImg != nil {
+                self.sendMediaOnChatAnalytic("Image")
             }
             
             self.hideLoading()
@@ -985,6 +1006,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
 //            btnTawar1.isHidden = true
 //            btnTawar2.isHidden = true
             self.tawarItem.setBargainPrice(m)
+            
+            // Prelo Analytics - Successful Bargain - New
+            self.sendSuccessfulBargainAnalytic("New")
         }
     }
     
@@ -994,6 +1018,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             message = "Membatalkan tawaran " + tawarItem.bargainPrice.asPrice
         }
         sendChat(3, message: message, image: nil)
+        
+        // Prelo Analytics - Successful Bargain - Reject
+        self.sendSuccessfulBargainAnalytic("Reject")
     }
     
     func confirmTawar(_ sender : UIView?) {
@@ -1001,6 +1028,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         if (tawarItem.bargainPrice != 0) {
             self.tawarItem.setFinalPrice(self.tawarItem.bargainPrice)
         }
+        
+        // Prelo Analytics - Successful Bargain - Accept
+        self.sendSuccessfulBargainAnalytic("Accept")
     }
     
     // MARK: - UploadGbr pop up
@@ -1091,6 +1121,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                     let p = Product.instance(data)
                     let productDetailVC = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
                     productDetailVC.product = p!
+                    productDetailVC.previousScreen = PageName.InboxDetail
                     self.navigationController?.pushViewController(productDetailVC, animated: true)
                 }
             }
@@ -1103,6 +1134,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 let shopPage = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
                 shopPage.currentMode = .shop
                 shopPage.shopId = tawarItem.theirId
+                shopPage.previousScreen = PageName.InboxDetail
                 self.navigationController?.pushViewController(shopPage, animated: true)
             } else {
                 let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
@@ -1122,7 +1154,11 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         }
         
         if (success) {
-            self.performSegue(withIdentifier: "segCart", sender: nil)
+//            self.performSegue(withIdentifier: "segCart", sender: nil)
+            let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
+            cart.previousController = self
+            cart.previousScreen = PageName.InboxDetail
+            self.navigationController?.pushViewController(cart, animated: true)
         }
     }
     
@@ -1177,6 +1213,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 }
                 self.sendChat(4, message: "Barang ini dijual kepada \(self.tawarItem.theirName) dengan harga \(finalPrice)", image: nil)
                 
+                /*
                 // Mixpanel
                 let pt = [
                     "Product Id" : self.prodId,
@@ -1185,6 +1222,15 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                     "Price" : finalPrice
                 ]
                 Mixpanel.trackEvent(MixpanelEvent.ChatMarkAsSold, properties: pt)
+                 */
+                
+                // Prelo Analytic - Mark As Sold
+                let loginMethod = User.LoginMethod ?? ""
+                let pdata = [
+                    "Product ID": self.prodId,
+                    "Screen" : PageName.InboxDetail
+                ] as [String : Any]
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.MarkAsSold, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
             }))
             self.present(alert2, animated: true, completion: nil)
         }))
@@ -1212,6 +1258,35 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     func isChatWithPreloMessage() -> Bool {
         return (tawarItem.theirId == "56c73cc61b97db64088b4567" || tawarItem.theirId == "56c73e581b97db1b628b4567")
+    }
+    
+    // Prelo Analytic - Successful Bargain
+    func sendSuccessfulBargainAnalytic(_ bargainType: String) {
+        let loginMethod = User.LoginMethod ?? ""
+        let bargainPrice = Double(self.tawarItem.bargainPrice)
+        var _originalPrice = tawarItem.price.replacingOccurrences(of: "Rp", with: "", options: .literal, range: nil)
+        _originalPrice = _originalPrice.replacingOccurrences(of: ".", with: "", options: .literal, range: nil)
+        let originalPrice = Double(_originalPrice.int)
+        let percentagePrice = (bargainPrice * 100.0 / originalPrice)
+        let pdata = [
+            "Product ID" : self.prodId,
+            "User Target" : (tawarItem.opIsMe ? tawarItem.myName : tawarItem.theirName),
+            "Bargain Type" : bargainType,
+            "Percentage From Price" : percentagePrice,
+            "From Seller" : !tawarItem.opIsMe
+        ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SuccessfulBargain, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+    }
+    
+    // Prelo Analytic - Send Media on Chat
+    func sendMediaOnChatAnalytic(_ mediaType: String) {
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Seller Username" : (tawarItem.opIsMe ? tawarItem.theirName : tawarItem.myName),
+            "Buyer Username" : (tawarItem.opIsMe ? tawarItem.myName : tawarItem.theirName),
+            "Media Type" : mediaType
+        ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SendMediaOnChat, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
     }
 }
 

@@ -336,24 +336,36 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
                 if let message = json["_message"].string
                 {
                     Constant.showDialog("Perhatian", message: message)
+                    
+                    // Prelo Analytic - Request Withdraw Money
+                    self.sendRequestWithdrwaMoney(namaBank, amount: i, isSuccess: false, reason: message)
                 } else
                 {
                     //                    self.getBalance()
                     let nDays = (self.txtNamaBank.text?.lowercased() == "bank lainnya") ? 5 : 3
                     Constant.showDialog("Perhatian", message: "Permohonan tarik uang telah diterima. Proses paling lambat membutuhkan \(nDays)x24 jam hari kerja.")
                     
+                    /*
                     // Mixpanel
                     let pt = [
                         "Destination Bank" : namaBank,
                         "Amount" : i
                         ] as [String : Any]
                     Mixpanel.trackEvent(MixpanelEvent.RequestedWithdrawMoney, properties: pt as [NSObject : AnyObject])
+                    */
+                    
+                    // Prelo Analytic - Request Withdraw Money
+                    self.sendRequestWithdrwaMoney(namaBank, amount: i, isSuccess: true, reason: "")
                     
                     _ = self.navigationController?.popToRootViewController(animated: true)
                 }
             } else
             {
+                let json = JSON(resp.result.value!)
+                let reason = json["_message"].string!
                 
+                // Prelo Analytic - Request Withdraw Money
+                self.sendRequestWithdrwaMoney(namaBank, amount: i, isSuccess: false, reason: reason)
             }
             
         }
@@ -569,6 +581,21 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
         })
     }
 
+    func sendRequestWithdrwaMoney(_ namaBank: String, amount: Int, isSuccess: Bool, reason: String) {
+        // Prelo Analytic - Request Withdraw Money
+        let loginMethod = User.LoginMethod ?? ""
+        var pdata = [
+            "Destination Bank" : namaBank,
+            "Amount" : amount,
+            "Success" : isSuccess
+        ] as [String : Any]
+        
+        if !isSuccess && reason != "" {
+            pdata["Failed Reason"] = reason
+        }
+        
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.RequestWithdrawMoney, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+    }
 }
 // MARK: - class TarikTunaiCell
 

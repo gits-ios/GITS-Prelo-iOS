@@ -231,6 +231,18 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                 
                 CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
                 
+                // Prelo Analytic - Register
+                let pdata = [
+                    "Email" : data["email"].stringValue,
+                    "Username" : data["username"].stringValue,
+                    "Register OS" : "iOS",
+                    "Register Method" : "Basic"
+                ]
+                AnalyticManager.sharedInstance.sendWithUserId(eventType: PreloAnalyticEvent.Register, data: pdata, previousScreen: self.screenBeforeLogin, loginMethod: "Basic", userId: c.id)
+                
+                // Prelo Analytic - Update User - Register
+                AnalyticManager.sharedInstance.registerUser(method: "Basic", metadata: data)
+                
                 self.toProfileSetup(data["_id"].string!, userToken : data["token"].string!, userEmail : data["email"].string!, isSocmedAccount : false, loginMethod : "Basic", screenBeforeLogin : self.screenBeforeLogin)
             } else {
                 self.btnRegister?.isEnabled = true
@@ -358,7 +370,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                 
                 // Check if user have set his account
                 //self.checkProfileSetup(data["token"].string!)
-                LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Path", screenBeforeLogin: self.screenBeforeLogin)
+                LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Path", screenBeforeLogin: self.screenBeforeLogin, isNeedPayload: true)
             }
         }
     }

@@ -46,6 +46,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.tableFooterView = UIView()
         
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
         
@@ -112,16 +113,53 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         //        Constant.showDialog("Upload Barang Berhasil", message: "Proses review barang akan memakan waktu maksimal 2 hari kerja. Mohon tunggu :)")
         
 //        print(notif.object)
-        let metaJson = JSON((notif.object ?? [:]))
+        let o = notif.object as! [Any]
+        
+//        let metaJson = JSON((notif.object ?? [:]))
+        let metaJson = JSON(o[0])
         let metadata = metaJson["_data"]
-//        print(metadata)
+        print(metadata)
         if let message = metadata["message"].string {
             Constant.showDialog("Upload Barang Berhasil", message: message)
         }
         
+        let p = o[1] as! [String : Any]
+        var localId = p["Local ID"] as! String
+        
+        if (localId == "") {
+            let uploadedProduct = CDDraftProduct.getOneIsUploading(metadata["name"].string!)
+            localId = (uploadedProduct?.localId)!
+        }
+        
         // clear uploaded draft
-        let uploadedProduct = CDDraftProduct.getOneIsUploading()
-        CDDraftProduct.delete((uploadedProduct?.localId)!)
+        CDDraftProduct.delete(localId)
+        
+        // Prelo Analytic - Upload Success
+        let loginMethod = User.LoginMethod ?? ""
+        var pdata = [
+            "Local ID": localId,
+            "Product Name" : metadata["name"].string!,
+            "Commission Percentage" : metadata["commission"].int!,
+            "Facebook" : metadata["share_status"]["shared"]["FACEBOOK"].int!,
+            "Twitter" : metadata["share_status"]["shared"]["TWITTER"].int!,
+            "Instagram" : metadata["share_status"]["shared"]["INSTAGRAM"].int!
+        ] as [String : Any]
+        
+        let images = metadata["display_picts"].array!
+        
+        // imgae
+        var imagesOke : [Bool] = []
+        for i in 0...images.count - 1 {
+//            print(images[i].description)
+            if images[i].description != "null" {
+                imagesOke.append(true)
+            } else {
+                imagesOke.append(false)
+            }
+        }
+        pdata["Images"] = imagesOke
+        
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.UploadSuccess, data: pdata, previousScreen: PageName.ShareAddedProduct, loginMethod: loginMethod)
     }
     
     func uploadProdukGagal(_ notif : Foundation.Notification)
@@ -129,9 +167,18 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         refresh(0 as AnyObject, isSearchMode: false)
         Constant.showDialog("Upload Barang Gagal", message: "Oops, upload barang gagal")
         
+        let o = notif.object as! [Any]
+        let p = o[1] as! [String : Any]
+        var localId = p["Local ID"] as! String
+        
+        // if not found
+        if (localId == "") {
+            let uploadedProduct = CDDraftProduct.getOneIsUploading()
+            localId = (uploadedProduct?.localId)!
+        }
+        
         // set status uploading
-        let uploadedProduct = CDDraftProduct.getOneIsUploading()
-        CDDraftProduct.setUploading((uploadedProduct?.localId)!, isUploading: false)
+        CDDraftProduct.setUploading(localId, isUploading: false)
     }
     
     func addUploadingProducts()
@@ -194,7 +241,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 
                 self.addUploadingProducts()
                 
-                if (self.products.count > 0) {
+                if (self.products.count > 0 || self.localProducts.count > 0) {
                     self.lblEmpty.isHidden = true
                     self.tableView.isHidden = false
                     self.tableView.reloadData()
@@ -406,6 +453,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
             d.product = selectedProduct!
             
             d.delegate = self.delegate
+            
+            d.previousScreen = PageName.MyProducts
             
             self.previousController?.navigationController?.pushViewController(d, animated: true)
         }

@@ -568,7 +568,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         
         if (width > 0) {
             Crashlytics.sharedInstance().setObjectValue("width \(width) | offsetX \(contentOffsetX)", forKey: "ListCategoryViewController.scrollViewDidScroll")
-            i = Int(contentOffsetX / width)
+            i = Int(contentOffsetX / width + 0.5)
         }
         currentTabIndex = i
         centerCategoryView(currentTabIndex)

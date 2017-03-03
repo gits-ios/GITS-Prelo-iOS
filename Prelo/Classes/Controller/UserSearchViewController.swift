@@ -103,10 +103,12 @@ class UserSearchViewController: BaseViewController, UITableViewDataSource, UITab
                 d.currentMode = .shop
                 d.shopName = u.username
                 d.shopId = u.id
+                d.previousScreen = PageName.Search
                 self.navigationController?.pushViewController(d, animated: true)
             } else {
                 let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
                 storePageTabBarVC.shopId = u.id
+                storePageTabBarVC.previousScreen = PageName.Search
                 self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
             }
         }
