@@ -122,6 +122,7 @@ extension URLRequest {
 enum APIAnalytic : URLRequestConvertible {
     case eventWithUserId(eventType: String, data: [String : Any], userId: String)
     case event(eventType: String, data: [String : Any])
+    case userRegister(registerMethod: String, metadata: JSON)
     case userInit(userProfileData: UserProfile)
     case userUpdate(phone: String)
     case user(isNeedPayload: Bool)
@@ -159,6 +160,7 @@ enum APIAnalytic : URLRequestConvertible {
         switch self {
         case .eventWithUserId(_, _, _) : return "event"
         case .event(_, _) : return "event"
+        case .userRegister(_, _) : return "user"
         case .userInit(_) : return "user"
         case .userUpdate(_) : return "user"
         case .user(_) : return "user"
@@ -183,6 +185,35 @@ enum APIAnalytic : URLRequestConvertible {
                 "device_id" : UIDevice.current.identifierForVendor!.uuidString,
                 "event_type" : eventType,
                 "data" : data
+            ]
+        case .userRegister(let registerMethod, let metadata) :
+            let deviceToken = (UserDefaults.standard.string(forKey: "deviceregid") != nil && UserDefaults.standard.string(forKey: "deviceregid") != "" ? UserDefaults.standard.string(forKey: "deviceregid")! : "...simulator...")
+            let d : [String : [String : Any]] =  [
+                "device_model" : [
+                    "append" : (AppTools.isSimulator ? UIDevice.current.model + " Simulator" : AnalyticManager.sharedInstance.platform()) + " - " + UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")"
+                ],
+                "apns_id" : [
+                    "append" : deviceToken
+                ],
+                "username" : [
+                    "update" : metadata["username"].stringValue
+                ],
+                "name" : [
+                    "append" : metadata["fullname"].stringValue
+                ],
+                "email" : [
+                    "update" : metadata["email"].stringValue
+                ],
+                "register_method" : [
+                    "update" : registerMethod
+                ]
+            ]
+            p = [
+                "user_id" : metadata["_id"].stringValue,
+                "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
+                "device_id" : UIDevice.current.identifierForVendor!.uuidString,
+                "username" : metadata["username"].stringValue,
+                "data" : d
             ]
         case .userInit(let userProfileData) :
             let deviceToken = (UserDefaults.standard.string(forKey: "deviceregid") != nil && UserDefaults.standard.string(forKey: "deviceregid") != "" ? UserDefaults.standard.string(forKey: "deviceregid")! : "...simulator...")

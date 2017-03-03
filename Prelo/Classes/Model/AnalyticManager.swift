@@ -23,26 +23,42 @@ class AnalyticManager: NSObject {
         return (AppTools.isDev ? devAnalyticURL : prodAnalyticURL)
     }
     
-    // skeleton data -- copy it to your temporer data
-    let skeletonData =  [
-        "OS" : UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")",
-        "App Version" : CDVersion.getOne()!.appVersion,
-        //"Device Model" : UIDevice.current.model + (AppTools.isSimulator ? " Simulator" : ""),
-        //"Previous Screen" : "", // override it
-        //"Login Method" : "" // override it
-    ] as [String : Any]
-    
-    // send record to Analytic Server
-    func send(eventType : String, data : [String : Any], previousScreen : String, loginMethod : String) {
-        var wrappedData = skeletonData
+    // skeleton generator + append data
+    fileprivate func skeletonData(data : [String : Any], previousScreen : String, loginMethod : String) -> [String : Any] {
+        var appVersion = ""
+        if let installedVer = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
+            appVersion = installedVer // installed
+        } else {
+            appVersion = CDVersion.getOne()!.appVersion // new
+        }
         
-        // still skeleton
-        wrappedData["Device Model"] = (AppTools.isSimulator ? UIDevice.current.model + " Simulator" : platform())
-        wrappedData["Previous Screen"] = previousScreen
-        wrappedData["Login Method"] = loginMethod
+        // skeleton data
+        var wrappedData = [
+            "OS" : UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")",
+            "App Version" : appVersion,
+            "Device Model" : (AppTools.isSimulator ? UIDevice.current.model + " Simulator" : platform()),
+            "Previous Screen" : previousScreen,
+            "Login Method" : loginMethod
+        ] as [String : Any]
         
         wrappedData.update(other: data)
         
+        return wrappedData
+    }
+    
+    // send record to Analytic Server
+    func send(eventType : String, data : [String : Any], previousScreen : String, loginMethod : String) {
+        
+        // not allow
+        if !isWhiteList(eventType) {
+            print("Analytics - " + eventType + ", Disabled")
+            if self.isShowDialog {
+                Constant.showDialog("Analytics - " + eventType, message: "BlackList")
+            }
+            return
+        }
+        
+        let wrappedData = skeletonData(data: data, previousScreen: previousScreen, loginMethod: loginMethod)
         
         let _ = request(APIAnalytic.event(eventType: eventType, data: wrappedData)).responseJSON {resp in
             if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - " + eventType)) {
@@ -52,63 +68,21 @@ class AnalyticManager: NSObject {
                 }
             }
         }
- 
-        /*
-        let userAgent = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String ?? ""
-        
-        let headers = [
-            "Authorization": "Token \(self.token)",
-            "User-Agent": userAgent
-        ]
-        
-        let p = [
-            "user_id" : (User.IsLoggedIn ? User.Id! : ""),
-            "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
-            "device_id" : UIDevice.current.identifierForVendor!.uuidString,
-            "event_type" : eventType,
-            "data" : wrappedData
-        ] as [String : Any]
-        
-        // create a custom session configuration
-        let configuration = URLSessionConfiguration.default
-        // add the headers
-        configuration.httpAdditionalHeaders = headers
-        
-        // create a session manager with the configuration
-        let sessionManager = Alamofire.SessionManager(configuration: configuration)
-        
-        // make calls with the session manager
-        sessionManager.request("\(self.PreloAnalyticBaseUrl)/api/analytics/event", method: .post, parameters: p, encoding: JSONEncoding.default)
-            .responseJSON { response in
-                print(response)
-                //to get status code
-                if let status = response.response?.statusCode {
-                    switch(status){
-                    case 201:
-                        print("example success")
-                    default:
-                        print("error with response status: \(status)")
-                    }
-                }
-                //to get JSON return value
-                if let result = response.result.value {
-                    let JSON = result as! NSDictionary
-                    print(JSON)
-                }
-                
-        }
-         */
     }
     
+    // send record to Analytic Server with defined userid
     func sendWithUserId(eventType : String, data : [String : Any], previousScreen : String, loginMethod : String, userId: String) {
-        var wrappedData = skeletonData
         
-        // still skeleton
-        wrappedData["Device Model"] = (AppTools.isSimulator ? UIDevice.current.model + " Simulator" : platform())
-        wrappedData["Previous Screen"] = previousScreen
-        wrappedData["Login Method"] = loginMethod
+        // not allow
+        if !isWhiteList(eventType) {
+            print("Analytics - " + eventType + ", Disabled")
+            if self.isShowDialog {
+                Constant.showDialog("Analytics - " + eventType, message: "BlackList")
+            }
+            return
+        }
         
-        wrappedData.update(other: data)
+        let wrappedData = skeletonData(data: data, previousScreen: previousScreen, loginMethod: loginMethod)
         
         let _ = request(APIAnalytic.eventWithUserId(eventType: eventType, data: wrappedData, userId: userId)).responseJSON {resp in
             if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - " + eventType)) {
@@ -134,7 +108,19 @@ class AnalyticManager: NSObject {
         }
     }
     
-    // only from setup profile, register
+    // only from register
+    func registerUser(method: String, metadata: JSON) {
+        let _ = request(APIAnalytic.userRegister(registerMethod: method, metadata: metadata)).responseJSON {resp in
+            if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - User")) {
+                print("Analytics - User, Sent!")
+                if self.isShowDialog {
+                    Constant.showDialog("Analytics - User", message: "Success")
+                }
+            }
+        }
+    }
+    
+    // only from setup profil
     func initUser(userProfileData: UserProfile) {
         let _ = request(APIAnalytic.userInit(userProfileData: userProfileData)).responseJSON {resp in
             if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - User")) {
@@ -177,6 +163,68 @@ class AnalyticManager: NSObject {
         var sysinfo = utsname()
         uname(&sysinfo) // ignore return value
         return String(bytes: Data(bytes: &sysinfo.machine, count: Int(_SYS_NAMELEN)), encoding: .ascii)!.trimmingCharacters(in: .controlCharacters)
+    }
+    
+    // MARK: - WhiteList
+    // TODO: - Enable all analytics
+    fileprivate func isWhiteList(_ preloAnalyticEvent: String) -> Bool {
+        let _whiteList = [
+            // Add Product
+            PreloAnalyticEvent.SaveAsDraft,
+            PreloAnalyticEvent.SubmitProduct,
+            PreloAnalyticEvent.ShareProduct,
+            PreloAnalyticEvent.UploadSuccess,
+            
+            // Auth
+            PreloAnalyticEvent.Register,
+            PreloAnalyticEvent.SetupAccount,
+            PreloAnalyticEvent.SetupPhone,
+            PreloAnalyticEvent.Login,
+            PreloAnalyticEvent.Logout,
+            
+            // Chat
+            PreloAnalyticEvent.StartChat,
+            
+            // Feedback
+            PreloAnalyticEvent.Rate,
+            
+            // Love
+            PreloAnalyticEvent.LoveProduct,
+            PreloAnalyticEvent.UnloveProduct,
+            
+            // Notification
+            PreloAnalyticEvent.ClickPushNotification,
+            PreloAnalyticEvent.ClickNotificationInApp,
+            
+            // Product
+            PreloAnalyticEvent.UpProduct,
+            PreloAnalyticEvent.VisitProductDetail,
+            
+            // Purchase
+            PreloAnalyticEvent.GoToCart,
+            PreloAnalyticEvent.Checkout,
+            PreloAnalyticEvent.ClaimPayment,
+            
+            // Referral
+            PreloAnalyticEvent.RedeemReferralCode,
+            
+            // Report
+            PreloAnalyticEvent.ReportProduct,
+            
+            // Transaction
+            PreloAnalyticEvent.ConfirmShipping,
+            PreloAnalyticEvent.RejectShipping,
+            PreloAnalyticEvent.ReviewAndRateSeller,
+            
+            // Withdraw
+            PreloAnalyticEvent.RequestWithdrawMoney,
+        ]
+        
+        if _whiteList.contains(preloAnalyticEvent) {
+            return true
+        } else {
+            return false
+        }
     }
 }
 

@@ -1234,21 +1234,25 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     let localId = User.CartLocalId ?? ""
                     let province = CDProvince.getProvinceNameWithID(self.selectedProvinsiID) ?? ""
                     let region = CDRegion.getRegionNameWithID(self.selectedKotaID) ?? ""
-                    let shipping = [
+                    let subdistrict = self.selectedKecamatanName
+                    
+                    let address = [
                         "Province" : province,
-                        "Region" : region
+                        "Region" : region,
+                        "Subdistrict" : subdistrict
                     ] as [String : Any]
+                    
                     var pdata = [
                         "Local ID" : localId,
                         "Order ID" : orderId,
                         "Items" : itemsObject,
                         "Total Price" : totalPrice,
-                        "Shipping" : shipping,
+                        "Address" : address,
                         "Payment Method" : paymentMethod,
                         "Prelo Balance Used" : (self.checkoutResult!["prelobalance_used"].intValue != 0 ? true : false)
                     ] as [String : Any]
                     
-                    if (self.checkoutResult!["voucher_serial"].stringValue != nil && self.checkoutResult!["voucher_serial"].stringValue != "") {
+                    if (self.checkoutResult!["voucher_serial"].stringValue != "") {
                         pdata["Voucher Used"] = self.checkoutResult!["voucher_serial"].stringValue
                     }
                     

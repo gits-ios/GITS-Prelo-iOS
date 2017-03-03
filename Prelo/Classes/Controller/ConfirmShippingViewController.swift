@@ -641,6 +641,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                     
                     let province = CDProvince.getProvinceNameWithID(self.trxDetail.shippingProvinceId) ?? ""
                     let region = CDRegion.getRegionNameWithID(self.trxDetail.shippingRegionId) ?? ""
+                    let subdistrict = self.trxDetail.shippingSubdistrictName
                     
                     let shipping = [
                         "Price" : shippingPrice,
@@ -649,7 +650,8 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                     
                     let address = [
                         "Province" : province,
-                        "Region" : region
+                        "Region" : region,
+                        "Subdistrict" : subdistrict
                     ] as [String : Any]
                     
                     

@@ -801,6 +801,9 @@ class PreloAnalyticEvent {
     static let UpProduct = "Product:Up Product"
     static let ShareForCommission = "Product:Share for Commission"
     static let VisitProductDetail = "Product:Visit Product Detail"
+    static let EraseProduct = "Product:Erase Product"
+    static let MarkAsSold = "Product:Mark as Sold"
+    static let CommentOnProduct = "Product:Comment on Product"
     
     // Report
     static let ReportProduct = "Report:Report Product"
@@ -812,11 +815,6 @@ class PreloAnalyticEvent {
     static let RequestRefund = "Transaction:Request Refund"
     static let DelayShipping = "Transaction:Delay Shipping"
     static let RejectShipping = "Transaction:Reject"
-    
-    // Product
-    static let EraseProduct = "Product:Erase Product"
-    static let MarkAsSold = "Product:Mark as Sold"
-    static let CommentOnProduct = "Product:Comment on Product"
 }
 
 extension GAI {

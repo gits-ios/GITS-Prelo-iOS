@@ -240,6 +240,9 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                 ]
                 AnalyticManager.sharedInstance.sendWithUserId(eventType: PreloAnalyticEvent.Register, data: pdata, previousScreen: self.screenBeforeLogin, loginMethod: "Basic", userId: c.id)
                 
+                // Prelo Analytic - Update User - Register
+                AnalyticManager.sharedInstance.registerUser(method: "Basic", metadata: data)
+                
                 self.toProfileSetup(data["_id"].string!, userToken : data["token"].string!, userEmail : data["email"].string!, isSocmedAccount : false, loginMethod : "Basic", screenBeforeLogin : self.screenBeforeLogin)
             } else {
                 self.btnRegister?.isEnabled = true

@@ -488,6 +488,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         AnalyticManager.sharedInstance.sendWithUserId(eventType: PreloAnalyticEvent.Register, data: pdata, previousScreen: screenBeforeLogin, loginMethod: "Facebook", userId: user!.id)
                         
                         isNeedPayload = true
+                        
+                        // Prelo Analytic - Update User - Register
+                        AnalyticManager.sharedInstance.registerUser(method: "Facebook", metadata: data)
                     }
                     
                     // Check if user have set his account
@@ -730,6 +733,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         AnalyticManager.sharedInstance.sendWithUserId(eventType: PreloAnalyticEvent.Register, data: pdata, previousScreen: screenBeforeLogin, loginMethod: "Twitter", userId: user!.id)
                         
                         isNeedPayload = true
+                        
+                        // Prelo Analytic - Update User - Register
+                        AnalyticManager.sharedInstance.registerUser(method: "Twitter", metadata: data)
                     }
                     
                     // Check if user have set his account
