@@ -503,7 +503,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
             4001 : "Sale Lovelist"
         ]
         
-        let curType = type[tipe] ?? ""
+        let curType = type[tipe] ?? tipe.string
         
         let loginMethod = User.LoginMethod ?? ""
         let pdata = [
