@@ -1350,43 +1350,44 @@ dan Dapatkan Prelo Bonus!" textAlignment="center" lineBreakMode="tailTruncation"
                                 </constraints>
                             </scrollView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vh4-5s-J3T">
-                                <rect key="frame" x="-500" y="50" width="1320" height="64"/>
+                                <rect key="frame" x="-500" y="50" width="1320" height="85"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pgR-gj-b4x">
-                                        <rect key="frame" x="0.0" y="0.0" width="6600" height="64"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="6600" height="85"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Barang yang numpuk di lemari
 bisa jadi duit lho!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uFC-Ca-UCY">
-                                                <rect key="frame" x="0.0" y="0.0" width="1320" height="64"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="1320" height="85"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prelo hanya menjual barang autentik dan
 NO KW dari merek-merek favorit kamu" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Ub-TT-Z3M">
-                                                <rect key="frame" x="1320" y="0.0" width="1320" height="64"/>
+                                                <rect key="frame" x="1320" y="0.0" width="1320" height="85"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gunakan fitur tawar dan chatting untuk
 dapatkan harga yang sesuai" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4r7-0q-AnO" userLabel="Gunakan..">
-                                                <rect key="frame" x="2640" y="0.0" width="1320" height="64"/>
+                                                <rect key="frame" x="2640" y="0.0" width="1320" height="85"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="snc-9X-Uev" userLabel="Barang tidak..">
-                                                <rect key="frame" x="3960" y="0.0" width="1320" height="64"/>
+                                                <rect key="frame" x="3960" y="0.0" width="1320" height="85"/>
                                                 <string key="text">Barang tidak sesuai?
-Laporkan max 3x24 jam setelah barang
-diterima dan refund 100%</string>
+Laporkan maks 3x24 jam setelah
+status transaksi DITERIMA dan
+dapatkan refund 100%</string>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3n0-DQ-EaM" userLabel="Temukan menu..">
-                                                <rect key="frame" x="5280" y="0.0" width="1320" height="64"/>
+                                                <rect key="frame" x="5280" y="0.0" width="1320" height="85"/>
                                                 <string key="text">Temukan kodenya
 di menu Referral Bonus!</string>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -1421,7 +1422,7 @@ di menu Referral Bonus!</string>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="height" secondItem="pgR-gj-b4x" secondAttribute="height" id="8HR-Fv-RDB"/>
-                                    <constraint firstAttribute="height" constant="64" id="8wU-Xr-eJm"/>
+                                    <constraint firstAttribute="height" constant="85" id="8wU-Xr-eJm"/>
                                     <constraint firstItem="uFC-Ca-UCY" firstAttribute="width" secondItem="Vh4-5s-J3T" secondAttribute="width" id="F9Z-iv-fOB"/>
                                     <constraint firstAttribute="trailing" secondItem="pgR-gj-b4x" secondAttribute="trailing" id="IK3-3Q-vcA"/>
                                     <constraint firstAttribute="height" constant="40" id="Mdf-QS-mqU"/>
@@ -2214,17 +2215,17 @@ di menu Referral Bonus!</string>
                                             <rect key="frame" x="0.0" y="96" width="320" height="90"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aj4-cq-xaM">
-                                                    <rect key="frame" x="0.0" y="0.0" width="106.5" height="90"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="107" height="90"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JUi-h5-CUE">
-                                                            <rect key="frame" x="105.5" y="4" width="1" height="82"/>
+                                                            <rect key="frame" x="106" y="4" width="1" height="82"/>
                                                             <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="1" id="Ck9-c9-VCF"/>
                                                             </constraints>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lovelist" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p4b-5J-I82">
-                                                            <rect key="frame" x="8" y="60" width="89.5" height="15"/>
+                                                            <rect key="frame" x="8" y="60" width="90" height="15"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -2244,7 +2245,7 @@ di menu Referral Bonus!</string>
                                                             </variation>
                                                         </imageView>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nqd-Yc-mek">
-                                                            <rect key="frame" x="0.0" y="0.0" width="106.5" height="90"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="107" height="90"/>
                                                             <state key="normal">
                                                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </state>
@@ -2280,10 +2281,10 @@ di menu Referral Bonus!</string>
                                                     </variation>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GMb-Gi-Ejd">
-                                                    <rect key="frame" x="106.5" y="0.0" width="107" height="90"/>
+                                                    <rect key="frame" x="107" y="0.0" width="106" height="90"/>
                                                     <subviews>
                                                         <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jualan Saya" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FSG-bg-qk0">
-                                                            <rect key="frame" x="8" y="60" width="91" height="15"/>
+                                                            <rect key="frame" x="8" y="60" width="90" height="15"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -2327,7 +2328,7 @@ di menu Referral Bonus!</string>
                                                     </connections>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NYb-e2-zdZ">
-                                                    <rect key="frame" x="213.5" y="0.0" width="106.5" height="90"/>
+                                                    <rect key="frame" x="213" y="0.0" width="107" height="90"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W8M-Db-Wpu">
                                                             <rect key="frame" x="0.0" y="4" width="1" height="82"/>
@@ -2337,7 +2338,7 @@ di menu Referral Bonus!</string>
                                                             </constraints>
                                                         </view>
                                                         <imageView opaque="NO" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="txG-F6-hp7">
-                                                            <rect key="frame" x="33.5" y="12" width="40" height="40"/>
+                                                            <rect key="frame" x="34" y="12" width="40" height="40"/>
                                                             <color key="tintColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="24" id="0JT-74-M27"/>
@@ -2351,13 +2352,13 @@ di menu Referral Bonus!</string>
                                                             </variation>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Belanjaan Saya" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="05X-Sk-e1G">
-                                                            <rect key="frame" x="9" y="60" width="89.5" height="15"/>
+                                                            <rect key="frame" x="9" y="60" width="90" height="15"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zUH-KZ-ztD">
-                                                            <rect key="frame" x="0.0" y="0.0" width="106.5" height="90"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="107" height="90"/>
                                                             <state key="normal">
                                                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </state>
@@ -2558,13 +2559,13 @@ di menu Referral Bonus!</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p1p-tf-v6m">
-                                                        <rect key="frame" x="346.5" y="13" width="12.5" height="17"/>
+                                                        <rect key="frame" x="346" y="13" width="13" height="17"/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="17"/>
                                                         <color key="textColor" red="0.048671051860000002" green="0.3823831379" blue="0.41029164200000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pilih Bank" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H8s-gQ-2aH">
-                                                        <rect key="frame" x="267.5" y="12" width="71" height="20"/>
+                                                        <rect key="frame" x="267" y="12" width="71" height="20"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                         <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -3788,7 +3789,7 @@ in Bandung</string>
                                                     <rect key="frame" x="8" y="8" width="359" height="80"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lei-y7-tef" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="0.0" width="177.5" height="80"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="178" height="80"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W9x-L0-DvI">
                                                                     <rect key="frame" x="63" y="8" width="52" height="36"/>
@@ -3801,13 +3802,13 @@ in Bandung</string>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ditanggung Penjual" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="liF-pj-tQc">
-                                                                    <rect key="frame" x="8" y="51" width="161.5" height="21"/>
+                                                                    <rect key="frame" x="8" y="51" width="162" height="21"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hAA-HA-WaW">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="177.5" height="80"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="178" height="80"/>
                                                                     <state key="normal">
                                                                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     </state>
@@ -3836,10 +3837,10 @@ in Bandung</string>
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bZH-96-Tzd" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                                                            <rect key="frame" x="185.5" y="0.0" width="173.5" height="80"/>
+                                                            <rect key="frame" x="186" y="0.0" width="173" height="80"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DaE-HR-DZM">
-                                                                    <rect key="frame" x="61.5" y="8" width="52" height="36"/>
+                                                                    <rect key="frame" x="61" y="8" width="52" height="36"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="52" id="aca-Da-OFO"/>
                                                                         <constraint firstAttribute="height" constant="36" id="qQ7-WQ-XID"/>
@@ -3849,13 +3850,13 @@ in Bandung</string>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ditanggung Pembeli" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="JAD-z9-nIT">
-                                                                    <rect key="frame" x="8" y="51" width="157.5" height="21"/>
+                                                                    <rect key="frame" x="8" y="51" width="157" height="21"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" red="0.66014617681503296" green="0.6601264476776123" blue="0.66013765335083008" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f7O-ek-l6b">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="173.5" height="80"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="173" height="80"/>
                                                                     <state key="normal">
                                                                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     </state>
@@ -3979,7 +3980,7 @@ in Bandung</string>
                                                     <rect key="frame" x="8" y="8" width="359" height="80"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0SO-XS-NZ6" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="0.0" width="118.5" height="80"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="118" height="80"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt; 1 Kg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="waS-Tm-crL">
                                                                     <rect key="frame" x="35" y="29" width="48" height="21"/>
@@ -3988,7 +3989,7 @@ in Bandung</string>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ep5-2g-Cw0">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="118.5" height="80"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="118" height="80"/>
                                                                     <state key="normal">
                                                                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     </state>
@@ -4016,16 +4017,16 @@ in Bandung</string>
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qvm-i3-62u" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                                                            <rect key="frame" x="240.5" y="0.0" width="118.5" height="80"/>
+                                                            <rect key="frame" x="241" y="0.0" width="118" height="80"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&gt; 2 Kg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xeT-tW-zIJ">
-                                                                    <rect key="frame" x="34.5" y="29" width="50" height="21"/>
+                                                                    <rect key="frame" x="34" y="29" width="50" height="21"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="79v-lj-KAb">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="118.5" height="80"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="118" height="80"/>
                                                                     <state key="normal">
                                                                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     </state>
@@ -4053,16 +4054,16 @@ in Bandung</string>
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LE6-70-Ze8" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                                                            <rect key="frame" x="126.5" y="0.0" width="106" height="80"/>
+                                                            <rect key="frame" x="126" y="0.0" width="107" height="80"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 - 2 Kg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ceB-V7-D8A">
-                                                                    <rect key="frame" x="23.5" y="29" width="59" height="21"/>
+                                                                    <rect key="frame" x="24" y="29" width="59" height="21"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w3a-xS-Qmr">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="106" height="80"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="107" height="80"/>
                                                                     <state key="normal">
                                                                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     </state>
@@ -4684,7 +4685,7 @@ in Bandung</string>
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="603"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3dS-JO-Z5K">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="517.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="518"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="njD-3d-VPO">
                                                 <rect key="frame" x="8" y="20" width="304" height="49"/>
@@ -4747,13 +4748,13 @@ in Bandung</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UaC-TH-hCk">
-                                                <rect key="frame" x="69" y="225.5" width="42" height="20"/>
+                                                <rect key="frame" x="69" y="226" width="42" height="20"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aIO-dB-iKT">
-                                                <rect key="frame" x="148" y="253.5" width="164" height="168"/>
+                                                <rect key="frame" x="148" y="254" width="164" height="168"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n2Q-bE-wBy" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
                                                         <rect key="frame" x="62" y="8" width="41" height="32"/>
@@ -4843,7 +4844,7 @@ in Bandung</string>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OYn-oo-yqe">
-                                                <rect key="frame" x="8" y="253.5" width="164" height="168"/>
+                                                <rect key="frame" x="8" y="254" width="164" height="168"/>
                                                 <subviews>
                                                     <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PLw-AE-N6X" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
                                                         <rect key="frame" x="85" y="50" width="66" height="30"/>
@@ -5093,7 +5094,7 @@ in Bandung</string>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tambahan Keuntungan" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o5a-gR-8R3">
-                                                <rect key="frame" x="156" y="207" width="148" height="38.5"/>
+                                                <rect key="frame" x="156" y="207" width="148" height="39"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -5115,7 +5116,7 @@ in Bandung</string>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="biq-yu-IWn" userLabel="Twiter Warning">
-                                                <rect key="frame" x="8" y="375.5" width="304" height="32"/>
+                                                <rect key="frame" x="8" y="376" width="304" height="32"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pastikan kamu sudah sign in di menu Settings &gt; Twitter" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BzW-rV-Ua4">
                                                         <rect key="frame" x="0.0" y="0.0" width="304" height="32"/>
@@ -5136,33 +5137,33 @@ in Bandung</string>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OI0-gF-8xt">
-                                                <rect key="frame" x="8" y="423.5" width="304" height="1"/>
+                                                <rect key="frame" x="8" y="424" width="304" height="1"/>
                                                 <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="V38-5c-rOZ"/>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QPv-74-Qyn">
-                                                <rect key="frame" x="220" y="433.5" width="20" height="17"/>
+                                                <rect key="frame" x="220" y="434" width="20" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Keuntungan" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rzF-OM-w2G">
-                                                <rect key="frame" x="50" y="432.5" width="88" height="20"/>
+                                                <rect key="frame" x="50" y="433" width="88" height="20"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ybg-tl-nr9">
-                                                <rect key="frame" x="8" y="460.5" width="304" height="1"/>
+                                                <rect key="frame" x="8" y="461" width="304" height="1"/>
                                                 <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="t8M-CE-DiW"/>
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7NE-RZ-5EY">
-                                                <rect key="frame" x="8" y="469.5" width="304" height="40"/>
+                                                <rect key="frame" x="8" y="470" width="304" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="MVb-DF-s2C"/>
                                                 </constraints>
@@ -5683,15 +5684,15 @@ in Bandung</string>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ListBrandVC2Cell" id="Zqo-bg-bRX" customClass="ListBrandVC2Cell" customModule="Prelo" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="22" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Zqo-bg-bRX" id="VJ0-RV-Lr6">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="Zqo-bg-bRX" id="VJ0-RV-Lr6">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="9mv-ij-ge2" userLabel="loadingbottom">
-                                                    <rect key="frame" x="178" y="12" width="20" height="20"/>
+                                                    <rect key="frame" x="178" y="-10" width="20" height="20"/>
                                                     <color key="color" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </activityIndicatorView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s4l-fk-Z7Y">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s4l-fk-Z7Y">
                                                     <rect key="frame" x="8" y="0.0" width="331" height="44"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="44" id="hZc-iy-Yfk"/>
@@ -5701,7 +5702,7 @@ in Bandung</string>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0nO-7s-x8N">
-                                                    <rect key="frame" x="347" y="12" width="20" height="20"/>
+                                                    <rect key="frame" x="347" y="-10" width="20" height="20"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QQP-du-JuK">
                                                             <rect key="frame" x="1" y="1" width="18" height="18"/>
@@ -6491,7 +6492,7 @@ in Bandung</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vqc-R4-f7B">
-                                                        <rect key="frame" x="354.5" y="13" width="12.5" height="17"/>
+                                                        <rect key="frame" x="354" y="13" width="13" height="17"/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="17"/>
                                                         <color key="textColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -6547,7 +6548,7 @@ in Bandung</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BDC-LC-fXZ">
-                                                        <rect key="frame" x="354.5" y="13" width="12.5" height="17"/>
+                                                        <rect key="frame" x="354" y="13" width="13" height="17"/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="17"/>
                                                         <color key="textColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -6603,7 +6604,7 @@ in Bandung</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bk3-eX-h2g">
-                                                        <rect key="frame" x="354.5" y="13" width="12.5" height="17"/>
+                                                        <rect key="frame" x="354" y="13" width="13" height="17"/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="17"/>
                                                         <color key="textColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -7318,7 +7319,7 @@ in Bandung</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nikmati keamanan bertransaksi melalui rekening bersama dari Prelo" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q1o-HD-hnr">
-                                <rect key="frame" x="24" y="57" width="327" height="38.5"/>
+                                <rect key="frame" x="24" y="57" width="327" height="39"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -8284,7 +8285,7 @@ in Bandung</string>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="57.280000000000001" id="gOG-FJ-fNV"/>
                                                             </constraints>
-                                                            <string key="text">Waktu Jaminan Prelo: Belanja bergaransi dengan waktu jaminan hingga 3x24 jam setelah barang diterima jika barang terbukti KW, memiliki cacat yang tidak diinformasikan, atau berbeda dari yang dipesan</string>
+                                                            <string key="text">Waktu Jaminan Prelo. Belanja bergaransi dengan waktu jaminan hingga 3x24 jam setelah status barang "Diterima" jika barang terbukti KW, memiliki cacat yang tidak diinformasikan, atau berbeda dari yang dipesan.</string>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -11155,7 +11156,7 @@ in Bandung</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="1136"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yy9-U0-vPP">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="419.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="420"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zl1-Zs-s9f">
                                                 <rect key="frame" x="8" y="8" width="359" height="20"/>
@@ -11164,7 +11165,7 @@ in Bandung</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lakukan pembayaran dalam 24 jam ke salah satu rekening :" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mEd-JP-JbR">
-                                                <rect key="frame" x="8" y="109" width="359" height="38.5"/>
+                                                <rect key="frame" x="8" y="109" width="359" height="39"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -11206,7 +11207,7 @@ in Bandung</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iQ1-5t-INe" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                                                <rect key="frame" x="8" y="159.5" width="359" height="192"/>
+                                                <rect key="frame" x="8" y="160" width="359" height="192"/>
                                                 <subviews>
                                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bNh-IT-xll">
                                                         <rect key="frame" x="0.0" y="0.0" width="359" height="192"/>
@@ -11233,7 +11234,7 @@ in Bandung</string>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OsR-Ua-gMc">
-                                                <rect key="frame" x="8" y="359.5" width="359" height="40"/>
+                                                <rect key="frame" x="8" y="360" width="359" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="cqB-00-qxA"/>
                                                 </constraints>
@@ -13023,13 +13024,13 @@ KONFIRMASI">
                                                                 </constraints>
                                                             </view>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mux-6s-h8t">
-                                                                <rect key="frame" x="563" y="21" width="21" height="19"/>
+                                                                <rect key="frame" x="568" y="22.5" width="16" height="16"/>
                                                                 <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="16"/>
                                                                 <color key="textColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pilih Kategori" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aKU-Dz-Nsd">
-                                                                <rect key="frame" x="459" y="20" width="96" height="20"/>
+                                                                <rect key="frame" x="464" y="20" width="96" height="20"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -13122,13 +13123,13 @@ KONFIRMASI">
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WXk-WN-r6G">
-                                                                <rect key="frame" x="563" y="13" width="21" height="19"/>
+                                                                <rect key="frame" x="568" y="14.5" width="16" height="16"/>
                                                                 <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="16"/>
                                                                 <color key="textColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TZW-x0-KFg">
-                                                                <rect key="frame" x="555" y="22" width="0.0" height="0.0"/>
+                                                                <rect key="frame" x="560" y="22" width="0.0" height="0.0"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -13349,13 +13350,13 @@ KONFIRMASI">
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QzT-w5-dNj">
-                                                                <rect key="frame" x="563" y="13" width="21" height="19"/>
+                                                                <rect key="frame" x="568" y="14.5" width="16" height="16"/>
                                                                 <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="16"/>
                                                                 <color key="textColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kVD-Aq-2ph">
-                                                                <rect key="frame" x="555" y="22" width="0.0" height="0.0"/>
+                                                                <rect key="frame" x="560" y="22" width="0.0" height="0.0"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -15082,7 +15083,7 @@ KONFIRMASI">
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xc8-g1-Khv">
-                                                        <rect key="frame" x="574" y="11" width="18" height="19"/>
+                                                        <rect key="frame" x="574" y="12.5" width="18" height="16"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="18" id="nOw-1Y-Ywy"/>
                                                         </constraints>
@@ -15140,16 +15141,16 @@ KONFIRMASI">
                                                 </variation>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UU5-ke-iBm">
-                                                <rect key="frame" x="0.0" y="327" width="600" height="45"/>
+                                                <rect key="frame" x="0.0" y="327" width="600" height="42"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ongkos Kirim" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LdY-j0-knq">
-                                                        <rect key="frame" x="32" y="12" width="109" height="22"/>
+                                                        <rect key="frame" x="32" y="9" width="109" height="22"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Dr-GI-UHr">
-                                                        <rect key="frame" x="574" y="13" width="18" height="19"/>
+                                                        <rect key="frame" x="574" y="13" width="18" height="16"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="18" id="x2V-3M-R0x"/>
                                                         </constraints>
@@ -15158,7 +15159,7 @@ KONFIRMASI">
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_ongkir.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ffd-4Y-NEX">
-                                                        <rect key="frame" x="9" y="16" width="16" height="16"/>
+                                                        <rect key="frame" x="9" y="13" width="16" height="16"/>
                                                         <color key="tintColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="16" id="3Kk-oO-BOe"/>
@@ -15166,7 +15167,7 @@ KONFIRMASI">
                                                         </constraints>
                                                     </imageView>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="97d-18-kLs">
-                                                        <rect key="frame" x="8" y="44" width="584" height="1"/>
+                                                        <rect key="frame" x="8" y="41" width="584" height="1"/>
                                                         <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="1" id="Ykq-yN-rrZ"/>
@@ -15200,16 +15201,16 @@ KONFIRMASI">
                                                 </variation>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c0z-zU-8JX">
-                                                <rect key="frame" x="0.0" y="375" width="600" height="40"/>
+                                                <rect key="frame" x="0.0" y="372" width="600" height="37"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Harga" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zer-k3-ErC">
-                                                        <rect key="frame" x="34" y="10" width="49" height="22"/>
+                                                        <rect key="frame" x="34" y="7" width="49" height="22"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_harga.png" translatesAutoresizingMaskIntoConstraints="NO" id="4Wd-lh-gHD">
-                                                        <rect key="frame" x="9" y="14" width="18" height="16"/>
+                                                        <rect key="frame" x="9" y="11" width="18" height="16"/>
                                                         <color key="tintColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="18" id="PPU-Th-4Gh"/>
@@ -15217,7 +15218,7 @@ KONFIRMASI">
                                                         </constraints>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p0o-iW-edc">
-                                                        <rect key="frame" x="574" y="11" width="18" height="19"/>
+                                                        <rect key="frame" x="574" y="11" width="18" height="16"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="18" id="W7h-SV-yGM"/>
                                                         </constraints>
@@ -15248,7 +15249,7 @@ KONFIRMASI">
                                                 </variation>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pku-dY-D2r">
-                                                <rect key="frame" x="8" y="435" width="584" height="40"/>
+                                                <rect key="frame" x="8" y="429" width="584" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="vCb-87-8VF"/>
                                                 </constraints>
@@ -16067,7 +16068,7 @@ Senin-Jum'at 09.00-18.00 WIB" textAlignment="center" lineBreakMode="tailTruncati
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="io0-UJ-6Dp">
-                                                <rect key="frame" x="8" y="76" width="180" height="30"/>
+                                                <rect key="frame" x="8" y="79" width="180" height="27"/>
                                                 <color key="backgroundColor" red="0.97254902124404907" green="0.50980395078659058" blue="0.094117648899555206" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
                                                 <state key="normal" title=" TAWAR">
@@ -16076,7 +16077,7 @@ Senin-Jum'at 09.00-18.00 WIB" textAlignment="center" lineBreakMode="tailTruncati
                                                 </state>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HaP-Dy-kBc">
-                                                <rect key="frame" x="196" y="76" width="180" height="30"/>
+                                                <rect key="frame" x="196" y="79" width="180" height="27"/>
                                                 <color key="backgroundColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
                                                 <state key="normal" title=" BELI">
@@ -16088,7 +16089,7 @@ Senin-Jum'at 09.00-18.00 WIB" textAlignment="center" lineBreakMode="tailTruncati
                                                 </connections>
                                             </button>
                                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d2F-Hi-FU7" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
-                                                <rect key="frame" x="8" y="80" width="180" height="30"/>
+                                                <rect key="frame" x="8" y="80" width="180" height="27"/>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
                                                 <state key="normal" title=" TOLAK">
                                                     <color key="titleColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -16110,7 +16111,7 @@ Senin-Jum'at 09.00-18.00 WIB" textAlignment="center" lineBreakMode="tailTruncati
                                                 </userDefinedRuntimeAttributes>
                                             </button>
                                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9ru-or-cxO">
-                                                <rect key="frame" x="196" y="80" width="180" height="30"/>
+                                                <rect key="frame" x="196" y="80" width="180" height="27"/>
                                                 <color key="backgroundColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
                                                 <state key="normal" title=" TERIMA">
@@ -16119,7 +16120,7 @@ Senin-Jum'at 09.00-18.00 WIB" textAlignment="center" lineBreakMode="tailTruncati
                                                 </state>
                                             </button>
                                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VlH-gP-zx0">
-                                                <rect key="frame" x="8" y="80" width="368" height="30"/>
+                                                <rect key="frame" x="8" y="80" width="368" height="27"/>
                                                 <color key="backgroundColor" red="0.97254902124404907" green="0.50980395078659058" blue="0.094117648899555206" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
                                                 <state key="normal" title=" BERIKAN PENAWARAN">
@@ -16128,7 +16129,7 @@ Senin-Jum'at 09.00-18.00 WIB" textAlignment="center" lineBreakMode="tailTruncati
                                                 </state>
                                             </button>
                                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1ES-Qr-U4K" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
-                                                <rect key="frame" x="8" y="80" width="368" height="30"/>
+                                                <rect key="frame" x="8" y="80" width="368" height="27"/>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
                                                 <state key="normal" title=" BATAL">
                                                     <color key="titleColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -16150,7 +16151,7 @@ Senin-Jum'at 09.00-18.00 WIB" textAlignment="center" lineBreakMode="tailTruncati
                                                 </userDefinedRuntimeAttributes>
                                             </button>
                                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bbm-75-dqA">
-                                                <rect key="frame" x="8" y="118" width="368" height="27"/>
+                                                <rect key="frame" x="8" y="115" width="368" height="27"/>
                                                 <color key="backgroundColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="27" id="GYT-zv-CXj"/>
@@ -16162,7 +16163,7 @@ Senin-Jum'at 09.00-18.00 WIB" textAlignment="center" lineBreakMode="tailTruncati
                                                 </state>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dNH-aY-hAH">
-                                                <rect key="frame" x="8" y="80" width="368" height="30"/>
+                                                <rect key="frame" x="8" y="80" width="368" height="27"/>
                                                 <color key="backgroundColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
                                                 <state key="normal" title=" BELI">
@@ -16174,7 +16175,7 @@ Senin-Jum'at 09.00-18.00 WIB" textAlignment="center" lineBreakMode="tailTruncati
                                                 </connections>
                                             </button>
                                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zbz-gn-gbP" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
-                                                <rect key="frame" x="8" y="80" width="180" height="30"/>
+                                                <rect key="frame" x="8" y="80" width="180" height="27"/>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
                                                 <state key="normal" title=" BATAL">
                                                     <color key="titleColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
