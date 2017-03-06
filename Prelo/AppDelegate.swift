@@ -553,7 +553,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // MoEngage
         MoEngage.sharedInstance().stop(application)
         
-//        produkUploader.stop()
+        produkUploader.stop()
         
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().didLoseFocus()
@@ -565,7 +565,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
         
-//        produkUploader.start()
+        produkUploader.start()
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -591,6 +591,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // MoEngage
         MoEngage.sharedInstance().applicationTerminated(application)
+    }
+    
+    func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
+//        Constant.showDialog("FIrst INIT", message: "firts INIT")
+        
+        
+        // Prelo Analytic - Update User
+        AnalyticManager.sharedInstance.updateUser(isNeedPayload: true)
+        
+        return true
     }
     
     func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
