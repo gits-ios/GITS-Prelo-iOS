@@ -74,6 +74,8 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationController?.navigationBar.isTranslucent = true
+        
         // MARK: - Register UIVC Component(s)
         if let mainStoryboard = self.storyboard {
             listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as? ListItemViewController
