@@ -1033,7 +1033,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         gridView.reloadData()
         if (currentMode == .segment || self.isFeatured == true) {
-            gridView.contentInset = UIEdgeInsetsMake(0, 0, 48, 0)
+            gridView.contentInset = UIEdgeInsetsMake(0, 0, 48 + 24, 0)
+        } else {
+            gridView.contentInset = UIEdgeInsetsMake(0, 0, 24, 0)
         }
         gridView.isHidden = false
         vwFilterZeroResult.isHidden = true
