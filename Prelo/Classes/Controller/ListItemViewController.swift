@@ -185,6 +185,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if currentMode == .shop || currentMode == .newShop {
+            self.navigationController?.navigationBar.isTranslucent = true
+        }
+        
         if (currentMode == .newShop) {
             let StoreInfo = UINib(nibName: "StorePageShopHeader", bundle: nil)
             gridView.register(StoreInfo, forCellWithReuseIdentifier: "StorePageShopHeader")
@@ -234,10 +238,26 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         NotificationCenter.default.addObserver(self, selector: #selector(ListItemViewController.statusBarTapped), name: NSNotification.Name(rawValue: AppDelegate.StatusBarTapNotificationName), object: nil)
         
         // fixer
-        self.repositionScrollCategoryNameContent()
+        self.repositionScrollCategoryNameContent(false)
         
         if currentMode == .filter {
             self.setStatusBarBackgroundColor(color: Theme.PrimaryColor)
+        }
+        
+        if currentMode == .shop || currentMode == .newShop {
+            self.navigationController?.navigationBar.isTranslucent = true
+        }
+        
+        // for handle navigation
+        if (currentMode == .shop && self.isTransparent) {
+            self.isTransparent = !self.isTransparent
+            self.transparentNavigationBar(true)
+            self.isFirst = false
+            
+        } else if (currentMode == .newShop && (self.delegate?.getTransparentcy())!) {
+            self.delegate?.setTransparentcy(!((self.delegate?.getTransparentcy())!))
+            self.transparentNavigationBar(true)
+            
         }
     }
     
@@ -248,7 +268,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         // Show navbar - non animated
         NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
         self.navigationController?.setNavigationBarHidden(false, animated: false)
-        self.repositionScrollCategoryNameContent()
+//        self.repositionScrollCategoryNameContent(false)
         self.showStatusBar()
         
         // Remove status bar tap observer
@@ -264,6 +284,14 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             
         } else if (currentMode == .shop || currentMode == .newShop) {
             self.defaultNavigationBar()
+            
+        } else if (currentMode == .segment) {
+            if (selectedSegment != "") {
+                consHeightVwTopHeader.constant = 40 // Show top header
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.view.layoutIfNeeded()
+                })
+            }
             
         }
     }
@@ -296,17 +324,6 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 // Google Analytics
                 GAI.trackPageVisit(PageName.Shop)
             }
-        }
-        
-        // for handle navigation
-//        self.isTransparent = !self.isTransparent
-        if (currentMode == .shop && self.isTransparent) {
-            self.isTransparent = !self.isTransparent
-            self.transparentNavigationBar(true)
-            self.isFirst = false
-        } else if (currentMode == .newShop && (self.delegate?.getTransparentcy())!) {
-            self.delegate?.setTransparentcy(!((self.delegate?.getTransparentcy())!))
-            self.transparentNavigationBar(true)
         }
     }
     
@@ -1324,28 +1341,30 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                                 self.view.layoutIfNeeded()
                             }) 
                         }
-                        self.repositionScrollCategoryNameContent()
+                        self.repositionScrollCategoryNameContent(true)
                         if (currentMode == .filter) {
+                            UIView.animate(withDuration: 0.2, animations: {
                             self.consTopTopHeaderFilter.constant = UIApplication.shared.statusBarFrame.height
                             self.consTopGridView.constant = UIApplication.shared.statusBarFrame.height
+                            })
                         }
                     }
                 } else {
-                    if ((self.navigationController?.isNavigationBarHidden)! == true) {
-                        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
-                        self.navigationController?.setNavigationBarHidden(false, animated: true)
-                        self.showStatusBar()
-                        if (selectedSegment != "") {
-                            consHeightVwTopHeader.constant = 40 // Show top header
-                            UIView.animate(withDuration: 0.2, animations: {
-                                self.view.layoutIfNeeded()
-                            })
-                        }
-                        self.repositionScrollCategoryNameContent()
-                        if (currentMode == .filter) {
+                    NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
+                    self.navigationController?.setNavigationBarHidden(false, animated: true)
+                    self.showStatusBar()
+                    if (selectedSegment != "") {
+                        consHeightVwTopHeader.constant = 40 // Show top header
+                        UIView.animate(withDuration: 0.2, animations: {
+                            self.view.layoutIfNeeded()
+                        })
+                    }
+                    self.repositionScrollCategoryNameContent(true)
+                    if (currentMode == .filter) {
+                        UIView.animate(withDuration: 0.2, animations: {
                             self.consTopTopHeaderFilter.constant = 0
                             self.consTopGridView.constant = 0
-                        }
+                        })
                     }
                 }
             }
@@ -1391,13 +1410,18 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
     }
     
-    func repositionScrollCategoryNameContent() {
+    func repositionScrollCategoryNameContent(_ animated: Bool) {
         // This function is made as a temporary solution for a bug where the scroll category name content size is become wrong after scroll
         if (scrollCategoryName != nil) {
-            UIView.animate(withDuration: 0.2, animations: {
+            if animated {
+                UIView.animate(withDuration: 0.2, animations: {
+                    let bottomOffset = CGPoint(x: self.scrollCategoryName!.contentOffset.x, y: self.scrollCategoryName!.contentSize.height - self.scrollCategoryName!.bounds.size.height)
+                    self.scrollCategoryName!.setContentOffset(bottomOffset, animated: false)
+                })
+            } else {
                 let bottomOffset = CGPoint(x: self.scrollCategoryName!.contentOffset.x, y: self.scrollCategoryName!.contentSize.height - self.scrollCategoryName!.bounds.size.height)
                 self.scrollCategoryName!.setContentOffset(bottomOffset, animated: false)
-            })
+            }
         }
     }
     
@@ -1580,7 +1604,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         gridView.setContentOffset(CGPoint(x: 0, y: 10), animated: true)
         NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
-        self.repositionScrollCategoryNameContent()
+        self.repositionScrollCategoryNameContent(true)
     }
     
     func pinch(_ pinchedIn : Bool) {
