@@ -185,6 +185,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if currentMode == .shop || currentMode == .newShop {
+            self.navigationController?.navigationBar.isTranslucent = true
+        }
+        
         if (currentMode == .newShop) {
             let StoreInfo = UINib(nibName: "StorePageShopHeader", bundle: nil)
             gridView.register(StoreInfo, forCellWithReuseIdentifier: "StorePageShopHeader")
@@ -238,6 +242,22 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         if currentMode == .filter {
             self.setStatusBarBackgroundColor(color: Theme.PrimaryColor)
+        }
+        
+        if currentMode == .shop || currentMode == .newShop {
+            self.navigationController?.navigationBar.isTranslucent = true
+        }
+        
+        // for handle navigation
+        if (currentMode == .shop && self.isTransparent) {
+            self.isTransparent = !self.isTransparent
+            self.transparentNavigationBar(true)
+            self.isFirst = false
+            
+        } else if (currentMode == .newShop && (self.delegate?.getTransparentcy())!) {
+            self.delegate?.setTransparentcy(!((self.delegate?.getTransparentcy())!))
+            self.transparentNavigationBar(true)
+            
         }
     }
     
@@ -304,17 +324,6 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 // Google Analytics
                 GAI.trackPageVisit(PageName.Shop)
             }
-        }
-        
-        // for handle navigation
-//        self.isTransparent = !self.isTransparent
-        if (currentMode == .shop && self.isTransparent) {
-            self.isTransparent = !self.isTransparent
-            self.transparentNavigationBar(true)
-            self.isFirst = false
-        } else if (currentMode == .newShop && (self.delegate?.getTransparentcy())!) {
-            self.delegate?.setTransparentcy(!((self.delegate?.getTransparentcy())!))
-            self.transparentNavigationBar(true)
         }
     }
     
