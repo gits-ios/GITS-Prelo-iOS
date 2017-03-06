@@ -265,6 +265,14 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         } else if (currentMode == .shop || currentMode == .newShop) {
             self.defaultNavigationBar()
             
+        } else if (currentMode == .segment) {
+            if (selectedSegment != "") {
+                consHeightVwTopHeader.constant = 40 // Show top header
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.view.layoutIfNeeded()
+                })
+            }
+            
         }
     }
     
@@ -1326,26 +1334,28 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                         }
                         self.repositionScrollCategoryNameContent()
                         if (currentMode == .filter) {
+                            UIView.animate(withDuration: 0.2, animations: {
                             self.consTopTopHeaderFilter.constant = UIApplication.shared.statusBarFrame.height
                             self.consTopGridView.constant = UIApplication.shared.statusBarFrame.height
+                            })
                         }
                     }
                 } else {
-                    if ((self.navigationController?.isNavigationBarHidden)! == true) {
-                        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
-                        self.navigationController?.setNavigationBarHidden(false, animated: true)
-                        self.showStatusBar()
-                        if (selectedSegment != "") {
-                            consHeightVwTopHeader.constant = 40 // Show top header
-                            UIView.animate(withDuration: 0.2, animations: {
-                                self.view.layoutIfNeeded()
-                            })
-                        }
-                        self.repositionScrollCategoryNameContent()
-                        if (currentMode == .filter) {
+                    NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
+                    self.navigationController?.setNavigationBarHidden(false, animated: true)
+                    self.showStatusBar()
+                    if (selectedSegment != "") {
+                        consHeightVwTopHeader.constant = 40 // Show top header
+                        UIView.animate(withDuration: 0.2, animations: {
+                            self.view.layoutIfNeeded()
+                        })
+                    }
+                    self.repositionScrollCategoryNameContent()
+                    if (currentMode == .filter) {
+                        UIView.animate(withDuration: 0.2, animations: {
                             self.consTopTopHeaderFilter.constant = 0
                             self.consTopGridView.constant = 0
-                        }
+                        })
                     }
                 }
             }
