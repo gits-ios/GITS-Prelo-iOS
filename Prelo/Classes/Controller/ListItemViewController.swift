@@ -178,9 +178,6 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var isExpand = false
     var star = Float(0)
     
-    // home
-    static var isHiddenTop: Bool = false
-    
     var isFeatured: Bool = false
     
     // MARK: - Init
@@ -236,22 +233,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         // Add status bar tap observer
         NotificationCenter.default.addObserver(self, selector: #selector(ListItemViewController.statusBarTapped), name: NSNotification.Name(rawValue: AppDelegate.StatusBarTapNotificationName), object: nil)
         
-        if ListItemViewController.isHiddenTop {
-            NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "hideBottomBar"), object: nil)
-            self.navigationController?.setNavigationBarHidden(true, animated: true)
-            self.hideStatusBar()
-            if (selectedSegment != "") {
-                consHeightVwTopHeader.constant = 0 // Hide top header
-                UIView.animate(withDuration: 0.2, animations: {
-                    self.view.layoutIfNeeded()
-                })
-            }
-//            self.repositionScrollCategoryNameContent()
-            if (currentMode == .filter) {
-                self.consTopTopHeaderFilter.constant = UIApplication.shared.statusBarFrame.height
-                self.consTopGridView.constant = UIApplication.shared.statusBarFrame.height
-            }
-        }
+        // fixer
+        self.repositionScrollCategoryNameContent()
         
         if currentMode == .filter {
             self.setStatusBarBackgroundColor(color: Theme.PrimaryColor)
@@ -265,22 +248,24 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         // Remove status bar tap observer
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: AppDelegate.StatusBarTapNotificationName), object: nil)
         
-        // Show navbar
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
-//        self.repositionScrollCategoryNameContent()
-//        self.showStatusBar()
-        
         // Status bar color
         if (currentMode == .filter) {
             self.setStatusBarBackgroundColor(color: UIColor.clear)
          
             // reset header
-//            self.consTopTopHeaderFilter.constant = 0
-//            self.consTopGridView.constant = 0
-        }
-        
-        if (currentMode == .shop || currentMode == .newShop) {
+            self.consTopTopHeaderFilter.constant = 0
+            self.consTopGridView.constant = 0
+            
+        } else if (currentMode == .shop || currentMode == .newShop) {
             self.defaultNavigationBar()
+            
+        } else {
+            // Show navbar
+            NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
+            self.navigationController?.setNavigationBarHidden(false, animated: true)
+            self.repositionScrollCategoryNameContent()
+            self.showStatusBar()
+            
         }
 
     }
@@ -538,6 +523,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.getProducts()
             } else {
                 self.refresher?.endRefreshing()
+                self.setupGrid()
             }
         default:
             requesting = true
@@ -1250,6 +1236,11 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     }
                 }
                 
+                NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
+                self.navigationController?.setNavigationBarHidden(false, animated: true)
+                self.repositionScrollCategoryNameContent()
+                self.showStatusBar()
+                
                 AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.VisitAggregate, data: pdata, previousScreen: currentPage, loginMethod: loginMethod)
                 
                 self.navigationController?.pushViewController(l, animated: true)
@@ -1289,10 +1280,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 
                 f.btnFooter.isHidden = false
                 f.btnFooterAction = {
-//                    NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
-//                    self.navigationController?.setNavigationBarHidden(false, animated: true)
-//                    self.repositionScrollCategoryNameContent()
-//                    self.showStatusBar()
+                    NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
+                    self.navigationController?.setNavigationBarHidden(false, animated: true)
+                    self.repositionScrollCategoryNameContent()
+                    self.showStatusBar()
                     
                     let p = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
                     p.currentMode = .filter
@@ -1339,7 +1330,6 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             if (currentMode == .default || currentMode == .featured || currentMode == .filter || (currentMode == .segment && listItemSections.contains(.products))) {
                 if (currScrollPoint.y < scrollView.contentOffset.y) {
                     if ((self.navigationController?.isNavigationBarHidden)! == false) {
-                        ListItemViewController.isHiddenTop = true
                         NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "hideBottomBar"), object: nil)
                         self.navigationController?.setNavigationBarHidden(true, animated: true)
                         self.hideStatusBar()
@@ -1356,7 +1346,6 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                         }
                     }
                 } else {
-                    ListItemViewController.isHiddenTop = false
                     NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
                     self.navigationController?.setNavigationBarHidden(false, animated: true)
                     self.showStatusBar()
@@ -1519,6 +1508,11 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         listBrandVC.delegate = self
         listBrandVC.selectedBrands = self.fltrBrands
         listBrandVC.sortedBrandKeys = [String](self.fltrBrands.keys)
+        
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.repositionScrollCategoryNameContent()
+        self.showStatusBar()
+        
         self.navigationController?.pushViewController(listBrandVC, animated: true)
     }
     
@@ -1527,6 +1521,11 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         categPickerVC.previousController = self
         categPickerVC.delegate = self
         categPickerVC.searchMode = true
+        
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.repositionScrollCategoryNameContent()
+        self.showStatusBar()
+        
         self.navigationController?.pushViewController(categPickerVC, animated: true)
     }
     
@@ -1544,6 +1543,11 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         filterVC.locationId = self.fltrLocation[1]
         filterVC.locationName = self.fltrLocation[0]
         filterVC.locationType = self.fltrLocation[2].int
+        
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.repositionScrollCategoryNameContent()
+        self.showStatusBar()
+        
         self.navigationController?.pushViewController(filterVC, animated: true)
     }
     
@@ -1593,6 +1597,11 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func launchDetail() {
+        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.repositionScrollCategoryNameContent()
+        self.showStatusBar()
+        
         NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: NotificationName.ShowProduct), object: [ self.selectedProduct, (self.currentMode != .filter ? (self.currentMode == .shop || self.currentMode == .newShop ? PageName.Shop : PageName.Home ) :  PageName.SearchResult ) ])
     }
     
