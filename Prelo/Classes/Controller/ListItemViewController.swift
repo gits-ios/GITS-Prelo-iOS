@@ -1033,8 +1033,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         gridView.reloadData()
         if (currentMode == .segment || self.isFeatured == true) {
-            gridView.contentInset = UIEdgeInsetsMake(0, 0, 48 + 24, 0)
-        } else {
+            gridView.contentInset = UIEdgeInsetsMake(0, 0, 48, 0)
+        } else if (currentMode == .filter || currentMode == .shop || currentMode == .newShop) {
             gridView.contentInset = UIEdgeInsetsMake(0, 0, 24, 0)
         }
         gridView.isHidden = false
@@ -1348,19 +1348,21 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                         }
                     }
                 } else {
-                    NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
-                    self.navigationController?.setNavigationBarHidden(false, animated: true)
-                    self.showStatusBar()
-                    if (selectedSegment != "") {
-                        consHeightVwTopHeader.constant = 40 // Show top header
-                        UIView.animate(withDuration: 0.2, animations: {
-                            self.view.layoutIfNeeded()
-                        })
-                    }
-                    self.repositionScrollCategoryNameContent()
-                    if (currentMode == .filter) {
-                        self.consTopTopHeaderFilter.constant = 0
-                        self.consTopGridView.constant = 0
+                    if ((self.navigationController?.isNavigationBarHidden)! == true) {
+                        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
+                        self.navigationController?.setNavigationBarHidden(false, animated: true)
+                        self.showStatusBar()
+                        if (selectedSegment != "") {
+                            consHeightVwTopHeader.constant = 40 // Show top header
+                            UIView.animate(withDuration: 0.2, animations: {
+                                self.view.layoutIfNeeded()
+                            })
+                        }
+                        self.repositionScrollCategoryNameContent()
+                        if (currentMode == .filter) {
+                            self.consTopTopHeaderFilter.constant = 0
+                            self.consTopGridView.constant = 0
+                        }
                     }
                 }
             }
