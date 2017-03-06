@@ -245,6 +245,12 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         super.viewWillDisappear(animated)
         //print("viewWillDisappear x")
         
+        // Show navbar - non animated
+        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        self.repositionScrollCategoryNameContent()
+        self.showStatusBar()
+        
         // Remove status bar tap observer
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: AppDelegate.StatusBarTapNotificationName), object: nil)
         
@@ -260,13 +266,6 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             self.defaultNavigationBar()
             
         }
-        
-        // Show navbar
-        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-        self.repositionScrollCategoryNameContent()
-        self.showStatusBar()
-
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -1395,8 +1394,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     func repositionScrollCategoryNameContent() {
         // This function is made as a temporary solution for a bug where the scroll category name content size is become wrong after scroll
         if (scrollCategoryName != nil) {
-            let bottomOffset = CGPoint(x: self.scrollCategoryName!.contentOffset.x, y: self.scrollCategoryName!.contentSize.height - self.scrollCategoryName!.bounds.size.height)
-            self.scrollCategoryName!.setContentOffset(bottomOffset, animated: false)
+            UIView.animate(withDuration: 0.2, animations: {
+                let bottomOffset = CGPoint(x: self.scrollCategoryName!.contentOffset.x, y: self.scrollCategoryName!.contentSize.height - self.scrollCategoryName!.bounds.size.height)
+                self.scrollCategoryName!.setContentOffset(bottomOffset, animated: false)
+            })
         }
     }
     
