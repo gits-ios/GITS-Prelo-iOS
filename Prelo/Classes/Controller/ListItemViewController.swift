@@ -179,7 +179,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var star = Float(0)
     
     // home
-    var isHiddenTop: Bool = false
+    static var isHiddenTop: Bool = false
     
     var isFeatured: Bool = false
     
@@ -236,7 +236,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         // Add status bar tap observer
         NotificationCenter.default.addObserver(self, selector: #selector(ListItemViewController.statusBarTapped), name: NSNotification.Name(rawValue: AppDelegate.StatusBarTapNotificationName), object: nil)
         
-        if isHiddenTop {
+        if ListItemViewController.isHiddenTop {
             NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "hideBottomBar"), object: nil)
             self.navigationController?.setNavigationBarHidden(true, animated: true)
             self.hideStatusBar()
@@ -246,7 +246,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     self.view.layoutIfNeeded()
                 })
             }
-            self.repositionScrollCategoryNameContent()
+//            self.repositionScrollCategoryNameContent()
             if (currentMode == .filter) {
                 self.consTopTopHeaderFilter.constant = UIApplication.shared.statusBarFrame.height
                 self.consTopGridView.constant = UIApplication.shared.statusBarFrame.height
@@ -1339,7 +1339,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             if (currentMode == .default || currentMode == .featured || currentMode == .filter || (currentMode == .segment && listItemSections.contains(.products))) {
                 if (currScrollPoint.y < scrollView.contentOffset.y) {
                     if ((self.navigationController?.isNavigationBarHidden)! == false) {
-                        isHiddenTop = true
+                        ListItemViewController.isHiddenTop = true
                         NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "hideBottomBar"), object: nil)
                         self.navigationController?.setNavigationBarHidden(true, animated: true)
                         self.hideStatusBar()
@@ -1356,7 +1356,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                         }
                     }
                 } else {
-                    isHiddenTop = false
+                    ListItemViewController.isHiddenTop = false
                     NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
                     self.navigationController?.setNavigationBarHidden(false, animated: true)
                     self.showStatusBar()
