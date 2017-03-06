@@ -221,7 +221,34 @@ class AnalyticManager: NSObject {
             PreloAnalyticEvent.RequestWithdrawMoney,
         ]
         
+        let _developmentList = [
+            // Chat
+            PreloAnalyticEvent.SuccessfulBargain,
+            PreloAnalyticEvent.SendMediaOnChat,
+            
+            // Edit Profile
+            PreloAnalyticEvent.ChagePhone,
+            
+            // Product
+            PreloAnalyticEvent.ShareForCommission,
+            PreloAnalyticEvent.EraseProduct,
+            PreloAnalyticEvent.MarkAsSold,
+            PreloAnalyticEvent.CommentOnProduct,
+            
+            // Referral
+            PreloAnalyticEvent.ShareReferralCode,
+            
+            // Report
+            PreloAnalyticEvent.ReportComment,
+            
+            // Transaction
+            PreloAnalyticEvent.RequestRefund,
+            PreloAnalyticEvent.DelayShipping,
+        ]
+        
         if _whiteList.contains(preloAnalyticEvent) {
+            return true
+        } else if AppTools.isDev && _developmentList.contains(preloAnalyticEvent) {
             return true
         } else {
             return false
