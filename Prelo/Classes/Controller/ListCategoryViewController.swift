@@ -328,7 +328,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         for i in 0...count-1
         {
             let button = UIButton(type: .custom)
-            button.setTitleColor(Theme.GrayDark)
+            button.setTitleColor(Theme.GrayLight)
             button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
             if let name = categoriesFix[i]["name"].string {
                 var nameFix = name
@@ -436,8 +436,12 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         let name = categoriesFix[1]["name"].string
         if (name?.lowercased() == "all" || name?.lowercased() == "home") {
             setCurrentTab(1)
+            
+            self.fixer(1)
         } else {
             setCurrentTab(0)
+            
+            self.fixer(0)
         }
         
         // Show app store update pop up if necessary
@@ -468,7 +472,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         
         scroll_View.setContentOffset(p, animated: true)
         
-        adjustIndicator(index)
+        //adjustIndicator(index)
     }
     
     func adjustIndicator(_ index : Int)
@@ -482,6 +486,8 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         indicatorMargin?.constant = v.x
         indicatorWidth?.constant = v.width
         
+        self.coloringTitle(index)
+        
         let queue : OperationQueue = OperationQueue()
         let opLayout : Operation = BlockOperation(block: {
             DispatchQueue.main.async(execute: {
@@ -489,6 +495,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             })
         })
         queue.addOperation(opLayout)
+        /*
         let opSetupContent : Operation = BlockOperation(block: {
             DispatchQueue.main.async(execute: {
                 if let child = self.childViewControllers[index] as? ListItemViewController {
@@ -497,7 +504,30 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             })
         })
         opSetupContent.addDependency(opLayout)
-//        queue.addOperation(opSetupContent)
+        queue.addOperation(opSetupContent)
+         */
+    }
+    
+    func coloringTitle(_ index: Int) {
+        for i in 0...categoryNames.count-1 {
+            if index != i {
+                let button = categoryNames[i] as! UIButton
+                button.setTitleColor(Theme.GrayLight)
+            } else {
+                let button = categoryNames[i] as! UIButton
+                button.setTitleColor(Theme.GrayDark)
+            }
+        }
+    }
+    
+    // for init only
+    func fixer(_ index: Int) {
+        let v = categoryNames[index]
+        indicatorMargin?.constant = v.x
+        indicatorWidth?.constant = v.width
+        
+        let button = categoryNames[index] as! UIButton
+        button.setTitleColor(Theme.GrayDark)
     }
     
     func categoryButtonAction(_ sender : UIView)
@@ -592,9 +622,9 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         }
         
         if i != currentTabIndex {
-        currentTabIndex = i
-        centerCategoryView(currentTabIndex)
-        adjustIndicator(currentTabIndex)
+            currentTabIndex = i
+            centerCategoryView(currentTabIndex)
+            adjustIndicator(currentTabIndex)
         }
         
         //print("lastContentOffset = \(lastContentOffset)")
