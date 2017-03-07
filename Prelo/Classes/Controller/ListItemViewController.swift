@@ -1342,7 +1342,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                             consHeightVwTopHeader.constant = 0 // Hide top header
                             UIView.animate(withDuration: 0.2, animations: {
                                 self.view.layoutIfNeeded()
-                            }) 
+                            })
                         }
                         self.repositionScrollCategoryNameContent(true)
                         if (currentMode == .filter) {

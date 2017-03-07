@@ -2689,6 +2689,15 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
 //            height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentDate)
 //            height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentBankTarget)
 //            height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentNominal.asPrice)
+            
+            if (trxDetail.paymentMethodInt == 4) {
+                if (trxDetail.paymentCode != "") {
+                    height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentCode) + 20 // space
+                } else {
+                    height += TransactionDetailTitleContentCell.heightFor("Klik tombol \"LANJUTKAN PEMBAYARAN\" untuk mendapatkan kode bayar") + 20 // space
+                }
+            }
+            
         } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentMethod)
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentDate)
@@ -2895,7 +2904,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             return trxProducts.count
         } else {
             if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
-                return 7 //4
+                return 8 //4
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer) {
                 return 4
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidCC) {
@@ -2956,31 +2965,41 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         } else if (isTitleContentCell) {
             if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
                 if (idx == 0) {
+                    if (isTrxDetail() && trxDetail!.paymentMethodInt == 4) {
+                        if trxDetail!.paymentCode != "" {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentCode) + 20 // space
+                        } else {
+                            return TransactionDetailTitleContentCell.heightFor("Klik tombol \"LANJUTKAN PEMBAYARAN\" untuk mendapatkan kode bayar") + 20
+                        }
+                    } else  {
+                        return 0
+                    }
+                } else if (idx == 1) {
                     if (isTrxDetail()) {
                         let p = trxDetail!.totalPrice + trxDetail!.bonusUsed + trxDetail!.preloBalanceUsed + trxDetail!.voucherAmount
                         return TransactionDetailTitleContentCell.heightFor(p.asPrice)
                     }
-                } else if (idx == 1) {
+                } else if (idx == 2) {
                     if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.bonusUsed.asPrice)
                     }
-                } else if (idx == 2) {
+                } else if (idx == 3) {
                     if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.preloBalanceUsed.asPrice)
                     }
-                } else if (idx == 3) {
+                } else if (idx == 4) {
                     if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.voucherAmount.asPrice)
                     }
-                } else if (idx == 4) {
+                } else if (idx == 5) {
                     if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.totalPrice.asPrice)
                     }
-                } else if (idx == 5) {
+                } else if (idx == 6) {
                     if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.bankTransferDigit.asPrice)
                     }
-                } else if (idx == 6) {
+                } else if (idx == 7) {
                     if (isTrxDetail()) {
                         let p = trxDetail!.totalPrice + trxDetail!.bankTransferDigit
                         return TransactionDetailTitleContentCell.heightFor(p.asPrice)
@@ -3334,27 +3353,41 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             let idx = (indexPath as NSIndexPath).row
             
             if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
-                if (idx == 0) {
+                if (idx == 0 && trxDetail!.paymentMethodInt == 4) {
+                    if (trxDetail!.paymentCode != "") {
+                        var content = ""
+                        var textToCopy = ""
+                        content = " "
+                        if (isTrxDetail()) {
+                            let p = trxDetail!.paymentCode
+                            textToCopy = "\(p)"
+                            content += p
+                        }
+                        return self.createTitleContentCell("Kode Bayar", content: content, alignment: .right, url: nil, textToCopy: textToCopy)
+                    } else {
+                        return self.createTitleContentCell("Kode Bayar", content: "Klik tombol \"LANJUTKAN PEMBAYARAN\" untuk mendapatkan kode bayar", alignment: .right, url: nil, textToCopy: nil)
+                    }
+                } else if (idx == 1) {
                     var content = ""
                     if (isTrxDetail()) {
                         let p = trxDetail!.totalPrice + trxDetail!.bonusUsed + trxDetail!.preloBalanceUsed + trxDetail!.voucherAmount
                         content = p.asPrice
                     }
                     return self.createTitleContentCell("Harga + Ongkir", content: content, alignment: .right, url: nil, textToCopy: nil)
-                } else if (idx == 1) {
+                } else if (idx == 2) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = "-" + trxDetail!.bonusUsed.asPrice
                     }
                     return self.createTitleContentCell("Referral Bonus", content: content, alignment: .right, url: nil, textToCopy: nil)
-                } else if (idx == 2) {
+                } else if (idx == 3) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = "-" + trxDetail!.preloBalanceUsed.asPrice
                     }
                     let cell = self.createTitleContentCell("Prelo Balance", content: content, alignment: .right, url: nil, textToCopy: nil)
                     return cell
-                } else if (idx == 3) {
+                } else if (idx == 4) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = "-" + trxDetail!.voucherAmount.asPrice
@@ -3362,13 +3395,13 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     let cell = self.createTitleContentCell("Voucher", content: content, alignment: .right, url: nil, textToCopy: nil)
                     cell.showVwLine()
                     return cell
-                } else if (idx == 4) {
+                } else if (idx == 5) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = trxDetail!.totalPrice.asPrice
                     }
                     return self.createTitleContentCell("Subtotal", content: content, alignment: .right, url: nil, textToCopy: nil)
-                } else if (idx == 5) {
+                } else if (idx == 6) {
                     var title = ""
                     var content = ""
                     if (isTrxDetail()) {
@@ -3386,7 +3419,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     let cell = self.createTitleContentCell(title, content: content, alignment: .right, url: nil, textToCopy: nil)
                     cell.showVwLine()
                     return cell
-                } else if (idx == 6) {
+                } else if (idx == 7) {
                     var content = ""
                     var textToCopy = ""
                     content = " "
