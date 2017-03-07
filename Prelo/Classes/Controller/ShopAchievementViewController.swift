@@ -155,7 +155,7 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
         tableView.separatorStyle = .none
         
         if (userAchievements.count > 0) {
-            tableView.backgroundColor = UIColor(hex: "E5E9EB")
+            tableView.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
         }
     }
     
@@ -175,7 +175,7 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
                 let cell : ShopAchievementCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopAchievementCell") as! ShopAchievementCell
                 
                 cell.selectionStyle = .none
-                cell.backgroundColor = UIColor(hex: "E5E9EB")
+                cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
                 cell.clipsToBounds = true
                 
                 let u = userAchievements[(indexPath as NSIndexPath).item]
@@ -197,7 +197,7 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
             let cell : ShopAchievementCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopAchievementCell") as! ShopAchievementCell
             
             cell.selectionStyle = .none
-            cell.backgroundColor = UIColor(hex: "E5E9EB")
+            cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
             cell.clipsToBounds = true
             
             let u = userAchievements[(indexPath as NSIndexPath).item]

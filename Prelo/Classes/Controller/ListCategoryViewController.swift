@@ -222,13 +222,33 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 self.addChildAtIdx(i, count: count, d: &d, lastView: &lastView)
             }
         }
+        
         if let firstChild = self.childViewControllers[0] as? ListItemViewController { // First child
             firstChild.setupContent()
+        }
+        
+        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
+                                            qos: .background,
+                                            target: nil)
+        backgroundQueue.async {
+            print("Work on background queue: Init Category " + self.categoriesFix[1]["name"].stringValue)
+            
+            for i in 1...self.childViewControllers.count-1 {
+                if let allChild = self.childViewControllers[i] as? ListItemViewController {
+                    DispatchQueue.main.async(execute: {
+                        
+                        // continue to main async
+                        allChild.setupContent()
+                    })
+                }
+            }
         }
         
         scroll_View.layoutIfNeeded()
         contentView?.layoutIfNeeded()
         addCategoryNames(count)
+        
+        scroll_View.backgroundColor = UIColor(hexString: "#E8ECEE")
     }
     
     func addChildAtIdx(_ i : Int, count : Int, d : inout [String : UIView], lastView : inout UIView?) {
@@ -477,7 +497,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             })
         })
         opSetupContent.addDependency(opLayout)
-        queue.addOperation(opSetupContent)
+//        queue.addOperation(opSetupContent)
     }
     
     func categoryButtonAction(_ sender : UIView)
@@ -570,9 +590,12 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             Crashlytics.sharedInstance().setObjectValue("width \(width) | offsetX \(contentOffsetX)", forKey: "ListCategoryViewController.scrollViewDidScroll")
             i = Int(contentOffsetX / width + 0.5)
         }
+        
+        if i != currentTabIndex {
         currentTabIndex = i
         centerCategoryView(currentTabIndex)
         adjustIndicator(currentTabIndex)
+        }
         
         //print("lastContentOffset = \(lastContentOffset)")
         //print("scrollView.contentOffset = \(scrollView.contentOffset)")
