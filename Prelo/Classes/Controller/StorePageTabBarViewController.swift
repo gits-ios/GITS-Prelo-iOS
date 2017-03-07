@@ -74,8 +74,6 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.navigationBar.isTranslucent = true
-        
         // MARK: - Register UIVC Component(s)
         if let mainStoryboard = self.storyboard {
             listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as? ListItemViewController
@@ -123,35 +121,31 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
             Constant.showDialog("Data Shop Pengguna", message: "Oops, profil seller tidak ditemukan")
         } else {
         
-        if isFirst {
-            listItemVC?.shopId = self.shopId
-            listItemVC?.previousScreen = self.previousScreen
-            shopReviewVC?.sellerId = self.shopId
-            shopReviewVC?.sellerName = ""
-            shopBadgeVC?.sellerId = self.shopId
-            shopBadgeVC?.sellerName = ""
-            
-            // edit button
-            if (self.shopId == CDUser.getOne()?.id) {
-                setEditButton()
+            if isFirst {
+                listItemVC?.shopId = self.shopId
+                listItemVC?.previousScreen = self.previousScreen
+                shopReviewVC?.sellerId = self.shopId
+                shopReviewVC?.sellerName = ""
+                shopBadgeVC?.sellerId = self.shopId
+                shopBadgeVC?.sellerName = ""
+                
+                // edit button
+                if (self.shopId == CDUser.getOne()?.id) {
+                    setEditButton()
+                }
+                
+                setupNavBar()
+                setupSubView()
+                setSelectionBar(0)
+                segmentView.selectedSegmentIndex = 0
+                
+                isFirst = false
             }
             
-            setupNavBar()
-            setupSubView()
-            setSelectionBar(0)
-            segmentView.selectedSegmentIndex = 0
-            
-            isFirst = false
-        }
-        
-        UIView.animate(withDuration: 0.5) {
-            self.navigationController?.navigationBar.isTranslucent = true
-        }
-        
-        if (self.isOnTop) {
-            self.isOnTop = false
-            self.dereaseHeader()
-        }
+            if (self.isOnTop) {
+                self.isOnTop = false
+                self.dereaseHeader()
+            }
         }
     }
     
