@@ -97,6 +97,8 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         scrollView.delegate = self
         scrollView.showsHorizontalScrollIndicator = false
         
+        scrollView.backgroundColor = UIColor(hexString: "#E8ECEE")
+        
         // Set title
         self.title = "" // clear title
     }

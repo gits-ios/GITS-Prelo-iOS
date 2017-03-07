@@ -79,7 +79,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
             
             tableView.separatorStyle = .none
             
-            tableView.backgroundColor = UIColor(hex: "E5E9EB")
+            tableView.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
         
             getAchievement()
         }
@@ -234,7 +234,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementDiamondCell") as! AchievementDiamondCell
             
             cell.selectionStyle = .none
-            cell.backgroundColor = UIColor(hex: "E5E9EB")
+            cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
             cell.clipsToBounds = true
             cell.adapt(diamonds, isOpen: isOpens[(indexPath as NSIndexPath).row])
             
@@ -243,7 +243,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell") as! ButtonCell
             
             cell.selectionStyle = .none
-            cell.backgroundColor = UIColor(hex: "E5E9EB")
+            cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
             cell.clipsToBounds = true
             
             let lblButton = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.width - 8, height: 40))
@@ -267,7 +267,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementCell") as! AchievementCelliOS9xx
                 
                 cell.selectionStyle = .none
-                cell.backgroundColor = UIColor(hex: "E5E9EB")
+                cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
                 cell.clipsToBounds = true
                 cell.adapt((achievements?[(indexPath as NSIndexPath).section - 1])!, isOpen: isOpens[(indexPath as NSIndexPath).section])
                 
@@ -276,7 +276,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementCellDescriptionCell") as! AchievementCellDescriptionCell
                 
                 cell.selectionStyle = .none
-                cell.backgroundColor = UIColor(hex: "E5E9EB")
+                cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
                 cell.clipsToBounds = true
                 // adapt
                 cell.lblDesc.isHidden = false
@@ -289,7 +289,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementCellProgressCell") as! AchievementCellProgressCell
                 
                 cell.selectionStyle = .none
-                cell.backgroundColor = UIColor(hex: "E5E9EB")
+                cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
                 cell.clipsToBounds = true
                 cell.adapt((achievements?[(indexPath as NSIndexPath).section - 1].conditions[(indexPath as NSIndexPath).row - 2])!)
                 
@@ -298,7 +298,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementCellBadgeCell") as! AchievementCellBadgeCell
                 
                 cell.selectionStyle = .none
-                cell.backgroundColor = UIColor(hex: "E5E9EB")
+                cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
                 cell.clipsToBounds = true
                 
                 if ((indexPath as NSIndexPath).row - (achievements?[(indexPath as NSIndexPath).section - 1].conditions.count)! - 2) == 0 {
@@ -315,7 +315,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementCellDescriptionCell") as! AchievementCellDescriptionCell
                 
                 cell.selectionStyle = .none
-                cell.backgroundColor = UIColor(hex: "E5E9EB")
+                cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
                 cell.clipsToBounds = true
                 // adapt
                 cell.lblDesc.isHidden = false
@@ -327,7 +327,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementCellDescriptionCell") as! AchievementCellDescriptionCell
                 
                 cell.selectionStyle = .none
-                cell.backgroundColor = UIColor(hex: "E5E9EB")
+                cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
                 cell.clipsToBounds = true
                 // adapt
                 cell.lblDesc.isHidden = true
