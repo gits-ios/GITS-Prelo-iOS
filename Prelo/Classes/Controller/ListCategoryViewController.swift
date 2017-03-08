@@ -95,6 +95,14 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
     }
     
     func grandRefresh() {
+        if let kumangTabBarVC = self.previousController as? KumangTabBarViewController {
+            kumangTabBarVC.showLoading()
+            kumangTabBarVC.isAlreadyGetCategory = false
+        }
+        
+        scroll_View.backgroundColor = UIColor.clear
+        
+        // lets cleaning
         listItemViews.removeAll(keepingCapacity: false)
         
         if (childViewControllers.count > 0) {
@@ -226,7 +234,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         if let firstChild = self.childViewControllers[0] as? ListItemViewController { // First child
             firstChild.setupContent()
         }
-        
+        /*
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
                                             qos: .background,
                                             target: nil)
@@ -243,7 +251,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 }
             }
         }
-        
+        */
         scroll_View.layoutIfNeeded()
         contentView?.layoutIfNeeded()
         addCategoryNames(count)
@@ -488,6 +496,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         
         self.coloringTitle(index)
         
+        /*
         let queue : OperationQueue = OperationQueue()
         let opLayout : Operation = BlockOperation(block: {
             DispatchQueue.main.async(execute: {
@@ -495,7 +504,6 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             })
         })
         queue.addOperation(opLayout)
-        /*
         let opSetupContent : Operation = BlockOperation(block: {
             DispatchQueue.main.async(execute: {
                 if let child = self.childViewControllers[index] as? ListItemViewController {
@@ -528,6 +536,8 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         
         let button = categoryNames[index] as! UIButton
         button.setTitleColor(Theme.GrayDark)
+        
+        centerCategoryView(index)
     }
     
     func categoryButtonAction(_ sender : UIView)
@@ -664,6 +674,27 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         }
         
         lastContentOffset = scrollView.contentOffset
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if scrollView == scroll_View {
+            let queue : OperationQueue = OperationQueue()
+            let opLayout : Operation = BlockOperation(block: {
+                DispatchQueue.main.async(execute: {
+                    self.categoryIndicator?.layoutIfNeeded()
+                })
+            })
+            queue.addOperation(opLayout)
+            let opSetupContent : Operation = BlockOperation(block: {
+                DispatchQueue.main.async(execute: {
+                    if let child = self.childViewControllers[self.currentTabIndex] as? ListItemViewController {
+                        child.setupContent()
+                    }
+                })
+            })
+            opSetupContent.addDependency(opLayout)
+            queue.addOperation(opSetupContent)
+        }
     }
     
     // MARK: - Home promo
