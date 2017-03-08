@@ -94,6 +94,19 @@ class AnalyticManager: NSObject {
         }
     }
     
+    // open app -- resume, first init
+    func openApp() {
+        let eventType = PreloAnalyticEvent.OpenApp
+        let _ = request(APIAnalytic.eventOpenApp).responseJSON {resp in
+            if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - User")) {
+                print("Analytics - " + eventType + ", Sent!")
+                if self.isShowDialog {
+                    Constant.showDialog("Analytics - " + eventType, message: "Success")
+                }
+            }
+        }
+    }
+    
     // user must login
     func updateUser(isNeedPayload: Bool) {
         if (User.IsLoggedIn) {

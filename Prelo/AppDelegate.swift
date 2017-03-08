@@ -565,6 +565,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
         
+        // Prelo Analytic - Open App
+        AnalyticManager.sharedInstance.openApp()
+        
         produkUploader.start()
     }
     
@@ -596,6 +599,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
 //        Constant.showDialog("FIrst INIT", message: "firts INIT")
         
+        // Prelo Analytic - Open App
+        AnalyticManager.sharedInstance.openApp()
         
         // Prelo Analytic - Update User
         AnalyticManager.sharedInstance.updateUser(isNeedPayload: true)

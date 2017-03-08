@@ -816,6 +816,9 @@ class PreloAnalyticEvent {
     static let RequestRefund = "Transaction:Request Refund"
     static let DelayShipping = "Transaction:Delay Shipping"
     static let RejectShipping = "Transaction:Reject"
+    
+    // Daily
+    static let OpenApp = "Daily:Open App"
 }
 
 extension GAI {
