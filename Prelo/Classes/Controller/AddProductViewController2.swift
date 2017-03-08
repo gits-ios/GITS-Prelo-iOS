@@ -719,14 +719,6 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         let alertView = SCLAlertView(appearance: appearance)
         
-        if (self.fakeScrollView.isHidden == false && self.isImage == false || self.editMode == true) {
-            alertView.addButton("Tidak") {}
-        } else {
-            alertView.addButton("Keluar") {
-                _ = self.navigationController?.popViewController(animated: true)
-            }
-        }
-        
         alertView.addButton((self.fakeScrollView.isHidden == false && self.isImage == false || self.editMode == true) ? "Ya" : "Simpan") {
             if ((self.fakeScrollView.isHidden == true || self.isImage == true) && self.editMode == false){
                 
@@ -736,6 +728,15 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 _ = self.navigationController?.popViewController(animated: true)
             }
         }
+        
+        if (self.fakeScrollView.isHidden == false && self.isImage == false || self.editMode == true) {
+            alertView.addButton("Tidak") {}
+        } else {
+            alertView.addButton("Keluar") {
+                _ = self.navigationController?.popViewController(animated: true)
+            }
+        }
+        
         alertView.showInfo(title, subTitle: message)
     }
     
@@ -1698,10 +1699,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         )
         
         let alertView = SCLAlertView(appearance: appearance)
-        alertView.addButton("Tidak") {}
         alertView.addButton("Ya") {
             self.deleteProduct()
         }
+        alertView.addButton("Tidak") {}
         alertView.showInfo("Hapus", subTitle: "Hapus Barang?")
     }
     
@@ -2153,7 +2154,6 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             )
             
             let alertView = SCLAlertView(appearance: appearance)
-            alertView.addButton("Batal") {}
             alertView.addButton("Ya") {
                 // Prelo Analytic - Submit Product
                 let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
@@ -2232,6 +2232,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 
                 self.navigationController?.pushViewController(share, animated: true)
             }
+            alertView.addButton("Batal") {}
             alertView.showInfo("Jual", subTitle: "Pastikan barang yang kamu jual original. Jika barang kamu terbukti bukan original, pembeli berhak melakukan refund atas barang tersebut.")
             
             return
