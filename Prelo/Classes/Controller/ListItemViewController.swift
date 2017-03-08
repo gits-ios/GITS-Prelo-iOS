@@ -268,7 +268,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         // Show navbar - non animated
         NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
         self.navigationController?.setNavigationBarHidden(false, animated: false)
-//        self.repositionScrollCategoryNameContent(false)
+        self.repositionScrollCategoryNameContent(false)
         self.showStatusBar()
         
         // Remove status bar tap observer
@@ -325,6 +325,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 GAI.trackPageVisit(PageName.Shop)
             }
         }
+        
+        // fixer
+        self.repositionScrollCategoryNameContent(true)
     }
     
     override func backPressed(_ sender: UIBarButtonItem) {
@@ -1339,7 +1342,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                             consHeightVwTopHeader.constant = 0 // Hide top header
                             UIView.animate(withDuration: 0.2, animations: {
                                 self.view.layoutIfNeeded()
-                            }) 
+                            })
                         }
                         self.repositionScrollCategoryNameContent(true)
                         if (currentMode == .filter) {
@@ -1595,7 +1598,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func launchDetail() {
-        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: NotificationName.ShowProduct), object: [ self.selectedProduct, (self.currentMode != .filter ? (self.currentMode == .shop || self.currentMode == .newShop ? PageName.Shop : PageName.Home ) :  PageName.SearchResult ) ])
+        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: NotificationName.ShowProduct), object: [ self.selectedProduct!, (self.currentMode != .filter ? (self.currentMode == .shop || self.currentMode == .newShop ? PageName.Shop : PageName.Home ) :  PageName.SearchResult ) ])
     }
     
     // MARK: - Other functions
