@@ -914,6 +914,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if ((indexPath as NSIndexPath).section == sectionProducts) {
             if (arrayItem.count > 2 && (indexPath as NSIndexPath).row == 0) { // Clear all
+                /*
                 let alert = UIAlertController(title: "Hapus Keranjang", message: "Kamu yakin ingin menghapus semua barang dalam keranjang?", preferredStyle: .alert)
                 
                 alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in
@@ -937,6 +938,30 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     User.SetCartLocalId("")
                 }))
                 self.present(alert, animated: true, completion: nil)
+                 */
+                
+                let appearance = SCLAlertView.SCLAppearance(
+                    showCloseButton: false
+                )
+                
+                let alertView = SCLAlertView(appearance: appearance)
+                alertView.addButton("Hapus") {
+                    // troli badge
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    let notifListener = appDelegate.preloNotifListener
+                    notifListener?.increaseCartCount(-1 * self.arrayItem.count)
+                    
+                    self.arrayItem.removeAll()
+                    CartProduct.deleteAll()
+                    self.shouldBack = true
+                    //                    self.cellsData = [:]
+                    self.synchCart()
+                    
+                    // reset localid
+                    User.SetCartLocalId("")
+                }
+                alertView.addButton("Batal") {}
+                alertView.showInfo("Hapus Keranjang", subTitle: "Kamu yakin ingin menghapus semua barang dalam keranjang?")
             }
         } else if ((indexPath as NSIndexPath).section == sectionAlamatUser) {
             if ((indexPath as NSIndexPath).row == 3) { // Kecamatan
@@ -1114,6 +1139,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             }
         }
         
+        /*
         let alert : UIAlertController = UIAlertController(title: "Perhatian", message: "Kamu akan melakukan transaksi sebesar \(self.grandTotal.asPrice) menggunakan \(self.selectedPayment.value). Lanjutkan?", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { action in
             self.btnSend.isEnabled = true
@@ -1123,6 +1149,22 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }))
         
         self.present(alert, animated: true, completion: nil)
+        
+        let appearance = SCLAlertView.SCLAppearance(
+            showCloseButton: false
+        )
+         */
+        
+        let appearance = SCLAlertView.SCLAppearance(
+            showCloseButton: false
+        )
+        
+        let alertView = SCLAlertView(appearance: appearance)
+        alertView.addButton("Lanjutkan") {
+            self.performCheckout(p!, address: a!, usedBalance: usedBalance, usedBonus: usedBonus)
+        }
+        alertView.addButton("Batal") {}
+        alertView.showInfo("Perhatian", subTitle: "Kamu akan melakukan transaksi sebesar \(self.grandTotal.asPrice) menggunakan \(self.selectedPayment.value). Lanjutkan?")
     }
     
     func performCheckout(_ cart : String, address : String, usedBalance : Int, usedBonus : Int) {
