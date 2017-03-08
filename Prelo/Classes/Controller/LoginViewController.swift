@@ -828,7 +828,13 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.an_unsubscribeKeyboard()
-        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: true)
+//        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: true)
+        
+        self.setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
     @IBAction func viewTapped(_ sender : AnyObject) {
