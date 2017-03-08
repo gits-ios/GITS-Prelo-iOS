@@ -207,6 +207,19 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 
                 DropDown.startListeningToKeyboard()
                 
+                let appearance = DropDown.appearance()
+                
+                appearance.cellHeight = 60
+                appearance.backgroundColor = UIColor(white: 1, alpha: 1)
+                appearance.selectionBackgroundColor = UIColor(red: 0.6494, green: 0.8155, blue: 1.0, alpha: 0.2)
+                appearance.separatorColor = UIColor(white: 0.7, alpha: 0.8)
+                appearance.cornerRadius = 10
+                appearance.shadowColor = UIColor(white: 0.6, alpha: 0.2)
+                appearance.shadowOpacity = 0.9
+                appearance.shadowRadius = 25
+                appearance.animationduration = 0.25
+                appearance.textColor = .darkGray
+                
                 // Prelo Analytic - Go to cart
                 let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
                                                     qos: .background,
@@ -1003,7 +1016,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             if isNeedSetup {
                 return 9
             } else {
-                return 2
+                if self.addresses.count > 0 {
+                    return 2
+                } else {
+                    return 0
+                }
             }
 //            return 5
         } else if (section == sectionPayMethod) {
@@ -1079,10 +1096,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         dropDown.anchorView = c.vwDropdown
                         
                         // Top of drop down will be below the anchorView
-                        dropDown.bottomOffset = CGPoint(x: 0, y:(dropDown.anchorView?.plainView.bounds.height)!)
+                        dropDown.bottomOffset = CGPoint(x: 0, y:(dropDown.anchorView?.plainView.bounds.height)! + 4)
                         
                         // When drop down is displayed with `Direction.top`, it will be above the anchorView
-                        // dropDown.topOffset = CGPoint(x: 0, y:-(dropDown.anchorView?.plainView.bounds.height)!)
+                        //dropDown.topOffset = CGPoint(x: 0, y:-(dropDown.anchorView?.plainView.bounds.height)! + 4)
                         
                     }
                     
@@ -1118,10 +1135,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         dropDown.anchorView = c.vwDropdown
                         
                         // Top of drop down will be below the anchorView
-                        dropDown.bottomOffset = CGPoint(x: 0, y:(dropDown.anchorView?.plainView.bounds.height)!)
+                        dropDown.bottomOffset = CGPoint(x: 0, y:(dropDown.anchorView?.plainView.bounds.height)! + 4)
                         
                         // When drop down is displayed with `Direction.top`, it will be above the anchorView
-                        // dropDown.topOffset = CGPoint(x: 0, y:-(dropDown.anchorView?.plainView.bounds.height)!)
+                        //dropDown.topOffset = CGPoint(x: 0, y:-(dropDown.anchorView?.plainView.bounds.height)! + 4)
                         
                     }
                     
@@ -1326,9 +1343,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             }
         } else if ((indexPath as NSIndexPath).section == sectionAlamatUser) {
             if ((indexPath as NSIndexPath).row == 0) { // Choose address book
-                
-                let c = tableView.cellForRow(at: indexPath) as! DropdownCell
                 /*
+                let c = tableView.cellForRow(at: indexPath) as! DropdownCell
+                
                 // dropdown menu
                 var items = addresses
                 
@@ -2874,10 +2891,10 @@ class CartPaymethodCell : UITableViewCell {
         }
         
         // Top of drop down will be below the anchorView
-        dropDown.bottomOffset = CGPoint(x: 0, y:(dropDown.anchorView?.plainView.bounds.height)!)
+        dropDown.bottomOffset = CGPoint(x: 0, y:(dropDown.anchorView?.plainView.bounds.height)! + 4)
         
         // When drop down is displayed with `Direction.top`, it will be above the anchorView
-        // dropDown.topOffset = CGPoint(x: 0, y:-(dropDown.anchorView?.plainView.bounds.height)!)
+        //dropDown.topOffset = CGPoint(x: 0, y:-(dropDown.anchorView?.plainView.bounds.height)! + 4)
         
         dropDown.direction = .bottom
     }
