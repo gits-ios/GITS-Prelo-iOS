@@ -15,11 +15,11 @@ class Constant: NSObject {
     
     static func showDialog(_ title : String, message : String)
     {
-        let a = UIAlertView()
-        a.title = title
-        a.message = message
-        a.addButton(withTitle: "Oke")
-        a.show()
+//        let a = UIAlertView()
+//        a.title = title
+//        a.message = message
+//        a.addButton(withTitle: "Oke")
+//        a.show()
         
         // TODO: - fix bug navigation after show
 //        let a = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -27,6 +27,16 @@ class Constant: NSObject {
 //            a.dismiss(animated: true, completion: nil)
 //        }))
 //        UIApplication.shared.keyWindow?.rootViewController?.present(a, animated: true, completion: nil)
+        
+        SCLAlertView().showTitle(
+            title, // Title of view
+            subTitle: message, // String of view
+            duration: 0.0, // Duration to show before closing automatically, default: 0.0
+            completeText: "Oke", // Optional button value, default: ""
+            style: .info, // Styles - see below.
+            colorStyle: SCLAlertViewStyle.info.defaultColorInt,
+            colorTextButton: 0xFFFFFF
+        )
     }
     
     static func showBadgeDialog(_ title : String, message : String, badge : String, view : UIViewController, isBack : Bool)
@@ -85,7 +95,6 @@ class Constant: NSObject {
         
         view.present(a, animated: true, completion: nil)
     }
-    
 }
 
 extension String
