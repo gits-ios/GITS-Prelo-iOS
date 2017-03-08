@@ -1460,6 +1460,13 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
     }
     
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        // Prelo Analytic - Search by Keyword
+        sendSearchByKeywordAnalytic(self.searchBar.text!)
+        
+        searchBar.resignFirstResponder()
+    }
+    
     // MARK: - Filter delegate function
     
     func adjustFilter(_ fltrProdCondIds: [String], fltrPriceMin: NSNumber, fltrPriceMax: NSNumber, fltrIsFreeOngkir: Bool, fltrSizes: [String], fltrSortBy: String, fltrLocation: [String]) {
@@ -1754,9 +1761,18 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 "Min Price" : self.fltrPriceMin > 0 ? true : false,
                 "Max Price" : self.fltrPriceMax > 0 ? true : false,
                 "Free Shipping" : self.fltrIsFreeOngkir
-                ] as [String : Any]
+            ] as [String : Any]
             AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Filter, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
         }
+    }
+    
+    // Prelo Analytic - Search by Keyword
+    func sendSearchByKeywordAnalytic(_ keyword: String) {
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Search Query" : keyword
+        ]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SearchByKeyword, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
     }
 }
 

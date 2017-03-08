@@ -257,6 +257,10 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         }
     }
     
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
     // MARK: - Scroll view functions
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
