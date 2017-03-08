@@ -103,12 +103,6 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        // Remove redirect alert if any
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        if let redirAlert = appDelegate.redirAlert {
-            redirAlert.dismiss(withClickedButtonIndex: -1, animated: true)
-        }
     }
     
     override func didReceiveMemoryWarning() {

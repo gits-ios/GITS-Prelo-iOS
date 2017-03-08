@@ -444,56 +444,23 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         self.navigationItem.rightBarButtonItem = btnOption.toBarButton()
     }
     
-    func option()
-    {
-        let a = UIActionSheet(title: "Opsi", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil)
-//        let userid = CDUser.getOne()?.id
-//        let sellerid = detail?.theirId
-        //        let buyerid = detail?.myId
+    func option() {
         
-//        if sellerid != userid && User.IsLoggedIn == true {
-            a.addButton(withTitle: "Laporkan Barang")
-//        }
-        //        a.show(in: self.view)
+        let userid = CDUser.getOne()?.id
+        let sellerid = detail?.theirId
         
-        a.addButton(withTitle: "Batal")
-        a.cancelButtonIndex = 1
-        
-        // bound location
-        let screenSize: CGRect = UIScreen.main.bounds
-        let screenWidth = screenSize.width
-        let bounds = CGRect(x: screenWidth - 65.0, y: 0.0, width: screenWidth, height: 0.0)
-        
-        a.show(from: bounds, in: self.view, animated: true)
-    }
-
-    func actionSheet(_ actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
-        if (buttonIndex == 0)
-        {
-            //            guard let pDetail = detail else {
-            //                return
-            //            }
-            //            var username = "Your beloved user"
-            //            if let u = CDUser.getOne() {
-            //                username = u.username
-            //            }
-            //
-            //            // report
-            //            let msgBody = "Dear Prelo,<br/><br/>Saya ingin melaporkan barang \(pDetail.name) dari penjual \(pDetail.theirName)<br/><br/>Alasan pelaporan: <br/><br/>Terima kasih Prelo <3<br/><br/>--<br/>\(username)<br/>Sent from Prelo iOS"
-            //
-            //            let m = MFMailComposeViewController()
-            //            if (MFMailComposeViewController.canSendMail()) {
-            //                m.setToRecipients(["contact@prelo.id"])
-            //                m.setSubject("Laporan Baru untuk Barang " + (detail?.name)!)
-            //                m.setMessageBody(msgBody, isHTML: true)
-            //                m.mailComposeDelegate = self
-            //                self.present(m, animated: true, completion: nil)
-            //            } else {
-            //                Constant.showDialog("No Active E-mail", message: "Untuk dapat mengirim Report, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
-            //            }
-            
-            gotoReport()
+        let a = UIAlertController(title: "Opsi", message: nil, preferredStyle: .actionSheet)
+        a.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem
+        if sellerid != userid && User.IsLoggedIn == true {
+            a.addAction(UIAlertAction(title: "Laporkan Barang", style: .default, handler: { action in
+                self.gotoReport()
+                a.dismiss(animated: true, completion: nil)
+            }))
         }
+        a.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { action in
+            a.dismiss(animated: true, completion: nil)
+        }))
+        UIApplication.shared.keyWindow?.rootViewController?.present(a, animated: true, completion: nil)
     }
     
     func gotoReport() {

@@ -15,11 +15,17 @@ class Constant: NSObject {
     
     static func showDialog(_ title : String, message : String)
     {
-        let a = UIAlertView()
-        a.title = title
-        a.message = message
-        a.addButton(withTitle: "Oke")
-        a.show()
+//        let a = UIAlertView()
+//        a.title = title
+//        a.message = message
+//        a.addButton(withTitle: "Oke")
+//        a.show()
+        
+        let a = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        a.addAction(UIAlertAction(title: "Oke", style: .default, handler: { action in
+            a.dismiss(animated: true, completion: nil)
+        }))
+        UIApplication.shared.keyWindow?.rootViewController?.present(a, animated: true, completion: nil)
     }
     
     static func showBadgeDialog(_ title : String, message : String, badge : String, view : UIViewController, isBack : Bool)
