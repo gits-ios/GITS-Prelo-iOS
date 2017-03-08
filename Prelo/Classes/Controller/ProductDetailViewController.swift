@@ -135,7 +135,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: true)
+//        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: true)
+        
+        self.setNeedsStatusBarAppearanceUpdate()
 
         if (detail == nil || isNeedReload) {
             getDetail()
@@ -167,7 +169,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         if (UIApplication.shared.isStatusBarHidden)
         {
-            UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.slide)
+//            UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.slide)
+            
+            UIApplication.shared.isStatusBarHidden = false
         }
         
 //        let p = [
@@ -195,6 +199,14 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             
             self.thisScreen = PageName.ProductDetail
         }
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return UIApplication.shared.isStatusBarHidden
     }
 
     func getDetail()
@@ -498,7 +510,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 // Prelo Analytic - Share for Commission - Facebook
                 self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 1, tw: 0, ig: 0, reason: "")
             } else {
-                let json = JSON(resp.result.value)
+                let json = JSON((resp.result.value ?? [:]))
                 let reason = json["_message"].stringValue
                 
                 // Prelo Analytic - Share for Commission - Facebook
@@ -521,7 +533,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 // Prelo Analytic - Share for Commission - Twitter
                 self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 0, tw: 1, ig: 0, reason: "")
             } else {
-                let json = JSON(resp.result.value)
+                let json = JSON((resp.result.value ?? [:]))
                 let reason = json["_message"].stringValue
                 
                 // Prelo Analytic - Share for Commission - Twitter
@@ -595,7 +607,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                                         // Prelo Analytic - Share for Commission - Instagram
                                         self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 0, tw: 0, ig: 1, reason: "")
                                     } else {
-                                        let json = JSON(resp.result.value)
+                                        let json = JSON((resp.result.value ?? [:]))
                                         let reason = json["_message"].stringValue
                                         
                                         // Prelo Analytic - Share for Commission - Instagram
@@ -1592,7 +1604,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
                 let loginMethod = User.LoginMethod ?? ""
                 let pdata = [
                     "Product ID": ((self.product != nil) ? (self.product!.id) : ""),
-                    "Seller ID" : ((self.product != nil) ? (self.product!.json["seller_id"].string) : ""),
+                    "Seller ID" : ((self.product != nil) ? (self.product!.json["seller_id"].stringValue) : ""),
                     "Screen" : PageName.ProductDetail,
                     "Is Featured" : ((self.product != nil) ? (self.product!.isFeatured) : false)
                 ] as [String : Any]
@@ -1624,7 +1636,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
                 let loginMethod = User.LoginMethod ?? ""
                 let pdata = [
                     "Product Id": ((self.product != nil) ? (self.product!.id) : ""),
-                    "Seller ID" : ((self.product != nil) ? (self.product!.json["seller_id"].string) : ""),
+                    "Seller ID" : ((self.product != nil) ? (self.product!.json["seller_id"].stringValue) : ""),
                     "Screen" : PageName.ProductDetail,
                     "Is Featured" : ((self.product != nil) ? (self.product!.isFeatured) : false)
                 ] as [String : Any]
