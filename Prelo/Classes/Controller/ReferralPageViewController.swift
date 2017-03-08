@@ -81,6 +81,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                 // TODO: Apakah isEmailVerified di core data perlu diupdate? sepertinya tidak..
                 
                 if (!isEmailVerified) {
+                    /*
                     // Tampilkan pop up untuk verifikasi email
                     let a = UIAlertView()
                     a.title = "Referral Bonus"
@@ -90,6 +91,41 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                     a.cancelButtonIndex = 0
                     a.delegate = self
                     a.show()
+                     */
+                    
+                    let appearance = SCLAlertView.SCLAppearance(
+                        showCloseButton: false
+                    )
+                    
+                    var alertViewResponder: SCLAlertViewResponder!
+                    
+                    let alertView = SCLAlertView(appearance: appearance)
+                    alertView.addButton("Kirim E-mail Konfirmasi") {
+                        if let email = CDUser.getOne()?.email {
+                            alertViewResponder.close()
+                            
+                            var alertViewResponder2: SCLAlertViewResponder!
+                            
+                            let alertView2 = SCLAlertView(appearance: appearance)
+                            alertViewResponder2 = alertView2.showInfo("Referral Bonus", subTitle: "Mengirim e-mail...")
+                            
+                            // API Migrasi
+                            let _ = request(APIMe.resendVerificationEmail).responseJSON {resp in
+                                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Referral Bonus")) {
+                                    alertViewResponder2.close()
+                                    Constant.showDialog("Referral Bonus", message: "E-mail konfirmasi telah terkirim ke \(email)")
+                                }
+                                _ = self.navigationController?.popViewController(animated: true)
+                            }
+                        } else {
+                            Constant.showDialog("Referral Bonus", message: "Oops, terdapat masalah saat mencari e-mail kamu")
+                            _ = self.navigationController?.popViewController(animated: true)
+                        }
+                    }
+                    alertView.addButton("Batal") {
+                        _ = self.navigationController?.popViewController(animated: true)
+                    }
+                    alertViewResponder = alertView.showInfo("Referral Bonus", subTitle: "Mohon verifikasi e-mail kamu untuk mendapatkan referral bonus dari Prelo")
                 } else {
                     self.getReferralData()
                 }
@@ -279,10 +315,20 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
 //        ]
 //        let data = NSJSONSerialization.dataWithJSONObject(param, options: nil)
 //        let jsonString = NSString(data: data!, encoding: NSUTF8StringEncoding)
-        let a = UIAlertView(title: "Path", message: "Posting to path", delegate: nil, cancelButtonTitle: nil)
-        a.show()
+        
+//        let a = UIAlertView(title: "Path", message: "Posting to path", delegate: nil, cancelButtonTitle: nil)
+//        a.show()
+        
+        let appearance = SCLAlertView.SCLAppearance(
+            showCloseButton: false
+        )
+        
+        let alertView = SCLAlertView(appearance: appearance)
+        let alertViewResponder: SCLAlertViewResponder = alertView.showInfo("Path", subTitle: "Posting to path")
+        
         AppToolsObjC.pathPostPhoto(image, param: ["private": true, "caption": shareText], token: token, success: {_, _ in
-            a.dismiss(withClickedButtonIndex: 0, animated: true)
+//            a.dismiss(withClickedButtonIndex: 0, animated: true)
+            alertViewResponder.close()
         }, failure: nil)
     }
     
@@ -527,36 +573,36 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     
     // MARK: - UIAlertView Delegate Functions
     
-    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
-        switch buttonIndex {
-        case 0: // Batal
-            _ = self.navigationController?.popViewController(animated: true)
-            break
-        case 1: // Kirim Email Konfirmasi
-            if let email = CDUser.getOne()?.email {
-                alertView.dismiss(withClickedButtonIndex: -1, animated: true)
-                // Tampilkan pop up untuk loading
-                let a = UIAlertView()
-                a.title = "Referral Bonus"
-                a.message = "Mengirim e-mail..."
-                a.show()
-                // API Migrasi
-        let _ = request(APIMe.resendVerificationEmail).responseJSON {resp in
-                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Referral Bonus")) {
-                        a.dismiss(withClickedButtonIndex: -1, animated: true)
-                        Constant.showDialog("Referral Bonus", message: "E-mail konfirmasi telah terkirim ke \(email)")
-                    }
-                    _ = self.navigationController?.popViewController(animated: true)
-                }
-            } else {
-                Constant.showDialog("Referral Bonus", message: "Oops, terdapat masalah saat mencari e-mail kamu")
-                _ = self.navigationController?.popViewController(animated: true)
-            }
-            break
-        default:
-            break
-        }
-    }
+//    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
+//        switch buttonIndex {
+//        case 0: // Batal
+//            _ = self.navigationController?.popViewController(animated: true)
+//            break
+//        case 1: // Kirim Email Konfirmasi
+//            if let email = CDUser.getOne()?.email {
+//                alertView.dismiss(withClickedButtonIndex: -1, animated: true)
+//                // Tampilkan pop up untuk loading
+//                let a = UIAlertView()
+//                a.title = "Referral Bonus"
+//                a.message = "Mengirim e-mail..."
+//                a.show()
+//                // API Migrasi
+//        let _ = request(APIMe.resendVerificationEmail).responseJSON {resp in
+//                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Referral Bonus")) {
+//                        a.dismiss(withClickedButtonIndex: -1, animated: true)
+//                        Constant.showDialog("Referral Bonus", message: "E-mail konfirmasi telah terkirim ke \(email)")
+//                    }
+//                    _ = self.navigationController?.popViewController(animated: true)
+//                }
+//            } else {
+//                Constant.showDialog("Referral Bonus", message: "Oops, terdapat masalah saat mencari e-mail kamu")
+//                _ = self.navigationController?.popViewController(animated: true)
+//            }
+//            break
+//        default:
+//            break
+//        }
+//    }
     
     // MARK: - Other functions
     
