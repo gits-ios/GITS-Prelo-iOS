@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Unknown constraint types" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -21,7 +20,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="71"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5XP-qF-Cg2" id="x0J-wC-OA0">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="70.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="OwT-55-g98">
@@ -66,14 +65,12 @@
                             <constraint firstAttribute="trailing" secondItem="n1C-fo-Cvc" secondAttribute="trailing" id="5Nh-t8-2HN"/>
                             <constraint firstItem="cgD-z3-dSm" firstAttribute="centerY" secondItem="NV0-Re-ZAz" secondAttribute="centerY" id="6zS-9a-X08"/>
                             <constraint firstItem="cgD-z3-dSm" firstAttribute="leading" secondItem="8Vh-31-g7U" secondAttribute="trailing" constant="-1" id="8BF-qg-gOU"/>
-                            <constraint firstAttribute="top" secondItem="NV0-Re-ZAz" secondAttribute="top" id="SOW-G2-AGW"/>
                             <constraint firstItem="8Vh-31-g7U" firstAttribute="centerY" secondItem="NV0-Re-ZAz" secondAttribute="centerY" id="UgK-tk-32H"/>
                             <constraint firstAttribute="height" constant="40" id="VRt-Wu-8tM"/>
                             <constraint firstAttribute="bottom" secondItem="n1C-fo-Cvc" secondAttribute="bottom" id="e6b-yx-0XN"/>
                             <constraint firstItem="cgD-z3-dSm" firstAttribute="centerX" secondItem="NV0-Re-ZAz" secondAttribute="centerX" constant="10" id="i14-XL-Iu9"/>
                             <constraint firstItem="n1C-fo-Cvc" firstAttribute="leading" secondItem="NV0-Re-ZAz" secondAttribute="leading" id="qXe-Ke-TfW"/>
                             <constraint firstAttribute="width" constant="110" id="uKB-ak-YXv"/>
-                            <constraint firstAttribute="trailing" secondItem="NV0-Re-ZAz" secondAttribute="trailingMargin" constant="8" id="xtK-xP-ax8"/>
                             <constraint firstItem="n1C-fo-Cvc" firstAttribute="top" secondItem="NV0-Re-ZAz" secondAttribute="top" id="yeP-M2-rxv"/>
                         </constraints>
                     </view>
@@ -86,12 +83,12 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="NV0-Re-ZAz" firstAttribute="trailing" secondItem="x0J-wC-OA0" secondAttribute="trailingMargin" id="1XX-Ho-Te4"/>
-                    <constraint firstItem="OwT-55-g98" firstAttribute="top" secondItem="x0J-wC-OA0" secondAttribute="topMargin" id="52F-nV-3ii"/>
                     <constraint firstItem="NV0-Re-ZAz" firstAttribute="leading" secondItem="Tzv-Ug-MPC" secondAttribute="trailing" constant="8" id="5n5-Lt-uS3"/>
                     <constraint firstItem="OwT-55-g98" firstAttribute="leading" secondItem="x0J-wC-OA0" secondAttribute="leadingMargin" id="DmV-Me-agc"/>
-                    <constraint firstItem="NV0-Re-ZAz" firstAttribute="top" secondItem="x0J-wC-OA0" secondAttribute="top" constant="16" id="NfK-Za-rZU"/>
                     <constraint firstItem="Tzv-Ug-MPC" firstAttribute="leading" secondItem="OwT-55-g98" secondAttribute="trailing" constant="8" id="RYm-uA-aPf"/>
-                    <constraint firstItem="Tzv-Ug-MPC" firstAttribute="top" secondItem="x0J-wC-OA0" secondAttribute="topMargin" constant="19" id="XXt-2f-tQt"/>
+                    <constraint firstItem="OwT-55-g98" firstAttribute="centerY" secondItem="x0J-wC-OA0" secondAttribute="centerY" id="WqV-5q-5rb"/>
+                    <constraint firstItem="Tzv-Ug-MPC" firstAttribute="centerY" secondItem="x0J-wC-OA0" secondAttribute="centerY" id="eGt-hD-gga"/>
+                    <constraint firstItem="NV0-Re-ZAz" firstAttribute="centerY" secondItem="x0J-wC-OA0" secondAttribute="centerY" id="pfr-7j-TaO"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
