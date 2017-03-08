@@ -254,6 +254,10 @@ class AnalyticManager: NSObject {
             // Report
             PreloAnalyticEvent.ReportComment,
             
+            // Search
+            PreloAnalyticEvent.SearchByKeyword,
+            PreloAnalyticEvent.Filter,
+            
             // Transaction
             PreloAnalyticEvent.RequestRefund,
             PreloAnalyticEvent.DelayShipping,

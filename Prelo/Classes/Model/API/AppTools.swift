@@ -819,6 +819,10 @@ class PreloAnalyticEvent {
     
     // Daily
     static let OpenApp = "Daily:Open App"
+    
+    // Search
+    static let SearchByKeyword = "Search:Search by Keyword"
+    static let Filter = "Search:Filter"
 }
 
 extension GAI {
