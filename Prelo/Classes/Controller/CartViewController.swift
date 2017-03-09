@@ -213,10 +213,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 appearance.backgroundColor = UIColor(white: 1, alpha: 1)
                 appearance.selectionBackgroundColor = UIColor(red: 0.6494, green: 0.8155, blue: 1.0, alpha: 0.2)
                 appearance.separatorColor = UIColor(white: 0.7, alpha: 0.8)
-                appearance.cornerRadius = 10
-                appearance.shadowColor = UIColor(white: 0.6, alpha: 0.2)
-                appearance.shadowOpacity = 0.9
-                appearance.shadowRadius = 25
+                appearance.cornerRadius = 0
+                appearance.shadowColor = UIColor(white: 0.6, alpha: 1)
+                appearance.shadowOpacity = 1
+                appearance.shadowRadius = 2
                 appearance.animationduration = 0.25
                 appearance.textColor = .darkGray
                 
@@ -309,12 +309,25 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         dropDown.customCellConfiguration = { (index: Index, item: String, cell: DropDownCell) -> Void in
             if index < self.addresses.count {
-            let attString : NSMutableAttributedString = NSMutableAttributedString(string: item)
-            
-            attString.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: 14)], range: (item as NSString).range(of: self.addresses[index].recipientName))
-            
-            // Setup your custom UI components
-            cell.optionLabel.attributedText = attString
+                cell.viewWithTag(999)?.removeFromSuperview()
+                
+                // Setup your custom UI components
+                cell.optionLabel.text = ""
+                let y = (cell.height - cell.optionLabel.height) / 2.0
+                let rectOption = CGRect(x: 16, y: y, width: cell.width - (16 + 16), height: cell.optionLabel.height)
+                
+                let label = UILabel(frame: rectOption)
+                label.font = cell.optionLabel.font
+                label.tag = 999
+                
+                let attString : NSMutableAttributedString = NSMutableAttributedString(string: item)
+                
+                attString.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: 14)], range: (item as NSString).range(of: self.addresses[index].recipientName))
+                
+                // Setup your custom UI components
+                label.attributedText = attString
+                
+                cell.addSubview(label)
             }
         }
         
@@ -1383,6 +1396,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 self.present(alamatAlert, animated: true, completion: nil)
                 */
                 
+                dropDown.hide()
                 dropDown.show()
                 
             } else if ((indexPath as NSIndexPath).row == 6 /*3*/) { // Kecamatan
@@ -2855,6 +2869,7 @@ class CartPaymethodCell : UITableViewCell {
         parent?.present(bankAlert, animated: true, completion: nil)
          */
         
+        dropDown.hide()
         dropDown.show()
     }
     
@@ -2862,9 +2877,11 @@ class CartPaymethodCell : UITableViewCell {
         dropDown = DropDown()
         
         var items = ["BCA", "Mandiri", "BNI"]
+        var icons = ["rsz_ic_bca@2x", "rsz_ic_mandiri@2x", "rsz_ic_bni@2x"]
         
         if isShowBankBRI {
             items.append("BRI")
+            icons.append("rsz_ic_bri@2x")
         }
         
         // The list of items to display. Can be changed dynamically
@@ -2877,6 +2894,33 @@ class CartPaymethodCell : UITableViewCell {
             let p = self.parent as! CartViewController
             p.selectedBankIndex = index
             p.targetBank = items[index]
+        }
+        
+        dropDown.customCellConfiguration = { (index: Index, item: String, cell: DropDownCell) -> Void in
+            if index < items.count {
+                cell.viewWithTag(999)?.removeFromSuperview()
+                cell.viewWithTag(888)?.removeFromSuperview()
+                
+                let icon = UIImage(named: icons[index])
+                let y = (cell.height - cell.optionLabel.height) / 2.0
+                let rect = CGRect(x: 16, y: y, width: 80, height: cell.optionLabel.height)
+                let img = UIImageView(frame: rect, image: icon!)
+                img.afInflate()
+                img.contentMode = .scaleAspectFit
+                img.tag = 999
+                
+                // Setup your custom UI components
+                cell.optionLabel.text = ""
+                let rectOption = CGRect(x: 112, y: y, width: cell.width - (112 + 16), height: cell.optionLabel.height)
+                
+                let label = UILabel(frame: rectOption)
+                label.text = items[index]
+                label.font = cell.optionLabel.font
+                label.tag = 888
+                
+                cell.addSubview(img)
+                cell.addSubview(label)
+            }
         }
         
         dropDown.textFont = UIFont.systemFont(ofSize: 14)
