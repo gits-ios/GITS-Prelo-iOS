@@ -95,7 +95,7 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
                 
                 // Store data into variables
                 self.lblProductName.text = data["name"].stringValue
-                self.lblPrice.text = "Rp" + data["price"].stringValue
+                self.lblPrice.text = (data["price"].stringValue).int.asPrice
                 if let urlString = data["display_picts"][0].string {
                     if let url = URL(string: urlString) {
                         self.imgProduct.afSetImage(withURL: url)
@@ -222,6 +222,22 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
     }
     
     // MARK: - Other functions
+    
+    @IBAction func gotoProduct(_ sender: AnyObject) {
+        self.showLoading()
+        let _ = request(APIProduct.detail(productId: productId, forEdit: 0)).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Barang")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                let p = Product.instance(data)
+                let productDetailVC = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+                productDetailVC.product = p!
+                productDetailVC.previousScreen = PageName.InboxDetail
+                self.navigationController?.pushViewController(productDetailVC, animated: true)
+                self.hideLoading()
+            }
+        }
+    }
 }
 
 // MARK: - Class
