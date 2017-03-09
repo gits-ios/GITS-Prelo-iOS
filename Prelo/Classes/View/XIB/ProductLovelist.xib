@@ -29,6 +29,16 @@
                                     <constraint firstAttribute="width" constant="65" id="qvU-d4-bAx"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fd6-Xa-qKv">
+                                <rect key="frame" x="8" y="8" width="65" height="65"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="65" id="7Nc-Nh-tYO"/>
+                                    <constraint firstAttribute="height" constant="65" id="J6e-vT-EYg"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="gotoProduct:" destination="lkF-05-rk1" eventType="touchUpInside" id="vyY-NC-LQp"/>
+                                </connections>
+                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bea-AO-FT5">
                                 <rect key="frame" x="81" y="8" width="286" height="21"/>
                                 <constraints>
@@ -67,15 +77,19 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="81" id="4Dp-IJ-LHr"/>
+                            <constraint firstItem="fd6-Xa-qKv" firstAttribute="leading" secondItem="lz8-SL-gkT" secondAttribute="leading" constant="8" id="4lk-4k-961"/>
                             <constraint firstAttribute="trailing" secondItem="9fI-pD-7GV" secondAttribute="trailing" constant="8" id="Iah-Yv-t7q"/>
                             <constraint firstItem="UjO-kS-nAS" firstAttribute="leading" secondItem="4gm-pg-FLM" secondAttribute="trailing" constant="8" id="JJS-Pq-qmr"/>
+                            <constraint firstItem="lSn-8S-VKh" firstAttribute="top" secondItem="fd6-Xa-qKv" secondAttribute="bottom" constant="7" id="R9G-Fn-6Hb"/>
                             <constraint firstAttribute="trailing" secondItem="lSn-8S-VKh" secondAttribute="trailing" id="ReK-iK-Ft1"/>
                             <constraint firstAttribute="trailing" secondItem="UjO-kS-nAS" secondAttribute="trailing" constant="8" id="TeU-jC-4qO"/>
+                            <constraint firstItem="fd6-Xa-qKv" firstAttribute="top" secondItem="lz8-SL-gkT" secondAttribute="top" constant="8" id="aXP-jx-9xg"/>
                             <constraint firstItem="9fI-pD-7GV" firstAttribute="leading" secondItem="4gm-pg-FLM" secondAttribute="trailing" constant="8" id="cOQ-Zp-Xij"/>
                             <constraint firstItem="Bea-AO-FT5" firstAttribute="leading" secondItem="4gm-pg-FLM" secondAttribute="trailing" constant="8" id="doM-hG-0Ye"/>
                             <constraint firstItem="9fI-pD-7GV" firstAttribute="top" secondItem="Bea-AO-FT5" secondAttribute="bottom" constant="1" id="euH-HN-eNq"/>
                             <constraint firstItem="4gm-pg-FLM" firstAttribute="top" secondItem="lz8-SL-gkT" secondAttribute="top" constant="8" id="hFe-xv-FWI"/>
                             <constraint firstAttribute="trailing" secondItem="Bea-AO-FT5" secondAttribute="trailing" constant="8" id="hZf-6U-8bv"/>
+                            <constraint firstItem="UjO-kS-nAS" firstAttribute="leading" secondItem="fd6-Xa-qKv" secondAttribute="trailing" constant="8" id="iCH-aR-bwA"/>
                             <constraint firstItem="Bea-AO-FT5" firstAttribute="top" secondItem="lz8-SL-gkT" secondAttribute="top" constant="8" id="ksX-SS-6l0"/>
                             <constraint firstItem="lSn-8S-VKh" firstAttribute="top" secondItem="4gm-pg-FLM" secondAttribute="bottom" constant="7" id="mV0-qe-N0L"/>
                             <constraint firstItem="lSn-8S-VKh" firstAttribute="leading" secondItem="lz8-SL-gkT" secondAttribute="leading" id="nis-NI-UqW"/>
