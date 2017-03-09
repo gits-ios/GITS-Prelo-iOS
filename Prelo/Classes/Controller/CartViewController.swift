@@ -328,6 +328,22 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 label.attributedText = attString
                 
                 cell.addSubview(label)
+            } else {
+                cell.viewWithTag(999)?.removeFromSuperview()
+                
+                // Setup your custom UI components
+                cell.optionLabel.text = ""
+                let y = (cell.height - cell.optionLabel.height) / 2.0
+                let rectOption = CGRect(x: 16, y: y, width: cell.width - (16 + 16), height: cell.optionLabel.height)
+                
+                let label = UILabel(frame: rectOption)
+                label.font = cell.optionLabel.font
+                label.tag = 999
+                
+                // Setup your custom UI components
+                label.text = item
+                
+                cell.addSubview(label)
             }
         }
         
