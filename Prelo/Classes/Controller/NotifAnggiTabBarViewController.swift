@@ -11,7 +11,7 @@ import Alamofire
 
 // MARK: - Main Class
 
-class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate, NotifAnggiTransactionDelegate, NotifAnggiConversationDelegate, UserRelatedDelegate, UIActionSheetDelegate/*, UIAlertViewDelegate*/ {
+class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate, NotifAnggiTransactionDelegate, NotifAnggiConversationDelegate, UserRelatedDelegate, /*UIActionSheetDelegate, UIAlertViewDelegate*/ {
     
     var tabSwipe : CarbonTabSwipeNavigation?
     var notifAnggiTransactionVC : NotifAnggiTransactionViewController?

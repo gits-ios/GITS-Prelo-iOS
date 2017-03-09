@@ -11,7 +11,7 @@ import CoreData
 import TwitterKit
 import Alamofire
 
-class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, PhoneVerificationDelegate, PathLoginDelegate, InstagramLoginDelegate/*, UIAlertViewDelegate*/, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate {
+class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, PhoneVerificationDelegate, PathLoginDelegate, InstagramLoginDelegate, /*UIAlertViewDelegate,*/ UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate {
     
     @IBOutlet weak var scrollView : UIScrollView?
     @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!

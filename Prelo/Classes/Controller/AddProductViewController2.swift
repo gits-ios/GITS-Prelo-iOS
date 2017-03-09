@@ -14,7 +14,7 @@ typealias EditDoneBlock = () -> ()
 
 // MARK: - class AddProductVC2
 
-class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITextViewDelegate, UIActionSheetDelegate, /* AVIARY IS DISABLED AdobeUXImageEditorViewControllerDelegate,*/ UserRelatedDelegate, AKPickerViewDataSource, AKPickerViewDelegate, AddProductImageFullScreenDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate/*, UIAlertViewDelegate*/, UITextFieldDelegate
+class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITextViewDelegate, /*UIActionSheetDelegate,*/ /* AVIARY IS DISABLED AdobeUXImageEditorViewControllerDelegate,*/ UserRelatedDelegate, AKPickerViewDataSource, AKPickerViewDelegate, AddProductImageFullScreenDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, /*UIAlertViewDelegate,*/ UITextFieldDelegate
 {
 
     // MARK: - Properties
@@ -910,7 +910,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
 
     }
-    
+    /*
     func actionSheet(_ actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
         if (buttonIndex == 1)
         {
@@ -939,7 +939,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             }
         }
     }
-    
+     */
     /* AVIARY IS DISABLED
     func photoEditor(editor: AdobeUXImageEditorViewController!, finishedWithImage image: UIImage!) {
         imageViews[editor.view.tag].image = image

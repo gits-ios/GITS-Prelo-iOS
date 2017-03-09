@@ -43,7 +43,7 @@ protocol ProductCellDelegate: class
     func cellTappedComment()
 }
 
-class ProductDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, ProductCellDelegate, UIActionSheetDelegate/*, UIAlertViewDelegate*/, MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate, UserRelatedDelegate
+class ProductDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, ProductCellDelegate, /*UIActionSheetDelegate, UIAlertViewDelegate*/, MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate, UserRelatedDelegate
 {
     
     var product : Product?

@@ -10,7 +10,7 @@ import UIKit
 import QuartzCore
 import Alamofire
 
-class AddProductViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, ACEExpandableTableViewDelegate, AddProductImageCellDelegate, UITextFieldDelegate, UIScrollViewDelegate, UIActionSheetDelegate, /* AVIARY IS DISABLED AdobeUXImageEditorViewControllerDelegate,*/ UserRelatedDelegate, ProductCategoryDelegate, AddProductWeightDelegate/*, UIAlertViewDelegate*/
+class AddProductViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, ACEExpandableTableViewDelegate, AddProductImageCellDelegate, UITextFieldDelegate, UIScrollViewDelegate, /*UIActionSheetDelegate,*/ /* AVIARY IS DISABLED AdobeUXImageEditorViewControllerDelegate,*/ UserRelatedDelegate, ProductCategoryDelegate, AddProductWeightDelegate /*, UIAlertViewDelegate*/
 {
     
     @IBOutlet var tableView : UITableView!
