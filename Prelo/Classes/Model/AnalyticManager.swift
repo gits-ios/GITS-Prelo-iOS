@@ -235,6 +235,9 @@ class AnalyticManager: NSObject {
         ]
         
         let _developmentList = [
+            // Achievement
+            PreloAnalyticEvent.VisitAchievementPage,
+            
             // Chat
             PreloAnalyticEvent.SuccessfulBargain,
             PreloAnalyticEvent.SendMediaOnChat,

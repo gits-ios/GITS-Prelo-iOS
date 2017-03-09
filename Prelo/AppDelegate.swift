@@ -1216,6 +1216,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if (rootViewController != nil) {
             // API Migrasi
             let AchievementVC = Bundle.main.loadNibNamed(Tags.XibNameAchievement, owner: nil, options: nil)?.first as! AchievementViewController
+            AchievementVC.previousScreen = "Push Notification"
             rootViewController!.pushViewController(AchievementVC, animated: true)
         } else {
             self.showFailedRedirAlert()

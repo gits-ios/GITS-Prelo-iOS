@@ -823,6 +823,9 @@ class PreloAnalyticEvent {
     // Search
     static let SearchByKeyword = "Search:Search by Keyword"
     static let Filter = "Search:Filter"
+    
+    // Achievement
+    static let VisitAchievementPage = "Achievement:Visit Achievement Page"
 }
 
 extension GAI {
