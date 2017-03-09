@@ -207,39 +207,61 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
     
     func option()
     {
-        let a = UIActionSheet(title: "Opsi", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil)
-        a.addButton(withTitle: "Hapus Pesan")
-        a.addButton(withTitle: "Batal")
-        a.cancelButtonIndex = 1
+//        let a = UIActionSheet(title: "Opsi", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil)
+//        a.addButton(withTitle: "Hapus Pesan")
+//        a.addButton(withTitle: "Batal")
+//        a.cancelButtonIndex = 1
+//        
+//        // bound location
+//        let screenSize: CGRect = UIScreen.main.bounds
+//        let screenWidth = screenSize.width
+//        let bounds = CGRect(x: screenWidth - 65.0, y: 0.0, width: screenWidth, height: 0.0)
+//        
+//        a.show(from: bounds, in: self.view, animated: true)
         
-        // bound location
-        let screenSize: CGRect = UIScreen.main.bounds
-        let screenWidth = screenSize.width
-        let bounds = CGRect(x: screenWidth - 65.0, y: 0.0, width: screenWidth, height: 0.0)
-        
-        a.show(from: bounds, in: self.view, animated: true)
-    }
-    
-    func actionSheet(_ actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
-        if (buttonIndex == 0)
-        {
-            // do something
+        let a = UIAlertController(title: "Opsi", message: nil, preferredStyle: .actionSheet)
+        a.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem
+        a.addAction(UIAlertAction(title: "Hapus Pesan", style: .default, handler: { action in
             let activeTab = self.tabSwipe?.currentTabIndex
             if (activeTab == 0) { // Transaction
-//                Constant.showDialog("Hapus Notifikasi", message: "Transaksi")
                 self.notifAnggiTransactionVC?.isToDelete = true
                 self.notifAnggiTransactionVC?.consHeightCheckBoxAll.constant = 56
                 self.notifAnggiTransactionVC?.consHeightButtonView.constant = 56
                 self.notifAnggiTransactionVC?.tableView.reloadData()
             } else { // Conversation
-//                Constant.showDialog("Hapus Notifikasi", message: "Percakapan")
                 self.notifAnggiConversationVC?.isToDelete = true
                 self.notifAnggiConversationVC?.consHeightCheckBoxAll.constant = 56
                 self.notifAnggiConversationVC?.consHeightButtonView.constant = 56
                 self.notifAnggiConversationVC?.tableView.reloadData()
             }
-        }
+            a.dismiss(animated: true, completion: nil)
+        }))
+        a.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { action in
+            a.dismiss(animated: true, completion: nil)
+        }))
+        UIApplication.shared.keyWindow?.rootViewController?.present(a, animated: true, completion: nil)
     }
+    
+//    func actionSheet(_ actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
+//        if (buttonIndex == 0)
+//        {
+//            // do something
+//            let activeTab = self.tabSwipe?.currentTabIndex
+//            if (activeTab == 0) { // Transaction
+////                Constant.showDialog("Hapus Notifikasi", message: "Transaksi")
+//                self.notifAnggiTransactionVC?.isToDelete = true
+//                self.notifAnggiTransactionVC?.consHeightCheckBoxAll.constant = 56
+//                self.notifAnggiTransactionVC?.consHeightButtonView.constant = 56
+//                self.notifAnggiTransactionVC?.tableView.reloadData()
+//            } else { // Conversation
+////                Constant.showDialog("Hapus Notifikasi", message: "Percakapan")
+//                self.notifAnggiConversationVC?.isToDelete = true
+//                self.notifAnggiConversationVC?.consHeightCheckBoxAll.constant = 56
+//                self.notifAnggiConversationVC?.consHeightButtonView.constant = 56
+//                self.notifAnggiConversationVC?.tableView.reloadData()
+//            }
+//        }
+//    }
     
     // MARK: - Other functions
     

@@ -843,30 +843,23 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     }
     
     @IBAction func forgotPassword(_ sender : AnyObject?) {
-        if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1) {
-            let x = UIAlertController(title: "Lupa Password", message: "Masukkan E-mail", preferredStyle: .alert)
-            x.addTextField(configurationHandler: { textfield in
-                textfield.placeholder = "E-mail"
-            })
-            let actionOK = UIAlertAction(title: "Kirim", style: .default, handler: { act in
-
-                let txtField = x.textFields![0] 
-                self.callAPIForgotPassword((txtField.text)!)
-            })
+        let x = UIAlertController(title: "Lupa Password", message: "Masukkan E-mail", preferredStyle: .alert)
+        x.addTextField(configurationHandler: { textfield in
+            textfield.placeholder = "E-mail"
+        })
+        let actionOK = UIAlertAction(title: "Kirim", style: .default, handler: { act in
             
-            let actionCancel = UIAlertAction(title: "Batal", style: .cancel, handler: { act in
-                
-            })
+            let txtField = x.textFields![0]
+            self.callAPIForgotPassword((txtField.text)!)
+        })
+        
+        let actionCancel = UIAlertAction(title: "Batal", style: .cancel, handler: { act in
             
-            x.addAction(actionOK)
-            x.addAction(actionCancel)
-            self.present(x, animated: true, completion: nil)
-        } else {
-            let a = UIAlertView(title: "Lupa Password", message: "Masukkan E-mail", delegate: self, cancelButtonTitle: "Batal", otherButtonTitles: "OK")
-            
-            a.alertViewStyle = UIAlertViewStyle.plainTextInput
-            a.show()
-        }
+        })
+        
+        x.addAction(actionOK)
+        x.addAction(actionCancel)
+        self.present(x, animated: true, completion: nil)
     }
     
     func callAPIForgotPassword(_ email : String) {
@@ -874,12 +867,6 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Lupa Password")) {
                 Constant.showDialog("Perhatian", message: "E-mail pemberitahuan sudah dikirim ke e-mail kamu :)")
             }
-        }
-    }
-    
-    func alertView(_ alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
-        if (buttonIndex == 1) {
-            self.callAPIForgotPassword((alertView.textField(at: 0)?.text)!)
         }
     }
     

@@ -135,7 +135,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: true)
+//        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: true)
+        
+        self.setNeedsStatusBarAppearanceUpdate()
 
         if (detail == nil || isNeedReload) {
             getDetail()
@@ -167,7 +169,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         if (UIApplication.shared.isStatusBarHidden)
         {
-            UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.slide)
+//            UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.slide)
+            
+            UIApplication.shared.isStatusBarHidden = false
         }
         
 //        let p = [
@@ -195,6 +199,14 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             
             self.thisScreen = PageName.ProductDetail
         }
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return UIApplication.shared.isStatusBarHidden
     }
 
     func getDetail()
@@ -228,7 +240,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     self.tableView?.isHidden = false
                     self.tableView?.reloadData()
                     
-                    self.setOptionButton()
+                    let userid = CDUser.getOne()?.id
+                    let sellerid = self.detail?.theirId
+                    
+                    if User.IsLoggedIn && sellerid != userid {
+                        self.setOptionButton()
+                    }
                     
                     self.setupView()
                     
@@ -433,67 +450,26 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         btnOption.addTarget(self, action: #selector(ProductDetailViewController.option), for: UIControlEvents.touchUpInside)
         
-        let userid = CDUser.getOne()?.id
-        let sellerid = detail?.theirId
-        //        let buyerid = detail?.myId
-        
-        if sellerid == userid || User.IsLoggedIn == false {
-            btnOption.isHidden = true
-        }
-        
         self.navigationItem.rightBarButtonItem = btnOption.toBarButton()
     }
     
-    func option()
-    {
-        let a = UIActionSheet(title: "Opsi", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil)
-//        let userid = CDUser.getOne()?.id
-//        let sellerid = detail?.theirId
-        //        let buyerid = detail?.myId
+    func option() {
         
-//        if sellerid != userid && User.IsLoggedIn == true {
-            a.addButton(withTitle: "Laporkan Barang")
-//        }
-        //        a.show(in: self.view)
+        let userid = CDUser.getOne()?.id
+        let sellerid = detail?.theirId
         
-        a.addButton(withTitle: "Batal")
-        a.cancelButtonIndex = 1
-        
-        // bound location
-        let screenSize: CGRect = UIScreen.main.bounds
-        let screenWidth = screenSize.width
-        let bounds = CGRect(x: screenWidth - 65.0, y: 0.0, width: screenWidth, height: 0.0)
-        
-        a.show(from: bounds, in: self.view, animated: true)
-    }
-
-    func actionSheet(_ actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
-        if (buttonIndex == 0)
-        {
-            //            guard let pDetail = detail else {
-            //                return
-            //            }
-            //            var username = "Your beloved user"
-            //            if let u = CDUser.getOne() {
-            //                username = u.username
-            //            }
-            //
-            //            // report
-            //            let msgBody = "Dear Prelo,<br/><br/>Saya ingin melaporkan barang \(pDetail.name) dari penjual \(pDetail.theirName)<br/><br/>Alasan pelaporan: <br/><br/>Terima kasih Prelo <3<br/><br/>--<br/>\(username)<br/>Sent from Prelo iOS"
-            //
-            //            let m = MFMailComposeViewController()
-            //            if (MFMailComposeViewController.canSendMail()) {
-            //                m.setToRecipients(["contact@prelo.id"])
-            //                m.setSubject("Laporan Baru untuk Barang " + (detail?.name)!)
-            //                m.setMessageBody(msgBody, isHTML: true)
-            //                m.mailComposeDelegate = self
-            //                self.present(m, animated: true, completion: nil)
-            //            } else {
-            //                Constant.showDialog("No Active E-mail", message: "Untuk dapat mengirim Report, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
-            //            }
-            
-            gotoReport()
+        let a = UIAlertController(title: "Opsi", message: nil, preferredStyle: .actionSheet)
+        a.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem
+        if sellerid != userid && User.IsLoggedIn == true {
+            a.addAction(UIAlertAction(title: "Laporkan Barang", style: .default, handler: { action in
+                self.gotoReport()
+                a.dismiss(animated: true, completion: nil)
+            }))
         }
+        a.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { action in
+            a.dismiss(animated: true, completion: nil)
+        }))
+        UIApplication.shared.keyWindow?.rootViewController?.present(a, animated: true, completion: nil)
     }
     
     func gotoReport() {
@@ -531,7 +507,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 // Prelo Analytic - Share for Commission - Facebook
                 self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 1, tw: 0, ig: 0, reason: "")
             } else {
-                let json = JSON(resp.result.value)
+                let json = JSON((resp.result.value ?? [:]))
                 let reason = json["_message"].stringValue
                 
                 // Prelo Analytic - Share for Commission - Facebook
@@ -554,7 +530,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 // Prelo Analytic - Share for Commission - Twitter
                 self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 0, tw: 1, ig: 0, reason: "")
             } else {
-                let json = JSON(resp.result.value)
+                let json = JSON((resp.result.value ?? [:]))
                 let reason = json["_message"].stringValue
                 
                 // Prelo Analytic - Share for Commission - Twitter
@@ -628,7 +604,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                                         // Prelo Analytic - Share for Commission - Instagram
                                         self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 0, tw: 0, ig: 1, reason: "")
                                     } else {
-                                        let json = JSON(resp.result.value)
+                                        let json = JSON((resp.result.value ?? [:]))
                                         let reason = json["_message"].stringValue
                                         
                                         // Prelo Analytic - Share for Commission - Instagram
@@ -1625,7 +1601,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
                 let loginMethod = User.LoginMethod ?? ""
                 let pdata = [
                     "Product ID": ((self.product != nil) ? (self.product!.id) : ""),
-                    "Seller ID" : ((self.product != nil) ? (self.product!.json["seller_id"].string) : ""),
+                    "Seller ID" : ((self.product != nil) ? (self.product!.json["seller_id"].stringValue) : ""),
                     "Screen" : PageName.ProductDetail,
                     "Is Featured" : ((self.product != nil) ? (self.product!.isFeatured) : false)
                 ] as [String : Any]
@@ -1657,7 +1633,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
                 let loginMethod = User.LoginMethod ?? ""
                 let pdata = [
                     "Product Id": ((self.product != nil) ? (self.product!.id) : ""),
-                    "Seller ID" : ((self.product != nil) ? (self.product!.json["seller_id"].string) : ""),
+                    "Seller ID" : ((self.product != nil) ? (self.product!.json["seller_id"].stringValue) : ""),
                     "Screen" : PageName.ProductDetail,
                     "Is Featured" : ((self.product != nil) ? (self.product!.isFeatured) : false)
                 ] as [String : Any]

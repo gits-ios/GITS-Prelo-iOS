@@ -20,6 +20,13 @@ class Constant: NSObject {
         a.message = message
         a.addButton(withTitle: "Oke")
         a.show()
+        
+        // TODO: - fix bug navigation after show
+//        let a = UIAlertController(title: title, message: message, preferredStyle: .alert)
+//        a.addAction(UIAlertAction(title: "Oke", style: .default, handler: { action in
+//            a.dismiss(animated: true, completion: nil)
+//        }))
+//        UIApplication.shared.keyWindow?.rootViewController?.present(a, animated: true, completion: nil)
     }
     
     static func showBadgeDialog(_ title : String, message : String, badge : String, view : UIViewController, isBack : Bool)
