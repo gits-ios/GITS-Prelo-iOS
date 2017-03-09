@@ -1841,12 +1841,18 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     }
 }
 
-class ProductCellSeller : UITableViewCell
+class ProductCellSeller : UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate
 {
-    @IBOutlet var captionSellerName : UILabel?
-    @IBOutlet var captionSellerRating : UILabel?
-    @IBOutlet var captionLastSeen: UILabel!
-    @IBOutlet var ivSellerAvatar : UIImageView?
+    @IBOutlet weak var captionSellerName : UILabel?
+    @IBOutlet weak var captionSellerRating : UILabel?
+    @IBOutlet weak var captionLastSeen: UILabel!
+    @IBOutlet weak var ivSellerAvatar : UIImageView?
+    @IBOutlet weak var collectionView: UIView! // parent of achievement
+    @IBOutlet weak var badgeCollectionView: UICollectionView! // achievement
+    @IBOutlet weak var consWidthCollectionView: NSLayoutConstraint!
+    @IBOutlet weak var consTrailingCollectionView: NSLayoutConstraint! // 8 -> 0
+    
+    var badges : Array<URL>! = []
     
     // love floatable
     @IBOutlet var vwLove: UIView!
@@ -1912,6 +1918,27 @@ class ProductCellSeller : UITableViewCell
         }
 
         ivSellerAvatar?.afSetImage(withURL: (obj?.shopAvatarURL)!, withFilter: .circle)
+        
+        // reset
+        badges = []
+        consWidthCollectionView.constant = 0
+        consTrailingCollectionView.constant = 0
+        
+        if let arr = product["seller"]["achievements"].array {
+//            for i in arr {
+//                let ach = AchievementItem.instance(i)
+//                
+//                self.badges.append((ach?.icon)!)
+//            }
+            
+            if arr.count > 0 {
+                let ach = AchievementItem.instance(arr[0])
+                
+                self.badges.append((ach?.icon)!)
+                
+                setupCollection()
+            }
+        }
     }
     
     override func awakeFromNib() {
@@ -1922,6 +1949,66 @@ class ProductCellSeller : UITableViewCell
         
         ivSellerAvatar?.layer.borderColor = Theme.GrayLight.cgColor
         ivSellerAvatar?.layer.borderWidth = 2
+    }
+    
+    func setupCollection() {
+        
+        let width = CGFloat(28) //21 * CGFloat(self.badges!.count) + 1
+        
+        // Set collection view
+        self.badgeCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "collcProgressCell")
+        self.badgeCollectionView.delegate = self
+        self.badgeCollectionView.dataSource = self
+        self.badgeCollectionView.backgroundView = UIView(frame: self.badgeCollectionView.bounds)
+        self.badgeCollectionView.backgroundColor = UIColor.clear
+        
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.itemSize = CGSize(width: 28, height: 28)
+//        layout.minimumInteritemSpacing = 1
+//        layout.minimumLineSpacing = 1
+        self.badgeCollectionView.collectionViewLayout = layout
+        
+        self.badgeCollectionView.isScrollEnabled = false
+        self.consWidthCollectionView.constant = width
+        
+        self.consTrailingCollectionView.constant = 2
+        
+        self.collectionView.isHidden = false
+    }
+    
+    // MARK: - CollectionView delegate functions
+    
+    
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.badges!.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        // Create cell
+        let cell = self.badgeCollectionView.dequeueReusableCell(withReuseIdentifier: "collcProgressCell", for: indexPath)
+        // Create icon view
+        let vwIcon : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
+        
+        let img = UIImageView(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
+        img.layoutIfNeeded()
+        img.layer.cornerRadius = (img.width ) / 2
+        img.layer.masksToBounds = true
+        img.afSetImage(withURL: badges[(indexPath as NSIndexPath).row], withFilter: .circleWithBadgePlaceHolder)
+        
+        vwIcon.addSubview(img)
+        
+        img.frame = vwIcon.bounds
+        
+        // Add view to cell
+        cell.addSubview(vwIcon)
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 28, height: 28)
     }
 }
 
