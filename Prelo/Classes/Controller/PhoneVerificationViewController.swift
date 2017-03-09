@@ -93,6 +93,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
     }
     
     func backPressed2(_ sender: UIBarButtonItem) {
+        /*
         backAlert = UIAlertController(title: "Perhatian", message: "Verifikasi belum selesai. Halaman ini akan muncul lagi lain kali kamu login. Keluar?", preferredStyle: UIAlertControllerStyle.alert)
         backAlert!.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { action in
             self.backAlert!.dismiss(animated: true, completion: nil)
@@ -103,6 +104,18 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
             self.dismiss(animated: true, completion: nil)
         }))
         self.present(backAlert!, animated: true, completion: nil)
+         */
+        
+        let appearance = SCLAlertView.SCLAppearance(
+            showCloseButton: false
+        )
+        
+        let alertView = SCLAlertView(appearance: appearance)
+        alertView.addButton("Keluar") {
+            User.Logout()
+        }
+        alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+        alertView.showCustom("Perhatian", subTitle: "Verifikasi belum selesai. Halaman ini akan muncul lagi lain kali kamu login. Keluar?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
     @IBAction func disableTextFields(_ sender : AnyObject)

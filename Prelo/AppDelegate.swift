@@ -780,7 +780,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         )
         
         redirAlert = SCLAlertView(appearance: appearance)
-        alertViewResponder = redirAlert!.showInfo("Redirecting...", subTitle: "Harap tunggu beberapa saat")
+        alertViewResponder = redirAlert!.showCustom("Redirecting...", subTitle: "Harap tunggu beberapa saat", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
     func hideRedirAlertWithDelay(_ delay: Double) {

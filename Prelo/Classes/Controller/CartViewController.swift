@@ -960,8 +960,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     // reset localid
                     User.SetCartLocalId("")
                 }
-                alertView.addButton("Batal") {}
-                alertView.showInfo("Hapus Keranjang", subTitle: "Kamu yakin ingin menghapus semua barang dalam keranjang?")
+                alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+                alertView.showCustom("Hapus Keranjang", subTitle: "Kamu yakin ingin menghapus semua barang dalam keranjang?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
             }
         } else if ((indexPath as NSIndexPath).section == sectionAlamatUser) {
             if ((indexPath as NSIndexPath).row == 3) { // Kecamatan
@@ -1163,8 +1163,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         alertView.addButton("Lanjutkan") {
             self.performCheckout(p!, address: a!, usedBalance: usedBalance, usedBonus: usedBonus)
         }
-        alertView.addButton("Batal") {}
-        alertView.showInfo("Perhatian", subTitle: "Kamu akan melakukan transaksi sebesar \(self.grandTotal.asPrice) menggunakan \(self.selectedPayment.value). Lanjutkan?")
+        alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+        alertView.showCustom("Perhatian", subTitle: "Kamu akan melakukan transaksi sebesar \(self.grandTotal.asPrice) menggunakan \(self.selectedPayment.value). Lanjutkan?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
     func performCheckout(_ cart : String, address : String, usedBalance : Int, usedBonus : Int) {

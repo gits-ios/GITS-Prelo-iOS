@@ -11,7 +11,7 @@ import Social
 import MessageUI
 import Alamofire
 
-class ReferralPageViewController: BaseViewController, MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate, PathLoginDelegate, UIDocumentInteractionControllerDelegate, UIAlertViewDelegate {
+class ReferralPageViewController: BaseViewController, MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate, PathLoginDelegate, UIDocumentInteractionControllerDelegate/*, UIAlertViewDelegate*/ {
     
     @IBOutlet weak var scrollView: UIScrollView!
     
@@ -107,7 +107,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                             var alertViewResponder2: SCLAlertViewResponder!
                             
                             let alertView2 = SCLAlertView(appearance: appearance)
-                            alertViewResponder2 = alertView2.showInfo("Referral Bonus", subTitle: "Mengirim e-mail...")
+                            alertViewResponder2 = alertView2.showCustom("Referral Bonus", subTitle: "Mengirim e-mail...", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
                             
                             // API Migrasi
                             let _ = request(APIMe.resendVerificationEmail).responseJSON {resp in
@@ -122,10 +122,10 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                             _ = self.navigationController?.popViewController(animated: true)
                         }
                     }
-                    alertView.addButton("Batal") {
+                    alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {
                         _ = self.navigationController?.popViewController(animated: true)
                     }
-                    alertViewResponder = alertView.showInfo("Referral Bonus", subTitle: "Mohon verifikasi e-mail kamu untuk mendapatkan referral bonus dari Prelo")
+                    alertView.showCustom("Referral Bonus", subTitle: "Mohon verifikasi e-mail kamu untuk mendapatkan referral bonus dari Prelo", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
                 } else {
                     self.getReferralData()
                 }
@@ -324,7 +324,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         )
         
         let alertView = SCLAlertView(appearance: appearance)
-        let alertViewResponder: SCLAlertViewResponder = alertView.showInfo("Path", subTitle: "Posting to path")
+        let alertViewResponder: SCLAlertViewResponder = alertView.showCustom("Path", subTitle: "Posting to path", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
         
         AppToolsObjC.pathPostPhoto(image, param: ["private": true, "caption": shareText], token: token, success: {_, _ in
 //            a.dismiss(withClickedButtonIndex: 0, animated: true)

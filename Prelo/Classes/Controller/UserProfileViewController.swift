@@ -11,7 +11,7 @@ import CoreData
 import TwitterKit
 import Alamofire
 
-class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, PhoneVerificationDelegate, PathLoginDelegate, InstagramLoginDelegate, UIAlertViewDelegate, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate {
+class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, PhoneVerificationDelegate, PathLoginDelegate, InstagramLoginDelegate/*, UIAlertViewDelegate*/, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate {
     
     @IBOutlet weak var scrollView : UIScrollView?
     @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
@@ -334,9 +334,39 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             instaLogin.instagramLoginDelegate = self
             self.navigationController?.pushViewController(instaLogin, animated: true)
         } else { // Then logout
+            /*
             let logoutAlert = UIAlertView(title: "Instagram Logout", message: "Yakin mau logout akun Instagram \(self.lblLoginInstagram.text!)?", delegate: self, cancelButtonTitle: "No")
             logoutAlert.addButton(withTitle: "Yes")
             logoutAlert.show()
+             */
+            
+            let appearance = SCLAlertView.SCLAppearance(
+                showCloseButton: false
+            )
+            
+            let alertView = SCLAlertView(appearance: appearance)
+            alertView.addButton("Ya") {
+                // API Migrasi
+                let _ = request(APISocmed.postInstagramData(id: "", username: "", token: "")).responseJSON {resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Logout Instagram")) {
+                        
+                        // Save in core data
+                        let userOther : CDUserOther = CDUserOther.getOne()!
+                        userOther.instagramID = nil
+                        userOther.instagramUsername = nil
+                        userOther.instagramAccessToken = nil
+                        UIApplication.appDelegate.saveContext()
+                        
+                        // Adjust instagram button
+                        self.lblLoginInstagram.text = "LOGIN INSTAGRAM"
+                        self.isLoggedInInstagram = false
+                    }
+                    // Hide loading
+                    self.hideLoading()
+                }
+            }
+            alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+            alertView.showCustom("Instagram Logout", subTitle: "Yakin mau logout akun Instagram \(self.lblLoginInstagram.text!)?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
         }
     }
     
@@ -422,9 +452,42 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 }
             })
         } else { // Then logout
+            /*
             let logoutAlert = UIAlertView(title: "Facebook Logout", message: "Yakin mau logout akun Facebook \(self.lblLoginFacebook.text!)?", delegate: self, cancelButtonTitle: "No")
             logoutAlert.addButton(withTitle: "Yes")
             logoutAlert.show()
+             */
+            
+            let appearance = SCLAlertView.SCLAppearance(
+                showCloseButton: false
+            )
+            
+            let alertView = SCLAlertView(appearance: appearance)
+            alertView.addButton("Ya") {
+                // API Migrasi
+                let _ = request(APISocmed.postFacebookData(id: "", username: "", token: "")).responseJSON {resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Logout Facebook")) {
+                        
+                        // End session
+                        User.LogoutFacebook()
+                        
+                        // Save in core data
+                        let userOther : CDUserOther = CDUserOther.getOne()!
+                        userOther.fbID = nil
+                        userOther.fbUsername = nil
+                        userOther.fbAccessToken = nil
+                        UIApplication.appDelegate.saveContext()
+                        
+                        // Adjust fb button
+                        self.lblLoginFacebook.text = "LOGIN FACEBOOK"
+                        self.isLoggedInFacebook = false
+                    }
+                    // Hide loading
+                    self.hideLoading()
+                }
+            }
+            alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+            alertView.showCustom("Facebook Logout", subTitle: "Yakin mau logout akun Facebook \(self.lblLoginFacebook.text!)?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
         }
     }
     
@@ -471,9 +534,43 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 }
             })
         } else { // Then logout
+            /*
             let logoutAlert = UIAlertView(title: "Twitter Logout", message: "Yakin mau logout akun Twitter \(self.lblLoginTwitter.text!)?", delegate: self, cancelButtonTitle: "No")
             logoutAlert.addButton(withTitle: "Yes")
             logoutAlert.show()
+             */
+            
+            let appearance = SCLAlertView.SCLAppearance(
+                showCloseButton: false
+            )
+            
+            let alertView = SCLAlertView(appearance: appearance)
+            alertView.addButton("Ya") {
+                // API Migrasi
+                let _ = request(APISocmed.postTwitterData(id: "", username: "", token: "", secret: "")).responseJSON {resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Logout Twitter")) {
+                        
+                        // End session
+                        User.LogoutTwitter()
+                        
+                        // Save in core data
+                        let userOther : CDUserOther = CDUserOther.getOne()!
+                        userOther.twitterID = nil
+                        userOther.twitterUsername = nil
+                        userOther.twitterAccessToken = nil
+                        userOther.twitterTokenSecret = nil
+                        UIApplication.appDelegate.saveContext()
+                        
+                        // Adjust twitter button
+                        self.lblLoginTwitter.text = "LOGIN TWITTER"
+                        self.isLoggedInTwitter = false
+                    }
+                    // Hide loading
+                    self.hideLoading()
+                }
+            }
+            alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+            alertView.showCustom("Twitter Logout", subTitle: "Yakin mau logout akun Twitter \(self.lblLoginTwitter.text!)?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
         }
     }
     
@@ -486,9 +583,39 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             pathLoginVC.delegate = self
             self.navigationController?.pushViewController(pathLoginVC, animated: true)
         } else { // Then logout
+            /*
             let logoutAlert = UIAlertView(title: "Path Logout", message: "Yakin mau logout akun Path \(self.lblLoginPath.text!)?", delegate: self, cancelButtonTitle: "No")
             logoutAlert.addButton(withTitle: "Yes")
             logoutAlert.show()
+             */
+ 
+            let appearance = SCLAlertView.SCLAppearance(
+                showCloseButton: false
+            )
+            
+            let alertView = SCLAlertView(appearance: appearance)
+            alertView.addButton("Ya") {
+                // API Migrasi
+                let _ = request(APISocmed.postPathData(id: "", username: "", token: "")).responseJSON {resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Logout Path")) {
+                        
+                        // Save in core data
+                        let userOther : CDUserOther = CDUserOther.getOne()!
+                        userOther.pathID = nil
+                        userOther.pathUsername = nil
+                        userOther.pathAccessToken = nil
+                        UIApplication.appDelegate.saveContext()
+                        
+                        // Adjust path button
+                        self.lblLoginPath.text = "LOGIN PATH"
+                        self.isLoggedInPath = false
+                    }
+                    // Hide loading
+                    self.hideLoading()
+                }
+            }
+            alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+            alertView.showCustom("Path Logout", subTitle: "Yakin mau logout akun Path \(self.lblLoginPath.text!)?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
         }
     }
     
@@ -664,7 +791,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     }
     
     // MARK: - UIAlertView Delegate Functions
-    
+    /*
     func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
         if (buttonIndex == 0) { // "No"
             // Hide loading
@@ -756,7 +883,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             }
         }
     }
-    
+    */
     // MARK: - Phone Verification Delegate Functions
     
     func phoneVerified(_ newPhone: String) {

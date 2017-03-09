@@ -11,7 +11,7 @@ import CoreData
 import Crashlytics
 import Alamofire
 
-class AboutViewController: BaseViewController, UIAlertViewDelegate {
+class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
 
     @IBOutlet var btnLogout : BorderedButton!
     @IBOutlet var btnClear : BorderedButton!
@@ -111,8 +111,8 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         alertView.addButton("Reload App Data") {
             self.reloadingAppData()
         }
-        alertView.addButton("Batal") {}
-        alertView.showInfo("Reload App Data", subTitle: "Reload App Data membutuhkan waktu beberapa saat. Lanjutkan?")
+        alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+        alertView.showCustom("Reload App Data", subTitle: "Reload App Data membutuhkan waktu beberapa saat. Lanjutkan?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
     @IBAction func clearCache() {
@@ -318,7 +318,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         
         alertView.customSubview = subview
         
-        let alertViewResponder: SCLAlertViewResponder = alertView.showInfo("Reloading App Data...", subTitle: "")
+        let alertViewResponder: SCLAlertViewResponder = alertView.showCustom("Reloading App Data...", subTitle: "", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
 
         // API Migrasi
         let _ = request(APIApp.metadata(brands: "0", categories: "1", categorySizes: "0", shippings: "1", productConditions: "1", provincesRegions: "1")).responseJSON {resp in

@@ -34,7 +34,7 @@ class Constant: NSObject {
             duration: 0.0, // Duration to show before closing automatically, default: 0.0
             completeText: "Oke", // Optional button value, default: ""
             style: .info, // Styles - see below.
-            colorStyle: SCLAlertViewStyle.info.defaultColorInt,
+            colorStyle: 0x00A79D, //SCLAlertViewStyle.info.defaultColorInt,
             colorTextButton: 0xFFFFFF
         )
     }

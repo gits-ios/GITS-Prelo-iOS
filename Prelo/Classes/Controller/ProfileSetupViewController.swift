@@ -200,13 +200,26 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     }
     
     override func backPressed(_ sender: UIBarButtonItem) {
+        /*
         let alert : UIAlertController = UIAlertController(title: "Perhatian", message: "Setelan akun belum selesai. Halaman ini akan muncul lagi ketika kamu login. Keluar?", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
             User.Logout()
             self.dismiss(animated: true, completion: nil)
         }))
-        alert.addAction(UIAlertAction(title: "Tidak", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
+         */
+        
+        let appearance = SCLAlertView.SCLAppearance(
+            showCloseButton: false
+        )
+        
+        let alertView = SCLAlertView(appearance: appearance)
+        alertView.addButton("Keluar") {
+            User.Logout()
+        }
+        alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+        alertView.showCustom("Perhatian", subTitle: "Setelan akun belum selesai. Halaman ini akan muncul lagi ketika kamu login. Keluar?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
     func setupContent() {

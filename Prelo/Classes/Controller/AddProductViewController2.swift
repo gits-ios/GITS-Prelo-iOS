@@ -14,7 +14,7 @@ typealias EditDoneBlock = () -> ()
 
 // MARK: - class AddProductVC2
 
-class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITextViewDelegate, UIActionSheetDelegate, /* AVIARY IS DISABLED AdobeUXImageEditorViewControllerDelegate,*/ UserRelatedDelegate, AKPickerViewDataSource, AKPickerViewDelegate, AddProductImageFullScreenDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIAlertViewDelegate, UITextFieldDelegate
+class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITextViewDelegate, UIActionSheetDelegate, /* AVIARY IS DISABLED AdobeUXImageEditorViewControllerDelegate,*/ UserRelatedDelegate, AKPickerViewDataSource, AKPickerViewDelegate, AddProductImageFullScreenDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate/*, UIAlertViewDelegate*/, UITextFieldDelegate
 {
 
     // MARK: - Properties
@@ -680,7 +680,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         let alert : UIAlertController = UIAlertController(title: " Perhatian", message: message, preferredStyle: UIAlertControllerStyle.alert)
         
         if (self.fakeScrollView.isHidden == false && self.isImage == false || self.editMode == true) {
-            alert.addAction(UIAlertAction(title: "Tidak", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
         } else {
             alert.addAction(UIAlertAction(title: "Keluar", style: .cancel, handler: { action in
                 
@@ -730,14 +730,15 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
         
         if (self.fakeScrollView.isHidden == false && self.isImage == false || self.editMode == true) {
-            alertView.addButton("Tidak") {}
+            alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
         } else {
             alertView.addButton("Keluar") {
                 _ = self.navigationController?.popViewController(animated: true)
             }
+            alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
         }
         
-        alertView.showInfo(title, subTitle: message)
+        alertView.showCustom(title, subTitle: message, color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
     @IBAction func showFAQ(_ sender : UIView?)
@@ -1687,7 +1688,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         /*
         let a = UIAlertController(title: "Hapus", message: "Hapus Barang?", preferredStyle: .alert)
         
-        a.addAction(UIAlertAction(title: "Tidak", style: .cancel, handler: {act in }))
+        a.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: {act in }))
         a.addAction(UIAlertAction(title: "Ya", style: .default, handler: {act in
             self.deleteProduct()
         }))
@@ -1702,8 +1703,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         alertView.addButton("Ya") {
             self.deleteProduct()
         }
-        alertView.addButton("Tidak") {}
-        alertView.showInfo("Hapus", subTitle: "Hapus Barang?")
+        alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+        alertView.showCustom("Hapus", subTitle: "Hapus Barang?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
 //    func askDeleteOS7()
@@ -1712,7 +1713,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 //        a.title = "Hapus"
 //        a.message = "Hapus Barang?"
 //        a.addButton(withTitle: "Ya")
-//        a.addButton(withTitle: "Tidak")
+//        a.addButton(withTitle: "Batal")
 //        a.delegate = self
 //        a.tag = 123
 //        a.show()
@@ -2232,8 +2233,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 
                 self.navigationController?.pushViewController(share, animated: true)
             }
-            alertView.addButton("Batal") {}
-            alertView.showInfo("Jual", subTitle: "Pastikan barang yang kamu jual original. Jika barang kamu terbukti bukan original, pembeli berhak melakukan refund atas barang tersebut.")
+            alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+            alertView.showCustom("Jual", subTitle: "Pastikan barang yang kamu jual original. Jika barang kamu terbukti bukan original, pembeli berhak melakukan refund atas barang tersebut.", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
             
             return
         }
