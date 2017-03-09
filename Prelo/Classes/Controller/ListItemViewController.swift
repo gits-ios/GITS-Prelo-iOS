@@ -1460,10 +1460,14 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
     }
     
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
         // Prelo Analytic - Search by Keyword
         sendSearchByKeywordAnalytic(self.searchBar.text!)
         
+        return true
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
     }
     
