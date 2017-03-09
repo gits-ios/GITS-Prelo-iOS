@@ -1642,13 +1642,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 //    var loadingDeleteOS7 = UIAlertView(title: "Menghapus barang...", message: nil, delegate: nil, cancelButtonTitle: nil)
     func askDeleteProduct()
     {
-        if (UIDevice.current.systemVersion.floatValue >= 8)
-        {
+//        if (UIDevice.current.systemVersion.floatValue >= 8)
+//        {
             askDeleteOS8()
-        } else
-        {
-            askDeleteOS7()
-        }
+//        } else
+//        {
+//            askDeleteOS7()
+//        }
     }
     
     func askDeleteOS8()
@@ -1662,27 +1662,27 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         self.present(a, animated: true, completion: nil)
     }
     
-    func askDeleteOS7()
-    {
-        let a = UIAlertView()
-        a.title = "Hapus"
-        a.message = "Hapus Barang?"
-        a.addButton(withTitle: "Ya")
-        a.addButton(withTitle: "Tidak")
-        a.delegate = self
-        a.tag = 123
-        a.show()
-    }
+//    func askDeleteOS7()
+//    {
+//        let a = UIAlertView()
+//        a.title = "Hapus"
+//        a.message = "Hapus Barang?"
+//        a.addButton(withTitle: "Ya")
+//        a.addButton(withTitle: "Tidak")
+//        a.delegate = self
+//        a.tag = 123
+//        a.show()
+//    }
     
-    func alertView(_ alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
-        if (alertView.tag == 123)
-        {
-            if (buttonIndex == 0)
-            {
-                self.deleteProduct()
-            }
-        }
-    }
+//    func alertView(_ alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
+//        if (alertView.tag == 123)
+//        {
+//            if (buttonIndex == 0)
+//            {
+//                self.deleteProduct()
+//            }
+//        }
+//    }
     
     // MARK: - delete
     

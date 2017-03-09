@@ -2022,8 +2022,9 @@ class ListItemCell : UICollectionViewCell {
         }
         
 //        _ = obj["display_picts"][0].string
-        ivCover.image = nil
+//        ivCover.image = nil
         ivCover.afSetImage(withURL: product.coverImageURL!)
+        print(product.coverImageURL!)
         
         if let op = product.json["price_original"].int {
             captionOldPrice.text = op.asPrice
