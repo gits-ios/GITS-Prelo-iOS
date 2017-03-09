@@ -28,15 +28,23 @@ class Constant: NSObject {
 //        }))
 //        UIApplication.shared.keyWindow?.rootViewController?.present(a, animated: true, completion: nil)
         
-        SCLAlertView().showTitle(
-            title, // Title of view
-            subTitle: message, // String of view
-            duration: 0.0, // Duration to show before closing automatically, default: 0.0
-            completeText: "Oke", // Optional button value, default: ""
-            style: .info, // Styles - see below.
-            colorStyle: 0x00A79D, //SCLAlertViewStyle.info.defaultColorInt,
-            colorTextButton: 0xFFFFFF
+//        SCLAlertView().showTitle(
+//            title, // Title of view
+//            subTitle: message, // String of view
+//            duration: 0.0, // Duration to show before closing automatically, default: 0.0
+//            completeText: "Oke", // Optional button value, default: ""
+//            style: .info, // Styles - see below.
+//            colorStyle: 0x00A79D, //SCLAlertViewStyle.info.defaultColorInt,
+//            colorTextButton: 0xFFFFFF
+//        )
+        
+        let appearance = SCLAlertView.SCLAppearance(
+            showCloseButton: false
         )
+        
+        let alertView = SCLAlertView(appearance: appearance)
+        alertView.addButton("Oke") {}
+        alertView.showCustom(title, subTitle: message, color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
     static func showBadgeDialog(_ title : String, message : String, badge : String, view : UIViewController, isBack : Bool)
