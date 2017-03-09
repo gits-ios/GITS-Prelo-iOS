@@ -240,7 +240,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     self.tableView?.isHidden = false
                     self.tableView?.reloadData()
                     
-                    self.setOptionButton()
+                    let userid = CDUser.getOne()?.id
+                    let sellerid = self.detail?.theirId
+                    
+                    if User.IsLoggedIn && sellerid != userid {
+                        self.setOptionButton()
+                    }
                     
                     self.setupView()
                     
@@ -444,14 +449,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         let btnOption = self.createButtonWithIcon(AppFont.prelo2, icon: "")
         
         btnOption.addTarget(self, action: #selector(ProductDetailViewController.option), for: UIControlEvents.touchUpInside)
-        
-        let userid = CDUser.getOne()?.id
-        let sellerid = detail?.theirId
-        //        let buyerid = detail?.myId
-        
-        if sellerid == userid || User.IsLoggedIn == false {
-            btnOption.isHidden = true
-        }
         
         self.navigationItem.rightBarButtonItem = btnOption.toBarButton()
     }
