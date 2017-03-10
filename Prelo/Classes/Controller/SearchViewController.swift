@@ -257,6 +257,10 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         }
     }
     
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
     // MARK: - Scroll view functions
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -537,6 +541,13 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         }
         AppToolsObjC.insertNewSearch(keyword)
         setupHistory()
+        
+        // Prelo Analytic - Search by Keyword
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Search Query" : keyword
+        ]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SearchByKeyword, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
     }
     
     func searchTopKey(_ sender : UITapGestureRecognizer) {

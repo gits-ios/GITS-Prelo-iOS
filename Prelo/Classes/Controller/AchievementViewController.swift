@@ -91,6 +91,11 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
         
         // Google Analytics
         GAI.trackPageVisit(PageName.Achievement)
+        
+        // Prelo Analytic - Visit Achievement Page
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata : [String : Any] = [:]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.VisitAchievementPage, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
     }
     
     override func didReceiveMemoryWarning() {

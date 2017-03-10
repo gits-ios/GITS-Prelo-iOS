@@ -29,11 +29,16 @@ class AppTools: NSObject {
     
     fileprivate static var _PreloBaseUrl = isDev ? devURL : prodURL
     static var PreloBaseUrl : String {
-        set {
-            _PreloBaseUrl = newValue
-        }
         get {
             return _PreloBaseUrl
+        }
+    }
+    
+    static func switchToDev(_ isDev: Bool) {
+        if isDev {
+            _PreloBaseUrl = devURL
+        } else {
+            _PreloBaseUrl = prodURL
         }
     }
     
@@ -816,6 +821,16 @@ class PreloAnalyticEvent {
     static let RequestRefund = "Transaction:Request Refund"
     static let DelayShipping = "Transaction:Delay Shipping"
     static let RejectShipping = "Transaction:Reject"
+    
+    // Daily
+    static let OpenApp = "Daily:Open App"
+    
+    // Search
+    static let SearchByKeyword = "Search:Search by Keyword"
+    static let Filter = "Search:Filter"
+    
+    // Achievement
+    static let VisitAchievementPage = "Achievement:Visit Achievement Page"
 }
 
 extension GAI {
