@@ -719,7 +719,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         let alertView = SCLAlertView(appearance: appearance)
         
-        alertView.addButton((self.fakeScrollView.isHidden == false && self.isImage == false || self.editMode == true) ? "Ya" : "Simpan") {
+        alertView.addButton((self.fakeScrollView.isHidden == false && self.isImage == false || self.editMode == true) ? "Keluar" : "Simpan") {
             if ((self.fakeScrollView.isHidden == true || self.isImage == true) && self.editMode == false){
                 
                 // save the draft
