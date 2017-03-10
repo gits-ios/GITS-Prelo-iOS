@@ -3,7 +3,7 @@
 //  PushNotif
 //
 //  Created by Djuned on 1/24/17.
-//  Copyright © 2017 GITS Indonesia. All rights reserved.
+//  Copyright © 2017 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UserNotifications

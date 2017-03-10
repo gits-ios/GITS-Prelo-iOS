@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 7/6/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
@@ -676,7 +676,18 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         lastContentOffset = scrollView.contentOffset
     }
     
+    // manualy scroll the content view
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        setupContent(scrollView)
+    }
+    
+    // from navigation
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        setupContent(scrollView)
+    }
+    
+    // setup content view
+    func setupContent(_ scrollView: UIScrollView) {
         if scrollView == scroll_View {
             let queue : OperationQueue = OperationQueue()
             let opLayout : Operation = BlockOperation(block: {
