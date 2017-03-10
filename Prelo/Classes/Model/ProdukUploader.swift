@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 25/5/16.
-//  Copyright © 2016 GITS Indonesia. All rights reserved.
+//  Copyright © 2016 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit

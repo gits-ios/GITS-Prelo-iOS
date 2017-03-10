@@ -3206,7 +3206,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
 				LastUpgradeCheck = 0640;
-				ORGANIZATIONNAME = "GITS Indonesia";
+				ORGANIZATIONNAME = "PT Kleo Appara Indonesia";
 				TargetAttributes = {
 					2115E6C71B4A27E500509D2A = {
 						CreatedOnToolsVersion = 6.4;
