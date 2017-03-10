@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by PreloBook on 3/18/16.
-//  Copyright (c) 2016 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2016 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import Foundation
