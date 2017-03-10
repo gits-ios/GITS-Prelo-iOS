@@ -103,6 +103,61 @@ class Constant: NSObject {
         
         view.present(a, animated: true, completion: nil)
     }
+    
+    static func forceUpdatePrompt() {
+        // Show app store update pop up if necessary
+        if let newVer = UserDefaults.standard.object(forKey: UserDefaultsKey.UpdatePopUpVer) as? String , newVer != "" {
+            /*
+            let alert : UIAlertController = UIAlertController(title: "New Version Available", message: "Prelo \(newVer) is available on App Store", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { action in
+                UIApplication.shared.openURL(URL(string: "itms-apps://itunes.apple.com/id/app/prelo/id1027248488")!)
+            }))
+            alert.addAction(UIAlertAction(title: "Batal", style: .default, handler: { action in
+                if let isForceUpdate = UserDefaults.standard.object(forKey: UserDefaultsKey.UpdatePopUpForced) as? Bool , !isForceUpdate {
+                    // do nothing
+                } else if let releaseNotes = UserDefaults.standard.object(forKey: UserDefaultsKey.UpdatePopUpNotes) as? String , releaseNotes != "" {
+                    
+                    let notes = releaseNotes + "\n\nKamu tidak akan mendapatkan fitur dan perbaikan terbaru jika tidak meng-update aplikasi."
+                    
+                    let alert2 : UIAlertController = UIAlertController(title: "Prelo \(newVer)", message: notes, preferredStyle: UIAlertControllerStyle.alert)
+                    alert2.addAction(UIAlertAction(title: "Update", style: .default, handler: { action in
+                        UIApplication.shared.openURL(URL(string: "itms-apps://itunes.apple.com/id/app/prelo/id1027248488")!)
+                    }))
+                    alert2.addAction(UIAlertAction(title: "Batal", style: .default, handler: nil))
+                    UIApplication.shared.keyWindow?.rootViewController?.present(alert2, animated: true, completion: nil)
+                }
+            }))
+            UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+             */
+            
+            let appearance = SCLAlertView.SCLAppearance(
+                showCloseButton: false
+            )
+            
+            let alertView = SCLAlertView(appearance: appearance)
+            alertView.addButton("Update") {
+                UIApplication.shared.openURL(URL(string: "itms-apps://itunes.apple.com/id/app/prelo/id1027248488")!)
+            }
+            alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {
+                if let isForceUpdate = UserDefaults.standard.object(forKey: UserDefaultsKey.UpdatePopUpForced) as? Bool , !isForceUpdate {
+                    // do nothing
+                } else if let releaseNotes = UserDefaults.standard.object(forKey: UserDefaultsKey.UpdatePopUpNotes) as? String , releaseNotes != "" {
+                    
+                    let notes = releaseNotes + "\n\nKamu tidak akan mendapatkan fitur dan perbaikan terbaru jika tidak meng-update aplikasi."
+                    
+                    let alertView2 = SCLAlertView(appearance: appearance)
+                    alertView2.addButton("Update") {
+                        UIApplication.shared.openURL(URL(string: "itms-apps://itunes.apple.com/id/app/prelo/id1027248488")!)
+                    }
+                    alertView2.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {
+                    }
+                    alertView2.showCustom("Prelo \(newVer)", subTitle: notes, color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+                    
+                }
+            }
+            alertView.showCustom("New Version Available", subTitle: "LPrelo \(newVer) is available on App Store", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+        }
+    }
 }
 
 extension String

@@ -451,38 +451,6 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             
             self.fixer(0)
         }
-        
-        // Show app store update pop up if necessary
-        if let newVer = UserDefaults.standard.object(forKey: UserDefaultsKey.UpdatePopUpVer) as? String , newVer != "" {
-            /*
-            let alert : UIAlertController = UIAlertController(title: "New Version Available", message: "Prelo \(newVer) is available on App Store", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { action in
-                UIApplication.shared.openURL(URL(string: "itms-apps://itunes.apple.com/id/app/prelo/id1027248488")!)
-            }))
-            if let isForceUpdate = UserDefaults.standard.object(forKey: UserDefaultsKey.UpdatePopUpForced) as? Bool , !isForceUpdate {
-                alert.addAction(UIAlertAction(title: "Batal", style: .default, handler: nil))
-            }
-            UserDefaults.standard.set("", forKey: UserDefaultsKey.UpdatePopUpVer)
-            UserDefaults.standard.synchronize()
-            self.present(alert, animated: true, completion: nil)
-             */
-            
-            let appearance = SCLAlertView.SCLAppearance(
-                showCloseButton: false
-            )
-            
-            let alertView = SCLAlertView(appearance: appearance)
-            alertView.addButton("Update") {
-                UIApplication.shared.openURL(URL(string: "itms-apps://itunes.apple.com/id/app/prelo/id1027248488")!)
-            }
-            if let isForceUpdate = UserDefaults.standard.object(forKey: UserDefaultsKey.UpdatePopUpForced) as? Bool , !isForceUpdate {
-                alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
-            }
-            UserDefaults.standard.set("", forKey: UserDefaultsKey.UpdatePopUpVer)
-            UserDefaults.standard.synchronize()
-            
-            alertView.showCustom("New Version Available", subTitle: "LPrelo \(newVer) is available on App Store", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
-        }
     }
     
     func setCurrentTab(_ index : Int)
@@ -792,6 +760,5 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         }
         return nil
     }
-    
 }
 

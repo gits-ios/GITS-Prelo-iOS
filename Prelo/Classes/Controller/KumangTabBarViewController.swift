@@ -469,18 +469,32 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
                 // Save version to core data
                 CDVersion.saveVersions(data)
                 
+                /*
                 // Check if app need to be updated
                 if let installedVer = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
                     if let newVer = CDVersion.getOne()?.appVersion {
                         if (newVer.compare(installedVer, options: .numeric, range: nil, locale: nil) == .orderedDescending) {
                             UserDefaults.standard.set(newVer, forKey: UserDefaultsKey.UpdatePopUpVer)
+                            
+                            if let releaseNotes = data["release_notes"].array {
+                                var notes = ""
+                                for rn in releaseNotes {
+                                    notes += rn.stringValue + "\n"
+                                }
+                                UserDefaults.standard.set(notes, forKey: UserDefaultsKey.UpdatePopUpNotes)
+                            } else if let releaseNotes = data["release_notes"].string {
+                                UserDefaults.standard.set(releaseNotes, forKey: UserDefaultsKey.UpdatePopUpNotes)
+                            }
+                            
                             if let isForceUpdate = data["is_force_update"].bool {
                                 UserDefaults.standard.set(isForceUpdate, forKey: UserDefaultsKey.UpdatePopUpForced)
                             }
+                            
                             UserDefaults.standard.synchronize()
                         }
                     }
                 }
+                 */
             }
             
             if (isFirstInstall) {
