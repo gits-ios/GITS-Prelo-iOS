@@ -1008,7 +1008,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             self.tawarItem.setBargainPrice(m)
             
             // Prelo Analytics - Successful Bargain - New
-            self.sendSuccessfulBargainAnalytic("New")
+//            self.sendSuccessfulBargainAnalytic("New")
         }
     }
     
@@ -1020,7 +1020,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         sendChat(3, message: message, image: nil)
         
         // Prelo Analytics - Successful Bargain - Reject
-        self.sendSuccessfulBargainAnalytic("Reject")
+//        self.sendSuccessfulBargainAnalytic("Reject")
     }
     
     func confirmTawar(_ sender : UIView?) {
@@ -1270,9 +1270,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         let percentagePrice = (bargainPrice * 100.0 / originalPrice)
         let pdata = [
             "Product ID" : self.prodId,
-            "User Target" : (tawarItem.opIsMe ? tawarItem.myName : tawarItem.theirName),
-            "Bargain Type" : bargainType,
-            "Percentage From Price" : percentagePrice,
+            //"User Target" : (tawarItem.opIsMe ? tawarItem.myName : tawarItem.theirName),
+            //"Bargain Type" : bargainType,
+            "Percentage" : percentagePrice,
             "From Seller" : !tawarItem.opIsMe
         ] as [String : Any]
         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SuccessfulBargain, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
@@ -1282,8 +1282,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     func sendMediaOnChatAnalytic(_ mediaType: String) {
         let loginMethod = User.LoginMethod ?? ""
         let pdata = [
-            "Seller Username" : (tawarItem.opIsMe ? tawarItem.theirName : tawarItem.myName),
-            "Buyer Username" : (tawarItem.opIsMe ? tawarItem.myName : tawarItem.theirName),
+            //"Seller Username" : (tawarItem.opIsMe ? tawarItem.theirName : tawarItem.myName),
+            //"Buyer Username" : (tawarItem.opIsMe ? tawarItem.myName : tawarItem.theirName),
             "Media Type" : mediaType
         ] as [String : Any]
         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SendMediaOnChat, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)

@@ -188,7 +188,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
                 let loginMethod = User.LoginMethod ?? ""
                 let pdata = [
                     "Product ID" : self.pDetail.productID,
-                    "Seller Username" : self.pDetail.theirName
+                    "Seller ID" : self.pDetail.theirId
                 ]
                 AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.CommentOnProduct, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
                 

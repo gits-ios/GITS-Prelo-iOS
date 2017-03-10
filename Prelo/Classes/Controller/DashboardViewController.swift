@@ -437,6 +437,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     
     func launchAchievement() {
         let AchievementVC = Bundle.main.loadNibNamed(Tags.XibNameAchievement, owner: nil, options: nil)?.first as! AchievementViewController
+        AchievementVC.previousScreen = PageName.DashboardLoggedIn
         self.navigationController?.pushViewController(AchievementVC, animated: true)
     }
 

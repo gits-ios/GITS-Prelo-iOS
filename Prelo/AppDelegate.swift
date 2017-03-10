@@ -557,6 +557,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
         
+        // Prelo Analytic - Open App
+        AnalyticManager.sharedInstance.openApp()
+        
         produkUploader.start()
     }
     
@@ -588,6 +591,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
 //        Constant.showDialog("FIrst INIT", message: "firts INIT")
         
+        // Prelo Analytic - Open App
+        AnalyticManager.sharedInstance.openApp()
         
         // Prelo Analytic - Update User
         AnalyticManager.sharedInstance.updateUser(isNeedPayload: true)
@@ -1224,6 +1229,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if (rootViewController != nil) {
             // API Migrasi
             let AchievementVC = Bundle.main.loadNibNamed(Tags.XibNameAchievement, owner: nil, options: nil)?.first as! AchievementViewController
+            AchievementVC.previousScreen = "Push Notification"
             
             self.hideRedirAlertWithDelay(0, completion: { () -> Void in
                 rootViewController!.pushViewController(AchievementVC, animated: true)
