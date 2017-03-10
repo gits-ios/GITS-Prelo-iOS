@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by PreloBook on 3/11/16.
-//  Copyright (c) 2016 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2016 PT Kleo Appara Indonesia. All rights reserved.
 //
 //  I made this as neat as possible, if you find some code structure/algorithm that's not efficient, it's because the bloody changes outta original design
 //  Please keep this code neat =)
