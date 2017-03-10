@@ -29,11 +29,16 @@ class AppTools: NSObject {
     
     fileprivate static var _PreloBaseUrl = isDev ? devURL : prodURL
     static var PreloBaseUrl : String {
-        set {
-            _PreloBaseUrl = newValue
-        }
         get {
             return _PreloBaseUrl
+        }
+    }
+    
+    static func switchToDev(_ isDev: Bool) {
+        if isDev {
+            _PreloBaseUrl = devURL
+        } else {
+            _PreloBaseUrl = prodURL
         }
     }
     

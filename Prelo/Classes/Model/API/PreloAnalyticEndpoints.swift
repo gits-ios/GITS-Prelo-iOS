@@ -12,8 +12,7 @@ import Alamofire
 
 var preloAnalyticHost : String {
 get {
-    print(AnalyticManager.sharedInstance.PreloAnalyticBaseUrl)
-    return "\(AnalyticManager.sharedInstance.PreloAnalyticBaseUrl)/api/"
+    return "\(AnalyticManager.PreloAnalyticBaseUrl)/api/"
 }
 }
 
@@ -102,16 +101,12 @@ extension URLRequest {
         var urlRequest = URLRequest(url: self.url!)
         
         // Set token
-        urlRequest.setValue("Token \(AnalyticManager.sharedInstance.token)", forHTTPHeaderField: "Authorization")
+        urlRequest.setValue("Token \(AnalyticManager.PreloAnalyticToken)", forHTTPHeaderField: "Authorization")
         
         // Set user agent
         if let userAgent = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String {
             urlRequest.setValue(userAgent, forHTTPHeaderField: "User-Agent")
         }
-        
-        // ERR
-//        // json
-//        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         // Set crashlytics custom key
         Crashlytics.sharedInstance().setObjectValue(urlRequest, forKey: "last_req_url")
@@ -339,7 +334,6 @@ enum APIAnalytic : URLRequestConvertible {
             ]
         }
         print(p.debugDescription)
-//        print(p.description)
         return p
     }
 }

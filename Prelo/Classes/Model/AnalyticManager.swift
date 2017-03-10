@@ -12,15 +12,36 @@ import Alamofire
 class AnalyticManager: NSObject {
     static let sharedInstance = AnalyticManager()
     
-    let token = "ZldVDK0Xca1v_osoTSiCdCngZ_r7iR1ZW6fpC3BscfCuHOYUYjLrlw"
+    fileprivate static var token = "ZldVDK0Xca1v_osoTSiCdCngZ_r7iR1ZW6fpC3BscfCuHOYUYjLrlw"
     
-    let devAnalyticURL = "http://analytics.dev.prelo.id"
-    let prodAnalyticURL = "https://analytics.prelo.co.id"
+    fileprivate static var devAnalyticURL = "http://analytics.dev.prelo.id"
+    fileprivate static var prodAnalyticURL = "https://analytics.prelo.id"
     
-    var isShowDialog = false
+    fileprivate let isShowDialog = false // set true for debug
     
-    var PreloAnalyticBaseUrl : String {
-        return (AppTools.isDev ? devAnalyticURL : prodAnalyticURL)
+    fileprivate static var _PreloAnalyticBaseUrl = (AppTools.isDev ? devAnalyticURL : prodAnalyticURL)
+    static var PreloAnalyticBaseUrl : String {
+        get {
+            return _PreloAnalyticBaseUrl
+        }
+    }
+    
+    static func switchToDev(_ isDev: Bool) {
+        if isDev {
+            _PreloAnalyticBaseUrl = devAnalyticURL
+        } else {
+            _PreloAnalyticBaseUrl = prodAnalyticURL
+        }
+    }
+    
+    static var PreloAnalyticToken : String {
+        get {
+            return token
+        }
+    }
+    
+    fileprivate static var IsPreloAnalyticProduction : Bool {
+        return (_PreloAnalyticBaseUrl == prodAnalyticURL)
     }
     
     // skeleton generator + append data
@@ -268,7 +289,7 @@ class AnalyticManager: NSObject {
         
         if _whiteList.contains(preloAnalyticEvent) {
             return true
-        } else if AppTools.isDev && _developmentList.contains(preloAnalyticEvent) {
+        } else if !(AnalyticManager.IsPreloAnalyticProduction) && _developmentList.contains(preloAnalyticEvent) {
             return true
         } else {
             return false
