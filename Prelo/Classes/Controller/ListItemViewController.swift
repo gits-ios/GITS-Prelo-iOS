@@ -139,7 +139,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var fltrIsFreeOngkir : Bool = false
     var fltrSizes : [String] = []
     var fltrSortBy : String = "" // "recent"/"lowest_price"/"highest_price"/"popular"
-    var fltrLocation : [String] = ["Semua Provinsi", "", "0", "Semua Province  "] // name , id, type --> 0: province, 1: region, 2: subdistrict
+    var fltrLocation : [String] = ["Semua Provinsi", "", "0", ""] // name , id, type --> 0: province, 1: region, 2: subdistrict, parentids --> <province id>;<region id>
     var fltrAggregateId : String = "" // agregateid
     // Views
     @IBOutlet var vwTopHeaderFilter: UIView!
@@ -649,8 +649,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             lastTimeUuid = products![products!.count - 1].updateTimeUuid
         }
         
-        let provinceId =  self.fltrLocation[2].int == 0 ? self.fltrLocation[1] : ""
-        let regionId =  self.fltrLocation[2].int == 1 ? self.fltrLocation[1] : ""
+        let parentids = self.fltrLocation[3].components(separatedBy: ";")
+        let provinceId =  self.fltrLocation[2].int == 0 ? self.fltrLocation[1] : parentids[0]
+        let regionId =  self.fltrLocation[2].int == 1 ? self.fltrLocation[1] : (parentids.count > 1 ? parentids[1] : "")
         let subDistrictId =  self.fltrLocation[2].int == 2 ? self.fltrLocation[1] : ""
         
         let _ = request(APISearch.productByFilter(name: fltrName, aggregateId: fltrAggregateId, categoryId: fltrCategId, brandIds: AppToolsObjC.jsonString(from: [String](fltrBrands.values)), productConditionIds: AppToolsObjC.jsonString(from: fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonString(from: fltrSizes), sortBy: fltrSortBy, current: NSNumber(value: products!.count), limit: NSNumber(value: itemsPerReq), lastTimeUuid: lastTimeUuid, provinceId : provinceId, regionId: regionId, subDistrictId: subDistrictId)).responseJSON { resp in
@@ -1563,6 +1564,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         filterVC.locationId = self.fltrLocation[1]
         filterVC.locationName = self.fltrLocation[0]
         filterVC.locationType = self.fltrLocation[2].int
+        filterVC.locationParentIDs = self.fltrLocation[3]
         self.navigationController?.pushViewController(filterVC, animated: true)
     }
     
@@ -1751,10 +1753,16 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             for i in self.fltrBrands {
                 brands.append(String(i.key))
             }
+            
+            let parentids = self.fltrLocation[3].components(separatedBy: ";")
+            let provinceId =  self.fltrLocation[2].int == 0 ? self.fltrLocation[1] : parentids[0]
+            let regionId =  self.fltrLocation[2].int == 1 ? self.fltrLocation[1] : (parentids.count > 1 ? parentids[1] : "")
+            let subDistrictId =  self.fltrLocation[2].int == 2 ? self.fltrLocation[1] : ""
+            
             let location = [
-                "Province ID": self.fltrLocation[2].int == 0 ? self.fltrLocation[1] : "",
-                "Region ID": self.fltrLocation[2].int == 1 ? self.fltrLocation[1] : "",
-                "Subdistrict ID": self.fltrLocation[2].int == 2 ? self.fltrLocation[1] : ""
+                "Province ID": provinceId,
+                "Region ID": regionId,
+                "Subdistrict ID": subDistrictId
             ]
             let loginMethod = User.LoginMethod ?? ""
             let pdata = [
