@@ -2515,15 +2515,24 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             let loginMethod = User.LoginMethod ?? ""
             let province = CDProvince.getProvinceNameWithID((self.trxDetail?.shippingProvinceId)!) ?? ""
             let region = CDRegion.getRegionNameWithID((self.trxDetail?.shippingRegionId)!) ?? ""
+            let subdistrict = (self.trxDetail?.shippingSubdistrictName)!
+            
+            let address = [
+                "Province" : province,
+                "Region" : region,
+                "Subdistrict" : subdistrict
+            ] as [String : Any]
             
             for tp in arrayProduct! {
                 let pdata : [String : Any] = [
                     "Order ID" : tp.orderId,
+                    "Product ID" : tp.productId,
                     "Seller Username" : tp.sellerUsername, // me
                     "Product ID" : tp.productId ,
                     "Price" : tp.productPrice,
                     "Commission Percentage" : tp.commission,
-                    "Commission Price" : tp.commissionPrice
+                    "Commission Price" : tp.commissionPrice,
+                    "Address" : address
                 ]
                 
                 AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.DelayShipping, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)

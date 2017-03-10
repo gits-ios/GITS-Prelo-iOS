@@ -79,10 +79,12 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
             self.logout()
             if (AppTools.IsPreloProduction) {
                 // switch to dev
-                AppTools.PreloBaseUrl = "http://dev.prelo.id"
+                AppTools.switchToDev(true)
+                AnalyticManager.switchToDev(true)
             } else {
                 // switch to production
-                AppTools.PreloBaseUrl = "https://prelo.co.id"
+                AppTools.switchToDev(false)
+                AnalyticManager.switchToDev(false)
             }
             UserDefaults.standard.set(true, forKey: UserDefaultsKey.PreloBaseUrlJustChanged)
             UserDefaults.standard.synchronize()

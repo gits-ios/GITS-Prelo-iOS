@@ -242,6 +242,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         if currentMode == .filter {
             self.setStatusBarBackgroundColor(color: Theme.PrimaryColor)
+            
+            // Prelo Analytic - Filter
+            sendFilterAnalytic()
         }
         
         if currentMode == .shop || currentMode == .newShop {
@@ -1457,6 +1460,17 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
     }
     
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        // Prelo Analytic - Search by Keyword
+        sendSearchByKeywordAnalytic(self.searchBar.text!)
+        
+        return true
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
     // MARK: - Filter delegate function
     
     func adjustFilter(_ fltrProdCondIds: [String], fltrPriceMin: NSNumber, fltrPriceMax: NSNumber, fltrIsFreeOngkir: Bool, fltrSizes: [String], fltrSortBy: String, fltrLocation: [String]) {
@@ -1724,6 +1738,45 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     {
         let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
         self.navigationController?.pushViewController(userProfileVC, animated: true)
+    }
+    
+    // Prelo Analytic - Filter
+    func sendFilterAnalytic() {
+        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
+                                            qos: .background,
+                                            target: nil)
+        backgroundQueue.async {
+            print("Work on background queue")
+            var brands: Array<String> = []
+            for i in self.fltrBrands {
+                brands.append(String(i.key))
+            }
+            let location = [
+                "Province ID": self.fltrLocation[2].int == 0 ? self.fltrLocation[1] : "",
+                "Region ID": self.fltrLocation[2].int == 1 ? self.fltrLocation[1] : "",
+                "Subdistrict ID": self.fltrLocation[2].int == 2 ? self.fltrLocation[1] : ""
+            ]
+            let loginMethod = User.LoginMethod ?? ""
+            let pdata = [
+                "Category" : self.lblFilterKategori.text!,
+                "Brand" : brands,
+                "Condition" : self.fltrProdCondIds.count > 0 ? true : false,
+                "Location": location,
+                "Min Price" : self.fltrPriceMin > 0 ? true : false,
+                "Max Price" : self.fltrPriceMax > 0 ? true : false,
+                "Free Shipping" : self.fltrIsFreeOngkir
+            ] as [String : Any]
+            AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Filter, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+        }
+    }
+    
+    // Prelo Analytic - Search by Keyword
+    func sendSearchByKeywordAnalytic(_ keyword: String) {
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Search Query" : keyword
+        ]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SearchByKeyword, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
     }
 }
 
