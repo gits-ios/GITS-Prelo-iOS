@@ -141,21 +141,149 @@ class Constant: NSObject {
             alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {
                 if let isForceUpdate = UserDefaults.standard.object(forKey: UserDefaultsKey.UpdatePopUpForced) as? Bool , !isForceUpdate {
                     // do nothing
-                } else if let releaseNotes = UserDefaults.standard.object(forKey: UserDefaultsKey.UpdatePopUpNotes) as? String , releaseNotes != "" {
-                    
-                    let notes = releaseNotes + "\n\nKamu tidak akan mendapatkan fitur dan perbaikan terbaru jika tidak meng-update aplikasi."
-                    
+                } else if let releaseNotes = UserDefaults.standard.object(forKey: UserDefaultsKey.UpdatePopUpNotes) as? String, releaseNotes != "" {
                     let alertView2 = SCLAlertView(appearance: appearance)
+                    
+                    // release notes
+                    let subtitle = UILabel()
+                    
+                    subtitle.font = appearance.kTextFont
+                    subtitle.textColor = alertView2.labelTitle.textColor
+                    subtitle.numberOfLines = 0
+                    
+                    /*
+                    var notes = releaseNotes
+                    notes = notes.replacingOccurrences(of: "+", with: " ")
+                    notes = notes.replacingOccurrences(of: "-", with: " ")
+                    
+                    let mystr = notes
+                    let searchstr = " | "
+                    let ranges: [NSRange]
+                    
+                    do {
+                        // Create the regular expression.
+                        let regex = try NSRegularExpression(pattern: searchstr, options: [])
+                        
+                        // Use the regular expression to get an array of NSTextCheckingResult.
+                        // Use map to extract the range from each result.
+                        ranges = regex.matches(in: mystr, options: [], range: NSMakeRange(0, mystr.characters.count)).map {$0.range}
+                    }
+                    catch {
+                        // There was a problem creating the regular expression
+                        ranges = []
+                    }
+                    
+                    let attString : NSMutableAttributedString = NSMutableAttributedString(string: notes)
+                    for i in ranges {
+                        attString.addAttributes([NSFontAttributeName:UIFont(name: "preloAwesome", size: 14.0)!], range: i)
+                    }
+                    
+                    subtitle.attributedText = attString
+                    */
+                    
+                    // Create a NSCharacterSet of delimiters.
+                    let separators = NSCharacterSet(charactersIn: "\n")
+                    // Split based on characters.
+                    var strings = releaseNotes.components(separatedBy: separators as CharacterSet)
+                    
+                    // testing
+                    //strings = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "This is a small string", "This is more of medium string with a few more words etc.", "Well this is certainly a longer string, with many more words than either of the previuos two strings", ""]
+                    
+                    if (strings.count > 0 && strings.last == "") {
+                        strings.removeLast()
+                    }
+                    
+                    let attributesDictionary = [NSFontAttributeName : subtitle.font]
+                    let fullAttributedString = NSMutableAttributedString(string: "", attributes: attributesDictionary)
+                    
+                    for string: String in strings
+                    {
+                        let bulletPoint: String = "\u{2022}"
+                        let formattedString: String = "\(bulletPoint) \(string)\n"
+                        let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: formattedString)
+                        
+                        var paragraphStyle: NSMutableParagraphStyle
+                        paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+                        paragraphStyle.tabStops = [NSTextTab(textAlignment: .left, location: 12, options: NSDictionary() as! [String : AnyObject])]
+                        paragraphStyle.defaultTabInterval = 12
+                        paragraphStyle.firstLineHeadIndent = 0
+                        paragraphStyle.headIndent = 12
+                        
+                        attributedString.addAttributes([NSParagraphStyleAttributeName: paragraphStyle], range: NSMakeRange(0, attributedString.length))
+                        
+                        fullAttributedString.append(attributedString)
+                    }
+                    
+                    subtitle.attributedText = fullAttributedString
+                    
+                    let width = appearance.kWindowWidth - 32
+                    let frame = subtitle.text!.boundsWithFontSize(appearance.kTextFont, width: width)
+                    
+                    subtitle.frame = CGRect(x: 4, y: 0, width: width, height: frame.height)
+                    
+                    // notes apps
+                    let subtitle2 = UILabel()
+                    
+                    let notes2 = "Kamu tidak akan mendapatkan fitur dan perbaikan terbaru jika tidak meng-update aplikasi."
+                    subtitle2.font = appearance.kTextFont
+                    subtitle2.textColor = alertView2.labelTitle.textColor
+                    subtitle2.numberOfLines = 0
+                    subtitle2.textAlignment = .center
+                    
+                    let attString2 : NSMutableAttributedString = NSMutableAttributedString(string: notes2)
+                    
+                    attString2.addAttributes([NSFontAttributeName:UIFont.italicSystemFont(ofSize: 14)], range: (notes2 as NSString).range(of: "update"))
+                    
+                    subtitle2.attributedText = attString2
+                    
+                    let frame2 = subtitle2.text!.boundsWithFontSize(appearance.kTextFont, width: width)
+                    
+                    subtitle2.frame = CGRect(x: 4, y: frame.height, width: width, height: frame2.height)
+                    
+                    // Creat the subview
+                    let maxheight = UIScreen.main.bounds.height - 300
+                    
+                    let subview = UIView(frame: CGRect(x: 0, y: 0, width: width + 8, height: frame.height + frame2.height))
+                    subview.addSubview(subtitle)
+                    subview.addSubview(subtitle2)
+                    subview.backgroundColor = UIColor.white
+                    
+                    let scrollview = UIScrollView()
+                    scrollview.contentSize = subview.bounds.size
+                    
+                    scrollview.addSubview(subview)
+                    
+                    let subviewsuper = UIView(frame: CGRect(x: 0, y: 0, width: width + 8, height: (frame.height + frame2.height > maxheight ? maxheight : frame.height + frame2.height)))
+                    
+                    scrollview.frame = subviewsuper.bounds
+                    subviewsuper.addSubview(scrollview)
+                    
+                    if (frame.height + frame2.height > maxheight) {
+                        let gradient: CAGradientLayer = CAGradientLayer()
+                        
+                        gradient.colors = [UIColor.colorWithColor(UIColor.white, alpha: 0).cgColor, UIColor.colorWithColor(UIColor.white, alpha: 1).cgColor]
+                        gradient.locations = [0.0 , 1.0]
+//                        gradient.startPoint = CGPoint(x: 0.0, y: 1.0)
+//                        gradient.endPoint = CGPoint(x: 1.0, y: 1.0)
+                        gradient.frame = CGRect(x: 0.0, y: maxheight - 24, width: width + 8, height: 24)
+                        
+                        subviewsuper.layer.insertSublayer(gradient, at: 1)
+                        
+                        // bottom
+                        scrollview.contentInset = UIEdgeInsetsMake(0, 0, 20, 0)
+                    }
+                    
+                    alertView2.customSubview = subviewsuper
+                    
                     alertView2.addButton("Update") {
                         UIApplication.shared.openURL(URL(string: "itms-apps://itunes.apple.com/id/app/prelo/id1027248488")!)
                     }
-                    alertView2.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {
-                    }
-                    alertView2.showCustom("Prelo \(newVer)", subTitle: notes, color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+                    alertView2.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
                     
+                    alertView2.showCustom("Prelo \(newVer)", subTitle: "", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
                 }
             }
-            alertView.showCustom("New Version Available", subTitle: "LPrelo \(newVer) is available on App Store", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+            alertView.showCustom("New Version Available", subTitle: "Prelo \(newVer) is available on App Store", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
         }
     }
 }
