@@ -278,6 +278,10 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
         }
     }
     
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
     // MARK: - Actions
     
     @IBAction func disableFields(_ sender : AnyObject) {

@@ -248,6 +248,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     
     func launchSearch() {
         let searchVC : SearchViewController = (self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdSearch))! as! SearchViewController
+        searchVC.previousScreen = PageName.Home
         if let ktbVC = self as? KumangTabBarViewController {
             if let lcVC = ktbVC.controllerBrowse as? ListCategoryViewController {
                 searchVC.currentCategoryId = lcVC.currentCategoryId
