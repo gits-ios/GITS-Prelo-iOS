@@ -135,7 +135,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: true)
+//        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: true)
+        
+        self.setNeedsStatusBarAppearanceUpdate()
 
         if (detail == nil || isNeedReload) {
             getDetail()
@@ -167,7 +169,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         if (UIApplication.shared.isStatusBarHidden)
         {
-            UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.slide)
+//            UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.slide)
+            
+            UIApplication.shared.isStatusBarHidden = false
         }
         
 //        let p = [
@@ -195,6 +199,14 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             
             self.thisScreen = PageName.ProductDetail
         }
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return UIApplication.shared.isStatusBarHidden
     }
 
     func getDetail()
@@ -228,7 +240,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     self.tableView?.isHidden = false
                     self.tableView?.reloadData()
                     
-                    self.setOptionButton()
+                    let userid = CDUser.getOne()?.id
+                    let sellerid = self.detail?.theirId
+                    
+                    if User.IsLoggedIn && sellerid != userid {
+                        self.setOptionButton()
+                    }
                     
                     self.setupView()
                     
@@ -433,67 +450,26 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         btnOption.addTarget(self, action: #selector(ProductDetailViewController.option), for: UIControlEvents.touchUpInside)
         
-        let userid = CDUser.getOne()?.id
-        let sellerid = detail?.theirId
-        //        let buyerid = detail?.myId
-        
-        if sellerid == userid || User.IsLoggedIn == false {
-            btnOption.isHidden = true
-        }
-        
         self.navigationItem.rightBarButtonItem = btnOption.toBarButton()
     }
     
-    func option()
-    {
-        let a = UIActionSheet(title: "Opsi", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil)
-//        let userid = CDUser.getOne()?.id
-//        let sellerid = detail?.theirId
-        //        let buyerid = detail?.myId
+    func option() {
         
-//        if sellerid != userid && User.IsLoggedIn == true {
-            a.addButton(withTitle: "Laporkan Barang")
-//        }
-        //        a.show(in: self.view)
+        let userid = CDUser.getOne()?.id
+        let sellerid = detail?.theirId
         
-        a.addButton(withTitle: "Batal")
-        a.cancelButtonIndex = 1
-        
-        // bound location
-        let screenSize: CGRect = UIScreen.main.bounds
-        let screenWidth = screenSize.width
-        let bounds = CGRect(x: screenWidth - 65.0, y: 0.0, width: screenWidth, height: 0.0)
-        
-        a.show(from: bounds, in: self.view, animated: true)
-    }
-
-    func actionSheet(_ actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
-        if (buttonIndex == 0)
-        {
-            //            guard let pDetail = detail else {
-            //                return
-            //            }
-            //            var username = "Your beloved user"
-            //            if let u = CDUser.getOne() {
-            //                username = u.username
-            //            }
-            //
-            //            // report
-            //            let msgBody = "Dear Prelo,<br/><br/>Saya ingin melaporkan barang \(pDetail.name) dari penjual \(pDetail.theirName)<br/><br/>Alasan pelaporan: <br/><br/>Terima kasih Prelo <3<br/><br/>--<br/>\(username)<br/>Sent from Prelo iOS"
-            //
-            //            let m = MFMailComposeViewController()
-            //            if (MFMailComposeViewController.canSendMail()) {
-            //                m.setToRecipients(["contact@prelo.id"])
-            //                m.setSubject("Laporan Baru untuk Barang " + (detail?.name)!)
-            //                m.setMessageBody(msgBody, isHTML: true)
-            //                m.mailComposeDelegate = self
-            //                self.present(m, animated: true, completion: nil)
-            //            } else {
-            //                Constant.showDialog("No Active E-mail", message: "Untuk dapat mengirim Report, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
-            //            }
-            
-            gotoReport()
+        let a = UIAlertController(title: "Opsi", message: nil, preferredStyle: .actionSheet)
+        a.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem
+        if sellerid != userid && User.IsLoggedIn == true {
+            a.addAction(UIAlertAction(title: "Laporkan Barang", style: .default, handler: { action in
+                self.gotoReport()
+                a.dismiss(animated: true, completion: nil)
+            }))
         }
+        a.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { action in
+            a.dismiss(animated: true, completion: nil)
+        }))
+        UIApplication.shared.keyWindow?.rootViewController?.present(a, animated: true, completion: nil)
     }
     
     func gotoReport() {
@@ -531,7 +507,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 // Prelo Analytic - Share for Commission - Facebook
                 self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 1, tw: 0, ig: 0, reason: "")
             } else {
-                let json = JSON(resp.result.value)
+                let json = JSON((resp.result.value ?? [:]))
                 let reason = json["_message"].stringValue
                 
                 // Prelo Analytic - Share for Commission - Facebook
@@ -554,7 +530,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 // Prelo Analytic - Share for Commission - Twitter
                 self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 0, tw: 1, ig: 0, reason: "")
             } else {
-                let json = JSON(resp.result.value)
+                let json = JSON((resp.result.value ?? [:]))
                 let reason = json["_message"].stringValue
                 
                 // Prelo Analytic - Share for Commission - Twitter
@@ -628,7 +604,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                                         // Prelo Analytic - Share for Commission - Instagram
                                         self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 0, tw: 0, ig: 1, reason: "")
                                     } else {
-                                        let json = JSON(resp.result.value)
+                                        let json = JSON((resp.result.value ?? [:]))
                                         let reason = json["_message"].stringValue
                                         
                                         // Prelo Analytic - Share for Commission - Instagram
@@ -1625,7 +1601,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
                 let loginMethod = User.LoginMethod ?? ""
                 let pdata = [
                     "Product ID": ((self.product != nil) ? (self.product!.id) : ""),
-                    "Seller ID" : ((self.product != nil) ? (self.product!.json["seller_id"].string) : ""),
+                    "Seller ID" : ((self.product != nil) ? (self.product!.json["seller_id"].stringValue) : ""),
                     "Screen" : PageName.ProductDetail,
                     "Is Featured" : ((self.product != nil) ? (self.product!.isFeatured) : false)
                 ] as [String : Any]
@@ -1657,7 +1633,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
                 let loginMethod = User.LoginMethod ?? ""
                 let pdata = [
                     "Product Id": ((self.product != nil) ? (self.product!.id) : ""),
-                    "Seller ID" : ((self.product != nil) ? (self.product!.json["seller_id"].string) : ""),
+                    "Seller ID" : ((self.product != nil) ? (self.product!.json["seller_id"].stringValue) : ""),
                     "Screen" : PageName.ProductDetail,
                     "Is Featured" : ((self.product != nil) ? (self.product!.isFeatured) : false)
                 ] as [String : Any]
@@ -1865,12 +1841,18 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     }
 }
 
-class ProductCellSeller : UITableViewCell
+class ProductCellSeller : UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate
 {
-    @IBOutlet var captionSellerName : UILabel?
-    @IBOutlet var captionSellerRating : UILabel?
-    @IBOutlet var captionLastSeen: UILabel!
-    @IBOutlet var ivSellerAvatar : UIImageView?
+    @IBOutlet weak var captionSellerName : UILabel?
+    @IBOutlet weak var captionSellerRating : UILabel?
+    @IBOutlet weak var captionLastSeen: UILabel!
+    @IBOutlet weak var ivSellerAvatar : UIImageView?
+    @IBOutlet weak var collectionView: UIView! // parent of achievement
+    @IBOutlet weak var badgeCollectionView: UICollectionView! // achievement
+    @IBOutlet weak var consWidthCollectionView: NSLayoutConstraint!
+    @IBOutlet weak var consTrailingCollectionView: NSLayoutConstraint! // 8 -> 0
+    
+    var badges : Array<URL>! = []
     
     // love floatable
     @IBOutlet var vwLove: UIView!
@@ -1936,6 +1918,27 @@ class ProductCellSeller : UITableViewCell
         }
 
         ivSellerAvatar?.afSetImage(withURL: (obj?.shopAvatarURL)!, withFilter: .circle)
+        
+        // reset
+        badges = []
+        consWidthCollectionView.constant = 0
+        consTrailingCollectionView.constant = 0
+        
+        if let arr = product["seller"]["achievements"].array {
+//            for i in arr {
+//                let ach = AchievementItem.instance(i)
+//                
+//                self.badges.append((ach?.icon)!)
+//            }
+            
+            if arr.count > 0 {
+                let ach = AchievementItem.instance(arr[0])
+                
+                self.badges.append((ach?.icon)!)
+                
+                setupCollection()
+            }
+        }
     }
     
     override func awakeFromNib() {
@@ -1946,6 +1949,66 @@ class ProductCellSeller : UITableViewCell
         
         ivSellerAvatar?.layer.borderColor = Theme.GrayLight.cgColor
         ivSellerAvatar?.layer.borderWidth = 2
+    }
+    
+    func setupCollection() {
+        
+        let width = CGFloat(28) //21 * CGFloat(self.badges!.count) + 1
+        
+        // Set collection view
+        self.badgeCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "collcProgressCell")
+        self.badgeCollectionView.delegate = self
+        self.badgeCollectionView.dataSource = self
+        self.badgeCollectionView.backgroundView = UIView(frame: self.badgeCollectionView.bounds)
+        self.badgeCollectionView.backgroundColor = UIColor.clear
+        
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.itemSize = CGSize(width: 28, height: 28)
+//        layout.minimumInteritemSpacing = 1
+//        layout.minimumLineSpacing = 1
+        self.badgeCollectionView.collectionViewLayout = layout
+        
+        self.badgeCollectionView.isScrollEnabled = false
+        self.consWidthCollectionView.constant = width
+        
+        self.consTrailingCollectionView.constant = 2
+        
+        self.collectionView.isHidden = false
+    }
+    
+    // MARK: - CollectionView delegate functions
+    
+    
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.badges!.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        // Create cell
+        let cell = self.badgeCollectionView.dequeueReusableCell(withReuseIdentifier: "collcProgressCell", for: indexPath)
+        // Create icon view
+        let vwIcon : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
+        
+        let img = UIImageView(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
+        img.layoutIfNeeded()
+        img.layer.cornerRadius = (img.width ) / 2
+        img.layer.masksToBounds = true
+        img.afSetImage(withURL: badges[(indexPath as NSIndexPath).row], withFilter: .circleWithBadgePlaceHolder)
+        
+        vwIcon.addSubview(img)
+        
+        img.frame = vwIcon.bounds
+        
+        // Add view to cell
+        cell.addSubview(vwIcon)
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 28, height: 28)
     }
 }
 

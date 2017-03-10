@@ -42,9 +42,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let RedirCategory = "category"
     let RedirLove = "lovers"
     let RedirAchievement = "achievement"
+    let RedirReferral = "referral"
     
-    var redirAlert : UIAlertView?
-    var redirAlertInit : UIAlertView?
+    var redirAlert : UIAlertController?
     var RedirWaitAmount : Int = 10000000
     
     var produkUploader : ProdukUploader!
@@ -185,9 +185,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         targetId = tId
                     }
 //                    Constant.showDialog(tipe, message: targetId! )
-                    self.showRedirAlertInit()
+                    self.showRedirAlert()
                     DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
-                        self.hideRedirAlertInitWithDelay(0)
                         self.deeplinkRedirect(tipe, targetId: targetId)
                     })
                     
@@ -440,9 +439,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if tipe.lowercased() == self.RedirInbox && rootViewController?.childViewControllers.last is TawarViewController {
             //do something if it's an instance of that class
-//            
-//            let x = rootViewController?.childViewControllers.last
-//            let c = x  is TawarViewController
             
             if let tawarVC = rootViewController?.childViewControllers.last as? TawarViewController {
                 if tawarVC.tawarItem.threadId == targetId {
@@ -458,10 +454,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             let tipeLowercase = tipe.lowercased()
             var imageName = "banner_"
-            if (tipeLowercase == self.RedirProduct || tipeLowercase == self.RedirUser || tipeLowercase == self.RedirInbox || tipeLowercase == self.RedirNotif) {
+            /*if (tipeLowercase == self.RedirProduct || tipeLowercase == self.RedirUser || tipeLowercase == self.RedirInbox || tipeLowercase == self.RedirNotif) {
                 // notif
                 imageName += "notif"
-            } else if (tipeLowercase == self.RedirComment) {
+            } else*/ if (tipeLowercase == self.RedirComment) {
                 // comment
                 imageName += "comment"
             } else if (tipeLowercase == self.RedirConfirm || tipeLowercase == self.RedirTrxBuyer || tipeLowercase == self.RedirTrxSeller || tipeLowercase == self.RedirTrxPBuyer || tipeLowercase == self.RedirTrxPSeller) {
@@ -474,7 +470,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // love
                 imageName += "love"
             } else if (tipeLowercase == self.RedirAchievement) {
+                // achievement
                 imageName += "achievement"
+            } else {
+                // notif
+                imageName += "notif"
             }
             imageName += ".png"
             
@@ -497,14 +497,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     if isDoing {
                         self.deeplinkRedirect(tipe, targetId: targetId)
                     }
-                    
-//                    // Prelo Analytic - Click Notification (in App)
-//                    let loginMethod = User.LoginMethod ?? ""
-//                    let pdata = [
-//                        "Target ID" : targetId,
-//                        "Type" : tipe
-//                    ] as [String : Any]
-//                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ClickNotificationInApp, data: pdata, previousScreen: "", loginMethod: loginMethod)
                     
                     // Prelo Analytic - Click Push Notification
                     if imgUrl != "" {
@@ -697,16 +689,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     if let userId = json["_id"].string {
                         self.redirectShopPage(userId)
                     } else {
-                        self.hideRedirAlertWithDelay(1.0)
+                        self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                            // Choose one method
+                            UIApplication.shared.openURL(url) // Open in safari
+                            //self.redirectWebview(url.absoluteString) // Open in prelo's webview
+                        })
+                    }
+                } else {
+                    self.hideRedirAlertWithDelay(0, completion: { () -> Void in
                         // Choose one method
                         UIApplication.shared.openURL(url) // Open in safari
                         //self.redirectWebview(url.absoluteString) // Open in prelo's webview
-                    }
-                } else {
-                    self.hideRedirAlertWithDelay(1.0)
-                    // Choose one method
-                    UIApplication.shared.openURL(url) // Open in safari
-                    //self.redirectWebview(url.absoluteString) // Open in prelo's webview
+                    })
                 }
             }
         }
@@ -778,43 +772,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else if (tipeLowercase == self.RedirAchievement) {
             self.showRedirAlert()
             self.redirectAchievement()
+        } else if (tipeLowercase == self.RedirReferral) {
+            self.showRedirAlert()
+            self.redirectReferral()
         }
     }
     
     func showRedirAlert() {
-        redirAlert = UIAlertView()
-        redirAlert!.title = "Redirecting..."
-        redirAlert!.message = "Harap tunggu beberapa saat"
-        redirAlert!.show()
+        redirAlert = UIAlertController(title: "Redirecting...", message: "Harap tunggu beberapa saat", preferredStyle: .alert)
+        UIApplication.shared.keyWindow?.rootViewController?.present(redirAlert!, animated: true, completion: nil)
     }
     
-    func hideRedirAlertWithDelay(_ delay: Double) {
+    func hideRedirAlertWithDelay(_ delay: Double, completion: (() -> Void)?) {
         let delayTime = delay * Double(NSEC_PER_SEC)
         let time = DispatchTime.now() + Double(Int64(delayTime)) / Double(NSEC_PER_SEC)
         DispatchQueue.main.asyncAfter(deadline: time, execute: {
-            self.redirAlert?.dismiss(withClickedButtonIndex: -1, animated: true)
+            self.redirAlert?.dismiss(animated: true, completion: completion)
         })
     }
     
     func showFailedRedirAlert() {
         redirAlert?.title = "Redirection Failed"
         redirAlert?.message = "Terdapat kesalahan saat memproses data"
-        self.hideRedirAlertWithDelay(3.0)
-    }
-    
-    func showRedirAlertInit() {
-        redirAlertInit = UIAlertView()
-        redirAlertInit!.title = "Redirecting..."
-        redirAlertInit!.message = "Harap tunggu beberapa saat"
-        redirAlertInit!.show()
-    }
-    
-    func hideRedirAlertInitWithDelay(_ delay: Double) {
-        let delayTime = delay * Double(NSEC_PER_SEC)
-        let time = DispatchTime.now() + Double(Int64(delayTime)) / Double(NSEC_PER_SEC)
-        DispatchQueue.main.asyncAfter(deadline: time, execute: {
-            self.redirAlertInit?.dismiss(withClickedButtonIndex: -1, animated: false)
-        })
+        self.hideRedirAlertWithDelay(3.0, completion: nil)
     }
     
     func redirectProduct(_ productId : String) {
@@ -849,7 +829,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if (rootViewController != nil) {
                     let productDetailVC = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
                     productDetailVC.product = p!
-                    rootViewController!.pushViewController(productDetailVC, animated: true)
+                    
+                    self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                        rootViewController!.pushViewController(productDetailVC, animated: true)
+                    })
                 } else {
                     self.showFailedRedirAlert()
                 }
@@ -890,7 +873,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdProductComments) as! ProductCommentsController
                     p.pDetail = pDetail
                     p.previousScreen = "Push Notification"
-                    rootViewController!.pushViewController(p, animated: true)
+                    
+                    self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                        rootViewController!.pushViewController(p, animated: true)
+                    })
+                    
                 } else {
                     self.showFailedRedirAlert()
                 }
@@ -927,12 +914,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         if (!AppTools.isNewShop) {
-            rootViewController!.pushViewController(listItemVC, animated: true)
+            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                rootViewController!.pushViewController(listItemVC, animated: true)
+            })
             
         } else { // new shop
             let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
             storePageTabBarVC.shopId = userId
-            rootViewController!.pushViewController(storePageTabBarVC, animated: true)
+            
+            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                rootViewController!.pushViewController(storePageTabBarVC, animated: true)
+            })
         }
     }
     
@@ -970,7 +962,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     let tawarVC = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
                     tawarVC.tawarItem = inbox
                     tawarVC.previousScreen = "Push Notification"
-                    rootViewController!.pushViewController(tawarVC, animated: true)
+                    
+                    self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                        rootViewController!.pushViewController(tawarVC, animated: true)
+                    })
                 } else {
                     self.showFailedRedirAlert()
                 }
@@ -1004,7 +999,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Redirect setelah selesai menunggu
         if (rootViewController != nil) {
             let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
-            rootViewController!.pushViewController(notifPageVC, animated: true)
+            
+            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                rootViewController!.pushViewController(notifPageVC, animated: true)
+            })
         } else {
             self.showFailedRedirAlert()
         }
@@ -1044,7 +1042,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         if (progress != 1) { // Sudah pernah melakukan konfirmasi bayar
                             self.redirAlert?.title = "Perhatian"
                             self.redirAlert?.message = "Anda sudah melakukan konfirmasi bayar untuk transaksi ini"
-                            self.hideRedirAlertWithDelay(3.0)
+                            self.hideRedirAlertWithDelay(3.0, completion: nil)
                         } else {
                             let products = data["products"]
                             var imgs : [URL] = []
@@ -1061,7 +1059,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             orderConfirmVC.total = data["total_price"].intValue
                             orderConfirmVC.images = imgs
                             orderConfirmVC.isFromCheckout = false
-                            rootViewController!.pushViewController(orderConfirmVC, animated: true)
+                            
+                            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                                rootViewController!.pushViewController(orderConfirmVC, animated: true)
+                            })
                         }
                     } else {
                         self.showFailedRedirAlert()
@@ -1101,7 +1102,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             transactionDetailVC.trxId = trxId
             transactionDetailVC.trxProductId = trxProductId
             transactionDetailVC.isSeller = isSeller
-            rootViewController!.pushViewController(transactionDetailVC, animated: true)
+            
+            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                rootViewController!.pushViewController(transactionDetailVC, animated: true)
+            })
         } else {
             self.showFailedRedirAlert()
         }
@@ -1128,7 +1132,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let noBtn = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
             expProductsVC.navigationItem.leftBarButtonItem = noBtn
         }
-        rootViewController!.pushViewController(expProductsVC, animated: true)
+        
+        self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+            rootViewController!.pushViewController(expProductsVC, animated: true)
+        })
     }
     
     func redirectCategory(_ categoryId : String) {
@@ -1156,7 +1163,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let noBtn = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
             listItemVC.navigationItem.leftBarButtonItem = noBtn
         }
-        rootViewController!.pushViewController(listItemVC, animated: true)
+        
+        self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+            rootViewController!.pushViewController(listItemVC, animated: true)
+        })
     }
     
     func redirectLove(_ productId : String) {
@@ -1185,7 +1195,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // API Migrasi
             let productLovelistVC = Bundle.main.loadNibNamed(Tags.XibNameProductLovelist, owner: nil, options: nil)?.first as! ProductLovelistViewController
             productLovelistVC.productId = productId
-            rootViewController!.pushViewController(productLovelistVC, animated: true)
+            
+            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                rootViewController!.pushViewController(productLovelistVC, animated: true)
+            })
         } else {
             self.showFailedRedirAlert()
         }
@@ -1217,7 +1230,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // API Migrasi
             let AchievementVC = Bundle.main.loadNibNamed(Tags.XibNameAchievement, owner: nil, options: nil)?.first as! AchievementViewController
             AchievementVC.previousScreen = "Push Notification"
-            rootViewController!.pushViewController(AchievementVC, animated: true)
+            
+            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                rootViewController!.pushViewController(AchievementVC, animated: true)
+            })
+        } else {
+            self.showFailedRedirAlert()
+        }
+    }
+    
+    func redirectReferral() {
+        var rootViewController : UINavigationController?
+        
+        // Tunggu sampai UINavigationController terbentuk
+        var wait = true
+        var waitCount = self.RedirWaitAmount
+        while (wait) {
+            if let childVCs = self.window!.rootViewController?.childViewControllers {
+                if (childVCs.count > 0) {
+                    if let rootVC = childVCs[0] as? UINavigationController {
+                        rootViewController = rootVC
+                    }
+                    wait = false
+                }
+            }
+            waitCount -= 1
+            if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                wait = false
+            }
+        }
+        
+        // Redirect setelah selesai menunggu
+        if (rootViewController != nil) {
+            let referralPageVC = Bundle.main.loadNibNamed(Tags.XibNameReferralPage, owner: nil, options: nil)?.first as! ReferralPageViewController
+            referralPageVC.previousScreen = "Push Notification"
+            
+            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                rootViewController!.pushViewController(referralPageVC, animated: true)
+            })
         } else {
             self.showFailedRedirAlert()
         }
@@ -1246,7 +1296,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let noBtn = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
             webVC.navigationItem.leftBarButtonItem = noBtn
         }
-        rootViewController!.pushViewController(webVC, animated: true)
+        
+        self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+            rootViewController!.pushViewController(webVC, animated: true)
+        })
     }
     
     func redirectCart() {
@@ -1268,8 +1321,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             rootViewController?.navigationBar.tintColor = UIColor.white
             rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
             self.window?.rootViewController = rootViewController
-       }
-        rootViewController!.pushViewController(cartVC, animated: true)
+        }
+        
+        self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+            rootViewController!.pushViewController(cartVC, animated: true)
+        })
     }
     
     // MARK: - Core Data stack
