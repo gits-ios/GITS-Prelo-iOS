@@ -870,6 +870,7 @@ class UserDefaultsKey : NSObject {
     static let UpdatePopUpVer = "updatepopupver"
     static let UpdatePopUpForced = "updatepopupforced"
     static let AbTestFakeApprove = "abtestfakeapprove"
+    static let UpdatePopUpNotes = "updatepopupnotes"
 }
 
 extension UserDefaults {
