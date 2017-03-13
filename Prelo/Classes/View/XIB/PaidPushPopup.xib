@@ -22,7 +22,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SLI-K9-kZv" userLabel="PopUp UP Barang">
-                            <rect key="frame" x="38" y="134" width="300" height="400"/>
+                            <rect key="frame" x="38" y="133.5" width="300" height="400"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SOe-Cq-xi1">
                                     <rect key="frame" x="0.0" y="360" width="300" height="40"/>
@@ -66,7 +66,7 @@
                                         <constraint firstAttribute="height" constant="1" id="gfC-b4-Yma"/>
                                     </constraints>
                                 </view>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cu0-Xz-kw0">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_paid_balance.png" translatesAutoresizingMaskIntoConstraints="NO" id="cu0-Xz-kw0">
                                     <rect key="frame" x="8" y="129" width="56" height="56"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="56" id="Fkm-pG-Hy5"/>
@@ -98,7 +98,7 @@
                                         <constraint firstAttribute="height" constant="1" id="uKd-8f-3mh"/>
                                     </constraints>
                                 </view>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zJA-GQ-hgz">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_paid_poin.png" translatesAutoresizingMaskIntoConstraints="NO" id="zJA-GQ-hgz">
                                     <rect key="frame" x="8" y="220.5" width="56" height="56"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="56" id="gIl-lL-hp6"/>
@@ -133,7 +133,7 @@
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6F7-TO-R5S" userLabel="Video Up">
                                     <rect key="frame" x="0.0" y="286.5" width="300" height="73.5"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jff-VJ-P0u">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_paid_video.png" translatesAutoresizingMaskIntoConstraints="NO" id="jff-VJ-P0u">
                                             <rect key="frame" x="8" y="8" width="56" height="56"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="56" id="6qh-dx-wZt"/>
@@ -146,7 +146,7 @@
                                             <color key="textColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lihat video sampe selesai untuk satu kali UP" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PhZ-UW-7nk">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lihat video sampeai selesai untuk satu kali UP" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PhZ-UW-7nk">
                                             <rect key="frame" x="72" y="32" width="220" height="33.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -270,4 +270,9 @@
             <point key="canvasLocation" x="24.5" y="174.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="ic_paid_balance.png" width="128" height="128"/>
+        <image name="ic_paid_poin.png" width="128" height="128"/>
+        <image name="ic_paid_video.png" width="128" height="128"/>
+    </resources>
 </document>

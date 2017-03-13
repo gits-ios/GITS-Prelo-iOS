@@ -679,6 +679,9 @@
 		B2DBBB951E31C20000F74543 /* Default-New-Splash-Screen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B2DBBB941E31C20000F74543 /* Default-New-Splash-Screen.jpg */; };
 		B2EE39B01E76548100113E03 /* PaidPushPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2EE39AF1E76548100113E03 /* PaidPushPopup.xib */; };
 		B2EE39C11E76743D00113E03 /* IronSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2EE39C01E76743D00113E03 /* IronSource.framework */; };
+		B2EE39CD1E76905500113E03 /* ic_paid_balance.png in Resources */ = {isa = PBXBuildFile; fileRef = B2EE39CA1E76905500113E03 /* ic_paid_balance.png */; };
+		B2EE39CE1E76905500113E03 /* ic_paid_poin.png in Resources */ = {isa = PBXBuildFile; fileRef = B2EE39CB1E76905500113E03 /* ic_paid_poin.png */; };
+		B2EE39CF1E76905500113E03 /* ic_paid_video.png in Resources */ = {isa = PBXBuildFile; fileRef = B2EE39CC1E76905500113E03 /* ic_paid_video.png */; };
 		FD3C6D481C1963AC0002C7B4 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FD3C6D471C1963AC0002C7B4 /* libz.dylib */; };
 		FD3C6D4A1C1964390002C7B4 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD3C6D491C1964390002C7B4 /* libGoogleAnalyticsServices.a */; };
 		FD3C8DEC1C43A42B00D40EF8 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 216799951B9010E900F18F90 /* Crashlytics.framework */; };
@@ -1669,6 +1672,9 @@
 		B2DBBB941E31C20000F74543 /* Default-New-Splash-Screen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Default-New-Splash-Screen.jpg"; sourceTree = "<group>"; };
 		B2EE39AF1E76548100113E03 /* PaidPushPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PaidPushPopup.xib; path = XIB/PaidPushPopup.xib; sourceTree = "<group>"; };
 		B2EE39C01E76743D00113E03 /* IronSource.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IronSource.framework; sourceTree = "<group>"; };
+		B2EE39CA1E76905500113E03 /* ic_paid_balance.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_paid_balance.png; sourceTree = "<group>"; };
+		B2EE39CB1E76905500113E03 /* ic_paid_poin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_paid_poin.png; sourceTree = "<group>"; };
+		B2EE39CC1E76905500113E03 /* ic_paid_video.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_paid_video.png; sourceTree = "<group>"; };
 		FD3C6D3D1C1963190002C7B4 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
 		FD3C6D3E1C1963190002C7B4 /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
 		FD3C6D3F1C1963190002C7B4 /* GAIEcommerceFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceFields.h; sourceTree = "<group>"; };
@@ -2368,6 +2374,7 @@
 			isa = PBXGroup;
 			children = (
 				B2D1198A1E290BE20064045B /* banner */,
+				B2EE39C91E76903C00113E03 /* paid push */,
 				B2BEBC7D1E4C30C9009982F9 /* placeholder */,
 				2109BCAB1BDE2489004F36C5 /* checkout_tour_1.jpg */,
 				581E87AF1CE08EE00055CCDD /* cover-shop-page.jpg */,
@@ -3144,6 +3151,16 @@
 			name = Popup;
 			sourceTree = "<group>";
 		};
+		B2EE39C91E76903C00113E03 /* paid push */ = {
+			isa = PBXGroup;
+			children = (
+				B2EE39CA1E76905500113E03 /* ic_paid_balance.png */,
+				B2EE39CB1E76905500113E03 /* ic_paid_poin.png */,
+				B2EE39CC1E76905500113E03 /* ic_paid_video.png */,
+			);
+			name = "paid push";
+			sourceTree = "<group>";
+		};
 		FD3C6D3C1C1963190002C7B4 /* GoogleAnalytics_3.13 */ = {
 			isa = PBXGroup;
 			children = (
@@ -3561,6 +3578,7 @@
 				B27948231E35C700002CEED4 /* TarikTunai2.xib in Resources */,
 				5858874D1DBEDBA3006EC6D5 /* NotifAnggiTransactionCell.xib in Resources */,
 				B2BE2E021E29FA42006B6903 /* StorePageShopHeader.xib in Resources */,
+				B2EE39CD1E76905500113E03 /* ic_paid_balance.png in Resources */,
 				B2BEBC601E4C190D009982F9 /* ic_coin.png in Resources */,
 				58DD4E8A1DEC377D00B130C5 /* ic_camera.png in Resources */,
 				5858875D1DBEEA28006EC6D5 /* StoreHeader.xib in Resources */,
@@ -3588,6 +3606,7 @@
 				589A6FBF1D8C08F600654CDD /* ic_harga.png in Resources */,
 				2115E6D81B4A27E500509D2A /* Images.xcassets in Resources */,
 				B240F4DB1E24D63400DCAFF7 /* AchievementCellBadgeCell.xib in Resources */,
+				B2EE39CE1E76905500113E03 /* ic_paid_poin.png in Resources */,
 				58D7360B1D759B0B009D7C61 /* ic_cart.png in Resources */,
 				589A6FB11D8C08F600654CDD /* ic_about.png in Resources */,
 				21EEB4761B87095C00CAD5C9 /* ic_lock.png in Resources */,
@@ -3653,6 +3672,7 @@
 				58DBE8181D8F9B1100355608 /* ic_round.png in Resources */,
 				58A223C41C898CB600619518 /* ic_trx_canceled.png in Resources */,
 				21156EC71B8F5DBC001D7842 /* arrow_down.png in Resources */,
+				B2EE39CF1E76905500113E03 /* ic_paid_video.png in Resources */,
 				B2C3A3C41E2B8E2D0082A15D /* ShopAchievement.xib in Resources */,
 				21679A331B901C5300F18F90 /* MPNotification.storyboard in Resources */,
 				B22C0E331E091C2D00C3D661 /* ic_love_96px_trp.png in Resources */,
