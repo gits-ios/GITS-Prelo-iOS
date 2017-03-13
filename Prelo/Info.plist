@@ -86,11 +86,6 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) need to access camera/photo library to upload your product</string>
 	<key>NSMicrophoneUsageDescription</key>
@@ -133,5 +128,10 @@
 	<false/>
 	<key>branch_key</key>
 	<string>key_live_pbbQ76J8PDVeNXyR7wR22fncBBoiBLk5</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 </dict>
 </plist>
