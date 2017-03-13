@@ -557,6 +557,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
         
+        self.versionForceUpdateCheck()
+        
         // Prelo Analytic - Open App
         AnalyticManager.sharedInstance.openApp()
         
@@ -590,6 +592,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
 //        Constant.showDialog("FIrst INIT", message: "firts INIT")
+        
+        self.versionForceUpdateCheck()
         
         // Prelo Analytic - Open App
         AnalyticManager.sharedInstance.openApp()
@@ -1473,5 +1477,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            "Type" : tipe
         ] as [String : Any]
         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ClickPushNotification, data: pdata, previousScreen: "", loginMethod: loginMethod)
+    }
+    
+    // MARK: - forceupdate checker
+    func versionForceUpdateCheck() {
+        // API Migrasi
+        let _ = request(APIApp.version).responseJSON { resp in
+            
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Version Check")) {
+                let json = JSON(resp.result.value!)
+                var data = json["_data"]
+                
+                // Check if app need to be updated
+                if let installedVer = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
+                    if let newVer = CDVersion.getOne()?.appVersion {
+                        if (newVer.compare(installedVer, options: .numeric, range: nil, locale: nil) == .orderedDescending) {
+                            UserDefaults.standard.set(newVer, forKey: UserDefaultsKey.UpdatePopUpVer)
+                            
+                            if let releaseNotes = data["release_notes"].array {
+                                var notes = ""
+                                for rn in releaseNotes {
+                                    notes += rn.stringValue + "\n"
+                                }
+                                UserDefaults.standard.set(notes, forKey: UserDefaultsKey.UpdatePopUpNotes)
+                            } else if let releaseNotes = data["release_notes"].string {
+                                UserDefaults.standard.set(releaseNotes, forKey: UserDefaultsKey.UpdatePopUpNotes)
+                            }
+                            
+                            if let isForceUpdate = data["is_force_update"].bool {
+                                UserDefaults.standard.set(isForceUpdate, forKey: UserDefaultsKey.UpdatePopUpForced)
+                            }
+                            
+                            UserDefaults.standard.synchronize()
+                            
+                            Constant.forceUpdatePrompt()
+                        }
+                    }
+                }
+            }
+        }
     }
 }
