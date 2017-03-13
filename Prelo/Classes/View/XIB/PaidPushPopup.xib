@@ -22,10 +22,10 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SLI-K9-kZv" userLabel="PopUp UP Barang">
-                            <rect key="frame" x="38" y="133.5" width="300" height="400"/>
+                            <rect key="frame" x="38" y="145.5" width="300" height="376.5"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SOe-Cq-xi1">
-                                    <rect key="frame" x="0.0" y="360" width="300" height="40"/>
+                                    <rect key="frame" x="0.0" y="336.5" width="300" height="40"/>
                                     <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="40" id="2lh-EM-kyE"/>
@@ -41,97 +41,97 @@
                                     </connections>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UP BARANG" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0JC-Mp-Tj7">
-                                    <rect key="frame" x="8" y="8" width="284" height="20"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                    <rect key="frame" x="8" y="8" width="284" height="18"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SPY-G1-ApK" userLabel="Header Separator">
-                                    <rect key="frame" x="0.0" y="36" width="300" height="1"/>
+                                    <rect key="frame" x="0.0" y="34" width="300" height="1"/>
                                     <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="Wds-OL-EBa"/>
                                     </constraints>
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Silahkan tunggu 2 jam 45 menit 4 detik untuk UP barang kamu lagi.  Atau kamu bisa UP sekarang dengan cara:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hR9-i9-tmf">
-                                    <rect key="frame" x="8" y="45" width="284" height="67"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <rect key="frame" x="8" y="43" width="284" height="57.5"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oC6-sU-z4d" userLabel="Button Separator 1">
-                                    <rect key="frame" x="0.0" y="120" width="300" height="1"/>
+                                    <rect key="frame" x="0.0" y="108.5" width="300" height="1"/>
                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="gfC-b4-Yma"/>
                                     </constraints>
                                 </view>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_paid_balance.png" translatesAutoresizingMaskIntoConstraints="NO" id="cu0-Xz-kw0">
-                                    <rect key="frame" x="8" y="129" width="56" height="56"/>
+                                    <rect key="frame" x="8" y="117.5" width="56" height="56"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="56" id="Fkm-pG-Hy5"/>
                                         <constraint firstAttribute="height" constant="56" id="qmM-qy-RTC"/>
                                     </constraints>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GUNAKAN PRELO BALANCE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GaH-7P-eLu">
-                                    <rect key="frame" x="72" y="129" width="220" height="20"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                    <rect key="frame" x="72" y="117.5" width="220" height="18"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <color key="textColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rp150 akan ditarik dari Prelo Balance kamu untuk satu kali UP. Prelo Balance kamu Rp850.000" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QAJ-4u-Oqx">
-                                    <rect key="frame" x="72" y="153" width="220" height="50.5"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <rect key="frame" x="72" y="139.5" width="220" height="43"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jEO-uD-Cr3">
-                                    <rect key="frame" x="0.0" y="121" width="300" height="90.5"/>
+                                    <rect key="frame" x="0.0" y="109.5" width="300" height="81"/>
                                     <connections>
                                         <action selector="btnBalancePressed:" destination="eUm-1m-3A7" eventType="touchUpInside" id="sP3-lZ-prc"/>
                                     </connections>
                                 </button>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UVi-Pg-8uj" userLabel="Button Separator 2">
-                                    <rect key="frame" x="0.0" y="211.5" width="300" height="1"/>
+                                    <rect key="frame" x="0.0" y="190.5" width="300" height="1"/>
                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="uKd-8f-3mh"/>
                                     </constraints>
                                 </view>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_paid_poin.png" translatesAutoresizingMaskIntoConstraints="NO" id="zJA-GQ-hgz">
-                                    <rect key="frame" x="8" y="220.5" width="56" height="56"/>
+                                    <rect key="frame" x="8" y="199.5" width="56" height="56"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="56" id="gIl-lL-hp6"/>
                                         <constraint firstAttribute="width" constant="56" id="pzp-LL-IQ5"/>
                                     </constraints>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GUNAKAN POIN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eOA-8D-yg7">
-                                    <rect key="frame" x="72" y="220.5" width="220" height="20"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                    <rect key="frame" x="72" y="199.5" width="220" height="18"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <color key="textColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 poin akan berkurang untuk satu kali UP. Poin kamu sekarang 54" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vq3-M5-Nhf">
-                                    <rect key="frame" x="72" y="244.5" width="220" height="33.5"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <rect key="frame" x="72" y="221.5" width="220" height="29"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="agQ-uG-hde">
-                                    <rect key="frame" x="0.0" y="212.5" width="300" height="73.5"/>
+                                    <rect key="frame" x="0.0" y="191.5" width="300" height="72"/>
                                     <connections>
                                         <action selector="btnPoinPressed:" destination="eUm-1m-3A7" eventType="touchUpInside" id="4FY-Fx-ZAQ"/>
                                     </connections>
                                 </button>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sRp-fg-g5d" userLabel="Button Separator 3">
-                                    <rect key="frame" x="0.0" y="286" width="300" height="1"/>
+                                    <rect key="frame" x="0.0" y="263.5" width="300" height="1"/>
                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="7g0-6B-xgN"/>
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6F7-TO-R5S" userLabel="Video Up">
-                                    <rect key="frame" x="0.0" y="286.5" width="300" height="73.5"/>
+                                    <rect key="frame" x="0.0" y="264.5" width="300" height="72"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_paid_video.png" translatesAutoresizingMaskIntoConstraints="NO" id="jff-VJ-P0u">
                                             <rect key="frame" x="8" y="8" width="56" height="56"/>
@@ -141,19 +141,19 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LIHAT VIDEO" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NcD-xa-jcj">
-                                            <rect key="frame" x="72" y="8" width="220" height="20"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <rect key="frame" x="72" y="8" width="220" height="18"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <color key="textColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lihat video sampeai selesai untuk satu kali UP" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PhZ-UW-7nk">
-                                            <rect key="frame" x="72" y="32" width="220" height="33.5"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lihat video sampai selesai untuk satu kali UP" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PhZ-UW-7nk">
+                                            <rect key="frame" x="72" y="30" width="220" height="29"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zEM-0V-Ndy">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="73.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="72"/>
                                             <connections>
                                                 <action selector="btnVideoPressed:" destination="eUm-1m-3A7" eventType="touchUpInside" id="Zyx-oa-2Ff"/>
                                             </connections>
@@ -218,7 +218,7 @@
                                 <constraint firstItem="SPY-G1-ApK" firstAttribute="top" secondItem="0JC-Mp-Tj7" secondAttribute="bottom" constant="8" id="lIm-Pt-S00"/>
                                 <constraint firstItem="oC6-sU-z4d" firstAttribute="top" secondItem="hR9-i9-tmf" secondAttribute="bottom" constant="8" id="m5Z-TS-UnS"/>
                                 <constraint firstAttribute="trailing" secondItem="hR9-i9-tmf" secondAttribute="trailing" constant="8" id="nv6-vO-jIk"/>
-                                <constraint firstItem="SOe-Cq-xi1" firstAttribute="top" secondItem="sRp-fg-g5d" secondAttribute="bottom" constant="73" id="oZ2-y8-SIz"/>
+                                <constraint firstItem="SOe-Cq-xi1" firstAttribute="top" secondItem="sRp-fg-g5d" secondAttribute="bottom" constant="72" id="oZ2-y8-SIz"/>
                                 <constraint firstItem="SOe-Cq-xi1" firstAttribute="top" secondItem="6F7-TO-R5S" secondAttribute="bottom" id="ph0-Yb-gbm"/>
                                 <constraint firstItem="sRp-fg-g5d" firstAttribute="top" secondItem="agQ-uG-hde" secondAttribute="bottom" id="rc8-DD-dqk"/>
                                 <constraint firstAttribute="trailing" secondItem="0JC-Mp-Tj7" secondAttribute="trailing" constant="8" id="sE5-Qu-TLo"/>
@@ -257,6 +257,9 @@
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="btnBalanceUsed" destination="jEO-uD-Cr3" id="sKg-fQ-edv"/>
+                <outlet property="btnPoinUsed" destination="agQ-uG-hde" id="seb-rp-q6o"/>
+                <outlet property="btnWatchVideo" destination="zEM-0V-Ndy" id="mG4-Q4-Hix"/>
                 <outlet property="consBottomSeparatorToVideo" destination="oZ2-y8-SIz" id="97o-ue-PQm"/>
                 <outlet property="consCenteryPopUp" destination="XwH-lv-GmY" id="HK9-wa-y6n"/>
                 <outlet property="lbBalanceUsed" destination="QAJ-4u-Oqx" id="twf-X6-Nk2"/>
