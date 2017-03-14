@@ -2594,6 +2594,7 @@ class PaidPushPopup: UIView {
     @IBOutlet weak var lbDescription: UILabel!
     @IBOutlet weak var lbBalanceUsed: UILabel!
     @IBOutlet weak var lbPoinUsed: UILabel!
+    @IBOutlet weak var lbWatchVideo: UILabel!
     @IBOutlet weak var btnBalanceUsed: UIButton! // enable
     @IBOutlet weak var btnPoinUsed: UIButton! // enable
     @IBOutlet weak var btnWatchVideo: UIButton!
@@ -2601,6 +2602,7 @@ class PaidPushPopup: UIView {
     @IBOutlet weak var imgPoinUsed: TintedImageView!
     @IBOutlet weak var lbTitleBalanceUsed: UILabel!
     @IBOutlet weak var lbTitlePoinUsed: UILabel!
+    @IBOutlet weak var lbTitleWatchVideo: UILabel!
     @IBOutlet weak var consHeightSeparatorToVideo: NSLayoutConstraint! // 0 -> 1
     
     let gray = UIColor(hexString: "#939393")
@@ -2617,7 +2619,10 @@ class PaidPushPopup: UIView {
             
             self.consHeightSeparatorToVideo.constant = 1
             
-            //self.btnWatchVideo.isEnabled = true
+            self.lbTitleWatchVideo.textColor = Theme.PrimaryColor
+            self.lbWatchVideo.textColor = gray
+            
+            self.btnWatchVideo.isEnabled = true
             //self.btnWatchVideo.backgroundColor = UIColor.clear
         } else {
             self.vwVideoUp.isHidden = true
@@ -2625,7 +2630,10 @@ class PaidPushPopup: UIView {
             
             self.consHeightSeparatorToVideo.constant = 0
             
-            //self.btnWatchVideo.isEnabled = false
+            self.lbTitleWatchVideo.textColor = Theme.GrayLight
+            self.lbWatchVideo.textColor = Theme.GrayLight
+            
+            self.btnWatchVideo.isEnabled = false
             //self.btnWatchVideo.backgroundColor = UIColor.lightGray.alpha(0.3)
         }
     }

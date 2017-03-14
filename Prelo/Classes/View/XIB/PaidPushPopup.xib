@@ -270,6 +270,8 @@
                 <outlet property="lbPoinUsed" destination="Vq3-M5-Nhf" id="Daw-qd-OQI"/>
                 <outlet property="lbTitleBalanceUsed" destination="GaH-7P-eLu" id="o8X-kw-86x"/>
                 <outlet property="lbTitlePoinUsed" destination="eOA-8D-yg7" id="zZL-Kw-FZ7"/>
+                <outlet property="lbTitleWatchVideo" destination="NcD-xa-jcj" id="g5p-Iw-Tlx"/>
+                <outlet property="lbWatchVideo" destination="PhZ-UW-7nk" id="6Ni-q1-gGi"/>
                 <outlet property="vwBackgroundOverlay" destination="EtP-Cl-8zL" id="W7H-Oq-9Jl"/>
                 <outlet property="vwOverlayPopUp" destination="XgL-L7-qlu" id="m4h-iH-C9N"/>
                 <outlet property="vwPopUp" destination="SLI-K9-kZv" id="GDs-rm-eKF"/>
