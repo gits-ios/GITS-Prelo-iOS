@@ -66,7 +66,7 @@
                                         <constraint firstAttribute="height" constant="1" id="gfC-b4-Yma"/>
                                     </constraints>
                                 </view>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_paid_balance.png" translatesAutoresizingMaskIntoConstraints="NO" id="cu0-Xz-kw0">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_paid_balance.png" translatesAutoresizingMaskIntoConstraints="NO" id="cu0-Xz-kw0" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                     <rect key="frame" x="16" y="121.5" width="36" height="36"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="36" id="Fkm-pG-Hy5"/>
@@ -82,7 +82,7 @@
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rp150 akan ditarik dari Prelo Balance kamu untuk satu kali UP. Prelo Balance kamu Rp850.000" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QAJ-4u-Oqx">
                                     <rect key="frame" x="60" y="139.5" width="224" height="43"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                    <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jEO-uD-Cr3">
@@ -98,7 +98,7 @@
                                         <constraint firstAttribute="height" constant="1" id="uKd-8f-3mh"/>
                                     </constraints>
                                 </view>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_paid_poin.png" translatesAutoresizingMaskIntoConstraints="NO" id="zJA-GQ-hgz">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_paid_poin.png" translatesAutoresizingMaskIntoConstraints="NO" id="zJA-GQ-hgz" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                     <rect key="frame" x="16" y="203.5" width="36" height="36"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="36" id="gIl-lL-hp6"/>
@@ -114,7 +114,7 @@
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 poin akan berkurang untuk satu kali UP. Poin kamu sekarang 54" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vq3-M5-Nhf">
                                     <rect key="frame" x="60" y="221.5" width="224" height="29"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                    <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="agQ-uG-hde">
@@ -149,7 +149,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lihat video sampai selesai untuk satu kali UP" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PhZ-UW-7nk">
                                             <rect key="frame" x="60" y="30" width="224" height="29"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                            <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zEM-0V-Ndy">
@@ -262,9 +262,14 @@
                 <outlet property="btnWatchVideo" destination="zEM-0V-Ndy" id="mG4-Q4-Hix"/>
                 <outlet property="consBottomSeparatorToVideo" destination="oZ2-y8-SIz" id="97o-ue-PQm"/>
                 <outlet property="consCenteryPopUp" destination="XwH-lv-GmY" id="HK9-wa-y6n"/>
+                <outlet property="consHeightSeparatorToVideo" destination="7g0-6B-xgN" id="hxC-Y5-4ZK"/>
+                <outlet property="imgBalanceUsed" destination="cu0-Xz-kw0" id="NeF-sl-bpB"/>
+                <outlet property="imgPoinUsed" destination="zJA-GQ-hgz" id="XUv-YO-guj"/>
                 <outlet property="lbBalanceUsed" destination="QAJ-4u-Oqx" id="twf-X6-Nk2"/>
                 <outlet property="lbDescription" destination="hR9-i9-tmf" id="qwy-OX-6tb"/>
                 <outlet property="lbPoinUsed" destination="Vq3-M5-Nhf" id="Daw-qd-OQI"/>
+                <outlet property="lbTitleBalanceUsed" destination="GaH-7P-eLu" id="o8X-kw-86x"/>
+                <outlet property="lbTitlePoinUsed" destination="eOA-8D-yg7" id="zZL-Kw-FZ7"/>
                 <outlet property="vwBackgroundOverlay" destination="EtP-Cl-8zL" id="W7H-Oq-9Jl"/>
                 <outlet property="vwOverlayPopUp" destination="XgL-L7-qlu" id="m4h-iH-C9N"/>
                 <outlet property="vwPopUp" destination="SLI-K9-kZv" id="GDs-rm-eKF"/>

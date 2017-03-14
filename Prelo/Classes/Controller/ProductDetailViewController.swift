@@ -2597,6 +2597,13 @@ class PaidPushPopup: UIView {
     @IBOutlet weak var btnBalanceUsed: UIButton! // enable
     @IBOutlet weak var btnPoinUsed: UIButton! // enable
     @IBOutlet weak var btnWatchVideo: UIButton!
+    @IBOutlet weak var imgBalanceUsed: TintedImageView!
+    @IBOutlet weak var imgPoinUsed: TintedImageView!
+    @IBOutlet weak var lbTitleBalanceUsed: UILabel!
+    @IBOutlet weak var lbTitlePoinUsed: UILabel!
+    @IBOutlet weak var consHeightSeparatorToVideo: NSLayoutConstraint! // 0 -> 1
+    
+    let gray = UIColor(hexString: "#a2a2a2")
     
     var disposePopUp : ()->() = {}
     var balanceUsed : ()->() = {}
@@ -2605,17 +2612,21 @@ class PaidPushPopup: UIView {
     
     func setupPopUp(_ isAdsLoaded: Bool) {
         if isAdsLoaded {
-            //self.vwVideoUp.isHidden = false
-            //self.consBottomSeparatorToVideo.constant = 67
+            self.vwVideoUp.isHidden = false
+            self.consBottomSeparatorToVideo.constant = 67
             
-            self.btnWatchVideo.isEnabled = true
-            self.btnWatchVideo.backgroundColor = UIColor.clear
+            self.consHeightSeparatorToVideo.constant = 1
+            
+            //self.btnWatchVideo.isEnabled = true
+            //self.btnWatchVideo.backgroundColor = UIColor.clear
         } else {
-            //self.vwVideoUp.isHidden = true
-            //self.consBottomSeparatorToVideo.constant = 0
+            self.vwVideoUp.isHidden = true
+            self.consBottomSeparatorToVideo.constant = 0
             
-            self.btnWatchVideo.isEnabled = false
-            self.btnWatchVideo.backgroundColor = UIColor.lightGray.alpha(0.3)
+            self.consHeightSeparatorToVideo.constant = 0
+            
+            //self.btnWatchVideo.isEnabled = false
+            //self.btnWatchVideo.backgroundColor = UIColor.lightGray.alpha(0.3)
         }
     }
     
@@ -2650,10 +2661,22 @@ class PaidPushPopup: UIView {
         
         if (poinAmount <= poin) {
             self.btnPoinUsed.isEnabled = true
-            self.btnPoinUsed.backgroundColor = UIColor.clear
+            //self.btnPoinUsed.backgroundColor = UIColor.clear
+            
+            self.lbTitlePoinUsed.textColor = Theme.PrimaryColor
+            self.lbPoinUsed.textColor = gray
+            
+            self.imgPoinUsed.tint = false
+            self.imgPoinUsed.tintColor = UIColor.clear
         } else {
             self.btnPoinUsed.isEnabled = false
-            self.btnPoinUsed.backgroundColor = UIColor.lightGray.alpha(0.3)
+            //self.btnPoinUsed.backgroundColor = UIColor.lightGray.alpha(0.3)
+            
+            self.lbTitlePoinUsed.textColor = Theme.GrayLight
+            self.lbPoinUsed.textColor = Theme.GrayLight
+            
+            self.imgPoinUsed.tint = true
+            self.imgPoinUsed.tintColor = Theme.GrayLight
         }
         
         self.lbBalanceUsed.text = paidAmount.asPrice + " akan ditarik dari Prelo Balance kamu untuk satu kali UP. Prelo Balance kamu " + preloBalance.asPrice
@@ -2662,10 +2685,22 @@ class PaidPushPopup: UIView {
         
         if (paidAmount <= preloBalance) {
             self.btnBalanceUsed.isEnabled = true
-            self.btnBalanceUsed.backgroundColor = UIColor.clear
+            //self.btnBalanceUsed.backgroundColor = UIColor.clear
+            
+            self.lbTitleBalanceUsed.textColor = Theme.PrimaryColor
+            self.lbBalanceUsed.textColor = gray
+        
+            self.imgBalanceUsed.tint = false
+            self.imgBalanceUsed.tintColor = UIColor.clear
         } else {
             self.btnBalanceUsed.isEnabled = false
-            self.btnBalanceUsed.backgroundColor = UIColor.lightGray.alpha(0.3)
+            //.btnBalanceUsed.backgroundColor = UIColor.lightGray.alpha(0.3)
+        
+            self.lbTitleBalanceUsed.textColor = Theme.GrayLight
+            self.lbBalanceUsed.textColor = Theme.GrayLight
+        
+            self.imgBalanceUsed.tint = true
+            self.imgBalanceUsed.tintColor = Theme.GrayLight
         }
     }
     
