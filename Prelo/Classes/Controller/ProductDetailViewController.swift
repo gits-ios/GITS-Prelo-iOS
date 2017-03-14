@@ -252,8 +252,18 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                         // ads
                         IronSource.setRewardedVideoDelegate(self)
                         
-                        // testing mode
-                        IronSource.initWithAppKey("60298835")
+                        // TODO: - enable this
+                        //let userID = UIDevice.current.identifierForVendor!.uuidString
+                        // testing
+                        let userID = "80E9295C-BF1E-486F-9394-F254F3D99B9C"
+                        IronSource.setUserId(userID)
+                        
+                        // init with prelo appkey
+                        // TODO: - change with official appkey
+                        IronSource.initWithAppKey("60298835", adUnits:[IS_REWARDED_VIDEO])
+                        
+                        // check ads mediation integration
+                        ISIntegrationHelper.validateIntegration()
                     }
                     
                     self.setupView()
@@ -1370,6 +1380,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             
             self.newPopup?.balanceUsed = {
                 self.isCoinUse = false
+                self.showLoading()
                 if let productId = self.detail?.productID {
                     let _ = request(APIProduct.paidPush(productId: productId)).responseJSON { resp in
                         if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
@@ -1397,6 +1408,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             
             self.newPopup?.poinUsed = {
                 self.isCoinUse = true
+                self.showLoading()
                 if let productId = self.detail?.productID {
                     let _ = request(APIProduct.paidPushWithCoin(productId: productId)).responseJSON { resp in
                         if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
@@ -1425,7 +1437,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             self.newPopup?.watchVideoAds = {
                 // open ads
                 IronSource.showRewardedVideo(with: self, placement: nil)
-
+                
+                //  goto delegate
             }
         }
         
@@ -1555,7 +1568,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
      Called after a rewarded video has been dismissed.
      */
     public func rewardedVideoDidClose() {
-        Constant.showDialog("Watch Video", message: "yey")
+        //Constant.showDialog("Watch Video", message: "yey")
     }
     
     /**
@@ -1570,6 +1583,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
      @param error The reason for the error
      */
     public func rewardedVideoDidFailToShowWithError(_ error: Error!) {
+        Constant.showDialog("Oops", message: "Terdapat kesalahan sewaktu memulai video")
     }
     
     /**
@@ -1578,6 +1592,30 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
      @param placementInfo An object that contains the placement's reward name and amount.
      */
     public func didReceiveReward(forPlacement placementInfo: ISPlacementInfo!) {
+        self.showLoading()
+        if let productId = detail?.productID {
+            let _ = request(APIProduct.paidPushWithWatchVideo(productId: productId)).responseJSON { resp in
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
+                    let json = JSON(resp.result.value!)
+                    let isSuccess = json["_data"]["result"].boolValue
+                    let message = json["_data"]["message"].stringValue
+                    let paidAmount = json["_data"]["paid_amount"].intValue
+                    let preloBalance = json["_data"]["my_prelo_balance"].intValue
+                    let coinAmount = json["_data"]["diamond_amount"].intValue
+                    let coin = json["_data"]["my_total_diamonds"].intValue
+                    
+                    if (isSuccess) {
+                        // Prelo Analytic - Up Product - Video
+                        self.sendUpProductAnalytic(productId, type: "Video")
+                        
+                        self.showUpPopUp(withText: message, isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                    } else {
+                        self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                    }
+                }
+                self.hideLoading()
+            }
+        }
     }
 
 }
@@ -2552,7 +2590,7 @@ class PaidPushPopup: UIView {
     @IBOutlet weak var vwPopUp: UIView!
     @IBOutlet weak var vwVideoUp: UIView! // hidden
     @IBOutlet weak var consCenteryPopUp: NSLayoutConstraint!
-    @IBOutlet weak var consBottomSeparatorToVideo: NSLayoutConstraint! // 0 -> 72
+    @IBOutlet weak var consBottomSeparatorToVideo: NSLayoutConstraint! // 0 -> 67
     @IBOutlet weak var lbDescription: UILabel!
     @IBOutlet weak var lbBalanceUsed: UILabel!
     @IBOutlet weak var lbPoinUsed: UILabel!
@@ -2568,7 +2606,7 @@ class PaidPushPopup: UIView {
     func setupPopUp(_ isAdsLoaded: Bool) {
         if isAdsLoaded {
             //self.vwVideoUp.isHidden = false
-            //self.consBottomSeparatorToVideo.constant = 72
+            //self.consBottomSeparatorToVideo.constant = 67
             
             self.btnWatchVideo.isEnabled = true
             self.btnWatchVideo.backgroundColor = UIColor.clear
@@ -2582,6 +2620,15 @@ class PaidPushPopup: UIView {
     }
     
     func initPopUp(withText: String, paidAmount: Int, preloBalance: Int, poinAmount: Int, poin: Int) {
+        let path = UIBezierPath(roundedRect:vwPopUp.bounds,
+                                byRoundingCorners:[.topRight, .topLeft],
+                                cornerRadii: CGSize(width: 4, height:  4))
+        
+        let maskLayer = CAShapeLayer()
+        
+        maskLayer.path = path.cgPath
+        vwPopUp.layer.mask = maskLayer
+        
         // Transparent panel
         self.vwBackgroundOverlay.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.2)
         
