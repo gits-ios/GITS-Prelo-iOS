@@ -9,6 +9,7 @@
 import UIKit
 import Crashlytics
 import Alamofire
+import MessageUI
 
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
@@ -66,7 +67,7 @@ protocol TawarDelegate {
 
 // MARK: - Class
 
-class TawarViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, UIScrollViewDelegate, MessagePoolDelegate, UserRelatedDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class TawarViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, UIScrollViewDelegate, MessagePoolDelegate, UserRelatedDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MFMessageComposeViewControllerDelegate {
 
     // MARK: - Properties
     
@@ -135,6 +136,11 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     // dipakai jika start dari lovelist --> tawarkan
     var isTawarkan : Bool = false
     var isTawarkan_originalPrice : String = ""
+    
+    // aggregate chat
+    let isSellerNotActive = true
+    // seller phone number
+    var phoneNumber: String = "08112353131"
     
     // MARK: - Init
     
@@ -550,10 +556,62 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         if ((indexPath as NSIndexPath).row == 0 && isShowBubble) { // Bubble cell
             let cell = tableView.dequeueReusableCell(withIdentifier: "bubble") as! TawarBubbleCell
             cell.selectionStyle = .none
+            cell.viewWithTag(999)?.removeFromSuperview()
             if (self.tawarItem.opIsMe) { // I am buyer
-                let attrStr = NSMutableAttributedString(string: "Pastikan kamu bertransaksi 100% aman hanya melalui rekening bersama Prelo. Waspada apabila kamu diminta bertransaksi di luar Prelo, terutama jika terdapat permintaan yang kurang wajar.")
-                cell.lblText.attributedText = attrStr
-                cell.lblText.setSubstringColor("rekening bersama Prelo", color: Theme.PrimaryColor)
+                if (isSellerNotActive) {
+                    let attrStr = NSMutableAttributedString(string: "Penjual ini sedang tidak aktif di Prelo. Hubungi penjual secara langsung bahwa kamu menemukan iklan ini di Prelo.\n\nTelepon Seller | SMS Seller")
+                    cell.lblText.attributedText = attrStr
+                    cell.lblText.setSubstringColor("\n\nTelepon Seller | SMS Seller", color: UIColor.clear)
+                    
+                    let subview = UIView(frame: CGRect(x: 0, y: 110 - 40, width: 290 - 14, height: 40))
+                    subview.tag = 999
+                    
+                    let width = 290/2 - 1
+                    
+                    let telpBtn = UIButton(frame: CGRect(x: 0, y: 0, width: width, height: 20))
+                    telpBtn.setTitle(" Telepon Penjual", for: .normal)
+                    telpBtn.backgroundColor = UIColor.clear
+                    telpBtn.setTitleColor(Theme.PrimaryColor)
+                    telpBtn.removeBorders()
+                    telpBtn.addTarget(self, action: #selector(TawarViewController.phoneSeller), for: UIControlEvents.touchUpInside)
+                    telpBtn.setTitleFont(FontName.Helvetica, size: 12)
+                    //telpBtn.titleLabel?.font = UIFont(name: "preloAwesome", size: 12.0)!
+                    
+                    let attrStr1 = NSMutableAttributedString(string: " Telepon Penjual")
+                    attrStr1.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColor], range: (" Telepon Penjual" as NSString).range(of: ""))
+                    attrStr1.addAttributes([NSFontAttributeName:UIFont(name: "preloAwesome", size: 12.0)!], range: (" Telepon Penjual" as NSString).range(of: ""))
+                    telpBtn.titleLabel?.attributedText = attrStr1
+                    
+                    let splitLbl = UILabel(frame: CGRect(x: width, y: 0, width: 2, height: 20))
+                    splitLbl.font = cell.lblText.font
+                    splitLbl.text = "|"
+                    splitLbl.textAlignment = .center
+                    splitLbl.textColor = Theme.PrimaryColor
+                    
+                    let smsBtn = UIButton(frame: CGRect(x: width + 2, y: 0, width: width - 14, height: 20))
+                    smsBtn.setTitle(" SMS Penjual", for: .normal)
+                    smsBtn.backgroundColor = UIColor.clear
+                    smsBtn.setTitleColor(Theme.PrimaryColor)
+                    smsBtn.removeBorders()
+                    smsBtn.addTarget(self, action: #selector(TawarViewController.smsSeller), for: UIControlEvents.touchUpInside)
+                    smsBtn.setTitleFont(FontName.Helvetica, size: 12)
+                    //smsBtn.titleLabel?.font = UIFont(name: "preloAwesome", size: 12.0)!
+                    
+                    let attrStr2 = NSMutableAttributedString(string: " SMS Penjual")
+                    attrStr2.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColor], range: (" SMS Penjual" as NSString).range(of: ""))
+                    attrStr2.addAttributes([NSFontAttributeName:UIFont(name: "preloAwesome", size: 12.0)!], range: (" SMS Penjual" as NSString).range(of: ""))
+                    smsBtn.titleLabel?.attributedText = attrStr2
+                    
+                    subview.addSubview(telpBtn)
+                    subview.addSubview(splitLbl)
+                    subview.addSubview(smsBtn)
+                    //subview.backgroundColor = UIColor.white
+                    cell.addSubview(subview)
+                } else {
+                    let attrStr = NSMutableAttributedString(string: "Pastikan kamu bertransaksi 100% aman hanya melalui rekening bersama Prelo. Waspada apabila kamu diminta bertransaksi di luar Prelo, terutama jika terdapat permintaan yang kurang wajar.")
+                    cell.lblText.attributedText = attrStr
+                    cell.lblText.setSubstringColor("rekening bersama Prelo", color: Theme.PrimaryColor)
+                }
             } else { // I am seller
                 let attrStr = NSMutableAttributedString(string: "Klik MARK AS SOLD jika barang sudah dibeli oleh \(self.tawarItem.theirName). Waspada apabila kamu diminta bertransaksi di luar Prelo, terutama jika terdapat permintaan yang kurang wajar.")
                 cell.lblText.attributedText = attrStr
@@ -1287,6 +1345,36 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             "Media Type" : mediaType
         ] as [String : Any]
         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SendMediaOnChat, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+    }
+    
+    // MARK: - Helper
+    func putToPasteBoard(_ text : String) {
+        UIPasteboard.general.string = text
+        
+    }
+    
+    func phoneSeller() {
+        if let url = URL(string: "tel:" + phoneNumber) {
+            if (UIApplication.shared.canOpenURL(url)) {
+                UIApplication.shared.openURL(url)
+            } else {
+                putToPasteBoard(phoneNumber)
+                Constant.showDialog("Perhatian", message: "Nomor seller sudah ada di clipboard :)")
+            }
+        }
+    }
+    
+    func smsSeller() {
+        if (MFMessageComposeViewController.canSendText()) {
+            let composer = MFMessageComposeViewController()
+            composer.recipients = [phoneNumber]
+            composer.messageComposeDelegate = self
+            self.present(composer, animated: true, completion: nil)
+        }
+    }
+    
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        controller.dismiss(animated: true, completion: nil)
     }
 }
 
