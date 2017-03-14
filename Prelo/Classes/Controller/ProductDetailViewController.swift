@@ -986,6 +986,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             t.loadInboxFirst = true
             t.prodId = d.productID
             t.previousScreen = thisScreen
+            t.isSellerNotActive = d.IsShopClosed
+            t.phoneNumber = d.SellerPhone
             self.navigationController?.pushViewController(t, animated: true)
         }
     }

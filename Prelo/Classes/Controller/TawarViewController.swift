@@ -138,9 +138,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     var isTawarkan_originalPrice : String = ""
     
     // aggregate chat
-    let isSellerNotActive = true
+    var isSellerNotActive: Bool = false
     // seller phone number
-    var phoneNumber: String = "08112353131"
+    var phoneNumber: String = "" //"08112353131"
     
     // MARK: - Init
     
@@ -557,6 +557,14 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             let cell = tableView.dequeueReusableCell(withIdentifier: "bubble") as! TawarBubbleCell
             cell.selectionStyle = .none
             cell.viewWithTag(999)?.removeFromSuperview()
+            cell.viewWithTag(888)?.removeFromSuperview()
+            
+            let btnClose = UIButton(frame: CGRect(x: cell.width - 38, y: 8, width: 30, height: 30))
+            btnClose.addTarget(self, action: #selector(TawarViewController.closeBubble), for: UIControlEvents.touchUpInside)
+            btnClose.tag = 888
+            //btnClose.backgroundColor = UIColor.black.alpha(0.3)
+            cell.addSubview(btnClose)
+            
             if (self.tawarItem.opIsMe) { // I am buyer
                 if (isSellerNotActive) {
                     let attrStr = NSMutableAttributedString(string: "Penjual ini sedang tidak aktif di Prelo. Hubungi penjual secara langsung bahwa kamu menemukan iklan ini di Prelo.\n\nTelepon Seller | SMS Seller")
@@ -695,8 +703,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if ((indexPath as NSIndexPath).row == 0 && isShowBubble) { // Bubble cell
-            isShowBubble = false
-            tableView.reloadData()
+            //isShowBubble = false
+            //tableView.reloadData()
         } else { // Chat cell
             tableView.deselectRow(at: indexPath, animated: true)
             self.view.endEditing(true)
@@ -1375,6 +1383,13 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
         controller.dismiss(animated: true, completion: nil)
+    }
+    
+    func closeBubble() {
+        if (isShowBubble) { // Bubble cell
+            isShowBubble = false
+            tableView.reloadData()
+        }
     }
 }
 

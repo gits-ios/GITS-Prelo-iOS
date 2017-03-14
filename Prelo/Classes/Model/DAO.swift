@@ -1072,6 +1072,20 @@ open class ProductDetail : NSObject, TawarItem
         }
         return false
     }
+    
+    var IsShopClosed : Bool {
+        if let j = json["_data"]["seller"]["shop_closed"].bool {
+            return j
+        }
+        return false
+    }
+    
+    var SellerPhone : String {
+        if let j = json["_data"]["seller"]["seller_phone"].string {
+            return j
+        }
+        return ""
+    }
 }
 
 open class Product : NSObject

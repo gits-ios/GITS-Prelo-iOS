@@ -436,6 +436,8 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                     let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
                     t.tawarItem = inboxData
                     t.previousScreen = PageName.Notification
+                    t.isSellerNotActive = data["shop_closed"].boolValue
+                    t.phoneNumber = data["seller_phone"].stringValue
                     self.navigationController?.pushViewController(t, animated: true)
                 } else {
                     Constant.showDialog("Notifikasi - Percakapan", message: "Oops, notifikasi inbox tidak bisa dibuka")
