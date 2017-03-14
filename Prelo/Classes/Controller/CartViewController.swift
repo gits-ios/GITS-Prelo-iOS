@@ -457,8 +457,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             self.isEnableIndomaretPayment = true
                         } else if (ab[i].stringValue.lowercased().range(of: "bonus:") != nil) {
                             self.customBonusPercent = Int(ab[i].stringValue.components(separatedBy: "bonus:")[1])!
-                        } else {
-                            // TODO: - from backend
+                        } else if (ab[i].stringValue.lowercased() == "target_bank") {
                             self.isDropdownMode = true
                         }
                     }
