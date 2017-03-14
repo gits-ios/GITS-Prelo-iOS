@@ -217,6 +217,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         let alertView = SCLAlertView(appearance: appearance)
         alertView.addButton("Keluar") {
             User.Logout()
+            self.dismiss(animated: true, completion: nil)
         }
         alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
         alertView.showCustom("Perhatian", subTitle: "Setelan akun belum selesai. Halaman ini akan muncul lagi ketika kamu login. Keluar?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
