@@ -2603,7 +2603,7 @@ class PaidPushPopup: UIView {
     @IBOutlet weak var lbTitlePoinUsed: UILabel!
     @IBOutlet weak var consHeightSeparatorToVideo: NSLayoutConstraint! // 0 -> 1
     
-    let gray = UIColor(hexString: "#a2a2a2")
+    let gray = UIColor(hexString: "#939393")
     
     var disposePopUp : ()->() = {}
     var balanceUsed : ()->() = {}
