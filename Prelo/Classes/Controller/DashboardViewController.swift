@@ -468,6 +468,10 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
 //        let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
 //        storePageTabBarVC.shopId = CDUser.getOne()?.id
 //        self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+        
+        // prelo message -- OKE
+        let preloMessageVC = Bundle.main.loadNibNamed(Tags.XibNamePreloMessage, owner: nil, options: nil)?.first as! PreloMessageViewController
+        self.navigationController?.pushViewController(preloMessageVC, animated: true)
     }
     
     func launchFAQ() {

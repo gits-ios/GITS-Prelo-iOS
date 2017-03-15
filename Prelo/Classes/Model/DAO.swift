@@ -3911,3 +3911,45 @@ class HistoryWithdrawItem : NSObject {
         return 0
     }
 }
+
+class PreloMessageItem : NSObject {
+    var json : JSON = JSON([:])
+    
+    static func instance(_ json : JSON?) -> PreloMessageItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let n = PreloMessageItem()
+            n.json = json!
+            return n
+        }
+    }
+    
+    var title : String {
+        if let j = json["title"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var banner : URL? {
+        if let j = json["banner"].string {
+            return URL(string: j)!
+        }
+        return nil
+    }
+    
+    var desc : String {
+        if let j = json["description"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var date : String {
+        if let j = json["date"].string {
+            return j
+        }
+        return ""
+    }
+}

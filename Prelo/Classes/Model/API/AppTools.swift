@@ -620,6 +620,7 @@ class Tags : NSObject {
     static let XibNameStorePage = "StorePageTabBar"
     static let XibNameShopAchievement = "ShopAchievement"
     static let XibNameTarikTunai2 = "TarikTunai2"
+    static let XibNamePreloMessage = "PreloMessage"
 }
 
 class OrderStatus : NSObject {
@@ -692,6 +693,7 @@ class PageName {
     static let ShopAchievements = "Shop Achievements"
     static let ProductLovelist = "Tawar Lovelist"
     static let SearchResult = "Search Result"
+    static let PreloMessage = "Prelo Message"
 }
 
 extension Mixpanel {
