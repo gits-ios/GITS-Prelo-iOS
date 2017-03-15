@@ -3935,6 +3935,8 @@ class PreloMessageItem : NSObject {
     var banner : URL? {
         if let j = json["attachment_url"].string {
             return URL(string: j)!
+        } else if let j = json["header_image"].string {
+            return URL(string: j)!
         }
         return nil
     }
