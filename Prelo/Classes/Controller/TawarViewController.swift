@@ -582,7 +582,6 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                     telpBtn.removeBorders()
                     telpBtn.addTarget(self, action: #selector(TawarViewController.phoneSeller), for: UIControlEvents.touchUpInside)
                     telpBtn.setTitleFont(FontName.Helvetica, size: 12)
-                    //telpBtn.titleLabel?.font = UIFont(name: "preloAwesome", size: 12.0)!
                     
                     let attrStr1 = NSMutableAttributedString(string: " Telepon Penjual")
                     attrStr1.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColor], range: (" Telepon Penjual" as NSString).range(of: ""))
@@ -602,7 +601,6 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                     smsBtn.removeBorders()
                     smsBtn.addTarget(self, action: #selector(TawarViewController.smsSeller), for: UIControlEvents.touchUpInside)
                     smsBtn.setTitleFont(FontName.Helvetica, size: 12)
-                    //smsBtn.titleLabel?.font = UIFont(name: "preloAwesome", size: 12.0)!
                     let img = UIImage(named: "ic_comment")?.resizeWithMaxWidthOrHeight(14)
                     smsBtn.setImage(img, for: .normal)
                     

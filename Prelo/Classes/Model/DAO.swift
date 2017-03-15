@@ -3966,6 +3966,7 @@ class PreloMessageItem : NSObject {
         dateFormatter.dateStyle = .long
         dateFormatter.timeStyle = .medium
         dateFormatter.locale = Locale(identifier: "id")
+        dateFormatter.timeZone = NSTimeZone.system
         
         return dateFormatter.string(from: date!)
     }

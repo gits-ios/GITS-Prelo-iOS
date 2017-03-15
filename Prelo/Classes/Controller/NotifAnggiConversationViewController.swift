@@ -552,12 +552,17 @@ class NotifAnggiConversationCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
+        imgSingle.afCancelRequest()
+        
         self.contentView.backgroundColor = UIColor.white.withAlphaComponent(0)
 //        imgSingle.image = UIImage(named: "raisa.jpg")
+        imgSingle.image = UIImage(named: "placeholder-standar")
         vwCaption.backgroundColor = Theme.GrayDark
         lblConvStatus.textColor = Theme.GrayDark
         
-        imgSingle.afCancelRequest()
+        imgSingle.backgroundColor = UIColor.clear
+        imgSingle.contentMode = .scaleAspectFill
+        vwCaption.isHidden = false
     }
     
     func adapt(_ notif : NotificationObj) {
@@ -567,8 +572,13 @@ class NotifAnggiConversationCell: UITableViewCell {
         }
         
         // Set image
-        if (notif.productImages.count > 0) {
-            imgSingle.afSetImage(withURL: URL(string: notif.productImages.objectAtCircleIndex(0))!)
+        if (notif.userUsernameFrom != "Prelo") {
+            if (notif.productImages.count > 0) {
+                imgSingle.afSetImage(withURL: URL(string: notif.productImages.objectAtCircleIndex(0))!)
+            } else {
+                imgSingle.image = UIImage(named: "placeholder-standar")
+                imgSingle.afInflate()
+            }
         }
         
         // Set caption
@@ -579,12 +589,6 @@ class NotifAnggiConversationCell: UITableViewCell {
             vwCaption.backgroundColor = Theme.ThemeOrange
         } else if (notif.type == 4000 || notif.type == 4001) { // lovelist
             vwCaption.backgroundColor = Theme.ThemeRed
-        }
-        
-        if (notif.userUsernameFrom == "Prelo") {
-            vwCaption.isHidden = true
-        } else {
-            vwCaption.isHidden = false
         }
         
         if (notif.type == 4000 || notif.type == 4001) { // lovelist
@@ -628,6 +632,15 @@ class NotifAnggiConversationCell: UITableViewCell {
             sizeThatShouldFitTheContent = lblTime.sizeThatFits(lblTime.frame.size)
             //print("size untuk '\(lblTime)' = \(sizeThatShouldFitTheContent)")
             consWidthLblTime.constant = sizeThatShouldFitTheContent.width
+        }
+        
+        if (notif.userUsernameFrom == "Prelo") {
+            lblUsername.text = "Prelo Message"
+            imgSingle.backgroundColor = Theme.PrimaryColor
+            imgSingle.image = UIImage(named: "ic_prelo_logo_text_white@2x")
+            imgSingle.afInflate()
+            imgSingle.contentMode = .scaleAspectFit
+            vwCaption.isHidden = true
         }
     }
 }
