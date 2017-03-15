@@ -567,9 +567,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             
             if (self.tawarItem.opIsMe) { // I am buyer
                 if (isSellerNotActive) {
-                    let attrStr = NSMutableAttributedString(string: "Penjual ini sedang tidak aktif di Prelo. Hubungi penjual secara langsung bahwa kamu menemukan iklan ini di Prelo.\n\nTelepon Seller | SMS Seller")
+                    let attrStr = NSMutableAttributedString(string: "Penjual ini sedang tidak aktif di Prelo. Hubungi penjual secara langsung bahwa kamu menemukan iklan ini di Prelo.\n\n")
                     cell.lblText.attributedText = attrStr
-                    cell.lblText.setSubstringColor("\n\nTelepon Seller | SMS Seller", color: UIColor.clear)
                     
                     let subview = UIView(frame: CGRect(x: 0, y: 110 - 40, width: 290 - 14, height: 40))
                     subview.tag = 999
@@ -597,18 +596,15 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                     splitLbl.textColor = Theme.PrimaryColor
                     
                     let smsBtn = UIButton(frame: CGRect(x: width + 2, y: 0, width: width - 14, height: 20))
-                    smsBtn.setTitle(" SMS Penjual", for: .normal)
+                    smsBtn.setTitle(" SMS Penjual", for: .normal)
                     smsBtn.backgroundColor = UIColor.clear
                     smsBtn.setTitleColor(Theme.PrimaryColor)
                     smsBtn.removeBorders()
                     smsBtn.addTarget(self, action: #selector(TawarViewController.smsSeller), for: UIControlEvents.touchUpInside)
                     smsBtn.setTitleFont(FontName.Helvetica, size: 12)
                     //smsBtn.titleLabel?.font = UIFont(name: "preloAwesome", size: 12.0)!
-                    
-                    let attrStr2 = NSMutableAttributedString(string: " SMS Penjual")
-                    attrStr2.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColor], range: (" SMS Penjual" as NSString).range(of: ""))
-                    attrStr2.addAttributes([NSFontAttributeName:UIFont(name: "preloAwesome", size: 12.0)!], range: (" SMS Penjual" as NSString).range(of: ""))
-                    smsBtn.titleLabel?.attributedText = attrStr2
+                    let img = UIImage(named: "ic_comment")?.resizeWithMaxWidthOrHeight(14)
+                    smsBtn.setImage(img, for: .normal)
                     
                     subview.addSubview(telpBtn)
                     subview.addSubview(splitLbl)
