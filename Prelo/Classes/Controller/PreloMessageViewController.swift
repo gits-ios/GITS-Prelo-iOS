@@ -72,45 +72,6 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
         self.messages = []
         self.isOpens = []
         
-        /*
-        var fakeres = [
-            "title":"Prelo Mesage",
-            "message":"http://www.dmidgroup.com/wp-content/uploads/2015/07/indomaret-01-01.jpg",
-            "description":"sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja https://prelo.co.id prelo.co.id/ Prelo.co.Id/santensuru",
-            "time": "7 November 2017"
-            ] as [String : Any]
-        
-        var json = JSON(fakeres)
-        var message = PreloMessageItem.instance(json)
-        self.messages?.append(message!)
-        
-        isOpens.append(false)
-        
-        fakeres = [
-            "title":"Prelo Mesage 2",
-            "message":"sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja https://prelo.co.id prelo.co.id/ Prelo.co.Id/santensuru",
-            "time": "7 November 2017"
-            ] as [String : Any]
-        
-        json = JSON(fakeres)
-        message = PreloMessageItem.instance(json)
-        self.messages?.append(message!)
-        
-        isOpens.append(false)
-        
-        fakeres = [
-            "title":"Prelo Mesage 3",
-            "message":"sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja https://google.co.id www.prelo.co.id/satutahunprelo",
-            "time": "7 November 2017"
-            ] as [String : Any]
-        
-        json = JSON(fakeres)
-        message = PreloMessageItem.instance(json)
-        self.messages?.append(message!)
-        
-        isOpens.append(false)
-         */
-        
         let _ = request(APIPreloMessage.getMessage).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Get Prelo Message")) {
                 let json = JSON(resp.result.value!)
