@@ -3933,23 +3933,38 @@ class PreloMessageItem : NSObject {
     }
     
     var banner : URL? {
-        if let j = json["banner"].string {
+        if let j = json["attachment_url"].string {
             return URL(string: j)!
         }
         return nil
     }
     
     var desc : String {
-        if let j = json["description"].string {
+        if let j = json["message"].string {
             return j
         }
         return ""
     }
     
+//    var date : String {
+//        if let j = json["time"].string {
+//            return j
+//        }
+//        return ""
+//    }
+    
     var date : String {
-        if let j = json["date"].string {
-            return j
-        }
-        return ""
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"//this your string date format
+        dateFormatter.timeZone = NSTimeZone(name: "UTC") as TimeZone!
+        let ds = json["time"].stringValue
+        
+        let date = dateFormatter.date(from: ds)
+        
+        dateFormatter.dateStyle = .long
+        dateFormatter.timeStyle = .medium
+        dateFormatter.locale = Locale(identifier: "id")
+        
+        return dateFormatter.string(from: date!)
     }
 }

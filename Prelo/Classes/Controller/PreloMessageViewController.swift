@@ -72,11 +72,12 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
         self.messages = []
         self.isOpens = []
         
+        /*
         var fakeres = [
             "title":"Prelo Mesage",
-            "banner":"http://www.dmidgroup.com/wp-content/uploads/2015/07/indomaret-01-01.jpg",
+            "message":"http://www.dmidgroup.com/wp-content/uploads/2015/07/indomaret-01-01.jpg",
             "description":"sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja https://prelo.co.id prelo.co.id/ Prelo.co.Id/santensuru",
-            "date": "7 November 2017"
+            "time": "7 November 2017"
             ] as [String : Any]
         
         var json = JSON(fakeres)
@@ -87,8 +88,8 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
         
         fakeres = [
             "title":"Prelo Mesage 2",
-            "description":"sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja https://prelo.co.id prelo.co.id/ Prelo.co.Id/santensuru",
-            "date": "7 November 2017"
+            "message":"sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja https://prelo.co.id prelo.co.id/ Prelo.co.Id/santensuru",
+            "time": "7 November 2017"
             ] as [String : Any]
         
         json = JSON(fakeres)
@@ -99,8 +100,8 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
         
         fakeres = [
             "title":"Prelo Mesage 3",
-            "description":"sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja https://google.co.id",
-            "date": "7 November 2017"
+            "message":"sample deskripsi aja sample deskripsi aja sample deskripsi aja sample deskripsi aja https://google.co.id www.prelo.co.id/satutahunprelo",
+            "time": "7 November 2017"
             ] as [String : Any]
         
         json = JSON(fakeres)
@@ -108,10 +109,32 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
         self.messages?.append(message!)
         
         isOpens.append(false)
+         */
         
-        self.hideLoading()
+        let _ = request(APIPreloMessage.getMessage).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Get Prelo Message")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                if let _messages = data["messages"].array {
+                    var curMessages : Array<PreloMessageItem> = []
+                    for m in _messages {
+                        let message = PreloMessageItem.instance(m)
+                        curMessages.append(message!)
+                        self.isOpens.append(false)
+                    }
+                    self.messages = curMessages.reversed()
+                    self.tableView.reloadData()
+                    self.hideLoading()
+                } else {
+                    _ = self.navigationController?.popViewController(animated: true)
+                    self.hideLoading()
+                }
+            } else {
+                _ = self.navigationController?.popViewController(animated: true)
+                self.hideLoading()
+            }
+        }
     }
-    
     
     // MARK: - Other
     func showLoading() {
@@ -135,14 +158,25 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PreloMessageCell") as! PreloMessageCell
         
+        let idx = (indexPath as NSIndexPath).row
+        let m = (messages?[idx])!
+        
         cell.selectionStyle = .none
         cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
         cell.clipsToBounds = true
-        cell.adapt((messages?[(indexPath as NSIndexPath).row])!, isOpen: isOpens[(indexPath as NSIndexPath).row])
+        cell.adapt(m, isOpen: isOpens[idx])
         
         cell.readMore = {
             self.isOpens[(indexPath as NSIndexPath).row] = true
             tableView.reloadData()
+        }
+        
+        cell.zoomImage = {
+            let c = CoverZoomController()
+            c.labels = [m.title == "" ? "Prelo Message" : m.title]
+            c.images = [(m.banner?.absoluteString)!]
+            c.index = 0
+            self.navigationController?.present(c, animated: true, completion: nil)
         }
         
         return cell
@@ -164,19 +198,23 @@ class PreloMessageCell: UITableViewCell {
     @IBOutlet weak var consTopLblDate: NSLayoutConstraint! // 25.5 -> 4
     
     var readMore : ()->() = {}
+    var zoomImage: ()->() = {}
     
     static func heightFor(_ message : PreloMessageItem, isOpen: Bool) -> CGFloat {
         let standardHeight : CGFloat = 148.0 - 67.0 + 4
-        let heightBanner : CGFloat = 128.0
+        let heightBanner : CGFloat = (((UIScreen.main.bounds.width - 8) / 1024.0) * 337.0)
         let textRect = message.desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 24)
-        return standardHeight + (isOpen ? textRect.height - 21.5 : (67.0 > textRect.height ? textRect.height - 21.5 : 67.0)) + (message.banner != nil ? heightBanner : 0)
+        return standardHeight + (isOpen ? textRect.height - 21.5 : (84.0 > textRect.height ? textRect.height - 21.5 : 67.0)) + (message.banner != nil ? heightBanner : 0) + (message.title == "" ? -20 : 0)
         
     }
     
     func adapt(_ message : PreloMessageItem, isOpen: Bool) {
         if message.banner != nil {
-            self.consHeightBannerImage.constant = 128
-            self.bannerImage.afSetImage(withURL: message.banner!)
+            let height = (((UIScreen.main.bounds.width - 8) / 1024.0) * 337.0)
+            self.consHeightBannerImage.constant = height
+            self.bannerImage.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 8, height: height)
+            
+            self.bannerImage.afSetImage(withURL: message.banner!, withFilter: .fillWithPreloMessagePlaceHolder)
         } else {
             self.consHeightBannerImage.constant = 0
         }
@@ -196,7 +234,12 @@ class PreloMessageCell: UITableViewCell {
         self.lblDesc.customSelectedColor[customType] = Theme.PrimaryColorDark
         
         self.lblDesc.handleURLTap{ url in
-            self.openUrl(url: url)
+            var urlStr = url.absoluteString
+            if !urlStr.contains("https://") {
+                urlStr = "https://" + url.absoluteString
+            }
+            let curl = URL(string: urlStr)!
+            self.openUrl(url: curl)
         }
         
         self.lblDesc.handleCustomTap(for: customType) { element in
@@ -204,8 +247,8 @@ class PreloMessageCell: UITableViewCell {
             if !urlStr.contains("https://") {
                 urlStr = "https://" + element
             }
-            let url = URL(string: urlStr)!
-            self.openUrl(url: url)
+            let curl = URL(string: urlStr)!
+            self.openUrl(url: curl)
         }
         
         self.lblDesc.text = message.desc
@@ -217,12 +260,16 @@ class PreloMessageCell: UITableViewCell {
         }
         
         let textRect = message.desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 24)
-        if textRect.height > 67.0 && !isOpen {
+        if textRect.height <= 84.0 && textRect.height >= 67.0 {
+            self.lblDesc.numberOfLines = 5
+        }
+        
+        if textRect.height > 84.0 && !isOpen {
             self.btnReadMore.isHidden = false
-            self.consTopLblDate.constant = 25.5
+            self.consTopLblDate.constant = 29.5
         } else {
             self.btnReadMore.isHidden = true
-            self.consTopLblDate.constant = 4
+            self.consTopLblDate.constant = 8
         }
     }
     
@@ -234,6 +281,10 @@ class PreloMessageCell: UITableViewCell {
     
     @IBAction func btnReadMorePressed(_ sender: Any) {
         self.readMore()
+    }
+    
+    @IBAction func btnBannerImagePressed(_ sender: Any) {
+        self.zoomImage()
     }
     
     // MARK: - Deeplink
