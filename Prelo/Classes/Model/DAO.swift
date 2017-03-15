@@ -3929,7 +3929,7 @@ class PreloMessageItem : NSObject {
         if let j = json["title"].string {
             return j
         }
-        return ""
+        return "Prelo Message"
     }
     
     var banner : URL? {

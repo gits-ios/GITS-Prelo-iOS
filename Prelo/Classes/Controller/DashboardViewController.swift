@@ -470,8 +470,8 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
 //        self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
         
         // prelo message -- OKE
-        let preloMessageVC = Bundle.main.loadNibNamed(Tags.XibNamePreloMessage, owner: nil, options: nil)?.first as! PreloMessageViewController
-        self.navigationController?.pushViewController(preloMessageVC, animated: true)
+//        let preloMessageVC = Bundle.main.loadNibNamed(Tags.XibNamePreloMessage, owner: nil, options: nil)?.first as! PreloMessageViewController
+//        self.navigationController?.pushViewController(preloMessageVC, animated: true)
     }
     
     func launchFAQ() {

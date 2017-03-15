@@ -424,28 +424,33 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         self.sendClickNotificationAnalytic(notif.objectId, tipe: notif.type)
         
         if (notif.type == 2000) { // Chat
-            // Get inbox detail
-            // API Migrasi
-            let _ = request(APIInbox.getInboxMessage(inboxId: notif.objectId)).responseJSON {resp in
-                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Percakapan")) {
-                    let json = JSON(resp.result.value!)
-                    let data = json["_data"]
-                    let inboxData = Inbox(jsn: data)
-                    
-                    // Goto inbox
-                    let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
-                    t.tawarItem = inboxData
-                    t.previousScreen = PageName.Notification
-                    t.isSellerNotActive = data["shop_closed"].bool ?? false
-                    t.phoneNumber = data["seller_phone"].string ?? ""
-                    self.navigationController?.pushViewController(t, animated: true)
-                } else {
-                    Constant.showDialog("Notifikasi - Percakapan", message: "Oops, notifikasi inbox tidak bisa dibuka")
-                    self.hideLoading()
-                    self.showContent()
+            if (notif.userUsernameFrom == "Prelo") {
+                let preloMessageVC = Bundle.main.loadNibNamed(Tags.XibNamePreloMessage, owner: nil, options: nil)?.first as! PreloMessageViewController
+                preloMessageVC.previousScreen = PageName.Notification
+                self.navigationController?.pushViewController(preloMessageVC, animated: true)
+            } else {
+                // Get inbox detail
+                // API Migrasi
+                let _ = request(APIInbox.getInboxMessage(inboxId: notif.objectId)).responseJSON {resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Percakapan")) {
+                        let json = JSON(resp.result.value!)
+                        let data = json["_data"]
+                        let inboxData = Inbox(jsn: data)
+                        
+                        // Goto inbox
+                        let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
+                        t.tawarItem = inboxData
+                        t.previousScreen = PageName.Notification
+                        t.isSellerNotActive = data["shop_closed"].bool ?? false
+                        t.phoneNumber = data["seller_phone"].string ?? ""
+                        self.navigationController?.pushViewController(t, animated: true)
+                    } else {
+                        Constant.showDialog("Notifikasi - Percakapan", message: "Oops, notifikasi inbox tidak bisa dibuka")
+                        self.hideLoading()
+                        self.showContent()
+                    }
                 }
             }
-            
         } else if (notif.type == 3000) { // Komentar
             // Get product detail
             let _ = request(APIProduct.detail(productId: notif.objectId, forEdit: 0)).responseJSON {resp in
@@ -574,6 +579,12 @@ class NotifAnggiConversationCell: UITableViewCell {
             vwCaption.backgroundColor = Theme.ThemeOrange
         } else if (notif.type == 4000 || notif.type == 4001) { // lovelist
             vwCaption.backgroundColor = Theme.ThemeRed
+        }
+        
+        if (notif.userUsernameFrom == "Prelo") {
+            vwCaption.isHidden = true
+        } else {
+            vwCaption.isHidden = false
         }
         
         if (notif.type == 4000 || notif.type == 4001) { // lovelist
