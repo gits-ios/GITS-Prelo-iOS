@@ -655,6 +655,7 @@ class NotifAnggiConversationCell: UITableViewCell {
             UIGraphicsEndImageContext();
             
             lblUsername.text = "Prelo Message"
+            lblConvStatus.text = ""
             imgSingle.backgroundColor = Theme.PrimaryColor
             imgSingle.image = newImage
             imgSingle.afInflate()

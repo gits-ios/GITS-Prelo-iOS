@@ -1156,6 +1156,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         self.scrollToBottom()
     }
     
+    func preloMessageArrived(_ message: PreloMessageItem) {
+        // do nothing
+    }
+    
     // MARK: - User related delegate functions
     
     func userLoggedIn() {

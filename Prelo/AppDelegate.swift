@@ -43,6 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let RedirLove = "lovers"
     let RedirAchievement = "achievement"
     let RedirReferral = "referral"
+    let RedirPreloMessage = "prelo_message"
     
     var redirAlert : UIAlertController?
     var RedirWaitAmount : Int = 10000000
@@ -179,10 +180,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Kepanggil hanya jika app baru saja dibuka, jika dibuka ketika sedang dalam background mode maka tidak terpanggil
         if (launchOptions != nil) {
             if let remoteNotif = launchOptions![UIApplicationLaunchOptionsKey.remoteNotification] as? NSDictionary {
-                if let tipe = remoteNotif.object(forKey: "tipe") as? String {
+                if let _tipe = remoteNotif.object(forKey: "tipe") as? String {
+                    var tipe = _tipe
                     var targetId : String?
                     if let tId = remoteNotif.object(forKey: "target_id") as? String {
                         targetId = tId
+                    }
+                    if let _ = remoteNotif.object(forKey: "is_prelo_message") as? Bool {
+                        tipe = self.RedirPreloMessage
                     }
 //                    Constant.showDialog(tipe, message: targetId! )
                     self.showRedirAlert()
@@ -421,6 +426,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             targetId = tId
         }
         
+        if let _ = userInfo["is_prelo_message"] as? Bool {
+            tipe = self.RedirPreloMessage
+        }
+        
         // image
         if let img = userInfo["attachment-url"] as? String {
             imgUrl = img
@@ -445,6 +454,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     isDoing = false
                 }
             }
+        } else if tipe.lowercased() == self.RedirPreloMessage && rootViewController?.childViewControllers.last is PreloMessageViewController {
+            //do something if it's an instance of that class
+            
+            isDoing = false
         }
         
         if (application.applicationState == UIApplicationState.active) { // active mode
@@ -779,6 +792,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else if (tipeLowercase == self.RedirReferral) {
             self.showRedirAlert()
             self.redirectReferral()
+        } else if (tipeLowercase == self.RedirPreloMessage) {
+            self.showRedirAlert()
+            self.redirectPreloMessage()
         }
     }
     
@@ -1271,6 +1287,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             self.hideRedirAlertWithDelay(0, completion: { () -> Void in
                 rootViewController!.pushViewController(referralPageVC, animated: true)
+            })
+        } else {
+            self.showFailedRedirAlert()
+        }
+    }
+    
+    func redirectPreloMessage() {
+        var rootViewController : UINavigationController?
+        
+        // Tunggu sampai UINavigationController terbentuk
+        var wait = true
+        var waitCount = self.RedirWaitAmount
+        while (wait) {
+            if let childVCs = self.window!.rootViewController?.childViewControllers {
+                if (childVCs.count > 0) {
+                    if let rootVC = childVCs[0] as? UINavigationController {
+                        rootViewController = rootVC
+                    }
+                    wait = false
+                }
+            }
+            waitCount -= 1
+            if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                wait = false
+            }
+        }
+        
+        // Redirect setelah selesai menunggu
+        if (rootViewController != nil) {
+            let preloMessageVC = Bundle.main.loadNibNamed(Tags.XibNamePreloMessage, owner: nil, options: nil)?.first as! PreloMessageViewController
+            preloMessageVC.previousScreen = "Push Notification"
+            
+            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                rootViewController!.pushViewController(preloMessageVC, animated: true)
             })
         } else {
             self.showFailedRedirAlert()

@@ -7,17 +7,21 @@
 //
 
 import Foundation
+import Crashlytics
 import Alamofire
+import MessageUI
 
 
 // MARK: - Class
-class PreloMessageViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
+class PreloMessageViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, MessagePoolDelegate {
     // MARK: - Properties
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var loadingPanel: UIView!
     var messages: Array<PreloMessageItem>? // PreloMessageItem
     var isOpens: Array<Bool> = []
     var isFirst: Bool = true
+    
+    var threadId: String! = ""
     
     // MARK: - Init
     override func viewDidLoad() {
@@ -62,6 +66,20 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
         GAI.trackPageVisit(PageName.PreloMessage)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if self.threadId != "" {
+            // Remove messagepool delegate
+            if let del = UIApplication.shared.delegate as? AppDelegate {
+                del.messagePool?.removeDelegate(self.threadId)
+            } else {
+                let error = NSError(domain: "Failed to cast AppDelegate", code: 0, userInfo: nil)
+                Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["from":"PreloMessage Remove MessagePool"])
+            }
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -86,6 +104,20 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
                     self.messages = curMessages.reversed()
                     self.tableView.reloadData()
                     self.hideLoading()
+                    
+                    self.threadId = data["_id"].stringValue
+                    print(self.threadId)
+                    
+                    if self.threadId != "" {
+                        // Register delegate for messagepool socket
+                        if let del = UIApplication.shared.delegate as? AppDelegate {
+                            del.messagePool?.registerDelegate(self.threadId, d: self)
+                        } else {
+                            let error = NSError(domain: "Failed to cast AppDelegate", code: 0, userInfo: nil)
+                            Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["from":"PreloMessage Register MessagePool"])
+                        }
+                    }
+                    
                 } else {
                     Constant.showDialog("Prelo Message", message: "Oops, prelo message tidak bisa dibuka")
                     
@@ -174,6 +206,18 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
             }
         }
     }
+    
+    // MARK: - Message pool delegate functions
+    
+    func messageArrived(_ message: InboxMessage) {
+        // do nothing
+    }
+    
+    func preloMessageArrived(_ message: PreloMessageItem) {
+        self.isOpens.insert(false, at: 0)
+        self.messages?.insert(message, at: 0)
+        self.tableView.reloadData()
+    }
 }
 
 // MARK: - PreloMessageCell
@@ -228,9 +272,12 @@ class PreloMessageCell: UITableViewCell {
                 }
                 
                 vwGradient.layer.insertSublayer(gradient, at: 0)
+            } else {
+                self.vwGradient.isHidden = true
             }
         } else {
             self.consHeightBannerImage.constant = 0
+            self.vwGradient.isHidden = true
         }
         
         self.btnReadMore.setTitleColor(Theme.PrimaryColorDark)
@@ -298,7 +345,6 @@ class PreloMessageCell: UITableViewCell {
         self.bannerImage.afCancelRequest()
         self.lblDesc.font = UIFont.systemFont(ofSize: 14)
         self.lblDesc.textColor = UIColor.init(hex: "#555555")
-        self.vwGradient.isHidden = true
     }
     
     @IBAction func btnReadMorePressed(_ sender: Any) {
