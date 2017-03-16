@@ -262,7 +262,7 @@ class PreloMessageCell: UITableViewCell {
                 
                 gradient.frame = vwGradient.bounds
                 
-                gradient.colors = [UIColor.colorWithColor(UIColor.white, alpha: 0).cgColor, UIColor.colorWithColor(UIColor.white, alpha: 0.55).cgColor, UIColor.colorWithColor(UIColor.white, alpha: 1).cgColor]
+                gradient.colors = [UIColor.colorWithColor(Theme.PrimaryColor, alpha: 0).cgColor, UIColor.colorWithColor(Theme.PrimaryColor, alpha: 0.55).cgColor, UIColor.colorWithColor(Theme.PrimaryColor, alpha: 1).cgColor]
                 gradient.locations = [0.0 , 0.45 , 1.0]
                 gradient.startPoint = CGPoint(x: 0.0, y: 1.0)
                 gradient.endPoint = CGPoint(x: 1.0, y: 1.0)

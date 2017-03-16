@@ -96,13 +96,13 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7a9-D0-XGR">
-                                <rect key="frame" x="307" y="98" width="60" height="30"/>
+                                <rect key="frame" x="307" y="94" width="60" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KRN-ow-bRQ" userLabel="Button Link Image">
                                         <rect key="frame" x="0.0" y="0.0" width="60" height="30"/>
                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="17"/>
                                         <state key="normal" title="   ">
-                                            <color key="titleColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
                                             <action selector="btnBannerLinkPressed:" destination="wQy-94-0bG" eventType="touchUpInside" id="piH-4S-GLm"/>
@@ -126,7 +126,7 @@
                             <constraint firstItem="lkb-fA-W1G" firstAttribute="top" secondItem="ztP-gM-BmD" secondAttribute="bottom" id="EZ6-yw-efC"/>
                             <constraint firstAttribute="trailing" secondItem="ztP-gM-BmD" secondAttribute="trailing" id="Mq1-HF-P4S"/>
                             <constraint firstItem="Mut-TG-1Vu" firstAttribute="leading" secondItem="PFD-5f-NXL" secondAttribute="leading" id="OZZ-18-Xmp"/>
-                            <constraint firstItem="lkb-fA-W1G" firstAttribute="top" secondItem="7a9-D0-XGR" secondAttribute="bottom" id="SWa-io-rpH"/>
+                            <constraint firstItem="lkb-fA-W1G" firstAttribute="top" secondItem="7a9-D0-XGR" secondAttribute="bottom" constant="4" id="SWa-io-rpH"/>
                             <constraint firstItem="ztP-gM-BmD" firstAttribute="top" secondItem="PFD-5f-NXL" secondAttribute="top" id="Z7S-qE-P8A"/>
                             <constraint firstAttribute="bottom" secondItem="lkb-fA-W1G" secondAttribute="bottom" id="cIJ-A6-ItK"/>
                             <constraint firstItem="Mut-TG-1Vu" firstAttribute="top" secondItem="PFD-5f-NXL" secondAttribute="top" id="eOK-CZ-PLY"/>
