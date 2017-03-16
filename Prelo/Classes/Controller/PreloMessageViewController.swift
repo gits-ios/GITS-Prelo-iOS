@@ -87,6 +87,8 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
                     self.tableView.reloadData()
                     self.hideLoading()
                 } else {
+                    Constant.showDialog("Prelo Message", message: "Oops, prelo message tidak bisa dibuka")
+                    
                     _ = self.navigationController?.popViewController(animated: true)
                     self.hideLoading()
                 }
