@@ -3926,7 +3926,9 @@ class PreloMessageItem : NSObject {
     }
     
     var title : String {
-        if let j = json["title"].string {
+        if let _ = json["attachment_url"].string {
+            return ""
+        } else if let j = json["title"].string {
             return j
         }
         return "Prelo Message"
@@ -3941,8 +3943,17 @@ class PreloMessageItem : NSObject {
         return nil
     }
     
+    var bannerUri : URL? {
+        if let j = json["header_uri"].string {
+            return URL(string: j)!
+        }
+        return nil
+    }
+    
     var desc : String {
-        if let j = json["message"].string {
+        if let _ = json["attachment_url"].string {
+            return "pesan gambar"
+        } else if let j = json["message"].string {
             return j
         }
         return ""
@@ -3969,5 +3980,12 @@ class PreloMessageItem : NSObject {
         dateFormatter.timeZone = NSTimeZone.system
         
         return dateFormatter.string(from: date!)
+    }
+    
+    var isContainAttachment : Bool {
+        if let _ = json["attachment_url"].string {
+            return true
+        }
+        return false
     }
 }

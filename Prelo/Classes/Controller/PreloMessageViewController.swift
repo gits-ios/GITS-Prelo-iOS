@@ -123,7 +123,7 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
         let m = (messages?[idx])!
         
         cell.selectionStyle = .none
-        cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
+        cell.backgroundColor = UIColor(hexString: "#E8ECEE")
         cell.clipsToBounds = true
         cell.adapt(m, isOpen: isOpens[idx])
         
@@ -133,21 +133,48 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
         }
         
         cell.zoomImage = {
-            let c = CoverZoomController()
-            c.labels = [m.title == "" ? "Prelo Message" : m.title]
-            c.images = [(m.banner?.absoluteString)!]
-            c.index = 0
-            self.navigationController?.present(c, animated: true, completion: nil)
+//            if m.bannerUri != nil {
+//                var urlStr = m.bannerUri!.absoluteString
+//                if !urlStr.contains("http://") {
+//                    urlStr = "http://" + m.bannerUri!.absoluteString
+//                }
+//                let curl = URL(string: urlStr)!
+//                self.openUrl(url: curl)
+//            } else {
+                let c = CoverZoomController()
+                c.labels = [(m.isContainAttachment ? "pesan gambar" : (m.title == "" ? "Prelo Message" : m.title))]
+                c.images = [(m.banner?.absoluteString)!]
+                c.index = 0
+                self.navigationController?.present(c, animated: true, completion: nil)
+//            }
+        }
+        
+        cell.openUrl = { url in
+            self.openUrl(url: url)
         }
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        // do nothing
+    }
+    
+    // MARK: - Deeplink
+    func openUrl(url: URL) {
+        if let components = URLComponents(url: url, resolvingAgainstBaseURL: true) {
+            var param : [URLQueryItem] = []
+            if let items = components.queryItems {
+                param = items
+            }
+            if let del = UIApplication.shared.delegate as? AppDelegate {
+                del.handleUniversalLink(url, path: components.path, param: param)
+            }
+        }
     }
 }
 
+// MARK: - PreloMessageCell
 class PreloMessageCell: UITableViewCell {
     @IBOutlet weak var bannerImage: UIImageView!
     @IBOutlet weak var lblTitle: UILabel!
@@ -157,9 +184,13 @@ class PreloMessageCell: UITableViewCell {
     @IBOutlet weak var lblDate: UILabel!
     @IBOutlet weak var btnReadMore: UIButton! // hidden
     @IBOutlet weak var consTopLblDate: NSLayoutConstraint! // 25.5 -> 4
+    @IBOutlet weak var vwGradient: UIView!
+    
+    var headerUri: URL?
     
     var readMore : ()->() = {}
     var zoomImage: ()->() = {}
+    var openUrl  : (_ url: URL)->() = {_ in }
     
     static func heightFor(_ message : PreloMessageItem, isOpen: Bool) -> CGFloat {
         let standardHeight : CGFloat = 148.0 - 67.0 + 4
@@ -176,6 +207,28 @@ class PreloMessageCell: UITableViewCell {
             self.bannerImage.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 8, height: height)
             
             self.bannerImage.afSetImage(withURL: message.banner!, withFilter: .fillWithPreloMessagePlaceHolder)
+            
+            if message.bannerUri != nil {
+                self.headerUri = message.bannerUri!
+                vwGradient.isHidden = false
+                
+                let gradient: CAGradientLayer = CAGradientLayer()
+                
+                gradient.frame = vwGradient.bounds
+                
+                gradient.colors = [UIColor.colorWithColor(UIColor.white, alpha: 0).cgColor, UIColor.colorWithColor(UIColor.white, alpha: 1).cgColor]
+                gradient.locations = [0.0 , 1.0]
+                gradient.startPoint = CGPoint(x: 0.0, y: 1.0)
+                gradient.endPoint = CGPoint(x: 1.0, y: 1.0)
+                
+                if vwGradient.layer.sublayers?.count != nil && (vwGradient.layer.sublayers?.count)! > 1 {
+                    vwGradient.layer.sublayers?[0].removeFromSuperlayer()
+                }
+                
+                vwGradient.layer.insertSublayer(gradient, at: 0)
+            } else {
+                vwGradient.isHidden = true
+            }
         } else {
             self.consHeightBannerImage.constant = 0
         }
@@ -185,7 +238,7 @@ class PreloMessageCell: UITableViewCell {
         self.lblTitle.text = message.title
         self.lblDate.text = message.date
         
-        let customType = ActiveType.custom(pattern: "prelo.co.id[^\\s]*") //Regex that looks for "prelo.co.id/"
+        let customType = ActiveType.custom(pattern: "\\sprelo.co.id[^\\s]*") //Regex that looks for " prelo.co.id/* "
         self.lblDesc.enabledTypes = [/*.mention, .hashtag,*/ .url, customType]
         
         self.lblDesc.URLColor = Theme.PrimaryColorDark
@@ -196,23 +249,28 @@ class PreloMessageCell: UITableViewCell {
         
         self.lblDesc.handleURLTap{ url in
             var urlStr = url.absoluteString
-            if !urlStr.contains("https://") {
-                urlStr = "https://" + url.absoluteString
+            if !urlStr.contains("http://") {
+                urlStr = "http://" + url.absoluteString
             }
             let curl = URL(string: urlStr)!
-            self.openUrl(url: curl)
+            self.openUrl(curl)
         }
         
         self.lblDesc.handleCustomTap(for: customType) { element in
             var urlStr = element
-            if !urlStr.contains("https://") {
-                urlStr = "https://" + element
+            if !urlStr.contains("http://") {
+                urlStr = "http://" + element
             }
             let curl = URL(string: urlStr)!
-            self.openUrl(url: curl)
+            self.openUrl(curl)
         }
         
         self.lblDesc.text = message.desc
+        
+        if message.desc == "pesan gambar" {
+            self.lblDesc.font = UIFont.italicSystemFont(ofSize: 14)
+            self.lblDesc.textColor = UIColor.lightGray
+        }
         
         if isOpen {
             self.lblDesc.numberOfLines = 0
@@ -238,6 +296,8 @@ class PreloMessageCell: UITableViewCell {
         super.prepareForReuse()
         
         self.bannerImage.afCancelRequest()
+        self.lblDesc.font = UIFont.systemFont(ofSize: 14)
+        self.lblDesc.textColor = UIColor.init(hex: "#555555")
     }
     
     @IBAction func btnReadMorePressed(_ sender: Any) {
@@ -248,16 +308,14 @@ class PreloMessageCell: UITableViewCell {
         self.zoomImage()
     }
     
-    // MARK: - Deeplink
-    func openUrl(url: URL) {
-        if let components = URLComponents(url: url, resolvingAgainstBaseURL: true) {
-            var param : [URLQueryItem] = []
-            if let items = components.queryItems {
-                param = items
+    @IBAction func btnBannerLinkPressed(_ sender: Any) {
+        if self.headerUri != nil {
+            var urlStr = self.headerUri!.absoluteString
+            if !urlStr.contains("http://") {
+                urlStr = "http://" + self.headerUri!.absoluteString
             }
-            if let del = UIApplication.shared.delegate as? AppDelegate {
-                del.handleUniversalLink(url, path: components.path, param: param)
-            }
+            let curl = URL(string: urlStr)!
+            self.openUrl(curl)
         }
     }
 }
