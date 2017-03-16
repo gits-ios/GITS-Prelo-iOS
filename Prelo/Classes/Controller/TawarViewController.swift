@@ -1197,10 +1197,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
 //        }))
 //        self.present(alert, animated: true, completion: nil)
         
-        let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah dibeli dan/atau diterima oleh pembeli ini? (Aksi ini tidak dapat dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
+        let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah DIBAYAR oleh pembeli ini? (Aksi ini TIDAK dapat dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
-            let alert2 : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah kamu yakin? (Aksi ini benar-benar tidak dapat dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
+            let alert2 : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah kamu yakin? (Aksi ini TIDAK dapat dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
             alert2.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
             alert2.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
                 self.prodStatus = 2
