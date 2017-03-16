@@ -683,7 +683,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             })
             queue.addOperation(opLayout)
             let opSetupContent : Operation = BlockOperation(block: {
-                DispatchQueue.main.async(execute: {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
                     if let child = self.childViewControllers[self.currentTabIndex] as? ListItemViewController {
                         child.setupContent()
                     }
