@@ -101,7 +101,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KRN-ow-bRQ" userLabel="Button Link Image">
                                         <rect key="frame" x="0.0" y="0.0" width="60" height="30"/>
                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="17"/>
-                                        <state key="normal" title="  ">
+                                        <state key="normal" title="   ">
                                             <color key="titleColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
