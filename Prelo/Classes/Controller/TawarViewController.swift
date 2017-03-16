@@ -1198,10 +1198,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
 //        self.present(alert, animated: true, completion: nil)
         
         /*
-        let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah dibeli dan/atau diterima oleh pembeli ini? (Aksi ini tidak dapat dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
+        let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah DIBAYAR oleh pembeli ini? (Aksi ini TIDAK dapat dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
-            let alert2 : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah kamu yakin? (Aksi ini benar-benar tidak dapat dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
+            let alert2 : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah kamu yakin? (Aksi ini TIDAK dapat dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
             alert2.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
             alert2.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
                 self.prodStatus = 2
@@ -1266,11 +1266,11 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.MarkAsSold, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
             }
             alertView2.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
-            alertView2.showCustom("Mark As Sold", subTitle: "Apakah kamu yakin? (Aksi ini benar-benar tidak dapat dibatalkan)", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+            alertView2.showCustom("Mark As Sold", subTitle: "Apakah kamu yakin? (Aksi ini TIDAK dapat dibatalkan)", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
             
         }
         alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
-        alertView.showCustom("Mark As Sold", subTitle: "Apakah barang ini sudah dibeli dan/atau diterima oleh pembeli ini? (Aksi ini tidak dapat dibatalkan)", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+        alertView.showCustom("Mark As Sold", subTitle: "Apakah barang ini sudah DIBAYAR oleh pembeli ini? (Aksi ini TIDAK dapat dibatalkan)", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
     func randomElementIndex<T>(_ s: Set<T>) -> T {
