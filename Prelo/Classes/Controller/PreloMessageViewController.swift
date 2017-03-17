@@ -549,7 +549,7 @@ class PreloMessageCell: UITableViewCell {
         
         self.lblDesc.handleURLTap{ url in
             var urlStr = url.absoluteString
-            if !urlStr.contains("http://") {
+            if !urlStr.contains("http://") && !urlStr.contains("https://") {
                 urlStr = "http://" + url.absoluteString
             }
             let curl = URL(string: urlStr)!
@@ -558,7 +558,7 @@ class PreloMessageCell: UITableViewCell {
         
         self.lblDesc.handleCustomTap(for: customType) { element in
             var urlStr = element
-            if !urlStr.contains("http://") {
+            if !urlStr.contains("http://") && !urlStr.contains("https://") {
                 urlStr = "http://" + element
             }
             let curl = URL(string: urlStr)!
@@ -619,7 +619,7 @@ class PreloMessageCell: UITableViewCell {
     @IBAction func btnBannerLinkPressed(_ sender: Any) {
         if self.headerUri != nil {
             var urlStr = self.headerUri!.absoluteString
-            if !urlStr.contains("http://") && !urlStr.contains("prelo://") {
+            if !urlStr.contains("http://") && !urlStr.contains("https://") && !urlStr.contains("prelo://") {
                 urlStr = "http://" + self.headerUri!.absoluteString
             }
             let curl = URL(string: urlStr)!
