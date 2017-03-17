@@ -536,7 +536,8 @@ class PreloMessageCell: UITableViewCell {
         
         let customType = ActiveType.custom(pattern: "\\sprelo.co.id[^\\s]*") //Regex that looks for " prelo.co.id/* "
         let customType2 = ActiveType.custom(pattern: "prelo://[^\\s]*") //Regex that looks for "prelo://* "
-        self.lblDesc.enabledTypes = [/*.mention, .hashtag,*/ .url, customType, customType2]
+        let customType3 = ActiveType.custom(pattern: "\\sdev.prelo.id[^\\s]*") //Regex that looks for " prelo.co.id/* "
+        self.lblDesc.enabledTypes = [/*.mention, .hashtag,*/ .url, customType, customType2, customType3]
         
         self.lblDesc.URLColor = Theme.PrimaryColorDark
         self.lblDesc.URLSelectedColor = Theme.PrimaryColorDark
@@ -547,27 +548,33 @@ class PreloMessageCell: UITableViewCell {
         self.lblDesc.customColor[customType2] = Theme.PrimaryColorDark
         self.lblDesc.customSelectedColor[customType2] = Theme.PrimaryColorDark
         
+        self.lblDesc.customColor[customType3] = Theme.PrimaryColorDark
+        self.lblDesc.customSelectedColor[customType3] = Theme.PrimaryColorDark
+        
         self.lblDesc.handleURLTap{ url in
             var urlStr = url.absoluteString
             if !urlStr.contains("http://") && !urlStr.contains("https://") {
-                urlStr = "http://" + url.absoluteString
+                urlStr = "https://" + url.absoluteString
             }
             let curl = URL(string: urlStr)!
             self.openUrl(curl)
         }
         
-        self.lblDesc.handleCustomTap(for: customType) { element in
-            var urlStr = element
-            if !urlStr.contains("http://") && !urlStr.contains("https://") {
-                urlStr = "http://" + element
-            }
+        self.lblDesc.handleCustomTap(for: customType) { element in // only prelo.co.id
+            let urlStr = "https://" + element
             let curl = URL(string: urlStr)!
             self.openUrl(curl)
         }
         
-        self.lblDesc.handleCustomTap(for: customType2) { element in
+        self.lblDesc.handleCustomTap(for: customType2) { element in // only prelo://
             // prelo://
             let urlStr = element
+            let curl = URL(string: urlStr)!
+            self.openUrl(curl)
+        }
+        
+        self.lblDesc.handleCustomTap(for: customType3) { element in // only dev.prelo.id
+            let urlStr = "http://" + element
             let curl = URL(string: urlStr)!
             self.openUrl(curl)
         }

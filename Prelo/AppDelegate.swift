@@ -664,7 +664,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } else {
                 self.showFailedRedirAlert()
             }
-        } else if (url.absoluteString.contains("prelo.co.id")) { // https://prelo.co.id/
+        } else if (url.absoluteString.contains("prelo.co.id") || url.absoluteString.contains("dev.prelo.id")) { // https://prelo.co.id/ / http://dev.prelo.id/
             if (path.contains(".html")) {
                 let permalink = path.replace("/", template: "").replacingOccurrences(of: ".html", with: "")
                 let _ = request(APIProduct.getIdByPermalink(permalink: permalink)).responseJSON { resp in
