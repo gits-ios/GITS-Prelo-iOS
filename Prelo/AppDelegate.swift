@@ -664,7 +664,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } else {
                 self.showFailedRedirAlert()
             }
-        } else { // https://prelo.co.id/
+        } else if (url.absoluteString.contains("prelo.co.id")) { // https://prelo.co.id/
             if (path.contains(".html")) {
                 let permalink = path.replace("/", template: "").replacingOccurrences(of: ".html", with: "")
                 let _ = request(APIProduct.getIdByPermalink(permalink: permalink)).responseJSON { resp in
@@ -759,6 +759,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
                 }
             }
+            
+        } else if (url.absoluteString.contains("http://") || url.absoluteString.contains("https://")) { // other
+            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                // Choose one method
+                UIApplication.shared.openURL(url) // Open in safari
+                //self.redirectWebview(url.absoluteString) // Open in prelo's webview
+            })
+        } else {
+            self.showFailedRedirAlert()
         }
     }
     

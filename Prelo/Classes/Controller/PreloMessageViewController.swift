@@ -34,6 +34,10 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
     @IBOutlet weak var btnScrollToTop: UIButton!
     @IBOutlet weak var btnScrollToBottom: UIButton!
     
+    var startTime : TimeInterval! = nil
+    
+    var myRequest: Request?
+    
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -300,6 +304,7 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
     }
     
     func showNewMessage() {
+        self.startTime = Date().timeIntervalSinceReferenceDate
         
         let inset = UIEdgeInsetsMake(0, 0, 4, 0)
         self.tableView.contentInset = inset
@@ -316,8 +321,6 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
         // another approach / techniue
         self.getNewMessage(self.newMessages.count)
         self.newMessages.removeAll()
-        
-        self.scrollWithInterval(0.4, direction: .top)
         
         // 1
         let placeSelectionBar = { () -> () in
@@ -338,6 +341,13 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
             self.consHeightTopBannerParent.constant = 0
             while (true) {
                 if self.isLoaded {
+                    self.scrollToTop()
+                    self.tableView.reloadData()
+                    self.hideLoading()
+                    break
+                } else if ((Date().timeIntervalSinceReferenceDate - self.startTime) >= 5.0) { // 5 detik
+                    Constant.showDialog("Get New Prelo Message", message: "Oops, terdapat kesalahan")
+                    self.myRequest?.cancel()
                     self.tableView.reloadData()
                     self.hideLoading()
                     break
@@ -408,14 +418,6 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
         })
     }
     
-    func scrollWithInterval(_ intrvl: TimeInterval, direction: UITableViewScrollPosition) {
-        if direction == .top {
-            Timer.scheduledTimer(timeInterval: intrvl, target: self, selector: #selector(PreloMessageViewController.scrollToTop), userInfo: nil, repeats: false)
-        } else {
-            Timer.scheduledTimer(timeInterval: intrvl, target: self, selector: #selector(PreloMessageViewController.scrollToBottom), userInfo: nil, repeats: false)
-        }
-    }
-    
     func scrollToTop() {
         if ((self.messages?.count)! > 0) {
             tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.top, animated: true)
@@ -430,8 +432,8 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
     
     func getNewMessage(_ count: Int) {
         self.isLoaded = false
-        let _ = request(APIPreloMessage.getMessage).responseJSON { resp in
-            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Get Prelo Message")) {
+        self.myRequest = request(APIPreloMessage.getMessage).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Get New Prelo Message")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 if let _messages = data["messages"].array {
@@ -443,7 +445,12 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
                         
                         self.isLoaded = true
                     }
+                } else {
+                    Constant.showDialog("Get New Prelo Message", message: "Oops, terdapat kesalahan")
+                    self.isLoaded = true
                 }
+            } else {
+                self.isLoaded = true
             }
         }
     }
@@ -559,7 +566,8 @@ class PreloMessageCell: UITableViewCell {
         }
         
         self.lblDesc.handleCustomTap(for: customType2) { element in
-            var urlStr = element
+            // prelo://
+            let urlStr = element
             let curl = URL(string: urlStr)!
             self.openUrl(curl)
         }
