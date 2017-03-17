@@ -7,6 +7,11 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Prelo2.ttf">
+            <string>Prelo2</string>
+        </array>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -30,6 +35,64 @@
                             <constraint firstAttribute="height" id="Su3-3j-lmr"/>
                         </constraints>
                     </view>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h1o-Sw-WuH" userLabel="Button Scroll To Top" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
+                        <rect key="frame" x="147" y="40" width="80" height="40"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="C0o-lf-jLP"/>
+                            <constraint firstAttribute="width" constant="80" id="L72-4s-hh2"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="17"/>
+                        <state key="normal" title="">
+                            <color key="titleColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </state>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="4"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                <real key="value" value="2"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColorHighlight">
+                                <color key="value" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="btnScrollToTopPressed:" destination="tdk-KL-fCT" eventType="touchUpInside" id="6xk-oF-pmW"/>
+                        </connections>
+                    </button>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gO7-Jj-w8j" userLabel="Button Scroll To Bottom" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
+                        <rect key="frame" x="147" y="523" width="80" height="40"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="TzI-ka-IRP"/>
+                            <constraint firstAttribute="width" constant="80" id="cre-uS-HOb"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="17"/>
+                        <state key="normal" title="">
+                            <color key="titleColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </state>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="4"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                <real key="value" value="2"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColorHighlight">
+                                <color key="value" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="btnScrollToBottomPressed:" destination="tdk-KL-fCT" eventType="touchUpInside" id="4zR-uN-as5"/>
+                        </connections>
+                    </button>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oa2-Hr-Vhw" userLabel="loadingPanel" customClass="AchievementCell" customModule="Prelo" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <subviews>
@@ -48,6 +111,7 @@
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="Oa2-Hr-Vhw" secondAttribute="bottom" id="6l5-nK-8yk"/>
+                    <constraint firstItem="MNs-rW-GeX" firstAttribute="top" secondItem="gO7-Jj-w8j" secondAttribute="bottom" constant="40" id="8gQ-mi-uSy"/>
                     <constraint firstAttribute="trailing" secondItem="iG7-VB-I5b" secondAttribute="trailing" id="AST-nr-0Jo"/>
                     <constraint firstItem="Oa2-Hr-Vhw" firstAttribute="top" secondItem="xen-hQ-SiN" secondAttribute="top" id="J7n-k1-wl7"/>
                     <constraint firstItem="iG7-VB-I5b" firstAttribute="top" secondItem="Xda-82-zsn" secondAttribute="bottom" id="KUN-bY-ihc"/>
@@ -56,12 +120,17 @@
                     <constraint firstItem="Reh-07-uu7" firstAttribute="leading" secondItem="xen-hQ-SiN" secondAttribute="leading" id="gOk-uO-kSe"/>
                     <constraint firstAttribute="trailing" secondItem="Oa2-Hr-Vhw" secondAttribute="trailing" id="lug-BQ-zi3"/>
                     <constraint firstItem="Reh-07-uu7" firstAttribute="top" secondItem="Xda-82-zsn" secondAttribute="bottom" id="msi-a0-FLr"/>
+                    <constraint firstItem="gO7-Jj-w8j" firstAttribute="centerX" secondItem="xen-hQ-SiN" secondAttribute="centerX" id="pWs-yZ-Auf"/>
+                    <constraint firstItem="h1o-Sw-WuH" firstAttribute="top" secondItem="Reh-07-uu7" secondAttribute="bottom" constant="40" id="rRM-zh-Uu0"/>
+                    <constraint firstItem="h1o-Sw-WuH" firstAttribute="centerX" secondItem="xen-hQ-SiN" secondAttribute="centerX" id="tWA-7v-J3L"/>
                     <constraint firstAttribute="trailing" secondItem="Reh-07-uu7" secondAttribute="trailing" id="wKP-VB-XFw"/>
                     <constraint firstItem="Oa2-Hr-Vhw" firstAttribute="leading" secondItem="xen-hQ-SiN" secondAttribute="leading" id="wWK-xr-H6Z"/>
                 </constraints>
             </view>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
             <connections>
+                <outlet property="btnScrollToBottom" destination="gO7-Jj-w8j" id="1AV-Oe-UG0"/>
+                <outlet property="btnScrollToTop" destination="h1o-Sw-WuH" id="MAr-Dl-ES6"/>
                 <outlet property="consHeightTopBannerParent" destination="Su3-3j-lmr" id="Ugk-dN-3VI"/>
                 <outlet property="loadingPanel" destination="Oa2-Hr-Vhw" id="iGL-jd-N0c"/>
                 <outlet property="tableView" destination="iG7-VB-I5b" id="5rO-hK-KhF"/>

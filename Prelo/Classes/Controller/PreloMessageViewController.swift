@@ -13,7 +13,7 @@ import MessageUI
 
 
 // MARK: - Class
-class PreloMessageViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, MessagePoolDelegate {
+class PreloMessageViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, MessagePoolDelegate, UIScrollViewDelegate {
     // MARK: - Properties
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var loadingPanel: UIView!
@@ -28,6 +28,11 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
     @IBOutlet weak var vwTopBannerParent: UIView!
     @IBOutlet weak var consHeightTopBannerParent: NSLayoutConstraint!
     var isLoaded: Bool = true
+    
+    var lastContentOffset = CGPoint.zero
+    
+    @IBOutlet weak var btnScrollToTop: UIButton!
+    @IBOutlet weak var btnScrollToBottom: UIButton!
     
     // MARK: - Init
     override func viewDidLoad() {
@@ -197,20 +202,20 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
             }
             
             cell.zoomImage = {
-                if m.bannerUri != nil {
-                    var urlStr = m.bannerUri!.absoluteString
-                    if !urlStr.contains("http://") {
-                        urlStr = "http://" + m.bannerUri!.absoluteString
-                    }
-                    let curl = URL(string: urlStr)!
-                    self.openUrl(url: curl)
-                } else {
+//                if m.bannerUri != nil {
+//                    var urlStr = m.bannerUri!.absoluteString
+//                    if !urlStr.contains("http://") {
+//                        urlStr = "http://" + m.bannerUri!.absoluteString
+//                    }
+//                    let curl = URL(string: urlStr)!
+//                    self.openUrl(url: curl)
+//                } else {
                     let c = CoverZoomController()
                     c.labels = [(m.isContainAttachment ? "pesan gambar" : (m.title == "" ? "Prelo Message" : m.title))]
                     c.images = [(m.banner?.absoluteString)!]
                     c.index = 0
                     self.navigationController?.present(c, animated: true, completion: nil)
-                }
+//                }
             }
             
             cell.openUrl = { url in
@@ -223,6 +228,44 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // do nothing
+    }
+    
+    // MARK: - scrollview delegate
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let currentOffset = scrollView.contentOffset
+        
+        if (currentOffset.y > 4 && currentOffset.y < (tableView.contentSize.height - tableView.height)) {
+            //print(currentOffset.y)
+            //print((tableView.contentSize.height - tableView.height))
+            if (currentOffset.y > self.lastContentOffset.y) {
+                // Downward
+                self.btnScrollToBottom.isHidden = false
+                self.btnScrollToTop.isHidden = true
+            } else {
+                // Upward
+                self.btnScrollToBottom.isHidden = true
+                self.btnScrollToTop.isHidden = false
+            }
+        } else {
+            self.btnScrollToBottom.isHidden = true
+            self.btnScrollToTop.isHidden = true
+        }
+        self.lastContentOffset = currentOffset
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        self.btnScrollToBottom.isHidden = true
+        self.btnScrollToTop.isHidden = true
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        self.btnScrollToBottom.isHidden = true
+        self.btnScrollToTop.isHidden = true
+    }
+    
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        self.btnScrollToBottom.isHidden = true
+        self.btnScrollToTop.isHidden = true
     }
     
     // MARK: - Deeplink
@@ -257,6 +300,10 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
     }
     
     func showNewMessage() {
+        
+        let inset = UIEdgeInsetsMake(0, 0, 4, 0)
+        self.tableView.contentInset = inset
+        
         self.showLoading()
         
 //        print(self.newMessages.count)
@@ -270,7 +317,7 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
         self.getNewMessage(self.newMessages.count)
         self.newMessages.removeAll()
         
-        self.scrollWithInterval(0.4)
+        self.scrollWithInterval(0.4, direction: .top)
         
         // 1
         let placeSelectionBar = { () -> () in
@@ -355,16 +402,29 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
         // inject center (fixer)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
             self.vwTopBannerParent.frame.origin.y = 0
+            
+            let inset = UIEdgeInsetsMake(topBannerHeight, 0, 4, 0)
+            self.tableView.contentInset = inset
         })
     }
     
-    func scrollWithInterval(_ intrvl : TimeInterval) {
-        Timer.scheduledTimer(timeInterval: intrvl, target: self, selector: #selector(PreloMessageViewController.scrollToTop), userInfo: nil, repeats: false)
+    func scrollWithInterval(_ intrvl: TimeInterval, direction: UITableViewScrollPosition) {
+        if direction == .top {
+            Timer.scheduledTimer(timeInterval: intrvl, target: self, selector: #selector(PreloMessageViewController.scrollToTop), userInfo: nil, repeats: false)
+        } else {
+            Timer.scheduledTimer(timeInterval: intrvl, target: self, selector: #selector(PreloMessageViewController.scrollToBottom), userInfo: nil, repeats: false)
+        }
     }
     
     func scrollToTop() {
         if ((self.messages?.count)! > 0) {
             tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.top, animated: true)
+        }
+    }
+    
+    func scrollToBottom() {
+        if ((self.messages?.count)! > 0) {
+            tableView.scrollToRow(at: IndexPath(row: (self.messages?.count)! - 1, section: 0), at: UITableViewScrollPosition.bottom, animated: true)
         }
     }
     
@@ -386,6 +446,15 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
                 }
             }
         }
+    }
+    
+    // MARK: - Other
+    @IBAction func btnScrollToTopPressed(_ sender: Any) {
+        self.scrollToTop()
+    }
+    
+    @IBAction func btnScrollToBottomPressed(_ sender: Any) {
+        self.scrollToBottom()
     }
 }
 
@@ -459,13 +528,17 @@ class PreloMessageCell: UITableViewCell {
 //        self.lblDesc.addGestureRecognizer(longPressRecognizer)
         
         let customType = ActiveType.custom(pattern: "\\sprelo.co.id[^\\s]*") //Regex that looks for " prelo.co.id/* "
-        self.lblDesc.enabledTypes = [/*.mention, .hashtag,*/ .url, customType]
+        let customType2 = ActiveType.custom(pattern: "prelo://[^\\s]*") //Regex that looks for "prelo://* "
+        self.lblDesc.enabledTypes = [/*.mention, .hashtag,*/ .url, customType, customType2]
         
         self.lblDesc.URLColor = Theme.PrimaryColorDark
         self.lblDesc.URLSelectedColor = Theme.PrimaryColorDark
         
         self.lblDesc.customColor[customType] = Theme.PrimaryColorDark
         self.lblDesc.customSelectedColor[customType] = Theme.PrimaryColorDark
+        
+        self.lblDesc.customColor[customType2] = Theme.PrimaryColorDark
+        self.lblDesc.customSelectedColor[customType2] = Theme.PrimaryColorDark
         
         self.lblDesc.handleURLTap{ url in
             var urlStr = url.absoluteString
@@ -481,6 +554,12 @@ class PreloMessageCell: UITableViewCell {
             if !urlStr.contains("http://") {
                 urlStr = "http://" + element
             }
+            let curl = URL(string: urlStr)!
+            self.openUrl(curl)
+        }
+        
+        self.lblDesc.handleCustomTap(for: customType2) { element in
+            var urlStr = element
             let curl = URL(string: urlStr)!
             self.openUrl(curl)
         }
@@ -532,7 +611,7 @@ class PreloMessageCell: UITableViewCell {
     @IBAction func btnBannerLinkPressed(_ sender: Any) {
         if self.headerUri != nil {
             var urlStr = self.headerUri!.absoluteString
-            if !urlStr.contains("http://") {
+            if !urlStr.contains("http://") && !urlStr.contains("prelo://") {
                 urlStr = "http://" + self.headerUri!.absoluteString
             }
             let curl = URL(string: urlStr)!
