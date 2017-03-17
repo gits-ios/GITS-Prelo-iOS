@@ -535,6 +535,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if isDoing {
                 self.deeplinkRedirect(tipe, targetId: targetId)
             } else {
+                // not tested
                 if tipe.lowercased() == self.RedirInbox && rootViewController?.childViewControllers.last is TawarViewController {
                     //do something if it's an instance of that class
                     

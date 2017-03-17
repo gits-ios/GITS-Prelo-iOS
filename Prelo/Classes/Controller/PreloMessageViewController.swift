@@ -166,48 +166,56 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
     // MARK: - TableView functions
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return messages!.count
+        if messages != nil {
+            return messages!.count
+        }
+        return 0
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return PreloMessageCell.heightFor((messages?[(indexPath as NSIndexPath).row])!, isOpen: isOpens[(indexPath as NSIndexPath).row])
+        if messages != nil && messages!.count > 0 {
+            return PreloMessageCell.heightFor((messages?[(indexPath as NSIndexPath).row])!, isOpen: isOpens[(indexPath as NSIndexPath).row])
+        }
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PreloMessageCell") as! PreloMessageCell
         
-        let idx = (indexPath as NSIndexPath).row
-        let m = (messages?[idx])!
-        
-        cell.selectionStyle = .none
-        cell.backgroundColor = UIColor(hexString: "#E8ECEE")
-        cell.clipsToBounds = true
-        cell.adapt(m, isOpen: isOpens[idx])
-        
-        cell.readMore = {
-            self.isOpens[(indexPath as NSIndexPath).row] = true
-            tableView.reloadData()
-        }
-        
-        cell.zoomImage = {
-//            if m.bannerUri != nil {
-//                var urlStr = m.bannerUri!.absoluteString
-//                if !urlStr.contains("http://") {
-//                    urlStr = "http://" + m.bannerUri!.absoluteString
-//                }
-//                let curl = URL(string: urlStr)!
-//                self.openUrl(url: curl)
-//            } else {
-                let c = CoverZoomController()
-                c.labels = [(m.isContainAttachment ? "pesan gambar" : (m.title == "" ? "Prelo Message" : m.title))]
-                c.images = [(m.banner?.absoluteString)!]
-                c.index = 0
-                self.navigationController?.present(c, animated: true, completion: nil)
-//            }
-        }
-        
-        cell.openUrl = { url in
-            self.openUrl(url: url)
+        if messages != nil && messages!.count > 0 {
+            let idx = (indexPath as NSIndexPath).row
+            let m = (messages?[idx])!
+            
+            cell.selectionStyle = .none
+            cell.backgroundColor = UIColor(hexString: "#E8ECEE")
+            cell.clipsToBounds = true
+            cell.adapt(m, isOpen: isOpens[idx])
+            
+            cell.readMore = {
+                self.isOpens[(indexPath as NSIndexPath).row] = true
+                tableView.reloadData()
+            }
+            
+            cell.zoomImage = {
+                if m.bannerUri != nil {
+                    var urlStr = m.bannerUri!.absoluteString
+                    if !urlStr.contains("http://") {
+                        urlStr = "http://" + m.bannerUri!.absoluteString
+                    }
+                    let curl = URL(string: urlStr)!
+                    self.openUrl(url: curl)
+                } else {
+                    let c = CoverZoomController()
+                    c.labels = [(m.isContainAttachment ? "pesan gambar" : (m.title == "" ? "Prelo Message" : m.title))]
+                    c.images = [(m.banner?.absoluteString)!]
+                    c.index = 0
+                    self.navigationController?.present(c, animated: true, completion: nil)
+                }
+            }
+            
+            cell.openUrl = { url in
+                self.openUrl(url: url)
+            }
         }
         
         return cell
@@ -394,6 +402,7 @@ class PreloMessageCell: UITableViewCell {
     @IBOutlet weak var vwGradient: UIView!
     
     var headerUri: URL?
+    var desc: String = ""
     
     var readMore : ()->() = {}
     var zoomImage: ()->() = {}
@@ -446,6 +455,9 @@ class PreloMessageCell: UITableViewCell {
         self.lblTitle.text = message.title
         self.lblDate.text = message.date
         
+//        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(PreloMessageCell.textPressed))
+//        self.lblDesc.addGestureRecognizer(longPressRecognizer)
+        
         let customType = ActiveType.custom(pattern: "\\sprelo.co.id[^\\s]*") //Regex that looks for " prelo.co.id/* "
         self.lblDesc.enabledTypes = [/*.mention, .hashtag,*/ .url, customType]
         
@@ -474,6 +486,7 @@ class PreloMessageCell: UITableViewCell {
         }
         
         self.lblDesc.text = message.desc
+        self.desc = message.desc
         
         if message.desc == "pesan gambar" {
             self.lblDesc.font = UIFont.italicSystemFont(ofSize: 14)
@@ -526,4 +539,13 @@ class PreloMessageCell: UITableViewCell {
             self.openUrl(curl)
         }
     }
+    
+//    func textPressed() {
+//        putToPasteBoard(self.desc)
+//        Constant.showDialog("Perhatian", message: "Pesan sudah ada di clipboard :)")
+//    }
+//    
+//    func putToPasteBoard(_ text : String) {
+//        UIPasteboard.general.string = text
+//    }
 }
