@@ -23,12 +23,31 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
     
     var threadId: String! = ""
     
+    var newMessages: Array<PreloMessageItem> = [] // From message pool
+    
+    @IBOutlet weak var vwTopBannerParent: UIView!
+    @IBOutlet weak var consHeightTopBannerParent: NSLayoutConstraint!
+    var isLoaded: Bool = true
+    
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.2)
+        
         let PreloMessageCell = UINib(nibName: "PreloMessageCell", bundle: nil)
         tableView.register(PreloMessageCell, forCellReuseIdentifier: "PreloMessageCell")
+        
+        // Setup table
+        tableView.tableFooterView = UIView()
+        
+        //TOP, LEFT, BOTTOM, RIGHT
+        let inset = UIEdgeInsetsMake(0, 0, 4, 0)
+        tableView.contentInset = inset
+        
+        tableView.separatorStyle = .none
+        
+        tableView.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
         
         // title
         self.title = "Prelo Message"
@@ -38,21 +57,9 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
         super.viewDidAppear(animated)
         
         if isFirst {
-            isFirst = false
-            showLoading()
-            
             // Setup table
             tableView.dataSource = self
             tableView.delegate = self
-            tableView.tableFooterView = UIView()
-            
-            //TOP, LEFT, BOTTOM, RIGHT
-            let inset = UIEdgeInsetsMake(0, 0, 4, 0)
-            tableView.contentInset = inset
-            
-            tableView.separatorStyle = .none
-            
-            tableView.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
             
             getMessage()
         }
@@ -64,6 +71,18 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
         
         // Google Analytics
         GAI.trackPageVisit(PageName.PreloMessage)
+        
+        if !isFirst {
+            if self.threadId != "" {
+                // Register delegate for messagepool socket
+                if let del = UIApplication.shared.delegate as? AppDelegate {
+                    del.messagePool?.registerDelegate(self.threadId, d: self)
+                } else {
+                    let error = NSError(domain: "Failed to cast AppDelegate", code: 0, userInfo: nil)
+                    Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["from":"PreloMessage Register MessagePool 2"])
+                }
+            }
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -86,7 +105,9 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
     }
     
     func getMessage() {
-        // clean badges
+        self.showLoading()
+        
+        // clean messages
         self.messages = []
         self.isOpens = []
         
@@ -107,6 +128,8 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
                     
                     self.threadId = data["_id"].stringValue
                     print(self.threadId)
+                    
+                    self.isFirst = false
                     
                     if self.threadId != "" {
                         // Register delegate for messagepool socket
@@ -214,9 +237,147 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
     }
     
     func preloMessageArrived(_ message: PreloMessageItem) {
+        /*
         self.isOpens.insert(false, at: 0)
         self.messages?.insert(message, at: 0)
         self.tableView.reloadData()
+         */
+        
+        self.newMessages.insert(message, at: 0)
+        
+        self.setupTopBanner()
+    }
+    
+    func showNewMessage() {
+        self.showLoading()
+        
+//        print(self.newMessages.count)
+//        while self.newMessages.count > 0 {
+//            let message = self.newMessages.popLast()
+//            self.isOpens.insert(false, at: 0)
+//            self.messages?.insert(message!, at: 0)
+//        }
+        
+        // another approach / techniue
+        self.getNewMessage(self.newMessages.count)
+        self.newMessages.removeAll()
+        
+        self.scrollWithInterval(0.4)
+        
+        // 1
+        let placeSelectionBar = { () -> () in
+            // parent
+            var curView = self.vwTopBannerParent.frame
+            curView.origin.y = -self.consHeightTopBannerParent.constant
+            self.vwTopBannerParent.frame = curView
+        }
+        
+        // 2
+        UIView.animate(withDuration: 0.4, animations: {
+            placeSelectionBar()
+        })
+        
+        // inject center (fixer)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
+            self.vwTopBannerParent.isHidden = true
+            self.consHeightTopBannerParent.constant = 0
+            while (true) {
+                if self.isLoaded {
+                    self.tableView.reloadData()
+                    self.hideLoading()
+                    break
+                }
+            }
+        })
+    }
+    
+    func setupTopBanner() {
+        self.vwTopBannerParent.viewWithTag(999)?.removeFromSuperview()
+        
+        let bannerRecognizer = UITapGestureRecognizer(target: self, action: #selector(PreloMessageViewController.showNewMessage))
+        
+        let tbText = self.newMessages.count.string + " Prelo Message Baru"
+        let screenSize: CGRect = UIScreen.main.bounds
+        let screenWidth = screenSize.width
+        var topBannerHeight = CGFloat(30.0)
+        let textRect = tbText.boundsWithFontSize(UIFont.systemFont(ofSize: 11), width: screenWidth - 16)
+        topBannerHeight += textRect.height
+        let topLabelMargin : CGFloat = 8.0
+        
+        let topBanner : UIView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: topBannerHeight), backgroundColor: Theme.ThemeOrange)
+        topBanner.tag = 999
+        topBanner.clipsToBounds = true
+        
+        let topLabel : UILabel = UILabel(frame: CGRect(x: topLabelMargin, y: 0, width: screenWidth - (topLabelMargin * 2), height: topBannerHeight))
+        topLabel.textColor = UIColor.white
+        topLabel.font = UIFont.systemFont(ofSize: 11)
+        topLabel.lineBreakMode = .byWordWrapping
+        topLabel.numberOfLines = 0
+        topLabel.text = tbText
+        topLabel.clipsToBounds = true
+        
+        let btn : UIButton = UIButton()
+        btn.frame = topBanner.bounds
+        btn.addGestureRecognizer(bannerRecognizer)
+        btn.clipsToBounds = true
+        
+        topBanner.addSubview(topLabel)
+        topBanner.addSubview(btn)
+        
+        self.vwTopBannerParent.addSubview(topBanner)
+        // fixer
+        self.vwTopBannerParent.frame.origin.y = -topBannerHeight
+        self.consHeightTopBannerParent.constant = topBannerHeight
+        
+        self.vwTopBannerParent.isHidden = false
+        
+        // 1
+        let placeSelectionBar = { () -> () in
+            // parent
+            var curView = self.vwTopBannerParent.frame
+            curView.origin.y = 0
+            self.vwTopBannerParent.frame = curView
+        }
+        
+        // 2
+        UIView.animate(withDuration: 0.4, animations: {
+            placeSelectionBar()
+        })
+        
+        // inject center (fixer)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
+            self.vwTopBannerParent.frame.origin.y = 0
+        })
+    }
+    
+    func scrollWithInterval(_ intrvl : TimeInterval) {
+        Timer.scheduledTimer(timeInterval: intrvl, target: self, selector: #selector(PreloMessageViewController.scrollToTop), userInfo: nil, repeats: false)
+    }
+    
+    func scrollToTop() {
+        if ((self.messages?.count)! > 0) {
+            tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.top, animated: true)
+        }
+    }
+    
+    func getNewMessage(_ count: Int) {
+        self.isLoaded = false
+        let _ = request(APIPreloMessage.getMessage).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Get Prelo Message")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                if let _messages = data["messages"].array {
+                    for m in _messages.count-(count+1)..._messages.count-1 {
+                        let message = PreloMessageItem.instance(_messages[m])
+                        
+                        self.isOpens.insert(false, at: 0)
+                        self.messages?.insert(message!, at: 0)
+                        
+                        self.isLoaded = true
+                    }
+                }
+            }
+        }
     }
 }
 

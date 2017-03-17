@@ -23,6 +23,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </tableView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Reh-07-uu7">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" id="Su3-3j-lmr"/>
+                        </constraints>
+                    </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oa2-Hr-Vhw" userLabel="loadingPanel" customClass="AchievementCell" customModule="Prelo" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <subviews>
@@ -43,17 +50,22 @@
                     <constraint firstAttribute="bottom" secondItem="Oa2-Hr-Vhw" secondAttribute="bottom" id="6l5-nK-8yk"/>
                     <constraint firstAttribute="trailing" secondItem="iG7-VB-I5b" secondAttribute="trailing" id="AST-nr-0Jo"/>
                     <constraint firstItem="Oa2-Hr-Vhw" firstAttribute="top" secondItem="xen-hQ-SiN" secondAttribute="top" id="J7n-k1-wl7"/>
+                    <constraint firstItem="iG7-VB-I5b" firstAttribute="top" secondItem="Xda-82-zsn" secondAttribute="bottom" id="KUN-bY-ihc"/>
                     <constraint firstAttribute="bottom" secondItem="iG7-VB-I5b" secondAttribute="bottom" id="NWl-F2-WUY"/>
                     <constraint firstItem="iG7-VB-I5b" firstAttribute="leading" secondItem="xen-hQ-SiN" secondAttribute="leading" id="TsZ-p6-ugS"/>
-                    <constraint firstItem="iG7-VB-I5b" firstAttribute="top" secondItem="Xda-82-zsn" secondAttribute="bottom" id="lE2-RL-mYj"/>
+                    <constraint firstItem="Reh-07-uu7" firstAttribute="leading" secondItem="xen-hQ-SiN" secondAttribute="leading" id="gOk-uO-kSe"/>
                     <constraint firstAttribute="trailing" secondItem="Oa2-Hr-Vhw" secondAttribute="trailing" id="lug-BQ-zi3"/>
+                    <constraint firstItem="Reh-07-uu7" firstAttribute="top" secondItem="Xda-82-zsn" secondAttribute="bottom" id="msi-a0-FLr"/>
+                    <constraint firstAttribute="trailing" secondItem="Reh-07-uu7" secondAttribute="trailing" id="wKP-VB-XFw"/>
                     <constraint firstItem="Oa2-Hr-Vhw" firstAttribute="leading" secondItem="xen-hQ-SiN" secondAttribute="leading" id="wWK-xr-H6Z"/>
                 </constraints>
             </view>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
             <connections>
+                <outlet property="consHeightTopBannerParent" destination="Su3-3j-lmr" id="Ugk-dN-3VI"/>
                 <outlet property="loadingPanel" destination="Oa2-Hr-Vhw" id="iGL-jd-N0c"/>
                 <outlet property="tableView" destination="iG7-VB-I5b" id="5rO-hK-KhF"/>
+                <outlet property="vwTopBannerParent" destination="Reh-07-uu7" id="ZBF-2i-uvS"/>
             </connections>
             <point key="canvasLocation" x="-6.5" y="9.5"/>
         </viewController>

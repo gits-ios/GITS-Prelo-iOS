@@ -504,12 +504,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
              */
             
-            if (title != "" || alert != "") {
+            if (title != "" || alert != "" && isDoing) {
                 // banner
                 let banner = Banner(title: title != "" ? title : alert, subtitle: body != "" ? body : nil, image: imageBanner, backgroundColor: Theme.PrimaryColor, didTapBlock: {
-                    if isDoing {
+                    //if isDoing {
                         self.deeplinkRedirect(tipe, targetId: targetId)
-                    }
+                    //}
                     
                     // Prelo Analytic - Click Push Notification
                     if imgUrl != "" {
@@ -534,6 +534,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             if isDoing {
                 self.deeplinkRedirect(tipe, targetId: targetId)
+            } else {
+                if tipe.lowercased() == self.RedirInbox && rootViewController?.childViewControllers.last is TawarViewController {
+                    //do something if it's an instance of that class
+                    
+                    if let tawarVC = rootViewController?.childViewControllers.last as? TawarViewController {
+                        tawarVC.isScrollToBottom = true
+                        tawarVC.getMessages()
+                    }
+                } else if tipe.lowercased() == self.RedirPreloMessage && rootViewController?.childViewControllers.last is PreloMessageViewController {
+                    //do something if it's an instance of that class
+                    
+                    if let preloMessageVC = rootViewController?.childViewControllers.last as? PreloMessageViewController {
+                        preloMessageVC.getMessage()
+                    }
+                }
             }
             
             // Prelo Analytic - Click Push Notification
