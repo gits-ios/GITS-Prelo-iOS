@@ -643,25 +643,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func handleUniversalLink(_ url : URL, path : String, param : [URLQueryItem]) {
         self.showRedirAlert()
-        if (path.contains(".html")) {
-            let permalink = path.replace("/", template: "").replacingOccurrences(of: ".html", with: "")
-            let _ = request(APIProduct.getIdByPermalink(permalink: permalink)).responseJSON { resp in
-                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Produk")) {
-                    let json = JSON(resp.result.value!)
-                    let pId = json["_data"].stringValue
-                    if (pId != "") {
-                        self.redirectProduct(pId)
+        
+        if (url.absoluteString.contains("prelo://")) { // prelo://
+            let urlString = url.absoluteString.replace("prelo://", template: "")
+            if (urlString.contains("user")) {
+                let _ = request(APIUser.testUser(username: path.replace("/", template: ""))).responseJSON { resp in
+                    
+                    if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Data Shop Pengguna")) {
+                        
+                        let json = JSON(resp.result.value!)["_data"]
+                        if let userId = json["_id"].string {
+                            self.redirectShopPage(userId)
+                        } else {
+                            self.showFailedRedirAlert()
+                        }
                     } else {
                         self.showFailedRedirAlert()
                     }
-                } else {
-                    self.showFailedRedirAlert()
                 }
+            } else {
+                self.showFailedRedirAlert()
             }
-        } else if (path.contains("/p/")) { // old
-            let splittedPath = path.characters.split{$0 == "/"}.map(String.init)
-            if (splittedPath.count > 1) {
-                let permalink = splittedPath[1].replacingOccurrences(of: ".html", with: "")
+        } else { // https://prelo.co.id/
+            if (path.contains(".html")) {
+                let permalink = path.replace("/", template: "").replacingOccurrences(of: ".html", with: "")
                 let _ = request(APIProduct.getIdByPermalink(permalink: permalink)).responseJSON { resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Produk")) {
                         let json = JSON(resp.result.value!)
@@ -675,52 +680,76 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         self.showFailedRedirAlert()
                     }
                 }
-            } else {
-                self.showFailedRedirAlert()
-            }
-        } else if (path.contains("/reminder-ketersediaan-barang") || path.contains("/barang-expiring")) {
-            /* GET PARAM EXAMPLE
-            var token = ""
-            if (param.count > 0) {
-                for i in 0...param.count - 1 {
-                    if (param[i].name.lowercaseString == "token") {
-                        if let v = param[i].value {
-                            token = v
-                        }
-                    }
-                }
-            }*/
-            self.redirectExpiringProducts()
-        } else if (path.contains("/c/") || path.contains("/bekas/")) {
-            let splittedPath = path.characters.split{$0 == "/"}.map(String.init)
-            if (splittedPath.count > 1) {
-                let permalink = splittedPath[1] //.replacingOccurrences(of: ".html", with: "")
-                let _ = request(APIReference.getCategoryByPermalink(permalink: permalink)).responseJSON { resp in
-                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Get Category ID")) {
-                        let json = JSON(resp.result.value!)
-                        let cId = json["_data"].stringValue
-                        if (cId != "") {
-                            self.redirectCategory(cId)
+            } else if (path.contains("/p/")) { // old
+                let splittedPath = path.characters.split{$0 == "/"}.map(String.init)
+                if (splittedPath.count > 1) {
+                    let permalink = splittedPath[1].replacingOccurrences(of: ".html", with: "")
+                    let _ = request(APIProduct.getIdByPermalink(permalink: permalink)).responseJSON { resp in
+                        if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Produk")) {
+                            let json = JSON(resp.result.value!)
+                            let pId = json["_data"].stringValue
+                            if (pId != "") {
+                                self.redirectProduct(pId)
+                            } else {
+                                self.showFailedRedirAlert()
+                            }
                         } else {
                             self.showFailedRedirAlert()
                         }
-                    } else {
-                        self.showFailedRedirAlert()
                     }
+                } else {
+                    self.showFailedRedirAlert()
                 }
+            } else if (path.contains("/reminder-ketersediaan-barang") || path.contains("/barang-expiring")) {
+                /* GET PARAM EXAMPLE
+                 var token = ""
+                 if (param.count > 0) {
+                 for i in 0...param.count - 1 {
+                 if (param[i].name.lowercaseString == "token") {
+                 if let v = param[i].value {
+                 token = v
+                 }
+                 }
+                 }
+                 }*/
+                self.redirectExpiringProducts()
+            } else if (path.contains("/c/") || path.contains("/bekas/")) {
+                let splittedPath = path.characters.split{$0 == "/"}.map(String.init)
+                if (splittedPath.count > 1) {
+                    let permalink = splittedPath[1] //.replacingOccurrences(of: ".html", with: "")
+                    let _ = request(APIReference.getCategoryByPermalink(permalink: permalink)).responseJSON { resp in
+                        if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Get Category ID")) {
+                            let json = JSON(resp.result.value!)
+                            let cId = json["_data"].stringValue
+                            if (cId != "") {
+                                self.redirectCategory(cId)
+                            } else {
+                                self.showFailedRedirAlert()
+                            }
+                        } else {
+                            self.showFailedRedirAlert()
+                        }
+                    }
+                } else {
+                    self.showFailedRedirAlert()
+                }
+            } else if (path.contains("/checkout")) {
+                self.redirectCart()
             } else {
-                self.showFailedRedirAlert()
-            }
-        } else if (path.contains("/checkout")) {
-            self.redirectCart()
-        } else {
-            let _ = request(APIUser.testUser(username: path.replace("/", template: ""))).responseJSON { resp in
-                
-                if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Data Shop Pengguna")) {
+                let _ = request(APIUser.testUser(username: path.replace("/", template: ""))).responseJSON { resp in
                     
-                    let json = JSON(resp.result.value!)["_data"]
-                    if let userId = json["_id"].string {
-                        self.redirectShopPage(userId)
+                    if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Data Shop Pengguna")) {
+                        
+                        let json = JSON(resp.result.value!)["_data"]
+                        if let userId = json["_id"].string {
+                            self.redirectShopPage(userId)
+                        } else {
+                            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                                // Choose one method
+                                UIApplication.shared.openURL(url) // Open in safari
+                                //self.redirectWebview(url.absoluteString) // Open in prelo's webview
+                            })
+                        }
                     } else {
                         self.hideRedirAlertWithDelay(0, completion: { () -> Void in
                             // Choose one method
@@ -728,12 +757,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             //self.redirectWebview(url.absoluteString) // Open in prelo's webview
                         })
                     }
-                } else {
-                    self.hideRedirAlertWithDelay(0, completion: { () -> Void in
-                        // Choose one method
-                        UIApplication.shared.openURL(url) // Open in safari
-                        //self.redirectWebview(url.absoluteString) // Open in prelo's webview
-                    })
                 }
             }
         }
