@@ -687,8 +687,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             IndexPath(row: 4, section: sectionAlamatUser):c
             */
             
-            IndexPath(row: 1, section: sectionAlamatUser):BaseCartData.instance(titleNama, placeHolder: "Nama Lengkap Kamu", value : fullname),
-            IndexPath(row: 2, section: sectionAlamatUser):BaseCartData.instance(titleTelepon, placeHolder: "Nomor Telepon Kamu", value : phone, keyboardType: UIKeyboardType.phonePad),
+            IndexPath(row: 1, section: sectionAlamatUser):BaseCartData.instance(titleNama, placeHolder: "Nama Lengkap Kamu", value : fullname, enable: (selectedIndex == 0 && isSave ? false : true)),
+            IndexPath(row: 2, section: sectionAlamatUser):BaseCartData.instance(titleTelepon, placeHolder: "Nomor Telepon Kamu", value : phone, keyboardType: UIKeyboardType.phonePad, enable: (selectedIndex == 0 && isSave ? false : true)),
             IndexPath(row: 3, section: sectionAlamatUser):BaseCartData.instance(titleProvinsi, placeHolder: nil, value: pID, pickerPrepBlock: { picker in
                 
                 picker.items = CDProvince.getProvincePickerItems()
@@ -707,7 +707,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     self.cellsData[idxs[1]]?.value = "Pilih Kecamatan"
                     self.tableView.reloadRows(at: idxs, with: .fade)
                 }
-            }),
+            }, enable: (selectedIndex == 0 && isSave ? false : true)),
             IndexPath(row: 4, section: sectionAlamatUser):BaseCartData.instance(titleKota, placeHolder: nil, value: rID, pickerPrepBlock: { picker in
                 
                 picker.items = CDRegion.getRegionPickerItems(self.selectedProvinsiID)
@@ -729,7 +729,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     self.cellsData[idxs[1]]?.value = string.components(separatedBy: PickerViewController.TAG_START_HIDDEN)[0]
                     self.cellsData[idxs[2]]?.value = "Pilih Kecamatan"
                 }
-            }),
+            }, enable: (selectedIndex == 0 && isSave ? false : true)),
             IndexPath(row: 5, section: sectionAlamatUser):BaseCartData.instance(titleKecamatan, placeHolder: nil, value: sdID, pickerPrepBlock: { picker in
                 
                 if (self.kecamatanPickerItems.count <= 0) {
@@ -776,7 +776,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     self.cellsData[idxs[1]]?.value = CDRegion.getRegionNameWithID(self.selectedKotaID)
                     self.cellsData[idxs[2]]?.value = string.components(separatedBy: PickerViewController.TAG_START_HIDDEN)[0]
                 }
-            }),
+            }, enable: (selectedIndex == 0 && isSave ? false : true)),
             IndexPath(row: 6, section: sectionAlamatUser):BaseCartData.instance(titleAlamat, placeHolder: "Alamat Lengkap Kamu", value : address),
             IndexPath(row: 7, section: sectionAlamatUser):BaseCartData.instance(titlePostal, placeHolder: "Kode Pos Kamu", value : postalcode, keyboardType: UIKeyboardType.numberPad)
         ]
@@ -2277,6 +2277,30 @@ class BaseCartData : NSObject
         return b
     }
     
+    static func instance(_ title : String?, placeHolder : String?, value : String, pickerPrepBlock : PrepDataBlock?, enable : Bool) -> BaseCartData {
+        let b = BaseCartData()
+        b.title = title
+        b.placeHolder = placeHolder
+        b.value = value
+        b.enable = enable
+        
+        b.pickerPrepDataBlock = pickerPrepBlock
+        
+        return b
+    }
+    
+    static func instance(_ title : String?, placeHolder : String?, value : String?, keyboardType : UIKeyboardType, enable : Bool) -> BaseCartData {
+        let b = BaseCartData()
+        b.title = title
+        b.placeHolder = placeHolder
+        b.value = value
+        b.enable = enable
+        b.keyboardType = keyboardType
+        
+        return b
+    }
+
+    
     static func instanceWith(_ image : UIImage, placeHolder : String) -> BaseCartData {
         let b = BaseCartData()
         b.title = ""
@@ -2401,14 +2425,17 @@ class CartCellInput2 : BaseCartCell, PickerViewDelegate
     }
     
     override func becomeFirstResponder() -> Bool {
-        let p = parent?.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdPicker) as? PickerViewController
-        p?.items = []
-        p?.pickerDelegate = self
-        p?.prepDataBlock = baseCartData?.pickerPrepDataBlock
-        p?.title = baseCartData?.title
-        parent?.view.endEditing(true)
-        parent?.navigationController?.pushViewController(p!, animated: true)
-        return true
+        if (baseCartData?.enable)! {
+            let p = parent?.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdPicker) as? PickerViewController
+            p?.items = []
+            p?.pickerDelegate = self
+            p?.prepDataBlock = baseCartData?.pickerPrepDataBlock
+            p?.title = baseCartData?.title
+            parent?.view.endEditing(true)
+            parent?.navigationController?.pushViewController(p!, animated: true)
+            return true
+        }
+        return false
     }
     
     override func resignFirstResponder() -> Bool {
