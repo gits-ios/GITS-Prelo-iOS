@@ -209,7 +209,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 
                 let appearance = DropDown.appearance()
                 
-                appearance.cellHeight = 60
+                //appearance.cellHeight = 60
                 appearance.backgroundColor = UIColor(white: 1, alpha: 1)
                 appearance.selectionBackgroundColor = UIColor(red: 0.6494, green: 0.8155, blue: 1.0, alpha: 0.2)
                 appearance.separatorColor = UIColor(white: 0.7, alpha: 0.8)
@@ -366,7 +366,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         dropDown.textFont = UIFont.systemFont(ofSize: 14)
         
-//        dropDown.cellHeight = 30
+        dropDown.cellHeight = 40
         
         dropDown.selectRow(at: self.selectedIndex)
         
@@ -689,7 +689,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             
             IndexPath(row: 1, section: sectionAlamatUser):BaseCartData.instance(titleNama, placeHolder: "Nama Lengkap Kamu", value : fullname, enable: (selectedIndex == 0 && isSave ? false : true)),
             IndexPath(row: 2, section: sectionAlamatUser):BaseCartData.instance(titleTelepon, placeHolder: "Nomor Telepon Kamu", value : phone, keyboardType: UIKeyboardType.phonePad, enable: (selectedIndex == 0 && isSave ? false : true)),
-            IndexPath(row: 3, section: sectionAlamatUser):BaseCartData.instance(titleProvinsi, placeHolder: nil, value: pID, pickerPrepBlock: { picker in
+            IndexPath(row: 3, section: sectionAlamatUser):BaseCartData.instance(titleProvinsi, placeHolder: nil, value: pID != "" ? pID : "Pilih Provinsi", pickerPrepBlock: { picker in
                 
                 picker.items = CDProvince.getProvincePickerItems()
                 picker.textTitle = "Pilih Provinsi"
@@ -708,7 +708,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     self.tableView.reloadRows(at: idxs, with: .fade)
                 }
             }, enable: (selectedIndex == 0 && isSave ? false : true)),
-            IndexPath(row: 4, section: sectionAlamatUser):BaseCartData.instance(titleKota, placeHolder: nil, value: rID, pickerPrepBlock: { picker in
+            IndexPath(row: 4, section: sectionAlamatUser):BaseCartData.instance(titleKota, placeHolder: nil, value: rID != "" ? rID : "Pilih Kota/Kabupaten", pickerPrepBlock: { picker in
                 
                 picker.items = CDRegion.getRegionPickerItems(self.selectedProvinsiID)
                 picker.textTitle = "Pilih Kota/Kabupaten"
@@ -730,7 +730,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     self.cellsData[idxs[2]]?.value = "Pilih Kecamatan"
                 }
             }, enable: (selectedIndex == 0 && isSave ? false : true)),
-            IndexPath(row: 5, section: sectionAlamatUser):BaseCartData.instance(titleKecamatan, placeHolder: nil, value: sdID, pickerPrepBlock: { picker in
+            IndexPath(row: 5, section: sectionAlamatUser):BaseCartData.instance(titleKecamatan, placeHolder: nil, value: sdID != "" ? sdID : "Pilih Kecamatan", pickerPrepBlock: { picker in
                 
                 if (self.kecamatanPickerItems.count <= 0) {
                     self.tableView.isHidden = true
@@ -777,8 +777,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     self.cellsData[idxs[2]]?.value = string.components(separatedBy: PickerViewController.TAG_START_HIDDEN)[0]
                 }
             }, enable: (selectedIndex == 0 && isSave ? false : true)),
-            IndexPath(row: 6, section: sectionAlamatUser):BaseCartData.instance(titleAlamat, placeHolder: "Alamat Lengkap Kamu", value : address),
-            IndexPath(row: 7, section: sectionAlamatUser):BaseCartData.instance(titlePostal, placeHolder: "Kode Pos Kamu", value : postalcode, keyboardType: UIKeyboardType.numberPad)
+            IndexPath(row: 6, section: sectionAlamatUser):BaseCartData.instance(titleAlamat, placeHolder: "mis. Jl. Tamansari III no. 1", value : address),
+            IndexPath(row: 7, section: sectionAlamatUser):BaseCartData.instance(titlePostal, placeHolder: "40000", value : postalcode, keyboardType: UIKeyboardType.numberPad)
         ]
     }
     
@@ -2444,6 +2444,7 @@ class CartCellInput2 : BaseCartCell, PickerViewDelegate
     
     func pickerDidSelect(_ item: String) {
         captionValue?.text = PickerViewController.HideHiddenString(item)
+        captionValue?.textColor = UIColor.init(hex: "#6F6F6F")
     }
     
     override func adapt(_ item : BaseCartData?) {
@@ -2454,6 +2455,12 @@ class CartCellInput2 : BaseCartCell, PickerViewDelegate
             captionValue?.text = value
         } else {
             captionValue?.text = ""
+        }
+        
+        if (value?.contains("Pilih"))! {
+            captionValue?.textColor = UIColor.init(hex: "#CCCCCC")
+        } else {
+            captionValue?.textColor = UIColor.init(hex: "#6F6F6F")
         }
     }
     
@@ -2969,6 +2976,8 @@ class CartPaymethodCell : UITableViewCell {
         
 //        dropDown.width = self.vwDropdown.width - 16
         
+        dropDown.cellHeight = 60
+        
         dropDown.anchorView = self.vwDropdown
         
         if selectedBankIndex > -1 {
@@ -3014,17 +3023,20 @@ extension BorderedView
                 for v in self.subviews {
                     if (v.isKind(of: UILabel.classForCoder())) {
                         let l = v as! UILabel
-                        l.textColor = Theme.PrimaryColorDark
+                        l.textColor = Theme.PrimaryColor //Theme.PrimaryColorDark
                     } else if (v.isKind(of: TintedImageView.classForCoder())) {
                         let i = v as! TintedImageView
                         i.tint = false
                     }
                 }
+                setBorderColor(Theme.GrayDark)
             } else {
                 setColor(Theme.GrayLight)
+                setBorderColor(Theme.GrayLight)
             }
         } else {
-            setColor(select ? Theme.PrimaryColorDark : Theme.GrayLight)
+            setColor(select ? Theme.PrimaryColor /*Theme.PrimaryColorDark*/ : Theme.GrayLight)
+            setBorderColor(select ? Theme.GrayDark : Theme.GrayLight)
         }
     }
     
@@ -3043,6 +3055,10 @@ extension BorderedView
                 i.tintColor = c
             }
         }
+    }
+    
+    fileprivate func setBorderColor(_ c: UIColor) {
+        self.borderColor = c
     }
 }
 
@@ -3097,7 +3113,7 @@ class FullAlamatCell: UITableViewCell { // height 120
         lblAddress.text = address.address
         lblSubdistrictRegion.text = address.subdisrictName + ", " + address.regionName
         lblProvince.text = address.provinceName + " " + address.postalCode
-        lblPhone.text = "Telepon " + address.phone
+        lblPhone.text = /*"Telepon " +*/ address.phone
     }
     
 }

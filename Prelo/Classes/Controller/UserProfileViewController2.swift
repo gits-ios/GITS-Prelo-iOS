@@ -67,8 +67,6 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         
         // Tampilan loading
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
-        loadingPanel.isHidden = true
-        loading.stopAnimating()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -91,6 +89,10 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
                 }
                 
         }, completion: nil)
+        
+        
+        loadingPanel.isHidden = true
+        loading.stopAnimating()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -170,12 +172,13 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         }
         
         // About shop
-        if (userProfile.desc != nil) {
+        if (userProfile.desc != nil && userProfile.desc != "") {
             fieldTentangShop.text = userProfile.desc
             fieldTentangShop.textColor = Theme.GrayDark
         } else {
             fieldTentangShop.text = FldTentangShopPlaceholder
             fieldTentangShop.textColor = UIColor.lightGray
+            fieldTentangShop.selectedTextRange = fieldTentangShop.textRange(from: fieldTentangShop.beginningOfDocument, to: fieldTentangShop.beginningOfDocument)
         }
         fieldTentangShop.delegate = self
         
@@ -185,10 +188,17 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         let recipientName = userProfile.recipientName
         lblRecipientName.text = (recipientName != "" ? recipientName : user.fullname)
         
-        let address = (userProfile.address != "" ? userProfile.address : "-")
+        let address = (userProfile.address != "" ? userProfile.address : "- (belum ada jalan)")
         let regionName = CDRegion.getRegionNameWithID(userProfile.regionID)
         let part1 = userProfile.subdistrictName + ", " + regionName!
-        lblAddress.text = address! + " " + part1 + " " + userProfile.postalCode!
+        //lblAddress.text = address! + " " + part1 + " " + userProfile.postalCode!
+        let str = address! + "\n" + part1
+        
+        let attString : NSMutableAttributedString = NSMutableAttributedString(string: str)
+        attString.addAttributes([NSFontAttributeName:UIFont.italicSystemFont(ofSize: 14)], range: (str as NSString).range(of: "- (belum ada jalan)"))
+        attString.addAttributes([NSForegroundColorAttributeName:UIColor.lightGray], range: (str as NSString).range(of: "- (belum ada jalan)"))
+        
+        self.lblAddress.attributedText = attString
         
         // Shipping table setup
         self.shippingList = CDShipping.getPosBlaBlaBlaTiki()
@@ -506,15 +516,14 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     
     // MARK: - Textview Delegate Functions
     
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if (textView.textColor == UIColor.lightGray) {
-            textView.text = ""
-            textView.textColor = Theme.GrayDark
-        }
-    }
+//    func textViewDidBeginEditing(_ textView: UITextView) {
+//        if (textView.textColor == UIColor.lightGray) {
+//            textView.text = ""
+//            textView.textColor = Theme.GrayDark
+//        }
+//    }
     
     func textViewDidChange(_ textView: UITextView) {
-        let fieldTentangShopHeight = fieldTentangShop.frame.size.height
         let sizeThatShouldFitTheContent = fieldTentangShop.sizeThatFits(fieldTentangShop.frame.size)
         //print("sizeThatShouldFitTheContent.height = \(sizeThatShouldFitTheContent.height)")
         
@@ -522,14 +531,61 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         fieldTentangShopHeightConstraint.constant = sizeThatShouldFitTheContent.height
     }
     
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if (textView.text.isEmpty) {
+//    func textViewDidEndEditing(_ textView: UITextView) {
+//        if (textView.text.isEmpty || textView.text == "") {
+//            textView.text = FldTentangShopPlaceholder
+//            textView.textColor = UIColor.lightGray
+//        }
+//    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        
+        // Combine the textView text and the replacement text to
+        // create the updated text string
+        let currentText = textView.text as NSString?
+        let updatedText = currentText?.replacingCharacters(in: range, with: text)
+        
+        // If updated text view will be empty, add the placeholder
+        // and set the cursor to the beginning of the text view
+        if (updatedText?.isEmpty)! {
+            
             textView.text = FldTentangShopPlaceholder
             textView.textColor = UIColor.lightGray
+            
+            textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
+            
+            self.textViewDidChange(textView)
+            
+            return false
         }
+            
+            // Else if the text view's placeholder is showing and the
+            // length of the replacement string is greater than 0, clear
+            // the text view and set its color to black to prepare for
+            // the user's entry
+        else if textView.textColor == UIColor.lightGray && !text.isEmpty {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+        
+        return true
     }
     
+    // crash
+//    func textViewDidChangeSelection(_ textView: UITextView) {
+//        if self.view.window != nil {
+//            if textView.textColor == UIColor.lightGray {
+//                textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
+//            }
+//        }
+//    }
+    
     func fieldsVerified() -> Bool {
+        if (fieldTentangShop.text == "" || fieldTentangShop.text == FldTentangShopPlaceholder) {
+            Constant.showDialog("Warning", message: "Deskripsi Shop harus diisi")
+            return false
+        }
+        
         if (fieldNama.text == nil || fieldNama.text == "") {
             Constant.showDialog("Warning", message: "Nama harus diisi")
             return false

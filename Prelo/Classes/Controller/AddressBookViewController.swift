@@ -147,7 +147,7 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
         if ((indexPath as NSIndexPath).item < (self.addresses?.count)!) {
             return 204
         } else {
-            return 60
+            return 50
         }
     }
     
@@ -348,7 +348,15 @@ class AddressBookCell: UITableViewCell { // height 204
         
         lblType.text = address.addressName
         lblName.text = address.recipientName
-        lblAddress.text = address.address
+        if address.address == "" {
+            lblAddress.text = "- (belum ada jalan)"
+            lblAddress.font = UIFont.italicSystemFont(ofSize: 14)
+            lblAddress.textColor = UIColor.lightGray
+        } else {
+            lblAddress.text = address.address
+            lblAddress.font = UIFont.systemFont(ofSize: 14)
+            lblAddress.textColor = UIColor.darkGray
+        }
         lblRegion.text = address.subdisrictName + ", " + regionName!
         lblProvince.text = provinceName! + " " + address.postalCode
         lblPhone.text = address.phone
@@ -356,14 +364,23 @@ class AddressBookCell: UITableViewCell { // height 204
         if address.isMainAddress {
             vwMain.isHidden = false
             btnSetMain.isHidden = true
-            btnDelete.isEnabled = false
-            btnDelete.setTitleColor(UIColor.lightGray)
+            btnDelete.isHidden = true
+            //btnDelete.isEnabled = false
+            //btnDelete.setTitleColor(UIColor.lightGray)
         } else {
             vwMain.isHidden = true
             btnSetMain.isHidden = false
-            btnDelete.isEnabled = true
-            btnDelete.setTitleColor(UIColor.darkGray)
+            btnDelete.isHidden = false
+            //btnDelete.isEnabled = true
+            //btnDelete.setTitleColor(UIColor.darkGray)
         }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        vwMain.backgroundColor = Theme.PrimaryColor
+        btnSetMain.backgroundColor = Theme.PrimaryColor
     }
     
     @IBAction func btnEditAddressPressed(_ sender: Any) {
@@ -406,7 +423,7 @@ class AddressBookCell: UITableViewCell { // height 204
 
 
 // MARK: - Class AddressBookNewCell
-class AddressBookNewCell: UITableViewCell { // height 60
+class AddressBookNewCell: UITableViewCell { // height 50
     @IBOutlet weak var vwPlus: UIView!
     
     func adapt() {
