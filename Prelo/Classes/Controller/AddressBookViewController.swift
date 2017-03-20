@@ -299,7 +299,7 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
         // api set default
         let _ = request(APIMe.setDefaultAddress(addressId: (self.addresses?[self.selectedIndexForSetAsMain].id)!)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Set Default Alamat")) {
-                Constant.showDialog("Set Default Alamat", message: "Alamat default berhasil diperbarui")
+                Constant.showDialog("Set Default Alamat", message: "Pergantian alamat ini akan berpengaruh kepada hasil pencarian barang kamu berdasarkan lokasi.")
                 
                 self.getAddresses()
             }
