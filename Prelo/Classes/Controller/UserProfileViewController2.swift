@@ -56,6 +56,7 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     @IBOutlet weak var lblRecipientName: UILabel!
     @IBOutlet weak var lblAddress: UILabel!
     @IBOutlet weak var lblRegion: UILabel!
+    @IBOutlet weak var lblProvince: UILabel!
     
     var isNeedReload = false
     
@@ -201,6 +202,9 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         
         self.lblAddress.attributedText = attString
         self.lblRegion.text = part1
+        
+        let provinceName = CDProvince.getProvinceNameWithID(userProfile.provinceID)
+        self.lblProvince.text = provinceName! + " " + userProfile.postalCode!
         
         // Shipping table setup
         self.shippingList = CDShipping.getPosBlaBlaBlaTiki()

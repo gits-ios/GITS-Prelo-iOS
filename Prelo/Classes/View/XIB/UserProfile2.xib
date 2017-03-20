@@ -32,7 +32,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="1184"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dNF-CU-kOd" userLabel="Content View">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="983"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="1004"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sgl-Sw-0oj" userLabel="Separator 1">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="4"/>
@@ -533,7 +533,7 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eeW-uS-khR" userLabel="Group Daftar Alamat">
-                                        <rect key="frame" x="8" y="548" width="584" height="188"/>
+                                        <rect key="frame" x="8" y="548" width="584" height="209"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ALAMAT UTAMA" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ofw-1K-twm" userLabel="ALAMAT UTAMA">
                                                 <rect key="frame" x="0.0" y="0.0" width="584" height="17"/>
@@ -574,15 +574,21 @@
                                                 <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Provinsi Kode pos" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5fs-34-XtQ">
+                                                <rect key="frame" x="0.0" y="122" width="584" height="17"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xz2-CD-bCd" userLabel="Separator">
-                                                <rect key="frame" x="-8" y="131" width="600" height="1"/>
+                                                <rect key="frame" x="-8" y="152" width="600" height="1"/>
                                                 <color key="backgroundColor" red="0.86172279789999995" green="0.86172279789999995" blue="0.86172279789999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="tFc-nB-yrG"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CD4-5d-wq8" userLabel="Daftar Alamat">
-                                                <rect key="frame" x="0.0" y="140" width="584" height="40"/>
+                                                <rect key="frame" x="0.0" y="161" width="584" height="40"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Daftar Alamat" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fFb-N4-OOT">
                                                         <rect key="frame" x="0.0" y="0.0" width="89" height="40"/>
@@ -635,13 +641,16 @@
                                             <constraint firstItem="CD4-5d-wq8" firstAttribute="leading" secondItem="eeW-uS-khR" secondAttribute="leading" id="9J8-O6-Hzq"/>
                                             <constraint firstItem="CD4-5d-wq8" firstAttribute="top" secondItem="xz2-CD-bCd" secondAttribute="bottom" constant="8" id="Ise-78-Tpy"/>
                                             <constraint firstItem="91S-7p-ksR" firstAttribute="top" secondItem="NSO-ZT-4nM" secondAttribute="bottom" constant="8" id="JzX-bI-Png"/>
+                                            <constraint firstItem="5fs-34-XtQ" firstAttribute="top" secondItem="kzl-pH-abU" secondAttribute="bottom" constant="4" id="Lci-7c-Qyc"/>
                                             <constraint firstAttribute="trailing" secondItem="2jI-DQ-Hyq" secondAttribute="trailing" id="Q1e-8D-fcc"/>
                                             <constraint firstItem="Ofw-1K-twm" firstAttribute="top" secondItem="eeW-uS-khR" secondAttribute="top" id="SUF-lu-ZAn"/>
+                                            <constraint firstItem="5fs-34-XtQ" firstAttribute="leading" secondItem="eeW-uS-khR" secondAttribute="leading" id="TLJ-0j-6Gw"/>
+                                            <constraint firstAttribute="trailing" secondItem="5fs-34-XtQ" secondAttribute="trailing" id="UxV-gG-ctJ"/>
                                             <constraint firstAttribute="trailing" secondItem="CD4-5d-wq8" secondAttribute="trailing" id="W4O-B9-zSu"/>
                                             <constraint firstItem="2jI-DQ-Hyq" firstAttribute="top" secondItem="91S-7p-ksR" secondAttribute="bottom" constant="4" id="W8J-jy-Tbk"/>
                                             <constraint firstItem="Ofw-1K-twm" firstAttribute="leading" secondItem="eeW-uS-khR" secondAttribute="leading" id="Ygu-Nn-uDd"/>
-                                            <constraint firstItem="xz2-CD-bCd" firstAttribute="top" secondItem="kzl-pH-abU" secondAttribute="bottom" constant="13" id="Yh4-n4-cer"/>
                                             <constraint firstItem="2jI-DQ-Hyq" firstAttribute="leading" secondItem="eeW-uS-khR" secondAttribute="leading" id="Z6e-3F-rdM"/>
+                                            <constraint firstItem="xz2-CD-bCd" firstAttribute="top" secondItem="5fs-34-XtQ" secondAttribute="bottom" constant="13" id="c9h-Nk-BuX"/>
                                             <constraint firstAttribute="bottom" secondItem="CD4-5d-wq8" secondAttribute="bottom" constant="8" id="fC3-Fn-Ggz"/>
                                             <constraint firstAttribute="trailing" secondItem="kzl-pH-abU" secondAttribute="trailing" id="iUs-bA-dtq"/>
                                             <constraint firstAttribute="trailing" secondItem="91S-7p-ksR" secondAttribute="trailing" id="liX-nj-pXz"/>
@@ -654,14 +663,14 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eog-Pr-abg" userLabel="Separator 3">
-                                        <rect key="frame" x="0.0" y="740" width="600" height="4"/>
+                                        <rect key="frame" x="0.0" y="761" width="600" height="4"/>
                                         <color key="backgroundColor" red="0.86172279789999995" green="0.86172279789999995" blue="0.86172279789999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="4" id="Rbn-Bg-vcf"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8YU-da-NVS" userLabel="Group Shipping Options">
-                                        <rect key="frame" x="8" y="764" width="584" height="132"/>
+                                        <rect key="frame" x="8" y="785" width="584" height="132"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PILIHAN KURIR" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5nK-ly-Qc5">
                                                 <rect key="frame" x="0.0" y="0.0" width="584" height="17"/>
@@ -701,7 +710,7 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PzZ-cX-2dY">
-                                        <rect key="frame" x="8" y="935" width="584" height="40"/>
+                                        <rect key="frame" x="8" y="956" width="584" height="40"/>
                                         <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="Nd1-Ry-6DU"/>
@@ -818,6 +827,7 @@
                 <outlet property="lblLoginFacebook" destination="oWX-lF-j9K" id="mQt-6c-5wy"/>
                 <outlet property="lblLoginTwitter" destination="yTp-Nj-VIe" id="K3H-0R-vRW"/>
                 <outlet property="lblNoHP" destination="yND-zT-oc4" id="JK3-Ex-N5x"/>
+                <outlet property="lblProvince" destination="5fs-34-XtQ" id="M1J-fI-n7W"/>
                 <outlet property="lblRecipientName" destination="91S-7p-ksR" id="ut5-Xj-5Rh"/>
                 <outlet property="lblRegion" destination="kzl-pH-abU" id="JZT-mz-EJ0"/>
                 <outlet property="lblUsername" destination="RlO-Ge-4wt" id="9TT-1z-Dfd"/>
