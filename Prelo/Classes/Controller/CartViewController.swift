@@ -2333,6 +2333,10 @@ class BaseCartCell : UITableViewCell {
     @IBOutlet var bottomLine : UIView?
     @IBOutlet var topLine : UIView?
     
+    var disableColor = UIColor.lightGray
+    var placeholderColor = UIColor.init(hex: "#CCCCCC")
+    var activeColor = UIColor.init(hex: "#6F6F6F")
+    
     func obtainValue() -> BaseCartData? {
         return nil
     }
@@ -2396,6 +2400,14 @@ class CartCellInput : BaseCartCell, UITextFieldDelegate {
         txtField.keyboardType = item.keyboardType
         txtField.isEnabled = item.enable
         txtField.delegate = self
+        
+        if !(item.enable) && (item.placeHolder != nil) {
+            txtField?.font = UIFont.italicSystemFont(ofSize: 14)
+            txtField?.textColor = disableColor
+        } else {
+            txtField?.font = UIFont.systemFont(ofSize: 14)
+            txtField?.textColor = activeColor
+        }
     }
     
     override func obtainValue() -> BaseCartData? {
@@ -2444,7 +2456,7 @@ class CartCellInput2 : BaseCartCell, PickerViewDelegate
     
     func pickerDidSelect(_ item: String) {
         captionValue?.text = PickerViewController.HideHiddenString(item)
-        captionValue?.textColor = UIColor.init(hex: "#6F6F6F")
+        captionValue?.textColor = activeColor
     }
     
     override func adapt(_ item : BaseCartData?) {
@@ -2458,10 +2470,19 @@ class CartCellInput2 : BaseCartCell, PickerViewDelegate
         }
         
         if (value?.contains("Pilih"))! {
-            captionValue?.textColor = UIColor.init(hex: "#CCCCCC")
+            captionValue?.font = UIFont.systemFont(ofSize: 14)
+            captionValue?.textColor = placeholderColor
         } else {
-            captionValue?.textColor = UIColor.init(hex: "#6F6F6F")
+            if !((item?.enable)!) {
+                captionValue?.font = UIFont.italicSystemFont(ofSize: 14)
+                captionValue?.textColor = disableColor
+            } else {
+                captionValue?.font = UIFont.systemFont(ofSize: 14)
+                captionValue?.textColor = activeColor
+            }
         }
+        
+        
     }
     
     override func obtainValue() -> BaseCartData? {
