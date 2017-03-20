@@ -32,7 +32,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="1184"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dNF-CU-kOd" userLabel="Content View">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="962"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="983"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sgl-Sw-0oj" userLabel="Separator 1">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="4"/>
@@ -533,7 +533,7 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eeW-uS-khR" userLabel="Group Daftar Alamat">
-                                        <rect key="frame" x="8" y="548" width="584" height="167"/>
+                                        <rect key="frame" x="8" y="548" width="584" height="188"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ALAMAT UTAMA" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ofw-1K-twm" userLabel="ALAMAT UTAMA">
                                                 <rect key="frame" x="0.0" y="0.0" width="584" height="17"/>
@@ -568,15 +568,21 @@
                                                 <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kec, Kota" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kzl-pH-abU">
+                                                <rect key="frame" x="0.0" y="101" width="584" height="17"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xz2-CD-bCd" userLabel="Separator">
-                                                <rect key="frame" x="-8" y="110" width="600" height="1"/>
+                                                <rect key="frame" x="-8" y="131" width="600" height="1"/>
                                                 <color key="backgroundColor" red="0.86172279789999995" green="0.86172279789999995" blue="0.86172279789999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="tFc-nB-yrG"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CD4-5d-wq8" userLabel="Daftar Alamat">
-                                                <rect key="frame" x="0.0" y="119" width="584" height="40"/>
+                                                <rect key="frame" x="0.0" y="140" width="584" height="40"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Daftar Alamat" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fFb-N4-OOT">
                                                         <rect key="frame" x="0.0" y="0.0" width="89" height="40"/>
@@ -623,7 +629,6 @@
                                             </view>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="xz2-CD-bCd" firstAttribute="top" secondItem="2jI-DQ-Hyq" secondAttribute="bottom" constant="13" id="0Vj-vW-Iuh"/>
                                             <constraint firstItem="NSO-ZT-4nM" firstAttribute="leading" secondItem="eeW-uS-khR" secondAttribute="leading" id="15d-ek-io4"/>
                                             <constraint firstItem="xz2-CD-bCd" firstAttribute="leading" secondItem="eeW-uS-khR" secondAttribute="leading" constant="-8" id="5YB-GM-znd"/>
                                             <constraint firstAttribute="trailing" secondItem="NSO-ZT-4nM" secondAttribute="trailing" id="6l5-il-ZQO"/>
@@ -635,24 +640,28 @@
                                             <constraint firstAttribute="trailing" secondItem="CD4-5d-wq8" secondAttribute="trailing" id="W4O-B9-zSu"/>
                                             <constraint firstItem="2jI-DQ-Hyq" firstAttribute="top" secondItem="91S-7p-ksR" secondAttribute="bottom" constant="4" id="W8J-jy-Tbk"/>
                                             <constraint firstItem="Ofw-1K-twm" firstAttribute="leading" secondItem="eeW-uS-khR" secondAttribute="leading" id="Ygu-Nn-uDd"/>
+                                            <constraint firstItem="xz2-CD-bCd" firstAttribute="top" secondItem="kzl-pH-abU" secondAttribute="bottom" constant="13" id="Yh4-n4-cer"/>
                                             <constraint firstItem="2jI-DQ-Hyq" firstAttribute="leading" secondItem="eeW-uS-khR" secondAttribute="leading" id="Z6e-3F-rdM"/>
                                             <constraint firstAttribute="bottom" secondItem="CD4-5d-wq8" secondAttribute="bottom" constant="8" id="fC3-Fn-Ggz"/>
+                                            <constraint firstAttribute="trailing" secondItem="kzl-pH-abU" secondAttribute="trailing" id="iUs-bA-dtq"/>
                                             <constraint firstAttribute="trailing" secondItem="91S-7p-ksR" secondAttribute="trailing" id="liX-nj-pXz"/>
                                             <constraint firstAttribute="trailing" secondItem="xz2-CD-bCd" secondAttribute="trailing" constant="-8" id="m4C-qC-SaN"/>
+                                            <constraint firstItem="kzl-pH-abU" firstAttribute="top" secondItem="2jI-DQ-Hyq" secondAttribute="bottom" constant="4" id="pXF-wH-GT5"/>
                                             <constraint firstItem="91S-7p-ksR" firstAttribute="leading" secondItem="eeW-uS-khR" secondAttribute="leading" id="q40-eG-nub"/>
                                             <constraint firstAttribute="trailing" secondItem="Ofw-1K-twm" secondAttribute="trailing" id="t7E-81-cOk"/>
                                             <constraint firstItem="NSO-ZT-4nM" firstAttribute="top" secondItem="Ofw-1K-twm" secondAttribute="bottom" constant="17" id="vM6-O6-KDh"/>
+                                            <constraint firstItem="kzl-pH-abU" firstAttribute="leading" secondItem="eeW-uS-khR" secondAttribute="leading" id="wHn-WR-t1S"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eog-Pr-abg" userLabel="Separator 3">
-                                        <rect key="frame" x="0.0" y="719" width="600" height="4"/>
+                                        <rect key="frame" x="0.0" y="740" width="600" height="4"/>
                                         <color key="backgroundColor" red="0.86172279789999995" green="0.86172279789999995" blue="0.86172279789999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="4" id="Rbn-Bg-vcf"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8YU-da-NVS" userLabel="Group Shipping Options">
-                                        <rect key="frame" x="8" y="743" width="584" height="132"/>
+                                        <rect key="frame" x="8" y="764" width="584" height="132"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PILIHAN KURIR" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5nK-ly-Qc5">
                                                 <rect key="frame" x="0.0" y="0.0" width="584" height="17"/>
@@ -692,7 +701,7 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PzZ-cX-2dY">
-                                        <rect key="frame" x="8" y="914" width="584" height="40"/>
+                                        <rect key="frame" x="8" y="935" width="584" height="40"/>
                                         <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="Nd1-Ry-6DU"/>
@@ -810,6 +819,7 @@
                 <outlet property="lblLoginTwitter" destination="yTp-Nj-VIe" id="K3H-0R-vRW"/>
                 <outlet property="lblNoHP" destination="yND-zT-oc4" id="JK3-Ex-N5x"/>
                 <outlet property="lblRecipientName" destination="91S-7p-ksR" id="ut5-Xj-5Rh"/>
+                <outlet property="lblRegion" destination="kzl-pH-abU" id="JZT-mz-EJ0"/>
                 <outlet property="lblUsername" destination="RlO-Ge-4wt" id="9TT-1z-Dfd"/>
                 <outlet property="loading" destination="kxN-E5-e5J" id="Tsc-pD-pdr"/>
                 <outlet property="loadingPanel" destination="CHA-oh-PNi" id="9az-mA-VWZ"/>

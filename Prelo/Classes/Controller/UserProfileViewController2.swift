@@ -55,6 +55,7 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     @IBOutlet weak var lblAddressName: UILabel!
     @IBOutlet weak var lblRecipientName: UILabel!
     @IBOutlet weak var lblAddress: UILabel!
+    @IBOutlet weak var lblRegion: UILabel!
     
     var isNeedReload = false
     
@@ -192,13 +193,14 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         let regionName = CDRegion.getRegionNameWithID(userProfile.regionID)
         let part1 = userProfile.subdistrictName + ", " + regionName!
         //lblAddress.text = address! + " " + part1 + " " + userProfile.postalCode!
-        let str = address! + "\n" + part1
+        let str = address!
         
         let attString : NSMutableAttributedString = NSMutableAttributedString(string: str)
         attString.addAttributes([NSFontAttributeName:UIFont.italicSystemFont(ofSize: 14)], range: (str as NSString).range(of: "- (belum ada jalan)"))
         attString.addAttributes([NSForegroundColorAttributeName:UIColor.lightGray], range: (str as NSString).range(of: "- (belum ada jalan)"))
         
         self.lblAddress.attributedText = attString
+        self.lblRegion.text = part1
         
         // Shipping table setup
         self.shippingList = CDShipping.getPosBlaBlaBlaTiki()
