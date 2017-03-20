@@ -145,7 +145,7 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if ((indexPath as NSIndexPath).item < (self.addresses?.count)!) {
-            return 204
+            return 192
         } else {
             return 50
         }
@@ -323,7 +323,7 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
 
 
 // MARK: - Class AddressBookCell
-class AddressBookCell: UITableViewCell { // height 204
+class AddressBookCell: UITableViewCell { // height 192
     @IBOutlet weak var lblType: UILabel!
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var lblAddress: UILabel!

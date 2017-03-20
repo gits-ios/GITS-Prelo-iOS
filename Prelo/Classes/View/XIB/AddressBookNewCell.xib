@@ -11,22 +11,22 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="62" id="FDm-oU-tjY" customClass="AddressBookNewCell" customModule="Prelo" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="62"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="50" id="FDm-oU-tjY" customClass="AddressBookNewCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FDm-oU-tjY" id="wtG-kh-lcL">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="61"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Osn-mc-HJJ" userLabel="Vw Border">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="58"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="45.5"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9ka-Q8-mhv">
                         <rect key="frame" x="8" y="8" width="30" height="30"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="32F-h2-InL">
-                                <rect key="frame" x="9" y="4" width="13" height="24"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="32F-h2-InL">
+                                <rect key="frame" x="5" y="5" width="20" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -34,10 +34,12 @@
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="32F-h2-InL" secondAttribute="trailing" constant="5" id="4y4-0y-lYk"/>
                             <constraint firstAttribute="height" constant="30" id="7mK-XR-V8p"/>
                             <constraint firstAttribute="width" constant="30" id="Ayx-54-Yna"/>
-                            <constraint firstItem="32F-h2-InL" firstAttribute="centerY" secondItem="9ka-Q8-mhv" secondAttribute="centerY" id="OIE-wh-Dyu"/>
-                            <constraint firstItem="32F-h2-InL" firstAttribute="centerX" secondItem="9ka-Q8-mhv" secondAttribute="centerX" id="vVu-5R-rGO"/>
+                            <constraint firstAttribute="bottom" secondItem="32F-h2-InL" secondAttribute="bottom" constant="7" id="IH2-2w-h8b"/>
+                            <constraint firstItem="32F-h2-InL" firstAttribute="leading" secondItem="9ka-Q8-mhv" secondAttribute="leading" constant="5" id="eIq-Rs-OTo"/>
+                            <constraint firstItem="32F-h2-InL" firstAttribute="top" secondItem="9ka-Q8-mhv" secondAttribute="top" constant="5" id="p7z-Sf-lbE"/>
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tambah Alamat" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NyH-Ga-b9f">
@@ -65,7 +67,7 @@
             <connections>
                 <outlet property="vwPlus" destination="9ka-Q8-mhv" id="JRA-nO-GCw"/>
             </connections>
-            <point key="canvasLocation" x="204.5" y="-54"/>
+            <point key="canvasLocation" x="204.5" y="-60"/>
         </tableViewCell>
     </objects>
 </document>

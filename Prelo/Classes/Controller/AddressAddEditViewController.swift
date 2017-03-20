@@ -270,7 +270,7 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate {
                 let _ = request(APIMe.updateAddress(addressId: (address?.id)!, addressName: txtNamaAlamat.text!, recipientName: txtNama.text!, phone: txtTelepon.text!, provinceId: selectedProvinceId, provinceName: lblProvinsi.text!, regionId: selectedRegionId, regionName: lblKotaKabupaten.text!, subdistrictId: selectedSubdistrictId, subdistricName: lblKecamatan.text!, address: txtAlamat.text!, postalCode: txtKodePos.text!, isMainAddress: (address?.isMainAddress)!)).responseJSON { resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Edit Alamat")) {
                         Constant.showDialog("Edit Alamat", message: "Alamat berhasil diperbarui")
-                        self.navigationController?.popViewController(animated: true)
+                        _ = self.navigationController?.popViewController(animated: true)
                     }
                 }
                 
@@ -278,7 +278,7 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate {
                 let _ = request(APIMe.createAddress(addressName: txtNamaAlamat.text!, recipientName: txtNama.text!, phone: txtTelepon.text!, provinceId: selectedProvinceId, provinceName: lblProvinsi.text!, regionId: selectedRegionId, regionName: lblKotaKabupaten.text!, subdistrictId: selectedSubdistrictId, subdistricName: lblKecamatan.text!, address: txtAlamat.text!, postalCode: txtKodePos.text!)).responseJSON { resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Tambah Alamat")) {
                         Constant.showDialog("Tambah Alamat", message: "Alamat berhasil ditambahkan")
-                        self.navigationController?.popViewController(animated: true)
+                        _ = self.navigationController?.popViewController(animated: true)
                     }
                 }
                 
