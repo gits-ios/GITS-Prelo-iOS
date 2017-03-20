@@ -37,10 +37,16 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="niy-I6-cqm" userLabel="ALAMAT UTAMA">
-                        <rect key="frame" x="60" y="8" width="95" height="21"/>
+                        <rect key="frame" x="60" y="8" width="110" height="21"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alamat Utama" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h6c-m5-KhJ">
-                                <rect key="frame" x="0.0" y="0.0" width="95" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l25-cc-wzb">
+                                <rect key="frame" x="5" y="0.0" width="17" height="21"/>
+                                <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Alamat Utama" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h6c-m5-KhJ">
+                                <rect key="frame" x="25" y="0.0" width="80" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -48,12 +54,15 @@
                         </subviews>
                         <color key="backgroundColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="h6c-m5-KhJ" secondAttribute="trailing" id="JGh-V5-POK"/>
-                            <constraint firstItem="h6c-m5-KhJ" firstAttribute="leading" secondItem="niy-I6-cqm" secondAttribute="leading" id="OV3-h4-USh"/>
+                            <constraint firstItem="l25-cc-wzb" firstAttribute="top" secondItem="niy-I6-cqm" secondAttribute="top" id="8DB-oY-Pei"/>
+                            <constraint firstItem="l25-cc-wzb" firstAttribute="leading" secondItem="niy-I6-cqm" secondAttribute="leading" constant="5" id="FHr-tP-ykw"/>
                             <constraint firstAttribute="bottom" secondItem="h6c-m5-KhJ" secondAttribute="bottom" id="Zmc-ih-tS9"/>
-                            <constraint firstAttribute="width" constant="95" id="fPb-or-bWp"/>
+                            <constraint firstAttribute="width" constant="110" id="fPb-or-bWp"/>
+                            <constraint firstAttribute="bottom" secondItem="l25-cc-wzb" secondAttribute="bottom" id="m7Q-w4-2tA"/>
                             <constraint firstAttribute="height" constant="21" id="qQN-Oe-tlZ"/>
+                            <constraint firstAttribute="trailing" secondItem="h6c-m5-KhJ" secondAttribute="trailing" constant="5" id="rfL-eF-RMG"/>
                             <constraint firstItem="h6c-m5-KhJ" firstAttribute="top" secondItem="niy-I6-cqm" secondAttribute="top" id="wwa-b7-uDS"/>
+                            <constraint firstItem="h6c-m5-KhJ" firstAttribute="leading" secondItem="l25-cc-wzb" secondAttribute="trailing" constant="3" id="zkd-AZ-MVX"/>
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2EC-eC-lRD">
