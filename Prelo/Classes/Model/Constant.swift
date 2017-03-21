@@ -118,6 +118,7 @@ class Constant: NSObject {
     
     static func forceUpdatePrompt() {
         // Show app store update pop up if necessary
+        /*
         if let newVer = UserDefaults.standard.object(forKey: UserDefaultsKey.UpdatePopUpVer) as? String , newVer != "" {
             /*
             let alert : UIAlertController = UIAlertController(title: "New Version Available", message: "Prelo \(newVer) is available on App Store", preferredStyle: UIAlertControllerStyle.alert)
@@ -292,6 +293,22 @@ class Constant: NSObject {
                 }
             }
             alertView.showCustom("New Version Available", subTitle: "Prelo \(newVer) is available on App Store", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+        }
+         */
+        
+        // v2 -- disable force update
+        if let newVer = UserDefaults.standard.object(forKey: UserDefaultsKey.UpdatePopUpVer) as? String , newVer != "" {
+            if let releaseNotes = UserDefaults.standard.object(forKey: UserDefaultsKey.UpdatePopUpNotes) as? String , releaseNotes != "" {
+                    
+                let notes = releaseNotes + "\n\nKamu tidak akan mendapatkan fitur dan perbaikan terbaru jika tidak meng-update aplikasi."
+                
+                let alert : UIAlertController = UIAlertController(title: "Prelo \(newVer)", message: notes, preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { action in
+                    UIApplication.shared.openURL(URL(string: "itms-apps://itunes.apple.com/id/app/prelo/id1027248488")!)
+                }))
+                alert.addAction(UIAlertAction(title: "Batal", style: .default, handler: nil))
+                UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+            }
         }
     }
 }
