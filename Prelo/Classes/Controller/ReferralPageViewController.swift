@@ -99,14 +99,14 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                     
                     var alertViewResponder: SCLAlertViewResponder!
                     
-                    let alertView = SCLAlertView(appearance: appearance)
+                    let alertView = SCLAlertView(appearance: Constant.appearance)
                     alertView.addButton("Kirim E-mail Konfirmasi") {
                         if let email = CDUser.getOne()?.email {
                             alertViewResponder.close()
                             
                             var alertViewResponder2: SCLAlertViewResponder!
                             
-                            let alertView2 = SCLAlertView(appearance: appearance)
+                            let alertView2 = SCLAlertView(appearance: Constant.appearance)
                             alertViewResponder2 = alertView2.showCustom("Referral Bonus", subTitle: "Mengirim e-mail...", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
                             
                             // API Migrasi
@@ -319,11 +319,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
 //        let a = UIAlertView(title: "Path", message: "Posting to path", delegate: nil, cancelButtonTitle: nil)
 //        a.show()
         
-        let appearance = SCLAlertView.SCLAppearance(
-            showCloseButton: false
-        )
-        
-        let alertView = SCLAlertView(appearance: appearance)
+        let alertView = SCLAlertView(appearance: Constant.appearance)
         let alertViewResponder: SCLAlertViewResponder = alertView.showCustom("Path", subTitle: "Posting to path", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
         
         AppToolsObjC.pathPostPhoto(image, param: ["private": true, "caption": shareText], token: token, success: {_, _ in

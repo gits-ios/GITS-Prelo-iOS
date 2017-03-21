@@ -1238,14 +1238,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         self.present(alert, animated: true, completion: nil)
          */
         
-        let appearance = SCLAlertView.SCLAppearance(
-            showCloseButton: false
-        )
-        
-        let alertView = SCLAlertView(appearance: appearance)
+        let alertView = SCLAlertView(appearance: Constant.appearance)
         alertView.addButton("Ya") {
             
-            let alertView2 = SCLAlertView(appearance: appearance)
+            let alertView2 = SCLAlertView(appearance: Constant.appearance)
             alertView2.addButton("Ya") {
                 self.prodStatus = 2
                 Constant.showDialog("Success", message: "Barang telah ditandai sebagai barang terjual")

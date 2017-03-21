@@ -344,7 +344,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 showCloseButton: false
             )
             
-            let alertView = SCLAlertView(appearance: appearance)
+            let alertView = SCLAlertView(appearance: Constant.appearance)
             alertView.addButton("Ya") {
                 // API Migrasi
                 let _ = request(APISocmed.postInstagramData(id: "", username: "", token: "")).responseJSON {resp in
@@ -462,7 +462,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 showCloseButton: false
             )
             
-            let alertView = SCLAlertView(appearance: appearance)
+            let alertView = SCLAlertView(appearance: Constant.appearance)
             alertView.addButton("Ya") {
                 // API Migrasi
                 let _ = request(APISocmed.postFacebookData(id: "", username: "", token: "")).responseJSON {resp in
@@ -544,7 +544,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 showCloseButton: false
             )
             
-            let alertView = SCLAlertView(appearance: appearance)
+            let alertView = SCLAlertView(appearance: Constant.appearance)
             alertView.addButton("Ya") {
                 // API Migrasi
                 let _ = request(APISocmed.postTwitterData(id: "", username: "", token: "", secret: "")).responseJSON {resp in
@@ -593,7 +593,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 showCloseButton: false
             )
             
-            let alertView = SCLAlertView(appearance: appearance)
+            let alertView = SCLAlertView(appearance: Constant.appearance)
             alertView.addButton("Ya") {
                 // API Migrasi
                 let _ = request(APISocmed.postPathData(id: "", username: "", token: "")).responseJSON {resp in

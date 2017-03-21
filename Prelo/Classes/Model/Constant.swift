@@ -13,6 +13,22 @@ var dateFormatter : DateFormatter = DateFormatter()
 class Constant: NSObject {
     static var escapesSymbols : [String : String] = ["&amp;":"&"]
     
+    static var appearance : SCLAlertView.SCLAppearance {
+        get {
+            var _appearance = SCLAlertView.SCLAppearance()
+            /*
+                //kCircleIconHeight: 56.0, // --> UIImage(named: "raisa.jpg")
+            */
+            
+            _appearance.showCloseButton = false
+            _appearance.showCircularIcon = false
+            _appearance.buttonCornerRadius = 0.0
+            _appearance.contentViewCornerRadius = 0.0
+            
+            return _appearance
+        }
+    }
+    
     static func showDialog(_ title : String, message : String)
     {
 //        let a = UIAlertView()
@@ -37,10 +53,6 @@ class Constant: NSObject {
 //            colorStyle: 0x00A79D, //SCLAlertViewStyle.info.defaultColorInt,
 //            colorTextButton: 0xFFFFFF
 //        )
-        
-        let appearance = SCLAlertView.SCLAppearance(
-            showCloseButton: false
-        )
         
         let alertView = SCLAlertView(appearance: appearance)
         alertView.addButton("Oke") {}
@@ -129,10 +141,6 @@ class Constant: NSObject {
             }))
             UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
              */
-            
-            let appearance = SCLAlertView.SCLAppearance(
-                showCloseButton: false
-            )
             
             let alertView = SCLAlertView(appearance: appearance)
             alertView.addButton("Update") {

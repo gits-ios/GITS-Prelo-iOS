@@ -301,11 +301,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
 //        let a = UIAlertView(title: "Path", message: "Posting to path", delegate: nil, cancelButtonTitle: nil)
 //        a.show()
         
-        let appearance = SCLAlertView.SCLAppearance(
-            showCloseButton: false
-        )
-        
-        let alertView = SCLAlertView(appearance: appearance)
+        let alertView = SCLAlertView(appearance: Constant.appearance)
         let alertViewResponder: SCLAlertViewResponder = alertView.showCustom("Path", subTitle: "Posting to path", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
         
         AppToolsObjC.pathPostPhoto(image, param: ["private":true, "caption":(item?.text)!], token: token, success: {_, _ in

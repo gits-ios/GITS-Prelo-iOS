@@ -150,11 +150,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
 //        a.addButton(withTitle: "Ya")
 //        a.show()
         
-        let appearance = SCLAlertView.SCLAppearance(
-            showCloseButton: false
-        )
-        
-        let alertView = SCLAlertView(appearance: appearance)
+        let alertView = SCLAlertView(appearance: Constant.appearance)
         alertView.addButton("Ya") {
             _ = self.navigationController?.popViewController(animated: true)
         }

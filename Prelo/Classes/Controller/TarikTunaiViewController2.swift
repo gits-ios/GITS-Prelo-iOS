@@ -453,11 +453,7 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
         self.present(x, animated: true, completion: nil)
          */
         
-        let appearance = SCLAlertView.SCLAppearance(
-            showCloseButton: false
-        )
-        
-        let alertView = SCLAlertView(appearance: appearance)
+        let alertView = SCLAlertView(appearance: Constant.appearance)
         let txt = alertView.addTextField("E-mail")
         alertView.addButton("Kirim") {
             self.callAPIForgotPassword((txt.text)!)

@@ -713,11 +713,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         self.present(alert, animated: true, completion: nil)
          */
         
-        let appearance = SCLAlertView.SCLAppearance(
-            showCloseButton: false
-        )
-        
-        let alertView = SCLAlertView(appearance: appearance)
+        let alertView = SCLAlertView(appearance: Constant.appearance)
         
         alertView.addButton((self.fakeScrollView.isHidden == false && self.isImage == false || self.editMode == true) ? "Keluar" : "Simpan") {
             if ((self.fakeScrollView.isHidden == true || self.isImage == true) && self.editMode == false){
@@ -732,7 +728,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         if (self.fakeScrollView.isHidden == false && self.isImage == false || self.editMode == true) {
             alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
         } else {
-            alertView.addButton("Keluar") {
+            alertView.addBorderButton("Keluar", backgroundColor: UIColor.white, textColor: Theme.PrimaryColor, borderColor: Theme.PrimaryColor, borderRadius: 4.0, borderWidth: 2.0, showDurationStatus: false) {
                 _ = self.navigationController?.popViewController(animated: true)
             }
             alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
@@ -1695,11 +1691,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         self.present(a, animated: true, completion: nil)
          */
         
-        let appearance = SCLAlertView.SCLAppearance(
-            showCloseButton: false
-        )
-        
-        let alertView = SCLAlertView(appearance: appearance)
+        let alertView = SCLAlertView(appearance: Constant.appearance)
         alertView.addButton("Ya") {
             self.deleteProduct()
         }
@@ -2150,11 +2142,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             self.present(alert, animated: true, completion: nil)
              */
             
-            let appearance = SCLAlertView.SCLAppearance(
-                showCloseButton: false
-            )
-            
-            let alertView = SCLAlertView(appearance: appearance)
+            let alertView = SCLAlertView(appearance: Constant.appearance)
             alertView.addButton("Ya") {
                 // Prelo Analytic - Submit Product
                 let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",

@@ -367,7 +367,7 @@ open class SCLAlertView: UIViewController {
         circleBG.frame = CGRect(x:x, y:y+appearance.kCircleBackgroundTopPosition, width:kCircleHeightBackground, height:kCircleHeightBackground)
         
         //adjust Title frame based on circularIcon show/hide flag
-        let titleOffset : CGFloat = appearance.showCircularIcon ? 0.0 : -12.0
+        let titleOffset : CGFloat = appearance.showCircularIcon ? 0.0 : -6.0 // -12.0
         labelTitle.frame = labelTitle.frame.offsetBy(dx: 0, dy: titleOffset)
         
         // Subtitle
@@ -471,6 +471,17 @@ open class SCLAlertView: UIViewController {
     }
     
     @discardableResult
+    open func addBorderButton(_ title:String, backgroundColor:UIColor? = nil, textColor:UIColor? = nil, borderColor:UIColor = UIColor.clear, borderRadius:CGFloat = 0.0, borderWidth:CGFloat = 0.0, showDurationStatus:Bool=false, action:@escaping ()->Void)->SCLButton {
+        let btn = addBorderButton(title, backgroundColor: backgroundColor, textColor: textColor, borderColor: borderColor, borderRadius: borderRadius, borderWidth: borderWidth, showDurationStatus: showDurationStatus)
+        btn.actionType = SCLActionType.closure
+        btn.action = action
+        btn.addTarget(self, action:#selector(SCLAlertView.buttonTapped(_:)), for:.touchUpInside)
+        btn.addTarget(self, action:#selector(SCLAlertView.buttonTapDown(_:)), for:[.touchDown, .touchDragEnter])
+        btn.addTarget(self, action:#selector(SCLAlertView.buttonRelease(_:)), for:[.touchUpInside, .touchUpOutside, .touchCancel, .touchDragOutside] )
+        return btn
+    }
+    
+    @discardableResult
     fileprivate func addButton(_ title:String, backgroundColor:UIColor? = nil, textColor:UIColor? = nil, showDurationStatus:Bool=false)->SCLButton {
         // Update view height
         appearance.setkWindowHeight(appearance.kWindowHeight + appearance.kButtonHeight)
@@ -483,6 +494,25 @@ open class SCLAlertView: UIViewController {
         btn.customTextColor = textColor
         btn.initialTitle = title
         btn.showDurationStatus = showDurationStatus
+        contentView.addSubview(btn)
+        buttons.append(btn)
+        return btn
+    }
+    
+    @discardableResult
+    fileprivate func addBorderButton(_ title:String, backgroundColor:UIColor? = nil, textColor:UIColor? = nil, borderColor:UIColor = UIColor.clear, borderRadius:CGFloat = 0.0, borderWidth:CGFloat = 0.0, showDurationStatus:Bool=false)->SCLButton {
+        // Update view height
+        appearance.setkWindowHeight(appearance.kWindowHeight + appearance.kButtonHeight)
+        // Add button
+        let btn = SCLButton()
+        btn.layer.masksToBounds = true
+        btn.setTitle(title, for: UIControlState())
+        btn.titleLabel?.font = appearance.kButtonFont
+        btn.customBackgroundColor = backgroundColor
+        btn.customTextColor = textColor
+        btn.initialTitle = title
+        btn.showDurationStatus = showDurationStatus
+        btn.createBordersWithColor(borderColor, radius: borderRadius, width: borderWidth)
         contentView.addSubview(btn)
         buttons.append(btn)
         return btn

@@ -106,11 +106,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
         self.present(backAlert!, animated: true, completion: nil)
          */
         
-        let appearance = SCLAlertView.SCLAppearance(
-            showCloseButton: false
-        )
-        
-        let alertView = SCLAlertView(appearance: appearance)
+        let alertView = SCLAlertView(appearance: Constant.appearance)
         alertView.addButton("Keluar") {
             User.Logout()
         }

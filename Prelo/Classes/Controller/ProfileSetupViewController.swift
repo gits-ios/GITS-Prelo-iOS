@@ -210,11 +210,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         self.present(alert, animated: true, completion: nil)
          */
         
-        let appearance = SCLAlertView.SCLAppearance(
-            showCloseButton: false
-        )
-        
-        let alertView = SCLAlertView(appearance: appearance)
+        let alertView = SCLAlertView(appearance: Constant.appearance)
         alertView.addButton("Keluar") {
             User.Logout()
             self.dismiss(animated: true, completion: nil)

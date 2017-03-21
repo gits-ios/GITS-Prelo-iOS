@@ -940,11 +940,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 self.present(alert, animated: true, completion: nil)
                  */
                 
-                let appearance = SCLAlertView.SCLAppearance(
-                    showCloseButton: false
-                )
-                
-                let alertView = SCLAlertView(appearance: appearance)
+                let alertView = SCLAlertView(appearance: Constant.appearance)
                 alertView.addButton("Hapus") {
                     // troli badge
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -1149,17 +1145,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }))
         
         self.present(alert, animated: true, completion: nil)
-        
-        let appearance = SCLAlertView.SCLAppearance(
-            showCloseButton: false
-        )
          */
         
-        let appearance = SCLAlertView.SCLAppearance(
-            showCloseButton: false
-        )
-        
-        let alertView = SCLAlertView(appearance: appearance)
+        let alertView = SCLAlertView(appearance: Constant.appearance)
         alertView.addButton("Lanjutkan") {
             self.performCheckout(p!, address: a!, usedBalance: usedBalance, usedBonus: usedBonus)
         }

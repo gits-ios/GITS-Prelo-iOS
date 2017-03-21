@@ -1882,7 +1882,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 showCloseButton: false
             )
             
-            let alertView = SCLAlertView(appearance: appearance)
+            let alertView = SCLAlertView(appearance: Constant.appearance)
             alertView.addButton("Lanjutkan") {
                 _ = request(APITransactionProduct.confirmReceiveRefundedProduct(tpId: self.trxProductId!)).responseJSON { resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Konfirmasi Penerimaan")) {

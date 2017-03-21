@@ -951,11 +951,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         self.present(alert, animated: true, completion: nil)
          */
         
-        let appearance = SCLAlertView.SCLAppearance(
-            showCloseButton: false
-        )
-        
-        let alertView = SCLAlertView(appearance: appearance)
+        let alertView = SCLAlertView(appearance: Constant.appearance)
         alertView.addButton("Ya") {
             self.showLoading()
             if let productId = self.detail?.productID {

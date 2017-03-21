@@ -105,11 +105,7 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
         a.show()
          */
         
-        let appearance = SCLAlertView.SCLAppearance(
-            showCloseButton: false
-        )
-        
-        let alertView = SCLAlertView(appearance: appearance)
+        let alertView = SCLAlertView(appearance: Constant.appearance)
         alertView.addButton("Reload App Data") {
             self.reloadingAppData()
         }
@@ -293,21 +289,17 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
 //        a.message = "Harap untuk tidak menutup aplikasi selama proses berjalan"
 //        a.show()
         
-        let appearance = SCLAlertView.SCLAppearance(
-            showCloseButton: false
-        )
-        
-        let alertView = SCLAlertView(appearance: appearance)
+        let alertView = SCLAlertView(appearance: Constant.appearance)
         let subtitle = UILabel()
         
         subtitle.text = "Harap untuk tidak menutup aplikasi selama proses berjalan"
-        subtitle.font = appearance.kTextFont
+        subtitle.font = Constant.appearance.kTextFont
         subtitle.textColor = alertView.labelTitle.textColor
         subtitle.numberOfLines = 0
         subtitle.textAlignment = .center
         
-        let width = appearance.kWindowWidth - 24
-        let frame = subtitle.text!.boundsWithFontSize(appearance.kTextFont, width: width)
+        let width = Constant.appearance.kWindowWidth - 24
+        let frame = subtitle.text!.boundsWithFontSize(Constant.appearance.kTextFont, width: width)
         
         subtitle.frame = frame
         
