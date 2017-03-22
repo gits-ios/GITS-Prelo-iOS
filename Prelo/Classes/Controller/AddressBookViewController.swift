@@ -376,13 +376,6 @@ class AddressBookCell: UITableViewCell { // height 192
         }
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        
-        vwMain.backgroundColor = Theme.PrimaryColor
-        btnSetMain.backgroundColor = Theme.PrimaryColor
-    }
-    
     @IBAction func btnEditAddressPressed(_ sender: Any) {
         btnEditAction()
     }

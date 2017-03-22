@@ -28,7 +28,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TYPE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i3c-N8-zLk">
-                        <rect key="frame" x="8" y="8" width="44" height="21"/>
+                        <rect key="frame" x="8" y="8" width="241" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="3wG-b5-Lz5"/>
                         </constraints>
@@ -37,22 +37,21 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="niy-I6-cqm" userLabel="ALAMAT UTAMA">
-                        <rect key="frame" x="60" y="8" width="110" height="21"/>
+                        <rect key="frame" x="257" y="8" width="110" height="21"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l25-cc-wzb">
                                 <rect key="frame" x="5" y="0.0" width="17" height="21"/>
                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="textColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Alamat Utama" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h6c-m5-KhJ">
                                 <rect key="frame" x="25" y="0.0" width="80" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="textColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="l25-cc-wzb" firstAttribute="top" secondItem="niy-I6-cqm" secondAttribute="top" id="8DB-oY-Pei"/>
                             <constraint firstItem="l25-cc-wzb" firstAttribute="leading" secondItem="niy-I6-cqm" secondAttribute="leading" constant="5" id="FHr-tP-ykw"/>
@@ -139,10 +138,10 @@
                         </connections>
                     </button>
                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Jy-Wi-cFm">
-                        <rect key="frame" x="272" y="150" width="95" height="30"/>
-                        <color key="backgroundColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <rect key="frame" x="257" y="150" width="110" height="30"/>
+                        <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="95" id="OYz-I0-Bcv"/>
+                            <constraint firstAttribute="width" constant="110" id="5hM-BD-eRz"/>
                             <constraint firstAttribute="height" constant="30" id="dqo-LF-sdh"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
@@ -158,7 +157,7 @@
                     <constraint firstItem="4Jy-Zc-mqP" firstAttribute="leading" secondItem="eBW-mE-cLd" secondAttribute="leading" id="1wk-Kt-gWe"/>
                     <constraint firstItem="FDM-qH-vbu" firstAttribute="trailing" secondItem="eBW-mE-cLd" secondAttribute="trailingMargin" id="3de-GG-lK3"/>
                     <constraint firstItem="2Jy-Wi-cFm" firstAttribute="trailing" secondItem="eBW-mE-cLd" secondAttribute="trailingMargin" id="7Hf-Tr-r8M"/>
-                    <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="niy-I6-cqm" secondAttribute="trailing" id="97K-Rf-lhW"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="niy-I6-cqm" secondAttribute="trailing" id="97K-Rf-lhW"/>
                     <constraint firstItem="OXc-rc-BQa" firstAttribute="trailing" secondItem="eBW-mE-cLd" secondAttribute="trailingMargin" id="A0P-oQ-4vA"/>
                     <constraint firstItem="2EC-eC-lRD" firstAttribute="trailing" secondItem="eBW-mE-cLd" secondAttribute="trailingMargin" id="B03-AT-PBC"/>
                     <constraint firstItem="2EC-eC-lRD" firstAttribute="top" secondItem="niy-I6-cqm" secondAttribute="bottom" constant="8" id="Bwt-BV-5T9"/>

@@ -587,10 +587,13 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
 //    }
     
     func fieldsVerified() -> Bool {
+        // disable
+        /*
         if (fieldTentangShop.text == "" || fieldTentangShop.text == FldTentangShopPlaceholder) {
             Constant.showDialog("Warning", message: "Deskripsi Shop harus diisi")
             return false
         }
+        */
         
         if (fieldNama.text == nil || fieldNama.text == "") {
             Constant.showDialog("Warning", message: "Nama harus diisi")
