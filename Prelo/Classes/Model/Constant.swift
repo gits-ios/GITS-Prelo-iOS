@@ -94,7 +94,7 @@ class Constant: NSObject {
             alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { action in
                 UIApplication.shared.openURL(URL(string: "itms-apps://itunes.apple.com/id/app/prelo/id1027248488")!)
             }))
-            alert.addAction(UIAlertAction(title: "Batal", style: .default, handler: { action in
+            alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { action in
                 if let isForceUpdate = UserDefaults.standard.object(forKey: UserDefaultsKey.UpdatePopUpForced) as? Bool , !isForceUpdate {
                     // do nothing
                 } else if let releaseNotes = UserDefaults.standard.object(forKey: UserDefaultsKey.UpdatePopUpNotes) as? String , releaseNotes != "" {
@@ -105,7 +105,7 @@ class Constant: NSObject {
                     alert2.addAction(UIAlertAction(title: "Update", style: .default, handler: { action in
                         UIApplication.shared.openURL(URL(string: "itms-apps://itunes.apple.com/id/app/prelo/id1027248488")!)
                     }))
-                    alert2.addAction(UIAlertAction(title: "Batal", style: .default, handler: nil))
+                    alert2.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
                     UIApplication.shared.keyWindow?.rootViewController?.present(alert2, animated: true, completion: nil)
                 }
             }))
@@ -123,7 +123,9 @@ class Constant: NSObject {
                 alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { action in
                     UIApplication.shared.openURL(URL(string: "itms-apps://itunes.apple.com/id/app/prelo/id1027248488")!)
                 }))
-                alert.addAction(UIAlertAction(title: "Batal", style: .default, handler: nil))
+                alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { action in
+                    showDialog("Perhatian", message: "Jika terjadi error, harap update aplikasi")
+                }))
                 UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
             }
         }
