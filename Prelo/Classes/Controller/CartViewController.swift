@@ -3044,20 +3044,20 @@ extension BorderedView
                 for v in self.subviews {
                     if (v.isKind(of: UILabel.classForCoder())) {
                         let l = v as! UILabel
-                        l.textColor = Theme.PrimaryColor //Theme.PrimaryColorDark
+                        l.textColor = Theme.PrimaryColorDark
                     } else if (v.isKind(of: TintedImageView.classForCoder())) {
                         let i = v as! TintedImageView
                         i.tint = false
                     }
                 }
-                setBorderColor(Theme.GrayDark)
+                setBorderColor(Theme.PrimaryColorDark)
             } else {
                 setColor(Theme.GrayLight)
                 setBorderColor(Theme.GrayLight)
             }
         } else {
-            setColor(select ? Theme.PrimaryColor /*Theme.PrimaryColorDark*/ : Theme.GrayLight)
-            setBorderColor(select ? Theme.GrayDark : Theme.GrayLight)
+            setColor(select ? Theme.PrimaryColorDark : Theme.GrayLight)
+            setBorderColor(select ? Theme.PrimaryColorDark : Theme.GrayLight)
         }
     }
     
