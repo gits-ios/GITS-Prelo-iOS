@@ -255,7 +255,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     
     // MARK: - Edit Profile button (right top)
     func setEditButton() {
-        let btnEdit = self.createButtonWithIcon(AppFont.preloAwesome, icon: "")
+        let btnEdit = self.createButtonWithIcon(UIImage(named: "ic_edit_white")!) //self.createButtonWithIcon(AppFont.preloAwesome, icon: "")
         
         btnEdit.addTarget(self, action: #selector(StorePageTabBarViewController.editProfile), for: UIControlEvents.touchUpInside)
         

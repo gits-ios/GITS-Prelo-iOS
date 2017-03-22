@@ -39,12 +39,16 @@
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="niy-I6-cqm" userLabel="ALAMAT UTAMA">
                         <rect key="frame" x="257" y="8" width="110" height="21"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l25-cc-wzb">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l25-cc-wzb">
                                 <rect key="frame" x="5" y="0.0" width="17" height="21"/>
                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="17"/>
                                 <color key="textColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_home.png" translatesAutoresizingMaskIntoConstraints="NO" id="msX-t9-vdj" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
+                                <rect key="frame" x="5" y="0.0" width="17" height="21"/>
+                                <color key="tintColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Alamat Utama" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h6c-m5-KhJ">
                                 <rect key="frame" x="25" y="0.0" width="80" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -53,13 +57,17 @@
                             </label>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="h6c-m5-KhJ" firstAttribute="leading" secondItem="msX-t9-vdj" secondAttribute="trailing" constant="3" id="0zr-oS-BaN"/>
                             <constraint firstItem="l25-cc-wzb" firstAttribute="top" secondItem="niy-I6-cqm" secondAttribute="top" id="8DB-oY-Pei"/>
                             <constraint firstItem="l25-cc-wzb" firstAttribute="leading" secondItem="niy-I6-cqm" secondAttribute="leading" constant="5" id="FHr-tP-ykw"/>
+                            <constraint firstItem="msX-t9-vdj" firstAttribute="top" secondItem="niy-I6-cqm" secondAttribute="top" id="YSl-la-eYR"/>
                             <constraint firstAttribute="bottom" secondItem="h6c-m5-KhJ" secondAttribute="bottom" id="Zmc-ih-tS9"/>
+                            <constraint firstAttribute="bottom" secondItem="msX-t9-vdj" secondAttribute="bottom" id="cpo-9H-C0g"/>
                             <constraint firstAttribute="width" constant="110" id="fPb-or-bWp"/>
                             <constraint firstAttribute="bottom" secondItem="l25-cc-wzb" secondAttribute="bottom" id="m7Q-w4-2tA"/>
                             <constraint firstAttribute="height" constant="21" id="qQN-Oe-tlZ"/>
                             <constraint firstAttribute="trailing" secondItem="h6c-m5-KhJ" secondAttribute="trailing" constant="5" id="rfL-eF-RMG"/>
+                            <constraint firstItem="msX-t9-vdj" firstAttribute="leading" secondItem="niy-I6-cqm" secondAttribute="leading" constant="5" id="wAR-ae-PsY"/>
                             <constraint firstItem="h6c-m5-KhJ" firstAttribute="top" secondItem="niy-I6-cqm" secondAttribute="top" id="wwa-b7-uDS"/>
                             <constraint firstItem="h6c-m5-KhJ" firstAttribute="leading" secondItem="l25-cc-wzb" secondAttribute="trailing" constant="3" id="zkd-AZ-MVX"/>
                         </constraints>
@@ -189,6 +197,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="btnDelete" destination="ji4-bF-9wf" id="4V7-cc-yRd"/>
+                <outlet property="btnEdit" destination="0PN-2u-xBZ" id="TgL-Bh-0lF"/>
                 <outlet property="btnSetMain" destination="2Jy-Wi-cFm" id="CyQ-LL-9bn"/>
                 <outlet property="lblAddress" destination="OXc-rc-BQa" id="YDZ-Q6-kAV"/>
                 <outlet property="lblName" destination="2EC-eC-lRD" id="Eqz-aT-ZbF"/>
@@ -201,4 +210,7 @@
             <point key="canvasLocation" x="-13.5" y="52.5"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="ic_home.png" width="96" height="96"/>
+    </resources>
 </document>

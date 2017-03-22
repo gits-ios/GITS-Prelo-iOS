@@ -34,10 +34,19 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     
     var feedback: FeedbackPopup?
     
+    @IBOutlet weak var btnEdit: UIButton!
+    
     // MARK: - Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // set button
+        let insetBtn = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
+        
+        btnEdit.setImage(UIImage(named: "ic_edit_white"), for: .normal)
+        btnEdit.imageView?.contentMode = .scaleAspectFit
+        btnEdit.imageEdgeInsets = insetBtn
         
         // regiter cell
         

@@ -333,6 +333,7 @@ class AddressBookCell: UITableViewCell { // height 192
     @IBOutlet weak var vwMain: UIView!
     @IBOutlet weak var btnSetMain: UIButton!
     @IBOutlet weak var btnDelete: UIButton!
+    @IBOutlet weak var btnEdit: UIButton!
     
     var address: AddressItem!
     
@@ -341,6 +342,19 @@ class AddressBookCell: UITableViewCell { // height 192
     var btnSetMainAction : () -> () = {}
     
     func adapt(_ address: AddressItem) {
+        // set button
+        let insetBtn = UIEdgeInsets(top: 6, left: 6, bottom: 6, right: 6)
+        
+        btnEdit.setImage(UIImage(named: "ic_edit_white"), for: .normal)
+        btnEdit.imageView?.contentMode = .scaleAspectFit
+        btnEdit.imageEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
+        btnEdit.tintColor = UIColor.darkGray
+        
+        btnDelete.setImage(UIImage(named: "ic_delete"), for: .normal)
+        btnDelete.imageView?.contentMode = .scaleAspectFit
+        btnDelete.imageEdgeInsets = insetBtn
+        btnDelete.tintColor = UIColor.darkGray
+        
         self.address = address
         
         let regionName = CDRegion.getRegionNameWithID(address.regionId)

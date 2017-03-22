@@ -1730,7 +1730,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     // MARK: - Edit Profile button (right top) .shop
     func setEditButton() {
-        let btnEdit = self.createButtonWithIcon(AppFont.preloAwesome, icon: "")
+        let btnEdit = self.createButtonWithIcon(UIImage(named: "ic_edit_white")!) //self.createButtonWithIcon(AppFont.preloAwesome, icon: "")
         
         btnEdit.addTarget(self, action: #selector(ListItemViewController.editProfile), for: UIControlEvents.touchUpInside)
         
