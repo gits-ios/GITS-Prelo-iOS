@@ -576,17 +576,16 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                     let width = 290/2 - 1
                     
                     let telpBtn = UIButton(frame: CGRect(x: 0, y: 0, width: width, height: 20))
-                    telpBtn.setTitle(" Telepon Penjual", for: .normal)
+                    telpBtn.setTitle("Telepon Penjual", for: .normal)
                     telpBtn.backgroundColor = UIColor.clear
                     telpBtn.setTitleColor(Theme.PrimaryColor)
                     telpBtn.removeBorders()
                     telpBtn.addTarget(self, action: #selector(TawarViewController.phoneSeller), for: UIControlEvents.touchUpInside)
                     telpBtn.setTitleFont(FontName.Helvetica, size: 12)
-                    
-                    let attrStr1 = NSMutableAttributedString(string: " Telepon Penjual")
-                    attrStr1.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColor], range: (" Telepon Penjual" as NSString).range(of: ""))
-                    attrStr1.addAttributes([NSFontAttributeName:UIFont(name: "preloAwesome", size: 12.0)!], range: (" Telepon Penjual" as NSString).range(of: ""))
-                    telpBtn.titleLabel?.attributedText = attrStr1
+                    let imgH = UIImage(named: "ic_hubungi_prelo")?.resizeWithMaxWidthOrHeight(28)
+                    telpBtn.setImage(imgH, for: .normal)
+                    telpBtn.imageView?.contentMode = .scaleAspectFit
+                    telpBtn.imageEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
                     
                     let splitLbl = UILabel(frame: CGRect(x: width, y: 0, width: 2, height: 20))
                     splitLbl.font = cell.lblText.font
@@ -594,15 +593,17 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                     splitLbl.textAlignment = .center
                     splitLbl.textColor = Theme.PrimaryColor
                     
-                    let smsBtn = UIButton(frame: CGRect(x: width + 2, y: 0, width: width - 14, height: 20))
+                    let smsBtn = UIButton(frame: CGRect(x: width + 2, y: 0, width: width - 32, height: 20))
                     smsBtn.setTitle(" SMS Penjual", for: .normal)
                     smsBtn.backgroundColor = UIColor.clear
                     smsBtn.setTitleColor(Theme.PrimaryColor)
                     smsBtn.removeBorders()
                     smsBtn.addTarget(self, action: #selector(TawarViewController.smsSeller), for: UIControlEvents.touchUpInside)
                     smsBtn.setTitleFont(FontName.Helvetica, size: 12)
-                    let img = UIImage(named: "ic_comment")?.resizeWithMaxWidthOrHeight(14)
-                    smsBtn.setImage(img, for: .normal)
+                    let imgC = UIImage(named: "ic_comment")?.resizeWithMaxWidthOrHeight(28)
+                    smsBtn.setImage(imgC, for: .normal)
+                    smsBtn.imageView?.contentMode = .scaleAspectFit
+                    smsBtn.imageEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
                     
                     subview.addSubview(telpBtn)
                     subview.addSubview(splitLbl)
