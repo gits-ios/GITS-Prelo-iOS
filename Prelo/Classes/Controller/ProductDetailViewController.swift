@@ -1850,7 +1850,6 @@ class ProductCellSeller : UITableViewCell, UICollectionViewDataSource, UICollect
     @IBOutlet weak var collectionView: UIView! // parent of achievement
     @IBOutlet weak var badgeCollectionView: UICollectionView! // achievement
     @IBOutlet weak var consWidthCollectionView: NSLayoutConstraint!
-    @IBOutlet weak var consTrailingCollectionView: NSLayoutConstraint! // 8 -> 0
     
     var badges : Array<URL>! = []
     
@@ -1922,7 +1921,6 @@ class ProductCellSeller : UITableViewCell, UICollectionViewDataSource, UICollect
         // reset
         badges = []
         consWidthCollectionView.constant = 0
-        consTrailingCollectionView.constant = 0
         
         if let arr = product["seller"]["achievements"].array {
 //            for i in arr {
@@ -1972,8 +1970,6 @@ class ProductCellSeller : UITableViewCell, UICollectionViewDataSource, UICollect
         self.badgeCollectionView.isScrollEnabled = false
         self.consWidthCollectionView.constant = width
         
-        self.consTrailingCollectionView.constant = 2
-        
         self.collectionView.isHidden = false
     }
     
@@ -1990,6 +1986,10 @@ class ProductCellSeller : UITableViewCell, UICollectionViewDataSource, UICollect
         let cell = self.badgeCollectionView.dequeueReusableCell(withReuseIdentifier: "collcProgressCell", for: indexPath)
         // Create icon view
         let vwIcon : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
+        
+//        vwIcon.layer.cornerRadius = vwIcon.frame.size.width/2
+//        vwIcon.layer.masksToBounds = true
+//        vwIcon.backgroundColor = UIColor.white
         
         let img = UIImageView(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
         img.layoutIfNeeded()
