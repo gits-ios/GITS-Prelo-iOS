@@ -433,8 +433,8 @@ class Constant: NSObject {
                     
                     gradient.colors = [UIColor.colorWithColor(UIColor.white, alpha: 0).cgColor, UIColor.colorWithColor(UIColor.white, alpha: 1).cgColor]
                     gradient.locations = [0.0 , 1.0]
-                    //                        gradient.startPoint = CGPoint(x: 0.0, y: 1.0)
-                    //                        gradient.endPoint = CGPoint(x: 1.0, y: 1.0)
+//                    gradient.startPoint = CGPoint(x: 0.0, y: 1.0)
+//                    gradient.endPoint = CGPoint(x: 1.0, y: 1.0)
                     gradient.frame = CGRect(x: 0.0, y: maxheight - 24, width: width + 8, height: 24)
                     
                     subviewsuper.layer.insertSublayer(gradient, at: 1)
@@ -448,7 +448,41 @@ class Constant: NSObject {
                 alertView.addButton("Update") {
                     UIApplication.shared.openURL(URL(string: "itms-apps://itunes.apple.com/id/app/prelo/id1027248488")!)
                 }
-                alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+                alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {
+                    let alertView3 = SCLAlertView(appearance: appearance)
+                    let subtitle3 = UILabel()
+                    
+                    let notes3 = "Jika terjadi error, harap update aplikasi"
+                    subtitle3.font = appearance.kTextFont
+                    subtitle3.textColor = alertView3.labelTitle.textColor
+                    subtitle3.numberOfLines = 0
+                    subtitle3.textAlignment = .center
+                    
+                    let attString3 : NSMutableAttributedString = NSMutableAttributedString(string: notes3)
+                    
+                    attString3.addAttributes([NSFontAttributeName:UIFont.italicSystemFont(ofSize: 14)], range: (notes3 as NSString).range(of: "error"))
+                    
+                    attString3.addAttributes([NSFontAttributeName:UIFont.italicSystemFont(ofSize: 14)], range: (notes3 as NSString).range(of: "update"))
+                    
+                    subtitle3.attributedText = attString3
+                    
+                    let width3 = appearance.kWindowWidth - 24
+                    let frame3 = subtitle3.text!.boundsWithFontSize(appearance.kTextFont, width: width3)
+                    
+                    subtitle3.frame = frame3
+                    
+                    // Creat the subview
+                    let subview3 = UIView(frame: CGRect(x: 0, y: 0, width: width3, height: frame3.height))
+                    subview3.addSubview(subtitle3)
+                    
+                    subtitle3.frame = subview3.bounds
+                    
+                    alertView3.customSubview = subview3
+                    
+                    alertView3.addButton("Oke") {}
+                    
+                    alertView3.showCustom("Perhatian", subTitle: "", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+                }
                 
                 alertView.showCustom("Prelo \(newVer)", subTitle: "", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
             }

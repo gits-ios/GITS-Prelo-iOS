@@ -308,6 +308,8 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
         subview.addSubview(subtitle)
         subview.addSubview(pView)
         
+        subtitle.frame = subview.bounds
+        
         pView.frame = CGRect(x: 0, y: frame.height + 16, width: width, height: 2)
         
         alertView.customSubview = subview
