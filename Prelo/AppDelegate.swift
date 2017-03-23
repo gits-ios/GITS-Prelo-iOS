@@ -266,7 +266,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UserDefaults.setObjectAndSync(userAgent as AnyObject?, forKey: UserDefaultsKey.UserAgent)
         
         // Remove app badge if any
-//        UIApplication.shared.applicationIconBadgeNumber = 0
+        UIApplication.shared.applicationIconBadgeNumber = 0
         
         // Set status bar color
         self.setStatusBarBackgroundColor(color: UIColor.clear)
@@ -591,7 +591,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Prelo Analytic - Open App
         AnalyticManager.sharedInstance.openApp()
         
-        produkUploader.start()
+        if (User.Token != nil && CDUser.getOne() != nil) { // If user is logged in
+            DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
+                self.produkUploader.start()
+            })
+        }
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -600,7 +604,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Remove app badge if any
         // show badge
-        UIApplication.shared.applicationIconBadgeNumber = User.getNotifCount() as NSInteger
+        UIApplication.shared.applicationIconBadgeNumber = 0 //User.getNotifCount() as NSInteger
         
         // AppsFlyer
         // Track Installs, updates & sessions(app opens) (You must include this API to enable tracking)
