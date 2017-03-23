@@ -504,7 +504,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
              */
             
-            if (title != "" || alert != "" && isDoing) {
+            if ((title != "" || alert != "") && isDoing) {
                 // banner
                 let banner = Banner(title: title != "" ? title : alert, subtitle: body != "" ? body : nil, image: imageBanner, backgroundColor: Theme.PrimaryColor, didTapBlock: {
                     //if isDoing {
@@ -542,12 +542,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     if let tawarVC = rootViewController?.childViewControllers.last as? TawarViewController {
                         tawarVC.isScrollToBottom = true
                         tawarVC.getMessages()
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                            // decrease notif badge
+                            let unreadNotifCount = self.preloNotifListener.newNotifCount - 1
+                            self.preloNotifListener.setNewNotifCount(unreadNotifCount)
+                        })
                     }
                 } else if tipe.lowercased() == self.RedirPreloMessage && rootViewController?.childViewControllers.last is PreloMessageViewController {
                     //do something if it's an instance of that class
                     
                     if let preloMessageVC = rootViewController?.childViewControllers.last as? PreloMessageViewController {
                         preloMessageVC.getMessage()
+                        
+                        // decrease notif badge
+                        // handled at prelo message vc
                     }
                 }
             }
@@ -848,6 +857,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.showRedirAlert()
             self.redirectPreloMessage()
         }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+            // decrease notif badge
+            let unreadNotifCount = self.preloNotifListener.newNotifCount - 1
+            self.preloNotifListener.setNewNotifCount(unreadNotifCount)
+        })
     }
     
     func showRedirAlert() {

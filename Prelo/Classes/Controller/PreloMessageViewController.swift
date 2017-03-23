@@ -431,6 +431,10 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
     }
     
     func getNewMessage(_ count: Int) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let notifListener = appDelegate.preloNotifListener
+        let newNotifCount = (notifListener?.newNotifCount)! - count
+        
         self.isLoaded = false
         self.myRequest = request(APIPreloMessage.getMessage).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Get New Prelo Message")) {
@@ -442,6 +446,8 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
                         
                         self.isOpens.insert(false, at: 0)
                         self.messages?.insert(message!, at: 0)
+                        
+                        notifListener?.setNewNotifCount(newNotifCount)
                         
                         self.isLoaded = true
                     }
