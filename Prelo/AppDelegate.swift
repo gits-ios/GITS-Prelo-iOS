@@ -607,12 +607,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Prelo Analytic - Update User
         AnalyticManager.sharedInstance.updateUser(isNeedPayload: true)
         
-        if (User.Token != nil && CDUser.getOne() != nil) { // If user is logged in
-            DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
-                self.produkUploader.start()
-            })
-        }
-        
         return true
     }
     

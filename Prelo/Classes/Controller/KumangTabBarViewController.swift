@@ -72,7 +72,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
             self.versionChecked()
         }
         
-        /*
         // Resume product upload
         if (User.Token != nil && CDUser.getOne() != nil) { // If user is logged in
 //            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
@@ -80,7 +79,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
                 AppDelegate.Instance.produkUploader.start()
             })
         }
-         */
         
         // Subdistrict check
         self.subdistrictProfileCheck()
