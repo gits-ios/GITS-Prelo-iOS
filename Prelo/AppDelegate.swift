@@ -545,9 +545,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // MoEngage
         MoEngage.sharedInstance().stop(application)
         
-        if (User.Token != nil && CDUser.getOne() != nil) { // If user is logged in
-            produkUploader.stop()
-        }
+        produkUploader.stop()
         
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().didLoseFocus()
