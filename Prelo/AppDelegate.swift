@@ -545,7 +545,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // MoEngage
         MoEngage.sharedInstance().stop(application)
         
-        produkUploader.stop()
+        if (User.Token != nil && CDUser.getOne() != nil) { // If user is logged in
+            produkUploader.stop()
+        }
         
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().didLoseFocus()
@@ -562,7 +564,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Prelo Analytic - Open App
         AnalyticManager.sharedInstance.openApp()
         
-        produkUploader.start()
+        if (User.Token != nil && CDUser.getOne() != nil) { // If user is logged in
+            DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
+                self.produkUploader.start()
+            })
+        }
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -600,6 +606,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Prelo Analytic - Update User
         AnalyticManager.sharedInstance.updateUser(isNeedPayload: true)
+        
+        if (User.Token != nil && CDUser.getOne() != nil) { // If user is logged in
+            DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
+                self.produkUploader.start()
+            })
+        }
         
         return true
     }
