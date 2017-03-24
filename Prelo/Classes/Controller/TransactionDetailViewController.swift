@@ -1857,6 +1857,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             self.navigationController?.pushViewController(confirmShippingVC, animated: true)
         }
         cell.confirmReturned = {
+            /*
             let alert : UIAlertController = UIAlertController(title: "Perhatian", message: "Dengan melakukan konfirmasi penerimaan, artinya kamu sudah menerima kembali barang refund. Uang akan dikembalikan kepada pembeli. Lanjutkan?", preferredStyle: UIAlertControllerStyle.alert)
             
             alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
@@ -1875,6 +1876,29 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 }
             }))
             self.present(alert, animated: true, completion: nil)
+             */
+            
+            let appearance = SCLAlertView.SCLAppearance(
+                showCloseButton: false
+            )
+            
+            let alertView = SCLAlertView(appearance: Constant.appearance)
+            alertView.addButton("Lanjutkan") {
+                _ = request(APITransactionProduct.confirmReceiveRefundedProduct(tpId: self.trxProductId!)).responseJSON { resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Konfirmasi Penerimaan")) {
+                        let json = JSON(resp.result.value!)
+                        let data = json["_data"].boolValue
+                        if (data == true) {
+                            Constant.showDialog("Konfirmasi Penerimaan", message: "Konfirmasi Penerimaan telah berhasil dilakukan")
+                            _ = self.navigationController?.popViewController(animated: true)
+                        } else {
+                            Constant.showDialog("Konfirmasi Penerimaan", message: "Konfirmasi Penerimaan telah berhasil dilakukan")
+                        }
+                    }
+                }
+            }
+            alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+            alertView.showCustom("Perhatian", subTitle: "Dengan melakukan konfirmasi penerimaan, artinya kamu sudah menerima kembali barang refund. Uang akan dikembalikan kepada pembeli. Lanjutkan?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
         }
         // Configure actions
         cell.orderAgain = {
