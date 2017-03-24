@@ -893,6 +893,7 @@ enum APIProduct : URLRequestConvertible {
     case getProductLovelist(productId : String)
     case reportProduct(productId : String, sellerId : String, reportType : Int, reasonText : String, categoryIdCorrection : String)
     case paidPushWithCoin(productId: String)
+    case paidPushWithWatchVideo(productId: String)
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "product/"
@@ -932,6 +933,7 @@ enum APIProduct : URLRequestConvertible {
         case .getProductLovelist(_) : return .get
         case .reportProduct(_, _, _, _, _) : return .post
         case .paidPushWithCoin(_) : return .post
+        case .paidPushWithWatchVideo(_) : return .post
         }
     }
     
@@ -964,6 +966,7 @@ enum APIProduct : URLRequestConvertible {
         case .getProductLovelist(let productId) : return "\(productId)/lovelist"
         case .reportProduct(let productId, _, _, _, _) : return "\(productId)/report"
         case .paidPushWithCoin(let pId) : return "push/\(pId)/with_diamond"
+        case .paidPushWithWatchVideo(let pId) : return "push/\(pId)"
         }
     }
     
@@ -1088,8 +1091,13 @@ enum APIProduct : URLRequestConvertible {
                 "category_id_correction" : categoryIdCorrection,
                 "platform_sent_from" : "ios"
             ]
-        case .paidPushWithCoin(_):
+        case .paidPushWithCoin(_) :
             p = [
+                "platform_sent_from" : "ios"
+            ]
+        case .paidPushWithWatchVideo(_) :
+            p = [
+                "is_video" : 1,
                 "platform_sent_from" : "ios"
             ]
         default : break

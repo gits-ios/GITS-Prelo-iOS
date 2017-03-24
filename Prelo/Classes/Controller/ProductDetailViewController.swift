@@ -43,8 +43,7 @@ protocol ProductCellDelegate: class
     func cellTappedComment()
 }
 
-class ProductDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, ProductCellDelegate, /*UIActionSheetDelegate, UIAlertViewDelegate,*/ MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate, UserRelatedDelegate
-{
+class ProductDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, ProductCellDelegate, /*UIActionSheetDelegate, UIAlertViewDelegate,*/ MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate, UserRelatedDelegate, ISRewardedVideoDelegate {
     
     var product : Product?
     var detail : ProductDetail?
@@ -103,6 +102,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     weak var delegate: MyProductDelegate?
     
     var thisScreen: String!
+    
+    // new popup paid push
+    var newPopup: PaidPushPopup?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -245,6 +247,22 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     
                     if User.IsLoggedIn && sellerid != userid {
                         self.setOptionButton()
+                    } else {
+                        // ads
+                        IronSource.setRewardedVideoDelegate(self)
+                        
+                        // TODO: - enable this
+                        //let userID = UIDevice.current.identifierForVendor!.uuidString
+                        // testing
+                        let userID = "80E9295C-BF1E-486F-9394-F254F3D99B9C"
+                        IronSource.setUserId(userID)
+                        
+                        // init with prelo appkey
+                        // TODO: - change with official appkey
+                        IronSource.initWithAppKey("60298835", adUnits:[IS_REWARDED_VIDEO])
+                        
+                        // check ads mediation integration
+                        ISIntegrationHelper.validateIntegration()
                     }
                     
                     self.setupView()
@@ -1230,7 +1248,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                         
                         self.showUpPopUp(withText: message, isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
                     } else {
-                        self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: true, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                        //self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: true, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                        
+                        self.launchNewPopUp(withText: message, paidAmount: paidAmount, preloBalance: preloBalance, poinAmount: coinAmount, poin: coin)
                     }
                 }
                 self.hideLoading()
@@ -1354,6 +1374,110 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
+    // MARK: - Setup popup
+    
+    func launchNewPopUp(withText: String, paidAmount: Int, preloBalance: Int, poinAmount: Int, poin: Int) {
+        self.setupPopUp(withText: withText, paidAmount: paidAmount, preloBalance: preloBalance, poinAmount: poinAmount, poin: poin)
+        self.newPopup?.isHidden = false
+        
+        let isAdsAvailable = IronSource.hasRewardedVideo()
+        print(isAdsAvailable)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.newPopup?.setupPopUp(isAdsAvailable)
+            self.newPopup?.displayPopUp()
+        })
+    }
+    
+    func setupPopUp(withText: String, paidAmount: Int, preloBalance: Int, poinAmount: Int, poin: Int) {
+        // setup popup
+        if (self.newPopup == nil) {
+            self.newPopup = Bundle.main.loadNibNamed("PaidPushPopup", owner: nil, options: nil)?.first as? PaidPushPopup
+            self.newPopup?.frame = UIScreen.main.bounds
+            self.newPopup?.tag = 100
+            self.newPopup?.isHidden = true
+            self.newPopup?.backgroundColor = UIColor.clear
+            self.view.addSubview(self.newPopup!)
+            
+            self.newPopup?.initPopUp(withText: withText, paidAmount: paidAmount, preloBalance: preloBalance, poinAmount: poinAmount, poin: poin)
+            
+            self.newPopup?.disposePopUp = {
+                self.newPopup?.isHidden = true
+                self.newPopup = nil
+                print("Start remove sibview")
+                if let viewWithTag = self.view.viewWithTag(100) {
+                    viewWithTag.removeFromSuperview()
+                } else {
+                    print("No!")
+                }
+            }
+            
+            self.newPopup?.balanceUsed = {
+                self.isCoinUse = false
+                self.showLoading()
+                if let productId = self.detail?.productID {
+                    let _ = request(APIProduct.paidPush(productId: productId)).responseJSON { resp in
+                        if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
+                            let json = JSON(resp.result.value!)
+                            let isSuccess = json["_data"]["result"].boolValue
+                            let message = json["_data"]["message"].stringValue
+                            let paidAmount = json["_data"]["paid_amount"].intValue
+                            let preloBalance = json["_data"]["my_prelo_balance"].intValue
+                            let coinAmount = json["_data"]["diamond_amount"].intValue
+                            let coin = json["_data"]["my_total_diamonds"].intValue
+                            
+                            if (isSuccess) {
+                                // Prelo Analytic - Up Product - Balance
+                                self.sendUpProductAnalytic(productId, type: "Balance")
+                                
+                                self.showUpPopUp(withText: message + " (" + paidAmount.asPrice + " telah otomatis ditarik dari Prelo Balance)", isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                            } else {
+                                self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                            }
+                        }
+                        self.hideLoading()
+                    }
+                }
+            }
+            
+            self.newPopup?.poinUsed = {
+                self.isCoinUse = true
+                self.showLoading()
+                if let productId = self.detail?.productID {
+                    let _ = request(APIProduct.paidPushWithCoin(productId: productId)).responseJSON { resp in
+                        if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
+                            let json = JSON(resp.result.value!)
+                            let isSuccess = json["_data"]["result"].boolValue
+                            let message = json["_data"]["message"].stringValue
+                            let paidAmount = json["_data"]["paid_amount"].intValue
+                            let preloBalance = json["_data"]["my_prelo_balance"].intValue
+                            let coinAmount = json["_data"]["diamond_amount"].intValue
+                            let coin = json["_data"]["my_total_diamonds"].intValue
+                            
+                            if (isSuccess) {
+                                // Prelo Analytic - Up Product - Point
+                                self.sendUpProductAnalytic(productId, type: "Point")
+                                
+                                self.showUpPopUp(withText: message + " (" + coinAmount.string + " Poin kamu telah otomatis ditarik)", isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                            } else {
+                                self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                            }
+                        }
+                        self.hideLoading()
+                    }
+                }
+            }
+            
+            self.newPopup?.watchVideoAds = {
+                // open ads
+                IronSource.showRewardedVideo(with: self, placement: nil)
+                
+                //  goto delegate
+            }
+        }
+        
+    }
+    
     // Prelo Analytic - Up Product
     func sendUpProductAnalytic(_ productId: String, type: String) {
         let loginMethod = User.LoginMethod ?? ""
@@ -1451,6 +1575,83 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             
         }
     }
+    
+    // MARK: - Ads delegate
+    //MARK: ISRewardedVideoDelegate Functions
+    /**
+     Called after a rewarded video has changed its availability.
+     
+     @param available The new rewarded video availability. YES if available and ready to be shown, NO otherwise.
+     */
+    public func rewardedVideoHasChangedAvailability(_ available: Bool) {
+    }
+    
+    /**
+     Called after a rewarded video has finished playing.
+     */
+    public func rewardedVideoDidEnd() {
+    }
+    
+    /**
+     Called after a rewarded video has started playing.
+     */
+    public func rewardedVideoDidStart() {
+    }
+    
+    /**
+     Called after a rewarded video has been dismissed.
+     */
+    public func rewardedVideoDidClose() {
+        //Constant.showDialog("Watch Video", message: "yey")
+    }
+    
+    /**
+     Called after a rewarded video has been opened.
+     */
+    public func rewardedVideoDidOpen() {
+    }
+    
+    /**
+     Called after a rewarded video has attempted to show but failed.
+     
+     @param error The reason for the error
+     */
+    public func rewardedVideoDidFailToShowWithError(_ error: Error!) {
+        Constant.showDialog("Oops", message: "Terdapat kesalahan sewaktu memulai video")
+    }
+    
+    /**
+     Called after a rewarded video has been viewed completely and the user is eligible for reward.
+     
+     @param placementInfo An object that contains the placement's reward name and amount.
+     */
+    public func didReceiveReward(forPlacement placementInfo: ISPlacementInfo!) {
+        self.showLoading()
+        if let productId = detail?.productID {
+            let _ = request(APIProduct.paidPushWithWatchVideo(productId: productId)).responseJSON { resp in
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
+                    let json = JSON(resp.result.value!)
+                    let isSuccess = json["_data"]["result"].boolValue
+                    let message = json["_data"]["message"].stringValue
+                    let paidAmount = json["_data"]["paid_amount"].intValue
+                    let preloBalance = json["_data"]["my_prelo_balance"].intValue
+                    let coinAmount = json["_data"]["diamond_amount"].intValue
+                    let coin = json["_data"]["my_total_diamonds"].intValue
+                    
+                    if (isSuccess) {
+                        // Prelo Analytic - Up Product - Video
+                        self.sendUpProductAnalytic(productId, type: "Video")
+                        
+                        self.showUpPopUp(withText: message, isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                    } else {
+                        self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                    }
+                }
+                self.hideLoading()
+            }
+        }
+    }
+
 }
 
 // MARK: - Class
@@ -2414,5 +2615,219 @@ class ProductCellDiscussion : UITableViewCell
     
     @IBAction func btnUsernamePressed(_ sender: AnyObject) {
         self.goToProfile(senderId)
+    }
+}
+
+class PaidPushPopup: UIView {
+    @IBOutlet weak var vwBackgroundOverlay: UIView!
+    @IBOutlet weak var vwOverlayPopUp: UIView!
+    @IBOutlet weak var vwPopUp: UIView!
+    @IBOutlet weak var vwVideoUp: UIView! // hidden
+    @IBOutlet weak var consCenteryPopUp: NSLayoutConstraint!
+    @IBOutlet weak var consBottomSeparatorToVideo: NSLayoutConstraint! // 0 -> 67
+    @IBOutlet weak var lbDescription: UILabel!
+    @IBOutlet weak var lbBalanceUsed: UILabel!
+    @IBOutlet weak var lbPoinUsed: UILabel!
+    @IBOutlet weak var lbWatchVideo: UILabel!
+    @IBOutlet weak var btnBalanceUsed: UIButton! // enable
+    @IBOutlet weak var btnPoinUsed: UIButton! // enable
+    @IBOutlet weak var btnWatchVideo: UIButton!
+    @IBOutlet weak var imgBalanceUsed: TintedImageView!
+    @IBOutlet weak var imgPoinUsed: TintedImageView!
+    @IBOutlet weak var lbTitleBalanceUsed: UILabel!
+    @IBOutlet weak var lbTitlePoinUsed: UILabel!
+    @IBOutlet weak var lbTitleWatchVideo: UILabel!
+    @IBOutlet weak var consHeightSeparatorToVideo: NSLayoutConstraint! // 0 -> 1
+    
+    let gray = UIColor(hexString: "#939393")
+    
+    var disposePopUp : ()->() = {}
+    var balanceUsed : ()->() = {}
+    var poinUsed : ()->() = {}
+    var watchVideoAds : ()->() = {}
+    
+    func setupPopUp(_ isAdsLoaded: Bool) {
+        if isAdsLoaded {
+            self.vwVideoUp.isHidden = false
+            self.consBottomSeparatorToVideo.constant = 67
+            
+            self.consHeightSeparatorToVideo.constant = 1
+            
+            self.lbTitleWatchVideo.textColor = Theme.PrimaryColor
+            self.lbWatchVideo.textColor = gray
+            
+            self.btnWatchVideo.isEnabled = true
+            //self.btnWatchVideo.backgroundColor = UIColor.clear
+        } else {
+            self.vwVideoUp.isHidden = true
+            self.consBottomSeparatorToVideo.constant = 0
+            
+            self.consHeightSeparatorToVideo.constant = 0
+            
+            self.lbTitleWatchVideo.textColor = Theme.GrayLight
+            self.lbWatchVideo.textColor = Theme.GrayLight
+            
+            self.btnWatchVideo.isEnabled = false
+            //self.btnWatchVideo.backgroundColor = UIColor.lightGray.alpha(0.3)
+        }
+    }
+    
+    func initPopUp(withText: String, paidAmount: Int, preloBalance: Int, poinAmount: Int, poin: Int) {
+        let path = UIBezierPath(roundedRect:vwPopUp.bounds,
+                                byRoundingCorners:[.topRight, .topLeft],
+                                cornerRadii: CGSize(width: 4, height:  4))
+        
+        let maskLayer = CAShapeLayer()
+        
+        maskLayer.path = path.cgPath
+        vwPopUp.layer.mask = maskLayer
+        
+        // Transparent panel
+        self.vwBackgroundOverlay.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.2)
+        
+        self.vwBackgroundOverlay.isHidden = false
+        self.vwOverlayPopUp.isHidden = false
+        
+        let screenSize = UIScreen.main.bounds
+        let screenHeight = screenSize.height - 64 // navbar
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = screenHeight
+        
+        // setup content
+        self.lbDescription.text = withText + "\n\n" + "Atau kamu bisa UP sekarang dengan cara:"
+        
+        self.lbPoinUsed.text = poinAmount.string + " poin akan berkurang untuk satu kali UP. Poin kamu sekarang " + poin.string
+        self.lbPoinUsed.boldSubstring(poinAmount.string + " poin")
+        self.lbPoinUsed.boldSubstring(poin.string)
+        
+        if (poinAmount <= poin) {
+            self.btnPoinUsed.isEnabled = true
+            //self.btnPoinUsed.backgroundColor = UIColor.clear
+            
+            self.lbTitlePoinUsed.textColor = Theme.PrimaryColor
+            self.lbPoinUsed.textColor = gray
+            
+            self.imgPoinUsed.tint = false
+            self.imgPoinUsed.tintColor = UIColor.clear
+        } else {
+            self.btnPoinUsed.isEnabled = false
+            //self.btnPoinUsed.backgroundColor = UIColor.lightGray.alpha(0.3)
+            
+            self.lbTitlePoinUsed.textColor = Theme.GrayLight
+            self.lbPoinUsed.textColor = Theme.GrayLight
+            
+            self.imgPoinUsed.tint = true
+            self.imgPoinUsed.tintColor = Theme.GrayLight
+        }
+        
+        self.lbBalanceUsed.text = paidAmount.asPrice + " akan ditarik dari Prelo Balance kamu untuk satu kali UP. Prelo Balance kamu " + preloBalance.asPrice
+        self.lbBalanceUsed.boldSubstring(paidAmount.asPrice)
+        self.lbBalanceUsed.boldSubstring(preloBalance.asPrice)
+        
+        if (paidAmount <= preloBalance) {
+            self.btnBalanceUsed.isEnabled = true
+            //self.btnBalanceUsed.backgroundColor = UIColor.clear
+            
+            self.lbTitleBalanceUsed.textColor = Theme.PrimaryColor
+            self.lbBalanceUsed.textColor = gray
+        
+            self.imgBalanceUsed.tint = false
+            self.imgBalanceUsed.tintColor = UIColor.clear
+        } else {
+            self.btnBalanceUsed.isEnabled = false
+            //.btnBalanceUsed.backgroundColor = UIColor.lightGray.alpha(0.3)
+        
+            self.lbTitleBalanceUsed.textColor = Theme.GrayLight
+            self.lbBalanceUsed.textColor = Theme.GrayLight
+        
+            self.imgBalanceUsed.tint = true
+            self.imgBalanceUsed.tintColor = Theme.GrayLight
+        }
+    }
+    
+    func displayPopUp() {
+        let screenSize = UIScreen.main.bounds
+        let screenHeight = screenSize.height
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = screenHeight
+        
+        // 1
+        let placeSelectionBar = { () -> () in
+            // parent
+            var curView = self.vwPopUp.frame
+            curView.origin.y = (screenHeight - self.vwPopUp.frame.height) / 2 - 32
+            self.vwPopUp.frame = curView
+        }
+        
+        // 2
+        UIView.animate(withDuration: 0.3, animations: {
+            placeSelectionBar()
+        })
+        
+        self.consCenteryPopUp.constant = -32
+    }
+    
+    func unDisplayPopUp() {
+        let screenSize = self.bounds
+        let screenHeight = screenSize.height
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = 0
+        
+        // 1
+        let placeSelectionBar = { () -> () in
+            // parent
+            var curView = self.vwPopUp.frame
+            curView.origin.y = screenHeight + (screenHeight - self.vwPopUp.frame.height) / 2 - 32
+            self.vwPopUp.frame = curView
+        }
+        
+        // 2
+        UIView.animate(withDuration: 0.3, animations: {
+            placeSelectionBar()
+        })
+        
+        self.consCenteryPopUp.constant = screenHeight
+    }
+    
+    @IBAction func btnBalancePressed(_ sender: Any) {
+        self.unDisplayPopUp()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.vwOverlayPopUp.isHidden = true
+            self.vwBackgroundOverlay.isHidden = true
+            self.balanceUsed()
+            self.disposePopUp()
+        })
+    }
+    
+    @IBAction func btnPoinPressed(_ sender: Any) {
+        self.unDisplayPopUp()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.vwOverlayPopUp.isHidden = true
+            self.vwBackgroundOverlay.isHidden = true
+            self.poinUsed()
+            self.disposePopUp()
+        })
+    }
+    
+    @IBAction func btnVideoPressed(_ sender: Any) {
+        self.unDisplayPopUp()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.vwOverlayPopUp.isHidden = true
+            self.vwBackgroundOverlay.isHidden = true
+            self.watchVideoAds()
+            self.disposePopUp()
+        })
+    }
+    
+    @IBAction func btnTidakPressed(_ sender: Any) {
+        self.unDisplayPopUp()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.vwOverlayPopUp.isHidden = true
+            self.vwBackgroundOverlay.isHidden = true
+            self.disposePopUp()
+        })
     }
 }
