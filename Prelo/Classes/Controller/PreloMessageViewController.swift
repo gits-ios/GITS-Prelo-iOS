@@ -31,8 +31,10 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
     
     var lastContentOffset = CGPoint.zero
     
-    @IBOutlet weak var btnScrollToTop: UIButton!
-    @IBOutlet weak var btnScrollToBottom: UIButton!
+    @IBOutlet weak var btnScrollToTop: UIButton! // disabled
+    @IBOutlet weak var btnScrollToBottom: UIButton! // disabled
+    
+    @IBOutlet weak var btnBackToTop: BorderedButton!
     
     var startTime : TimeInterval! = nil
     
@@ -60,6 +62,9 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
         
         // title
         self.title = "Prelo Message"
+        
+        // restyling btn back to top
+        self.btnBackToTop.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.75)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -238,6 +243,7 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let currentOffset = scrollView.contentOffset
         
+        /*
         if (currentOffset.y > 4 && currentOffset.y < (tableView.contentSize.height - tableView.height)) {
             //print(currentOffset.y)
             //print((tableView.contentSize.height - tableView.height))
@@ -254,9 +260,18 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
             self.btnScrollToBottom.isHidden = true
             self.btnScrollToTop.isHidden = true
         }
+         */
+        
+        if (currentOffset.y > (2 * tableView.height)) {
+            self.btnBackToTop.isHidden = false
+        } else {
+            self.btnBackToTop.isHidden = true
+        }
+        
         self.lastContentOffset = currentOffset
     }
     
+    /*
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         self.btnScrollToBottom.isHidden = true
         self.btnScrollToTop.isHidden = true
@@ -271,6 +286,7 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
         self.btnScrollToBottom.isHidden = true
         self.btnScrollToTop.isHidden = true
     }
+     */
     
     // MARK: - Deeplink
     func openUrl(url: URL) {

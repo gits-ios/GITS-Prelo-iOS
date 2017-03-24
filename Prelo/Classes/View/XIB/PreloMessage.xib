@@ -93,6 +93,35 @@
                             <action selector="btnScrollToBottomPressed:" destination="tdk-KL-fCT" eventType="touchUpInside" id="4zR-uN-as5"/>
                         </connections>
                     </button>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TZa-TZ-mwj" userLabel="Button Back To Top" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
+                        <rect key="frame" x="147" y="40" width="80" height="30"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="80" id="3kW-uy-Jbc"/>
+                            <constraint firstAttribute="height" constant="30" id="rRy-IM-qXJ"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <state key="normal" title="back to top">
+                            <color key="titleColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </state>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                <real key="value" value="1"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColorHighlight">
+                                <color key="value" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="btnScrollToTopPressed:" destination="tdk-KL-fCT" eventType="touchUpInside" id="HdG-i2-W9g"/>
+                        </connections>
+                    </button>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oa2-Hr-Vhw" userLabel="loadingPanel" customClass="AchievementCell" customModule="Prelo" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <subviews>
@@ -117,6 +146,8 @@
                     <constraint firstItem="iG7-VB-I5b" firstAttribute="top" secondItem="Xda-82-zsn" secondAttribute="bottom" id="KUN-bY-ihc"/>
                     <constraint firstAttribute="bottom" secondItem="iG7-VB-I5b" secondAttribute="bottom" id="NWl-F2-WUY"/>
                     <constraint firstItem="iG7-VB-I5b" firstAttribute="leading" secondItem="xen-hQ-SiN" secondAttribute="leading" id="TsZ-p6-ugS"/>
+                    <constraint firstItem="TZa-TZ-mwj" firstAttribute="top" secondItem="Reh-07-uu7" secondAttribute="bottom" constant="40" id="Ubu-V7-BAt"/>
+                    <constraint firstItem="TZa-TZ-mwj" firstAttribute="centerX" secondItem="xen-hQ-SiN" secondAttribute="centerX" id="gD7-5C-iWb"/>
                     <constraint firstItem="Reh-07-uu7" firstAttribute="leading" secondItem="xen-hQ-SiN" secondAttribute="leading" id="gOk-uO-kSe"/>
                     <constraint firstAttribute="trailing" secondItem="Oa2-Hr-Vhw" secondAttribute="trailing" id="lug-BQ-zi3"/>
                     <constraint firstItem="Reh-07-uu7" firstAttribute="top" secondItem="Xda-82-zsn" secondAttribute="bottom" id="msi-a0-FLr"/>
@@ -129,6 +160,7 @@
             </view>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
             <connections>
+                <outlet property="btnBackToTop" destination="TZa-TZ-mwj" id="vZq-KL-VPJ"/>
                 <outlet property="btnScrollToBottom" destination="gO7-Jj-w8j" id="1AV-Oe-UG0"/>
                 <outlet property="btnScrollToTop" destination="h1o-Sw-WuH" id="MAr-Dl-ES6"/>
                 <outlet property="consHeightTopBannerParent" destination="Su3-3j-lmr" id="Ugk-dN-3VI"/>
