@@ -4,3 +4,6 @@
 [submodule "AlamofireImage"]
 	path = AlamofireImage
 	url = https://github.com/Alamofire/AlamofireImage.git
+[submodule "DropDown"]
+	path = DropDown
+	url = git@github.com:AssistoLab/DropDown.git

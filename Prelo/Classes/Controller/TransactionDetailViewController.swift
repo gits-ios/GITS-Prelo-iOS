@@ -1787,6 +1787,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 orderConfirmVC.isBackToRoot = false
                 orderConfirmVC.isShowBankBRI = self.isShowBankBRI
                 orderConfirmVC.date = self.trxDetail!.expireTime
+                orderConfirmVC.targetBank = self.trxDetail!.paymentBankTarget
                 orderConfirmVC.remaining = self.trxDetail!.remainingTime
                 orderConfirmVC.previousScreen = PageName.TransactionDetail
                 self.navigationController?.pushViewController(orderConfirmVC, animated: true)
