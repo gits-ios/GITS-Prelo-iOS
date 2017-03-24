@@ -11,7 +11,7 @@ import CoreData
 import TwitterKit
 import Alamofire
 
-class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, PhoneVerificationDelegate, UIAlertViewDelegate, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate {
+class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, PhoneVerificationDelegate, /*UIAlertViewDelegate,*/ UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate {
     
     @IBOutlet weak var scrollView : UIScrollView?
     
@@ -330,9 +330,38 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
                 }
             })
         } else { // Then logout
+            /*
             let logoutAlert = UIAlertView(title: "Facebook Logout", message: "Yakin mau logout akun Facebook \(self.lblLoginFacebook.text!)?", delegate: self, cancelButtonTitle: "No")
             logoutAlert.addButton(withTitle: "Yes")
             logoutAlert.show()
+             */
+            
+            let alertView = SCLAlertView(appearance: Constant.appearance)
+            alertView.addButton("Ya") {
+                // API Migrasi
+                let _ = request(APISocmed.postFacebookData(id: "", username: "", token: "")).responseJSON {resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Logout Facebook")) {
+                        
+                        // End session
+                        User.LogoutFacebook()
+                        
+                        // Save in core data
+                        let userOther : CDUserOther = CDUserOther.getOne()!
+                        userOther.fbID = nil
+                        userOther.fbUsername = nil
+                        userOther.fbAccessToken = nil
+                        UIApplication.appDelegate.saveContext()
+                        
+                        // Adjust fb button
+                        self.lblLoginFacebook.text = "LOGIN FACEBOOK"
+                        self.isLoggedInFacebook = false
+                    }
+                    // Hide loading
+                    self.hideLoading()
+                }
+            }
+            alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+            alertView.showCustom("Facebook Logout", subTitle: "Yakin mau logout akun Facebook \(self.lblLoginFacebook.text!)?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
         }
     }
     
@@ -379,9 +408,39 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
                 }
             })
         } else { // Then logout
+            /*
             let logoutAlert = UIAlertView(title: "Twitter Logout", message: "Yakin mau logout akun Twitter \(self.lblLoginTwitter.text!)?", delegate: self, cancelButtonTitle: "No")
             logoutAlert.addButton(withTitle: "Yes")
             logoutAlert.show()
+             */
+            
+            let alertView = SCLAlertView(appearance: Constant.appearance)
+            alertView.addButton("Ya") {
+                // API Migrasi
+                let _ = request(APISocmed.postTwitterData(id: "", username: "", token: "", secret: "")).responseJSON {resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Logout Twitter")) {
+                        
+                        // End session
+                        User.LogoutTwitter()
+                        
+                        // Save in core data
+                        let userOther : CDUserOther = CDUserOther.getOne()!
+                        userOther.twitterID = nil
+                        userOther.twitterUsername = nil
+                        userOther.twitterAccessToken = nil
+                        userOther.twitterTokenSecret = nil
+                        UIApplication.appDelegate.saveContext()
+                        
+                        // Adjust twitter button
+                        self.lblLoginTwitter.text = "LOGIN TWITTER"
+                        self.isLoggedInTwitter = false
+                    }
+                    // Hide loading
+                    self.hideLoading()
+                }
+            }
+            alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+            alertView.showCustom("Twitter Logout", subTitle: "Yakin mau logout akun Twitter \(self.lblLoginTwitter.text!)?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
         }
     }
     
@@ -447,7 +506,7 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     }
     
     // MARK: - UIAlertView Delegate Functions
-    
+    /*
     func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
         if (buttonIndex == 0) { // "No"
             // Hide loading
@@ -501,7 +560,7 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
             }
         }
     }
-    
+     */
     // MARK: - Phone Verification Delegate Functions
     
     func phoneVerified(_ newPhone: String) {
@@ -657,10 +716,10 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
                 
                 AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: { op, res in
                     print("Edit profile res = \(res)")
-                    let json = JSON(res)
+                    let json = JSON((res ?? [:]))
                     self.simpanDataSucceed(json)
                 }, failure: { op, err in
-                    print(err) // failed
+                    print((err ?? "")) // failed
                     Constant.showDialog("Edit Profil", message: "Gagal mengupload data")//:err.description)
                     self.btnSimpanData.isEnabled = true
                     self.loadingPanel.isHidden = true

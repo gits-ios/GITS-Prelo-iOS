@@ -647,6 +647,9 @@
 		B28578C31E570C0B008995F4 /* DropDown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B24FCEFD1E536E8000B517A9 /* DropDown.framework */; };
 		B28578C41E570C0B008995F4 /* DropDown.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B24FCEFD1E536E8000B517A9 /* DropDown.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B29F69671E30E717009E2BC8 /* FeedbackPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = B29F69661E30E717009E2BC8 /* FeedbackPopup.xib */; };
+		B2A834441E7055EB004C575A /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B2A834411E7055EB004C575A /* Info.plist */; };
+		B2A834451E7055EB004C575A /* SCLAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A834421E7055EB004C575A /* SCLAlertView.swift */; };
+		B2A834461E7055EB004C575A /* SCLExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A834431E7055EB004C575A /* SCLExtensions.swift */; };
 		B2B34BCF1E37042D001B653F /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B34BCE1E37042D001B653F /* NotificationService.swift */; };
 		B2B34BE71E388395001B653F /* ic_exclamation_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B34BE61E388395001B653F /* ic_exclamation_grey.png */; };
 		B2B4DCC41E2D24B900EBBD33 /* ShopReviewAverageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B4DCC31E2D24B900EBBD33 /* ShopReviewAverageCell.xib */; };
@@ -1673,6 +1676,9 @@
 		B27948241E35D971002CEED4 /* TarikTunaiViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiViewController2.swift; sourceTree = "<group>"; };
 		B285789D1E56B8F7008995F4 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		B29F69661E30E717009E2BC8 /* FeedbackPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedbackPopup.xib; sourceTree = "<group>"; };
+		B2A834411E7055EB004C575A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B2A834421E7055EB004C575A /* SCLAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCLAlertView.swift; sourceTree = "<group>"; };
+		B2A834431E7055EB004C575A /* SCLExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCLExtensions.swift; sourceTree = "<group>"; };
 		B2B34BCC1E37042C001B653F /* PushNotif.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PushNotif.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2B34BCE1E37042D001B653F /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		B2B34BD01E37042D001B653F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1990,6 +1996,7 @@
 				21E7A7541B9FDE4F00FC9B38 /* MGInstagram */,
 				21C6587F1B8EF25E0037F85F /* Pickers */,
 				2141BB951B54BE4C00787F5D /* RAReorderableLayout */,
+				B2A834401E7055EB004C575A /* SCLAlertView */,
 				B2C59A9B1E2E4B31002E4597 /* SMSegmentView */,
 				2141BB971B54BE4C00787F5D /* SocketIOClientSwift */,
 				21D387461B6B967A00D0FA90 /* UIViewController+KeyboardAnimation */,
@@ -3163,7 +3170,17 @@
 				B24FCEFB1E536E8000B517A9 /* DropDownTests.xctest */,
 				B24FCEFD1E536E8000B517A9 /* DropDown.framework */,
 			);
-			name = Products;
+            name = Products;
+            sourceTree = "<group>";
+        };
+		B2A834401E7055EB004C575A /* SCLAlertView */ = {
+			isa = PBXGroup;
+			children = (
+				B2A834411E7055EB004C575A /* Info.plist */,
+				B2A834421E7055EB004C575A /* SCLAlertView.swift */,
+				B2A834431E7055EB004C575A /* SCLExtensions.swift */,
+			);
+			path = SCLAlertView;
 			sourceTree = "<group>";
 		};
 		B2B34BCD1E37042D001B653F /* PushNotif */ = {
@@ -3755,6 +3772,7 @@
 				58A223C41C898CB600619518 /* ic_trx_canceled.png in Resources */,
 				21156EC71B8F5DBC001D7842 /* arrow_down.png in Resources */,
 				B2C3A3C41E2B8E2D0082A15D /* ShopAchievement.xib in Resources */,
+				B2A834441E7055EB004C575A /* Info.plist in Resources */,
 				21679A331B901C5300F18F90 /* MPNotification.storyboard in Resources */,
 				B22C0E331E091C2D00C3D661 /* ic_love_96px_trp.png in Resources */,
 				585887581DBEDC35006EC6D5 /* UserProfile.xib in Resources */,
@@ -3869,6 +3887,7 @@
 				21B467F21CCE5EDB00E145ED /* NSMutableDictionary+BFKit.swift in Sources */,
 				585887741DBEFCE6006EC6D5 /* MyPurchaseTransactionViewController.swift in Sources */,
 				21B4680A1CCE5EDB00E145ED /* UIWindow+BFKit.swift in Sources */,
+				B2A834451E7055EB004C575A /* SCLAlertView.swift in Sources */,
 				216345081CC3A855005CBA37 /* MKSwitch.swift in Sources */,
 				216344FC1CC3A855005CBA37 /* MKCardView.swift in Sources */,
 				58A99A351C6D864E00E3E7D7 /* Branch.m in Sources */,
@@ -3949,6 +3968,7 @@
 				216345001CC3A855005CBA37 /* MKEmbedMainControllerSegue.swift in Sources */,
 				585887961DBF3309006EC6D5 /* MyPurchaseCompletedViewController.swift in Sources */,
 				21679A2C1B901C5300F18F90 /* MPClassDescription.m in Sources */,
+				B2A834461E7055EB004C575A /* SCLExtensions.swift in Sources */,
 				585887951DBF3309006EC6D5 /* MyProductProcessingViewController.swift in Sources */,
 				5847E19B1DBE0FF000C1B2BA /* ProfileSetupViewController.swift in Sources */,
 				58DD28EB1DAF36D000130B6F /* Data+BFKit.swift in Sources */,

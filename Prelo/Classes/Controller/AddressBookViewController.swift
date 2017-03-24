@@ -171,7 +171,7 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
             
             cell.btnDeleteAction = {
                 // delete
-                
+                /*
                 let alert : UIAlertController = UIAlertController(title: "Hapus Alamat", message: "Apakah kamu yakin ingin menghapus alamat \"" + (self.addresses?[idx].addressName)! + "\"? (Aksi ini tidak dapat dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
                 alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
                 alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
@@ -185,6 +185,21 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
                     }
                 }))
                 self.present(alert, animated: true, completion: nil)
+                 */
+                
+                let alertView = SCLAlertView(appearance: Constant.appearance)
+                alertView.addButton("Ya") {
+                    // api delete
+                    let _ = request(APIMe.deleteAddress(addressId: (self.addresses?[idx].id)!)).responseJSON { resp in
+                        if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Hapus Alamat")) {
+                            Constant.showDialog("Hapus Alamat", message: "Alamat berhasil dihapus")
+                            self.addresses?.remove(at: idx)
+                            tableView.reloadData()
+                        }
+                    }
+                }
+                alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+                alertView.showCustom("Hapus Alamat", subTitle: "Apakah kamu yakin ingin menghapus alamat \"" + (self.addresses?[idx].addressName)! + "\"? (Aksi ini tidak dapat dibatalkan)", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
             }
             
             cell.btnSetMainAction = {

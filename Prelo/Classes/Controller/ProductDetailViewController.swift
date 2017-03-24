@@ -43,7 +43,7 @@ protocol ProductCellDelegate: class
     func cellTappedComment()
 }
 
-class ProductDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, ProductCellDelegate, UIActionSheetDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate, UserRelatedDelegate
+class ProductDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, ProductCellDelegate, /*UIActionSheetDelegate, UIAlertViewDelegate,*/ MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate, UserRelatedDelegate
 {
     
     var product : Product?
@@ -916,8 +916,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     }
         
     @IBAction func soldPressed(_ sender: AnyObject) {
+        /*
         let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah terjual? (Aksi ini tidak bisa dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Tidak", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
             self.showLoading()
             if let productId = self.detail?.productID {
@@ -948,6 +949,40 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             }
         }))
         self.present(alert, animated: true, completion: nil)
+         */
+        
+        let alertView = SCLAlertView(appearance: Constant.appearance)
+        alertView.addButton("Ya") {
+            self.showLoading()
+            if let productId = self.detail?.productID {
+                let _ = request(APIProduct.markAsSold(productId: productId, soldTo: "")).responseJSON { resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Mark As Sold")) {
+                        let json = JSON(resp.result.value!)
+                        let isSuccess = json["_data"].boolValue
+                        if (isSuccess) {
+                            self.disableMyProductBtnSet()
+                            self.pDetailCover?.addSoldBanner()
+                            Constant.showDialog("Success", message: "Barang telah ditandai sebagai barang terjual")
+                            
+                            self.delegate?.setFromDraftOrNew(true)
+                            
+                            // Prelo Analytic - Mark As Sold
+                            let loginMethod = User.LoginMethod ?? ""
+                            let pdata = [
+                                "Product ID": productId,
+                                "Screen" : PageName.ProductDetailMine
+                                ] as [String : Any]
+                            AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.MarkAsSold, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+                        } else {
+                            Constant.showDialog("Failed", message: "Oops, terdapat kesalahan")
+                        }
+                    }
+                    self.hideLoading()
+                }
+            }
+        }
+        alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+        alertView.showCustom("Mark As Sold", subTitle: "Apakah barang ini sudah terjual? (Aksi ini tidak bisa dibatalkan)", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
     @IBAction func editPressed(_ sender: AnyObject) {

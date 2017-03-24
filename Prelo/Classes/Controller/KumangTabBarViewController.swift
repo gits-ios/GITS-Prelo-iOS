@@ -170,12 +170,25 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
     
     func subdistrictProfileCheck() {
         if (User.IsLoggedIn && CDUser.getOne() != nil && CDUserProfile.getOne() != nil && CDUserOther.getOne() != nil && (CDUserProfile.getOne()?.subdistrictID == nil || CDUserProfile.getOne()?.subdistrictID == "")) {
+            /*
             let sdAlert = UIAlertController(title: "Perhatian", message: "Lengkapi kecamatan di profil kamu sekarang untuk ongkos kirim yang lebih akurat", preferredStyle: .alert)
             sdAlert.addAction(UIAlertAction(title: "Oke", style: .default, handler: { action in
                 let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
                 self.navigationController?.pushViewController(userProfileVC, animated: true)
             }))
             self.present(sdAlert, animated: true, completion: nil)
+             */
+            
+            let appearance = SCLAlertView.SCLAppearance(
+                showCloseButton: false
+            )
+            
+            let alertView = SCLAlertView(appearance: Constant.appearance)
+            alertView.addButton("Oke") {
+                let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
+                self.navigationController?.pushViewController(userProfileVC, animated: true)
+            }
+            alertView.showCustom("Perhatian", subTitle: "Lengkapi kecamatan di profil kamu sekarang untuk ongkos kirim yang lebih akurat", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
         }
     }
     

@@ -960,6 +960,7 @@ func print(_ items: Any..., separator: String = " ", terminator: String = "\n") 
     }
 }
 
+/*
 class ImageHelper {
     static func removeExifData(_ data: Data) -> Data? {
         /* FIXME: Swift 3
@@ -992,3 +993,4 @@ class ImageHelper {
         return NSData(data: data) as Data
     }
 }
+*/
