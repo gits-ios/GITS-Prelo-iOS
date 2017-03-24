@@ -1,9 +1,9 @@
 //
-//  UserProfileViewController.swift
+//  UserProfileViewController2.swift
 //  Prelo
 //
-//  Created by Fransiska on 8/24/15.
-//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
+//  Created by Djuned on 2/13/17.
+//  Copyright © 2017 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import Foundation
@@ -11,29 +11,21 @@ import CoreData
 import TwitterKit
 import Alamofire
 
-class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, PhoneVerificationDelegate, PathLoginDelegate, InstagramLoginDelegate, /*UIAlertViewDelegate,*/ UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate {
+class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, PhoneVerificationDelegate, /*UIAlertViewDelegate,*/ UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate {
     
     @IBOutlet weak var scrollView : UIScrollView?
-    @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var imgUser: UIImageView!
     @IBOutlet weak var btnUserImage: UIButton!
     @IBOutlet weak var lblUsername: UILabel!
     @IBOutlet weak var lblEmail: UILabel!
     
-    @IBOutlet weak var lblLoginInstagram: UILabel!
     @IBOutlet weak var lblLoginFacebook: UILabel!
     @IBOutlet weak var lblLoginTwitter: UILabel!
-    @IBOutlet weak var lblLoginPath: UILabel!
     
-    @IBOutlet var fieldNama: UITextField!
-    @IBOutlet var lblNoHP: UILabel!
-    @IBOutlet var lblJenisKelamin: UILabel!
-    @IBOutlet var lblProvinsi: UILabel!
-    @IBOutlet var lblKabKota: UILabel!
-    @IBOutlet var lblKecamatan: UILabel!
-    @IBOutlet var fieldAlamat: UITextField!
-    @IBOutlet var fieldKodePos: UITextField!
+    @IBOutlet weak var fieldNama: UITextField!
+    @IBOutlet weak var lblNoHP: UILabel!
+    @IBOutlet weak var lblJenisKelamin: UILabel!
     
     @IBOutlet weak var fieldTentangShop: UITextView!
     @IBOutlet weak var fieldTentangShopHeightConstraint: NSLayoutConstraint!
@@ -43,31 +35,30 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     @IBOutlet weak var loadingPanel: UIView!
     @IBOutlet weak var loading: UIActivityIndicatorView!
     
-    @IBOutlet var consHeightShippingOptions: NSLayoutConstraint!
-    @IBOutlet var tableShipping: UITableView!
+    @IBOutlet weak var consHeightShippingOptions: NSLayoutConstraint!
+    @IBOutlet weak var tableShipping: UITableView!
     var shippingList : [CDShipping] = []
     var userShippingIdList : [String] = []
     var shippingCellHeight : CGFloat = 40
     let JNE_REGULAR_ID = "54087faabaede1be0b000001"
     let TIKI_REGULAR_ID = "5405c038ace83c4304ec0caf"
     
-    var selectedProvinsiID = ""
-    var selectedKabKotaID = ""
-    var selectedKecamatanID = ""
-    var selectedKecamatanName = ""
-    var kecamatanPickerItems : [String] = []
-    var isPickingProvinsi : Bool = false
-    var isPickingKabKota : Bool = false
-    var isPickingKecamatan : Bool = false
     var isPickingJenKel : Bool = false
     var isUserPictUpdated : Bool = false
     
-    var isLoggedInInstagram : Bool = false
     var isLoggedInFacebook : Bool = false
     var isLoggedInTwitter : Bool = false
-    var isLoggedInPath : Bool = false
     
-    let FldTentangShopPlaceholder = "Jualan kamu terpercaya? Yakinkan di sini"
+    let FldTentangShopPlaceholder = "Barang kamu terpercaya? Deskripsikan shop kamu di sini."
+    
+    // address
+    @IBOutlet weak var lblAddressName: UILabel!
+    @IBOutlet weak var lblRecipientName: UILabel!
+    @IBOutlet weak var lblAddress: UILabel!
+    @IBOutlet weak var lblRegion: UILabel!
+    @IBOutlet weak var lblProvince: UILabel!
+    
+    var isNeedReload = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,15 +69,10 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         
         // Tampilan loading
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
-        loadingPanel.isHidden = true
-        loading.stopAnimating()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        // Mixpanel
-//        Mixpanel.trackPageVisit(PageName.EditProfile)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.EditProfile)
@@ -104,12 +90,30 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                     self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
                 }
                 
-            }, completion: nil)
+        }, completion: nil)
+        
+        
+        loadingPanel.isHidden = true
+        loading.stopAnimating()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.an_unsubscribeKeyboard()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if isNeedReload {
+            loadingPanel.isHidden = false
+            loading.startAnimating()
+            initiateFields()
+            loading.stopAnimating()
+            loadingPanel.isHidden = true
+            
+            isNeedReload = false
+        }
     }
     
     func setNavBarButtons() {
@@ -122,8 +126,6 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     @IBAction func disableTextFields(_ sender : AnyObject)
     {
         fieldNama?.resignFirstResponder()
-        fieldAlamat?.resignFirstResponder()
-        fieldKodePos?.resignFirstResponder()
         fieldTentangShop?.resignFirstResponder()
     }
     
@@ -135,7 +137,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         }
     }
     
-    func initiateFields() {        
+    func initiateFields() {
         // Fetch data from core data
         let user : CDUser = CDUser.getOne()!
         let userProfile : CDUserProfile = CDUserProfile.getOne()!
@@ -170,36 +172,39 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         {
             lblJenisKelamin.text = gender
         }
-        if (userProfile.address != nil) {
-            fieldAlamat.text = userProfile.address
-        }
-        if (userProfile.postalCode != nil) {
-            fieldKodePos.text = userProfile.postalCode
-        }
         
         // About shop
-        if (userProfile.desc != nil) {
+        if (userProfile.desc != nil && userProfile.desc != "") {
             fieldTentangShop.text = userProfile.desc
             fieldTentangShop.textColor = Theme.GrayDark
         } else {
             fieldTentangShop.text = FldTentangShopPlaceholder
             fieldTentangShop.textColor = UIColor.lightGray
+            fieldTentangShop.selectedTextRange = fieldTentangShop.textRange(from: fieldTentangShop.beginningOfDocument, to: fieldTentangShop.beginningOfDocument)
         }
         fieldTentangShop.delegate = self
         
-        // Province, region, subdistrict
-        lblProvinsi.text = CDProvince.getProvinceNameWithID(userProfile.provinceID)
-        lblKabKota.text = CDRegion.getRegionNameWithID(userProfile.regionID)
-        lblProvinsi.textColor = Theme.GrayDark
-        lblKabKota.textColor = Theme.GrayDark
-        if (userProfile.subdistrictName != "") {
-            lblKecamatan.text = userProfile.subdistrictName
-            lblKecamatan.textColor = Theme.GrayDark
-        }
-        self.selectedProvinsiID = userProfile.provinceID
-        self.selectedKabKotaID = userProfile.regionID
-        self.selectedKecamatanID = userProfile.subdistrictID
-        self.selectedKecamatanName = userProfile.subdistrictName
+        // Address book
+        let addressName = userProfile.addressName
+        lblAddressName.text = (addressName != "" ? addressName : "Rumah")
+        let recipientName = userProfile.recipientName
+        lblRecipientName.text = (recipientName != "" ? recipientName : user.fullname)
+        
+        let address = (userProfile.address != "" ? userProfile.address : "- (belum ada jalan)")
+        let regionName = CDRegion.getRegionNameWithID(userProfile.regionID)
+        let part1 = userProfile.subdistrictName + ", " + regionName!
+        //lblAddress.text = address! + " " + part1 + " " + userProfile.postalCode!
+        let str = address!
+        
+        let attString : NSMutableAttributedString = NSMutableAttributedString(string: str)
+        attString.addAttributes([NSFontAttributeName:UIFont.italicSystemFont(ofSize: 14)], range: (str as NSString).range(of: "- (belum ada jalan)"))
+        attString.addAttributes([NSForegroundColorAttributeName:UIColor.lightGray], range: (str as NSString).range(of: "- (belum ada jalan)"))
+        
+        self.lblAddress.attributedText = attString
+        self.lblRegion.text = part1
+        
+        let provinceName = CDProvince.getProvinceNameWithID(userProfile.provinceID)
+        self.lblProvince.text = provinceName! + " " + userProfile.postalCode!
         
         // Shipping table setup
         self.shippingList = CDShipping.getPosBlaBlaBlaTiki()
@@ -210,7 +215,6 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         self.tableShipping.register(UINib(nibName: "ShippingCell", bundle: nil), forCellReuseIdentifier: "ShippingCell")
         self.tableShipping.reloadData()
         let tableShippingHeight = self.shippingCellHeight * CGFloat(self.shippingList.count)
-        self.contentViewHeightConstraint.constant = 1048 + tableShippingHeight
         self.consHeightShippingOptions.constant = 44 + tableShippingHeight
         
         // Socmed
@@ -218,17 +222,9 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             self.lblLoginFacebook.text = userOther.fbUsername!
             self.isLoggedInFacebook = true
         }
-        if (self.checkInstagramLogin(userOther)) { // Sudah login
-            self.lblLoginInstagram.text = userOther.instagramUsername!
-            self.isLoggedInInstagram = true
-        }
         if (self.checkTwitterLogin(userOther)) { // Sudah login
             self.lblLoginTwitter.text = "@\(userOther.twitterUsername!)"
             self.isLoggedInTwitter = true
-        }
-        if (self.checkPathLogin(userOther)) { // Sudah login
-            self.lblLoginPath.text = userOther.pathUsername!
-            self.isLoggedInPath = true
         }
     }
     
@@ -241,53 +237,19 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             (userOther.fbUsername != "")
     }
     
-    func checkInstagramLogin(_ userOther : CDUserOther) -> Bool {
-        return (userOther.instagramAccessToken != nil) &&
-            (userOther.instagramAccessToken != "") &&
-            (userOther.instagramID != nil) &&
-            (userOther.instagramID != "") &&
-            (userOther.instagramUsername != nil) &&
-            (userOther.instagramUsername != "")
-    }
-    
     func checkTwitterLogin(_ userOther : CDUserOther) -> Bool {
         return User.IsLoggedInTwitter
-    }
-    
-    func checkPathLogin(_ userOther : CDUserOther) -> Bool {
-        return (userOther.pathAccessToken != nil) &&
-            (userOther.pathAccessToken != "") &&
-            (userOther.pathID != nil) &&
-            (userOther.pathID != "") &&
-            (userOther.pathUsername != nil) &&
-            (userOther.pathUsername != "")
     }
     
     func pickerDidSelect(_ item: String) {
         if (isPickingJenKel) {
             lblJenisKelamin?.text = PickerViewController.HideHiddenString(item)
             isPickingJenKel = false
-        } else if (isPickingProvinsi) {
-            lblProvinsi?.text = PickerViewController.HideHiddenString(item)
-            lblProvinsi?.textColor = Theme.GrayDark
-            isPickingProvinsi = false
-        } else if (isPickingKabKota) {
-            lblKabKota?.text = PickerViewController.HideHiddenString(item)
-            lblKabKota?.textColor = Theme.GrayDark
-            isPickingKabKota = false
-            kecamatanPickerItems = []
-        } else if (isPickingKecamatan) {
-            lblKecamatan?.text = PickerViewController.HideHiddenString(item)
-            lblKecamatan?.textColor = Theme.GrayDark
-            isPickingKecamatan = false
         }
     }
     
     func pickerCancelled() {
         isPickingJenKel = false
-        isPickingProvinsi = false
-        isPickingKabKota = false
-        isPickingKecamatan = false
     }
     
     @IBAction func pilihFotoPressed(_ sender: UIButton) {
@@ -323,86 +285,6 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             self.isUserPictUpdated = true
         }
         picker.dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func loginInstagramPressed(_ sender: UIButton) {
-        // Show loading
-        self.showLoading()
-        
-        if (!isLoggedInInstagram) { // Then login
-            let instaLogin = InstagramLoginViewController()
-            instaLogin.instagramLoginDelegate = self
-            self.navigationController?.pushViewController(instaLogin, animated: true)
-        } else { // Then logout
-            /*
-            let logoutAlert = UIAlertView(title: "Instagram Logout", message: "Yakin mau logout akun Instagram \(self.lblLoginInstagram.text!)?", delegate: self, cancelButtonTitle: "No")
-            logoutAlert.addButton(withTitle: "Yes")
-            logoutAlert.show()
-             */
-            
-            let alertView = SCLAlertView(appearance: Constant.appearance)
-            alertView.addButton("Ya") {
-                // API Migrasi
-                let _ = request(APISocmed.postInstagramData(id: "", username: "", token: "")).responseJSON {resp in
-                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Logout Instagram")) {
-                        
-                        // Save in core data
-                        let userOther : CDUserOther = CDUserOther.getOne()!
-                        userOther.instagramID = nil
-                        userOther.instagramUsername = nil
-                        userOther.instagramAccessToken = nil
-                        UIApplication.appDelegate.saveContext()
-                        
-                        // Adjust instagram button
-                        self.lblLoginInstagram.text = "LOGIN INSTAGRAM"
-                        self.isLoggedInInstagram = false
-                    }
-                    // Hide loading
-                    self.hideLoading()
-                }
-            }
-            alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
-            alertView.showCustom("Instagram Logout", subTitle: "Yakin mau logout akun Instagram \(self.lblLoginInstagram.text!)?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
-        }
-    }
-    
-    func instagramLoginSuccess(_ token: String, id: String, name: String) {
-        // API Migrasi
-        let _ = request(APISocmed.postInstagramData(id: id, username: name, token: token)).responseJSON {resp in
-            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Instagram")) {
-                let json = JSON(resp.result.value!)
-                let data = json["_data"].bool
-                if (data != nil && data == true) { // Berhasil
-                    // Save in core data
-                    let userOther : CDUserOther = CDUserOther.getOne()!
-                    userOther.instagramID = id
-                    userOther.instagramUsername = name
-                    userOther.instagramAccessToken = token
-                    UIApplication.appDelegate.saveContext()
-                    
-                    // Adjust path button
-                    self.lblLoginInstagram.text = name
-                    self.isLoggedInInstagram = true
-                    
-                    // Hide loading
-                    self.hideLoading()
-                } else { // Terdapat error
-                    Constant.showDialog("Warning", message: "Post instagram data error")
-                    self.hideLoading()
-                }
-            } else {
-                self.hideLoading()
-            }
-        }
-    }
-    
-    func instagramLoginSuccess(_ token: String) {
-        // Do nothing
-    }
-    
-    func instagramLoginFailed() {
-        // Hide loading
-        self.hideLoading()
     }
     
     @IBAction func loginFacebookPressed(_ sender: UIButton) {
@@ -562,73 +444,6 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         }
     }
     
-    @IBAction func loginPathPressed(_ sender: UIButton) {
-        // Show loading
-        self.showLoading()
-        
-        if (!isLoggedInPath) { // Then login
-            let pathLoginVC = Bundle.main.loadNibNamed(Tags.XibNamePathLogin, owner: nil, options: nil)?.first as! PathLoginViewController
-            pathLoginVC.delegate = self
-            self.navigationController?.pushViewController(pathLoginVC, animated: true)
-        } else { // Then logout
-            /*
-            let logoutAlert = UIAlertView(title: "Path Logout", message: "Yakin mau logout akun Path \(self.lblLoginPath.text!)?", delegate: self, cancelButtonTitle: "No")
-            logoutAlert.addButton(withTitle: "Yes")
-            logoutAlert.show()
-             */
-            
-            let alertView = SCLAlertView(appearance: Constant.appearance)
-            alertView.addButton("Ya") {
-                // API Migrasi
-                let _ = request(APISocmed.postPathData(id: "", username: "", token: "")).responseJSON {resp in
-                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Logout Path")) {
-                        
-                        // Save in core data
-                        let userOther : CDUserOther = CDUserOther.getOne()!
-                        userOther.pathID = nil
-                        userOther.pathUsername = nil
-                        userOther.pathAccessToken = nil
-                        UIApplication.appDelegate.saveContext()
-                        
-                        // Adjust path button
-                        self.lblLoginPath.text = "LOGIN PATH"
-                        self.isLoggedInPath = false
-                    }
-                    // Hide loading
-                    self.hideLoading()
-                }
-            }
-            alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
-            alertView.showCustom("Path Logout", subTitle: "Yakin mau logout akun Path \(self.lblLoginPath.text!)?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
-        }
-    }
-    
-    func pathLoginSuccess(_ userData: JSON, token: String) {
-        let pathId = userData["id"].string!
-        let pathName = userData["name"].string!
-        _ = userData["email"].string!
-        
-        // API Migrasi
-        let _ = request(APISocmed.postPathData(id: pathId, username: pathName, token: token)).responseJSON {resp in
-            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Path")) {
-
-                // Save in core data
-                let userOther : CDUserOther = CDUserOther.getOne()!
-                userOther.pathID = pathId
-                userOther.pathUsername = pathName
-                userOther.pathAccessToken = token
-                UIApplication.appDelegate.saveContext()
-                
-                // Adjust path button
-                self.lblLoginPath.text = pathName
-                self.isLoggedInPath = true
-                
-                // Hide loading
-                self.hideLoading()
-            }
-        }
-    }
-    
     func showLoading() {
         loadingPanel.isHidden = false
         loading.startAnimating()
@@ -642,7 +457,8 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     @IBAction func nomorHpPressed(_ sender: AnyObject) {
         let phoneReverificationVC = Bundle.main.loadNibNamed(Tags.XibNamePhoneReverification, owner: nil, options: nil)?.first as! PhoneReverificationViewController
         phoneReverificationVC.verifiedHP = lblNoHP.text
-        phoneReverificationVC.prevVC = self
+        phoneReverificationVC.prevVC = nil
+        phoneReverificationVC.prevVC2 = self
         self.navigationController?.pushViewController(phoneReverificationVC, animated: true)
     }
     
@@ -653,91 +469,6 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         p?.items = ["Wanita", "Pria"]
         p?.pickerDelegate = self
         p?.title = "Jenis Kelamin"
-        self.view.endEditing(true)
-        self.navigationController?.pushViewController(p!, animated: true)
-    }
-    
-    @IBAction func pilihProvinsiPressed(_ sender: UIButton) {
-        isPickingProvinsi = true
-        
-        let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
-        p?.items = CDProvince.getProvincePickerItems()
-        p?.pickerDelegate = self
-        p?.selectBlock = { string in
-            self.selectedProvinsiID = PickerViewController.RevealHiddenString(string)
-            self.lblKabKota.text = "Pilih Kota/Kabupaten"
-            self.lblKecamatan.text = "Pilih Kecamatan"
-            self.lblKabKota.textColor = Theme.GrayLight
-            self.lblKecamatan.textColor = Theme.GrayLight
-        }
-        p?.title = "Provinsi"
-        self.view.endEditing(true)
-        self.navigationController?.pushViewController(p!, animated: true)
-    }
-    
-    @IBAction func pilihKabKotaPressed(_ sender: UIButton) {
-        if (selectedProvinsiID == "") {
-            Constant.showDialog("Warning", message: "Pilih provinsi terlebih dahulu")
-        } else {
-            isPickingKabKota = true
-            
-            let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
-            //p?.items = []
-            p?.items = CDRegion.getRegionPickerItems(selectedProvinsiID)
-            p?.pickerDelegate = self
-            p?.selectBlock = { string in
-                self.selectedKabKotaID = PickerViewController.RevealHiddenString(string)
-                self.lblKecamatan.text = "Pilih Kecamatan"
-                self.lblKecamatan.textColor = Theme.GrayLight
-            }
-            p?.title = "Kota/Kabupaten"
-            self.view.endEditing(true)
-            self.navigationController?.pushViewController(p!, animated: true)
-        }
-    }
-    
-    @IBAction func pilihKecamatanPressed(_ sender: AnyObject) {
-        if (selectedKabKotaID == "") {
-            Constant.showDialog("Warning", message: "Pilih kota/kabupaten terlebih dahulu")
-        } else {
-            if (kecamatanPickerItems.count <= 0) {
-                self.showLoading()
-                
-                // Retrieve kecamatanPickerItems
-                let _ = request(APIMisc.getSubdistrictsByRegionID(id: self.selectedKabKotaID)).responseJSON { resp in
-                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Daftar Kecamatan")) {
-                        let json = JSON(resp.result.value!)
-                        let data = json["_data"].arrayValue
-                        
-                        if (data.count > 0) {
-                            for i in 0...data.count - 1 {
-                                self.kecamatanPickerItems.append(data[i]["name"].stringValue + PickerViewController.TAG_START_HIDDEN + data[i]["_id"].stringValue + PickerViewController.TAG_END_HIDDEN)
-                            }
-                            
-                            self.pickKecamatan()
-                        } else {
-                            Constant.showDialog("Warning", message: "Oops, kecamatan tidak ditemukan")
-                        }
-                    }
-                    self.hideLoading()
-                }
-            } else {
-                self.pickKecamatan()
-            }
-        }
-    }
-    
-    func pickKecamatan() {
-        self.isPickingKecamatan = true
-        
-        let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
-        p?.items = kecamatanPickerItems
-        p?.pickerDelegate = self
-        p?.selectBlock = { string in
-            self.selectedKecamatanID = PickerViewController.RevealHiddenString(string)
-            self.selectedKecamatanName = string.components(separatedBy: PickerViewController.TAG_START_HIDDEN)[0]
-        }
-        p?.title = "Kecamatan"
         self.view.endEditing(true)
         self.navigationController?.pushViewController(p!, animated: true)
     }
@@ -781,30 +512,11 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             // Hide loading
             self.hideLoading()
         } else if (buttonIndex == 1) { // "Yes"
-            if (alertView.title == "Instagram Logout") {
-                // API Migrasi
-                let _ = request(APISocmed.postInstagramData(id: "", username: "", token: "")).responseJSON {resp in
-                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Logout Instagram")) {
-
-                        // Save in core data
-                        let userOther : CDUserOther = CDUserOther.getOne()!
-                        userOther.instagramID = nil
-                        userOther.instagramUsername = nil
-                        userOther.instagramAccessToken = nil
-                        UIApplication.appDelegate.saveContext()
-                        
-                        // Adjust instagram button
-                        self.lblLoginInstagram.text = "LOGIN INSTAGRAM"
-                        self.isLoggedInInstagram = false
-                    }
-                    // Hide loading
-                    self.hideLoading()
-                }
-            } else if (alertView.title == "Facebook Logout") {
+            if (alertView.title == "Facebook Logout") {
                 // API Migrasi
                 let _ = request(APISocmed.postFacebookData(id: "", username: "", token: "")).responseJSON {resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Logout Facebook")) {
-
+                        
                         // End session
                         User.LogoutFacebook()
                         
@@ -816,7 +528,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                         UIApplication.appDelegate.saveContext()
                         
                         // Adjust fb button
-                        self.lblLoginFacebook.text = "LOGIN FACEBOOK"
+                        self.lblLoginFacebook.text = "LOG IN FACEBOOK"
                         self.isLoggedInFacebook = false
                     }
                     // Hide loading
@@ -826,7 +538,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 // API Migrasi
                 let _ = request(APISocmed.postTwitterData(id: "", username: "", token: "", secret: "")).responseJSON {resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Logout Twitter")) {
-
+                        
                         // End session
                         User.LogoutTwitter()
                         
@@ -839,27 +551,8 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                         UIApplication.appDelegate.saveContext()
                         
                         // Adjust twitter button
-                        self.lblLoginTwitter.text = "LOGIN TWITTER"
+                        self.lblLoginTwitter.text = "LOG IN TWITTER"
                         self.isLoggedInTwitter = false
-                    }
-                    // Hide loading
-                    self.hideLoading()
-                }
-            } else if (alertView.title == "Path Logout") {
-                // API Migrasi
-                let _ = request(APISocmed.postPathData(id: "", username: "", token: "")).responseJSON {resp in
-                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Logout Path")) {
-
-                        // Save in core data
-                        let userOther : CDUserOther = CDUserOther.getOne()!
-                        userOther.pathID = nil
-                        userOther.pathUsername = nil
-                        userOther.pathAccessToken = nil
-                        UIApplication.appDelegate.saveContext()
-                        
-                        // Adjust path button
-                        self.lblLoginPath.text = "LOGIN PATH"
-                        self.isLoggedInPath = false
                     }
                     // Hide loading
                     self.hideLoading()
@@ -867,7 +560,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             }
         }
     }
-    */
+     */
     // MARK: - Phone Verification Delegate Functions
     
     func phoneVerified(_ newPhone: String) {
@@ -888,47 +581,81 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     
     // MARK: - Textview Delegate Functions
     
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if (textView.textColor == UIColor.lightGray) {
-            textView.text = ""
-            textView.textColor = Theme.GrayDark
-        }
-    }
+//    func textViewDidBeginEditing(_ textView: UITextView) {
+//        if (textView.textColor == UIColor.lightGray) {
+//            textView.text = ""
+//            textView.textColor = Theme.GrayDark
+//        }
+//    }
     
     func textViewDidChange(_ textView: UITextView) {
-        let fieldTentangShopHeight = fieldTentangShop.frame.size.height
         let sizeThatShouldFitTheContent = fieldTentangShop.sizeThatFits(fieldTentangShop.frame.size)
         //print("sizeThatShouldFitTheContent.height = \(sizeThatShouldFitTheContent.height)")
-        
-        // Tambahkan tinggi scrollview content sesuai dengan penambahan tinggi textview
-        contentViewHeightConstraint.constant = contentViewHeightConstraint.constant + sizeThatShouldFitTheContent.height - fieldTentangShopHeight
         
         // Update tinggi textview
         fieldTentangShopHeightConstraint.constant = sizeThatShouldFitTheContent.height
     }
     
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if (textView.text.isEmpty) {
+//    func textViewDidEndEditing(_ textView: UITextView) {
+//        if (textView.text.isEmpty || textView.text == "") {
+//            textView.text = FldTentangShopPlaceholder
+//            textView.textColor = UIColor.lightGray
+//        }
+//    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        
+        // Combine the textView text and the replacement text to
+        // create the updated text string
+        let currentText = textView.text as NSString?
+        let updatedText = currentText?.replacingCharacters(in: range, with: text)
+        
+        // If updated text view will be empty, add the placeholder
+        // and set the cursor to the beginning of the text view
+        if (updatedText?.isEmpty)! {
+            
             textView.text = FldTentangShopPlaceholder
             textView.textColor = UIColor.lightGray
+            
+            textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
+            
+            self.textViewDidChange(textView)
+            
+            return false
         }
+            
+            // Else if the text view's placeholder is showing and the
+            // length of the replacement string is greater than 0, clear
+            // the text view and set its color to black to prepare for
+            // the user's entry
+        else if textView.textColor == UIColor.lightGray && !text.isEmpty {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+        
+        return true
     }
     
+    // crash
+//    func textViewDidChangeSelection(_ textView: UITextView) {
+//        if self.view.window != nil {
+//            if textView.textColor == UIColor.lightGray {
+//                textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
+//            }
+//        }
+//    }
+    
     func fieldsVerified() -> Bool {
+        // disable
+        /*
+        if (fieldTentangShop.text == "" || fieldTentangShop.text == FldTentangShopPlaceholder) {
+            Constant.showDialog("Warning", message: "Deskripsi Shop harus diisi")
+            return false
+        }
+        */
+        
         if (fieldNama.text == nil || fieldNama.text == "") {
             Constant.showDialog("Warning", message: "Nama harus diisi")
-            return false
-        }
-        if (lblProvinsi.text == "Pilih Provinsi") {
-            Constant.showDialog("Warning", message: "Provinsi harus diisi")
-            return false
-        }
-        if (lblKabKota.text == "Pilih Kota/Kabupaten") {
-            Constant.showDialog("Warning", message: "Kota/Kabupaten harus diisi")
-            return false
-        }
-        if (lblKecamatan.text == "Pilih Kecamatan") {
-            Constant.showDialog("Warning", message: "Kecamatan harus diisi")
             return false
         }
         var isShippingVerified = false
@@ -962,7 +689,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             
             if (!self.isUserPictUpdated) {
                 // API Migrasi
-                let _ = request(APIMe.setProfile(fullname: fieldNama.text!, address: fieldAlamat.text == nil ? "" : fieldAlamat.text!, province: selectedProvinsiID, region: selectedKabKotaID, subdistrict: selectedKecamatanID, postalCode: fieldKodePos.text == nil ? "" : fieldKodePos.text!, description: tentangShop, shipping: shipping)).responseJSON {resp in
+                let _ = request(APIMe.setProfile(fullname: fieldNama.text!, address: "", province: "", region: "", subdistrict: "", postalCode: "", description: tentangShop, shipping: shipping)).responseJSON {resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Edit Profil")) {
                         let json = JSON(resp.result.value!)
                         self.simpanDataSucceed(json)
@@ -974,10 +701,10 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 let url = "\(AppTools.PreloBaseUrl)/api/me/profile"
                 let param = [
                     "fullname":fieldNama.text == nil ? "" : fieldNama.text!,
-                    "address":fieldAlamat.text == nil ? "" : fieldAlamat.text!,
-                    "province":selectedProvinsiID,
-                    "region":selectedKabKotaID,
-                    "postal_code":fieldKodePos.text == nil ? "" : fieldKodePos.text!,
+                    "address":"",
+                    "province":"",
+                    "region":"",
+                    "postal_code":"",
                     "description":tentangShop,
                     "shipping":shipping,
                     "platform_sent_from" : "ios"
@@ -1026,6 +753,12 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             userProfile.provinceID = profile.provinceId
             userProfile.subdistrictID = profile.subdistrictId
             userProfile.subdistrictName = profile.subdistrictName
+            
+            // default address
+            let addressName = data["default_address"]["address_name"].string ?? ""
+            let recipientName = data["default_address"]["owner_name"].string ?? ""
+            userProfile.addressName = addressName
+            userProfile.recipientName = recipientName
         }
         
         if let userOther = CDUserOther.getOne() {
@@ -1040,7 +773,16 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             self.loading.stopAnimating()
         } else {
             print("Data saved")
-            _ = self.navigationController?.popViewController(animated: true)
+            self.navigationController?.popViewController(animated: true)
         }
+    }
+    
+    // MARK: - Address Book
+    
+    @IBAction func AddressBookPressed(_ sender: Any) {
+        isNeedReload = true
+        
+        let addressBookVC = Bundle.main.loadNibNamed(Tags.XibNameAddressBook, owner: nil, options: nil)?.first as! AddressBookViewController
+        self.navigationController?.pushViewController(addressBookVC, animated: true)
     }
 }
