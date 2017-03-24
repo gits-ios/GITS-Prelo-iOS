@@ -14,7 +14,7 @@ import Alamofire
 
 // MARK: - Class
 
-class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITextFieldDelegate, UIScrollViewDelegate, PathLoginDelegate, UIAlertViewDelegate {
+class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITextFieldDelegate, UIScrollViewDelegate, PathLoginDelegate/*, UIAlertViewDelegate*/ {
     
     // MARK: - Properties
 
@@ -838,6 +838,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     }
     
     @IBAction func forgotPassword(_ sender : AnyObject?) {
+        /*
         let x = UIAlertController(title: "Lupa Password", message: "Masukkan E-mail", preferredStyle: .alert)
         x.addTextField(configurationHandler: { textfield in
             textfield.placeholder = "E-mail"
@@ -855,6 +856,15 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         x.addAction(actionOK)
         x.addAction(actionCancel)
         self.present(x, animated: true, completion: nil)
+         */
+        
+        let alertView = SCLAlertView(appearance: Constant.appearance)
+        let txt = alertView.addTextField("E-mail")
+        alertView.addButton("Kirim") {
+            self.callAPIForgotPassword((txt.text)!)
+        }
+        alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+        alertView.showCustom("Lupa Password", subTitle: "Masukkan E-mail", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
     func callAPIForgotPassword(_ email : String) {

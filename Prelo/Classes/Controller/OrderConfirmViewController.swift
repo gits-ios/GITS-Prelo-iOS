@@ -263,9 +263,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     @IBAction func copyPrice() {
         let s = String((total + kodeTransfer))
         UIPasteboard.general.string = s
-        let a = UIAlertController(title: "Copied!", message: "Total harga telah disalin ke clipboard!", preferredStyle: .alert)
-        a.addAction(UIAlertAction(title: "Oke", style: .default, handler: { act in }))
-        self.present(a, animated: true, completion: nil)
+        Constant.showDialog("Copied!", message: "Total harga telah disalin ke clipboard!")
     }
     
     @IBAction func rekOptionsTapped(_ sender: UIButton) {
@@ -426,7 +424,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
                 notifListener?.increaseCartCount(-1)
                 
                 Constant.showDialog("Konfirmasi Bayar", message: "Terimakasih! Pembayaran kamu akan segera diverifikasi")
-                self.navigationController?.popToRootViewController(animated: true)
+                _ = self.navigationController?.popToRootViewController(animated: true)
             }
             self.btnKirimPayment.setTitle("KIRIM KONFIRMASI", for: UIControlState())
             self.btnKirimPayment.isUserInteractionEnabled = true

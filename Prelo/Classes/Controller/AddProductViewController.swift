@@ -10,7 +10,7 @@ import UIKit
 import QuartzCore
 import Alamofire
 
-class AddProductViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, ACEExpandableTableViewDelegate, AddProductImageCellDelegate, UITextFieldDelegate, UIScrollViewDelegate, UIActionSheetDelegate, /* AVIARY IS DISABLED AdobeUXImageEditorViewControllerDelegate,*/ UserRelatedDelegate, ProductCategoryDelegate, AddProductWeightDelegate, UIAlertViewDelegate
+class AddProductViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, ACEExpandableTableViewDelegate, AddProductImageCellDelegate, UITextFieldDelegate, UIScrollViewDelegate, /*UIActionSheetDelegate,*/ /* AVIARY IS DISABLED AdobeUXImageEditorViewControllerDelegate,*/ UserRelatedDelegate, ProductCategoryDelegate, AddProductWeightDelegate /*, UIAlertViewDelegate*/
 {
     
     @IBOutlet var tableView : UITableView!
@@ -146,19 +146,16 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     
     func back()
     {
-//        let a = UIAlertView(title: "Batal", message: "Kamu yakin mau batal ?", delegate: self, cancelButtonTitle: "Tidak")
+//        let a = UIAlertView(title: "Batal", message: "Kamu yakin mau batal ?", delegate: self, cancelButtonTitle: "Batal")
 //        a.addButton(withTitle: "Ya")
 //        a.show()
         
-        let a = UIAlertController(title: "Batal", message: "Kamu yakin mau batal ?", preferredStyle: .alert)
-        a.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
+        let alertView = SCLAlertView(appearance: Constant.appearance)
+        alertView.addButton("Ya") {
             _ = self.navigationController?.popViewController(animated: true)
-            a.dismiss(animated: true, completion: nil)
-        }))
-        a.addAction(UIAlertAction(title: "Tidak", style: .cancel, handler: { action in
-            a.dismiss(animated: true, completion: nil)
-        }))
-        UIApplication.shared.keyWindow?.rootViewController?.present(a, animated: true, completion: nil)
+        }
+        alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+        alertView.showCustom("Batal", subTitle: "Kamu yakin mau batal ?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
 //    func alertView(_ alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
