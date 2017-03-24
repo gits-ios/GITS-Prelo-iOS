@@ -658,12 +658,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.showRedirAlert()
         
         if (url.absoluteString.contains("prelo://")) { // prelo://
-            let urlString = url.absoluteString.replace("prelo://", template: "")
-            if (urlString.contains("user")) {
+            let urlString = url.absoluteString.replace("prelo:/", template: "")
+            let parameter = path.replace("/", template: "")
+            
+            // #1 User
+            if (urlString.contains("/user")) {
+                if parameter != "" {
+                    self.redirectShopPage(parameter) // user id
+                } else {
+                    self.showFailedRedirAlert()
+                }
+                
+                /*
                 let _ = request(APIUser.testUser(username: path.replace("/", template: ""))).responseJSON { resp in
-                    
                     if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Data Shop Pengguna")) {
-                        
                         let json = JSON(resp.result.value!)["_data"]
                         if let userId = json["_id"].string {
                             self.redirectShopPage(userId)
@@ -674,9 +682,107 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         self.showFailedRedirAlert()
                     }
                 }
+                 */
+            
+            // #2 Category
+            } else if (urlString.contains("/category")) {
+                let _ = request(APIReference.getCategoryByPermalink(permalink: path.replace("/", template: ""))).responseJSON { resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Get Category ID")) {
+                        let json = JSON(resp.result.value!)
+                        let cId = json["_data"].stringValue
+                        if (cId != "") {
+                            self.redirectCategory(cId)
+                        } else {
+                            self.showFailedRedirAlert()
+                        }
+                    } else {
+                        self.showFailedRedirAlert()
+                    }
+                }
+                
+            // #3 Chat
+            } else if (urlString.contains("/chat")) {
+                if parameter != "" {
+                    self.redirectInbox(parameter)
+                } else {
+                    self.showFailedRedirAlert()
+                }
+            
+            // #4 Product Detail
+            } else if (urlString.contains("/product")) {
+                if parameter != "" {
+                    self.redirectProduct(parameter)
+                } else {
+                    self.showFailedRedirAlert()
+                }
+            
+            // #5 Order
+            } else if (urlString.contains("/order")) {
+                if parameter != "" {
+                    if (urlString.contains("/buyer")) {
+                        self.redirectTransaction(parameter, trxProductId: nil, isSeller: false)
+                    } else if (urlString.contains("/seller")) {
+                        self.redirectTransaction(parameter, trxProductId: nil, isSeller: true)
+                    } else {
+                        self.showFailedRedirAlert()
+                    }
+                } else {
+                    self.showFailedRedirAlert()
+                }
+                
+            // #6 Transaction
+            } else if (urlString.contains("/transaction")) {// seller - buyer
+                if parameter != "" {
+                    self.redirectTransaction(nil, trxProductId: parameter, isSeller: false) // is seller not use, because trx product
+                } else {
+                    self.showFailedRedirAlert()
+                }
+                
+            // #7 Cart
+            } else if (urlString.contains("/cart")) {
+                self.redirectCart()
+            
+            // #8 Referral
+            } else if (urlString.contains("/referral")) {
+                self.redirectReferral()
+            
+            // #9 Lovers
+            } else if (urlString.contains("/lovers")) {
+                if parameter != "" {
+                    self.redirectLove(parameter)
+                } else {
+                    self.showFailedRedirAlert()
+                }
+                
+            // #10 Achievement
+            } else if (urlString.contains("/achievement")) {
+                self.redirectAchievement()
+            
+            // #11 Confirm Payment
+            } else if (urlString.contains("/confirm")) {
+                if parameter != "" {
+                    self.redirectConfirmPayment(parameter)
+                } else {
+                    self.showFailedRedirAlert()
+                }
+                
+            // #12 My Products
+            } else if (urlString.contains("/my-products")) {
+                self.redirectMyProducts()
+                
+            // #13 Comment
+            } else if (urlString.contains("/comment")) {
+                if parameter != "" {
+                    self.redirectComment(parameter)
+                } else {
+                    self.showFailedRedirAlert()
+                }
+                
             } else {
                 self.showFailedRedirAlert()
+                
             }
+            
         } else if (url.absoluteString.contains("prelo.co.id") || url.absoluteString.contains("dev.prelo.id")) { // https://prelo.co.id/ / http://dev.prelo.id/
             if (path.contains(".html")) {
                 let permalink = path.replace("/", template: "").replacingOccurrences(of: ".html", with: "")
@@ -1392,6 +1498,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             self.showFailedRedirAlert()
         }
+    }
+    
+    func redirectMyProducts() {
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let myProductVC = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdMyProducts) as! MyProductViewController
+        myProductVC.shouldSkipBack = false
+        
+        var rootViewController : UINavigationController?
+        if let rVC = self.window?.rootViewController {
+            if (rVC.childViewControllers.count > 0) {
+                if let chld = rVC.childViewControllers[0] as? UINavigationController {
+                    rootViewController = chld
+                }
+            }
+        }
+        if (rootViewController == nil) {
+            // Set root view controller
+            rootViewController = UINavigationController()
+            rootViewController?.navigationBar.barTintColor = Theme.PrimaryColor
+            rootViewController?.navigationBar.tintColor = UIColor.white
+            rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+            self.window?.rootViewController = rootViewController
+        }
+        
+        self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+            rootViewController!.pushViewController(myProductVC, animated: true)
+        })
     }
     
     func redirectWebview(_ url : String) {
