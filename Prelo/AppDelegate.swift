@@ -652,6 +652,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
     }
     
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        // deeplinking prelo://
+        
+        print(url)
+        
+        if let components = URLComponents(url: url, resolvingAgainstBaseURL: true) {
+            var param : [URLQueryItem] = []
+            if let items = components.queryItems {
+                param = items
+            }
+            if let del = UIApplication.shared.delegate as? AppDelegate {
+                del.handleUniversalLink(url, path: components.path, param: param)
+                
+                return true
+            }
+            return false
+        }
+        
+        return false
+    }
+    
     // MARK: - Redirection functions
     
     func handleUniversalLink(_ url : URL, path : String, param : [URLQueryItem]) {
