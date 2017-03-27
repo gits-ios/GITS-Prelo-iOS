@@ -183,7 +183,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let remoteNotif = launchOptions![UIApplicationLaunchOptionsKey.remoteNotification] as? NSDictionary {
                 if let _tipe = remoteNotif.object(forKey: "tipe") as? String {
                     var tipe = _tipe
-                    var targetId : String?
+                    var targetId : String = ""
                     if let tId = remoteNotif.object(forKey: "target_id") as? String {
                         targetId = tId
                     }
@@ -197,9 +197,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     
                     // Prelo Analytic - Click Push Notification
                     if let _ = remoteNotif.object(forKey: "attachment-url") as? String {
-                        sendPushNotifAnalytic(true, isBackgroundMode: true, targetId: targetId!, tipe: tipe)
+                        sendPushNotifAnalytic(true, isBackgroundMode: true, targetId: targetId, tipe: tipe)
                     } else {
-                        sendPushNotifAnalytic(false, isBackgroundMode: true, targetId: targetId!, tipe: tipe)
+                        sendPushNotifAnalytic(false, isBackgroundMode: true, targetId: targetId, tipe: tipe)
                     }
                 }
                 
@@ -583,7 +583,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // MoEngage
         MoEngage.sharedInstance().stop(application)
         
-        produkUploader.stop()
+        if produkUploader != nil {
+            produkUploader.stop()
+        }
         
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().didLoseFocus()
@@ -678,8 +680,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func handleUniversalLink(_ url : URL, path : String, param : [URLQueryItem]) {
         self.showRedirAlert()
         
-        if (url.absoluteString.contains("prelo://")) { // prelo://
-            let urlString = url.absoluteString.replace("prelo:/", template: "")
+        if (url.absoluteString.lowercased().contains("prelo://")) { // prelo://
+            let urlString = url.absoluteString.lowercased().replace("prelo:/", template: "")
             let parameter = path.replace("/", template: "")
             
             // #1 User
