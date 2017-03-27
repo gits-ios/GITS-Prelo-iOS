@@ -22,6 +22,8 @@ class CDUserProfile: NSManagedObject {
     @NSManaged var provinceID: String
     @NSManaged var subdistrictID: String
     @NSManaged var subdistrictName: String
+    @NSManaged var addressName: String
+    @NSManaged var recipientName: String
 
     static func getOne() -> CDUserProfile?
     {
