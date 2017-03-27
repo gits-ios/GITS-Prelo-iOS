@@ -252,9 +252,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                         IronSource.setRewardedVideoDelegate(self)
                         
                         // TODO: - enable this
-                        //let userID = UIDevice.current.identifierForVendor!.uuidString
+                        let userID = UIDevice.current.identifierForVendor!.uuidString
                         // testing
-                        let userID = "80E9295C-BF1E-486F-9394-F254F3D99B9C"
+                        //let userID = "80E9295C-BF1E-486F-9394-F254F3D99B9C"
                         IronSource.setUserId(userID)
                         
                         // init with prelo appkey
@@ -1618,6 +1618,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
      */
     public func rewardedVideoDidFailToShowWithError(_ error: Error!) {
         Constant.showDialog("Oops", message: "Terdapat kesalahan sewaktu memulai video")
+        //let err = (error! as NSError)
+        //Constant.showDialog("Oops", message: err.description)
     }
     
     /**
