@@ -790,11 +790,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        redirAlert = UIAlertController(title: "Redirecting...", message: "Harap tunggu beberapa saat", preferredStyle: .alert)
 //        UIApplication.shared.keyWindow?.rootViewController?.present(redirAlert!, animated: true, completion: nil)
         
-        let appearance = SCLAlertView.SCLAppearance(
-            showCloseButton: false
-        )
-        
-        redirAlert = SCLAlertView(appearance: appearance)
+        redirAlert = SCLAlertView(appearance: Constant.appearance)
         alertViewResponder = redirAlert!.showCustom("Redirecting...", subTitle: "Harap tunggu beberapa saat", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
