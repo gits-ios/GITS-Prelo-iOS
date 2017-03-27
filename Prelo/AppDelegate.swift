@@ -181,7 +181,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if (launchOptions != nil) {
             if let remoteNotif = launchOptions![UIApplicationLaunchOptionsKey.remoteNotification] as? NSDictionary {
                 if let tipe = remoteNotif.object(forKey: "tipe") as? String {
-                    var targetId : String?
+                    var targetId : String = ""
                     if let tId = remoteNotif.object(forKey: "target_id") as? String {
                         targetId = tId
                     }
@@ -192,9 +192,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     
                     // Prelo Analytic - Click Push Notification
                     if let _ = remoteNotif.object(forKey: "attachment-url") as? String {
-                        sendPushNotifAnalytic(true, isBackgroundMode: true, targetId: targetId!, tipe: tipe)
+                        sendPushNotifAnalytic(true, isBackgroundMode: true, targetId: targetId, tipe: tipe)
                     } else {
-                        sendPushNotifAnalytic(false, isBackgroundMode: true, targetId: targetId!, tipe: tipe)
+                        sendPushNotifAnalytic(false, isBackgroundMode: true, targetId: targetId, tipe: tipe)
                     }
                 }
                 
@@ -545,7 +545,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // MoEngage
         MoEngage.sharedInstance().stop(application)
         
-        produkUploader.stop()
+        if produkUploader != nil {
+            produkUploader.stop()
+        }
         
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().didLoseFocus()
