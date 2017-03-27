@@ -424,7 +424,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         self.sendClickNotificationAnalytic(notif.objectId, tipe: notif.type)
         
         if (notif.type == 2000) { // Chat
-            if (notif.userUsernameFrom == "Prelo") {
+            if (notif.isPreloMessage) {
                 let preloMessageVC = Bundle.main.loadNibNamed(Tags.XibNamePreloMessage, owner: nil, options: nil)?.first as! PreloMessageViewController
                 preloMessageVC.previousScreen = PageName.Notification
                 self.navigationController?.pushViewController(preloMessageVC, animated: true)
@@ -572,7 +572,7 @@ class NotifAnggiConversationCell: UITableViewCell {
         }
         
         // Set image
-        if (notif.userUsernameFrom != "Prelo") {
+        if (!notif.isPreloMessage) {
             if (notif.productImages.count > 0) {
                 imgSingle.afSetImage(withURL: URL(string: notif.productImages.objectAtCircleIndex(0))!)
             } else {
@@ -634,7 +634,7 @@ class NotifAnggiConversationCell: UITableViewCell {
             consWidthLblTime.constant = sizeThatShouldFitTheContent.width
         }
         
-        if (notif.userUsernameFrom == "Prelo") {
+        if (notif.isPreloMessage) {
             let oldImage = UIImage(named: "ic_prelo_logo_text_white@2x")?.resizeWithMaxWidth(120)
             
             // Setup a new context with the correct size

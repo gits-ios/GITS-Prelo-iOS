@@ -3334,6 +3334,13 @@ class NotificationObj : NSObject
     func setRead() {
         json["read"] = JSON(true)
     }
+    
+    var isPreloMessage : Bool {
+        if let j = json["is_prelo_message"].bool {
+            return j
+        }
+        return false
+    }
 }
 
 class ProductCompareMain : NSObject {
