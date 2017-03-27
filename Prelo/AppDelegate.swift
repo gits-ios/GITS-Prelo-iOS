@@ -45,7 +45,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let RedirReferral = "referral"
     let RedirPreloMessage = "prelo_message"
     
-    var redirAlert : UIAlertController?
+    var redirAlert : SCLAlertView?
+    var alertViewResponder : SCLAlertViewResponder?
     var RedirWaitAmount : Int = 10000000
     
     var produkUploader : ProdukUploader!
@@ -190,7 +191,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         tipe = self.RedirPreloMessage
                     }
 //                    Constant.showDialog(tipe, message: targetId! )
-                    self.showRedirAlert()
                     DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
                         self.deeplinkRedirect(tipe, targetId: targetId)
                     })
@@ -993,21 +993,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func showRedirAlert() {
-        redirAlert = UIAlertController(title: "Redirecting...", message: "Harap tunggu beberapa saat", preferredStyle: .alert)
-        UIApplication.shared.keyWindow?.rootViewController?.present(redirAlert!, animated: true, completion: nil)
+//        redirAlert = UIAlertController(title: "Redirecting...", message: "Harap tunggu beberapa saat", preferredStyle: .alert)
+//        UIApplication.shared.keyWindow?.rootViewController?.present(redirAlert!, animated: true, completion: nil)
+        
+        let appearance = SCLAlertView.SCLAppearance(
+            showCloseButton: false
+        )
+        
+        redirAlert = SCLAlertView(appearance: appearance)
+        alertViewResponder = redirAlert!.showCustom("Redirecting...", subTitle: "Harap tunggu beberapa saat", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
     func hideRedirAlertWithDelay(_ delay: Double, completion: (() -> Void)?) {
         let delayTime = delay * Double(NSEC_PER_SEC)
         let time = DispatchTime.now() + Double(Int64(delayTime)) / Double(NSEC_PER_SEC)
         DispatchQueue.main.asyncAfter(deadline: time, execute: {
-            self.redirAlert?.dismiss(animated: true, completion: completion)
+//            self.redirAlert?.dismiss(animated: true, completion: completion)
+            self.alertViewResponder?.close()
+            if (completion != nil) {
+                self.alertViewResponder?.setDismissBlock(completion!)
+            }
         })
     }
     
     func showFailedRedirAlert() {
-        redirAlert?.title = "Redirection Failed"
-        redirAlert?.message = "Terdapat kesalahan saat memproses data"
+//        redirAlert?.title = "Redirection Failed"
+//        redirAlert?.message = "Terdapat kesalahan saat memproses data"
+        
+        alertViewResponder?.setTitle("Redirection Failed")
+        alertViewResponder?.setSubTitle("Terdapat kesalahan saat memproses data")
+        
         self.hideRedirAlertWithDelay(3.0, completion: nil)
     }
     
@@ -1254,8 +1269,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     // Redirect setelah selesai menunggu
                     if (rootViewController != nil) {
                         if (progress != 1) { // Sudah pernah melakukan konfirmasi bayar
-                            self.redirAlert?.title = "Perhatian"
-                            self.redirAlert?.message = "Anda sudah melakukan konfirmasi bayar untuk transaksi ini"
+//                            self.redirAlert?.title = "Perhatian"
+//                            self.redirAlert?.message = "Anda sudah melakukan konfirmasi bayar untuk transaksi ini"
+                            self.alertViewResponder?.setTitle("Perhatian")
+                            self.alertViewResponder?.setSubTitle("Anda sudah melakukan konfirmasi bayar untuk transaksi ini")
                             self.hideRedirAlertWithDelay(3.0, completion: nil)
                         } else {
                             let products = data["products"]

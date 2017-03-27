@@ -635,6 +635,9 @@ class Tags : NSObject {
     static let XibNameShopAchievement = "ShopAchievement"
     static let XibNameTarikTunai2 = "TarikTunai2"
     static let XibNamePreloMessage = "PreloMessage"
+    static let XibNameAddressBook = "AddressBook"
+    static let XibNameAddressAddEdit = "AddressAddEdit"
+    static let XibNameUserProfile2 = "UserProfile2"
 }
 
 class OrderStatus : NSObject {
@@ -708,6 +711,9 @@ class PageName {
     static let ProductLovelist = "Tawar Lovelist"
     static let SearchResult = "Search Result"
     static let PreloMessage = "Prelo Message"
+    static let AddressBook = "Address Book"
+    static let AddAddress = "Add Address"
+    static let EditAddress = "Edit Address"
 }
 
 extension Mixpanel {
@@ -970,6 +976,7 @@ func print(_ items: Any..., separator: String = " ", terminator: String = "\n") 
     }
 }
 
+/*
 class ImageHelper {
     static func removeExifData(_ data: Data) -> Data? {
         /* FIXME: Swift 3
@@ -1002,3 +1009,4 @@ class ImageHelper {
         return NSData(data: data) as Data
     }
 }
+*/

@@ -11,7 +11,7 @@ import CoreData
 import Crashlytics
 import Alamofire
 
-class AboutViewController: BaseViewController, UIAlertViewDelegate {
+class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
 
     @IBOutlet var btnLogout : BorderedButton!
     @IBOutlet var btnClear : BorderedButton!
@@ -94,6 +94,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
     }
     
     @IBAction func reloadAppData(_ sender: AnyObject) {
+        /*
         // Tampilkan pop up untuk prompt
         let a = UIAlertView()
         a.message = "Reload App Data membutuhkan waktu beberapa saat. Lanjutkan?"
@@ -102,6 +103,14 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         a.cancelButtonIndex = 0
         a.delegate = self
         a.show()
+         */
+        
+        let alertView = SCLAlertView(appearance: Constant.appearance)
+        alertView.addButton("Reload App Data") {
+            self.reloadingAppData()
+        }
+        alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+        alertView.showCustom("Reload App Data", subTitle: "Reload App Data membutuhkan waktu beberapa saat. Lanjutkan?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
     @IBAction func clearCache() {
@@ -228,20 +237,20 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
     
     // MARK: - UIAlertView delegate function
     
-    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
-        switch buttonIndex {
-        case 0: // Batal
-            alertView.dismiss(withClickedButtonIndex: -1, animated: true)
-            break
-        case 1: // Reload App Data
-            alertView.dismiss(withClickedButtonIndex: -1, animated: true)
-            // Tampilkan pop up untuk loading
-            reloadingAppData()
-            break
-        default:
-            break
-        }
-    }
+//    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
+//        switch buttonIndex {
+//        case 0: // Batal
+//            alertView.dismiss(withClickedButtonIndex: -1, animated: true)
+//            break
+//        case 1: // Reload App Data
+//            alertView.dismiss(withClickedButtonIndex: -1, animated: true)
+//            // Tampilkan pop up untuk loading
+//            reloadingAppData()
+//            break
+//        default:
+//            break
+//        }
+//    }
     
     // MARK: - Other functions
     
@@ -270,15 +279,42 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
     
     func reloadingAppData() {
         // Tampilkan pop up untuk loading
-        let a = UIAlertView()
+        //let a = UIAlertView()
         let pView : UIProgressView = UIProgressView(progressViewStyle: UIProgressViewStyle.bar)
         pView.progress = 0
         pView.backgroundColor = Theme.GrayLight
         pView.progressTintColor = Theme.ThemeOrange
-        a.setValue(pView, forKey: "accessoryView")
-        a.title = "Reloading App Data..."
-        a.message = "Harap untuk tidak menutup aplikasi selama proses berjalan"
-        a.show()
+//        a.setValue(pView, forKey: "accessoryView")
+//        a.title = "Reloading App Data..."
+//        a.message = "Harap untuk tidak menutup aplikasi selama proses berjalan"
+//        a.show()
+        
+        let alertView = SCLAlertView(appearance: Constant.appearance)
+        let subtitle = UILabel()
+        
+        subtitle.text = "Harap untuk tidak menutup aplikasi selama proses berjalan"
+        subtitle.font = Constant.appearance.kTextFont
+        subtitle.textColor = alertView.labelTitle.textColor
+        subtitle.numberOfLines = 0
+        subtitle.textAlignment = .center
+        
+        let width = Constant.appearance.kWindowWidth - 24
+        let frame = subtitle.text!.boundsWithFontSize(Constant.appearance.kTextFont, width: width)
+        
+        subtitle.frame = frame
+        
+        // Creat the subview
+        let subview = UIView(frame: CGRect(x: 0, y: 0, width: width, height: frame.height + 18))
+        subview.addSubview(subtitle)
+        subview.addSubview(pView)
+        
+        subtitle.width = subview.bounds.width
+        
+        pView.frame = CGRect(x: 0, y: frame.height + 16, width: width, height: 2)
+        
+        alertView.customSubview = subview
+        
+        let alertViewResponder: SCLAlertViewResponder = alertView.showCustom("Reloading App Data...", subTitle: "", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
 
         // API Migrasi
         let _ = request(APIApp.metadata(brands: "0", categories: "1", categorySizes: "0", shippings: "1", productConditions: "1", provincesRegions: "1")).responseJSON {resp in
@@ -367,13 +403,17 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                 queue.addOperation(opProvincesRegions)
                 
                 let opFinish : Operation = BlockOperation(block: {
-                    a.dismiss(withClickedButtonIndex: -1, animated: true)
+//                    a.dismiss(withClickedButtonIndex: -1, animated: true)
                     if (isSuccess) {
                         DispatchQueue.main.async(execute: {
+                            alertViewResponder.close()
+                            
                             Constant.showDialog("Reload App Data", message: "Reload App Data berhasil")
                         })
                     } else {
                         DispatchQueue.main.async(execute: {
+                            alertViewResponder.close()
+                            
                             Constant.showDialog("Reload App Data", message: "Oops, terjadi kesalahan saat Reload App Data")
                         })
                     }
@@ -384,7 +424,8 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                 opFinish.addDependency(opProvincesRegions)
                 queue.addOperation(opFinish)
             } else {
-                a.dismiss(withClickedButtonIndex: -1, animated: true)
+//                a.dismiss(withClickedButtonIndex: -1, animated: true)
+                alertViewResponder.close()
             }
         }
     }

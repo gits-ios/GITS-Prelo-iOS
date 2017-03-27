@@ -3989,3 +3989,109 @@ class PreloMessageItem : NSObject {
         return false
     }
 }
+
+// address-book
+class AddressItem : NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> AddressItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = AddressItem()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var id : String {
+        if let j = json["_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var addressName : String {
+        if let j = json["address_name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var recipientName : String {
+        if let j = json["owner_name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var address : String {
+        if let j = json["address"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var provinceId : String {
+        if let j = json["province_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var provinceName : String {
+        if let j = json["province_name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var regionId : String {
+        if let j = json["region_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var regionName : String {
+        if let j = json["region_name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var subdisrictId : String {
+        if let j = json["subdistrict_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var subdisrictName : String {
+        if let j = json["subdistrict_name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var phone : String {
+        if let j = json["phone"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var postalCode : String {
+        if let j = json["postal_code"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var isMainAddress : Bool {
+        if let j = json["is_default"].bool {
+            return j
+        }
+        return false
+    }
+}
