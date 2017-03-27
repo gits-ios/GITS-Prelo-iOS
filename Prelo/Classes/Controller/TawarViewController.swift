@@ -1197,6 +1197,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
 //        }))
 //        self.present(alert, animated: true, completion: nil)
         
+        /*
         let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah DIBAYAR oleh pembeli ini? (Aksi ini TIDAK dapat dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
@@ -1235,6 +1236,37 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             self.present(alert2, animated: true, completion: nil)
         }))
         self.present(alert, animated: true, completion: nil)
+         */
+        
+        let alertView = SCLAlertView(appearance: Constant.appearance)
+        alertView.addButton("Ya") {
+            
+            let alertView2 = SCLAlertView(appearance: Constant.appearance)
+            alertView2.addButton("Ya") {
+                self.prodStatus = 2
+                Constant.showDialog("Success", message: "Barang telah ditandai sebagai barang terjual")
+                var finalPrice = ""
+                if (self.tawarItem.bargainPrice != 0 && self.tawarItem.threadState == 2) {
+                    finalPrice = self.tawarItem.bargainPrice.asPrice
+                } else {
+                    finalPrice = self.tawarItem.price
+                }
+                self.sendChat(4, message: "Barang ini dijual kepada \(self.tawarItem.theirName) dengan harga \(finalPrice)", image: nil)
+                
+                // Prelo Analytic - Mark As Sold
+                let loginMethod = User.LoginMethod ?? ""
+                let pdata = [
+                    "Product ID": self.prodId,
+                    "Screen" : PageName.InboxDetail
+                ] as [String : Any]
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.MarkAsSold, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+            }
+            alertView2.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+            alertView2.showCustom("Mark As Sold", subTitle: "Apakah kamu yakin? (Aksi ini TIDAK dapat dibatalkan)", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+            
+        }
+        alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+        alertView.showCustom("Mark As Sold", subTitle: "Apakah barang ini sudah DIBAYAR oleh pembeli ini? (Aksi ini TIDAK dapat dibatalkan)", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
     func randomElementIndex<T>(_ s: Set<T>) -> T {
