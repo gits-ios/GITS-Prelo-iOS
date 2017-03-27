@@ -3338,6 +3338,9 @@ class NotificationObj : NSObject
     var isPreloMessage : Bool {
         if let j = json["is_prelo_message"].bool {
             return j
+        } // backup
+        if userUsernameFrom == "Prelo" {
+            return true
         }
         return false
     }
