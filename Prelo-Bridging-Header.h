@@ -42,6 +42,7 @@
 #import "MoEngage.h"
 #import <ImageIO/ImageIO.h>
 #import "BFKit.h"
+#import <FBAudienceNetwork/FBAudienceNetwork.h>
 #import <IronSource/IronSource.h>
 #import <IronSource/ISConfigurations.h>
 #import <IronSource/ISEventsReporting.h>

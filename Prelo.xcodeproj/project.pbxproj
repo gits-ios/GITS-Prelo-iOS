@@ -653,6 +653,8 @@
 		B2B34BCF1E37042D001B653F /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B34BCE1E37042D001B653F /* NotificationService.swift */; };
 		B2B34BE71E388395001B653F /* ic_exclamation_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B34BE61E388395001B653F /* ic_exclamation_grey.png */; };
 		B2B4DCC41E2D24B900EBBD33 /* ShopReviewAverageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B4DCC31E2D24B900EBBD33 /* ShopReviewAverageCell.xib */; };
+		B2BC10271E442D72003DF4D7 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BC10261E442D72003DF4D7 /* CoreMotion.framework */; };
+		B2BC10291E442DBB003DF4D7 /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BC10281E442DBB003DF4D7 /* FBAudienceNetwork.framework */; };
 		B2BE2DF01E29EBBD006B6903 /* StorePageTabBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */; };
 		B2BE2E001E29F2AF006B6903 /* StorePageTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2BE2DFF1E29F2AF006B6903 /* StorePageTabBarViewController.swift */; };
 		B2BE2E021E29FA42006B6903 /* StorePageShopHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2BE2E011E29FA42006B6903 /* StorePageShopHeader.xib */; };
@@ -1689,6 +1691,8 @@
 		B2B34BD01E37042D001B653F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2B34BE61E388395001B653F /* ic_exclamation_grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_exclamation_grey.png; sourceTree = "<group>"; };
 		B2B4DCC31E2D24B900EBBD33 /* ShopReviewAverageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReviewAverageCell.xib; sourceTree = "<group>"; };
+		B2BC10261E442D72003DF4D7 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		B2BC10281E442DBB003DF4D7 /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
 		B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StorePageTabBar.xib; sourceTree = "<group>"; };
 		B2BE2DFF1E29F2AF006B6903 /* StorePageTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorePageTabBarViewController.swift; sourceTree = "<group>"; };
 		B2BE2E011E29FA42006B6903 /* StorePageShopHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StorePageShopHeader.xib; sourceTree = "<group>"; };
@@ -1771,6 +1775,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2BC10271E442D72003DF4D7 /* CoreMotion.framework in Frameworks */,
 				B285789E1E56B8F7008995F4 /* ImageIO.framework in Frameworks */,
 				21EEB43C1B86FA2800CAD5C9 /* Accelerate.framework in Frameworks */,
 				FD4E8BF31C31258100501F7A /* AdSupport.framework in Frameworks */,
@@ -1806,6 +1811,7 @@
 				21EEB44E1B86FB0F00CAD5C9 /* UIKit.framework in Frameworks */,
 				58AB578F1CB273D20081094B /* libAdIdAccess.a in Frameworks */,
 				58D7D5231CD9B68300308A50 /* libAppsFlyerLib.a in Frameworks */,
+				B2BC10291E442DBB003DF4D7 /* FBAudienceNetwork.framework in Frameworks */,
 				58F5BEF61DB088D1009B0E0B /* Alamofire.framework in Frameworks */,
 				21EEB4501B86FB2B00CAD5C9 /* libc++.dylib in Frameworks */,
 				21679A601B901DD400F18F90 /* libicucore.dylib in Frameworks */,
@@ -1832,6 +1838,7 @@
 		163B49F396DAE9C45C1A8F32 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B2BC10261E442D72003DF4D7 /* CoreMotion.framework */,
 				B285789D1E56B8F7008995F4 /* ImageIO.framework */,
 				58BE535A1D460E2E00E358EB /* CoreSpotlight.framework */,
 				58D7D5241CD9B6FC00308A50 /* iAd.framework */,
@@ -2886,6 +2893,7 @@
 		21EEB4361B86F9EF00CAD5C9 /* Framework */ = {
 			isa = PBXGroup;
 			children = (
+				B2BC10281E442DBB003DF4D7 /* FBAudienceNetwork.framework */,
 				44B8EDC41BEB47620063DEA8 /* TwitterKitResources.bundle */,
 				4453F43D1BBBFF6D00FE7CB5 /* Bolts.framework */,
 				216799951B9010E900F18F90 /* Crashlytics.framework */,
