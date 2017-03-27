@@ -340,10 +340,6 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             logoutAlert.show()
              */
             
-            let appearance = SCLAlertView.SCLAppearance(
-                showCloseButton: false
-            )
-            
             let alertView = SCLAlertView(appearance: Constant.appearance)
             alertView.addButton("Ya") {
                 // API Migrasi
@@ -458,10 +454,6 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             logoutAlert.show()
              */
             
-            let appearance = SCLAlertView.SCLAppearance(
-                showCloseButton: false
-            )
-            
             let alertView = SCLAlertView(appearance: Constant.appearance)
             alertView.addButton("Ya") {
                 // API Migrasi
@@ -540,10 +532,6 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             logoutAlert.show()
              */
             
-            let appearance = SCLAlertView.SCLAppearance(
-                showCloseButton: false
-            )
-            
             let alertView = SCLAlertView(appearance: Constant.appearance)
             alertView.addButton("Ya") {
                 // API Migrasi
@@ -588,10 +576,6 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             logoutAlert.addButton(withTitle: "Yes")
             logoutAlert.show()
              */
- 
-            let appearance = SCLAlertView.SCLAppearance(
-                showCloseButton: false
-            )
             
             let alertView = SCLAlertView(appearance: Constant.appearance)
             alertView.addButton("Ya") {
