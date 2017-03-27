@@ -1466,7 +1466,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             
             self.newPopup?.watchVideoAds = {
                 // open ads
-                IronSource.showRewardedVideo(with: self, placement: nil)
+                IronSource.showRewardedVideo(with: self, placement: "Up_Product")
                 
                 //  goto delegate
             }
