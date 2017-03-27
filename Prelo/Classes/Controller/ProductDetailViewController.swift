@@ -251,15 +251,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                         // ads
                         IronSource.setRewardedVideoDelegate(self)
                         
-                        // TODO: - enable this
                         let userID = UIDevice.current.identifierForVendor!.uuidString
-                        // testing
-                        //let userID = "80E9295C-BF1E-486F-9394-F254F3D99B9C"
                         IronSource.setUserId(userID)
                         
-                        // init with prelo appkey
-                        // TODO: - change with official appkey
-                        IronSource.initWithAppKey("60298835", adUnits:[IS_REWARDED_VIDEO])
+                        // init with prelo official appkey
+                        IronSource.initWithAppKey("60b14515", adUnits:[IS_REWARDED_VIDEO])
                         
                         // check ads mediation integration
                         ISIntegrationHelper.validateIntegration()
@@ -1472,7 +1468,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             
             self.newPopup?.watchVideoAds = {
                 // open ads
-                IronSource.showRewardedVideo(with: self, placement: nil)
+                IronSource.showRewardedVideo(with: self, placement: "Up_Product")
                 
                 //  goto delegate
             }
