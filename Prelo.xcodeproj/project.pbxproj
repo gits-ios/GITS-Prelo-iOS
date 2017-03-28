@@ -650,6 +650,7 @@
 		B2A834441E7055EB004C575A /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B2A834411E7055EB004C575A /* Info.plist */; };
 		B2A834451E7055EB004C575A /* SCLAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A834421E7055EB004C575A /* SCLAlertView.swift */; };
 		B2A834461E7055EB004C575A /* SCLExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A834431E7055EB004C575A /* SCLExtensions.swift */; };
+		B2AAB3751E8A6D2000E16BAB /* TransactionReportPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2AAB3741E8A6D2000E16BAB /* TransactionReportPopup.xib */; };
 		B2B34BCF1E37042D001B653F /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B34BCE1E37042D001B653F /* NotificationService.swift */; };
 		B2B34BE71E388395001B653F /* ic_exclamation_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B34BE61E388395001B653F /* ic_exclamation_grey.png */; };
 		B2B4DCC41E2D24B900EBBD33 /* ShopReviewAverageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B4DCC31E2D24B900EBBD33 /* ShopReviewAverageCell.xib */; };
@@ -1686,6 +1687,7 @@
 		B2A834411E7055EB004C575A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2A834421E7055EB004C575A /* SCLAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCLAlertView.swift; sourceTree = "<group>"; };
 		B2A834431E7055EB004C575A /* SCLExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCLExtensions.swift; sourceTree = "<group>"; };
+		B2AAB3741E8A6D2000E16BAB /* TransactionReportPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TransactionReportPopup.xib; path = XIB/TransactionReportPopup.xib; sourceTree = "<group>"; };
 		B2B34BCC1E37042C001B653F /* PushNotif.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PushNotif.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2B34BCE1E37042D001B653F /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		B2B34BD01E37042D001B653F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -3254,6 +3256,7 @@
 			children = (
 				B2932DEB1E85324400782C78 /* FeedbackPopup.xib */,
 				B2EE39AF1E76548100113E03 /* PaidPushPopup.xib */,
+				B2AAB3741E8A6D2000E16BAB /* TransactionReportPopup.xib */,
 			);
 			name = Popup;
 			sourceTree = "<group>";
@@ -3614,6 +3617,7 @@
 				21F4FCE91B61F28C00223028 /* PreloAwesome.ttf in Resources */,
 				589A6FBA1D8C08F600654CDD /* ic_ditanggung_pembeli.png in Resources */,
 				21D386A81B6B93CD00D0FA90 /* Default-Portrait.png in Resources */,
+				B2AAB3751E8A6D2000E16BAB /* TransactionReportPopup.xib in Resources */,
 				589A6FC41D8C08F600654CDD /* ic_love.png in Resources */,
 				B26DB3F11E2D3C6F00224675 /* ic_achievement.png in Resources */,
 				589A6FC91D8C08F600654CDD /* ic_tampak_belakang.png in Resources */,

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="wxW-pu-Xdm" customClass="TransactionReportPopup" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view hidden="YES" alpha="0.75" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kVx-aq-Sel" userLabel="Background Overlay">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UQS-oV-fGt" userLabel="Overlay PopUp">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CyW-Ur-WlI" userLabel="PopUp UP Refund">
+                            <rect key="frame" x="38" y="215" width="300" height="238"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L48-yR-c2d">
+                                    <rect key="frame" x="0.0" y="198" width="300" height="40"/>
+                                    <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="40" id="itU-BA-bQa"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                    <state key="normal" title="BATAL">
+                                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <state key="disabled" title="LOADING.."/>
+                                    <connections>
+                                        <action selector="btnTidakPressed:" destination="wxW-pu-Xdm" eventType="touchUpInside" id="OhQ-sU-ky0"/>
+                                    </connections>
+                                </button>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LAPORKAN TRANSAKSI" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WGx-n9-PR8">
+                                    <rect key="frame" x="16" y="8" width="268" height="18"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zbc-F4-wgJ" userLabel="Header Separator">
+                                    <rect key="frame" x="0.0" y="34" width="300" height="1"/>
+                                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="1" id="gXM-pV-KCZ"/>
+                                    </constraints>
+                                </view>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8le-zw-qbl" userLabel="Img Report Trx" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
+                                    <rect key="frame" x="16" y="43" width="36" height="36"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="36" id="Zer-H5-TBA"/>
+                                        <constraint firstAttribute="height" constant="36" id="sgP-ia-zmO"/>
+                                    </constraints>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TRANSAKSI BERMASALAH" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4M6-zE-am5" userLabel="Lb Title Report Trx">
+                                    <rect key="frame" x="60" y="43" width="224" height="18"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    <color key="textColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Belum terima barang atau resi bermasalah? Segera laporkan agar Waktu Jaminan Prelo diperpanjang" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7JC-9m-5Cr" userLabel="Lb Report Trx">
+                                    <rect key="frame" x="60" y="65" width="224" height="43"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="773-xg-vgl" userLabel="Btn Report Trx">
+                                    <rect key="frame" x="0.0" y="35" width="300" height="81"/>
+                                    <connections>
+                                        <action selector="btnReportPressed:" destination="wxW-pu-Xdm" eventType="touchUpInside" id="T89-Dl-Tqt"/>
+                                    </connections>
+                                </button>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XJ8-Ib-h9I" userLabel="Button Separator 2">
+                                    <rect key="frame" x="0.0" y="116" width="300" height="1"/>
+                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="1" id="GhK-Hh-cdO"/>
+                                    </constraints>
+                                </view>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YuI-pk-q0A" userLabel="Img Refund Trx" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
+                                    <rect key="frame" x="16" y="129" width="36" height="36"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="36" id="cSK-DK-5L9"/>
+                                        <constraint firstAttribute="height" constant="36" id="tfu-H9-II5"/>
+                                    </constraints>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="REFUND" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oQf-gJ-cwF" userLabel="Lb Title Refund Trx">
+                                    <rect key="frame" x="60" y="125" width="224" height="18"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    <color key="textColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ada keluhan terkait barang? Refund berlaku selama Waktu Jaminan Prelo berlangsung " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NJm-W1-aeA" userLabel="Lb Refund Trx">
+                                    <rect key="frame" x="60" y="147" width="224" height="43"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xz2-5B-XzQ" userLabel="Btn Refund Trx">
+                                    <rect key="frame" x="0.0" y="117" width="300" height="81"/>
+                                    <connections>
+                                        <action selector="btnRefundPressed:" destination="wxW-pu-Xdm" eventType="touchUpInside" id="GZl-20-hLD"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="WGx-n9-PR8" secondAttribute="trailing" constant="16" id="18W-iv-6Dj"/>
+                                <constraint firstItem="zbc-F4-wgJ" firstAttribute="top" secondItem="WGx-n9-PR8" secondAttribute="bottom" constant="8" id="1E9-Br-ZdU"/>
+                                <constraint firstAttribute="trailing" secondItem="zbc-F4-wgJ" secondAttribute="trailing" id="2Q5-Vw-Foa"/>
+                                <constraint firstItem="8le-zw-qbl" firstAttribute="top" secondItem="zbc-F4-wgJ" secondAttribute="bottom" constant="8" id="4YY-aD-i0Y"/>
+                                <constraint firstAttribute="width" constant="300" id="5NS-JT-4j3"/>
+                                <constraint firstItem="4M6-zE-am5" firstAttribute="leading" secondItem="8le-zw-qbl" secondAttribute="trailing" constant="8" id="Bc4-yp-UyJ"/>
+                                <constraint firstAttribute="trailing" secondItem="773-xg-vgl" secondAttribute="trailing" id="Gva-AE-Yth"/>
+                                <constraint firstItem="7JC-9m-5Cr" firstAttribute="leading" secondItem="8le-zw-qbl" secondAttribute="trailing" constant="8" id="HSa-3g-Gzf"/>
+                                <constraint firstAttribute="trailing" secondItem="oQf-gJ-cwF" secondAttribute="trailing" constant="16" id="IB9-Yn-znt"/>
+                                <constraint firstAttribute="bottom" secondItem="L48-yR-c2d" secondAttribute="bottom" id="JoB-M0-KMU"/>
+                                <constraint firstItem="XJ8-Ib-h9I" firstAttribute="leading" secondItem="CyW-Ur-WlI" secondAttribute="leading" id="KtI-8w-LCz"/>
+                                <constraint firstAttribute="trailing" secondItem="NJm-W1-aeA" secondAttribute="trailing" constant="16" id="LbD-IM-KJS"/>
+                                <constraint firstItem="NJm-W1-aeA" firstAttribute="leading" secondItem="YuI-pk-q0A" secondAttribute="trailing" constant="8" id="Mff-fn-tEc"/>
+                                <constraint firstItem="L48-yR-c2d" firstAttribute="leading" secondItem="CyW-Ur-WlI" secondAttribute="leading" id="MjS-yX-fba"/>
+                                <constraint firstItem="YuI-pk-q0A" firstAttribute="leading" secondItem="CyW-Ur-WlI" secondAttribute="leading" constant="16" id="PMz-nH-RzJ"/>
+                                <constraint firstItem="8le-zw-qbl" firstAttribute="leading" secondItem="CyW-Ur-WlI" secondAttribute="leading" constant="16" id="Q43-xr-oUZ"/>
+                                <constraint firstItem="4M6-zE-am5" firstAttribute="top" secondItem="zbc-F4-wgJ" secondAttribute="bottom" constant="8" id="QsG-tw-z8P"/>
+                                <constraint firstItem="XJ8-Ib-h9I" firstAttribute="top" relation="greaterThanOrEqual" secondItem="8le-zw-qbl" secondAttribute="bottom" constant="12" id="SQM-Wr-wQh"/>
+                                <constraint firstItem="XJ8-Ib-h9I" firstAttribute="top" secondItem="773-xg-vgl" secondAttribute="bottom" id="Sle-Ll-hGJ"/>
+                                <constraint firstItem="oQf-gJ-cwF" firstAttribute="top" secondItem="XJ8-Ib-h9I" secondAttribute="bottom" constant="8" id="V1u-T9-bKk"/>
+                                <constraint firstItem="oQf-gJ-cwF" firstAttribute="leading" secondItem="YuI-pk-q0A" secondAttribute="trailing" constant="8" id="WRo-HM-OXb"/>
+                                <constraint firstItem="L48-yR-c2d" firstAttribute="top" relation="greaterThanOrEqual" secondItem="NJm-W1-aeA" secondAttribute="bottom" constant="8" id="XTR-lD-OzL"/>
+                                <constraint firstItem="L48-yR-c2d" firstAttribute="top" relation="greaterThanOrEqual" secondItem="YuI-pk-q0A" secondAttribute="bottom" constant="8" id="XkR-Xq-5f5"/>
+                                <constraint firstAttribute="trailing" secondItem="7JC-9m-5Cr" secondAttribute="trailing" constant="16" id="YGh-X6-xFn"/>
+                                <constraint firstAttribute="trailing" secondItem="XJ8-Ib-h9I" secondAttribute="trailing" id="YoF-ZN-usk"/>
+                                <constraint firstItem="WGx-n9-PR8" firstAttribute="top" secondItem="CyW-Ur-WlI" secondAttribute="top" constant="8" id="b69-mw-YYr"/>
+                                <constraint firstItem="NJm-W1-aeA" firstAttribute="top" secondItem="oQf-gJ-cwF" secondAttribute="bottom" constant="4" id="bWO-G4-frg"/>
+                                <constraint firstItem="Xz2-5B-XzQ" firstAttribute="leading" secondItem="CyW-Ur-WlI" secondAttribute="leading" id="gCl-Mw-AyM"/>
+                                <constraint firstItem="L48-yR-c2d" firstAttribute="top" secondItem="Xz2-5B-XzQ" secondAttribute="bottom" id="gWF-Dn-Ipw"/>
+                                <constraint firstItem="773-xg-vgl" firstAttribute="leading" secondItem="CyW-Ur-WlI" secondAttribute="leading" id="gjN-jj-BSs"/>
+                                <constraint firstItem="7JC-9m-5Cr" firstAttribute="top" secondItem="4M6-zE-am5" secondAttribute="bottom" constant="4" id="hE2-4E-uxR"/>
+                                <constraint firstItem="XJ8-Ib-h9I" firstAttribute="top" relation="greaterThanOrEqual" secondItem="7JC-9m-5Cr" secondAttribute="bottom" constant="8" id="ii1-i3-Rdg"/>
+                                <constraint firstAttribute="trailing" secondItem="L48-yR-c2d" secondAttribute="trailing" id="lEL-m8-Ln1"/>
+                                <constraint firstItem="Xz2-5B-XzQ" firstAttribute="top" secondItem="XJ8-Ib-h9I" secondAttribute="bottom" id="lIC-zI-B3F"/>
+                                <constraint firstItem="YuI-pk-q0A" firstAttribute="top" secondItem="XJ8-Ib-h9I" secondAttribute="bottom" constant="12" id="llO-Jx-qjz"/>
+                                <constraint firstItem="zbc-F4-wgJ" firstAttribute="leading" secondItem="CyW-Ur-WlI" secondAttribute="leading" id="n0D-Na-Px7"/>
+                                <constraint firstItem="WGx-n9-PR8" firstAttribute="leading" secondItem="CyW-Ur-WlI" secondAttribute="leading" constant="16" id="per-Gs-6is"/>
+                                <constraint firstAttribute="trailing" secondItem="4M6-zE-am5" secondAttribute="trailing" constant="16" id="w96-aH-fh3"/>
+                                <constraint firstAttribute="trailing" secondItem="Xz2-5B-XzQ" secondAttribute="trailing" id="wvA-Tx-1OA"/>
+                                <constraint firstItem="773-xg-vgl" firstAttribute="top" secondItem="zbc-F4-wgJ" secondAttribute="bottom" id="xFB-HY-689"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="CyW-Ur-WlI" firstAttribute="centerX" secondItem="UQS-oV-fGt" secondAttribute="centerX" id="cSo-PI-fOb"/>
+                        <constraint firstItem="CyW-Ur-WlI" firstAttribute="centerY" secondItem="UQS-oV-fGt" secondAttribute="centerY" id="emR-IG-oad"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="UQS-oV-fGt" firstAttribute="top" secondItem="wxW-pu-Xdm" secondAttribute="top" id="Ecp-6B-9vE"/>
+                <constraint firstAttribute="trailing" secondItem="UQS-oV-fGt" secondAttribute="trailing" id="VFU-tT-TMx"/>
+                <constraint firstAttribute="bottom" secondItem="UQS-oV-fGt" secondAttribute="bottom" id="beB-Kr-KP2"/>
+                <constraint firstAttribute="bottom" secondItem="kVx-aq-Sel" secondAttribute="bottom" id="cKS-Hq-Q3m"/>
+                <constraint firstItem="UQS-oV-fGt" firstAttribute="leading" secondItem="wxW-pu-Xdm" secondAttribute="leading" id="eam-JU-Lcp"/>
+                <constraint firstAttribute="trailing" secondItem="kVx-aq-Sel" secondAttribute="trailing" id="kCl-xP-Hky"/>
+                <constraint firstItem="kVx-aq-Sel" firstAttribute="top" secondItem="wxW-pu-Xdm" secondAttribute="top" id="nCh-fq-QZj"/>
+                <constraint firstItem="kVx-aq-Sel" firstAttribute="leading" secondItem="wxW-pu-Xdm" secondAttribute="leading" id="o8S-d7-dPf"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="consCenteryPopUp" destination="emR-IG-oad" id="De4-wX-nil"/>
+                <outlet property="lbRefund" destination="NJm-W1-aeA" id="iP1-j8-gz2"/>
+                <outlet property="lbReport" destination="7JC-9m-5Cr" id="u4a-Lb-QXJ"/>
+                <outlet property="vwBackgroundOverlay" destination="kVx-aq-Sel" id="5hX-Rr-foC"/>
+                <outlet property="vwOverlayPopUp" destination="UQS-oV-fGt" id="uQn-64-aZ6"/>
+                <outlet property="vwPopUp" destination="CyW-Ur-WlI" id="fa6-E4-WW1"/>
+            </connections>
+            <point key="canvasLocation" x="24.5" y="174.5"/>
+        </view>
+    </objects>
+</document>

@@ -2745,7 +2745,7 @@ class PaidPushPopup: UIView {
     }
     
     func displayPopUp() {
-        let screenSize = UIScreen.main.bounds
+        let screenSize = self.bounds
         let screenHeight = screenSize.height
         
         // force to bottom first
