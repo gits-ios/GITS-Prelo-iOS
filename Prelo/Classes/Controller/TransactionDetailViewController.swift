@@ -2087,7 +2087,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
              */
             
             // new popup -> report & refund
-            self.launchNewPopUp((self.trxProductDetail?.reportable)!)
+            self.launchNewPopUp(self.trxProductDetail?.reportable)
         }
         
         return cell
@@ -2571,7 +2571,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     
     // MARK: - Setup popup
     
-    func launchNewPopUp(_ isReportable: Bool) {
+    func launchNewPopUp(_ isReportable: Bool?) {
         self.setupPopUp(isReportable)
         self.newPopup?.isHidden = false
         
@@ -2581,7 +2581,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         })
     }
     
-    func setupPopUp(_ isReportable: Bool) {
+    func setupPopUp(_ isReportable: Bool?) {
         // setup popup
         if (self.newPopup == nil) {
             self.newPopup = Bundle.main.loadNibNamed("TransactionReportPopup", owner: nil, options: nil)?.first as? TransactionReportPopup
@@ -5024,7 +5024,7 @@ class TransactionReportPopup: UIView {
         self.lbRefund.italicSubstring("Refund")
     }
     
-    func initPopUp(_ isReportable: Bool) {
+    func initPopUp(_ isReportable: Bool?) {
         let path = UIBezierPath(roundedRect:vwPopUp.bounds,
                                 byRoundingCorners:[.topRight, .topLeft],
                                 cornerRadii: CGSize(width: 4, height:  4))
@@ -5046,17 +5046,8 @@ class TransactionReportPopup: UIView {
         // force to bottom first
         self.consCenteryPopUp.constant = screenHeight
         
-        if isReportable {
+        if isReportable != nil {
             // disable report button
-            
-            self.btnReport.isEnabled = true
-            
-            self.lbTitleReport.textColor = Theme.PrimaryColor
-            self.lbReport.textColor = gray
-            
-            self.imgReport.tint = false
-            self.imgReport.tintColor = UIColor.clear
-        } else {
             self.btnReport.isEnabled = false
             
             self.lbTitleReport.textColor = Theme.GrayLight
@@ -5065,7 +5056,11 @@ class TransactionReportPopup: UIView {
             self.imgReport.tint = true
             self.imgReport.tintColor = Theme.GrayLight
             
-            self.lbReport.text = "Laporan kamu sedang diproses"
+            if !(isReportable!) {
+                self.lbReport.text = "Laporan kamu sedang diproses"
+            } else {
+                self.lbReport.text = "Laporan kamu telah selesai diproses"
+            }
         }
     }
     

@@ -2400,11 +2400,11 @@ class TransactionProductDetail : NSObject {
         return false
     }
     
-    var reportable : Bool {
+    var reportable : Bool? {
         if let j = json["is_hold"].bool {
             return !j
         }
-        return true
+        return nil
     }
     
     var wjpTime : String {
