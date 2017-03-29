@@ -2406,6 +2406,13 @@ class TransactionProductDetail : NSObject {
         }
         return true
     }
+    
+    var wjpTime : String {
+        if let j = json["wjp_time"].string {
+            return j
+        }
+        return "6" // default
+    }
 }
 
 class UserReview : NSObject {

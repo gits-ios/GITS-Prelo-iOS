@@ -178,9 +178,12 @@
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="btnReport" destination="773-xg-vgl" id="ohX-qa-AJd"/>
                 <outlet property="consCenteryPopUp" destination="emR-IG-oad" id="De4-wX-nil"/>
+                <outlet property="imgReport" destination="8le-zw-qbl" id="27o-Dw-oSB"/>
                 <outlet property="lbRefund" destination="NJm-W1-aeA" id="iP1-j8-gz2"/>
                 <outlet property="lbReport" destination="7JC-9m-5Cr" id="u4a-Lb-QXJ"/>
+                <outlet property="lbTitleReport" destination="4M6-zE-am5" id="fvy-l0-Fha"/>
                 <outlet property="vwBackgroundOverlay" destination="kVx-aq-Sel" id="5hX-Rr-foC"/>
                 <outlet property="vwOverlayPopUp" destination="UQS-oV-fGt" id="uQn-64-aZ6"/>
                 <outlet property="vwPopUp" destination="CyW-Ur-WlI" id="fa6-E4-WW1"/>

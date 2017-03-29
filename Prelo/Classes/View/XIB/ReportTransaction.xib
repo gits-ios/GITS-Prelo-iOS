@@ -391,6 +391,8 @@
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
             <connections>
                 <outlet property="consBottomBtnSubmit" destination="aml-Rf-ygl" id="fLj-vg-X7I"/>
+                <outlet property="lblDetailDua" destination="3S0-Fg-VQq" id="J3e-nc-7s3"/>
+                <outlet property="lblDetailSatu" destination="ob2-p2-15D" id="kFF-kF-8fL"/>
                 <outlet property="lblRadioBelumTerimaBarang" destination="WhC-34-Qb6" id="m0T-Xl-aXK"/>
                 <outlet property="lblRadioFotoResiTidakSesuai" destination="k79-AE-ga6" id="A0b-cC-4BV"/>
                 <outlet property="lblRadioLainnya" destination="qdV-ld-FfP" id="Ce7-9R-7Ta"/>

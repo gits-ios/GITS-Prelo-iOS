@@ -39,12 +39,16 @@ class ReportTransactionViewController: BaseViewController, UITextViewDelegate {
     @IBOutlet weak var loadingPanel: UIView!
     @IBOutlet weak var consBottomBtnSubmit: NSLayoutConstraint!
     
+    @IBOutlet weak var lblDetailSatu: UILabel!
+    @IBOutlet weak var lblDetailDua: UILabel!
+    
     var reportTransactionType : ReportTransactionType?
     let placeholder = "Tulis detail alasan lainnya"
     
     // Predefined value
     var tpId : String = ""
     var sellerId : String = ""
+    var wjpTime : String = "6"
     
     // Prelo Analytic - Request Refund
     //var pId : String = ""
@@ -65,6 +69,12 @@ class ReportTransactionViewController: BaseViewController, UITextViewDelegate {
         // Loading setup
         self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
         self.hideLoading()
+        
+        // setup teks
+        self.lblDetailSatu.text = "Waktu Jaminan Prelo akan diperpanjang menjadi " + wjpTime + " hari"
+        self.lblDetailSatu.boldSubstring("Waktu Jaminan Prelo")
+        
+        self.lblDetailDua.text = "Jika dalam " + wjpTime + " hari transaksi kamu berhasil tanpa masalah maka uang pembayaran kamu akan otomatis disalurkan ke penjual"
     }
     
     override func viewDidAppear(_ animated: Bool) {
