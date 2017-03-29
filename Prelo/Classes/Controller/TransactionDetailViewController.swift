@@ -1933,7 +1933,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         
         // Adapt cell
         if (progress != nil) {
-            cell.adapt(self.progress, isSeller: isSeller, order: order)
+            cell.adapt(self.progress, isSeller: isSeller, order: order, isReportable: (self.trxProductDetail?.reportable)!)
         }
         
 //        // Configure actions
@@ -2076,18 +2076,18 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             self.vwTundaPengiriman.isHidden = false
         }
         cell.initRefund = {
-            /*
-            let refundReqVC = Bundle.main.loadNibNamed(Tags.XibNameRequestRefund, owner: nil, options: nil)?.first as! RefundRequestViewController
-            if (self.trxProductId != nil) {
-                refundReqVC.tpId = self.trxProductId!
-                refundReqVC.pId = (self.trxProductDetail?.productId)!
+            if (self.trxProductDetail?.reportable)! {
+                // new popup -> report & refund
+                self.launchNewPopUp()
+            } else {
+                let refundReqVC = Bundle.main.loadNibNamed(Tags.XibNameRequestRefund, owner: nil, options: nil)?.first as! RefundRequestViewController
+                if (self.trxProductId != nil) {
+                    refundReqVC.tpId = self.trxProductId!
+                    refundReqVC.pId = (self.trxProductDetail?.productId)!
+                }
+                refundReqVC.previousScreen = PageName.TransactionDetail
+                self.navigationController?.pushViewController(refundReqVC, animated: true)
             }
-            refundReqVC.previousScreen = PageName.TransactionDetail
-            self.navigationController?.pushViewController(refundReqVC, animated: true)
-             */
-            
-            // new popup -> report & refund
-            self.launchNewPopUp()
         }
         
         return cell
@@ -2606,13 +2606,14 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             
             self.newPopup?.reportTrx = {
                 // TODO: - report trx VC
-                let refundReqVC = Bundle.main.loadNibNamed(Tags.XibNameRequestRefund, owner: nil, options: nil)?.first as! RefundRequestViewController
+                let reportTrxVC = Bundle.main.loadNibNamed(Tags.XibNameReportTransaction, owner: nil, options: nil)?.first as! ReportTransactionViewController
                 if (self.trxProductId != nil) {
-                    refundReqVC.tpId = self.trxProductId!
-                    refundReqVC.pId = (self.trxProductDetail?.productId)!
+                    reportTrxVC.tpId = self.trxProductId!
+                    reportTrxVC.sellerId = (self.trxProductDetail?.sellerId)!
+                    //reportTrxVC.pId = (self.trxProductDetail?.productId)!
                 }
-                refundReqVC.previousScreen = PageName.TransactionDetail
-                self.navigationController?.pushViewController(refundReqVC, animated: true)
+                reportTrxVC.previousScreen = PageName.TransactionDetail
+                self.navigationController?.pushViewController(reportTrxVC, animated: true)
             }
             
             self.newPopup?.refundTrx = {
@@ -2688,7 +2689,7 @@ class TransactionDetailTools : NSObject {
     static let TextConfirmedPaidBuyer1 = "Pesanan kamu belum dikirim dan akan expired pada "
     static let TextConfirmedPaidBuyer2 = "Ingatkan penjual untuk mengirim pesanan."
     
-    static let refundRejectNoteBuyer = "Catatan:\n1. Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3 x 24 jam sejak status transaksi \"Diterima\"\n2. Laporan Transaksi ini digunakan apabila barang belum kamu terima tetapi status transaksi \"Diterima\"\n3. Jangan lupa untuk me-review penjual jika barang sudah kamu terima"
+    static let refundRejectNoteBuyer = "Catatan:\n1. Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3 x 24 jam sejak status transaksi \"Diterima\"\n2. Pelaporan transaksi ini digunakan apabila resi atau barang yang diterima bermasalah serta bila barang belum kamu terima tetapi status transaksi \"Diterima\"\n3. Jangan lupa untuk me-review penjual jika barang sudah kamu terima"
     static let noteBuyer = "Catatan:\n1. Waktu Jaminan Prelo untuk transaksi ini telah berakhir. Uang pembayaran telah otomatis disalurkan ke penjual\n2. Segera lakukan review jika barang sudah kamu terima"
     
     static let TextSentSeller = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo sejak status transaksi menjadi \"Diterima\". Uang dapat langsung kamu tarik setelah Waktu Jaminan Prelo berakhir atau jika barang telah selesai direview.\n\nIngatkan pembeli untuk memberi review."
@@ -4415,7 +4416,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                         lblDesc.text = TransactionDetailTools.TextSentBuyerNoRefund
                     }*/
                     
-                    lblDesc.boldSubstring("Laporan Transaksi")
+                    lblDesc.boldSubstring("Pelaporan transaksi")
                     lblDesc.boldSubstring("\n1.")
                     lblDesc.boldSubstring("\"Diterima\"\n2.")
                     lblDesc.boldSubstring("\"Diterima\"\n3.")
@@ -4432,7 +4433,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     if (trxProductDetail.refundable) {
                         lblDesc.text = TransactionDetailTools.TextReceivedBuyer
                         
-                        lblDesc.boldSubstring("Laporan Transaksi")
+                        lblDesc.boldSubstring("Pelaporan transaksi")
                         lblDesc.boldSubstring("\"Diterima\"\n2.")
                         lblDesc.boldSubstring("\"Diterima\"\n3.")
                         lblDesc.italicSubstring("review")
@@ -4803,9 +4804,13 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
     let TitleTolakPesanan = "Tolak Pesanan"
     let TitleBatalkanReservasi = "BATALKAN RESERVASI"
     let TitleTundaPengiriman = "Tunda Pengiriman"
-    let TitleInitRefund = "LAPORKAN TRANSAKSI INI" //"REFUND"
+    var TitleInitRefund = "LAPORKAN TRANSAKSI INI"
     
-    func adapt(_ progress : Int?, isSeller : Bool?, order : Int) {
+    func adapt(_ progress : Int?, isSeller : Bool?, order : Int, isReportable : Bool) {
+        if !isReportable {
+            TitleInitRefund = "REFUND"
+        }
+    
         self.progress = progress
         self.order = order
         self.isSeller = isSeller

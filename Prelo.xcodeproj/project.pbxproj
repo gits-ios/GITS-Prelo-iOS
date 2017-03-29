@@ -671,6 +671,8 @@
 		B2C3A3C41E2B8E2D0082A15D /* ShopAchievement.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2C3A3C31E2B8E2D0082A15D /* ShopAchievement.xib */; };
 		B2C3A3C61E2B8E370082A15D /* ShopAchievementCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2C3A3C51E2B8E370082A15D /* ShopAchievementCell.xib */; };
 		B2C3A3C81E2B8E450082A15D /* ShopAchievementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3A3C71E2B8E450082A15D /* ShopAchievementViewController.swift */; };
+		B2C4EEBB1E8B5F37007E2F95 /* ReportTransaction.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2C4EEBA1E8B5F37007E2F95 /* ReportTransaction.xib */; };
+		B2C4EECD1E8B6178007E2F95 /* ReportTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C4EECC1E8B6178007E2F95 /* ReportTransactionViewController.swift */; };
 		B2C59A841E2E05E3002E4597 /* banner_achievement.png in Resources */ = {isa = PBXBuildFile; fileRef = B2C59A831E2E05E2002E4597 /* banner_achievement.png */; };
 		B2C59A941E2E1343002E4597 /* diamond.png in Resources */ = {isa = PBXBuildFile; fileRef = B2C59A931E2E1343002E4597 /* diamond.png */; };
 		B2C59AA01E2E4B31002E4597 /* SMSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C59A9C1E2E4B31002E4597 /* SMSegment.swift */; };
@@ -1710,6 +1712,8 @@
 		B2C3A3C31E2B8E2D0082A15D /* ShopAchievement.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopAchievement.xib; sourceTree = "<group>"; };
 		B2C3A3C51E2B8E370082A15D /* ShopAchievementCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopAchievementCell.xib; sourceTree = "<group>"; };
 		B2C3A3C71E2B8E450082A15D /* ShopAchievementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopAchievementViewController.swift; sourceTree = "<group>"; };
+		B2C4EEBA1E8B5F37007E2F95 /* ReportTransaction.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReportTransaction.xib; sourceTree = "<group>"; };
+		B2C4EECC1E8B6178007E2F95 /* ReportTransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportTransactionViewController.swift; sourceTree = "<group>"; };
 		B2C59A831E2E05E2002E4597 /* banner_achievement.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_achievement.png; sourceTree = "<group>"; };
 		B2C59A931E2E1343002E4597 /* diamond.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = diamond.png; sourceTree = "<group>"; };
 		B2C59A9C1E2E4B31002E4597 /* SMSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSegment.swift; sourceTree = "<group>"; };
@@ -2364,6 +2368,7 @@
 				44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */,
 				440AF6571BE0DEA500074CBC /* ReferralPageViewController.swift */,
 				5885887C1E0285ED00AB262E /* RefundRequestViewController.swift */,
+				B2C4EECC1E8B6178007E2F95 /* ReportTransactionViewController.swift */,
 				21EEB4571B87036000CAD5C9 /* RegisterViewController.swift */,
 				B2D481C91E02A7AD006006CC /* ReportProductViewController.swift */,
 				B23356EF1E1F587C00207F14 /* ScannerViewController.swift */,
@@ -2969,6 +2974,7 @@
 				44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */,
 				440AF6591BE0DF1600074CBC /* ReferralPage.xib */,
 				5885888C1E02860C00AB262E /* RefundRequest.xib */,
+				B2C4EEBA1E8B5F37007E2F95 /* ReportTransaction.xib */,
 				21EEB4611B87038400CAD5C9 /* Register.xib */,
 				B2D481DB1E02A7E2006006CC /* ReportProducts.xib */,
 				B23356F11E1F588F00207F14 /* Scanner.xib */,
@@ -3680,6 +3686,7 @@
 				585887341DBEDA08006EC6D5 /* ConfirmShipping.xib in Resources */,
 				B2B4DCC41E2D24B900EBBD33 /* ShopReviewAverageCell.xib in Resources */,
 				5858874C1DBEDB9B006EC6D5 /* NotifAnggiTransaction.xib in Resources */,
+				B2C4EEBB1E8B5F37007E2F95 /* ReportTransaction.xib in Resources */,
 				581E87AE1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg in Resources */,
 				210702E41BE7A8F100DD9E52 /* cu_wasap@2x.png in Resources */,
 				589A6FAF1D8C08F600654CDD /* ic_1kg.png in Resources */,
@@ -4040,6 +4047,7 @@
 				21B468061CCE5EDB00E145ED /* UITextView+BFKit.swift in Sources */,
 				B2BE2E001E29F2AF006B6903 /* StorePageTabBarViewController.swift in Sources */,
 				B2C59AA11E2E4B31002E4597 /* SMSegmentAppearance.swift in Sources */,
+				B2C4EECD1E8B6178007E2F95 /* ReportTransactionViewController.swift in Sources */,
 				585887611DBEEC3D006EC6D5 /* MyLovelistViewController.swift in Sources */,
 				21679A4F1B901C5300F18F90 /* MPVariant.m in Sources */,
 				21B468071CCE5EDB00E145ED /* UIToolbar+BFKit.swift in Sources */,
