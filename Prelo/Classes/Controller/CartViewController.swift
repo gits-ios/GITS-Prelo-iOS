@@ -2431,13 +2431,13 @@ class CartCellInput : BaseCartCell, UITextFieldDelegate {
         txtField.isEnabled = item.enable
         txtField.delegate = self
         
-        if !(item.enable) && (item.placeHolder != nil) {
+        /* if !(item.enable) && (item.placeHolder != nil) {
             txtField?.font = UIFont.italicSystemFont(ofSize: 14)
             txtField?.textColor = disableColor
-        } else {
+        } else {*/
             txtField?.font = UIFont.systemFont(ofSize: 14)
             txtField?.textColor = activeColor
-        }
+        //}
     }
     
     override func obtainValue() -> BaseCartData? {
@@ -2503,13 +2503,13 @@ class CartCellInput2 : BaseCartCell, PickerViewDelegate
             captionValue?.font = UIFont.systemFont(ofSize: 14)
             captionValue?.textColor = placeholderColor
         } else {
-            if !((item?.enable)!) {
+            /* if !((item?.enable)!) {
                 captionValue?.font = UIFont.italicSystemFont(ofSize: 14)
                 captionValue?.textColor = disableColor
-            } else {
+            } else {*/
                 captionValue?.font = UIFont.systemFont(ofSize: 14)
                 captionValue?.textColor = activeColor
-            }
+            //}
         }
         
         
