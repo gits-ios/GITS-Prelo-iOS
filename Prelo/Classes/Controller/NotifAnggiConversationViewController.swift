@@ -572,14 +572,14 @@ class NotifAnggiConversationCell: UITableViewCell {
         }
         
         // Set image
-        if (!notif.isPreloMessage) {
+        //if (!notif.isPreloMessage) {
             if (notif.productImages.count > 0) {
                 imgSingle.afSetImage(withURL: URL(string: notif.productImages.objectAtCircleIndex(0))!)
             } else {
                 imgSingle.image = UIImage(named: "placeholder-standar")
                 imgSingle.afInflate()
             }
-        }
+        //}
         
         // Set caption
         lblCaption.text = notif.caption
@@ -635,6 +635,7 @@ class NotifAnggiConversationCell: UITableViewCell {
         }
         
         if (notif.isPreloMessage) {
+            /*
             let oldImage = UIImage(named: "ic_prelo_logo_text_white@2x")?.resizeWithMaxWidth(120)
             
             // Setup a new context with the correct size
@@ -653,13 +654,14 @@ class NotifAnggiConversationCell: UITableViewCell {
             UIGraphicsPopContext();
             let newImage = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext();
-            
             lblUsername.text = "Prelo Message"
-            lblConvStatus.text = ""
             imgSingle.backgroundColor = Theme.PrimaryColor
             imgSingle.image = newImage
             imgSingle.afInflate()
             imgSingle.contentMode = .scaleAspectFit
+             */
+            
+            lblConvStatus.text = "UPDATE"
             vwCaption.isHidden = true
         }
     }
