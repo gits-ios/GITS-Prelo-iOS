@@ -27,6 +27,8 @@ enum ReportTransactionType {
     }
 }
 
+typealias BlockReportTransaction = (Bool?) -> () // is reported
+
 class ReportTransactionViewController: BaseViewController, UITextViewDelegate {
     
     // MARK: - Properties
@@ -52,6 +54,9 @@ class ReportTransactionViewController: BaseViewController, UITextViewDelegate {
     
     // Prelo Analytic - Request Refund
     //var pId : String = ""
+    
+    // Delegate
+    var blockDone : BlockReportTransaction?
     
     // MARK: - Init
     
@@ -87,6 +92,8 @@ class ReportTransactionViewController: BaseViewController, UITextViewDelegate {
                 self.consBottomBtnSubmit.constant = 0
             }
         }, completion: nil)
+        
+        self.blockDone!(nil)
     }
     
     // MARK: - Textview functions
@@ -214,6 +221,7 @@ class ReportTransactionViewController: BaseViewController, UITextViewDelegate {
                     */
                     
                     Constant.showDialog("Pelaporan Transaksi", message: "Pelaporan transaksi berhasil dilakukan")
+                    self.blockDone!(false) // is on hold
                     _ = self.navigationController?.popViewController(animated: true)
                     return
                 //}

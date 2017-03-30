@@ -110,6 +110,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     
     // new popup report trx
     var newPopup: TransactionReportPopup?
+    var isReportable: Bool?
     
     // MARK: - Init
     
@@ -2087,7 +2088,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
              */
             
             // new popup -> report & refund
-            self.launchNewPopUp(self.trxProductDetail?.reportable)
+            self.launchNewPopUp()
         }
         
         return cell
@@ -2571,7 +2572,11 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     
     // MARK: - Setup popup
     
-    func launchNewPopUp(_ isReportable: Bool?) {
+    func launchNewPopUp() {
+        if self.isReportable == nil {
+            self.isReportable = self.trxProductDetail?.reportable
+        }
+        
         self.setupPopUp(isReportable)
         self.newPopup?.isHidden = false
         
@@ -2611,6 +2616,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     reportTrxVC.tpId = self.trxProductId!
                     reportTrxVC.sellerId = (self.trxProductDetail?.sellerId)!
                     reportTrxVC.wjpTime = (self.trxProductDetail?.wjpTime)!
+                    reportTrxVC.blockDone = { result in
+                        self.isReportable = result
+                    }
                     //reportTrxVC.pId = (self.trxProductDetail?.productId)!
                 }
                 reportTrxVC.previousScreen = PageName.TransactionDetail
