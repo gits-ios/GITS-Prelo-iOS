@@ -2685,7 +2685,7 @@ class TransactionDetailTools : NSObject {
     static let TextNotPaidBuyerVeritrans = "Segera lanjutkan pembayaran."
     static let TextClaimedPaidSeller = "Pembayaran pembeli sedang dikonfirmasi oleh Prelo, mohon tunggu."
     static let TextClaimedPaidBuyer = "Hubungi Prelo apabila alamat pengiriman salah."
-    static let TextConfirmedPaidSeller1 = "Kirim pesanan sebelum "
+    static let TextConfirmedPaidSeller1 = "Kirim pesanan dalam 3 hari kerja setelah konfirmasi pembayaran (sebelum "
     static let TextConfirmedPaidSeller2 = "Jika kamu tidak mengirimkan sampai waktu tersebut, transaksi akan dibatalkan serta uang akan dikembalikan kepada pembeli."
     static let TextConfirmedPaidBuyer1 = "Pesanan kamu belum dikirim dan akan expired pada "
     static let TextConfirmedPaidBuyer2 = "Ingatkan penjual untuk mengirim pesanan."
@@ -4376,8 +4376,9 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                 }
             } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {
                 if (isSeller) {
-                    let expireTime = trxDetail.shippingExpireTime + ". "
+                    let expireTime = trxDetail.shippingExpireTime + "). "
                     lblDesc.text = TransactionDetailTools.TextConfirmedPaidSeller1 + expireTime + TransactionDetailTools.TextConfirmedPaidSeller2
+                    lblDesc.boldSubstring("3 hari kerja setelah konfirmasi pembayaran")
                     lblDesc.boldSubstring("transaksi akan dibatalkan")
                     lblDesc.boldSubstring("uang akan dikembalikan kepada pembeli")
                 }
