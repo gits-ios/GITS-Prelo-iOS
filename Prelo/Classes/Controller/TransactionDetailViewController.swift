@@ -110,7 +110,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     
     // new popup report trx
     var newPopup: TransactionReportPopup?
-    var isReportable: Bool?
+    var isReportable: Bool? // nil -> bisa, true -> udah selesai, false -> sedang diproes
     
     // MARK: - Init
     
