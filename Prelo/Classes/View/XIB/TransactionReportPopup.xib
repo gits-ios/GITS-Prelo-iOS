@@ -53,7 +53,7 @@
                                         <constraint firstAttribute="height" constant="1" id="gXM-pV-KCZ"/>
                                     </constraints>
                                 </view>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8le-zw-qbl" userLabel="Img Report Trx" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_wjp_exclamation.png" translatesAutoresizingMaskIntoConstraints="NO" id="8le-zw-qbl" userLabel="Img Report Trx" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                     <rect key="frame" x="16" y="43" width="36" height="36"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="36" id="Zer-H5-TBA"/>
@@ -85,7 +85,7 @@
                                         <constraint firstAttribute="height" constant="1" id="GhK-Hh-cdO"/>
                                     </constraints>
                                 </view>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YuI-pk-q0A" userLabel="Img Refund Trx" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_wjp_refund.png" translatesAutoresizingMaskIntoConstraints="NO" id="YuI-pk-q0A" userLabel="Img Refund Trx" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                     <rect key="frame" x="16" y="129" width="36" height="36"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="36" id="cSK-DK-5L9"/>
@@ -180,6 +180,7 @@
             <connections>
                 <outlet property="btnReport" destination="773-xg-vgl" id="ohX-qa-AJd"/>
                 <outlet property="consCenteryPopUp" destination="emR-IG-oad" id="De4-wX-nil"/>
+                <outlet property="imgRefund" destination="YuI-pk-q0A" id="IRQ-i1-Tfg"/>
                 <outlet property="imgReport" destination="8le-zw-qbl" id="27o-Dw-oSB"/>
                 <outlet property="lbRefund" destination="NJm-W1-aeA" id="iP1-j8-gz2"/>
                 <outlet property="lbReport" destination="7JC-9m-5Cr" id="u4a-Lb-QXJ"/>
@@ -191,4 +192,8 @@
             <point key="canvasLocation" x="24.5" y="174.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="ic_wjp_exclamation.png" width="96" height="96"/>
+        <image name="ic_wjp_refund.png" width="96" height="96"/>
+    </resources>
 </document>

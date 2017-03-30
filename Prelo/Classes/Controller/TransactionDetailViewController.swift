@@ -5006,6 +5006,7 @@ class TransactionReportPopup: UIView {
     @IBOutlet weak var lbTitleReport: UILabel!
     @IBOutlet weak var btnReport: UIButton!
     @IBOutlet weak var imgReport: TintedImageView!
+    @IBOutlet weak var imgRefund: TintedImageView!
     
     let gray = UIColor(hexString: "#939393")
     
@@ -5023,6 +5024,12 @@ class TransactionReportPopup: UIView {
         self.lbReport.boldSubstring("Waktu Jaminan Prelo")
         self.lbRefund.boldSubstring("Waktu Jaminan Prelo")
         self.lbRefund.italicSubstring("Refund")
+        
+        self.imgReport.tint = true
+        self.imgReport.tintColor = Theme.PrimaryColor
+        
+        self.imgRefund.tint = true
+        self.imgRefund.tintColor = Theme.PrimaryColor
     }
     
     func initPopUp(_ isReportable: Bool?) {
