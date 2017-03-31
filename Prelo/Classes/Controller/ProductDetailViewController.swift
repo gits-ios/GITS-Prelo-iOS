@@ -2653,7 +2653,7 @@ class PaidPushPopup: UIView {
             
             self.consHeightSeparatorToVideo.constant = 1
             
-            self.lbTitleWatchVideo.textColor = Theme.PrimaryColor
+            self.lbTitleWatchVideo.textColor = Theme.PrimaryColorDark
             self.lbWatchVideo.textColor = gray
             
             self.btnWatchVideo.isEnabled = true
@@ -2705,7 +2705,7 @@ class PaidPushPopup: UIView {
             self.btnPoinUsed.isEnabled = true
             //self.btnPoinUsed.backgroundColor = UIColor.clear
             
-            self.lbTitlePoinUsed.textColor = Theme.PrimaryColor
+            self.lbTitlePoinUsed.textColor = Theme.PrimaryColorDark
             self.lbPoinUsed.textColor = gray
             
             self.imgPoinUsed.tint = false
@@ -2729,7 +2729,7 @@ class PaidPushPopup: UIView {
             self.btnBalanceUsed.isEnabled = true
             //self.btnBalanceUsed.backgroundColor = UIColor.clear
             
-            self.lbTitleBalanceUsed.textColor = Theme.PrimaryColor
+            self.lbTitleBalanceUsed.textColor = Theme.PrimaryColorDark
             self.lbBalanceUsed.textColor = gray
         
             self.imgBalanceUsed.tint = false
@@ -2747,7 +2747,7 @@ class PaidPushPopup: UIView {
     }
     
     func displayPopUp() {
-        let screenSize = UIScreen.main.bounds
+        let screenSize = self.bounds
         let screenHeight = screenSize.height
         
         // force to bottom first
