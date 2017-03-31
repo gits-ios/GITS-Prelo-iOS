@@ -2698,7 +2698,7 @@ class TransactionDetailTools : NSObject {
     static let TextConfirmedPaidBuyer1 = "Pesanan kamu belum dikirim dan akan expired pada "
     static let TextConfirmedPaidBuyer2 = "Ingatkan penjual untuk mengirim pesanan."
     
-    static let refundRejectNoteBuyer = "Catatan:\n1. Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3 x 24 jam sejak status transaksi \"Diterima\"\n2. Pelaporan transaksi ini digunakan apabila resi atau barang yang diterima bermasalah serta bila barang belum kamu terima tetapi status transaksi \"Diterima\"\n3. Jangan lupa untuk me-review penjual jika barang sudah kamu terima"
+    static let refundRejectNoteBuyer = "Catatan:\n1. Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3 x 24 jam sejak status transaksi \"Diterima\"\n2. Klik Laporkan Transaksi ini digunakan apabila resi atau barang yang diterima bermasalah serta bila barang belum kamu terima tetapi status transaksi \"Diterima\"\n3. Jangan lupa untuk me-review penjual jika barang sudah kamu terima"
     static let noteBuyer = "Catatan:\n1. Waktu Jaminan Prelo untuk transaksi ini telah berakhir. Uang pembayaran telah otomatis disalurkan ke penjual\n2. Segera lakukan review jika barang sudah kamu terima"
     
     static let TextSentSeller = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo sejak status transaksi menjadi \"Diterima\". Uang dapat langsung kamu tarik setelah Waktu Jaminan Prelo berakhir atau jika barang telah selesai direview.\n\nIngatkan pembeli untuk memberi review."
@@ -4420,22 +4420,143 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     lblDesc.text = TransactionDetailTools.TextSentSeller
                 } else {
                     lblDesc.text = TransactionDetailTools.TextSentBuyer
+                }
+                if (lblDesc.text?.contains("1."))! {
+                    let fontSize = lblDesc.font.pointSize
+                    let attributesDictionary = [NSFontAttributeName : lblDesc.font]
+                    let fullAttributedString = NSMutableAttributedString(string: "", attributes: attributesDictionary)
+                    
+                    // Create a NSCharacterSet of delimiters.
+                    let separators = NSCharacterSet(charactersIn: "\n")
+                    // Split based on characters.
+                    let strings = lblDesc.text?.components(separatedBy: separators as CharacterSet)
+                    
+                    for string: String in strings!
+                    {
+                        let formattedString: String = "\(string)\n"
+                        let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: formattedString)
+                        
+                        var paragraphStyle: NSMutableParagraphStyle
+                        paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+                        paragraphStyle.tabStops = [NSTextTab(textAlignment: .left, location: 15, options: NSDictionary() as! [String : AnyObject])]
+                        paragraphStyle.defaultTabInterval = 15
+                        paragraphStyle.firstLineHeadIndent = 0
+                        paragraphStyle.headIndent = 15
+                        
+                        attributedString.addAttributes([NSParagraphStyleAttributeName: paragraphStyle], range: NSMakeRange(0, attributedString.length))
+                        
+                        let mystr = formattedString
+                        let searchstr = "Waktu Jaminan Prelo|\"Diterima\"|Laporkan Transaksi"
+                        let ranges: [NSRange]
+                        
+                        do {
+                            // Create the regular expression.
+                            let regex = try NSRegularExpression(pattern: searchstr, options: [])
+                            
+                            // Use the regular expression to get an array of NSTextCheckingResult.
+                            // Use map to extract the range from each result.
+                            ranges = regex.matches(in: mystr, options: [], range: NSMakeRange(0, mystr.characters.count)).map {$0.range}
+                        }
+                        catch {
+                            // There was a problem creating the regular expression
+                            ranges = []
+                        }
+                        
+                        for range in ranges {
+                            attributedString.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: fontSize)], range: range)
+                        }
+                        attributedString.addAttributes([NSFontAttributeName:UIFont.italicSystemFont(ofSize: fontSize)], range: (formattedString as NSString).range(of: "review"))
+                        
+                        fullAttributedString.append(attributedString)
+                    }
+                    
+                    lblDesc.attributedText = fullAttributedString
+                } else {
+                    lblDesc.boldSubstring("Waktu Jaminan Prelo")
+                    lblDesc.boldSubstring("\"Diterima\"")
+                }
+                /*if (isSeller) {
+                    lblDesc.text = TransactionDetailTools.TextSentSeller
+                } else {
+                    lblDesc.text = TransactionDetailTools.TextSentBuyer
                     /*if (trxProductDetail.refundable) {
                         lblDesc.text = TransactionDetailTools.TextSentBuyer
                     } else {
                         lblDesc.text = TransactionDetailTools.TextSentBuyerNoRefund
                     }*/
                     
-                    lblDesc.boldSubstring("Pelaporan transaksi")
+                    lblDesc.boldSubstring("Laporkan Transaksi")
                     lblDesc.boldSubstring("\n1.")
                     lblDesc.boldSubstring("\"Diterima\"\n2.")
                     lblDesc.boldSubstring("\"Diterima\"\n3.")
                     lblDesc.italicSubstring("review")
                 }
                 lblDesc.boldSubstring("Waktu Jaminan Prelo")
-                lblDesc.boldSubstring("\"Diterima\"")
+                lblDesc.boldSubstring("\"Diterima\"")*/
             } else if (progress == TransactionDetailTools.ProgressReceived) {
                 if (isSeller) {
+                    lblDesc.text = TransactionDetailTools.TextReceivedSeller
+                } else {
+                    if (trxProductDetail.refundable) {
+                        lblDesc.text = TransactionDetailTools.TextReceivedBuyer
+                    } else {
+                        lblDesc.text = TransactionDetailTools.TextReceivedBuyerNoRefund
+                    }
+                }
+                if (lblDesc.text?.contains("1."))! {
+                    let fontSize = lblDesc.font.pointSize
+                    let attributesDictionary = [NSFontAttributeName : lblDesc.font]
+                    let fullAttributedString = NSMutableAttributedString(string: "", attributes: attributesDictionary)
+                    
+                    // Create a NSCharacterSet of delimiters.
+                    let separators = NSCharacterSet(charactersIn: "\n")
+                    // Split based on characters.
+                    let strings = lblDesc.text?.components(separatedBy: separators as CharacterSet)
+                    
+                    for string: String in strings!
+                    {
+                        let formattedString: String = "\(string)\n"
+                        let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: formattedString)
+                        
+                        var paragraphStyle: NSMutableParagraphStyle
+                        paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+                        paragraphStyle.tabStops = [NSTextTab(textAlignment: .left, location: 15, options: NSDictionary() as! [String : AnyObject])]
+                        paragraphStyle.defaultTabInterval = 15
+                        paragraphStyle.firstLineHeadIndent = 0
+                        paragraphStyle.headIndent = 15
+                        
+                        attributedString.addAttributes([NSParagraphStyleAttributeName: paragraphStyle], range: NSMakeRange(0, attributedString.length))
+                        
+                        let mystr = formattedString
+                        let searchstr = "Waktu Jaminan Prelo|\"Diterima\"|Laporkan Transaksi"
+                        let ranges: [NSRange]
+                        
+                        do {
+                            // Create the regular expression.
+                            let regex = try NSRegularExpression(pattern: searchstr, options: [])
+                            
+                            // Use the regular expression to get an array of NSTextCheckingResult.
+                            // Use map to extract the range from each result.
+                            ranges = regex.matches(in: mystr, options: [], range: NSMakeRange(0, mystr.characters.count)).map {$0.range}
+                        }
+                        catch {
+                            // There was a problem creating the regular expression
+                            ranges = []
+                        }
+                        
+                        for range in ranges {
+                            attributedString.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: fontSize)], range: range)
+                        }
+                        attributedString.addAttributes([NSFontAttributeName:UIFont.italicSystemFont(ofSize: fontSize)], range: (formattedString as NSString).range(of: "review"))
+                        
+                        fullAttributedString.append(attributedString)
+                    }
+                    
+                    lblDesc.attributedText = fullAttributedString
+                } else {
+                    lblDesc.boldSubstring("Waktu Jaminan Prelo")
+                }
+                /*if (isSeller) {
                     lblDesc.text = TransactionDetailTools.TextReceivedSeller
                     
                     lblDesc.boldSubstring("\"Diterima\"")
@@ -4443,7 +4564,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     if (trxProductDetail.refundable) {
                         lblDesc.text = TransactionDetailTools.TextReceivedBuyer
                         
-                        lblDesc.boldSubstring("Pelaporan transaksi")
+                        lblDesc.boldSubstring("Laporkan Transaksi")
                         lblDesc.boldSubstring("\"Diterima\"\n2.")
                         lblDesc.boldSubstring("\"Diterima\"\n3.")
                         lblDesc.italicSubstring("review")
@@ -4454,7 +4575,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     }
                     lblDesc.boldSubstring("\n1.")
                 }
-                lblDesc.boldSubstring("Waktu Jaminan Prelo")
+                lblDesc.boldSubstring("Waktu Jaminan Prelo")*/
             } else if (progress == TransactionDetailTools.ProgressReserved) {
                 if (order == 1) {
                     lblDesc.text = TransactionDetailTools.TextReserved1
