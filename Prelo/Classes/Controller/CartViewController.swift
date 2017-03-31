@@ -687,8 +687,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             IndexPath(row: 4, section: sectionAlamatUser):c
             */
             
-            IndexPath(row: 1, section: sectionAlamatUser):BaseCartData.instance(titleNama, placeHolder: "Nama Lengkap Kamu", value : fullname, enable: (selectedIndex == 0 && isSave ? false : true)),
-            IndexPath(row: 2, section: sectionAlamatUser):BaseCartData.instance(titleTelepon, placeHolder: "Nomor Telepon Kamu", value : phone, keyboardType: UIKeyboardType.phonePad, enable: (selectedIndex == 0 && isSave ? false : true)),
+            IndexPath(row: 1, section: sectionAlamatUser):BaseCartData.instance(titleNama, placeHolder: "Nama Lengkap Kamu", value : fullname),
+            IndexPath(row: 2, section: sectionAlamatUser):BaseCartData.instance(titleTelepon, placeHolder: "Nomor Telepon Kamu", value : phone, keyboardType: UIKeyboardType.phonePad),
             IndexPath(row: 3, section: sectionAlamatUser):BaseCartData.instance(titleProvinsi, placeHolder: nil, value: pID != "" ? pID : "Pilih Provinsi", pickerPrepBlock: { picker in
                 
                 picker.items = CDProvince.getProvincePickerItems()
