@@ -209,6 +209,23 @@ extension UILabel {
         }
     }
     
+    func italicRange(_ range: Range<String.Index>) {
+        if let text = self.attributedText {
+            let attr = NSMutableAttributedString(attributedString: text)
+            let start = text.string.characters.distance(from: text.string.startIndex, to: range.lowerBound)
+            let length = text.string.characters.distance(from: range.lowerBound, to: range.upperBound)
+            attr.addAttributes([NSFontAttributeName: UIFont.italicSystemFont(ofSize: self.font.pointSize)], range: NSMakeRange(start, length))
+            self.attributedText = attr
+        }
+    }
+    
+    func italicSubstring(_ substr: String) {
+        let range = self.text?.range(of: substr)
+        if let r = range {
+            italicRange(r)
+        }
+    }
+    
     func setSubstringColor(_ substr: String, color: UIColor) {
         if let range = self.text?.range(of: substr) {
             if let text = self.attributedText {
@@ -623,6 +640,7 @@ class Tags : NSObject {
     static let XibNameAddressBook = "AddressBook"
     static let XibNameAddressAddEdit = "AddressAddEdit"
     static let XibNameUserProfile2 = "UserProfile2"
+    static let XibNameReportTransaction = "ReportTransaction"
 }
 
 class OrderStatus : NSObject {

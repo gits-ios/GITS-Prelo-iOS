@@ -43,7 +43,8 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     @IBOutlet weak var vwPaymentPopUp: UIView!
     @IBOutlet weak var lblBankTujuan: UILabel!
     @IBOutlet weak var fldNominalTrf: UITextField!
-    @IBOutlet weak var consTopPaymentPopUp: NSLayoutConstraint!
+    //@IBOutlet weak var consTopPaymentPopUp: NSLayoutConstraint!
+    @IBOutlet weak var consCenteryPaymentPopUp: NSLayoutConstraint!
     @IBOutlet weak var btnKirimPayment: UIButton!
     @IBOutlet weak var datePicker: UIDatePicker!
     
@@ -279,10 +280,12 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         self.an_subscribeKeyboard(animations: { r, t, o in
             if (o) {
                 self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, r.height, 0)
-                self.consTopPaymentPopUp.constant = 10
+                //self.consTopPaymentPopUp.constant = 10
+                self.consCenteryPaymentPopUp.constant = -(r.height / 2)
             } else {
                 self.scrollView.contentInset = UIEdgeInsets.zero
-                self.consTopPaymentPopUp.constant = 100
+                //self.consTopPaymentPopUp.constant = 100
+                self.consCenteryPaymentPopUp.constant = 0
             }
         }, completion: nil)
     }
