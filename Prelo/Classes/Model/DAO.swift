@@ -2399,6 +2399,20 @@ class TransactionProductDetail : NSObject {
         }
         return false
     }
+    
+    var reportable : Bool? {
+        if let j = json["is_hold"].bool {
+            return !j
+        }
+        return nil
+    }
+    
+    var wjpTime : String {
+        if let j = json["wjp_days"].string {
+            return j
+        }
+        return "6" // default
+    }
 }
 
 class UserReview : NSObject {
