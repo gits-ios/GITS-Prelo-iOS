@@ -19,7 +19,7 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="426"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_dashboard_cover.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="saT-TT-F5P">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cover_shop_persegi_1024px.png" translatesAutoresizingMaskIntoConstraints="NO" id="saT-TT-F5P">
                     <rect key="frame" x="0.0" y="-110" width="600" height="344"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="344" id="Vdc-aD-MKp"/>
@@ -520,6 +520,6 @@ Label</string>
         </view>
     </objects>
     <resources>
-        <image name="ic_dashboard_cover.jpg" width="500" height="281"/>
+        <image name="cover_shop_persegi_1024px.png" width="1024" height="1024"/>
     </resources>
 </document>

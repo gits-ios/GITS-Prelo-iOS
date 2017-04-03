@@ -647,6 +647,7 @@
 		B28578C31E570C0B008995F4 /* DropDown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B24FCEFD1E536E8000B517A9 /* DropDown.framework */; };
 		B28578C41E570C0B008995F4 /* DropDown.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B24FCEFD1E536E8000B517A9 /* DropDown.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B2932DEC1E85324400782C78 /* FeedbackPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2932DEB1E85324400782C78 /* FeedbackPopup.xib */; };
+		B29482561E91E397001B6C75 /* cover_shop_persegi_1024px.png in Resources */ = {isa = PBXBuildFile; fileRef = B29482551E91E397001B6C75 /* cover_shop_persegi_1024px.png */; };
 		B2A834441E7055EB004C575A /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B2A834411E7055EB004C575A /* Info.plist */; };
 		B2A834451E7055EB004C575A /* SCLAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A834421E7055EB004C575A /* SCLAlertView.swift */; };
 		B2A834461E7055EB004C575A /* SCLExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A834431E7055EB004C575A /* SCLExtensions.swift */; };
@@ -1688,6 +1689,7 @@
 		B27948241E35D971002CEED4 /* TarikTunaiViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiViewController2.swift; sourceTree = "<group>"; };
 		B285789D1E56B8F7008995F4 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		B2932DEB1E85324400782C78 /* FeedbackPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedbackPopup.xib; path = XIB/FeedbackPopup.xib; sourceTree = "<group>"; };
+		B29482551E91E397001B6C75 /* cover_shop_persegi_1024px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover_shop_persegi_1024px.png; sourceTree = "<group>"; };
 		B2A834411E7055EB004C575A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2A834421E7055EB004C575A /* SCLAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCLAlertView.swift; sourceTree = "<group>"; };
 		B2A834431E7055EB004C575A /* SCLExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCLExtensions.swift; sourceTree = "<group>"; };
@@ -2513,6 +2515,7 @@
 				58BE535C1D479F5B00E358EB /* courier_jne.png */,
 				58BE535D1D479F5B00E358EB /* courier_pos.png */,
 				58BE535E1D479F5B00E358EB /* courier_tiki.png */,
+				B29482551E91E397001B6C75 /* cover_shop_persegi_1024px.png */,
 				210702D91BE7A8F100DD9E52 /* cu_bbm@2x.png */,
 				210702DA1BE7A8F100DD9E52 /* cu_call@2x.png */,
 				210702DB1BE7A8F100DD9E52 /* cu_email@2x.png */,
@@ -3816,6 +3819,7 @@
 				B2B34BE71E388395001B653F /* ic_exclamation_grey.png in Resources */,
 				58C431B21CF8138300EB99AE /* InitialMetadata.json in Resources */,
 				5895E86C1C49315400752ACA /* chat-rp.png in Resources */,
+				B29482561E91E397001B6C75 /* cover_shop_persegi_1024px.png in Resources */,
 				58AD00FF1D49DAA8002C7CCF /* preloteam.png in Resources */,
 				58F7DD511D73E90800EF43AC /* ic_free_ongkir_truck.png in Resources */,
 				21D386A61B6B93CD00D0FA90 /* Default-667h@2x.png in Resources */,
