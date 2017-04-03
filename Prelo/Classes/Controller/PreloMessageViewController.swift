@@ -556,9 +556,9 @@ class PreloMessageCell: UITableViewCell {
 //        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(PreloMessageCell.textPressed))
 //        self.lblDesc.addGestureRecognizer(longPressRecognizer)
         
-        let customType = ActiveType.custom(pattern: "\\sprelo.co.id[^\\s]*") //Regex that looks for " prelo.co.id/* "
+        let customType = ActiveType.custom(pattern: "(?:^|\\s|$)prelo.co.id[^\\s]*") //Regex that looks for " prelo.co.id/* "
         let customType2 = ActiveType.custom(pattern: "prelo://[^\\s]*") //Regex that looks for "prelo://* "
-        let customType3 = ActiveType.custom(pattern: "\\sdev.prelo.id[^\\s]*") //Regex that looks for " prelo.co.id/* "
+        let customType3 = ActiveType.custom(pattern: "(?:^|\\s|$)dev.prelo.id[^\\s]*") //Regex that looks for " prelo.co.id/* "
         self.lblDesc.enabledTypes = [/*.mention, .hashtag,*/ .url, customType, customType2, customType3]
         
         self.lblDesc.URLColor = Theme.PrimaryColorDark
