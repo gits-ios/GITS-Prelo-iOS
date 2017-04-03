@@ -290,9 +290,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             if (userIsSeller()) {
                 hideableCell[3] = true
                 isFroze[3] = false
+                hideableCell[6] = true
+                isFroze[6] = false
             } else {
                 hideableCell[3] = true
                 isFroze[3] = false
+                hideableCell[6] = true
+                isFroze[6] = false
             }
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
             if (userIsSeller()) {
@@ -401,9 +405,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             }
         } else if (progress == TransactionDetailTools.ProgressRejectedBySeller || progress == TransactionDetailTools.ProgressNotSent) {
             if (userIsSeller()) {
-                return 6
+                return 9 // 6
             } else {
-                return 9
+                return 12 // 9
             }
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
             if (userIsSeller()) {
@@ -523,9 +527,19 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     if (trxProductDetail != nil) {
                         return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPembayaranSeller)
                     }
+                // tambahan
                 } else if (idx == 4) {
-                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
+                    return SeparatorHeight
                 } else if (idx == 5) {
+                    return DefaultHeight
+                } else if (idx == 6) {
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPengirimanSeller)
+                    }
+                // tambahan
+                } else if (idx == 7) {
+                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
+                } else if (idx == 8) {
                     return ContactPreloHeight
                 }
             } else {
@@ -539,17 +553,27 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     if (trxProductDetail != nil) {
                         return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
                     }
+                // tambahan
                 } else if (idx == 4) {
-                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
+                    return SeparatorHeight
                 } else if (idx == 5) {
+                    return DefaultHeight
+                } else if (idx == 6) {
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPengirimanSeller)
+                    }
+                // tambahan
+                } else if (idx == 7) {
+                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
+                } else if (idx == 8) {
                     if (trxProductDetail != nil) {
                         return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentReimburse)
                     }
-                } else if (idx == 6) {
+                } else if (idx == 9) {
                     return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 2)
-                } else if (idx == 7) {
+                } else if (idx == 10) {
                     return DefaultHeight
-                } else if (idx == 8) {
+                } else if (idx == 11) {
                     return ContactPreloHeight
                 }
             }
@@ -1117,9 +1141,17 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
                 } else if (idx == 3) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranSeller)
+                // tambahan
                 } else if (idx == 4) {
-                    return self.createDescriptionCell(1)
+                    return self.createSeparatorCell()
                 } else if (idx == 5) {
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                } else if (idx == 6) {
+                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanSeller)
+                // tambahan
+                } else if (idx == 7) {
+                    return self.createDescriptionCell(1)
+                } else if (idx == 8) {
                     return self.createContactPreloCell()
                 }
             } else {
@@ -1133,15 +1165,23 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     if (trxProductDetail != nil) {
                         return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
                     }
+                // tambahan
                 } else if (idx == 4) {
-                    return self.createDescriptionCell(1)
+                    return self.createSeparatorCell()
                 } else if (idx == 5) {
-                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentReimburse)
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
                 } else if (idx == 6) {
-                    return self.createDescriptionCell(2)
+                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanSeller)
+                // tambahan
                 } else if (idx == 7) {
-                    return self.createButtonCell(1)
+                    return self.createDescriptionCell(1)
                 } else if (idx == 8) {
+                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentReimburse)
+                } else if (idx == 9) {
+                    return self.createDescriptionCell(2)
+                } else if (idx == 10) {
+                    return self.createButtonCell(1)
+                } else if (idx == 11) {
                     return self.createContactPreloCell()
                 }
             }
