@@ -169,7 +169,7 @@ class ProdukUploader: NSObject {
                     
                     self.currentRetryCount = 0
                     DispatchQueue.main.async(execute: {
-                        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: ProdukUploader.ProdukUploader_NOTIFICATION_UPLOAD_FAILED), object: [ err , p.mixpanelParam ])
+                        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: ProdukUploader.ProdukUploader_NOTIFICATION_UPLOAD_FAILED), object: [ err as Any , p.mixpanelParam ])
                     })
                 }
             })
@@ -263,12 +263,12 @@ extension Thread
 {
     static func sleepFor(_ second : TimeInterval, onWakeUp : @escaping () -> ())
     {
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
             Thread.sleep(forTimeInterval: second)
             DispatchQueue.main.async(execute: {
                 onWakeUp()
             })
-        })
+        }
     }
 }
 

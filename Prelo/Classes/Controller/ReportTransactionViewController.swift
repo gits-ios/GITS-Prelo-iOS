@@ -44,6 +44,9 @@ class ReportTransactionViewController: BaseViewController, UITextViewDelegate {
     @IBOutlet weak var lblDetailSatu: UILabel!
     @IBOutlet weak var lblDetailDua: UILabel!
     
+    @IBOutlet weak var consHeightAlasan: NSLayoutConstraint! // 87 -> 0
+    @IBOutlet weak var consTopAlasan: NSLayoutConstraint! // 8 -> 0
+    
     var reportTransactionType : ReportTransactionType?
     let placeholder = "Tulis detail alasan lainnya"
     
@@ -76,10 +79,15 @@ class ReportTransactionViewController: BaseViewController, UITextViewDelegate {
         self.hideLoading()
         
         // setup teks
-        self.lblDetailSatu.text = "Waktu Jaminan Prelo akan diperpanjang menjadi " + wjpTime + " hari"
+        self.lblDetailSatu.text = "Waktu Jaminan Prelo akan diperpanjang menjadi " + wjpTime + " hari."
         self.lblDetailSatu.boldSubstring("Waktu Jaminan Prelo")
         
-        self.lblDetailDua.text = "Jika dalam " + wjpTime + " hari transaksi kamu berhasil tanpa masalah maka uang pembayaran kamu akan otomatis disalurkan ke penjual"
+        self.lblDetailDua.text = "Jika dalam " + wjpTime + " hari transaksi kamu berhasil tanpa masalah maka uang pembayaran kamu akan otomatis disalurkan ke penjual."
+        
+        self.consHeightAlasan.constant = 0
+        self.consTopAlasan.constant = 0
+        
+        self.showLoading()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -94,6 +102,14 @@ class ReportTransactionViewController: BaseViewController, UITextViewDelegate {
         }, completion: nil)
         
         self.blockDone!(nil)
+        
+        // setup teks
+        self.lblDetailSatu.text = "Waktu Jaminan Prelo akan diperpanjang menjadi " + wjpTime + " hari."
+        self.lblDetailSatu.boldSubstring("Waktu Jaminan Prelo")
+        
+        self.lblDetailDua.text = "Jika dalam " + wjpTime + " hari transaksi kamu berhasil tanpa masalah maka uang pembayaran kamu akan otomatis disalurkan ke penjual."
+        
+        self.hideLoading()
     }
     
     // MARK: - Textview functions
@@ -135,6 +151,8 @@ class ReportTransactionViewController: BaseViewController, UITextViewDelegate {
         self.txtvwAlasan.text = placeholder
         self.txtvwAlasan.textColor = UIColor.lightGray
         self.txtvwAlasan.resignFirstResponder()
+        self.consHeightAlasan.constant = 0
+        self.consTopAlasan.constant = 0
     }
     
     @IBAction func btnResiTidakValidPressed(_ sender: UIButton) {
@@ -154,6 +172,8 @@ class ReportTransactionViewController: BaseViewController, UITextViewDelegate {
         self.txtvwAlasan.text = placeholder
         self.txtvwAlasan.textColor = UIColor.lightGray
         self.txtvwAlasan.resignFirstResponder()
+        self.consHeightAlasan.constant = 0
+        self.consTopAlasan.constant = 0
     }
     
     @IBAction func btnFotoResiTidakSesuaiPressed(_ sender: UIButton) {
@@ -173,6 +193,8 @@ class ReportTransactionViewController: BaseViewController, UITextViewDelegate {
         self.txtvwAlasan.text = placeholder
         self.txtvwAlasan.textColor = UIColor.lightGray
         self.txtvwAlasan.resignFirstResponder()
+        self.consHeightAlasan.constant = 0
+        self.consTopAlasan.constant = 0
     }
     
     @IBAction func btnLainnyaPressed(_ sender: UIButton) {
@@ -190,6 +212,8 @@ class ReportTransactionViewController: BaseViewController, UITextViewDelegate {
         self.txtvwAlasan.isSelectable = true
         self.txtvwAlasan.layer.borderColor = Theme.GrayDark.cgColor
         self.txtvwAlasan.becomeFirstResponder()
+        self.consHeightAlasan.constant = 87
+        self.consTopAlasan.constant = 8
     }
     
     @IBAction func btnSubmitPressed(_ sender: UIButton) {

@@ -27,7 +27,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BNs-0g-3v7">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_dashboard_cover.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="EhL-Uh-AkS">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cover_shop_persegi_1024px.png" translatesAutoresizingMaskIntoConstraints="NO" id="EhL-Uh-AkS">
                                 <rect key="frame" x="0.0" y="-110" width="375" height="344"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="344" id="jnP-Wu-seh"/>
@@ -294,6 +294,6 @@
         </viewController>
     </objects>
     <resources>
-        <image name="ic_dashboard_cover.jpg" width="500" height="281"/>
+        <image name="cover_shop_persegi_1024px.png" width="1024" height="1024"/>
     </resources>
 </document>

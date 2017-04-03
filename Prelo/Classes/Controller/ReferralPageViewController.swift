@@ -93,10 +93,6 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                     a.show()
                      */
                     
-                    let appearance = SCLAlertView.SCLAppearance(
-                        showCloseButton: false
-                    )
-                    
                     var alertViewResponder: SCLAlertViewResponder!
                     
                     let alertView = SCLAlertView(appearance: Constant.appearance)
@@ -125,7 +121,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                     alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {
                         _ = self.navigationController?.popViewController(animated: true)
                     }
-                    alertView.showCustom("Referral Bonus", subTitle: "Mohon verifikasi e-mail kamu untuk mendapatkan referral bonus dari Prelo", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+                    alertViewResponder = alertView.showCustom("Referral Bonus", subTitle: "Mohon verifikasi e-mail kamu untuk mendapatkan referral bonus dari Prelo", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
                 } else {
                     self.getReferralData()
                 }

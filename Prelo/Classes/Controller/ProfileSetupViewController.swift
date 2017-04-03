@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 import Alamofire
 
-class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource {
+class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate {
     
     @IBOutlet var loadingPanel: UIView!
     
@@ -93,7 +93,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     
     var deltaHeight : CGFloat = 0
     
-    var asset : ALAssetsLibrary?
+    //var asset : ALAssetsLibrary?
     
     var isShowGender : Bool = true
     
@@ -390,6 +390,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     // MARK: - IBActions
     
     @IBAction func userImagePressed(_ sender: AnyObject) {
+        /*
         ImagePickerViewController.ShowFrom(self, maxSelect: 1, doneBlock:
             { imgs in
                 if (imgs.count > 0) {
@@ -425,7 +426,54 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                 }
             }
         )
+         */
+        
+        let i = UIImagePickerController()
+        i.sourceType = .photoLibrary
+        i.delegate = self
+        
+        if (UIImagePickerController.isSourceTypeAvailable(.camera))
+        {
+            let a = UIAlertController(title: "Ambil gambar dari:", message: nil, preferredStyle: .actionSheet)
+            a.popoverPresentationController?.sourceView = self.btnUserImage
+            a.popoverPresentationController?.sourceRect = self.btnUserImage.bounds
+            a.addAction(UIAlertAction(title: "Kamera", style: .default, handler: { act in
+                i.sourceType = .camera
+                self.present(i, animated: true, completion: {
+                    i.view.tag = 0
+                })
+            }))
+            a.addAction(UIAlertAction(title: "Album", style: .default, handler: { act in
+                self.present(i, animated: true, completion: {
+                    i.view.tag = 0
+                })
+            }))
+            a.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in }))
+            self.present(a, animated: true, completion: nil)
+        } else
+        {
+            self.present(i, animated: true, completion: {
+                i.view.tag = 0
+            })
+        }
     }
+    
+    // MARK: - UIImagePickerController functions
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let img = info[UIImagePickerControllerOriginalImage] as? UIImage
+        {
+            self.btnUserImage.setImage(img, for: UIControlState())
+        } else {
+            self.btnUserImage.setImage(ImageSourceCell.defaultImage, for: UIControlState())
+        }
+        picker.dismiss(animated: true, completion: nil)
+    }
+
     
     @IBAction func uploadFotoPressed(_ sender: AnyObject) {
         if (btnUserImage.imageView?.image == nil) {
