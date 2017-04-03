@@ -2698,15 +2698,15 @@ class TransactionDetailTools : NSObject {
     static let TextConfirmedPaidBuyer1 = "Pesanan kamu belum dikirim dan akan expired pada "
     static let TextConfirmedPaidBuyer2 = "Ingatkan penjual untuk mengirim pesanan."
     
-    static let refundRejectNoteBuyer = "Catatan:\n1. Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3 x 24 jam sejak status transaksi \"Diterima\"\n2. Klik Laporkan Transaksi ini digunakan apabila resi atau barang yang diterima bermasalah serta bila barang belum kamu terima tetapi status transaksi \"Diterima\"\n3. Jangan lupa untuk me-review penjual jika barang sudah kamu terima"
-    static let noteBuyer = "Catatan:\n1. Waktu Jaminan Prelo untuk transaksi ini telah berakhir. Uang pembayaran telah otomatis disalurkan ke penjual\n2. Segera lakukan review jika barang sudah kamu terima"
+    static let refundRejectNoteBuyer = "Catatan:\n1. Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3 x 24 jam sejak status transaksi Diterima.\n2. Klik Laporkan Transaksi ini digunakan apabila resi atau barang yang diterima bermasalah serta bila barang belum kamu terima tetapi status transaksi Diterima.\n3. Jangan lupa untuk me-review penjual jika barang sudah kamu terima."
+    static let noteBuyer = "Catatan:\n1. Waktu Jaminan Prelo untuk transaksi ini telah berakhir. Uang pembayaran telah otomatis disalurkan ke penjual.\n2. Segera lakukan review jika barang sudah kamu terima."
     
-    static let TextSentSeller = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo sejak status transaksi menjadi \"Diterima\". Uang dapat langsung kamu tarik setelah Waktu Jaminan Prelo berakhir atau jika barang telah selesai direview.\n\nIngatkan pembeli untuk memberi review."
-    static let TextSentBuyer = refundRejectNoteBuyer //"Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak status transaksi menjadi \"Diterima\". Refund dapat dilakukan selama jangka waktu tersebut jika terdapat keluhan terkait barang. Jangan lupa lakukan review jika barang sudah diterima.\n\nResi tidak valid atau foto resi tidak sesuai? Hubungi Prelo."
+    static let TextSentSeller = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo sejak status transaksi menjadi Diterima. Uang dapat langsung kamu tarik setelah Waktu Jaminan Prelo berakhir atau jika barang telah selesai direview.\n\nIngatkan pembeli untuk memberi review."
+    static let TextSentBuyer = refundRejectNoteBuyer //"Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak status transaksi menjadi Diterima. Refund dapat dilakukan selama jangka waktu tersebut jika terdapat keluhan terkait barang. Jangan lupa lakukan review jika barang sudah diterima.\n\nResi tidak valid atau foto resi tidak sesuai? Hubungi Prelo."
     //static let TextSentBuyerNoRefund = "Refund sudah tidak dapat dilakukan karena sudah melebihi batas Waktu Jaminan Prelo (3x24 jam sejak barang diterima). Jangan lupa lakukan review."
-    static let TextReceivedSeller = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak status transaksi menjadi \"Diterima\". Uang dapat langsung kamu tarik setelah Waktu Jaminan Prelo berakhir atau jika barang telah selesai direview.\n\nIngatkan pembeli untuk memberi review."
-    static let TextReceivedBuyer = refundRejectNoteBuyer //"Barang semestinya sudah kamu terima. Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak status transaksi menjadi \"Diterima\". Refund dapat dilakukan selama jangka waktu tersebut jika terdapat keluhan terkait barang. Jangan lupa lakukan review.\n\nResi tidak valid atau foto resi tidak sesuai? Belum terima barang? Hubungi Prelo."
-    static let TextReceivedBuyerNoRefund = noteBuyer //"Refund sudah tidak dapat dilakukan karena sudah melebihi batas Waktu Jaminan Prelo (3x24 jam sejak status transaksi menjadi \"Diterima\"). Jangan lupa lakukan review.\n\nResi tidak valid atau foto resi tidak sesuai? Belum terima barang? Hubungi Prelo."
+    static let TextReceivedSeller = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak status transaksi menjadi Diterima. Uang dapat langsung kamu tarik setelah Waktu Jaminan Prelo berakhir atau jika barang telah selesai direview.\n\nIngatkan pembeli untuk memberi review."
+    static let TextReceivedBuyer = refundRejectNoteBuyer //"Barang semestinya sudah kamu terima. Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak status transaksi menjadi Diterima. Refund dapat dilakukan selama jangka waktu tersebut jika terdapat keluhan terkait barang. Jangan lupa lakukan review.\n\nResi tidak valid atau foto resi tidak sesuai? Belum terima barang? Hubungi Prelo."
+    static let TextReceivedBuyerNoRefund = noteBuyer //"Refund sudah tidak dapat dilakukan karena sudah melebihi batas Waktu Jaminan Prelo (3x24 jam sejak status transaksi menjadi Diterima). Jangan lupa lakukan review.\n\nResi tidak valid atau foto resi tidak sesuai? Belum terima barang? Hubungi Prelo."
     static let TextReserved1 = "Barang ini telah direservasi khusus untuk kamu. Kamu dapat menyelesaikan pembelian barang ini dengan menyelesaikan pembayaran pada"
     static let TextReserved2 = "Apabila kamu tidak menyelesaikan pembelian sampai dengan batas waktu yang ditentukan, reservasi barang kamu akan dibatalkan.\n\nTunjukkan halaman ini sebagai bukti reservasi kamu."
     static let TextReserveDone = "Terima kasih sudah berbelanja di Prelo! Temukan barang preloved lainnya di Prelo dan tunggu event menarik selanjutnya dari Prelo."
@@ -4446,7 +4446,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                         attributedString.addAttributes([NSParagraphStyleAttributeName: paragraphStyle], range: NSMakeRange(0, attributedString.length))
                         
                         let mystr = formattedString
-                        let searchstr = "Waktu Jaminan Prelo|\"Diterima\"|Laporkan Transaksi"
+                        let searchstr = "Waktu Jaminan Prelo|Diterima|Laporkan Transaksi"
                         let ranges: [NSRange]
                         
                         do {
@@ -4473,7 +4473,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     lblDesc.attributedText = fullAttributedString
                 } else {
                     lblDesc.boldSubstring("Waktu Jaminan Prelo")
-                    lblDesc.boldSubstring("\"Diterima\"")
+                    lblDesc.boldSubstring("Diterima")
                 }
                 /*if (isSeller) {
                     lblDesc.text = TransactionDetailTools.TextSentSeller
@@ -4487,12 +4487,12 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     
                     lblDesc.boldSubstring("Laporkan Transaksi")
                     lblDesc.boldSubstring("\n1.")
-                    lblDesc.boldSubstring("\"Diterima\"\n2.")
-                    lblDesc.boldSubstring("\"Diterima\"\n3.")
+                    lblDesc.boldSubstring("Diterima\n2.")
+                    lblDesc.boldSubstring("Diterima\n3.")
                     lblDesc.italicSubstring("review")
                 }
                 lblDesc.boldSubstring("Waktu Jaminan Prelo")
-                lblDesc.boldSubstring("\"Diterima\"")*/
+                lblDesc.boldSubstring("Diterima")*/
             } else if (progress == TransactionDetailTools.ProgressReceived) {
                 if (isSeller) {
                     lblDesc.text = TransactionDetailTools.TextReceivedSeller
@@ -4528,7 +4528,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                         attributedString.addAttributes([NSParagraphStyleAttributeName: paragraphStyle], range: NSMakeRange(0, attributedString.length))
                         
                         let mystr = formattedString
-                        let searchstr = "Waktu Jaminan Prelo|\"Diterima\"|Laporkan Transaksi"
+                        let searchstr = "Waktu Jaminan Prelo|Diterima|Laporkan Transaksi"
                         let ranges: [NSRange]
                         
                         do {
@@ -4559,14 +4559,14 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                 /*if (isSeller) {
                     lblDesc.text = TransactionDetailTools.TextReceivedSeller
                     
-                    lblDesc.boldSubstring("\"Diterima\"")
+                    lblDesc.boldSubstring("Diterima")
                 } else {
                     if (trxProductDetail.refundable) {
                         lblDesc.text = TransactionDetailTools.TextReceivedBuyer
                         
                         lblDesc.boldSubstring("Laporkan Transaksi")
-                        lblDesc.boldSubstring("\"Diterima\"\n2.")
-                        lblDesc.boldSubstring("\"Diterima\"\n3.")
+                        lblDesc.boldSubstring("Diterima\n2.")
+                        lblDesc.boldSubstring("Diterima\n3.")
                         lblDesc.italicSubstring("review")
                     } else {
                         lblDesc.text = TransactionDetailTools.TextReceivedBuyerNoRefund
