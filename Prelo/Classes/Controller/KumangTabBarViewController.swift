@@ -179,10 +179,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
             self.present(sdAlert, animated: true, completion: nil)
              */
             
-            let appearance = SCLAlertView.SCLAppearance(
-                showCloseButton: false
-            )
-            
             let alertView = SCLAlertView(appearance: Constant.appearance)
             alertView.addButton("Oke") {
                 let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController

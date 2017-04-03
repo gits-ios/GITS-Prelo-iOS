@@ -122,7 +122,7 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
             } else {
                 
                 self.hideLoading()
-                self.navigationController?.popViewController(animated: true)
+                _ = self.navigationController?.popViewController(animated: true)
             }
         }
         

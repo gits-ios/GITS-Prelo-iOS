@@ -487,8 +487,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 merekId = brndId
             }
             
-            if let arr = try? CDDraftProduct.getImagePaths((product?.localId)!)
-            {
+            let arr = CDDraftProduct.getImagePaths((product?.localId)!)
+            if arr.count != 0 {
+            
                 let arrOr = CDDraftProduct.getImageOrientations((product?.localId)!)
                 
                 for i in 0...arr.count-1
@@ -2351,7 +2352,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             // Prelo Analytic - Save As Draft
             let loginMethod = User.LoginMethod ?? ""
             let pdata = [
-                "Local ID": (self.draftMode == true ? (self.draftProduct?.localId)! : self.uniqueCodeString),
+                "Local ID": (self.draftMode == true ? (self.draftProduct?.localId)! : self.uniqueCodeString)!,
                 "Product Name" : self.txtName.text!,
 //                "Username" : CDUser.getOne()?.username
             ] as [String : Any]

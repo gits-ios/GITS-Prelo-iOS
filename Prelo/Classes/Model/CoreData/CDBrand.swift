@@ -33,7 +33,7 @@ class CDBrand: NSManagedObject {
             for i in 0 ..< brandCount
             {
                 let brandJson = json[i]
-                print(brandJson.rawString())
+                //print(brandJson.rawString())
                 var catIds : [String] = []
                 let bcount = brandJson["category_ids"].arrayValue.count
                 for j in 0 ..< bcount
