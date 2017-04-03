@@ -55,6 +55,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     var isNavCtrlsChecked = false
     var isShowBankBRI = false
     var isBackToRoot = true
+    var isMidtrans = false
     
     // Data from previous page
     var orderID : String = ""
@@ -136,9 +137,15 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         
         // Free transaction check
         isFreeTransaction = total == 0
-        if (isFreeTransaction) {
+        if (isMidtrans) {
             // Arrange views
-            captionTitle.text = "Selamat! Transaksi kamu berhasil"
+            captionTitle.text = "Selamat! Transaksi kamu berhasil."
+            captionDesc.text = ""
+            self.vwUnpaidTrx.isHidden = true
+            self.btnFreeTrx.isHidden = false
+        } else if (isFreeTransaction) {
+            // Arrange views
+            captionTitle.text = "Selamat! Transaksi kamu berhasil."
             captionDesc.text = "Kami segera memproses dan mengirim barang pesanan kamu. Silakan tunggu notifikasi Konfirmasi Pengiriman maximal 3 x 24 jam."
             self.vwUnpaidTrx.isHidden = true
             self.btnFreeTrx.isHidden = false

@@ -1848,7 +1848,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 
                 // Prepare to navigate to next page
                 if (self.selectedPayment == .bankTransfer) {
-                    self.navigateToOrderConfirmVC()
+                    self.navigateToOrderConfirmVC(false)
                     
                     // set 0 badge
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -1860,7 +1860,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     webVC.titleString = "Pembayaran \(self.selectedPayment.value)"
                     webVC.creditCardMode = true
                     webVC.ccPaymentSucceed = {
-                        self.navigateToOrderConfirmVC()
+                        self.navigateToOrderConfirmVC(true)
                         
                         // set 0 badge
                         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -1890,25 +1890,31 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
     }
     
-    func navigateToOrderConfirmVC() {
+    func navigateToOrderConfirmVC(_ isMidtrans: Bool) {
         var gTotal = 0
         if let totalPrice = self.checkoutResult?["total_price"].int {
             gTotal += totalPrice
         }
-        if let trfCode = self.checkoutResult?["banktransfer_digit"].int {
+        if !isMidtrans, let trfCode = self.checkoutResult?["banktransfer_digit"].int {
             gTotal += trfCode
+        }
+        if isMidtrans, let trfCharge = self.checkoutResult?["veritrans_charge_amount"].int {
+            gTotal += trfCharge
         }
         
         let o = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdOrderConfirm) as! OrderConfirmViewController
         
         o.orderID = (self.checkoutResult?["order_id"].string)!
-        if (self.selectedPayment == .creditCard) {
+        
+        /*if (self.selectedPayment == .creditCard) {
             o.total = 0
         } else if (self.selectedPayment == .indomaret) {
             o.total = 0
         } else { // Bank transfer etc
             o.total = gTotal
-        }
+        }*/
+        o.total = gTotal
+        
         o.transactionId = (self.checkoutResult?["transaction_id"].string)!
         o.isBackTwice = true
         o.isShowBankBRI = self.isShowBankBRI
@@ -1943,6 +1949,15 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
         o.images = imgs
         o.isFromCheckout = true
+        
+        if isMidtrans {
+            o.isMidtrans = true
+        }
+        
+        // cleaning cart - if exist
+        self.arrayItem.removeAll()
+        CartProduct.deleteAll()
+        
         self.navigateToVC(o)
     }
     
