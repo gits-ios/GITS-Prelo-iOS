@@ -248,7 +248,7 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ob2-p2-15D">
                                                 <rect key="frame" x="20" y="45" width="339" height="14"/>
                                                 <attributedString key="attributedText">
-                                                    <fragment content="Waktu Jaminan Prelo akan diperpanjang menjadi x hari">
+                                                    <fragment content="Waktu Jaminan Prelo akan diperpanjang menjadi x hari.">
                                                         <attributes>
                                                             <color key="NSColor" white="0.40782000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <font key="NSFont" size="12" name="HelveticaNeue"/>
@@ -277,7 +277,7 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3S0-Fg-VQq">
                                                 <rect key="frame" x="20" y="62" width="339" height="28"/>
                                                 <attributedString key="attributedText">
-                                                    <fragment content="Jika dalam x hari transaksi kamu berhasil tanpa masalah maka uang pembayaran kamu akan otomatis disalurkan ke penjual">
+                                                    <fragment content="Jika dalam x hari transaksi kamu berhasil tanpa masalah maka uang pembayaran kamu akan otomatis disalurkan ke penjual.">
                                                         <attributes>
                                                             <color key="NSColor" white="0.40782000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <font key="NSFont" size="12" name="HelveticaNeue"/>
@@ -391,6 +391,8 @@
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
             <connections>
                 <outlet property="consBottomBtnSubmit" destination="aml-Rf-ygl" id="fLj-vg-X7I"/>
+                <outlet property="consHeightAlasan" destination="XMu-Y2-8Ho" id="6G0-OP-VZn"/>
+                <outlet property="consTopAlasan" destination="Ak6-LJ-zg8" id="eiY-6h-XmU"/>
                 <outlet property="lblDetailDua" destination="3S0-Fg-VQq" id="J3e-nc-7s3"/>
                 <outlet property="lblDetailSatu" destination="ob2-p2-15D" id="kFF-kF-8fL"/>
                 <outlet property="lblRadioBelumTerimaBarang" destination="WhC-34-Qb6" id="m0T-Xl-aXK"/>

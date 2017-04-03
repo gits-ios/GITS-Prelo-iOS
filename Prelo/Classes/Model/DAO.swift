@@ -2422,8 +2422,8 @@ class TransactionProductDetail : NSObject {
     }
     
     var wjpTime : String {
-        if let j = json["wjp_days"].string {
-            return j
+        if let j = json["wjp_days"].int {
+            return j.string
         }
         return "6" // default
     }

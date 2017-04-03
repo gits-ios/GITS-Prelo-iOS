@@ -1636,7 +1636,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         alertView.addButton("Lanjutkan") {
             self.performCheckout(p!, address: a!, usedBalance: usedBalance, usedBonus: usedBonus)
         }
-        alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+        alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {
+            self.btnSend.isEnabled = true
+        }
         alertView.showCustom("Perhatian", subTitle: "Kamu akan melakukan transaksi sebesar \(self.grandTotal.asPrice) menggunakan \(self.selectedPayment.value). Lanjutkan?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     

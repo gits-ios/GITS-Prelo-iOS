@@ -290,9 +290,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             if (userIsSeller()) {
                 hideableCell[3] = true
                 isFroze[3] = false
+                hideableCell[6] = true
+                isFroze[6] = false
             } else {
                 hideableCell[3] = true
                 isFroze[3] = false
+                hideableCell[6] = true
+                isFroze[6] = false
             }
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
             if (userIsSeller()) {
@@ -401,9 +405,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             }
         } else if (progress == TransactionDetailTools.ProgressRejectedBySeller || progress == TransactionDetailTools.ProgressNotSent) {
             if (userIsSeller()) {
-                return 6
+                return 9 // 6
             } else {
-                return 9
+                return 12 // 9
             }
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
             if (userIsSeller()) {
@@ -523,9 +527,19 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     if (trxProductDetail != nil) {
                         return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPembayaranSeller)
                     }
+                // tambahan
                 } else if (idx == 4) {
-                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
+                    return SeparatorHeight
                 } else if (idx == 5) {
+                    return DefaultHeight
+                } else if (idx == 6) {
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPengirimanSeller)
+                    }
+                // tambahan
+                } else if (idx == 7) {
+                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
+                } else if (idx == 8) {
                     return ContactPreloHeight
                 }
             } else {
@@ -539,17 +553,27 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     if (trxProductDetail != nil) {
                         return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
                     }
+                // tambahan
                 } else if (idx == 4) {
-                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
+                    return SeparatorHeight
                 } else if (idx == 5) {
+                    return DefaultHeight
+                } else if (idx == 6) {
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPengirimanSeller)
+                    }
+                // tambahan
+                } else if (idx == 7) {
+                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
+                } else if (idx == 8) {
                     if (trxProductDetail != nil) {
                         return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentReimburse)
                     }
-                } else if (idx == 6) {
+                } else if (idx == 9) {
                     return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 2)
-                } else if (idx == 7) {
+                } else if (idx == 10) {
                     return DefaultHeight
-                } else if (idx == 8) {
+                } else if (idx == 11) {
                     return ContactPreloHeight
                 }
             }
@@ -1117,9 +1141,17 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
                 } else if (idx == 3) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranSeller)
+                // tambahan
                 } else if (idx == 4) {
-                    return self.createDescriptionCell(1)
+                    return self.createSeparatorCell()
                 } else if (idx == 5) {
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                } else if (idx == 6) {
+                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanSeller)
+                // tambahan
+                } else if (idx == 7) {
+                    return self.createDescriptionCell(1)
+                } else if (idx == 8) {
                     return self.createContactPreloCell()
                 }
             } else {
@@ -1133,15 +1165,23 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     if (trxProductDetail != nil) {
                         return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
                     }
+                // tambahan
                 } else if (idx == 4) {
-                    return self.createDescriptionCell(1)
+                    return self.createSeparatorCell()
                 } else if (idx == 5) {
-                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentReimburse)
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
                 } else if (idx == 6) {
-                    return self.createDescriptionCell(2)
+                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanSeller)
+                // tambahan
                 } else if (idx == 7) {
-                    return self.createButtonCell(1)
+                    return self.createDescriptionCell(1)
                 } else if (idx == 8) {
+                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentReimburse)
+                } else if (idx == 9) {
+                    return self.createDescriptionCell(2)
+                } else if (idx == 10) {
+                    return self.createButtonCell(1)
+                } else if (idx == 11) {
                     return self.createContactPreloCell()
                 }
             }
@@ -2702,15 +2742,15 @@ class TransactionDetailTools : NSObject {
     static let TextConfirmedPaidBuyer1 = "Pesanan kamu belum dikirim dan akan expired pada "
     static let TextConfirmedPaidBuyer2 = "Ingatkan penjual untuk mengirim pesanan."
     
-    static let refundRejectNoteBuyer = "Catatan:\n1. Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3 x 24 jam sejak status transaksi \"Diterima\"\n2. Klik Laporkan Transaksi ini digunakan apabila resi atau barang yang diterima bermasalah serta bila barang belum kamu terima tetapi status transaksi \"Diterima\"\n3. Jangan lupa untuk me-review penjual jika barang sudah kamu terima"
-    static let noteBuyer = "Catatan:\n1. Waktu Jaminan Prelo untuk transaksi ini telah berakhir. Uang pembayaran telah otomatis disalurkan ke penjual\n2. Segera lakukan review jika barang sudah kamu terima"
+    static let refundRejectNoteBuyer = "Catatan:\n1. Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3 x 24 jam sejak status transaksi Diterima.\n2. Klik Laporkan Transaksi ini digunakan apabila resi atau barang yang diterima bermasalah serta bila barang belum kamu terima tetapi status transaksi Diterima.\n3. Jangan lupa untuk me-review penjual jika barang sudah kamu terima."
+    static let noteBuyer = "Catatan:\n1. Waktu Jaminan Prelo untuk transaksi ini telah berakhir. Uang pembayaran telah otomatis disalurkan ke penjual.\n2. Segera lakukan review jika barang sudah kamu terima."
     
-    static let TextSentSeller = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo sejak status transaksi menjadi \"Diterima\". Uang dapat langsung kamu tarik setelah Waktu Jaminan Prelo berakhir atau jika barang telah selesai direview.\n\nIngatkan pembeli untuk memberi review."
-    static let TextSentBuyer = refundRejectNoteBuyer //"Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak status transaksi menjadi \"Diterima\". Refund dapat dilakukan selama jangka waktu tersebut jika terdapat keluhan terkait barang. Jangan lupa lakukan review jika barang sudah diterima.\n\nResi tidak valid atau foto resi tidak sesuai? Hubungi Prelo."
+    static let TextSentSeller = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo sejak status transaksi menjadi Diterima. Uang dapat langsung kamu tarik setelah Waktu Jaminan Prelo berakhir atau jika barang telah selesai direview.\n\nIngatkan pembeli untuk memberi review."
+    static let TextSentBuyer = refundRejectNoteBuyer //"Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak status transaksi menjadi Diterima. Refund dapat dilakukan selama jangka waktu tersebut jika terdapat keluhan terkait barang. Jangan lupa lakukan review jika barang sudah diterima.\n\nResi tidak valid atau foto resi tidak sesuai? Hubungi Prelo."
     //static let TextSentBuyerNoRefund = "Refund sudah tidak dapat dilakukan karena sudah melebihi batas Waktu Jaminan Prelo (3x24 jam sejak barang diterima). Jangan lupa lakukan review."
-    static let TextReceivedSeller = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak status transaksi menjadi \"Diterima\". Uang dapat langsung kamu tarik setelah Waktu Jaminan Prelo berakhir atau jika barang telah selesai direview.\n\nIngatkan pembeli untuk memberi review."
-    static let TextReceivedBuyer = refundRejectNoteBuyer //"Barang semestinya sudah kamu terima. Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak status transaksi menjadi \"Diterima\". Refund dapat dilakukan selama jangka waktu tersebut jika terdapat keluhan terkait barang. Jangan lupa lakukan review.\n\nResi tidak valid atau foto resi tidak sesuai? Belum terima barang? Hubungi Prelo."
-    static let TextReceivedBuyerNoRefund = noteBuyer //"Refund sudah tidak dapat dilakukan karena sudah melebihi batas Waktu Jaminan Prelo (3x24 jam sejak status transaksi menjadi \"Diterima\"). Jangan lupa lakukan review.\n\nResi tidak valid atau foto resi tidak sesuai? Belum terima barang? Hubungi Prelo."
+    static let TextReceivedSeller = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak status transaksi menjadi Diterima. Uang dapat langsung kamu tarik setelah Waktu Jaminan Prelo berakhir atau jika barang telah selesai direview.\n\nIngatkan pembeli untuk memberi review."
+    static let TextReceivedBuyer = refundRejectNoteBuyer //"Barang semestinya sudah kamu terima. Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak status transaksi menjadi Diterima. Refund dapat dilakukan selama jangka waktu tersebut jika terdapat keluhan terkait barang. Jangan lupa lakukan review.\n\nResi tidak valid atau foto resi tidak sesuai? Belum terima barang? Hubungi Prelo."
+    static let TextReceivedBuyerNoRefund = noteBuyer //"Refund sudah tidak dapat dilakukan karena sudah melebihi batas Waktu Jaminan Prelo (3x24 jam sejak status transaksi menjadi Diterima). Jangan lupa lakukan review.\n\nResi tidak valid atau foto resi tidak sesuai? Belum terima barang? Hubungi Prelo."
     static let TextReserved1 = "Barang ini telah direservasi khusus untuk kamu. Kamu dapat menyelesaikan pembelian barang ini dengan menyelesaikan pembayaran pada"
     static let TextReserved2 = "Apabila kamu tidak menyelesaikan pembelian sampai dengan batas waktu yang ditentukan, reservasi barang kamu akan dibatalkan.\n\nTunjukkan halaman ini sebagai bukti reservasi kamu."
     static let TextReserveDone = "Terima kasih sudah berbelanja di Prelo! Temukan barang preloved lainnya di Prelo dan tunggu event menarik selanjutnya dari Prelo."
@@ -4450,7 +4490,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                         attributedString.addAttributes([NSParagraphStyleAttributeName: paragraphStyle], range: NSMakeRange(0, attributedString.length))
                         
                         let mystr = formattedString
-                        let searchstr = "Waktu Jaminan Prelo|\"Diterima\"|Laporkan Transaksi"
+                        let searchstr = "Waktu Jaminan Prelo|Diterima|Laporkan Transaksi"
                         let ranges: [NSRange]
                         
                         do {
@@ -4477,7 +4517,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     lblDesc.attributedText = fullAttributedString
                 } else {
                     lblDesc.boldSubstring("Waktu Jaminan Prelo")
-                    lblDesc.boldSubstring("\"Diterima\"")
+                    lblDesc.boldSubstring("Diterima")
                 }
                 /*if (isSeller) {
                     lblDesc.text = TransactionDetailTools.TextSentSeller
@@ -4491,12 +4531,12 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     
                     lblDesc.boldSubstring("Laporkan Transaksi")
                     lblDesc.boldSubstring("\n1.")
-                    lblDesc.boldSubstring("\"Diterima\"\n2.")
-                    lblDesc.boldSubstring("\"Diterima\"\n3.")
+                    lblDesc.boldSubstring("Diterima\n2.")
+                    lblDesc.boldSubstring("Diterima\n3.")
                     lblDesc.italicSubstring("review")
                 }
                 lblDesc.boldSubstring("Waktu Jaminan Prelo")
-                lblDesc.boldSubstring("\"Diterima\"")*/
+                lblDesc.boldSubstring("Diterima")*/
             } else if (progress == TransactionDetailTools.ProgressReceived) {
                 if (isSeller) {
                     lblDesc.text = TransactionDetailTools.TextReceivedSeller
@@ -4532,7 +4572,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                         attributedString.addAttributes([NSParagraphStyleAttributeName: paragraphStyle], range: NSMakeRange(0, attributedString.length))
                         
                         let mystr = formattedString
-                        let searchstr = "Waktu Jaminan Prelo|\"Diterima\"|Laporkan Transaksi"
+                        let searchstr = "Waktu Jaminan Prelo|Diterima|Laporkan Transaksi"
                         let ranges: [NSRange]
                         
                         do {
@@ -4563,14 +4603,14 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                 /*if (isSeller) {
                     lblDesc.text = TransactionDetailTools.TextReceivedSeller
                     
-                    lblDesc.boldSubstring("\"Diterima\"")
+                    lblDesc.boldSubstring("Diterima")
                 } else {
                     if (trxProductDetail.refundable) {
                         lblDesc.text = TransactionDetailTools.TextReceivedBuyer
                         
                         lblDesc.boldSubstring("Laporkan Transaksi")
-                        lblDesc.boldSubstring("\"Diterima\"\n2.")
-                        lblDesc.boldSubstring("\"Diterima\"\n3.")
+                        lblDesc.boldSubstring("Diterima\n2.")
+                        lblDesc.boldSubstring("Diterima\n3.")
                         lblDesc.italicSubstring("review")
                     } else {
                         lblDesc.text = TransactionDetailTools.TextReceivedBuyerNoRefund
