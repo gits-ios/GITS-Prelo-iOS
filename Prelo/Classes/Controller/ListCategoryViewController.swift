@@ -392,6 +392,8 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
+                print(data.debugDescription)
+                
                 if let isPromo = data["is_promo"].bool {
                     if (isPromo) {
                         if let promoTitle = data["promo_data"]["title"].string {
@@ -403,7 +405,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                                         self.vwHomePromo = UIView(frame: screenSize, backgroundColor: UIColor.colorWithColor(UIColor.black, alpha: 0.7))
                                         
                                         let imgHomePromo = UIImageView()
-                                        imgHomePromo.afSetImage(withURL: promoUrl)
+                                        imgHomePromo.afSetImage(withURL: promoUrl, withFilter: .noneWithoutPlaceHolder) // fix
                                         let imgHomePromoSize = CGSize(width: 300, height: 400)
                                         imgHomePromo.frame = CGRect(x: (screenSize.width / 2) - (imgHomePromoSize.width / 2), y: (screenSize.height / 2) - (imgHomePromoSize.height / 2), width: imgHomePromoSize.width, height: imgHomePromoSize.height)
                                         imgHomePromo.contentMode = UIViewContentMode.scaleAspectFit
