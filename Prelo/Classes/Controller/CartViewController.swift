@@ -2505,6 +2505,7 @@ class CartCellInput : BaseCartCell, UITextFieldDelegate {
 class CartCellInput2 : BaseCartCell, PickerViewDelegate
 {
     @IBOutlet var captionValue : UILabel?
+    @IBOutlet var lblDropdown : UILabel?
     
     override var canBecomeFirstResponder : Bool {
         return parent != nil
@@ -2547,16 +2548,15 @@ class CartCellInput2 : BaseCartCell, PickerViewDelegate
             captionValue?.font = UIFont.systemFont(ofSize: 14)
             captionValue?.textColor = placeholderColor
         } else {
-            /* if !((item?.enable)!) {
-                captionValue?.font = UIFont.italicSystemFont(ofSize: 14)
-                captionValue?.textColor = disableColor
-            } else {*/
-                captionValue?.font = UIFont.systemFont(ofSize: 14)
-                captionValue?.textColor = activeColor
-            //}
+            captionValue?.font = UIFont.systemFont(ofSize: 14)
+            captionValue?.textColor = activeColor
         }
         
-        
+        if (item?.enable)! {
+            lblDropdown?.textColor = Theme.PrimaryColorDark
+        } else {
+            lblDropdown?.textColor = disableColor
+        }
     }
     
     override func obtainValue() -> BaseCartData? {
