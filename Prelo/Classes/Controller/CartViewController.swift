@@ -576,6 +576,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             rID = addresses[selectedIndex].regionName
             selectedKecamatanID = addresses[selectedIndex].subdisrictId
             sdID = addresses[selectedIndex].subdisrictName
+            selectedKecamatanName = addresses[selectedIndex].subdisrictName // fixer
             
             synchCart()
         }
@@ -687,7 +688,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             IndexPath(row: 4, section: sectionAlamatUser):c
             */
             
-            IndexPath(row: 1, section: sectionAlamatUser):BaseCartData.instance(titleNama, placeHolder: "Nama Lengkap Kamu", value : fullname),
+            IndexPath(row: 1, section: sectionAlamatUser):BaseCartData.instance(titleNama, placeHolder: "Nama Lengkap Kamu", value : fullname, capitalizationType: .words),
             IndexPath(row: 2, section: sectionAlamatUser):BaseCartData.instance(titleTelepon, placeHolder: "Nomor Telepon Kamu", value : phone, keyboardType: UIKeyboardType.phonePad),
             IndexPath(row: 3, section: sectionAlamatUser):BaseCartData.instance(titleProvinsi, placeHolder: nil, value: pID != "" ? pID : "Pilih Provinsi", pickerPrepBlock: { picker in
                 
@@ -777,7 +778,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     self.cellsData[idxs[2]]?.value = string.components(separatedBy: PickerViewController.TAG_START_HIDDEN)[0]
                 }
             }, enable: (selectedIndex == 0 && isSave ? false : true)),
-            IndexPath(row: 6, section: sectionAlamatUser):BaseCartData.instance(titleAlamat, placeHolder: "mis. Jl. Tamansari III no. 1", value : address),
+            IndexPath(row: 6, section: sectionAlamatUser):BaseCartData.instance(titleAlamat, placeHolder: "mis. Jl. Tamansari III no. 1", value : address, capitalizationType: .words),
             IndexPath(row: 7, section: sectionAlamatUser):BaseCartData.instance(titlePostal, placeHolder: "40000", value : postalcode, keyboardType: UIKeyboardType.numberPad)
         ]
     }
@@ -1434,6 +1435,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 
                 dropDown.hide()
                 dropDown.show()
+                
+                self.isSave = false
                 
             } else if ((indexPath as NSIndexPath).row == 6 /*3*/) { // Kecamatan
                 if (selectedKotaID == "") {
@@ -2258,6 +2261,7 @@ class BaseCartData : NSObject
     var enable : Bool = true
     var image : UIImage?
     var keyboardType = UIKeyboardType.default
+    var capitalizationType = UITextAutocapitalizationType.none
     
     var pickerPrepDataBlock : PrepDataBlock?
     
@@ -2287,6 +2291,17 @@ class BaseCartData : NSObject
         b.placeHolder = placeHolder
         b.value = value
         b.enable = true
+        
+        return b
+    }
+    
+    static func instance(_ title : String?, placeHolder : String?, value : String, capitalizationType : UITextAutocapitalizationType) -> BaseCartData {
+        let b = BaseCartData()
+        b.title = title
+        b.placeHolder = placeHolder
+        b.value = value
+        b.enable = true
+        b.capitalizationType = capitalizationType
         
         return b
     }
@@ -2431,6 +2446,8 @@ class CartCellInput : BaseCartCell, UITextFieldDelegate {
         } else {
 //            consWidthTxtField.constant = 115
         }
+        
+        txtField.autocapitalizationType = (baseCartData?.capitalizationType)!
         
         let value = item.value
         if (value != nil) {
