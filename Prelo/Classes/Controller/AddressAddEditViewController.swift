@@ -11,7 +11,7 @@ import Alamofire
 
 // MARK: - Class
 
-class AddressAddEditViewController: BaseViewController, PickerViewDelegate {
+class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITextFieldDelegate {
     // MARK: - Properties
     @IBOutlet weak var txtNamaAlamat: UITextField!
     @IBOutlet weak var txtNama: UITextField!
@@ -43,6 +43,8 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate {
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.txtNamaAlamat.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -317,5 +319,19 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate {
         isPickingProvinsi = false
         isPickingKabKota = false
         isPickingKecamatan = false
+    }
+    
+    // MARK: - DELEGATE UITEXTFIELD
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == self.txtNamaAlamat {
+            let currentCharacterCount = textField.text?.characters.count ?? 0
+            if (range.length + range.location > currentCharacterCount){
+                return false
+            }
+            let newLength = currentCharacterCount + string.characters.count - range.length
+            return newLength <= 30
+        } else {
+            return true
+        }
     }
 }
