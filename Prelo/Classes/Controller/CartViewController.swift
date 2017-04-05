@@ -120,6 +120,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     var selectedIndex = 0
     var isSave = false
     var isFirst = true
+    var defaultAddressIndex = 0
     
     var dropDown: DropDown!
     
@@ -270,6 +271,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             self.addresses.append(address!)
                             if (address?.isMainAddress)! {
                                 self.selectedIndex = i
+                                
+                                self.defaultAddressIndex = i
                             }
                         }
                         
@@ -1585,9 +1588,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
         let p = AppToolsObjC.jsonString(from: c)
         
-        user?.profiles.address = address
-        user?.profiles.postalCode = postal
-        UIApplication.appDelegate.saveContext()
+        if self.defaultAddressIndex == self.selectedIndex && self.isSave {
+            user?.profiles.address = address
+            user?.profiles.postalCode = postal
+            UIApplication.appDelegate.saveContext()
+        }
         
         let d = [
             "address":address,
@@ -1646,6 +1651,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     }
     
     func performCheckout(_ cart : String, address : String, usedBalance : Int, usedBonus : Int) {
+        self.showLoading()
         let _ = request(APICart.checkout(cart: cart, address: address, voucher: voucherApplied, payment: selectedPayment.value, usedPreloBalance: usedBalance, usedReferralBonus: usedBonus, kodeTransfer: bankTransferDigit, targetBank: (self.selectedPayment == .bankTransfer ? targetBank : ""))).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Checkout")) {
                 let json = JSON(resp.result.value!)
@@ -1656,12 +1662,14 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     let m = json["_data"]["_message"].stringValue
                     Constant.showDialog("Perhatian", message: m)
                     self.btnSend.isEnabled = true
+                    self.hideLoading()
                     return
                 }
                 
                 if (self.checkoutResult == nil) {
                     Constant.showDialog("Perhatian", message: "Terdapat kesalahan saat melakukan checkout")
                     self.btnSend.isEnabled = true
+                    self.hideLoading()
                     return
                 }
                 
@@ -1848,6 +1856,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
 //                let appDelegate = UIApplication.shared.delegate as! AppDelegate
 //                let notifListener = appDelegate.preloNotifListener
 //                notifListener?.increaseCartCount(1)
+                
+                self.hideLoading()
                 
                 // Prepare to navigate to next page
                 if (self.selectedPayment == .bankTransfer) {
