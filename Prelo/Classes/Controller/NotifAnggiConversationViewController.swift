@@ -623,6 +623,11 @@ class NotifAnggiConversationCell: UITableViewCell {
             lblConvStatus.text = notif.statusText
             lblTime.text = notif.time
             
+            if notif.isPreloMessage {
+                lblConvStatus.text = "UPDATE"
+                vwCaption.isHidden = true
+            }
+            
             // Set conv status text width
             var sizeThatShouldFitTheContent = lblConvStatus.sizeThatFits(lblConvStatus.frame.size)
             //print("size untuk '\(lblConvStatus.text)' = \(sizeThatShouldFitTheContent)")
@@ -634,6 +639,7 @@ class NotifAnggiConversationCell: UITableViewCell {
             consWidthLblTime.constant = sizeThatShouldFitTheContent.width
         }
         
+        /*
         if (notif.isPreloMessage) {
             /*
             let oldImage = UIImage(named: "ic_prelo_logo_text_white@2x")?.resizeWithMaxWidth(120)
@@ -661,8 +667,9 @@ class NotifAnggiConversationCell: UITableViewCell {
             imgSingle.contentMode = .scaleAspectFit
              */
             
-            lblConvStatus.text = "UPDATE"
+            lblConvStatus.text = ""
             vwCaption.isHidden = true
         }
+         */
     }
 }
