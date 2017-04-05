@@ -121,6 +121,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     var isSave = false
     var isFirst = true
     var defaultAddressIndex = 0
+    var defaultSubdistrictId = ""
     
     var dropDown: DropDown!
     
@@ -273,6 +274,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                                 self.selectedIndex = i
                                 
                                 self.defaultAddressIndex = i
+                                self.defaultSubdistrictId = (address?.subdisrictId)!
                             }
                         }
                         
@@ -1588,7 +1590,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
         let p = AppToolsObjC.jsonString(from: c)
         
-        if self.defaultAddressIndex == self.selectedIndex && self.isSave {
+        if (self.defaultAddressIndex == self.selectedIndex && self.isSave) || self.defaultSubdistrictId == self.selectedKecamatanID {
             user?.profiles.address = address
             user?.profiles.postalCode = postal
             UIApplication.appDelegate.saveContext()
