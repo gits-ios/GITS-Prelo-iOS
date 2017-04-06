@@ -172,18 +172,22 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.getCart()
+        
         // loader for refresh ongkir
         self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
         self.hideLoading()
         
         self.title = PageName.Checkout
         
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let notifListener = appDelegate.preloNotifListener
-        
         if (user != nil) {
             self.getUnpaid()
         }
+    }
+    
+    func continueLoad() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let notifListener = appDelegate.preloNotifListener
         
         // Get cart products
         cartProducts = CartProduct.getAll(User.EmailOrEmptyString)
@@ -228,7 +232,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                                                     target: nil)
                 backgroundQueue.async {
                     print("Work on background queue")
-                
+                    
                     let loginMethod = User.LoginMethod ?? ""
                     
                     var localId = User.CartLocalId ?? ""
@@ -250,7 +254,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     let pdata = [
                         "Local ID" : localId,
                         "Product IDs" : productIds
-                    ] as [String : Any]
+                        ] as [String : Any]
                     AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.GoToCart, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
                 }
             }
@@ -275,6 +279,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                                 
                                 self.defaultAddressIndex = i
                                 self.defaultSubdistrictId = (address?.subdisrictId)!
+                                
+                                self.initUserDataSections()
                             }
                         }
                         
@@ -399,6 +405,35 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
     }
     
+    func getCart() {
+        // Get cart from server
+        let _ = request(APICart.getCart).responseJSON { resp in
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Checkout - Unpaid Transaction")) {
+                let json = JSON(resp.result.value!)
+                if let arr = json["_data"].array {
+                    for a in arr {
+                        let spId = a["shipping_package_id"].stringValue
+                        let pId  = a["product_id"].stringValue
+                        let pName  = a["product_name"].stringValue
+                        
+                        if let cp = CartProduct.getOne(pId, email: User.EmailOrEmptyString) {
+                            if cp.packageId != spId {
+                                cp.packageId = spId
+                            }
+                        } else {
+                            if let cp2 = CartProduct.newOne(pId, email: User.EmailOrEmptyString, name: pName) {
+                                cp2.packageId = spId
+                            }
+                        }
+                    }
+                    self.continueLoad()
+                }
+            } else {
+                self.continueLoad()
+            }
+        }
+    }
+    
     // Refresh data cart dan seluruh tampilan
     func synchCart() {
         // Hide table
@@ -409,7 +444,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         } else {
             self.showLoading()
         }
-            
+        
         // Reset data
         isUsingPreloBalance = false
         discountItems = []
