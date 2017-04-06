@@ -416,28 +416,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     }
     
     func getCart() {
-        // listing
-        var cpIds: [String] = []
-        var param: [[String : Any]] = []
-        for cp in CartProduct.getAll(User.EmailOrEmptyString) {
-            cpIds.append(cp.cpID)
-            
-            let par = [
-                "shipping_package_id" : cp.packageId,
-                "product_id" : cp.cpID
-            ]
-            
-            param.append(par)
-        }
-        
-        let prettyJSONstring = JSON(param).rawString()
-        let JSONstring = prettyJSONstring!.replace("\n", template: "").replace(" ", template: "")
-        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let notifListener = appDelegate.preloNotifListener
         
         // Get cart from server
-        let _ = request(APICart.getCart(cart: JSONstring)).responseJSON { resp in
+        let _ = request(APICart.getCart).responseJSON { resp in
             if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Keranjang Belanja - Update Cart")) {
                 let json = JSON(resp.result.value!)
                 if let arr = json["_data"].array {
@@ -459,13 +442,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         
                         pIds.append(pId)
                     }
-                    
-                    // remove unused
-//                    for cpId in cpIds {
-//                        if !pIds.contains(cpId) {
-//                            CartProduct.delete(cpId)
-//                        }
-//                    }
                     
                     if (self.user != nil) {
                         self.getUnpaid()
