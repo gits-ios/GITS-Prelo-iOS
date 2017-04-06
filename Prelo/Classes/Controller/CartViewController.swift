@@ -1652,7 +1652,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
         let p = AppToolsObjC.jsonString(from: c)
         
-        if (self.defaultAddressIndex == self.selectedIndex && self.isSave) || self.defaultSubdistrictId == self.selectedKecamatanID {
+        if (self.defaultAddressIndex == self.selectedIndex || (self.defaultSubdistrictId == self.selectedKecamatanID && (self.addresses[0].address == "" || self.addresses[0].postalCode == ""))) && (user?.profiles.address == "" || user?.profiles.postalCode == "") {
             user?.profiles.address = address
             user?.profiles.postalCode = postal
             UIApplication.appDelegate.saveContext()
