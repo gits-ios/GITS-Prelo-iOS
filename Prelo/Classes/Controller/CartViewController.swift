@@ -176,7 +176,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         // loader for refresh ongkir
         self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
-        self.hideLoading()
+        //self.hideLoading()
+        
+        self.showLoading()
+        self.tableView.isHidden = true
+        self.loadingCart.isHidden = true
         
         self.title = PageName.Checkout
         
@@ -437,13 +441,13 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     // Refresh data cart dan seluruh tampilan
     func synchCart() {
         // Hide table
-        if isFirst {
+        /*if isFirst {
             tableView.isHidden = true
             loadingCart.isHidden = false
             isFirst = false
-        } else {
+        } else {*/
             self.showLoading()
-        }
+        //}
         
         // Reset data
         isUsingPreloBalance = false
