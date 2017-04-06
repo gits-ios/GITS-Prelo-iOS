@@ -290,7 +290,7 @@ enum APIAuth : URLRequestConvertible {
 }
 
 enum APICart : URLRequestConvertible {
-    case getCart
+    case getCart(cart: String)
     case refresh(cart : String, address : String, voucher : String?)
     case checkout(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int, usedReferralBonus : Int, kodeTransfer : Int, targetBank : String)
     case generateVeritransUrl(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int, usedReferralBonus : Int, kodeTransfer : Int)
@@ -306,7 +306,7 @@ enum APICart : URLRequestConvertible {
     
     var method : HTTPMethod {
         switch self {
-        case .getCart : return .get
+        case .getCart(_) : return .get
         case .refresh(_, _, _) : return .post
         case .checkout(_, _, _, _, _, _, _, _) : return .post
         case .generateVeritransUrl(_, _, _, _, _, _, _) : return .post
@@ -315,7 +315,7 @@ enum APICart : URLRequestConvertible {
     
     var path : String {
         switch self {
-        case .getCart : return ""
+        case .getCart(_) : return ""
         case .refresh(_, _, _) : return ""
         case .checkout(_, _, _, _, _, _, _, _) : return "checkout"
         case .generateVeritransUrl(_, _, _, _, _, _, _) : return "generate_veritrans_url"
@@ -325,6 +325,10 @@ enum APICart : URLRequestConvertible {
     var param : [String : Any] {
         var p : [String : Any] = [:]
         switch self {
+        case .getCart(let cart) :
+            p = [
+                "cart_products":cart
+            ]
         case .refresh(let cart, let address, let voucher) :
             p = [
                 "cart_products":cart,
@@ -369,7 +373,6 @@ enum APICart : URLRequestConvertible {
             if usedBonus != 0 {
                 p["bonus_used"] = NSNumber(value: usedBonus as Int)
             }
-        default : break
         }
         return p
     }
