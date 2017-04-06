@@ -183,10 +183,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         self.loadingCart.isHidden = true
         
         self.title = PageName.Checkout
-        
-        if (user != nil) {
-            self.getUnpaid()
-        }
     }
     
     func continueLoad() {
@@ -201,13 +197,12 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             tableView.isHidden = true
             loadingCart.isHidden = true
             captionNoItem.isHidden = false
-            
-            notifListener?.setCartCount(0)
         } else {
             if (user == nil) { // User isn't logged in
                 tableView.isHidden = true
                 LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
             } else { // Show cart
+                print(cartProducts.count)
                 notifListener?.increaseCartCount(cartProducts.count)
                 
                 initUserDataSections()
@@ -262,8 +257,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.GoToCart, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
                 }
             }
-            
-            notifListener?.setCartCount(cartProducts.count)
         }
     }
     
@@ -389,6 +382,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     }
     
     func getUnpaid() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let notifListener = appDelegate.preloNotifListener
+        
         // Get unpaid transaction
         let _ = request(APITransactionCheck.checkUnpaidTransaction).responseJSON { resp in
             if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Checkout - Unpaid Transaction")) {
@@ -400,19 +396,28 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     self.consHeightPaymentReminder.constant = 40
                     
                     self.transactionCount = nUnpaid
+                    print(nUnpaid)
+                    notifListener?.setCartCount(nUnpaid)
+                    self.continueLoad()
+                } else {
                     
-                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    let notifListener = appDelegate.preloNotifListener
-                    notifListener?.increaseCartCount(nUnpaid)
+                    notifListener?.setCartCount(0)
+                    self.continueLoad()
                 }
+            } else {
+                notifListener?.setCartCount(0)
+                self.continueLoad()
             }
         }
     }
     
     func getCart() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let notifListener = appDelegate.preloNotifListener
+        
         // Get cart from server
         let _ = request(APICart.getCart).responseJSON { resp in
-            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Checkout - Unpaid Transaction")) {
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Keranjang Belanja - Update Cart")) {
                 let json = JSON(resp.result.value!)
                 if let arr = json["_data"].array {
                     for a in arr {
@@ -430,10 +435,20 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             }
                         }
                     }
-                    self.continueLoad()
+                    if (self.user != nil) {
+                        self.getUnpaid()
+                    } else {
+                        notifListener?.setCartCount(0)
+                        self.continueLoad()
+                    }
                 }
             } else {
-                self.continueLoad()
+                if (self.user != nil) {
+                    self.getUnpaid()
+                } else {
+                    notifListener?.setCartCount(0)
+                    self.continueLoad()
+                }
             }
         }
     }
