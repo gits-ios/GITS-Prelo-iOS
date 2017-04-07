@@ -84,9 +84,16 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             "bank_name":"BCA",
             "icon":"rsz_ic_bca@2x"
         ],
-        [
+        /*[
             "name":"PT KLEO APPARA INDONESIA",
             "no":"131-0050-313-131 ",
+            "cabang":"KCP Bandung Dago",
+            "bank_name":"Mandiri",
+            "icon":"rsz_ic_mandiri@2x"
+        ],*/
+        [
+            "name":"PT KLEO APPARA INDONESIA",
+            "no":"131-003-3111-313 ",
             "cabang":"KCP Bandung Dago",
             "bank_name":"Mandiri",
             "icon":"rsz_ic_mandiri@2x"

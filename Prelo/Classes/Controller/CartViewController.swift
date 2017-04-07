@@ -174,7 +174,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         // loader for refresh ongkir
         self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
-        self.hideLoading()
+        //self.hideLoading()
+        
+        self.showLoading()
+        self.tableView.isHidden = true
+        self.loadingCart.isHidden = true
         
         self.title = PageName.Checkout
         
@@ -193,6 +197,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             tableView.isHidden = true
             loadingCart.isHidden = true
             captionNoItem.isHidden = false
+            
+            self.hideLoading()
             
             notifListener?.setCartCount(0)
         } else {
@@ -405,12 +411,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     func synchCart() {
         // Hide table
         if isFirst {
-            tableView.isHidden = true
-            loadingCart.isHidden = false
             isFirst = false
-        } else {
-            self.showLoading()
         }
+        
+        self.showLoading()
             
         // Reset data
         isUsingPreloBalance = false
