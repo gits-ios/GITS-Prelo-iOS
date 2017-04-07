@@ -2389,6 +2389,7 @@
 				21104AB61BAA8ECC00947E7F /* PhoneReverificationViewController.swift */,
 				21104AB71BAA8ECC00947E7F /* PhoneVerificationViewController.swift */,
 				214864D81B6F53EF00EF49EF /* PickerViewController.swift */,
+				B2CAF7851E78F9DD00ACB361 /* PreloMessageViewController.swift */,
 				211BC9991B96EBBE00FDB1DC /* PreloShareController.swift */,
 				21983BEF1BE1DE3A00F0C24E /* PreloWebViewController.swift */,
 				211BC9931B96D34600FDB1DC /* ProductCommentsController.swift */,
@@ -2416,9 +2417,6 @@
 				21156EB91B8F5B4C001D7842 /* UserProfileViewController.swift */,
 				B21DF53F1E5187EA007A60C5 /* UserProfileViewController2.swift */,
 				21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */,
-				B2CAF7851E78F9DD00ACB361 /* PreloMessageViewController.swift */,
-				B2DF584C1E484605005B6CF1 /* AddressBookViewController.swift */,
-				B2314BE41E4B029000731B88 /* AddressAddEditViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -3003,6 +3001,8 @@
 				21EEB4601B87038400CAD5C9 /* PaymentConfirmationCell.xib */,
 				21104ACE1BAA8F1200947E7F /* PhoneReverification.xib */,
 				21104ACF1BAA8F1200947E7F /* PhoneVerification.xib */,
+				B2CAF7731E78F53300ACB361 /* PreloMessage.xib */,
+				B2CAF7831E78F58900ACB361 /* PreloMessageCell.xib */,
 				588148B41DC09FBA004180E1 /* ProductCompare.xib */,
 				588148C21DC0B598004180E1 /* ProductCompareCell.xib */,
 				588148B91DC0B244004180E1 /* ProductCompareMainCell.xib */,
@@ -3028,8 +3028,6 @@
 				B22357601E35F90800CEC6F5 /* TarikTunai2Cell.xib */,
 				21104AD01BAA8F1200947E7F /* TransactionListCell.xib */,
 				21156EBB1B8F5B5D001D7842 /* UserProfile.xib */,
-				B2CAF7731E78F53300ACB361 /* PreloMessage.xib */,
-				B2CAF7831E78F58900ACB361 /* PreloMessageCell.xib */,
 				B21DF5291E5179E5007A60C5 /* UserProfile2.xib */,
 			);
 			path = XIB;
