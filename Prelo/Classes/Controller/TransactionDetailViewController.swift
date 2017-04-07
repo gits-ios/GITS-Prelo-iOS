@@ -1890,7 +1890,20 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         }
         cell.reviewSeller = {
             if self.isReportable == false {
-                Constant.showDialog("BATALKAN LAPORAN", message: "test")
+                //Constant.showDialog("BATALKAN LAPORAN", message: "test")
+                let _ = request(APITransactionProduct.cancelReport(tpId: self.trxProductId!)).responseJSON { resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Pembatalan Laporan")) {
+                        let json = JSON(resp.result.value!)
+                        let data = json["_data"].boolValue
+                        if (data == true) {
+                            Constant.showDialog("Pembatalan Laporan", message: "Laporan berhasil dibatalkan")
+                            self.isReportable = true
+                            self.tableView.reloadData()
+                        } else {
+                            Constant.showDialog("Pembatalan Laporan", message: "Laporan gagal dibatalkan")
+                        }
+                    }
+                }
             } else {
                 self.vwShadow.isHidden = false
                 self.vwReviewSeller.isHidden = false
@@ -2609,7 +2622,6 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     "Order ID" : tp.orderId,
                     "Product ID" : tp.productId,
                     "Seller Username" : tp.sellerUsername, // me
-                    "Product ID" : tp.productId ,
                     "Price" : tp.productPrice,
                     "Commission Percentage" : tp.commission,
                     "Commission Price" : tp.commissionPrice,
