@@ -530,7 +530,7 @@ class PreloMessageCell: UITableViewCell {
                 
                 gradient.frame = vwGradient.bounds
                 
-                gradient.colors = [UIColor.colorWithColor(Theme.PrimaryColor, alpha: 0).cgColor, UIColor.colorWithColor(Theme.PrimaryColor, alpha: 0.55).cgColor, UIColor.colorWithColor(Theme.PrimaryColor, alpha: 1).cgColor]
+                gradient.colors = [UIColor.colorWithColor(UIColor.black, alpha: 0).cgColor, UIColor.colorWithColor(UIColor.black, alpha: 0.55).cgColor, UIColor.colorWithColor(UIColor.black, alpha: 1).cgColor]
                 gradient.locations = [0.0 , 0.45 , 1.0]
                 gradient.startPoint = CGPoint(x: 0.0, y: 1.0)
                 gradient.endPoint = CGPoint(x: 1.0, y: 1.0)
@@ -607,6 +607,9 @@ class PreloMessageCell: UITableViewCell {
         if message.desc == "pesan gambar" {
             self.lblDesc.font = UIFont.italicSystemFont(ofSize: 14)
             self.lblDesc.textColor = UIColor.lightGray
+            self.lblDesc.textAlignment = .center
+        } else {
+            self.lblDesc.textAlignment = .natural
         }
         
         if isOpen {

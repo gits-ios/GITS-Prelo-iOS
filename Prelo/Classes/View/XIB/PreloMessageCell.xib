@@ -19,7 +19,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="282"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wQy-94-0bG" id="XtW-jw-hzi">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="281"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="281.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PFD-5f-NXL" userLabel="Vw Border">

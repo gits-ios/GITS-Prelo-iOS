@@ -2602,7 +2602,6 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     "Order ID" : tp.orderId,
                     "Product ID" : tp.productId,
                     "Seller Username" : tp.sellerUsername, // me
-                    "Product ID" : tp.productId ,
                     "Price" : tp.productPrice,
                     "Commission Percentage" : tp.commission,
                     "Commission Price" : tp.commissionPrice,
