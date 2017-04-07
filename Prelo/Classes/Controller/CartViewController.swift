@@ -469,7 +469,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
         
         self.showLoading()
-        
+
         // Reset data
         isUsingPreloBalance = false
         discountItems = []
