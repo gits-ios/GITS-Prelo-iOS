@@ -200,6 +200,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         
                         // Update title
                         self.title = "Order ID " + self.trxProductDetail!.orderId
+                        
+                        // init
+                        self.isReportable = self.trxProductDetail?.reportable
                     }
                     
                     // AB test check
@@ -1803,6 +1806,10 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             cell.adapt(self.progress, order: order)
         }
         
+        if self.isReportable == false {
+            cell.btn.setTitle("BATALKAN LAPORAN", for: UIControlState.normal)
+        }
+        
         // Configure actions
         cell.retrieveCash = {
 //            let t = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdTarikTunai) as! TarikTunaiController
@@ -1882,8 +1889,12 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             }
         }
         cell.reviewSeller = {
-            self.vwShadow.isHidden = false
-            self.vwReviewSeller.isHidden = false
+            if self.isReportable == false {
+                Constant.showDialog("BATALKAN LAPORAN", message: "test")
+            } else {
+                self.vwShadow.isHidden = false
+                self.vwReviewSeller.isHidden = false
+            }
         }
         cell.seeFAQ = {
             let helpVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
@@ -2658,6 +2669,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     reportTrxVC.wjpTime = (self.trxProductDetail?.wjpTime)!
                     reportTrxVC.blockDone = { result in
                         self.isReportable = result
+                        
+                        self.tableView.reloadData()
                     }
                     //reportTrxVC.pId = (self.trxProductDetail?.productId)!
                 }
@@ -2738,7 +2751,7 @@ class TransactionDetailTools : NSObject {
     static let TextConfirmedPaidBuyer1 = "Pesanan kamu belum dikirim dan akan expired pada "
     static let TextConfirmedPaidBuyer2 = "Ingatkan penjual untuk mengirim pesanan."
     
-    static let refundRejectNoteBuyer = "Catatan:\n1. Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3 x 24 jam sejak status transaksi Diterima.\n2. Klik Laporkan Transaksi ini digunakan apabila resi atau barang yang diterima bermasalah serta bila barang belum kamu terima tetapi status transaksi Diterima.\n3. Jangan lupa untuk me-review penjual jika barang sudah kamu terima."
+    static let refundRejectNoteBuyer = "Catatan:\n1. Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3 x 24 jam sejak status transaksi Diterima.\n2. Klik Laporkan Transaksi ini digunakan apabila resi atau barang yang diterima bermasalah serta bila barang belum kamu terima tetapi status transaksi Diterima.\n3. Jangan lupa untuk me-review penjual jika barang sudah kamu terima.\n4. Jika kamu melakukan Refund ketika laporan sedang diproses, maka laporan otomatis akan dibatalkan."
     static let noteBuyer = "Catatan:\n1. Waktu Jaminan Prelo untuk transaksi ini telah berakhir. Uang pembayaran telah otomatis disalurkan ke penjual.\n2. Segera lakukan review jika barang sudah kamu terima."
     
     static let TextSentSeller = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo sejak status transaksi menjadi Diterima. Uang dapat langsung kamu tarik setelah Waktu Jaminan Prelo berakhir atau jika barang telah selesai direview.\n\nIngatkan pembeli untuk memberi review."
@@ -4506,6 +4519,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                             attributedString.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: fontSize)], range: range)
                         }
                         attributedString.addAttributes([NSFontAttributeName:UIFont.italicSystemFont(ofSize: fontSize)], range: (formattedString as NSString).range(of: "review"))
+                        attributedString.addAttributes([NSFontAttributeName:UIFont.italicSystemFont(ofSize: fontSize)], range: (formattedString as NSString).range(of: "Refund"))
                         
                         fullAttributedString.append(attributedString)
                     }
@@ -4588,6 +4602,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                             attributedString.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: fontSize)], range: range)
                         }
                         attributedString.addAttributes([NSFontAttributeName:UIFont.italicSystemFont(ofSize: fontSize)], range: (formattedString as NSString).range(of: "review"))
+                        attributedString.addAttributes([NSFontAttributeName:UIFont.italicSystemFont(ofSize: fontSize)], range: (formattedString as NSString).range(of: "Refund"))
                         
                         fullAttributedString.append(attributedString)
                     }
@@ -5193,12 +5208,6 @@ class TransactionReportPopup: UIView {
         self.lbReport.boldSubstring("Waktu Jaminan Prelo")
         self.lbRefund.boldSubstring("Waktu Jaminan Prelo")
         self.lbRefund.italicSubstring("Refund")
-        
-        self.imgReport.tint = true
-        self.imgReport.tintColor = Theme.PrimaryColor
-        
-        self.imgRefund.tint = true
-        self.imgRefund.tintColor = Theme.PrimaryColor
     }
     
     func initPopUp(_ isReportable: Bool?) {
@@ -5223,6 +5232,13 @@ class TransactionReportPopup: UIView {
         // force to bottom first
         self.consCenteryPopUp.constant = screenHeight
         
+        // setup
+        self.imgReport.tint = true
+        self.imgReport.tintColor = Theme.PrimaryColor
+        
+        self.imgRefund.tint = true
+        self.imgRefund.tintColor = Theme.PrimaryColor
+        
         if isReportable != nil {
             // disable report button
             self.btnReport.isEnabled = false
@@ -5230,7 +5246,7 @@ class TransactionReportPopup: UIView {
             self.lbTitleReport.textColor = Theme.GrayLight
             self.lbReport.textColor = Theme.GrayLight
             
-            self.imgReport.tint = true
+            //self.imgReport.tint = true
             self.imgReport.tintColor = Theme.GrayLight
             
             if !(isReportable!) {
