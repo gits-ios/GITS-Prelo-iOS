@@ -1749,3 +1749,37 @@ enum APIWallet : URLRequestConvertible {
         return p
     }
 }
+
+enum APIPreloMessage : URLRequestConvertible {
+    case getMessage
+    
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = "prelo_message/"
+        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
+        return encodedURLRequest
+    }
+    
+    var method : HTTPMethod {
+        switch self {
+        case .getMessage : return .get
+        }
+    }
+    
+    var path : String {
+        switch self {
+        case .getMessage : return ""
+        }
+    }
+    
+    var param : [String : Any] {
+        let p : [String : Any] = [:]
+        switch self {
+        default : break
+        }
+        return p
+    }
+}
+
