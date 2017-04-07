@@ -211,20 +211,20 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
             }
             
             cell.zoomImage = {
-//                if m.bannerUri != nil {
-//                    var urlStr = m.bannerUri!.absoluteString
-//                    if !urlStr.contains("http://") {
-//                        urlStr = "http://" + m.bannerUri!.absoluteString
-//                    }
-//                    let curl = URL(string: urlStr)!
-//                    self.openUrl(url: curl)
-//                } else {
+                if m.bannerUri != nil {
+                    var urlStr = m.bannerUri!.absoluteString
+                    if !urlStr.contains("http://") {
+                        urlStr = "http://" + m.bannerUri!.absoluteString
+                    }
+                    let curl = URL(string: urlStr)!
+                    self.openUrl(url: curl)
+                } else {
                     let c = CoverZoomController()
                     c.labels = [(m.isContainAttachment ? "pesan gambar" : (m.title == "" ? "Prelo Message" : m.title))]
                     c.images = [(m.banner?.absoluteString)!]
                     c.index = 0
                     self.navigationController?.present(c, animated: true, completion: nil)
-//                }
+                }
             }
             
             cell.openUrl = { url in
@@ -522,7 +522,7 @@ class PreloMessageCell: UITableViewCell {
             
             self.bannerImage.afSetImage(withURL: message.banner!, withFilter: .fillWithPreloMessagePlaceHolder)
             
-            if message.bannerUri != nil {
+            /*if message.bannerUri != nil {
                 self.headerUri = message.bannerUri!
                 vwGradient.isHidden = false
                 
@@ -540,9 +540,9 @@ class PreloMessageCell: UITableViewCell {
                 }
                 
                 vwGradient.layer.insertSublayer(gradient, at: 0)
-            } else {
+            } else {*/
                 self.vwGradient.isHidden = true
-            }
+            //}
         } else {
             self.consHeightBannerImage.constant = 0
             self.vwGradient.isHidden = true
