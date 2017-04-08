@@ -1897,13 +1897,19 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     let _ = request(APITransactionProduct.cancelReport(tpId: self.trxProductId!)).responseJSON { resp in
                         if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Pembatalan Laporan")) {
                             let json = JSON(resp.result.value!)
-                            let data = json["_data"].boolValue
-                            if (data == true) {
+                            let data = json["_data"]
+                            if let isHold = data["is_hold"].bool {
+                                if !isHold {
+                                    Constant.showDialog("Pembatalan Laporan", message: "Laporan berhasil dibatalkan")
+                                    self.isReportable = true // ga bisa report -> report selesai
+                                    self.tableView.reloadData()
+                                } else {
+                                    Constant.showDialog("Pembatalan Laporan", message: "Laporan gagal dibatalkan")
+                                }
+                            } else { // isHold nya null
                                 Constant.showDialog("Pembatalan Laporan", message: "Laporan berhasil dibatalkan")
-                                self.isReportable = true
+                                self.isReportable = nil // bisa report lagi
                                 self.tableView.reloadData()
-                            } else {
-                                Constant.showDialog("Pembatalan Laporan", message: "Laporan gagal dibatalkan")
                             }
                         }
                     }
