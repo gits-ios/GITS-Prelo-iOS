@@ -1517,6 +1517,7 @@ enum APITransactionProduct : URLRequestConvertible
     case refundRequest(tpId : String, reason : String, reasonNote : String)
     case confirmReceiveRefundedProduct(tpId : String)
     case reportTransaction(tpId : String, reason : String, reasonNote : String, sellerId: String)
+    case cancelReport(tpId : String)
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "transaction_product/"
@@ -1538,6 +1539,7 @@ enum APITransactionProduct : URLRequestConvertible
         case .refundRequest(_, _, _) : return .post
         case .confirmReceiveRefundedProduct(_) : return .post
         case .reportTransaction(_, _, _, _) : return .post
+        case .cancelReport(_) : return .post
         }
     }
     
@@ -1552,6 +1554,7 @@ enum APITransactionProduct : URLRequestConvertible
         case .refundRequest(let tpId, _, _) : return "\(tpId)/refund"
         case .confirmReceiveRefundedProduct(let tpId) : return "\(tpId)/confirm"
         case .reportTransaction(let tpId, _, _, _) : return "\(tpId)/report"
+        case .cancelReport(let tpId) : return "\(tpId)/cancel_report"
         }
     }
     
@@ -1750,3 +1753,37 @@ enum APIWallet : URLRequestConvertible {
         return p
     }
 }
+
+enum APIPreloMessage : URLRequestConvertible {
+    case getMessage
+    
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = "prelo_message/"
+        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
+        return encodedURLRequest
+    }
+    
+    var method : HTTPMethod {
+        switch self {
+        case .getMessage : return .get
+        }
+    }
+    
+    var path : String {
+        switch self {
+        case .getMessage : return ""
+        }
+    }
+    
+    var param : [String : Any] {
+        let p : [String : Any] = [:]
+        switch self {
+        default : break
+        }
+        return p
+    }
+}
+

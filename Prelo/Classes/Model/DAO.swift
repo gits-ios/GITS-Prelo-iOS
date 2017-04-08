@@ -1072,6 +1072,20 @@ open class ProductDetail : NSObject, TawarItem
         }
         return false
     }
+    
+    var IsShopClosed : Bool {
+        if let j = json["_data"]["seller"]["shop_closed"].bool {
+            return j
+        }
+        return false
+    }
+    
+    var SellerPhone : String {
+        if let j = json["_data"]["seller"]["seller_phone"].string {
+            return j
+        }
+        return ""
+    }
 }
 
 open class Product : NSObject
@@ -3334,6 +3348,16 @@ class NotificationObj : NSObject
     func setRead() {
         json["read"] = JSON(true)
     }
+    
+    var isPreloMessage : Bool {
+        if let j = json["is_prelo_message"].bool {
+            return j
+        } // backup
+//        if userUsernameFrom == "Prelo" {
+//            return true
+//        }
+        return false
+    }
 }
 
 class ProductCompareMain : NSObject {
@@ -3909,6 +3933,84 @@ class HistoryWithdrawItem : NSObject {
             return j
         }
         return 0
+    }
+}
+
+class PreloMessageItem : NSObject {
+    var json : JSON = JSON([:])
+    
+    static func instance(_ json : JSON?) -> PreloMessageItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let n = PreloMessageItem()
+            n.json = json!
+            return n
+        }
+    }
+    
+    var title : String {
+        if let _ = json["attachment_url"].string {
+            return ""
+        } else if let j = json["title"].string {
+            return j
+        }
+        return "Prelo Message"
+    }
+    
+    var banner : URL? {
+        if let j = json["attachment_url"].string {
+            return URL(string: j)!
+        } else if let j = json["header_image"].string {
+            return URL(string: j)!
+        }
+        return nil
+    }
+    
+    var bannerUri : URL? {
+        if let j = json["header_uri"].string {
+            return URL(string: j)!
+        }
+        return nil
+    }
+    
+    var desc : String {
+        if let _ = json["attachment_url"].string {
+            return "pesan gambar"
+        } else if let j = json["message"].string {
+            return j
+        }
+        return ""
+    }
+    
+//    var date : String {
+//        if let j = json["time"].string {
+//            return j
+//        }
+//        return ""
+//    }
+    
+    var date : String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"//this your string date format
+        dateFormatter.timeZone = NSTimeZone(name: "UTC") as TimeZone!
+        let ds = json["time"].stringValue
+        
+        let date = dateFormatter.date(from: ds)
+        
+        dateFormatter.dateStyle = .long
+        dateFormatter.timeStyle = .medium
+        dateFormatter.locale = Locale(identifier: "id")
+        dateFormatter.timeZone = NSTimeZone.system
+        
+        return dateFormatter.string(from: date!)
+    }
+    
+    var isContainAttachment : Bool {
+        if let _ = json["attachment_url"].string {
+            return true
+        }
+        return false
     }
 }
 

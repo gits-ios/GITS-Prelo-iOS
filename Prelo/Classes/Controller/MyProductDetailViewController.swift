@@ -571,6 +571,9 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                 let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
                 t.previousScreen = PageName.MyProducts
                 
+                t.isSellerNotActive = (self.detail?.IsShopClosed)!
+                t.phoneNumber = (self.detail?.SellerPhone)!
+                
                 // API Migrasi
                 let _ = request(APIInbox.getInboxByProductIDSeller(productId: (self.detail?.productID)!, buyerId: (self.transactionDetail?.buyerId)!)).responseJSON {resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Hubungi Pembeli")) {
