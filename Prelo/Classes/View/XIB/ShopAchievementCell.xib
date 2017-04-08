@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="122" id="8NH-S6-gAh" customClass="ShopAchievementCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="122"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8NH-S6-gAh" id="x1p-u5-3Br">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="121.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ge8-lI-LE0" userLabel="Vw Border">
+                        <rect key="frame" x="4" y="4" width="367" height="117.5"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4Vs-p4-IkO">
+                                <rect key="frame" x="8" y="8" width="54" height="54"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="54" id="0O8-rE-fhm"/>
+                                    <constraint firstAttribute="height" constant="54" id="PuK-2n-Clh"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The Inspector (level B)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vrB-HW-Cuj">
+                                <rect key="frame" x="70" y="8" width="289" height="54"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="54" id="EWq-G5-Q7r"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seller pernah melaporkan barang di Prelo sudah terbukti palsu (KW) sebanyak 3 kali." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GW1-Oe-wvm">
+                                <rect key="frame" x="13" y="70" width="341" height="33.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="GW1-Oe-wvm" secondAttribute="trailing" constant="13" id="4QU-fP-0jG"/>
+                            <constraint firstItem="4Vs-p4-IkO" firstAttribute="leading" secondItem="Ge8-lI-LE0" secondAttribute="leading" constant="8" id="Aan-dD-XPj"/>
+                            <constraint firstItem="vrB-HW-Cuj" firstAttribute="centerY" secondItem="4Vs-p4-IkO" secondAttribute="centerY" id="AlC-yg-YXa"/>
+                            <constraint firstItem="vrB-HW-Cuj" firstAttribute="leading" secondItem="4Vs-p4-IkO" secondAttribute="trailing" constant="8" id="Ids-C9-YFj"/>
+                            <constraint firstItem="GW1-Oe-wvm" firstAttribute="top" secondItem="vrB-HW-Cuj" secondAttribute="bottom" constant="8" id="Tb1-6x-OJg"/>
+                            <constraint firstItem="4Vs-p4-IkO" firstAttribute="top" secondItem="Ge8-lI-LE0" secondAttribute="top" constant="8" id="Xtz-Zc-qen"/>
+                            <constraint firstAttribute="trailing" secondItem="vrB-HW-Cuj" secondAttribute="trailing" constant="8" id="fwq-cS-88u"/>
+                            <constraint firstItem="GW1-Oe-wvm" firstAttribute="leading" secondItem="Ge8-lI-LE0" secondAttribute="leading" constant="13" id="mof-BK-Qjy"/>
+                            <constraint firstItem="vrB-HW-Cuj" firstAttribute="top" secondItem="Ge8-lI-LE0" secondAttribute="top" constant="8" id="xta-A9-geO"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="Ge8-lI-LE0" secondAttribute="trailing" constant="4" id="IEJ-bY-gQa"/>
+                    <constraint firstItem="Ge8-lI-LE0" firstAttribute="leading" secondItem="x1p-u5-3Br" secondAttribute="leading" constant="4" id="aa5-Kz-VE2"/>
+                    <constraint firstItem="Ge8-lI-LE0" firstAttribute="top" secondItem="x1p-u5-3Br" secondAttribute="top" constant="4" id="hzA-pw-v1l"/>
+                    <constraint firstAttribute="bottom" secondItem="Ge8-lI-LE0" secondAttribute="bottom" id="iR4-xS-qkR"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="imgBadge" destination="4Vs-p4-IkO" id="CKm-a3-hi4"/>
+                <outlet property="lblDesc" destination="GW1-Oe-wvm" id="dPl-0U-LXM"/>
+                <outlet property="lblTitle" destination="vrB-HW-Cuj" id="ko6-XD-yST"/>
+            </connections>
+            <point key="canvasLocation" x="3.5" y="47"/>
+        </tableViewCell>
+    </objects>
+</document>

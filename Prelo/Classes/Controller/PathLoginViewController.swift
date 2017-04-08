@@ -3,13 +3,14 @@
 //  Prelo
 //
 //  Created by Fransiska on 10/2/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import Foundation
+import Alamofire
 
 protocol PathLoginDelegate {
-    func pathLoginSuccess(userData : JSON, token : String)
+    func pathLoginSuccess(_ userData : JSON, token : String)
     func hideLoading()
 }
 
@@ -32,18 +33,18 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(PathLoginViewController.batal))
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Batal", style: UIBarButtonItemStyle.plain, target: self, action: #selector(PathLoginViewController.batal))
         
-        let url = NSURL(string: "https://partner.path.com/oauth2/authenticate?response_type=code&client_id=\(pathClientId)")
-        let requestObj = NSURLRequest(URL: url!)
+        let url = URL(string: "https://partner.path.com/oauth2/authenticate?response_type=code&client_id=\(pathClientId)")
+        let requestObj = Foundation.URLRequest(url: url!)
         self.webView.loadRequest(requestObj)
         
         webView.delegate = self
         
         // Show loading
-        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
-        loadingPanel.hidden = false
+        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+        loadingPanel.isHidden = false
         loading.startAnimating()
     }
     
@@ -51,47 +52,47 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
     {
         if (self.standAlone)
         {
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         } else
         {
             self.delegate?.hideLoading()
-            self.navigationController?.popViewControllerAnimated(true)
+            _ = self.navigationController?.popViewController(animated: true)
         }
     }
     
-    func webViewDidStartLoad(webView: UIWebView) {
+    func webViewDidStartLoad(_ webView: UIWebView) {
         // Show loading
-        loadingPanel.hidden = false
+        loadingPanel.isHidden = false
         loading.startAnimating()
     }
     
-    func webViewDidFinishLoad(webView: UIWebView) {
+    func webViewDidFinishLoad(_ webView: UIWebView) {
         // Hide loading
-        loadingPanel.hidden = true
+        loadingPanel.isHidden = true
         loading.stopAnimating()
         
-        let currentURL = webView.request?.URL
+        let currentURL = webView.request?.url
         print("currentURL = \(currentURL)")
         
-        if (currentURL?.absoluteString.lowercaseString.rangeOfString(pathDeclineUrlString) != nil) { // User canceled path login
+        if (currentURL?.absoluteString.lowercased().range(of: pathDeclineUrlString) != nil) { // User canceled path login
             self.delegate?.hideLoading()
             // Back to prev scene
             if (self.standAlone)
             {
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
             } else
             {
-                self.navigationController?.popViewControllerAnimated(true)
+                _ = self.navigationController?.popViewController(animated: true)
             }
-        } else if (currentURL?.absoluteString.lowercaseString.rangeOfString(pathLoginSuccessUrlString) != nil) { // User successfully login
+        } else if (currentURL?.absoluteString.lowercased().range(of: pathLoginSuccessUrlString) != nil) { // User successfully login
             let codeParam : String = (currentURL?.query)!
-            let code : String = codeParam.substringWithRange(codeParam.startIndex.advancedBy(5) ..< codeParam.endIndex)
+            let code : String = codeParam.substring(with: codeParam.characters.index(codeParam.startIndex, offsetBy: 5) ..< codeParam.endIndex)
             //print("code = \(code)")
             
             // Get token
             // API Migrasi
-        request(APIPathAuth.GetToken(clientId: pathClientId, clientSecret: pathClientSecret, code: code)).responseJSON {resp in
-                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
+        let _ = request(APIPathAuth.getToken(clientId: pathClientId, clientSecret: pathClientSecret, code: code)).responseJSON {resp in
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Path")) {
                     let json = JSON(resp.result.value!)
                     print("json = \(json)")
                     if (json["code"].int == 200) { // OK
@@ -100,8 +101,8 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
                         
                         // Get user Path data
                         // API Migrasi
-        request(APIPathUser.GetSelfData(token: pathToken)).responseJSON {resp in
-                            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
+        let _ = request(APIPathUser.getSelfData(token: pathToken)).responseJSON {resp in
+                            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Path")) {
                                 let json = JSON(resp.result.value!)
                                 print("json = \(json)")
                                 if (json["code"].int == 200) { // OK
@@ -123,10 +124,10 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
 //            self.navigationController?.popViewControllerAnimated(true)
             if (self.standAlone)
             {
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
             } else
             {
-                self.navigationController?.popViewControllerAnimated(true)
+                _ = self.navigationController?.popViewController(animated: true)
             }
         }
     }

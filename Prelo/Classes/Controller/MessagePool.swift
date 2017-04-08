@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 10/12/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
@@ -11,14 +11,15 @@ import Crashlytics
 
 protocol MessagePoolDelegate
 {
-    func messageArrived(message : InboxMessage)
+    func messageArrived(_ message : InboxMessage)
+    func preloMessageArrived(_ message : PreloMessageItem)
 }
 
 class MessagePool: NSObject
 {
-    private var delegates : [String : MessagePoolDelegate] = [:]
+    fileprivate var delegates : [String : MessagePoolDelegate] = [:]
     
-    func registerDelegate(threadId : String, d : MessagePoolDelegate)
+    func registerDelegate(_ threadId : String, d : MessagePoolDelegate)
     {
         if (delegates[threadId]) != nil
         {
@@ -29,9 +30,9 @@ class MessagePool: NSObject
         }
     }
     
-    func removeDelegate(threadId : String)
+    func removeDelegate(_ threadId : String)
     {
-        delegates.removeValueForKey(threadId)
+        delegates.removeValue(forKey: threadId)
     }
     
     var socket : SocketIOClient!
@@ -40,7 +41,7 @@ class MessagePool: NSObject
     {
         if (CDUser.getOne()?.id != nil)
         {
-            let url = NSURL(string: AppTools.PreloBaseUrl)
+            let url = URL(string: AppTools.PreloBaseUrl)
             if (url == nil)
             {
                 let error = NSError(domain: "Cannot create url", code: 0, userInfo: ["string" : AppTools.PreloBaseUrl])
@@ -71,38 +72,46 @@ class MessagePool: NSObject
             socket.on("message", callback:{ data, ack in
                 print(data)
                 
-                for d in data
-                {
-                    if let inboxId : String = d["inbox_id"] as? String
-                    {
-                        if let delegate = self.delegates[inboxId]
-                        {
-                            let i = InboxMessage()
-                            if let senderId = d["sender_id"] as? String
-                            {
-                                i.senderId = senderId
+                if let arr = data as? [[String: Any]] {
+                    for d in arr {
+                        if let inboxId : String = d["inbox_id"] as? String {
+                            if let delegate = self.delegates[inboxId] {
+                                if let senderName = d["sender_fullname"] as? String, senderName == "Prelo" {
+                                    let json = JSON(d)
+                                    let i = PreloMessageItem.instance(json)!
+                                    delegate.preloMessageArrived(i)
+                                } else {
+                                    let i = InboxMessage()
+                                    if let senderId = d["sender_id"] as? String {
+                                        i.senderId = senderId
+                                    }
+                                    
+                                    if let o : NSNumber = d["message_type"] as? NSNumber {
+                                        i.messageType = o.intValue
+                                    }
+                                    
+                                    if let m = d["message"] as? String {
+                                        i.message = m
+                                    }
+                                    
+                                    if let at = d["attachment_type"] as? String {
+                                        i.attachmentType = at
+                                    }
+                                    
+                                    if let au = d["attachment_url"] as? String {
+                                        i.attachmentURL = URL(string: au)!
+                                    }
+                                    
+                                    i.isMe = i.senderId == CDUser.getOne()?.id
+                                    i.time = ""
+                                    i.id = ""
+                                    delegate.messageArrived(i)
+                                }
                             }
-                            
-                            if let o : NSNumber = d["message_type"] as? NSNumber
-                            {
-                                i.messageType = o.integerValue
-                            }
-                            
-                            if let m = d["message"] as? String
-                            {
-                                i.message = m
-                            }
-                            
-                            
-                            i.isMe = i.senderId == CDUser.getOne()?.id
-                            i.time = ""
-                            i.id = ""
-                            delegate.messageArrived(i)
+                        } else {
+                            let error = NSError(domain: "No inbox_id", code: 0, userInfo: nil)
+                            Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: d as [String : AnyObject])
                         }
-                    } else
-                    {
-                        let error = NSError(domain: "No inbox_id", code: 0, userInfo: nil)
-                        Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: d as? [String : AnyObject])
                     }
                 }
             })
@@ -113,17 +122,17 @@ class MessagePool: NSObject
             
             
             
-            if let del = UIApplication.sharedApplication().delegate as? AppDelegate
+            if let del = UIApplication.shared.delegate as? AppDelegate
             {
                 let notifListener = del.preloNotifListener
                 socket.on("notification", callback: { data, ack in
-                    if (!notifListener.willReconnect) {
+                    if (!(notifListener?.willReconnect)!) {
                         print("Get notification from messagepool")
-                        notifListener.handleNotification()
+                        notifListener?.handleNotification()
                     }
                 })
-                if (notifListener.willReconnect) {
-                    notifListener.willReconnect = false
+                if (notifListener?.willReconnect)! {
+                    notifListener?.willReconnect = false
                 }
             } else
             {

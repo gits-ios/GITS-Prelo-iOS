@@ -37,7 +37,7 @@ public extension NSArray {
     
      - returns: Returns the object at a given index in safe mode (nil if self is empty or out of range)
      */
-    public func safeObjectAtIndex(index: Int) -> AnyObject? {
+    public func safeObjectAtIndex(_ index: Int) -> Any? {
         if self.count > 0 && self.count > index {
             return self[index]
         } else {
@@ -70,7 +70,7 @@ public extension NSArray {
     
      - returns: Returns the object at a given index
      */
-    public func objectAtCircleIndex(index: Int) -> AnyObject {
+    public func objectAtCircleIndex(_ index: Int) -> Any {
         return self[self.superCircle(index, size: self.count)]
     }
     
@@ -82,7 +82,7 @@ public extension NSArray {
     
      - returns: Returns the right index
      */
-    private func superCircle(index: Int, size maxSize: Int) -> Int{
+    private func superCircle(_ index: Int, size maxSize: Int) -> Int{
         var _index = index
         if _index < 0 {
             _index = _index % maxSize
@@ -104,12 +104,12 @@ public extension NSArray {
     
      - returns: Returns the reversed array
      */
-    public static func reversedArray(array: NSArray) -> NSArray {
+    public static func reversedArray(_ array: NSArray) -> NSArray {
         let arrayTemp: NSMutableArray = NSMutableArray.init(capacity: array.count)
         let enumerator: NSEnumerator = array.reverseObjectEnumerator()
         
         for element in enumerator {
-            arrayTemp.addObject(element)
+            arrayTemp.add(element)
         }
         
         return arrayTemp
@@ -122,8 +122,8 @@ public extension NSArray {
     
      - returns: Returns the JSON as String or nil if error while parsing
      */
-    public static func arrayToJSON(array: AnyObject) throws -> NSString {
-        let data = try NSJSONSerialization.dataWithJSONObject(array, options: NSJSONWritingOptions())
-        return NSString(data: data, encoding: NSUTF8StringEncoding)!
+    public static func arrayToJSON(_ array: AnyObject) throws -> NSString {
+        let data = try JSONSerialization.data(withJSONObject: array, options: JSONSerialization.WritingOptions())
+        return NSString(data: data, encoding: String.Encoding.utf8.rawValue)!
     }
 }

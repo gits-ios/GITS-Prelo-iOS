@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="PreloAwesome.ttf">
+            <string>PreloAwesome</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <viewController id="Vzq-8l-OJg" customClass="MyProductTransactionViewController" customModule="Prelo" customModuleProvider="target">
+            <layoutGuides>
+                <viewControllerLayoutGuide type="top" id="I5S-CI-GU3"/>
+                <viewControllerLayoutGuide type="bottom" id="ybJ-zO-qm5"/>
+            </layoutGuides>
+            <view key="view" contentMode="scaleToFill" id="7XL-6q-Koz">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="fC7-CE-HAq">
+                        <textInputTraits key="textInputTraits"/>
+                    </searchBar>
+                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="8mI-Cc-xBs">
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </tableView>
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="uZl-4n-KLZ" userLabel="loading">
+                        <color key="color" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </activityIndicatorView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Barang tidak ditemukan" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LA3-JI-Bx3">
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.44682067632675171" green="0.44680723547935486" blue="0.44681483507156372" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VW7-0U-kCj">
+                        <color key="backgroundColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="46" id="Zl3-JZ-vFw"/>
+                            <constraint firstAttribute="height" constant="30" id="jLZ-Hg-dW2"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
+                        <state key="normal" title="">
+                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                        </state>
+                    </button>
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="uCV-zl-PFc" userLabel="loadingbottom">
+                        <color key="color" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </activityIndicatorView>
+                </subviews>
+                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                <constraints>
+                    <constraint firstItem="fC7-CE-HAq" firstAttribute="leading" secondItem="7XL-6q-Koz" secondAttribute="leading" id="Bpx-zS-hva"/>
+                    <constraint firstItem="uZl-4n-KLZ" firstAttribute="centerX" secondItem="7XL-6q-Koz" secondAttribute="centerX" id="Cba-ug-74f"/>
+                    <constraint firstItem="ybJ-zO-qm5" firstAttribute="top" secondItem="uCV-zl-PFc" secondAttribute="bottom" constant="8" id="EUd-qw-71s"/>
+                    <constraint firstItem="VW7-0U-kCj" firstAttribute="top" secondItem="LA3-JI-Bx3" secondAttribute="bottom" constant="8" id="FYb-Hf-QkL"/>
+                    <constraint firstItem="VW7-0U-kCj" firstAttribute="centerX" secondItem="7XL-6q-Koz" secondAttribute="centerX" id="Flz-SE-s8j"/>
+                    <constraint firstItem="8mI-Cc-xBs" firstAttribute="top" secondItem="I5S-CI-GU3" secondAttribute="bottom" id="H7L-PY-6k5"/>
+                    <constraint firstItem="ybJ-zO-qm5" firstAttribute="top" secondItem="8mI-Cc-xBs" secondAttribute="bottom" constant="36" id="KWq-4y-kGG"/>
+                    <constraint firstItem="fC7-CE-HAq" firstAttribute="top" secondItem="I5S-CI-GU3" secondAttribute="bottom" id="Qe3-Nr-ae1"/>
+                    <constraint firstAttribute="trailing" secondItem="LA3-JI-Bx3" secondAttribute="trailing" constant="16" id="SJc-nx-hmR"/>
+                    <constraint firstItem="LA3-JI-Bx3" firstAttribute="top" secondItem="I5S-CI-GU3" secondAttribute="bottom" constant="64" id="UOb-by-N3R"/>
+                    <constraint firstItem="8mI-Cc-xBs" firstAttribute="leading" secondItem="7XL-6q-Koz" secondAttribute="leading" id="chx-eD-qF6"/>
+                    <constraint firstAttribute="trailing" secondItem="fC7-CE-HAq" secondAttribute="trailing" id="hRv-5Z-Ybb"/>
+                    <constraint firstAttribute="trailing" secondItem="uCV-zl-PFc" secondAttribute="trailing" constant="16" id="jh6-Re-gHv"/>
+                    <constraint firstItem="LA3-JI-Bx3" firstAttribute="leading" secondItem="7XL-6q-Koz" secondAttribute="leading" constant="16" id="m51-Pt-16D"/>
+                    <constraint firstItem="8mI-Cc-xBs" firstAttribute="top" secondItem="fC7-CE-HAq" secondAttribute="bottom" id="n4b-ti-2ZU"/>
+                    <constraint firstAttribute="trailing" secondItem="8mI-Cc-xBs" secondAttribute="trailing" id="syK-Wn-Vjg"/>
+                    <constraint firstItem="uZl-4n-KLZ" firstAttribute="top" secondItem="I5S-CI-GU3" secondAttribute="bottom" constant="64" id="zDW-s9-1lU"/>
+                </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="H7L-PY-6k5"/>
+                    </mask>
+                </variation>
+            </view>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <connections>
+                <outlet property="bottomLoading" destination="uCV-zl-PFc" id="wXI-mn-XUV"/>
+                <outlet property="btnRefresh" destination="VW7-0U-kCj" id="s5l-fh-dbA"/>
+                <outlet property="consBottomTableView" destination="KWq-4y-kGG" id="mjW-7b-SzP"/>
+                <outlet property="lblEmpty" destination="LA3-JI-Bx3" id="wZD-4t-oPK"/>
+                <outlet property="loading" destination="uZl-4n-KLZ" id="atE-Yz-Kmh"/>
+                <outlet property="searchBar" destination="fC7-CE-HAq" id="dpD-A1-8nu"/>
+                <outlet property="tableView" destination="8mI-Cc-xBs" id="kjH-mK-YyN"/>
+            </connections>
+            <point key="canvasLocation" x="258" y="398"/>
+        </viewController>
+    </objects>
+</document>

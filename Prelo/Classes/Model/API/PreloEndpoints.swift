@@ -3,103 +3,169 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 7/23/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
 import Crashlytics
+import Alamofire
 
-var prelloHost : String {
+var preloHost : String {
     get {
         return "\(AppTools.PreloBaseUrl)/api/"
     }
 }
 
 class PreloEndpoints: NSObject {
-   
-    class func ProcessParam(oldParam : [String : AnyObject]) -> [String : AnyObject]
-    {
+    class func ProcessParam(_ oldParam : [String : Any]) -> [String : Any] {
         // Set crashlytics custom keys
         Crashlytics.sharedInstance().setObjectValue(oldParam, forKey: "last_req_param")
-        
         
         return oldParam
     }
     
-}
-
-extension NSMutableURLRequest
-{
-    class func defaultURLRequest(url : NSURL) -> NSMutableURLRequest
-    {
-        let r = NSMutableURLRequest(URL: url)
-        
-        if (User.Token != nil) {
-            let t = User.Token!
-            r.setValue("Token " + t, forHTTPHeaderField: "Authorization")
-            print("User token = \(t)")   
-        }
-        let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
-        if (userAgent != nil) {
-            //print("User-Agent = \(userAgent)")
-            r.setValue(userAgent, forHTTPHeaderField: "User-Agent")
-        }
+    static func validate(_ showErrorDialog : Bool, dataResp : DataResponse<Any>, reqAlias : String) -> Bool {
+        let req = dataResp.request!
+        let resp = dataResp.response
+        let res = dataResp.result.value
+        let err = dataResp.result.error
         
         // Set crashlytics custom keys
-        Crashlytics.sharedInstance().setObjectValue(url, forKey: "last_req_url")
+        Crashlytics.sharedInstance().setObjectValue(reqAlias, forKey: "last_req_alias")
+        Crashlytics.sharedInstance().setObjectValue(res, forKey: "last_api_result")
+        if let resJson = (res as? JSON) {
+            Crashlytics.sharedInstance().setObjectValue(resJson.stringValue, forKey: "last_api_result_string")
+        }
         
-        return r
+        print("\(reqAlias) req = \(req)")
+        
+        if let response = resp {
+            if (response.statusCode != 200) {
+                if (res != nil) {
+                    if let msg = JSON(res!)["_message"].string {
+                        if (showErrorDialog) {
+                            Constant.showDialog(reqAlias, message: msg)
+                        }
+                        print("\(reqAlias) _message = \(msg)")
+                        
+                        if (msg.lowercased() == "user belum login") {
+                            User.Logout()
+                            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                            if let childVCs = appDelegate.window?.rootViewController?.childViewControllers {
+                                let rootVC = childVCs[0]
+                                let uiNavigationController : UINavigationController? = rootVC as? UINavigationController
+                                //let kumangTabBarVC : KumangTabBarViewController? = childVCs[0].viewControllers![0] as? KumangTabBarViewController
+                                let kumangTabBarVC : KumangTabBarViewController? = (childVCs[0] as? UINavigationController)?.viewControllers[0] as? KumangTabBarViewController
+                                if (uiNavigationController != nil && kumangTabBarVC != nil) {
+                                    uiNavigationController!.popToRootViewController(animated: true)
+                                    LoginViewController.Show(rootVC, userRelatedDelegate: kumangTabBarVC, animated: true)
+                                }
+                            }
+                        }
+                    }
+                } else if (res == nil && showErrorDialog) {
+                    if (response.statusCode > 500) {
+                        Constant.showDialog(reqAlias, message: "Server Prelo sedang lelah, silahkan coba beberapa saat lagi")
+                    } else {
+                        Constant.showDialog(reqAlias, message: "Oops, silahkan coba beberapa saat lagi")
+                    }
+                }
+                return false
+            }
+        }
+        
+        if (res == nil) {
+            if (showErrorDialog) {
+                Constant.showDialog(reqAlias, message: "Oops, tidak ada respon, silahkan coba beberapa saat lagi")
+            }
+            return false
+        }
+        
+        if let error = err {
+            if (showErrorDialog) {
+                Constant.showDialog(reqAlias, message: "Oops, terdapat kesalahan, silahkan coba beberapa saat lagi")
+            }
+            print("\(reqAlias) err = \(error.localizedDescription)")
+            return false
+        } else {
+            let json = JSON(res!)
+            let data = json["_data"]
+            print("\(reqAlias) _data = \(data)")
+            return true
+        }
     }
 }
 
-enum APIApp : URLRequestConvertible
-{
-    static let basePath = "app/"
+extension URLRequest {
+    func defaultURLRequest() -> URLRequest {
+        var urlRequest = URLRequest(url: self.url!)
+        
+        // Set token
+        if let token = User.Token {
+            urlRequest.setValue("Token \(token)", forHTTPHeaderField: "Authorization")
+            print("User token = \(token)")
+        }
+        
+        // Set user agent
+        if let userAgent = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String {
+            urlRequest.setValue(userAgent, forHTTPHeaderField: "User-Agent")
+        }
+        
+        // Set crashlytics custom key
+        Crashlytics.sharedInstance().setObjectValue(urlRequest, forKey: "last_req_url")
+        
+        return urlRequest
+    }
+}
+
+enum APIApp : URLRequestConvertible {
+    case version
+    case metadata(brands : String, categories : String, categorySizes : String, shippings : String, productConditions : String, provincesRegions : String)
+    case metadataCategories(currentVer : Int)
+    case metadataProductConditions
+    case metadataProvincesRegions(currentVer : Int)
+    case metadataShippings
     
-    case Version
-    case Metadata(brands : String, categories : String, categorySizes : String, shippings : String, productConditions : String, provincesRegions : String)
-    case MetadataCategories(currentVer : Int)
-    case MetadataProductConditions
-    case MetadataProvincesRegions(currentVer : Int)
-    case MetadataShippings
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = "app/"
+        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
+        return encodedURLRequest
+    }
     
-    var method : Method
-    {
-        switch self
-        {
-        case .Version : return .GET
-        case .Metadata(_, _, _, _, _, _) : return .GET
-        case .MetadataCategories(_) : return .GET
-        case .MetadataProductConditions : return .GET
-        case .MetadataProvincesRegions(_) : return .GET
-        case .MetadataShippings : return .GET
+    var method : HTTPMethod {
+        switch self {
+        case .version : return .get
+        case .metadata(_, _, _, _, _, _) : return .get
+        case .metadataCategories(_) : return .get
+        case .metadataProductConditions : return .get
+        case .metadataProvincesRegions(_) : return .get
+        case .metadataShippings : return .get
         }
     }
     
-    var path : String
-    {
-        switch self
-        {
-        case .Version : return "version"
-        case .Metadata(_, _, _, _, _, _) : return "metadata"
-        case .MetadataCategories(_) : return "metadata/categories"
-        case .MetadataProductConditions : return "metadata/product_condition"
-        case .MetadataProvincesRegions(_) : return "metadata/provinces_regions"
-        case .MetadataShippings : return "metadata/shippings"
+    var path : String {
+        switch self {
+        case .version : return "version"
+        case .metadata(_, _, _, _, _, _) : return "metadata"
+        case .metadataCategories(_) : return "metadata/categories"
+        case .metadataProductConditions : return "metadata/product_condition"
+        case .metadataProvincesRegions(_) : return "metadata/provinces_regions"
+        case .metadataShippings : return "metadata/shippings"
         }
     }
     
-    var param : [String : AnyObject]?
-    {
-        switch self
-        {
-        case .Version :
-            let p = [
+    var param : [String : Any] {
+        var p : [String : Any] = [:]
+        switch self {
+        case .version :
+            p = [
                 "app_type" : "ios"
             ]
-            return p
-        case .Metadata(let brands, let categories, let categorySizes, let shippings, let productConditions, let provincesRegions) :
-            let p = [
+        case .metadata(let brands, let categories, let categorySizes, let shippings, let productConditions, let provincesRegions) :
+            p = [
                 "brands" : brands,
                 "categories" : categories,
                 "cateogry_sizes" : categorySizes,
@@ -107,943 +173,476 @@ enum APIApp : URLRequestConvertible
                 "product_conditions" : productConditions,
                 "provinces_regions" : provincesRegions
             ]
-            return p
-        case .MetadataCategories(let currentVer) :
-            let p = [
+        case .metadataCategories(let currentVer) :
+            p = [
                 "current_version" : currentVer
             ]
-            return p
-        case .MetadataProductConditions :
-            return [:]
-        case .MetadataProvincesRegions(let currentVer) :
-            let p = [
+        case .metadataProvincesRegions(let currentVer) :
+            p = [
                 "current_version" : currentVer
             ]
-            return p
-        case .MetadataShippings :
-            return [:]
+        default : break
         }
-    }
-    
-    var URLRequest : NSMutableURLRequest
-    {
-        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIApp.basePath).URLByAppendingPathComponent(path)
-        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
-        req.HTTPMethod = method.rawValue
-        
-        print("\(req.allHTTPHeaderFields)")
-        
-        let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
-        
-        return r
+        return p
     }
 }
 
-enum APISocial : URLRequestConvertible
-{
-    static let basePath = "socmed/"
+enum APIAuth : URLRequestConvertible {
+    case register(username : String, fullname : String, email : String, password : String)
+    case login(email : String, password : String)
+    case loginFacebook(email : String, fullname : String, fbId : String, fbUsername : String, fbAccessToken : String)
+    case loginPath(email : String, fullname : String, pathId : String, pathAccessToken : String)
+    case loginTwitter(email : String, fullname : String, username : String, id : String, accessToken : String, tokenSecret : String)
+    case logout
+    case forgotPassword(email : String)
     
-    case StoreInstagramToken(token : String)
-    case PostInstagramData(id : String, username : String, token : String)
-    case PostFacebookData(id : String, username : String, token : String)
-    case PostPathData(id : String, username : String, token : String)
-    case PostTwitterData(id : String, username : String, token : String, secret : String)
-    
-    var method : Method
-        {
-            switch self
-            {
-            default : return .POST
-            }
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = "auth/"
+        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
+        return encodedURLRequest
     }
     
-    var path : String
-        {
-            switch self
-            {
-            case .StoreInstagramToken(_) : return "instagram"
-            case .PostInstagramData(_, _, _) : return "instagram"
-            case .PostFacebookData(_, _, _) : return "facebook"
-            case .PostPathData(_, _, _) : return "path"
-            case .PostTwitterData(_, _, _, _) : return "twitter"
-            }
-    }
-    
-    var param : [String : AnyObject]?
-        {
-            switch self
-            {
-            case .StoreInstagramToken(let appType) :
-                let p = [
-                    "access_token" : appType
-                ]
-                return p
-            case .PostInstagramData(let id, let username, let token) :
-                let p = [
-                    "instagram_id" : id,
-                    "instagram_username" : username,
-                    "access_token" : token
-                ]
-                return p
-            case .PostFacebookData(let id, let username, let token) :
-                let p = [
-                    "fb_id" : id,
-                    "fb_username" : username,
-                    "access_token" : token
-                ]
-                return p
-            case .PostPathData(let id, let username, let token) :
-                let p = [
-                    "path_id" : id,
-                    "path_username" : username,
-                    "access_token" : token
-                ]
-                return p
-            case .PostTwitterData(let id, let username, let token, let secret) :
-                let p = [
-                    "twitter_id" : id,
-                    "twitter_username" : username,
-                    "access_token" : token,
-                    "token_secret" : secret
-                ]
-                return p
-            }
-    }
-    
-    var URLRequest : NSMutableURLRequest
-        {
-            let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APISocial.basePath).URLByAppendingPathComponent(path)
-            let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
-            req.HTTPMethod = method.rawValue
-            
-            print("\(req.allHTTPHeaderFields)")
-            
-            let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
-            
-            return r
-    }
-}
-
-enum APIWallet : URLRequestConvertible
-{
-    static let basePath = "wallet/"
-    
-    case GetBalance
-    case Withdraw(amount : String, targetBank : String, norek : String, namarek : String, password : String)
-    
-    var method : Method
-        {
-            switch self
-            {
-            case .Withdraw(_, _, _, _, _) : return .POST
-            case .GetBalance : return .GET
-            }
-    }
-    
-    var path : String
-        {
-            switch self
-            {
-            case .Withdraw(_, _, _, _, _) : return "withdraw"
-            case .GetBalance : return "balance"
-            }
-    }
-    
-    var param : [String : AnyObject]?
-        {
-            switch self
-            {
-            case .Withdraw(let amount, let namaBank, let norek, let namarek, let password) : return ["amount" : amount, "target_bank":namaBank, "nomor_rekening":norek, "name":namarek, "password":password]
-            case .GetBalance : return [:]
-            }
-    }
-    
-    var URLRequest : NSMutableURLRequest
-        {
-            let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIWallet.basePath).URLByAppendingPathComponent(path)
-            let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
-            req.HTTPMethod = method.rawValue
-            
-            print("\(req.allHTTPHeaderFields)")
-            
-            let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
-            
-            return r
-    }
-}
-
-enum APINotif : URLRequestConvertible
-{
-    static let basePath = "notification/"
-    
-    case GetNotifs
-    case OpenNotifs
-    case ReadNotif(notifId : String)
-    case ReadMultiNotif(objectId : String, type : String)
-    
-    var method : Method
-    {
-        switch self
-        {
-        case .GetNotifs : return .GET
-        case .OpenNotifs : return .POST
-        case .ReadNotif(_) : return .POST
-        case .ReadMultiNotif(_, _) : return .POST
-        }
-    }
-    
-    var path : String
-    {
-        switch self
-        {
-        case .GetNotifs : return ""
-        case .OpenNotifs : return "open"
-        case .ReadNotif(let notifId) : return "\(notifId)/read"
-        case .ReadMultiNotif(_, _) : return "read_multiple"
-        }
-    }
-    
-    var param : [String : AnyObject]?
-    {
-        switch self
-        {
-        case .GetNotifs :
-            return [:]
-        case .OpenNotifs :
-            return [:]
-        case .ReadNotif(_) :
-            return [:]
-        case .ReadMultiNotif(let objectId, let type) :
-            let p = [
-                "object_id" : objectId,
-                "type" : type
-            ]
-            return p
-        }
-    }
-    
-    var URLRequest : NSMutableURLRequest
-    {
-        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APINotif.basePath).URLByAppendingPathComponent(path)
-        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
-        req.HTTPMethod = method.rawValue
-        
-        print("\(req.allHTTPHeaderFields)")
-        
-        let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
-        
-        return r
-    }
-}
-
-enum APINotifAnggi : URLRequestConvertible
-{
-    static let basePath = "notification/"
-    
-    case GetNotifs(tab : String, page : Int)
-    case GetUnreadNotifCount
-    case ReadNotif(tab : String, id : String)
-    
-    var method : Method
-    {
-        switch self
-        {
-        case .GetNotifs(_, _) : return .GET
-        case .GetUnreadNotifCount : return .GET
-        case .ReadNotif(_, _) : return .POST
-        }
-    }
-    
-    var path : String
-    {
-        switch self
-        {
-        case .GetNotifs(let tab, let page) : return "new/\(tab)/\(page)"
-        case .GetUnreadNotifCount : return "new/count"
-        case .ReadNotif(let tab, _) : return "new/\(tab)/read"
-        }
-    }
-    
-    var param : [String : AnyObject]?
-    {
-        switch self
-        {
-        case .GetNotifs(_, _) :
-            return [:]
-        case .GetUnreadNotifCount :
-            return [:]
-        case .ReadNotif(_, let id) :
-            let p = [
-                "object_id" : id
-            ]
-            return p
-        }
-    }
-    
-    var URLRequest : NSMutableURLRequest
-    {
-        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APINotifAnggi.basePath).URLByAppendingPathComponent(path)
-        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
-        req.HTTPMethod = method.rawValue
-        
-        print("\(req.allHTTPHeaderFields)")
-        
-        let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
-        
-        return r
-    }
-}
-
-enum APIInbox : URLRequestConvertible
-{
-    static let basePath = "inbox/"
-    
-    case GetInboxes
-    case GetInboxByProductID(productId : String)
-    case GetInboxByProductIDSeller(productId : String, buyerId : String)
-    case GetInboxMessage (inboxId : String)
-    case StartNewOne (productId : String, type : Int, message : String)
-    case StartNewOneBySeller (productId : String, type : Int, message : String, toId : String)
-    case SendTo (inboxId : String, type : Int, message : String)
-    
-    var method : Method
-        {
-            switch self
-            {
-            case .GetInboxByProductID(_) : return .GET
-            case .GetInboxByProductIDSeller(_, _) : return .GET
-            case .GetInboxes : return .GET
-            case .GetInboxMessage(_) : return .GET
-            case .StartNewOne (_, _, _) : return .POST
-            case .StartNewOneBySeller (_, _, _, _) : return .POST
-            case .SendTo (_, _, _) : return .POST
-            }
-    }
-    
-    var path : String
-        {
-            switch self
-            {
-            case .GetInboxByProductID(let prodId) : return "product/"+prodId
-            case .GetInboxByProductIDSeller(let prodId, _) : return "product/buyer/"+prodId
-            case .GetInboxes : return ""
-            case .GetInboxMessage(let inboxId) : return inboxId
-            case .SendTo (let inboxId, _, _) : return inboxId
-            case .StartNewOne(_, _, _) : return ""
-            case .StartNewOneBySeller(_, _, _, _) : return ""
-            }
-    }
-    
-    var param : [String : AnyObject]?
-        {
-            switch self
-            {
-            case .GetInboxByProductID(_) : return [:]
-            case .GetInboxByProductIDSeller(_, let buyerId) : return ["buyer_id":buyerId]
-            case .GetInboxes : return [:]
-            case .GetInboxMessage(_) : return [:]
-            case .StartNewOne(let prodId, let type, let m) :
-                return ["product_id":prodId, "message_type":String(type), "message":m]
-            case .StartNewOneBySeller(let prodId, let type, let m, let toId) :
-                return ["product_id":prodId, "message_type":String(type), "message":m, "to":toId]
-            case .SendTo (_, let type, let message) : return ["message_type":type, "message":message]
-            }
-    }
-    
-    var URLRequest : NSMutableURLRequest
-        {
-            let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIInbox.basePath).URLByAppendingPathComponent(path)
-            let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
-            req.HTTPMethod = method.rawValue
-            
-            print("\(req.allHTTPHeaderFields)")
-            
-            let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
-            
-            return r
-    }
-}
-
-enum APITransactionCheck : URLRequestConvertible
-{
-    static let basePath = "transaction_check"
-    
-    case CheckUnpaidTransaction
-    
-    var method : Method
-    {
-        switch self
-        {
-        case .CheckUnpaidTransaction : return .GET
-        }
-    }
-    
-    var path : String
-    {
-        switch self
-        {
-        case .CheckUnpaidTransaction : return ""
-        }
-    }
-    
-    var param : [String : AnyObject]?
-    {
-        switch self
-        {
-        case .CheckUnpaidTransaction : return [:]
-        }
-    }
-    
-    var URLRequest : NSMutableURLRequest
-        {
-            let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APITransactionCheck.basePath).URLByAppendingPathComponent(path)
-            let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
-            req.HTTPMethod = method.rawValue
-            
-            print("\(req.allHTTPHeaderFields)")
-            
-            let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
-            
-            return r
-    }
-}
-
-enum APITransaction : URLRequestConvertible
-{
-    static let basePath = "transaction_product/"
-    
-    case Purchases(status : String, current : String, limit : String)
-    case Sells(status : String, current : String, limit : String)
-    case TransactionDetail(id : String)
-    case ConfirmShipping(tpId : String, resiNum : String)
-    case CheckoutList(current : String, limit : String)
-    case RejectTransaction(tpId : String, reason : String)
-    
-    var method : Method
-    {
-        switch self
-        {
-        case .Purchases(_, _, _) : return .GET
-        case .Sells(_, _, _) : return .GET
-        case .TransactionDetail(_) : return .GET
-        case .ConfirmShipping(_, _) : return .POST
-        case .CheckoutList(_, _) : return .GET
-        case .RejectTransaction(_, _) : return .POST
-        }
-    }
-    
-    var path : String
-    {
-        switch self
-        {
-        case .Purchases(_, _, _) : return "buys"
-        case .Sells(_, _, _) : return "sells"
-        case .TransactionDetail(let id) : return id
-        case .ConfirmShipping(let tpId, _) : return "\(tpId)/sent"
-        case .CheckoutList(_, _) : return "checkouts"
-        case .RejectTransaction(let tpId, _) : return "\(tpId)/reject"
-        }
-    }
-    
-    var param : [String : AnyObject]?
-    {
-        switch self
-        {
-        case .Purchases(let status, let current, let limit) :
-            let p = [
-                "status" : status,
-                "current" : current,
-                "limit" : limit
-            ]
-            return p
-        case .Sells(let status, let current, let limit) :
-            let p = [
-                "status" : status,
-                "current" : current,
-                "limit" : limit
-            ]
-            return p
-        case .TransactionDetail(_) :
-            return [:]
-        case .ConfirmShipping(_, let resiNum) :
-            let p = [
-                "resi_number" : resiNum
-            ]
-            return p
-        case .CheckoutList(let current, let limit) :
-            let p = [
-                "current" : current,
-                "limit" : limit
-            ]
-            return p
-        case .RejectTransaction(_, let reason) :
-            let p = [
-                "reason" : reason
-            ]
-            return p
-        }
-    }
-    
-    var URLRequest : NSMutableURLRequest
-    {
-        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APITransaction.basePath).URLByAppendingPathComponent(path)
-        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
-        req.HTTPMethod = method.rawValue
-        
-        print("\(req.allHTTPHeaderFields)")
-        
-        let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
-        
-        return r
-    }
-}
-
-enum APITransaction2 : URLRequestConvertible
-{
-    static let basePath = "transaction/"
-    
-    case TransactionDetail(tId : String)
-    case ConfirmPayment(bankFrom : String, bankTo : String, name : String, nominal : Int, orderId : String, timePaid : String)
-
-    var method : Method {
-        switch self
-        {
-        case .TransactionDetail(_) : return .GET
-        case .ConfirmPayment(_, _, _, _, _, _) : return .POST
+    var method : HTTPMethod {
+        switch self {
+        case .register(_, _, _, _) : return .post
+        case .login(_, _) : return .post
+        case .loginFacebook(_, _, _, _, _) : return .post
+        case .loginPath(_, _, _, _) : return .post
+        case .loginTwitter(_, _, _, _, _, _) : return .post
+        case .logout : return .post
+        case .forgotPassword(_) : return .post
         }
     }
     
     var path : String {
-        switch self
-        {
-        case .TransactionDetail(let tId) : return "\(tId)"
-        case  .ConfirmPayment(_, _, _, _, let orderId, _) : return orderId + "/payment"
+        switch self {
+        case .register(_, _, _, _) : return "register"
+        case .login(_, _) : return "login"
+        case .loginFacebook(_, _, _, _, _) : return "login/facebook"
+        case .loginPath(_, _, _, _) : return "login/path"
+        case .loginTwitter(_, _, _, _, _, _) : return "login/twitter"
+        case .logout : return "logout"
+        case .forgotPassword(_) : return "forgot_password"
         }
     }
     
-    var param : [String : AnyObject] {
-        switch self
-        {
-        case .TransactionDetail(_) :
-            return [:]
-        case  .ConfirmPayment(let bankFrom, let bankTo, let nama, let nominal, _, let timePaid) :
-            return [
-                "target_bank":bankTo,
-                "source_bank":bankFrom,
-                "name":nama,
-                "nominal":nominal,
-                "time_paid":timePaid
+    var param : [String : Any] {
+        var p : [String : Any] = [:]
+        switch self {
+        case .register(let username, let fullname, let email, let password) :
+            p = [
+                "username" : username,
+                "fullname" : fullname,
+                "email" : email,
+                "password" : password,
+                "device_id" : UIDevice.current.identifierForVendor!.uuidString,
+                "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
+                "platform_sent_from" : "ios"
+            ]
+        case .login(let usernameOrEmail, let password) :
+            p = [
+                "username_or_email" : usernameOrEmail,
+                "password" : password,
+                "platform_sent_from" : "ios"
+            ]
+        case .loginFacebook(let email, let fullname, let fbId, let fbUsername, let fbAccessToken) :
+            p = [
+                "email" : email,
+                "fullname" : fullname,
+                "fb_id" : fbId,
+                "fb_username" : fbUsername,
+                "fb_access_token" : fbAccessToken,
+                "platform_sent_from" : "ios"
+            ]
+        case .loginPath(let email, let fullname, let pathId, let pathAccessToken) :
+            p = [
+                "email" : email,
+                "fullname" : fullname,
+                "path_id" : pathId,
+                "path_access_token" : pathAccessToken,
+                "platform_sent_from" : "ios"
+            ]
+        case .loginTwitter(let email, let fullname, let username, let id, let accessToken, let tokenSecret) :
+            p = [
+                "email" : email,
+                "fullname" : fullname,
+                "twitter_username" : username,
+                "twitter_id" : id,
+                "twitter_access_token" : accessToken,
+                "twitter_token_secret" : tokenSecret,
+                "platform_sent_from" : "ios"
+            ]
+        case .logout:
+            p = [
+                "platform_sent_from" : "ios"
+            ]
+        case .forgotPassword(let email) :
+            p = [
+                "email" : email,
+                "platform_sent_from" : "ios"
             ]
         }
-    }
-    
-    var URLRequest : NSMutableURLRequest {
-        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APITransaction2.basePath).URLByAppendingPathComponent(path)
-        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
-        req.HTTPMethod = method.rawValue
-            
-        print("\(req.allHTTPHeaderFields)")
-            
-        let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param)).0
-            
-        return r
+        return p
     }
 }
 
-enum APITransactionAnggi : URLRequestConvertible
-{
-    static let basePath = ""
+enum APICart : URLRequestConvertible {
+    case refresh(cart : String, address : String, voucher : String?)
+    case checkout(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int, usedReferralBonus : Int, kodeTransfer : Int, targetBank : String)
+    case generateVeritransUrl(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int, usedReferralBonus : Int, kodeTransfer : Int)
     
-    case GetSellerTransaction(id : String)
-    case GetBuyerTransaction(id : String)
-    case GetTransactionProduct(id : String)
-    case DelayShipping(arrTpId : String)
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = "cart/"
+        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
+        return encodedURLRequest
+    }
     
-    var method : Method
-    {
-        switch self
-        {
-        case .GetSellerTransaction(_) : return .GET
-        case .GetBuyerTransaction(_) : return .GET
-        case .GetTransactionProduct(_) : return .GET
-        case .DelayShipping(_) : return .POST
+    var method : HTTPMethod {
+        switch self {
+        case .refresh(_, _, _) : return .post
+        case .checkout(_, _, _, _, _, _, _, _) : return .post
+        case .generateVeritransUrl(_, _, _, _, _, _, _) : return .post
         }
     }
     
-    var path : String
-    {
-        switch self
-        {
-        case .GetSellerTransaction(let id) : return "transaction/seller/\(id)"
-        case .GetBuyerTransaction(let id) : return "transaction/\(id)"
-        case .GetTransactionProduct(let id) : return "transaction_product/\(id)"
-        case .DelayShipping(_) : return "transaction/delay/shipping"
+    var path : String {
+        switch self {
+        case .refresh(_, _, _) : return ""
+        case .checkout(_, _, _, _, _, _, _, _) : return "checkout"
+        case .generateVeritransUrl(_, _, _, _, _, _, _) : return "generate_veritrans_url"
         }
     }
     
-    var param : [String : AnyObject]?
-    {
-        switch self
-        {
-        case .GetSellerTransaction(_) : return [:]
-        case .GetBuyerTransaction(_) : return [:]
-        case .GetTransactionProduct(_) : return [:]
-        case .DelayShipping(let arrTpId) :
-            let p = [
-                "arr_tp_id" : arrTpId
-            ]
-            return p
-        }
-    }
-    
-    var URLRequest : NSMutableURLRequest
-    {
-        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APITransactionAnggi.basePath).URLByAppendingPathComponent(path)
-        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
-        req.HTTPMethod = method.rawValue
-        
-        print("\(req.allHTTPHeaderFields)")
-        
-        let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
-        
-        return r
-    }
-}
-
-enum APICart : URLRequestConvertible
-{
-    static let basePath = "cart/"
-    
-    case Refresh(cart : String, address : String, voucher : String?)
-    case Checkout(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int, usedReferralBonus : Int, kodeTransfer : Int)
-    
-    var method : Method
-    {
-        switch self
-        {
-        case .Refresh(_, _, _) : return .POST
-        case .Checkout(_, _, _, _, _, _, _) : return .POST
-        }
-    }
-    
-    var path : String
-    {
-        switch self
-        {
-        case .Refresh(_, _, _) : return ""
-        case .Checkout(_, _, _, _, _, _, _) : return "checkout"
-        }
-    }
-    
-    var param : [String : AnyObject]?
-    {
-        switch self
-        {
-        case .Refresh(let cart, let address, let voucher) :
-                let p = [
-                    "cart_products":cart,
-                    "shipping_address":address,
-                    "voucher_serial":(voucher == nil) ? "" : voucher!
-                ]
-                return p
-        case .Checkout(let cart, let address, let voucher, let payment, let usedBalance, let usedBonus, let kodeTransfer) :
-            var p = [
+    var param : [String : Any] {
+        var p : [String : Any] = [:]
+        switch self {
+        case .refresh(let cart, let address, let voucher) :
+            p = [
                 "cart_products":cart,
                 "shipping_address":address,
-                "banktransfer_digit":NSNumber(integer: 1),
                 "voucher_serial":(voucher == nil) ? "" : voucher!,
-                "payment_method":payment
+                "platform_sent_from" : "ios"
             ]
-            if usedBalance != 0
-            {
-                p["prelobalance_used"] = NSNumber(integer: usedBalance)
+        case .checkout(let cart, let address, let voucher, let payment, let usedBalance, let usedBonus, let kodeTransfer, let targetBank) :
+            p = [
+                "cart_products":cart,
+                "shipping_address":address,
+                "banktransfer_digit":NSNumber(value: 1 as Int),
+                "voucher_serial":(voucher == nil) ? "" : voucher!,
+                "payment_method":payment,
+                "platform_sent_from" : "ios",
+                "target_bank": targetBank
+                ] as [String : Any]
+            if usedBalance != 0 {
+                p["prelobalance_used"] = NSNumber(value: usedBalance as Int)
             }
-            
-            if kodeTransfer != 0
-            {
-                p["banktransfer_digit"] = NSNumber(integer: kodeTransfer)
+            if kodeTransfer != 0 {
+                p["banktransfer_digit"] = NSNumber(value: kodeTransfer as Int)
             }
-            
             if usedBonus != 0 {
-                p["bonus_used"] = NSNumber(integer: usedBonus)
+                p["bonus_used"] = NSNumber(value: usedBonus as Int)
             }
-            
-            return p
+        case .generateVeritransUrl(let cart, let address, let voucher, let payment, let usedBalance, let usedBonus, let kodeTransfer) :
+            p = [
+                "cart_products":cart,
+                "shipping_address":address,
+                "banktransfer_digit":NSNumber(value: 1 as Int),
+                "voucher_serial":(voucher == nil) ? "" : voucher!,
+                "payment_method":payment,
+                "platform_sent_from" : "ios"
+                ] as [String : Any]
+            if usedBalance != 0 {
+                p["prelobalance_used"] = NSNumber(value: usedBalance as Int)
+            }
+            if kodeTransfer != 0 {
+                p["banktransfer_digit"] = NSNumber(value: kodeTransfer as Int)
+            }
+            if usedBonus != 0 {
+                p["bonus_used"] = NSNumber(value: usedBonus as Int)
+            }
         }
-    }
-    
-    var URLRequest : NSMutableURLRequest
-    {
-//        switch self
-//        {
-//            case .Refresh(_, _, _) :
-//                let url = NSBundle.mainBundle().URLForResource("dummyCart", withExtension: ".json")
-//                let req = NSMutableURLRequest.defaultURLRequest(url!)
-//                return req
-//            default :
-//                print("")
-//            
-//        }
-        
-        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APICart.basePath).URLByAppendingPathComponent(path)
-        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
-        req.HTTPMethod = method.rawValue
-        
-        print("\(req.allHTTPHeaderFields)")
-        
-        let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
-        
-        return r
+        return p
     }
 }
 
-enum APIAuth : URLRequestConvertible
-{
-    static let basePath = "auth/"
+enum APIDemo : URLRequestConvertible {
+    case homeCategories
     
-    case Register(username : String, fullname : String, email : String, password : String)
-    case Login(email : String, password : String)
-    case LoginFacebook(email : String, fullname : String, fbId : String, fbUsername : String, fbAccessToken : String)
-    case LoginPath(email : String, fullname : String, pathId : String, pathAccessToken : String)
-    case LoginTwitter(email : String, fullname : String, username : String, id : String, accessToken : String, tokenSecret : String)
-    case Logout
-    
-    var method : Method
-        {
-            switch self
-            {
-            case .Register(_, _, _, _) : return .POST
-            case .Login(_, _) : return .POST
-            case .LoginFacebook(_, _, _, _, _) : return .POST
-            case .LoginPath(_, _, _, _) : return .POST
-            case .LoginTwitter(_, _, _, _, _, _) : return .POST
-            case .Logout : return .POST
-            }
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = "demo/"
+        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
+        return encodedURLRequest
     }
     
-    var path : String
-        {
-            switch self
-            {
-            case .Register(_, _, _, _) : return "register"
-            case .Login(_, _) : return "login"
-            case .LoginFacebook(_, _, _, _, _) : return "login/facebook"
-            case .LoginPath(_, _, _, _) : return "login/path"
-            case .LoginTwitter(_, _, _, _, _, _) : return "login/twitter"
-            case .Logout : return "logout"
-            }
-    }
-    
-    var param : [String : AnyObject]?
-        {
-            switch self
-            {
-            case .Register(let username, let fullname, let email, let password) :
-                let p = [
-                    "username" : username,
-                    "fullname" : fullname,
-                    "email" : email,
-                    "password" : password,
-                    "device_id" : UIDevice.currentDevice().identifierForVendor!.UUIDString,
-                    "fa_id" : UIDevice.currentDevice().identifierForVendor!.UUIDString
-                ]
-                return p
-            case .Login(let usernameOrEmail, let password) :
-                let p = [
-                    "username_or_email" : usernameOrEmail,
-                    "password" : password
-                ]
-                return p
-            case .LoginFacebook(let email, let fullname, let fbId, let fbUsername, let fbAccessToken) :
-                let p = [
-                    "email" : email,
-                    "fullname" : fullname,
-                    "fb_id" : fbId,
-                    "fb_username" : fbUsername,
-                    "fb_access_token" : fbAccessToken
-                ]
-                return p
-            case .LoginPath(let email, let fullname, let pathId, let pathAccessToken) :
-                let p = [
-                    "email" : email,
-                    "fullname" : fullname,
-                    "path_id" : pathId,
-                    "path_access_token" : pathAccessToken
-                ]
-                return p
-            case .LoginTwitter(let email, let fullname, let username, let id, let accessToken, let tokenSecret) :
-                let p = [
-                    "email" : email,
-                    "fullname" : fullname,
-                    "twitter_username" : username,
-                    "twitter_id" : id,
-                    "twitter_access_token" : accessToken,
-                    "twitter_token_secret" : tokenSecret
-                ]
-                return p
-            case .Logout :
-                return [:]
-            }
-    }
-    
-    var URLRequest : NSMutableURLRequest {
-        
-        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIAuth.basePath).URLByAppendingPathComponent(path)
-        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
-        req.HTTPMethod = method.rawValue
-        
-        // Selain logout jangan pake token
+    var method : HTTPMethod {
         switch self {
-        case .Logout : break
-        default :
-            req.setValue("", forHTTPHeaderField: "Authorization")
-        }
-        
-        print("\(req.allHTTPHeaderFields)")
-        
-        let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
-        
-        return r
-    }
-}
-
-enum APIVisitor : URLRequestConvertible {
-    static let basePath = "visitors/"
-    
-    case UpdateVisitor(deviceRegId : String)
-    
-    var method : Method {
-        switch self {
-        case .UpdateVisitor(_) : return .POST
+        case .homeCategories : return .get
         }
     }
     
     var path : String {
         switch self {
-        case .UpdateVisitor(_) : return "update"
+        case .homeCategories : return "reference/categories/home"
         }
     }
     
-    var param : [String : AnyObject]? {
+    var param : [String : Any] {
         switch self {
-        case .UpdateVisitor(let deviceRegId) :
-            let p = [
-                "device_type" : "APNS",
-                "device_registration_id" : deviceRegId
-            ]
-            return p
+        case .homeCategories : return [:]
         }
-    }
-    
-    var URLRequest : NSMutableURLRequest {
-        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIVisitor.basePath).URLByAppendingPathComponent(path)
-        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
-        req.HTTPMethod = method.rawValue
-        return ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
     }
 }
 
-enum APIUser : URLRequestConvertible
-{
-    static let basePath = "me/"
+enum APIGarageSale : URLRequestConvertible {
+    case createReservation(productId : String)
+    case cancelReservation(productId : String)
     
-    case Login(email : String, password : String)
-    case Register(fullname : String, email : String, password : String)
-    case Logout
-    case Me
-    case OrderList(status : String)
-    case MyProductSell
-    case MyLovelist
-    case SetupAccount(username : String, email: String, gender : Int, phone : String, province : String, region : String, subdistrict : String, shipping : String, referralCode : String, deviceId : String, deviceRegId : String)
-    case SetProfile(fullname : String, address : String, province : String, region : String, subdistrict : String, postalCode : String, description : String, shipping : String)
-    case ResendVerificationSms(phone : String)
-    case VerifyPhone(phone : String, phoneCode : String)
-    case ReferralData
-    case SetReferral(referralCode : String, deviceId : String)
-    case SetDeviceRegId(deviceRegId : String)
-    case SetUserPreferencedCategories(categ1 : String, categ2 : String, categ3 : String)
-    case CheckPassword
-    case ResendVerificationEmail
-    case GetBalanceMutations(current : Int, limit : Int)
-    case SetUserUUID
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = "garagesale/"
+        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
+        return encodedURLRequest
+    }
     
-    var method : Method
-    {
-        switch self
-        {
-        case .Login(_, _):return .POST
-        case .Register(_, _, _): return .POST
-        case .Logout:return .POST
-        case .Me:return .GET
-        case .OrderList(_):return .GET
-        case .MyProductSell:return .GET
-        case .MyLovelist : return .GET
-        case .SetupAccount(_, _, _, _, _, _, _, _, _, _, _) : return .POST
-        case .SetProfile(_, _, _, _, _, _, _, _) : return .POST
-        case .ResendVerificationSms(_) : return .POST
-        case .VerifyPhone(_, _) : return .POST
-        case .ReferralData : return .GET
-        case .SetReferral(_, _) : return .POST
-        case .SetDeviceRegId(_) : return .POST
-        case .SetUserPreferencedCategories(_, _, _) : return .POST
-        case .CheckPassword : return .GET
-        case .ResendVerificationEmail : return .POST
-        case .GetBalanceMutations(_, _) : return .GET
-        case .SetUserUUID : return .POST
+    var method : HTTPMethod {
+        switch self {
+        case .createReservation(_) : return .post
+        case .cancelReservation(_) : return .post
         }
     }
     
-    var path : String
-    {
-        switch self
-        {
-        case .Login(_, _):return "login"
-        case .Register(_, _, _): return "register"
-        case .Logout:return "logout"
-        case .Me : return "profile"
-        case .OrderList(_):return "buy_list"
-        case .MyProductSell:return "products"
-        case .MyLovelist : return "lovelist"
-        case .SetupAccount(_, _, _, _, _, _, _, _, _, _, _) : return "setup"
-        case .SetProfile(_, _, _, _, _, _, _, _) : return "profile"
-        case .ResendVerificationSms(_) : return "verify/resend_phone"
-        case .VerifyPhone(_, _) : return "verify/phone"
-        case .ReferralData : return "referral_bonus"
-        case .SetReferral(_, _) : return "referral"
-        case .SetDeviceRegId(_) : return "set_device_registration_id"
-        case .SetUserPreferencedCategories(_, _, _) : return "category_preference"
-        case .CheckPassword : return "checkpassword"
-        case .ResendVerificationEmail : return "verify/resend_email"
-        case .GetBalanceMutations(_, _) : return "getprelobalances"
-        case .SetUserUUID : return "setgafaid"
+    var path : String {
+        switch self {
+        case .createReservation(_) : return "newreservation"
+        case .cancelReservation(_) : return "cancelreservation"
         }
     }
     
-    var param : [String : AnyObject]?
-    {
-        switch self
-        {
-        case .Login(let email, let password):
-            return [
-                "email":email,
-                "password":password
+    var param : [String : Any] {
+        var p : [String : Any] = [:]
+        switch self {
+        case .createReservation(let productId) :
+            p = [
+                "product_id" : productId,
+                "platform_sent_from" : "ios"
             ]
-        case .Register(let fullname, let email, let password):
-            return [
+        case .cancelReservation(let productId) :
+            p = [
+                "product_id" : productId,
+                "platform_sent_from" : "ios"
+            ]
+        }
+        return p
+    }
+}
+
+enum APIInbox : URLRequestConvertible {
+    case getInboxes
+    case getInboxByProductID(productId : String)
+    case getInboxByProductIDSeller(productId : String, buyerId : String)
+    case getInboxMessage (inboxId : String)
+    case startNewOne (productId : String, type : Int, message : String)
+    case startNewOneBySeller (productId : String, type : Int, message : String, toId : String)
+    case sendTo (inboxId : String, type : Int, message : String)
+    
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = "inbox/"
+        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
+        return encodedURLRequest
+    }
+    
+    var method : HTTPMethod {
+        switch self {
+        case .getInboxByProductID(_) : return .get
+        case .getInboxByProductIDSeller(_, _) : return .get
+        case .getInboxes : return .get
+        case .getInboxMessage(_) : return .get
+        case .startNewOne (_, _, _) : return .post
+        case .startNewOneBySeller (_, _, _, _) : return .post
+        case .sendTo (_, _, _) : return .post
+        }
+    }
+    
+    var path : String {
+        switch self {
+        case .getInboxByProductID(let prodId) : return ("product/" + prodId)
+        case .getInboxByProductIDSeller(let prodId, _) : return ("product/buyer/" + prodId)
+        case .getInboxMessage(let inboxId) : return inboxId
+        case .sendTo (let inboxId, _, _) : return inboxId
+        default : return ""
+        }
+    }
+    
+    var param : [String : Any] {
+        var p : [String : Any] = [:]
+        switch self {
+        case .getInboxByProductIDSeller(_, let buyerId) :
+            p = [
+                "buyer_id" : buyerId
+            ]
+        case .startNewOne(let prodId, let type, let m) :
+            p = [
+                "product_id" : prodId,
+                "message_type" : String(type),
+                "message" : m,
+                "platform_sent_from" : "ios"
+            ]
+        case .startNewOneBySeller(let prodId, let type, let m, let toId) :
+            p = [
+                "product_id" : prodId,
+                "message_type" : String(type),
+                "message" : m,
+                "to" : toId,
+                "platform_sent_from" : "ios"
+            ]
+        case .sendTo (_, let type, let message) :
+            p = [
+                "message_type" : type,
+                "message" : message,
+                "platform_sent_from" : "ios"
+            ]
+        default : break
+        }
+        return p
+    }
+}
+
+enum APIMe : URLRequestConvertible {
+    case login(email : String, password : String)
+    case register(fullname : String, email : String, password : String)
+    case logout
+    case me
+    case orderList(status : String)
+    case myProductSell
+    case myLovelist
+    case setupAccount(username : String, email: String, gender : Int, phone : String, province : String, region : String, subdistrict : String, shipping : String, referralCode : String, deviceId : String, deviceRegId : String)
+    case setProfile(fullname : String, address : String, province : String, region : String, subdistrict : String, postalCode : String, description : String, shipping : String)
+    case resendVerificationSms(phone : String)
+    case verifyPhone(phone : String, phoneCode : String)
+    case referralData
+    case setReferral(referralCode : String, deviceId : String)
+    case setDeviceRegId(deviceRegId : String)
+    case setUserPreferencedCategories(categ1 : String, categ2 : String, categ3 : String)
+    case checkPassword
+    case resendVerificationEmail
+    case getBalanceMutations(current : Int, limit : Int)
+    case setUserUUID
+    case achievement
+    case getAddressBook
+    case updateAddress(addressId: String, addressName: String, recipientName: String, phone: String, provinceId: String, provinceName: String, regionId: String, regionName: String, subdistrictId: String, subdistricName: String, address: String, postalCode: String, isMainAddress: Bool)
+    case createAddress(addressName: String, recipientName: String, phone: String, provinceId: String, provinceName: String, regionId: String, regionName: String, subdistrictId: String, subdistricName: String, address: String, postalCode: String)
+    case deleteAddress(addressId: String)
+    case setDefaultAddress(addressId: String)
+    
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = "me/"
+        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
+        return encodedURLRequest
+    }
+    
+    var method : HTTPMethod {
+        switch self {
+        case .login(_, _):return .post
+        case .register(_, _, _): return .post
+        case .logout:return .post
+        case .me:return .get
+        case .orderList(_):return .get
+        case .myProductSell:return .get
+        case .myLovelist : return .get
+        case .setupAccount(_, _, _, _, _, _, _, _, _, _, _) : return .post
+        case .setProfile(_, _, _, _, _, _, _, _) : return .post
+        case .resendVerificationSms(_) : return .post
+        case .verifyPhone(_, _) : return .post
+        case .referralData : return .get
+        case .setReferral(_, _) : return .post
+        case .setDeviceRegId(_) : return .post
+        case .setUserPreferencedCategories(_, _, _) : return .post
+        case .checkPassword : return .get
+        case .resendVerificationEmail : return .post
+        case .getBalanceMutations(_, _) : return .get
+        case .setUserUUID : return .post
+        case .achievement : return .get
+        case .getAddressBook : return .get
+        case .updateAddress(_, _, _, _, _, _, _, _, _, _, _, _, _) : return .post
+        case .createAddress(_, _, _, _, _, _, _, _, _, _, _) : return .post
+        case .deleteAddress(_) : return .post
+        case .setDefaultAddress(_) : return .post
+        }
+    }
+    
+    var path : String {
+        switch self {
+        case .login(_, _):return "login"
+        case .register(_, _, _): return "register"
+        case .logout:return "logout"
+        case .me : return "profile"
+        case .orderList(_):return "buy_list"
+        case .myProductSell:return "products"
+        case .myLovelist : return "lovelist"
+        case .setupAccount(_, _, _, _, _, _, _, _, _, _, _) : return "setup"
+        case .setProfile(_, _, _, _, _, _, _, _) : return "profile"
+        case .resendVerificationSms(_) : return "verify/resend_phone"
+        case .verifyPhone(_, _) : return "verify/phone"
+        case .referralData : return "referral_bonus"
+        case .setReferral(_, _) : return "referral"
+        case .setDeviceRegId(_) : return "set_device_registration_id"
+        case .setUserPreferencedCategories(_, _, _) : return "category_preference"
+        case .checkPassword : return "checkpassword"
+        case .resendVerificationEmail : return "verify/resend_email"
+        case .getBalanceMutations(_, _) : return "getprelobalances"
+        case .setUserUUID : return "setgafaid"
+        case .achievement : return "achievements"
+        case .getAddressBook : return "address_book"
+        case .updateAddress(_, _, _, _, _, _, _, _, _, _, _, _, _) : return "address_book/update"
+        case .createAddress(_, _, _, _, _, _, _, _, _, _, _) : return "address_book/add"
+        case .deleteAddress(_) : return "address_book/delete"
+        case .setDefaultAddress(_) : return "address_book/set_default"
+        }
+    }
+    
+    var param : [String : Any] {
+        var p : [String : Any] = [:]
+        switch self {
+        case .login(let email, let password):
+            p = [
+                "email":email,
+                "password":password,
+                "platform_sent_from" : "ios"
+            ]
+        case .register(let fullname, let email, let password):
+            p = [
                 "fullname":fullname,
                 "email":email,
-                "password":password
+                "password":password,
+                "platform_sent_from" : "ios"
             ]
-        case .Logout:return [:]
-        case .Me : return [:]
-        case .OrderList(let status):
-            return [
+        case .logout():
+            p = [
+                "platform_sent_from" : "ios"
+            ]
+        case .orderList(let status):
+            p = [
                 "status":status
             ]
-        case .MyProductSell:return [:]
-        case .MyLovelist : return [:]
-        case .SetupAccount(let username, let email, let gender, let phone, let province, let region, let subdistrict, let shipping, let referralCode, let deviceId, let deviceRegId):
-            var p : [String : AnyObject] = [
+        case .setupAccount(let username, let email, let gender, let phone, let province, let region, let subdistrict, let shipping, let referralCode, let deviceId, let deviceRegId):
+            p = [
                 "username":username,
                 "email":email,
                 "phone":phone,
@@ -1054,14 +653,14 @@ enum APIUser : URLRequestConvertible
                 "referral_code":referralCode,
                 "device_id":deviceId,
                 "device_registration_id":deviceRegId,
-                "device_type":"APNS"
+                "device_type":"APNS",
+                "platform_sent_from" : "ios"
             ]
             if (gender == 0 || gender == 1) {
                 p["gender"] = gender
             }
-            return p
-        case .SetProfile(let fullname, let address, let province, let region, let subdistrict, let postalCode, let description, let shipping):
-            return [
+        case .setProfile(let fullname, let address, let province, let region, let subdistrict, let postalCode, let description, let shipping):
+            p = [
                 "fullname":fullname,
                 "address":address,
                 "province":province,
@@ -1069,693 +668,1118 @@ enum APIUser : URLRequestConvertible
                 "subdistrict":subdistrict,
                 "postal_code":postalCode,
                 "description":description,
-                "shipping":shipping
+                "shipping":shipping,
+                "platform_sent_from" : "ios"
             ]
-        case .ResendVerificationSms(let phone) :
-            return [
-                "phone" : phone
-            ]
-        case .VerifyPhone(let phone, let phoneCode) :
-            return [
+        case .resendVerificationSms(let phone) :
+            p = [
                 "phone" : phone,
-                "phone_code" : phoneCode
+                "platform_sent_from" : "ios"
             ]
-        case .ReferralData :
-            return [:]
-        case .SetReferral(let referralCode, let deviceId) :
-            let p = [
+        case .verifyPhone(let phone, let phoneCode) :
+            p = [
+                "phone" : phone,
+                "phone_code" : phoneCode,
+                "platform_sent_from" : "ios"
+            ]
+        case .setReferral(let referralCode, let deviceId) :
+            p = [
                 "referral_code" : referralCode,
-                "device_id" : deviceId
+                "device_id" : deviceId,
+                "platform_sent_from" : "ios"
             ]
-            return p
-        case .SetDeviceRegId(let deviceRegId) :
-            let p = [
+        case .setDeviceRegId(let deviceRegId) :
+            p = [
                 "registered_device_id" : deviceRegId,
-                "device_type" : "APNS"
+                "device_type" : "APNS",
+                "platform_sent_from" : "ios"
             ]
-            return p
-        case .SetUserPreferencedCategories(let categ1, let categ2, let categ3) :
-            let p = [
+        case .setUserPreferencedCategories(let categ1, let categ2, let categ3) :
+            p = [
                 "category1" : categ1,
                 "category2" : categ2,
-                "category3" : categ3
+                "category3" : categ3,
+                "platform_sent_from" : "ios"
             ]
-            return p
-        case .CheckPassword :
-            return [:]
-        case .ResendVerificationEmail :
-            return [:]
-        case .GetBalanceMutations(let current, let limit) :
-            let p = [
+        case .getBalanceMutations(let current, let limit) :
+            p = [
                 "current" : current,
                 "limit" : limit
             ]
-            return p
-        case .SetUserUUID :
-            let p = [
-                "fa_id" : UIDevice.currentDevice().identifierForVendor!.UUIDString
+        case .resendVerificationEmail:
+            p = [
+                "platform_sent_from" : "ios"
             ]
-            return p
-        }
-    }
-    
-    var URLRequest : NSMutableURLRequest
-    {
-        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIUser.basePath).URLByAppendingPathComponent(path)
-        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
-        req.HTTPMethod = method.rawValue
-        return ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
-    }
-}
-
-enum Products : URLRequestConvertible
-{
-    static let basePath = "product/"
-    
-    case MyProducts(current : Int, limit : Int)
-    case ListByCategory(categoryId : String, location : String, sort : String, current : Int, limit : Int, priceMin : Int, priceMax : Int)
-    case Detail(productId : String)
-    case Add(name : String, desc : String, price : String, weight : String, category : String)
-    case Love(productID : String)
-    case Unlove(productID : String)
-    case GetComment(productID : String)
-    case PostComment(productID : String, message : String, mentions : String)
-    case ShareCommission(pId : String, instagram : String, path : String, facebook : String, twitter : String)
-    case PostReview(productID : String, comment : String, star : Int)
-    case Activate(productID : String)
-    case Deactivate(productID : String)
-    case Delete(productID : String)
-    case GetAllFeaturedProducts()
-    
-    var method : Method
-    {
-        switch self
-        {
-        case .MyProducts(_, _) : return .GET
-        case .ListByCategory(_, _, _, _, _, _, _): return .GET
-        case .Detail(_): return .GET
-        case .Add(_, _, _, _, _) : return .POST
-        case .Love(_):return .POST
-        case .Unlove(_):return .POST
-        case .PostComment(_, _, _) : return .POST
-        case .GetComment(_) :return .GET
-        case .ShareCommission(_, _, _, _, _) : return .POST
-        case .PostReview(_, _, _) : return .POST
-        case .Activate(_) : return .POST
-        case .Deactivate(_) : return .POST
-        case .Delete(_) : return .POST
-        case .GetAllFeaturedProducts() : return .GET
-        }
-    }
-    
-    var path : String
-    {
-        switch self
-        {
-        case .MyProducts(_, _) : return ""
-        case .ListByCategory(_, _, _, _, _, _, _): return ""
-        case .Detail(let prodId): return prodId
-        case .Add(_, _, _, _, _) : return ""
-        case .Love(let prodId):return prodId + "/love"
-        case .Unlove(let prodId):return prodId + "/unlove"
-        case .PostComment(let pId, _, _):return pId + "/comments"
-        case .GetComment(let pId) :return pId + "/comments"
-        case .ShareCommission(let pId, _, _, _, _) : return pId + "/shares_commission"
-        case .PostReview(let pId, _, _) : return pId + "/review"
-        case .Activate(let pId) : return pId + "/activate"
-        case .Deactivate(let pId) : return pId + "/deactivate"
-        case .Delete(let pId) : return pId + "/delete"
-        case .GetAllFeaturedProducts() : return "editorspick/all"
-        }
-    }
-    
-    var param : [String: AnyObject]?
-    {
-        switch self
-        {
-        case .MyProducts(let current, let limit) :
-            let p = [
-                "current" : current,
-                "limit" : limit
+        case .setUserUUID :
+            p = [
+                "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
+                "platform_sent_from" : "ios"
             ]
-            return p
-        case .ListByCategory(let catId, let location, let sort, let current, let limit, let priceMin, let priceMax):
-            return [
-                "category":catId,
-                "location":location,
-                "sort":sort,
-                "current":current,
-                "limit":limit,
-                "price_min":priceMin,
-                "price_max":priceMax,
-                "prelo":"true"
+        case .updateAddress(let addressId, let addressName, let recipientName, let phone, let provinceId, let provinceName, let regionId, let regionName, let subdistrictId, let subdistricName, let address, let postalCode, let isMainAddress) :
+            p = [
+                "address_id": addressId,
+                "address_name": addressName,
+                "owner_name": recipientName,
+                "phone": phone,
+                "province_id": provinceId,
+                "province_name": provinceName,
+                "region_id": regionId,
+                "region_name": regionName,
+                "subdistrict_id": subdistrictId,
+                "subdistrict_name": subdistricName,
+                "address": address,
+                "postal_code": postalCode,
+                "is_default": (isMainAddress == true ? 1 : 0),
+                "platform_sent_from" : "ios"
             ]
-        case .Detail(_): return ["prelo":"true"]
-        case .Add(let name, let desc, let price, let weight, let category):
-            return [
-                "name":name,
-                "category":category,
-                "price":price,
-                "weight":weight,
-                "description":desc
+        case .createAddress(let addressName, let recipientName, let phone, let provinceId, let provinceName, let regionId, let regionName, let subdistrictId, let subdistricName, let address, let postalCode) :
+            p = [
+                "address_name": addressName,
+                "owner_name": recipientName,
+                "phone": phone,
+                "province_id": provinceId,
+                "province_name": provinceName,
+                "region_id": regionId,
+                "region_name": regionName,
+                "subdistrict_id": subdistrictId,
+                "subdistrict_name": subdistricName,
+                "address": address,
+                "postal_code": postalCode,
+                "platform_sent_from" : "ios"
             ]
-        case .Love(let pId):return ["product_id":pId]
-        case .Unlove(let pId):return ["product_id":pId]
-        case .PostComment(let pId, let m, let mentions):return ["product_id":pId, "comment":m, "mentions":mentions]
-        case .GetComment(_) : return [:]
-        case .ShareCommission(_, let i, let p, let f, let t) : return ["instagram":i, "facebook":f, "path":p, "twitter":t]
-        case .PostReview(_, let comment, let star) :
-            return [
-                "comment" : comment,
-                "star" : star
+        case .deleteAddress(let addressId) :
+            p = [
+                "address_id": addressId,
+                "platform_sent_from" : "ios"
             ]
-        default : return [:]
+        case .setDefaultAddress(let addressId) :
+            p = [
+                "address_id": addressId,
+                "platform_sent_from" : "ios"
+            ]
+        default : break
         }
-    }
-    
-    var URLRequest : NSMutableURLRequest
-    {
-        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(Products.basePath).URLByAppendingPathComponent(path)
-        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
-        req.HTTPMethod = method.rawValue
-        
-        let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
-        return r
-    }
-}
-
-enum APIProduct : URLRequestConvertible
-{
-    static let basePath = "product/"
-    
-    case ListByCategory(categoryId : String, location : String, sort : String, current : Int, limit : Int, priceMin : Int, priceMax : Int)
-    case Detail(productId : String, forEdit : Int)
-    case Add(name : String, desc : String, price : String, weight : String, category : String)
-    case Love(productID : String)
-    case Unlove(productID : String)
-    case GetComment(productID : String)
-    case PostComment(productID : String, message : String, mentions : String)
-    case MyProduct(current : Int, limit : Int)
-    case Push(productId : String)
-    case MarkAsSold(productId : String, soldTo : String)
-    
-    var method : Method
-        {
-            switch self
-            {
-            case .ListByCategory(_, _, _, _, _, _, _): return .GET
-            case .Detail(_, _): return .GET
-            case .Add(_, _, _, _, _) : return .POST
-            case .Love(_):return .POST
-            case .Unlove(_):return .POST
-            case .PostComment(_, _, _) : return .POST
-            case .GetComment(_) :return .GET
-            case .MyProduct(_, _): return .GET
-            case .Push(_) : return .POST
-            case .MarkAsSold(_, _) : return .POST
-            }
-    }
-    
-    var path : String
-        {
-            switch self
-            {
-            case .ListByCategory(_, _, _, _, _, _, _): return ""
-            case .Detail(let prodId, _): return prodId
-            case .Add(_, _, _, _, _) : return ""
-            case .Love(let prodId):return prodId + "/love"
-            case .Unlove(let prodId):return prodId + "/unlove"
-            case .PostComment(let pId, _, _):return pId + "/comments"
-            case .GetComment(let pId) :return pId + "/comments"
-            case .MyProduct(_, _): return ""
-            case .Push(let pId) : return "push/\(pId)"
-            case .MarkAsSold(let pId, _) : return "sold/\(pId)"
-            }
-    }
-    
-    var param : [String: AnyObject]?
-        {
-            switch self
-            {
-            case .ListByCategory(let catId, let location, let sort, let current, let limit, let priceMin, let priceMax):
-                return [
-                    "category":catId,
-                    "location":location,
-                    "sort":sort,
-                    "current":current,
-                    "limit":limit,
-                    "price_min":priceMin,
-                    "price_max":priceMax,
-                    "prelo":"true"
-                ]
-            case .Detail(_, let forEdit): return ["inedit": forEdit]
-            case .Add(let name, let desc, let price, let weight, let category):
-                return [
-                    "name":name,
-                    "category":category,
-                    "price":price,
-                    "weight":weight,
-                    "description":desc
-                ]
-            case .Love(let pId):return ["product_id":pId]
-            case .Unlove(let pId):return ["product_id":pId]
-            case .PostComment(let pId, let m, let mentions):return ["product_id":pId, "comment":m, "mentions":mentions]
-            case .GetComment(_) :return [:]
-            case .MyProduct(let c, let l): return ["current":c, "limit":l]
-            case .Push(_) : return [:]
-            case .MarkAsSold(_, let soldTo) : return ["sold_from":"ios", "sold_to":soldTo]
-            }
-    }
-    
-    var URLRequest : NSMutableURLRequest
-        {
-            let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIProduct.basePath).URLByAppendingPathComponent(path)
-            let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
-            req.HTTPMethod = method.rawValue
-            
-            let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
-            return r
-    }
-}
-
-enum APISearch : URLRequestConvertible
-{
-    static let basePath = "search/"
-    
-    case User(keyword : String)
-    case Find(keyword : String, categoryId : String, brandId : String, condition : String, current : Int, limit : Int, priceMin : Int, priceMax : Int)
-    case ProductByCategory(categoryId : String, sort : String, current : Int, limit : Int, priceMin : Int, priceMax : Int, segment: String)
-    case GetTopSearch(limit : String)
-    case InsertTopSearch(search : String)
-    case Brands(name : String, current : Int, limit : Int)
-    case ProductByFilter(name : String, categoryId : String, brandIds : String, productConditionIds : String, segment : String, priceMin : NSNumber, priceMax : NSNumber, isFreeOngkir : String, sizes : String, sortBy : String, current : NSNumber, limit : NSNumber, lastTimeUuid : String)
-    
-    var method : Method
-        {
-            switch self
-            {
-            case .User(_) : return .GET
-            case .ProductByCategory(_, _, _, _, _, _, _): return .GET
-            case .GetTopSearch(_): return .GET
-            case .Find(_, _, _, _, _, _, _, _) : return .GET
-            case .InsertTopSearch(_): return .POST
-            case .Brands(_, _, _) : return .GET
-            case .ProductByFilter(_, _, _, _, _, _, _, _, _, _, _, _, _) : return .GET
-            }
-    }
-    
-    var path : String
-        {
-            switch self
-            {
-            case .User(_) : return "users"
-            case .ProductByCategory(_, _, _, _, _, _, _): return "products"
-            case .GetTopSearch(_): return "top"
-            case .Find(_, _, _, _, _, _, _, _) : return "products"
-            case .InsertTopSearch(_):return "top"
-            case .Brands(_, _, _) : return "brands"
-            case .ProductByFilter(_, _, _, _, _, _, _, _, _, _, _, _, _) : return "products"
-            }
-    }
-    
-    var param : [String: AnyObject]?
-        {
-            switch self
-            {
-            case .User(let key) : return ["name":key]
-            case .ProductByCategory(let catId, let sort, let current, let limit, let priceMin, let priceMax, let segment):
-                return [
-                    "category_id":catId,
-                    "sort":sort,
-                    "current":current,
-                    "limit":limit,
-                    "price_min":priceMin,
-                    "price_max":priceMax,
-                    "prelo":"true",
-                    "segment":segment
-                ]
-            case .GetTopSearch(let limit):return ["limit":limit]
-            case .Find(let key, let catId, let brandId, let condition, let current, let limit, let priceMin, let priceMax):
-                return [
-                    "name":key,
-                    "category_id":catId,
-                    "brand_id":brandId,
-                    "product_condition_id":condition,
-                    "current":current,
-                    "limit":limit,
-                    "price_min":priceMin,
-                    "price_max":priceMax,
-                    "prelo":"true"
-                ]
-            case .InsertTopSearch(let s):return ["name":s]
-            case .Brands(let name, let current, let limit):
-                return [
-                    "name": name,
-                    "current": current,
-                    "limit": limit
-                ]
-            case .ProductByFilter(let name, let categoryId, let brandIds, let productConditionIds, let segment, let priceMin, let priceMax, let isFreeOngkir, let sizes, let sortBy, let current, let limit, let lastTimeUuid):
-                return [
-                    "name" : name,
-                    "category_id" : categoryId,
-                    "brand_ids" : brandIds,
-                    "product_condition_ids" : productConditionIds,
-                    "segment" : segment,
-                    "price_min" : priceMin,
-                    "price_max" : priceMax,
-                    "is_free_ongkir" : isFreeOngkir,
-                    "sizes" : sizes,
-                    "sort_by" : sortBy,
-                    "current" : current,
-                    "limit" : limit,
-                    "last_time_uuid" : lastTimeUuid
-                ]
-            }
-    }
-    
-    var URLRequest : NSMutableURLRequest
-        {
-            let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APISearch.basePath).URLByAppendingPathComponent(path)
-            let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
-            req.HTTPMethod = method.rawValue
-            
-            let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
-            return r
-    }
-}
-
-enum APIDemo : URLRequestConvertible
-{
-    static let basePath = "demo/"
-    
-    case HomeCategories
-    
-    var method : Method {
-        switch self {
-        case .HomeCategories : return .GET
-        }
-    }
-    
-    var path : String {
-        switch self {
-        case .HomeCategories : return "reference/categories/home"
-        }
-    }
-    
-    var param : [String : AnyObject]? {
-        switch self {
-        case .HomeCategories : return [:]
-        }
-    }
-    
-    var URLRequest : NSMutableURLRequest
-        {
-            let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIDemo.basePath).URLByAppendingPathComponent(path)
-            let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
-            req.HTTPMethod = method.rawValue
-            return ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
-    }
-}
-
-enum References : URLRequestConvertible
-{
-    static let basePath = "reference/"
-    
-    case CategoryList
-    case ProvinceList
-    case CityList(provinceId : String)
-    case BrandAndSizeByCategory(category : String)
-    case HomeCategories
-    case FormattedSizesByCategory(category : String)
-    
-    var method : Method
-    {
-        switch self
-        {
-        case .CategoryList:return .GET
-        case .ProvinceList:return .GET
-        case .CityList(_):return .GET
-        case .BrandAndSizeByCategory(_) : return .GET
-        case .HomeCategories : return .GET
-        case .FormattedSizesByCategory(_) : return .GET
-        }
-    }
-    
-    var path : String
-    {
-        switch self
-        {
-        case .CategoryList:return "categories"
-        case .ProvinceList:return "provinces"
-        case .CityList(_):return "cities"
-        case .BrandAndSizeByCategory(_) : return "brands_sizes"
-        case .HomeCategories : return "categories/home"
-        case .FormattedSizesByCategory(_) : return "formatted_sizes"
-        }
-    }
-    
-    var param : [String: AnyObject]?
-    {
-        switch self
-        {
-        case .CategoryList:return ["prelo":"true"]
-        case .ProvinceList:return ["prelo":"true"]
-        case .CityList(let pId):return ["province":pId, "prelo":"true"]
-        case .BrandAndSizeByCategory(let catId) : return ["category_id":catId]
-        case .HomeCategories : return[:]
-        case .FormattedSizesByCategory(let catId) : return ["category_id":catId]
-        }
-    }
-    
-    var URLRequest : NSMutableURLRequest
-    {
-        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(References.basePath).URLByAppendingPathComponent(path)
-        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
-        req.HTTPMethod = method.rawValue
-        return ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
-    }
-}
-
-enum APIPeople : URLRequestConvertible
-{
-    static let basePath = "user/"
-    
-    case GetShopPage(id : String)
-    case GetSellerReviews(id : String)
-    
-    var method : Method
-        {
-            switch self
-            {
-            case .GetShopPage(_): return .GET
-            case .GetSellerReviews(_): return .GET
-            }
-    }
-    
-    var path : String
-        {
-            switch self
-            {
-            case .GetShopPage(let id):return id
-            case .GetSellerReviews(let id): return "\(id)/review"
-            }
-    }
-    
-    var param : [String: AnyObject]?
-        {
-            switch self
-            {
-            case .GetShopPage(_):return [:]
-            case .GetSellerReviews(_): return [:]
-            }
-    }
-    
-    var URLRequest : NSMutableURLRequest
-        {
-            let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIPeople.basePath).URLByAppendingPathComponent(path)
-            let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
-            req.HTTPMethod = method.rawValue
-            return ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
+        return p
     }
 }
 
 enum APIMisc : URLRequestConvertible {
-    static let basePath = ""
+    case getSubdistrictsByRegionID(id : String)
     
-    case GetSubdistrictsByRegionID(id : String)
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = ""
+        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
+        return encodedURLRequest
+    }
     
-    var method : Method {
+    var method : HTTPMethod {
         switch self {
-        case .GetSubdistrictsByRegionID(_) : return .GET
+        case .getSubdistrictsByRegionID(_) : return .get
         }
     }
     
     var path : String {
         switch self {
-        case .GetSubdistrictsByRegionID(let id) : return "subdistricts/region/\(id)"
+        case .getSubdistrictsByRegionID(let id) : return "subdistricts/region/\(id)"
         }
     }
     
-    var param : [String : AnyObject]? {
+    var param : [String : Any] {
+        let p : [String : Any] = [:]
         switch self {
-        case .GetSubdistrictsByRegionID(_) :
-            return [:]
+        default : break
         }
-    }
-    
-    var URLRequest : NSMutableURLRequest {
-        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIMisc.basePath).URLByAppendingPathComponent(path)
-        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
-        req.HTTPMethod = method.rawValue
-        return ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
+        return p
     }
 }
 
-enum APIGarageSale : URLRequestConvertible {
-    static let basePath = "garagesale/"
+enum APINotification : URLRequestConvertible {
+    case getNotifs(tab : String, page : Int)
+    case getNotifsSell(page : Int, name : String)
+    case getNotifsBuy(page : Int, name : String)
+    case getUnreadNotifCount
+    case readNotif(tab : String, id : String, type : String)
+    case deleteNotif(tab : String, notifIds : String)
     
-    case CreateReservation(productId : String)
-    case CancelReservation(productId : String)
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = "notification/"
+        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
+        return encodedURLRequest
+    }
     
-    var method : Method {
+    var method : HTTPMethod {
         switch self {
-        case .CreateReservation(_) : return .POST
-        case .CancelReservation(_) : return .POST
+        case .getNotifs(_, _) : return .get
+        case .getNotifsSell(_, _) : return .get
+        case .getNotifsBuy(_, _) : return .get
+        case .getUnreadNotifCount : return .get
+        case .readNotif(_, _, _) : return .post
+        case .deleteNotif(_, _) : return .post
         }
     }
     
     var path : String {
         switch self {
-        case .CreateReservation(_) : return "newreservation"
-        case .CancelReservation(_) : return "cancelreservation"
+        case .getNotifs(let tab, let page) : return "new/\(tab)/\(page)"
+        case .getNotifsSell(let page, _) : return "new/transaction/\(page)"
+        case .getNotifsBuy(let page, _) : return "new/transaction/\(page)"
+        case .getUnreadNotifCount : return "new/count"
+        case .readNotif(let tab, _, _) : return "new/\(tab)/read"
+        case .deleteNotif(let tab, _) : return "new/\(tab)/delete"
         }
     }
     
-    var param : [String : AnyObject]? {
+    var param : [String : Any] {
+        var p : [String : Any] = [:]
         switch self {
-        case .CreateReservation(let productId) :
-            let p = [
-                "product_id" : productId
+        case .getNotifsSell(_, let name) :
+            p = [
+                "type" : NSNumber(value: 1 as Int),
+                "name" : name
             ]
-            return p
-        case .CancelReservation(let productId) :
-            let p = [
-                "product_id" : productId
+        case .getNotifsBuy(_, let name) :
+            p = [
+                "type" : NSNumber(value: 2 as Int),
+                "name" : name
             ]
-            return p
+        case .readNotif(_, let id, let type) :
+            p = [
+                "object_id" : id,
+                "type" : type,
+                "platform_sent_from" : "ios"
+            ]
+        case .deleteNotif(_, let notifIds) :
+            p = [
+                "notif_ids" : notifIds,
+                "platform_sent_from" : "ios"
+            ]
+        default : break
         }
-    }
-    
-    var URLRequest : NSMutableURLRequest {
-        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIGarageSale.basePath).URLByAppendingPathComponent(path)
-        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
-        req.HTTPMethod = method.rawValue
-        return ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
+        return p
     }
 }
 
-class APIPrelo
+enum APIProduct : URLRequestConvertible {
+    case listByCategory(categoryId : String, location : String, sort : String, current : Int, limit : Int, priceMin : Int, priceMax : Int)
+    case detail(productId : String, forEdit : Int)
+    case add(name : String, desc : String, price : String, weight : String, category : String)
+    case love(productID : String)
+    case unlove(productID : String)
+    case getComment(productID : String)
+    case postComment(productID : String, message : String, mentions : String)
+    case myProduct(current : Int, limit : Int, name : String)
+    case push(productId : String)
+    case paidPush(productId : String)
+    case markAsSold(productId : String, soldTo : String)
+    case getExpiringProducts
+    case setSoldExpiringProduct(productId : String)
+    case setUnsoldExpiringProduct(productId : String)
+    case finishExpiringProducts
+    case shareCommission(pId : String, instagram : String, path : String, facebook : String, twitter : String)
+    case delete(productID : String)
+    case postReview(productID : String, comment : String, star : Int)
+    case activate(productID : String)
+    case deactivate(productID : String)
+    case getAllFeaturedProducts(categoryId : String)
+    case getIdByPermalink(permalink : String)
+    case getProductAggregatePage(aggregateId : String, current : Int, limit : Int)
+    case reportComment(productId : String, commentId : String, reportType : Int)
+    case getProductLovelist(productId : String)
+    case reportProduct(productId : String, sellerId : String, reportType : Int, reasonText : String, categoryIdCorrection : String)
+    case paidPushWithCoin(productId: String)
+    case paidPushWithWatchVideo(productId: String)
+    
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = "product/"
+        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
+        return encodedURLRequest
+    }
+    
+    var method : HTTPMethod {
+        switch self {
+        case .listByCategory(_, _, _, _, _, _, _): return .get
+        case .detail(_, _) : return .get
+        case .add(_, _, _, _, _) : return .post
+        case .love(_):return .post
+        case .unlove(_):return .post
+        case .postComment(_, _, _) : return .post
+        case .getComment(_) :return .get
+        case .myProduct(_, _, _) : return .get
+        case .push(_) : return .post
+        case .paidPush(_) : return .post
+        case .markAsSold(_, _) : return .post
+        case .getExpiringProducts : return .get
+        case .setSoldExpiringProduct(_) : return .post
+        case .setUnsoldExpiringProduct(_) : return .post
+        case .finishExpiringProducts : return .post
+        case .shareCommission(_, _, _, _, _) : return .post
+        case .delete(_) : return .post
+        case .postReview(_, _, _) : return .post
+        case .activate(_) : return .post
+        case .deactivate(_) : return .post
+        case .getAllFeaturedProducts(_) : return .get
+        case .getIdByPermalink(_) : return .get
+        case .getProductAggregatePage(_, _, _) : return .get
+        case .reportComment(_, _, _) : return .post
+        case .getProductLovelist(_) : return .get
+        case .reportProduct(_, _, _, _, _) : return .post
+        case .paidPushWithCoin(_) : return .post
+        case .paidPushWithWatchVideo(_) : return .post
+        }
+    }
+    
+    var path : String {
+        switch self {
+        case .listByCategory(_, _, _, _, _, _, _) : return ""
+        case .detail(let prodId, _): return prodId
+        case .add(_, _, _, _, _) : return ""
+        case .love(let prodId) : return prodId + "/love"
+        case .unlove(let prodId) : return prodId + "/unlove"
+        case .postComment(let pId, _, _) : return pId + "/comments"
+        case .getComment(let pId) : return pId + "/comments"
+        case .myProduct(_, _, _) : return ""
+        case .push(let pId) : return "push/\(pId)"
+        case .paidPush(let pId) : return "push/\(pId)/paid_v1"
+        case .markAsSold(let pId, _) : return "sold/\(pId)"
+        case .getExpiringProducts : return "expiring"
+        case .setSoldExpiringProduct(let productId) : return "expiring/\(productId)/sold"
+        case .setUnsoldExpiringProduct(let productId) : return "expiring/\(productId)/undo_sold"
+        case .finishExpiringProducts : return "expiring/finish"
+        case .shareCommission(let pId, _, _, _, _) : return pId + "/shares_commission"
+        case .delete(let pId) : return pId + "/delete"
+        case .postReview(let pId, _, _) : return pId + "/review"
+        case .activate(let pId) : return pId + "/activate"
+        case .deactivate(let pId) : return pId + "/deactivate"
+        case .getAllFeaturedProducts(let cId) : return "editorspick/\(cId)"
+        case .getIdByPermalink(let permalink) : return "to_id/" + permalink
+        case .getProductAggregatePage(let aggregateId, _, _) : return "aggregate/" + aggregateId
+        case .reportComment(let productId, _, _) : return "\(productId)/report_comment"
+        case .getProductLovelist(let productId) : return "\(productId)/lovelist"
+        case .reportProduct(let productId, _, _, _, _) : return "\(productId)/report"
+        case .paidPushWithCoin(let pId) : return "push/\(pId)/with_diamond"
+        case .paidPushWithWatchVideo(let pId) : return "push/\(pId)"
+        }
+    }
+    
+    var param : [String : Any] {
+        var p : [String : Any] = [:]
+        switch self {
+        case .listByCategory(let catId, let location, let sort, let current, let limit, let priceMin, let priceMax):
+            p = [
+                "category" : catId,
+                "location" : location,
+                "sort" : sort,
+                "current" : current,
+                "limit" : limit,
+                "price_min" : priceMin,
+                "price_max" : priceMax,
+                "prelo" : "true"
+            ]
+        case .detail(_, let forEdit):
+            p = [
+                "inedit" : forEdit
+            ]
+        case .add(let name, let desc, let price, let weight, let category):
+            p = [
+                "name":name,
+                "category":category,
+                "price":price,
+                "weight":weight,
+                "description":desc,
+                "platform_sent_from" : "ios"
+            ]
+        case .love(let pId) :
+            p = [
+                "product_id" : pId,
+                "platform_sent_from" : "ios"
+            ]
+        case .unlove(let pId) :
+            p = [
+                "product_id" : pId,
+                "platform_sent_from" : "ios"
+            ]
+        case .postComment(let pId, let m, let mentions) :
+            p = [
+                "product_id" : pId,
+                "comment" : m,
+                "mentions" : mentions,
+                "platform_sent_from" : "ios"
+            ]
+        case .myProduct(let c, let l, let n) :
+            p = [
+                "current" : c,
+                "limit" : l,
+                "name" : n
+            ]
+        case .push(_) :
+            p = [
+                "platform_sent_from" : "ios"
+            ]
+        case .paidPush(_):
+            p = [
+                "platform_sent_from" : "ios"
+            ]
+        case .markAsSold(_, let soldTo) :
+            p = [
+                "sold_from" : "ios",
+                "sold_to" : soldTo,
+                "platform_sent_from" : "ios"
+            ]
+        case .setSoldExpiringProduct(_):
+            p = [
+                "platform_sent_from" : "ios"
+            ]
+        case .setUnsoldExpiringProduct(_):
+            p = [
+                "platform_sent_from" : "ios"
+            ]
+        case .finishExpiringProducts:
+            p = [
+                "platform_sent_from" : "ios"
+            ]
+        case .shareCommission(_, let i, let pth, let f, let t) :
+            p = [
+                "instagram" : i,
+                "facebook" : f,
+                "path" : pth,
+                "twitter" : t,
+                "platform_sent_from" : "ios"
+            ]
+        case .delete(_):
+            p = [
+                "platform_sent_from" : "ios"
+            ]
+        case .postReview(_, let comment, let star) :
+            p = [
+                "comment" : comment,
+                "star" : star,
+                "platform_sent_from" : "ios"
+            ]
+        case .activate(_):
+            p = [
+                "platform_sent_from" : "ios"
+            ]
+        case .deactivate(_):
+            p = [
+                "platform_sent_from" : "ios"
+            ]
+        case .getProductAggregatePage(_, let current, let limit) :
+            p = [
+                "current" : current,
+                "limit" : limit
+            ]
+        case .reportComment(_, let commentId, let reportType) :
+            p = [
+                "comment_id" : commentId,
+                "report_type" : reportType,
+                "platform_sent_from" : "ios"
+            ]
+        case .reportProduct(_, let sellerId, let reportType, let reasonText, let categoryIdCorrection) :
+            p = [
+                "seller_id" : sellerId,
+                "report_reason" : reportType,
+                "report_reason_text" : reasonText,
+                "category_id_correction" : categoryIdCorrection,
+                "platform_sent_from" : "ios"
+            ]
+        case .paidPushWithCoin(_) :
+            p = [
+                "platform_sent_from" : "ios"
+            ]
+        case .paidPushWithWatchVideo(_) :
+            p = [
+                "is_video" : 1,
+                "platform_sent_from" : "ios"
+            ]
+        default : break
+        }
+        return p
+    }
+}
+
+enum APIReference : URLRequestConvertible {
+    case categoryList
+    case provinceList
+    case cityList(provinceId : String)
+    case brandAndSizeByCategory(category : String)
+    case homeCategories
+    case formattedSizesByCategory(category : String)
+    case getCategoryByPermalink(permalink : String)
+    
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = "reference/"
+        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
+        return encodedURLRequest
+    }
+    
+    var method : HTTPMethod {
+        switch self {
+        case .categoryList:return .get
+        case .provinceList:return .get
+        case .cityList(_):return .get
+        case .brandAndSizeByCategory(_) : return .get
+        case .homeCategories : return .get
+        case .formattedSizesByCategory(_) : return .get
+        case .getCategoryByPermalink(_) : return .get
+        }
+    }
+    
+    var path : String {
+        switch self {
+        case .categoryList : return "categories"
+        case .provinceList : return "provinces"
+        case .cityList(_) : return "cities"
+        case .brandAndSizeByCategory(_) : return "brands_sizes"
+        case .homeCategories : return "categories/home"
+        case .formattedSizesByCategory(_) : return "formatted_sizes"
+        case .getCategoryByPermalink(_) : return "category/by_permalink"
+        }
+    }
+    
+    var param : [String : Any] {
+        var p : [String : Any] = [:]
+        switch self {
+        case .categoryList :
+            p = [
+                "prelo":"true"
+            ]
+        case .provinceList :
+            p = [
+                "prelo" : "true"
+            ]
+        case .cityList(let pId) :
+            p = [
+                "province" : pId,
+                "prelo" : "true"
+            ]
+        case .brandAndSizeByCategory(let catId) :
+            p = [
+                "category_id" : catId
+            ]
+        case .formattedSizesByCategory(let catId) :
+            p = [
+                "category_id" : catId
+            ]
+        case .getCategoryByPermalink(let permalink) :
+            p = [
+                "permalink" : permalink
+            ]
+        default : break
+        }
+        return p
+    }
+}
+
+enum APISearch : URLRequestConvertible {
+    case user(keyword : String)
+    case find(keyword : String, categoryId : String, brandId : String, condition : String, current : Int, limit : Int, priceMin : Int, priceMax : Int)
+    case productByCategory(categoryId : String, sort : String, current : Int, limit : Int, priceMin : Int, priceMax : Int, segment: String, lastTimeUuid : String)
+    case getTopSearch(limit : String)
+    case insertTopSearch(search : String)
+    case brands(name : String, current : Int, limit : Int)
+    case productByFilter(name : String, aggregateId : String, categoryId : String, brandIds : String, productConditionIds : String, segment : String, priceMin : NSNumber, priceMax : NSNumber, isFreeOngkir : String, sizes : String, sortBy : String, current : NSNumber, limit : NSNumber, lastTimeUuid : String, provinceId : String, regionId : String, subDistrictId : String)
+    case autocomplete(key : String)
+    
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = "search/"
+        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
+        return encodedURLRequest
+    }
+    
+    var method : HTTPMethod {
+        switch self {
+        case .user(_) : return .get
+        case .productByCategory(_, _, _, _, _, _, _, _): return .get
+        case .getTopSearch(_): return .get
+        case .find(_, _, _, _, _, _, _, _) : return .get
+        case .insertTopSearch(_): return .post
+        case .brands(_, _, _) : return .get
+        case .productByFilter(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _) : return .get
+        case .autocomplete(_) : return .get
+        }
+    }
+    
+    var path : String {
+        switch self {
+        case .user(_) : return "users"
+        case .productByCategory(_, _, _, _, _, _, _, _) : return "products"
+        case .getTopSearch(_) : return "top"
+        case .find(_, _, _, _, _, _, _, _) : return "products"
+        case .insertTopSearch(_) :return "top"
+        case .brands(_, _, _) : return "brands"
+        case .productByFilter(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _) : return "products"
+        case .autocomplete(_) : return "autocomplete"
+        }
+    }
+    
+    var param : [String : Any] {
+        var p : [String : Any] = [:]
+        switch self
+        {
+        case .user(let key) :
+            p = [
+                "name" : key
+            ]
+        case .productByCategory(let catId, let sort, let current, let limit, let priceMin, let priceMax, let segment, let lastTimeUuid):
+            p = [
+                "category_id":catId,
+                "sort_by":sort,
+                "current":current,
+                "limit":limit,
+                "price_min":priceMin,
+                "price_max":priceMax,
+                "prelo":"true",
+                "segment":segment,
+                "last_time_uuid" : lastTimeUuid
+            ]
+        case .getTopSearch(let limit) :
+            p = [
+                "limit" : limit
+            ]
+        case .find(let key, let catId, let brandId, let condition, let current, let limit, let priceMin, let priceMax):
+            p = [
+                "name" : key,
+                "category_id" : catId,
+                "brand_id" : brandId,
+                "product_condition_id" : condition,
+                "current" : current,
+                "limit" : limit,
+                "price_min" : priceMin,
+                "price_max" : priceMax,
+                "prelo" : "true"
+            ]
+        case .insertTopSearch(let s):
+            p = [
+                "name" : s,
+                "platform_sent_from" : "ios"
+            ]
+        case .brands(let name, let current, let limit):
+            p = [
+                "name" : name,
+                "current" : current,
+                "limit" : limit
+            ]
+        case .productByFilter(let name, let aggregateId, let categoryId, let brandIds, let productConditionIds, let segment, let priceMin, let priceMax, let isFreeOngkir, let sizes, let sortBy, let current, let limit, let lastTimeUuid, let provinceId, let regionId, let subDistrictId):
+            p = [
+                "name" : name,
+                "aggregate_id" : aggregateId,
+                "category_id" : categoryId,
+                "brand_ids" : brandIds,
+                "product_condition_ids" : productConditionIds,
+                "segment" : segment,
+                "price_min" : priceMin,
+                "price_max" : priceMax,
+                "is_free_ongkir" : isFreeOngkir,
+                "sizes" : sizes,
+                "sort_by" : sortBy,
+                "current" : current,
+                "limit" : limit,
+                "last_time_uuid" : lastTimeUuid,
+                "province_id" : provinceId,
+                "region_id" : regionId,
+                "subdistrict_id" : subDistrictId
+            ]
+        case .autocomplete(let key) :
+            p = [
+                "name": key
+            ]
+        }
+        return p
+    }
+}
+
+enum APISocmed : URLRequestConvertible {
+    case storeInstagramToken(token : String)
+    case postInstagramData(id : String, username : String, token : String)
+    case postFacebookData(id : String, username : String, token : String)
+    case postPathData(id : String, username : String, token : String)
+    case postTwitterData(id : String, username : String, token : String, secret : String)
+    
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = "socmed/"
+        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
+        return encodedURLRequest
+    }
+    
+    var method : HTTPMethod {
+        switch self {
+        default : return .post
+        }
+    }
+    
+    var path : String {
+        switch self {
+        case .storeInstagramToken(_) : return "instagram"
+        case .postInstagramData(_, _, _) : return "instagram"
+        case .postFacebookData(_, _, _) : return "facebook"
+        case .postPathData(_, _, _) : return "path"
+        case .postTwitterData(_, _, _, _) : return "twitter"
+        }
+    }
+    
+    var param : [String : Any] {
+        var p : [String : Any] = [:]
+        switch self {
+        case .storeInstagramToken(let appType) :
+            p = [
+                "access_token" : appType,
+                "platform_sent_from" : "ios"
+            ]
+        case .postInstagramData(let id, let username, let token) :
+            p = [
+                "instagram_id" : id,
+                "instagram_username" : username,
+                "access_token" : token,
+                "platform_sent_from" : "ios"
+            ]
+        case .postFacebookData(let id, let username, let token) :
+            p = [
+                "fb_id" : id,
+                "fb_username" : username,
+                "access_token" : token,
+                "platform_sent_from" : "ios"
+            ]
+        case .postPathData(let id, let username, let token) :
+            p = [
+                "path_id" : id,
+                "path_username" : username,
+                "access_token" : token,
+                "platform_sent_from" : "ios"
+            ]
+        case .postTwitterData(let id, let username, let token, let secret) :
+            p = [
+                "twitter_id" : id,
+                "twitter_username" : username,
+                "access_token" : token,
+                "token_secret" : secret,
+                "platform_sent_from" : "ios"
+            ]
+        }
+        return p
+    }
+}
+
+enum APITransaction : URLRequestConvertible {
+    case transactionDetail(tId : String)
+    case confirmPayment(bankFrom : String, bankTo : String, name : String, nominal : Int, orderId : String, timePaid : String)
+    
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = "transaction/"
+        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
+        return encodedURLRequest
+    }
+    
+    var method : HTTPMethod {
+        switch self {
+        case .transactionDetail(_) : return .get
+        case .confirmPayment(_, _, _, _, _, _) : return .post
+        }
+    }
+    
+    var path : String {
+        switch self {
+        case .transactionDetail(let tId) : return "\(tId)"
+        case  .confirmPayment(_, _, _, _, let orderId, _) : return orderId + "/payment"
+        }
+    }
+    
+    var param : [String : Any] {
+        var p : [String : Any] = [:]
+        switch self {
+        case  .confirmPayment(let bankFrom, let bankTo, let nama, let nominal, _, let timePaid) :
+            p = [
+                "target_bank":bankTo,
+                "source_bank":bankFrom,
+                "name":nama,
+                "nominal":nominal,
+                "time_paid":timePaid,
+                "platform_sent_from" : "ios"
+            ]
+        default : break
+        }
+        return p
+    }
+}
+
+enum APITransactionAnggi : URLRequestConvertible {
+    case getSellerTransaction(id : String)
+    case getBuyerTransaction(id : String)
+    case getTransactionProduct(id : String)
+    case delayShipping(arrTpId : String)
+    
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = ""
+        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
+        return encodedURLRequest
+    }
+    
+    var method : HTTPMethod {
+        switch self {
+        case .getSellerTransaction(_) : return .get
+        case .getBuyerTransaction(_) : return .get
+        case .getTransactionProduct(_) : return .get
+        case .delayShipping(_) : return .post
+        }
+    }
+    
+    var path : String {
+        switch self {
+        case .getSellerTransaction(let id) : return "transaction/seller/\(id)"
+        case .getBuyerTransaction(let id) : return "transaction/\(id)"
+        case .getTransactionProduct(let id) : return "transaction_product/\(id)"
+        case .delayShipping(_) : return "transaction/delay/shipping"
+        }
+    }
+    
+    var param : [String : Any] {
+        var p : [String : Any] = [:]
+        switch self {
+        case .delayShipping(let arrTpId) :
+            p = [
+                "arr_tp_id" : arrTpId,
+                "platform_sent_from" : "ios"
+            ]
+        default : break
+        }
+        return p
+    }
+}
+
+enum APITransactionCheck : URLRequestConvertible {
+    case checkUnpaidTransaction
+    
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = "transaction_check/"
+        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
+        return encodedURLRequest
+    }
+    
+    var method : HTTPMethod {
+        switch self {
+        case .checkUnpaidTransaction : return .get
+        }
+    }
+    
+    var path : String {
+        switch self {
+        default : return ""
+        }
+    }
+    
+    var param : [String : Any] {
+        let p : [String : Any] = [:]
+        switch self {
+        default : break
+        }
+        return p
+    }
+}
+
+enum APITransactionProduct : URLRequestConvertible
 {
-    /*static func validate(showErrorDialog : Bool, err : NSError?, resp : NSHTTPURLResponse?) -> Bool
-    {
-        if let response = resp
-        {
-            if (response.statusCode == 500)
-            {
-                if (showErrorDialog)
-                {
-                    UIAlertView.SimpleShow("Gagal", message: "Ada masalah dengan server")
-                }
-                return false
-            }
-        }
-        
-        if let error = err
-        {
-            if (showErrorDialog)
-            {
-                UIAlertView.SimpleShow("Warning", message: "Terdapat error, silahkan coba beberapa saat lagi")//error.description)
-            }
-            return false
-        } else
-        {
-            return true
-        }
-    }*/
+    case purchases(status : String, current : String, limit : String)
+    case sells(status : String, current : String, limit : String)
+    case transactionDetail(id : String)
+    case confirmShipping(tpId : String, resiNum : String)
+    case checkoutList(current : String, limit : String)
+    case rejectTransaction(tpId : String, reason : String)
+    case refundRequest(tpId : String, reason : String, reasonNote : String)
+    case confirmReceiveRefundedProduct(tpId : String)
+    case reportTransaction(tpId : String, reason : String, reasonNote : String, sellerId: String)
+    case cancelReport(tpId : String)
     
-    static func validate(showErrorDialog : Bool, req : NSURLRequest, resp : NSHTTPURLResponse?, res : AnyObject?, err : NSError?, reqAlias : String) -> Bool
-    {
-        // Set crashlytics custom keys
-        Crashlytics.sharedInstance().setObjectValue(reqAlias, forKey: "last_req_alias")
-        Crashlytics.sharedInstance().setObjectValue(res, forKey: "last_api_result")
-        if let resJson = (res as? JSON) {
-            Crashlytics.sharedInstance().setObjectValue(resJson.stringValue, forKey: "last_api_result_string")
-        }
-        
-        print("\(reqAlias) req = \(req)")
-        
-        if let response = resp
-        {
-            if (response.statusCode != 200)
-            {
-                if (res != nil) {
-                    if let msg = JSON(res!)["_message"].string {
-                        if (showErrorDialog) {
-                            UIAlertView.SimpleShow(reqAlias, message: msg)
-                        }
-                        print("\(reqAlias) _message = \(msg)")
-                        
-                        if (msg == "user belum login") {
-                            User.Logout()
-                            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-                            if let childVCs = appDelegate.window?.rootViewController?.childViewControllers {
-                                let rootVC = childVCs[0]
-                                let uiNavigationController : UINavigationController? = rootVC as? UINavigationController
-                                //let kumangTabBarVC : KumangTabBarViewController? = childVCs[0].viewControllers![0] as? KumangTabBarViewController
-                                let kumangTabBarVC : KumangTabBarViewController? = (childVCs[0] as? UINavigationController)?.viewControllers[0] as? KumangTabBarViewController
-                                if (uiNavigationController != nil && kumangTabBarVC != nil) {
-                                    uiNavigationController!.popToRootViewControllerAnimated(true)
-                                    LoginViewController.Show(rootVC, userRelatedDelegate: kumangTabBarVC, animated: true)
-                                }
-                            }
-                        }
-                    }
-                } else if (res == nil && showErrorDialog) {
-                    let status = response.statusCode
-                    if (response.statusCode > 500) {
-                        UIAlertView.SimpleShow(reqAlias, message: "Server Prelo sedang lelah, silahkan coba beberapa saat lagi")
-                    } else {
-                        UIAlertView.SimpleShow(reqAlias, message: "Oops, silahkan coba beberapa saat lagi")
-                    }
-                }
-                return false
-            }
-        }
-        
-        if (res == nil)
-        {
-            if (showErrorDialog)
-            {
-                UIAlertView.SimpleShow(reqAlias, message: "Oops, tidak ada respon, silahkan coba beberapa saat lagi")
-            }
-            return false
-        }
-        
-        if let error = err
-        {
-            if (showErrorDialog)
-            {
-                UIAlertView.SimpleShow(reqAlias, message: "Oops, terdapat kesalahan, silahkan coba beberapa saat lagi")
-            }
-            print("\(reqAlias) err = \(error.description)")
-            return false
-        }
-        else
-        {
-            let json = JSON(res!)
-            let data = json["_data"]
-            print("\(reqAlias) _data = \(data)")
-            return true
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = "transaction_product/"
+        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
+        return encodedURLRequest
+    }
+    
+    var method : HTTPMethod {
+        switch self {
+        case .purchases(_, _, _) : return .get
+        case .sells(_, _, _) : return .get
+        case .transactionDetail(_) : return .get
+        case .confirmShipping(_, _) : return .post
+        case .checkoutList(_, _) : return .get
+        case .rejectTransaction(_, _) : return .post
+        case .refundRequest(_, _, _) : return .post
+        case .confirmReceiveRefundedProduct(_) : return .post
+        case .reportTransaction(_, _, _, _) : return .post
+        case .cancelReport(_) : return .post
         }
     }
+    
+    var path : String {
+        switch self {
+        case .purchases(_, _, _) : return "buys"
+        case .sells(_, _, _) : return "sells"
+        case .transactionDetail(let id) : return id
+        case .confirmShipping(let tpId, _) : return "\(tpId)/sent"
+        case .checkoutList(_, _) : return "checkouts"
+        case .rejectTransaction(let tpId, _) : return "\(tpId)/reject"
+        case .refundRequest(let tpId, _, _) : return "\(tpId)/refund"
+        case .confirmReceiveRefundedProduct(let tpId) : return "\(tpId)/confirm"
+        case .reportTransaction(let tpId, _, _, _) : return "\(tpId)/report"
+        case .cancelReport(let tpId) : return "\(tpId)/cancel_report"
+        }
+    }
+    
+    var param : [String : Any] {
+        var p : [String : Any] = [:]
+        switch self {
+        case .purchases(let status, let current, let limit) :
+            p = [
+                "status" : status,
+                "current" : current,
+                "limit" : limit
+            ]
+        case .sells(let status, let current, let limit) :
+            p = [
+                "status" : status,
+                "current" : current,
+                "limit" : limit
+            ]
+        case .confirmShipping(_, let resiNum) :
+            p = [
+                "resi_number" : resiNum,
+                "platform_sent_from" : "ios"
+            ]
+        case .checkoutList(let current, let limit) :
+            p = [
+                "current" : current,
+                "limit" : limit
+            ]
+        case .rejectTransaction(_, let reason) :
+            p = [
+                "reason" : reason,
+                "platform_sent_from" : "ios"
+            ]
+        case .refundRequest(_, let reason, let reasonNote) :
+            p = [
+                "reason" : reason,
+                "reason_note" : reasonNote,
+                "platform_sent_from" : "ios"
+            ]
+        case .confirmReceiveRefundedProduct(_) :
+            p = [
+                "platform_sent_from" : "ios"
+            ]
+        case .reportTransaction(_, let reason, let reasonNote, let sellerId) :
+            p = [
+                "seller_id" : sellerId,
+                "reason" : reason,
+                "reason_text" : reasonNote,
+                "platform_sent_from" : "ios"
+            ]
+        default : break
+        }
+        return p
+    }
 }
+
+enum APIUser : URLRequestConvertible {
+    case getShopPage(id : String, current : Int, limit : Int)
+    case getSellerReviews(id : String)
+    case testUser(username : String)
+    case getAchievement(id : String)
+    case rateApp(appVersion : String, rate: Int, review: String)
+
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = "user/"
+        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
+        return encodedURLRequest
+    }
+    
+    var method : HTTPMethod {
+        switch self {
+        case .getShopPage(_, _, _) : return .get
+        case .getSellerReviews(_) : return .get
+        case .testUser(_) : return .get
+        case .getAchievement(_) : return .get
+        case .rateApp(_, _, _) : return .post
+        }
+    }
+    
+    var path : String {
+        switch self {
+        case .getShopPage(let id, _, _) : return id
+        case .getSellerReviews(let id) : return "\(id)/review"
+        case .testUser(let username) : return "\(username)/id"
+        case .getAchievement(let id) : return "\(id)/achievements"
+        case .rateApp(_, _, _) : return "rate_app"
+        }
+    }
+    
+    var param : [String : Any] {
+        var p : [String : Any] = [:]
+        switch self {
+        case .getShopPage(_, let current, let limit) :
+            p = [
+                "current" : NSNumber(value: current as Int),
+                "limit" : NSNumber(value: limit as Int)
+            ]
+        case .rateApp(let appVersion, let rate, let review) :
+            p = [
+                "app_version" : appVersion,
+                "rate_num" : rate,
+                "rate_text" : review,
+                "platform_sent_from" : "ios"
+            ]
+        default : break
+        }
+        return p
+    }
+}
+
+enum APIVisitors : URLRequestConvertible {
+    case updateVisitor(deviceRegId : String)
+    
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = "visitors/"
+        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
+        return encodedURLRequest
+    }
+    
+    var method : HTTPMethod {
+        switch self {
+        case .updateVisitor(_) : return .post
+        }
+    }
+    
+    var path : String {
+        switch self {
+        case .updateVisitor(_) : return "update"
+        }
+    }
+    
+    var param : [String : Any] {
+        var p : [String : Any] = [:]
+        switch self {
+        case .updateVisitor(let deviceRegId) :
+            p = [
+                "device_type" : "APNS",
+                "device_registration_id" : deviceRegId,
+                "platform_sent_from" : "ios"
+            ]
+        }
+        return p
+    }
+}
+
+enum APIWallet : URLRequestConvertible {
+    case getBalance
+    case withdraw(amount : String, targetBank : String, norek : String, namarek : String, password : String)
+    case getBalanceAndWithdraw
+    
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = "wallet/"
+        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
+        return encodedURLRequest
+    }
+    
+    var method : HTTPMethod {
+        switch self {
+        case .withdraw(_, _, _, _, _) : return .post
+        case .getBalance : return .get
+        case .getBalanceAndWithdraw : return .get
+        }
+    }
+    
+    var path : String {
+        switch self {
+        case .withdraw(_, _, _, _, _) : return "withdraw"
+        case .getBalance : return "balance"
+        case .getBalanceAndWithdraw : return "balance_and_withdraw"
+        }
+    }
+    
+    var param : [String : Any] {
+        var p : [String : Any] = [:]
+        switch self {
+        case .withdraw(let amount, let namaBank, let norek, let namarek, let password) :
+            p = [
+                "amount" : amount,
+                "target_bank" : namaBank,
+                "nomor_rekening" : norek,
+                "name" : namarek,
+                "password" : password,
+                "platform_sent_from" : "ios"
+            ]
+        default : break
+        }
+        return p
+    }
+}
+
+enum APIPreloMessage : URLRequestConvertible {
+    case getMessage
+    
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = "prelo_message/"
+        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
+        return encodedURLRequest
+    }
+    
+    var method : HTTPMethod {
+        switch self {
+        case .getMessage : return .get
+        }
+    }
+    
+    var path : String {
+        switch self {
+        case .getMessage : return ""
+        }
+    }
+    
+    var param : [String : Any] {
+        let p : [String : Any] = [:]
+        switch self {
+        default : break
+        }
+        return p
+    }
+}
+

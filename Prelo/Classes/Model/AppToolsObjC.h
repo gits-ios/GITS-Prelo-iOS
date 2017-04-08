@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 8/4/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -12,6 +12,12 @@
 //#import <AdobeCreativeSDKCore/AdobeCreativeSDKCore.h>
 //#import <AdobeCreativeSDKImage/AdobeCreativeSDKImage.h>
 #import "AFHTTPRequestOperationManager.h"
+
+#import <AssetsLibrary/ALAsset.h>
+#import <AssetsLibrary/ALAssetRepresentation.h>
+#import <ImageIO/CGImageSource.h>
+#import <ImageIO/CGImageProperties.h>
+#import <ImageIO/CGImageDestination.h>
 
 typedef void(^AssetFromAlbumComplete)(NSArray *array);
 typedef void(^AssetFromAlbumFailed)(NSString *message);
@@ -42,10 +48,14 @@ typedef void(^AssetFromAlbumFailed)(NSString *message);
 + (NSArray *) searchHistories;
 + (void) insertNewSearch:(NSString *)keyword;
 + (void) clearSearch;
++ (NSInteger) indexOfSearch:(NSString *)keyword;
++ (void) removeSearchAt:(NSInteger)index;
 
 + (void) shareToInstagram:(UIImage *)image from:(UIViewController *)parent;
 
 + (UIImage *)imageFromColor:(UIColor *)color;
+
++ (NSData *)dataByRemovingExif:(NSData *)data;
 
 @end
 

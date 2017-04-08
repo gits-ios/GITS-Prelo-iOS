@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 10/26/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
@@ -16,11 +16,11 @@ class CheckoutTourViewController: BaseViewController {
         // Do any additional setup after loading the view.
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Mixpanel
-        //Mixpanel.trackPageVisit(PageName.CheckoutTutorial)
+//        Mixpanel.trackPageVisit(PageName.CheckoutTutorial)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.CheckoutTutorial)
@@ -31,9 +31,9 @@ class CheckoutTourViewController: BaseViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func next(sender : AnyObject?)
+    @IBAction func next(_ sender : AnyObject?)
     {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
 

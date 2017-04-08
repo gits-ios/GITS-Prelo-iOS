@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 8/20/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
@@ -19,7 +19,7 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
     var directToCamera = false
     
     var maxSelectCount : Int = 1
-    var selecteds : Array<NSIndexPath> = []
+    var selecteds : Array<IndexPath> = []
     
     var images : Array<APImage> = []
     
@@ -37,33 +37,34 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
         self.navigationItem.leftBarButtonItem = self.dismissButton.toBarButton()
         self.navigationItem.rightBarButtonItem = self.confirmButton.toBarButton()
         
-        ImageSupplier.fetch(ImageSource.Gallery, complete: {r in
+        ImageSupplier.fetch(ImageSource.gallery, complete: {r in
                 self.images = r
                 self.gridView.dataSource = self
                 self.gridView.delegate = self
             }, failed: { m in
-                UIAlertView.SimpleShow("Warning", message: m)
+                Constant.showDialog("Warning", message: m)
         })
         
         self.title = String(selecteds.count) + "/" + String(maxSelectCount) + " Selected"
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if (cameraAdd == 1 && directToCamera && directToCameraFirst)
         {
             let i = UIImagePickerController()
-            i.sourceType = UIImagePickerControllerSourceType.Camera
+            i.sourceType = UIImagePickerControllerSourceType.camera
             i.delegate = self
-            self.presentViewController(i, animated: true, completion: nil)
+            self.present(i, animated: true, completion: nil)
             directToCameraFirst = false
         }
     }
     
-    override func dismiss() {
-        self.doneBlock!([])
-        super.dismiss()
-    }
+    // FIXME: Swift 3
+//    override func dismiss() {
+//        self.doneBlock!([])
+//        super.dismiss()
+//    }
     
     override func confirm() {
         
@@ -90,9 +91,9 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
             var r : [APImage] = []
             for i in selecteds
             {
-                r.append(images[i.item-cameraAdd])
+                r.append(images[(i as NSIndexPath).item-cameraAdd])
             }
-            self.dismissViewControllerAnimated(true, completion: {
+            self.dismiss(animated: true, completion: {
                 self.doneBlock!(r)
             })
         }
@@ -133,89 +134,89 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
     }
     */
     
-    var cameraAdd = UIImagePickerController.isCameraDeviceAvailable(UIImagePickerControllerCameraDevice.Rear) == true ? 1 : 0
-    var cameraBase = UIImagePickerController.isCameraDeviceAvailable(UIImagePickerControllerCameraDevice.Rear) == true ? 0 : -1
+    var cameraAdd = UIImagePickerController.isCameraDeviceAvailable(UIImagePickerControllerCameraDevice.rear) == true ? 1 : 0
+    var cameraBase = UIImagePickerController.isCameraDeviceAvailable(UIImagePickerControllerCameraDevice.rear) == true ? 0 : -1
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return images.count + cameraAdd
     }
     
     var cameraCell : UICollectionViewCell?
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var c : ImagePickerCell!
         
-        if (indexPath.item == cameraBase)
+        if ((indexPath as NSIndexPath).item == cameraBase)
         {
-            c = collectionView.dequeueReusableCellWithReuseIdentifier("cell_video", forIndexPath: indexPath) as! ImagePickerCell
+            c = collectionView.dequeueReusableCell(withReuseIdentifier: "cell_video", for: indexPath) as! ImagePickerCell
             c.isCamera = true
             c.startCamera()
-            c.captionSelected.hidden = true
+            c.captionSelected.isHidden = true
             return c!
         } else
         {
-            c = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! ImagePickerCell
+            c = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ImagePickerCell
             c.isCamera = false
 //            if let i = find(selecteds, indexPath)
-            if selecteds.indexOf(indexPath) != nil
+            if selecteds.index(of: indexPath) != nil
             {
-                c.captionSelected.hidden = false
+                c.captionSelected.isHidden = false
             } else // not found
             {
-                c.captionSelected.hidden = true
+                c.captionSelected.isHidden = true
             }
             
-            c.apImage = images[indexPath.item-cameraAdd]
+            c.apImage = images[(indexPath as NSIndexPath).item-cameraAdd]
             
             return c
         }
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsetsMake(20, 8, 20, 8)
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 8
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 8
     }
     
-    var size = CGSizeMake((UIScreen.mainScreen().bounds.width-24)/2, (UIScreen.mainScreen().bounds.width-24)/2)
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    var size = CGSize(width: (UIScreen.main.bounds.width-24)/2, height: (UIScreen.main.bounds.width-24)/2)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return size
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if (indexPath.item == cameraBase)
+        if ((indexPath as NSIndexPath).item == cameraBase)
         {
-            let c = collectionView.cellForItemAtIndexPath(indexPath) as! ImagePickerCell
+            let c = collectionView.cellForItem(at: indexPath) as! ImagePickerCell
             if let s = c.session
             {
                 s.stopRunning()
             }
             
             let i = UIImagePickerController()
-            i.sourceType = UIImagePickerControllerSourceType.Camera
+            i.sourceType = UIImagePickerControllerSourceType.camera
             i.delegate = self
-            self.presentViewController(i, animated: true, completion: nil)
+            self.present(i, animated: true, completion: nil)
         } else
         {
-            if let i = selecteds.indexOf(indexPath)
+            if let i = selecteds.index(of: indexPath)
             {
-                selecteds.removeAtIndex(i)
-                let c = collectionView.cellForItemAtIndexPath(indexPath) as! ImagePickerCell
-                c.captionSelected.hidden = true
+                selecteds.remove(at: i)
+                let c = collectionView.cellForItem(at: indexPath) as! ImagePickerCell
+                c.captionSelected.isHidden = true
             } else // not found
             {
                 if (selecteds.count < maxSelectCount)
                 {
                     selecteds.append(indexPath)
-                    let c = collectionView.cellForItemAtIndexPath(indexPath) as! ImagePickerCell
-                    c.captionSelected.hidden = false
+                    let c = collectionView.cellForItem(at: indexPath) as! ImagePickerCell
+                    c.captionSelected.isHidden = false
                 }
             }
             self.title = String(selecteds.count) + "/" + String(maxSelectCount) + " Selected"
@@ -227,7 +228,7 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
         // Dispose of any resources that can be recreated.
     }
     
-    static func ShowFrom(v : UIViewController, maxSelect : Int, useAviary : Bool = false, diretToCamera : Bool = false, doneBlock : ImagePickerBlock)
+    static func ShowFrom(_ v : UIViewController, maxSelect : Int, useAviary : Bool = false, diretToCamera : Bool = false, doneBlock : @escaping ImagePickerBlock)
     {
         let n = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdImagePicker) as! UINavigationController
         let i = n.viewControllers.first as! ImagePickerViewController
@@ -235,12 +236,12 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
         i.doneBlock = doneBlock
         i.useAviary = false /* AVIARY IS DISABLED useAviary*/
         i.directToCamera = diretToCamera
-        v.presentViewController(n, animated: true, completion: nil)
+        v.present(n, animated: true, completion: nil)
     }
     
     var picker : UIImagePickerController?
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         self.picker = picker
         print(info)
         let apImage = APImage()
@@ -248,20 +249,20 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
         let r : [APImage] = [apImage]
         self.doneBlock!(r)
         
-        picker.dismissViewControllerAnimated(true, completion: {
-            self.dismissViewControllerAnimated(true, completion: nil)
+        picker.dismiss(animated: true, completion: {
+            self.dismiss(animated: true, completion: nil)
         })
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        picker.dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
         gridView.reloadData()
     }
     
     func savedDone()
     {
-        picker?.dismissViewControllerAnimated(true, completion: {
-            self.dismissViewControllerAnimated(true, completion: {
+        picker?.dismiss(animated: true, completion: {
+            self.dismiss(animated: true, completion: {
                 
             })
         })
@@ -290,8 +291,8 @@ class ImagePickerCell : UICollectionViewCell
     var isCamera : Bool = false
     var session : AVCaptureSession?
     
-    private var _apImage : APImage?
-    private var _url : String = ""
+    fileprivate var _apImage : APImage?
+    fileprivate var _url : String = ""
     var apImage : APImage?
         {
         set {
@@ -306,13 +307,14 @@ class ImagePickerCell : UICollectionViewCell
                 
                 
                 _url = (_apImage?.url)!.absoluteString
-                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                    self.asset?.assetForURL(NSURL(string: self._url)!, resultBlock: { asset in
+//                DispatchQueue.global( priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
+                DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
+                    self.asset?.asset(for: URL(string: self._url)!, resultBlock: { asset in
                         if let ast = asset {
                             let ref = ast.thumbnail().takeUnretainedValue()
-                            let i = UIImage(CGImage: ref)
+                            let i = UIImage(cgImage: ref)
                             let url = ast.defaultRepresentation().url().absoluteString
-                            dispatch_async(dispatch_get_main_queue(), {
+                            DispatchQueue.main.async(execute: {
                                 if (self._url == url)
                                 {
                                     self.ivCover.image = i
@@ -327,7 +329,7 @@ class ImagePickerCell : UICollectionViewCell
             {
                 ivCover.image = i
             } else {
-                ivCover.setImageWithUrl((_apImage?.url)!, placeHolderImage: nil)
+                ivCover.afSetImage(withURL: (_apImage?.url)!)
             }
         }
         get {
@@ -349,7 +351,7 @@ class ImagePickerCell : UICollectionViewCell
         {
             session = AVCaptureSession()
             session?.sessionPreset = AVCaptureSessionPresetLow
-        } else if ((session?.running)! == true)
+        } else if ((session?.isRunning)! == true)
         {
             return
         } else {
@@ -357,16 +359,16 @@ class ImagePickerCell : UICollectionViewCell
             return
         }
         
-        ivCover.hidden = true
+        ivCover.isHidden = true
         
         let captureVideoPreviewLayer = AVCaptureVideoPreviewLayer(session: session!)
-        captureVideoPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
-        let s = CGSizeMake((UIScreen.mainScreen().bounds.width-24)/2, (UIScreen.mainScreen().bounds.width-24)/2)
-        captureVideoPreviewLayer.frame = CGRectMake(0, 0, s.height, s.height)
-        camera.backgroundColor = UIColor.yellowColor()
-        camera.layer.addSublayer(captureVideoPreviewLayer)
+        captureVideoPreviewLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
+        let s = CGSize(width: (UIScreen.main.bounds.width-24)/2, height: (UIScreen.main.bounds.width-24)/2)
+        captureVideoPreviewLayer?.frame = CGRect(x: 0, y: 0, width: s.height, height: s.height)
+        camera.backgroundColor = UIColor.yellow
+        camera.layer.addSublayer(captureVideoPreviewLayer!)
         
-        let device = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+        let device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
         
         do {
             let input = try AVCaptureDeviceInput(device: device) as AVCaptureInput

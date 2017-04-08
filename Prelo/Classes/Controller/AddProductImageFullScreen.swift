@@ -3,15 +3,15 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 10/29/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
 
 protocol AddProductImageFullScreenDelegate
 {
-    func imageFullScreenDidDelete(controller : AddProductImageFullScreen)
-    func imageFullScreenDidReplace(controller : AddProductImageFullScreen, image : APImage)
+    func imageFullScreenDidDelete(_ controller : AddProductImageFullScreen)
+    func imageFullScreenDidReplace(_ controller : AddProductImageFullScreen, image : APImage, isCamera : Bool, name : String)
 }
 
 class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate /* AVIARY IS DISABLED , AdobeUXImageEditorViewControllerDelegate*/
@@ -26,6 +26,8 @@ class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate, UIIma
     @IBOutlet var popOverSourceView: UIView!
     var index = 0
     var apImage : APImage!
+    var isCamera : Bool = false
+    var name : String = ""
     
     /* AVIARY IS DISABLED var imgEditor : AdobeUXImageEditorViewController?*/
     
@@ -47,7 +49,7 @@ class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate, UIIma
         
         imageView.image = apImage.image
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Batal", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(AddProductImageFullScreen.batal))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Batal", style: UIBarButtonItemStyle.plain, target: self, action: #selector(AddProductImageFullScreen.batal))
 //        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Selesai", style: UIBarButtonItemStyle.Plain, target: self, action: "done")
     }
 
@@ -56,58 +58,58 @@ class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate, UIIma
         // Dispose of any resources that can be recreated.
     }
     
-    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageView
     }
     
     func batal()
     {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func done()
     {
-        fullScreenDelegate?.imageFullScreenDidReplace(self, image: apImage)
+        fullScreenDelegate?.imageFullScreenDidReplace(self, image: apImage, isCamera: isCamera, name: name)
         self.batal()
     }
     
-    @IBAction func deleteImage(sender : UIView?)
+    @IBAction func deleteImage(_ sender : UIView?)
     {
         fullScreenDelegate?.imageFullScreenDidDelete(self)
         self.batal()
     }
     
-    @IBAction func replace(sender : UIView?)
+    @IBAction func replace(_ sender : UIView?)
     {
 //        let i = UIImagePickerController()
 //        i.sourceType = .PhotoLibrary
 //        i.delegate = self
 //        self.presentViewController(i, animated: true, completion: nil)
         let i = UIImagePickerController()
-        i.sourceType = .PhotoLibrary
+        i.sourceType = .photoLibrary
         i.delegate = self
         
-        if (UIImagePickerController.isSourceTypeAvailable(.Camera))
+        if (UIImagePickerController.isSourceTypeAvailable(.camera))
         {
-            let a = UIAlertController(title: "Ambil gambar dari:", message: nil, preferredStyle: .ActionSheet)
+            let a = UIAlertController(title: "Ambil gambar dari:", message: nil, preferredStyle: .actionSheet)
             a.popoverPresentationController?.sourceView = popOverSourceView
             a.popoverPresentationController?.sourceRect = popOverSourceView.bounds
-            a.addAction(UIAlertAction(title: "Kamera", style: .Default, handler: { act in
-                i.sourceType = .Camera
-                self.presentViewController(i, animated: true, completion: {
+            a.addAction(UIAlertAction(title: "Kamera", style: .default, handler: { act in
+                i.sourceType = .camera
+                self.present(i, animated: true, completion: {
                     
                 })
             }))
-            a.addAction(UIAlertAction(title: "Album", style: .Default, handler: { act in
-                self.presentViewController(i, animated: true, completion: {
+            a.addAction(UIAlertAction(title: "Album", style: .default, handler: { act in
+                self.present(i, animated: true, completion: {
                     
                 })
             }))
-            a.addAction(UIAlertAction(title: "Batal", style: .Cancel, handler: { act in }))
-            self.presentViewController(a, animated: true, completion: nil)
+            a.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in }))
+            self.present(a, animated: true, completion: nil)
         } else
         {
-            self.presentViewController(i, animated: true, completion: {
+            self.present(i, animated: true, completion: {
                 
             })
         }
@@ -127,25 +129,33 @@ class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate, UIIma
 //        })
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        picker.dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let img = info[UIImagePickerControllerOriginalImage] as? UIImage
         {
             self.apImage.image = img
             self.imageView.image = img
         }
         
-        picker.dismissViewControllerAnimated(true, completion: nil)
+        if picker.sourceType == .camera {
+            isCamera = true
+        } else  {
+            let imageURL = info[UIImagePickerControllerReferenceURL] as! NSURL
+            let imageName = imageURL.path!.lastPathComponent + "_" + index.string
+            name = imageName
+        }
+        
+        picker.dismiss(animated: true, completion: nil)
     }
     
-    func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
-        navigationController.navigationBar.tintColor = UIColor.whiteColor()
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        navigationController.navigationBar.tintColor = UIColor.white
     }
     
-    @IBAction func edit(sender : UIView?)
+    @IBAction func edit(_ sender : UIView?)
     {
         /* AVIARY IS DISABLED
         AdobeImageEditorCustomization.setToolOrder([kAdobeImageEditorCrop, kAdobeImageEditorOrientation])

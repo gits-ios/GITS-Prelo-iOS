@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Fransiska on 9/16/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import Foundation
@@ -32,11 +32,13 @@ class TransactionListCell : UITableViewCell {
     @IBOutlet var imgs : [UIView] = []
     
     override func prepareForReuse() {
-        imgFreeOngkir.hidden = true
-        vwShareStatus.hidden = true
-        lblInstagram.textColor = UIColor.lightGrayColor()
-        lblFacebook.textColor = UIColor.lightGrayColor()
-        lblTwitter.textColor = UIColor.lightGrayColor()
+        super.prepareForReuse()
+        
+        imgFreeOngkir.isHidden = true
+        vwShareStatus.isHidden = true
+        lblInstagram.textColor = UIColor.lightGray
+        lblFacebook.textColor = UIColor.lightGray
+        lblTwitter.textColor = UIColor.lightGray
         lblPercentage.text = "-"
         imgProduct.image = nil
         lblProductName.text = "Nama Barang"
@@ -46,20 +48,28 @@ class TransactionListCell : UITableViewCell {
         lblOrderStatus.text = "-"
         lblOrderStatus.textColor = Theme.ThemeOrange
         lblOrderTime.text = "-"
+        
+        imgProduct.afCancelRequest()
+        if imgProduct2 != nil {
+            imgProduct2.afCancelRequest()
+        }
+        if imgProduct3 != nil {
+            imgProduct3.afCancelRequest()
+        }
     }
     
-    func adaptItem(userPurchase : UserTransactionItem) {
+    func adaptItem(_ userPurchase : UserTransactionItem) {
         if (userPurchase.productImageURL != nil) {
-            imgProduct.setImageWithUrl(userPurchase.productImageURL!, placeHolderImage: nil)
+            imgProduct.afSetImage(withURL: userPurchase.productImageURL!)
         }
         if (userPurchase.isFreeOngkir) {
-            imgFreeOngkir.hidden = false
+            imgFreeOngkir.isHidden = false
         }
         lblProductName.text = userPurchase.productName
         lblPrice.text = "\(userPurchase.totalPrice.asPrice)"
         lblCommentCount.text = "\(userPurchase.productCommentCount)"
         lblLoveCount.text = "\(userPurchase.productLoveCount)"
-        lblOrderStatus.text = userPurchase.progressText.uppercaseString
+        lblOrderStatus.text = userPurchase.progressText.uppercased()
         lblOrderTime.text = userPurchase.time
         
         // Fix order status text width
@@ -72,21 +82,21 @@ class TransactionListCell : UITableViewCell {
         if (orderStatusText == OrderStatus.Dibayar || orderStatusText == OrderStatus.Direview || orderStatusText == OrderStatus.Selesai) { // teks hijau
             lblOrderStatus.textColor = Theme.PrimaryColor
         } else if (orderStatusText == OrderStatus.TidakDikirimSeller || orderStatusText == OrderStatus.DibatalkanSeller) { // Teks merah
-            lblOrderStatus.textColor = UIColor.redColor()
+            lblOrderStatus.textColor = UIColor.red
         } else {
             lblOrderStatus.textColor = Theme.ThemeOrange
         }
     }
     
-    func adapt(userPurchase : UserTransaction) {
+    func adapt(_ userPurchase : UserTransaction) {
         if (userPurchase.productImageURL != nil) {
-            imgProduct.setImageWithUrl(userPurchase.productImageURL!, placeHolderImage: nil)
+            imgProduct.afSetImage(withURL: userPurchase.productImageURL!)
         }
         lblProductName.text = userPurchase.productName
         lblPrice.text = "\(userPurchase.totalPrice.asPrice)"
         lblCommentCount.text = ""
         lblLoveCount.text = ""
-        lblOrderStatus.text = userPurchase.progressText.uppercaseString
+        lblOrderStatus.text = userPurchase.progressText.uppercased()
         lblOrderTime.text = userPurchase.time
         
         // Fix order status text width
@@ -99,7 +109,7 @@ class TransactionListCell : UITableViewCell {
         if (orderStatusText == OrderStatus.Dibayar || orderStatusText == OrderStatus.Direview || orderStatusText == OrderStatus.Selesai) { // teks hijau
             lblOrderStatus.textColor = Theme.PrimaryColor
         } else if (orderStatusText == OrderStatus.TidakDikirimSeller || orderStatusText == OrderStatus.DibatalkanSeller) { // Teks merah
-            lblOrderStatus.textColor = UIColor.redColor()
+            lblOrderStatus.textColor = UIColor.red
         } else {
             lblOrderStatus.textColor = Theme.ThemeOrange
         }
@@ -107,7 +117,7 @@ class TransactionListCell : UITableViewCell {
         let images = userPurchase.productImages
         for v in imgs
         {
-            v.hidden = true
+            v.isHidden = true
         }
         
         if (images.count > 0)
@@ -120,21 +130,21 @@ class TransactionListCell : UITableViewCell {
                 }
                 
                 let v = imgs[i]
-                v.hidden = false
+                v.isHidden = false
                 let url = images[i]
                 if (i == 0)
                 {
-                    imgProduct.setImageWithUrl(url, placeHolderImage: nil)
+                    imgProduct.afSetImage(withURL: url)
                 }
                 
                 if (i == 1)
                 {
-                    imgProduct2.setImageWithUrl(url, placeHolderImage: nil)
+                    imgProduct2.afSetImage(withURL: url)
                 }
                 
                 if (i == 2)
                 {
-                    imgProduct3.setImageWithUrl(url, placeHolderImage: nil)
+                    imgProduct3.afSetImage(withURL: url)
                 }
                 
                 if (i == 3)

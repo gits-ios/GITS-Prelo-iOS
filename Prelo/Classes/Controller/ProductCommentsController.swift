@@ -3,10 +3,32 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 9/2/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
+import Alamofire
+
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate
 {
@@ -17,6 +39,9 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
     @IBOutlet var conMarginBottomSectionInput : NSLayoutConstraint!
     @IBOutlet var btnSend : UIButton!
     @IBOutlet var loading: UIActivityIndicatorView!
+    
+    @IBOutlet var consTopVwHeader: NSLayoutConstraint!
+    @IBOutlet var vwHeader: UIView!
     
     var pDetail : ProductDetail!
     
@@ -39,38 +64,36 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         tableView.delegate = self
         
         txtMessage.delegate = self
-        btnSend.addTarget(self, action: #selector(ProductCommentsController.send), forControlEvents: UIControlEvents.TouchUpInside)
+        btnSend.addTarget(self, action: #selector(ProductCommentsController.send), for: UIControlEvents.touchUpInside)
         
-        tableView.tableFooterView = UIView()
-        
-        growHandler = GrowingTextViewHandler(textView: txtMessage, withHeightConstraint: conHeightTxtMessage)
-        growHandler?.updateMinimumNumberOfLines(1, andMaximumNumberOfLine: 4)
+        self.tableView.tableFooterView = UIView()
+        self.tableView.separatorStyle = .none
         
         getComments()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        // Mixpanel
-        let p = [
-            "Product" : ((pDetail != nil) ? (pDetail!.name) : ""),
-            "Product ID" : ((pDetail != nil) ? (pDetail!.productID) : ""),
-            "Category 1" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 1) ? (pDetail!.categoryBreadcrumbs[1]["name"].string!) : ""),
-            "Category 2" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 2) ? (pDetail!.categoryBreadcrumbs[2]["name"].string!) : ""),
-            "Category 3" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 3) ? (pDetail!.categoryBreadcrumbs[3]["name"].string!) : ""),
-            "Seller" : ((pDetail != nil) ? (pDetail!.theirName) : "")
-        ]
-        //Mixpanel.trackPageVisit(PageName.ProductDetailComment, otherParam: p)
+//        // Mixpanel
+//        let p = [
+//            "Product" : ((pDetail != nil) ? (pDetail!.name) : ""),
+//            "Product ID" : ((pDetail != nil) ? (pDetail!.productID) : ""),
+//            "Category 1" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 1) ? (pDetail!.categoryBreadcrumbs[1]["name"].string!) : ""),
+//            "Category 2" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 2) ? (pDetail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+//            "Category 3" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 3) ? (pDetail!.categoryBreadcrumbs[3]["name"].string!) : ""),
+//            "Seller" : ((pDetail != nil) ? (pDetail!.theirName) : "")
+//        ]
+//        Mixpanel.trackPageVisit(PageName.ProductDetailComment, otherParam: p)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.ProductDetailComment)
         
-        self.an_subscribeKeyboardWithAnimations({i, f, o in
+        self.an_subscribeKeyboard(animations: {i, f, o in
             
             if (o)
             {
@@ -82,14 +105,12 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
             
             }, completion: nil)
         
-        // Remove redirect alert if any
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        if let redirAlert = appDelegate.redirAlert {
-            redirAlert.dismissWithClickedButtonIndex(-1, animated: true)
-        }
+        // Init growing text handler
+        growHandler = GrowingTextViewHandler(textView: txtMessage, withHeightConstraint: conHeightTxtMessage)
+        growHandler?.updateMinimumNumber(ofLines: 1, andMaximumNumberOfLine: 4)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         self.an_unsubscribeKeyboard()
@@ -99,8 +120,8 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
     func getComments()
     {
         // API Migrasi
-        request(APIProduct.GetComment(productID: pDetail.productID)).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Komentar Barang"))
+        let _ = request(APIProduct.getComment(productID: pDetail.productID)).responseJSON {resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Komentar Barang"))
             {
                 self.comments = []
                 self.tableView.reloadData()
@@ -136,6 +157,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
             return
         }
         
+        /*
         // Mixpanel
         let pt = [
             "Product Name" : ((pDetail != nil) ? (pDetail!.name) : ""),
@@ -144,26 +166,36 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
             "Category 3" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 3) ? (pDetail!.categoryBreadcrumbs[3]["name"].string!) : ""),
             "Seller Name" : ((pDetail != nil) ? (pDetail!.theirName) : "")
         ]
-        //Mixpanel.trackEvent(MixpanelEvent.CommentedProduct, properties: pt)
+        Mixpanel.trackEvent(MixpanelEvent.CommentedProduct, properties: pt)
+         */
         
-        self.btnSend.hidden = true
+        self.btnSend.isHidden = true
         
         txtMessage.resignFirstResponder()
-        txtMessage.editable = false
+        txtMessage.isEditable = false
         
         // API Migrasi
-        request(APIProduct.PostComment(productID: pDetail.productID, message: m, mentions: "")).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Kirim Komentar Barang"))
+        let _ = request(APIProduct.postComment(productID: pDetail.productID, message: m!, mentions: "")).responseJSON {resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Kirim Komentar Barang"))
             {
                 self.txtMessage.text = ""
                 self.growHandler?.setText(self.txtMessage.text, withAnimation: true)
-                self.txtMessage.editable = true
-                self.btnSend.hidden = false
+                self.txtMessage.isEditable = true
+                self.btnSend.isHidden = false
                 self.getComments()
+                
+                // Prelo Analytic - Comment on Product
+                let loginMethod = User.LoginMethod ?? ""
+                let pdata = [
+                    "Product ID" : self.pDetail.productID,
+                    "Seller ID" : self.pDetail.theirId
+                ]
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.CommentOnProduct, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+                
             } else
             {
-                self.txtMessage.editable = true
-                self.btnSend.hidden = false
+                self.txtMessage.isEditable = true
+                self.btnSend.isHidden = false
             }
         }
     }
@@ -173,11 +205,11 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         // Dispose of any resources that can be recreated.
     }
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
     }
     
-    func textViewDidChange(textView: UITextView) {
+    func textViewDidChange(_ textView: UITextView) {
 //        if (textView.text == "")
 //        {
 //            btnSend.enabled = false
@@ -185,31 +217,113 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
 //        {
 //            btnSend.enabled = true
 //        }
-        growHandler?.resizeTextViewWithAnimation(true)
+        growHandler?.resizeTextView(withAnimation: true)
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return comments.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let comment = comments[indexPath.row]
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let comment = comments[(indexPath as NSIndexPath).row]
         let i = comment.isSeller(sellerId) ? "cell2" : "cell1"
-        let c = tableView.dequeueReusableCellWithIdentifier(i) as! ProductCellDiscussion
+        let c = tableView.dequeueReusableCell(withIdentifier: i) as! ProductCellDiscussion
         
+        c.setupCover()
+        
+        c.commentId = comment.json["_id"].stringValue
+        
+        if (comment.posterImageURL != nil) {
+            c.ivCover?.afSetImage(withURL: comment.posterImageURL!, withFilter: .circle)
+        }
         c.captionMessage?.text = comment.message
+        if (comment.isDeleted) {
+            c.captionMessage?.font = UIFont.italicSystemFont(ofSize: 13)
+            c.captionMessage?.textColor = UIColor.lightGray
+        } else {
+            c.captionMessage?.font = UIFont.systemFont(ofSize: 13)
+            c.captionMessage?.textColor = UIColor.darkGray
+        }
         c.captionName?.text = comment.name
         c.captionDate?.text = comment.timestamp
+        
+        let userId = CDUser.getOne()?.id
+        let senderId = comment.senderId
+        c.senderId = senderId
+        
+        if userId != senderId && comment.isDeleted == false {
+        c.showReportAlert = { sender, commentId in
+            let alert = UIAlertController(title: nil, message: "Laporkan Komentar", preferredStyle: .actionSheet)
+            alert.popoverPresentationController?.sourceView = sender
+            alert.popoverPresentationController?.sourceRect = sender.bounds
+            alert.addAction(UIAlertAction(title: "Mengganggu / spam", style: .default, handler: { act in
+                self.reportComment(commentId: commentId, reportType: 0, reportedUsername: (c.captionName?.text)!)
+                alert.dismiss(animated: true, completion: nil)
+            }))
+            alert.addAction(UIAlertAction(title: "Tidak layak", style: .default, handler: { act in
+                self.reportComment(commentId: commentId, reportType: 1, reportedUsername: (c.captionName?.text)!)
+                alert.dismiss(animated: true, completion: nil)
+            }))
+            alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in
+                alert.dismiss(animated: true, completion: nil)
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
+            
+        } else{
+            c.lblReport.isHidden = true
+        }
+        c.goToProfile = { userId in
+            if (!AppTools.isNewShop) {
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+                vc.currentMode = .shop
+                vc.shopId = userId
+                vc.previousScreen = PageName.ProductDetailComment
+                
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else {
+                let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+                storePageTabBarVC.shopId = userId
+                storePageTabBarVC.previousScreen = PageName.ProductDetailComment
+                self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+            }
+        }
         
         return c
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func reportComment(commentId : String, reportType : Int, reportedUsername : String) {
+        request(APIProduct.reportComment(productId: self.pDetail.productID, commentId: commentId, reportType: reportType)).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Laporkan Komentar")) {
+                let json = JSON(resp.result.value!)
+                if (json["_data"].boolValue == true) {
+                    Constant.showDialog("Komentar Dilaporkan", message: "Terima kasih, Prelo akan meninjau laporan kamu")
+                }
+                
+                // Prelo Analytic - Report Comment
+                let loginMethod = User.LoginMethod ?? ""
+                let reportingUsername = (CDUser.getOne()?.username)!
+                let pdata = [
+                    "Product ID" : (self.pDetail.productID),
+                    "Reported Username" : reportedUsername,
+                    "Reporting Username" : reportingUsername,
+                    "Reason" : reportType,
+                    "Comment ID" : commentId
+                ] as [String : Any]
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ReportComment, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+            }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        let s = comments[indexPath.row].message.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.size.width-72)
+        let s = comments[(indexPath as NSIndexPath).row].message.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width-72)
         return 47+(s.height)
     }
 
+    @IBAction func topHeaderPressed(_ sender: AnyObject) {
+        self.consTopVwHeader.constant = -(self.vwHeader.height)
+    }
     /*
     // MARK: - Navigation
 

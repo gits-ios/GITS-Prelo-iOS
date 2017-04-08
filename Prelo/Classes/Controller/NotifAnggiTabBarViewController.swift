@@ -3,12 +3,15 @@
 //  Prelo
 //
 //  Created by PreloBook on 3/3/16.
-//  Copyright (c) 2016 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2016 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import Foundation
+import Alamofire
 
-class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate, NotifAnggiTransactionDelegate, NotifAnggiConversationDelegate, UserRelatedDelegate {
+// MARK: - Main Class
+
+class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate, NotifAnggiTransactionDelegate, NotifAnggiConversationDelegate, UserRelatedDelegate/*, UIActionSheetDelegate, UIAlertViewDelegate*/ {
     
     var tabSwipe : CarbonTabSwipeNavigation?
     var notifAnggiTransactionVC : NotifAnggiTransactionViewController?
@@ -24,18 +27,21 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
     let TransactionBadgeRightOffset = 18
     let ConversationBadgeRightOffset = 13
     
+    var isBackTwice : Bool = false
+    var isNavCtrlsChecked : Bool = false
+    
     // MARK: - Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        notifAnggiTransactionVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameNotifAnggiTransaction, owner: nil, options: nil).first as? NotifAnggiTransactionViewController
+        notifAnggiTransactionVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTransaction, owner: nil, options: nil)?.first as? NotifAnggiTransactionViewController
         notifAnggiTransactionVC?.delegate = self
         
-        notifAnggiConversationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameNotifAnggiConversation, owner: nil, options: nil).first as? NotifAnggiConversationViewController
+        notifAnggiConversationVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiConversation, owner: nil, options: nil)?.first as? NotifAnggiConversationViewController
         notifAnggiConversationVC?.delegate = self
         
-        tabSwipe = CarbonTabSwipeNavigation().createWithRootViewController(self, tabNames: ["TRANSAKSI", "PERCAKAPAN"] as [AnyObject], tintColor: UIColor.whiteColor(), delegate: self)
+        tabSwipe = CarbonTabSwipeNavigation().create(withRootViewController: self, tabNames: ["TRANSAKSI" as AnyObject, "PERCAKAPAN" as AnyObject] as [AnyObject], tintColor: UIColor.white, delegate: self)
         tabSwipe?.addShadow()
         tabSwipe?.setNormalColor(Theme.TabNormalColor)
         tabSwipe?.colorIndicator = Theme.PrimaryColorDark
@@ -43,19 +49,22 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
         
         // Set title
         self.title = "Notifikasi"
+        
+        // option button
+        setOptionButton()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.Notification)
+//        Mixpanel.trackPageVisit(PageName.Notification)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.Notification)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         if (User.IsLoggedIn == false) {
@@ -65,6 +74,9 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
         } else {
             if (isFirstAppear) {
                 isFirstAppear = false
+                
+                self.notifAnggiTransactionVC?.previousScreen = self.previousScreen
+                self.notifAnggiConversationVC?.previousScreen = self.previousScreen
                 
                 self.getUnreadNotifCount()
                 self.refreshNotifPage()
@@ -76,19 +88,24 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
             }
             
             // Activate self as PreloNotifListenerDelegate
-            let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            let delegate = UIApplication.shared.delegate as! AppDelegate
             let notifListener = delegate.preloNotifListener
-            notifListener.delegate = self
+            notifListener?.delegate = self
         }
         
-        // Remove redirect alert if any
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        if let redirAlert = appDelegate.redirAlert {
-            redirAlert.dismissWithClickedButtonIndex(-1, animated: true)
+        // Back action handling
+        if (!isNavCtrlsChecked && isBackTwice) {
+            var x = self.navigationController?.viewControllers
+            x?.remove(at: (x?.count)! - 2)
+            if (x == nil) {
+                x = []
+            }
+            self.navigationController?.setViewControllers(x!, animated: false)
+            isNavCtrlsChecked = true
         }
     }
         
-    func tabSwipeNavigation(tabSwipe: CarbonTabSwipeNavigation!, viewControllerAtIndex index: UInt) -> UIViewController! {
+    func tabSwipeNavigation(_ tabSwipe: CarbonTabSwipeNavigation!, viewControllerAt index: UInt) -> UIViewController! {
         if (index == 0) { // Transaction
             return notifAnggiTransactionVC
         } else if (index == 1) { // Conversation
@@ -97,14 +114,14 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
         
         // Default
         let v = UIViewController()
-        v.view.backgroundColor = UIColor.whiteColor()
+        v.view.backgroundColor = UIColor.white
         return v
     }
     
     func getUnreadNotifCount() {
         // API Migrasi
-        request(APINotifAnggi.GetUnreadNotifCount).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Unread Count")) {
+        let _ = request(APINotification.getUnreadNotifCount).responseJSON {resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Unread Count")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
@@ -120,7 +137,7 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
     
     func userCancelLogin() {
         allowLaunchLogin = false
-        self.navigationController?.popViewControllerAnimated(true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     func userLoggedIn() {
@@ -129,7 +146,7 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
     
     // MARK: - PreloNotifListenerDelegate functions
     
-    override func showNewNotifCount(count: Int) {
+    override func showNewNotifCount(_ count: Int) {
         // Do nothing
     }
     
@@ -137,6 +154,19 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
         self.notifAnggiTransactionVC?.refreshPage()
         self.notifAnggiConversationVC?.refreshPage()
     }
+    
+    override func showCartCount(_ count: Int) {
+        // Do nothing
+    }
+    
+    override func refreshCartPage() {
+        // Do nothing
+    }
+    
+    override func increaseCartCount(_ value: Int) {
+        // Do nothing
+    }
+
     
     // MARK: - NotifAnggi per tab delegate functions
     
@@ -146,9 +176,9 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
             if (self.isBadgeValuesCompleted()) {
                 tabSwipe?.setBadgeValues([self.transactionBadgeNumber!, self.conversationBadgeNumber!], andRightOffsets: [TransactionBadgeRightOffset, ConversationBadgeRightOffset])
                 let badgeNumberAll = transactionBadgeNumber! + conversationBadgeNumber!
-                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 let notifListener = appDelegate.preloNotifListener
-                notifListener.setNewNotifCount(badgeNumberAll)
+                notifListener?.setNewNotifCount(badgeNumberAll)
             }
         }
     }
@@ -159,12 +189,79 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
             if (self.isBadgeValuesCompleted()) {
                 tabSwipe?.setBadgeValues([self.transactionBadgeNumber!, self.conversationBadgeNumber!], andRightOffsets: [TransactionBadgeRightOffset, ConversationBadgeRightOffset])
                 let badgeNumberAll = transactionBadgeNumber! + conversationBadgeNumber!
-                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 let notifListener = appDelegate.preloNotifListener
-                notifListener.setNewNotifCount(badgeNumberAll)
+                notifListener?.setNewNotifCount(badgeNumberAll)
             }
         }
     }
+    
+    // MARK: - option button (right top)
+    func setOptionButton() {
+        let btnOption = self.createButtonWithIcon(AppFont.prelo2, icon: "")
+        
+        btnOption.addTarget(self, action: #selector(NotifAnggiTabBarViewController.option), for: UIControlEvents.touchUpInside)
+        
+        self.navigationItem.rightBarButtonItem = btnOption.toBarButton()
+    }
+    
+    func option()
+    {
+//        let a = UIActionSheet(title: "Opsi", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil)
+//        a.addButton(withTitle: "Hapus Pesan")
+//        a.addButton(withTitle: "Batal")
+//        a.cancelButtonIndex = 1
+//        
+//        // bound location
+//        let screenSize: CGRect = UIScreen.main.bounds
+//        let screenWidth = screenSize.width
+//        let bounds = CGRect(x: screenWidth - 65.0, y: 0.0, width: screenWidth, height: 0.0)
+//        
+//        a.show(from: bounds, in: self.view, animated: true)
+        
+        let a = UIAlertController(title: "Opsi", message: nil, preferredStyle: .actionSheet)
+        a.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem
+        a.addAction(UIAlertAction(title: "Hapus Pesan", style: .default, handler: { action in
+            let activeTab = self.tabSwipe?.currentTabIndex
+            if (activeTab == 0) { // Transaction
+                self.notifAnggiTransactionVC?.isToDelete = true
+                self.notifAnggiTransactionVC?.consHeightCheckBoxAll.constant = 56
+                self.notifAnggiTransactionVC?.consHeightButtonView.constant = 56
+                self.notifAnggiTransactionVC?.tableView.reloadData()
+            } else { // Conversation
+                self.notifAnggiConversationVC?.isToDelete = true
+                self.notifAnggiConversationVC?.consHeightCheckBoxAll.constant = 56
+                self.notifAnggiConversationVC?.consHeightButtonView.constant = 56
+                self.notifAnggiConversationVC?.tableView.reloadData()
+            }
+            a.dismiss(animated: true, completion: nil)
+        }))
+        a.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { action in
+            a.dismiss(animated: true, completion: nil)
+        }))
+        UIApplication.shared.keyWindow?.rootViewController?.present(a, animated: true, completion: nil)
+    }
+    
+//    func actionSheet(_ actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
+//        if (buttonIndex == 0)
+//        {
+//            // do something
+//            let activeTab = self.tabSwipe?.currentTabIndex
+//            if (activeTab == 0) { // Transaction
+////                Constant.showDialog("Hapus Notifikasi", message: "Transaksi")
+//                self.notifAnggiTransactionVC?.isToDelete = true
+//                self.notifAnggiTransactionVC?.consHeightCheckBoxAll.constant = 56
+//                self.notifAnggiTransactionVC?.consHeightButtonView.constant = 56
+//                self.notifAnggiTransactionVC?.tableView.reloadData()
+//            } else { // Conversation
+////                Constant.showDialog("Hapus Notifikasi", message: "Percakapan")
+//                self.notifAnggiConversationVC?.isToDelete = true
+//                self.notifAnggiConversationVC?.consHeightCheckBoxAll.constant = 56
+//                self.notifAnggiConversationVC?.consHeightButtonView.constant = 56
+//                self.notifAnggiConversationVC?.tableView.reloadData()
+//            }
+//        }
+//    }
     
     // MARK: - Other functions
     

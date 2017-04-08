@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="6qM-Kw-Cvw" customClass="TarikTunaiCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6qM-Kw-Cvw" id="68w-lE-b2T">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="tiket" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kdD-0f-z10">
+                        <rect key="frame" x="8" y="11" width="80" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="80" id="bW9-HU-je2"/>
+                            <constraint firstAttribute="height" constant="21" id="fp4-B2-yW1"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="tanggal" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dgm-3Q-1Ra">
+                        <rect key="frame" x="88" y="11" width="120" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="c0e-WL-jfi"/>
+                            <constraint firstAttribute="width" constant="120" id="inG-mw-l4B"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="penarikan" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a70-NS-TCL">
+                        <rect key="frame" x="208" y="11" width="167" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="DQw-wc-zWf"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="dgm-3Q-1Ra" firstAttribute="leading" secondItem="kdD-0f-z10" secondAttribute="trailing" id="1hY-hJ-dye"/>
+                    <constraint firstItem="kdD-0f-z10" firstAttribute="leading" secondItem="68w-lE-b2T" secondAttribute="leadingMargin" id="JUd-yW-3hV"/>
+                    <constraint firstItem="kdD-0f-z10" firstAttribute="centerY" secondItem="68w-lE-b2T" secondAttribute="centerY" id="UD5-9t-gjX"/>
+                    <constraint firstAttribute="trailing" secondItem="a70-NS-TCL" secondAttribute="trailing" id="dO2-oA-rgu"/>
+                    <constraint firstItem="a70-NS-TCL" firstAttribute="centerY" secondItem="kdD-0f-z10" secondAttribute="centerY" id="g3e-4j-JuI"/>
+                    <constraint firstItem="a70-NS-TCL" firstAttribute="leading" secondItem="dgm-3Q-1Ra" secondAttribute="trailing" id="iKW-T7-bgs"/>
+                    <constraint firstItem="dgm-3Q-1Ra" firstAttribute="centerY" secondItem="kdD-0f-z10" secondAttribute="centerY" id="qbF-HA-pOi"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="lblPenarikan" destination="a70-NS-TCL" id="s8n-Qs-Aje"/>
+                <outlet property="lblTanggal" destination="dgm-3Q-1Ra" id="J85-6g-tNz"/>
+                <outlet property="lblTiket" destination="kdD-0f-z10" id="rP9-Ko-cv7"/>
+            </connections>
+            <point key="canvasLocation" x="-4" y="-46"/>
+        </tableViewCell>
+    </objects>
+</document>

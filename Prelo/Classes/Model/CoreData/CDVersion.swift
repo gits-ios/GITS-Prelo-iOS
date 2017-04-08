@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Fransiska on 9/11/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import Foundation
@@ -21,17 +21,17 @@ class CDVersion: NSManagedObject {
     @NSManaged var provincesRegionsVersion : NSNumber
     
     static func getOne() -> CDVersion? {
-        let fetchReq = NSFetchRequest(entityName : "CDVersion")
+        let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName : "CDVersion")
         
         do {
-            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq)
+            let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq)
             return r.count == 0 ? nil : r.first as? CDVersion
         } catch {
             return nil
         }
     }
     
-    static func saveVersions(json : JSON) {
+    static func saveVersions(_ json : JSON) {
         let m = UIApplication.appDelegate.managedObjectContext
         let ver : CDVersion? = self.getOne()
         if (ver != nil) {
@@ -45,7 +45,7 @@ class CDVersion: NSManagedObject {
             ver?.provincesRegionsVersion = json["metadata_versions"]["provinces_regions"].number!
         } else {
             // Make new
-            let newVer = NSEntityDescription.insertNewObjectForEntityForName("CDVersion", inManagedObjectContext: m) as! CDVersion
+            let newVer = NSEntityDescription.insertNewObject(forEntityName: "CDVersion", into: m) as! CDVersion
             newVer.appVersion = json["version"].string!
             newVer.appVersion = json["version"].string!
             newVer.brandsVersion = json["metadata_versions"]["brands"].number!

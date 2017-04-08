@@ -3,10 +3,41 @@
 //  Prelo
 //
 //  Created by Fransiska on 9/22/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import Foundation
+import Alamofire
+
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l <= r
+  default:
+    return !(rhs < lhs)
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class MyProductCompletedViewController : BaseViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -34,7 +65,7 @@ class MyProductCompletedViewController : BaseViewController, UITableViewDataSour
         
         // Register custom cell
         let transactionListCellNib = UINib(nibName: "TransactionListCell", bundle: nil)
-        tableView.registerNib(transactionListCellNib, forCellReuseIdentifier: "TransactionListCell")
+        tableView.register(transactionListCellNib, forCellReuseIdentifier: "TransactionListCell")
         
         // Hide bottom refresh first
         bottomLoading.stopAnimating()
@@ -43,19 +74,19 @@ class MyProductCompletedViewController : BaseViewController, UITableViewDataSour
         // Refresh control
         self.refreshControl = UIRefreshControl()
         self.refreshControl.tintColor = Theme.PrimaryColor
-        self.refreshControl.addTarget(self, action: #selector(MyProductCompletedViewController.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.addTarget(self, action: #selector(MyProductCompletedViewController.refresh(_:)), for: UIControlEvents.valueChanged)
         self.tableView.addSubview(refreshControl)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loading.startAnimating()
-        tableView.hidden = true
-        lblEmpty.hidden = true
-        btnRefresh.hidden = true
+        tableView.isHidden = true
+        lblEmpty.isHidden = true
+        btnRefresh.isHidden = true
         
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.MyProducts, otherParam: ["Tab" : "Complete"])
+//        Mixpanel.trackPageVisit(PageName.MyProducts, otherParam: ["Tab" : "Complete"])
         
         // Google Analytics
         GAI.trackPageVisit(PageName.MyProducts)
@@ -67,12 +98,12 @@ class MyProductCompletedViewController : BaseViewController, UITableViewDataSour
             getUserProducts()
         } else {
             self.loading.stopAnimating()
-            self.loading.hidden = true
+            self.loading.isHidden = true
             if (self.userProducts?.count <= 0) {
-                self.lblEmpty.hidden = false
-                self.btnRefresh.hidden = false
+                self.lblEmpty.isHidden = false
+                self.btnRefresh.isHidden = false
             } else {
-                self.tableView.hidden = false
+                self.tableView.isHidden = false
                 self.setupTable()
             }
         }
@@ -80,8 +111,8 @@ class MyProductCompletedViewController : BaseViewController, UITableViewDataSour
     
     func getUserProducts() {
         // API Migrasi
-        request(APITransaction.Sells(status: "done", current: "\(nextIdx)", limit: "\(nextIdx + ItemPerLoad)")).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Jualan Saya - Selesai")) {
+        let _ = request(APITransactionProduct.sells(status: "done", current: "\(nextIdx)", limit: "\(nextIdx + ItemPerLoad)")).responseJSON {resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Jualan Saya - Selesai")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 let dataCount = data.count
@@ -114,28 +145,28 @@ class MyProductCompletedViewController : BaseViewController, UITableViewDataSour
             self.refreshControl.endRefreshing()
             
             if (self.userProducts?.count <= 0) {
-                self.lblEmpty.hidden = false
-                self.btnRefresh.hidden = false
+                self.lblEmpty.isHidden = false
+                self.btnRefresh.isHidden = false
             } else {
-                self.tableView.hidden = false
+                self.tableView.isHidden = false
                 self.setupTable()
             }
         }
     }
     
-    func refresh(sender: AnyObject) {
+    func refresh(_ sender: AnyObject) {
         // Reset data
         self.userProducts = []
         self.nextIdx = 0
         self.isAllItemLoaded = false
-        self.tableView.hidden = true
-        self.lblEmpty.hidden = true
-        self.btnRefresh.hidden = true
-        self.loading.hidden = false
+        self.tableView.isHidden = true
+        self.lblEmpty.isHidden = true
+        self.btnRefresh.isHidden = true
+        self.loading.isHidden = false
         getUserProducts()
     }
     
-    @IBAction func refreshPressed(sender: AnyObject) {
+    @IBAction func refreshPressed(_ sender: AnyObject) {
         self.refresh(sender)
     }
     
@@ -148,7 +179,7 @@ class MyProductCompletedViewController : BaseViewController, UITableViewDataSour
         tableView.reloadData()
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (userProducts?.count > 0) {
             return (self.userProducts?.count)!
         } else {
@@ -156,27 +187,27 @@ class MyProductCompletedViewController : BaseViewController, UITableViewDataSour
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) ->
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) ->
         UITableViewCell {
-            let cell : TransactionListCell = self.tableView.dequeueReusableCellWithIdentifier("TransactionListCell") as! TransactionListCell
-            if (!refreshControl.refreshing) {
-                let u = userProducts?[indexPath.item]
+            let cell : TransactionListCell = self.tableView.dequeueReusableCell(withIdentifier: "TransactionListCell") as! TransactionListCell
+            if (!refreshControl.isRefreshing) {
+                let u = userProducts?[(indexPath as NSIndexPath).item]
                 cell.adaptItem(u!)
             }
             return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let myProductDetailVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyProductDetail, owner: nil, options: nil).first as! MyProductDetailViewController
-        myProductDetailVC.transactionId = userProducts?[indexPath.item].id
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let myProductDetailVC = Bundle.main.loadNibNamed(Tags.XibNameMyProductDetail, owner: nil, options: nil)?.first as! MyProductDetailViewController
+        myProductDetailVC.transactionId = userProducts?[(indexPath as NSIndexPath).item].id
         self.navigationController?.pushViewController(myProductDetailVC, animated: true)
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 64
     }
     
-    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let offset : CGPoint = scrollView.contentOffset
         let bounds : CGRect = scrollView.bounds
         let size : CGSize = scrollView.contentSize
@@ -187,7 +218,7 @@ class MyProductCompletedViewController : BaseViewController, UITableViewDataSour
         let reloadDistance : CGFloat = 0
         if (y > h + reloadDistance) {
             // Load next items only if all items not loaded yet and if its not currently loading items
-            if (!self.isAllItemLoaded && !self.bottomLoading.isAnimating()) {
+            if (!self.isAllItemLoaded && !self.bottomLoading.isAnimating) {
                 // Tampilkan loading di bawah
                 consBottomTableView.constant = ConsBottomTableViewWhileUpdating
                 bottomLoading.startAnimating()

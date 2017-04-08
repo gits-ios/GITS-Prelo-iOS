@@ -3,11 +3,31 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 8/12/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
 import AssetsLibrary
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class AddProductImageSourceViewController: BaseViewController, UICollectionViewDataSource, ImageSourceCellDelegate {
     
@@ -21,16 +41,16 @@ class AddProductImageSourceViewController: BaseViewController, UICollectionViewD
     var dragDropView : UIImageView?
     {
         set {
-            _dragDropView?.hidden = true
+            _dragDropView?.isHidden = true
         }
         get {
             if (_dragDropView == nil) {
-                _dragDropView = UIImageView(frame: CGRectMake(0, 0, 128, 128))
-                _dragDropView?.backgroundColor = UIColor.clearColor()
-                _dragDropView?.contentMode = UIViewContentMode.ScaleAspectFit
+                _dragDropView = UIImageView(frame: CGRect(x: 0, y: 0, width: 128, height: 128))
+                _dragDropView?.backgroundColor = UIColor.clear
+                _dragDropView?.contentMode = UIViewContentMode.scaleAspectFit
                 self.view.addSubview(_dragDropView!)
             }
-            _dragDropView?.hidden = false
+            _dragDropView?.isHidden = false
             return _dragDropView!
         }
     }
@@ -42,7 +62,7 @@ class AddProductImageSourceViewController: BaseViewController, UICollectionViewD
 
         // Do any additional setup after loading the view.
         
-        ImageSupplier.fetch(ImageSource.Gallery, complete: { r in
+        ImageSupplier.fetch(ImageSource.gallery, complete: { r in
             self.arrayImages = r
             self.gridView?.dataSource = self
             }, failed: { m in
@@ -55,42 +75,42 @@ class AddProductImageSourceViewController: BaseViewController, UICollectionViewD
         // Dispose of any resources that can be recreated.
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return arrayImages.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let c = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! ImageSourceCell
-        c.apImage = arrayImages[indexPath.item]
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let c = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ImageSourceCell
+        c.apImage = arrayImages[(indexPath as NSIndexPath).item]
         c.cellDelegate = self
         
         return c
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
         dragDropView = nil
         highlightProductRowView()
     }
     
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-        super.touchesCancelled(touches, withEvent: event)
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
         dragDropView = nil
         highlightProductRowView()
     }
     
-    func imageSourceCellBeginDrag(cell: ImageSourceCell) {
-        if (cell.longPress?.state == UIGestureRecognizerState.Ended || cell.longPress?.state == UIGestureRecognizerState.Cancelled || cell.longPress?.state == UIGestureRecognizerState.Failed) {
-            cell.hidden = false
+    func imageSourceCellBeginDrag(_ cell: ImageSourceCell) {
+        if (cell.longPress?.state == UIGestureRecognizerState.ended || cell.longPress?.state == UIGestureRecognizerState.cancelled || cell.longPress?.state == UIGestureRecognizerState.failed) {
+            cell.isHidden = false
             dragDropView = nil
         } else {
             
-            let p = cell.longPress?.locationInView(self.view)
+            let p = cell.longPress?.location(in: self.view)
             print("begin drag | x : " + String(Int((p?.x)!)) + ", y : " + String(Int((p?.y)!)))
-            if (cell.longPress?.state == UIGestureRecognizerState.Began) {
-                cell.hidden = true
-                dragDropView?.center = (gridView?.convertPoint(cell.center, toView: self.view))!
-                UIView.animateWithDuration(0.2, animations: {
+            if (cell.longPress?.state == UIGestureRecognizerState.began) {
+                cell.isHidden = true
+                dragDropView?.center = (gridView?.convert(cell.center, to: self.view))!
+                UIView.animate(withDuration: 0.2, animations: {
                     self.dragDropView?.center = p!
                 })
             } else {
@@ -112,10 +132,10 @@ class AddProductImageSourceViewController: BaseViewController, UICollectionViewD
         }
         highlightting = true
         print("highlightting")
-        let h = (dragDropView?.hidden)!
+        let h = (dragDropView?.isHidden)!
         for p in arrayProductRow
         {
-            let r = scrollView.convertRect(p.frame, toView: self.view)
+            let r = scrollView.convert(p.frame, to: self.view)
             if (r.contains((dragDropView?.center)!) && h == false)
             {
                 p.highlight(true)
@@ -133,11 +153,11 @@ class AddProductImageSourceViewController: BaseViewController, UICollectionViewD
             return
         }
         scrolling = true
-        if ((_dragDropView?.hidden)! == false) {
+        if ((_dragDropView?.isHidden)! == false) {
             let y = _dragDropView?.center.y
-            if (y > UIScreen.mainScreen().bounds.size.height-128) {
+            if (y > UIScreen.main.bounds.size.height-128) {
                 let p = scrollView.contentOffset
-                var p2 = CGPointMake(p.x, p.y+CGFloat(1))
+                var p2 = CGPoint(x: p.x, y: p.y+CGFloat(1))
                 
                 if (p2.y > scrollView.contentSize.height-scrollView.height) {
                     p2.y = CGFloat(scrollView.contentSize.height-scrollView.height)
@@ -171,19 +191,19 @@ class AddProductImageSourceViewController: BaseViewController, UICollectionViewD
 
 class ProductRowView : UIView
 {
-    func highlight(h : Bool)
+    func highlight(_ h : Bool)
     {
         if (h) {
-            self.backgroundColor = UIColor.grayColor()
+            self.backgroundColor = UIColor.gray
         } else {
-            self.backgroundColor = UIColor.clearColor()
+            self.backgroundColor = UIColor.clear
         }
     }
 }
 
 protocol ImageSourceCellDelegate
 {
-    func imageSourceCellBeginDrag(cell : ImageSourceCell)
+    func imageSourceCellBeginDrag(_ cell : ImageSourceCell)
 }
 
 class ImageSourceCell : UICollectionViewCell, UIGestureRecognizerDelegate
@@ -197,7 +217,7 @@ class ImageSourceCell : UICollectionViewCell, UIGestureRecognizerDelegate
     
     var asset : ALAssetsLibrary?
     
-    private var _apImage : APImage?
+    fileprivate var _apImage : APImage?
     var apImage : APImage?
     {
         set {
@@ -210,13 +230,14 @@ class ImageSourceCell : UICollectionViewCell, UIGestureRecognizerDelegate
                     asset = ALAssetsLibrary()
                 }
                 
-                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                    self.asset?.assetForURL((self._apImage?.url)!, resultBlock: { asset in
+//                DispatchQueue.global( priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
+                DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
+                    self.asset?.asset(for: (self._apImage?.url)! as URL, resultBlock: { asset in
                         if let ast = asset {
                             let rep = ast.defaultRepresentation()
-                            let ref = rep.fullScreenImage().takeUnretainedValue()
-                            let i = UIImage(CGImage: ref)
-                            dispatch_async(dispatch_get_main_queue(), {
+                            let ref = rep?.fullScreenImage().takeUnretainedValue()
+                            let i = UIImage(cgImage: ref!)
+                            DispatchQueue.main.async(execute: {
                                 self.ivCover.image = i
                             })
                         }
@@ -225,7 +246,7 @@ class ImageSourceCell : UICollectionViewCell, UIGestureRecognizerDelegate
                     })
                 })
             } else {
-                ivCover.setImageWithUrl((_apImage?.url)!, placeHolderImage: nil)
+                ivCover.afSetImage(withURL: (_apImage?.url)!)
             }
         }
         get {
@@ -233,7 +254,7 @@ class ImageSourceCell : UICollectionViewCell, UIGestureRecognizerDelegate
         }
     }
     
-    @IBAction func longPressed(sender : UIGestureRecognizer)
+    @IBAction func longPressed(_ sender : UIGestureRecognizer)
     {
         cellDelegate?.imageSourceCellBeginDrag(self)
     }

@@ -3,10 +3,41 @@
 //  Prelo
 //
 //  Created by Fransiska on 9/14/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import Foundation
+import Alamofire
+
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l <= r
+  default:
+    return !(rhs < lhs)
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class MyPurchaseCompletedViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -34,7 +65,7 @@ class MyPurchaseCompletedViewController: BaseViewController, UITableViewDataSour
         
         // Register custom cell
         let transactionListCellNib = UINib(nibName: "TransactionListCell", bundle: nil)
-        tableView.registerNib(transactionListCellNib, forCellReuseIdentifier: "TransactionListCell")
+        tableView.register(transactionListCellNib, forCellReuseIdentifier: "TransactionListCell")
         
         // Hide bottom refresh first
         bottomLoading.stopAnimating()
@@ -43,19 +74,19 @@ class MyPurchaseCompletedViewController: BaseViewController, UITableViewDataSour
         // Refresh control
         self.refreshControl = UIRefreshControl()
         self.refreshControl.tintColor = Theme.PrimaryColor
-        self.refreshControl.addTarget(self, action: #selector(MyPurchaseCompletedViewController.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.addTarget(self, action: #selector(MyPurchaseCompletedViewController.refresh(_:)), for: UIControlEvents.valueChanged)
         self.tableView.addSubview(refreshControl)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loading.startAnimating()
-        tableView.hidden = true
-        lblEmpty.hidden = true
-        btnRefresh.hidden = true
+        tableView.isHidden = true
+        lblEmpty.isHidden = true
+        btnRefresh.isHidden = true
         
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.MyOrders, otherParam: ["Tab" : "Complete"])
+//        Mixpanel.trackPageVisit(PageName.MyOrders, otherParam: ["Tab" : "Complete"])
         
         // Google Analytics
         GAI.trackPageVisit(PageName.MyOrders)
@@ -67,12 +98,12 @@ class MyPurchaseCompletedViewController: BaseViewController, UITableViewDataSour
             getUserPurchases()
         } else {
             self.loading.stopAnimating()
-            self.loading.hidden = true
+            self.loading.isHidden = true
             if (self.userPurchases?.count <= 0) {
-                self.lblEmpty.hidden = false
-                self.btnRefresh.hidden = false
+                self.lblEmpty.isHidden = false
+                self.btnRefresh.isHidden = false
             } else {
-                self.tableView.hidden = false
+                self.tableView.isHidden = false
                 self.setupTable()
             }
         }
@@ -80,8 +111,8 @@ class MyPurchaseCompletedViewController: BaseViewController, UITableViewDataSour
     
     func getUserPurchases() {
         // API Migrasi
-        request(APITransaction.Purchases(status: "done", current: "\(nextIdx)", limit: "\(nextIdx + ItemPerLoad)")).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Belanjaan Saya - Selesai")) {
+        let _ = request(APITransactionProduct.purchases(status: "done", current: "\(nextIdx)", limit: "\(nextIdx + ItemPerLoad)")).responseJSON {resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Belanjaan Saya - Selesai")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 let dataCount = data.count
@@ -114,28 +145,28 @@ class MyPurchaseCompletedViewController: BaseViewController, UITableViewDataSour
             self.refreshControl.endRefreshing()
             
             if (self.userPurchases?.count <= 0) {
-                self.lblEmpty.hidden = false
-                self.btnRefresh.hidden = false
+                self.lblEmpty.isHidden = false
+                self.btnRefresh.isHidden = false
             } else {
-                self.tableView.hidden = false
+                self.tableView.isHidden = false
                 self.setupTable()
             }
         }
     }
     
-    func refresh(sender: AnyObject) {
+    func refresh(_ sender: AnyObject) {
         // Reset data
         self.userPurchases = []
         self.nextIdx = 0
         self.isAllItemLoaded = false
-        self.tableView.hidden = true
-        self.lblEmpty.hidden = true
-        self.btnRefresh.hidden = true
-        self.loading.hidden = false
+        self.tableView.isHidden = true
+        self.lblEmpty.isHidden = true
+        self.btnRefresh.isHidden = true
+        self.loading.isHidden = false
         getUserPurchases()
     }
     
-    @IBAction func refreshPressed(sender: AnyObject) {
+    @IBAction func refreshPressed(_ sender: AnyObject) {
         self.refresh(sender)
     }
     
@@ -148,7 +179,7 @@ class MyPurchaseCompletedViewController: BaseViewController, UITableViewDataSour
         tableView.reloadData()
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (userPurchases?.count > 0) {
             return (self.userPurchases?.count)!
         } else {
@@ -156,38 +187,39 @@ class MyPurchaseCompletedViewController: BaseViewController, UITableViewDataSour
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) ->
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) ->
         UITableViewCell {
-            let cell : TransactionListCell = self.tableView.dequeueReusableCellWithIdentifier("TransactionListCell") as! TransactionListCell
-            if (!refreshControl.refreshing) {
-                let u = userPurchases?[indexPath.item]
+            let cell : TransactionListCell = self.tableView.dequeueReusableCell(withIdentifier: "TransactionListCell") as! TransactionListCell
+            if (!refreshControl.isRefreshing) {
+                let u = userPurchases?[(indexPath as NSIndexPath).item]
                 cell.adaptItem(u!)
             }
             return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if (userPurchases != nil && userPurchases!.count >= indexPath.item) {
-            let trxItem = userPurchases![indexPath.item]
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (userPurchases != nil && userPurchases!.count >= (indexPath as NSIndexPath).item) {
+            let trxItem = userPurchases![(indexPath as NSIndexPath).item]
             if (TransactionDetailTools.isReservationProgress(trxItem.progress)) {
                 let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewControllerWithIdentifier("TransactionDetail") as? TransactionDetailViewController)!
+                let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewController(withIdentifier: "TransactionDetail") as? TransactionDetailViewController)!
                 transactionDetailVC.trxProductId = trxItem.id
                 transactionDetailVC.isSeller = false
+                transactionDetailVC.previousScreen = PageName.MyOrders
                 self.navigationController?.pushViewController(transactionDetailVC, animated: true)
             } else {
-                let myPurchaseDetailVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchaseDetail, owner: nil, options: nil).first as! MyPurchaseDetailViewController
+                let myPurchaseDetailVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseDetail, owner: nil, options: nil)?.first as! MyPurchaseDetailViewController
                 myPurchaseDetailVC.transactionId = trxItem.id
                 self.navigationController?.pushViewController(myPurchaseDetailVC, animated: true)
             }
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 64
     }
     
-    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let offset : CGPoint = scrollView.contentOffset
         let bounds : CGRect = scrollView.bounds
         let size : CGSize = scrollView.contentSize
@@ -198,7 +230,7 @@ class MyPurchaseCompletedViewController: BaseViewController, UITableViewDataSour
         let reloadDistance : CGFloat = 0
         if (y > h + reloadDistance) {
             // Load next items only if all items not loaded yet and if its not currently loading items
-            if (!self.isAllItemLoaded && !self.bottomLoading.isAnimating()) {
+            if (!self.isAllItemLoaded && !self.bottomLoading.isAnimating) {
                 // Tampilkan loading di bawah
                 consBottomTableView.constant = ConsBottomTableViewWhileUpdating
                 bottomLoading.startAnimating()

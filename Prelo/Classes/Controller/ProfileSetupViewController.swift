@@ -3,13 +3,14 @@
 //  Prelo
 //
 //  Created by Fransiska on 9/1/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import Foundation
 import CoreData
+import Alamofire
 
-class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource {
+class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate {
     
     @IBOutlet var loadingPanel: UIView!
     
@@ -92,7 +93,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     
     var deltaHeight : CGFloat = 0
     
-    var asset : ALAssetsLibrary?
+    //var asset : ALAssetsLibrary?
     
     var isShowGender : Bool = true
     
@@ -106,7 +107,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     var isMixpanelPageVisitSent : Bool = false
     var isFromRegister : Bool!
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         self.navigationController?.setNavigationBarHidden(false, animated: true)
@@ -120,19 +121,20 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         self.title = "Setelan Akun"
         
         // Transparent panel
-        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
+        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         // Mixpanel
         if (!self.isMixpanelPageVisitSent) {
-            Mixpanel.trackPageVisit(PageName.SetupAccount)
+//            Mixpanel.trackPageVisit(PageName.SetupAccount)
             
             // Google Analytics
             GAI.trackPageVisit(PageName.SetupAccount)
             
+            /*
             // Di sini akan dikirim mixpanel event register, hanya jika user baru saja melakukan register 
             // Pengecekan apakah baru register ada 2 lapis
             // Pertama: dicek apakah CDUser tidak nil, karena kalau login dan masuk ke ProfileSetupVC, seharusnya CDUser masih kosong, sedangkan kalau setelah register seharusnya CDUser terisi
@@ -142,7 +144,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                 var minutesSinceReg = 0
                 if let o = CDUserOther.getOne() {
                     if let regTime = o.registerTime {
-                        minutesSinceReg = NSDate().minutesFromIsoFormatted(regTime)
+                        minutesSinceReg = Date().minutesFromIsoFormatted(regTime)
                     }
                 }
                 if (minutesSinceReg <= 1) {
@@ -154,7 +156,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                     ]
                     Mixpanel.sharedInstance().registerSuperProperties(sp)
                     let spo = [
-                        "Register Time" : NSDate().isoFormatted,
+                        "Register Time" : Date().isoFormatted,
                         "Register Method" : self.loginMethod
                     ]
                     Mixpanel.sharedInstance().registerSuperPropertiesOnce(spo)
@@ -166,7 +168,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                     ]
                     Mixpanel.sharedInstance().people.set(p)
                     let po = [
-                        "$created" : NSDate().isoFormatted,
+                        "$created" : Date().isoFormatted,
                         "Register Method" : self.loginMethod
                     ]
                     Mixpanel.sharedInstance().people.setOnce(po)
@@ -176,13 +178,14 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                     Mixpanel.trackEvent(MixpanelEvent.Register, properties: pr)
                 }
             }
+             */
             
             self.isMixpanelPageVisitSent = true
         }
         
         // Keyboard animation handling
-        self.an_subscribeKeyboardWithAnimations(
-            {r, t, o in
+        self.an_subscribeKeyboard(
+            animations: {r, t, o in
                 if (o) {
                     self.consHeightContentView.constant += r.height
                 } else {
@@ -191,28 +194,38 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             }, completion: nil)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.an_unsubscribeKeyboard()
     }
     
-    override func backPressed(sender: UIBarButtonItem) {
-        let alert : UIAlertController = UIAlertController(title: "Perhatian", message: "Setelan akun belum selesai. Halaman ini akan muncul lagi ketika kamu login. Keluar?", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Batal", style: .Default, handler: nil))
-        alert.addAction(UIAlertAction(title: "Keluar", style: .Default, handler: { action in
+    override func backPressed(_ sender: UIBarButtonItem) {
+        /*
+        let alert : UIAlertController = UIAlertController(title: "Perhatian", message: "Setelan akun belum selesai. Halaman ini akan muncul lagi ketika kamu login. Keluar?", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
             User.Logout()
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         }))
-        self.presentViewController(alert, animated: true, completion: nil)
+        alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+         */
+        
+        let alertView = SCLAlertView(appearance: Constant.appearance)
+        alertView.addButton("Keluar") {
+            User.Logout()
+            self.dismiss(animated: true, completion: nil)
+        }
+        alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+        alertView.showCustom("Perhatian", subTitle: "Setelan akun belum selesai. Halaman ini akan muncul lagi ketika kamu login. Keluar?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
     func setupContent() {
         // Shipping table setup
-        self.shippingList = CDShipping.getAll()
+        self.shippingList = CDShipping.getPosBlaBlaBlaTiki()
         self.tableShipping.tableFooterView = UIView()
         self.tableShipping.delegate = self
         self.tableShipping.dataSource = self
-        self.tableShipping.registerNib(UINib(nibName: "ShippingCell", bundle: nil), forCellReuseIdentifier: "ShippingCell")
+        self.tableShipping.register(UINib(nibName: "ShippingCell", bundle: nil), forCellReuseIdentifier: "ShippingCell")
         
         // Set header alert
         if (!isFromRegister) {
@@ -242,12 +255,17 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         consTopGroups.append(self.consTopApply)
         
         // Pengecekan versi, jika versi yg diinstall melebihi versi server, jangan munculkan field gender
-        if let installedVersion = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
+        if let installedVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
             if let serverVersion = CDVersion.getOne()?.appVersion {
-                if (serverVersion.compare(installedVersion, options: .NumericSearch, range: nil, locale: nil) == .OrderedAscending) {
+                if (serverVersion.compare(installedVersion, options: .numeric, range: nil, locale: nil) == .orderedAscending) {
                     self.isShowGender = false
                 }
             }
+        }
+        
+        // Need layout
+        for i in 0..<groups.count {
+            groups[i].layoutIfNeeded()
         }
         
         // Arrange groups
@@ -267,19 +285,19 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         
         // Border untuk tombol user image
         btnUserImage.layer.borderWidth = 1
-        btnUserImage.layer.borderColor = UIColor.lightGrayColor().CGColor
+        btnUserImage.layer.borderColor = UIColor.lightGray.cgColor
     }
     
-    func arrangeGroups(isShowGroups : [Bool]) {
+    func arrangeGroups(_ isShowGroups : [Bool]) {
         let narrowSpace : CGFloat = 15
         let wideSpace : CGFloat = 25
         var deltaX : CGFloat = 0
         for i in 0 ..< isShowGroups.count { // asumsi i = 0-9
             let isShowGroup : Bool = isShowGroups[i]
             if isShowGroup {
-                groups[i].hidden = false
+                groups[i].isHidden = false
                 // Manual narrow/wide space
-                if (i == 0 || i == 2 || (i == 3 && !groups[1].hidden) || i == 4) { // Narrow space before group
+                if (i == 0 || i == 2 || (i == 3 && !groups[1].isHidden) || i == 4) { // Narrow space before group
                     deltaX += narrowSpace
                 } else { // Wide space before group
                     deltaX += wideSpace
@@ -293,14 +311,14 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                     deltaX += groups[i].frame.size.height
                 }
             } else {
-                groups[i].hidden = true
+                groups[i].isHidden = true
             }
         }
         // Set content view height
         consHeightContentView.constant = deltaX + narrowSpace
     }
     
-    @IBAction func disableTextFields(sender : AnyObject)
+    @IBAction func disableTextFields(_ sender : AnyObject)
     {
         fieldFullname?.resignFirstResponder()
         fieldNoHP?.resignFirstResponder()
@@ -309,15 +327,15 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         fieldKodeReferral?.resignFirstResponder()
     }
     
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if (touch.view!.isKindOfClass(UIButton.classForCoder()) || touch.view!.isKindOfClass(UITextField.classForCoder())) {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if (touch.view!.isKind(of: UIButton.classForCoder()) || touch.view!.isKind(of: UITextField.classForCoder())) {
             return false
         } else {
             return true
         }
     }
     
-    func pickerDidSelect(item: String) {
+    func pickerDidSelect(_ item: String) {
         if (isPickingJenKel) {
             lblJenisKelamin?.text = PickerViewController.HideHiddenString(item)
             lblJenisKelamin.textColor = Theme.GrayDark
@@ -348,54 +366,56 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     // MARK: - UITableView functions
     // Used for shipping table
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.shippingList.count
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return self.shippingCellHeight
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : ShippingCell = self.tableShipping.dequeueReusableCellWithIdentifier("ShippingCell") as! ShippingCell
-        cell.selectionStyle = .None
-        cell.lblName.text = shippingList[indexPath.row].name
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell : ShippingCell = self.tableShipping.dequeueReusableCell(withIdentifier: "ShippingCell") as! ShippingCell
+        cell.selectionStyle = .none
+        cell.lblName.text = shippingList[(indexPath as NSIndexPath).row].name
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ShippingCell {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) as? ShippingCell {
             cell.cellTapped()
         }
     }
     
     // MARK: - IBActions
     
-    @IBAction func userImagePressed(sender: AnyObject) {
+    @IBAction func userImagePressed(_ sender: AnyObject) {
+        /*
         ImagePickerViewController.ShowFrom(self, maxSelect: 1, doneBlock:
             { imgs in
                 if (imgs.count > 0) {
-                    self.btnUserImage.setImage(ImageSourceCell.defaultImage, forState: UIControlState.Normal)
+                    self.btnUserImage.setImage(ImageSourceCell.defaultImage, for: UIControlState())
                     
                     let img : APImage = imgs[0]
                     
                     if ((img.image) != nil)
                     {
-                        self.btnUserImage.setImage(img.image, forState: UIControlState.Normal)
+                        self.btnUserImage.setImage(img.image, for: UIControlState())
                     } else if (imgs[0].usingAssets == true) {
                         
                         if (self.asset == nil) {
                             self.asset = ALAssetsLibrary()
                         }
                         
-                        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                            self.asset?.assetForURL((img.url)!, resultBlock: { asset in
+//                        DispatchQueue.global( priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
+                        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
+                            self.asset?.asset(for: (img.url)!, resultBlock: { asset in
                                 if let ast = asset {
                                     let rep = ast.defaultRepresentation()
-                                    let ref = rep.fullScreenImage().takeUnretainedValue()
-                                    let i = UIImage(CGImage: ref)
-                                    dispatch_async(dispatch_get_main_queue(), {
-                                        self.btnUserImage.setImage(i, forState: UIControlState.Normal)
+                                    let ref = rep?.fullScreenImage().takeUnretainedValue()
+                                    let i = UIImage(cgImage: ref!)
+                                    DispatchQueue.main.async(execute: {
+                                        self.btnUserImage.setImage(i, for: UIControlState())
                                     })
                                 }
                                 }, failureBlock: { error in
@@ -406,9 +426,56 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                 }
             }
         )
+         */
+        
+        let i = UIImagePickerController()
+        i.sourceType = .photoLibrary
+        i.delegate = self
+        
+        if (UIImagePickerController.isSourceTypeAvailable(.camera))
+        {
+            let a = UIAlertController(title: "Ambil gambar dari:", message: nil, preferredStyle: .actionSheet)
+            a.popoverPresentationController?.sourceView = self.btnUserImage
+            a.popoverPresentationController?.sourceRect = self.btnUserImage.bounds
+            a.addAction(UIAlertAction(title: "Kamera", style: .default, handler: { act in
+                i.sourceType = .camera
+                self.present(i, animated: true, completion: {
+                    i.view.tag = 0
+                })
+            }))
+            a.addAction(UIAlertAction(title: "Album", style: .default, handler: { act in
+                self.present(i, animated: true, completion: {
+                    i.view.tag = 0
+                })
+            }))
+            a.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in }))
+            self.present(a, animated: true, completion: nil)
+        } else
+        {
+            self.present(i, animated: true, completion: {
+                i.view.tag = 0
+            })
+        }
     }
     
-    @IBAction func uploadFotoPressed(sender: AnyObject) {
+    // MARK: - UIImagePickerController functions
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let img = info[UIImagePickerControllerOriginalImage] as? UIImage
+        {
+            self.btnUserImage.setImage(img, for: UIControlState())
+        } else {
+            self.btnUserImage.setImage(ImageSourceCell.defaultImage, for: UIControlState())
+        }
+        picker.dismiss(animated: true, completion: nil)
+    }
+
+    
+    @IBAction func uploadFotoPressed(_ sender: AnyObject) {
         if (btnUserImage.imageView?.image == nil) {
             Constant.showDialog("Warning", message: "Pilih foto terlebih dahulu")
         } else {
@@ -416,7 +483,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         }
     }
     
-    @IBAction func jenisKelaminPressed(sender: AnyObject) {
+    @IBAction func jenisKelaminPressed(_ sender: AnyObject) {
         isPickingJenKel = true
         
         let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
@@ -427,7 +494,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         self.navigationController?.pushViewController(p!, animated: true)
     }
     
-    @IBAction func verifikasiNoHPPressed(sender: AnyObject) {
+    @IBAction func verifikasiNoHPPressed(_ sender: AnyObject) {
         if (fieldVerifikasiNoHP.text == "") {
             Constant.showDialog("Warning", message: "Isi no HP terlebih dahulu")
         } else {
@@ -436,7 +503,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         }
     }
     
-    @IBAction func provinsiPressed(sender: AnyObject) {
+    @IBAction func provinsiPressed(_ sender: AnyObject) {
         isPickingProvinsi = true
         
         let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
@@ -454,7 +521,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         self.navigationController?.pushViewController(p!, animated: true)
     }
     
-    @IBAction func kabKotaPressed(sender: AnyObject) {
+    @IBAction func kabKotaPressed(_ sender: AnyObject) {
         if (selectedProvinsiID == "") {
             Constant.showDialog("Warning", message: "Pilih provinsi terlebih dahulu")
         } else {
@@ -474,7 +541,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         }
     }
     
-    @IBAction func kecamatanPressed(sender: AnyObject) {
+    @IBAction func kecamatanPressed(_ sender: AnyObject) {
         if (selectedKabKotaID == "") {
             Constant.showDialog("Warning", message: "Pilih kota/kabupaten terlebih dahulu")
         } else {
@@ -482,8 +549,8 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                 self.showLoading()
                 
                 // Retrieve kecamatanPickerItems
-                request(APIMisc.GetSubdistrictsByRegionID(id: self.selectedKabKotaID)).responseJSON { resp in
-                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Daftar Kecamatan")) {
+                let _ = request(APIMisc.getSubdistrictsByRegionID(id: self.selectedKabKotaID)).responseJSON { resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Daftar Kecamatan")) {
                         let json = JSON(resp.result.value!)
                         let data = json["_data"].arrayValue
                         
@@ -513,7 +580,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         p?.pickerDelegate = self
         p?.selectBlock = { string in
             self.selectedKecamatanID = PickerViewController.RevealHiddenString(string)
-            self.selectedKecamatanName = string.componentsSeparatedByString(PickerViewController.TAG_START_HIDDEN)[0]
+            self.selectedKecamatanName = string.components(separatedBy: PickerViewController.TAG_START_HIDDEN)[0]
         }
         p?.title = "Kecamatan"
         self.view.endEditing(true)
@@ -554,7 +621,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         }
         var isShippingVerified = false
         for i in 0...self.shippingList.count - 1 {
-            if let cell = self.tableShipping.cellForRowAtIndexPath(NSIndexPath(forRow: i, inSection: 0)) as? ShippingCell {
+            if let cell = self.tableShipping.cellForRow(at: IndexPath(row: i, section: 0)) as? ShippingCell {
                 if (cell.isShippingSelected) {
                     isShippingVerified = true
                 }
@@ -567,10 +634,10 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         return true
     }
     
-    @IBAction func applyPressed(sender: AnyObject) {
+    @IBAction func applyPressed(_ sender: AnyObject) {
         if (fieldsVerified()) {
-            disableTextFields(NSNull)
-            self.btnApply.enabled = false
+            disableTextFields(NSNull.self)
+            self.btnApply.isEnabled = false
             
             var username = ""
             if (self.isSocmedAccount == true) {
@@ -585,7 +652,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             let userPhone = fieldNoHP?.text
             var userShipping : String = ""
             for i in 0...self.shippingList.count - 1 {
-                if let cell = self.tableShipping.cellForRowAtIndexPath(NSIndexPath(forRow: i, inSection: 0)) as? ShippingCell {
+                if let cell = self.tableShipping.cellForRow(at: IndexPath(row: i, section: 0)) as? ShippingCell {
                     if (cell.isShippingSelected) {
                         if (userShipping != "") {
                             userShipping += ","
@@ -595,20 +662,20 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                 }
             }
             let userReferral = fieldKodeReferral.text!
-            let userDeviceId = UIDevice.currentDevice().identifierForVendor!.UUIDString
+            let userDeviceId = UIDevice.current.identifierForVendor!.uuidString
             
             // Get device token
-            let deviceToken = NSUserDefaults.standardUserDefaults().stringForKey("deviceregid")!
+            let deviceToken = UserDefaults.standard.string(forKey: "deviceregid")!
             //print("deviceToken = \(deviceToken)")
             
             // Token belum disimpan pake User.StoreUser karna di titik ini user belum dianggap login
-            // Set token first, because APIUser.SetupAccount & APIUser.SetUserPreferencedCategories need token
+            // Set token first, because APIMe.SetupAccount & APIMe.SetUserPreferencedCategories need token
             User.SetToken(self.userToken)
             
             // API Migrasi
-            request(APIUser.SetupAccount(username: username, email: email,gender: (isShowGender ? userGender : -999), phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, subdistrict: selectedKecamatanID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId, deviceRegId: deviceToken)).responseJSON {resp in
+            let _ = request(APIMe.setupAccount(username: username, email: email,gender: (isShowGender ? userGender : -999), phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, subdistrict: selectedKecamatanID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId, deviceRegId: deviceToken)).responseJSON {resp in
                 
-                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Setelan Akun")) {
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Setelan Akun")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
                     
@@ -616,8 +683,8 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                     // Set user's preferenced categories by current stored categories
                     // Dilakukan di sini (bukan di register atau phone verification) karna register dibedakan antara normal dan via socmed, dan phone verification dilakukan bisa berkali2 saat edit profile
                     // API Migrasi
-                    request(APIUser.SetUserPreferencedCategories(categ1: NSUserDefaults.categoryPref1(), categ2: NSUserDefaults.categoryPref2(), categ3: NSUserDefaults.categoryPref3())).responseJSON {resp in
-                        if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Set User Preferenced Categories")) {
+                    let _ = request(APIMe.SetUserPreferencedCategories(categ1: NSUserDefaults.categoryPref1(), categ2: NSUserDefaults.categoryPref2(), categ3: NSUserDefaults.categoryPref3())).responseJSON {resp in
+                        if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Set User Preferenced Categories")) {
                             let json = JSON(resp.result.value!)
                             let isSuccess = json["_data"].bool!
                             if (isSuccess) { // Berhasil
@@ -633,10 +700,11 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                     
                     guard let userProfileData = UserProfile.instance(data) else {
                         Constant.showDialog("Setelan Akun", message: "Oops, terdapat kesalahan saat memproses data")
-                        self.btnApply.enabled = true
+                        self.btnApply.isEnabled = true
                         return
                     }
                     
+                    /*
                     // Mixpanel
                     let sp = [
                         "User ID" : userProfileData.id,
@@ -667,26 +735,65 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         }
                     }
                     var pt = [String : AnyObject]()
-                    pt["Shipping Options"] = shippingArrName
-                    pt["Phone"] = userProfileData.phone
-                    Mixpanel.trackEvent(MixpanelEvent.SetupAccount, properties: pt as [NSObject : AnyObject])
+                    pt["Shipping Options"] = shippingArrName as AnyObject?
+                    pt["Phone"] = userProfileData.phone as AnyObject?
+                    Mixpanel.trackEvent(MixpanelEvent.SetupAccount, properties: pt as [AnyHashable: Any])
                     let pt2 = [
                         "Activation Screen" : "Setup Account"
                     ]
                     Mixpanel.trackEvent(MixpanelEvent.ReferralUsed, properties: pt2)
+                     */
                     
-                    let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
+                    // Prelo Analytic - Setup Profile
+                    let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
+                                                        qos: .background,
+                                                        target: nil)
+                    backgroundQueue.async {
+                        print("Work on background queue")
+                        var shippingArrName : Array<String> = []
+                        for i in 0 ..< data["shipping_preferences_ids"].count {
+                            let s : String = data["shipping_preferences_ids"][i].string!
+                            if let sName = CDShipping.getShippingCompleteNameWithId(s) {
+                                shippingArrName.append(sName)
+                            }
+                        }
+                        
+                        let address = [
+                            "Province" : CDProvince.getProvinceNameWithID(userProfileData.provinceId)!,
+                            "Region" : CDRegion.getRegionNameWithID(userProfileData.regionId)!,
+                            "Subdistrict" : userProfileData.subdistrictName,
+                        ] as [String : Any]
+                        
+                        let pdata = [
+                            "Username" : userProfileData.username,
+                            "Email" : userProfileData.email,
+                            "Gender" : userProfileData.gender,
+                            "Address" : address,
+                            "Shipping Options" : shippingArrName
+                        ] as [String : Any]
+                        
+                        AnalyticManager.sharedInstance.sendWithUserId(eventType: PreloAnalyticEvent.SetupAccount, data: pdata, previousScreen: self.screenBeforeLogin, loginMethod: self.loginMethod, userId: userProfileData.id)
+                        
+                        User.UpdateUsernameHistory(userProfileData.username)
+                        User.SetLoginMethod(self.loginMethod)
+                        
+                        // Prelo Analytic - Update User - Init
+                        AnalyticManager.sharedInstance.initUser(userProfileData: userProfileData)
+                    }
+                    
+                    let phoneVerificationVC = Bundle.main.loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil)?.first as! PhoneVerificationViewController
                     phoneVerificationVC.userRelatedDelegate = self.userRelatedDelegate
                     phoneVerificationVC.userId = self.userId
                     phoneVerificationVC.userToken = self.userToken
                     phoneVerificationVC.userEmail = userProfileData.email // Tidak menggunakan 'self.userEmail' karena mungkin kosong dan baru diset di halaman ini
                     phoneVerificationVC.isShowBackBtn = false
                     phoneVerificationVC.loginMethod = self.loginMethod
-                    phoneVerificationVC.noHpToVerify = userPhone!
+                    phoneVerificationVC.noHpToVerify = userProfileData.phone //userPhone!
                     phoneVerificationVC.userProfileData = userProfileData
+                    phoneVerificationVC.previousScreen = PageName.SetupAccount
                     self.navigationController?.pushViewController(phoneVerificationVC, animated: true)
                 } else {
-                    self.btnApply.enabled = true
+                    self.btnApply.isEnabled = true
                 }
                 
                 // Delete token because user is considered not logged in
@@ -697,11 +804,11 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     }
     
     func showLoading() {
-        self.loadingPanel.hidden = false
+        self.loadingPanel.isHidden = false
     }
     
     func hideLoading() {
-        self.loadingPanel.hidden = true
+        self.loadingPanel.isHidden = true
     }
 }
 
@@ -729,14 +836,14 @@ class ShippingCell : UITableViewCell {
     func setShippingSelected() {
         isShippingSelected = true
         lblCheckbox.text = "";
-        lblCheckbox.font = AppFont.Prelo2.getFont(19)!
+        lblCheckbox.font = AppFont.prelo2.getFont(19)!
         lblCheckbox.textColor = Theme.ThemeOrange
     }
     
     func setShippingDeselected() {
         isShippingSelected = false
         lblCheckbox.text = "";
-        lblCheckbox.font = AppFont.PreloAwesome.getFont(24)!
+        lblCheckbox.font = AppFont.preloAwesome.getFont(24)!
         lblCheckbox.textColor = Theme.GrayLight
     }
 }

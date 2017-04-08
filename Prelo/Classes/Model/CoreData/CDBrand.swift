@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Fransiska on 10/27/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import Foundation
@@ -15,9 +15,9 @@ class CDBrand: NSManagedObject {
     @NSManaged var id : String
     @NSManaged var name : String
     @NSManaged var v : NSNumber
-    @NSManaged var categoryIds : NSData
+    @NSManaged var categoryIds : Data
     
-    static func saveBrands(json : JSON, m : NSManagedObjectContext, pView : UIProgressView?, p : Float?) -> Bool {
+    static func saveBrands(_ json : JSON, m : NSManagedObjectContext, pView : UIProgressView?, p : Float?) -> Bool {
         // Kalo (p != nil) artinya ada progress view yang dihandle
         // Kalo (p == nil) artinya tidak ada progress view yang dihandle
         // Kalo (pView != nil) artinya progress view dihandle fungsi ini
@@ -33,21 +33,21 @@ class CDBrand: NSManagedObject {
             for i in 0 ..< brandCount
             {
                 let brandJson = json[i]
-                print(brandJson.rawString())
+                //print(brandJson.rawString())
                 var catIds : [String] = []
                 let bcount = brandJson["category_ids"].arrayValue.count
                 for j in 0 ..< bcount
                 {
                     catIds.append(brandJson["category_ids"][j].string!)
                 }
-                let r = NSEntityDescription.insertNewObjectForEntityForName("CDBrand", inManagedObjectContext: m) as! CDBrand
+                let r = NSEntityDescription.insertNewObject(forEntityName: "CDBrand", into: m) as! CDBrand
                 r.id = brandJson["_id"].string!
                 r.name = brandJson["name"].string!
                 r.v = brandJson["__v"].number!
-                r.categoryIds = NSKeyedArchiver.archivedDataWithRootObject(catIds)
+                r.categoryIds = NSKeyedArchiver.archivedData(withRootObject: catIds)
                 if (isUpdateProgressView) {
                     if (pView != nil) {
-                        dispatch_async(dispatch_get_main_queue(), {
+                        DispatchQueue.main.async(execute: {
                             pView!.setProgress(pView!.progress + progressPerBrand!, animated: true)
                         })
                     } else {
@@ -69,9 +69,9 @@ class CDBrand: NSManagedObject {
         return false
     }
     
-    static func newOne(id : String, name : String, v : NSNumber, categoryIds: NSData) -> CDBrand? {
+    static func newOne(_ id : String, name : String, v : NSNumber, categoryIds: Data) -> CDBrand? {
         let m = UIApplication.appDelegate.managedObjectContext
-        let r = NSEntityDescription.insertNewObjectForEntityForName("CDBrand", inManagedObjectContext: m) as! CDBrand
+        let r = NSEntityDescription.insertNewObject(forEntityName: "CDBrand", into: m) as! CDBrand
         r.id = id
         r.name = name
         r.v = v
@@ -84,16 +84,16 @@ class CDBrand: NSManagedObject {
         }
     }
     
-    static func deleteAll(m : NSManagedObjectContext) -> Bool {
-        let fetchRequest = NSFetchRequest(entityName: "CDBrand")
+    static func deleteAll(_ m : NSManagedObjectContext) -> Bool {
+        let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDBrand")
         fetchRequest.includesPropertyValues = false
         
         do {
-            let r = try m.executeFetchRequest(fetchRequest) as? [NSManagedObject]
+            let r = try m.fetch(fetchRequest) as? [NSManagedObject]
             if let results = r
             {
                 for result in results {
-                    m.deleteObject(result)
+                    m.delete(result)
                 }
                 
                 if (m.saveSave() == true) {
@@ -107,21 +107,21 @@ class CDBrand: NSManagedObject {
     }
     
     static func getBrandCount() -> Int {
-        let fetchReq = NSFetchRequest(entityName: "CDBrand")
+        let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDBrand")
         do {
-            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq);
+            let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq);
             return r.count
         } catch {
             return 0
         }
     }
     
-    static func getBrandNameWithID(id : String) -> String? {
+    static func getBrandNameWithID(_ id : String) -> String? {
         let predicate = NSPredicate(format: "id == %@", id)
-        let fetchReq = NSFetchRequest(entityName: "CDBrand")
+        let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDBrand")
         fetchReq.predicate = predicate
         do {
-            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq)
+            let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq)
             return r.count == 0 ? nil : (r.first as! CDBrand).name
         } catch {
             return nil
@@ -132,7 +132,7 @@ class CDBrand: NSManagedObject {
         let m = UIApplication.appDelegate.managedObjectContext
         var brands = [CDBrand]()
         
-        let fetchReq = NSFetchRequest(entityName: "CDBrand")
+        let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDBrand")
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
         let sortDescriptors = [sortDescriptor]
         fetchReq.sortDescriptors = sortDescriptors
@@ -140,7 +140,7 @@ class CDBrand: NSManagedObject {
         var arr : [String] = []
         
         do {
-            brands = try (m.executeFetchRequest(fetchReq) as? [CDBrand])!
+            brands = try (m.fetch(fetchReq) as? [CDBrand])!
             
             for brand in brands {
                 arr.append(brand.name + PickerViewController.TAG_START_HIDDEN + brand.id + PickerViewController.TAG_END_HIDDEN)

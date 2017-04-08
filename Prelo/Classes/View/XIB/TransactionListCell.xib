@@ -1,23 +1,19 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <mutableArray key="Prelo2.ttf">
+        <array key="Prelo2.ttf">
             <string>Prelo2</string>
-            <string>Prelo2</string>
-            <string>Prelo2</string>
-            <string>Prelo2</string>
-            <string>Prelo2</string>
-            <string>Prelo2</string>
-        </mutableArray>
-        <mutableArray key="PreloAwesome.ttf">
+        </array>
+        <array key="PreloAwesome.ttf">
             <string>PreloAwesome</string>
-            <string>PreloAwesome</string>
-            <string>PreloAwesome</string>
-        </mutableArray>
+        </array>
     </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -26,7 +22,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TSJ-6I-C5z" id="S3H-5h-HB2">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="63.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="63"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="raisa.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="kne-rr-5Pc" userLabel="imgProduct">
@@ -50,7 +46,7 @@
                             <constraint firstAttribute="height" constant="17" id="TvO-Bd-S96"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="textColor" red="0.44682067632675171" green="0.44680723547935486" blue="0.44681483507156372" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                         <variation key="default">
                             <mask key="constraints">
@@ -67,7 +63,7 @@
                             <constraint firstAttribute="height" constant="17" id="pD5-bG-i7l"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <color key="textColor" red="1" green="0.6588235294" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="textColor" red="0.99194228649139404" green="0.59501266479492188" blue="0.034173529595136642" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                         <variation key="default">
                             <mask key="constraints">
@@ -83,7 +79,7 @@
                             <constraint firstAttribute="height" constant="17" id="fL3-wa-ZZk"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
-                        <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="textColor" red="0.44682067632675171" green="0.44680723547935486" blue="0.44681483507156372" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                         <variation key="default">
                             <mask key="constraints">
@@ -91,7 +87,7 @@
                             </mask>
                         </variation>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="24 jam yang lalu" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gn2-Ga-4F8">
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="24 jam yang lalu" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gn2-Ga-4F8">
                         <rect key="frame" x="217" y="25" width="95" height="17"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="95" id="6XH-lW-4La"/>
@@ -100,7 +96,7 @@
                             <constraint firstAttribute="height" constant="17" id="vCC-wC-3m3"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                        <color key="textColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="textColor" red="0.66014617681503296" green="0.6601264476776123" blue="0.66013765335083008" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                         <variation key="default">
                             <mask key="constraints">
@@ -116,7 +112,7 @@
                             <constraint firstAttribute="width" constant="17" id="GOw-Lm-WYb"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="12"/>
-                        <color key="textColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="textColor" red="0.66014617681503296" green="0.6601264476776123" blue="0.66013765335083008" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="999" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bRZ-Ox-QUR">
@@ -126,7 +122,7 @@
                             <constraint firstAttribute="height" constant="17" id="wUd-SM-pgQ"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="11"/>
-                        <color key="textColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="textColor" red="0.66014617681503296" green="0.6601264476776123" blue="0.66013765335083008" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yfw-u6-kXn">
@@ -136,7 +132,7 @@
                             <constraint firstAttribute="height" constant="17" id="7Wc-Fv-Tfe"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="12"/>
-                        <color key="textColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="textColor" red="0.66014617681503296" green="0.6601264476776123" blue="0.66013765335083008" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="999" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cpf-vw-eOK">
@@ -146,7 +142,7 @@
                             <constraint firstAttribute="height" constant="17" id="g4O-c5-dHa"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="11"/>
-                        <color key="textColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="textColor" red="0.66014617681503296" green="0.6601264476776123" blue="0.66013765335083008" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vgL-71-vIf" userLabel="Share status">
@@ -159,7 +155,7 @@
                                     <constraint firstAttribute="height" constant="16" id="YuL-UW-fMb"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="14"/>
-                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZKv-OF-wgk">
@@ -169,7 +165,7 @@
                                     <constraint firstAttribute="height" constant="16" id="T7u-n4-Syy"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="14"/>
-                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jXr-wQ-fuF">
@@ -179,7 +175,7 @@
                                     <constraint firstAttribute="width" constant="17" id="aTv-y3-i2a"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="14"/>
-                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Keuntungan" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XWD-1F-1gi">
@@ -189,7 +185,7 @@
                                     <constraint firstAttribute="width" constant="65" id="x3V-0E-oAt"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="11"/>
-                                <color key="textColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.66014617681503296" green="0.6601264476776123" blue="0.66013765335083008" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="90%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v4s-h4-IUj">
@@ -198,7 +194,7 @@
                                     <constraint firstAttribute="height" constant="16" id="MuE-KG-Hmc"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="11"/>
-                                <color key="textColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -260,9 +256,9 @@
                         <exclude reference="HQf-Q8-fst"/>
                         <exclude reference="he5-j6-V4Z"/>
                         <exclude reference="wXQ-u4-9ok"/>
-                        <exclude reference="Ozi-ml-IXM"/>
                         <exclude reference="q7Q-jD-gSa"/>
                         <exclude reference="lVG-Pa-B5n"/>
+                        <exclude reference="Ozi-ml-IXM"/>
                     </mask>
                 </variation>
             </tableViewCellContentView>

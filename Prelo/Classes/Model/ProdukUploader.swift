@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 25/5/16.
-//  Copyright © 2016 GITS Indonesia. All rights reserved.
+//  Copyright © 2016 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
@@ -16,27 +16,27 @@ class ProdukUploader: NSObject {
     /*
      Notification Object is JSON Dictionary
     */
-    static func AddObserverForUploadSuccess(observer : NSObject, selector : Selector)
+    static func AddObserverForUploadSuccess(_ observer : NSObject, selector : Selector)
     {
-        NSNotificationCenter.defaultCenter().addObserver(observer, selector: selector, name: ProdukUploader_NOTIFICATION_UPLOAD_SUCCESS, object: nil)
+        NotificationCenter.default.addObserver(observer, selector: selector, name: NSNotification.Name(rawValue: ProdukUploader_NOTIFICATION_UPLOAD_SUCCESS), object: nil)
     }
     
-    static func RemoveObserverForUploadSuccess(observer : NSObject)
+    static func RemoveObserverForUploadSuccess(_ observer : NSObject)
     {
-        NSNotificationCenter.defaultCenter().removeObserver(observer, name: ProdukUploader_NOTIFICATION_UPLOAD_SUCCESS, object: nil)
+        NotificationCenter.default.removeObserver(observer, name: NSNotification.Name(rawValue: ProdukUploader_NOTIFICATION_UPLOAD_SUCCESS), object: nil)
     }
     
     /*
      Notification Object is NSError
     */
-    static func AddObserverForUploadFailed(observer : NSObject, selector : Selector)
+    static func AddObserverForUploadFailed(_ observer : NSObject, selector : Selector)
     {
-        NSNotificationCenter.defaultCenter().addObserver(observer, selector: selector, name: ProdukUploader_NOTIFICATION_UPLOAD_FAILED, object: nil)
+        NotificationCenter.default.addObserver(observer, selector: selector, name: NSNotification.Name(rawValue: ProdukUploader_NOTIFICATION_UPLOAD_FAILED), object: nil)
     }
     
-    static func RemoveObserverForUploadFailed(observer : NSObject)
+    static func RemoveObserverForUploadFailed(_ observer : NSObject)
     {
-        NSNotificationCenter.defaultCenter().removeObserver(observer, name: ProdukUploader_NOTIFICATION_UPLOAD_FAILED, object: nil)
+        NotificationCenter.default.removeObserver(observer, name: NSNotification.Name(rawValue: ProdukUploader_NOTIFICATION_UPLOAD_FAILED), object: nil)
     }
     
     let KEY_LIST_PRODUKLOKAL = "KEY_LIST_PRODUKLOKAL"
@@ -47,19 +47,26 @@ class ProdukUploader: NSObject {
         static let KEY_IMAGES = "images"
         static let KEY_MIXPANEL_PARAM = "mixpanelParam"
         
-        init(produkParam : [String : String!], produkImages : [AnyObject], mixpanelParam : [NSObject : AnyObject])
+        init(produkParam : [String : String?], produkImages : [AnyObject], mixpanelParam : [AnyHashable: Any])
         {
             self.param = produkParam
             self.images = produkImages
             self.mixpanelParam = mixpanelParam
         }
         
-        var param : [String : String!] = [:]
+        init(produkParam : [String : String?], produkImages : [AnyObject], preloAnalyticParam : [AnyHashable: Any])
+        {
+            self.param = produkParam
+            self.images = produkImages
+            self.mixpanelParam = preloAnalyticParam
+        }
+        
+        var param : [String : String?] = [:]
         var images : [AnyObject] = []
-        var mixpanelParam : [NSObject : AnyObject] = [:]
+        var mixpanelParam : [AnyHashable: Any] = [:]
         
         var toDictionary : [String : AnyObject] {
-            return ["param":param, "images":images, "mixpanelParam":mixpanelParam]
+            return ["param":param as AnyObject, "images":images as AnyObject, "mixpanelParam":mixpanelParam as AnyObject]
         }
         
         var toProduct : Product?
@@ -77,12 +84,12 @@ class ProdukUploader: NSObject {
     var currentRetryCount = 0
     
     enum ProdukUploaderStatus {
-        case Idle
-        case Failed
-        case Uploading
+        case idle
+        case failed
+        case uploading
     }
     
-    var currentStatus : ProdukUploaderStatus = .Idle
+    var currentStatus : ProdukUploaderStatus = .idle
     
     var currentlyUploading : ProdukLokal?
     {
@@ -96,9 +103,9 @@ class ProdukUploader: NSObject {
     
     var currentUploadManager : AFHTTPRequestOperationManager?
     
-    func start(onLoop : Bool = false)
+    func start(_ onLoop : Bool = false)
     {
-        let t = NSDate()
+        let t = Date()
         if (!onLoop) // onLoop == false artinya fungsi start() dipanggil dari code lain, buka recursive
         {
             stop()
@@ -107,18 +114,20 @@ class ProdukUploader: NSObject {
         if let p = getQueue().first
         {
             let url = "\(AppTools.PreloBaseUrl)/api/product"
-            let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
+            let userAgent : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String
             
-            currentStatus = .Uploading
-            print("starting produk upload took \(NSDate().timeIntervalSinceDate(t)) seconds")
+            currentStatus = .uploading
+            print("starting produk upload took \(Date().timeIntervalSince(t)) seconds")
             currentUploadManager = AppToolsObjC.sendMultipart2(p.param, images: p.images, withToken: User.Token!, andUserAgent: userAgent!, to:url, success: {op, res in
                 
                 print("queue upload success :")
-                print(res)
+                print((res ?? ""))
                 self.currentRetryCount = 0
                 
+                /*
                 // Mixpanel
                 Mixpanel.trackEvent(MixpanelEvent.AddedProduct, properties: p.mixpanelParam)
+                 */
                 
                 var queue = self.getQueue()
                 if (queue.count > 1)
@@ -133,12 +142,12 @@ class ProdukUploader: NSObject {
                     print("Queue finished!")
                 }
                 
-                dispatch_async(dispatch_get_main_queue(), {
-                    NSNotificationCenter.defaultCenter().postNotificationName(ProdukUploader.ProdukUploader_NOTIFICATION_UPLOAD_SUCCESS, object: res)
+                DispatchQueue.main.async(execute: {
+                    NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: ProdukUploader.ProdukUploader_NOTIFICATION_UPLOAD_SUCCESS), object: [ res , p.mixpanelParam ])
                 })
                 
             }, failure: { op, err in
-                print(err)
+                print((err ?? ""))
                 if (self.autoRetry && self.currentRetryCount < self.maxRetry)
                 {
                     self.currentRetryCount = self.currentRetryCount + 1
@@ -159,8 +168,8 @@ class ProdukUploader: NSObject {
                     }
                     
                     self.currentRetryCount = 0
-                    dispatch_async(dispatch_get_main_queue(), {
-                        NSNotificationCenter.defaultCenter().postNotificationName(ProdukUploader.ProdukUploader_NOTIFICATION_UPLOAD_FAILED, object: err)
+                    DispatchQueue.main.async(execute: {
+                        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: ProdukUploader.ProdukUploader_NOTIFICATION_UPLOAD_FAILED), object: [ err as Any , p.mixpanelParam ])
                     })
                 }
             })
@@ -178,21 +187,21 @@ class ProdukUploader: NSObject {
     func clearQueue()
     {
         stop()
-        saveRawQueue([])
+        saveRawQueue(ProdukRawQueue(val: []))
     }
     
-    func addToQueue(produk : ProdukLokal)
+    func addToQueue(_ produk : ProdukLokal)
     {
-        let t = NSDate()
-        var rawQueue = getRawQueue()
-        rawQueue.append(produk.toDictionary)
+        let t = Date()
+        let rawQueue = getRawQueue()
+        rawQueue.val.append(produk.toDictionary)
         saveRawQueue(rawQueue)
         
-        print("adding queue took \(NSDate().timeIntervalSinceDate(t)) seconds")
+        print("adding queue took \(Date().timeIntervalSince(t)) seconds")
         
-        if (rawQueue.count >= 1)
+        if (rawQueue.val.count >= 1)
         {
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 self.start()
             })
         }
@@ -200,39 +209,39 @@ class ProdukUploader: NSObject {
     
     func getQueue() -> [ProdukLokal]
     {
-        let t = NSDate()
+        let t = Date()
         var queue : [ProdukLokal] = []
         let rawQueue = getRawQueue()
-        for raw in rawQueue
+        for raw in rawQueue.val
         {
-            if let param = raw[ProdukLokal.KEY_PARAM] as? [String : String!], images = raw[ProdukLokal.KEY_IMAGES] as? [AnyObject], mixpanelParam = raw[ProdukLokal.KEY_MIXPANEL_PARAM] as? [NSObject : AnyObject]
+            if let param = raw[ProdukLokal.KEY_PARAM] as? [String : String?], let images = raw[ProdukLokal.KEY_IMAGES] as? [AnyObject], let mixpanelParam = raw[ProdukLokal.KEY_MIXPANEL_PARAM] as? [AnyHashable: Any]
             {
                 let p = ProdukLokal(produkParam: param, produkImages: images, mixpanelParam: mixpanelParam)
                 queue.append(p)
             }
         }
         
-        print("getting queue took \(NSDate().timeIntervalSinceDate(t)) seconds")
+        print("getting queue took \(Date().timeIntervalSince(t)) seconds")
         return queue
     }
     
-    private func saveQueue(queue : [ProdukLokal])
+    fileprivate func saveQueue(_ queue : [ProdukLokal])
     {
-        var rawQueue : [[String : AnyObject]] = []
+        let rawQueue = ProdukRawQueue(val: [])
         for p in queue
         {
-            rawQueue.append(p.toDictionary)
+            rawQueue.val.append(p.toDictionary)
         }
         
         saveRawQueue(rawQueue)
     }
     
-    private func getRawQueue() -> [[String : AnyObject]]
+    fileprivate func getRawQueue() -> ProdukRawQueue
     {
-        var savedQueueRaw : [[String : AnyObject]] = []
-        if let data = NSUserDefaults.standardUserDefaults().objectForKey(KEY_LIST_PRODUKLOKAL) as? NSData
+        var savedQueueRaw = ProdukRawQueue(val: [])
+        if let data = UserDefaults.standard.object(forKey: KEY_LIST_PRODUKLOKAL) as? Data
         {
-            if let dataToArray = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? [[String:AnyObject]]
+            if let dataToArray = NSKeyedUnarchiver.unarchiveObject(with: data) as? ProdukRawQueue
             {
                 savedQueueRaw = dataToArray
             }
@@ -241,24 +250,56 @@ class ProdukUploader: NSObject {
         return savedQueueRaw
     }
     
-    private func saveRawQueue(rawQueue : [[String : AnyObject]])
+    fileprivate func saveRawQueue(_ rawQueue : ProdukRawQueue)
     {
-        let data = NSKeyedArchiver.archivedDataWithRootObject(rawQueue)
-        NSUserDefaults.standardUserDefaults().setObject(data, forKey: KEY_LIST_PRODUKLOKAL)
-        NSUserDefaults.standardUserDefaults().synchronize()
+        let data = NSKeyedArchiver.archivedData(withRootObject: rawQueue)
+        UserDefaults.standard.set(data, forKey: KEY_LIST_PRODUKLOKAL)
+        UserDefaults.standard.synchronize()
     }
     
 }
 
-extension NSThread
+extension Thread
 {
-    static func sleepFor(second : NSTimeInterval, onWakeUp : () -> ())
+    static func sleepFor(_ second : TimeInterval, onWakeUp : @escaping () -> ())
     {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            NSThread.sleepForTimeInterval(second)
-            dispatch_async(dispatch_get_main_queue(), {
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
+            Thread.sleep(forTimeInterval: second)
+            DispatchQueue.main.async(execute: {
                 onWakeUp()
             })
-        })
+        }
     }
 }
+
+class ProdukRawQueue: NSObject, NSCoding
+{
+    var val: [[String : AnyObject]] = [] // Array of product
+    var nsVal : NSMutableArray = NSMutableArray()
+    
+    init(val: [[String : AnyObject]])
+    {
+        self.val = val
+    }
+    
+    // MARK: NSCoding
+    
+    func encode(with aCoder: NSCoder) {
+        nsVal = NSMutableArray()
+        for p in val {
+            print("obj = \(p)")
+            //print("images : " + "\(p["images"])")
+            //print("param : " + "\(p["param"])")
+            //print("mixpanelParam : " + "\(p["mixpanelParam"])")
+            nsVal.add(p as [String : AnyObject])
+        }
+        aCoder.encode(nsVal, forKey: "nsVal")
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        self.nsVal = aDecoder.decodeObject(forKey: "nsVal") as! NSMutableArray
+        val = []
+        val = nsVal.flatMap({ $0 as? [String : AnyObject] })
+    }
+}
+

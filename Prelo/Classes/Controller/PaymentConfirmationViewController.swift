@@ -3,10 +3,41 @@
 //  Prelo
 //
 //  Created by Fransiska on 8/13/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import Foundation
+import Alamofire
+
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l <= r
+  default:
+    return !(rhs < lhs)
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class PaymentConfirmationViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -25,7 +56,7 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
         
         // Register custom cell
         let paymentConfirmationCellNib = UINib(nibName: "PaymentConfirmationCell", bundle: nil)
-        tableView.registerNib(paymentConfirmationCellNib, forCellReuseIdentifier: "PaymentConfirmationCell")
+        tableView.register(paymentConfirmationCellNib, forCellReuseIdentifier: "PaymentConfirmationCell")
         
         // Title
         self.title = "Pesanan Saya"
@@ -35,17 +66,17 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
         //print("tableView frame = \(tableView.frame)")
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
-        loadingPanel.hidden = false
+        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+        loadingPanel.isHidden = false
         loading.startAnimating()
-        tableView.hidden = true
-        lblEmpty.hidden = true
+        tableView.isHidden = true
+        lblEmpty.isHidden = true
         
         // Mixpanel
-        //Mixpanel.trackPageVisit(PageName.UnpaidTransaction)
+//        Mixpanel.trackPageVisit(PageName.UnpaidTransaction)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.UnpaidTransaction)
@@ -56,12 +87,12 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
             }
             getUserCheckouts()
         } else {
-            self.loadingPanel.hidden = true
+            self.loadingPanel.isHidden = true
             self.loading.stopAnimating()
             if (self.userCheckouts?.count <= 0) {
-                self.lblEmpty.hidden = false
+                self.lblEmpty.isHidden = false
             } else {
-                self.tableView.hidden = false
+                self.tableView.isHidden = false
                 self.setupTable()
             }
         }
@@ -69,8 +100,8 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
     
     func getUserCheckouts() {
         // API Migrasi
-        request(APITransaction.CheckoutList(current: "", limit: "")).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Pesanan Saya")) {
+        let _ = request(APITransactionProduct.checkoutList(current: "", limit: "")).responseJSON {resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Pesanan Saya")) {
                 let json = JSON(resp.result.value!)
                 print(json)
                 let data = json["_data"]
@@ -84,16 +115,16 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
                 }
                 
                 // Show table or empty label
-                self.loadingPanel.hidden = true
+                self.loadingPanel.isHidden = true
                 self.loading.stopAnimating()
                 if (self.userCheckouts?.count <= 0) {
-                    self.lblEmpty.hidden = false
+                    self.lblEmpty.isHidden = false
                 } else {
-                    self.tableView.hidden = false
+                    self.tableView.isHidden = false
                     self.setupTable()
                 }
             } else {
-                self.navigationController?.popViewControllerAnimated(true)
+                _ = self.navigationController?.popViewController(animated: true)
             }
         }
     }
@@ -110,7 +141,7 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
     
     // MARK: - UITableViewDelegate Functions
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (userCheckouts?.count > 0) {
             return (self.userCheckouts?.count)!
         } else {
@@ -118,28 +149,28 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: PaymentConfirmationCell = self.tableView.dequeueReusableCellWithIdentifier("PaymentConfirmationCell") as! PaymentConfirmationCell
-        cell.selectionStyle = .None
-        let u = userCheckouts?[indexPath.item]
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: PaymentConfirmationCell = self.tableView.dequeueReusableCell(withIdentifier: "PaymentConfirmationCell") as! PaymentConfirmationCell
+        cell.selectionStyle = .none
+        let u = userCheckouts?[(indexPath as NSIndexPath).item]
         cell.adapt(u!)
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //print("Row \(indexPath.row) selected")
         
-        let u : UserCheckout = (userCheckouts?[indexPath.item])!
+        let u : UserCheckout = (userCheckouts?[(indexPath as NSIndexPath).item])!
         if (u.progress == 2) { // Pembayaran pending
             Constant.showDialog("", message: "Pembayaran sedang diproses Prelo, mohon ditunggu")
         } else {
-            var imgs : [NSURL] = []
+            var imgs : [URL] = []
             for i in 0 ..< u.transactionProducts.count {
                 let c : UserCheckoutProduct = u.transactionProducts[i]
-                imgs.append(c.productImageURL!)
+                imgs.append(c.productImageURL! as URL)
             }
             let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let orderConfirmVC : OrderConfirmViewController = (mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdOrderConfirm) as? OrderConfirmViewController)!
+            let orderConfirmVC : OrderConfirmViewController = (mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdOrderConfirm) as? OrderConfirmViewController)!
             orderConfirmVC.transactionId = u.id
             orderConfirmVC.orderID = u.orderId
             orderConfirmVC.total = u.totalPrice
@@ -150,7 +181,7 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 130
     }
 }
@@ -164,13 +195,24 @@ class PaymentConfirmationCell : UITableViewCell {
     @IBOutlet var lblPrice: UILabel!
 
     override func layoutSubviews() {
-        let screenSize: CGRect = UIScreen.mainScreen().bounds
+        let screenSize: CGRect = UIScreen.main.bounds
         let screenWidth = screenSize.width
-        self.bounds = CGRectMake(0.0, 0.0, screenWidth, 130.0)
+        self.bounds = CGRect(x: 0.0, y: 0.0, width: screenWidth, height: 130.0)
         super.layoutSubviews()
     }
     
-    func adapt(userCheckout : UserCheckout) {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        if (imgProducts.count > 0) {
+            let imgCount = imgProducts.count
+            for i in 1 ..< imgCount {
+                imgProducts[imgCount - i].afCancelRequest()
+            }
+        }
+    }
+    
+    func adapt(_ userCheckout : UserCheckout) {
         lblOrderId.text = "Order ID #\(userCheckout.orderId)"
         lblOrderTime.text = userCheckout.time
         if (userCheckout.progress == 2) { // Pembayaran pending
@@ -184,9 +226,9 @@ class PaymentConfirmationCell : UITableViewCell {
         lblProductCount.text = "\(pCount) Barang"
         
         // Kosongkan gambar terlebih dahulu
-        for j in 0 ..< imgProducts.count {
-            imgProducts[j].image = nil
-        }
+//        for j in 0 ..< imgProducts.count {
+//            imgProducts[j].image = nil
+//        }
         
         // Tentukan jumlah gambar yang akan dimunculkan
         var imgCount = pCount
@@ -195,15 +237,15 @@ class PaymentConfirmationCell : UITableViewCell {
             imgCount = 4
             
             // Munculkan ellipsis
-            vwEllipsis.hidden = false
+            vwEllipsis.isHidden = false
         } else {
             // Sembunyikan ellipsis
-            vwEllipsis.hidden = true
+            vwEllipsis.isHidden = true
         }
         
         // Munculkan gambar
         for i in 1 ..< imgCount {
-            imgProducts[imgCount - i].setImageWithUrl(userCheckout.transactionProducts[i - 1].productImageURL!, placeHolderImage: nil)
+            imgProducts[imgCount - i].afSetImage(withURL: userCheckout.transactionProducts[i - 1].productImageURL!)
         }
     }
 }

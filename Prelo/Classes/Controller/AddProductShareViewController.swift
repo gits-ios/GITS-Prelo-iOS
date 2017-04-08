@@ -3,17 +3,18 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 8/27/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
 import TwitterKit
 import Social
 import Crashlytics
+import Alamofire
 
 class AddProductShareViewController: BaseViewController, PathLoginDelegate, InstagramLoginDelegate, UIDocumentInteractionControllerDelegate {
     
-    var sendProductParam : [String : String!] = [:]
+    var sendProductParam : [String : String?] = [:]
     var sendProductImages : [AnyObject] = []
     var sendProductBeforeScreen = ""
     var sendProductKondisi = ""
@@ -42,7 +43,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
     
     var productImg : String?
     var productImgImage : UIImage?
-    var productName : String!
+    var productName : String = ""
     var permalink : String!
     var linkToShare = AppTools.PreloBaseUrl
     var textToShare = ""
@@ -51,7 +52,9 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
     
     var pathSender : AddProductShareButton?
     
-    func updateButtons(sender : AddProductShareButton) {
+    var localId : String = ""
+    
+    func updateButtons(_ sender : AddProductShareButton) {
         let tag = sender.tag
         let arr = arrayRows[tag]
         let c = sender.active ? sender.normalColor : sender.selectedColor
@@ -60,13 +63,13 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         
         // Update buttons
         for b in arr {
-            b.setTitleColor(c, forState: UIControlState.Normal)
+            b.setTitleColor(c, for: UIControlState())
             b.active = sender.active
             
             if (b.titleLabel?.text == "") { // unchek, check it!
-                b.setTitle("", forState: UIControlState.Normal)
+                b.setTitle("", for: UIControlState())
             } else if (b.titleLabel?.text == "") { // checked, uncheck it
-                b.setTitle("", forState: UIControlState.Normal)
+                b.setTitle("", for: UIControlState())
             }
         }
         
@@ -76,20 +79,36 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         self.adaptCharge()
     }
     
-    @IBAction func setSelectShare(sender : AddProductShareButton)
+    @IBAction func setSelectShare(_ sender : AddProductShareButton)
     {
-        btnSend.setTitle("Loading..", forState: UIControlState.Disabled)
+        btnSend.setTitle("Loading..", for: UIControlState.disabled)
         let tag = sender.tag
         
         if (!sender.active) { // Akan mengaktifkan tombol share
             if (tag == 0) { // Instagram
-                if (UIApplication.sharedApplication().canOpenURL(NSURL(string: "instagram://app")!)) {
-                    UIPasteboard.generalPasteboard().string = self.textToShare
-                    Constant.showDialog("Text sudah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
-                    mgInstagram = MGInstagram()
-                    if let img = productImgImage {
-                        mgInstagram?.postImage(img, withCaption: self.textToShare, inView: self.view, delegate: self)
-                        self.updateButtons(sender)
+                if (UIApplication.shared.canOpenURL(URL(string: "instagram://app")!)) {
+                    var hashtags = ""
+                    if let categId = sendProductParam["category_id"] {
+                        if let h = CDCategory.getCategoryHashtagsWithID(categId!) {
+                            hashtags = " \(h)"
+                        }
+                    }
+                    
+                    if let img = self.productImgImage {
+                        let instagramSharePreview : InstagramSharePreview = .fromNib()
+                        instagramSharePreview.textToShare.text = "\(self.textToShare)\(hashtags)"
+                        instagramSharePreview.textToShare.layoutIfNeeded()
+                        instagramSharePreview.imgToShare.image = img
+                        instagramSharePreview.copyAndShare = {
+                            UIPasteboard.general.string = "\(self.textToShare)\(hashtags)"
+                            Constant.showDialog("Text sudah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
+                            self.mgInstagram = MGInstagram()
+                            self.mgInstagram?.post(img, withCaption: self.textToShare, in: self.view, delegate: self)
+                            self.updateButtons(sender)
+                            instagramSharePreview.removeFromSuperview()
+                        }
+                        instagramSharePreview.frame = CGRect(x: 0, y: -64, width: AppTools.screenWidth, height: AppTools.screenHeight)
+                        self.view.addSubview(instagramSharePreview)
                     } else {
                         Constant.showDialog("Instagram Share", message: "Oops, terdapat kesalahan saat pemrosesan")
                     }
@@ -99,7 +118,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
             } else if (tag == 2) { // Facebook
                 self.showLoading()
                 
-                if (FBSDKAccessToken.currentAccessToken() != nil && FBSDKAccessToken.currentAccessToken().permissions.contains("publish_actions")) {
+                if (FBSDKAccessToken.current() != nil && FBSDKAccessToken.current().permissions.contains("publish_actions")) {
                     self.updateButtons(sender)
                     self.hideLoading()
                 } else {
@@ -108,7 +127,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                         // Handle Profile Photo URL String
                         let userId =  result["id"] as? String
                         let name = result["name"] as? String
-                        let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
+                        let accessToken = FBSDKAccessToken.current().tokenString
                         
                         print("result = \(result)")
                         print("accessToken = \(accessToken)")
@@ -116,8 +135,8 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                         // userId & name is required
                         if (userId != nil && name != nil) {
                             // API Migrasi
-                            request(APISocial.PostFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON {resp in
-                                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Facebook")) {
+                            let _ = request(APISocmed.postFacebookData(id: userId!, username: name!, token: accessToken!)).responseJSON {resp in
+                                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Facebook")) {
                                     
                                     // Save in core data
                                     let userOther : CDUserOther = CDUserOther.getOne()!
@@ -154,8 +173,8 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                                 return
                         }
                         
-                        request(APISocial.PostTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { resp in
-                            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Twitter")) {
+                        let _ = request(APISocmed.postTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { resp in
+                            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Twitter")) {
                                 
                                 // Save in core data
                                 if let userOther : CDUserOther = CDUserOther.getOne() {
@@ -184,14 +203,14 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         
     }
     
-    func instagramLoginSuccess(token: String, id: String, name: String) {
+    func instagramLoginSuccess(_ token: String, id: String, name: String) {
         
     }
     
-    func instagramLoginSuccess(token: String) {
+    func instagramLoginSuccess(_ token: String) {
         // API Migrasi
-        request(APISocial.StoreInstagramToken(token: token)).responseJSON {resp in
-            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Store Instagram Token")) {
+        let _ = request(APISocmed.storeInstagramToken(token: token)).responseJSON {resp in
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Store Instagram Token")) {
                 
             } else {
                 self.select(self.pathSender!)
@@ -199,17 +218,17 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         }
     }
     
-    func pathLoginSuccess(userData : JSON, token : String) {
+    func pathLoginSuccess(_ userData : JSON, token : String) {
         let pathId = userData["id"].string!
         let pathName = userData["name"].string!
         let email = userData["email"].string!
         //let profilePictureUrl = userData["photo"]["medium"]["url"].string! // FIXME: harusnya dipasang di profile kan?
         
         // API Migrasi
-        request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {resp in
-            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
-                NSUserDefaults.standardUserDefaults().setObject(token, forKey: "pathtoken")
-                NSUserDefaults.standardUserDefaults().synchronize()
+        let _ = request(APIAuth.loginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {resp in
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Login Path")) {
+                UserDefaults.standard.set(token, forKey: "pathtoken")
+                UserDefaults.standard.synchronize()
             } else {
                 self.setSelectShare(self.pathSender!)
             }
@@ -217,11 +236,11 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
     }
     
     func showLoading() {
-        self.loadingPanel.hidden = false
+        self.loadingPanel.isHidden = false
     }
     
     func hideLoading() {
-        self.loadingPanel.hidden = true
+        self.loadingPanel.isHidden = true
     }
     
     override func viewDidLoad() {
@@ -231,7 +250,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
 
         // Do any additional setup after loading the view.
         
-        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
+        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
         
         if (arrayRows.count == 0)
         {
@@ -246,11 +265,11 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         self.title = "Kesempatan Terbatas"
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Mixpanel
-        //Mixpanel.trackPageVisit(PageName.ShareAddedProduct)
+//        Mixpanel.trackPageVisit(PageName.ShareAddedProduct)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.ShareAddedProduct)
@@ -260,13 +279,13 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
     
     var shouldSkipBack = true
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         if first && shouldSkipBack
         {
             first = false
             super.viewDidAppear(animated)
             var m = self.navigationController?.viewControllers
-            m?.removeAtIndex((m?.count)!-2)
+            m?.remove(at: (m?.count)!-2)
             self.navigationController?.viewControllers = m!
         }
         
@@ -288,8 +307,8 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
             string = "Charge Prelo : FREE"
         }
         let attString = NSMutableAttributedString(string: string)
-        attString.addAttributes([NSForegroundColorAttributeName:UIColor.redColor()], range: AppToolsObjC.rangeOf(chargePercent.roundString+"%", inside: string))
-        attString.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColorLight], range: AppToolsObjC.rangeOf("FREE", inside: string))
+        attString.addAttributes([NSForegroundColorAttributeName:UIColor.red], range: AppToolsObjC.range(of: chargePercent.roundString+"%", inside: string))
+        attString.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColorLight], range: AppToolsObjC.range(of: "FREE", inside: string))
         captionCharge.attributedText = attString
         captionPrice.text = (basePrice - Int(charge)).asPrice
     }
@@ -299,16 +318,22 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         // Dispose of any resources that can be recreated.
     }
     
-    func sendProduct(instagram : String = "0", facebook : String = "0", twitter : String = "0")
+    func sendProduct(_ instagram : String = "0", facebook : String = "0", twitter : String = "0")
     {
         self.sendProductParam["instagram"] = instagram
         self.sendProductParam["facebook"] = facebook
         self.sendProductParam["twitter"] = twitter
         
+        // auto approve
+        if AppTools.isDev {
+            self.sendProductParam["status"] = "1"
+        }
+        
+        /*
         // Mixpanel
         var categ = ""
         if let categId = sendProductParam["category_id"] {
-            if let categObj = CDCategory.getCategoryWithID(categId) {
+            if let categObj = CDCategory.getCategoryWithID(categId!) {
                 categ = categObj.name
             }
         }
@@ -324,9 +349,9 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         if let kondisi = CDProductCondition.getProductConditionWithID(sendProductKondisi) {
             kondisiName = kondisi.name
         }
-        let weightInt : Int? = Int(sendProductParam["weight"]!)
-        let priceOriInt : Int? = Int(sendProductParam["price_original"]!)
-        let priceInt : Int? = Int(sendProductParam["price"]!)
+        let weightInt : Int? = Int(sendProductParam["weight"]!!)
+        let priceOriInt : Int? = Int(sendProductParam["price_original"]!!)
+        let priceInt : Int? = Int(sendProductParam["price"]!!)
         let chargePercentInt : Int = Int(self.chargePercent)
         var fbUsername = "", twUsername = "", igUsername = ""
         if let uOther = CDUserOther.getOne() {
@@ -359,20 +384,43 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
             "Twitter Username" : twUsername,
             "Is Instagram Shared" : instagram == "1" ? true : false,
             "Instagram Username" : igUsername,
-            "Time" : NSDate().isoFormatted
-        ]
+            "Time" : Date().isoFormatted,
+            "platform_sent_from" : "ios"
+        ] as [String : Any]
+         */
+        
+        // Prelo Analytic - Share Product
+        let loginMethod = User.LoginMethod ?? ""
+        let fb = Int(facebook) ?? 0
+        let tw = Int(twitter) ?? 0
+        let ig = Int(instagram) ?? 0
+        let pdata = [
+            "Local ID": self.localId,
+            "Product Name" : productName,
+//            "Commission Percentage" : Int(self.chargePercent),
+            "Facebook" : fb,
+            "Twitter" : tw,
+            "Instagram" : ig
+        ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ShareProduct, data: pdata, previousScreen: self.sendProductBeforeScreen, loginMethod: loginMethod)
         
         // Add product to product uploader
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            AppDelegate.Instance.produkUploader.addToQueue(ProdukUploader.ProdukLokal(produkParam: self.sendProductParam, produkImages: self.sendProductImages, mixpanelParam: pt as [NSObject : AnyObject]))
-            dispatch_async(dispatch_get_main_queue(), {
+        // DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default)
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
+//            AppDelegate.Instance.produkUploader.addToQueue(ProdukUploader.ProdukLokal(produkParam: self.sendProductParam, produkImages: self.sendProductImages, mixpanelParam: pt as [AnyHashable: Any]))
+            AppDelegate.Instance.produkUploader.addToQueue(ProdukUploader.ProdukLokal(produkParam: self.sendProductParam, produkImages: self.sendProductImages, preloAnalyticParam: pdata as [AnyHashable: Any]))
+            DispatchQueue.main.async(execute: {
                 if (AppDelegate.Instance.produkUploader.getQueue().count > 0) {
-                    let b = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts)
+                    
+                    // set state is uploading
+                    CDDraftProduct.setUploading(self.localId, isUploading: true)
+                    
+                    let b = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdMyProducts)
                     self.navigationController?.pushViewController(b!, animated: true)
                 } else {
                     Crashlytics.sharedInstance().recordCustomExceptionName("ProdukUploader", reason: "Empty Queue", frameArray: [])
-                    Constant.showDialog("Warning", message: "Oops, terdapat kesalahan saat mengupload barang kamu")
-                    self.btnSend.enabled = true
+                    Constant.showDialog("Warning", message: "Oops, terdapat kesalahan saat mengupload barang kamu.\nMohon coba upload foto utama dan foto merek terlebih dahulu, kemudian tambah foto melalui fitur edit.")
+                    self.btnSend.isEnabled = true
                 }
             })
         })
@@ -456,7 +504,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
 //                        }
 //                    }
 //                }
-//                UIAlertView.SimpleShow("Upload Barang", message: msgContent)
+//                Constant.showDialog("Upload Barang", message: msgContent)
 //        })
     }
     
@@ -494,8 +542,8 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
 //            }
 //        }
 //        
-//        request(Products.ShareCommission(pId: productID, instagram: i, path: p, facebook: f, twitter: t)).responseJSON {resp in
-//            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Commission")) {
+//        let _ = request(APIProduct.ShareCommission(pId: productID, instagram: i, path: p, facebook: f, twitter: t)).responseJSON {resp in
+//            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Share Commission")) {
 //                NSNotificationCenter.defaultCenter().postNotificationName("refreshHome", object: nil)
 //                let b = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts)
 //                self.navigationController?.pushViewController(b!, animated: true)
@@ -507,9 +555,9 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
     
     @IBAction func shareDone()
     {
-        btnSend.enabled = false
+        btnSend.isEnabled = false
         
-        var i = "0", p = "0", f = "0", t = "0"
+        var i = "0", /*p = "0",*/ f = "0", t = "0"
         
         for x in 0...3
         {
@@ -522,12 +570,12 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                     {
                         i = "1"
                     }
-                    
+                    /*
                     if (x == 1)
                     {
                         p = "1"
                     }
-                    
+                    */
                     if (x == 2)
                     {
                         f = "1"

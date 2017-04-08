@@ -24,8 +24,12 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
+// BFKit
+"BFKit" = "BFKit";
+"BFKitAuthor" = "Fabrizio Brancati";
+
 // Generals
-"OK" = "Ok";
+"OK" = "Oke";
 "CONTINUE" = "Lanjutkan";
 "CANCEL" = "Batal";
 "DONE" = "Selesai";

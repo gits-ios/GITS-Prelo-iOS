@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Fransiska on 10/27/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import Foundation
@@ -17,9 +17,9 @@ class CDCategorySize: NSManagedObject {
     @NSManaged var v : NSNumber
     @NSManaged var typeOrder : NSNumber
     @NSManaged var typeName : String
-    @NSManaged var typeSizes : NSData
+    @NSManaged var typeSizes : Data
     
-    static func saveCategorySizes(json : JSON, m : NSManagedObjectContext) -> Bool {
+    static func saveCategorySizes(_ json : JSON, m : NSManagedObjectContext) -> Bool {
         for i in 0 ..< json.count {
             let catJson = json[i]
             for j in 0 ..< catJson["size_types"].count {
@@ -28,13 +28,13 @@ class CDCategorySize: NSManagedObject {
                 for k in 0 ..< typeJson["sizes"].count {
                     sizes.append(typeJson["sizes"][k].string!)
                 }
-                let r = NSEntityDescription.insertNewObjectForEntityForName("CDCategorySize", inManagedObjectContext: m) as! CDCategorySize
+                let r = NSEntityDescription.insertNewObject(forEntityName: "CDCategorySize", into: m) as! CDCategorySize
                 r.id = catJson["_id"].string!
                 r.name = catJson["name"].string!
                 r.v = catJson["__v"].number!
                 r.typeOrder = typeJson["order"].number!
                 r.typeName = typeJson["name"].string!
-                r.typeSizes = NSKeyedArchiver.archivedDataWithRootObject(sizes)
+                r.typeSizes = NSKeyedArchiver.archivedData(withRootObject: sizes)
             }
         }
         
@@ -46,9 +46,9 @@ class CDCategorySize: NSManagedObject {
         return true
     }
     
-    static func newOne(id : String, name : String, v : NSNumber, typeOrder : NSNumber, typeName : String, typeSizes : NSData) -> CDCategorySize? {
+    static func newOne(_ id : String, name : String, v : NSNumber, typeOrder : NSNumber, typeName : String, typeSizes : Data) -> CDCategorySize? {
         let m = UIApplication.appDelegate.managedObjectContext
-        let r = NSEntityDescription.insertNewObjectForEntityForName("CDCategorySize", inManagedObjectContext: m) as! CDCategorySize
+        let r = NSEntityDescription.insertNewObject(forEntityName: "CDCategorySize", into: m) as! CDCategorySize
         r.id = id
         r.name = name
         r.v = v
@@ -63,14 +63,14 @@ class CDCategorySize: NSManagedObject {
         }
     }
     
-    static func deleteAll(m : NSManagedObjectContext) -> Bool {
-        let fetchRequest = NSFetchRequest(entityName: "CDCategorySize")
+    static func deleteAll(_ m : NSManagedObjectContext) -> Bool {
+        let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDCategorySize")
         fetchRequest.includesPropertyValues = false
         
         do {
-            if let results = try m.executeFetchRequest(fetchRequest) as? [NSManagedObject] {
+            if let results = try m.fetch(fetchRequest) as? [NSManagedObject] {
                 for result in results {
-                    m.deleteObject(result)
+                    m.delete(result)
                 }
                 
                 if (m.saveSave() == true) {
@@ -87,10 +87,10 @@ class CDCategorySize: NSManagedObject {
     }
     
     static func getCategorySizeCount() -> Int {
-        let fetchReq = NSFetchRequest(entityName: "CDCategorySize")
+        let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDCategorySize")
         
         do {
-            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq);
+            let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq);
             return r.count
         } catch {
             return 0

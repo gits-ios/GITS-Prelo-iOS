@@ -3,16 +3,38 @@
 //  Prelo
 //
 //  Created by PreloBook on 5/23/16.
-//  Copyright © 2016 GITS Indonesia. All rights reserved.
+//  Copyright © 2016 PT Kleo Appara Indonesia. All rights reserved.
 //
 //  This class is used for brand filtering in search page
 
 import Foundation
+import Alamofire
+
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 // MARK: - Protocol
 
 protocol ListBrandDelegate {
-    func adjustBrand(fltrBrands : [String : String])
+    func adjustBrand(_ fltrBrands : [String : String])
 }
 
 // MARK: - Class
@@ -25,6 +47,7 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
     @IBOutlet var tableView : UITableView!
     @IBOutlet var btnSubmit: UIButton!
     var searchBar : UISearchBar!
+    @IBOutlet weak var consBottomVwFilte: NSLayoutConstraint!
     
     // Data containers
     var brands : [String : String] = [:] // [<merkName> : <merkId>]
@@ -39,7 +62,7 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
     var isSearchSelectedBrand = false
     
     // Placeholder
-    let NotFoundPlaceholder = "(merk tidak ditemukan)"
+    let NotFoundPlaceholder = "(merek tidak ditemukan)"
     
     // Delegate
     var delegate : ListBrandDelegate? = nil
@@ -50,21 +73,21 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
         super.viewDidLoad()
         
         // Search bar setup
-        var searchBarWidth = UIScreen.mainScreen().bounds.size.width * 0.8375
+        var searchBarWidth = UIScreen.main.bounds.size.width * 0.8375
         if (AppTools.isIPad) {
-            searchBarWidth = UIScreen.mainScreen().bounds.size.width - 68
+            searchBarWidth = UIScreen.main.bounds.size.width - 68
         }
-        searchBar = UISearchBar(frame: CGRectMake(0, 0, searchBarWidth, 30))
-        if let searchField = self.searchBar.valueForKey("searchField") as? UITextField {
+        searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: searchBarWidth, height: 30))
+        if let searchField = self.searchBar.value(forKey: "searchField") as? UITextField {
             searchField.backgroundColor = Theme.PrimaryColorDark
-            searchField.textColor = UIColor.whiteColor()
-            let attrPlaceholder = NSAttributedString(string: "Cari Merek", attributes: [NSForegroundColorAttributeName : UIColor.lightGrayColor()])
+            searchField.textColor = UIColor.white
+            let attrPlaceholder = NSAttributedString(string: "Cari Merek", attributes: [NSForegroundColorAttributeName : UIColor.lightGray])
             searchField.attributedPlaceholder = attrPlaceholder
             if let icon = searchField.leftView as? UIImageView {
-                icon.image = icon.image?.imageWithRenderingMode(.AlwaysTemplate)
-                icon.tintColor = UIColor.lightGrayColor()
+                icon.image = icon.image?.withRenderingMode(.alwaysTemplate)
+                icon.tintColor = UIColor.lightGray
             }
-            searchField.borderStyle = UITextBorderStyle.None
+            searchField.borderStyle = UITextBorderStyle.none
         }
         searchBar.delegate = self
         searchBar.placeholder = "Cari Merek"
@@ -76,15 +99,25 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
         tableView.tableFooterView = UIView()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.an_subscribeKeyboard(animations: { r, t, o in
+            if (o) {
+                self.consBottomVwFilte.constant = r.height
+            } else {
+                self.consBottomVwFilte.constant = 0
+            }
+        }, completion: nil)
+        
         // Get initial brands
         getBrands()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
+        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: true)
     }
     
     func getBrands() {
@@ -93,8 +126,8 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
             name = searchText
         }
         self.isGettingData = true
-        request(APISearch.Brands(name: name, current: self.pagingCurrent, limit: (self.pagingCurrent == 0 ? 25 : self.pagingLimit))).responseJSON { resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Merk")) {
+        let _ = request(APISearch.brands(name: name, current: self.pagingCurrent, limit: (self.pagingCurrent == 0 ? 25 : self.pagingLimit))).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Merk")) {
                 if (name == self.searchBar.text) { // Jika response ini sesuai dengan request terakhir
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
@@ -129,7 +162,7 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
     
     // MARK: - UITableView functions
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var n = brands.count + selectedBrands.count
         if (!isSearchSelectedBrand && (!self.isPagingEnded || brands.count == 0)) { // Jika tidak sedang mencari brand yg sudah dipilih, dan (paging belum selesai atau jika sedang loading filter)
             // Additional cell for loading indicator or not found indicator
@@ -138,52 +171,52 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
         return n
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("ListBrandVC2Cell") as! ListBrandVC2Cell
-        cell.selectionStyle = .None
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ListBrandVC2Cell") as! ListBrandVC2Cell
+        cell.selectionStyle = .none
         
-        if (indexPath.row >= brands.count + selectedBrands.count) { // Make this loading cell
+        if ((indexPath as NSIndexPath).row >= brands.count + selectedBrands.count) { // Make this loading cell
             cell.isBottomCell = true
             cell.adapt("", isChecked: false)
         } else {
             // selectedBrands selalu dipasang di atas
             cell.isBottomCell = false
-            let name = self.sortedBrandKeys[indexPath.row]
+            let name = self.sortedBrandKeys[(indexPath as NSIndexPath).row]
             if (name == self.NotFoundPlaceholder) {
                 cell.isNotFoundCell = true
             } else {
                 cell.isNotFoundCell = false
             }
-            cell.adapt(name, isChecked: (indexPath.row < self.selectedBrands.count))
+            cell.adapt(name, isChecked: ((indexPath as NSIndexPath).row < self.selectedBrands.count))
         }
         
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if (indexPath.row >= (brands.count + selectedBrands.count) || self.sortedBrandKeys[indexPath.row] == self.NotFoundPlaceholder) { // Jika yg diklik adl loading atau 'merk tidak ditemukan'
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if ((indexPath as NSIndexPath).row >= (brands.count + selectedBrands.count) || self.sortedBrandKeys[(indexPath as NSIndexPath).row] == self.NotFoundPlaceholder) { // Jika yg diklik adl loading atau 'merk tidak ditemukan'
             return
         }
         
-        if (indexPath.row >= self.selectedBrands.count) { // Which means select unselected brand
+        if ((indexPath as NSIndexPath).row >= self.selectedBrands.count) { // Which means select unselected brand
             // Pindahkan elemen dictionary dari brand ke selectedBrand, kemudian pindahkan index pada sortedBrandKeys ke bagian atas
-            self.selectedBrands[self.sortedBrandKeys[indexPath.row]] = self.brands[self.sortedBrandKeys[indexPath.row]]
-            self.brands.removeValueForKey(self.sortedBrandKeys[indexPath.row])
-            self.sortedBrandKeys.insert(self.sortedBrandKeys.removeAtIndex(indexPath.row), atIndex: self.selectedBrands.count - 1)
+            self.selectedBrands[self.sortedBrandKeys[(indexPath as NSIndexPath).row]] = self.brands[self.sortedBrandKeys[(indexPath as NSIndexPath).row]]
+            self.brands.removeValue(forKey: self.sortedBrandKeys[(indexPath as NSIndexPath).row])
+            self.sortedBrandKeys.insert(self.sortedBrandKeys.remove(at: (indexPath as NSIndexPath).row), at: self.selectedBrands.count - 1)
             self.isSearchSelectedBrand = true
         } else { // Which means unselect selected brand
             // Pindahkan elemen dictionary dari selectedBrand ke brand, kemudian pindahkan index pada sortedBrandKeys ke bukan bagian atas
-            self.brands[self.sortedBrandKeys[indexPath.row]] = self.selectedBrands[self.sortedBrandKeys[indexPath.row]]
-            self.selectedBrands.removeValueForKey(self.sortedBrandKeys[indexPath.row])
-            self.sortedBrandKeys.insert(self.sortedBrandKeys.removeAtIndex(indexPath.row), atIndex: selectedBrands.count)
+            self.brands[self.sortedBrandKeys[(indexPath as NSIndexPath).row]] = self.selectedBrands[self.sortedBrandKeys[(indexPath as NSIndexPath).row]]
+            self.selectedBrands.removeValue(forKey: self.sortedBrandKeys[(indexPath as NSIndexPath).row])
+            self.sortedBrandKeys.insert(self.sortedBrandKeys.remove(at: (indexPath as NSIndexPath).row), at: selectedBrands.count)
             self.adaptSortedBrandKeys()
         }
         
         // Update button title
         if (self.selectedBrands.count > 0) {
-            self.btnSubmit.setTitle("SUBMIT (\(self.selectedBrands.count))", forState: .Normal)
+            self.btnSubmit.setTitle("FILTER (\(self.selectedBrands.count))", for: UIControlState())
         } else {
-            self.btnSubmit.setTitle("SUBMIT", forState: .Normal)
+            self.btnSubmit.setTitle("FILTER", for: UIControlState())
         }
         
         // Reload table
@@ -192,7 +225,7 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
     
     // MARK: - Scroll view functions
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offset : CGPoint = scrollView.contentOffset
         let bounds : CGRect = scrollView.bounds
         let size : CGSize = scrollView.contentSize
@@ -211,7 +244,7 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
     
     // MARK: - Search bar functions
     
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         self.brands.removeAll()
         self.isSearchSelectedBrand = false
         tableView.reloadData()
@@ -227,44 +260,50 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
         self.getBrands()
     }
     
-    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
-        if let searchField = searchBar.valueForKey("searchField") as? UITextField {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        if let searchField = searchBar.value(forKey: "searchField") as? UITextField {
             if let icon = searchField.leftView as? UIImageView {
-                icon.image = icon.image?.imageWithRenderingMode(.AlwaysTemplate)
-                icon.tintColor = UIColor.whiteColor()
+                icon.image = icon.image?.withRenderingMode(.alwaysTemplate)
+                icon.tintColor = UIColor.white
             }
         }
     }
     
-    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
-        if let searchField = searchBar.valueForKey("searchField") as? UITextField {
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        if let searchField = searchBar.value(forKey: "searchField") as? UITextField {
             if let icon = searchField.leftView as? UIImageView {
-                icon.image = icon.image?.imageWithRenderingMode(.AlwaysTemplate)
-                icon.tintColor = UIColor.lightGrayColor()
+                icon.image = icon.image?.withRenderingMode(.alwaysTemplate)
+                icon.tintColor = UIColor.lightGray
             }
         }
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
     
     // MARK: - Actions
     
-    @IBAction func disableFields(sender : AnyObject) {
+    @IBAction func disableFields(_ sender : AnyObject) {
         searchBar.resignFirstResponder()
     }
     
-    @IBAction func submitPressed(sender: AnyObject) {
-        if (selectedBrands.count <= 0) {
-            Constant.showDialog("Perhatian", message: "Pilih satu atau lebih merek terlebih dahulu")
-            return
-        }
+    @IBAction func submitPressed(_ sender: AnyObject) {
+        //if (selectedBrands.count <= 0) {
+        //    Constant.showDialog("Perhatian", message: "Pilih satu atau lebih merek terlebih dahulu")
+        //    return
+        //}
         
         if (self.previousController != nil) {
             delegate?.adjustBrand(selectedBrands)
-            self.navigationController?.popViewControllerAnimated(true)
+            _ = self.navigationController?.popViewController(animated: true)
         } else {
-            let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-            l.filterMode = true
+            let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+            l.currentMode = .filter
+            l.isBackToFltrSearch = true
             l.fltrBrands = selectedBrands
             l.fltrSortBy = "recent"
+            l.previousScreen = PageName.Search
             self.navigationController?.pushViewController(l, animated: true)
         }
     }
@@ -273,19 +312,31 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
     
     func adaptSortedBrandKeys() {
         self.sortedBrandKeys.removeLast(self.sortedBrandKeys.count - self.selectedBrands.count)
-        self.sortedBrandKeys.appendContentsOf(self.sortCaseInsensitive(Array(self.brands.keys)))
+        self.sortedBrandKeys.append(contentsOf: self.sortCaseSensitive([String](self.brands.keys)))
         if (self.selectedBrands["Tanpa Merek"] == nil) { // Which means 'tanpa merek' is unselected
-            if let noBrandIdx = self.sortedBrandKeys.indexOf("Tanpa Merek") {
-                self.sortedBrandKeys.insert(self.sortedBrandKeys.removeAtIndex(noBrandIdx), atIndex: self.selectedBrands.count)
+            if let noBrandIdx = self.sortedBrandKeys.index(of: "Tanpa Merek") {
+                self.sortedBrandKeys.insert(self.sortedBrandKeys.remove(at: noBrandIdx), at: self.selectedBrands.count)
             }
         }
     }
     
-    func sortCaseInsensitive(values:[String]) -> [String]{
+    func sortCaseInsensitive(_ values:[String]) -> [String]{
         
-        let sortedValues = values.sort({ (value1, value2) -> Bool in
+        let sortedValues = values.sorted(by: { (value1, value2) -> Bool in
             
-            if (value1.lowercaseString < value2.lowercaseString) {
+            if (value1.lowercased() < value2.lowercased()) {
+                return true
+            } else {
+                return false
+            }
+        })
+        return sortedValues
+    }
+    
+    func sortCaseSensitive(_ values:[String]) -> [String] {
+        let sortedValues = values.sorted(by: { (value1, value2) -> Bool in
+            
+            if (value1 < value2) {
                 return true
             } else {
                 return false
@@ -298,8 +349,8 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
         return (self.searchBar.text?.length > 0)
     }
     
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if (touch.view!.isKindOfClass(UIButton.classForCoder()) || touch.view!.isKindOfClass(UITextField.classForCoder())) {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        if (touch.view!.isKind(of: UIButton.classForCoder()) || touch.view!.isKind(of: UITextField.classForCoder())) {
             return false
         } else {
             return true
@@ -321,31 +372,31 @@ class ListBrandVC2Cell: UITableViewCell {
     
     override func prepareForReuse() {
         lblTitle.text = ""
-        lblTitle.textColor = UIColor.darkGrayColor()
-        loading.hidden = true
-        vwCheckbox.hidden = false
+        lblTitle.textColor = UIColor.darkGray
+        loading.isHidden = true
+        vwCheckbox.isHidden = false
         isBottomCell = false
         isNotFoundCell = false
     }
     
-    func adapt(text : String, isChecked : Bool) {
+    func adapt(_ text : String, isChecked : Bool) {
         if (isBottomCell) {
-            loading.hidden = false
+            loading.isHidden = false
             loading.startAnimating()
-            vwCheckbox.hidden = true
+            vwCheckbox.isHidden = true
         } else {
-            loading.hidden = true
+            loading.isHidden = true
             loading.stopAnimating()
         }
         lblTitle.text = text
         if (isNotFoundCell) {
-            lblTitle.textColor = UIColor.lightGrayColor()
-            vwCheckbox.hidden = true
+            lblTitle.textColor = UIColor.lightGray
+            vwCheckbox.isHidden = true
         }
         if (isChecked) {
-            lblCheck.hidden = false
+            lblCheck.isHidden = false
         } else {
-            lblCheck.hidden = true
+            lblCheck.isHidden = true
         }
     }
 }

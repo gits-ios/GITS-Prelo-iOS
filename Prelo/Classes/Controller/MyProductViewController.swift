@@ -3,33 +3,40 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 8/24/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
 
-class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate {
+// MARK: - NewShopHeader Protocol
+
+protocol MyProductDelegate: class {
+    func setFromDraftOrNew(_ isFromDraft: Bool)
+    func getFromDraftOrNew() -> Bool
+}
+
+class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate, MyProductDelegate {
     
     var tabSwipe : CarbonTabSwipeNavigation?
     
-    var productSell : BaseViewController?
-    var productProcessing : BaseViewController?
-    var productCompleted : BaseViewController?
+    var productSell : MyProductSellViewController?
+    var productTransaction : MyProductTransactionViewController?
 
     @IBOutlet weak var viewJualButton: UIView!
+    
+    var isFromDraft = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        productSell = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProductSell) as? BaseViewController
+        productSell = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdMyProductSell) as? MyProductSellViewController
         productSell?.previousController = self
+        productSell?.delegate = self
         
-        productProcessing = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyProductProcessing, owner: nil, options: nil).first as! MyProductProcessingViewController
-        
-        productCompleted = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyProductCompleted, owner: nil, options: nil).first as! MyProductCompletedViewController
+        productTransaction = Bundle.main.loadNibNamed(Tags.XibNameMyProductTransaction, owner: nil, options: nil)?.first as! MyProductTransactionViewController
         
         // Do any additional setup after loading the view.
-        tabSwipe = CarbonTabSwipeNavigation().createWithRootViewController(self, tabNames: ["BARANG", "DIPROSES", "SELESAI"] as [AnyObject], tintColor: UIColor.whiteColor(), delegate: self)
+        tabSwipe = CarbonTabSwipeNavigation().create(withRootViewController: self, tabNames: ["BARANG" as AnyObject, "TRANSAKSI" as AnyObject] as [AnyObject], tintColor: UIColor.white, delegate: self)
         tabSwipe?.addShadow()
         
         tabSwipe?.setNormalColor(Theme.TabNormalColor)
@@ -41,24 +48,24 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate {
         
         // Buat tombol jual menjadi bentuk bulat dan selalu di depan
         viewJualButton.layer.cornerRadius = (viewJualButton.frame.size.width) / 2
-        viewJualButton.layer.shadowColor = UIColor.blackColor().CGColor
+        viewJualButton.layer.shadowColor = UIColor.black.cgColor
         viewJualButton.layer.shadowOffset = CGSize(width: 0, height: 5)
         viewJualButton.layer.shadowOpacity = 0.3
-        self.view.bringSubviewToFront(viewJualButton)
+        self.view.bringSubview(toFront: viewJualButton)
     }
     
     var first = true
     
     var shouldSkipBack = true
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         if first && shouldSkipBack
         {
             first = false
             super.viewDidAppear(animated)
             var m = self.navigationController?.viewControllers
-            m?.removeAtIndex((m?.count)!-2)
-            m?.removeAtIndex((m?.count)!-2)
+            m?.remove(at: (m?.count)!-2)
+            m?.remove(at: (m?.count)!-2)
             self.navigationController?.viewControllers = m!
         }
     }
@@ -68,8 +75,8 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    var cs = [UIColor.blueColor(), UIColor.redColor()]
-    func tabSwipeNavigation(tabSwipe: CarbonTabSwipeNavigation!, viewControllerAtIndex index: UInt) -> UIViewController!
+    var cs = [UIColor.blue, UIColor.red]
+    func tabSwipeNavigation(_ tabSwipe: CarbonTabSwipeNavigation!, viewControllerAt index: UInt) -> UIViewController!
     {
         if (index == 0)
         {
@@ -77,11 +84,7 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate {
         }
         else if (index == 1)
         {
-            return productProcessing
-        }
-        else if (index == 2)
-        {
-            return productCompleted
+            return productTransaction
         }
         
         let v = UIViewController()
@@ -89,10 +92,20 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate {
         return v
     }
     
-    @IBAction func jualPressed(sender: AnyObject) {
+    @IBAction func jualPressed(_ sender: AnyObject) {
+        self.isFromDraft = true
         let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
         add.screenBeforeAddProduct = PageName.MyProducts
         self.navigationController?.pushViewController(add, animated: true)
+    }
+    
+    // MARK: - Delegate
+    func setFromDraftOrNew(_ isFromDraft: Bool) {
+        self.isFromDraft = isFromDraft
+    }
+    
+    func getFromDraftOrNew() -> Bool {
+        return self.isFromDraft
     }
 
     /*

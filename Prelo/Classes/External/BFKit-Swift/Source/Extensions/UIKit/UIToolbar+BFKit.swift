@@ -36,13 +36,13 @@ public extension UIToolbar {
     
      - parameter transparent: true to set it transparent, false to not
      */
-    public func setTransparent(transparent: Bool) {
+    public func setTransparent(_ transparent: Bool) {
         if transparent {
-            self.setBackgroundImage(UIImage(), forToolbarPosition: .Any, barMetrics: .Default)
-            self.setShadowImage(UIImage(), forToolbarPosition: .Any)
+            self.setBackgroundImage(UIImage(), forToolbarPosition: .any, barMetrics: .default)
+            self.setShadowImage(UIImage(), forToolbarPosition: .any)
         } else {
-            self.setBackgroundImage(nil, forToolbarPosition: .Any, barMetrics: .Default)
-            self.setShadowImage(nil, forToolbarPosition: .Any)
+            self.setBackgroundImage(nil, forToolbarPosition: .any, barMetrics: .default)
+            self.setShadowImage(nil, forToolbarPosition: .any)
         }
     }
 }

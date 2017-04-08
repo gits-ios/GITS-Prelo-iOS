@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 8/6/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import Foundation
@@ -22,13 +22,15 @@ class CDUserProfile: NSManagedObject {
     @NSManaged var provinceID: String
     @NSManaged var subdistrictID: String
     @NSManaged var subdistrictName: String
+    @NSManaged var addressName: String
+    @NSManaged var recipientName: String
 
     static func getOne() -> CDUserProfile?
     {
-        let fetchReq = NSFetchRequest(entityName: "CDUserProfile")
+        let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDUserProfile")
         
         do {
-            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq);
+            let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq);
             return r.count == 0 ? nil : r.first as? CDUserProfile
         } catch {
             return nil
@@ -37,13 +39,13 @@ class CDUserProfile: NSManagedObject {
     
     static func deleteAll() -> Bool {
         let m = UIApplication.appDelegate.managedObjectContext
-        let fetchRequest = NSFetchRequest(entityName: "CDUserProfile")
+        let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDUserProfile")
         fetchRequest.includesPropertyValues = false
         
         do {
-            if let results = try m.executeFetchRequest(fetchRequest) as? [NSManagedObject] {
+            if let results = try m.fetch(fetchRequest) as? [NSManagedObject] {
                 for result in results {
-                    m.deleteObject(result)
+                    m.delete(result)
                 }
                 
                 if (m.saveSave() != false) {

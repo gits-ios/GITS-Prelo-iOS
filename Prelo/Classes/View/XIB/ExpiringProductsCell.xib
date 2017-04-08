@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Prelo2.ttf">
+            <string>Prelo2</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ExpiringProductsCell" rowHeight="64" id="ZYl-lr-dWx" customClass="ExpiringProductsCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZYl-lr-dWx" id="7M0-um-ttK">
+                <frame key="frameInset" width="320" height="63"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="y7A-QB-vmA">
+                        <constraints>
+                            <constraint firstAttribute="width" constant="48" id="B9C-sh-GkP"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Product Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mzf-YY-krH">
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="9mV-GU-PW9"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="9mV-GU-PW9"/>
+                            </mask>
+                        </variation>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bGN-sP-h5i">
+                        <color key="backgroundColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="JPd-Yb-Cyb"/>
+                            <constraint firstAttribute="width" constant="72" id="KmC-8y-cmb"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="13"/>
+                        <state key="normal" title=" SOLD">
+                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </state>
+                        <connections>
+                            <action selector="soldPressed:" destination="ZYl-lr-dWx" eventType="touchUpInside" id="Eln-2e-F7E"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="y7A-QB-vmA" firstAttribute="top" secondItem="7M0-um-ttK" secondAttribute="top" constant="8" id="21j-6G-9PC"/>
+                    <constraint firstAttribute="trailing" secondItem="bGN-sP-h5i" secondAttribute="trailing" constant="8" id="4fH-sA-jsx"/>
+                    <constraint firstItem="bGN-sP-h5i" firstAttribute="leading" secondItem="mzf-YY-krH" secondAttribute="trailing" constant="8" id="5el-ZQ-BM7"/>
+                    <constraint firstItem="bGN-sP-h5i" firstAttribute="top" secondItem="7M0-um-ttK" secondAttribute="top" constant="8" id="Dn1-IX-9mK"/>
+                    <constraint firstItem="mzf-YY-krH" firstAttribute="top" secondItem="7M0-um-ttK" secondAttribute="top" constant="8" id="Poi-sO-cf1"/>
+                    <constraint firstAttribute="bottom" secondItem="mzf-YY-krH" secondAttribute="bottom" constant="8" id="dOf-dH-aJQ"/>
+                    <constraint firstAttribute="bottom" secondItem="y7A-QB-vmA" secondAttribute="bottom" constant="8" id="kkH-EV-U5Y"/>
+                    <constraint firstItem="mzf-YY-krH" firstAttribute="leading" secondItem="y7A-QB-vmA" secondAttribute="trailing" constant="8" id="q1h-Cp-6cy"/>
+                    <constraint firstItem="y7A-QB-vmA" firstAttribute="leading" secondItem="7M0-um-ttK" secondAttribute="leading" constant="8" id="tWX-D7-8ch"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="btnSold" destination="bGN-sP-h5i" id="sQF-Fo-Kpm"/>
+                <outlet property="imgProduct" destination="y7A-QB-vmA" id="DXg-CX-jVr"/>
+                <outlet property="lblName" destination="mzf-YY-krH" id="X3K-St-MnE"/>
+            </connections>
+            <point key="canvasLocation" x="289" y="189"/>
+        </tableViewCell>
+    </objects>
+</document>

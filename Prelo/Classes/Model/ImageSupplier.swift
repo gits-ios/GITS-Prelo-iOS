@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 8/12/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
@@ -11,27 +11,27 @@ import AssetsLibrary
 
 enum ImageSource
 {
-    case Facebook
-    case Twitter
-    case Instagram
-    case Gallery
-    case Camera
+    case facebook
+    case twitter
+    case instagram
+    case gallery
+    case camera
 }
 
 class ImageSupplier: NSObject {
     
-    private var source : ImageSource = .Facebook
+    fileprivate var source : ImageSource = .facebook
     
-    static func fetch(source : ImageSource, ascending : Bool = false, complete : ([APImage]) -> (), failed : (String) -> ())
+    static func fetch(_ source : ImageSource, ascending : Bool = false, complete : @escaping ([APImage]) -> (), failed : @escaping (String) -> ())
     {
-        if (source == .Gallery) {
+        if (source == .gallery) {
             
-            AppToolsObjC.fetchAssetWithAlbumName("Camera Roll", onComplete: { r in
+            AppToolsObjC.fetchAsset(withAlbumName: "Camera Roll", onComplete: { r in
             
                 var result : Array<APImage> = []
-                for d in r
+                for d in r!
                 {
-                    let i = d as! NSURL
+                    let i = d as! URL
                     let ap = APImage()
                     ap.url = i
                     ap.usingAssets = true
@@ -40,13 +40,13 @@ class ImageSupplier: NSObject {
                 
                 if (ascending)
                 {
-                    result = result.reverse()
+                    result = result.reversed()
                 }
                 
                 complete(result)
                 
                 }, onFailed: { m in
-                    failed(m)
+                    failed(m!)
             })
         }
     }
@@ -56,13 +56,13 @@ class ImageSupplier: NSObject {
 class APImage
 {
     var uri : String = ""
-    var url : NSURL?
+    var url : URL?
     var image : UIImage?
     var usingAssets : Bool = false
     var asset : ALAsset?
     
     var assetLib : ALAssetsLibrary?
-    func getImage(doneBlock : (UIImage?)->())
+    func getImage(_ doneBlock : @escaping (UIImage?)->())
     {
         if let i = self.image
         {
@@ -74,13 +74,13 @@ class APImage
                 assetLib = ALAssetsLibrary()
             }
             
-            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                self.assetLib?.assetForURL(self.url!, resultBlock: { asset in
+            DispatchQueue.global( priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
+                self.assetLib?.asset(for: self.url!, resultBlock: { asset in
                     if let ast = asset {
                         let rep = ast.defaultRepresentation()
-                        let ref = rep.fullScreenImage().takeUnretainedValue()
-                        let i = UIImage(CGImage: ref)
-                        dispatch_async(dispatch_get_main_queue(), {
+                        let ref = rep?.fullScreenImage().takeUnretainedValue()
+                        let i = UIImage(cgImage: ref!)
+                        DispatchQueue.main.async(execute: {
                             doneBlock(i)
                         })
                     }

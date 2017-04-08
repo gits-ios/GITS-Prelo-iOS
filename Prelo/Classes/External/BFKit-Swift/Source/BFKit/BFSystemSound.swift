@@ -158,128 +158,128 @@ public class BFSystemSound {
      - Vibrate:                   Vibrate
      */
     public enum AudioID : Int {
-        case NewMail = 1000
-        case MailSent = 1001
-        case VoiceMail = 1002
-        case RecivedMessage = 1003
-        case SentMessage = 1004
-        case Alarm = 1005
-        case LowPower = 1006
-        case SMSReceived1 = 1007
-        case SMSReceived2 = 1008
-        case SMSReceived3 = 1009
-        case SMSReceived4 = 1010
-        case SMSReceived5 = 1013
-        case SMSReceived6 = 1014
-        case TweetSent = 1016
-        case Anticipate = 1020
-        case Bloom = 1021
-        case Calypso = 1022
-        case ChooChoo = 1023
-        case Descent = 1024
-        case Fanfare = 1025
-        case Ladder = 1026
-        case Minuet = 1027
-        case NewsFlash = 1028
-        case Noir = 1029
-        case SherwoodForest = 1030
-        case Spell = 1031
-        case Suspence = 1032
-        case Telegraph = 1033
-        case Tiptoes = 1034
-        case Typewriters = 1035
-        case Update = 1036
-        case USSDAlert = 1050
-        case SIMToolkitCallDropped = 1051
-        case SIMToolkitGeneralBeep = 1052
-        case SIMToolkitNegativeACK = 1053
-        case SIMToolkitPositiveACK = 1054
-        case SIMToolkitSMS = 1055
-        case Tink = 1057
-        case CTBusy = 1070
-        case CTCongestion = 1071
-        case CTPathACK = 1072
-        case CTError = 1073
-        case CTCallWaiting = 1074
-        case CTKeytone = 1075
-        case Lock = 1100
-        case Unlock = 1101
-        case FailedUnlock = 1102
-        case KeypressedTink = 1103
-        case KeypressedTock = 1104
-        case Tock = 1105
-        case BeepBeep = 1106
-        case RingerCharged = 1107
-        case PhotoShutter = 1108
-        case Shake = 1109
-        case JBLBegin = 1110
-        case JBLConfirm = 1111
-        case JBLCancel = 1112
-        case BeginRecording = 1113
-        case EndRecording = 1114
-        case JBLAmbiguous = 1115
-        case JBLNoMatch = 1116
-        case BeginVideoRecord = 1117
-        case EndVideoRecord = 1118
-        case VCInvitationAccepted = 1150
-        case VCRinging = 1151
-        case VCEnded = 1152
-        case VCCallWaiting = 1153
-        case VCCallUpgrade = 1154
-        case TouchTone1 = 1200
-        case TouchTone2 = 1201
-        case TouchTone3 = 1202
-        case TouchTone4 = 1203
-        case TouchTone5 = 1204
-        case TouchTone6 = 1205
-        case TouchTone7 = 1206
-        case TouchTone8 = 1207
-        case TouchTone9 = 1208
-        case TouchTone10 = 1209
-        case TouchToneStar = 1210
-        case TouchTonePound = 1211
-        case HeadsetStartCall = 1254
-        case HeadsetRedial = 1255
-        case HeadsetAnswerCall = 1256
-        case HeadsetEndCall = 1257
-        case HeadsetCallWaitingActions = 1258
-        case HeadsetTransitionEnd = 1259
-        case Voicemail = 1300
-        case ReceivedMessage = 1301
-        case NewMail2 = 1302
-        case MailSent2 = 1303
-        case Alarm2 = 1304
-        case Lock2 = 1305
-        case Tock2 = 1306
-        case SMSReceived1_2 = 1307
-        case SMSReceived2_2 = 1308
-        case SMSReceived3_2 = 1309
-        case SMSReceived4_2 = 1310
-        case SMSReceivedVibrate = 1311
-        case SMSReceived1_3 = 1312
-        case SMSReceived5_3 = 1313
-        case SMSReceived6_3 = 1314
-        case Voicemail2 = 1315
-        case Anticipate2 = 1320
-        case Bloom2 = 1321
-        case Calypso2 = 1322
-        case ChooChoo2 = 1323
-        case Descent2 = 1324
-        case Fanfare2 = 1325
-        case Ladder2 = 1326
-        case Minuet2 = 1327
-        case NewsFlash2 = 1328
-        case Noir2 = 1329
-        case SherwoodForest2 = 1330
-        case Spell2 = 1331
-        case Suspence2 = 1332
-        case Telegraph2 = 1333
-        case Tiptoes2 = 1334
-        case Typewriters2 = 1335
-        case Update2 = 1336
-        case RingerVibeChanged = 1350
-        case SilentVibeChanged = 1351
-        case Vibrate = 4095
+        case newMail = 1000
+        case mailSent = 1001
+        case voiceMail = 1002
+        case recivedMessage = 1003
+        case sentMessage = 1004
+        case alarm = 1005
+        case lowPower = 1006
+        case smsReceived1 = 1007
+        case smsReceived2 = 1008
+        case smsReceived3 = 1009
+        case smsReceived4 = 1010
+        case smsReceived5 = 1013
+        case smsReceived6 = 1014
+        case tweetSent = 1016
+        case anticipate = 1020
+        case bloom = 1021
+        case calypso = 1022
+        case chooChoo = 1023
+        case descent = 1024
+        case fanfare = 1025
+        case ladder = 1026
+        case minuet = 1027
+        case newsFlash = 1028
+        case noir = 1029
+        case sherwoodForest = 1030
+        case spell = 1031
+        case suspence = 1032
+        case telegraph = 1033
+        case tiptoes = 1034
+        case typewriters = 1035
+        case update = 1036
+        case ussdAlert = 1050
+        case simToolkitCallDropped = 1051
+        case simToolkitGeneralBeep = 1052
+        case simToolkitNegativeACK = 1053
+        case simToolkitPositiveACK = 1054
+        case simToolkitSMS = 1055
+        case tink = 1057
+        case ctBusy = 1070
+        case ctCongestion = 1071
+        case ctPathACK = 1072
+        case ctError = 1073
+        case ctCallWaiting = 1074
+        case ctKeytone = 1075
+        case lock = 1100
+        case unlock = 1101
+        case failedUnlock = 1102
+        case keypressedTink = 1103
+        case keypressedTock = 1104
+        case tock = 1105
+        case beepBeep = 1106
+        case ringerCharged = 1107
+        case photoShutter = 1108
+        case shake = 1109
+        case jblBegin = 1110
+        case jblConfirm = 1111
+        case jblCancel = 1112
+        case beginRecording = 1113
+        case endRecording = 1114
+        case jblAmbiguous = 1115
+        case jblNoMatch = 1116
+        case beginVideoRecord = 1117
+        case endVideoRecord = 1118
+        case vcInvitationAccepted = 1150
+        case vcRinging = 1151
+        case vcEnded = 1152
+        case vcCallWaiting = 1153
+        case vcCallUpgrade = 1154
+        case touchTone1 = 1200
+        case touchTone2 = 1201
+        case touchTone3 = 1202
+        case touchTone4 = 1203
+        case touchTone5 = 1204
+        case touchTone6 = 1205
+        case touchTone7 = 1206
+        case touchTone8 = 1207
+        case touchTone9 = 1208
+        case touchTone10 = 1209
+        case touchToneStar = 1210
+        case touchTonePound = 1211
+        case headsetStartCall = 1254
+        case headsetRedial = 1255
+        case headsetAnswerCall = 1256
+        case headsetEndCall = 1257
+        case headsetCallWaitingActions = 1258
+        case headsetTransitionEnd = 1259
+        case voicemail = 1300
+        case receivedMessage = 1301
+        case newMail2 = 1302
+        case mailSent2 = 1303
+        case alarm2 = 1304
+        case lock2 = 1305
+        case tock2 = 1306
+        case smsReceived1_2 = 1307
+        case smsReceived2_2 = 1308
+        case smsReceived3_2 = 1309
+        case smsReceived4_2 = 1310
+        case smsReceivedVibrate = 1311
+        case smsReceived1_3 = 1312
+        case smsReceived5_3 = 1313
+        case smsReceived6_3 = 1314
+        case voicemail2 = 1315
+        case anticipate2 = 1320
+        case bloom2 = 1321
+        case calypso2 = 1322
+        case chooChoo2 = 1323
+        case descent2 = 1324
+        case fanfare2 = 1325
+        case ladder2 = 1326
+        case minuet2 = 1327
+        case newsFlash2 = 1328
+        case noir2 = 1329
+        case sherwoodForest2 = 1330
+        case spell2 = 1331
+        case suspence2 = 1332
+        case telegraph2 = 1333
+        case tiptoes2 = 1334
+        case typewriters2 = 1335
+        case update2 = 1336
+        case ringerVibeChanged = 1350
+        case silentVibeChanged = 1351
+        case vibrate = 4095
     }
     
     // MARK: - Class functions -
@@ -289,7 +289,7 @@ public class BFSystemSound {
     
      - parameter audioID: ID of system audio from the AudioID enum
      */
-    public static func playSystemSound(audioID: AudioID) {
+    public static func playSystemSound(_ audioID: AudioID) {
         AudioServicesPlaySystemSound(SystemSoundID(audioID.rawValue))
     }
     
@@ -307,10 +307,10 @@ public class BFSystemSound {
     
      - returns: Returns the SystemSoundID
      */
-    public static func playCustomSound(soundURL: NSURL) -> SystemSoundID {
+    public static func playCustomSound(_ soundURL: URL) -> SystemSoundID {
         var soundID: SystemSoundID = 0
         
-        let error: OSStatus = AudioServicesCreateSystemSoundID(soundURL as CFURLRef, &soundID)
+        let error: OSStatus = AudioServicesCreateSystemSoundID(soundURL as CFURL, &soundID)
         if error != Int32(kAudioServicesNoError) {
             BFLog("Could not load \(soundURL)")
         }
@@ -324,7 +324,7 @@ public class BFSystemSound {
     
      - returns: Returns true if has been disposed, otherwise false
      */
-    public static func disposeSound(soundID: SystemSoundID) -> Bool {
+    public static func disposeSound(_ soundID: SystemSoundID) -> Bool {
         let error: OSStatus = AudioServicesDisposeSystemSoundID(soundID)
         if error != Int32(kAudioServicesNoError) {
             BFLog("Error while disposing sound \(soundID)")

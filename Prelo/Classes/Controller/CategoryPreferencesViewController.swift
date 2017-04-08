@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Fransiska Hadiwidjana on 11/10/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import Foundation
@@ -17,7 +17,7 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
     var categories : [CDCategory] = []
     var selectedIds : [String] = []
     
-    var parent : BaseViewController?
+    var parentVC : BaseViewController?
     
     var isUseCategoriesOffline = false
     var categoriesOffline : [[String : String]] = []
@@ -29,22 +29,22 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
         
         // Register custom cell
         let categoryPrefCellNib = UINib(nibName: "CategoryPreferencesCell", bundle: nil)
-        collcCategory.registerNib(categoryPrefCellNib, forCellWithReuseIdentifier: "CategoryPreferencesCell")
+        collcCategory.register(categoryPrefCellNib, forCellWithReuseIdentifier: "CategoryPreferencesCell")
         
         // Sembunyikan tombol back
         self.navigationItem.hidesBackButton = true
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
-        self.loadingPanel.hidden = false
+        self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+        self.loadingPanel.isHidden = false
         self.loading.startAnimating()
-        self.collcCategory.hidden = true
+        self.collcCategory.isHidden = true
 
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.SetCategoryPreferences)
+//        Mixpanel.trackPageVisit(PageName.SetCategoryPreferences)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.SetCategoryPreferences)
@@ -61,9 +61,9 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
         self.setupCollection()
         
         // Show collection
-        self.loadingPanel.hidden = true
+        self.loadingPanel.isHidden = true
         self.loading.stopAnimating()
-        self.collcCategory.hidden = false
+        self.collcCategory.isHidden = false
     }
     
     func setupCollection() {
@@ -77,28 +77,28 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
     
     // MARK: - IBActions
     
-    @IBAction func submitPressed(sender: AnyObject) {
+    @IBAction func submitPressed(_ sender: AnyObject) {
         if (selectedIds.count < 3) {
             Constant.showDialog("Warning", message: "Pilih 3 kategori favorit kamu")
         } else {
             // Store to userdefaults one by one lol
-            NSUserDefaults.standardUserDefaults().setObject(selectedIds[0], forKey: UserDefaultsKey.CategoryPref1)
-            NSUserDefaults.standardUserDefaults().setObject(selectedIds[1], forKey: UserDefaultsKey.CategoryPref2)
-            NSUserDefaults.standardUserDefaults().setObject(selectedIds[2], forKey: UserDefaultsKey.CategoryPref3)
-            NSUserDefaults.standardUserDefaults().synchronize()
-            self.dismissViewControllerAnimated(true, completion: nil)
+            UserDefaults.standard.set(selectedIds[0], forKey: UserDefaultsKey.CategoryPref1)
+            UserDefaults.standard.set(selectedIds[1], forKey: UserDefaultsKey.CategoryPref2)
+            UserDefaults.standard.set(selectedIds[2], forKey: UserDefaultsKey.CategoryPref3)
+            UserDefaults.standard.synchronize()
+            self.dismiss(animated: true, completion: nil)
         }
     }
     
-    @IBAction func skipPressed(sender: AnyObject) {
+    @IBAction func skipPressed(_ sender: AnyObject) {
         // To login
-        self.dismissViewControllerAnimated(true, completion: nil)
-        LoginViewController.Show(self.parent!, userRelatedDelegate: self.parent as! KumangTabBarViewController, animated: true, isFromTourVC: true)
+        self.dismiss(animated: true, completion: nil)
+        LoginViewController.Show(self.parentVC!, userRelatedDelegate: self.parentVC as! KumangTabBarViewController, animated: true, isFromTourVC: true)
     }
     
     // MARK: - UICollectionViewDataSource Functions
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if (isUseCategoriesOffline) {
             return categoriesOffline.count
         } else {
@@ -106,28 +106,28 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
         }
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell : CategoryPreferencesCell = self.collcCategory.dequeueReusableCellWithReuseIdentifier("CategoryPreferencesCell", forIndexPath: indexPath) as! CategoryPreferencesCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell : CategoryPreferencesCell = self.collcCategory.dequeueReusableCell(withReuseIdentifier: "CategoryPreferencesCell", for: indexPath) as! CategoryPreferencesCell
         if (isUseCategoriesOffline) {
-            cell.adapt2(categoriesOffline[indexPath.item], selectedIds: self.selectedIds)
+            cell.adapt2(categoriesOffline[(indexPath as NSIndexPath).item], selectedIds: self.selectedIds)
         } else {
-            cell.adapt(categories[indexPath.item], selectedIds: self.selectedIds)
+            cell.adapt(categories[(indexPath as NSIndexPath).item], selectedIds: self.selectedIds)
         }
         return cell
     }
     
     // MARK: - UICollectionViewDelegate Functions
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! CategoryPreferencesCell
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! CategoryPreferencesCell
         var priority : Int?
         if (isUseCategoriesOffline) {
-			priority = self.selectedIds.indexOf(categoriesOffline[indexPath.item]["id"]!)
+			priority = self.selectedIds.index(of: categoriesOffline[(indexPath as NSIndexPath).item]["id"]!)
         } else {
-			priority = self.selectedIds.indexOf(categories[indexPath.item].id)
+			priority = self.selectedIds.index(of: categories[(indexPath as NSIndexPath).item].id)
         }
         if (priority != nil) { // Sedang terpilih
-            selectedIds.removeAtIndex(priority!)
+            selectedIds.remove(at: priority!)
             print("selectedIds = \(selectedIds)")
             self.setupCollection()
         } else { // Sedang tidak terpilih
@@ -135,8 +135,8 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
                 self.selectedIds.append(cell.categoryId)
                 print("selectedIds = \(selectedIds)")
                 cell.lblPriority.text = "\(self.selectedIds.count)"
-                cell.lblPriority.hidden = false
-                cell.imgCategory.hidden = true
+                cell.lblPriority.isHidden = false
+                cell.imgCategory.isHidden = true
             }
         }
     }
@@ -204,7 +204,7 @@ class CategoryPreferencesCell : UICollectionViewCell {
     
     var categoryId : String!
     
-    func adapt(category : CDCategory, selectedIds : [String]) {
+    func adapt(_ category : CDCategory, selectedIds : [String]) {
         categoryId = category.id
         
         lblCategoryName.text = category.name
@@ -221,26 +221,26 @@ class CategoryPreferencesCell : UICollectionViewCell {
             lblCategoryName.text = "Baby & Kids"
         }
         
-        let priority : Int? = selectedIds.indexOf(categoryId)
+        let priority : Int? = selectedIds.index(of: categoryId)
         if (priority != nil) {
             lblPriority.text = "\(priority! + 1)"
-            lblPriority.hidden = false
-            imgCategory.hidden = true
+            lblPriority.isHidden = false
+            imgCategory.isHidden = true
         } else {
-            lblPriority.hidden = true
-            imgCategory.hidden = false
-            let url = NSURL(string: category.imageName)!
-            let urlReq = NSURLRequest(URL: url)
+            lblPriority.isHidden = true
+            imgCategory.isHidden = false
+            let url = URL(string: category.imageName)!
+            let urlReq = Foundation.URLRequest(url: url)
             imgCategory.setImageWithUrlRequest(urlReq, placeHolderImage: nil, success: {(_, _, img: UIImage!, _) -> Void in
-                self.imgCategory.image = img.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
-                self.imgCategory.tintColor = UIColor.whiteColor()
+                self.imgCategory.image = img.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+                self.imgCategory.tintColor = UIColor.white
                 }, failure: { (_, _, err) -> Void in
                     print("Show category image err: \(err)")
             })
         }
     }
     
-    func adapt2(category : [String : String], selectedIds : [String]) {
+    func adapt2(_ category : [String : String], selectedIds : [String]) {
         categoryId = category["id"]
         
         lblCategoryName.text = category["name"]
@@ -257,19 +257,19 @@ class CategoryPreferencesCell : UICollectionViewCell {
             lblCategoryName.text = "Baby & Kids"
         }
         
-        let priority : Int? = selectedIds.indexOf(categoryId)
+        let priority : Int? = selectedIds.index(of: categoryId)
         if (priority != nil) {
             lblPriority.text = "\(priority! + 1)"
-            lblPriority.hidden = false
-            imgCategory.hidden = true
+            lblPriority.isHidden = false
+            imgCategory.isHidden = true
         } else {
-            lblPriority.hidden = true
-            imgCategory.hidden = false
-            let url = NSURL(string: category["imageName"]!)!
-            let urlReq = NSURLRequest(URL: url)
+            lblPriority.isHidden = true
+            imgCategory.isHidden = false
+            let url = URL(string: category["imageName"]!)!
+            let urlReq = Foundation.URLRequest(url: url)
             imgCategory.setImageWithUrlRequest(urlReq, placeHolderImage: nil, success: {(_, _, img: UIImage!, _) -> Void in
-                self.imgCategory.image = img.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
-                self.imgCategory.tintColor = UIColor.whiteColor()
+                self.imgCategory.image = img.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+                self.imgCategory.tintColor = UIColor.white
                 }, failure: { (_, _, err) -> Void in
                     print("Show category image err: \(err)")
             })

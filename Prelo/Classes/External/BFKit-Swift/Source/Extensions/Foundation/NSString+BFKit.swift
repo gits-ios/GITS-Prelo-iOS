@@ -25,7 +25,6 @@
 //  SOFTWARE.
 
 import Foundation
-import UIKit
 
 /// This extension adds some useful functions to NSString
 public extension NSString {
@@ -40,7 +39,7 @@ public extension NSString {
     
      - returns: Returns the substring
      */
-    public func searchCharStart(charStart: NSString, charEnd: NSString) -> NSString {
+    public func searchCharStart(_ charStart: NSString, charEnd: NSString) -> NSString {
         return NSString.searchInString(self, charStart: charStart, charEnd: charEnd)
     }
     
@@ -52,11 +51,11 @@ public extension NSString {
     
      - returns: Returns true if founded, false if not
      */
-    public func hasString(string: NSString, caseSensitive: Bool = true) -> Bool {
+    public func hasString(_ string: NSString, caseSensitive: Bool = true) -> Bool {
         if caseSensitive {
-            return !(self.rangeOfString(string as String).location == NSNotFound)
+            return !(self.range(of: string as String).location == NSNotFound)
         } else {
-            return !(self.rangeOfString(string.lowercaseString as String).location == NSNotFound)
+            return !(self.range(of: string.lowercased as String).location == NSNotFound)
         }
     }
     
@@ -92,7 +91,7 @@ public extension NSString {
      
      - returns: Returns self as NSData
      */
-    public func convertToNSData() -> NSData {
+    public func convertToNSData() -> Data {
         return NSString.convertToNSData(self)
     }
     
@@ -106,10 +105,10 @@ public extension NSString {
         if self.length == 0 {
             return ""
         }
-        let uppercase: NSString = self.substringToIndex(1).uppercaseString
-        let lowercase: NSString = self.substringFromIndex(1).lowercaseString
+        let uppercase: NSString = self.substring(to: 1).uppercased() as NSString
+        let lowercase: NSString = self.substring(from: 1).lowercased() as NSString
         
-        return uppercase.stringByAppendingString(lowercase as String)
+        return uppercase.appending(lowercase as String) as NSString
     }
     
     /**
@@ -118,17 +117,17 @@ public extension NSString {
      - returns: Returns a human legible string from a timestamp
      */
     public func dateFromTimestamp() -> NSString {
-        let year: NSString = self.substringToIndex(4)
-        var month: NSString = self.substringFromIndex(5)
-            month = month.substringToIndex(4)
-        var day: NSString = self.substringFromIndex(8)
-            day = day.substringToIndex(2)
-        var hours: NSString = self.substringFromIndex(11)
-            hours = hours.substringToIndex(2)
-        var minutes: NSString = self.substringFromIndex(14)
-            minutes = minutes.substringToIndex(2)
+        let year: NSString = self.substring(to: 4) as NSString
+        var month: NSString = self.substring(from: 5) as NSString
+            month = month.substring(to: 4) as NSString
+        var day: NSString = self.substring(from: 8) as NSString
+            day = day.substring(to: 2) as NSString
+        var hours: NSString = self.substring(from: 11) as NSString
+            hours = hours.substring(to: 2) as NSString
+        var minutes: NSString = self.substring(from: 14) as NSString
+            minutes = minutes.substring(to: 2) as NSString
         
-        return "\(day)/\(month)/\(year) \(hours):\(minutes)"
+        return "\(day)/\(month)/\(year) \(hours):\(minutes)" as NSString
     }
     
     /**
@@ -137,7 +136,7 @@ public extension NSString {
      - returns: Returns the encoded NSString
      */
     public func URLEncode() -> NSString {
-        return self.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())!
+        return self.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlHostAllowed)! as NSString
     }
     
     /**
@@ -148,9 +147,9 @@ public extension NSString {
     
      - returns: Returns a new string containing matching regular expressions replaced with the template string
      */
-    public func stringByReplacingWithRegex(regexString: NSString, withString replacement: NSString) throws -> NSString {
-        let regex: NSRegularExpression = try NSRegularExpression(pattern: regexString as String, options: .CaseInsensitive)
-        return regex.stringByReplacingMatchesInString(self as String, options: NSMatchingOptions(rawValue: 0), range:NSMakeRange(0, self.length), withTemplate: "")
+    public func stringByReplacingWithRegex(_ regexString: NSString, withString replacement: NSString) throws -> NSString {
+        let regex: NSRegularExpression = try NSRegularExpression(pattern: regexString as String, options: .caseInsensitive)
+        return regex.stringByReplacingMatches(in: self as String, options: NSRegularExpression.MatchingOptions(rawValue: 0), range:NSMakeRange(0, self.length), withTemplate: "") as NSString
     }
     
     /**
@@ -160,8 +159,8 @@ public extension NSString {
      */
     public func isUUID() -> Bool {
         do {
-            let regex: NSRegularExpression = try NSRegularExpression(pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", options: .CaseInsensitive)
-            let matches: Int = regex.numberOfMatchesInString(self as String, options: .ReportCompletion, range: NSMakeRange(0, self.length))
+            let regex: NSRegularExpression = try NSRegularExpression(pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", options: .caseInsensitive)
+            let matches: Int = regex.numberOfMatches(in: self as String, options: .reportCompletion, range: NSMakeRange(0, self.length))
             return matches == 1
         } catch {
             return false
@@ -175,8 +174,8 @@ public extension NSString {
      */
     public func isUUIDForAPNS() -> Bool {
         do {
-            let regex: NSRegularExpression = try NSRegularExpression(pattern: "^[0-9a-f]{32}$", options: .CaseInsensitive)
-            let matches: Int = regex.numberOfMatchesInString(self as String, options: .ReportCompletion, range: NSMakeRange(0, self.length))
+            let regex: NSRegularExpression = try NSRegularExpression(pattern: "^[0-9a-f]{32}$", options: .caseInsensitive)
+            let matches: Int = regex.numberOfMatches(in: self as String, options: .reportCompletion, range: NSMakeRange(0, self.length))
             return matches == 1
         } catch {
             return false
@@ -189,24 +188,7 @@ public extension NSString {
      - returns: Converts self to an UUID APNS valid (No "<>" or "-" or spaces)
      */
     public func convertToAPNSUUID() -> NSString {
-        return self.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "<>")).stringByReplacingOccurrencesOfString(" ", withString: "").stringByReplacingOccurrencesOfString("-", withString: "") as NSString
-    }
-    
-    /**
-     Used to calculate text height for max width and font
-     
-     - parameter width: Max width to fit text
-     - parameter font:  Font used in text
-     
-     - returns: Returns the calculated height of string within width using given font
-     */
-    public func heightForWidth(width: CGFloat, font: UIFont) -> CGFloat {
-        var size: CGSize = CGSizeZero
-        if self.length > 0 {
-            let frame: CGRect = self.boundingRectWithSize(CGSizeMake(width, 999999), options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName : font], context: nil)
-            size = CGSizeMake(frame.size.width, frame.size.height + 1)
-        }
-        return size.height
+        return self.trimmingCharacters(in: CharacterSet(charactersIn: "<>")).replacingOccurrences(of: " ", with: "").replacingOccurrences(of: "-", with: "") as NSString
     }
     
     // MARK: - Class functions -
@@ -221,16 +203,16 @@ public extension NSString {
     
      - returns: Returns the substring
      */
-    public static func searchInString(string: NSString, charStart: NSString, charEnd: NSString) -> NSString {
+    public static func searchInString(_ string: NSString, charStart: NSString, charEnd: NSString) -> NSString {
         var start = 0, end = 0
         
         for var i in 0 ..< string.length {
-            if string.characterAtIndex(i) == charStart.characterAtIndex(0) {
+            if string.character(at: i) == charStart.character(at: 0) {
                 start = i+1
                 i += 1
                 continue
             }
-            if string.characterAtIndex(i) == charEnd.characterAtIndex(0) {
+            if string.character(at: i) == charEnd.character(at: 0) {
                 end = i
                 break
             }
@@ -242,7 +224,7 @@ public extension NSString {
             end = 0
         }
         
-        return string.substringFromIndex(start).substringToIndex(end)
+        return string.substring(from: start).substringToIndex(end) as NSString
     }
     
     /**
@@ -252,11 +234,11 @@ public extension NSString {
     
      - returns: Returns true if it's an email, false if not
      */
-    public static func isEmail(email: NSString) -> Bool {
+    public static func isEmail(_ email: NSString) -> Bool {
         let emailRegEx: NSString = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
         
         let regExPredicate: NSPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
-        return regExPredicate.evaluateWithObject(email.lowercaseString)
+        return regExPredicate.evaluate(with: email.lowercased)
     }
     
     /**
@@ -266,42 +248,42 @@ public extension NSString {
     
      - returns: Returns the converted string
      */
-    public static func convertToUTF8Entities(string: NSString) -> NSString {
+    public static func convertToUTF8Entities(_ string: NSString) -> NSString {
         return string
-            .stringByReplacingOccurrencesOfString("%27", withString: "'")
-            .stringByReplacingOccurrencesOfString("%e2%80%99".capitalizedString, withString: "’")
-            .stringByReplacingOccurrencesOfString("%2d".capitalizedString, withString: "-")
-            .stringByReplacingOccurrencesOfString("%c2%ab".capitalizedString, withString: "«")
-            .stringByReplacingOccurrencesOfString("%c2%bb".capitalizedString, withString: "»")
-            .stringByReplacingOccurrencesOfString("%c3%80".capitalizedString, withString: "À")
-            .stringByReplacingOccurrencesOfString("%c3%82".capitalizedString, withString: "Â")
-            .stringByReplacingOccurrencesOfString("%c3%84".capitalizedString, withString: "Ä")
-            .stringByReplacingOccurrencesOfString("%c3%86".capitalizedString, withString: "Æ")
-            .stringByReplacingOccurrencesOfString("%c3%87".capitalizedString, withString: "Ç")
-            .stringByReplacingOccurrencesOfString("%c3%88".capitalizedString, withString: "È")
-            .stringByReplacingOccurrencesOfString("%c3%89".capitalizedString, withString: "É")
-            .stringByReplacingOccurrencesOfString("%c3%8a".capitalizedString, withString: "Ê")
-            .stringByReplacingOccurrencesOfString("%c3%8b".capitalizedString, withString: "Ë")
-            .stringByReplacingOccurrencesOfString("%c3%8f".capitalizedString, withString: "Ï")
-            .stringByReplacingOccurrencesOfString("%c3%91".capitalizedString, withString: "Ñ")
-            .stringByReplacingOccurrencesOfString("%c3%94".capitalizedString, withString: "Ô")
-            .stringByReplacingOccurrencesOfString("%c3%96".capitalizedString, withString: "Ö")
-            .stringByReplacingOccurrencesOfString("%c3%9b".capitalizedString, withString: "Û")
-            .stringByReplacingOccurrencesOfString("%c3%9c".capitalizedString, withString: "Ü")
-            .stringByReplacingOccurrencesOfString("%c3%a0".capitalizedString, withString: "à")
-            .stringByReplacingOccurrencesOfString("%c3%a2".capitalizedString, withString: "â")
-            .stringByReplacingOccurrencesOfString("%c3%a4".capitalizedString, withString: "ä")
-            .stringByReplacingOccurrencesOfString("%c3%a6".capitalizedString, withString: "æ")
-            .stringByReplacingOccurrencesOfString("%c3%a7".capitalizedString, withString: "ç")
-            .stringByReplacingOccurrencesOfString("%c3%a8".capitalizedString, withString: "è")
-            .stringByReplacingOccurrencesOfString("%c3%a9".capitalizedString, withString: "é")
-            .stringByReplacingOccurrencesOfString("%c3%af".capitalizedString, withString: "ï")
-            .stringByReplacingOccurrencesOfString("%c3%b4".capitalizedString, withString: "ô")
-            .stringByReplacingOccurrencesOfString("%c3%b6".capitalizedString, withString: "ö")
-            .stringByReplacingOccurrencesOfString("%c3%bb".capitalizedString, withString: "û")
-            .stringByReplacingOccurrencesOfString("%c3%bc".capitalizedString, withString: "ü")
-            .stringByReplacingOccurrencesOfString("%c3%bf".capitalizedString, withString: "ÿ")
-            .stringByReplacingOccurrencesOfString("%20", withString: " ")
+            .replacingOccurrences(of: "%27", with: "'")
+            .replacingOccurrences(of: "%e2%80%99".capitalized, with: "’")
+            .replacingOccurrences(of: "%2d".capitalized, with: "-")
+            .replacingOccurrences(of: "%c2%ab".capitalized, with: "«")
+            .replacingOccurrences(of: "%c2%bb".capitalized, with: "»")
+            .replacingOccurrences(of: "%c3%80".capitalized, with: "À")
+            .replacingOccurrences(of: "%c3%82".capitalized, with: "Â")
+            .replacingOccurrences(of: "%c3%84".capitalized, with: "Ä")
+            .replacingOccurrences(of: "%c3%86".capitalized, with: "Æ")
+            .replacingOccurrences(of: "%c3%87".capitalized, with: "Ç")
+            .replacingOccurrences(of: "%c3%88".capitalized, with: "È")
+            .replacingOccurrences(of: "%c3%89".capitalized, with: "É")
+            .replacingOccurrences(of: "%c3%8a".capitalized, with: "Ê")
+            .replacingOccurrences(of: "%c3%8b".capitalized, with: "Ë")
+            .replacingOccurrences(of: "%c3%8f".capitalized, with: "Ï")
+            .replacingOccurrences(of: "%c3%91".capitalized, with: "Ñ")
+            .replacingOccurrences(of: "%c3%94".capitalized, with: "Ô")
+            .replacingOccurrences(of: "%c3%96".capitalized, with: "Ö")
+            .replacingOccurrences(of: "%c3%9b".capitalized, with: "Û")
+            .replacingOccurrences(of: "%c3%9c".capitalized, with: "Ü")
+            .replacingOccurrences(of: "%c3%a0".capitalized, with: "à")
+            .replacingOccurrences(of: "%c3%a2".capitalized, with: "â")
+            .replacingOccurrences(of: "%c3%a4".capitalized, with: "ä")
+            .replacingOccurrences(of: "%c3%a6".capitalized, with: "æ")
+            .replacingOccurrences(of: "%c3%a7".capitalized, with: "ç")
+            .replacingOccurrences(of: "%c3%a8".capitalized, with: "è")
+            .replacingOccurrences(of: "%c3%a9".capitalized, with: "é")
+            .replacingOccurrences(of: "%c3%af".capitalized, with: "ï")
+            .replacingOccurrences(of: "%c3%b4".capitalized, with: "ô")
+            .replacingOccurrences(of: "%c3%b6".capitalized, with: "ö")
+            .replacingOccurrences(of: "%c3%bb".capitalized, with: "û")
+            .replacingOccurrences(of: "%c3%bc".capitalized, with: "ü")
+            .replacingOccurrences(of: "%c3%bf".capitalized, with: "ÿ")
+            .replacingOccurrences(of: "%20", with: " ") as NSString
     }
     
     /**
@@ -311,9 +293,9 @@ public extension NSString {
     
      - returns: Returns the encoded string
      */
-    public static func encodeToBase64(string: NSString) -> NSString {
-        let data: NSData = string.convertToNSData()
-        return data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+    public static func encodeToBase64(_ string: NSString) -> NSString {
+        let data: Data = string.convertToNSData()
+        return data.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0)) as NSString
     }
     
     /**
@@ -323,9 +305,9 @@ public extension NSString {
     
      - returns: Returns the decoded string
      */
-    public static func decodeBase64(string: NSString) -> NSString {
-        let data: NSData = NSData(base64EncodedString: string as String, options: NSDataBase64DecodingOptions(rawValue: 0))!
-        return data.convertToUTF8String()
+    public static func decodeBase64(_ string: NSString) -> NSString {
+        let data: Data = Data(base64Encoded: string as String, options: .ignoreUnknownCharacters)!
+        return data.convertToUTF8String() as NSString as NSString
     }
     
     /**
@@ -335,8 +317,8 @@ public extension NSString {
      
      - returns: Returns the converted NSString as NSData
      */
-    public static func convertToNSData(string: NSString) -> NSData {
-        return string.dataUsingEncoding(NSUTF8StringEncoding)!
+    public static func convertToNSData(_ string: NSString) -> Data {
+        return string.data(using: String.Encoding.utf8.rawValue)!
     }
     
     /**
@@ -345,8 +327,8 @@ public extension NSString {
      - returns: String without additional spaces
      */
     public func removeExtraSpaces() -> NSString {
-        let squashed = self.stringByReplacingOccurrencesOfString("[ ]+", withString: " ", options: .RegularExpressionSearch, range: NSMakeRange(0, self.length))
-        return squashed.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        let squashed = self.replacingOccurrences(of: "[ ]+", with: " ", options: .regularExpression, range: NSMakeRange(0, self.length))
+        return squashed.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) as NSString
     }
     
     /**
@@ -357,10 +339,10 @@ public extension NSString {
      
      - returns: Returns a new string containing matching regular expressions replaced with the template string
      */
-    public func stringByReplacingWithRegex(regexString: NSString, replacement: NSString) -> NSString? {
+    public func stringByReplacingWithRegex(_ regexString: NSString, replacement: NSString) -> NSString? {
         do {
-            let regex: NSRegularExpression = try NSRegularExpression(pattern: regexString as String, options: .CaseInsensitive)
-            return regex.stringByReplacingMatchesInString(self as String, options: NSMatchingOptions(rawValue: 0), range: NSMakeRange(0, self.length), withTemplate: "")
+            let regex: NSRegularExpression = try NSRegularExpression(pattern: regexString as String, options: .caseInsensitive)
+            return regex.stringByReplacingMatches(in: self as String, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, self.length), withTemplate: "") as NSString
         } catch {
             
         }
@@ -376,16 +358,16 @@ public extension NSString {
      */
     public func HEXToString() -> NSString {
         var hex = self as String
-        hex = hex.stringByReplacingOccurrencesOfString(" ", withString: "")
+        hex = hex.replacingOccurrences(of: " ", with: "")
         var s: String = ""
         while hex.characters.count > 0 {
-            let c: String = hex.substringToIndex(hex.startIndex.advancedBy(2))
-            hex = hex.substringFromIndex(hex.startIndex.advancedBy(2))
+            let c: String = hex.substring(to: hex.index(hex.startIndex, offsetBy: 2))
+            hex = hex.substring(from: hex.index(hex.startIndex, offsetBy: 2))
             var ch: UInt32 = 0
-            NSScanner(string: c).scanHexInt(&ch)
-            s = s.stringByAppendingString(String(format: "%c", ch))
+            Scanner(string: c).scanHexInt32(&ch)
+            s = s + String(format: "%c", ch)
         }
-        return s
+        return s as NSString
     }
     
     /**
@@ -395,16 +377,13 @@ public extension NSString {
      - returns: HEX string
      */
     public func stringToHEX() -> NSString {
-        let len: Int = self.length
-        let chars: UnsafeMutablePointer<unichar> = UnsafeMutablePointer<unichar>(malloc(len * sizeof(unichar)));
-        self.getCharacters(UnsafeMutablePointer<unichar>(chars))
+        let selfString = self as String
         
         let hexString: NSMutableString = NSMutableString()
         
-        for i in 0 ..< len {
-            hexString.appendFormat("%02x", chars[i])
+        for i in 0 ..< self.length {
+            hexString.appendFormat("%02x", selfString[i ..< i+1])
         }
-        free(chars)
         
         return hexString
     }
@@ -415,8 +394,8 @@ public extension NSString {
      - returns: Returns the created UUID string
      */
     public static func generateUUID() -> NSString {
-        let theUUID: CFUUIDRef? = CFUUIDCreate(kCFAllocatorDefault)
-        let string: CFStringRef? = CFUUIDCreateString(kCFAllocatorDefault, theUUID)
+        let theUUID: CFUUID? = CFUUIDCreate(kCFAllocatorDefault)
+        let string: CFString? = CFUUIDCreateString(kCFAllocatorDefault, theUUID)
         return string!
     }
 }

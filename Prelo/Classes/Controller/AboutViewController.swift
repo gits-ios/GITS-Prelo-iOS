@@ -3,14 +3,15 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 8/27/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
 import CoreData
 import Crashlytics
+import Alamofire
 
-class AboutViewController: BaseViewController, UIAlertViewDelegate {
+class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
 
     @IBOutlet var btnLogout : BorderedButton!
     @IBOutlet var btnClear : BorderedButton!
@@ -27,42 +28,42 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         super.viewDidLoad()
         
         if (!isShowLogout) {
-            self.btnLogout.hidden = true
-            self.btnClear.hidden = true
-            self.btnClear2.hidden = false
+            self.btnLogout.isHidden = true
+            self.btnClear.isHidden = true
+            self.btnClear2.isHidden = false
         }
         
         self.title = PageName.About
         
         self.lblVersion.text = "-"
-        if let version = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
-            if let build = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
+        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            if let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
                 self.lblVersion.text = "Version " + version + " Build " + build
             }
         }
         
         if (AppTools.isDev) {
-            let attr = [NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue, NSForegroundColorAttributeName: UIColor.whiteColor()]
+            let attr = [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue, NSForegroundColorAttributeName: UIColor.white] as [String : Any]
             if (AppTools.IsPreloProduction) {
                 let attrString = NSAttributedString(string: "switch to dev", attributes: attr)
-                self.btnUrlPrelo.setAttributedTitle(attrString, forState: .Normal)
+                self.btnUrlPrelo.setAttributedTitle(attrString, for: UIControlState())
             } else {
                 let attrString = NSAttributedString(string: "switch to production", attributes: attr)
-                self.btnUrlPrelo.setAttributedTitle(attrString, forState: .Normal)
+                self.btnUrlPrelo.setAttributedTitle(attrString, for: UIControlState())
             }
         }
         
         // Remove 1px line at the bottom of navbar
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Mixpanel
-        //Mixpanel.trackPageVisit(PageName.About)
+//        Mixpanel.trackPageVisit(PageName.About)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.About)
@@ -73,41 +74,62 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func openPreloSite(sender: AnyObject) {
+    @IBAction func openPreloSite(_ sender: AnyObject) {
         if (AppTools.isDev) {
             self.logout()
             if (AppTools.IsPreloProduction) {
                 // switch to dev
-                AppTools.PreloBaseUrl = "http://dev.prelo.id"
+                AppTools.switchToDev(true)
+                AnalyticManager.switchToDev(true)
             } else {
                 // switch to production
-                AppTools.PreloBaseUrl = "https://prelo.co.id"
+                AppTools.switchToDev(false)
+                AnalyticManager.switchToDev(false)
             }
-            NSUserDefaults.standardUserDefaults().setObject(true, forKey: UserDefaultsKey.PreloBaseUrlJustChanged)
-            NSUserDefaults.standardUserDefaults().synchronize()
+            UserDefaults.standard.set(true, forKey: UserDefaultsKey.PreloBaseUrlJustChanged)
+            UserDefaults.standard.synchronize()
         } else {
-            UIApplication.sharedApplication().openURL(NSURL(string: AppTools.PreloBaseUrl)!)
+            UIApplication.shared.openURL(URL(string: AppTools.PreloBaseUrl)!)
         }
     }
     
-    @IBAction func reloadAppData(sender: AnyObject) {
+    @IBAction func reloadAppData(_ sender: AnyObject) {
+        /*
         // Tampilkan pop up untuk prompt
         let a = UIAlertView()
         a.message = "Reload App Data membutuhkan waktu beberapa saat. Lanjutkan?"
-        a.addButtonWithTitle("Batal")
-        a.addButtonWithTitle("Reload App Data")
+        a.addButton(withTitle: "Batal")
+        a.addButton(withTitle: "Reload App Data")
+        a.cancelButtonIndex = 0
         a.delegate = self
         a.show()
+         */
+        
+        let alertView = SCLAlertView(appearance: Constant.appearance)
+        alertView.addButton("Reload App Data") {
+            self.reloadingAppData()
+        }
+        alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+        alertView.showCustom("Reload App Data", subTitle: "Reload App Data membutuhkan waktu beberapa saat. Lanjutkan?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
-    @IBAction func clearCache()
-    {
+    @IBAction func clearCache() {
+        toClearCache(isButton: true)
+    }
+    
+    func toClearCache(isButton : Bool) {
+        // Get cart products
+        let cartProducts = CartProduct.getAll(User.EmailOrEmptyString)
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        let notifListener = delegate.preloNotifListener
+        notifListener?.increaseCartCount(-cartProducts.count)
+        
         disableBtnClearCache()
         //UIImageView.sharedImageCache().clearAll()
         
         CartProduct.deleteAll()
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
-        let p = AppToolsObjC.jsonStringFrom(c)
+        let p = AppToolsObjC.jsonString(from: c)
         var pID = ""
         var rID = ""
         if let u = CDUser.getOne()
@@ -116,36 +138,57 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
             rID = u.profiles.regionID
         }
         let a = "{\"address\": \"alamat\", \"province_id\": \"" + pID + "\", \"region_id\": \"" + rID + "\", \"postal_code\": \"\"}"
-        request(APICart.Refresh(cart: p, address: a, voucher: nil)).responseJSON { resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Clear Cache")) {
+        let _ = request(APICart.refresh(cart: p!, address: a, voucher: nil)).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Clear Cache")) {
                 self.enableBtnClearCache()
                 
-                UIAlertView.SimpleShow("Clear Cache", message: "Clear Cache telah berhasil")
+                if isButton {
+                    Constant.showDialog("Clear Cache", message: "Clear Cache telah berhasil")
+                }
             } else {
                 self.enableBtnClearCache()
             }
         }
+        
+        _ = CDDraftProduct.deleteAll()
+        
+        // reset localid
+        User.SetCartLocalId("")
     }
     
     @IBAction func logout()
     {
+        // Clear Cache --> for handling login another account
+//        toClearCache(isButton: false)
+        
         // Remove deviceRegId so the device won't receive push notification
         LoginViewController.SendDeviceRegId()
         
         // Tell server
         // API Migrasi
-        request(APIAuth.Logout).responseJSON {resp in
-            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout")) {
+        let _ = request(APIAuth.logout).responseJSON {resp in
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Logout")) {
                 print("Logout API success")
             }
         }
         
+        /*
         // Mixpanel event
         let p = ["User ID" : ((User.Id != nil) ? User.Id! : "")]
         Mixpanel.trackEvent(MixpanelEvent.Logout, properties: p)
+         */
+        
+        // Prelo Analytic - Logout
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Username" : CDUser.getOne()?.username
+        ]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Logout, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
         
         // Clear local data
         User.Logout()
+        
+        _ = CDDraftProduct.deleteAll()
         
         // Tell delegate class if any
         if let d = self.userRelatedDelegate
@@ -153,7 +196,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
             d.userLoggedOut!()
         }
         
-        if let del = UIApplication.sharedApplication().delegate as? AppDelegate
+        if let del = UIApplication.shared.delegate as? AppDelegate
         {
             del.messagePool?.stop()
         } else
@@ -163,18 +206,24 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         }
         
         // Disconnect socket
-        let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let delegate = UIApplication.shared.delegate as! AppDelegate
         let notifListener = delegate.preloNotifListener
         
         // Set top bar notif number to 0
-        if (notifListener.newNotifCount != 0) {
-            notifListener.setNewNotifCount(0)
+        if (notifListener?.newNotifCount != 0) {
+            notifListener?.setNewNotifCount(0)
         }
         
+        if (notifListener?.cartCount != 0) {
+            notifListener?.setCartCount(0)
+        }
+        
+        /*
         // Reset mixpanel
         Mixpanel.sharedInstance().reset()
-        let uuid = UIDevice.currentDevice().identifierForVendor!.UUIDString
+        let uuid = UIDevice.current.identifierForVendor!.uuidString
         Mixpanel.sharedInstance().identify(uuid)
+         */
         
         // MoEngage reset
         MoEngage.sharedInstance().resetUser()
@@ -183,40 +232,40 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         AppDelegate.Instance.produkUploader.clearQueue()
         
         // Back to previous page
-        self.navigationController?.popViewControllerAnimated(true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     // MARK: - UIAlertView delegate function
     
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
-        switch buttonIndex {
-        case 0: // Batal
-            alertView.dismissWithClickedButtonIndex(-1, animated: true)
-            break
-        case 1: // Reload App Data
-            alertView.dismissWithClickedButtonIndex(-1, animated: true)
-            // Tampilkan pop up untuk loading
-            reloadingAppData()
-            break
-        default:
-            break
-        }
-    }
+//    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
+//        switch buttonIndex {
+//        case 0: // Batal
+//            alertView.dismiss(withClickedButtonIndex: -1, animated: true)
+//            break
+//        case 1: // Reload App Data
+//            alertView.dismiss(withClickedButtonIndex: -1, animated: true)
+//            // Tampilkan pop up untuk loading
+//            reloadingAppData()
+//            break
+//        default:
+//            break
+//        }
+//    }
     
     // MARK: - Other functions
     
     func enableBtnClearCache() {
-        self.btnClear.setTitle("CLEAR CACHE", forState: .Normal)
-        self.btnClear.userInteractionEnabled = true
-        self.btnClear2.setTitle("CLEAR CACHE", forState: .Normal)
-        self.btnClear2.userInteractionEnabled = true
+        self.btnClear.setTitle("CLEAR CACHE", for: UIControlState())
+        self.btnClear.isUserInteractionEnabled = true
+        self.btnClear2.setTitle("CLEAR CACHE", for: UIControlState())
+        self.btnClear2.isUserInteractionEnabled = true
     }
     
     func disableBtnClearCache() {
-        btnClear.setTitle("Loading...", forState: .Normal)
-        btnClear.userInteractionEnabled = false
-        btnClear2.setTitle("Loading...", forState: .Normal)
-        btnClear2.userInteractionEnabled = false
+        btnClear.setTitle("Loading...", for: UIControlState())
+        btnClear.isUserInteractionEnabled = false
+        btnClear2.setTitle("Loading...", for: UIControlState())
+        btnClear2.isUserInteractionEnabled = false
     }
     
     func printCoreDataCount() {
@@ -230,35 +279,62 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
     
     func reloadingAppData() {
         // Tampilkan pop up untuk loading
-        let a = UIAlertView()
-        let pView : UIProgressView = UIProgressView(progressViewStyle: UIProgressViewStyle.Bar)
+        //let a = UIAlertView()
+        let pView : UIProgressView = UIProgressView(progressViewStyle: UIProgressViewStyle.bar)
         pView.progress = 0
         pView.backgroundColor = Theme.GrayLight
         pView.progressTintColor = Theme.ThemeOrange
-        a.setValue(pView, forKey: "accessoryView")
-        a.title = "Reloading App Data..."
-        a.message = "Harap untuk tidak menutup aplikasi selama proses berjalan"
-        a.show()
+//        a.setValue(pView, forKey: "accessoryView")
+//        a.title = "Reloading App Data..."
+//        a.message = "Harap untuk tidak menutup aplikasi selama proses berjalan"
+//        a.show()
+        
+        let alertView = SCLAlertView(appearance: Constant.appearance)
+        let subtitle = UILabel()
+        
+        subtitle.text = "Harap untuk tidak menutup aplikasi selama proses berjalan"
+        subtitle.font = Constant.appearance.kTextFont
+        subtitle.textColor = alertView.labelTitle.textColor
+        subtitle.numberOfLines = 0
+        subtitle.textAlignment = .center
+        
+        let width = Constant.appearance.kWindowWidth - 24
+        let frame = subtitle.text!.boundsWithFontSize(Constant.appearance.kTextFont, width: width)
+        
+        subtitle.frame = frame
+        
+        // Creat the subview
+        let subview = UIView(frame: CGRect(x: 0, y: 0, width: width, height: frame.height + 18))
+        subview.addSubview(subtitle)
+        subview.addSubview(pView)
+        
+        subtitle.width = subview.bounds.width
+        
+        pView.frame = CGRect(x: 0, y: frame.height + 16, width: width, height: 2)
+        
+        alertView.customSubview = subview
+        
+        let alertViewResponder: SCLAlertViewResponder = alertView.showCustom("Reloading App Data...", subTitle: "", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
 
         // API Migrasi
-        request(APIApp.Metadata(brands: "0", categories: "1", categorySizes: "0", shippings: "1", productConditions: "1", provincesRegions: "1")).responseJSON {resp in
-            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Reload App Data")) {
+        let _ = request(APIApp.metadata(brands: "0", categories: "1", categorySizes: "0", shippings: "1", productConditions: "1", provincesRegions: "1")).responseJSON {resp in
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Reload App Data")) {
                 let metaJson = JSON(resp.result.value!)
                 let metadata = metaJson["_data"]
                 
                 var isSuccess : Bool = true
-                let queue : NSOperationQueue = NSOperationQueue()
+                let queue : OperationQueue = OperationQueue()
                 
-                let opCategories : NSOperation = NSBlockOperation(block: {
+                let opCategories : Operation = BlockOperation(block: {
                     let psc = UIApplication.appDelegate.persistentStoreCoordinator
-                    let moc = NSManagedObjectContext()
+                    let moc = NSManagedObjectContext.init(concurrencyType: NSManagedObjectContextConcurrencyType.privateQueueConcurrencyType)
                     moc.persistentStoreCoordinator = psc
                     
                     // Update categories
                     print("Updating categories..")
                     if (CDCategory.deleteAll(moc)) {
                         if (CDCategory.saveCategories(metadata["categories"], m: moc)) {
-                            dispatch_async(dispatch_get_main_queue(), {
+                            DispatchQueue.main.async(execute: {
                                 pView.setProgress(pView.progress + 0.25, animated: true)
                             })
                         } else {
@@ -269,16 +345,16 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                 queue.addOperation(opCategories)
                 
                 
-                let opShippings : NSOperation = NSBlockOperation(block: {
+                let opShippings : Operation = BlockOperation(block: {
                     let psc = UIApplication.appDelegate.persistentStoreCoordinator
-                    let moc = NSManagedObjectContext()
+                    let moc = NSManagedObjectContext.init(concurrencyType: NSManagedObjectContextConcurrencyType.privateQueueConcurrencyType)
                     moc.persistentStoreCoordinator = psc
                     
                     // Update shippings
                     print("Updating shippings..")
                     if (CDShipping.deleteAll(moc)) {
                         if (CDShipping.saveShippings(metadata["shippings"], m: moc)) {
-                            dispatch_async(dispatch_get_main_queue(), {
+                            DispatchQueue.main.async(execute: {
                                 pView.setProgress(pView.progress + 0.25, animated: true)
                             })
                         } else {
@@ -288,16 +364,16 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                 })
                 queue.addOperation(opShippings)
                 
-                let opProductConditions : NSOperation = NSBlockOperation(block: {
+                let opProductConditions : Operation = BlockOperation(block: {
                     let psc = UIApplication.appDelegate.persistentStoreCoordinator
-                    let moc = NSManagedObjectContext()
+                    let moc = NSManagedObjectContext.init(concurrencyType: NSManagedObjectContextConcurrencyType.privateQueueConcurrencyType)
                     moc.persistentStoreCoordinator = psc
                     
                     // Update product conditions
                     print("Updating product conditions..")
                     if (CDProductCondition.deleteAll(moc)) {
                         if (CDProductCondition.saveProductConditions(metadata["product_conditions"], m: moc)) {
-                            dispatch_async(dispatch_get_main_queue(), {
+                            DispatchQueue.main.async(execute: {
                                 pView.setProgress(pView.progress + 0.25, animated: true)
                             })
                         } else {
@@ -307,16 +383,16 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                 })
                 queue.addOperation(opProductConditions)
                 
-                let opProvincesRegions : NSOperation = NSBlockOperation(block: {
+                let opProvincesRegions : Operation = BlockOperation(block: {
                     let psc = UIApplication.appDelegate.persistentStoreCoordinator
-                    let moc = NSManagedObjectContext()
+                    let moc = NSManagedObjectContext.init(concurrencyType: NSManagedObjectContextConcurrencyType.privateQueueConcurrencyType)
                     moc.persistentStoreCoordinator = psc
                     
                     // Update provinces regions
                     print("Updating provinces regions..")
                     if (CDProvince.deleteAll(moc) && CDRegion.deleteAll(moc)) {
                         if (CDProvince.saveProvinceRegions(metadata["provinces_regions"], m: moc)) {
-                            dispatch_async(dispatch_get_main_queue(), {
+                            DispatchQueue.main.async(execute: {
                                 pView.setProgress(pView.progress + 0.25, animated: true)
                             })
                         } else {
@@ -326,14 +402,18 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                 })
                 queue.addOperation(opProvincesRegions)
                 
-                let opFinish : NSOperation = NSBlockOperation(block: {
-                    a.dismissWithClickedButtonIndex(-1, animated: true)
+                let opFinish : Operation = BlockOperation(block: {
+//                    a.dismiss(withClickedButtonIndex: -1, animated: true)
                     if (isSuccess) {
-                        dispatch_async(dispatch_get_main_queue(), {
+                        DispatchQueue.main.async(execute: {
+                            alertViewResponder.close()
+                            
                             Constant.showDialog("Reload App Data", message: "Reload App Data berhasil")
                         })
                     } else {
-                        dispatch_async(dispatch_get_main_queue(), {
+                        DispatchQueue.main.async(execute: {
+                            alertViewResponder.close()
+                            
                             Constant.showDialog("Reload App Data", message: "Oops, terjadi kesalahan saat Reload App Data")
                         })
                     }
@@ -344,13 +424,14 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                 opFinish.addDependency(opProvincesRegions)
                 queue.addOperation(opFinish)
             } else {
-                a.dismissWithClickedButtonIndex(-1, animated: true)
+//                a.dismiss(withClickedButtonIndex: -1, animated: true)
+                alertViewResponder.close()
             }
         }
     }
 
-    @IBAction func easterEggPressed(sender: UIButton) {
-        easterEggAlert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+    @IBAction func easterEggPressed(_ sender: UIButton) {
+        easterEggAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         easterEggAlert?.popoverPresentationController?.sourceView = sender
         easterEggAlert?.popoverPresentationController?.sourceRect = sender.bounds
         
@@ -367,7 +448,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
             str = "Terima kasih semuanya selamat duduk"
             break
         case 4 : // Anggi
-            str = "Cet Cet Cet Con Con Con"
+            str = "Tektoknya harus balance"
             break
         case 5 : // Nanda
             str = "Mha hart mah sole"
@@ -379,10 +460,10 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
             str = "Aku.. gajadi deh"
             break
         case 8 : // Yossy
-            str = "Wkwkwkw"
+            str = "Okii"
             break
         case 9 : // Rico
-            str = "Ku.. sadari.. akhirnya.."
+            str = "Tonenonet Eghp eghp.. nenonet eghp eghp"
             break
         case 10 : // Rido
             str = "Gua punya satu pertanyaan"
@@ -402,21 +483,21 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         if (AppTools.isIPad) {
             easterEggAlert?.title = str
         } else {
-            let attrStr = NSAttributedString(string: str, attributes: [NSForegroundColorAttributeName : Theme.PrimaryColor, NSFontAttributeName : UIFont.systemFontOfSize(14)])
+            let attrStr = NSAttributedString(string: str, attributes: [NSForegroundColorAttributeName : Theme.PrimaryColor, NSFontAttributeName : UIFont.systemFont(ofSize: 14)])
             easterEggAlert?.setValue(attrStr, forKey: "attributedTitle")
-            easterEggAlert?.addAction(UIAlertAction(title: "Close", style: .Default, handler: { act in
+            easterEggAlert?.addAction(UIAlertAction(title: "Close", style: .default, handler: { act in
                 self.dismissEasterEgg()
             }))
         }
         
-        self.presentViewController(easterEggAlert!, animated: true, completion: {
+        self.present(easterEggAlert!, animated: true, completion: {
             let easterGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissEasterEgg))
-            self.easterEggAlert!.view.superview?.userInteractionEnabled = true
+            self.easterEggAlert!.view.superview?.isUserInteractionEnabled = true
             self.easterEggAlert!.view.superview?.addGestureRecognizer(easterGestureRecognizer)
         })
     }
     
     func dismissEasterEgg() {
-        easterEggAlert?.dismissViewControllerAnimated(true, completion: nil)
+        easterEggAlert?.dismiss(animated: true, completion: nil)
     }
 }

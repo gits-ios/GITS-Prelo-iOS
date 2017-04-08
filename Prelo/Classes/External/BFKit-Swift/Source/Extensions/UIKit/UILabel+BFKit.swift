@@ -32,24 +32,6 @@ public extension UILabel {
     // MARK: - Init functions -
     
     /**
-     Create an UILabel with the given parameters, with clearColor for the shadow
-    
-     - parameter frame:     Label's frame
-     - parameter text:      Label's text
-     - parameter font:      Label's font name, FontName enum is declared in UIFont+BFKit
-     - parameter size:      Label's font size
-     - parameter color:     Label's text color
-     - parameter alignment: Label's text alignment
-     - parameter lines:     Label's text lines
-    
-     - returns: Returns the created UILabel
-     */
-    @available(*, obsoleted=1.2.0, message="Use UILabel(_, text:, font:, size:, color:, alignment:, lines:, shadowColor:)")
-    public convenience init(frame: CGRect, text: String, font: FontName, size: CGFloat, color: UIColor, alignment: NSTextAlignment, lines: Int) {
-        self.init(frame: frame, text: text, font: font, size: size, color: color, alignment: alignment, lines: lines, shadowColor: UIColor.clearColor())
-    }
-    
-    /**
      Create an UILabel with the given parameters
     
      - parameter frame:       Label's frame
@@ -63,11 +45,11 @@ public extension UILabel {
     
      - returns: Returns the created UILabel
      */
-    public convenience init(frame: CGRect, text: String, font: FontName, size: CGFloat, color: UIColor, alignment: NSTextAlignment, lines: Int, shadowColor: UIColor = UIColor.clearColor()) {
+    public convenience init(frame: CGRect, text: String, font: FontName, size: CGFloat, color: UIColor, alignment: NSTextAlignment, lines: Int, shadowColor: UIColor = UIColor.clear) {
         self.init(frame: frame)
         self.font = UIFont(fontName: font, size: size)
         self.text = text
-        self.backgroundColor = UIColor.clearColor()
+        self.backgroundColor = UIColor.clear
         self.textColor = color
         self.textAlignment = alignment
         self.numberOfLines = lines
@@ -83,7 +65,7 @@ public extension UILabel {
     */
     public func calculatedHeight() -> CGFloat {
         let text: String = self.text!
-        return text.heightForWidth(self.frame.size.width, font: self.font)
+        return UIFont.heightForWidth(self.frame.size.width, font: self.font, text: text)
     }
     
     /**
@@ -93,7 +75,7 @@ public extension UILabel {
      - parameter fromIndex: The start index
      - parameter toIndex:   The end index
      */
-    public func setFont(font: UIFont, fromIndex: Int, toIndex: Int) {
+    public func setFont(_ font: UIFont, fromIndex: Int, toIndex: Int) {
         let string = NSMutableAttributedString(string: self.text!)
         string.addAttribute(NSFontAttributeName, value: font, range: NSMakeRange(fromIndex, toIndex - fromIndex))
         

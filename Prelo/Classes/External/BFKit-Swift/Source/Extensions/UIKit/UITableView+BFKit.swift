@@ -38,12 +38,12 @@ public extension UITableView {
     
      - returns: Return an array with all the IndexPaths
      */
-    public func getIndexPathsForSection(section: Int) -> Array<NSIndexPath> {
-        var indexPaths: Array<NSIndexPath> = Array()
-        let rows: Int = self.numberOfRowsInSection(section)
+    public func getIndexPathsForSection(_ section: Int) -> Array<IndexPath> {
+        var indexPaths: Array<IndexPath> = Array()
+        let rows: Int = self.numberOfRows(inSection: section)
         for i in 0 ..< rows
         {
-            let indexPath: NSIndexPath = NSIndexPath(forRow: i, inSection: section)
+            let indexPath: IndexPath = IndexPath(row: i, section: section)
             indexPaths.append(indexPath)
         }
         
@@ -58,8 +58,8 @@ public extension UITableView {
     
      - returns: Returns the next index path
      */
-    public func getNextIndexPath(row: Int, forSection section: Int) -> NSIndexPath {
-        let indexPath: Array<NSIndexPath> = self.getIndexPathsForSection(section)
+    public func getNextIndexPath(_ row: Int, forSection section: Int) -> IndexPath {
+        let indexPath: Array<IndexPath> = self.getIndexPathsForSection(section)
         return indexPath[row + 1]
     }
     
@@ -71,8 +71,8 @@ public extension UITableView {
     
      - returns: Returns the previous index path
      */
-    public func getPreviousIndexPath(row: Int, forSection section: Int) -> NSIndexPath {
-        let indexPath: Array<NSIndexPath> = self.getIndexPathsForSection(section)
+    public func getPreviousIndexPath(_ row: Int, forSection section: Int) -> IndexPath {
+        let indexPath: Array<IndexPath> = self.getIndexPathsForSection(section)
         return indexPath[row - 1]
     }
 

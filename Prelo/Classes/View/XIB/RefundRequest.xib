@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="PreloAwesome.ttf">
+            <string>PreloAwesome</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <viewController id="vtM-fZ-FAh" customClass="RefundRequestViewController" customModule="Prelo" customModuleProvider="target">
+            <layoutGuides>
+                <viewControllerLayoutGuide type="top" id="RfC-vu-jEM"/>
+                <viewControllerLayoutGuide type="bottom" id="b8e-jT-sgG"/>
+            </layoutGuides>
+            <view key="view" contentMode="scaleToFill" id="jqU-GA-TKk">
+                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B0m-DB-ods">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ELN-Fh-9bs" userLabel="Content View">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ALASAN PENGAJUAN REFUND" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zL6-fB-asS">
+                                        <rect key="frame" x="8" y="8" width="359" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="BDt-ao-sTy"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VVT-Rx-lOG">
+                                        <rect key="frame" x="8" y="37" width="359" height="30"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V4f-hg-FCd">
+                                                <rect key="frame" x="0.0" y="0.0" width="24" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="24" id="1xN-sv-r6U"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="20"/>
+                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pelanggaran hak cipta (KW)" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MGg-DZ-dwi">
+                                                <rect key="frame" x="24" y="0.0" width="335" height="30"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ixc-dF-Qiu">
+                                                <rect key="frame" x="0.0" y="0.0" width="359" height="30"/>
+                                                <connections>
+                                                    <action selector="btnKWPressed:" destination="vtM-fZ-FAh" eventType="touchUpInside" id="sPf-pp-Dkf"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="MGg-DZ-dwi" firstAttribute="leading" secondItem="V4f-hg-FCd" secondAttribute="trailing" id="3MZ-Dp-waB"/>
+                                            <constraint firstAttribute="height" constant="30" id="DaH-ML-8MG"/>
+                                            <constraint firstItem="Ixc-dF-Qiu" firstAttribute="leading" secondItem="VVT-Rx-lOG" secondAttribute="leading" id="F7N-GF-lLl"/>
+                                            <constraint firstAttribute="trailing" secondItem="Ixc-dF-Qiu" secondAttribute="trailing" id="HI9-eI-nwG"/>
+                                            <constraint firstAttribute="bottom" secondItem="MGg-DZ-dwi" secondAttribute="bottom" id="Hpk-O7-FmO"/>
+                                            <constraint firstItem="Ixc-dF-Qiu" firstAttribute="top" secondItem="VVT-Rx-lOG" secondAttribute="top" id="JZY-Wh-i48"/>
+                                            <constraint firstAttribute="bottom" secondItem="Ixc-dF-Qiu" secondAttribute="bottom" id="dwa-pc-aYZ"/>
+                                            <constraint firstItem="MGg-DZ-dwi" firstAttribute="top" secondItem="VVT-Rx-lOG" secondAttribute="top" id="juz-0T-M6D"/>
+                                            <constraint firstItem="V4f-hg-FCd" firstAttribute="top" secondItem="VVT-Rx-lOG" secondAttribute="top" id="m1a-IC-dl5"/>
+                                            <constraint firstAttribute="trailing" secondItem="MGg-DZ-dwi" secondAttribute="trailing" id="qgv-cB-fso"/>
+                                            <constraint firstItem="V4f-hg-FCd" firstAttribute="leading" secondItem="VVT-Rx-lOG" secondAttribute="leading" id="uIX-ee-yfF"/>
+                                            <constraint firstAttribute="bottom" secondItem="V4f-hg-FCd" secondAttribute="bottom" id="un6-uZ-xCf"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a91-Wd-3fd">
+                                        <rect key="frame" x="8" y="67" width="359" height="30"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X2q-j6-9Mi">
+                                                <rect key="frame" x="0.0" y="0.0" width="24" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="24" id="6S2-jM-gda"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="20"/>
+                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Barang cacat dan tidak diberitahukan sebelumnya" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cP3-jh-57e">
+                                                <rect key="frame" x="24" y="0.0" width="335" height="30"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rse-06-hfy">
+                                                <rect key="frame" x="0.0" y="0.0" width="359" height="30"/>
+                                                <connections>
+                                                    <action selector="btnCacatPressed:" destination="vtM-fZ-FAh" eventType="touchUpInside" id="LvO-ls-0yb"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="X2q-j6-9Mi" secondAttribute="bottom" id="3yz-Xx-FJr"/>
+                                            <constraint firstItem="cP3-jh-57e" firstAttribute="leading" secondItem="X2q-j6-9Mi" secondAttribute="trailing" id="8ty-kz-RLH"/>
+                                            <constraint firstAttribute="bottom" secondItem="rse-06-hfy" secondAttribute="bottom" id="CuI-Du-dMS"/>
+                                            <constraint firstItem="cP3-jh-57e" firstAttribute="top" secondItem="a91-Wd-3fd" secondAttribute="top" id="NPN-Zc-9Ac"/>
+                                            <constraint firstAttribute="height" constant="30" id="ScE-SY-vrc"/>
+                                            <constraint firstAttribute="trailing" secondItem="cP3-jh-57e" secondAttribute="trailing" id="Woe-dM-Z2R"/>
+                                            <constraint firstAttribute="trailing" secondItem="rse-06-hfy" secondAttribute="trailing" id="aKn-08-A1Y"/>
+                                            <constraint firstItem="X2q-j6-9Mi" firstAttribute="top" secondItem="a91-Wd-3fd" secondAttribute="top" id="hEP-eH-7Ch"/>
+                                            <constraint firstItem="rse-06-hfy" firstAttribute="top" secondItem="a91-Wd-3fd" secondAttribute="top" id="hUp-rC-VUg"/>
+                                            <constraint firstItem="X2q-j6-9Mi" firstAttribute="leading" secondItem="a91-Wd-3fd" secondAttribute="leading" id="htv-Jl-rzj"/>
+                                            <constraint firstAttribute="bottom" secondItem="cP3-jh-57e" secondAttribute="bottom" id="sC2-RU-Enz"/>
+                                            <constraint firstItem="rse-06-hfy" firstAttribute="leading" secondItem="a91-Wd-3fd" secondAttribute="leading" id="sxl-5V-YC2"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7ah-Qd-inr">
+                                        <rect key="frame" x="8" y="97" width="359" height="30"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eNV-qY-I2h">
+                                                <rect key="frame" x="0.0" y="0.0" width="24" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="24" id="Vk5-zi-haQ"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="20"/>
+                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Barang yang diterima bukan barang yang dipesan" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XvE-tn-zHC">
+                                                <rect key="frame" x="24" y="0.0" width="335" height="30"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9t7-ZB-9QG">
+                                                <rect key="frame" x="0.0" y="0.0" width="359" height="30"/>
+                                                <connections>
+                                                    <action selector="btnSalahBarangPressed:" destination="vtM-fZ-FAh" eventType="touchUpInside" id="caz-aE-23u"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="XvE-tn-zHC" firstAttribute="leading" secondItem="eNV-qY-I2h" secondAttribute="trailing" id="0k7-Ty-PW2"/>
+                                            <constraint firstAttribute="height" constant="30" id="22L-R5-uIM"/>
+                                            <constraint firstItem="9t7-ZB-9QG" firstAttribute="top" secondItem="7ah-Qd-inr" secondAttribute="top" id="BxH-Ld-E1L"/>
+                                            <constraint firstAttribute="bottom" secondItem="XvE-tn-zHC" secondAttribute="bottom" id="CgV-ow-vrv"/>
+                                            <constraint firstItem="eNV-qY-I2h" firstAttribute="top" secondItem="7ah-Qd-inr" secondAttribute="top" id="FbT-vq-eSs"/>
+                                            <constraint firstAttribute="bottom" secondItem="9t7-ZB-9QG" secondAttribute="bottom" id="K7J-si-PGP"/>
+                                            <constraint firstAttribute="trailing" secondItem="XvE-tn-zHC" secondAttribute="trailing" id="anV-j1-7xT"/>
+                                            <constraint firstAttribute="bottom" secondItem="eNV-qY-I2h" secondAttribute="bottom" id="cUq-O9-igc"/>
+                                            <constraint firstAttribute="trailing" secondItem="9t7-ZB-9QG" secondAttribute="trailing" id="hzS-tD-NuX"/>
+                                            <constraint firstItem="9t7-ZB-9QG" firstAttribute="leading" secondItem="7ah-Qd-inr" secondAttribute="leading" id="s2V-SG-aNR"/>
+                                            <constraint firstItem="XvE-tn-zHC" firstAttribute="top" secondItem="7ah-Qd-inr" secondAttribute="top" id="w0j-rn-HLe"/>
+                                            <constraint firstItem="eNV-qY-I2h" firstAttribute="leading" secondItem="7ah-Qd-inr" secondAttribute="leading" id="zKO-UU-Qls"/>
+                                        </constraints>
+                                    </view>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Tulis detail alasan refund kamu" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="fQA-Hv-L9p">
+                                        <rect key="frame" x="8" y="135" width="359" height="87"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="87" id="T0h-q7-z1h"/>
+                                        </constraints>
+                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xbk-cE-hpi">
+                                        <rect key="frame" x="8" y="230" width="359" height="148"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K4e-qm-nx9">
+                                                <rect key="frame" x="0.0" y="8" width="359" height="43"/>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="Prelo hanya akan memproses ">
+                                                        <attributes>
+                                                            <color key="NSColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <font key="NSFont" metaFont="cellTitle"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                    <fragment content="refund">
+                                                        <attributes>
+                                                            <color key="NSColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <font key="NSFont" size="12" name=".SFNSText"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                    <fragment content=" dengan alasan di atas. Jika permohonan refund kamu disetujui oleh Prelo artinya kamu setuju dengan hal-hal berikut:">
+                                                        <attributes>
+                                                            <color key="NSColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <font key="NSFont" metaFont="cellTitle"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gxs-L1-KZR">
+                                                <rect key="frame" x="0.0" y="59" width="12" height="14.5"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="12" id="zaW-Ak-JzA"/>
+                                                </constraints>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="1.">
+                                                        <attributes>
+                                                            <color key="NSColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <font key="NSFont" metaFont="cellTitle"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1rg-4d-kx3">
+                                                <rect key="frame" x="20" y="59" width="339" height="28"/>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="Barang harus dikirimkan kembali ke pihak penjual paling lama 2 x 24 jam setelah pengajuan refund disetujui Prelo.">
+                                                        <attributes>
+                                                            <color key="NSColor" white="0.40782000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <font key="NSFont" size="12" name="HelveticaNeue"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OPM-Ec-Exv">
+                                                <rect key="frame" x="0.0" y="90" width="12" height="14.5"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="12" id="mgo-Au-0ig"/>
+                                                </constraints>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="2.">
+                                                        <attributes>
+                                                            <color key="NSColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <font key="NSFont" metaFont="cellTitle"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hfy-NX-OCI">
+                                                <rect key="frame" x="20" y="90" width="339" height="14"/>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="Ongkos kirim ditanggung pihak pembeli.">
+                                                        <attributes>
+                                                            <color key="NSColor" white="0.40782000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <font key="NSFont" size="12" name="HelveticaNeue"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9v9-St-LD9">
+                                                <rect key="frame" x="0.0" y="107" width="12" height="14.5"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="12" id="IUO-i0-yEe"/>
+                                                </constraints>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="3.">
+                                                        <attributes>
+                                                            <color key="NSColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <font key="NSFont" metaFont="cellTitle"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qFJ-oB-M41">
+                                                <rect key="frame" x="20" y="107" width="339" height="28"/>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="Uang akan dikembalikan dalam bentuk Prelo Balance ke pihak pembeli jika pihak penjual sudah menerima barang.">
+                                                        <attributes>
+                                                            <color key="NSColor" white="0.40782000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <font key="NSFont" size="12" name="HelveticaNeue"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="1rg-4d-kx3" firstAttribute="top" secondItem="K4e-qm-nx9" secondAttribute="bottom" constant="8" id="0Oh-Yt-HLH"/>
+                                            <constraint firstAttribute="trailing" secondItem="1rg-4d-kx3" secondAttribute="trailing" id="0UY-Ys-JWi"/>
+                                            <constraint firstItem="hfy-NX-OCI" firstAttribute="leading" secondItem="OPM-Ec-Exv" secondAttribute="trailing" constant="8" id="5sT-4g-kfs"/>
+                                            <constraint firstItem="gxs-L1-KZR" firstAttribute="top" secondItem="1rg-4d-kx3" secondAttribute="top" id="6hD-V1-jI0"/>
+                                            <constraint firstItem="qFJ-oB-M41" firstAttribute="leading" secondItem="9v9-St-LD9" secondAttribute="trailing" constant="8" id="C7g-cL-DdM"/>
+                                            <constraint firstItem="OPM-Ec-Exv" firstAttribute="top" secondItem="hfy-NX-OCI" secondAttribute="top" id="EZ9-OK-UHs"/>
+                                            <constraint firstItem="hfy-NX-OCI" firstAttribute="top" secondItem="1rg-4d-kx3" secondAttribute="bottom" constant="3" id="L7R-3q-ocD"/>
+                                            <constraint firstItem="9v9-St-LD9" firstAttribute="top" secondItem="qFJ-oB-M41" secondAttribute="top" id="RfY-bd-5Hl"/>
+                                            <constraint firstItem="K4e-qm-nx9" firstAttribute="top" secondItem="Xbk-cE-hpi" secondAttribute="top" constant="8" id="VyI-zA-J7g"/>
+                                            <constraint firstAttribute="trailing" secondItem="hfy-NX-OCI" secondAttribute="trailing" id="XsN-vC-JO6"/>
+                                            <constraint firstItem="K4e-qm-nx9" firstAttribute="leading" secondItem="Xbk-cE-hpi" secondAttribute="leading" id="cY1-Tr-pw9"/>
+                                            <constraint firstItem="OPM-Ec-Exv" firstAttribute="leading" secondItem="Xbk-cE-hpi" secondAttribute="leading" id="g5E-Zs-CSL"/>
+                                            <constraint firstAttribute="bottom" secondItem="qFJ-oB-M41" secondAttribute="bottom" constant="13" id="g9h-jY-1cs"/>
+                                            <constraint firstItem="qFJ-oB-M41" firstAttribute="top" secondItem="hfy-NX-OCI" secondAttribute="bottom" constant="3" id="jHe-rG-9FJ"/>
+                                            <constraint firstItem="gxs-L1-KZR" firstAttribute="leading" secondItem="Xbk-cE-hpi" secondAttribute="leading" id="pM5-vQ-18k"/>
+                                            <constraint firstAttribute="trailing" secondItem="K4e-qm-nx9" secondAttribute="trailing" id="qJl-AN-0qU"/>
+                                            <constraint firstAttribute="trailing" secondItem="qFJ-oB-M41" secondAttribute="trailing" id="wcd-eR-H1S"/>
+                                            <constraint firstItem="1rg-4d-kx3" firstAttribute="leading" secondItem="gxs-L1-KZR" secondAttribute="trailing" constant="8" id="weJ-3J-2fM"/>
+                                            <constraint firstItem="9v9-St-LD9" firstAttribute="leading" secondItem="Xbk-cE-hpi" secondAttribute="leading" id="wfz-6w-pCo"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PL6-ox-eOF">
+                                        <rect key="frame" x="8" y="386" width="359" height="40"/>
+                                        <color key="backgroundColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="WKQ-1q-xdq"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="AJUKAN REFUND">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="btnSubmitPressed:" destination="vtM-fZ-FAh" eventType="touchUpInside" id="0RF-GH-rK3"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="fQA-Hv-L9p" secondAttribute="trailing" constant="8" id="2AO-JT-lze"/>
+                                    <constraint firstItem="VVT-Rx-lOG" firstAttribute="top" secondItem="zL6-fB-asS" secondAttribute="bottom" constant="8" id="2Cs-zK-QXS"/>
+                                    <constraint firstItem="a91-Wd-3fd" firstAttribute="top" secondItem="VVT-Rx-lOG" secondAttribute="bottom" id="9IA-xY-zpG"/>
+                                    <constraint firstItem="Xbk-cE-hpi" firstAttribute="top" secondItem="fQA-Hv-L9p" secondAttribute="bottom" constant="8" id="AUF-00-Df4"/>
+                                    <constraint firstItem="zL6-fB-asS" firstAttribute="top" secondItem="ELN-Fh-9bs" secondAttribute="top" constant="8" id="Ahr-G5-xnK"/>
+                                    <constraint firstItem="7ah-Qd-inr" firstAttribute="leading" secondItem="ELN-Fh-9bs" secondAttribute="leading" constant="8" id="DPk-B2-lY6"/>
+                                    <constraint firstItem="fQA-Hv-L9p" firstAttribute="top" secondItem="7ah-Qd-inr" secondAttribute="bottom" constant="8" id="KR9-jc-MTw"/>
+                                    <constraint firstAttribute="trailing" secondItem="VVT-Rx-lOG" secondAttribute="trailing" constant="8" id="MwA-U1-olO"/>
+                                    <constraint firstAttribute="trailing" secondItem="Xbk-cE-hpi" secondAttribute="trailing" constant="8" id="O8I-rN-qVq"/>
+                                    <constraint firstItem="zL6-fB-asS" firstAttribute="leading" secondItem="ELN-Fh-9bs" secondAttribute="leading" constant="8" id="Ogy-VQ-t1p"/>
+                                    <constraint firstItem="a91-Wd-3fd" firstAttribute="leading" secondItem="ELN-Fh-9bs" secondAttribute="leading" constant="8" id="QIo-Zz-fLZ"/>
+                                    <constraint firstAttribute="trailing" secondItem="PL6-ox-eOF" secondAttribute="trailing" constant="8" id="TFH-6F-WlI"/>
+                                    <constraint firstItem="PL6-ox-eOF" firstAttribute="top" secondItem="Xbk-cE-hpi" secondAttribute="bottom" constant="8" id="axy-rl-9YB"/>
+                                    <constraint firstAttribute="height" constant="603" id="bu3-vW-OoS"/>
+                                    <constraint firstAttribute="trailing" secondItem="7ah-Qd-inr" secondAttribute="trailing" constant="8" id="f7f-jY-CMp"/>
+                                    <constraint firstItem="VVT-Rx-lOG" firstAttribute="leading" secondItem="ELN-Fh-9bs" secondAttribute="leading" constant="8" id="jOU-NK-Pe7"/>
+                                    <constraint firstAttribute="trailing" secondItem="a91-Wd-3fd" secondAttribute="trailing" constant="8" id="lrr-j0-0ZZ"/>
+                                    <constraint firstAttribute="trailing" secondItem="zL6-fB-asS" secondAttribute="trailing" constant="8" id="qGS-Sb-VAG"/>
+                                    <constraint firstItem="PL6-ox-eOF" firstAttribute="leading" secondItem="ELN-Fh-9bs" secondAttribute="leading" constant="8" id="uDf-Oz-PaH"/>
+                                    <constraint firstItem="Xbk-cE-hpi" firstAttribute="leading" secondItem="ELN-Fh-9bs" secondAttribute="leading" constant="8" id="wit-en-clP"/>
+                                    <constraint firstItem="7ah-Qd-inr" firstAttribute="top" secondItem="a91-Wd-3fd" secondAttribute="bottom" id="xKo-FZ-eUp"/>
+                                    <constraint firstItem="fQA-Hv-L9p" firstAttribute="leading" secondItem="ELN-Fh-9bs" secondAttribute="leading" constant="8" id="yq5-xz-6Qf"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="ELN-Fh-9bs" secondAttribute="bottom" id="Euy-RU-qjk"/>
+                            <constraint firstItem="ELN-Fh-9bs" firstAttribute="leading" secondItem="B0m-DB-ods" secondAttribute="leading" id="iV4-uT-yMT"/>
+                            <constraint firstItem="ELN-Fh-9bs" firstAttribute="top" secondItem="B0m-DB-ods" secondAttribute="top" id="u6O-mC-IcX"/>
+                            <constraint firstAttribute="trailing" secondItem="ELN-Fh-9bs" secondAttribute="trailing" id="zcG-bT-yhr"/>
+                        </constraints>
+                    </scrollView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qvp-GU-EdN">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="qnn-JQ-SWt">
+                                <rect key="frame" x="177" y="291" width="20" height="20"/>
+                                <color key="color" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="qnn-JQ-SWt" firstAttribute="centerY" secondItem="qvp-GU-EdN" secondAttribute="centerY" id="Lkb-Yi-oXo"/>
+                            <constraint firstItem="qnn-JQ-SWt" firstAttribute="centerX" secondItem="qvp-GU-EdN" secondAttribute="centerX" id="QI7-ab-BuE"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                <gestureRecognizers/>
+                <constraints>
+                    <constraint firstItem="qvp-GU-EdN" firstAttribute="leading" secondItem="jqU-GA-TKk" secondAttribute="leading" id="6zj-yE-opE"/>
+                    <constraint firstItem="b8e-jT-sgG" firstAttribute="top" secondItem="qvp-GU-EdN" secondAttribute="bottom" id="7zg-6b-N2y"/>
+                    <constraint firstItem="B0m-DB-ods" firstAttribute="top" secondItem="RfC-vu-jEM" secondAttribute="bottom" id="ApA-Ik-eG5"/>
+                    <constraint firstItem="qvp-GU-EdN" firstAttribute="top" secondItem="RfC-vu-jEM" secondAttribute="bottom" id="Asd-6n-M1F"/>
+                    <constraint firstItem="B0m-DB-ods" firstAttribute="leading" secondItem="jqU-GA-TKk" secondAttribute="leading" id="BA9-xW-fpS"/>
+                    <constraint firstItem="b8e-jT-sgG" firstAttribute="top" secondItem="B0m-DB-ods" secondAttribute="bottom" id="N4L-u0-ArB"/>
+                    <constraint firstAttribute="trailing" secondItem="qvp-GU-EdN" secondAttribute="trailing" id="Ndo-Yy-rh2"/>
+                    <constraint firstAttribute="trailing" secondItem="B0m-DB-ods" secondAttribute="trailing" id="gbS-j4-q4R"/>
+                    <constraint firstItem="ELN-Fh-9bs" firstAttribute="width" secondItem="jqU-GA-TKk" secondAttribute="width" id="hvv-aA-NHm"/>
+                </constraints>
+                <connections>
+                    <outletCollection property="gestureRecognizers" destination="udW-P1-gjJ" appends="YES" id="Gdv-xq-s3B"/>
+                </connections>
+            </view>
+            <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+            <connections>
+                <outlet property="lblRadioCacat" destination="X2q-j6-9Mi" id="Iy9-fc-8HL"/>
+                <outlet property="lblRadioKW" destination="V4f-hg-FCd" id="cN6-gK-GHS"/>
+                <outlet property="lblRadioSalahBarang" destination="eNV-qY-I2h" id="iuP-Qm-k4r"/>
+                <outlet property="loadingPanel" destination="qvp-GU-EdN" id="JVp-mY-OoT"/>
+                <outlet property="txtvwAlasan" destination="fQA-Hv-L9p" id="2AW-W2-7hw"/>
+            </connections>
+            <point key="canvasLocation" x="53.5" y="125.5"/>
+        </viewController>
+        <tapGestureRecognizer id="udW-P1-gjJ">
+            <connections>
+                <action selector="disableTextView:" destination="vtM-fZ-FAh" id="XED-Jp-xxj"/>
+            </connections>
+        </tapGestureRecognizer>
+    </objects>
+</document>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="71" id="5c2-9i-7kq" customClass="ProductCompareCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="71"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5c2-9i-7kq" id="7a9-4i-aVq">
+                <frame key="frameInset" width="375" height="70"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JVi-mz-VGA">
+                        <constraints>
+                            <constraint firstAttribute="width" constant="54" id="Se2-bI-9gl"/>
+                            <constraint firstAttribute="height" constant="54" id="Urf-g3-4yF"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Product Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Y2-9g-Nm3">
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RP X.XXX.XXX" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BfD-7C-gpX">
+                        <constraints>
+                            <constraint firstAttribute="height" constant="16" id="giQ-og-ybD"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                        <color key="textColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XFB-dh-yev">
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_cart.png" translatesAutoresizingMaskIntoConstraints="NO" id="pmp-0s-Xxh">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="17" id="P0r-Fc-eun"/>
+                                    <constraint firstAttribute="width" constant="18" id="UAf-SB-wCb"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C58-7d-owC">
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <inset key="titleEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="BELI"/>
+                                <connections>
+                                    <action selector="beliPressed:" destination="5c2-9i-7kq" eventType="touchUpInside" id="nEm-VU-zag"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="0.6588235294" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="32" id="0b4-vT-ah5"/>
+                            <constraint firstItem="pmp-0s-Xxh" firstAttribute="top" secondItem="XFB-dh-yev" secondAttribute="top" constant="7" id="2Pj-cB-vE9"/>
+                            <constraint firstItem="pmp-0s-Xxh" firstAttribute="leading" secondItem="XFB-dh-yev" secondAttribute="leading" constant="21" id="2yA-zI-rX1"/>
+                            <constraint firstItem="C58-7d-owC" firstAttribute="top" secondItem="XFB-dh-yev" secondAttribute="top" id="C2W-IZ-rWl"/>
+                            <constraint firstAttribute="bottom" secondItem="pmp-0s-Xxh" secondAttribute="bottom" constant="8" id="QD0-7V-8Ey"/>
+                            <constraint firstAttribute="trailing" secondItem="C58-7d-owC" secondAttribute="trailing" id="dJN-D9-wxk"/>
+                            <constraint firstAttribute="width" constant="98" id="i6H-kz-Gxv"/>
+                            <constraint firstItem="C58-7d-owC" firstAttribute="leading" secondItem="XFB-dh-yev" secondAttribute="leading" id="iVB-gq-b6w"/>
+                            <constraint firstAttribute="bottom" secondItem="C58-7d-owC" secondAttribute="bottom" id="zlo-lw-8ZD"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" red="0.94407051279999998" green="0.94407051279999998" blue="0.94407051279999998" alpha="1" colorSpace="calibratedRGB"/>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="XFB-dh-yev" secondAttribute="trailing" constant="8" id="Bd0-3x-kD9"/>
+                    <constraint firstItem="XFB-dh-yev" firstAttribute="leading" secondItem="BfD-7C-gpX" secondAttribute="trailing" constant="8" id="Lho-1a-SI0"/>
+                    <constraint firstItem="2Y2-9g-Nm3" firstAttribute="leading" secondItem="JVi-mz-VGA" secondAttribute="trailing" constant="8" id="QyA-pD-woE"/>
+                    <constraint firstItem="BfD-7C-gpX" firstAttribute="leading" secondItem="JVi-mz-VGA" secondAttribute="trailing" constant="8" id="Wpr-hA-Rvi"/>
+                    <constraint firstItem="JVi-mz-VGA" firstAttribute="leading" secondItem="7a9-4i-aVq" secondAttribute="leading" constant="8" id="Yym-bE-bbd"/>
+                    <constraint firstItem="2Y2-9g-Nm3" firstAttribute="top" secondItem="BfD-7C-gpX" secondAttribute="bottom" constant="3" id="hJ7-5i-Hmf"/>
+                    <constraint firstItem="BfD-7C-gpX" firstAttribute="top" secondItem="7a9-4i-aVq" secondAttribute="top" constant="8" id="iRZ-hm-ho1"/>
+                    <constraint firstItem="JVi-mz-VGA" firstAttribute="top" secondItem="7a9-4i-aVq" secondAttribute="top" constant="8" id="uCO-IL-hjT"/>
+                    <constraint firstItem="XFB-dh-yev" firstAttribute="leading" secondItem="2Y2-9g-Nm3" secondAttribute="trailing" constant="8" id="ww6-7c-85L"/>
+                    <constraint firstItem="XFB-dh-yev" firstAttribute="top" secondItem="7a9-4i-aVq" secondAttribute="top" constant="8" id="xtR-9E-Fpg"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="imgProduct" destination="JVi-mz-VGA" id="u0r-7E-OHa"/>
+                <outlet property="lblPrice" destination="BfD-7C-gpX" id="F0K-zc-cKr"/>
+                <outlet property="lblProductName" destination="2Y2-9g-Nm3" id="Eoy-5O-F7E"/>
+            </connections>
+            <point key="canvasLocation" x="99.5" y="204.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="ic_cart.png" width="96" height="96"/>
+    </resources>
+</document>

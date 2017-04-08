@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="65" id="VXA-Rq-RYm" customClass="AchievementCellDescriptionCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="65"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VXA-Rq-RYm" id="kUM-ZJ-p4I">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8u3-jv-CAr" userLabel="Vw Border">
+                        <rect key="frame" x="4" y="0.0" width="367" height="64"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ps5-jv-YBG">
+                        <rect key="frame" x="21" y="0.0" width="333" height="64"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="ps5-jv-YBG" secondAttribute="bottom" id="0l8-dA-8gf"/>
+                    <constraint firstItem="ps5-jv-YBG" firstAttribute="leading" secondItem="kUM-ZJ-p4I" secondAttribute="leading" constant="21" id="7bu-8t-sPs"/>
+                    <constraint firstAttribute="trailing" secondItem="8u3-jv-CAr" secondAttribute="trailing" constant="4" id="DwW-8M-2cf"/>
+                    <constraint firstItem="8u3-jv-CAr" firstAttribute="top" secondItem="kUM-ZJ-p4I" secondAttribute="top" id="E32-KS-qTk"/>
+                    <constraint firstAttribute="trailing" secondItem="ps5-jv-YBG" secondAttribute="trailing" constant="21" id="GUY-1O-abf"/>
+                    <constraint firstItem="ps5-jv-YBG" firstAttribute="top" secondItem="kUM-ZJ-p4I" secondAttribute="top" id="IEn-KE-ztW"/>
+                    <constraint firstAttribute="bottom" secondItem="8u3-jv-CAr" secondAttribute="bottom" id="XWG-VW-xhR"/>
+                    <constraint firstItem="8u3-jv-CAr" firstAttribute="leading" secondItem="kUM-ZJ-p4I" secondAttribute="leading" constant="4" id="g4A-1q-8AU"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="lblDesc" destination="ps5-jv-YBG" id="XiV-h6-U1z"/>
+                <outlet property="vwBorder" destination="8u3-jv-CAr" id="In8-D3-w8e"/>
+            </connections>
+            <point key="canvasLocation" x="0.5" y="-51.5"/>
+        </tableViewCell>
+    </objects>
+</document>

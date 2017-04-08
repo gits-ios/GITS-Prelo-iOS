@@ -27,23 +27,19 @@
 import Foundation
 import UIKit
 
-// MARK: - Global variables -
-
-/// Use this variable to activate or deactivate the BFLog function
-public var BFLogActive: Bool = true
-
 // MARK: - Global functions -
 
 /**
- Exented NSLog
+ Exented NSLog.
+ See http://stackoverflow.com/a/26891797/4032046 how to set DEBUG build variable
 
  - parameter message:  Console message
  - parameter filename: File
  - parameter function: Function name
  - parameter line:     Line number
  */
-public func BFLog(message: String, filename: String = #file, function: String = #function, line: Int = #line) {
-    if BFLogActive {
+public func BFLog(_ message: String, filename: String = #file, function: String = #function, line: Int = #line) {
+    #if DEBUG
         var _message = message
         if _message.hasSuffix("\n") == false {
             _message += "\n"
@@ -51,57 +47,53 @@ public func BFLog(message: String, filename: String = #file, function: String = 
         
         BFLogClass.logString += _message
         
-        let filenameNoExt = NSURL(string: NSString(UTF8String: filename)! as String)!.URLByDeletingPathExtension!
+        let filenameNoExt = NSURL(string: NSString(utf8String: filename)! as String)!.deletingPathExtension!.lastPathComponent
         let log = "(\(function)) (\(filenameNoExt):\(line) \(_message)"
-        let timestamp = NSDate.dateInformationDescriptionWithInformation(NSDate().dateInformation(), dateSeparator: "-", usFormat: true, nanosecond: true)
+        let timestamp = Date.dateInformationDescriptionWithInformation(Date().dateInformation(), dateSeparator: "-", usFormat: true, nanosecond: true)
         print("\(timestamp) \(filenameNoExt):\(line) \(function): \(_message)", terminator: "")
         
         BFLogClass.detailedLogString += log
-    }
+    #endif
 }
 
 /// Get the log string
 public var BFLogString: String {
-    if BFLogActive {
+    #if DEBUG
         return BFLogClass.logString
-    } else {
+    #else
         return ""
-    }
+    #endif
 }
 
 /// Get the detailed log string
 public var BFDetailedLogString: String {
-    if BFLogActive {
+    #if DEBUG
         return BFLogClass.detailedLogString
-    } else {
+    #else
         return ""
-    }
+    #endif
 }
 
-/**
- Clear the log string
- */
+/// Clear the log string
 public func BFLogClear() {
-    if BFLogActive {
+    #if DEBUG
         BFLogClass.clearLog()
-    }
+    #endif
 }
 
 /// The private BFLogClass created to manage the log strings
-private class BFLogClass {
+private struct BFLogClass {
     // MARK: - Variables -
     
     /// The log string
-    private static var logString: String = ""
+    public static var logString: String = ""
     /// The detailed log string
-    private static var detailedLogString: String = ""
+    public static var detailedLogString: String = ""
     
     // MARK: - Class functions -
     
-    /**
-     Private, clear the log string
-     */
-    private static func clearLog() {
+    /// Private, clear the log string
+    public static func clearLog() {
         logString = ""
         detailedLogString = ""
     }

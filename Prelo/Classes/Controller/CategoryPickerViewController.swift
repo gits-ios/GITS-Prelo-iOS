@@ -3,17 +3,18 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 8/26/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
+import Alamofire
 
 typealias BlockCategorySelected = ([String : AnyObject]) -> ()
 
 // MARK: - Protocol
 
 protocol CategoryPickerDelegate {
-    func adjustCategory(categId : String)
+    func adjustCategory(_ categId : String)
 }
 
 // MARK: - Class
@@ -34,7 +35,7 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
     // Data container
     var categories : Array<JSON> = []
     var selectedCategory : JSON?
-    let cellWidth = (UIScreen.mainScreen().bounds.size.width - 32) / 3
+    let cellWidth = (UIScreen.main.bounds.size.width - 32) / 3
     
     // Delegate
     var delegate : CategoryPickerDelegate? = nil
@@ -45,7 +46,7 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
         super.viewDidLoad()
         
         // Status bar style
-        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
+        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: true)
         
         // Set title
         self.title = "Pilih Kategori"
@@ -55,18 +56,18 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
     }
     
     func getCategory() {
-        request(References.CategoryList).responseJSON { resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "List Kategori")) {
-                NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(resp.result.value!), forKey: "pre_categories")
-                NSUserDefaults.standardUserDefaults().synchronize()
+        let _ = request(APIReference.categoryList).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "List Kategori")) {
+                UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: resp.result.value!), forKey: "pre_categories")
+                UserDefaults.standard.synchronize()
                 self.setupData()
             }
         }
     }
     
     func setupData() {
-        let data = NSUserDefaults.standardUserDefaults().objectForKey("pre_categories") as? NSData
-        let cache = JSON(NSKeyedUnarchiver.unarchiveObjectWithData(data!)!)
+        let data = UserDefaults.standard.object(forKey: "pre_categories") as? Data
+        let cache = JSON(NSKeyedUnarchiver.unarchiveObject(with: data!)!)
         if let children = cache["_data"][0]["children"].arrayObject {
             
             // Get children for 'All' category
@@ -76,11 +77,11 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
             
             // Include 'All' itself for searchMode
             if (searchMode) {
-                categories.insert(cache["_data"][0], atIndex: 0)
+                categories.insert(cache["_data"][0], at: 0)
             }
             
             // Hide loading
-            loading.hidden = true
+            loading.isHidden = true
             
             // Setup collection view
             gridView.dataSource = self
@@ -91,69 +92,72 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
     
     // MARK: - Collection view functions
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return categories.count
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSizeMake(cellWidth, cellWidth * 120 / 100)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: cellWidth, height: cellWidth * 120 / 100)
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsetsMake(8, 8, 8, 8)
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 8
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let c = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! CategoryPickerParentCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let c = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CategoryPickerParentCell
         
-        let j = categories[indexPath.item]
+        let j = categories[(indexPath as NSIndexPath).item]
         
         if let name = j["name"].string {
             c.captionTitle.text = name
         }
         
         if let imageName = j["image_name"].string {
-            c.imageView.backgroundColor = UIColor.whiteColor()
-            c.imageView.setImageWithUrl(NSURL(string: imageName)!, placeHolderImage: nil)
+            c.imageView.backgroundColor = UIColor.white
+            c.imageView.afSetImage(withURL: URL(string: imageName)!, withFilter: .fitWithPreloPlaceHolder)
         }
         
-        c.createBordersWithColor(UIColor.lightGrayColor(), radius: 0, width: 1)
+        c.createBordersWithColor(UIColor.lightGray, radius: 0, width: 1)
         
         return c
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // Set selected category
-        selectedCategory = categories[indexPath.item]
+        selectedCategory = categories[(indexPath as NSIndexPath).item]
         
-        if (searchMode && indexPath.row == 0) { // Memilih kategori 'All' (semua kategori)
+        if (searchMode && (indexPath as NSIndexPath).row == 0) { // Memilih kategori 'All' (semua kategori)
             if (self.previousController != nil) {
                 self.delegate?.adjustCategory(selectedCategory!["_id"].stringValue)
-                self.navigationController?.popViewControllerAnimated(true)
+                _ = self.navigationController?.popViewController(animated: true)
             } else {
-                let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-                l.filterMode = true
+                let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+                l.currentMode = .filter
+                l.isBackToFltrSearch = true
                 l.fltrCategId = selectedCategory!["_id"].stringValue
                 l.fltrSortBy = "recent"
+                l.previousScreen = PageName.Search
                 self.navigationController?.pushViewController(l, animated: true)
             }
             return
         }
         
         if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1) {
-            self.performSegueWithIdentifier("segChild", sender: nil)
+            self.performSegue(withIdentifier: "segChild", sender: nil)
         } else {
             let c = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdCategoryChildrenPicker) as! CategoryChildrenPickerViewController
-            c.parent = selectedCategory!
+            c.parentJson = selectedCategory!
             c.blockDone = blockDone
             c.backTreshold = 3
             c.root = self.root
             c.searchMode = self.searchMode
-            c.categoryImageName = categories[indexPath.item]["image_name"].stringValue
+            c.categoryImageName = categories[(indexPath as NSIndexPath).item]["image_name"].stringValue
+            c.categoryLv1Id = categories[(indexPath as NSIndexPath).item]["_id"].stringValue
             c.delegate = self.delegate
             c.previousController = self.previousController
             self.navigationController?.pushViewController(c, animated: true)
@@ -163,16 +167,17 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        let c = segue.destinationViewController as! CategoryChildrenPickerViewController
-        c.parent = selectedCategory!
+        let c = segue.destination as! CategoryChildrenPickerViewController
+        c.parentJson = selectedCategory!
         c.blockDone = blockDone
         c.backTreshold = 3
         c.root = self.root
         c.searchMode = self.searchMode
         c.categoryImageName = selectedCategory!["image_name"].stringValue
+        c.categoryLv1Id = selectedCategory!["_id"].stringValue
         c.delegate = self.delegate
         c.previousController = self.previousController
     }
@@ -184,6 +189,12 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
 class CategoryPickerParentCell : UICollectionViewCell {
     @IBOutlet var imageView : UIImageView!
     @IBOutlet var captionTitle : UILabel!
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        imageView.afCancelRequest()
+    }
 }
 
 // MARK: - Class
@@ -197,11 +208,12 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
     
     // Predefined values
     var root : UIViewController?
-    var parent : JSON = JSON(["name":""])
+    var parentJson : JSON = JSON(["name":""])
     var blockDone : BlockCategorySelected?
     var backTreshold = 1
     var searchMode = false
     var categoryImageName : String = ""
+    var categoryLv1Id : String = ""
     
     // Data container
     var categories : Array<JSON> = []
@@ -217,14 +229,14 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
         super.viewDidLoad()
         
         // Set title
-        if let name = parent["name"].string {
-            self.title = name.capitalizedString
+        if let name = parentJson["name"].string {
+            self.title = name.capitalized
         } else {
             self.title = "Pilih Kategori"
         }
         
         // Get children categories
-        if let children = parent["children"].arrayObject {
+        if let children = parentJson["children"].arrayObject {
             for o in children {
                 categories.append(JSON(o))
             }
@@ -232,9 +244,9 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
         
         // Include parent category itself for searchMode
         if (searchMode) {
-            var parentCateg = parent
-            parentCateg["name"] = JSON("Semua " + parent["name"].stringValue)
-            categories.insert(parentCateg, atIndex: 0)
+            var parentCateg = parentJson
+            parentCateg["name"] = JSON("Semua " + parentJson["name"].stringValue)
+            categories.insert(parentCateg, at: 0)
         }
         
         // Setup table
@@ -246,21 +258,21 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
     
     // MARK: - Table view functions
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return categories.count
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var c = tableView.dequeueReusableCellWithIdentifier("cell")
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var c = tableView.dequeueReusableCell(withIdentifier: "cell")
         if (c == nil) {
-            c = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
+            c = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "cell")
         }
         
-        let j = categories[indexPath.row]
+        let j = categories[(indexPath as NSIndexPath).row]
         if let name = j["name"].string {
             c?.textLabel!.text = name
         }
@@ -268,10 +280,10 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
         return c!
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         // Get level 2 category name (used for add product page)
-        selectedCategory = categories[indexPath.row]
+        selectedCategory = categories[(indexPath as NSIndexPath).row]
         if let lv = selectedCategory!["level"].int {
             if (lv == 2) {
                 self.categoryLv2Name = selectedCategory!["name"].stringValue
@@ -283,45 +295,49 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
         if (children != nil) {
             childCount = children!.count
         }
-        if (!(searchMode && indexPath.row == 0) && childCount > 0) {
+        if (!(searchMode && (indexPath as NSIndexPath).row == 0) && childCount > 0) {
             let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdCategoryChildrenPicker) as! CategoryChildrenPickerViewController
-            p.parent = selectedCategory!
+            p.parentJson = selectedCategory!
             p.blockDone = self.blockDone
             p.backTreshold = backTreshold + 1
             p.searchMode = self.searchMode
             p.root = root
             p.categoryImageName = self.categoryImageName
+            p.categoryLv1Id = self.categoryLv1Id
             p.categoryLv2Name = self.categoryLv2Name
             p.delegate = self.delegate
             p.previousController = self.previousController
             self.navigationController?.pushViewController(p, animated: true)
         } else {
             let data = [
-                "parent":parent.rawValue,
+                "parent":parentJson.rawValue,
                 "child":selectedCategory!.rawValue,
                 "category_image_name":self.categoryImageName,
+                "category_level1_id":self.categoryLv1Id,
                 "category_level2_name":self.categoryLv2Name
-            ]
+            ] as [String : Any]
             if (searchMode) {
                 if (self.previousController != nil) {
                     self.delegate?.adjustCategory(selectedCategory!["_id"].stringValue)
-                    self.navigationController?.popToViewController(self.previousController!, animated: true)
+                    _ = self.navigationController?.popToViewController(self.previousController!, animated: true)
                 } else {
-                    let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-                    l.filterMode = true
+                    let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+                    l.currentMode = .filter
+                    l.isBackToFltrSearch = true
                     l.fltrCategId = selectedCategory!["_id"].stringValue
                     l.fltrSortBy = "recent"
+                    l.previousScreen = PageName.Search
                     self.navigationController?.pushViewController(l, animated: true)
                 }
             } else {
-                self.blockDone!(data)
+                self.blockDone!(data as [String : AnyObject])
                 
                 if let r = self.root {
-                    self.navigationController?.popToViewController(r, animated: true)
+                    _ = self.navigationController?.popToViewController(r, animated: true)
                 } else {
                     let c = self.navigationController?.viewControllers.count
                     let v = (self.navigationController?.viewControllers[c! - backTreshold])!
-                    self.navigationController?.popToViewController(v, animated: true)
+                    _ = self.navigationController?.popToViewController(v, animated: true)
                 }
             }
         }

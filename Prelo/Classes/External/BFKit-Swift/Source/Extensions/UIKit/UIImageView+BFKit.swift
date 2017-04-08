@@ -40,8 +40,8 @@ public extension UIImageView {
      - parameter offset:  Shadow's offset
      - parameter opacity: adow's opacity
      */
-    public func setImageShadowColor(color: UIColor, radius: CGFloat, offset: CGSize, opacity: Float) {
-        self.layer.shadowColor = color.CGColor
+    public func setImageShadowColor(_ color: UIColor, radius: CGFloat, offset: CGSize, opacity: Float) {
+        self.layer.shadowColor = color.cgColor
         self.layer.shadowRadius = radius
         self.layer.shadowOffset = offset
         self.layer.shadowOpacity = opacity
@@ -53,10 +53,10 @@ public extension UIImageView {
     
      - parameter image The mask UIImage
      */
-    public func setMaskImage(image: UIImage) {
+    public func setMaskImage(_ image: UIImage) {
         let mask: CALayer = CALayer()
-        mask.contents = image.CGImage
-        mask.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)
+        mask.contents = image.cgImage
+        mask.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height)
         self.layer.mask = mask
         self.layer.masksToBounds = false
     }
@@ -86,7 +86,7 @@ public extension UIImageView {
      - returns: Returns the created UIImageView
      */
     public convenience init(image: UIImage, size: CGSize, center: CGPoint) {
-        self.init(frame: CGRectMake(0, 0, size.width, size.height))
+        self.init(frame: CGRect(x: 0, y: 0, width: size.width, height: size.height))
         self.image = image
         self.center = center
     }
@@ -115,7 +115,7 @@ public extension UIImageView {
     public convenience init(imageAsTemplate: UIImage, tintColor: UIColor) {
         var _imageAsTemplate = imageAsTemplate
         self.init(image: _imageAsTemplate)
-        _imageAsTemplate = _imageAsTemplate.imageWithRenderingMode(.AlwaysTemplate)
+        _imageAsTemplate = _imageAsTemplate.withRenderingMode(.alwaysTemplate)
         self.tintColor = tintColor
     }
 }

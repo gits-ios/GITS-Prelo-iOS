@@ -42,13 +42,13 @@ public class BFPassword {
      - VerySecure: Password strength very secure
      */
     public enum PasswordStrengthLevel : Int {
-        case VeryWeak
-        case Weak
-        case Average
-        case Strong
-        case VeryStrong
-        case Secure
-        case VerySecure
+        case veryWeak
+        case weak
+        case average
+        case strong
+        case veryStrong
+        case secure
+        case verySecure
     }
     
     // MARK: - Class functions -
@@ -60,7 +60,7 @@ public class BFPassword {
     
      - returns: Returns the password strength level with value from enum PasswordStrengthLevel
      */
-    public static func checkPasswordStrength(password: String) -> PasswordStrengthLevel {
+    public static func checkPasswordStrength(_ password: String) -> PasswordStrengthLevel {
         let lenght = password.length
         let lowercase = self.countLowercaseLetters(password)
         let uppercase = self.countUppercaseLetters(password)
@@ -130,24 +130,24 @@ public class BFPassword {
         }
         
         if score == 100 {
-            return .VerySecure
+            return .verySecure
         } else {
             if score >= 90 {
-                return .Secure
+                return .secure
             } else {
                 if score >= 80 {
-                    return .VeryStrong
+                    return .veryStrong
                 } else {
                     if score >= 70 {
-                        return .Strong
+                        return .strong
                     } else {
                         if score >= 60 {
-                            return .Average
+                            return .average
                         } else {
                             if score >= 50 {
-                                return .Weak
+                                return .weak
                             } else {
-                                return .VeryWeak
+                                return .veryWeak
                             }
                         }
                     }
@@ -163,10 +163,10 @@ public class BFPassword {
     
      - returns: Number of lowercase letters
      */
-    private static func countLowercaseLetters(password: String) -> Int {
+    private static func countLowercaseLetters(_ password: String) -> Int {
         var countChar = 0
         for i in 0 ..< password.length {
-            let isLowercase = NSCharacterSet.lowercaseLetterCharacterSet().characterIsMember((String(password) as NSString).characterAtIndex(i))
+            let isLowercase = CharacterSet.lowercaseLetters.contains(UnicodeScalar(((String(password) as NSString)).character(at: i))!)
             if isLowercase {
                 countChar += 1
             }
@@ -182,10 +182,10 @@ public class BFPassword {
     
      - returns: Number of uppercase letters
      */
-    private static func countUppercaseLetters(password: String) -> Int {
+    private static func countUppercaseLetters(_ password: String) -> Int {
         var countChar = 0
         for i in 0 ..< password.length {
-            let isUppercase = NSCharacterSet.lowercaseLetterCharacterSet().characterIsMember((String(password) as NSString).characterAtIndex(i))
+            let isUppercase = CharacterSet.uppercaseLetters.contains(UnicodeScalar((((String(password) as NSString))).character(at: i))!)
             if isUppercase {
                 countChar += 1
             }
@@ -201,10 +201,10 @@ public class BFPassword {
     
      - returns: Number of numbers
      */
-    private static func countNumbers(password: String) -> Int {
+    private static func countNumbers(_ password: String) -> Int {
         var countNumber = 0
         for i in 0 ..< password.length {
-            let isNumber = NSCharacterSet(charactersInString: "0123456789").characterIsMember((String(password) as NSString).characterAtIndex(i))
+            let isNumber = CharacterSet(charactersIn: "0123456789").contains(UnicodeScalar(((String(password) as NSString)).character(at: i))!)
             if isNumber {
                 countNumber += 1
             }
@@ -220,10 +220,10 @@ public class BFPassword {
     
      - returns: Number of symbols
      */
-    private static func countSymbols(password: String) -> Int {
+    private static func countSymbols(_ password: String) -> Int {
         var countSymbol = 0
         for i in 0 ..< password.length {
-            let isSymbol = NSCharacterSet(charactersInString: "`~!?@#$€£¥§%^&*()_+-={}[]:\";.,<>'•\\|/").characterIsMember((String(password) as NSString).characterAtIndex(i))
+            let isSymbol = CharacterSet(charactersIn: "`~!?@#$€£¥§%^&*()_+-={}[]:\";.,<>'•\\|/").contains(UnicodeScalar(((String(password) as NSString)).character(at: i))!)
             if isSymbol {
                 countSymbol += 1
             }
