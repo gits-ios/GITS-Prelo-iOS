@@ -480,7 +480,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
 //        let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
 //        storePageTabBarVC.shopId = CDUser.getOne()?.id
 //        self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
-        
+
         // address book -- OKE
 //        let addressBookVC = Bundle.main.loadNibNamed(Tags.XibNameAddressBook, owner: nil, options: nil)?.first as! AddressBookViewController
 //        self.navigationController?.pushViewController(addressBookVC, animated: true)
@@ -488,6 +488,10 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         // edit profile - baru -- OKE
 //        let userProfileVC2 = Bundle.main.loadNibNamed(Tags.XibNameUserProfile2, owner: nil, options: nil)?.first as! UserProfileViewController2
 //        self.navigationController?.pushViewController(userProfileVC2, animated: true)
+        
+        // prelo message -- OKE
+//        let preloMessageVC = Bundle.main.loadNibNamed(Tags.XibNamePreloMessage, owner: nil, options: nil)?.first as! PreloMessageViewController
+//        self.navigationController?.pushViewController(preloMessageVC, animated: true)
     }
     
     func launchFAQ() {

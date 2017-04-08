@@ -19,6 +19,7 @@ enum imageFilterMode {
     case noneWithoutPlaceHolder
     case circleWithBadgePlaceHolder
     case fitWithPreloPlaceHolder
+    case fillWithPreloMessagePlaceHolder
 }
 
 class AppTools: NSObject {
@@ -497,6 +498,19 @@ extension UIImageView {
                 imageTransition: .crossDissolve(0.3)
             )
         }
+            
+        else if withFilter == .fillWithPreloMessagePlaceHolder { // badge
+            let filter = AspectScaledToFillSizeFilter(
+                size: self.frame.size
+            )
+            
+            self.af_setImage(
+                withURL: withURL,
+                placeholderImage: UIImage(named: "placeholder-prelo-message.jpg")!, // pm
+                filter: filter,
+                imageTransition: .crossDissolve(0.3)
+            )
+        }
         
         // default fill
         else {
@@ -637,6 +651,7 @@ class Tags : NSObject {
     static let XibNameStorePage = "StorePageTabBar"
     static let XibNameShopAchievement = "ShopAchievement"
     static let XibNameTarikTunai2 = "TarikTunai2"
+    static let XibNamePreloMessage = "PreloMessage"
     static let XibNameAddressBook = "AddressBook"
     static let XibNameAddressAddEdit = "AddressAddEdit"
     static let XibNameUserProfile2 = "UserProfile2"
@@ -713,6 +728,7 @@ class PageName {
     static let ShopAchievements = "Shop Achievements"
     static let ProductLovelist = "Tawar Lovelist"
     static let SearchResult = "Search Result"
+    static let PreloMessage = "Prelo Message"
     static let AddressBook = "Address Book"
     static let AddAddress = "Add Address"
     static let EditAddress = "Edit Address"

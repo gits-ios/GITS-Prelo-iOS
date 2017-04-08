@@ -682,6 +682,16 @@
 		B2C59AA11E2E4B31002E4597 /* SMSegmentAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C59A9D1E2E4B31002E4597 /* SMSegmentAppearance.swift */; };
 		B2C59AA21E2E4B31002E4597 /* SMSegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C59A9E1E2E4B31002E4597 /* SMSegmentView.swift */; };
 		B2C59AA31E2E4B31002E4597 /* SMSegmentViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C59A9F1E2E4B31002E4597 /* SMSegmentViewConstants.swift */; };
+		B2CAF7741E78F53300ACB361 /* PreloMessage.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2CAF7731E78F53300ACB361 /* PreloMessage.xib */; };
+		B2CAF7841E78F58900ACB361 /* PreloMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2CAF7831E78F58900ACB361 /* PreloMessageCell.xib */; };
+		B2CAF7861E78F9DD00ACB361 /* PreloMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CAF7851E78F9DD00ACB361 /* PreloMessageViewController.swift */; };
+		B2CAF78F1E79219E00ACB361 /* ActiveBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CAF7881E79219E00ACB361 /* ActiveBuilder.swift */; };
+		B2CAF7901E79219E00ACB361 /* ActiveLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CAF78A1E79219E00ACB361 /* ActiveLabel.swift */; };
+		B2CAF7911E79219E00ACB361 /* ActiveType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CAF78B1E79219E00ACB361 /* ActiveType.swift */; };
+		B2CAF7921E79219E00ACB361 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B2CAF78C1E79219E00ACB361 /* Info.plist */; };
+		B2CAF7931E79219E00ACB361 /* RegexParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CAF78D1E79219E00ACB361 /* RegexParser.swift */; };
+		B2CAF7941E79219E00ACB361 /* StringTrimExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CAF78E1E79219E00ACB361 /* StringTrimExtension.swift */; };
+		B2CAF7961E794ED100ACB361 /* placeholder-prelo-message.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B2CAF7951E794ED100ACB361 /* placeholder-prelo-message.jpg */; };
 		B2CB4C441E08C61C00F5D0F2 /* FilterLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2CB4C431E08C61C00F5D0F2 /* FilterLocationCell.xib */; };
 		B2D119871E28C9790064045B /* AchievementCelliOS9xx.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D119861E28C9790064045B /* AchievementCelliOS9xx.xib */; };
 		B2D119891E28CD2A0064045B /* AchievementCellDescriptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D119881E28CD2A0064045B /* AchievementCellDescriptionCell.xib */; };
@@ -1726,6 +1736,17 @@
 		B2C59A9D1E2E4B31002E4597 /* SMSegmentAppearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSegmentAppearance.swift; sourceTree = "<group>"; };
 		B2C59A9E1E2E4B31002E4597 /* SMSegmentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSegmentView.swift; sourceTree = "<group>"; };
 		B2C59A9F1E2E4B31002E4597 /* SMSegmentViewConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSegmentViewConstants.swift; sourceTree = "<group>"; };
+		B2CAF7731E78F53300ACB361 /* PreloMessage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreloMessage.xib; sourceTree = "<group>"; };
+		B2CAF7831E78F58900ACB361 /* PreloMessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreloMessageCell.xib; sourceTree = "<group>"; };
+		B2CAF7851E78F9DD00ACB361 /* PreloMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreloMessageViewController.swift; sourceTree = "<group>"; };
+		B2CAF7881E79219E00ACB361 /* ActiveBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveBuilder.swift; sourceTree = "<group>"; };
+		B2CAF7891E79219E00ACB361 /* ActiveLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActiveLabel.h; sourceTree = "<group>"; };
+		B2CAF78A1E79219E00ACB361 /* ActiveLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveLabel.swift; sourceTree = "<group>"; };
+		B2CAF78B1E79219E00ACB361 /* ActiveType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveType.swift; sourceTree = "<group>"; };
+		B2CAF78C1E79219E00ACB361 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B2CAF78D1E79219E00ACB361 /* RegexParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegexParser.swift; sourceTree = "<group>"; };
+		B2CAF78E1E79219E00ACB361 /* StringTrimExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTrimExtension.swift; sourceTree = "<group>"; };
+		B2CAF7951E794ED100ACB361 /* placeholder-prelo-message.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "placeholder-prelo-message.jpg"; sourceTree = "<group>"; };
 		B2CB4C431E08C61C00F5D0F2 /* FilterLocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterLocationCell.xib; sourceTree = "<group>"; };
 		B2D119861E28C9790064045B /* AchievementCelliOS9xx.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementCelliOS9xx.xib; sourceTree = "<group>"; };
 		B2D119881E28CD2A0064045B /* AchievementCellDescriptionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementCellDescriptionCell.xib; sourceTree = "<group>"; };
@@ -2012,6 +2033,7 @@
 				21D0A0041B60B54300D3A050 /* SwiftyJSON.swift */,
 				21F4FCE61B61EE3D00223028 /* UIImageView+AFNetworking.swift */,
 				21C68F531B74665900D1125E /* ACEExpandableTextCell */,
+				B2CAF7871E79219E00ACB361 /* ActiveLabel */,
 				216799761B8F8AB900F18F90 /* AFNetworking */,
 				2109BCAD1BDF3529004F36C5 /* AKPickerView */,
 				215E6CD21B9D781800CD623C /* ALAssetsLibrary+CustomPhotoAlbum */,
@@ -2367,6 +2389,7 @@
 				21104AB61BAA8ECC00947E7F /* PhoneReverificationViewController.swift */,
 				21104AB71BAA8ECC00947E7F /* PhoneVerificationViewController.swift */,
 				214864D81B6F53EF00EF49EF /* PickerViewController.swift */,
+				B2CAF7851E78F9DD00ACB361 /* PreloMessageViewController.swift */,
 				211BC9991B96EBBE00FDB1DC /* PreloShareController.swift */,
 				21983BEF1BE1DE3A00F0C24E /* PreloWebViewController.swift */,
 				211BC9931B96D34600FDB1DC /* ProductCommentsController.swift */,
@@ -2978,6 +3001,8 @@
 				21EEB4601B87038400CAD5C9 /* PaymentConfirmationCell.xib */,
 				21104ACE1BAA8F1200947E7F /* PhoneReverification.xib */,
 				21104ACF1BAA8F1200947E7F /* PhoneVerification.xib */,
+				B2CAF7731E78F53300ACB361 /* PreloMessage.xib */,
+				B2CAF7831E78F58900ACB361 /* PreloMessageCell.xib */,
 				588148B41DC09FBA004180E1 /* ProductCompare.xib */,
 				588148C21DC0B598004180E1 /* ProductCompareCell.xib */,
 				588148B91DC0B244004180E1 /* ProductCompareMainCell.xib */,
@@ -3246,6 +3271,7 @@
 				B2BEBC741E4C27EC009982F9 /* placeholder-standar.png */,
 				B2BEBC751E4C27EC009982F9 /* placeholder-transparent.png */,
 				B2BEBC7B1E4C30BF009982F9 /* placeholder-transparent-ipad.png */,
+				B2CAF7951E794ED100ACB361 /* placeholder-prelo-message.jpg */,
 			);
 			name = placeholder;
 			sourceTree = "<group>";
@@ -3259,6 +3285,20 @@
 				B2C59A9F1E2E4B31002E4597 /* SMSegmentViewConstants.swift */,
 			);
 			path = SMSegmentView;
+			sourceTree = "<group>";
+		};
+		B2CAF7871E79219E00ACB361 /* ActiveLabel */ = {
+			isa = PBXGroup;
+			children = (
+				B2CAF7881E79219E00ACB361 /* ActiveBuilder.swift */,
+				B2CAF7891E79219E00ACB361 /* ActiveLabel.h */,
+				B2CAF78A1E79219E00ACB361 /* ActiveLabel.swift */,
+				B2CAF78B1E79219E00ACB361 /* ActiveType.swift */,
+				B2CAF78C1E79219E00ACB361 /* Info.plist */,
+				B2CAF78D1E79219E00ACB361 /* RegexParser.swift */,
+				B2CAF78E1E79219E00ACB361 /* StringTrimExtension.swift */,
+			);
+			path = ActiveLabel;
 			sourceTree = "<group>";
 		};
 		B2D1198A1E290BE20064045B /* banner */ = {
@@ -3569,6 +3609,7 @@
 				440AF6691BE1090800074CBC /* ic_round_path.png in Resources */,
 				215C526A1B6B349C00EA4E61 /* ic_bag@2x.png in Resources */,
 				21EEB4721B87095C00CAD5C9 /* btn_checkbox_pressed.png in Resources */,
+				B2CAF7741E78F53300ACB361 /* PreloMessage.xib in Resources */,
 				B240F4DE1E24DAD900DCAFF7 /* AchievementCellProgressCell.xib in Resources */,
 				58D7360C1D759B0B009D7C61 /* ic_notif.png in Resources */,
 				440AF66A1BE1090800074CBC /* ic_round_sms.png in Resources */,
@@ -3646,6 +3687,7 @@
 				589A6FC41D8C08F600654CDD /* ic_love.png in Resources */,
 				B26DB3F11E2D3C6F00224675 /* ic_achievement.png in Resources */,
 				589A6FC91D8C08F600654CDD /* ic_tampak_belakang.png in Resources */,
+				B2CAF7961E794ED100ACB361 /* placeholder-prelo-message.jpg in Resources */,
 				585887411DBEDAB9006EC6D5 /* MyProductDetail.xib in Resources */,
 				212007C31B6A0EA600D9C84B /* basic_facebook@2x.png in Resources */,
 				21156ECF1B8F5DBC001D7842 /* ic_socmed_path.png in Resources */,
@@ -3665,6 +3707,7 @@
 				440AF66B1BE1090800074CBC /* ic_round_twitter.png in Resources */,
 				B2C3A3C61E2B8E370082A15D /* ShopAchievementCell.xib in Resources */,
 				58F0A41B1C7C634A002A488F /* cchmrk_chat.png in Resources */,
+				B2CAF7841E78F58900ACB361 /* PreloMessageCell.xib in Resources */,
 				B22357611E35F90800CEC6F5 /* TarikTunai2Cell.xib in Resources */,
 				58A223C81C898CB600619518 /* ic_trx_paid.png in Resources */,
 				585887271DBED974006EC6D5 /* PhoneVerification.xib in Resources */,
@@ -3819,6 +3862,7 @@
 				B2B34BE71E388395001B653F /* ic_exclamation_grey.png in Resources */,
 				58C431B21CF8138300EB99AE /* InitialMetadata.json in Resources */,
 				5895E86C1C49315400752ACA /* chat-rp.png in Resources */,
+				B2CAF7921E79219E00ACB361 /* Info.plist in Resources */,
 				B29482561E91E397001B6C75 /* cover_shop_persegi_1024px.png in Resources */,
 				58AD00FF1D49DAA8002C7CCF /* preloteam.png in Resources */,
 				58F7DD511D73E90800EF43AC /* ic_free_ongkir_truck.png in Resources */,
@@ -3886,6 +3930,7 @@
 				21679A3C1B901C5300F18F90 /* MPPassThroughValueTransformer.m in Sources */,
 				21B468021CCE5EDB00E145ED /* UIScreen+BFKit.swift in Sources */,
 				58F78B501DFACE2B008744F7 /* ProductLovelistViewController.swift in Sources */,
+				B2CAF7901E79219E00ACB361 /* ActiveLabel.swift in Sources */,
 				B2099FAB1E1E83BB00EBB57F /* CustomPhotoAlbum.swift in Sources */,
 				585887821DBF2589006EC6D5 /* CheckoutTourViewController.swift in Sources */,
 				21B467EB1CCE5EDB00E145ED /* Dictionary+BFKit.swift in Sources */,
@@ -3984,6 +4029,7 @@
 				58A99A421C6D864E00E3E7D7 /* BranchLoadRewardsRequest.m in Sources */,
 				5858875E1DBEEA37006EC6D5 /* SearchTag.swift in Sources */,
 				58A99A441C6D864E00E3E7D7 /* BranchOpenRequest.m in Sources */,
+				B2CAF78F1E79219E00ACB361 /* ActiveBuilder.swift in Sources */,
 				5858878D1DBF30F8006EC6D5 /* ImagePickerViewController2.swift in Sources */,
 				58DD290B1DAF3F6200130B6F /* SocketAckManager.swift in Sources */,
 				58A99A301C6D864E00E3E7D7 /* BNCServerInterface.m in Sources */,
@@ -3997,6 +4043,7 @@
 				2167998C1B8F8AB900F18F90 /* AFHTTPSessionManager.m in Sources */,
 				5858875F1DBEEA41006EC6D5 /* ProductDetailCover.swift in Sources */,
 				21B467FC1CCE5EDB00E145ED /* UIDevice+BFKit.swift in Sources */,
+				B2CAF7861E78F9DD00ACB361 /* PreloMessageViewController.swift in Sources */,
 				58A99A401C6D864E00E3E7D7 /* BranchInstallRequest.m in Sources */,
 				58A99A3B1C6D864E00E3E7D7 /* BNCServerRequest.m in Sources */,
 				5858877F1DBF1728006EC6D5 /* CartViewController.swift in Sources */,
@@ -4033,6 +4080,7 @@
 				21B467F91CCE5EDB00E145ED /* UIBarButtonItem+BFKit.swift in Sources */,
 				21679A2D1B901C5300F18F90 /* MPDesignerEventBindingRequestMesssage.m in Sources */,
 				215E6CD51B9D781800CD623C /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
+				B2CAF7941E79219E00ACB361 /* StringTrimExtension.swift in Sources */,
 				B2D481CB1E02A7AD006006CC /* ReportProductViewController.swift in Sources */,
 				21679A2F1B901C5300F18F90 /* MPDesignerTrackMessage.m in Sources */,
 				B23356F01E1F587C00207F14 /* ScannerViewController.swift in Sources */,
@@ -4074,6 +4122,7 @@
 				21B467E21CCE5EDB00E145ED /* BFButton.swift in Sources */,
 				5858879E1DBF3441006EC6D5 /* TourViewController.swift in Sources */,
 				21C6589C1B8EF25E0037F85F /* SWActionSheet.m in Sources */,
+				B2CAF7911E79219E00ACB361 /* ActiveType.swift in Sources */,
 				21679A2E1B901C5300F18F90 /* MPDesignerEventBindingResponseMesssage.m in Sources */,
 				21B467FF1CCE5EDB00E145ED /* UIImageView+BFKit.swift in Sources */,
 				B21B3F191E5ADFE600FE5DB4 /* AnalyticManager.swift in Sources */,
@@ -4229,6 +4278,7 @@
 				5847E15E1DBD9D6E00C1B2BA /* CDRegion.swift in Sources */,
 				58A99A481C6D864E00E3E7D7 /* BranchShortUrlRequest.m in Sources */,
 				21B468011CCE5EDB00E145ED /* UINavigationBar+BFKit.swift in Sources */,
+				B2CAF7931E79219E00ACB361 /* RegexParser.swift in Sources */,
 				21B467EA1CCE5EDB00E145ED /* Array+BFKit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
