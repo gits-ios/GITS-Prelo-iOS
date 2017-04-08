@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by PreloBook on 3/3/16.
-//  Copyright (c) 2016 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2016 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import Foundation
@@ -424,26 +424,33 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         self.sendClickNotificationAnalytic(notif.objectId, tipe: notif.type)
         
         if (notif.type == 2000) { // Chat
-            // Get inbox detail
-            // API Migrasi
-            let _ = request(APIInbox.getInboxMessage(inboxId: notif.objectId)).responseJSON {resp in
-                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Percakapan")) {
-                    let json = JSON(resp.result.value!)
-                    let data = json["_data"]
-                    let inboxData = Inbox(jsn: data)
-                    
-                    // Goto inbox
-                    let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
-                    t.tawarItem = inboxData
-                    t.previousScreen = PageName.Notification
-                    self.navigationController?.pushViewController(t, animated: true)
-                } else {
-                    Constant.showDialog("Notifikasi - Percakapan", message: "Oops, notifikasi inbox tidak bisa dibuka")
-                    self.hideLoading()
-                    self.showContent()
+            if (notif.isPreloMessage) {
+                let preloMessageVC = Bundle.main.loadNibNamed(Tags.XibNamePreloMessage, owner: nil, options: nil)?.first as! PreloMessageViewController
+                preloMessageVC.previousScreen = PageName.Notification
+                self.navigationController?.pushViewController(preloMessageVC, animated: true)
+            } else {
+                // Get inbox detail
+                // API Migrasi
+                let _ = request(APIInbox.getInboxMessage(inboxId: notif.objectId)).responseJSON {resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Percakapan")) {
+                        let json = JSON(resp.result.value!)
+                        let data = json["_data"]
+                        let inboxData = Inbox(jsn: data)
+                        
+                        // Goto inbox
+                        let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
+                        t.tawarItem = inboxData
+                        t.previousScreen = PageName.Notification
+                        t.isSellerNotActive = data["shop_closed"].bool ?? false
+                        t.phoneNumber = data["seller_phone"].string ?? ""
+                        self.navigationController?.pushViewController(t, animated: true)
+                    } else {
+                        Constant.showDialog("Notifikasi - Percakapan", message: "Oops, notifikasi inbox tidak bisa dibuka")
+                        self.hideLoading()
+                        self.showContent()
+                    }
                 }
             }
-            
         } else if (notif.type == 3000) { // Komentar
             // Get product detail
             let _ = request(APIProduct.detail(productId: notif.objectId, forEdit: 0)).responseJSON {resp in
@@ -545,12 +552,17 @@ class NotifAnggiConversationCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
+        imgSingle.afCancelRequest()
+        
         self.contentView.backgroundColor = UIColor.white.withAlphaComponent(0)
 //        imgSingle.image = UIImage(named: "raisa.jpg")
+        imgSingle.image = UIImage(named: "placeholder-standar")
         vwCaption.backgroundColor = Theme.GrayDark
         lblConvStatus.textColor = Theme.GrayDark
         
-        imgSingle.afCancelRequest()
+        imgSingle.backgroundColor = UIColor.clear
+        imgSingle.contentMode = .scaleAspectFill
+        vwCaption.isHidden = false
     }
     
     func adapt(_ notif : NotificationObj) {
@@ -560,9 +572,14 @@ class NotifAnggiConversationCell: UITableViewCell {
         }
         
         // Set image
-        if (notif.productImages.count > 0) {
-            imgSingle.afSetImage(withURL: URL(string: notif.productImages.objectAtCircleIndex(0))!)
-        }
+        //if (!notif.isPreloMessage) {
+            if (notif.productImages.count > 0) {
+                imgSingle.afSetImage(withURL: URL(string: notif.productImages.objectAtCircleIndex(0))!)
+            } else {
+                imgSingle.image = UIImage(named: "placeholder-standar")
+                imgSingle.afInflate()
+            }
+        //}
         
         // Set caption
         lblCaption.text = notif.caption
@@ -606,6 +623,11 @@ class NotifAnggiConversationCell: UITableViewCell {
             lblConvStatus.text = notif.statusText
             lblTime.text = notif.time
             
+            if notif.isPreloMessage {
+                lblConvStatus.text = "UPDATE"
+                vwCaption.isHidden = true
+            }
+            
             // Set conv status text width
             var sizeThatShouldFitTheContent = lblConvStatus.sizeThatFits(lblConvStatus.frame.size)
             //print("size untuk '\(lblConvStatus.text)' = \(sizeThatShouldFitTheContent)")
@@ -616,5 +638,38 @@ class NotifAnggiConversationCell: UITableViewCell {
             //print("size untuk '\(lblTime)' = \(sizeThatShouldFitTheContent)")
             consWidthLblTime.constant = sizeThatShouldFitTheContent.width
         }
+        
+        /*
+        if (notif.isPreloMessage) {
+            /*
+            let oldImage = UIImage(named: "ic_prelo_logo_text_white@2x")?.resizeWithMaxWidth(120)
+            
+            // Setup a new context with the correct size
+            let width: CGFloat = 128
+            let height: CGFloat = 128
+            UIGraphicsBeginImageContextWithOptions(CGSize(width: width, height: height), NO, 0.0)
+            let context: CGContext = UIGraphicsGetCurrentContext()!
+            UIGraphicsPushContext(context)
+            
+            // Now we can draw anything we want into this new context.
+            let origin: CGPoint = CGPoint(x: (width - oldImage!.size.width) / 2.0,
+                                          y: (height - oldImage!.size.height) / 2.0)
+            oldImage?.draw(at: origin)
+            
+            // Clean up and get the new image.
+            UIGraphicsPopContext();
+            let newImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext();
+            lblUsername.text = "Prelo Message"
+            imgSingle.backgroundColor = Theme.PrimaryColor
+            imgSingle.image = newImage
+            imgSingle.afInflate()
+            imgSingle.contentMode = .scaleAspectFit
+             */
+            
+            lblConvStatus.text = ""
+            vwCaption.isHidden = true
+        }
+         */
     }
 }

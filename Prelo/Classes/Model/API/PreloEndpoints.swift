@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 7/23/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
@@ -291,7 +291,7 @@ enum APIAuth : URLRequestConvertible {
 
 enum APICart : URLRequestConvertible {
     case refresh(cart : String, address : String, voucher : String?)
-    case checkout(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int, usedReferralBonus : Int, kodeTransfer : Int)
+    case checkout(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int, usedReferralBonus : Int, kodeTransfer : Int, targetBank : String)
     case generateVeritransUrl(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int, usedReferralBonus : Int, kodeTransfer : Int)
     
     public func asURLRequest() throws -> URLRequest {
@@ -306,7 +306,7 @@ enum APICart : URLRequestConvertible {
     var method : HTTPMethod {
         switch self {
         case .refresh(_, _, _) : return .post
-        case .checkout(_, _, _, _, _, _, _) : return .post
+        case .checkout(_, _, _, _, _, _, _, _) : return .post
         case .generateVeritransUrl(_, _, _, _, _, _, _) : return .post
         }
     }
@@ -314,7 +314,7 @@ enum APICart : URLRequestConvertible {
     var path : String {
         switch self {
         case .refresh(_, _, _) : return ""
-        case .checkout(_, _, _, _, _, _, _) : return "checkout"
+        case .checkout(_, _, _, _, _, _, _, _) : return "checkout"
         case .generateVeritransUrl(_, _, _, _, _, _, _) : return "generate_veritrans_url"
         }
     }
@@ -329,14 +329,15 @@ enum APICart : URLRequestConvertible {
                 "voucher_serial":(voucher == nil) ? "" : voucher!,
                 "platform_sent_from" : "ios"
             ]
-        case .checkout(let cart, let address, let voucher, let payment, let usedBalance, let usedBonus, let kodeTransfer) :
+        case .checkout(let cart, let address, let voucher, let payment, let usedBalance, let usedBonus, let kodeTransfer, let targetBank) :
             p = [
                 "cart_products":cart,
                 "shipping_address":address,
                 "banktransfer_digit":NSNumber(value: 1 as Int),
                 "voucher_serial":(voucher == nil) ? "" : voucher!,
                 "payment_method":payment,
-                "platform_sent_from" : "ios"
+                "platform_sent_from" : "ios",
+                "target_bank": targetBank
                 ] as [String : Any]
             if usedBalance != 0 {
                 p["prelobalance_used"] = NSNumber(value: usedBalance as Int)
@@ -541,6 +542,11 @@ enum APIMe : URLRequestConvertible {
     case getBalanceMutations(current : Int, limit : Int)
     case setUserUUID
     case achievement
+    case getAddressBook
+    case updateAddress(addressId: String, addressName: String, recipientName: String, phone: String, provinceId: String, provinceName: String, regionId: String, regionName: String, subdistrictId: String, subdistricName: String, address: String, postalCode: String, isMainAddress: Bool)
+    case createAddress(addressName: String, recipientName: String, phone: String, provinceId: String, provinceName: String, regionId: String, regionName: String, subdistrictId: String, subdistricName: String, address: String, postalCode: String)
+    case deleteAddress(addressId: String)
+    case setDefaultAddress(addressId: String)
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "me/"
@@ -573,6 +579,11 @@ enum APIMe : URLRequestConvertible {
         case .getBalanceMutations(_, _) : return .get
         case .setUserUUID : return .post
         case .achievement : return .get
+        case .getAddressBook : return .get
+        case .updateAddress(_, _, _, _, _, _, _, _, _, _, _, _, _) : return .post
+        case .createAddress(_, _, _, _, _, _, _, _, _, _, _) : return .post
+        case .deleteAddress(_) : return .post
+        case .setDefaultAddress(_) : return .post
         }
     }
     
@@ -598,6 +609,11 @@ enum APIMe : URLRequestConvertible {
         case .getBalanceMutations(_, _) : return "getprelobalances"
         case .setUserUUID : return "setgafaid"
         case .achievement : return "achievements"
+        case .getAddressBook : return "address_book"
+        case .updateAddress(_, _, _, _, _, _, _, _, _, _, _, _, _) : return "address_book/update"
+        case .createAddress(_, _, _, _, _, _, _, _, _, _, _) : return "address_book/add"
+        case .deleteAddress(_) : return "address_book/delete"
+        case .setDefaultAddress(_) : return "address_book/set_default"
         }
     }
     
@@ -697,6 +713,48 @@ enum APIMe : URLRequestConvertible {
         case .setUserUUID :
             p = [
                 "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
+                "platform_sent_from" : "ios"
+            ]
+        case .updateAddress(let addressId, let addressName, let recipientName, let phone, let provinceId, let provinceName, let regionId, let regionName, let subdistrictId, let subdistricName, let address, let postalCode, let isMainAddress) :
+            p = [
+                "address_id": addressId,
+                "address_name": addressName,
+                "owner_name": recipientName,
+                "phone": phone,
+                "province_id": provinceId,
+                "province_name": provinceName,
+                "region_id": regionId,
+                "region_name": regionName,
+                "subdistrict_id": subdistrictId,
+                "subdistrict_name": subdistricName,
+                "address": address,
+                "postal_code": postalCode,
+                "is_default": (isMainAddress == true ? 1 : 0),
+                "platform_sent_from" : "ios"
+            ]
+        case .createAddress(let addressName, let recipientName, let phone, let provinceId, let provinceName, let regionId, let regionName, let subdistrictId, let subdistricName, let address, let postalCode) :
+            p = [
+                "address_name": addressName,
+                "owner_name": recipientName,
+                "phone": phone,
+                "province_id": provinceId,
+                "province_name": provinceName,
+                "region_id": regionId,
+                "region_name": regionName,
+                "subdistrict_id": subdistrictId,
+                "subdistrict_name": subdistricName,
+                "address": address,
+                "postal_code": postalCode,
+                "platform_sent_from" : "ios"
+            ]
+        case .deleteAddress(let addressId) :
+            p = [
+                "address_id": addressId,
+                "platform_sent_from" : "ios"
+            ]
+        case .setDefaultAddress(let addressId) :
+            p = [
+                "address_id": addressId,
                 "platform_sent_from" : "ios"
             ]
         default : break
@@ -835,6 +893,7 @@ enum APIProduct : URLRequestConvertible {
     case getProductLovelist(productId : String)
     case reportProduct(productId : String, sellerId : String, reportType : Int, reasonText : String, categoryIdCorrection : String)
     case paidPushWithCoin(productId: String)
+    case paidPushWithWatchVideo(productId: String)
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "product/"
@@ -874,6 +933,7 @@ enum APIProduct : URLRequestConvertible {
         case .getProductLovelist(_) : return .get
         case .reportProduct(_, _, _, _, _) : return .post
         case .paidPushWithCoin(_) : return .post
+        case .paidPushWithWatchVideo(_) : return .post
         }
     }
     
@@ -906,6 +966,7 @@ enum APIProduct : URLRequestConvertible {
         case .getProductLovelist(let productId) : return "\(productId)/lovelist"
         case .reportProduct(let productId, _, _, _, _) : return "\(productId)/report"
         case .paidPushWithCoin(let pId) : return "push/\(pId)/with_diamond"
+        case .paidPushWithWatchVideo(let pId) : return "push/\(pId)"
         }
     }
     
@@ -1030,8 +1091,13 @@ enum APIProduct : URLRequestConvertible {
                 "category_id_correction" : categoryIdCorrection,
                 "platform_sent_from" : "ios"
             ]
-        case .paidPushWithCoin(_):
+        case .paidPushWithCoin(_) :
             p = [
+                "platform_sent_from" : "ios"
+            ]
+        case .paidPushWithWatchVideo(_) :
+            p = [
+                "is_video" : 1,
                 "platform_sent_from" : "ios"
             ]
         default : break
@@ -1446,6 +1512,8 @@ enum APITransactionProduct : URLRequestConvertible
     case rejectTransaction(tpId : String, reason : String)
     case refundRequest(tpId : String, reason : String, reasonNote : String)
     case confirmReceiveRefundedProduct(tpId : String)
+    case reportTransaction(tpId : String, reason : String, reasonNote : String, sellerId: String)
+    case cancelReport(tpId : String)
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "transaction_product/"
@@ -1466,6 +1534,8 @@ enum APITransactionProduct : URLRequestConvertible
         case .rejectTransaction(_, _) : return .post
         case .refundRequest(_, _, _) : return .post
         case .confirmReceiveRefundedProduct(_) : return .post
+        case .reportTransaction(_, _, _, _) : return .post
+        case .cancelReport(_) : return .post
         }
     }
     
@@ -1479,6 +1549,8 @@ enum APITransactionProduct : URLRequestConvertible
         case .rejectTransaction(let tpId, _) : return "\(tpId)/reject"
         case .refundRequest(let tpId, _, _) : return "\(tpId)/refund"
         case .confirmReceiveRefundedProduct(let tpId) : return "\(tpId)/confirm"
+        case .reportTransaction(let tpId, _, _, _) : return "\(tpId)/report"
+        case .cancelReport(let tpId) : return "\(tpId)/cancel_report"
         }
     }
     
@@ -1518,8 +1590,15 @@ enum APITransactionProduct : URLRequestConvertible
                 "reason_note" : reasonNote,
                 "platform_sent_from" : "ios"
             ]
-        case .confirmReceiveRefundedProduct(_):
+        case .confirmReceiveRefundedProduct(_) :
             p = [
+                "platform_sent_from" : "ios"
+            ]
+        case .reportTransaction(_, let reason, let reasonNote, let sellerId) :
+            p = [
+                "seller_id" : sellerId,
+                "reason" : reason,
+                "reason_text" : reasonNote,
                 "platform_sent_from" : "ios"
             ]
         default : break
@@ -1670,3 +1749,37 @@ enum APIWallet : URLRequestConvertible {
         return p
     }
 }
+
+enum APIPreloMessage : URLRequestConvertible {
+    case getMessage
+    
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = "prelo_message/"
+        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
+        return encodedURLRequest
+    }
+    
+    var method : HTTPMethod {
+        switch self {
+        case .getMessage : return .get
+        }
+    }
+    
+    var path : String {
+        switch self {
+        case .getMessage : return ""
+        }
+    }
+    
+    var param : [String : Any] {
+        let p : [String : Any] = [:]
+        switch self {
+        default : break
+        }
+        return p
+    }
+}
+

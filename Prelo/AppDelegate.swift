@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 7/6/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
@@ -42,9 +42,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let RedirCategory = "category"
     let RedirLove = "lovers"
     let RedirAchievement = "achievement"
+    let RedirReferral = "referral"
+    let RedirPreloMessage = "prelo_message"
     
-    var redirAlert : UIAlertView?
-    var redirAlertInit : UIAlertView?
+    var redirAlert : SCLAlertView?
+    var alertViewResponder : SCLAlertViewResponder?
     var RedirWaitAmount : Int = 10000000
     
     var produkUploader : ProdukUploader!
@@ -179,23 +181,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Kepanggil hanya jika app baru saja dibuka, jika dibuka ketika sedang dalam background mode maka tidak terpanggil
         if (launchOptions != nil) {
             if let remoteNotif = launchOptions![UIApplicationLaunchOptionsKey.remoteNotification] as? NSDictionary {
-                if let tipe = remoteNotif.object(forKey: "tipe") as? String {
-                    var targetId : String?
+                if let _tipe = remoteNotif.object(forKey: "tipe") as? String {
+                    var tipe = _tipe
+                    var targetId : String = ""
                     if let tId = remoteNotif.object(forKey: "target_id") as? String {
                         targetId = tId
                     }
+                    if let _ = remoteNotif.object(forKey: "is_prelo_message") as? Bool {
+                        tipe = self.RedirPreloMessage
+                    }
 //                    Constant.showDialog(tipe, message: targetId! )
-                    self.showRedirAlertInit()
                     DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
-                        self.hideRedirAlertInitWithDelay(0)
                         self.deeplinkRedirect(tipe, targetId: targetId)
                     })
                     
                     // Prelo Analytic - Click Push Notification
                     if let _ = remoteNotif.object(forKey: "attachment-url") as? String {
-                        sendPushNotifAnalytic(true, isBackgroundMode: true, targetId: targetId!, tipe: tipe)
+                        sendPushNotifAnalytic(true, isBackgroundMode: true, targetId: targetId, tipe: tipe)
                     } else {
-                        sendPushNotifAnalytic(false, isBackgroundMode: true, targetId: targetId!, tipe: tipe)
+                        sendPushNotifAnalytic(false, isBackgroundMode: true, targetId: targetId, tipe: tipe)
                     }
                 }
                 
@@ -262,7 +266,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UserDefaults.setObjectAndSync(userAgent as AnyObject?, forKey: UserDefaultsKey.UserAgent)
         
         // Remove app badge if any
-//        UIApplication.shared.applicationIconBadgeNumber = 0
+        UIApplication.shared.applicationIconBadgeNumber = 0
         
         // Set status bar color
         self.setStatusBarBackgroundColor(color: UIColor.clear)
@@ -422,6 +426,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             targetId = tId
         }
         
+        if let _ = userInfo["is_prelo_message"] as? Bool {
+            tipe = self.RedirPreloMessage
+        }
+        
         // image
         if let img = userInfo["attachment-url"] as? String {
             imgUrl = img
@@ -440,15 +448,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if tipe.lowercased() == self.RedirInbox && rootViewController?.childViewControllers.last is TawarViewController {
             //do something if it's an instance of that class
-//            
-//            let x = rootViewController?.childViewControllers.last
-//            let c = x  is TawarViewController
             
             if let tawarVC = rootViewController?.childViewControllers.last as? TawarViewController {
                 if tawarVC.tawarItem.threadId == targetId {
                     isDoing = false
                 }
             }
+        } else if tipe.lowercased() == self.RedirPreloMessage && rootViewController?.childViewControllers.last is PreloMessageViewController {
+            //do something if it's an instance of that class
+            
+            isDoing = false
         }
         
         if (application.applicationState == UIApplicationState.active) { // active mode
@@ -458,10 +467,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             let tipeLowercase = tipe.lowercased()
             var imageName = "banner_"
-            if (tipeLowercase == self.RedirProduct || tipeLowercase == self.RedirUser || tipeLowercase == self.RedirInbox || tipeLowercase == self.RedirNotif) {
+            /*if (tipeLowercase == self.RedirProduct || tipeLowercase == self.RedirUser || tipeLowercase == self.RedirInbox || tipeLowercase == self.RedirNotif) {
                 // notif
                 imageName += "notif"
-            } else if (tipeLowercase == self.RedirComment) {
+            } else*/ if (tipeLowercase == self.RedirComment) {
                 // comment
                 imageName += "comment"
             } else if (tipeLowercase == self.RedirConfirm || tipeLowercase == self.RedirTrxBuyer || tipeLowercase == self.RedirTrxSeller || tipeLowercase == self.RedirTrxPBuyer || tipeLowercase == self.RedirTrxPSeller) {
@@ -474,7 +483,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // love
                 imageName += "love"
             } else if (tipeLowercase == self.RedirAchievement) {
+                // achievement
                 imageName += "achievement"
+            } else {
+                // notif
+                imageName += "notif"
             }
             imageName += ".png"
             
@@ -491,20 +504,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
              */
             
-            if (title != "" || alert != "") {
+            if ((title != "" || alert != "") && isDoing) {
                 // banner
                 let banner = Banner(title: title != "" ? title : alert, subtitle: body != "" ? body : nil, image: imageBanner, backgroundColor: Theme.PrimaryColor, didTapBlock: {
-                    if isDoing {
+                    //if isDoing {
                         self.deeplinkRedirect(tipe, targetId: targetId)
-                    }
-                    
-//                    // Prelo Analytic - Click Notification (in App)
-//                    let loginMethod = User.LoginMethod ?? ""
-//                    let pdata = [
-//                        "Target ID" : targetId,
-//                        "Type" : tipe
-//                    ] as [String : Any]
-//                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ClickNotificationInApp, data: pdata, previousScreen: "", loginMethod: loginMethod)
+                    //}
                     
                     // Prelo Analytic - Click Push Notification
                     if imgUrl != "" {
@@ -529,6 +534,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             if isDoing {
                 self.deeplinkRedirect(tipe, targetId: targetId)
+            } else {
+                // not tested
+                if tipe.lowercased() == self.RedirInbox && rootViewController?.childViewControllers.last is TawarViewController {
+                    //do something if it's an instance of that class
+                    
+                    if let tawarVC = rootViewController?.childViewControllers.last as? TawarViewController {
+                        tawarVC.isScrollToBottom = true
+                        tawarVC.getMessages()
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                            // decrease notif badge
+                            let unreadNotifCount = self.preloNotifListener.newNotifCount - 1
+                            self.preloNotifListener.setNewNotifCount(unreadNotifCount)
+                        })
+                    }
+                } else if tipe.lowercased() == self.RedirPreloMessage && rootViewController?.childViewControllers.last is PreloMessageViewController {
+                    //do something if it's an instance of that class
+                    
+                    if let preloMessageVC = rootViewController?.childViewControllers.last as? PreloMessageViewController {
+                        preloMessageVC.getMessage()
+                        
+                        // decrease notif badge
+                        // handled at prelo message vc
+                    }
+                }
             }
             
             // Prelo Analytic - Click Push Notification
@@ -553,7 +583,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // MoEngage
         MoEngage.sharedInstance().stop(application)
         
-        produkUploader.stop()
+        if produkUploader != nil {
+            produkUploader.stop()
+        }
         
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().didLoseFocus()
@@ -565,7 +597,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
         
-        produkUploader.start()
+        self.versionForceUpdateCheck()
+        
+        // Prelo Analytic - Open App
+        AnalyticManager.sharedInstance.openApp()
+        
+        if (User.Token != nil && CDUser.getOne() != nil) { // If user is logged in
+            DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
+                self.produkUploader.start()
+            })
+        }
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -574,7 +615,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Remove app badge if any
         // show badge
-        UIApplication.shared.applicationIconBadgeNumber = User.getNotifCount() as NSInteger
+        UIApplication.shared.applicationIconBadgeNumber = 0 //User.getNotifCount() as NSInteger
         
         // AppsFlyer
         // Track Installs, updates & sessions(app opens) (You must include this API to enable tracking)
@@ -596,6 +637,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
 //        Constant.showDialog("FIrst INIT", message: "firts INIT")
         
+        self.versionForceUpdateCheck()
+        
+        // Prelo Analytic - Open App
+        AnalyticManager.sharedInstance.openApp()
         
         // Prelo Analytic - Update User
         AnalyticManager.sharedInstance.updateUser(isNeedPayload: true)
@@ -609,29 +654,161 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
     }
     
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        // deeplinking prelo://
+        
+        print(url)
+        
+        if let components = URLComponents(url: url, resolvingAgainstBaseURL: true) {
+            var param : [URLQueryItem] = []
+            if let items = components.queryItems {
+                param = items
+            }
+            if let del = UIApplication.shared.delegate as? AppDelegate {
+                del.handleUniversalLink(url, path: components.path, param: param)
+                
+                return true
+            }
+            return false
+        }
+        
+        return false
+    }
+    
     // MARK: - Redirection functions
     
     func handleUniversalLink(_ url : URL, path : String, param : [URLQueryItem]) {
         self.showRedirAlert()
-        if (path.contains(".html")) {
-            let permalink = path.replace("/", template: "").replacingOccurrences(of: ".html", with: "")
-            let _ = request(APIProduct.getIdByPermalink(permalink: permalink)).responseJSON { resp in
-                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Produk")) {
-                    let json = JSON(resp.result.value!)
-                    let pId = json["_data"].stringValue
-                    if (pId != "") {
-                        self.redirectProduct(pId)
+        
+        if (url.absoluteString.lowercased().contains("prelo://")) { // prelo://
+            let urlString = url.absoluteString.lowercased().replace("prelo:/", template: "")
+            let parameter = path.replace("/", template: "")
+            
+            // #1 User
+            if (urlString.contains("/user")) {
+                if parameter != "" {
+                    self.redirectShopPage(parameter) // user id
+                } else {
+                    self.showFailedRedirAlert()
+                }
+                
+                /*
+                let _ = request(APIUser.testUser(username: path.replace("/", template: ""))).responseJSON { resp in
+                    if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Data Shop Pengguna")) {
+                        let json = JSON(resp.result.value!)["_data"]
+                        if let userId = json["_id"].string {
+                            self.redirectShopPage(userId)
+                        } else {
+                            self.showFailedRedirAlert()
+                        }
+                    } else {
+                        self.showFailedRedirAlert()
+                    }
+                }
+                 */
+            
+            // #2 Category
+            } else if (urlString.contains("/category")) {
+                let _ = request(APIReference.getCategoryByPermalink(permalink: path.replace("/", template: ""))).responseJSON { resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Get Category ID")) {
+                        let json = JSON(resp.result.value!)
+                        let cId = json["_data"].stringValue
+                        if (cId != "") {
+                            self.redirectCategory(cId)
+                        } else {
+                            self.showFailedRedirAlert()
+                        }
+                    } else {
+                        self.showFailedRedirAlert()
+                    }
+                }
+                
+            // #3 Chat
+            } else if (urlString.contains("/chat")) {
+                if parameter != "" {
+                    self.redirectInbox(parameter)
+                } else {
+                    self.showFailedRedirAlert()
+                }
+            
+            // #4 Product Detail
+            } else if (urlString.contains("/product")) {
+                if parameter != "" {
+                    self.redirectProduct(parameter)
+                } else {
+                    self.showFailedRedirAlert()
+                }
+            
+            // #5 Order
+            } else if (urlString.contains("/order")) {
+                if parameter != "" {
+                    if (urlString.contains("/buyer")) {
+                        self.redirectTransaction(parameter, trxProductId: nil, isSeller: false)
+                    } else if (urlString.contains("/seller")) {
+                        self.redirectTransaction(parameter, trxProductId: nil, isSeller: true)
                     } else {
                         self.showFailedRedirAlert()
                     }
                 } else {
                     self.showFailedRedirAlert()
                 }
+                
+            // #6 Transaction
+            } else if (urlString.contains("/transaction")) {// seller - buyer
+                if parameter != "" {
+                    self.redirectTransaction(nil, trxProductId: parameter, isSeller: false) // is seller not use, because trx product
+                } else {
+                    self.showFailedRedirAlert()
+                }
+                
+            // #7 Cart
+            } else if (urlString.contains("/cart")) {
+                self.redirectCart()
+            
+            // #8 Referral
+            } else if (urlString.contains("/referral")) {
+                self.redirectReferral()
+            
+            // #9 Lovers
+            } else if (urlString.contains("/lovers")) {
+                if parameter != "" {
+                    self.redirectLove(parameter)
+                } else {
+                    self.showFailedRedirAlert()
+                }
+                
+            // #10 Achievement
+            } else if (urlString.contains("/achievement")) {
+                self.redirectAchievement()
+            
+            // #11 Confirm Payment
+            } else if (urlString.contains("/confirm")) {
+                if parameter != "" {
+                    self.redirectConfirmPayment(parameter)
+                } else {
+                    self.showFailedRedirAlert()
+                }
+                
+            // #12 My Products
+            } else if (urlString.contains("/my-products")) {
+                self.redirectMyProducts()
+                
+            // #13 Comment
+            } else if (urlString.contains("/comment")) {
+                if parameter != "" {
+                    self.redirectComment(parameter)
+                } else {
+                    self.showFailedRedirAlert()
+                }
+                
+            } else {
+                self.showFailedRedirAlert()
+                
             }
-        } else if (path.contains("/p/")) { // old
-            let splittedPath = path.characters.split{$0 == "/"}.map(String.init)
-            if (splittedPath.count > 1) {
-                let permalink = splittedPath[1].replacingOccurrences(of: ".html", with: "")
+            
+        } else if (url.absoluteString.contains("prelo.co.id") || url.absoluteString.contains("dev.prelo.id")) { // https://prelo.co.id/ / http://dev.prelo.id/
+            if (path.contains(".html")) {
+                let permalink = path.replace("/", template: "").replacingOccurrences(of: ".html", with: "")
                 let _ = request(APIProduct.getIdByPermalink(permalink: permalink)).responseJSON { resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Produk")) {
                         let json = JSON(resp.result.value!)
@@ -645,65 +822,94 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         self.showFailedRedirAlert()
                     }
                 }
-            } else {
-                self.showFailedRedirAlert()
-            }
-        } else if (path.contains("/reminder-ketersediaan-barang") || path.contains("/barang-expiring")) {
-            /* GET PARAM EXAMPLE
-            var token = ""
-            if (param.count > 0) {
-                for i in 0...param.count - 1 {
-                    if (param[i].name.lowercaseString == "token") {
-                        if let v = param[i].value {
-                            token = v
-                        }
-                    }
-                }
-            }*/
-            self.redirectExpiringProducts()
-        } else if (path.contains("/c/") || path.contains("/bekas/")) {
-            let splittedPath = path.characters.split{$0 == "/"}.map(String.init)
-            if (splittedPath.count > 1) {
-                let permalink = splittedPath[1] //.replacingOccurrences(of: ".html", with: "")
-                let _ = request(APIReference.getCategoryByPermalink(permalink: permalink)).responseJSON { resp in
-                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Get Category ID")) {
-                        let json = JSON(resp.result.value!)
-                        let cId = json["_data"].stringValue
-                        if (cId != "") {
-                            self.redirectCategory(cId)
+            } else if (path.contains("/p/")) { // old
+                let splittedPath = path.characters.split{$0 == "/"}.map(String.init)
+                if (splittedPath.count > 1) {
+                    let permalink = splittedPath[1].replacingOccurrences(of: ".html", with: "")
+                    let _ = request(APIProduct.getIdByPermalink(permalink: permalink)).responseJSON { resp in
+                        if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Produk")) {
+                            let json = JSON(resp.result.value!)
+                            let pId = json["_data"].stringValue
+                            if (pId != "") {
+                                self.redirectProduct(pId)
+                            } else {
+                                self.showFailedRedirAlert()
+                            }
                         } else {
                             self.showFailedRedirAlert()
                         }
-                    } else {
-                        self.showFailedRedirAlert()
-                    }
-                }
-            } else {
-                self.showFailedRedirAlert()
-            }
-        } else if (path.contains("/checkout")) {
-            self.redirectCart()
-        } else {
-            let _ = request(APIUser.testUser(username: path.replace("/", template: ""))).responseJSON { resp in
-                
-                if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Data Shop Pengguna")) {
-                    
-                    let json = JSON(resp.result.value!)["_data"]
-                    if let userId = json["_id"].string {
-                        self.redirectShopPage(userId)
-                    } else {
-                        self.hideRedirAlertWithDelay(1.0)
-                        // Choose one method
-                        UIApplication.shared.openURL(url) // Open in safari
-                        //self.redirectWebview(url.absoluteString) // Open in prelo's webview
                     }
                 } else {
-                    self.hideRedirAlertWithDelay(1.0)
-                    // Choose one method
-                    UIApplication.shared.openURL(url) // Open in safari
-                    //self.redirectWebview(url.absoluteString) // Open in prelo's webview
+                    self.showFailedRedirAlert()
+                }
+            } else if (path.contains("/reminder-ketersediaan-barang") || path.contains("/barang-expiring")) {
+                /* GET PARAM EXAMPLE
+                 var token = ""
+                 if (param.count > 0) {
+                 for i in 0...param.count - 1 {
+                 if (param[i].name.lowercaseString == "token") {
+                 if let v = param[i].value {
+                 token = v
+                 }
+                 }
+                 }
+                 }*/
+                self.redirectExpiringProducts()
+            } else if (path.contains("/c/") || path.contains("/bekas/")) {
+                let splittedPath = path.characters.split{$0 == "/"}.map(String.init)
+                if (splittedPath.count > 1) {
+                    let permalink = splittedPath[1] //.replacingOccurrences(of: ".html", with: "")
+                    let _ = request(APIReference.getCategoryByPermalink(permalink: permalink)).responseJSON { resp in
+                        if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Get Category ID")) {
+                            let json = JSON(resp.result.value!)
+                            let cId = json["_data"].stringValue
+                            if (cId != "") {
+                                self.redirectCategory(cId)
+                            } else {
+                                self.showFailedRedirAlert()
+                            }
+                        } else {
+                            self.showFailedRedirAlert()
+                        }
+                    }
+                } else {
+                    self.showFailedRedirAlert()
+                }
+            } else if (path.contains("/checkout")) {
+                self.redirectCart()
+            } else {
+                let _ = request(APIUser.testUser(username: path.replace("/", template: ""))).responseJSON { resp in
+                    
+                    if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Data Shop Pengguna")) {
+                        
+                        let json = JSON(resp.result.value!)["_data"]
+                        if let userId = json["_id"].string {
+                            self.redirectShopPage(userId)
+                        } else {
+                            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                                // Choose one method
+                                UIApplication.shared.openURL(url) // Open in safari
+                                //self.redirectWebview(url.absoluteString) // Open in prelo's webview
+                            })
+                        }
+                    } else {
+                        self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                            // Choose one method
+                            UIApplication.shared.openURL(url) // Open in safari
+                            //self.redirectWebview(url.absoluteString) // Open in prelo's webview
+                        })
+                    }
                 }
             }
+            
+        } else if (url.absoluteString.contains("http://") || url.absoluteString.contains("https://")) { // other
+            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                // Choose one method
+                UIApplication.shared.openURL(url) // Open in safari
+                //self.redirectWebview(url.absoluteString) // Open in prelo's webview
+            })
+        } else {
+            self.showFailedRedirAlert()
         }
     }
     
@@ -773,43 +979,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else if (tipeLowercase == self.RedirAchievement) {
             self.showRedirAlert()
             self.redirectAchievement()
+        } else if (tipeLowercase == self.RedirReferral) {
+            self.showRedirAlert()
+            self.redirectReferral()
+        } else if (tipeLowercase == self.RedirPreloMessage) {
+            self.showRedirAlert()
+            self.redirectPreloMessage()
         }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+            // decrease notif badge
+            let unreadNotifCount = self.preloNotifListener.newNotifCount - 1
+            self.preloNotifListener.setNewNotifCount(unreadNotifCount)
+        })
     }
     
     func showRedirAlert() {
-        redirAlert = UIAlertView()
-        redirAlert!.title = "Redirecting..."
-        redirAlert!.message = "Harap tunggu beberapa saat"
-        redirAlert!.show()
+//        redirAlert = UIAlertController(title: "Redirecting...", message: "Harap tunggu beberapa saat", preferredStyle: .alert)
+//        UIApplication.shared.keyWindow?.rootViewController?.present(redirAlert!, animated: true, completion: nil)
+        
+        redirAlert = SCLAlertView(appearance: Constant.appearance)
+        alertViewResponder = redirAlert!.showCustom("Redirecting...", subTitle: "Harap tunggu beberapa saat", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
-    func hideRedirAlertWithDelay(_ delay: Double) {
+    func hideRedirAlertWithDelay(_ delay: Double, completion: (() -> Void)?) {
         let delayTime = delay * Double(NSEC_PER_SEC)
         let time = DispatchTime.now() + Double(Int64(delayTime)) / Double(NSEC_PER_SEC)
         DispatchQueue.main.asyncAfter(deadline: time, execute: {
-            self.redirAlert?.dismiss(withClickedButtonIndex: -1, animated: true)
+//            self.redirAlert?.dismiss(animated: true, completion: completion)
+            self.alertViewResponder?.close()
+            if (completion != nil) {
+                self.alertViewResponder?.setDismissBlock(completion!)
+            }
         })
     }
     
     func showFailedRedirAlert() {
-        redirAlert?.title = "Redirection Failed"
-        redirAlert?.message = "Terdapat kesalahan saat memproses data"
-        self.hideRedirAlertWithDelay(3.0)
-    }
-    
-    func showRedirAlertInit() {
-        redirAlertInit = UIAlertView()
-        redirAlertInit!.title = "Redirecting..."
-        redirAlertInit!.message = "Harap tunggu beberapa saat"
-        redirAlertInit!.show()
-    }
-    
-    func hideRedirAlertInitWithDelay(_ delay: Double) {
-        let delayTime = delay * Double(NSEC_PER_SEC)
-        let time = DispatchTime.now() + Double(Int64(delayTime)) / Double(NSEC_PER_SEC)
-        DispatchQueue.main.asyncAfter(deadline: time, execute: {
-            self.redirAlertInit?.dismiss(withClickedButtonIndex: -1, animated: false)
-        })
+//        redirAlert?.title = "Redirection Failed"
+//        redirAlert?.message = "Terdapat kesalahan saat memproses data"
+        
+        alertViewResponder?.setTitle("Redirection Failed")
+        alertViewResponder?.setSubTitle("Terdapat kesalahan saat memproses data")
+        
+        self.hideRedirAlertWithDelay(3.0, completion: nil)
     }
     
     func redirectProduct(_ productId : String) {
@@ -844,7 +1056,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if (rootViewController != nil) {
                     let productDetailVC = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
                     productDetailVC.product = p!
-                    rootViewController!.pushViewController(productDetailVC, animated: true)
+                    
+                    self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                        rootViewController!.pushViewController(productDetailVC, animated: true)
+                    })
                 } else {
                     self.showFailedRedirAlert()
                 }
@@ -885,7 +1100,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdProductComments) as! ProductCommentsController
                     p.pDetail = pDetail
                     p.previousScreen = "Push Notification"
-                    rootViewController!.pushViewController(p, animated: true)
+                    
+                    self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                        rootViewController!.pushViewController(p, animated: true)
+                    })
+                    
                 } else {
                     self.showFailedRedirAlert()
                 }
@@ -922,12 +1141,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         if (!AppTools.isNewShop) {
-            rootViewController!.pushViewController(listItemVC, animated: true)
+            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                rootViewController!.pushViewController(listItemVC, animated: true)
+            })
             
         } else { // new shop
             let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
             storePageTabBarVC.shopId = userId
-            rootViewController!.pushViewController(storePageTabBarVC, animated: true)
+            
+            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                rootViewController!.pushViewController(storePageTabBarVC, animated: true)
+            })
         }
     }
     
@@ -965,7 +1189,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     let tawarVC = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
                     tawarVC.tawarItem = inbox
                     tawarVC.previousScreen = "Push Notification"
-                    rootViewController!.pushViewController(tawarVC, animated: true)
+                    
+                    self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                        rootViewController!.pushViewController(tawarVC, animated: true)
+                    })
                 } else {
                     self.showFailedRedirAlert()
                 }
@@ -999,7 +1226,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Redirect setelah selesai menunggu
         if (rootViewController != nil) {
             let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
-            rootViewController!.pushViewController(notifPageVC, animated: true)
+            
+            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                rootViewController!.pushViewController(notifPageVC, animated: true)
+            })
         } else {
             self.showFailedRedirAlert()
         }
@@ -1037,9 +1267,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     // Redirect setelah selesai menunggu
                     if (rootViewController != nil) {
                         if (progress != 1) { // Sudah pernah melakukan konfirmasi bayar
-                            self.redirAlert?.title = "Perhatian"
-                            self.redirAlert?.message = "Anda sudah melakukan konfirmasi bayar untuk transaksi ini"
-                            self.hideRedirAlertWithDelay(3.0)
+//                            self.redirAlert?.title = "Perhatian"
+//                            self.redirAlert?.message = "Anda sudah melakukan konfirmasi bayar untuk transaksi ini"
+                            self.alertViewResponder?.setTitle("Perhatian")
+                            self.alertViewResponder?.setSubTitle("Anda sudah melakukan konfirmasi bayar untuk transaksi ini")
+                            self.hideRedirAlertWithDelay(3.0, completion: nil)
                         } else {
                             let products = data["products"]
                             var imgs : [URL] = []
@@ -1056,7 +1288,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             orderConfirmVC.total = data["total_price"].intValue
                             orderConfirmVC.images = imgs
                             orderConfirmVC.isFromCheckout = false
-                            rootViewController!.pushViewController(orderConfirmVC, animated: true)
+                            
+                            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                                rootViewController!.pushViewController(orderConfirmVC, animated: true)
+                            })
                         }
                     } else {
                         self.showFailedRedirAlert()
@@ -1096,7 +1331,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             transactionDetailVC.trxId = trxId
             transactionDetailVC.trxProductId = trxProductId
             transactionDetailVC.isSeller = isSeller
-            rootViewController!.pushViewController(transactionDetailVC, animated: true)
+            
+            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                rootViewController!.pushViewController(transactionDetailVC, animated: true)
+            })
         } else {
             self.showFailedRedirAlert()
         }
@@ -1123,7 +1361,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let noBtn = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
             expProductsVC.navigationItem.leftBarButtonItem = noBtn
         }
-        rootViewController!.pushViewController(expProductsVC, animated: true)
+        
+        self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+            rootViewController!.pushViewController(expProductsVC, animated: true)
+        })
     }
     
     func redirectCategory(_ categoryId : String) {
@@ -1151,7 +1392,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let noBtn = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
             listItemVC.navigationItem.leftBarButtonItem = noBtn
         }
-        rootViewController!.pushViewController(listItemVC, animated: true)
+        
+        self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+            rootViewController!.pushViewController(listItemVC, animated: true)
+        })
     }
     
     func redirectLove(_ productId : String) {
@@ -1180,7 +1424,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // API Migrasi
             let productLovelistVC = Bundle.main.loadNibNamed(Tags.XibNameProductLovelist, owner: nil, options: nil)?.first as! ProductLovelistViewController
             productLovelistVC.productId = productId
-            rootViewController!.pushViewController(productLovelistVC, animated: true)
+            
+            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                rootViewController!.pushViewController(productLovelistVC, animated: true)
+            })
         } else {
             self.showFailedRedirAlert()
         }
@@ -1211,10 +1458,109 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if (rootViewController != nil) {
             // API Migrasi
             let AchievementVC = Bundle.main.loadNibNamed(Tags.XibNameAchievement, owner: nil, options: nil)?.first as! AchievementViewController
-            rootViewController!.pushViewController(AchievementVC, animated: true)
+            AchievementVC.previousScreen = "Push Notification"
+            
+            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                rootViewController!.pushViewController(AchievementVC, animated: true)
+            })
         } else {
             self.showFailedRedirAlert()
         }
+    }
+    
+    func redirectReferral() {
+        var rootViewController : UINavigationController?
+        
+        // Tunggu sampai UINavigationController terbentuk
+        var wait = true
+        var waitCount = self.RedirWaitAmount
+        while (wait) {
+            if let childVCs = self.window!.rootViewController?.childViewControllers {
+                if (childVCs.count > 0) {
+                    if let rootVC = childVCs[0] as? UINavigationController {
+                        rootViewController = rootVC
+                    }
+                    wait = false
+                }
+            }
+            waitCount -= 1
+            if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                wait = false
+            }
+        }
+        
+        // Redirect setelah selesai menunggu
+        if (rootViewController != nil) {
+            let referralPageVC = Bundle.main.loadNibNamed(Tags.XibNameReferralPage, owner: nil, options: nil)?.first as! ReferralPageViewController
+            referralPageVC.previousScreen = "Push Notification"
+            
+            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                rootViewController!.pushViewController(referralPageVC, animated: true)
+            })
+        } else {
+            self.showFailedRedirAlert()
+        }
+    }
+    
+    func redirectPreloMessage() {
+        var rootViewController : UINavigationController?
+        
+        // Tunggu sampai UINavigationController terbentuk
+        var wait = true
+        var waitCount = self.RedirWaitAmount
+        while (wait) {
+            if let childVCs = self.window!.rootViewController?.childViewControllers {
+                if (childVCs.count > 0) {
+                    if let rootVC = childVCs[0] as? UINavigationController {
+                        rootViewController = rootVC
+                    }
+                    wait = false
+                }
+            }
+            waitCount -= 1
+            if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                wait = false
+            }
+        }
+        
+        // Redirect setelah selesai menunggu
+        if (rootViewController != nil) {
+            let preloMessageVC = Bundle.main.loadNibNamed(Tags.XibNamePreloMessage, owner: nil, options: nil)?.first as! PreloMessageViewController
+            preloMessageVC.previousScreen = "Push Notification"
+            
+            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                rootViewController!.pushViewController(preloMessageVC, animated: true)
+            })
+        } else {
+            self.showFailedRedirAlert()
+        }
+    }
+    
+    func redirectMyProducts() {
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let myProductVC = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdMyProducts) as! MyProductViewController
+        myProductVC.shouldSkipBack = false
+        
+        var rootViewController : UINavigationController?
+        if let rVC = self.window?.rootViewController {
+            if (rVC.childViewControllers.count > 0) {
+                if let chld = rVC.childViewControllers[0] as? UINavigationController {
+                    rootViewController = chld
+                }
+            }
+        }
+        if (rootViewController == nil) {
+            // Set root view controller
+            rootViewController = UINavigationController()
+            rootViewController?.navigationBar.barTintColor = Theme.PrimaryColor
+            rootViewController?.navigationBar.tintColor = UIColor.white
+            rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+            self.window?.rootViewController = rootViewController
+        }
+        
+        self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+            rootViewController!.pushViewController(myProductVC, animated: true)
+        })
     }
     
     func redirectWebview(_ url : String) {
@@ -1240,7 +1586,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let noBtn = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
             webVC.navigationItem.leftBarButtonItem = noBtn
         }
-        rootViewController!.pushViewController(webVC, animated: true)
+        
+        self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+            rootViewController!.pushViewController(webVC, animated: true)
+        })
     }
     
     func redirectCart() {
@@ -1262,8 +1611,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             rootViewController?.navigationBar.tintColor = UIColor.white
             rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
             self.window?.rootViewController = rootViewController
-       }
-        rootViewController!.pushViewController(cartVC, animated: true)
+        }
+        
+        self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+            rootViewController!.pushViewController(cartVC, animated: true)
+        })
     }
     
     // MARK: - Core Data stack
@@ -1411,5 +1763,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            "Type" : tipe
         ] as [String : Any]
         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ClickPushNotification, data: pdata, previousScreen: "", loginMethod: loginMethod)
+    }
+    
+    // MARK: - forceupdate checker
+    func versionForceUpdateCheck() {
+        // API Migrasi
+        let _ = request(APIApp.version).responseJSON { resp in
+            
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Version Check")) {
+                let json = JSON(resp.result.value!)
+                var data = json["_data"]
+                
+                // Check if app need to be updated
+                if let installedVer = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
+                    if let newVer = CDVersion.getOne()?.appVersion {
+                        if (newVer.compare(installedVer, options: .numeric, range: nil, locale: nil) == .orderedDescending) {
+                            UserDefaults.standard.set(newVer, forKey: UserDefaultsKey.UpdatePopUpVer)
+                            
+                            if let releaseNotes = data["release_notes"].array {
+                                var notes = ""
+                                for rn in releaseNotes {
+                                    notes += rn.stringValue + "\n"
+                                }
+                                UserDefaults.standard.set(notes, forKey: UserDefaultsKey.UpdatePopUpNotes)
+                            } else if let releaseNotes = data["release_notes"].string {
+                                UserDefaults.standard.set(releaseNotes, forKey: UserDefaultsKey.UpdatePopUpNotes)
+                            }
+                            
+                            if let isForceUpdate = data["is_force_update"].bool {
+                                UserDefaults.standard.set(isForceUpdate, forKey: UserDefaultsKey.UpdatePopUpForced)
+                            }
+                            
+                            UserDefaults.standard.synchronize()
+                            
+                            Constant.forceUpdatePrompt()
+                        }
+                    }
+                }
+            }
+        }
     }
 }

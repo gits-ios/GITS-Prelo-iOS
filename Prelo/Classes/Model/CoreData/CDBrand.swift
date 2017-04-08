@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Fransiska on 10/27/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import Foundation
@@ -33,7 +33,7 @@ class CDBrand: NSManagedObject {
             for i in 0 ..< brandCount
             {
                 let brandJson = json[i]
-                print(brandJson.rawString())
+                //print(brandJson.rawString())
                 var catIds : [String] = []
                 let bcount = brandJson["category_ids"].arrayValue.count
                 for j in 0 ..< bcount

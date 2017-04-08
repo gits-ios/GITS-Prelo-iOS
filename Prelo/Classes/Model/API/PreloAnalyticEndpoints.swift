@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Djuned on 2/20/17.
-//  Copyright © 2017 GITS Indonesia. All rights reserved.
+//  Copyright © 2017 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
@@ -12,7 +12,7 @@ import Alamofire
 
 var preloAnalyticHost : String {
 get {
-    return "\(AnalyticManager.sharedInstance.PreloAnalyticBaseUrl)/api/"
+    return "\(AnalyticManager.PreloAnalyticBaseUrl)/api/"
 }
 }
 
@@ -101,16 +101,12 @@ extension URLRequest {
         var urlRequest = URLRequest(url: self.url!)
         
         // Set token
-        urlRequest.setValue("Token \(AnalyticManager.sharedInstance.token)", forHTTPHeaderField: "Authorization")
+        urlRequest.setValue("Token \(AnalyticManager.PreloAnalyticToken)", forHTTPHeaderField: "Authorization")
         
         // Set user agent
         if let userAgent = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String {
             urlRequest.setValue(userAgent, forHTTPHeaderField: "User-Agent")
         }
-        
-        // ERR
-//        // json
-//        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         // Set crashlytics custom key
         Crashlytics.sharedInstance().setObjectValue(urlRequest, forKey: "last_req_url")
@@ -122,6 +118,7 @@ extension URLRequest {
 enum APIAnalytic : URLRequestConvertible {
     case eventWithUserId(eventType: String, data: [String : Any], userId: String)
     case event(eventType: String, data: [String : Any])
+    case eventOpenApp
     case userRegister(registerMethod: String, metadata: JSON)
     case userInit(userProfileData: UserProfile)
     case userUpdate(phone: String)
@@ -158,19 +155,22 @@ enum APIAnalytic : URLRequestConvertible {
     
     var path : String {
         switch self {
-        case .eventWithUserId(_, _, _) : return "event"
-        case .event(_, _) : return "event"
-        case .userRegister(_, _) : return "user"
-        case .userInit(_) : return "user"
-        case .userUpdate(_) : return "user"
-        case .user(_) : return "user"
+        case .eventWithUserId(_, _, _),
+             .event(_, _),
+             .eventOpenApp
+                : return "event"
+        case .userRegister(_, _),
+             .userInit(_),
+             .userUpdate(_),
+             .user(_)
+                : return "user"
         }
     }
     
     var param : [String : Any] {
         var p : [String : Any] = [:]
         switch self {
-        case .eventWithUserId(let eventType, let data, let userId) :
+        case .eventWithUserId(let eventType, let data, let userId):
             p = [
                 "user_id" : userId,
                 "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
@@ -178,7 +178,7 @@ enum APIAnalytic : URLRequestConvertible {
                 "event_type" : eventType,
                 "data" : data
             ]
-        case .event(let eventType, let data) :
+        case .event(let eventType, let data):
             p = [
                 "user_id" : (User.IsLoggedIn ? User.Id! : ""),
                 "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
@@ -186,7 +186,15 @@ enum APIAnalytic : URLRequestConvertible {
                 "event_type" : eventType,
                 "data" : data
             ]
-        case .userRegister(let registerMethod, let metadata) :
+        case .eventOpenApp:
+            p = [
+                "user_id" : (User.IsLoggedIn ? User.Id! : ""),
+                "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
+                "device_id" : UIDevice.current.identifierForVendor!.uuidString,
+                "event_type" : PreloAnalyticEvent.OpenApp,
+                "collapsible" : true
+            ]
+        case .userRegister(let registerMethod, let metadata):
             let deviceToken = (UserDefaults.standard.string(forKey: "deviceregid") != nil && UserDefaults.standard.string(forKey: "deviceregid") != "" ? UserDefaults.standard.string(forKey: "deviceregid")! : "...simulator...")
             let d : [String : [String : Any]] =  [
                 "device_model" : [
@@ -215,7 +223,7 @@ enum APIAnalytic : URLRequestConvertible {
                 "username" : metadata["username"].stringValue,
                 "data" : d
             ]
-        case .userInit(let userProfileData) :
+        case .userInit(let userProfileData):
             let deviceToken = (UserDefaults.standard.string(forKey: "deviceregid") != nil && UserDefaults.standard.string(forKey: "deviceregid") != "" ? UserDefaults.standard.string(forKey: "deviceregid")! : "...simulator...")
             let a : [String : Any] = [
                 "province" : CDProvince.getProvinceNameWithID(userProfileData.provinceId)!,
@@ -250,7 +258,7 @@ enum APIAnalytic : URLRequestConvertible {
                 "username" : userProfileData.username,
                 "data" : d
             ]
-        case .userUpdate(let phone) :
+        case .userUpdate(let phone):
             let _user = CDUser.getOne()
             let deviceToken = (UserDefaults.standard.string(forKey: "deviceregid") != nil && UserDefaults.standard.string(forKey: "deviceregid") != "" ? UserDefaults.standard.string(forKey: "deviceregid")! : "...simulator...")
             let d : [String : [String : Any]] =  [
@@ -326,7 +334,6 @@ enum APIAnalytic : URLRequestConvertible {
             ]
         }
         print(p.debugDescription)
-//        print(p.description)
         return p
     }
 }

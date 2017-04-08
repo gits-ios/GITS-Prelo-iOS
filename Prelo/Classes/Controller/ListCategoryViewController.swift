@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 7/6/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
@@ -95,6 +95,14 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
     }
     
     func grandRefresh() {
+        if let kumangTabBarVC = self.previousController as? KumangTabBarViewController {
+            kumangTabBarVC.showLoading()
+            kumangTabBarVC.isAlreadyGetCategory = false
+        }
+        
+        scroll_View.backgroundColor = UIColor.clear
+        
+        // lets cleaning
         listItemViews.removeAll(keepingCapacity: false)
         
         if (childViewControllers.count > 0) {
@@ -222,13 +230,33 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 self.addChildAtIdx(i, count: count, d: &d, lastView: &lastView)
             }
         }
+        
         if let firstChild = self.childViewControllers[0] as? ListItemViewController { // First child
             firstChild.setupContent()
         }
-        
+        /*
+        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
+                                            qos: .background,
+                                            target: nil)
+        backgroundQueue.async {
+            print("Work on background queue: Init Category " + self.categoriesFix[1]["name"].stringValue)
+            
+            for i in 1...self.childViewControllers.count-1 {
+                if let allChild = self.childViewControllers[i] as? ListItemViewController {
+                    DispatchQueue.main.async(execute: {
+                        
+                        // continue to main async
+                        allChild.setupContent()
+                    })
+                }
+            }
+        }
+        */
         scroll_View.layoutIfNeeded()
         contentView?.layoutIfNeeded()
         addCategoryNames(count)
+        
+        scroll_View.backgroundColor = UIColor(hexString: "#E8ECEE")
     }
     
     func addChildAtIdx(_ i : Int, count : Int, d : inout [String : UIView], lastView : inout UIView?) {
@@ -308,7 +336,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         for i in 0...count-1
         {
             let button = UIButton(type: .custom)
-            button.setTitleColor(Theme.GrayDark)
+            button.setTitleColor(Theme.GrayLight)
             button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
             if let name = categoriesFix[i]["name"].string {
                 var nameFix = name
@@ -364,6 +392,8 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
+                print(data.debugDescription)
+                
                 if let isPromo = data["is_promo"].bool {
                     if (isPromo) {
                         if let promoTitle = data["promo_data"]["title"].string {
@@ -375,7 +405,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                                         self.vwHomePromo = UIView(frame: screenSize, backgroundColor: UIColor.colorWithColor(UIColor.black, alpha: 0.7))
                                         
                                         let imgHomePromo = UIImageView()
-                                        imgHomePromo.afSetImage(withURL: promoUrl)
+                                        imgHomePromo.afSetImage(withURL: promoUrl, withFilter: .noneWithoutPlaceHolder) // fix
                                         let imgHomePromoSize = CGSize(width: 300, height: 400)
                                         imgHomePromo.frame = CGRect(x: (screenSize.width / 2) - (imgHomePromoSize.width / 2), y: (screenSize.height / 2) - (imgHomePromoSize.height / 2), width: imgHomePromoSize.width, height: imgHomePromoSize.height)
                                         imgHomePromo.contentMode = UIViewContentMode.scaleAspectFit
@@ -416,22 +446,12 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         let name = categoriesFix[1]["name"].string
         if (name?.lowercased() == "all" || name?.lowercased() == "home") {
             setCurrentTab(1)
+            
+            self.fixer(1)
         } else {
             setCurrentTab(0)
-        }
-        
-        // Show app store update pop up if necessary
-        if let newVer = UserDefaults.standard.object(forKey: UserDefaultsKey.UpdatePopUpVer) as? String , newVer != "" {
-            let alert : UIAlertController = UIAlertController(title: "New Version Available", message: "Prelo \(newVer) is available on App Store", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { action in
-                UIApplication.shared.openURL(URL(string: "itms-apps://itunes.apple.com/id/app/prelo/id1027248488")!)
-            }))
-            if let isForceUpdate = UserDefaults.standard.object(forKey: UserDefaultsKey.UpdatePopUpForced) as? Bool , !isForceUpdate {
-                alert.addAction(UIAlertAction(title: "Batal", style: .default, handler: nil))
-            }
-            UserDefaults.standard.set("", forKey: UserDefaultsKey.UpdatePopUpVer)
-            UserDefaults.standard.synchronize()
-            self.present(alert, animated: true, completion: nil)
+            
+            self.fixer(0)
         }
     }
     
@@ -448,7 +468,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         
         scroll_View.setContentOffset(p, animated: true)
         
-        adjustIndicator(index)
+        //adjustIndicator(index)
     }
     
     func adjustIndicator(_ index : Int)
@@ -462,6 +482,9 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         indicatorMargin?.constant = v.x
         indicatorWidth?.constant = v.width
         
+        self.coloringTitle(index)
+        
+        /*
         let queue : OperationQueue = OperationQueue()
         let opLayout : Operation = BlockOperation(block: {
             DispatchQueue.main.async(execute: {
@@ -478,6 +501,31 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         })
         opSetupContent.addDependency(opLayout)
         queue.addOperation(opSetupContent)
+         */
+    }
+    
+    func coloringTitle(_ index: Int) {
+        for i in 0...categoryNames.count-1 {
+            if index != i {
+                let button = categoryNames[i] as! UIButton
+                button.setTitleColor(Theme.GrayLight)
+            } else {
+                let button = categoryNames[i] as! UIButton
+                button.setTitleColor(Theme.GrayDark)
+            }
+        }
+    }
+    
+    // for init only
+    func fixer(_ index: Int) {
+        let v = categoryNames[index]
+        indicatorMargin?.constant = v.x
+        indicatorWidth?.constant = v.width
+        
+        let button = categoryNames[index] as! UIButton
+        button.setTitleColor(Theme.GrayDark)
+        
+        centerCategoryView(index)
     }
     
     func categoryButtonAction(_ sender : UIView)
@@ -570,9 +618,12 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             Crashlytics.sharedInstance().setObjectValue("width \(width) | offsetX \(contentOffsetX)", forKey: "ListCategoryViewController.scrollViewDidScroll")
             i = Int(contentOffsetX / width + 0.5)
         }
-        currentTabIndex = i
-        centerCategoryView(currentTabIndex)
-        adjustIndicator(currentTabIndex)
+        
+        if i != currentTabIndex {
+            currentTabIndex = i
+            centerCategoryView(currentTabIndex)
+            adjustIndicator(currentTabIndex)
+        }
         
         //print("lastContentOffset = \(lastContentOffset)")
         //print("scrollView.contentOffset = \(scrollView.contentOffset)")
@@ -611,6 +662,39 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         }
         
         lastContentOffset = scrollView.contentOffset
+    }
+    
+    // manualy scroll the content view
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        setupContent(scrollView)
+    }
+    
+    // from navigation
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        setupContent(scrollView)
+    }
+    
+    // setup content view
+    func setupContent(_ scrollView: UIScrollView) {
+        if scrollView == scroll_View {
+            let queue : OperationQueue = OperationQueue()
+            let opLayout : Operation = BlockOperation(block: {
+                DispatchQueue.main.async(execute: {
+                    self.categoryIndicator?.layoutIfNeeded()
+                })
+            })
+            queue.addOperation(opLayout)
+            let opSetupContent : Operation = BlockOperation(block: {
+                DispatchQueue.main.async(execute: {
+                //DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                    if let child = self.childViewControllers[self.currentTabIndex] as? ListItemViewController {
+                        child.setupContent()
+                    }
+                })
+            })
+            opSetupContent.addDependency(opLayout)
+            queue.addOperation(opSetupContent)
+        }
     }
     
     // MARK: - Home promo
@@ -679,6 +763,5 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         }
         return nil
     }
-    
 }
 

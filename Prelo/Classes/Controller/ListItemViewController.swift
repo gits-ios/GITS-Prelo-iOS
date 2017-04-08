@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 7/6/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
@@ -60,7 +60,7 @@ enum ListItemMode {
     case newShop
 }
 
-class ListItemViewController: BaseViewController, MFMailComposeViewControllerDelegate, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, FilterDelegate, CategoryPickerDelegate, ListBrandDelegate {
+class ListItemViewController: BaseViewController, MFMailComposeViewControllerDelegate, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, FilterDelegate, CategoryPickerDelegate, ListBrandDelegate, FBNativeAdDelegate, FBNativeAdsManagerDelegate {
     
     // MARK: - Struct
     
@@ -139,7 +139,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var fltrIsFreeOngkir : Bool = false
     var fltrSizes : [String] = []
     var fltrSortBy : String = "" // "recent"/"lowest_price"/"highest_price"/"popular"
-    var fltrLocation : [String] = ["Semua Provinsi", "", "0", "Semua Province  "] // name , id, type --> 0: province, 1: region, 2: subdistrict
+    var fltrLocation : [String] = ["Semua Provinsi", "", "0", ""] // name , id, type --> 0: province, 1: region, 2: subdistrict, parentids --> <province id>;<region id>
     var fltrAggregateId : String = "" // agregateid
     // Views
     @IBOutlet var vwTopHeaderFilter: UIView!
@@ -178,15 +178,23 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var isExpand = false
     var star = Float(0)
     
-    // home
-    var isHiddenTop: Bool = false
-    
     var isFeatured: Bool = false
+    
+    // FB-ads
+    let adRowStep: Int = 19 // fit for 1, 2, 3
+    
+    var adsManager: FBNativeAdsManager!
+    
+    var adsCellProvider: FBNativeAdCollectionViewCellProvider!
     
     // MARK: - Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if currentMode == .shop || currentMode == .newShop {
+            self.navigationController?.navigationBar.isTranslucent = true
+        }
         
         if (currentMode == .newShop) {
             let StoreInfo = UINib(nibName: "StorePageShopHeader", bundle: nil)
@@ -236,25 +244,35 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         // Add status bar tap observer
         NotificationCenter.default.addObserver(self, selector: #selector(ListItemViewController.statusBarTapped), name: NSNotification.Name(rawValue: AppDelegate.StatusBarTapNotificationName), object: nil)
         
-        if isHiddenTop {
-            NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "hideBottomBar"), object: nil)
-            self.navigationController?.setNavigationBarHidden(true, animated: true)
-            self.hideStatusBar()
-            if (selectedSegment != "") {
-                consHeightVwTopHeader.constant = 0 // Hide top header
-                UIView.animate(withDuration: 0.2, animations: {
-                    self.view.layoutIfNeeded()
-                })
-            }
-            self.repositionScrollCategoryNameContent()
-            if (currentMode == .filter) {
-                self.consTopTopHeaderFilter.constant = UIApplication.shared.statusBarFrame.height
-                self.consTopGridView.constant = UIApplication.shared.statusBarFrame.height
-            }
+        // ads
+        if (currentMode == .filter) {
+            configureAdManagerAndLoadAds()
         }
+        
+        // fixer
+        self.repositionScrollCategoryNameContent(false)
         
         if currentMode == .filter {
             self.setStatusBarBackgroundColor(color: Theme.PrimaryColor)
+            
+            // Prelo Analytic - Filter
+            sendFilterAnalytic()
+        }
+        
+        if currentMode == .shop || currentMode == .newShop {
+            self.navigationController?.navigationBar.isTranslucent = true
+        }
+        
+        // for handle navigation
+        if (currentMode == .shop && self.isTransparent) {
+            self.isTransparent = !self.isTransparent
+            self.transparentNavigationBar(true)
+            self.isFirst = false
+            
+        } else if (currentMode == .newShop && (self.delegate?.getTransparentcy())!) {
+            self.delegate?.setTransparentcy(!((self.delegate?.getTransparentcy())!))
+            self.transparentNavigationBar(true)
+            
         }
     }
     
@@ -262,27 +280,35 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         super.viewWillDisappear(animated)
         //print("viewWillDisappear x")
         
+        // Show navbar - non animated
+        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        self.repositionScrollCategoryNameContent(false)
+        self.showStatusBar()
+        
         // Remove status bar tap observer
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: AppDelegate.StatusBarTapNotificationName), object: nil)
-        
-        // Show navbar
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
-//        self.repositionScrollCategoryNameContent()
-//        self.showStatusBar()
         
         // Status bar color
         if (currentMode == .filter) {
             self.setStatusBarBackgroundColor(color: UIColor.clear)
          
             // reset header
-//            self.consTopTopHeaderFilter.constant = 0
-//            self.consTopGridView.constant = 0
-        }
-        
-        if (currentMode == .shop || currentMode == .newShop) {
+            self.consTopTopHeaderFilter.constant = 0
+            self.consTopGridView.constant = 0
+            
+        } else if (currentMode == .shop || currentMode == .newShop) {
             self.defaultNavigationBar()
+            
+        } else if (currentMode == .segment) {
+            if (selectedSegment != "") {
+                consHeightVwTopHeader.constant = 40 // Show top header
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.view.layoutIfNeeded()
+                })
+            }
+            
         }
-
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -315,16 +341,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             }
         }
         
-        // for handle navigation
-//        self.isTransparent = !self.isTransparent
-        if (currentMode == .shop && self.isTransparent) {
-            self.isTransparent = !self.isTransparent
-            self.transparentNavigationBar(true)
-            self.isFirst = false
-        } else if (currentMode == .newShop && (self.delegate?.getTransparentcy())!) {
-            self.delegate?.setTransparentcy(!((self.delegate?.getTransparentcy())!))
-            self.transparentNavigationBar(true)
-        }
+        // fixer
+        self.repositionScrollCategoryNameContent(true)
     }
     
     override func backPressed(_ sender: UIBarButtonItem) {
@@ -538,6 +556,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.getProducts()
             } else {
                 self.refresher?.endRefreshing()
+                self.setupGrid()
             }
         default:
             requesting = true
@@ -642,8 +661,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             lastTimeUuid = products![products!.count - 1].updateTimeUuid
         }
         
-        let provinceId =  self.fltrLocation[2].int == 0 ? self.fltrLocation[1] : ""
-        let regionId =  self.fltrLocation[2].int == 1 ? self.fltrLocation[1] : ""
+        let parentids = self.fltrLocation[3].components(separatedBy: ";")
+        let provinceId =  self.fltrLocation[2].int == 0 ? self.fltrLocation[1] : parentids[0]
+        let regionId =  self.fltrLocation[2].int == 1 ? self.fltrLocation[1] : (parentids.count > 1 ? parentids[1] : "")
         let subDistrictId =  self.fltrLocation[2].int == 2 ? self.fltrLocation[1] : ""
         
         let _ = request(APISearch.productByFilter(name: fltrName, aggregateId: fltrAggregateId, categoryId: fltrCategId, brandIds: AppToolsObjC.jsonString(from: [String](fltrBrands.values)), productConditionIds: AppToolsObjC.jsonString(from: fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonString(from: fltrSizes), sortBy: fltrSortBy, current: NSNumber(value: products!.count), limit: NSNumber(value: itemsPerReq), lastTimeUuid: lastTimeUuid, provinceId : provinceId, regionId: regionId, subDistrictId: subDistrictId)).responseJSON { resp in
@@ -858,6 +878,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
 //                self.shopHeader?.editBlock = {
 //                    let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
 //                    self.navigationController?.pushViewController(userProfileVC, animated: true)
+                
+//                    let userProfileVC2 = Bundle.main.loadNibNamed(Tags.XibNameUserProfile2, owner: nil, options: nil)?.first as! UserProfileViewController2
+//                    self.navigationController?.pushViewController(userProfileVC2, animated: true)
 //                }
                 
                 self.shopHeader?.reviewBlock = {
@@ -1048,9 +1071,15 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         gridView.reloadData()
         if (currentMode == .segment || self.isFeatured == true) {
             gridView.contentInset = UIEdgeInsetsMake(0, 0, 48, 0)
+        } else if (currentMode == .filter || currentMode == .shop || currentMode == .newShop) {
+            gridView.contentInset = UIEdgeInsetsMake(0, 0, 24, 0)
         }
         gridView.isHidden = false
         vwFilterZeroResult.isHidden = true
+        
+//        if (currentMode == .filter) {
+//            configureAdManagerAndLoadAds()
+//        }
     }
     
     // MARK: - Collection view functions
@@ -1070,7 +1099,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         case .segments:
             return self.segments.count
         case .products:
-            if let p = products {
+            if let p = products, adsCellProvider != nil && p.count > 0 {
+                return Int(adsCellProvider.adjustCount(UInt(p.count), forStride: UInt(adRowStep)))
+            }
+            else if let p = products {
                 return p.count
             }
             return 0
@@ -1105,25 +1137,34 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             cell.imgSegment.image = segments[(indexPath as NSIndexPath).item].image
             return cell
         case .products:
-            // Load next products here
-            if (currentMode == .default || currentMode == .standalone || currentMode == .shop || currentMode == .filter || (currentMode == .segment && listItemSections.contains(.products)) || currentMode == .newShop) {
-                if ((indexPath as NSIndexPath).row == (products?.count)! - 4 && requesting == false && done == false) {
-                    getProducts()
+            if adsCellProvider != nil && adsCellProvider.isAdCell(at: indexPath, forStride: UInt(adRowStep)) {
+                return adsCellProvider.collectionView(gridView, cellForItemAt: indexPath)
+            }
+            else {
+                // Load next products here
+                if (currentMode == .default || currentMode == .standalone || currentMode == .shop || currentMode == .filter || (currentMode == .segment && listItemSections.contains(.products)) || currentMode == .newShop) {
+                    if ((indexPath as NSIndexPath).row == (products?.count)! - 4 && requesting == false && done == false) {
+                        getProducts()
+                    }
                 }
+                
+                var idx  = (indexPath as NSIndexPath).item
+                if (adsCellProvider != nil && adRowStep != 0) {
+                    idx = indexPath.row - indexPath.row / adRowStep
+                }
+                
+                let cell : ListItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ListItemCell
+                if (products?.count > idx) {
+                    let p = products?[idx]
+                    cell.adapt(p!, listStage: self.listStage, currentMode: self.currentMode, shopAvatar: self.shopAvatar, parent: self)
+                    cell.isFeatured = self.isFeatured
+                }
+                if (currentMode == .featured) {
+                    // Hide featured ribbon
+                    cell.imgFeatured.isHidden = true
+                }
+                return cell
             }
-            
-            
-            let cell : ListItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ListItemCell
-            if (products?.count > (indexPath as NSIndexPath).item) {
-                let p = products?[(indexPath as NSIndexPath).item]
-                cell.adapt(p!, listStage: self.listStage, currentMode: self.currentMode, shopAvatar: self.shopAvatar, parent: self)
-                cell.isFeatured = self.isFeatured
-            }
-            if (currentMode == .featured) {
-                // Hide featured ribbon
-                cell.imgFeatured.isHidden = true
-            }
-            return cell
         case .aboutShop:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "StorePageShopHeader", for: indexPath) as! StoreInfo
             cell.adapt(self.shopData, count: self.products!.count, isExpand: self.isExpand, star: self.star)
@@ -1151,14 +1192,29 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             let segHeight = viewWidthMinusMargin * segments[(indexPath as NSIndexPath).item].image.size.height / segments[(indexPath as NSIndexPath).item].image.size.width
             return CGSize(width: viewWidthMinusMargin, height: segHeight)
         case .products:
-            return CGSize(width: itemCellWidth!, height: itemCellWidth! + 66)
+            if !AppTools.isIPad && adsCellProvider != nil && adsCellProvider.isAdCell(at: indexPath, forStride: UInt(adRowStep)) {
+                return CGSize(width: ((UIScreen.main.bounds.size.width - 8) / 1), height: adsCellProvider.collectionView(gridView, heightForRowAt: indexPath))
+            }
+            else {
+                return CGSize(width: itemCellWidth!, height: itemCellWidth! + 66)
+            }
         case . aboutShop:
             return CGSize(width: viewWidthMinusMargin, height: StoreInfo.heightFor(shopData, isExpand: isExpand))
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        switch listItemSections[section] {
+        case .products:
+//            if AppTools.isIPad {
+//                return 3.9
+//            } else {
+//                return 4
+//            }
+            return 3.9 // safe point
+        default:
+            return 0
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -1194,11 +1250,6 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         case .featuredHeader:
             break
         case .subcategories:
-            NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
-            self.navigationController?.setNavigationBarHidden(false, animated: true)
-            self.repositionScrollCategoryNameContent()
-            self.showStatusBar()
-            
             let p = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
             p.currentMode = .filter
             p.fltrCategId = subcategoryItems[(indexPath as NSIndexPath).item].id
@@ -1218,7 +1269,12 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             self.listItemSections.append(.products)
             self.refresh()
         case .products:
-            self.selectedProduct = products?[(indexPath as NSIndexPath).item]
+            var idx  = (indexPath as NSIndexPath).item
+            if (adsCellProvider != nil && adRowStep != 0) {
+                idx = indexPath.row - indexPath.row / adRowStep
+            }
+            
+            self.selectedProduct = products?[idx]
             if self.selectedProduct?.isAggregate == false && self.selectedProduct?.isAffiliate == false {
                 if (currentMode == .featured) {
                     self.selectedProduct?.setToFeatured()
@@ -1289,11 +1345,6 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 
                 f.btnFooter.isHidden = false
                 f.btnFooterAction = {
-//                    NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
-//                    self.navigationController?.setNavigationBarHidden(false, animated: true)
-//                    self.repositionScrollCategoryNameContent()
-//                    self.showStatusBar()
-                    
                     let p = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
                     p.currentMode = .filter
                     p.fltrCategId = self.categoryJson!["_id"].stringValue
@@ -1335,11 +1386,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if (draggingScrollView) {
+        if (draggingScrollView && !requesting) {
             if (currentMode == .default || currentMode == .featured || currentMode == .filter || (currentMode == .segment && listItemSections.contains(.products))) {
                 if (currScrollPoint.y < scrollView.contentOffset.y) {
                     if ((self.navigationController?.isNavigationBarHidden)! == false) {
-                        isHiddenTop = true
                         NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "hideBottomBar"), object: nil)
                         self.navigationController?.setNavigationBarHidden(true, animated: true)
                         self.hideStatusBar()
@@ -1347,16 +1397,17 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                             consHeightVwTopHeader.constant = 0 // Hide top header
                             UIView.animate(withDuration: 0.2, animations: {
                                 self.view.layoutIfNeeded()
-                            }) 
+                            })
                         }
-                        self.repositionScrollCategoryNameContent()
+                        self.repositionScrollCategoryNameContent(true)
                         if (currentMode == .filter) {
+                            UIView.animate(withDuration: 0.2, animations: {
                             self.consTopTopHeaderFilter.constant = UIApplication.shared.statusBarFrame.height
                             self.consTopGridView.constant = UIApplication.shared.statusBarFrame.height
+                            })
                         }
                     }
                 } else {
-                    isHiddenTop = false
                     NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
                     self.navigationController?.setNavigationBarHidden(false, animated: true)
                     self.showStatusBar()
@@ -1366,10 +1417,12 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                             self.view.layoutIfNeeded()
                         })
                     }
-                    self.repositionScrollCategoryNameContent()
+                    self.repositionScrollCategoryNameContent(true)
                     if (currentMode == .filter) {
-                        self.consTopTopHeaderFilter.constant = 0
-                        self.consTopGridView.constant = 0
+                        UIView.animate(withDuration: 0.2, animations: {
+                            self.consTopTopHeaderFilter.constant = 0
+                            self.consTopGridView.constant = 0
+                        })
                     }
                 }
             }
@@ -1415,11 +1468,18 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
     }
     
-    func repositionScrollCategoryNameContent() {
+    func repositionScrollCategoryNameContent(_ animated: Bool) {
         // This function is made as a temporary solution for a bug where the scroll category name content size is become wrong after scroll
         if (scrollCategoryName != nil) {
-            let bottomOffset = CGPoint(x: self.scrollCategoryName!.contentOffset.x, y: self.scrollCategoryName!.contentSize.height - self.scrollCategoryName!.bounds.size.height)
-            self.scrollCategoryName!.setContentOffset(bottomOffset, animated: false)
+            if animated {
+                UIView.animate(withDuration: 0.2, animations: {
+                    let bottomOffset = CGPoint(x: self.scrollCategoryName!.contentOffset.x, y: self.scrollCategoryName!.contentSize.height - self.scrollCategoryName!.bounds.size.height)
+                    self.scrollCategoryName!.setContentOffset(bottomOffset, animated: false)
+                })
+            } else {
+                let bottomOffset = CGPoint(x: self.scrollCategoryName!.contentOffset.x, y: self.scrollCategoryName!.contentSize.height - self.scrollCategoryName!.bounds.size.height)
+                self.scrollCategoryName!.setContentOffset(bottomOffset, animated: false)
+            }
         }
     }
     
@@ -1450,6 +1510,17 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 icon.tintColor = UIColor.lightGray
             }
         }
+    }
+    
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        // Prelo Analytic - Search by Keyword
+        sendSearchByKeywordAnalytic(self.searchBar.text!)
+        
+        return true
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
     
     // MARK: - Filter delegate function
@@ -1544,6 +1615,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         filterVC.locationId = self.fltrLocation[1]
         filterVC.locationName = self.fltrLocation[0]
         filterVC.locationType = self.fltrLocation[2].int
+        filterVC.locationParentIDs = self.fltrLocation[3]
         self.navigationController?.pushViewController(filterVC, animated: true)
     }
     
@@ -1593,7 +1665,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func launchDetail() {
-        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: NotificationName.ShowProduct), object: [ self.selectedProduct, (self.currentMode != .filter ? (self.currentMode == .shop || self.currentMode == .newShop ? PageName.Shop : PageName.Home ) :  PageName.SearchResult ) ])
+        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: NotificationName.ShowProduct), object: [ self.selectedProduct!, (self.currentMode != .filter ? (self.currentMode == .shop || self.currentMode == .newShop ? PageName.Shop : PageName.Home ) :  PageName.SearchResult ) ])
     }
     
     // MARK: - Other functions
@@ -1602,7 +1674,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         gridView.setContentOffset(CGPoint(x: 0, y: 10), animated: true)
         NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
-        self.repositionScrollCategoryNameContent()
+        self.repositionScrollCategoryNameContent(true)
     }
     
     func pinch(_ pinchedIn : Bool) {
@@ -1706,7 +1778,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     // MARK: - Edit Profile button (right top) .shop
     func setEditButton() {
-        let btnEdit = self.createButtonWithIcon(AppFont.preloAwesome, icon: "")
+        let btnEdit = self.createButtonWithIcon(UIImage(named: "ic_edit_white")!) //self.createButtonWithIcon(AppFont.preloAwesome, icon: "")
         
         btnEdit.addTarget(self, action: #selector(ListItemViewController.editProfile), for: UIControlEvents.touchUpInside)
         
@@ -1717,8 +1789,133 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     func editProfile()
     {
-        let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
-        self.navigationController?.pushViewController(userProfileVC, animated: true)
+//        let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
+//        self.navigationController?.pushViewController(userProfileVC, animated: true)
+//        
+        let userProfileVC2 = Bundle.main.loadNibNamed(Tags.XibNameUserProfile2, owner: nil, options: nil)?.first as! UserProfileViewController2
+        self.navigationController?.pushViewController(userProfileVC2, animated: true)
+    }
+    
+    // MARK: - Ads
+    func configureAdManagerAndLoadAds() {
+        if adsManager == nil {
+            
+            if (AppTools.isDev) {
+                FBAdSettings.setLogLevel(FBAdLogLevel.log)
+            
+                var hashedIds : Array<String> = []
+                hashedIds.append("c175de056cdb0cca0c902686eb3fa862503918d5") // pw - new id
+                //hashedIds.append("81c2cf31791f7f7513d28f30c48d4186ca00b11f") // nadine - ipad
+                FBAdSettings.addTestDevices(hashedIds)
+            
+                //FBAdSettings.setLogLevel(FBAdLogLevel.none)
+                //FBAdSettings.clearTestDevices()
+            }
+ 
+            adsManager = FBNativeAdsManager(placementID: "860723977338277_1233930046684333", forNumAdsRequested: 5)
+            adsManager.delegate = self
+            adsManager.loadAds()
+        }
+    }
+    
+    func nativeAdsLoaded() {
+        /*
+         FBNativeAdViewAttributes *attributes = [[FBNativeAdViewAttributes alloc] init];
+         
+         attributes.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1];
+         attributes.buttonColor = [UIColor colorWithRed:66/255.0 green:108/255.0 blue:173/255.0 alpha:1];
+         attributes.buttonTitleColor = [UIColor whiteColor];
+         
+         FBNativeAdView *adView = [FBNativeAdView nativeAdViewWithNativeAd:nativeAd
+         withType:FBNativeAdViewTypeGenericHeight300 withAttributes:attributes];
+         
+         [self.view addSubview:adView];
+         
+         CGSize size = self.view.bounds.size;
+         CGFloat xOffset = size.width / 2 - 160;
+         CGFloat yOffset = (size.height > size.width) ? 100 : 20;
+         adView.frame = CGRectMake(xOffset, yOffset, 320, 300);
+         
+         // Register the native ad view and its view controller with the native ad instance
+         [nativeAd registerViewForInteraction:adView withViewController:self];
+         */
+        
+        let attributes = FBNativeAdViewAttributes.init()
+        attributes.backgroundColor = UIColor.white
+        attributes.buttonColor = Theme.PrimaryColor
+        attributes.buttonTitleColor = UIColor.white
+        
+        if (adsCellProvider == nil) {
+            var l = FBNativeAdViewType.genericHeight120
+            if AppTools.isIPad {
+                if self.itemCellWidth! + 66 > 400 {
+                    l = FBNativeAdViewType.genericHeight400
+                } else {
+                    l = FBNativeAdViewType.genericHeight300
+                }
+            }
+            
+            adsCellProvider = FBNativeAdCollectionViewCellProvider(manager: adsManager, for: l, for: attributes)
+            
+            adsCellProvider.delegate = self
+        }
+        
+        if gridView != nil {
+            gridView.reloadData()
+        }
+    }
+    
+    func nativeAdsFailedToLoadWithError(_ error: Error) {
+        print(error)
+    }
+    
+    func nativeAdDidClick(_ nativeAd: FBNativeAd) {
+        print("Ad tapped: \(nativeAd.title)")
+    }
+    
+    // Prelo Analytic - Filter
+    func sendFilterAnalytic() {
+        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
+                                            qos: .background,
+                                            target: nil)
+        backgroundQueue.async {
+            print("Work on background queue")
+            var brands: Array<String> = []
+            for i in self.fltrBrands {
+                brands.append(String(i.key))
+            }
+            
+            let parentids = self.fltrLocation[3].components(separatedBy: ";")
+            let provinceId =  self.fltrLocation[2].int == 0 ? self.fltrLocation[1] : parentids[0]
+            let regionId =  self.fltrLocation[2].int == 1 ? self.fltrLocation[1] : (parentids.count > 1 ? parentids[1] : "")
+            let subDistrictId =  self.fltrLocation[2].int == 2 ? self.fltrLocation[1] : ""
+            
+            let location = [
+                "Province ID": provinceId,
+                "Region ID": regionId,
+                "Subdistrict ID": subDistrictId
+            ]
+            let loginMethod = User.LoginMethod ?? ""
+            let pdata = [
+                "Category" : self.lblFilterKategori.text!,
+                "Brand" : brands,
+                "Condition" : self.fltrProdCondIds.count > 0 ? true : false,
+                "Location": location,
+                "Min Price" : self.fltrPriceMin > 0 ? true : false,
+                "Max Price" : self.fltrPriceMax > 0 ? true : false,
+                "Free Shipping" : self.fltrIsFreeOngkir
+            ] as [String : Any]
+            AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Filter, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+        }
+    }
+    
+    // Prelo Analytic - Search by Keyword
+    func sendSearchByKeywordAnalytic(_ keyword: String) {
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Search Query" : keyword
+        ]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SearchByKeyword, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
     }
 }
 
@@ -2017,8 +2214,9 @@ class ListItemCell : UICollectionViewCell {
         }
         
 //        _ = obj["display_picts"][0].string
-        ivCover.image = nil
+//        ivCover.image = nil
         ivCover.afSetImage(withURL: product.coverImageURL!)
+        print(product.coverImageURL!)
         
         if let op = product.json["price_original"].int {
             captionOldPrice.text = op.asPrice

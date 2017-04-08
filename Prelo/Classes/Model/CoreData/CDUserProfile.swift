@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 8/6/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import Foundation
@@ -22,6 +22,8 @@ class CDUserProfile: NSManagedObject {
     @NSManaged var provinceID: String
     @NSManaged var subdistrictID: String
     @NSManaged var subdistrictName: String
+    @NSManaged var addressName: String
+    @NSManaged var recipientName: String
 
     static func getOne() -> CDUserProfile?
     {

@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 7/31/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
@@ -19,21 +19,27 @@ enum imageFilterMode {
     case noneWithoutPlaceHolder
     case circleWithBadgePlaceHolder
     case fitWithPreloPlaceHolder
+    case fillWithPreloMessagePlaceHolder
 }
 
 class AppTools: NSObject {
-    static let isDev = false // Set true for demo/testing purpose only
+    static let isDev = true // Set true for demo/testing purpose only
     
     fileprivate static var devURL = "http://dev.prelo.id"
     fileprivate static var prodURL = "https://prelo.co.id"
     
     fileprivate static var _PreloBaseUrl = isDev ? devURL : prodURL
     static var PreloBaseUrl : String {
-        set {
-            _PreloBaseUrl = newValue
-        }
         get {
             return _PreloBaseUrl
+        }
+    }
+    
+    static func switchToDev(_ isDev: Bool) {
+        if isDev {
+            _PreloBaseUrl = devURL
+        } else {
+            _PreloBaseUrl = prodURL
         }
     }
     
@@ -201,6 +207,23 @@ extension UILabel {
         let range = self.text?.range(of: substr)
         if let r = range {
             boldRange(r)
+        }
+    }
+    
+    func italicRange(_ range: Range<String.Index>) {
+        if let text = self.attributedText {
+            let attr = NSMutableAttributedString(attributedString: text)
+            let start = text.string.characters.distance(from: text.string.startIndex, to: range.lowerBound)
+            let length = text.string.characters.distance(from: range.lowerBound, to: range.upperBound)
+            attr.addAttributes([NSFontAttributeName: UIFont.italicSystemFont(ofSize: self.font.pointSize)], range: NSMakeRange(start, length))
+            self.attributedText = attr
+        }
+    }
+    
+    func italicSubstring(_ substr: String) {
+        let range = self.text?.range(of: substr)
+        if let r = range {
+            italicRange(r)
         }
     }
     
@@ -475,6 +498,19 @@ extension UIImageView {
                 imageTransition: .crossDissolve(0.3)
             )
         }
+            
+        else if withFilter == .fillWithPreloMessagePlaceHolder { // badge
+            let filter = AspectScaledToFillSizeFilter(
+                size: self.frame.size
+            )
+            
+            self.af_setImage(
+                withURL: withURL,
+                placeholderImage: UIImage(named: "placeholder-prelo-message.jpg")!, // pm
+                filter: filter,
+                imageTransition: .crossDissolve(0.3)
+            )
+        }
         
         // default fill
         else {
@@ -615,6 +651,11 @@ class Tags : NSObject {
     static let XibNameStorePage = "StorePageTabBar"
     static let XibNameShopAchievement = "ShopAchievement"
     static let XibNameTarikTunai2 = "TarikTunai2"
+    static let XibNamePreloMessage = "PreloMessage"
+    static let XibNameAddressBook = "AddressBook"
+    static let XibNameAddressAddEdit = "AddressAddEdit"
+    static let XibNameUserProfile2 = "UserProfile2"
+    static let XibNameReportTransaction = "ReportTransaction"
 }
 
 class OrderStatus : NSObject {
@@ -687,6 +728,10 @@ class PageName {
     static let ShopAchievements = "Shop Achievements"
     static let ProductLovelist = "Tawar Lovelist"
     static let SearchResult = "Search Result"
+    static let PreloMessage = "Prelo Message"
+    static let AddressBook = "Address Book"
+    static let AddAddress = "Add Address"
+    static let EditAddress = "Edit Address"
 }
 
 extension Mixpanel {
@@ -816,6 +861,16 @@ class PreloAnalyticEvent {
     static let RequestRefund = "Transaction:Request Refund"
     static let DelayShipping = "Transaction:Delay Shipping"
     static let RejectShipping = "Transaction:Reject"
+    
+    // Daily
+    static let OpenApp = "Daily:Open App"
+    
+    // Search
+    static let SearchByKeyword = "Search:Search by Keyword"
+    static let Filter = "Search:Filter"
+    
+    // Achievement
+    static let VisitAchievementPage = "Achievement:Visit Achievement Page"
 }
 
 extension GAI {
@@ -849,6 +904,7 @@ class UserDefaultsKey : NSObject {
     static let UpdatePopUpVer = "updatepopupver"
     static let UpdatePopUpForced = "updatepopupforced"
     static let AbTestFakeApprove = "abtestfakeapprove"
+    static let UpdatePopUpNotes = "updatepopupnotes"
 }
 
 extension UserDefaults {
@@ -938,6 +994,7 @@ func print(_ items: Any..., separator: String = " ", terminator: String = "\n") 
     }
 }
 
+/*
 class ImageHelper {
     static func removeExifData(_ data: Data) -> Data? {
         /* FIXME: Swift 3
@@ -970,3 +1027,4 @@ class ImageHelper {
         return NSData(data: data) as Data
     }
 }
+*/

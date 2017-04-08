@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 7/28/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
@@ -34,10 +34,19 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     
     var feedback: FeedbackPopup?
     
+    @IBOutlet weak var btnEdit: UIButton!
+    
     // MARK: - Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // set button
+        let insetBtn = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
+        
+        btnEdit.setImage(UIImage(named: "ic_edit_white"), for: .normal)
+        btnEdit.imageView?.contentMode = .scaleAspectFit
+        btnEdit.imageEdgeInsets = insetBtn
         
         // regiter cell
         
@@ -345,8 +354,11 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     @IBAction func editProfilePressed(_ sender: UIButton) {
-        let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
-        self.previousController!.navigationController?.pushViewController(userProfileVC, animated: true)
+//        let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
+//        self.previousController!.navigationController?.pushViewController(userProfileVC, animated: true)
+        
+        let userProfileVC2 = Bundle.main.loadNibNamed(Tags.XibNameUserProfile2, owner: nil, options: nil)?.first as! UserProfileViewController2
+        self.navigationController?.pushViewController(userProfileVC2, animated: true)
     }
     
     @IBAction func topMenu1Pressed(_ sender: AnyObject) {
@@ -437,6 +449,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     
     func launchAchievement() {
         let AchievementVC = Bundle.main.loadNibNamed(Tags.XibNameAchievement, owner: nil, options: nil)?.first as! AchievementViewController
+        AchievementVC.previousScreen = PageName.DashboardLoggedIn
         self.navigationController?.pushViewController(AchievementVC, animated: true)
     }
 
@@ -467,6 +480,18 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
 //        let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
 //        storePageTabBarVC.shopId = CDUser.getOne()?.id
 //        self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+
+        // address book -- OKE
+//        let addressBookVC = Bundle.main.loadNibNamed(Tags.XibNameAddressBook, owner: nil, options: nil)?.first as! AddressBookViewController
+//        self.navigationController?.pushViewController(addressBookVC, animated: true)
+        
+        // edit profile - baru -- OKE
+//        let userProfileVC2 = Bundle.main.loadNibNamed(Tags.XibNameUserProfile2, owner: nil, options: nil)?.first as! UserProfileViewController2
+//        self.navigationController?.pushViewController(userProfileVC2, animated: true)
+        
+        // prelo message -- OKE
+//        let preloMessageVC = Bundle.main.loadNibNamed(Tags.XibNamePreloMessage, owner: nil, options: nil)?.first as! PreloMessageViewController
+//        self.navigationController?.pushViewController(preloMessageVC, animated: true)
     }
     
     func launchFAQ() {

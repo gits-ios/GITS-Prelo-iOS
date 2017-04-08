@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Djuned on 1/6/17.
-//  Copyright © 2017 GITS Indonesia. All rights reserved.
+//  Copyright © 2017 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 //import Foundation
@@ -91,9 +91,14 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
     }
     
     func failed() {
+        /*
         let ac = UIAlertController(title: "Scanning not supported", message: "Your device does not support scanning a code from an item. Please use a device with a camera.", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "OK", style: .default))
         present(ac, animated: true)
+         */
+        
+        Constant.showDialog("Scanning not supported", message: "Your device does not support scanning a code from an item. Please use a device with a camera.")
+        
         captureSession = nil
     }
     

@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Fransiska on 9/22/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import Foundation
@@ -570,6 +570,9 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                 // Goto chat
                 let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
                 t.previousScreen = PageName.MyProducts
+                
+                t.isSellerNotActive = (self.detail?.IsShopClosed)!
+                t.phoneNumber = (self.detail?.SellerPhone)!
                 
                 // API Migrasi
                 let _ = request(APIInbox.getInboxByProductIDSeller(productId: (self.detail?.productID)!, buyerId: (self.transactionDetail?.buyerId)!)).responseJSON {resp in

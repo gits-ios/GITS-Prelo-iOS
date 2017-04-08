@@ -3,14 +3,14 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 8/11/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
 import QuartzCore
 import Alamofire
 
-class AddProductViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, ACEExpandableTableViewDelegate, AddProductImageCellDelegate, UITextFieldDelegate, UIScrollViewDelegate, UIActionSheetDelegate, /* AVIARY IS DISABLED AdobeUXImageEditorViewControllerDelegate,*/ UserRelatedDelegate, ProductCategoryDelegate, AddProductWeightDelegate, UIAlertViewDelegate
+class AddProductViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, ACEExpandableTableViewDelegate, AddProductImageCellDelegate, UITextFieldDelegate, UIScrollViewDelegate, /*UIActionSheetDelegate,*/ /* AVIARY IS DISABLED AdobeUXImageEditorViewControllerDelegate,*/ UserRelatedDelegate, ProductCategoryDelegate, AddProductWeightDelegate /*, UIAlertViewDelegate*/
 {
     
     @IBOutlet var tableView : UITableView!
@@ -146,17 +146,24 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     
     func back()
     {
-        let a = UIAlertView(title: "Batal", message: "Kamu yakin mau batal ?", delegate: self, cancelButtonTitle: "Tidak")
-        a.addButton(withTitle: "Ya")
-        a.show()
-    }
-    
-    func alertView(_ alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
-        if (buttonIndex == 1)
-        {
+//        let a = UIAlertView(title: "Batal", message: "Kamu yakin mau batal ?", delegate: self, cancelButtonTitle: "Batal")
+//        a.addButton(withTitle: "Ya")
+//        a.show()
+        
+        let alertView = SCLAlertView(appearance: Constant.appearance)
+        alertView.addButton("Ya") {
             _ = self.navigationController?.popViewController(animated: true)
         }
+        alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+        alertView.showCustom("Batal", subTitle: "Kamu yakin mau batal ?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
+    
+//    func alertView(_ alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
+//        if (buttonIndex == 1)
+//        {
+//            _ = self.navigationController?.popViewController(animated: true)
+//        }
+//    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -409,17 +416,52 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         let indexPath = info["replaceIndex"] as! IndexPath
         replaceIndex = (indexPath as NSIndexPath).item + ((indexPath as NSIndexPath).section == 0 ? (indexPath as NSIndexPath).section : (gridView?.numberOfItems(inSection: (indexPath as NSIndexPath).section-1))!)
         
-        let a = UIActionSheet(title: "Opsi", delegate: self, cancelButtonTitle: "Batal", destructiveButtonTitle: nil)
-        a.addButton(withTitle: "Ubah")
-        a.addButton(withTitle: "Ganti")
+//        let a = UIActionSheet(title: "Opsi", delegate: self, cancelButtonTitle: "Batal", destructiveButtonTitle: nil)
+//        a.addButton(withTitle: "Ubah")
+//        a.addButton(withTitle: "Ganti")
+//        
+//        if (replaceIndex != 0)
+//        {
+//            a.addButton(withTitle: "Hapus")
+//        }
+//        
+//        //        self.addImage()
+//        a.show(in: self.view)
         
+        let a = UIAlertController(title: "Opsi", message: nil, preferredStyle: .actionSheet)
+        a.addAction(UIAlertAction(title: "Ubah", style: .default, handler: { action in
+            /* AVIARY IS DISABLED
+             let ap = images[replaceIndex]
+             ap.getImage({image in
+             if let i = image
+             {
+             //Mixpanel.sharedInstance().track("Edit Image")
+             AdobeImageEditorCustomization.setToolOrder([kAdobeImageEditorCrop, kAdobeImageEditorOrientation])
+             let u = AdobeUXImageEditorViewController(image: i)
+             u.delegate = self
+             self.presentViewController(u, animated: true, completion: nil)
+             }
+             })
+             */
+            a.dismiss(animated: true, completion: nil)
+        }))
+        a.addAction(UIAlertAction(title: "Ganti", style: .default, handler: { action in
+            self.addImage()
+            a.dismiss(animated: true, completion: nil)
+        }))
         if (replaceIndex != 0)
         {
-            a.addButton(withTitle: "Hapus")
+            a.addAction(UIAlertAction(title: "Hapus", style: .default, handler: { action in
+                self.images.remove(at: self.replaceIndex)
+                self.replaceIndex = -1
+                self.gridView?.reloadData()
+                a.dismiss(animated: true, completion: nil)
+            }))
         }
-        
-        //        self.addImage()
-        a.show(in: self.view)
+        a.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { action in
+            a.dismiss(animated: true, completion: nil)
+        }))
+        UIApplication.shared.keyWindow?.rootViewController?.present(a, animated: true, completion: nil)
     }
     
     var portalling = false
@@ -443,36 +485,36 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     }
     */
     
-    func actionSheet(_ actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
-        print("index \(buttonIndex)")
-        if (buttonIndex == 0)
-        {
-            replaceIndex = -1
-        } else if (buttonIndex == 1) // edit
-        {
-            /* AVIARY IS DISABLED
-            let ap = images[replaceIndex]
-            ap.getImage({image in
-                if let i = image
-                {
-                    //Mixpanel.sharedInstance().track("Edit Image")
-                    AdobeImageEditorCustomization.setToolOrder([kAdobeImageEditorCrop, kAdobeImageEditorOrientation])
-                    let u = AdobeUXImageEditorViewController(image: i)
-                    u.delegate = self
-                    self.presentViewController(u, animated: true, completion: nil)
-                }
-            })
-            */
-        } else if (buttonIndex == 2) // replace
-        {
-            self.addImage()
-        } else if (buttonIndex == 3) // delete
-        {
-            self.images.remove(at: replaceIndex)
-            replaceIndex = -1
-            self.gridView?.reloadData()
-        }
-    }
+//    func actionSheet(_ actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
+//        print("index \(buttonIndex)")
+//        if (buttonIndex == 0)
+//        {
+//            replaceIndex = -1
+//        } else if (buttonIndex == 1) // edit
+//        {
+//            /* AVIARY IS DISABLED
+//            let ap = images[replaceIndex]
+//            ap.getImage({image in
+//                if let i = image
+//                {
+//                    //Mixpanel.sharedInstance().track("Edit Image")
+//                    AdobeImageEditorCustomization.setToolOrder([kAdobeImageEditorCrop, kAdobeImageEditorOrientation])
+//                    let u = AdobeUXImageEditorViewController(image: i)
+//                    u.delegate = self
+//                    self.presentViewController(u, animated: true, completion: nil)
+//                }
+//            })
+//            */
+//        } else if (buttonIndex == 2) // replace
+//        {
+//            self.addImage()
+//        } else if (buttonIndex == 3) // delete
+//        {
+//            self.images.remove(at: replaceIndex)
+//            replaceIndex = -1
+//            self.gridView?.reloadData()
+//        }
+//    }
     
     /* AVIARY IS DISABLED
     func photoEditor(editor: AdobeUXImageEditorViewController!, finishedWithImage image: UIImage!) {

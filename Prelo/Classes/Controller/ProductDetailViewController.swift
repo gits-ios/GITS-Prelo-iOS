@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 7/13/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
@@ -43,8 +43,7 @@ protocol ProductCellDelegate: class
     func cellTappedComment()
 }
 
-class ProductDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, ProductCellDelegate, UIActionSheetDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate, UserRelatedDelegate
-{
+class ProductDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, ProductCellDelegate, /*UIActionSheetDelegate, UIAlertViewDelegate,*/ MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate, UserRelatedDelegate, ISRewardedVideoDelegate {
     
     var product : Product?
     var detail : ProductDetail?
@@ -104,6 +103,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     var thisScreen: String!
     
+    // new popup paid push
+    var newPopup: PaidPushPopup?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -135,7 +137,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: true)
+//        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: true)
+        
+        self.setNeedsStatusBarAppearanceUpdate()
 
         if (detail == nil || isNeedReload) {
             getDetail()
@@ -167,7 +171,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         if (UIApplication.shared.isStatusBarHidden)
         {
-            UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.slide)
+//            UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.slide)
+            
+            UIApplication.shared.isStatusBarHidden = false
         }
         
 //        let p = [
@@ -195,6 +201,14 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             
             self.thisScreen = PageName.ProductDetail
         }
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return UIApplication.shared.isStatusBarHidden
     }
 
     func getDetail()
@@ -228,7 +242,24 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     self.tableView?.isHidden = false
                     self.tableView?.reloadData()
                     
-                    self.setOptionButton()
+                    let userid = CDUser.getOne()?.id
+                    let sellerid = self.detail?.theirId
+                    
+                    if User.IsLoggedIn && sellerid != userid {
+                        self.setOptionButton()
+                    } else {
+                        // ads
+                        IronSource.setRewardedVideoDelegate(self)
+                        
+                        let userID = UIDevice.current.identifierForVendor!.uuidString
+                        IronSource.setUserId(userID)
+                        
+                        // init with prelo official appkey
+                        IronSource.initWithAppKey("60b14515", adUnits:[IS_REWARDED_VIDEO])
+                        
+                        // check ads mediation integration
+                        ISIntegrationHelper.validateIntegration()
+                    }
                     
                     self.setupView()
                     
@@ -433,67 +464,26 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         btnOption.addTarget(self, action: #selector(ProductDetailViewController.option), for: UIControlEvents.touchUpInside)
         
-        let userid = CDUser.getOne()?.id
-        let sellerid = detail?.theirId
-        //        let buyerid = detail?.myId
-        
-        if sellerid == userid || User.IsLoggedIn == false {
-            btnOption.isHidden = true
-        }
-        
         self.navigationItem.rightBarButtonItem = btnOption.toBarButton()
     }
     
-    func option()
-    {
-        let a = UIActionSheet(title: "Opsi", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil)
-//        let userid = CDUser.getOne()?.id
-//        let sellerid = detail?.theirId
-        //        let buyerid = detail?.myId
+    func option() {
         
-//        if sellerid != userid && User.IsLoggedIn == true {
-            a.addButton(withTitle: "Laporkan Barang")
-//        }
-        //        a.show(in: self.view)
+        let userid = CDUser.getOne()?.id
+        let sellerid = detail?.theirId
         
-        a.addButton(withTitle: "Batal")
-        a.cancelButtonIndex = 1
-        
-        // bound location
-        let screenSize: CGRect = UIScreen.main.bounds
-        let screenWidth = screenSize.width
-        let bounds = CGRect(x: screenWidth - 65.0, y: 0.0, width: screenWidth, height: 0.0)
-        
-        a.show(from: bounds, in: self.view, animated: true)
-    }
-
-    func actionSheet(_ actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
-        if (buttonIndex == 0)
-        {
-            //            guard let pDetail = detail else {
-            //                return
-            //            }
-            //            var username = "Your beloved user"
-            //            if let u = CDUser.getOne() {
-            //                username = u.username
-            //            }
-            //
-            //            // report
-            //            let msgBody = "Dear Prelo,<br/><br/>Saya ingin melaporkan barang \(pDetail.name) dari penjual \(pDetail.theirName)<br/><br/>Alasan pelaporan: <br/><br/>Terima kasih Prelo <3<br/><br/>--<br/>\(username)<br/>Sent from Prelo iOS"
-            //
-            //            let m = MFMailComposeViewController()
-            //            if (MFMailComposeViewController.canSendMail()) {
-            //                m.setToRecipients(["contact@prelo.id"])
-            //                m.setSubject("Laporan Baru untuk Barang " + (detail?.name)!)
-            //                m.setMessageBody(msgBody, isHTML: true)
-            //                m.mailComposeDelegate = self
-            //                self.present(m, animated: true, completion: nil)
-            //            } else {
-            //                Constant.showDialog("No Active E-mail", message: "Untuk dapat mengirim Report, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
-            //            }
-            
-            gotoReport()
+        let a = UIAlertController(title: "Opsi", message: nil, preferredStyle: .actionSheet)
+        a.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem
+        if sellerid != userid && User.IsLoggedIn == true {
+            a.addAction(UIAlertAction(title: "Laporkan Barang", style: .default, handler: { action in
+                self.gotoReport()
+                a.dismiss(animated: true, completion: nil)
+            }))
         }
+        a.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { action in
+            a.dismiss(animated: true, completion: nil)
+        }))
+        UIApplication.shared.keyWindow?.rootViewController?.present(a, animated: true, completion: nil)
     }
     
     func gotoReport() {
@@ -531,7 +521,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 // Prelo Analytic - Share for Commission - Facebook
                 self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 1, tw: 0, ig: 0, reason: "")
             } else {
-                let json = JSON(resp.result.value)
+                let json = JSON((resp.result.value ?? [:]))
                 let reason = json["_message"].stringValue
                 
                 // Prelo Analytic - Share for Commission - Facebook
@@ -554,7 +544,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 // Prelo Analytic - Share for Commission - Twitter
                 self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 0, tw: 1, ig: 0, reason: "")
             } else {
-                let json = JSON(resp.result.value)
+                let json = JSON((resp.result.value ?? [:]))
                 let reason = json["_message"].stringValue
                 
                 // Prelo Analytic - Share for Commission - Twitter
@@ -628,7 +618,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                                         // Prelo Analytic - Share for Commission - Instagram
                                         self.sendShareForCommissionAnalytic((self.detail?.productID)!, productName: (self.detail?.name)!, fb: 0, tw: 0, ig: 1, reason: "")
                                     } else {
-                                        let json = JSON(resp.result.value)
+                                        let json = JSON((resp.result.value ?? [:]))
                                         let reason = json["_message"].stringValue
                                         
                                         // Prelo Analytic - Share for Commission - Instagram
@@ -940,8 +930,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     }
         
     @IBAction func soldPressed(_ sender: AnyObject) {
+        /*
         let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah terjual? (Aksi ini tidak bisa dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Tidak", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
             self.showLoading()
             if let productId = self.detail?.productID {
@@ -972,6 +963,40 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             }
         }))
         self.present(alert, animated: true, completion: nil)
+         */
+        
+        let alertView = SCLAlertView(appearance: Constant.appearance)
+        alertView.addButton("Ya") {
+            self.showLoading()
+            if let productId = self.detail?.productID {
+                let _ = request(APIProduct.markAsSold(productId: productId, soldTo: "")).responseJSON { resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Mark As Sold")) {
+                        let json = JSON(resp.result.value!)
+                        let isSuccess = json["_data"].boolValue
+                        if (isSuccess) {
+                            self.disableMyProductBtnSet()
+                            self.pDetailCover?.addSoldBanner()
+                            Constant.showDialog("Success", message: "Barang telah ditandai sebagai barang terjual")
+                            
+                            self.delegate?.setFromDraftOrNew(true)
+                            
+                            // Prelo Analytic - Mark As Sold
+                            let loginMethod = User.LoginMethod ?? ""
+                            let pdata = [
+                                "Product ID": productId,
+                                "Screen" : PageName.ProductDetailMine
+                                ] as [String : Any]
+                            AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.MarkAsSold, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+                        } else {
+                            Constant.showDialog("Failed", message: "Oops, terdapat kesalahan")
+                        }
+                    }
+                    self.hideLoading()
+                }
+            }
+        }
+        alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+        alertView.showCustom("Mark As Sold", subTitle: "Apakah barang ini sudah terjual? (Aksi ini tidak bisa dibatalkan)", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
     @IBAction func editPressed(_ sender: AnyObject) {
@@ -1010,6 +1035,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             t.loadInboxFirst = true
             t.prodId = d.productID
             t.previousScreen = thisScreen
+            t.isSellerNotActive = d.IsShopClosed
+            t.phoneNumber = d.SellerPhone
             self.navigationController?.pushViewController(t, animated: true)
         }
     }
@@ -1219,7 +1246,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                         
                         self.showUpPopUp(withText: message, isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
                     } else {
-                        self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: true, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                        //self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: true, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                        
+                        self.launchNewPopUp(withText: message, paidAmount: paidAmount, preloBalance: preloBalance, poinAmount: coinAmount, poin: coin)
                     }
                 }
                 self.hideLoading()
@@ -1343,6 +1372,110 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
+    // MARK: - Setup popup
+    
+    func launchNewPopUp(withText: String, paidAmount: Int, preloBalance: Int, poinAmount: Int, poin: Int) {
+        self.setupPopUp(withText: withText, paidAmount: paidAmount, preloBalance: preloBalance, poinAmount: poinAmount, poin: poin)
+        self.newPopup?.isHidden = false
+        
+        let isAdsAvailable = IronSource.hasRewardedVideo()
+        print(isAdsAvailable)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.newPopup?.setupPopUp(isAdsAvailable)
+            self.newPopup?.displayPopUp()
+        })
+    }
+    
+    func setupPopUp(withText: String, paidAmount: Int, preloBalance: Int, poinAmount: Int, poin: Int) {
+        // setup popup
+        if (self.newPopup == nil) {
+            self.newPopup = Bundle.main.loadNibNamed("PaidPushPopup", owner: nil, options: nil)?.first as? PaidPushPopup
+            self.newPopup?.frame = UIScreen.main.bounds
+            self.newPopup?.tag = 100
+            self.newPopup?.isHidden = true
+            self.newPopup?.backgroundColor = UIColor.clear
+            self.view.addSubview(self.newPopup!)
+            
+            self.newPopup?.initPopUp(withText: withText, paidAmount: paidAmount, preloBalance: preloBalance, poinAmount: poinAmount, poin: poin)
+            
+            self.newPopup?.disposePopUp = {
+                self.newPopup?.isHidden = true
+                self.newPopup = nil
+                print("Start remove sibview")
+                if let viewWithTag = self.view.viewWithTag(100) {
+                    viewWithTag.removeFromSuperview()
+                } else {
+                    print("No!")
+                }
+            }
+            
+            self.newPopup?.balanceUsed = {
+                self.isCoinUse = false
+                self.showLoading()
+                if let productId = self.detail?.productID {
+                    let _ = request(APIProduct.paidPush(productId: productId)).responseJSON { resp in
+                        if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
+                            let json = JSON(resp.result.value!)
+                            let isSuccess = json["_data"]["result"].boolValue
+                            let message = json["_data"]["message"].stringValue
+                            let paidAmount = json["_data"]["paid_amount"].intValue
+                            let preloBalance = json["_data"]["my_prelo_balance"].intValue
+                            let coinAmount = json["_data"]["diamond_amount"].intValue
+                            let coin = json["_data"]["my_total_diamonds"].intValue
+                            
+                            if (isSuccess) {
+                                // Prelo Analytic - Up Product - Balance
+                                self.sendUpProductAnalytic(productId, type: "Balance")
+                                
+                                self.showUpPopUp(withText: message + " (" + paidAmount.asPrice + " telah otomatis ditarik dari Prelo Balance)", isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                            } else {
+                                self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                            }
+                        }
+                        self.hideLoading()
+                    }
+                }
+            }
+            
+            self.newPopup?.poinUsed = {
+                self.isCoinUse = true
+                self.showLoading()
+                if let productId = self.detail?.productID {
+                    let _ = request(APIProduct.paidPushWithCoin(productId: productId)).responseJSON { resp in
+                        if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
+                            let json = JSON(resp.result.value!)
+                            let isSuccess = json["_data"]["result"].boolValue
+                            let message = json["_data"]["message"].stringValue
+                            let paidAmount = json["_data"]["paid_amount"].intValue
+                            let preloBalance = json["_data"]["my_prelo_balance"].intValue
+                            let coinAmount = json["_data"]["diamond_amount"].intValue
+                            let coin = json["_data"]["my_total_diamonds"].intValue
+                            
+                            if (isSuccess) {
+                                // Prelo Analytic - Up Product - Point
+                                self.sendUpProductAnalytic(productId, type: "Point")
+                                
+                                self.showUpPopUp(withText: message + " (" + coinAmount.string + " Poin kamu telah otomatis ditarik)", isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                            } else {
+                                self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                            }
+                        }
+                        self.hideLoading()
+                    }
+                }
+            }
+            
+            self.newPopup?.watchVideoAds = {
+                // open ads
+                IronSource.showRewardedVideo(with: self, placement: "Up_Product")
+                
+                //  goto delegate
+            }
+        }
+        
+    }
+    
     // Prelo Analytic - Up Product
     func sendUpProductAnalytic(_ productId: String, type: String) {
         let loginMethod = User.LoginMethod ?? ""
@@ -1440,6 +1573,85 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             
         }
     }
+    
+    // MARK: - Ads delegate
+    //MARK: ISRewardedVideoDelegate Functions
+    /**
+     Called after a rewarded video has changed its availability.
+     
+     @param available The new rewarded video availability. YES if available and ready to be shown, NO otherwise.
+     */
+    public func rewardedVideoHasChangedAvailability(_ available: Bool) {
+    }
+    
+    /**
+     Called after a rewarded video has finished playing.
+     */
+    public func rewardedVideoDidEnd() {
+    }
+    
+    /**
+     Called after a rewarded video has started playing.
+     */
+    public func rewardedVideoDidStart() {
+    }
+    
+    /**
+     Called after a rewarded video has been dismissed.
+     */
+    public func rewardedVideoDidClose() {
+        //Constant.showDialog("Watch Video", message: "yey")
+    }
+    
+    /**
+     Called after a rewarded video has been opened.
+     */
+    public func rewardedVideoDidOpen() {
+    }
+    
+    /**
+     Called after a rewarded video has attempted to show but failed.
+     
+     @param error The reason for the error
+     */
+    public func rewardedVideoDidFailToShowWithError(_ error: Error!) {
+        Constant.showDialog("Oops", message: "Terdapat kesalahan sewaktu memulai video")
+        //let err = (error! as NSError)
+        //Constant.showDialog("Oops", message: err.description)
+    }
+    
+    /**
+     Called after a rewarded video has been viewed completely and the user is eligible for reward.
+     
+     @param placementInfo An object that contains the placement's reward name and amount.
+     */
+    public func didReceiveReward(forPlacement placementInfo: ISPlacementInfo!) {
+        self.showLoading()
+        if let productId = detail?.productID {
+            let _ = request(APIProduct.paidPushWithWatchVideo(productId: productId)).responseJSON { resp in
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
+                    let json = JSON(resp.result.value!)
+                    let isSuccess = json["_data"]["result"].boolValue
+                    let message = json["_data"]["message"].stringValue
+                    let paidAmount = json["_data"]["paid_amount"].intValue
+                    let preloBalance = json["_data"]["my_prelo_balance"].intValue
+                    let coinAmount = json["_data"]["diamond_amount"].intValue
+                    let coin = json["_data"]["my_total_diamonds"].intValue
+                    
+                    if (isSuccess) {
+                        // Prelo Analytic - Up Product - Video
+                        self.sendUpProductAnalytic(productId, type: "Video")
+                        
+                        self.showUpPopUp(withText: message, isShowUpOther: true, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                    } else {
+                        self.showUpPopUp(withText: message, isShowUpOther: false, isShowPaidUp: false, paidAmount: paidAmount, preloBalance: preloBalance, coinAmount: coinAmount, coin: coin)
+                    }
+                }
+                self.hideLoading()
+            }
+        }
+    }
+
 }
 
 // MARK: - Class
@@ -1625,7 +1837,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
                 let loginMethod = User.LoginMethod ?? ""
                 let pdata = [
                     "Product ID": ((self.product != nil) ? (self.product!.id) : ""),
-                    "Seller ID" : ((self.product != nil) ? (self.product!.json["seller_id"].string) : ""),
+                    "Seller ID" : ((self.product != nil) ? (self.product!.json["seller_id"].stringValue) : ""),
                     "Screen" : PageName.ProductDetail,
                     "Is Featured" : ((self.product != nil) ? (self.product!.isFeatured) : false)
                 ] as [String : Any]
@@ -1657,7 +1869,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
                 let loginMethod = User.LoginMethod ?? ""
                 let pdata = [
                     "Product Id": ((self.product != nil) ? (self.product!.id) : ""),
-                    "Seller ID" : ((self.product != nil) ? (self.product!.json["seller_id"].string) : ""),
+                    "Seller ID" : ((self.product != nil) ? (self.product!.json["seller_id"].stringValue) : ""),
                     "Screen" : PageName.ProductDetail,
                     "Is Featured" : ((self.product != nil) ? (self.product!.isFeatured) : false)
                 ] as [String : Any]
@@ -1865,12 +2077,17 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     }
 }
 
-class ProductCellSeller : UITableViewCell
+class ProductCellSeller : UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate
 {
-    @IBOutlet var captionSellerName : UILabel?
-    @IBOutlet var captionSellerRating : UILabel?
-    @IBOutlet var captionLastSeen: UILabel!
-    @IBOutlet var ivSellerAvatar : UIImageView?
+    @IBOutlet weak var captionSellerName : UILabel?
+    @IBOutlet weak var captionSellerRating : UILabel?
+    @IBOutlet weak var captionLastSeen: UILabel!
+    @IBOutlet weak var ivSellerAvatar : UIImageView?
+    @IBOutlet weak var collectionView: UIView! // parent of achievement
+    @IBOutlet weak var badgeCollectionView: UICollectionView! // achievement
+    @IBOutlet weak var consWidthCollectionView: NSLayoutConstraint!
+    
+    var badges : Array<URL>! = []
     
     // love floatable
     @IBOutlet var vwLove: UIView!
@@ -1936,6 +2153,26 @@ class ProductCellSeller : UITableViewCell
         }
 
         ivSellerAvatar?.afSetImage(withURL: (obj?.shopAvatarURL)!, withFilter: .circle)
+        
+        // reset
+        badges = []
+        consWidthCollectionView.constant = 0
+        
+        if let arr = product["seller"]["achievements"].array {
+//            for i in arr {
+//                let ach = AchievementItem.instance(i)
+//                
+//                self.badges.append((ach?.icon)!)
+//            }
+            
+            if arr.count > 0 {
+                let ach = AchievementItem.instance(arr[0])
+                
+                self.badges.append((ach?.icon)!)
+                
+                setupCollection()
+            }
+        }
     }
     
     override func awakeFromNib() {
@@ -1946,6 +2183,68 @@ class ProductCellSeller : UITableViewCell
         
         ivSellerAvatar?.layer.borderColor = Theme.GrayLight.cgColor
         ivSellerAvatar?.layer.borderWidth = 2
+    }
+    
+    func setupCollection() {
+        
+        let width = CGFloat(28) //21 * CGFloat(self.badges!.count) + 1
+        
+        // Set collection view
+        self.badgeCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "collcProgressCell")
+        self.badgeCollectionView.delegate = self
+        self.badgeCollectionView.dataSource = self
+        self.badgeCollectionView.backgroundView = UIView(frame: self.badgeCollectionView.bounds)
+        self.badgeCollectionView.backgroundColor = UIColor.clear
+        
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.itemSize = CGSize(width: 28, height: 28)
+//        layout.minimumInteritemSpacing = 1
+//        layout.minimumLineSpacing = 1
+        self.badgeCollectionView.collectionViewLayout = layout
+        
+        self.badgeCollectionView.isScrollEnabled = false
+        self.consWidthCollectionView.constant = width
+        
+        self.collectionView.isHidden = false
+    }
+    
+    // MARK: - CollectionView delegate functions
+    
+    
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.badges!.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        // Create cell
+        let cell = self.badgeCollectionView.dequeueReusableCell(withReuseIdentifier: "collcProgressCell", for: indexPath)
+        // Create icon view
+        let vwIcon : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
+        
+//        vwIcon.layer.cornerRadius = vwIcon.frame.size.width/2
+//        vwIcon.layer.masksToBounds = true
+//        vwIcon.backgroundColor = UIColor.white
+        
+        let img = UIImageView(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
+        img.layoutIfNeeded()
+        img.layer.cornerRadius = (img.width ) / 2
+        img.layer.masksToBounds = true
+        img.afSetImage(withURL: badges[(indexPath as NSIndexPath).row], withFilter: .circleWithBadgePlaceHolder)
+        
+        vwIcon.addSubview(img)
+        
+        img.frame = vwIcon.bounds
+        
+        // Add view to cell
+        cell.addSubview(vwIcon)
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 28, height: 28)
     }
 }
 
@@ -2316,5 +2615,219 @@ class ProductCellDiscussion : UITableViewCell
     
     @IBAction func btnUsernamePressed(_ sender: AnyObject) {
         self.goToProfile(senderId)
+    }
+}
+
+class PaidPushPopup: UIView {
+    @IBOutlet weak var vwBackgroundOverlay: UIView!
+    @IBOutlet weak var vwOverlayPopUp: UIView!
+    @IBOutlet weak var vwPopUp: UIView!
+    @IBOutlet weak var vwVideoUp: UIView! // hidden
+    @IBOutlet weak var consCenteryPopUp: NSLayoutConstraint!
+    @IBOutlet weak var consBottomSeparatorToVideo: NSLayoutConstraint! // 0 -> 67
+    @IBOutlet weak var lbDescription: UILabel!
+    @IBOutlet weak var lbBalanceUsed: UILabel!
+    @IBOutlet weak var lbPoinUsed: UILabel!
+    @IBOutlet weak var lbWatchVideo: UILabel!
+    @IBOutlet weak var btnBalanceUsed: UIButton! // enable
+    @IBOutlet weak var btnPoinUsed: UIButton! // enable
+    @IBOutlet weak var btnWatchVideo: UIButton!
+    @IBOutlet weak var imgBalanceUsed: TintedImageView!
+    @IBOutlet weak var imgPoinUsed: TintedImageView!
+    @IBOutlet weak var lbTitleBalanceUsed: UILabel!
+    @IBOutlet weak var lbTitlePoinUsed: UILabel!
+    @IBOutlet weak var lbTitleWatchVideo: UILabel!
+    @IBOutlet weak var consHeightSeparatorToVideo: NSLayoutConstraint! // 0 -> 1
+    
+    let gray = UIColor(hexString: "#939393")
+    
+    var disposePopUp : ()->() = {}
+    var balanceUsed : ()->() = {}
+    var poinUsed : ()->() = {}
+    var watchVideoAds : ()->() = {}
+    
+    func setupPopUp(_ isAdsLoaded: Bool) {
+        if isAdsLoaded {
+            self.vwVideoUp.isHidden = false
+            self.consBottomSeparatorToVideo.constant = 67
+            
+            self.consHeightSeparatorToVideo.constant = 1
+            
+            self.lbTitleWatchVideo.textColor = Theme.PrimaryColorDark
+            self.lbWatchVideo.textColor = gray
+            
+            self.btnWatchVideo.isEnabled = true
+            //self.btnWatchVideo.backgroundColor = UIColor.clear
+        } else {
+            self.vwVideoUp.isHidden = true
+            self.consBottomSeparatorToVideo.constant = 0
+            
+            self.consHeightSeparatorToVideo.constant = 0
+            
+            self.lbTitleWatchVideo.textColor = Theme.GrayLight
+            self.lbWatchVideo.textColor = Theme.GrayLight
+            
+            self.btnWatchVideo.isEnabled = false
+            //self.btnWatchVideo.backgroundColor = UIColor.lightGray.alpha(0.3)
+        }
+    }
+    
+    func initPopUp(withText: String, paidAmount: Int, preloBalance: Int, poinAmount: Int, poin: Int) {
+        let path = UIBezierPath(roundedRect:vwPopUp.bounds,
+                                byRoundingCorners:[.topRight, .topLeft],
+                                cornerRadii: CGSize(width: 4, height:  4))
+        
+        let maskLayer = CAShapeLayer()
+        
+        maskLayer.path = path.cgPath
+        vwPopUp.layer.mask = maskLayer
+        
+        // Transparent panel
+        self.vwBackgroundOverlay.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.2)
+        
+        self.vwBackgroundOverlay.isHidden = false
+        self.vwOverlayPopUp.isHidden = false
+        
+        let screenSize = UIScreen.main.bounds
+        let screenHeight = screenSize.height - 64 // navbar
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = screenHeight
+        
+        // setup content
+        self.lbDescription.text = withText + "\n\n" + "Atau kamu bisa UP sekarang dengan cara:"
+        
+        self.lbPoinUsed.text = poinAmount.string + " poin akan berkurang untuk satu kali UP. Poin kamu sekarang " + poin.string
+        self.lbPoinUsed.boldSubstring(poinAmount.string + " poin")
+        self.lbPoinUsed.boldSubstring(poin.string)
+        
+        if (poinAmount <= poin) {
+            self.btnPoinUsed.isEnabled = true
+            //self.btnPoinUsed.backgroundColor = UIColor.clear
+            
+            self.lbTitlePoinUsed.textColor = Theme.PrimaryColorDark
+            self.lbPoinUsed.textColor = gray
+            
+            self.imgPoinUsed.tint = false
+            self.imgPoinUsed.tintColor = UIColor.clear
+        } else {
+            self.btnPoinUsed.isEnabled = false
+            //self.btnPoinUsed.backgroundColor = UIColor.lightGray.alpha(0.3)
+            
+            self.lbTitlePoinUsed.textColor = Theme.GrayLight
+            self.lbPoinUsed.textColor = Theme.GrayLight
+            
+            self.imgPoinUsed.tint = true
+            self.imgPoinUsed.tintColor = Theme.GrayLight
+        }
+        
+        self.lbBalanceUsed.text = paidAmount.asPrice + " akan ditarik dari Prelo Balance kamu untuk satu kali UP. Prelo Balance kamu " + preloBalance.asPrice
+        self.lbBalanceUsed.boldSubstring(paidAmount.asPrice)
+        self.lbBalanceUsed.boldSubstring(preloBalance.asPrice)
+        
+        if (paidAmount <= preloBalance) {
+            self.btnBalanceUsed.isEnabled = true
+            //self.btnBalanceUsed.backgroundColor = UIColor.clear
+            
+            self.lbTitleBalanceUsed.textColor = Theme.PrimaryColorDark
+            self.lbBalanceUsed.textColor = gray
+        
+            self.imgBalanceUsed.tint = false
+            self.imgBalanceUsed.tintColor = UIColor.clear
+        } else {
+            self.btnBalanceUsed.isEnabled = false
+            //.btnBalanceUsed.backgroundColor = UIColor.lightGray.alpha(0.3)
+        
+            self.lbTitleBalanceUsed.textColor = Theme.GrayLight
+            self.lbBalanceUsed.textColor = Theme.GrayLight
+        
+            self.imgBalanceUsed.tint = true
+            self.imgBalanceUsed.tintColor = Theme.GrayLight
+        }
+    }
+    
+    func displayPopUp() {
+        let screenSize = self.bounds
+        let screenHeight = screenSize.height
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = screenHeight
+        
+        // 1
+        let placeSelectionBar = { () -> () in
+            // parent
+            var curView = self.vwPopUp.frame
+            curView.origin.y = (screenHeight - self.vwPopUp.frame.height) / 2 - 32
+            self.vwPopUp.frame = curView
+        }
+        
+        // 2
+        UIView.animate(withDuration: 0.3, animations: {
+            placeSelectionBar()
+        })
+        
+        self.consCenteryPopUp.constant = -32
+    }
+    
+    func unDisplayPopUp() {
+        let screenSize = self.bounds
+        let screenHeight = screenSize.height
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = 0
+        
+        // 1
+        let placeSelectionBar = { () -> () in
+            // parent
+            var curView = self.vwPopUp.frame
+            curView.origin.y = screenHeight + (screenHeight - self.vwPopUp.frame.height) / 2 - 32
+            self.vwPopUp.frame = curView
+        }
+        
+        // 2
+        UIView.animate(withDuration: 0.3, animations: {
+            placeSelectionBar()
+        })
+        
+        self.consCenteryPopUp.constant = screenHeight
+    }
+    
+    @IBAction func btnBalancePressed(_ sender: Any) {
+        self.unDisplayPopUp()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.vwOverlayPopUp.isHidden = true
+            self.vwBackgroundOverlay.isHidden = true
+            self.balanceUsed()
+            self.disposePopUp()
+        })
+    }
+    
+    @IBAction func btnPoinPressed(_ sender: Any) {
+        self.unDisplayPopUp()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.vwOverlayPopUp.isHidden = true
+            self.vwBackgroundOverlay.isHidden = true
+            self.poinUsed()
+            self.disposePopUp()
+        })
+    }
+    
+    @IBAction func btnVideoPressed(_ sender: Any) {
+        self.unDisplayPopUp()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.vwOverlayPopUp.isHidden = true
+            self.vwBackgroundOverlay.isHidden = true
+            self.watchVideoAds()
+            self.disposePopUp()
+        })
+    }
+    
+    @IBAction func btnTidakPressed(_ sender: Any) {
+        self.unDisplayPopUp()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.vwOverlayPopUp.isHidden = true
+            self.vwBackgroundOverlay.isHidden = true
+            self.disposePopUp()
+        })
     }
 }

@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 9/2/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
@@ -297,10 +297,16 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
 //        } catch {
 //        
 //        }
-        let a = UIAlertView(title: "Path", message: "Posting to path", delegate: nil, cancelButtonTitle: nil)
-        a.show()
+        
+//        let a = UIAlertView(title: "Path", message: "Posting to path", delegate: nil, cancelButtonTitle: nil)
+//        a.show()
+        
+        let alertView = SCLAlertView(appearance: Constant.appearance)
+        let alertViewResponder: SCLAlertViewResponder = alertView.showCustom("Path", subTitle: "Posting to path", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+        
         AppToolsObjC.pathPostPhoto(image, param: ["private":true, "caption":(item?.text)!], token: token, success: {_, _ in
-            a.dismiss(withClickedButtonIndex: 0, animated: true)
+//            a.dismiss(withClickedButtonIndex: 0, animated: true)
+            alertViewResponder.close()
             self.hide()
             }, failure: nil)
     }

@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Djuned on 1/14/17.
-//  Copyright © 2017 GITS Indonesia. All rights reserved.
+//  Copyright © 2017 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import Foundation
@@ -97,6 +97,8 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         scrollView.delegate = self
         scrollView.showsHorizontalScrollIndicator = false
         
+        scrollView.backgroundColor = UIColor(hexString: "#E8ECEE")
+        
         // Set title
         self.title = "" // clear title
     }
@@ -121,35 +123,31 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
             Constant.showDialog("Data Shop Pengguna", message: "Oops, profil seller tidak ditemukan")
         } else {
         
-        if isFirst {
-            listItemVC?.shopId = self.shopId
-            listItemVC?.previousScreen = self.previousScreen
-            shopReviewVC?.sellerId = self.shopId
-            shopReviewVC?.sellerName = ""
-            shopBadgeVC?.sellerId = self.shopId
-            shopBadgeVC?.sellerName = ""
-            
-            // edit button
-            if (self.shopId == CDUser.getOne()?.id) {
-                setEditButton()
+            if isFirst {
+                listItemVC?.shopId = self.shopId
+                listItemVC?.previousScreen = self.previousScreen
+                shopReviewVC?.sellerId = self.shopId
+                shopReviewVC?.sellerName = ""
+                shopBadgeVC?.sellerId = self.shopId
+                shopBadgeVC?.sellerName = ""
+                
+                // edit button
+                if (self.shopId == CDUser.getOne()?.id) {
+                    setEditButton()
+                }
+                
+                setupNavBar()
+                setupSubView()
+                setSelectionBar(0)
+                segmentView.selectedSegmentIndex = 0
+                
+                isFirst = false
             }
             
-            setupNavBar()
-            setupSubView()
-            setSelectionBar(0)
-            segmentView.selectedSegmentIndex = 0
-            
-            isFirst = false
-        }
-        
-        UIView.animate(withDuration: 0.5) {
-            self.navigationController?.navigationBar.isTranslucent = true
-        }
-        
-        if (self.isOnTop) {
-            self.isOnTop = false
-            self.dereaseHeader()
-        }
+            if (self.isOnTop) {
+                self.isOnTop = false
+                self.dereaseHeader()
+            }
         }
     }
     
@@ -257,7 +255,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     
     // MARK: - Edit Profile button (right top)
     func setEditButton() {
-        let btnEdit = self.createButtonWithIcon(AppFont.preloAwesome, icon: "")
+        let btnEdit = self.createButtonWithIcon(UIImage(named: "ic_edit_white")!) //self.createButtonWithIcon(AppFont.preloAwesome, icon: "")
         
         btnEdit.addTarget(self, action: #selector(StorePageTabBarViewController.editProfile), for: UIControlEvents.touchUpInside)
         
@@ -267,8 +265,11 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     func editProfile()
     {
         // open edit profile vc
-        let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
-        self.navigationController?.pushViewController(userProfileVC, animated: true)
+//        let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
+//        self.navigationController?.pushViewController(userProfileVC, animated: true)
+        
+        let userProfileVC2 = Bundle.main.loadNibNamed(Tags.XibNameUserProfile2, owner: nil, options: nil)?.first as! UserProfileViewController2
+        self.navigationController?.pushViewController(userProfileVC2, animated: true)
     }
     
     // MARK: - button

@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by PreloBook on 3/11/16.
-//  Copyright (c) 2016 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2016 PT Kleo Appara Indonesia. All rights reserved.
 //
 //  I made this as neat as possible, if you find some code structure/algorithm that's not efficient, it's because the bloody changes outta original design
 //  Please keep this code neat =)
@@ -108,6 +108,10 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     
     var floatRatingView: FloatRatingView!
     
+    // new popup report trx
+    var newPopup: TransactionReportPopup?
+    var isReportable: Bool? // nil -> bisa, true -> udah selesai, false -> sedang diproes
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -196,6 +200,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         
                         // Update title
                         self.title = "Order ID " + self.trxProductDetail!.orderId
+                        
+                        // init
+                        self.isReportable = self.trxProductDetail?.reportable
                     }
                     
                     // AB test check
@@ -286,9 +293,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             if (userIsSeller()) {
                 hideableCell[3] = true
                 isFroze[3] = false
+                hideableCell[6] = true
+                isFroze[6] = false
             } else {
                 hideableCell[3] = true
                 isFroze[3] = false
+                hideableCell[6] = true
+                isFroze[6] = false
             }
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
             if (userIsSeller()) {
@@ -397,9 +408,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             }
         } else if (progress == TransactionDetailTools.ProgressRejectedBySeller || progress == TransactionDetailTools.ProgressNotSent) {
             if (userIsSeller()) {
-                return 6
+                return 9 // 6
             } else {
-                return 9
+                return 12 // 9
             }
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
             if (userIsSeller()) {
@@ -519,9 +530,19 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     if (trxProductDetail != nil) {
                         return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPembayaranSeller)
                     }
+                // tambahan
                 } else if (idx == 4) {
-                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
+                    return SeparatorHeight
                 } else if (idx == 5) {
+                    return DefaultHeight
+                } else if (idx == 6) {
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPengirimanSeller)
+                    }
+                // tambahan
+                } else if (idx == 7) {
+                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
+                } else if (idx == 8) {
                     return ContactPreloHeight
                 }
             } else {
@@ -535,17 +556,27 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     if (trxProductDetail != nil) {
                         return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
                     }
+                // tambahan
                 } else if (idx == 4) {
-                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
+                    return SeparatorHeight
                 } else if (idx == 5) {
+                    return DefaultHeight
+                } else if (idx == 6) {
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPengirimanSeller)
+                    }
+                // tambahan
+                } else if (idx == 7) {
+                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
+                } else if (idx == 8) {
                     if (trxProductDetail != nil) {
                         return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentReimburse)
                     }
-                } else if (idx == 6) {
+                } else if (idx == 9) {
                     return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 2)
-                } else if (idx == 7) {
+                } else if (idx == 10) {
                     return DefaultHeight
-                } else if (idx == 8) {
+                } else if (idx == 11) {
                     return ContactPreloHeight
                 }
             }
@@ -1113,9 +1144,17 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
                 } else if (idx == 3) {
                     return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranSeller)
+                // tambahan
                 } else if (idx == 4) {
-                    return self.createDescriptionCell(1)
+                    return self.createSeparatorCell()
                 } else if (idx == 5) {
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                } else if (idx == 6) {
+                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanSeller)
+                // tambahan
+                } else if (idx == 7) {
+                    return self.createDescriptionCell(1)
+                } else if (idx == 8) {
                     return self.createContactPreloCell()
                 }
             } else {
@@ -1129,15 +1168,23 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     if (trxProductDetail != nil) {
                         return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
                     }
+                // tambahan
                 } else if (idx == 4) {
-                    return self.createDescriptionCell(1)
+                    return self.createSeparatorCell()
                 } else if (idx == 5) {
-                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentReimburse)
+                    return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
                 } else if (idx == 6) {
-                    return self.createDescriptionCell(2)
+                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanSeller)
+                // tambahan
                 } else if (idx == 7) {
-                    return self.createButtonCell(1)
+                    return self.createDescriptionCell(1)
                 } else if (idx == 8) {
+                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentReimburse)
+                } else if (idx == 9) {
+                    return self.createDescriptionCell(2)
+                } else if (idx == 10) {
+                    return self.createButtonCell(1)
+                } else if (idx == 11) {
                     return self.createContactPreloCell()
                 }
             }
@@ -1759,6 +1806,10 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             cell.adapt(self.progress, order: order)
         }
         
+        if self.isReportable == false {
+            cell.btn.setTitle("BATALKAN LAPORAN", for: UIControlState.normal)
+        }
+        
         // Configure actions
         cell.retrieveCash = {
 //            let t = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdTarikTunai) as! TarikTunaiController
@@ -1787,6 +1838,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 orderConfirmVC.isBackToRoot = false
                 orderConfirmVC.isShowBankBRI = self.isShowBankBRI
                 orderConfirmVC.date = self.trxDetail!.expireTime
+                orderConfirmVC.targetBank = self.trxDetail!.paymentBankTarget
                 orderConfirmVC.remaining = self.trxDetail!.remainingTime
                 orderConfirmVC.previousScreen = PageName.TransactionDetail
                 self.navigationController?.pushViewController(orderConfirmVC, animated: true)
@@ -1837,8 +1889,38 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             }
         }
         cell.reviewSeller = {
-            self.vwShadow.isHidden = false
-            self.vwReviewSeller.isHidden = false
+            if self.isReportable == false {
+                //Constant.showDialog("BATALKAN LAPORAN", message: "test")
+                
+                let alertView = SCLAlertView(appearance: Constant.appearance)
+                alertView.addButton("Batalkan Laporan") {
+                    let _ = request(APITransactionProduct.cancelReport(tpId: self.trxProductId!)).responseJSON { resp in
+                        if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Pembatalan Laporan")) {
+                            let json = JSON(resp.result.value!)
+                            let data = json["_data"]
+                            if let isHold = data["is_hold"].bool {
+                                if !isHold {
+                                    Constant.showDialog("Pembatalan Laporan", message: "Laporan berhasil dibatalkan")
+                                    self.isReportable = true // ga bisa report -> report selesai
+                                    self.tableView.reloadData()
+                                } else {
+                                    Constant.showDialog("Pembatalan Laporan", message: "Laporan gagal dibatalkan")
+                                }
+                            } else { // isHold nya null
+                                Constant.showDialog("Pembatalan Laporan", message: "Laporan berhasil dibatalkan")
+                                self.isReportable = nil // bisa report lagi
+                                self.tableView.reloadData()
+                            }
+                        }
+                    }
+                }
+                alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+                alertView.showCustom("Pembatalan Laporan", subTitle: "Batalkan laporan transaksi ini jika kamu sudah menerima barang. Jangan lupa review penjual.", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+                
+            } else {
+                self.vwShadow.isHidden = false
+                self.vwReviewSeller.isHidden = false
+            }
         }
         cell.seeFAQ = {
             let helpVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
@@ -1857,6 +1939,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             self.navigationController?.pushViewController(confirmShippingVC, animated: true)
         }
         cell.confirmReturned = {
+            /*
             let alert : UIAlertController = UIAlertController(title: "Perhatian", message: "Dengan melakukan konfirmasi penerimaan, artinya kamu sudah menerima kembali barang refund. Uang akan dikembalikan kepada pembeli. Lanjutkan?", preferredStyle: UIAlertControllerStyle.alert)
             
             alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
@@ -1875,6 +1958,25 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 }
             }))
             self.present(alert, animated: true, completion: nil)
+             */
+            
+            let alertView = SCLAlertView(appearance: Constant.appearance)
+            alertView.addButton("Lanjutkan") {
+                _ = request(APITransactionProduct.confirmReceiveRefundedProduct(tpId: self.trxProductId!)).responseJSON { resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Konfirmasi Penerimaan")) {
+                        let json = JSON(resp.result.value!)
+                        let data = json["_data"].boolValue
+                        if (data == true) {
+                            Constant.showDialog("Konfirmasi Penerimaan", message: "Konfirmasi Penerimaan telah berhasil dilakukan")
+                            _ = self.navigationController?.popViewController(animated: true)
+                        } else {
+                            Constant.showDialog("Konfirmasi Penerimaan", message: "Konfirmasi Penerimaan telah berhasil dilakukan")
+                        }
+                    }
+                }
+            }
+            alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+            alertView.showCustom("Perhatian", subTitle: "Dengan melakukan konfirmasi penerimaan, artinya kamu sudah menerima kembali barang refund. Uang akan dikembalikan kepada pembeli. Lanjutkan?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
         }
         // Configure actions
         cell.orderAgain = {
@@ -1955,8 +2057,10 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     
                         // Goto chat
                         let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
-                        
                         t.previousScreen = PageName.TransactionDetail
+                        
+                        t.isSellerNotActive = pDetail.IsShopClosed
+                        t.phoneNumber = pDetail.SellerPhone
                     
                         // API Migrasi
                         let _ = request(APIInbox.getInboxByProductIDSeller(productId: pDetail.productID, buyerId: buyerId)).responseJSON {resp in
@@ -2014,6 +2118,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         t.loadInboxFirst = true
                         t.prodId = pDetail.productID
                         t.previousScreen = PageName.TransactionDetail
+                        t.isSellerNotActive = pDetail.IsShopClosed
+                        t.phoneNumber = pDetail.SellerPhone
                         self.navigationController?.pushViewController(t, animated: true)
                     }
                 }
@@ -2052,6 +2158,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             self.vwTundaPengiriman.isHidden = false
         }
         cell.initRefund = {
+            /*
             let refundReqVC = Bundle.main.loadNibNamed(Tags.XibNameRequestRefund, owner: nil, options: nil)?.first as! RefundRequestViewController
             if (self.trxProductId != nil) {
                 refundReqVC.tpId = self.trxProductId!
@@ -2059,6 +2166,10 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             }
             refundReqVC.previousScreen = PageName.TransactionDetail
             self.navigationController?.pushViewController(refundReqVC, animated: true)
+             */
+            
+            // new popup -> report & refund
+            self.launchNewPopUp()
         }
         
         return cell
@@ -2515,20 +2626,98 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             let loginMethod = User.LoginMethod ?? ""
             let province = CDProvince.getProvinceNameWithID((self.trxDetail?.shippingProvinceId)!) ?? ""
             let region = CDRegion.getRegionNameWithID((self.trxDetail?.shippingRegionId)!) ?? ""
+            let subdistrict = (self.trxDetail?.shippingSubdistrictName)!
+            
+            let address = [
+                "Province" : province,
+                "Region" : region,
+                "Subdistrict" : subdistrict
+            ] as [String : Any]
             
             for tp in arrayProduct! {
                 let pdata : [String : Any] = [
                     "Order ID" : tp.orderId,
+                    "Product ID" : tp.productId,
                     "Seller Username" : tp.sellerUsername, // me
-                    "Product ID" : tp.productId ,
                     "Price" : tp.productPrice,
                     "Commission Percentage" : tp.commission,
-                    "Commission Price" : tp.commissionPrice
+                    "Commission Price" : tp.commissionPrice,
+                    "Address" : address
                 ]
                 
                 AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.DelayShipping, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
             }
         }
+    }
+    
+    // MARK: - Setup popup
+    
+    func launchNewPopUp() {
+        if self.isReportable == nil {
+            self.isReportable = self.trxProductDetail?.reportable
+        }
+        
+        self.setupPopUp(isReportable)
+        self.newPopup?.isHidden = false
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.newPopup?.setupPopUp()
+            self.newPopup?.displayPopUp()
+        })
+    }
+    
+    func setupPopUp(_ isReportable: Bool?) {
+        // setup popup
+        if (self.newPopup == nil) {
+            self.newPopup = Bundle.main.loadNibNamed("TransactionReportPopup", owner: nil, options: nil)?.first as? TransactionReportPopup
+            self.newPopup?.frame = UIScreen.main.bounds
+            self.newPopup?.tag = 100
+            self.newPopup?.isHidden = true
+            self.newPopup?.backgroundColor = UIColor.clear
+            self.view.addSubview(self.newPopup!)
+            
+            self.newPopup?.initPopUp(isReportable)
+            
+            self.newPopup?.disposePopUp = {
+                self.newPopup?.isHidden = true
+                self.newPopup = nil
+                print("Start remove sibview")
+                if let viewWithTag = self.view.viewWithTag(100) {
+                    viewWithTag.removeFromSuperview()
+                } else {
+                    print("No!")
+                }
+            }
+            
+            self.newPopup?.reportTrx = {
+                // TODO: - report trx VC
+                let reportTrxVC = Bundle.main.loadNibNamed(Tags.XibNameReportTransaction, owner: nil, options: nil)?.first as! ReportTransactionViewController
+                if (self.trxProductId != nil) {
+                    reportTrxVC.tpId = self.trxProductId!
+                    reportTrxVC.sellerId = (self.trxProductDetail?.sellerId)!
+                    reportTrxVC.wjpTime = (self.trxProductDetail?.wjpTime)!
+                    reportTrxVC.blockDone = { result in
+                        self.isReportable = result
+                        
+                        self.tableView.reloadData()
+                    }
+                    //reportTrxVC.pId = (self.trxProductDetail?.productId)!
+                }
+                reportTrxVC.previousScreen = PageName.TransactionDetail
+                self.navigationController?.pushViewController(reportTrxVC, animated: true)
+            }
+            
+            self.newPopup?.refundTrx = {
+                let refundReqVC = Bundle.main.loadNibNamed(Tags.XibNameRequestRefund, owner: nil, options: nil)?.first as! RefundRequestViewController
+                if (self.trxProductId != nil) {
+                    refundReqVC.tpId = self.trxProductId!
+                    refundReqVC.pId = (self.trxProductDetail?.productId)!
+                }
+                refundReqVC.previousScreen = PageName.TransactionDetail
+                self.navigationController?.pushViewController(refundReqVC, animated: true)
+            }
+        }
+        
     }
 }
 
@@ -2586,16 +2775,20 @@ class TransactionDetailTools : NSObject {
     static let TextNotPaidBuyerVeritrans = "Segera lanjutkan pembayaran."
     static let TextClaimedPaidSeller = "Pembayaran pembeli sedang dikonfirmasi oleh Prelo, mohon tunggu."
     static let TextClaimedPaidBuyer = "Hubungi Prelo apabila alamat pengiriman salah."
-    static let TextConfirmedPaidSeller1 = "Kirim pesanan sebelum "
+    static let TextConfirmedPaidSeller1 = "Kirim pesanan dalam 3 hari kerja setelah konfirmasi pembayaran (sebelum "
     static let TextConfirmedPaidSeller2 = "Jika kamu tidak mengirimkan sampai waktu tersebut, transaksi akan dibatalkan serta uang akan dikembalikan kepada pembeli."
     static let TextConfirmedPaidBuyer1 = "Pesanan kamu belum dikirim dan akan expired pada "
     static let TextConfirmedPaidBuyer2 = "Ingatkan penjual untuk mengirim pesanan."
-    static let TextSentSeller = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo sejak status transaksi menjadi \"Diterima\". Uang dapat langsung kamu tarik setelah Waktu Jaminan Prelo berakhir atau jika barang telah selesai direview.\n\nIngatkan pembeli untuk memberi review."
-    static let TextSentBuyer = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak status transaksi menjadi \"Diterima\". Refund dapat dilakukan selama jangka waktu tersebut jika terdapat keluhan terkait barang. Jangan lupa lakukan review jika barang sudah diterima.\n\nResi tidak valid atau foto resi tidak sesuai? Hubungi Prelo."
+    
+    static let refundRejectNoteBuyer = "Catatan:\n1. Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3 x 24 jam sejak status transaksi Diterima.\n2. Klik Laporkan Transaksi ini digunakan apabila resi atau barang yang diterima bermasalah serta bila barang belum kamu terima tetapi status transaksi Diterima.\n3. Jangan lupa untuk me-review penjual jika barang sudah kamu terima.\n4. Jika kamu melakukan Refund ketika laporan sedang diproses, maka laporan otomatis akan dibatalkan."
+    static let noteBuyer = "Catatan:\n1. Waktu Jaminan Prelo untuk transaksi ini telah berakhir. Uang pembayaran telah otomatis disalurkan ke penjual.\n2. Segera lakukan review jika barang sudah kamu terima."
+    
+    static let TextSentSeller = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo sejak status transaksi menjadi Diterima. Uang dapat langsung kamu tarik setelah Waktu Jaminan Prelo berakhir atau jika barang telah selesai direview.\n\nIngatkan pembeli untuk memberi review."
+    static let TextSentBuyer = refundRejectNoteBuyer //"Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak status transaksi menjadi Diterima. Refund dapat dilakukan selama jangka waktu tersebut jika terdapat keluhan terkait barang. Jangan lupa lakukan review jika barang sudah diterima.\n\nResi tidak valid atau foto resi tidak sesuai? Hubungi Prelo."
     //static let TextSentBuyerNoRefund = "Refund sudah tidak dapat dilakukan karena sudah melebihi batas Waktu Jaminan Prelo (3x24 jam sejak barang diterima). Jangan lupa lakukan review."
-    static let TextReceivedSeller = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak status transaksi menjadi \"Diterima\". Uang dapat langsung kamu tarik setelah Waktu Jaminan Prelo berakhir atau jika barang telah selesai direview.\n\nIngatkan pembeli untuk memberi review."
-    static let TextReceivedBuyer = "Barang semestinya sudah kamu terima. Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak status transaksi menjadi \"Diterima\". Refund dapat dilakukan selama jangka waktu tersebut jika terdapat keluhan terkait barang. Jangan lupa lakukan review.\n\nResi tidak valid atau foto resi tidak sesuai? Belum terima barang? Hubungi Prelo."
-    static let TextReceivedBuyerNoRefund = "Refund sudah tidak dapat dilakukan karena sudah melebihi batas Waktu Jaminan Prelo (3x24 jam sejak status transaksi menjadi \"Diterima\"). Jangan lupa lakukan review.\n\nResi tidak valid atau foto resi tidak sesuai? Belum terima barang? Hubungi Prelo."
+    static let TextReceivedSeller = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak status transaksi menjadi Diterima. Uang dapat langsung kamu tarik setelah Waktu Jaminan Prelo berakhir atau jika barang telah selesai direview.\n\nIngatkan pembeli untuk memberi review."
+    static let TextReceivedBuyer = refundRejectNoteBuyer //"Barang semestinya sudah kamu terima. Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3x24 jam sejak status transaksi menjadi Diterima. Refund dapat dilakukan selama jangka waktu tersebut jika terdapat keluhan terkait barang. Jangan lupa lakukan review.\n\nResi tidak valid atau foto resi tidak sesuai? Belum terima barang? Hubungi Prelo."
+    static let TextReceivedBuyerNoRefund = noteBuyer //"Refund sudah tidak dapat dilakukan karena sudah melebihi batas Waktu Jaminan Prelo (3x24 jam sejak status transaksi menjadi Diterima). Jangan lupa lakukan review.\n\nResi tidak valid atau foto resi tidak sesuai? Belum terima barang? Hubungi Prelo."
     static let TextReserved1 = "Barang ini telah direservasi khusus untuk kamu. Kamu dapat menyelesaikan pembelian barang ini dengan menyelesaikan pembayaran pada"
     static let TextReserved2 = "Apabila kamu tidak menyelesaikan pembelian sampai dengan batas waktu yang ditentukan, reservasi barang kamu akan dibatalkan.\n\nTunjukkan halaman ini sebagai bukti reservasi kamu."
     static let TextReserveDone = "Terima kasih sudah berbelanja di Prelo! Temukan barang preloved lainnya di Prelo dan tunggu event menarik selanjutnya dari Prelo."
@@ -2689,6 +2882,15 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
 //            height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentDate)
 //            height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentBankTarget)
 //            height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentNominal.asPrice)
+            
+            if (trxDetail.paymentMethodInt == 4) {
+                if (trxDetail.paymentCode != "") {
+                    height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentCode) + 20 // space
+                } else {
+                    height += TransactionDetailTitleContentCell.heightFor("Klik tombol \"LANJUTKAN PEMBAYARAN\" untuk mendapatkan kode bayar") + 20 // space
+                }
+            }
+            
         } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentMethod)
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentDate)
@@ -2895,7 +3097,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             return trxProducts.count
         } else {
             if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
-                return 7 //4
+                return 8 //4
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer) {
                 return 4
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidCC) {
@@ -2956,31 +3158,41 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         } else if (isTitleContentCell) {
             if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
                 if (idx == 0) {
+                    if (isTrxDetail() && trxDetail!.paymentMethodInt == 4) {
+                        if trxDetail!.paymentCode != "" {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentCode) + 20 // space
+                        } else {
+                            return TransactionDetailTitleContentCell.heightFor("Klik tombol \"LANJUTKAN PEMBAYARAN\" untuk mendapatkan kode bayar") + 20
+                        }
+                    } else  {
+                        return 0
+                    }
+                } else if (idx == 1) {
                     if (isTrxDetail()) {
                         let p = trxDetail!.totalPrice + trxDetail!.bonusUsed + trxDetail!.preloBalanceUsed + trxDetail!.voucherAmount
                         return TransactionDetailTitleContentCell.heightFor(p.asPrice)
                     }
-                } else if (idx == 1) {
+                } else if (idx == 2) {
                     if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.bonusUsed.asPrice)
                     }
-                } else if (idx == 2) {
+                } else if (idx == 3) {
                     if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.preloBalanceUsed.asPrice)
                     }
-                } else if (idx == 3) {
+                } else if (idx == 4) {
                     if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.voucherAmount.asPrice)
                     }
-                } else if (idx == 4) {
+                } else if (idx == 5) {
                     if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.totalPrice.asPrice)
                     }
-                } else if (idx == 5) {
+                } else if (idx == 6) {
                     if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.bankTransferDigit.asPrice)
                     }
-                } else if (idx == 6) {
+                } else if (idx == 7) {
                     if (isTrxDetail()) {
                         let p = trxDetail!.totalPrice + trxDetail!.bankTransferDigit
                         return TransactionDetailTitleContentCell.heightFor(p.asPrice)
@@ -3334,27 +3546,41 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             let idx = (indexPath as NSIndexPath).row
             
             if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
-                if (idx == 0) {
+                if (idx == 0 && trxDetail!.paymentMethodInt == 4) {
+                    if (trxDetail!.paymentCode != "") {
+                        var content = ""
+                        var textToCopy = ""
+                        content = " "
+                        if (isTrxDetail()) {
+                            let p = trxDetail!.paymentCode
+                            textToCopy = "\(p)"
+                            content += p
+                        }
+                        return self.createTitleContentCell("Kode Bayar", content: content, alignment: .right, url: nil, textToCopy: textToCopy)
+                    } else {
+                        return self.createTitleContentCell("Kode Bayar", content: "Klik tombol \"LANJUTKAN PEMBAYARAN\" untuk mendapatkan kode bayar", alignment: .right, url: nil, textToCopy: nil)
+                    }
+                } else if (idx == 1) {
                     var content = ""
                     if (isTrxDetail()) {
                         let p = trxDetail!.totalPrice + trxDetail!.bonusUsed + trxDetail!.preloBalanceUsed + trxDetail!.voucherAmount
                         content = p.asPrice
                     }
                     return self.createTitleContentCell("Harga + Ongkir", content: content, alignment: .right, url: nil, textToCopy: nil)
-                } else if (idx == 1) {
+                } else if (idx == 2) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = "-" + trxDetail!.bonusUsed.asPrice
                     }
                     return self.createTitleContentCell("Referral Bonus", content: content, alignment: .right, url: nil, textToCopy: nil)
-                } else if (idx == 2) {
+                } else if (idx == 3) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = "-" + trxDetail!.preloBalanceUsed.asPrice
                     }
                     let cell = self.createTitleContentCell("Prelo Balance", content: content, alignment: .right, url: nil, textToCopy: nil)
                     return cell
-                } else if (idx == 3) {
+                } else if (idx == 4) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = "-" + trxDetail!.voucherAmount.asPrice
@@ -3362,13 +3588,13 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     let cell = self.createTitleContentCell("Voucher", content: content, alignment: .right, url: nil, textToCopy: nil)
                     cell.showVwLine()
                     return cell
-                } else if (idx == 4) {
+                } else if (idx == 5) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = trxDetail!.totalPrice.asPrice
                     }
                     return self.createTitleContentCell("Subtotal", content: content, alignment: .right, url: nil, textToCopy: nil)
-                } else if (idx == 5) {
+                } else if (idx == 6) {
                     var title = ""
                     var content = ""
                     if (isTrxDetail()) {
@@ -3386,7 +3612,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     let cell = self.createTitleContentCell(title, content: content, alignment: .right, url: nil, textToCopy: nil)
                     cell.showVwLine()
                     return cell
-                } else if (idx == 6) {
+                } else if (idx == 7) {
                     var content = ""
                     var textToCopy = ""
                     content = " "
@@ -4240,8 +4466,9 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                 }
             } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {
                 if (isSeller) {
-                    let expireTime = trxDetail.shippingExpireTime + ". "
+                    let expireTime = trxDetail.shippingExpireTime + "). "
                     lblDesc.text = TransactionDetailTools.TextConfirmedPaidSeller1 + expireTime + TransactionDetailTools.TextConfirmedPaidSeller2
+                    lblDesc.boldSubstring("3 hari kerja setelah konfirmasi pembayaran")
                     lblDesc.boldSubstring("transaksi akan dibatalkan")
                     lblDesc.boldSubstring("uang akan dikembalikan kepada pembeli")
                 }
@@ -4275,14 +4502,80 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     lblDesc.text = TransactionDetailTools.TextSentSeller
                 } else {
                     lblDesc.text = TransactionDetailTools.TextSentBuyer
+                }
+                if (lblDesc.text?.contains("1."))! {
+                    let fontSize = lblDesc.font.pointSize
+                    let attributesDictionary = [NSFontAttributeName : lblDesc.font]
+                    let fullAttributedString = NSMutableAttributedString(string: "", attributes: attributesDictionary)
+                    
+                    // Create a NSCharacterSet of delimiters.
+                    let separators = NSCharacterSet(charactersIn: "\n")
+                    // Split based on characters.
+                    let strings = lblDesc.text?.components(separatedBy: separators as CharacterSet)
+                    
+                    for string: String in strings!
+                    {
+                        let formattedString: String = "\(string)\n"
+                        let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: formattedString)
+                        
+                        var paragraphStyle: NSMutableParagraphStyle
+                        paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+                        paragraphStyle.tabStops = [NSTextTab(textAlignment: .left, location: 15, options: NSDictionary() as! [String : AnyObject])]
+                        paragraphStyle.defaultTabInterval = 15
+                        paragraphStyle.firstLineHeadIndent = 0
+                        paragraphStyle.headIndent = 15
+                        
+                        attributedString.addAttributes([NSParagraphStyleAttributeName: paragraphStyle], range: NSMakeRange(0, attributedString.length))
+                        
+                        let mystr = formattedString
+                        let searchstr = "Waktu Jaminan Prelo|Diterima|Laporkan Transaksi"
+                        let ranges: [NSRange]
+                        
+                        do {
+                            // Create the regular expression.
+                            let regex = try NSRegularExpression(pattern: searchstr, options: [])
+                            
+                            // Use the regular expression to get an array of NSTextCheckingResult.
+                            // Use map to extract the range from each result.
+                            ranges = regex.matches(in: mystr, options: [], range: NSMakeRange(0, mystr.characters.count)).map {$0.range}
+                        }
+                        catch {
+                            // There was a problem creating the regular expression
+                            ranges = []
+                        }
+                        
+                        for range in ranges {
+                            attributedString.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: fontSize)], range: range)
+                        }
+                        attributedString.addAttributes([NSFontAttributeName:UIFont.italicSystemFont(ofSize: fontSize)], range: (formattedString as NSString).range(of: "review"))
+                        attributedString.addAttributes([NSFontAttributeName:UIFont.italicSystemFont(ofSize: fontSize)], range: (formattedString as NSString).range(of: "Refund"))
+                        
+                        fullAttributedString.append(attributedString)
+                    }
+                    
+                    lblDesc.attributedText = fullAttributedString
+                } else {
+                    lblDesc.boldSubstring("Waktu Jaminan Prelo")
+                    lblDesc.boldSubstring("Diterima")
+                }
+                /*if (isSeller) {
+                    lblDesc.text = TransactionDetailTools.TextSentSeller
+                } else {
+                    lblDesc.text = TransactionDetailTools.TextSentBuyer
                     /*if (trxProductDetail.refundable) {
                         lblDesc.text = TransactionDetailTools.TextSentBuyer
                     } else {
                         lblDesc.text = TransactionDetailTools.TextSentBuyerNoRefund
                     }*/
+                    
+                    lblDesc.boldSubstring("Laporkan Transaksi")
+                    lblDesc.boldSubstring("\n1.")
+                    lblDesc.boldSubstring("Diterima\n2.")
+                    lblDesc.boldSubstring("Diterima\n3.")
+                    lblDesc.italicSubstring("review")
                 }
                 lblDesc.boldSubstring("Waktu Jaminan Prelo")
-                lblDesc.boldSubstring("\"Diterima\"")
+                lblDesc.boldSubstring("Diterima")*/
             } else if (progress == TransactionDetailTools.ProgressReceived) {
                 if (isSeller) {
                     lblDesc.text = TransactionDetailTools.TextReceivedSeller
@@ -4293,8 +4586,80 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                         lblDesc.text = TransactionDetailTools.TextReceivedBuyerNoRefund
                     }
                 }
-                lblDesc.boldSubstring("Waktu Jaminan Prelo")
-                lblDesc.boldSubstring("\"Diterima\"")
+                if (lblDesc.text?.contains("1."))! {
+                    let fontSize = lblDesc.font.pointSize
+                    let attributesDictionary = [NSFontAttributeName : lblDesc.font]
+                    let fullAttributedString = NSMutableAttributedString(string: "", attributes: attributesDictionary)
+                    
+                    // Create a NSCharacterSet of delimiters.
+                    let separators = NSCharacterSet(charactersIn: "\n")
+                    // Split based on characters.
+                    let strings = lblDesc.text?.components(separatedBy: separators as CharacterSet)
+                    
+                    for string: String in strings!
+                    {
+                        let formattedString: String = "\(string)\n"
+                        let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: formattedString)
+                        
+                        var paragraphStyle: NSMutableParagraphStyle
+                        paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+                        paragraphStyle.tabStops = [NSTextTab(textAlignment: .left, location: 15, options: NSDictionary() as! [String : AnyObject])]
+                        paragraphStyle.defaultTabInterval = 15
+                        paragraphStyle.firstLineHeadIndent = 0
+                        paragraphStyle.headIndent = 15
+                        
+                        attributedString.addAttributes([NSParagraphStyleAttributeName: paragraphStyle], range: NSMakeRange(0, attributedString.length))
+                        
+                        let mystr = formattedString
+                        let searchstr = "Waktu Jaminan Prelo|Diterima|Laporkan Transaksi"
+                        let ranges: [NSRange]
+                        
+                        do {
+                            // Create the regular expression.
+                            let regex = try NSRegularExpression(pattern: searchstr, options: [])
+                            
+                            // Use the regular expression to get an array of NSTextCheckingResult.
+                            // Use map to extract the range from each result.
+                            ranges = regex.matches(in: mystr, options: [], range: NSMakeRange(0, mystr.characters.count)).map {$0.range}
+                        }
+                        catch {
+                            // There was a problem creating the regular expression
+                            ranges = []
+                        }
+                        
+                        for range in ranges {
+                            attributedString.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: fontSize)], range: range)
+                        }
+                        attributedString.addAttributes([NSFontAttributeName:UIFont.italicSystemFont(ofSize: fontSize)], range: (formattedString as NSString).range(of: "review"))
+                        attributedString.addAttributes([NSFontAttributeName:UIFont.italicSystemFont(ofSize: fontSize)], range: (formattedString as NSString).range(of: "Refund"))
+                        
+                        fullAttributedString.append(attributedString)
+                    }
+                    
+                    lblDesc.attributedText = fullAttributedString
+                } else {
+                    lblDesc.boldSubstring("Waktu Jaminan Prelo")
+                }
+                /*if (isSeller) {
+                    lblDesc.text = TransactionDetailTools.TextReceivedSeller
+                    
+                    lblDesc.boldSubstring("Diterima")
+                } else {
+                    if (trxProductDetail.refundable) {
+                        lblDesc.text = TransactionDetailTools.TextReceivedBuyer
+                        
+                        lblDesc.boldSubstring("Laporkan Transaksi")
+                        lblDesc.boldSubstring("Diterima\n2.")
+                        lblDesc.boldSubstring("Diterima\n3.")
+                        lblDesc.italicSubstring("review")
+                    } else {
+                        lblDesc.text = TransactionDetailTools.TextReceivedBuyerNoRefund
+                        
+                        lblDesc.boldSubstring("\n2.")
+                    }
+                    lblDesc.boldSubstring("\n1.")
+                }
+                lblDesc.boldSubstring("Waktu Jaminan Prelo")*/
             } else if (progress == TransactionDetailTools.ProgressReserved) {
                 if (order == 1) {
                     lblDesc.text = TransactionDetailTools.TextReserved1
@@ -4654,7 +5019,7 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
     let TitleTolakPesanan = "Tolak Pesanan"
     let TitleBatalkanReservasi = "BATALKAN RESERVASI"
     let TitleTundaPengiriman = "Tunda Pengiriman"
-    let TitleInitRefund = "REFUND"
+    var TitleInitRefund = "LAPORKAN TRANSAKSI INI" //"REFUND"
     
     func adapt(_ progress : Int?, isSeller : Bool?, order : Int) {
         self.progress = progress
@@ -4841,5 +5206,158 @@ class TransactionDetailContactPreloCell : UITableViewCell {
     
     @IBAction func btnContactPressed(_ sender: AnyObject) {
         self.showContactPrelo()
+    }
+}
+
+class TransactionReportPopup: UIView {
+    @IBOutlet weak var vwBackgroundOverlay: UIView!
+    @IBOutlet weak var vwOverlayPopUp: UIView!
+    @IBOutlet weak var vwPopUp: UIView!
+    @IBOutlet weak var consCenteryPopUp: NSLayoutConstraint!
+    @IBOutlet weak var lbReport: UILabel!
+    @IBOutlet weak var lbRefund: UILabel!
+    @IBOutlet weak var lbTitleReport: UILabel!
+    @IBOutlet weak var btnReport: UIButton!
+    @IBOutlet weak var imgReport: TintedImageView!
+    @IBOutlet weak var imgRefund: TintedImageView!
+    
+    let gray = UIColor(hexString: "#939393")
+    
+    var disposePopUp : ()->() = {}
+    var reportTrx : ()->() = {}
+    var refundTrx : ()->() = {}
+    
+    func setupPopUp() {
+        // do nothing
+        
+        self.lbReport.textColor = gray
+        self.lbRefund.textColor = gray
+        
+        // setup bold/italic teks
+        self.lbReport.boldSubstring("Waktu Jaminan Prelo")
+        self.lbRefund.boldSubstring("Waktu Jaminan Prelo")
+        self.lbRefund.italicSubstring("Refund")
+    }
+    
+    func initPopUp(_ isReportable: Bool?) {
+        let path = UIBezierPath(roundedRect:vwPopUp.bounds,
+                                byRoundingCorners:[.topRight, .topLeft],
+                                cornerRadii: CGSize(width: 4, height:  4))
+        
+        let maskLayer = CAShapeLayer()
+        
+        maskLayer.path = path.cgPath
+        vwPopUp.layer.mask = maskLayer
+        
+        // Transparent panel
+        self.vwBackgroundOverlay.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.2)
+        
+        self.vwBackgroundOverlay.isHidden = false
+        self.vwOverlayPopUp.isHidden = false
+        
+        let screenSize = UIScreen.main.bounds
+        let screenHeight = screenSize.height - 64 // navbar
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = screenHeight
+        
+        // setup
+        self.imgReport.tint = true
+        self.imgReport.tintColor = Theme.PrimaryColor
+        
+        self.imgRefund.tint = true
+        self.imgRefund.tintColor = Theme.PrimaryColor
+        
+        if isReportable != nil {
+            // disable report button
+            self.btnReport.isEnabled = false
+            
+            self.lbTitleReport.textColor = Theme.GrayLight
+            self.lbReport.textColor = Theme.GrayLight
+            
+            //self.imgReport.tint = true
+            self.imgReport.tintColor = Theme.GrayLight
+            
+            if !(isReportable!) {
+                self.lbReport.text = "Laporan kamu sedang diproses"
+            } else {
+                self.lbReport.text = "Laporan kamu telah selesai diproses"
+            }
+        }
+    }
+    
+    func displayPopUp() {
+        let screenSize = self.bounds
+        let screenHeight = screenSize.height
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = screenHeight
+        
+        // 1
+        let placeSelectionBar = { () -> () in
+            // parent
+            var curView = self.vwPopUp.frame
+            curView.origin.y = (screenHeight - self.vwPopUp.frame.height) / 2 - 32
+            self.vwPopUp.frame = curView
+        }
+        
+        // 2
+        UIView.animate(withDuration: 0.3, animations: {
+            placeSelectionBar()
+        })
+        
+        self.consCenteryPopUp.constant = -32
+    }
+    
+    func unDisplayPopUp() {
+        let screenSize = self.bounds
+        let screenHeight = screenSize.height
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = 0
+        
+        // 1
+        let placeSelectionBar = { () -> () in
+            // parent
+            var curView = self.vwPopUp.frame
+            curView.origin.y = screenHeight + (screenHeight - self.vwPopUp.frame.height) / 2 - 32
+            self.vwPopUp.frame = curView
+        }
+        
+        // 2
+        UIView.animate(withDuration: 0.3, animations: {
+            placeSelectionBar()
+        })
+        
+        self.consCenteryPopUp.constant = screenHeight
+    }
+    
+    @IBAction func btnReportPressed(_ sender: Any) {
+        self.unDisplayPopUp()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.vwOverlayPopUp.isHidden = true
+            self.vwBackgroundOverlay.isHidden = true
+            self.reportTrx()
+            self.disposePopUp()
+        })
+    }
+    
+    @IBAction func btnRefundPressed(_ sender: Any) {
+        self.unDisplayPopUp()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.vwOverlayPopUp.isHidden = true
+            self.vwBackgroundOverlay.isHidden = true
+            self.refundTrx()
+            self.disposePopUp()
+        })
+    }
+    
+    @IBAction func btnTidakPressed(_ sender: Any) {
+        self.unDisplayPopUp()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.vwOverlayPopUp.isHidden = true
+            self.vwBackgroundOverlay.isHidden = true
+            self.disposePopUp()
+        })
     }
 }

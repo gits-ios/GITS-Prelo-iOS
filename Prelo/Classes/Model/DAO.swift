@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 7/24/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
@@ -1071,6 +1071,20 @@ open class ProductDetail : NSObject, TawarItem
             }
         }
         return false
+    }
+    
+    var IsShopClosed : Bool {
+        if let j = json["_data"]["seller"]["shop_closed"].bool {
+            return j
+        }
+        return false
+    }
+    
+    var SellerPhone : String {
+        if let j = json["_data"]["seller"]["seller_phone"].string {
+            return j
+        }
+        return ""
     }
 }
 
@@ -2399,6 +2413,20 @@ class TransactionProductDetail : NSObject {
         }
         return false
     }
+    
+    var reportable : Bool? {
+        if let j = json["is_hold"].bool {
+            return !j
+        }
+        return nil
+    }
+    
+    var wjpTime : String {
+        if let j = json["wjp_days"].int {
+            return j.string
+        }
+        return "6" // default
+    }
 }
 
 class UserReview : NSObject {
@@ -3320,6 +3348,16 @@ class NotificationObj : NSObject
     func setRead() {
         json["read"] = JSON(true)
     }
+    
+    var isPreloMessage : Bool {
+        if let j = json["is_prelo_message"].bool {
+            return j
+        } // backup
+//        if userUsernameFrom == "Prelo" {
+//            return true
+//        }
+        return false
+    }
 }
 
 class ProductCompareMain : NSObject {
@@ -3895,5 +3933,189 @@ class HistoryWithdrawItem : NSObject {
             return j
         }
         return 0
+    }
+}
+
+class PreloMessageItem : NSObject {
+    var json : JSON = JSON([:])
+    
+    static func instance(_ json : JSON?) -> PreloMessageItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let n = PreloMessageItem()
+            n.json = json!
+            return n
+        }
+    }
+    
+    var title : String {
+        if let _ = json["attachment_url"].string {
+            return ""
+        } else if let j = json["title"].string {
+            return j
+        }
+        return "Prelo Message"
+    }
+    
+    var banner : URL? {
+        if let j = json["attachment_url"].string {
+            return URL(string: j)!
+        } else if let j = json["header_image"].string {
+            return URL(string: j)!
+        }
+        return nil
+    }
+    
+    var bannerUri : URL? {
+        if let j = json["header_uri"].string {
+            return URL(string: j)!
+        }
+        return nil
+    }
+    
+    var desc : String {
+        if let _ = json["attachment_url"].string {
+            return "pesan gambar"
+        } else if let j = json["message"].string {
+            return j
+        }
+        return ""
+    }
+    
+//    var date : String {
+//        if let j = json["time"].string {
+//            return j
+//        }
+//        return ""
+//    }
+    
+    var date : String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"//this your string date format
+        dateFormatter.timeZone = NSTimeZone(name: "UTC") as TimeZone!
+        let ds = json["time"].stringValue
+        
+        let date = dateFormatter.date(from: ds)
+        
+        dateFormatter.dateStyle = .long
+        dateFormatter.timeStyle = .medium
+        dateFormatter.locale = Locale(identifier: "id")
+        dateFormatter.timeZone = NSTimeZone.system
+        
+        return dateFormatter.string(from: date!)
+    }
+    
+    var isContainAttachment : Bool {
+        if let _ = json["attachment_url"].string {
+            return true
+        }
+        return false
+    }
+}
+
+// address-book
+class AddressItem : NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> AddressItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = AddressItem()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var id : String {
+        if let j = json["_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var addressName : String {
+        if let j = json["address_name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var recipientName : String {
+        if let j = json["owner_name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var address : String {
+        if let j = json["address"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var provinceId : String {
+        if let j = json["province_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var provinceName : String {
+        if let j = json["province_name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var regionId : String {
+        if let j = json["region_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var regionName : String {
+        if let j = json["region_name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var subdisrictId : String {
+        if let j = json["subdistrict_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var subdisrictName : String {
+        if let j = json["subdistrict_name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var phone : String {
+        if let j = json["phone"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var postalCode : String {
+        if let j = json["postal_code"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var isMainAddress : Bool {
+        if let j = json["is_default"].bool {
+            return j
+        }
+        return false
     }
 }

@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Djuned on 2/20/17.
-//  Copyright © 2017 GITS Indonesia. All rights reserved.
+//  Copyright © 2017 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import Foundation
@@ -12,15 +12,36 @@ import Alamofire
 class AnalyticManager: NSObject {
     static let sharedInstance = AnalyticManager()
     
-    let token = "ZldVDK0Xca1v_osoTSiCdCngZ_r7iR1ZW6fpC3BscfCuHOYUYjLrlw"
+    fileprivate static var token = "ZldVDK0Xca1v_osoTSiCdCngZ_r7iR1ZW6fpC3BscfCuHOYUYjLrlw"
     
-    let devAnalyticURL = "http://analytics.dev.prelo.id"
-    let prodAnalyticURL = "https://analytics.prelo.co.id"
+    fileprivate static var devAnalyticURL = "http://analytics.dev.prelo.id"
+    fileprivate static var prodAnalyticURL = "https://analytics.prelo.id"
     
-    var isShowDialog = false
+    fileprivate let isShowDialog = false // set true for debug
     
-    var PreloAnalyticBaseUrl : String {
-        return (AppTools.isDev ? devAnalyticURL : prodAnalyticURL)
+    fileprivate static var _PreloAnalyticBaseUrl = (AppTools.isDev ? devAnalyticURL : prodAnalyticURL)
+    static var PreloAnalyticBaseUrl : String {
+        get {
+            return _PreloAnalyticBaseUrl
+        }
+    }
+    
+    static func switchToDev(_ isDev: Bool) {
+        if isDev {
+            _PreloAnalyticBaseUrl = devAnalyticURL
+        } else {
+            _PreloAnalyticBaseUrl = prodAnalyticURL
+        }
+    }
+    
+    static var PreloAnalyticToken : String {
+        get {
+            return token
+        }
+    }
+    
+    fileprivate static var IsPreloAnalyticProduction : Bool {
+        return (_PreloAnalyticBaseUrl == prodAnalyticURL)
     }
     
     // skeleton generator + append data
@@ -86,6 +107,19 @@ class AnalyticManager: NSObject {
         
         let _ = request(APIAnalytic.eventWithUserId(eventType: eventType, data: wrappedData, userId: userId)).responseJSON {resp in
             if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - " + eventType)) {
+                print("Analytics - " + eventType + ", Sent!")
+                if self.isShowDialog {
+                    Constant.showDialog("Analytics - " + eventType, message: "Success")
+                }
+            }
+        }
+    }
+    
+    // open app -- resume, first init
+    func openApp() {
+        let eventType = PreloAnalyticEvent.OpenApp
+        let _ = request(APIAnalytic.eventOpenApp).responseJSON {resp in
+            if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - User")) {
                 print("Analytics - " + eventType + ", Sent!")
                 if self.isShowDialog {
                     Constant.showDialog("Analytics - " + eventType, message: "Success")
@@ -221,7 +255,41 @@ class AnalyticManager: NSObject {
             PreloAnalyticEvent.RequestWithdrawMoney,
         ]
         
+        let _developmentList = [
+            // Achievement
+            PreloAnalyticEvent.VisitAchievementPage,
+            
+            // Chat
+            PreloAnalyticEvent.SuccessfulBargain,
+            PreloAnalyticEvent.SendMediaOnChat,
+            
+            // Edit Profile
+            PreloAnalyticEvent.ChagePhone,
+            
+            // Product
+            PreloAnalyticEvent.ShareForCommission,
+            PreloAnalyticEvent.EraseProduct,
+            PreloAnalyticEvent.MarkAsSold,
+            PreloAnalyticEvent.CommentOnProduct,
+            
+            // Referral
+            PreloAnalyticEvent.ShareReferralCode,
+            
+            // Report
+            PreloAnalyticEvent.ReportComment,
+            
+            // Search
+            PreloAnalyticEvent.SearchByKeyword,
+            PreloAnalyticEvent.Filter,
+            
+            // Transaction
+            PreloAnalyticEvent.RequestRefund,
+            PreloAnalyticEvent.DelayShipping,
+        ]
+        
         if _whiteList.contains(preloAnalyticEvent) {
+            return true
+        } else if !(AnalyticManager.IsPreloAnalyticProduction) && _developmentList.contains(preloAnalyticEvent) {
             return true
         } else {
             return false

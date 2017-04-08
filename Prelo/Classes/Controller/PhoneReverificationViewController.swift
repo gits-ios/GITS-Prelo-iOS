@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Fransiska on 9/9/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import Foundation
@@ -19,6 +19,7 @@ class PhoneReverificationViewController : BaseViewController {
     var verifiedHP : String?
     
     var prevVC : UserProfileViewController!
+    var prevVC2 : UserProfileViewController2!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,7 +81,11 @@ class PhoneReverificationViewController : BaseViewController {
                     phoneVerificationVC.isReverification = true
                     phoneVerificationVC.noHpToVerify = self.fieldNoHP.text == nil ? "" : self.fieldNoHP.text!
                     phoneVerificationVC.isShowBackBtn = true
-                    phoneVerificationVC.delegate = self.prevVC
+                    if (self.prevVC != nil) {
+                        phoneVerificationVC.delegate = self.prevVC
+                    } else {
+                        phoneVerificationVC.delegate = self.prevVC2
+                    }
                     phoneVerificationVC.previousScreen = PageName.ChangePhone
                     self.navigationController?.pushViewController(phoneVerificationVC, animated: true)
                 }

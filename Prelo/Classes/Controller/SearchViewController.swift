@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 8/6/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
@@ -255,6 +255,10 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 icon.tintColor = UIColor.lightGray
             }
         }
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
     
     // MARK: - Scroll view functions
@@ -537,6 +541,13 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         }
         AppToolsObjC.insertNewSearch(keyword)
         setupHistory()
+        
+        // Prelo Analytic - Search by Keyword
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Search Query" : keyword
+        ]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SearchByKeyword, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
     }
     
     func searchTopKey(_ sender : UITapGestureRecognizer) {

@@ -3,12 +3,13 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 10/7/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
 import Crashlytics
 import Alamofire
+import MessageUI
 
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
@@ -66,7 +67,7 @@ protocol TawarDelegate {
 
 // MARK: - Class
 
-class TawarViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, UIScrollViewDelegate, MessagePoolDelegate, UserRelatedDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class TawarViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, UIScrollViewDelegate, MessagePoolDelegate, UserRelatedDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MFMessageComposeViewControllerDelegate {
 
     // MARK: - Properties
     
@@ -135,6 +136,11 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     // dipakai jika start dari lovelist --> tawarkan
     var isTawarkan : Bool = false
     var isTawarkan_originalPrice : String = ""
+    
+    // aggregate chat
+    var isSellerNotActive: Bool = false
+    // seller phone number
+    var phoneNumber: String = "" //"08112353131"
     
     // MARK: - Init
     
@@ -550,10 +556,65 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         if ((indexPath as NSIndexPath).row == 0 && isShowBubble) { // Bubble cell
             let cell = tableView.dequeueReusableCell(withIdentifier: "bubble") as! TawarBubbleCell
             cell.selectionStyle = .none
+            cell.viewWithTag(999)?.removeFromSuperview()
+            cell.viewWithTag(888)?.removeFromSuperview()
+            
+            let btnClose = UIButton(frame: CGRect(x: cell.width - 38, y: 8, width: 30, height: 30))
+            btnClose.addTarget(self, action: #selector(TawarViewController.closeBubble), for: UIControlEvents.touchUpInside)
+            btnClose.tag = 888
+            //btnClose.backgroundColor = UIColor.black.alpha(0.3)
+            cell.addSubview(btnClose)
+            
             if (self.tawarItem.opIsMe) { // I am buyer
-                let attrStr = NSMutableAttributedString(string: "Pastikan kamu bertransaksi 100% aman hanya melalui rekening bersama Prelo. Waspada apabila kamu diminta bertransaksi di luar Prelo, terutama jika terdapat permintaan yang kurang wajar.")
-                cell.lblText.attributedText = attrStr
-                cell.lblText.setSubstringColor("rekening bersama Prelo", color: Theme.PrimaryColor)
+                if (isSellerNotActive) {
+                    let attrStr = NSMutableAttributedString(string: "Penjual ini sedang tidak aktif di Prelo. Hubungi penjual secara langsung bahwa kamu menemukan iklan ini di Prelo.\n\n")
+                    cell.lblText.attributedText = attrStr
+                    
+                    let subview = UIView(frame: CGRect(x: 0, y: 110 - 40, width: 290 - 14, height: 40))
+                    subview.tag = 999
+                    
+                    let width = 290/2 - 1
+                    
+                    let telpBtn = UIButton(frame: CGRect(x: 0, y: 0, width: width, height: 20))
+                    telpBtn.setTitle("Telepon Penjual", for: .normal)
+                    telpBtn.backgroundColor = UIColor.clear
+                    telpBtn.setTitleColor(Theme.PrimaryColor)
+                    telpBtn.removeBorders()
+                    telpBtn.addTarget(self, action: #selector(TawarViewController.phoneSeller), for: UIControlEvents.touchUpInside)
+                    telpBtn.setTitleFont(FontName.Helvetica, size: 12)
+                    let imgH = UIImage(named: "ic_hubungi_prelo")?.resizeWithMaxWidthOrHeight(28)
+                    telpBtn.setImage(imgH, for: .normal)
+                    telpBtn.imageView?.contentMode = .scaleAspectFit
+                    telpBtn.imageEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
+                    
+                    let splitLbl = UILabel(frame: CGRect(x: width, y: 0, width: 2, height: 20))
+                    splitLbl.font = cell.lblText.font
+                    splitLbl.text = "|"
+                    splitLbl.textAlignment = .center
+                    splitLbl.textColor = Theme.PrimaryColor
+                    
+                    let smsBtn = UIButton(frame: CGRect(x: width + 2, y: 0, width: width - 32, height: 20))
+                    smsBtn.setTitle(" SMS Penjual", for: .normal)
+                    smsBtn.backgroundColor = UIColor.clear
+                    smsBtn.setTitleColor(Theme.PrimaryColor)
+                    smsBtn.removeBorders()
+                    smsBtn.addTarget(self, action: #selector(TawarViewController.smsSeller), for: UIControlEvents.touchUpInside)
+                    smsBtn.setTitleFont(FontName.Helvetica, size: 12)
+                    let imgC = UIImage(named: "ic_comment")?.resizeWithMaxWidthOrHeight(28)
+                    smsBtn.setImage(imgC, for: .normal)
+                    smsBtn.imageView?.contentMode = .scaleAspectFit
+                    smsBtn.imageEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
+                    
+                    subview.addSubview(telpBtn)
+                    subview.addSubview(splitLbl)
+                    subview.addSubview(smsBtn)
+                    //subview.backgroundColor = UIColor.white
+                    cell.addSubview(subview)
+                } else {
+                    let attrStr = NSMutableAttributedString(string: "Pastikan kamu bertransaksi 100% aman hanya melalui rekening bersama Prelo. Waspada apabila kamu diminta bertransaksi di luar Prelo, terutama jika terdapat permintaan yang kurang wajar.")
+                    cell.lblText.attributedText = attrStr
+                    cell.lblText.setSubstringColor("rekening bersama Prelo", color: Theme.PrimaryColor)
+                }
             } else { // I am seller
                 let attrStr = NSMutableAttributedString(string: "Klik MARK AS SOLD jika barang sudah dibeli oleh \(self.tawarItem.theirName). Waspada apabila kamu diminta bertransaksi di luar Prelo, terutama jika terdapat permintaan yang kurang wajar.")
                 cell.lblText.attributedText = attrStr
@@ -637,8 +698,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if ((indexPath as NSIndexPath).row == 0 && isShowBubble) { // Bubble cell
-            isShowBubble = false
-            tableView.reloadData()
+            //isShowBubble = false
+            //tableView.reloadData()
         } else { // Chat cell
             tableView.deselectRow(at: indexPath, animated: true)
             self.view.endEditing(true)
@@ -1008,7 +1069,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             self.tawarItem.setBargainPrice(m)
             
             // Prelo Analytics - Successful Bargain - New
-            self.sendSuccessfulBargainAnalytic("New")
+//            self.sendSuccessfulBargainAnalytic("New")
         }
     }
     
@@ -1020,7 +1081,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         sendChat(3, message: message, image: nil)
         
         // Prelo Analytics - Successful Bargain - Reject
-        self.sendSuccessfulBargainAnalytic("Reject")
+//        self.sendSuccessfulBargainAnalytic("Reject")
     }
     
     func confirmTawar(_ sender : UIView?) {
@@ -1094,6 +1155,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         self.tableView.reloadData()
         self.adjustButtons()
         self.scrollToBottom()
+    }
+    
+    func preloMessageArrived(_ message: PreloMessageItem) {
+        // do nothing
     }
     
     // MARK: - User related delegate functions
@@ -1197,10 +1262,11 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
 //        }))
 //        self.present(alert, animated: true, completion: nil)
         
-        let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah dibeli dan/atau diterima oleh pembeli ini? (Aksi ini tidak dapat dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
+        /*
+        let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah DIBAYAR oleh pembeli ini? (Aksi ini TIDAK dapat dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
-            let alert2 : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah kamu yakin? (Aksi ini benar-benar tidak dapat dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
+            let alert2 : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah kamu yakin? (Aksi ini TIDAK dapat dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
             alert2.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
             alert2.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
                 self.prodStatus = 2
@@ -1235,6 +1301,37 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             self.present(alert2, animated: true, completion: nil)
         }))
         self.present(alert, animated: true, completion: nil)
+         */
+        
+        let alertView = SCLAlertView(appearance: Constant.appearance)
+        alertView.addButton("Ya") {
+            
+            let alertView2 = SCLAlertView(appearance: Constant.appearance)
+            alertView2.addButton("Ya") {
+                self.prodStatus = 2
+                Constant.showDialog("Success", message: "Barang telah ditandai sebagai barang terjual")
+                var finalPrice = ""
+                if (self.tawarItem.bargainPrice != 0 && self.tawarItem.threadState == 2) {
+                    finalPrice = self.tawarItem.bargainPrice.asPrice
+                } else {
+                    finalPrice = self.tawarItem.price
+                }
+                self.sendChat(4, message: "Barang ini dijual kepada \(self.tawarItem.theirName) dengan harga \(finalPrice)", image: nil)
+                
+                // Prelo Analytic - Mark As Sold
+                let loginMethod = User.LoginMethod ?? ""
+                let pdata = [
+                    "Product ID": self.prodId,
+                    "Screen" : PageName.InboxDetail
+                ] as [String : Any]
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.MarkAsSold, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+            }
+            alertView2.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+            alertView2.showCustom("Mark As Sold", subTitle: "Apakah kamu yakin? (Aksi ini TIDAK dapat dibatalkan)", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+            
+        }
+        alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+        alertView.showCustom("Mark As Sold", subTitle: "Apakah barang ini sudah DIBAYAR oleh pembeli ini? (Aksi ini TIDAK dapat dibatalkan)", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
     func randomElementIndex<T>(_ s: Set<T>) -> T {
@@ -1270,9 +1367,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         let percentagePrice = (bargainPrice * 100.0 / originalPrice)
         let pdata = [
             "Product ID" : self.prodId,
-            "User Target" : (tawarItem.opIsMe ? tawarItem.myName : tawarItem.theirName),
-            "Bargain Type" : bargainType,
-            "Percentage From Price" : percentagePrice,
+            //"User Target" : (tawarItem.opIsMe ? tawarItem.myName : tawarItem.theirName),
+            //"Bargain Type" : bargainType,
+            "Percentage" : percentagePrice,
             "From Seller" : !tawarItem.opIsMe
         ] as [String : Any]
         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SuccessfulBargain, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
@@ -1282,11 +1379,48 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     func sendMediaOnChatAnalytic(_ mediaType: String) {
         let loginMethod = User.LoginMethod ?? ""
         let pdata = [
-            "Seller Username" : (tawarItem.opIsMe ? tawarItem.theirName : tawarItem.myName),
-            "Buyer Username" : (tawarItem.opIsMe ? tawarItem.myName : tawarItem.theirName),
+            //"Seller Username" : (tawarItem.opIsMe ? tawarItem.theirName : tawarItem.myName),
+            //"Buyer Username" : (tawarItem.opIsMe ? tawarItem.myName : tawarItem.theirName),
             "Media Type" : mediaType
         ] as [String : Any]
         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SendMediaOnChat, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+    }
+    
+    // MARK: - Helper
+    func putToPasteBoard(_ text : String) {
+        UIPasteboard.general.string = text
+        
+    }
+    
+    func phoneSeller() {
+        if let url = URL(string: "tel:" + phoneNumber) {
+            if (UIApplication.shared.canOpenURL(url)) {
+                UIApplication.shared.openURL(url)
+            } else {
+                putToPasteBoard(phoneNumber)
+                Constant.showDialog("Perhatian", message: "Nomor seller sudah ada di clipboard :)")
+            }
+        }
+    }
+    
+    func smsSeller() {
+        if (MFMessageComposeViewController.canSendText()) {
+            let composer = MFMessageComposeViewController()
+            composer.recipients = [phoneNumber]
+            composer.messageComposeDelegate = self
+            self.present(composer, animated: true, completion: nil)
+        }
+    }
+    
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    func closeBubble() {
+        if (isShowBubble) { // Bubble cell
+            isShowBubble = false
+            tableView.reloadData()
+        }
     }
 }
 

@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by PreloBook on 8/8/16.
-//  Copyright © 2016 GITS Indonesia. All rights reserved.
+//  Copyright © 2016 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import Foundation
@@ -58,6 +58,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
     var locationId : String = ""
     var locationName : String = "Semua Provinsi"
     var locationType : Int = 0
+    var locationParentIDs : String = ""
     
     // Sections
     let SectionSortBy = 0
@@ -380,7 +381,8 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
                 else {
                     self.locationName = data[0]
                 }
-
+                
+                self.locationParentIDs = data[4]
             }
             self.navigationController?.pushViewController(filterlocation, animated: true)
         }
@@ -419,6 +421,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
         locationId = ""
         locationName = "Semua Provinsi"
         locationType = 0
+        locationParentIDs = ""
         tableView.reloadData()
     }
     
@@ -463,7 +466,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
         }
         
         if (self.previousController != nil) {
-            delegate?.adjustFilter(fltrProdCondIds, fltrPriceMin: fltrPriceMin, fltrPriceMax: fltrPriceMax, fltrIsFreeOngkir: self.isFreeOngkir, fltrSizes: fltrSizes, fltrSortBy: self.SortByDataValue[self.selectedIdxSortBy], fltrLocation: [self.locationName, self.locationId, self.locationType.string])
+            delegate?.adjustFilter(fltrProdCondIds, fltrPriceMin: fltrPriceMin, fltrPriceMax: fltrPriceMax, fltrIsFreeOngkir: self.isFreeOngkir, fltrSizes: fltrSizes, fltrSortBy: self.SortByDataValue[self.selectedIdxSortBy], fltrLocation: [self.locationName, self.locationId, self.locationType.string, self.locationParentIDs])
             _ = self.navigationController?.popViewController(animated: true)
         } else {
             let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
@@ -477,7 +480,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
             l.fltrIsFreeOngkir = self.isFreeOngkir
             l.fltrSizes = fltrSizes
             l.fltrSortBy = self.SortByDataValue[self.selectedIdxSortBy]
-            l.fltrLocation = [self.locationName, self.locationId, self.locationType.string]
+            l.fltrLocation = [self.locationName, self.locationId, self.locationType.string, self.locationParentIDs]
             l.previousScreen = PageName.Search
             self.navigationController?.pushViewController(l, animated: true)
         }

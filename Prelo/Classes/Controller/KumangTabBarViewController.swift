@@ -3,7 +3,7 @@
 //  Prelo
 //
 //  Created by Rahadian Kumang on 7/27/15.
-//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import UIKit
@@ -170,12 +170,21 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
     
     func subdistrictProfileCheck() {
         if (User.IsLoggedIn && CDUser.getOne() != nil && CDUserProfile.getOne() != nil && CDUserOther.getOne() != nil && (CDUserProfile.getOne()?.subdistrictID == nil || CDUserProfile.getOne()?.subdistrictID == "")) {
+            /*
             let sdAlert = UIAlertController(title: "Perhatian", message: "Lengkapi kecamatan di profil kamu sekarang untuk ongkos kirim yang lebih akurat", preferredStyle: .alert)
             sdAlert.addAction(UIAlertAction(title: "Oke", style: .default, handler: { action in
                 let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
                 self.navigationController?.pushViewController(userProfileVC, animated: true)
             }))
             self.present(sdAlert, animated: true, completion: nil)
+             */
+            
+            let alertView = SCLAlertView(appearance: Constant.appearance)
+            alertView.addButton("Oke") {
+                let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
+                self.navigationController?.pushViewController(userProfileVC, animated: true)
+            }
+            alertView.showCustom("Perhatian", subTitle: "Lengkapi kecamatan di profil kamu sekarang untuk ongkos kirim yang lebih akurat", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
         }
     }
     
@@ -456,18 +465,32 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
                 // Save version to core data
                 CDVersion.saveVersions(data)
                 
+                /*
                 // Check if app need to be updated
                 if let installedVer = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
                     if let newVer = CDVersion.getOne()?.appVersion {
                         if (newVer.compare(installedVer, options: .numeric, range: nil, locale: nil) == .orderedDescending) {
                             UserDefaults.standard.set(newVer, forKey: UserDefaultsKey.UpdatePopUpVer)
+                            
+                            if let releaseNotes = data["release_notes"].array {
+                                var notes = ""
+                                for rn in releaseNotes {
+                                    notes += rn.stringValue + "\n"
+                                }
+                                UserDefaults.standard.set(notes, forKey: UserDefaultsKey.UpdatePopUpNotes)
+                            } else if let releaseNotes = data["release_notes"].string {
+                                UserDefaults.standard.set(releaseNotes, forKey: UserDefaultsKey.UpdatePopUpNotes)
+                            }
+                            
                             if let isForceUpdate = data["is_force_update"].bool {
                                 UserDefaults.standard.set(isForceUpdate, forKey: UserDefaultsKey.UpdatePopUpForced)
                             }
+                            
                             UserDefaults.standard.synchronize()
                         }
                     }
                 }
+                 */
             }
             
             if (isFirstInstall) {
