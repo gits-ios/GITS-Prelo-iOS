@@ -1891,19 +1891,32 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         cell.reviewSeller = {
             if self.isReportable == false {
                 //Constant.showDialog("BATALKAN LAPORAN", message: "test")
-                let _ = request(APITransactionProduct.cancelReport(tpId: self.trxProductId!)).responseJSON { resp in
-                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Pembatalan Laporan")) {
-                        let json = JSON(resp.result.value!)
-                        let data = json["_data"].boolValue
-                        if (data == true) {
-                            Constant.showDialog("Pembatalan Laporan", message: "Laporan berhasil dibatalkan")
-                            self.isReportable = true
-                            self.tableView.reloadData()
-                        } else {
-                            Constant.showDialog("Pembatalan Laporan", message: "Laporan gagal dibatalkan")
+                
+                let alertView = SCLAlertView(appearance: Constant.appearance)
+                alertView.addButton("Batalkan Laporan") {
+                    let _ = request(APITransactionProduct.cancelReport(tpId: self.trxProductId!)).responseJSON { resp in
+                        if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Pembatalan Laporan")) {
+                            let json = JSON(resp.result.value!)
+                            let data = json["_data"]
+                            if let isHold = data["is_hold"].bool {
+                                if !isHold {
+                                    Constant.showDialog("Pembatalan Laporan", message: "Laporan berhasil dibatalkan")
+                                    self.isReportable = true // ga bisa report -> report selesai
+                                    self.tableView.reloadData()
+                                } else {
+                                    Constant.showDialog("Pembatalan Laporan", message: "Laporan gagal dibatalkan")
+                                }
+                            } else { // isHold nya null
+                                Constant.showDialog("Pembatalan Laporan", message: "Laporan berhasil dibatalkan")
+                                self.isReportable = nil // bisa report lagi
+                                self.tableView.reloadData()
+                            }
                         }
                     }
                 }
+                alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+                alertView.showCustom("Pembatalan Laporan", subTitle: "Batalkan laporan transaksi ini jika kamu sudah menerima barang. Jangan lupa review penjual.", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+                
             } else {
                 self.vwShadow.isHidden = false
                 self.vwReviewSeller.isHidden = false
@@ -2044,8 +2057,10 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     
                         // Goto chat
                         let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
-                        
                         t.previousScreen = PageName.TransactionDetail
+                        
+                        t.isSellerNotActive = pDetail.IsShopClosed
+                        t.phoneNumber = pDetail.SellerPhone
                     
                         // API Migrasi
                         let _ = request(APIInbox.getInboxByProductIDSeller(productId: pDetail.productID, buyerId: buyerId)).responseJSON {resp in
@@ -2103,6 +2118,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         t.loadInboxFirst = true
                         t.prodId = pDetail.productID
                         t.previousScreen = PageName.TransactionDetail
+                        t.isSellerNotActive = pDetail.IsShopClosed
+                        t.phoneNumber = pDetail.SellerPhone
                         self.navigationController?.pushViewController(t, animated: true)
                     }
                 }
