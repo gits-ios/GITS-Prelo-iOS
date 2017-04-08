@@ -1891,19 +1891,26 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         cell.reviewSeller = {
             if self.isReportable == false {
                 //Constant.showDialog("BATALKAN LAPORAN", message: "test")
-                let _ = request(APITransactionProduct.cancelReport(tpId: self.trxProductId!)).responseJSON { resp in
-                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Pembatalan Laporan")) {
-                        let json = JSON(resp.result.value!)
-                        let data = json["_data"].boolValue
-                        if (data == true) {
-                            Constant.showDialog("Pembatalan Laporan", message: "Laporan berhasil dibatalkan")
-                            self.isReportable = true
-                            self.tableView.reloadData()
-                        } else {
-                            Constant.showDialog("Pembatalan Laporan", message: "Laporan gagal dibatalkan")
+                
+                let alertView = SCLAlertView(appearance: Constant.appearance)
+                alertView.addButton("Batalkan Laporan") {
+                    let _ = request(APITransactionProduct.cancelReport(tpId: self.trxProductId!)).responseJSON { resp in
+                        if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Pembatalan Laporan")) {
+                            let json = JSON(resp.result.value!)
+                            let data = json["_data"].boolValue
+                            if (data == true) {
+                                Constant.showDialog("Pembatalan Laporan", message: "Laporan berhasil dibatalkan")
+                                self.isReportable = true
+                                self.tableView.reloadData()
+                            } else {
+                                Constant.showDialog("Pembatalan Laporan", message: "Laporan gagal dibatalkan")
+                            }
                         }
                     }
                 }
+                alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+                alertView.showCustom("Pembatalan Laporan", subTitle: "Batalkan laporan transaksi ini jika kamu sudah menerima barang. Jangan lupa review penjual.", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+                
             } else {
                 self.vwShadow.isHidden = false
                 self.vwReviewSeller.isHidden = false
