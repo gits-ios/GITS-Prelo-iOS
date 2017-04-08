@@ -109,6 +109,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
         let alertView = SCLAlertView(appearance: Constant.appearance)
         alertView.addButton("Keluar") {
             User.Logout()
+            self.dismiss(animated: true, completion: nil)
         }
         alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
         alertView.showCustom("Perhatian", subTitle: "Verifikasi belum selesai. Halaman ini akan muncul lagi lain kali kamu login. Keluar?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
