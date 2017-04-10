@@ -294,6 +294,8 @@ enum APICart : URLRequestConvertible {
     case refresh(cart : String, address : String, voucher : String?)
     case checkout(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int, usedReferralBonus : Int, kodeTransfer : Int, targetBank : String)
     case generateVeritransUrl(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int, usedReferralBonus : Int, kodeTransfer : Int)
+    case removeItems(pIds : Array<String>)
+    case removeAllItems
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "cart/"
@@ -310,6 +312,8 @@ enum APICart : URLRequestConvertible {
         case .refresh(_, _, _) : return .post
         case .checkout(_, _, _, _, _, _, _, _) : return .post
         case .generateVeritransUrl(_, _, _, _, _, _, _) : return .post
+        case .removeItems(_) : return .post
+        case .removeAllItems : return .post
         }
     }
     
@@ -319,6 +323,8 @@ enum APICart : URLRequestConvertible {
         case .refresh(_, _, _) : return ""
         case .checkout(_, _, _, _, _, _, _, _) : return "checkout"
         case .generateVeritransUrl(_, _, _, _, _, _, _) : return "generate_veritrans_url"
+        case .removeItems(_) : return "remove"
+        case .removeAllItems : return "remove_all"
         }
     }
     
@@ -369,6 +375,11 @@ enum APICart : URLRequestConvertible {
             if usedBonus != 0 {
                 p["bonus_used"] = NSNumber(value: usedBonus as Int)
             }
+        case .removeItems(let pIds) :
+            p = [
+                "product_ids" : pIds,
+                "platform_sent_from" : "ios"
+            ]
         default : break
         }
         return p

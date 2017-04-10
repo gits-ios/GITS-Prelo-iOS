@@ -1450,6 +1450,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     CartProduct.deleteAll()
                     self.shouldBack = true
                     //                    self.cellsData = [:]
+                    
+                    // server synch
+                    self.deleteAllItems()
                     self.synchCart()
                     
                     // reset localid
@@ -2065,8 +2068,12 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
         
         if let p = deletedProduct {
-            cartProducts.remove(at: index)
             print(p.cpID)
+            
+            // server synch
+            self.deleteItems([p.cpID])
+            
+            cartProducts.remove(at: index)
             UIApplication.appDelegate.managedObjectContext.delete(p)
             UIApplication.appDelegate.saveContext()
             
@@ -2325,6 +2332,29 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     func hideLoading() {
         self.loadingPanel.isHidden = true
+    }
+    
+    // MARK: - API remove / delete
+    func deleteItems(_ pIds: Array<String>) {
+        // remove in server
+        let _ = request(APICart.removeItems(pIds: pIds)).responseJSON { resp in
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Keranjang Belanja - Hapus Items")) {
+                print("Keranjang Belanja - Hapus Items, Success")
+            } else {
+                print("Keranjang Belanja - Hapus Items, Failed")
+            }
+        }
+    }
+    
+    func deleteAllItems() {
+        // remove in server
+        let _ = request(APICart.removeAllItems).responseJSON { resp in
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Keranjang Belanja - Hapus Semua Items")) {
+                print("Keranjang Belanja - Hapus Semua Items, Success")
+            } else {
+                print("Keranjang Belanja - Hapus Semua Items, Failed")
+            }
+        }
     }
 }
 
