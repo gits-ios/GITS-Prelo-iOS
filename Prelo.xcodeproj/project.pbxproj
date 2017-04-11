@@ -705,6 +705,8 @@
 		B2D481CB1E02A7AD006006CC /* ReportProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D481C91E02A7AD006006CC /* ReportProductViewController.swift */; };
 		B2D481DC1E02A7E2006006CC /* LocationFilters.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D481DA1E02A7E1006006CC /* LocationFilters.xib */; };
 		B2D481DD1E02A7E2006006CC /* ReportProducts.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D481DB1E02A7E2006006CC /* ReportProducts.xib */; };
+		B2D965B31E9D2A4A00B2C29C /* Checkout2Ship.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965B21E9D2A4A00B2C29C /* Checkout2Ship.xib */; };
+		B2D965C51E9D2A6100B2C29C /* Checkout2Pay.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965C41E9D2A6100B2C29C /* Checkout2Pay.xib */; };
 		B2DBBB951E31C20000F74543 /* Default-New-Splash-Screen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B2DBBB941E31C20000F74543 /* Default-New-Splash-Screen.jpg */; };
 		B2DF58391E484092005B6CF1 /* AddressBook.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2DF58381E484092005B6CF1 /* AddressBook.xib */; };
 		B2DF58491E484131005B6CF1 /* AddressBookCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2DF58481E484131005B6CF1 /* AddressBookCell.xib */; };
@@ -1768,6 +1770,8 @@
 		B2D481C91E02A7AD006006CC /* ReportProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportProductViewController.swift; sourceTree = "<group>"; };
 		B2D481DA1E02A7E1006006CC /* LocationFilters.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LocationFilters.xib; sourceTree = "<group>"; };
 		B2D481DB1E02A7E2006006CC /* ReportProducts.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReportProducts.xib; sourceTree = "<group>"; };
+		B2D965B21E9D2A4A00B2C29C /* Checkout2Ship.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2Ship.xib; sourceTree = "<group>"; };
+		B2D965C41E9D2A6100B2C29C /* Checkout2Pay.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2Pay.xib; sourceTree = "<group>"; };
 		B2DBBB941E31C20000F74543 /* Default-New-Splash-Screen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Default-New-Splash-Screen.jpg"; sourceTree = "<group>"; };
 		B2DF58381E484092005B6CF1 /* AddressBook.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressBook.xib; sourceTree = "<group>"; };
 		B2DF58481E484131005B6CF1 /* AddressBookCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressBookCell.xib; sourceTree = "<group>"; };
@@ -3029,6 +3033,8 @@
 				21104AD01BAA8F1200947E7F /* TransactionListCell.xib */,
 				21156EBB1B8F5B5D001D7842 /* UserProfile.xib */,
 				B21DF5291E5179E5007A60C5 /* UserProfile2.xib */,
+				B2D965B21E9D2A4A00B2C29C /* Checkout2Ship.xib */,
+				B2D965C41E9D2A6100B2C29C /* Checkout2Pay.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -3724,6 +3730,7 @@
 				FDF39A301C3CF43B002A5DF6 /* banner_sold.png in Resources */,
 				21156EC91B8F5DBC001D7842 /* arrow_right.png in Resources */,
 				585887571DBEDC28006EC6D5 /* TransactionListCell.xib in Resources */,
+				B2D965C51E9D2A6100B2C29C /* Checkout2Pay.xib in Resources */,
 				B2BEBC7C1E4C30BF009982F9 /* placeholder-transparent-ipad.png in Resources */,
 				440AF6671BE1090800074CBC /* ic_round_instagram.png in Resources */,
 				585887481DBEDB6D006EC6D5 /* MyPurchaseTransaction.xib in Resources */,
@@ -3736,6 +3743,7 @@
 				58BE53611D479F5B00E358EB /* courier_tiki.png in Resources */,
 				5858873E1DBEDA79006EC6D5 /* MyLovelist.xib in Resources */,
 				585887491DBEDB7B006EC6D5 /* NotifAnggiConversation.xib in Resources */,
+				B2D965B31E9D2A4A00B2C29C /* Checkout2Ship.xib in Resources */,
 				58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */,
 				B240F4D91E24C1AD00DCAFF7 /* AchievementDiamondCell.xib in Resources */,
 				589A6FBE1D8C08F600654CDD /* ic_gambar_utama.png in Resources */,
