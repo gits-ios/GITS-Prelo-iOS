@@ -2500,6 +2500,7 @@
 				213E77141BABD8E700D3002B /* SearchResultHeader.xib */,
 				21104AD71BAAA15500947E7F /* SearchTag.xib */,
 				2190B4DF1BBE39F500AC6145 /* StoreHeader.xib */,
+				B2D965ED1E9E391E00B2C29C /* Checkout Version 2 */,
 				B2EE39BF1E76548B00113E03 /* Popup */,
 				21EEB45D1B87038400CAD5C9 /* XIB */,
 			);
@@ -3069,26 +3070,6 @@
 				21104AD01BAA8F1200947E7F /* TransactionListCell.xib */,
 				21156EBB1B8F5B5D001D7842 /* UserProfile.xib */,
 				B21DF5291E5179E5007A60C5 /* UserProfile2.xib */,
-				B2D965B21E9D2A4A00B2C29C /* Checkout2Ship.xib */,
-				B2D965C41E9D2A6100B2C29C /* Checkout2Pay.xib */,
-				B2D965C61E9DC3D100B2C29C /* Checkout2SellerCell.xib */,
-				B2D965C81E9DC4FA00B2C29C /* Checkout2ProductCell.xib */,
-				B2D965CA1E9DCD9500B2C29C /* Checkout2CourierCell.xib */,
-				B2D965CC1E9DD04700B2C29C /* Checkout2CourierDescriptionCell.xib */,
-				B2D965CE1E9DD75700B2C29C /* Checkout2SplitCell.xib */,
-				B2D965D01E9DFA2100B2C29C /* Checkout2AddressDropdownCell.xib */,
-				B2D965D21E9DFD6F00B2C29C /* Checkout2AddressCompleteCell.xib */,
-				B2D965D61E9E01AE00B2C29C /* Checkout2AddressFillCell.xib */,
-				B2D965D41E9DFF6200B2C29C /* Checkout2AddressLocationCell.xib */,
-				B2D965D81E9E098E00B2C29C /* Checkout2TotalBuyingCell.xib */,
-				B2D965DA1E9E1A9600B2C29C /* Checkout2PaymentMethodCell.xib */,
-				B2D965DC1E9E1B1A00B2C29C /* Checkout2PaymentBankCell.xib */,
-				B2D965DE1E9E1F4000B2C29C /* Checkout2PaymentCreditCardCell.xib */,
-				B2D965E11E9E294600B2C29C /* Checkout2BlackWhiteCell.xib */,
-				B2D965E31E9E29A500B2C29C /* Checkout2PreloBalanceCell.xib */,
-				B2D965E51E9E2C7800B2C29C /* Checkout2VoucherCell.xib */,
-				B2D965E91E9E2FD000B2C29C /* Checkout2PaymentSummaryCell.xib */,
-				B2D965EB1E9E36EA00B2C29C /* Checkout2PaymentSummaryTotalCell.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -3372,6 +3353,34 @@
 				B2D1198B1E290BF80064045B /* banner_notif.png */,
 			);
 			name = banner;
+			sourceTree = "<group>";
+		};
+		B2D965ED1E9E391E00B2C29C /* Checkout Version 2 */ = {
+			isa = PBXGroup;
+			children = (
+				B2D965B21E9D2A4A00B2C29C /* Checkout2Ship.xib */,
+				B2D965C41E9D2A6100B2C29C /* Checkout2Pay.xib */,
+				B2D965C61E9DC3D100B2C29C /* Checkout2SellerCell.xib */,
+				B2D965C81E9DC4FA00B2C29C /* Checkout2ProductCell.xib */,
+				B2D965CA1E9DCD9500B2C29C /* Checkout2CourierCell.xib */,
+				B2D965CC1E9DD04700B2C29C /* Checkout2CourierDescriptionCell.xib */,
+				B2D965CE1E9DD75700B2C29C /* Checkout2SplitCell.xib */,
+				B2D965D01E9DFA2100B2C29C /* Checkout2AddressDropdownCell.xib */,
+				B2D965D21E9DFD6F00B2C29C /* Checkout2AddressCompleteCell.xib */,
+				B2D965D61E9E01AE00B2C29C /* Checkout2AddressFillCell.xib */,
+				B2D965D41E9DFF6200B2C29C /* Checkout2AddressLocationCell.xib */,
+				B2D965D81E9E098E00B2C29C /* Checkout2TotalBuyingCell.xib */,
+				B2D965DA1E9E1A9600B2C29C /* Checkout2PaymentMethodCell.xib */,
+				B2D965DC1E9E1B1A00B2C29C /* Checkout2PaymentBankCell.xib */,
+				B2D965DE1E9E1F4000B2C29C /* Checkout2PaymentCreditCardCell.xib */,
+				B2D965E11E9E294600B2C29C /* Checkout2BlackWhiteCell.xib */,
+				B2D965E31E9E29A500B2C29C /* Checkout2PreloBalanceCell.xib */,
+				B2D965E51E9E2C7800B2C29C /* Checkout2VoucherCell.xib */,
+				B2D965E91E9E2FD000B2C29C /* Checkout2PaymentSummaryCell.xib */,
+				B2D965EB1E9E36EA00B2C29C /* Checkout2PaymentSummaryTotalCell.xib */,
+			);
+			name = "Checkout Version 2";
+			path = XIB;
 			sourceTree = "<group>";
 		};
 		B2EE39BF1E76548B00113E03 /* Popup */ = {
