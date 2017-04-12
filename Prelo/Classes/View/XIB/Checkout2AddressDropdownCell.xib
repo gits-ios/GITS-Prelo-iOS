@@ -48,16 +48,23 @@
                                 <color key="textColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oTc-AA-ffq">
+                                <rect key="frame" x="0.0" y="0.0" width="327" height="30"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="oTc-AA-ffq" firstAttribute="leading" secondItem="kt8-TA-Vip" secondAttribute="leading" id="GSR-xc-Vuj"/>
+                            <constraint firstAttribute="trailing" secondItem="oTc-AA-ffq" secondAttribute="trailing" id="HPH-V9-eoo"/>
                             <constraint firstItem="8j4-pT-ITv" firstAttribute="top" secondItem="kt8-TA-Vip" secondAttribute="top" constant="5" id="I8R-Wo-VX0"/>
                             <constraint firstAttribute="bottom" secondItem="8j4-pT-ITv" secondAttribute="bottom" constant="5" id="Ycb-Ub-v26"/>
                             <constraint firstItem="id7-mc-Yg5" firstAttribute="top" secondItem="kt8-TA-Vip" secondAttribute="top" constant="4" id="fpq-m5-BPD"/>
+                            <constraint firstAttribute="bottom" secondItem="oTc-AA-ffq" secondAttribute="bottom" id="sba-RI-q11"/>
                             <constraint firstItem="8j4-pT-ITv" firstAttribute="leading" secondItem="id7-mc-Yg5" secondAttribute="trailing" constant="8" id="uUT-fF-Nh0"/>
                             <constraint firstAttribute="bottom" secondItem="id7-mc-Yg5" secondAttribute="bottom" constant="4" id="xJ1-wD-sBG"/>
                             <constraint firstItem="id7-mc-Yg5" firstAttribute="leading" secondItem="kt8-TA-Vip" secondAttribute="leading" constant="8" id="xqU-EK-haT"/>
                             <constraint firstAttribute="trailing" secondItem="8j4-pT-ITv" secondAttribute="trailing" constant="8" id="yAW-i3-2XW"/>
+                            <constraint firstItem="oTc-AA-ffq" firstAttribute="top" secondItem="kt8-TA-Vip" secondAttribute="top" id="yug-Ad-RZs"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="borderColor">

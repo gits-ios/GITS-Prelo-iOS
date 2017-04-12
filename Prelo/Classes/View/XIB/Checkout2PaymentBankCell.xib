@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Prelo2.ttf">
+            <string>Prelo2</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="99" id="1iZ-j5-3d2">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="99"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1iZ-j5-3d2" id="UIN-Of-nlL">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="98"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g6p-zR-ydR" userLabel="line1px">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
+                        <color key="backgroundColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="FQY-Wf-drR"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Transfer Bank" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rj2-tw-PpR">
+                        <rect key="frame" x="24" y="9" width="299" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x5I-jy-yyt">
+                        <rect key="frame" x="331" y="9" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="PSp-lm-f19"/>
+                            <constraint firstAttribute="height" constant="20" id="r83-hC-bFG"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="14"/>
+                        <color key="textColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y4m-VH-xqZ" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
+                        <rect key="frame" x="24" y="33" width="327" height="30"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pilih Bank Tujuan Transfer" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oW0-B3-nnd">
+                                <rect key="frame" x="8" y="4" width="283" height="22"/>
+                                <fontDescription key="fontDescription" name=".SFNSText" family=".SF NS Text" pointSize="14"/>
+                                <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pcx-nb-eUq">
+                                <rect key="frame" x="299" y="5" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="YcN-zd-pHk"/>
+                                    <constraint firstAttribute="height" constant="20" id="jwZ-2e-Hnw"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="12"/>
+                                <color key="textColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1xH-RZ-GHQ">
+                                <rect key="frame" x="0.0" y="0.0" width="327" height="30"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="1xH-RZ-GHQ" firstAttribute="top" secondItem="Y4m-VH-xqZ" secondAttribute="top" id="4vt-x4-FKe"/>
+                            <constraint firstAttribute="bottom" secondItem="1xH-RZ-GHQ" secondAttribute="bottom" id="7fb-75-YUl"/>
+                            <constraint firstAttribute="trailing" secondItem="Pcx-nb-eUq" secondAttribute="trailing" constant="8" id="87z-8O-76X"/>
+                            <constraint firstAttribute="bottom" secondItem="Pcx-nb-eUq" secondAttribute="bottom" constant="5" id="C71-Za-cke"/>
+                            <constraint firstItem="Pcx-nb-eUq" firstAttribute="top" secondItem="Y4m-VH-xqZ" secondAttribute="top" constant="5" id="Pou-eS-bpS"/>
+                            <constraint firstAttribute="trailing" secondItem="1xH-RZ-GHQ" secondAttribute="trailing" id="TOt-8H-0Lh"/>
+                            <constraint firstItem="Pcx-nb-eUq" firstAttribute="leading" secondItem="oW0-B3-nnd" secondAttribute="trailing" constant="8" id="cZe-8e-w0a"/>
+                            <constraint firstItem="oW0-B3-nnd" firstAttribute="leading" secondItem="Y4m-VH-xqZ" secondAttribute="leading" constant="8" id="gcx-uw-ABG"/>
+                            <constraint firstItem="1xH-RZ-GHQ" firstAttribute="leading" secondItem="Y4m-VH-xqZ" secondAttribute="leading" id="obF-gx-VZe"/>
+                            <constraint firstItem="oW0-B3-nnd" firstAttribute="top" secondItem="Y4m-VH-xqZ" secondAttribute="top" constant="4" id="qaV-9c-v0S"/>
+                            <constraint firstAttribute="bottom" secondItem="oW0-B3-nnd" secondAttribute="bottom" constant="4" id="waF-Mg-oxg"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                <real key="value" value="1"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pembayaran Aman dengan sistem REKBER ke rekening Prelo" textAlignment="center" lineBreakMode="clip" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="gzm-cZ-2XN">
+                        <rect key="frame" x="24" y="71" width="327" height="14.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailingMargin" secondItem="x5I-jy-yyt" secondAttribute="trailing" constant="16" id="BeO-hg-lIi"/>
+                    <constraint firstItem="Y4m-VH-xqZ" firstAttribute="leading" secondItem="rj2-tw-PpR" secondAttribute="leading" id="Gcu-nf-T3Y"/>
+                    <constraint firstItem="rj2-tw-PpR" firstAttribute="leading" secondItem="UIN-Of-nlL" secondAttribute="leadingMargin" constant="16" id="KCh-XU-vFP"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="gzm-cZ-2XN" secondAttribute="trailing" constant="16" id="NV3-1J-o10"/>
+                    <constraint firstItem="x5I-jy-yyt" firstAttribute="leading" secondItem="rj2-tw-PpR" secondAttribute="trailing" constant="8" id="Rfs-nM-yBC"/>
+                    <constraint firstItem="gzm-cZ-2XN" firstAttribute="top" secondItem="Y4m-VH-xqZ" secondAttribute="bottom" constant="8" id="U7O-Q2-Kir"/>
+                    <constraint firstItem="rj2-tw-PpR" firstAttribute="top" secondItem="g6p-zR-ydR" secondAttribute="bottom" constant="8" id="YFq-6s-jYz"/>
+                    <constraint firstItem="x5I-jy-yyt" firstAttribute="top" secondItem="g6p-zR-ydR" secondAttribute="bottom" constant="8" id="hb8-EM-UtO"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="Y4m-VH-xqZ" secondAttribute="trailing" constant="16" id="lrT-uG-JBP"/>
+                    <constraint firstAttribute="trailing" secondItem="g6p-zR-ydR" secondAttribute="trailing" id="mhF-nS-fF9"/>
+                    <constraint firstItem="g6p-zR-ydR" firstAttribute="top" secondItem="UIN-Of-nlL" secondAttribute="top" id="mzY-am-NmK"/>
+                    <constraint firstItem="Y4m-VH-xqZ" firstAttribute="top" secondItem="rj2-tw-PpR" secondAttribute="bottom" constant="7" id="p2R-yt-aUC"/>
+                    <constraint firstItem="gzm-cZ-2XN" firstAttribute="leading" secondItem="UIN-Of-nlL" secondAttribute="leadingMargin" constant="16" id="tWG-wB-EHk"/>
+                    <constraint firstItem="g6p-zR-ydR" firstAttribute="leading" secondItem="UIN-Of-nlL" secondAttribute="leading" id="yME-sA-Bav"/>
+                </constraints>
+            </tableViewCellContentView>
+            <point key="canvasLocation" x="40.5" y="-42.5"/>
+        </tableViewCell>
+    </objects>
+</document>

@@ -717,6 +717,9 @@
 		B2D965D51E9DFF6200B2C29C /* Checkout2AddressLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965D41E9DFF6200B2C29C /* Checkout2AddressLocationCell.xib */; };
 		B2D965D71E9E01AE00B2C29C /* Checkout2AddressFillCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965D61E9E01AE00B2C29C /* Checkout2AddressFillCell.xib */; };
 		B2D965D91E9E098E00B2C29C /* Checkout2TotalBuyingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965D81E9E098E00B2C29C /* Checkout2TotalBuyingCell.xib */; };
+		B2D965DB1E9E1A9600B2C29C /* Checkout2PaymentMethodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965DA1E9E1A9600B2C29C /* Checkout2PaymentMethodCell.xib */; };
+		B2D965DD1E9E1B1A00B2C29C /* Checkout2PaymentBankCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965DC1E9E1B1A00B2C29C /* Checkout2PaymentBankCell.xib */; };
+		B2D965DF1E9E1F4000B2C29C /* Checkout2PaymentCreditCardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965DE1E9E1F4000B2C29C /* Checkout2PaymentCreditCardCell.xib */; };
 		B2DBBB951E31C20000F74543 /* Default-New-Splash-Screen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B2DBBB941E31C20000F74543 /* Default-New-Splash-Screen.jpg */; };
 		B2DF58391E484092005B6CF1 /* AddressBook.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2DF58381E484092005B6CF1 /* AddressBook.xib */; };
 		B2DF58491E484131005B6CF1 /* AddressBookCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2DF58481E484131005B6CF1 /* AddressBookCell.xib */; };
@@ -1792,6 +1795,9 @@
 		B2D965D41E9DFF6200B2C29C /* Checkout2AddressLocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2AddressLocationCell.xib; sourceTree = "<group>"; };
 		B2D965D61E9E01AE00B2C29C /* Checkout2AddressFillCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2AddressFillCell.xib; sourceTree = "<group>"; };
 		B2D965D81E9E098E00B2C29C /* Checkout2TotalBuyingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2TotalBuyingCell.xib; sourceTree = "<group>"; };
+		B2D965DA1E9E1A9600B2C29C /* Checkout2PaymentMethodCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2PaymentMethodCell.xib; sourceTree = "<group>"; };
+		B2D965DC1E9E1B1A00B2C29C /* Checkout2PaymentBankCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2PaymentBankCell.xib; sourceTree = "<group>"; };
+		B2D965DE1E9E1F4000B2C29C /* Checkout2PaymentCreditCardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2PaymentCreditCardCell.xib; sourceTree = "<group>"; };
 		B2DBBB941E31C20000F74543 /* Default-New-Splash-Screen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Default-New-Splash-Screen.jpg"; sourceTree = "<group>"; };
 		B2DF58381E484092005B6CF1 /* AddressBook.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressBook.xib; sourceTree = "<group>"; };
 		B2DF58481E484131005B6CF1 /* AddressBookCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressBookCell.xib; sourceTree = "<group>"; };
@@ -3065,6 +3071,9 @@
 				B2D965D61E9E01AE00B2C29C /* Checkout2AddressFillCell.xib */,
 				B2D965D41E9DFF6200B2C29C /* Checkout2AddressLocationCell.xib */,
 				B2D965D81E9E098E00B2C29C /* Checkout2TotalBuyingCell.xib */,
+				B2D965DA1E9E1A9600B2C29C /* Checkout2PaymentMethodCell.xib */,
+				B2D965DC1E9E1B1A00B2C29C /* Checkout2PaymentBankCell.xib */,
+				B2D965DE1E9E1F4000B2C29C /* Checkout2PaymentCreditCardCell.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -3724,6 +3733,7 @@
 				589A6FBA1D8C08F600654CDD /* ic_ditanggung_pembeli.png in Resources */,
 				21D386A81B6B93CD00D0FA90 /* Default-Portrait.png in Resources */,
 				B2AAB3751E8A6D2000E16BAB /* TransactionReportPopup.xib in Resources */,
+				B2D965DB1E9E1A9600B2C29C /* Checkout2PaymentMethodCell.xib in Resources */,
 				589A6FC41D8C08F600654CDD /* ic_love.png in Resources */,
 				B26DB3F11E2D3C6F00224675 /* ic_achievement.png in Resources */,
 				589A6FC91D8C08F600654CDD /* ic_tampak_belakang.png in Resources */,
@@ -3795,6 +3805,7 @@
 				581E87AE1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg in Resources */,
 				210702E41BE7A8F100DD9E52 /* cu_wasap@2x.png in Resources */,
 				589A6FAF1D8C08F600654CDD /* ic_1kg.png in Resources */,
+				B2D965DF1E9E1F4000B2C29C /* Checkout2PaymentCreditCardCell.xib in Resources */,
 				B2BEBC7A1E4C29FD009982F9 /* placeholder-badge.png in Resources */,
 				210702E11BE7A8F100DD9E52 /* cu_email@2x.png in Resources */,
 				216799751B8F879A00F18F90 /* rsz_ic_mandiri@2x.png in Resources */,
@@ -3937,6 +3948,7 @@
 				58DBE8181D8F9B1100355608 /* ic_round.png in Resources */,
 				58A223C41C898CB600619518 /* ic_trx_canceled.png in Resources */,
 				21156EC71B8F5DBC001D7842 /* arrow_down.png in Resources */,
+				B2D965DD1E9E1B1A00B2C29C /* Checkout2PaymentBankCell.xib in Resources */,
 				B2EE39CF1E76905500113E03 /* ic_paid_video.png in Resources */,
 				B2C3A3C41E2B8E2D0082A15D /* ShopAchievement.xib in Resources */,
 				B2A834441E7055EB004C575A /* Info.plist in Resources */,
