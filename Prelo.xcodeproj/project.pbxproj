@@ -716,6 +716,7 @@
 		B2D965D31E9DFD6F00B2C29C /* Checkout2AddressCompleteCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965D21E9DFD6F00B2C29C /* Checkout2AddressCompleteCell.xib */; };
 		B2D965D51E9DFF6200B2C29C /* Checkout2AddressLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965D41E9DFF6200B2C29C /* Checkout2AddressLocationCell.xib */; };
 		B2D965D71E9E01AE00B2C29C /* Checkout2AddressFillCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965D61E9E01AE00B2C29C /* Checkout2AddressFillCell.xib */; };
+		B2D965D91E9E098E00B2C29C /* Checkout2TotalBuyingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965D81E9E098E00B2C29C /* Checkout2TotalBuyingCell.xib */; };
 		B2DBBB951E31C20000F74543 /* Default-New-Splash-Screen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B2DBBB941E31C20000F74543 /* Default-New-Splash-Screen.jpg */; };
 		B2DF58391E484092005B6CF1 /* AddressBook.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2DF58381E484092005B6CF1 /* AddressBook.xib */; };
 		B2DF58491E484131005B6CF1 /* AddressBookCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2DF58481E484131005B6CF1 /* AddressBookCell.xib */; };
@@ -1790,6 +1791,7 @@
 		B2D965D21E9DFD6F00B2C29C /* Checkout2AddressCompleteCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2AddressCompleteCell.xib; sourceTree = "<group>"; };
 		B2D965D41E9DFF6200B2C29C /* Checkout2AddressLocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2AddressLocationCell.xib; sourceTree = "<group>"; };
 		B2D965D61E9E01AE00B2C29C /* Checkout2AddressFillCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2AddressFillCell.xib; sourceTree = "<group>"; };
+		B2D965D81E9E098E00B2C29C /* Checkout2TotalBuyingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2TotalBuyingCell.xib; sourceTree = "<group>"; };
 		B2DBBB941E31C20000F74543 /* Default-New-Splash-Screen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Default-New-Splash-Screen.jpg"; sourceTree = "<group>"; };
 		B2DF58381E484092005B6CF1 /* AddressBook.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressBook.xib; sourceTree = "<group>"; };
 		B2DF58481E484131005B6CF1 /* AddressBookCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressBookCell.xib; sourceTree = "<group>"; };
@@ -3062,6 +3064,7 @@
 				B2D965D21E9DFD6F00B2C29C /* Checkout2AddressCompleteCell.xib */,
 				B2D965D61E9E01AE00B2C29C /* Checkout2AddressFillCell.xib */,
 				B2D965D41E9DFF6200B2C29C /* Checkout2AddressLocationCell.xib */,
+				B2D965D81E9E098E00B2C29C /* Checkout2TotalBuyingCell.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -3927,6 +3930,7 @@
 				21EEB4781B87095C00CAD5C9 /* ic_user_2.png in Resources */,
 				585887361DBEDA2B006EC6D5 /* ExpiringProducts.xib in Resources */,
 				210959B41B8DD088000F2939 /* ic_tag@2x.png in Resources */,
+				B2D965D91E9E098E00B2C29C /* Checkout2TotalBuyingCell.xib in Resources */,
 				2113125C1B67847100A4DA3B /* raisa.jpg in Resources */,
 				2116BAFA1BAC1DC9009B27C8 /* Default-Portrait-2048h.png in Resources */,
 				B2D119941E290BF80064045B /* banner_comment.png in Resources */,
