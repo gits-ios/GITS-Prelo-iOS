@@ -59,11 +59,23 @@ class PreloNotificationListener {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 if (data["user_has_unpaid_transaction"].boolValue == true) {
-                    self.cartCount = data["n_transaction_unpaid"].intValue
+                    // cart <- local
+                    let cartProducts = CartProduct.getAll(User.EmailOrEmptyString)
+                    
+                    self.cartCount = data["n_transaction_unpaid"].intValue + cartProducts.count
                     
                     self.delegate?.showCartCount(self.cartCount)
+                    
                     self.delegate?.refreshCartPage()
                 }
+            } else {
+                let cartProducts = CartProduct.getAll(User.EmailOrEmptyString)
+                
+                self.cartCount = cartProducts.count
+                
+                self.delegate?.showCartCount(self.cartCount)
+                
+                self.delegate?.refreshCartPage()
             }
         }
     }
