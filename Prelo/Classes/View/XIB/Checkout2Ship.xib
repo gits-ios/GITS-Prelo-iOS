@@ -31,7 +31,14 @@
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yNP-p3-rWq">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hkk-23-K5A" userLabel="Latar Abu">
+                                        <rect key="frame" x="0.0" y="39" width="179.5" height="1"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="Eww-HB-VYA"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yNP-p3-rWq" userLabel="Latar Tosca">
                                         <rect key="frame" x="0.0" y="38" width="179.5" height="2"/>
                                         <color key="backgroundColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -44,8 +51,11 @@
                                     <constraint firstItem="6HC-Mn-NiJ" firstAttribute="leading" secondItem="6yV-0l-8xF" secondAttribute="leading" id="5k2-6T-NnY"/>
                                     <constraint firstItem="yNP-p3-rWq" firstAttribute="top" secondItem="6HC-Mn-NiJ" secondAttribute="bottom" id="DnA-FD-RqI"/>
                                     <constraint firstAttribute="trailing" secondItem="6HC-Mn-NiJ" secondAttribute="trailing" id="NWO-cj-2HO"/>
+                                    <constraint firstAttribute="bottom" secondItem="hkk-23-K5A" secondAttribute="bottom" id="ZNC-nB-Vad"/>
+                                    <constraint firstItem="hkk-23-K5A" firstAttribute="leading" secondItem="6yV-0l-8xF" secondAttribute="leading" id="hko-ks-7Fb"/>
                                     <constraint firstAttribute="trailing" secondItem="yNP-p3-rWq" secondAttribute="trailing" id="lh6-XW-ERL"/>
                                     <constraint firstItem="6HC-Mn-NiJ" firstAttribute="top" secondItem="6yV-0l-8xF" secondAttribute="top" id="ppY-kG-CSg"/>
+                                    <constraint firstAttribute="trailing" secondItem="hkk-23-K5A" secondAttribute="trailing" id="q3m-dS-JLU"/>
                                     <constraint firstItem="yNP-p3-rWq" firstAttribute="leading" secondItem="6yV-0l-8xF" secondAttribute="leading" id="qUc-4R-gQ1"/>
                                     <constraint firstAttribute="bottom" secondItem="yNP-p3-rWq" secondAttribute="bottom" id="sJg-IG-f27"/>
                                 </constraints>
@@ -54,9 +64,16 @@
                                 <rect key="frame" x="179.5" y="0.0" width="16" height="40"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="U96-Ly-x83" userLabel="&gt;">
-                                        <rect key="frame" x="0.0" y="0.0" width="16" height="38"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="16" height="39"/>
                                     </imageView>
-                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="utC-nb-P1e">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UuI-dN-EEV" userLabel="Latar Abu">
+                                        <rect key="frame" x="0.0" y="39" width="16" height="1"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="pgE-pf-OXF"/>
+                                        </constraints>
+                                    </view>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="utC-nb-P1e" userLabel="Latar Tosca">
                                         <rect key="frame" x="0.0" y="38" width="16" height="2"/>
                                         <color key="backgroundColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -68,12 +85,15 @@
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="utC-nb-P1e" secondAttribute="trailing" id="8ol-YQ-oMw"/>
                                     <constraint firstItem="U96-Ly-x83" firstAttribute="leading" secondItem="P0V-TH-Ot7" secondAttribute="leading" id="I3T-mP-IrG"/>
-                                    <constraint firstItem="utC-nb-P1e" firstAttribute="top" secondItem="U96-Ly-x83" secondAttribute="bottom" id="JT2-UK-gK3"/>
                                     <constraint firstAttribute="width" constant="16" id="N4g-8a-BEc"/>
                                     <constraint firstAttribute="trailing" secondItem="U96-Ly-x83" secondAttribute="trailing" id="OkJ-OE-hCF"/>
                                     <constraint firstItem="utC-nb-P1e" firstAttribute="leading" secondItem="P0V-TH-Ot7" secondAttribute="leading" id="TSg-Cf-qvU"/>
+                                    <constraint firstAttribute="trailing" secondItem="UuI-dN-EEV" secondAttribute="trailing" id="eYp-LE-Dns"/>
                                     <constraint firstAttribute="bottom" secondItem="utC-nb-P1e" secondAttribute="bottom" id="f6b-Sp-Jo3"/>
+                                    <constraint firstItem="UuI-dN-EEV" firstAttribute="top" secondItem="U96-Ly-x83" secondAttribute="bottom" id="fle-Uc-Ksc"/>
+                                    <constraint firstItem="UuI-dN-EEV" firstAttribute="leading" secondItem="P0V-TH-Ot7" secondAttribute="leading" id="v5i-ZU-qcf"/>
                                     <constraint firstItem="U96-Ly-x83" firstAttribute="top" secondItem="P0V-TH-Ot7" secondAttribute="top" id="x6z-fU-RsV"/>
+                                    <constraint firstAttribute="bottom" secondItem="UuI-dN-EEV" secondAttribute="bottom" id="ycz-cH-P9h"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fkd-uJ-5xt" userLabel="Pembayaran">
@@ -85,7 +105,14 @@
                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bq5-1W-GIu">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ceU-NR-fj1" userLabel="Latar Abu">
+                                        <rect key="frame" x="0.0" y="39" width="179.5" height="1"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="B4v-sj-fYK"/>
+                                        </constraints>
+                                    </view>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bq5-1W-GIu" userLabel="Latar Tosca">
                                         <rect key="frame" x="-0.5" y="38" width="179.5" height="2"/>
                                         <color key="backgroundColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -99,8 +126,11 @@
                                     <constraint firstItem="Bq5-1W-GIu" firstAttribute="leading" secondItem="fkd-uJ-5xt" secondAttribute="leading" id="2g6-Dj-D81"/>
                                     <constraint firstItem="Bq5-1W-GIu" firstAttribute="top" secondItem="M04-VA-r8C" secondAttribute="bottom" id="Dq3-Db-iVP"/>
                                     <constraint firstAttribute="bottom" secondItem="Bq5-1W-GIu" secondAttribute="bottom" id="EV9-wN-nhM"/>
+                                    <constraint firstItem="ceU-NR-fj1" firstAttribute="leading" secondItem="fkd-uJ-5xt" secondAttribute="leading" id="Zuv-a3-gzl"/>
                                     <constraint firstAttribute="trailing" secondItem="M04-VA-r8C" secondAttribute="trailing" id="eJR-sb-0uf"/>
                                     <constraint firstItem="M04-VA-r8C" firstAttribute="leading" secondItem="fkd-uJ-5xt" secondAttribute="leading" id="ffa-FB-MIf"/>
+                                    <constraint firstAttribute="trailing" secondItem="ceU-NR-fj1" secondAttribute="trailing" id="fvo-Oh-eH8"/>
+                                    <constraint firstAttribute="bottom" secondItem="ceU-NR-fj1" secondAttribute="bottom" id="nsq-lu-8KO"/>
                                     <constraint firstItem="M04-VA-r8C" firstAttribute="top" secondItem="fkd-uJ-5xt" secondAttribute="top" id="zvm-eZ-eYP"/>
                                 </constraints>
                             </view>
