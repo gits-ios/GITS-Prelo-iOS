@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="138" id="3E0-a4-zw8">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="138"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3E0-a4-zw8" id="mFo-pM-H8l">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="137"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nama" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vuZ-H0-lIR">
+                        <rect key="frame" x="24" y="16" width="327" height="17"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                        <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alamat" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kIw-zv-geB">
+                        <rect key="frame" x="24" y="37" width="327" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kecamatan, Kota" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H6x-hU-Pt3">
+                        <rect key="frame" x="24" y="58" width="327" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Provinsi Kode Pos" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iF6-an-Ze6">
+                        <rect key="frame" x="24" y="79" width="327" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Telepon: no telpon" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FN9-bM-bSk">
+                        <rect key="frame" x="24" y="104" width="327" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailingMargin" secondItem="iF6-an-Ze6" secondAttribute="trailing" constant="16" id="0o9-y3-Nai"/>
+                    <constraint firstItem="H6x-hU-Pt3" firstAttribute="leading" secondItem="mFo-pM-H8l" secondAttribute="leadingMargin" constant="16" id="21J-Cs-e0K"/>
+                    <constraint firstItem="vuZ-H0-lIR" firstAttribute="top" secondItem="mFo-pM-H8l" secondAttribute="topMargin" constant="8" id="49f-6e-JaF"/>
+                    <constraint firstItem="vuZ-H0-lIR" firstAttribute="leading" secondItem="mFo-pM-H8l" secondAttribute="leadingMargin" constant="16" id="6ao-JN-0OB"/>
+                    <constraint firstItem="FN9-bM-bSk" firstAttribute="leading" secondItem="mFo-pM-H8l" secondAttribute="leadingMargin" constant="16" id="KKW-wV-fPD"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="FN9-bM-bSk" secondAttribute="trailing" constant="16" id="W3M-2r-rGo"/>
+                    <constraint firstItem="iF6-an-Ze6" firstAttribute="leading" secondItem="mFo-pM-H8l" secondAttribute="leadingMargin" constant="16" id="Xcq-Qf-zs6"/>
+                    <constraint firstItem="H6x-hU-Pt3" firstAttribute="top" secondItem="kIw-zv-geB" secondAttribute="bottom" constant="4" id="ZK8-5h-2j6"/>
+                    <constraint firstItem="kIw-zv-geB" firstAttribute="top" secondItem="vuZ-H0-lIR" secondAttribute="bottom" constant="4" id="anW-48-OSJ"/>
+                    <constraint firstItem="FN9-bM-bSk" firstAttribute="top" secondItem="iF6-an-Ze6" secondAttribute="bottom" constant="8" id="bS3-fK-22i"/>
+                    <constraint firstItem="kIw-zv-geB" firstAttribute="leading" secondItem="mFo-pM-H8l" secondAttribute="leadingMargin" constant="16" id="dU2-UP-kei"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="H6x-hU-Pt3" secondAttribute="trailing" constant="16" id="eMH-aI-bZK"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="kIw-zv-geB" secondAttribute="trailing" constant="16" id="u9A-Qy-z8w"/>
+                    <constraint firstItem="iF6-an-Ze6" firstAttribute="top" secondItem="H6x-hU-Pt3" secondAttribute="bottom" constant="4" id="vXl-I4-G09"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="vuZ-H0-lIR" secondAttribute="trailing" constant="16" id="vuF-3K-YNL"/>
+                </constraints>
+            </tableViewCellContentView>
+            <point key="canvasLocation" x="-66.5" y="-17"/>
+        </tableViewCell>
+    </objects>
+</document>

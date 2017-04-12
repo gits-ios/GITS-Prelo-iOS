@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Prelo2.ttf">
+            <string>Prelo2</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="92" id="XQo-bN-37F">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="92"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XQo-bN-37F" id="YNR-C5-Kit">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="91"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ALAMAT PENGIRIMAN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="79y-2J-NWm">
+                        <rect key="frame" x="24" y="24" width="327" height="20"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                        <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kt8-TA-Vip" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
+                        <rect key="frame" x="24" y="51" width="327" height="30"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ariana Grande (Kantor) Jalan Kebon Bibit Barat 31" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="id7-mc-Yg5">
+                                <rect key="frame" x="8" y="4" width="283" height="22"/>
+                                <fontDescription key="fontDescription" name=".SFNSText" family=".SF NS Text" pointSize="14"/>
+                                <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8j4-pT-ITv">
+                                <rect key="frame" x="299" y="5" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="NMe-1a-7SE"/>
+                                    <constraint firstAttribute="width" constant="20" id="Oop-Ne-iZ8"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="12"/>
+                                <color key="textColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="8j4-pT-ITv" firstAttribute="top" secondItem="kt8-TA-Vip" secondAttribute="top" constant="5" id="I8R-Wo-VX0"/>
+                            <constraint firstAttribute="bottom" secondItem="8j4-pT-ITv" secondAttribute="bottom" constant="5" id="Ycb-Ub-v26"/>
+                            <constraint firstItem="id7-mc-Yg5" firstAttribute="top" secondItem="kt8-TA-Vip" secondAttribute="top" constant="4" id="fpq-m5-BPD"/>
+                            <constraint firstItem="8j4-pT-ITv" firstAttribute="leading" secondItem="id7-mc-Yg5" secondAttribute="trailing" constant="8" id="uUT-fF-Nh0"/>
+                            <constraint firstAttribute="bottom" secondItem="id7-mc-Yg5" secondAttribute="bottom" constant="4" id="xJ1-wD-sBG"/>
+                            <constraint firstItem="id7-mc-Yg5" firstAttribute="leading" secondItem="kt8-TA-Vip" secondAttribute="leading" constant="8" id="xqU-EK-haT"/>
+                            <constraint firstAttribute="trailing" secondItem="8j4-pT-ITv" secondAttribute="trailing" constant="8" id="yAW-i3-2XW"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                <real key="value" value="1"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="79y-2J-NWm" firstAttribute="leading" secondItem="YNR-C5-Kit" secondAttribute="leadingMargin" constant="16" id="6S5-Nh-fo4"/>
+                    <constraint firstItem="kt8-TA-Vip" firstAttribute="leading" secondItem="79y-2J-NWm" secondAttribute="leading" id="Jc2-NA-rjM"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="79y-2J-NWm" secondAttribute="trailing" constant="16" id="Jd1-sN-zKA"/>
+                    <constraint firstItem="79y-2J-NWm" firstAttribute="top" secondItem="YNR-C5-Kit" secondAttribute="topMargin" constant="16" id="Xru-6T-zvW"/>
+                    <constraint firstItem="kt8-TA-Vip" firstAttribute="top" secondItem="79y-2J-NWm" secondAttribute="bottom" constant="7" id="fzt-ad-teX"/>
+                    <constraint firstItem="kt8-TA-Vip" firstAttribute="trailing" secondItem="79y-2J-NWm" secondAttribute="trailing" id="yue-lE-uEZ"/>
+                </constraints>
+            </tableViewCellContentView>
+            <point key="canvasLocation" x="40.5" y="-46"/>
+        </tableViewCell>
+    </objects>
+</document>

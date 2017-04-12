@@ -712,6 +712,10 @@
 		B2D965CB1E9DCD9500B2C29C /* Checkout2CourierCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965CA1E9DCD9500B2C29C /* Checkout2CourierCell.xib */; };
 		B2D965CD1E9DD04700B2C29C /* Checkout2CourierDescriptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965CC1E9DD04700B2C29C /* Checkout2CourierDescriptionCell.xib */; };
 		B2D965CF1E9DD75700B2C29C /* Checkout2SplitCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965CE1E9DD75700B2C29C /* Checkout2SplitCell.xib */; };
+		B2D965D11E9DFA2100B2C29C /* Checkout2AddressDropdownCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965D01E9DFA2100B2C29C /* Checkout2AddressDropdownCell.xib */; };
+		B2D965D31E9DFD6F00B2C29C /* Checkout2AddressCompleteCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965D21E9DFD6F00B2C29C /* Checkout2AddressCompleteCell.xib */; };
+		B2D965D51E9DFF6200B2C29C /* Checkout2AddressLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965D41E9DFF6200B2C29C /* Checkout2AddressLocationCell.xib */; };
+		B2D965D71E9E01AE00B2C29C /* Checkout2AddressFillCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965D61E9E01AE00B2C29C /* Checkout2AddressFillCell.xib */; };
 		B2DBBB951E31C20000F74543 /* Default-New-Splash-Screen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B2DBBB941E31C20000F74543 /* Default-New-Splash-Screen.jpg */; };
 		B2DF58391E484092005B6CF1 /* AddressBook.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2DF58381E484092005B6CF1 /* AddressBook.xib */; };
 		B2DF58491E484131005B6CF1 /* AddressBookCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2DF58481E484131005B6CF1 /* AddressBookCell.xib */; };
@@ -1782,6 +1786,10 @@
 		B2D965CA1E9DCD9500B2C29C /* Checkout2CourierCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2CourierCell.xib; sourceTree = "<group>"; };
 		B2D965CC1E9DD04700B2C29C /* Checkout2CourierDescriptionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2CourierDescriptionCell.xib; sourceTree = "<group>"; };
 		B2D965CE1E9DD75700B2C29C /* Checkout2SplitCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2SplitCell.xib; sourceTree = "<group>"; };
+		B2D965D01E9DFA2100B2C29C /* Checkout2AddressDropdownCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2AddressDropdownCell.xib; sourceTree = "<group>"; };
+		B2D965D21E9DFD6F00B2C29C /* Checkout2AddressCompleteCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2AddressCompleteCell.xib; sourceTree = "<group>"; };
+		B2D965D41E9DFF6200B2C29C /* Checkout2AddressLocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2AddressLocationCell.xib; sourceTree = "<group>"; };
+		B2D965D61E9E01AE00B2C29C /* Checkout2AddressFillCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2AddressFillCell.xib; sourceTree = "<group>"; };
 		B2DBBB941E31C20000F74543 /* Default-New-Splash-Screen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Default-New-Splash-Screen.jpg"; sourceTree = "<group>"; };
 		B2DF58381E484092005B6CF1 /* AddressBook.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressBook.xib; sourceTree = "<group>"; };
 		B2DF58481E484131005B6CF1 /* AddressBookCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressBookCell.xib; sourceTree = "<group>"; };
@@ -3050,6 +3058,10 @@
 				B2D965CA1E9DCD9500B2C29C /* Checkout2CourierCell.xib */,
 				B2D965CC1E9DD04700B2C29C /* Checkout2CourierDescriptionCell.xib */,
 				B2D965CE1E9DD75700B2C29C /* Checkout2SplitCell.xib */,
+				B2D965D01E9DFA2100B2C29C /* Checkout2AddressDropdownCell.xib */,
+				B2D965D21E9DFD6F00B2C29C /* Checkout2AddressCompleteCell.xib */,
+				B2D965D61E9E01AE00B2C29C /* Checkout2AddressFillCell.xib */,
+				B2D965D41E9DFF6200B2C29C /* Checkout2AddressLocationCell.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -3622,6 +3634,7 @@
 			files = (
 				B2D965CF1E9DD75700B2C29C /* Checkout2SplitCell.xib in Resources */,
 				2124FFD21BBD2AC000194B8F /* README.txt in Resources */,
+				B2D965D51E9DFF6200B2C29C /* Checkout2AddressLocationCell.xib in Resources */,
 				B2B2F3621E8D04FE0039167A /* ic_wjp_exclamation.png in Resources */,
 				B2D965C91E9DC4FA00B2C29C /* Checkout2ProductCell.xib in Resources */,
 				21156ED01B8F5DBC001D7842 /* ic_socmed_twitter.png in Resources */,
@@ -3668,6 +3681,7 @@
 				212007BB1B6A087F00D9C84B /* ic_ico_label@2x.png in Resources */,
 				21EEB4791B87095C00CAD5C9 /* ic_user.png in Resources */,
 				589A6FC21D8C08F600654CDD /* ic_label.png in Resources */,
+				B2D965D11E9DFA2100B2C29C /* Checkout2AddressDropdownCell.xib in Resources */,
 				58528C541D13A3D200074EC6 /* cchmrk_sold.png in Resources */,
 				5830A42F1CE3443000FB1577 /* AddProductPlaceholder.plist in Resources */,
 				58D125381CDC4D1F002BC78A /* LICENSE in Resources */,
@@ -3882,6 +3896,7 @@
 				216799731B8F879A00F18F90 /* rsz_ic_bca@2x.png in Resources */,
 				58A99A4E1C6D866000E3E7D7 /* Prelo.entitlements in Resources */,
 				B2DF58491E484131005B6CF1 /* AddressBookCell.xib in Resources */,
+				B2D965D71E9E01AE00B2C29C /* Checkout2AddressFillCell.xib in Resources */,
 				B2BEBC761E4C27EC009982F9 /* placeholder-circle.png in Resources */,
 				211BC9921B96AC9100FDB1DC /* category_placeholder@2x.png in Resources */,
 				B2D481DD1E02A7E2006006CC /* ReportProducts.xib in Resources */,
@@ -3904,6 +3919,7 @@
 				21EEB4701B87095C00CAD5C9 /* btn_checkbox_checked.png in Resources */,
 				44B8EDC71BEB47620063DEA8 /* TwitterKitResources.bundle in Resources */,
 				B2D481DC1E02A7E2006006CC /* LocationFilters.xib in Resources */,
+				B2D965D31E9DFD6F00B2C29C /* Checkout2AddressCompleteCell.xib in Resources */,
 				581E87B01CE08EE00055CCDD /* cover-shop-page.jpg in Resources */,
 				21156ECC1B8F5DBC001D7842 /* btn_checkbox_purple_pressed.png in Resources */,
 				21156EC81B8F5DBC001D7842 /* arrow_left.png in Resources */,
