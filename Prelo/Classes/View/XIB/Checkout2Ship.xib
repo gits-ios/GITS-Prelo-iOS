@@ -10,7 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <viewController id="csc-tu-8UF">
+        <viewController id="csc-tu-8UF" customClass="Checkout2ShipViewController" customModule="Prelo" customModuleProvider="target">
             <layoutGuides>
                 <viewControllerLayoutGuide type="top" id="DTJ-Il-eVm"/>
                 <viewControllerLayoutGuide type="bottom" id="hOf-0z-4Ri"/>
@@ -186,6 +186,10 @@
                 </constraints>
             </view>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+            <connections>
+                <outlet property="loadingPanel" destination="RO0-wf-HLg" id="TEM-Mb-Pqb"/>
+                <outlet property="tableView" destination="8dT-YC-Xh1" id="n8L-LF-aJf"/>
+            </connections>
             <point key="canvasLocation" x="-12.5" y="42.5"/>
         </viewController>
     </objects>

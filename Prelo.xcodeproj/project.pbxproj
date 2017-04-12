@@ -725,6 +725,8 @@
 		B2D965E61E9E2C7800B2C29C /* Checkout2VoucherCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965E51E9E2C7800B2C29C /* Checkout2VoucherCell.xib */; };
 		B2D965EA1E9E2FD000B2C29C /* Checkout2PaymentSummaryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965E91E9E2FD000B2C29C /* Checkout2PaymentSummaryCell.xib */; };
 		B2D965EC1E9E36EA00B2C29C /* Checkout2PaymentSummaryTotalCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965EB1E9E36EA00B2C29C /* Checkout2PaymentSummaryTotalCell.xib */; };
+		B2D965EF1E9E3AA400B2C29C /* Checkout2ShipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D965EE1E9E3AA400B2C29C /* Checkout2ShipViewController.swift */; };
+		B2D965F11E9E3AB600B2C29C /* Checkout2PayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D965F01E9E3AB600B2C29C /* Checkout2PayViewController.swift */; };
 		B2DBBB951E31C20000F74543 /* Default-New-Splash-Screen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B2DBBB941E31C20000F74543 /* Default-New-Splash-Screen.jpg */; };
 		B2DF58391E484092005B6CF1 /* AddressBook.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2DF58381E484092005B6CF1 /* AddressBook.xib */; };
 		B2DF58491E484131005B6CF1 /* AddressBookCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2DF58481E484131005B6CF1 /* AddressBookCell.xib */; };
@@ -1808,6 +1810,8 @@
 		B2D965E51E9E2C7800B2C29C /* Checkout2VoucherCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2VoucherCell.xib; sourceTree = "<group>"; };
 		B2D965E91E9E2FD000B2C29C /* Checkout2PaymentSummaryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2PaymentSummaryCell.xib; sourceTree = "<group>"; };
 		B2D965EB1E9E36EA00B2C29C /* Checkout2PaymentSummaryTotalCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2PaymentSummaryTotalCell.xib; sourceTree = "<group>"; };
+		B2D965EE1E9E3AA400B2C29C /* Checkout2ShipViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Checkout2ShipViewController.swift; sourceTree = "<group>"; };
+		B2D965F01E9E3AB600B2C29C /* Checkout2PayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Checkout2PayViewController.swift; sourceTree = "<group>"; };
 		B2DBBB941E31C20000F74543 /* Default-New-Splash-Screen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Default-New-Splash-Screen.jpg"; sourceTree = "<group>"; };
 		B2DF58381E484092005B6CF1 /* AddressBook.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressBook.xib; sourceTree = "<group>"; };
 		B2DF58481E484131005B6CF1 /* AddressBookCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressBookCell.xib; sourceTree = "<group>"; };
@@ -2457,6 +2461,8 @@
 				21156EB91B8F5B4C001D7842 /* UserProfileViewController.swift */,
 				B21DF53F1E5187EA007A60C5 /* UserProfileViewController2.swift */,
 				21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */,
+				B2D965EE1E9E3AA400B2C29C /* Checkout2ShipViewController.swift */,
+				B2D965F01E9E3AB600B2C29C /* Checkout2PayViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -4029,6 +4035,7 @@
 				2167998F1B8F8AB900F18F90 /* AFURLConnectionOperation.m in Sources */,
 				58C27CAC1DB9CA65008201FA /* PreloEndpoints.swift in Sources */,
 				58A99A341C6D864E00E3E7D7 /* BNCSystemObserver.m in Sources */,
+				B2D965EF1E9E3AA400B2C29C /* Checkout2ShipViewController.swift in Sources */,
 				FDF7281D1BF1CA9A00C0D843 /* Regex.swift in Sources */,
 				58A99A411C6D864E00E3E7D7 /* BranchLoadActionsRequest.m in Sources */,
 				5885887D1E0285ED00AB262E /* RefundRequestViewController.swift in Sources */,
@@ -4200,6 +4207,7 @@
 				58DD28EF1DAF36D000130B6F /* Thread+BFKit.swift in Sources */,
 				5847E15F1DBDA0A200C1B2BA /* CDProvince.swift in Sources */,
 				21F4FCE71B61EE3D00223028 /* UIImageView+AFNetworking.swift in Sources */,
+				B2D965F11E9E3AB600B2C29C /* Checkout2PayViewController.swift in Sources */,
 				5858878A1DBF2DE5006EC6D5 /* ConfirmShippingViewController.swift in Sources */,
 				21B468061CCE5EDB00E145ED /* UITextView+BFKit.swift in Sources */,
 				B2BE2E001E29F2AF006B6903 /* StorePageTabBarViewController.swift in Sources */,

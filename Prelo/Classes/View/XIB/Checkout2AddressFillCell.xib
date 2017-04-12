@@ -16,11 +16,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="312" id="aCE-xQ-xKj">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="312" id="aCE-xQ-xKj" customClass="Checkout2AddressFillCell" customModule="Prelo" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="312"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aCE-xQ-xKj" id="Cr4-wW-uv7">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="311.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="311"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o1n-DU-tI7" userLabel="Field Nama">
@@ -151,6 +151,9 @@
                                     <color key="titleColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnPickProvincePressed:" destination="aCE-xQ-xKj" eventType="touchUpInside" id="ePg-VB-QjZ"/>
+                                </connections>
                             </button>
                         </subviews>
                         <constraints>
@@ -226,6 +229,9 @@
                                     <color key="titleColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnPickRegionPressed:" destination="aCE-xQ-xKj" eventType="touchUpInside" id="h5D-AQ-MD2"/>
+                                </connections>
                             </button>
                         </subviews>
                         <constraints>
@@ -301,6 +307,9 @@
                                     <color key="titleColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnPickSubdistrictPressed:" destination="aCE-xQ-xKj" eventType="touchUpInside" id="HEa-Eb-du9"/>
+                                </connections>
                             </button>
                         </subviews>
                         <constraints>
@@ -441,6 +450,15 @@
                     <constraint firstItem="XHB-1f-bXC" firstAttribute="leading" secondItem="Cr4-wW-uv7" secondAttribute="leadingMargin" constant="16" id="nro-PJ-Jtn"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="lbProvince" destination="YRF-lK-ZHq" id="Lcy-MI-YxO"/>
+                <outlet property="lbRegion" destination="e41-7O-cy5" id="R43-fr-gZd"/>
+                <outlet property="lbSubdistrict" destination="t7h-oS-tb3" id="dGb-oJ-tY4"/>
+                <outlet property="txtAddress" destination="h4s-9F-WOC" id="CkR-V5-WhC"/>
+                <outlet property="txtName" destination="t0E-5f-Hgl" id="1fn-oR-TjK"/>
+                <outlet property="txtPhone" destination="wkb-6T-OGk" id="8ha-Eb-20o"/>
+                <outlet property="txtPostalCode" destination="US1-1v-DZV" id="ZgT-cp-uRd"/>
+            </connections>
             <point key="canvasLocation" x="15.5" y="-8"/>
         </tableViewCell>
     </objects>

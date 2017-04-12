@@ -19,7 +19,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="37" id="y1y-Qb-edg">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="37" id="y1y-Qb-edg" customClass="Checkout2AddressLocationCell" customModule="Prelo" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="37"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="y1y-Qb-edg" id="7SN-to-cj0">
@@ -49,6 +49,12 @@
                         <color key="textColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MjR-No-lVF">
+                        <rect key="frame" x="16" y="9" width="343" height="19.5"/>
+                        <connections>
+                            <action selector="btnPickLocationPressed:" destination="y1y-Qb-edg" eventType="touchUpInside" id="8Gc-HF-gjh"/>
+                        </connections>
+                    </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Pilih Lokasi" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FNy-Bb-SB0">
                         <rect key="frame" x="42" y="9" width="269" height="19.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -63,12 +69,19 @@
                     <constraint firstItem="6fi-Bk-Wbu" firstAttribute="leading" secondItem="FNy-Bb-SB0" secondAttribute="trailing" constant="8" id="VbJ-GB-5Jw"/>
                     <constraint firstItem="5sM-Zv-Ruj" firstAttribute="top" secondItem="7SN-to-cj0" secondAttribute="top" id="XB2-IJ-Kcf"/>
                     <constraint firstItem="pAr-w2-r0m" firstAttribute="top" secondItem="5sM-Zv-Ruj" secondAttribute="bottom" constant="8" id="Xmr-uh-ocq"/>
+                    <constraint firstAttribute="trailing" secondItem="MjR-No-lVF" secondAttribute="trailing" constant="16" id="cVM-gn-eyP"/>
                     <constraint firstItem="6fi-Bk-Wbu" firstAttribute="top" secondItem="5sM-Zv-Ruj" secondAttribute="bottom" constant="8" id="cWB-Pn-dTt"/>
+                    <constraint firstItem="MjR-No-lVF" firstAttribute="leading" secondItem="7SN-to-cj0" secondAttribute="leading" constant="16" id="drE-mY-AgI"/>
                     <constraint firstItem="5sM-Zv-Ruj" firstAttribute="leading" secondItem="7SN-to-cj0" secondAttribute="leading" id="g8p-tO-e3z"/>
+                    <constraint firstItem="MjR-No-lVF" firstAttribute="top" secondItem="5sM-Zv-Ruj" secondAttribute="bottom" constant="8" id="j54-Fn-sdo"/>
                     <constraint firstItem="pAr-w2-r0m" firstAttribute="leading" secondItem="7SN-to-cj0" secondAttribute="leadingMargin" constant="16" id="l2K-P4-lB1"/>
                     <constraint firstItem="FNy-Bb-SB0" firstAttribute="leading" secondItem="pAr-w2-r0m" secondAttribute="trailing" constant="8" id="sz5-HF-aLp"/>
+                    <constraint firstAttribute="bottom" secondItem="MjR-No-lVF" secondAttribute="bottom" constant="8" id="xIe-LO-sM3"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="lbLocation" destination="FNy-Bb-SB0" id="2M4-mS-Oec"/>
+            </connections>
             <point key="canvasLocation" x="-18.5" y="-28.5"/>
         </tableViewCell>
     </objects>
