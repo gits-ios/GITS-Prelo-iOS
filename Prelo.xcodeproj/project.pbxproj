@@ -709,6 +709,9 @@
 		B2D965C51E9D2A6100B2C29C /* Checkout2Pay.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965C41E9D2A6100B2C29C /* Checkout2Pay.xib */; };
 		B2D965C71E9DC3D100B2C29C /* Checkout2SellerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965C61E9DC3D100B2C29C /* Checkout2SellerCell.xib */; };
 		B2D965C91E9DC4FA00B2C29C /* Checkout2ProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965C81E9DC4FA00B2C29C /* Checkout2ProductCell.xib */; };
+		B2D965CB1E9DCD9500B2C29C /* Checkout2CourierCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965CA1E9DCD9500B2C29C /* Checkout2CourierCell.xib */; };
+		B2D965CD1E9DD04700B2C29C /* Checkout2CourierDescriptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965CC1E9DD04700B2C29C /* Checkout2CourierDescriptionCell.xib */; };
+		B2D965CF1E9DD75700B2C29C /* Checkout2SplitCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965CE1E9DD75700B2C29C /* Checkout2SplitCell.xib */; };
 		B2DBBB951E31C20000F74543 /* Default-New-Splash-Screen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B2DBBB941E31C20000F74543 /* Default-New-Splash-Screen.jpg */; };
 		B2DF58391E484092005B6CF1 /* AddressBook.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2DF58381E484092005B6CF1 /* AddressBook.xib */; };
 		B2DF58491E484131005B6CF1 /* AddressBookCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2DF58481E484131005B6CF1 /* AddressBookCell.xib */; };
@@ -1776,6 +1779,9 @@
 		B2D965C41E9D2A6100B2C29C /* Checkout2Pay.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2Pay.xib; sourceTree = "<group>"; };
 		B2D965C61E9DC3D100B2C29C /* Checkout2SellerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2SellerCell.xib; sourceTree = "<group>"; };
 		B2D965C81E9DC4FA00B2C29C /* Checkout2ProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2ProductCell.xib; sourceTree = "<group>"; };
+		B2D965CA1E9DCD9500B2C29C /* Checkout2CourierCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2CourierCell.xib; sourceTree = "<group>"; };
+		B2D965CC1E9DD04700B2C29C /* Checkout2CourierDescriptionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2CourierDescriptionCell.xib; sourceTree = "<group>"; };
+		B2D965CE1E9DD75700B2C29C /* Checkout2SplitCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2SplitCell.xib; sourceTree = "<group>"; };
 		B2DBBB941E31C20000F74543 /* Default-New-Splash-Screen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Default-New-Splash-Screen.jpg"; sourceTree = "<group>"; };
 		B2DF58381E484092005B6CF1 /* AddressBook.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressBook.xib; sourceTree = "<group>"; };
 		B2DF58481E484131005B6CF1 /* AddressBookCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressBookCell.xib; sourceTree = "<group>"; };
@@ -3041,6 +3047,9 @@
 				B2D965C41E9D2A6100B2C29C /* Checkout2Pay.xib */,
 				B2D965C61E9DC3D100B2C29C /* Checkout2SellerCell.xib */,
 				B2D965C81E9DC4FA00B2C29C /* Checkout2ProductCell.xib */,
+				B2D965CA1E9DCD9500B2C29C /* Checkout2CourierCell.xib */,
+				B2D965CC1E9DD04700B2C29C /* Checkout2CourierDescriptionCell.xib */,
+				B2D965CE1E9DD75700B2C29C /* Checkout2SplitCell.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -3611,6 +3620,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2D965CF1E9DD75700B2C29C /* Checkout2SplitCell.xib in Resources */,
 				2124FFD21BBD2AC000194B8F /* README.txt in Resources */,
 				B2B2F3621E8D04FE0039167A /* ic_wjp_exclamation.png in Resources */,
 				B2D965C91E9DC4FA00B2C29C /* Checkout2ProductCell.xib in Resources */,
@@ -3756,6 +3766,7 @@
 				589A6FBE1D8C08F600654CDD /* ic_gambar_utama.png in Resources */,
 				5847E1971DBE081700C1B2BA /* Register.xib in Resources */,
 				58A223C71C898CB600619518 /* ic_trx_expired.png in Resources */,
+				B2D965CB1E9DCD9500B2C29C /* Checkout2CourierCell.xib in Resources */,
 				589A6FB61D8C08F600654CDD /* ic_chat_tawar.png in Resources */,
 				585887591DBEE99D006EC6D5 /* ProductDetailCover.xib in Resources */,
 				585887351DBEDA22006EC6D5 /* ConfirmShippingCell.xib in Resources */,
@@ -3807,6 +3818,7 @@
 				B2BE2E021E29FA42006B6903 /* StorePageShopHeader.xib in Resources */,
 				B2EE39CD1E76905500113E03 /* ic_paid_balance.png in Resources */,
 				B2BEBC601E4C190D009982F9 /* ic_coin.png in Resources */,
+				B2D965CD1E9DD04700B2C29C /* Checkout2CourierDescriptionCell.xib in Resources */,
 				58DD4E8A1DEC377D00B130C5 /* ic_camera.png in Resources */,
 				B2D965C71E9DC3D100B2C29C /* Checkout2SellerCell.xib in Resources */,
 				B2DF58391E484092005B6CF1 /* AddressBook.xib in Resources */,

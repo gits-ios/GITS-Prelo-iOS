@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="4" id="03E-3i-tu3">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="4"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="03E-3i-tu3" id="J2q-4c-myQ">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="3"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HxR-uJ-I4s">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="3.5"/>
+                        <color key="backgroundColor" red="0.90980392156862744" green="0.92549019607843142" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="HxR-uJ-I4s" firstAttribute="leading" secondItem="J2q-4c-myQ" secondAttribute="leading" id="1lO-Bf-W5h"/>
+                    <constraint firstAttribute="trailing" secondItem="HxR-uJ-I4s" secondAttribute="trailing" id="XPu-7d-0WV"/>
+                    <constraint firstItem="HxR-uJ-I4s" firstAttribute="top" secondItem="J2q-4c-myQ" secondAttribute="top" id="chA-Uj-lkW"/>
+                    <constraint firstAttribute="bottom" secondItem="HxR-uJ-I4s" secondAttribute="bottom" id="pn8-Ri-MBe"/>
+                </constraints>
+            </tableViewCellContentView>
+            <point key="canvasLocation" x="46.5" y="17"/>
+        </tableViewCell>
+    </objects>
+</document>
