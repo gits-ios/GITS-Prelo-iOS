@@ -451,9 +451,15 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="btnPickProvince" destination="8Jr-2Y-ReT" id="DwX-Ql-1Qc"/>
+                <outlet property="btnPickRegion" destination="FPj-2o-rQe" id="2wY-lF-y0A"/>
+                <outlet property="btnPickSubdistric" destination="sfc-F5-h2Y" id="cF8-In-bhX"/>
                 <outlet property="lbProvince" destination="YRF-lK-ZHq" id="Lcy-MI-YxO"/>
+                <outlet property="lbProvincePicker" destination="AVU-Xe-M5V" id="vyG-pm-bWA"/>
                 <outlet property="lbRegion" destination="e41-7O-cy5" id="R43-fr-gZd"/>
+                <outlet property="lbRegionPicker" destination="kYf-cF-oiM" id="MJe-tj-jrR"/>
                 <outlet property="lbSubdistrict" destination="t7h-oS-tb3" id="dGb-oJ-tY4"/>
+                <outlet property="lbSubdistrictPicker" destination="PLG-Z6-oSw" id="NUS-GF-sPc"/>
                 <outlet property="txtAddress" destination="h4s-9F-WOC" id="CkR-V5-WhC"/>
                 <outlet property="txtName" destination="t0E-5f-Hgl" id="1fn-oR-TjK"/>
                 <outlet property="txtPhone" destination="wkb-6T-OGk" id="8ha-Eb-20o"/>
