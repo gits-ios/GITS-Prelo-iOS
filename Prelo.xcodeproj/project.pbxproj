@@ -720,6 +720,11 @@
 		B2D965DB1E9E1A9600B2C29C /* Checkout2PaymentMethodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965DA1E9E1A9600B2C29C /* Checkout2PaymentMethodCell.xib */; };
 		B2D965DD1E9E1B1A00B2C29C /* Checkout2PaymentBankCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965DC1E9E1B1A00B2C29C /* Checkout2PaymentBankCell.xib */; };
 		B2D965DF1E9E1F4000B2C29C /* Checkout2PaymentCreditCardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965DE1E9E1F4000B2C29C /* Checkout2PaymentCreditCardCell.xib */; };
+		B2D965E21E9E294600B2C29C /* Checkout2BlackWhiteCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965E11E9E294600B2C29C /* Checkout2BlackWhiteCell.xib */; };
+		B2D965E41E9E29A500B2C29C /* Checkout2PreloBalanceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965E31E9E29A500B2C29C /* Checkout2PreloBalanceCell.xib */; };
+		B2D965E61E9E2C7800B2C29C /* Checkout2VoucherCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965E51E9E2C7800B2C29C /* Checkout2VoucherCell.xib */; };
+		B2D965EA1E9E2FD000B2C29C /* Checkout2PaymentSummaryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965E91E9E2FD000B2C29C /* Checkout2PaymentSummaryCell.xib */; };
+		B2D965EC1E9E36EA00B2C29C /* Checkout2PaymentSummaryTotalCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D965EB1E9E36EA00B2C29C /* Checkout2PaymentSummaryTotalCell.xib */; };
 		B2DBBB951E31C20000F74543 /* Default-New-Splash-Screen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B2DBBB941E31C20000F74543 /* Default-New-Splash-Screen.jpg */; };
 		B2DF58391E484092005B6CF1 /* AddressBook.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2DF58381E484092005B6CF1 /* AddressBook.xib */; };
 		B2DF58491E484131005B6CF1 /* AddressBookCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2DF58481E484131005B6CF1 /* AddressBookCell.xib */; };
@@ -1798,6 +1803,11 @@
 		B2D965DA1E9E1A9600B2C29C /* Checkout2PaymentMethodCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2PaymentMethodCell.xib; sourceTree = "<group>"; };
 		B2D965DC1E9E1B1A00B2C29C /* Checkout2PaymentBankCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2PaymentBankCell.xib; sourceTree = "<group>"; };
 		B2D965DE1E9E1F4000B2C29C /* Checkout2PaymentCreditCardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2PaymentCreditCardCell.xib; sourceTree = "<group>"; };
+		B2D965E11E9E294600B2C29C /* Checkout2BlackWhiteCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2BlackWhiteCell.xib; sourceTree = "<group>"; };
+		B2D965E31E9E29A500B2C29C /* Checkout2PreloBalanceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2PreloBalanceCell.xib; sourceTree = "<group>"; };
+		B2D965E51E9E2C7800B2C29C /* Checkout2VoucherCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2VoucherCell.xib; sourceTree = "<group>"; };
+		B2D965E91E9E2FD000B2C29C /* Checkout2PaymentSummaryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2PaymentSummaryCell.xib; sourceTree = "<group>"; };
+		B2D965EB1E9E36EA00B2C29C /* Checkout2PaymentSummaryTotalCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2PaymentSummaryTotalCell.xib; sourceTree = "<group>"; };
 		B2DBBB941E31C20000F74543 /* Default-New-Splash-Screen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Default-New-Splash-Screen.jpg"; sourceTree = "<group>"; };
 		B2DF58381E484092005B6CF1 /* AddressBook.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressBook.xib; sourceTree = "<group>"; };
 		B2DF58481E484131005B6CF1 /* AddressBookCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressBookCell.xib; sourceTree = "<group>"; };
@@ -3074,6 +3084,11 @@
 				B2D965DA1E9E1A9600B2C29C /* Checkout2PaymentMethodCell.xib */,
 				B2D965DC1E9E1B1A00B2C29C /* Checkout2PaymentBankCell.xib */,
 				B2D965DE1E9E1F4000B2C29C /* Checkout2PaymentCreditCardCell.xib */,
+				B2D965E11E9E294600B2C29C /* Checkout2BlackWhiteCell.xib */,
+				B2D965E31E9E29A500B2C29C /* Checkout2PreloBalanceCell.xib */,
+				B2D965E51E9E2C7800B2C29C /* Checkout2VoucherCell.xib */,
+				B2D965E91E9E2FD000B2C29C /* Checkout2PaymentSummaryCell.xib */,
+				B2D965EB1E9E36EA00B2C29C /* Checkout2PaymentSummaryTotalCell.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -3697,6 +3712,7 @@
 				58528C541D13A3D200074EC6 /* cchmrk_sold.png in Resources */,
 				5830A42F1CE3443000FB1577 /* AddProductPlaceholder.plist in Resources */,
 				58D125381CDC4D1F002BC78A /* LICENSE in Resources */,
+				B2D965EC1E9E36EA00B2C29C /* Checkout2PaymentSummaryTotalCell.xib in Resources */,
 				58E368161DA4E40700C6FFE3 /* ic_share2.png in Resources */,
 				580B07291DD5D99A0079C11C /* bday-splashscreen-2048x2048.png in Resources */,
 				21EEB4771B87095C00CAD5C9 /* ic_phone.png in Resources */,
@@ -3774,6 +3790,7 @@
 				FDF39A301C3CF43B002A5DF6 /* banner_sold.png in Resources */,
 				21156EC91B8F5DBC001D7842 /* arrow_right.png in Resources */,
 				585887571DBEDC28006EC6D5 /* TransactionListCell.xib in Resources */,
+				B2D965E21E9E294600B2C29C /* Checkout2BlackWhiteCell.xib in Resources */,
 				B2D965C51E9D2A6100B2C29C /* Checkout2Pay.xib in Resources */,
 				B2BEBC7C1E4C30BF009982F9 /* placeholder-transparent-ipad.png in Resources */,
 				440AF6671BE1090800074CBC /* ic_round_instagram.png in Resources */,
@@ -3801,8 +3818,10 @@
 				585887341DBEDA08006EC6D5 /* ConfirmShipping.xib in Resources */,
 				B2B4DCC41E2D24B900EBBD33 /* ShopReviewAverageCell.xib in Resources */,
 				5858874C1DBEDB9B006EC6D5 /* NotifAnggiTransaction.xib in Resources */,
+				B2D965EA1E9E2FD000B2C29C /* Checkout2PaymentSummaryCell.xib in Resources */,
 				B2C4EEBB1E8B5F37007E2F95 /* ReportTransaction.xib in Resources */,
 				581E87AE1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg in Resources */,
+				B2D965E41E9E29A500B2C29C /* Checkout2PreloBalanceCell.xib in Resources */,
 				210702E41BE7A8F100DD9E52 /* cu_wasap@2x.png in Resources */,
 				589A6FAF1D8C08F600654CDD /* ic_1kg.png in Resources */,
 				B2D965DF1E9E1F4000B2C29C /* Checkout2PaymentCreditCardCell.xib in Resources */,
@@ -3825,6 +3844,7 @@
 				2109BCA61BDDF85E004F36C5 /* tour_3.jpg in Resources */,
 				5858875A1DBEE9B1006EC6D5 /* AddProductHeader.xib in Resources */,
 				44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */,
+				B2D965E61E9E2C7800B2C29C /* Checkout2VoucherCell.xib in Resources */,
 				585887301DBED9DA006EC6D5 /* BalanceMutation.xib in Resources */,
 				5858874A1DBEDB83006EC6D5 /* NotifAnggiConversationCell.xib in Resources */,
 				58E8FCDD1D92819C0084FAA8 /* ic_prelo_logo_text_white@2x.png in Resources */,
