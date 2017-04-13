@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="104" id="3eW-9d-daD">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="104" id="3eW-9d-daD" customClass="Checkout2PaymentSummaryTotalCell" customModule="Prelo" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="104"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3eW-9d-daD" id="cBh-aa-9Li">
@@ -50,6 +50,9 @@
                         <state key="normal" title="SELESAIKAN PESANAN">
                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <connections>
+                            <action selector="btnCheckoutPressed:" destination="3eW-9d-daD" eventType="touchUpInside" id="3yK-pF-MNR"/>
+                        </connections>
                     </button>
                 </subviews>
                 <constraints>
@@ -66,6 +69,10 @@
                     <constraint firstItem="lX2-Ke-kpJ" firstAttribute="leading" secondItem="cBh-aa-9Li" secondAttribute="leadingMargin" constant="16" id="z9i-2d-ZwC"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="lbAmount" destination="Q6S-Vf-lMf" id="97p-dk-E79"/>
+                <outlet property="lbTitle" destination="egn-ln-OYb" id="7MY-3f-ZKR"/>
+            </connections>
             <point key="canvasLocation" x="-10.5" y="-11"/>
         </tableViewCell>
     </objects>

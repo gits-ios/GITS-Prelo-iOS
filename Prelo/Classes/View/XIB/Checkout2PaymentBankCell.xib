@@ -16,7 +16,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="99" id="1iZ-j5-3d2">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="99" id="1iZ-j5-3d2" customClass="Checkout2PaymentBankCell" customModule="Prelo" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="99"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1iZ-j5-3d2" id="UIN-Of-nlL">
@@ -116,6 +116,11 @@
                     <constraint firstItem="g6p-zR-ydR" firstAttribute="leading" secondItem="UIN-Of-nlL" secondAttribute="leading" id="yME-sA-Bav"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="lbBank" destination="oW0-B3-nnd" id="tgE-iK-HY8"/>
+                <outlet property="lbCheck" destination="x5I-jy-yyt" id="TxE-VA-aX6"/>
+                <outlet property="lbDropdown" destination="Pcx-nb-eUq" id="c3R-oE-au8"/>
+            </connections>
             <point key="canvasLocation" x="40.5" y="-42.5"/>
         </tableViewCell>
     </objects>

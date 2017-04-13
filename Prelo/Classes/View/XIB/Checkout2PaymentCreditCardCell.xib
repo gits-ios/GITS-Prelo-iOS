@@ -16,11 +16,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="62" id="hRf-LP-XA7">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="62" id="hRf-LP-XA7" customClass="Checkout2PaymentCreditCardCell" customModule="Prelo" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="62"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hRf-LP-XA7" id="WTa-Qx-tal">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="61"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="61.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e0e-xb-p1h" userLabel="line1px">
@@ -67,6 +67,11 @@
                     <constraint firstItem="OUW-nH-FSP" firstAttribute="leading" secondItem="WTa-Qx-tal" secondAttribute="leadingMargin" constant="16" id="u2K-VU-xvy"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="lbCheck" destination="4u7-WO-yQu" id="B7Z-jr-uXM"/>
+                <outlet property="lbDescription" destination="zDA-sW-oDJ" id="W1E-4A-TpA"/>
+                <outlet property="lbTitle" destination="OUW-nH-FSP" id="Juq-VM-qxJ"/>
+            </connections>
             <point key="canvasLocation" x="40.5" y="-61"/>
         </tableViewCell>
     </objects>

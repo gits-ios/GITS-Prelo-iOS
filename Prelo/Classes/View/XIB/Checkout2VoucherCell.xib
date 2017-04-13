@@ -10,15 +10,15 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="88" id="lyO-jS-76o">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="88"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="111" id="lyO-jS-76o" customClass="Checkout2VoucherCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="111"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lyO-jS-76o" id="jaU-sp-qEo">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="87"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="110"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yPB-B7-fLb">
-                        <rect key="frame" x="24" y="2" width="327" height="83.5"/>
+                        <rect key="frame" x="24" y="2" width="327" height="106.5"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gunakan Voucher" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="USr-RY-MCw">
                                 <rect key="frame" x="8" y="15.5" width="254" height="17"/>
@@ -29,8 +29,11 @@
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HQL-Wx-pDg">
                                 <rect key="frame" x="270" y="8" width="51" height="31"/>
                                 <color key="onTintColor" red="1" green="0.60056952720000001" blue="0.1883386718" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="btnSwitchPressed:" destination="lyO-jS-76o" eventType="valueChanged" id="BlW-gU-g51"/>
+                                </connections>
                             </switch>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="XYZABC" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ILI-qE-izM">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Masukkan Voucher" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ILI-qE-izM">
                                 <rect key="frame" x="8" y="47" width="239" height="30"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -48,16 +51,28 @@
                                     <constraint firstAttribute="width" constant="64" id="LRg-K4-G2r"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <state key="normal" title="Apply">
+                                <state key="normal" title="APPLY">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnApplyPressed:" destination="lyO-jS-76o" eventType="touchUpInside" id="bCb-sE-AFW"/>
+                                </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Klik APPLY untuk menggunakan voucher" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Saq-Sv-bnK">
+                                <rect key="frame" x="8" y="85" width="311" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.86172279789999995" green="0.86172279789999995" blue="0.86172279789999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="ILI-qE-izM" firstAttribute="leading" secondItem="yPB-B7-fLb" secondAttribute="leading" constant="8" id="1Mz-Ca-dex"/>
                             <constraint firstItem="HQL-Wx-pDg" firstAttribute="top" secondItem="yPB-B7-fLb" secondAttribute="top" constant="8" id="74U-fu-FLQ"/>
                             <constraint firstItem="HQL-Wx-pDg" firstAttribute="leading" secondItem="USr-RY-MCw" secondAttribute="trailing" constant="8" id="7eE-rg-fdg"/>
+                            <constraint firstItem="Saq-Sv-bnK" firstAttribute="top" secondItem="UYC-rx-1mh" secondAttribute="bottom" constant="8" id="CAY-An-ENe"/>
+                            <constraint firstAttribute="trailing" secondItem="Saq-Sv-bnK" secondAttribute="trailing" constant="8" id="DMZ-j4-JWI"/>
+                            <constraint firstItem="Saq-Sv-bnK" firstAttribute="leading" secondItem="yPB-B7-fLb" secondAttribute="leading" constant="8" id="JPe-d4-Ky9"/>
                             <constraint firstItem="UYC-rx-1mh" firstAttribute="top" secondItem="HQL-Wx-pDg" secondAttribute="bottom" constant="8" id="U5B-mH-3oV"/>
                             <constraint firstItem="UYC-rx-1mh" firstAttribute="leading" secondItem="ILI-qE-izM" secondAttribute="trailing" constant="8" id="aUl-Ha-d5v"/>
                             <constraint firstItem="USr-RY-MCw" firstAttribute="leading" secondItem="yPB-B7-fLb" secondAttribute="leading" constant="8" id="aeI-ya-J7L"/>
@@ -75,7 +90,11 @@
                     <constraint firstItem="yPB-B7-fLb" firstAttribute="leading" secondItem="jaU-sp-qEo" secondAttribute="leading" constant="24" id="xH2-2a-Hns"/>
                 </constraints>
             </tableViewCellContentView>
-            <point key="canvasLocation" x="-120.5" y="-15"/>
+            <connections>
+                <outlet property="btnSwitch" destination="HQL-Wx-pDg" id="mFV-EJ-Zda"/>
+                <outlet property="txtInputVoucher" destination="ILI-qE-izM" id="MEc-1N-zZx"/>
+            </connections>
+            <point key="canvasLocation" x="-120.5" y="-3.5"/>
         </tableViewCell>
     </objects>
 </document>
