@@ -1444,7 +1444,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 self.present(alamatAlert, animated: true, completion: nil)
                 */
                 
-                dropDown.hide()
+                if dropDown != nil {
+                    dropDown.hide()
+                }
                 dropDown.show()
                 
                 self.isSave = false
@@ -1746,6 +1748,15 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             "Category ID" : json["category_id"].stringValue
                         ]
                         itemsObject.append(curItem)
+                        
+                        // AppsFlyer
+                        let afPdata: [String : Any] = [
+                            "Revenue" : json["price"].intValue,
+                            "Content Type" : json["category_id"].stringValue,
+                            "Content ID" : json["product_id"].stringValue,
+                            "Currency" : "IDR",
+                        ]
+                        AppsFlyerTracker.shared().trackEvent(MixpanelEvent.Checkout, withValues: afPdata)
                     }
                     
                     let orderId = self.checkoutResult!["order_id"].stringValue
@@ -3021,7 +3032,9 @@ class CartPaymethodCell : UITableViewCell {
         parent?.present(bankAlert, animated: true, completion: nil)
          */
         
-        dropDown.hide()
+        if dropDown != nil {
+            dropDown.hide()
+        }
         dropDown.show()
     }
     

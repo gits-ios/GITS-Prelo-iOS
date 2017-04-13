@@ -136,6 +136,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AppsFlyerTracker.shared().appsFlyerDevKey = "JdjGSJmNJwd46zDPxZf9J"
         AppsFlyerTracker.shared().appleAppID = "1027248488"
         
+        if AppTools.isDev {
+            AppsFlyerTracker.shared().isDebug = true
+        }
+        
         // MoEngage
         MoEngage.sharedInstance().initialize(withApiKey: "N4VL0T0CGHRODQUOGRKZVWFH", in: application, withLaunchOptions: launchOptions)
         
