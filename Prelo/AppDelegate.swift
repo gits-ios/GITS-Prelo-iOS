@@ -583,9 +583,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // MoEngage
         MoEngage.sharedInstance().stop(application)
         
+        /* // disable
         if produkUploader != nil {
             produkUploader.stop()
         }
+         */
         
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().didLoseFocus()
@@ -602,11 +604,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Prelo Analytic - Open App
         AnalyticManager.sharedInstance.openApp()
         
+        /* // disable
         if (User.Token != nil && CDUser.getOne() != nil) { // If user is logged in
             DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
                 self.produkUploader.start()
             })
         }
+         */
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
