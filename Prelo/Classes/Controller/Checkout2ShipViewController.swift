@@ -457,6 +457,7 @@ class Checkout2AddressFillCell: UITableViewCell {
     @IBOutlet weak var btnPickSubdistric: UIButton!
     @IBOutlet weak var txtAddress: UITextField!
     @IBOutlet weak var txtPostalCode: UITextField!
+    @IBOutlet weak var lbCheckbox: UILabel!
     
     // province/region/subdistrict id -> global
     
@@ -468,7 +469,7 @@ class Checkout2AddressFillCell: UITableViewCell {
     var placeholderColor = UIColor.init(hex: "#CCCCCC")
     var activeColor = UIColor.init(hex: "#6F6F6F")
     
-    func adapt(_ address: AddressItem?, isDefault: Bool) {
+    func adapt(_ address: AddressItem?, isDefault: Bool, isSave: Bool) {
         self.lbProvince.text = "Pilih Provinsi"
         self.lbProvince.textColor = self.placeholderColor
         
@@ -500,6 +501,8 @@ class Checkout2AddressFillCell: UITableViewCell {
             self.lbProvincePicker.textColor = self.disableColor
             self.lbRegionPicker.textColor = self.disableColor
             self.lbSubdistrictPicker.textColor = self.disableColor
+            
+            self.lbCheckbox.isHidden = false // force save
         } else {
             self.btnPickProvince.isEnabled = true
             self.btnPickRegion.isEnabled = true
@@ -508,6 +511,12 @@ class Checkout2AddressFillCell: UITableViewCell {
             self.lbProvincePicker.textColor = Theme.PrimaryColorDark
             self.lbRegionPicker.textColor = Theme.PrimaryColorDark
             self.lbSubdistrictPicker.textColor = Theme.PrimaryColorDark
+            
+            if isSave {
+                self.lbCheckbox.isHidden = false
+            } else {
+                self.lbCheckbox.isHidden = true
+            }
         }
     }
     
