@@ -285,7 +285,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         annotation: Any) -> Bool {
             // Kepanggil hanya jika app dibuka ketika sedang dalam background mode, jika app baru saja dibuka maka tidak terpanggil
             //Constant.showDialog("Deeplink", message: "url = \(url)")
-            /*
+        
+        // deeplinking prelo://
+        if url.absoluteString.contains("prelo://"), let components = URLComponents(url: url, resolvingAgainstBaseURL: true) {
+            var param : [URLQueryItem] = []
+            if let items = components.queryItems {
+                param = items
+            }
+            if let del = UIApplication.shared.delegate as? AppDelegate {
+                del.handleUniversalLink(url, path: components.path, param: param)
+                
+                return true
+            }
+            return false
+            
+        // deeplinking fb860723977338277:// (FACEBOOK)
+        } else if url.absoluteString.contains("fb860723977338277://") {
             if (!Branch.getInstance().handleDeepLink(url)) {
                 // Handle deeplink from Facebook
                 if let tipe = url.host {
@@ -302,28 +317,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     sourceApplication: sourceApplication,
                     annotation: annotation)
             }
-            
             return true
-            */
-        
-        if url.absoluteString.contains("prelo://"), let components = URLComponents(url: url, resolvingAgainstBaseURL: true) {
-            var param : [URLQueryItem] = []
-            if let items = components.queryItems {
-                param = items
-            }
-            if let del = UIApplication.shared.delegate as? AppDelegate {
-                del.handleUniversalLink(url, path: components.path, param: param)
-                
-                return true
-            }
-            return false
-        } else if url.absoluteString.contains("fb860723977338277://") {
-            // from fb
-            return FBSDKApplicationDelegate.sharedInstance().application(
-                application,
-                open: url,
-                sourceApplication: sourceApplication,
-                annotation: annotation)
         }
         return true
     }
@@ -683,31 +677,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
     }
-    /*
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        // deeplinking prelo://
-        
-        print(url)
-        
-        if url.absoluteString.contains("prelo://"), let components = URLComponents(url: url, resolvingAgainstBaseURL: true) {
-            var param : [URLQueryItem] = []
-            if let items = components.queryItems {
-                param = items
-            }
-            if let del = UIApplication.shared.delegate as? AppDelegate {
-                del.handleUniversalLink(url, path: components.path, param: param)
-                
-                return true
-            }
-            return false
-        } else if url.absoluteString.contains("fb860723977338277://") {
-            // from fb
-            return true
-        }
-        
-        return false
-    }
-    */
+    
     // MARK: - Redirection functions
     
     func handleUniversalLink(_ url : URL, path : String, param : [URLQueryItem]) {
