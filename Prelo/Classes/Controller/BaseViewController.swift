@@ -152,7 +152,9 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     }
 
     func setupTitle() {
-        let i = TintedImageView(frame: CGRect(x: 0, y: 0, width: 92, height: 92), backgroundColor: UIColor.clear)
+        //let i = TintedImageView(frame: CGRect(x: 0, y: 0, width: 92, height: 92), backgroundColor: UIColor.clear)
+        let i = TintedImageView(frame: CGRect(x: 0, y: 0, width: 92, height: 92))
+        i.backgroundColor = UIColor.clear
         i.image = UIImage(named : "ic_prelo_logo_text_white")
         i.contentMode = UIViewContentMode.scaleAspectFit
         
