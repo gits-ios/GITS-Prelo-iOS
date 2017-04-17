@@ -325,7 +325,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         self.sendProductParam["twitter"] = twitter
         
         // auto approve
-        if AppTools.isDev {
+        if AppTools.isDev && !AppTools.IsPreloProduction {
             self.sendProductParam["status"] = "1"
         }
         

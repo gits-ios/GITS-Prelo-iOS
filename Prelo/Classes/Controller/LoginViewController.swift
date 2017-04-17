@@ -346,9 +346,11 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         
         // Log in and get permission from facebook
         let fbLoginManager = FBSDKLoginManager()
+        fbLoginManager.loginBehavior = .systemAccount
         
         // Ask for publish permissions
         fbLoginManager.logIn(withPublishPermissions: ["publish_actions"], handler: {(result : FBSDKLoginManagerLoginResult?, error : Error?) -> Void in
+            
             if (error != nil) { // Process error
                 LoginViewController.LoginFacebookCancelled(sender, reason: "Terdapat kesalahan saat login Facebook")
             } else if (result == nil || result!.isCancelled) { // User cancellation
@@ -516,6 +518,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         let vcProductDetail = sender as? ProductDetailViewController
         let vcAddProductShare = sender as? AddProductShareViewController
         let vcUserProfile = sender as? UserProfileViewController
+        let vcUserProfile2 = sender as? UserProfileViewController2
         
         if (vcLogin != nil || vcRegister != nil) { // Jika login dari halaman login atau register
             User.Logout()
@@ -538,6 +541,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         }
         if (vcUserProfile != nil) {
             vcUserProfile!.hideLoading()
+        }
+        if (vcUserProfile2 != nil) {
+            vcUserProfile2!.hideLoading()
         }
         
         // Show alert if there's reason
@@ -759,6 +765,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         let vcProductDetail = sender as? ProductDetailViewController
         let vcAddProductShare = sender as? AddProductShareViewController
         let vcUserProfile = sender as? UserProfileViewController
+        let vcUserProfile2 = sender as? UserProfileViewController2
         
         if (vcLogin != nil || vcRegister != nil) { // Jika login dari halaman login atau register
             User.Logout()
@@ -781,6 +788,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         }
         if (vcUserProfile != nil) {
             vcUserProfile!.hideLoading()
+        }
+        if (vcUserProfile2 != nil) {
+            vcUserProfile2!.hideLoading()
         }
         
         // Show alert if there's reason

@@ -123,7 +123,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     var defaultAddressIndex = 0
     var defaultSubdistrictId = ""
     
-    var dropDown: DropDown!
+    let dropDown = DropDown()
     
     var selectedBankIndex = -1
     var targetBank = ""
@@ -297,7 +297,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     }
     
     func setupDropdownAddress() {
-        dropDown = DropDown()
+        //dropDown = DropDown()
         
         // The list of items to display. Can be changed dynamically
         //                dropDown.dataSource = ["Car", "Motorcycle", "Truck"]
@@ -1444,8 +1444,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 self.present(alamatAlert, animated: true, completion: nil)
                 */
                 
-                dropDown.hide()
-                dropDown.show()
+                if dropDown != nil {
+                    dropDown.hide()
+                    dropDown.show()
+                }
                 
                 self.isSave = false
                 
@@ -1746,6 +1748,15 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             "Category ID" : json["category_id"].stringValue
                         ]
                         itemsObject.append(curItem)
+                        
+                        // AppsFlyer
+                        let afPdata: [String : Any] = [
+                            AFEventParamRevenue     : (json["price"].intValue).string,
+                            AFEventParamContentType : json["category_id"].stringValue,
+                            AFEventParamContentId   : json["product_id"].stringValue,
+                            AFEventParamCurrency    : "IDR"
+                        ]
+                        AppsFlyerTracker.shared().trackEvent(AFEventInitiatedCheckout, withValues: afPdata)
                     }
                     
                     let orderId = self.checkoutResult!["order_id"].stringValue
@@ -1907,6 +1918,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     self.present(baseNavC, animated: true, completion: nil)
                 }
             }
+            
+            self.loadingPanel.isHidden = true
             self.btnSend.isEnabled = true
         }
     }
@@ -2913,7 +2926,7 @@ class CartPaymethodCell : UITableViewCell {
     
     @IBOutlet var lblDesc: [UILabel]!
     
-    var dropDown: DropDown!
+    let dropDown = DropDown()
     var selectedBankIndex = -1
     
     // Tag set in storyboard
@@ -3021,12 +3034,14 @@ class CartPaymethodCell : UITableViewCell {
         parent?.present(bankAlert, animated: true, completion: nil)
          */
         
-        dropDown.hide()
-        dropDown.show()
+        if dropDown != nil {
+            dropDown.hide()
+            dropDown.show()
+        }
     }
     
     func setupDropdownBank() {
-        dropDown = DropDown()
+        //dropDown = DropDown()
         
         var items = ["BCA", "Mandiri", "BNI"]
         var icons = ["rsz_ic_bca@2x", "rsz_ic_mandiri@2x", "rsz_ic_bni@2x"]

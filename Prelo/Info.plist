@@ -97,6 +97,8 @@
 	<string>$(PRODUCT_NAME) need to access microphone</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>$(PRODUCT_NAME) need to access camera/photo library to upload your product</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>$(PRODUCT_NAME) need to access your location</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>PreloAwesome.ttf</string>

@@ -27,7 +27,6 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
     
     @IBOutlet weak var vwTopBannerParent: UIView!
     @IBOutlet weak var consHeightTopBannerParent: NSLayoutConstraint!
-    var isLoaded: Bool = true
     
     var lastContentOffset = CGPoint.zero
     
@@ -36,9 +35,7 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
     
     @IBOutlet weak var btnBackToTop: BorderedButton!
     
-    var startTime : TimeInterval! = nil
-    
-    var myRequest: Request?
+    var deadline = DispatchTime.now()
     
     // MARK: - Init
     override func viewDidLoad() {
@@ -320,8 +317,6 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
     }
     
     func showNewMessage() {
-        self.startTime = Date().timeIntervalSinceReferenceDate
-        
         let inset = UIEdgeInsetsMake(0, 0, 4, 0)
         self.tableView.contentInset = inset
         
@@ -351,24 +346,12 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
             placeSelectionBar()
         })
         
+        deadline = DispatchTime.now() + 0.4
+        
         // inject center (fixer)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
+        DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
             self.vwTopBannerParent.isHidden = true
             self.consHeightTopBannerParent.constant = 0
-            while (true) {
-                if self.isLoaded {
-                    self.scrollToTop()
-                    self.tableView.reloadData()
-                    self.hideLoading()
-                    break
-                } else if ((Date().timeIntervalSinceReferenceDate - self.startTime) >= 5.0) { // 5 detik
-                    Constant.showDialog("Get New Prelo Message", message: "Oops, terdapat kesalahan")
-                    self.myRequest?.cancel()
-                    self.tableView.reloadData()
-                    self.hideLoading()
-                    break
-                }
-            }
         })
     }
     
@@ -451,28 +434,34 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
         let notifListener = appDelegate.preloNotifListener
         let newNotifCount = (notifListener?.newNotifCount)! - count
         
-        self.isLoaded = false
-        self.myRequest = request(APIPreloMessage.getMessage).responseJSON { resp in
+        let _ = request(APIPreloMessage.getMessage).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Get New Prelo Message")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 if let _messages = data["messages"].array {
-                    for m in _messages.count-(count+1)..._messages.count-1 {
+                    for m in _messages.count-count..._messages.count-1 {
                         let message = PreloMessageItem.instance(_messages[m])
                         
                         self.isOpens.insert(false, at: 0)
                         self.messages?.insert(message!, at: 0)
                         
-                        notifListener?.setNewNotifCount(newNotifCount)
-                        
-                        self.isLoaded = true
                     }
+                    notifListener?.setNewNotifCount(newNotifCount)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: self.deadline, execute: {
+                        self.scrollToTop()
+                        self.tableView.reloadData()
+                        self.hideLoading()
+                    })
                 } else {
                     Constant.showDialog("Get New Prelo Message", message: "Oops, terdapat kesalahan")
-                    self.isLoaded = true
+                    
+                    self.hideLoading()
                 }
             } else {
-                self.isLoaded = true
+                Constant.showDialog("Get New Prelo Message", message: "Oops, terdapat kesalahan")
+                
+                self.hideLoading()
             }
         }
     }
