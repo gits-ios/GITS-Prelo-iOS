@@ -360,7 +360,10 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
                     self.hideLoading()
                 }
             }
-            alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+            alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {
+                // Hide loading
+                self.hideLoading()
+            }
             alertView.showCustom("Facebook Logout", subTitle: "Yakin mau logout akun Facebook \(self.lblLoginFacebook.text!)?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
         }
     }
@@ -439,7 +442,10 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
                     self.hideLoading()
                 }
             }
-            alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+            alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {
+                // Hide loading
+                self.hideLoading()
+            }
             alertView.showCustom("Twitter Logout", subTitle: "Yakin mau logout akun Twitter \(self.lblLoginTwitter.text!)?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
         }
     }
