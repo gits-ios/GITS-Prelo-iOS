@@ -516,6 +516,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         let vcProductDetail = sender as? ProductDetailViewController
         let vcAddProductShare = sender as? AddProductShareViewController
         let vcUserProfile = sender as? UserProfileViewController
+        let vcUserProfile2 = sender as? UserProfileViewController2
         
         if (vcLogin != nil || vcRegister != nil) { // Jika login dari halaman login atau register
             User.Logout()
@@ -538,6 +539,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         }
         if (vcUserProfile != nil) {
             vcUserProfile!.hideLoading()
+        }
+        if (vcUserProfile2 != nil) {
+            vcUserProfile2!.hideLoading()
         }
         
         // Show alert if there's reason
@@ -759,6 +763,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         let vcProductDetail = sender as? ProductDetailViewController
         let vcAddProductShare = sender as? AddProductShareViewController
         let vcUserProfile = sender as? UserProfileViewController
+        let vcUserProfile2 = sender as? UserProfileViewController2
         
         if (vcLogin != nil || vcRegister != nil) { // Jika login dari halaman login atau register
             User.Logout()
@@ -781,6 +786,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         }
         if (vcUserProfile != nil) {
             vcUserProfile!.hideLoading()
+        }
+        if (vcUserProfile2 != nil) {
+            vcUserProfile2!.hideLoading()
         }
         
         // Show alert if there's reason

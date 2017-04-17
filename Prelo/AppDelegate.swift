@@ -667,7 +667,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         print(url)
         
-        if let components = URLComponents(url: url, resolvingAgainstBaseURL: true) {
+        if url.absoluteString.contains("prelo://"), let components = URLComponents(url: url, resolvingAgainstBaseURL: true) {
             var param : [URLQueryItem] = []
             if let items = components.queryItems {
                 param = items
@@ -678,6 +678,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 return true
             }
             return false
+        } else if url.absoluteString.contains("fb860723977338277://") {
+            // from fb
+            return true
         }
         
         return false
