@@ -1756,7 +1756,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             "Content ID" : json["product_id"].stringValue,
                             "Currency" : "IDR",
                         ]
-                        AppsFlyerTracker.shared().trackEvent(MixpanelEvent.Checkout, withValues: afPdata)
+                        AppsFlyerTracker.shared().trackEvent(AppdFlyerEvent.Checkout, withValues: afPdata)
                     }
                     
                     let orderId = self.checkoutResult!["order_id"].stringValue
