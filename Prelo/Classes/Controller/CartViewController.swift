@@ -228,6 +228,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 appearance.animationduration = 0.25
                 appearance.textColor = .darkGray
                 
+                // init dropdown
+                dropDown = DropDown()
+                
                 // Prelo Analytic - Go to cart
                 let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
                                                     qos: .background,
@@ -297,7 +300,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     }
     
     func setupDropdownAddress() {
-        dropDown = DropDown()
+        //dropDown = DropDown()
         
         // The list of items to display. Can be changed dynamically
         //                dropDown.dataSource = ["Car", "Motorcycle", "Truck"]
@@ -1446,8 +1449,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 
                 if dropDown != nil {
                     dropDown.hide()
+                    dropDown.show()
                 }
-                dropDown.show()
                 
                 self.isSave = false
                 
@@ -3034,9 +3037,7 @@ class CartPaymethodCell : UITableViewCell {
         parent?.present(bankAlert, animated: true, completion: nil)
          */
         
-        if dropDown != nil {
-            dropDown.hide()
-        }
+        dropDown.hide()
         dropDown.show()
     }
     
