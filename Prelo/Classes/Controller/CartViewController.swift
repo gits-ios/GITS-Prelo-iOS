@@ -123,7 +123,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     var defaultAddressIndex = 0
     var defaultSubdistrictId = ""
     
-    var dropDown: DropDown!
+    let dropDown = DropDown()
     
     var selectedBankIndex = -1
     var targetBank = ""
@@ -227,9 +227,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 appearance.shadowRadius = 2
                 appearance.animationduration = 0.25
                 appearance.textColor = .darkGray
-                
-                // init dropdown
-                dropDown = DropDown()
                 
                 // Prelo Analytic - Go to cart
                 let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
@@ -1754,12 +1751,12 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         
                         // AppsFlyer
                         let afPdata: [String : Any] = [
-                            "Revenue" : json["price"].intValue,
-                            "Content Type" : json["category_id"].stringValue,
-                            "Content ID" : json["product_id"].stringValue,
-                            "Currency" : "IDR",
+                            AFEventParamRevenue     : (json["price"].intValue).string,
+                            AFEventParamContentType : json["category_id"].stringValue,
+                            AFEventParamContentId   : json["product_id"].stringValue,
+                            AFEventParamCurrency    : "IDR"
                         ]
-                        AppsFlyerTracker.shared().trackEvent(AppdFlyerEvent.Checkout, withValues: afPdata)
+                        AppsFlyerTracker.shared().trackEvent(AFEventInitiatedCheckout, withValues: afPdata)
                     }
                     
                     let orderId = self.checkoutResult!["order_id"].stringValue
@@ -2929,7 +2926,7 @@ class CartPaymethodCell : UITableViewCell {
     
     @IBOutlet var lblDesc: [UILabel]!
     
-    var dropDown: DropDown!
+    let dropDown = DropDown()
     var selectedBankIndex = -1
     
     // Tag set in storyboard
@@ -2955,7 +2952,6 @@ class CartPaymethodCell : UITableViewCell {
             vwDropdown.layer.borderWidth = 1
             lblDropdown.text = "Pilih Bank Tujuan Transfer"
             
-            dropDown = DropDown()
             self.setupDropdownBank()
         } else {
             vwDropdownBanks.isHidden = true

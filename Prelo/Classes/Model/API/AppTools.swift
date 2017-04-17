@@ -873,12 +873,6 @@ class PreloAnalyticEvent {
     static let VisitAchievementPage = "Achievement:Visit Achievement Page"
 }
 
-class AppdFlyerEvent {
-    static let Checkout = "af_initiated_checkout"
-    static let Register = "af_registered"
-    static let PhoneVerified = "af_phone_confirmed"
-}
-
 extension GAI {
     static func trackPageVisit(_ pageName : String) {
         // Send if Prelo production only (not development)
