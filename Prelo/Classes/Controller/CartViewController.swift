@@ -1918,6 +1918,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     self.present(baseNavC, animated: true, completion: nil)
                 }
             }
+            
+            self.loadingPanel.isHidden = true
             self.btnSend.isEnabled = true
         }
     }
