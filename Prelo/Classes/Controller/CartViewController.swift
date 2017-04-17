@@ -2955,6 +2955,7 @@ class CartPaymethodCell : UITableViewCell {
             vwDropdown.layer.borderWidth = 1
             lblDropdown.text = "Pilih Bank Tujuan Transfer"
             
+            dropDown = DropDown()
             self.setupDropdownBank()
         } else {
             vwDropdownBanks.isHidden = true
@@ -3037,12 +3038,14 @@ class CartPaymethodCell : UITableViewCell {
         parent?.present(bankAlert, animated: true, completion: nil)
          */
         
-        dropDown.hide()
-        dropDown.show()
+        if dropDown != nil {
+            dropDown.hide()
+            dropDown.show()
+        }
     }
     
     func setupDropdownBank() {
-        dropDown = DropDown()
+        //dropDown = DropDown()
         
         var items = ["BCA", "Mandiri", "BNI"]
         var icons = ["rsz_ic_bca@2x", "rsz_ic_mandiri@2x", "rsz_ic_bni@2x"]
