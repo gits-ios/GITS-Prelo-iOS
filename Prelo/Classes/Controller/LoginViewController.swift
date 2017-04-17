@@ -346,9 +346,11 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         
         // Log in and get permission from facebook
         let fbLoginManager = FBSDKLoginManager()
+        fbLoginManager.loginBehavior = .systemAccount
         
         // Ask for publish permissions
         fbLoginManager.logIn(withPublishPermissions: ["publish_actions"], handler: {(result : FBSDKLoginManagerLoginResult?, error : Error?) -> Void in
+            
             if (error != nil) { // Process error
                 LoginViewController.LoginFacebookCancelled(sender, reason: "Terdapat kesalahan saat login Facebook")
             } else if (result == nil || result!.isCancelled) { // User cancellation
