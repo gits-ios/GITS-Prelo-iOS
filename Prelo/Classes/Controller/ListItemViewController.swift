@@ -181,7 +181,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var isFeatured: Bool = false
     
     // FB-ads
-    let adRowStep: Int = 19 // fit for 1, 2, 3
+    let adRowStep: Int = 37 //19 // fit for 1, 2, 3
     
     var adsManager: FBNativeAdsManager!
     

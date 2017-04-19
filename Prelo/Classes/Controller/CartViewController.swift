@@ -122,6 +122,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     var isFirst = true
     var defaultAddressIndex = 0
     var defaultSubdistrictId = ""
+    var defaultAddress: AddressItem?
     
     let dropDown = DropDown()
     
@@ -211,6 +212,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 initUserDataSections()
                 synchCart()
                 
+                // fisrt load
                 getAddresses()
                 
                 DropDown.startListeningToKeyboard()
@@ -273,6 +275,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     json = json["_data"]
                     
                     if let arr = json.array {
+                        self.addresses = []
+                        self.showLoading()
+                        
                         for i in 0...arr.count - 1 {
                             let address = AddressItem.instance(arr[i])
                             self.addresses.append(address!)
@@ -429,7 +434,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
         let p = AppToolsObjC.jsonString(from: c)
         let a = "{\"address\": \"alamat\", \"province_id\": \"" + selectedProvinsiID + "\", \"region_id\": \"" + selectedKotaID + "\", \"subdistrict_id\": \"" + selectedKecamatanID + "\", \"postal_code\": \"\"}"
-        print("cart_products : \(p)")
+        print("cart_products : \(String(describing: p))")
         print("shipping_address : \(a)")
         
         // API refresh cart
@@ -448,6 +453,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 self.currentCart = data
                 self.arrayItem = data["cart_details"].array!
                 //print("arrayItem = \(self.arrayItem)")
+                
+                //default address
+                self.defaultAddress = AddressItem.instance(data["default_address"])
                 
                 // Ab test check
                 self.isHalfBonusMode = false
@@ -1056,7 +1064,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             if isNeedSetup {
                 return 9
             } else {
-                if self.addresses.count > 0 {
+                if self.addresses.count > 0 || self.defaultAddress != nil {
                     return 2
                 } else {
                     return 0
@@ -1129,7 +1137,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     }
                     c.selectionStyle = .none
                     
-                    if (dropDown != nil) {
+                    //if (dropDown != nil) {
                     
                         // dropDown.width = c.vwDropdown.width - 16
                         
@@ -1141,7 +1149,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         // When drop down is displayed with `Direction.top`, it will be above the anchorView
                         //dropDown.topOffset = CGPoint(x: 0, y:-(dropDown.anchorView?.plainView.bounds.height)! + 4)
                         
-                    }
+                    //}
                     
                     cell = c
                 } else if (row == 1 || row == 2) { // Nama, Telepon
@@ -1164,11 +1172,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     if addresses.count > selectedIndex {
                         c.adapt(addresses[selectedIndex])
                     } else { // wait if data not loaded
-                        c.adaptNew("...")
+                        c.adapt(self.defaultAddress!)
                     }
                     c.selectionStyle = .none
                     
-                    if (dropDown != nil) {
+                    //if (dropDown != nil) {
                     
                         // dropDown.width = c.vwDropdown.width - 16
                         
@@ -1180,12 +1188,16 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         // When drop down is displayed with `Direction.top`, it will be above the anchorView
                         //dropDown.topOffset = CGPoint(x: 0, y:-(dropDown.anchorView?.plainView.bounds.height)! + 4)
                         
-                    }
+                    //}
                     
                     cell = c
                 } else { // Provinsi, Kab/Kota, Kode Pos, Kecamatan
                     let c = tableView.dequeueReusableCell(withIdentifier: "cell_fullAddress") as! FullAlamatCell
-                    c.adapt(addresses[selectedIndex])
+                    if addresses.count > selectedIndex {
+                        c.adapt(addresses[selectedIndex])
+                    } else {
+                        c.adapt(self.defaultAddress!)
+                    }
                     c.selectionStyle = .none
                     cell = c
                 }
@@ -1404,6 +1416,12 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             }
         } else if ((indexPath as NSIndexPath).section == sectionAlamatUser) {
             if ((indexPath as NSIndexPath).row == 0) { // Choose address book
+                if addresses.count == 0 {
+                    self.getAddresses()
+                    
+                    Constant.showDialog("Perhatian", message: "Mohon tunggu beberapa saat, kemudian coba lagi.")
+                } else {
+                
                 /*
                 let c = tableView.cellForRow(at: indexPath) as! DropdownCell
                 
@@ -1444,12 +1462,13 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 self.present(alamatAlert, animated: true, completion: nil)
                 */
                 
-                if dropDown != nil {
+                //if dropDown != nil {
                     dropDown.hide()
                     dropDown.show()
-                }
+                //}
                 
                 self.isSave = false
+                }
                 
             } else if ((indexPath as NSIndexPath).row == 6 /*3*/) { // Kecamatan
                 if (selectedKotaID == "") {
@@ -3034,10 +3053,10 @@ class CartPaymethodCell : UITableViewCell {
         parent?.present(bankAlert, animated: true, completion: nil)
          */
         
-        if dropDown != nil {
+        //if dropDown != nil {
             dropDown.hide()
             dropDown.show()
-        }
+        //}
     }
     
     func setupDropdownBank() {
