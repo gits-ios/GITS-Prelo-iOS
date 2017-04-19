@@ -294,6 +294,12 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
         // Prelo Analytic - Update User - phone
         AnalyticManager.sharedInstance.updateUserPhone(phone: noHp)
         
+        // AppsFlyer
+        let afPdata: [String : Any] = [
+            AFEventParamCustomerUserId: User.Id!
+        ]
+        AppsFlyerTracker.shared().trackEvent(AFEventCompleteRegistration, withValues: afPdata)
+        
         // Dismiss view
         Constant.showDialog("Success", message: "Verifikasi berhasil")
         self.dismiss(animated: true, completion: nil)
