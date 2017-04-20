@@ -623,7 +623,6 @@
 		B28578C41E570C0B008995F4 /* DropDown.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B24FCEFD1E536E8000B517A9 /* DropDown.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B2932DEC1E85324400782C78 /* FeedbackPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2932DEB1E85324400782C78 /* FeedbackPopup.xib */; };
 		B29482561E91E397001B6C75 /* cover_shop_persegi_1024px.png in Resources */ = {isa = PBXBuildFile; fileRef = B29482551E91E397001B6C75 /* cover_shop_persegi_1024px.png */; };
-		B2A834441E7055EB004C575A /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B2A834411E7055EB004C575A /* Info.plist */; };
 		B2A834451E7055EB004C575A /* SCLAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A834421E7055EB004C575A /* SCLAlertView.swift */; };
 		B2A834461E7055EB004C575A /* SCLExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A834431E7055EB004C575A /* SCLExtensions.swift */; };
 		B2AAB3751E8A6D2000E16BAB /* TransactionReportPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2AAB3741E8A6D2000E16BAB /* TransactionReportPopup.xib */; };
@@ -1698,7 +1697,6 @@
 		B285789D1E56B8F7008995F4 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		B2932DEB1E85324400782C78 /* FeedbackPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedbackPopup.xib; path = XIB/FeedbackPopup.xib; sourceTree = "<group>"; };
 		B29482551E91E397001B6C75 /* cover_shop_persegi_1024px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover_shop_persegi_1024px.png; sourceTree = "<group>"; };
-		B2A834411E7055EB004C575A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2A834421E7055EB004C575A /* SCLAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCLAlertView.swift; sourceTree = "<group>"; };
 		B2A834431E7055EB004C575A /* SCLExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCLExtensions.swift; sourceTree = "<group>"; };
 		B2AAB3741E8A6D2000E16BAB /* TransactionReportPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TransactionReportPopup.xib; path = XIB/TransactionReportPopup.xib; sourceTree = "<group>"; };
@@ -3257,7 +3255,6 @@
 		B2A834401E7055EB004C575A /* SCLAlertView */ = {
 			isa = PBXGroup;
 			children = (
-				B2A834411E7055EB004C575A /* Info.plist */,
 				B2A834421E7055EB004C575A /* SCLAlertView.swift */,
 				B2A834431E7055EB004C575A /* SCLExtensions.swift */,
 			);
@@ -3990,7 +3987,6 @@
 				B2D965DD1E9E1B1A00B2C29C /* Checkout2PaymentBankCell.xib in Resources */,
 				B2EE39CF1E76905500113E03 /* ic_paid_video.png in Resources */,
 				B2C3A3C41E2B8E2D0082A15D /* ShopAchievement.xib in Resources */,
-				B2A834441E7055EB004C575A /* Info.plist in Resources */,
 				21679A331B901C5300F18F90 /* MPNotification.storyboard in Resources */,
 				B22C0E331E091C2D00C3D661 /* ic_love_96px_trp.png in Resources */,
 				585887581DBEDC35006EC6D5 /* UserProfile.xib in Resources */,
