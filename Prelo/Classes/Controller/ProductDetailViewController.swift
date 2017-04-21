@@ -921,13 +921,14 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             Constant.showDialog("Failed", message: "Gagal Menyimpan")
         } else {
             // FB Analytics - Add to Cart
-            let fbPdata: [String : Any] = [
-                FBSDKAppEventParameterNameContentType          : "product",
-                FBSDKAppEventParameterNameContentID            : (detail?.productID)!,
-                FBSDKAppEventParameterNameCurrency             : "IDR"
-            ]
-            FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double((detail?.priceInt)!), parameters: fbPdata)
-            
+            if AppTools.IsPreloProduction {
+                let fbPdata: [String : Any] = [
+                    FBSDKAppEventParameterNameContentType          : "product",
+                    FBSDKAppEventParameterNameContentID            : (detail?.productID)!,
+                    FBSDKAppEventParameterNameCurrency             : "IDR"
+                ]
+                FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double((detail?.priceInt)!), parameters: fbPdata)
+            }
             setupView()
 //            self.performSegue(withIdentifier: "segCart", sender: nil)
             let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController

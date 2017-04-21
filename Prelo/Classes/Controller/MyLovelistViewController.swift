@@ -284,13 +284,14 @@ class MyLovelistCell : UITableViewCell {
             } else { // Success
                 // TODO: Kirim API add to cart
                 // FB Analytics - Add to Cart
-                let fbPdata: [String : Any] = [
-                    FBSDKAppEventParameterNameContentType          : "product",
-                    FBSDKAppEventParameterNameContentID            : productId!,
-                    FBSDKAppEventParameterNameCurrency             : "IDR"
-                ]
-                FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double(price)!, parameters: fbPdata)
-                
+                if AppTools.IsPreloProduction {
+                    let fbPdata: [String : Any] = [
+                        FBSDKAppEventParameterNameContentType          : "product",
+                        FBSDKAppEventParameterNameContentID            : productId!,
+                        FBSDKAppEventParameterNameCurrency             : "IDR"
+                    ]
+                    FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double(price)!, parameters: fbPdata)
+                }
 //                Constant.showDialog("Success", message: "Barang berhasil ditambahkan ke keranjang belanja")
                 self.delegate?.gotoCart()
             }

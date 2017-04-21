@@ -1990,12 +1990,14 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                             success = false
                         } else {
                             // FB Analytics - Add to Cart
-                            let fbPdata: [String : Any] = [
-                                FBSDKAppEventParameterNameContentType          : "product",
-                                FBSDKAppEventParameterNameContentID            : tProduct.productId,
-                                FBSDKAppEventParameterNameCurrency             : "IDR"
-                            ]
-                            FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double(tProduct.productPrice), parameters: fbPdata)
+                            if AppTools.IsPreloProduction {
+                                let fbPdata: [String : Any] = [
+                                    FBSDKAppEventParameterNameContentType          : "product",
+                                    FBSDKAppEventParameterNameContentID            : tProduct.productId,
+                                    FBSDKAppEventParameterNameCurrency             : "IDR"
+                                ]
+                                FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double(tProduct.productPrice), parameters: fbPdata)
+                            }
                         }
                     }
                 }
