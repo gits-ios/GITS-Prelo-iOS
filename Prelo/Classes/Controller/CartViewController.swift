@@ -1794,7 +1794,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     totalPrice = self.checkoutResult!["total_price"].intValue
                     
                     // FB Analytics - initiated Checkout
-                    //if AppTools.IsPreloProduction {
+                    if AppTools.IsPreloProduction {
                         do {
                             //Convert to Data
                             let jsonData = try! JSONSerialization.data(withJSONObject: itemsId, options: JSONSerialization.WritingOptions.prettyPrinted)
@@ -1814,7 +1814,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                                 FBSDKAppEvents.logEvent(FBSDKAppEventNameInitiatedCheckout, valueToSum: Double(totalPrice), parameters: fbPdata)
                             }
                         }
-                    //}
+                    }
                     
                     /*
                     // MixPanel
