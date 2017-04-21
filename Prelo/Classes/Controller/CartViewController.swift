@@ -1802,10 +1802,12 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             //Convert back to string. Usually only do this for debugging
                             if let JSONString = String(data: jsonData, encoding: String.Encoding.utf8) {
                                 print(JSONString)
+                                let productIdsString = JSONString.replaceRegex(Regex.init(pattern: "\n| ") , template: "")
+                                print(productIdsString)
                                 
                                 let fbPdata: [String : Any] = [
                                     FBSDKAppEventParameterNameContentType          : "product",
-                                    FBSDKAppEventParameterNameContentID            : JSONString,
+                                    FBSDKAppEventParameterNameContentID            : productIdsString,
                                     FBSDKAppEventParameterNameNumItems             : itemsId.count.string,
                                     FBSDKAppEventParameterNameCurrency             : "IDR"
                                 ]
