@@ -254,6 +254,7 @@ class MyLovelistCell : UITableViewCell {
     @IBOutlet weak var lblLoveCount: UILabel!
     
     var productId : String!
+    var price: String!
     
     var delegate : MyLovelistCellDelegate?
     
@@ -270,6 +271,7 @@ class MyLovelistCell : UITableViewCell {
         lblCommentCount.text = lovedProduct.numComment.string
         lblLoveCount.text = lovedProduct.numLovelist.string
         productId = lovedProduct.id
+        price = lovedProduct.price.string
     }
     
     @IBAction func beliPressed(_ sender: AnyObject) {
@@ -281,6 +283,15 @@ class MyLovelistCell : UITableViewCell {
                 Constant.showDialog("Warning", message: "Gagal menyimpan barang ke keranjang belanja")
             } else { // Success
                 // TODO: Kirim API add to cart
+                // FB Analytics - Add to Cart
+                if AppTools.IsPreloProduction {
+                    let fbPdata: [String : Any] = [
+                        FBSDKAppEventParameterNameContentType          : "product",
+                        FBSDKAppEventParameterNameContentID            : productId!,
+                        FBSDKAppEventParameterNameCurrency             : "IDR"
+                    ]
+                    FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double(price)!, parameters: fbPdata)
+                }
 //                Constant.showDialog("Success", message: "Barang berhasil ditambahkan ke keranjang belanja")
                 self.delegate?.gotoCart()
             }
