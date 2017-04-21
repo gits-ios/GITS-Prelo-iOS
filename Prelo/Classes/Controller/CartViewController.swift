@@ -1793,6 +1793,26 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     
                     totalPrice = self.checkoutResult!["total_price"].intValue
                     
+                    // FB Analytics
+                    do {
+                        
+                        //Convert to Data
+                        let jsonData = try! JSONSerialization.data(withJSONObject: itemsId, options: JSONSerialization.WritingOptions.prettyPrinted)
+                        
+                        //Convert back to string. Usually only do this for debugging
+                        if let JSONString = String(data: jsonData, encoding: String.Encoding.utf8) {
+                            print(JSONString)
+                            
+                            let fbPdata: [String : Any] = [
+                                FBSDKAppEventParameterNameContentType          : "product",
+                                FBSDKAppEventParameterNameContentID            : JSONString,
+                                FBSDKAppEventParameterNameNumItems             : itemsId.count.string,
+                                FBSDKAppEventParameterNameCurrency             : "IDR"
+                            ]
+                            FBSDKAppEvents.logEvent(FBSDKAppEventNameInitiatedCheckout, valueToSum: Double(totalPrice), parameters: fbPdata)
+                        }
+                    }
+                    
                     /*
                     // MixPanel
                     let pt = [
