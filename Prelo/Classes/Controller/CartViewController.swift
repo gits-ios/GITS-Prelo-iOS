@@ -132,6 +132,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     @IBOutlet weak var loadingPanel: UIView!
     
+    var creditCardCharge: Int = 0
+    var indomaretCharge: Int = 0
+    
     // MARK: - Init
     
     override func viewWillAppear(_ animated: Bool) {
@@ -456,6 +459,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 
                 //default address
                 self.defaultAddress = AddressItem.instance(data["default_address"])
+                self.creditCardCharge = data["veritrans_charge"]["credit_card"].intValue
+                self.indomaretCharge = data["veritrans_charge"]["indomaret"].intValue
                 
                 // Ab test check
                 self.isHalfBonusMode = false
@@ -496,8 +501,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         if let voucherAmount = data["voucher_amount"].int {
                             self.isVoucherApplied = true
                             self.voucherApplied = data["voucher_serial"].stringValue
-                            let discVoucher = DiscountItem(title: "Voucher '" + self.voucherApplied + "'", value: voucherAmount)
-                            self.discountItems.append(discVoucher)
+                            if voucherAmount > 0 { // if zero, not shown
+                                let discVoucher = DiscountItem(title: "Voucher '" + self.voucherApplied + "'", value: voucherAmount)
+                                self.discountItems.append(discVoucher)
+                            }
                         }
                     } else {
                         if let voucherError = data["voucher_error"].string {
@@ -905,12 +912,15 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             priceAfterDiscounts = 0
         }
         
+        /*
+         // override from backend
         // Determine payment charge & set cellsData for payment charge
         let creditCardCharge = 2500 + Int((Double(priceAfterDiscounts) * 0.032) + 0.5)
         var indomaretCharge = Int((Double(priceAfterDiscounts) * 0.02) + 0.5)
         if (indomaretCharge < 5000) {
             indomaretCharge = 5000
         }
+         */
         if (priceAfterDiscounts > 0) {
             let idxPaymentCharge = IndexPath(row: 1 + discountItems.count, section: self.sectionPaySummary)
             if (selectedPayment == .bankTransfer) {
