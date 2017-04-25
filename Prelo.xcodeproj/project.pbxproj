@@ -621,6 +621,7 @@
 		B285789E1E56B8F7008995F4 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B285789D1E56B8F7008995F4 /* ImageIO.framework */; };
 		B28578C31E570C0B008995F4 /* DropDown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B24FCEFD1E536E8000B517A9 /* DropDown.framework */; };
 		B28578C41E570C0B008995F4 /* DropDown.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B24FCEFD1E536E8000B517A9 /* DropDown.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B292B4721EAF4F1200C6A32B /* AHKNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = B292B4711EAF4F1200C6A32B /* AHKNavigationController.m */; };
 		B2932DEC1E85324400782C78 /* FeedbackPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2932DEB1E85324400782C78 /* FeedbackPopup.xib */; };
 		B29482561E91E397001B6C75 /* cover_shop_persegi_1024px.png in Resources */ = {isa = PBXBuildFile; fileRef = B29482551E91E397001B6C75 /* cover_shop_persegi_1024px.png */; };
 		B2A834451E7055EB004C575A /* SCLAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A834421E7055EB004C575A /* SCLAlertView.swift */; };
@@ -1695,6 +1696,8 @@
 		B27948221E35C700002CEED4 /* TarikTunai2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunai2.xib; sourceTree = "<group>"; };
 		B27948241E35D971002CEED4 /* TarikTunaiViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiViewController2.swift; sourceTree = "<group>"; };
 		B285789D1E56B8F7008995F4 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		B292B4701EAF4F1200C6A32B /* AHKNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AHKNavigationController.h; sourceTree = "<group>"; };
+		B292B4711EAF4F1200C6A32B /* AHKNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AHKNavigationController.m; sourceTree = "<group>"; };
 		B2932DEB1E85324400782C78 /* FeedbackPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedbackPopup.xib; path = XIB/FeedbackPopup.xib; sourceTree = "<group>"; };
 		B29482551E91E397001B6C75 /* cover_shop_persegi_1024px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover_shop_persegi_1024px.png; sourceTree = "<group>"; };
 		B2A834421E7055EB004C575A /* SCLAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCLAlertView.swift; sourceTree = "<group>"; };
@@ -2079,6 +2082,7 @@
 				21C68F531B74665900D1125E /* ACEExpandableTextCell */,
 				B2CAF7871E79219E00ACB361 /* ActiveLabel */,
 				216799761B8F8AB900F18F90 /* AFNetworking */,
+				B292B46F1EAF4F1200C6A32B /* AHKNavigationController */,
 				2109BCAD1BDF3529004F36C5 /* AKPickerView */,
 				215E6CD21B9D781800CD623C /* ALAssetsLibrary+CustomPhotoAlbum */,
 				21B467A11CCE5EDB00E145ED /* BFKit-Swift */,
@@ -3252,6 +3256,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		B292B46F1EAF4F1200C6A32B /* AHKNavigationController */ = {
+			isa = PBXGroup;
+			children = (
+				B292B4701EAF4F1200C6A32B /* AHKNavigationController.h */,
+				B292B4711EAF4F1200C6A32B /* AHKNavigationController.m */,
+			);
+			path = AHKNavigationController;
+			sourceTree = "<group>";
+		};
 		B2A834401E7055EB004C575A /* SCLAlertView */ = {
 			isa = PBXGroup;
 			children = (
@@ -4201,6 +4214,7 @@
 				B2D481CA1E02A7AD006006CC /* LocationFilterViewController.swift in Sources */,
 				B2FFCBA31EA52669004F01D0 /* SocketEnginePacketType.swift in Sources */,
 				58A99A491C6D864E00E3E7D7 /* BranchShortUrlSyncRequest.m in Sources */,
+				B292B4721EAF4F1200C6A32B /* AHKNavigationController.m in Sources */,
 				21B467E31CCE5EDB00E145ED /* BFDataStructures.swift in Sources */,
 				2141BBDE1B54BE4C00787F5D /* RAReorderableLayout.swift in Sources */,
 				2167998A1B8F8AB900F18F90 /* AFHTTPRequestOperation.m in Sources */,
