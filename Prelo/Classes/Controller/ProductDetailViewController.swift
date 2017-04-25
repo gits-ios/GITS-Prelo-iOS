@@ -1580,6 +1580,16 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             
             AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.VisitProductDetail, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
             
+            
+            // FB Analytics - Content View
+            if AppTools.IsPreloProduction {
+                let fbPdata: [String : Any] = [
+                    FBSDKAppEventParameterNameContentType          : "product",
+                    FBSDKAppEventParameterNameContentID            : (self.product?.id)!,
+                    FBSDKAppEventParameterNameCurrency             : "IDR"
+                ]
+                FBSDKAppEvents.logEvent(FBSDKAppEventNameViewedContent, valueToSum: Double((self.detail?.priceInt)!), parameters: fbPdata)
+            }
         }
     }
     
