@@ -607,6 +607,16 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         for i in 0..<imgTitleIcons.count {
             imgTitleIcons[i].image = imgTitleIcons[i].image!.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
         }
+        
+        // swipe gesture for carbon (pop view)
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeRight.direction = UISwipeGestureRecognizerDirection.right
+        
+        let vwLeft = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: UIScreen.main.bounds.height))
+        vwLeft.backgroundColor = UIColor.clear
+        vwLeft.addGestureRecognizer(swipeRight)
+        self.view.addSubview(vwLeft)
+        self.view.bringSubview(toFront: vwLeft)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -2410,6 +2420,67 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
     }
     
+    // MARK: - Swap override
+    func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.right:
+                print("Swiped right")
+                
+                let title = editMode ? "Edit" : "Jual"
+                
+                
+                var message = "Kamu yakin mau keluar dari \(title) Barang? "
+                if title == "Edit" {
+                    message += "Seluruh perubahan akan dihapus"
+                } else {
+                    message += "Seluruh keterangan yang telah diisi akan dihapus"
+                }
+                message += (self.fakeScrollView.isHidden == true || self.isImage == true) && self.editMode == false ? ". Ingin disimpan?" : ""
+                
+                let alertView = SCLAlertView(appearance: Constant.appearance)
+                
+                alertView.addButton((self.fakeScrollView.isHidden == false && self.isImage == false || self.editMode == true) ? "Keluar" : "Simpan") {
+                    
+                    // gesture override
+                    self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                    
+                    if ((self.fakeScrollView.isHidden == true || self.isImage == true) && self.editMode == false){
+                        
+                        // save the draft
+                        self.saveDraft(isBack: true)
+                    } else {
+                        _ = self.navigationController?.popViewController(animated: true)
+                    }
+                }
+                
+                if (self.fakeScrollView.isHidden == false && self.isImage == false || self.editMode == true) {
+                    alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+                } else {
+                    alertView.addBorderButton("Keluar", backgroundColor: UIColor.white, textColor: Theme.PrimaryColor, borderColor: Theme.PrimaryColor, borderRadius: 4.0, borderWidth: 2.0, showDurationStatus: false) {
+                        
+                        // gesture override
+                        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                        
+                        _ = self.navigationController?.popViewController(animated: true)
+                    }
+                    alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+                }
+                
+                alertView.showCustom(title, subTitle: message, color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+                
+                
+            case UISwipeGestureRecognizerDirection.down:
+                print("Swiped down")
+            case UISwipeGestureRecognizerDirection.left:
+                print("Swiped left")
+            case UISwipeGestureRecognizerDirection.up:
+                print("Swiped up")
+            default:
+                break
+            }
+        }
+    }
     
     /*
     // MARK: - Navigation
