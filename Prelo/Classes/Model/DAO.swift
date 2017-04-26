@@ -4130,11 +4130,11 @@ class AddressItem : NSObject {
 class CartV2ResultItem : NSObject {
     var json : JSON!
     
-    static func instance(_ json : JSON?) -> CartDetailItem? {
+    static func instance(_ json : JSON?) -> CartV2ResultItem? {
         if (json == nil) {
             return nil
         } else {
-            let u = CartDetailItem()
+            let u = CartV2ResultItem()
             u.json = json!
             return u
         }
