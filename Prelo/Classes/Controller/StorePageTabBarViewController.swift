@@ -103,7 +103,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         self.title = "" // clear title
         
         // swipe gesture for carbon (pop view)
-        let vwLeft = UIView(frame: CGRect(x: 0, y: 0, width: 3, height: UIScreen.main.bounds.height))
+        let vwLeft = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: UIScreen.main.bounds.height))
         vwLeft.backgroundColor = UIColor.clear
         self.view.addSubview(vwLeft)
         self.view.bringSubview(toFront: vwLeft)
