@@ -334,11 +334,11 @@ class Checkout2ProductCell: UITableViewCell {
     @IBOutlet weak var lbProductName: UILabel!
     @IBOutlet weak var lbProductPrice: UILabel!
     
-    var productDetail: ProductDetail!
+    var productDetail: ProductItem!
     
     var remove: (String)->() = {_ in }
     
-    func adapt(_ productDetail: ProductDetail) {
+    func adapt(_ productDetail: ProductItem) {
         self.productDetail = productDetail
     }
     
@@ -347,7 +347,7 @@ class Checkout2ProductCell: UITableViewCell {
     }
     
     @IBAction func btnRemovePressed(_ sender: Any) {
-        self.remove(self.productDetail.itemId)
+        self.remove(self.productDetail.productId)
     }
 }
 
@@ -356,11 +356,15 @@ class Checkout2CourierCell: UITableViewCell {
     @IBOutlet weak var lbCourier: UILabel!
     @IBOutlet weak var lbDropdown: UILabel!
     
+    var shippingPackage: ShippingPackageItem!
+    
     var disableColor = UIColor.lightGray
     
-    var pickCourier: ()->() = {}
+    var pickCourier: (String)->() = {_ in }
     
     func adapt(_ shippingPackage: ShippingPackageItem, isEnable: Bool) {
+        self.shippingPackage = shippingPackage
+        
         self.lbCourier.text = shippingPackage.name + " (" + shippingPackage.price.asPrice + ")"
         
         if isEnable {
@@ -375,7 +379,7 @@ class Checkout2CourierCell: UITableViewCell {
     }
     
     @IBAction func btnPickCourierPressed(_ sender: Any) {
-        self.pickCourier()
+        self.pickCourier(self.shippingPackage.shippingId)
     }
 }
 
