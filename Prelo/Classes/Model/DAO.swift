@@ -4628,12 +4628,12 @@ class ProductItem : NSObject {
         return ""
     }
     
-    var displayPicts : Array<String> {
+    var displayPicts : Array<URL> {
         if let arr = json["display_picts"].array {
             
-            var _displayPicts : Array<String> = []
+            var _displayPicts : Array<URL> = []
             for i in arr {
-                _displayPicts.append(i.stringValue)
+                _displayPicts.append(URL(string: i.stringValue)!)
             }
             
             return _displayPicts
@@ -4712,12 +4712,12 @@ class ProductItem : NSObject {
         return ""
     }
     
-    var displayPictsOriginal : Array<String> {
+    var displayPictsOriginal : Array<URL> {
         if let arr = json["display_picts_original"].array {
             
-            var _displayPictsOriginal : Array<String> = []
+            var _displayPictsOriginal : Array<URL> = []
             for i in arr {
-                _displayPictsOriginal.append(i.stringValue)
+                _displayPictsOriginal.append(URL(string: i.stringValue)!)
             }
             
             return _displayPictsOriginal
