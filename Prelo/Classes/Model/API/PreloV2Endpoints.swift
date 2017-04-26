@@ -10,7 +10,7 @@ import UIKit
 import Crashlytics
 import Alamofire
 
-var preloHostV2 : String {
+var preloV2Host : String {
     get {
         return "\(AppTools.PreloBaseUrl)/api/v2/"
     }
@@ -118,12 +118,12 @@ extension URLRequest {
     }
 }
 
-enum APICartV2 : URLRequestConvertible {
+enum APIV2Cart : URLRequestConvertible {
     case refresh(cart : String, address : String, voucher : String?)
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "cart/"
-        let url = URL(string: preloHostV2)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        let url = URL(string: preloV2Host)!.appendingPathComponent(basePath).appendingPathComponent(path)
         var urlRequest = URLRequest(url: url).defaultV2URLRequest()
         urlRequest.httpMethod = method.rawValue
         let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
