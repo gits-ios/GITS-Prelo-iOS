@@ -4663,28 +4663,28 @@ class ProductItem : NSObject {
         return ""
     }
     
-    var sellerRegion : String {
+    var sellerRegionId : String {
         if let j = json["seller_region"].string {
             return j
         }
         return ""
     }
     
-    var sellerProvince : String {
+    var sellerProvinceId : String {
         if let j = json["seller_province"].string {
             return j
         }
         return ""
     }
     
-    var sellerSubdistrict : String {
+    var sellerSubdistrictId : String {
         if let j = json["seller_subdistrict"].string {
             return j
         }
         return ""
     }
     
-    var sellerShippingPreferences : Array<String> {
+    var sellerShippingPreferenceIds : Array<String> {
         if let arr = json["seller_shipping_preferences"].array {
             
             var _sellerShippingPreferences : Array<String> = []
