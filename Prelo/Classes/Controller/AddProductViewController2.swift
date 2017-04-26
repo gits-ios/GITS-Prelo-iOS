@@ -612,6 +612,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        // gesture override
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        
         if (self.editMode) {
             // Mixpanel
 //            Mixpanel.trackPageVisit(PageName.EditProduct)
@@ -663,6 +666,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         super.viewWillDisappear(animated)
         
         self.an_unsubscribeKeyboard()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // gesture override
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     override func backPressed(_ sender: UIBarButtonItem) {
@@ -717,6 +727,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         let alertView = SCLAlertView(appearance: Constant.appearance)
         
         alertView.addButton((self.fakeScrollView.isHidden == false && self.isImage == false || self.editMode == true) ? "Keluar" : "Simpan") {
+            
+            // gesture override
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+            
             if ((self.fakeScrollView.isHidden == true || self.isImage == true) && self.editMode == false){
                 
                 // save the draft
@@ -730,6 +744,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
         } else {
             alertView.addBorderButton("Keluar", backgroundColor: UIColor.white, textColor: Theme.PrimaryColor, borderColor: Theme.PrimaryColor, borderRadius: 4.0, borderWidth: 2.0, showDurationStatus: false) {
+                
+                // gesture override
+                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                
                 _ = self.navigationController?.popViewController(animated: true)
             }
             alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
