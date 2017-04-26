@@ -4225,9 +4225,16 @@ class CartV2ResultItem : NSObject {
         return 0
     }
     
-    var abTest : Array<JSON> {
-        if let j = json["ab_test"].array {
-            return j
+    var abTest : Array<String> {
+        if let arr = json["ab_test"].array {
+            
+            var _abTest : Array<String> = []
+            for i in arr {
+                _abTest.append(i.stringValue)
+            }
+            
+            return _abTest
+            
         }
         return []
     }
@@ -4409,9 +4416,16 @@ class CartDetailItem : NSObject {
         return ""
     }
     
-    var shippingPreferencesIds : Array<JSON> {
-        if let j = json["shipping_preferences_ids"].array {
-            return j
+    var shippingPreferencesIds : Array<String> {
+        if let arr = json["shipping_preferences_ids"].array {
+            
+            var _shippingPreferencesIds : Array<String> = []
+            for i in arr {
+                _shippingPreferencesIds.append(i.stringValue)
+            }
+            
+            return _shippingPreferencesIds
+            
         }
         return []
     }
@@ -4614,9 +4628,16 @@ class ProductItem : NSObject {
         return ""
     }
     
-    var displayPicts : Array<JSON> {
-        if let j = json["display_picts"].array {
-            return j
+    var displayPicts : Array<String> {
+        if let arr = json["display_picts"].array {
+            
+            var _displayPicts : Array<String> = []
+            for i in arr {
+                _displayPicts.append(i.stringValue)
+            }
+            
+            return _displayPicts
+            
         }
         return []
     }
@@ -4663,9 +4684,16 @@ class ProductItem : NSObject {
         return ""
     }
     
-    var sellerShippingPreferences : Array<JSON> {
-        if let j = json["seller_shipping_preferences"].array {
-            return j
+    var sellerShippingPreferences : Array<String> {
+        if let arr = json["seller_shipping_preferences"].array {
+            
+            var _sellerShippingPreferences : Array<String> = []
+            for i in arr {
+                _sellerShippingPreferences.append(i.stringValue)
+            }
+            
+            return _sellerShippingPreferences
+            
         }
         return []
     }
@@ -4684,9 +4712,16 @@ class ProductItem : NSObject {
         return ""
     }
     
-    var displayPictsOriginal : Array<JSON> {
-        if let j = json["display_picts_original"].array {
-            return j
+    var displayPictsOriginal : Array<String> {
+        if let arr = json["display_picts_original"].array {
+            
+            var _displayPictsOriginal : Array<String> = []
+            for i in arr {
+                _displayPictsOriginal.append(i.stringValue)
+            }
+            
+            return _displayPictsOriginal
+            
         }
         return []
     }
