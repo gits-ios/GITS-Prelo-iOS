@@ -17,23 +17,25 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     @IBOutlet weak var loadingPanel: UIView!
     
     var isFirst = true
+    var shouldBack = false
     
-    // AddressBook
-    var addresses: Array<AddressItem> = []
-    var isNeedSetup = false
-    var selectedIndex = 0
-    var isSave = false
-    var defaultAddressIndex = 0
-    var defaultSubdistrictId = ""
-    
-    var dropDown: DropDown!
+    var dropDown = DropDown()
     
     // Address
     var selectedProvinceId: String!
     var selectedRegionId: String!
     var selectedSubdistrictId: String!
     var selectedSubdistrictName: String!
-    var selectedAddress: AddressItem?
+    
+    var selectedIndex = 0
+    var isNeedSetup = false
+    var isSave = false
+    var isNeedLocation = false
+    
+    // Cart Results
+    var cartResult: CartV2ResultItem!
+    
+    var selectedShippingIds: Array<String>!
     
     // MARK: - Init
     override func viewDidLoad() {
@@ -110,33 +112,6 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
-    // MARK: - badge trolli sync
-    /*func getUnpaid() {// Get unpaid transaction
-        let _ = request(APITransactionCheck.checkUnpaidTransaction).responseJSON { resp in
-            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Checkout - Unpaid Transaction")) {
-                let json = JSON(resp.result.value!)
-                let data = json["_data"]
-                if (data["user_has_unpaid_transaction"].boolValue == true) {
-                    let nUnpaid = data["n_transaction_unpaid"].intValue
-                    self.lblPaymentReminder.text = "Kamu memiliki \(nUnpaid) transaksi yg belum dibayar"
-                    self.consHeightPaymentReminder.constant = 40
-                    
-                    self.transactionCount = nUnpaid
-                    print(nUnpaid)
-                    notifListener?.setCartCount(nUnpaid)
-                    self.continueLoad()
-                } else {
-                    
-                    notifListener?.setCartCount(0)
-                    self.continueLoad()
-                }
-            } else {
-                notifListener?.setCartCount(0)
-                self.continueLoad()
-            }
-        }
-    }*/
-    
     // MARK: - Cart sync
     func getCart() {
         // Get cart from server
@@ -164,50 +139,216 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
-    // MARK: - Get Addresses
-    func getAddresses() {
-        let _ = request(APIMe.getAddressBook).responseJSON { resp in
-            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Address Book")) {
-                if let x: AnyObject = resp.result.value as AnyObject? {
-                    var json = JSON(x)
-                    json = json["_data"]
-                    
-                    if let arr = json.array {
-                        for i in 0...arr.count - 1 {
-                            let address = AddressItem.instance(arr[i])
-                            self.addresses.append(address!)
-                            if (address?.isMainAddress)! {
-                                self.selectedIndex = i
-                                self.defaultAddressIndex = i
-                                
-                                // setup on init by using default address
-                                //self.defaultSubdistrictId = (address?.subdisrictId)!
-                                //self.selectedAddress = address!
-                            }
-                        }
-                        
-                        self.setupDropdownAddress()
-                        //self.tableView.reloadData()
-                    }
+    // Refresh data cart dan seluruh tampilan
+    func synchCart() {
+        self.showLoading()
+        
+        // Prepare parameter for API refresh cart
+        let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
+        if (c.count <= 0 && self.shouldBack == false) {
+            _ = self.navigationController?.popViewController(animated: true)
+            return
+        }
+        let p = AppToolsObjC.jsonString(from: c)
+        let a = "{\"address\": \"alamat\", \"province_id\": \"" + selectedProvinceId + "\", \"region_id\": \"" + selectedRegionId + "\", \"subdistrict_id\": \"" + selectedSubdistrictId + "\", \"postal_code\": \"\"}"
+        //print("cart_products : \(String(describing: p))")
+        //print("shipping_address : \(a)")
+        
+        // API refresh cart
+        let _ = request(APIV2Cart.refresh(cart: p!, address: a, voucher: nil)).responseJSON { resp in
+            if (PreloV2Endpoints.validate(true, dataResp: resp, reqAlias: "Keranjang Belanja")) {
+                
+                // Back to prev page if cart is empty
+                if (self.shouldBack == true) {
+                    _ = self.navigationController?.popViewController(animated: true)
+                    return
                 }
+                
+                // Json
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                self.cartResult = CartV2ResultItem.instance(data)
+                
+                self.selectedShippingIds = []
+                for sp in self.cartResult.cartDetails {
+                    self.selectedShippingIds.append(sp.shippingPackageId)
+                }
+                
+                self.setupDropdownAddress()
+                
+                self.hideLoading()
             }
         }
     }
     
     // MARK: - UITableView Delegate
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        if cartResult.cartDetails.count > 0 {
+            return 2 + cartResult.cartDetails.count
+        }
+        return 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        if section < cartResult.cartDetails.count {
+            if cartResult.cartDetails[section].isNeedLocation == true {
+                self.isNeedLocation = true
+            }
+            return cartResult.cartDetails[section].products.count + 2 + (cartResult.cartDetails[section].isNeedLocation ? 1 : 0) + 1
+        } else if section == cartResult.cartDetails.count {
+            return 2 + (isNeedLocation ? 1 : 0) + 1
+        } else if section == cartResult.cartDetails.count + 1 {
+            return 1
+        }
+        return 0
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let idx = indexPath as IndexPath
+        if idx.section < cartResult.cartDetails.count {
+            if cartResult.cartDetails[idx.section].isNeedLocation == true {
+                self.isNeedLocation = true
+            }
+            if idx.row == 0 {
+                return Checkout2SellerCell.heightFor()
+            } else if idx.row <= cartResult.cartDetails[idx.section].products.count {
+                return Checkout2ProductCell.heightFor()
+            } else if idx.row == cartResult.cartDetails[idx.section].products.count + 1 {
+                return Checkout2CourierCell.heightFor()
+            } else {
+                if idx.row == cartResult.cartDetails[idx.section].products.count + 2 && cartResult.cartDetails[idx.section].isNeedLocation {
+                    return Checkout2CourierDescriptionCell.heightFor()
+                } else {
+                    return Checkout2SplitCell.heightFor()
+                }
+            }
+        } else if idx.section == cartResult.cartDetails.count {
+            if idx.row == 0 {
+                return Checkout2AddressDropdownCell.heightFor()
+            } else if idx.row == 1 {
+                if isNeedSetup {
+                    return Checkout2AddressFillCell.heightFor()
+                } else {
+                    return Checkout2AddressCompleteCell.heightFor()
+                }
+            } else {
+                if idx.row == 2 && isNeedLocation {
+                    return Checkout2AddressLocationCell.heightFor()
+                } else {
+                    return Checkout2SplitCell.heightFor()
+                }
+            }
+        } else if idx.section == cartResult.cartDetails.count + 1 {
+            return Checkout2TotalBuyingCell.heightFor()
+        }
         return 30
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let idx = indexPath as IndexPath
+        if ((indexPath as NSIndexPath).section == 0) {
+            if cartResult.cartDetails[idx.section].isNeedLocation == true {
+                self.isNeedLocation = true
+            }
+            if idx.row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2SellerCell") as! Checkout2SellerCell
+                
+                cell.selectionStyle = .none
+                cell.clipsToBounds = true
+                
+                var pids: Array<String> = []
+                for p in self.cartResult.cartDetails[idx.section].products {
+                    pids.append(p.productId)
+                }
+                
+                cell.adapt(self.cartResult.cartDetails[idx.section].fullname, productIds: pids)
+                
+                return cell
+            } else if idx.row <= cartResult.cartDetails[idx.section].products.count {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2ProductCell") as! Checkout2ProductCell
+                
+                cell.selectionStyle = .none
+                cell.clipsToBounds = true
+                
+                cell.adapt(self.cartResult.cartDetails[idx.section].products[idx.row-1])
+                
+                return cell
+            } else if idx.row == cartResult.cartDetails[idx.section].products.count + 1 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2CourierCell") as! Checkout2CourierCell
+                
+                cell.selectionStyle = .none
+                cell.clipsToBounds = true
+                
+                cell.adapt(cartResult.cartDetails[idx.section].shippingPackages, isEnable: true) // TODO: - disable
+                
+                cell.pickCourier = { result in
+                    self.selectedShippingIds[idx.section] = result // update shipping
+                }
+                
+                return cell
+            } else {
+                if idx.row == cartResult.cartDetails[idx.section].products.count + 2 && cartResult.cartDetails[idx.section].isNeedLocation {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2CourierDescriptionCell") as! Checkout2CourierDescriptionCell
+                    
+                    cell.selectionStyle = .none
+                    cell.clipsToBounds = true
+                    
+                    cell.adapt("GO-SEND") // TODO: - Dinamis
+                    
+                    return cell
+                } else {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2SplitCell") as! Checkout2SplitCell
+                    
+                    cell.selectionStyle = .none
+                    cell.clipsToBounds = true
+                    
+                    return cell
+                }
+            }
+        } else if idx.section == cartResult.cartDetails.count {
+            if idx.row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2AddressDropdownCell") as! Checkout2AddressDropdownCell
+                
+                cell.selectionStyle = .none
+                cell.clipsToBounds = true
+                
+                cell.adapt(cartResult.addressBook[selectedIndex])
+                
+                cell.pickAddress = {
+                    self.dropDown.hide()
+                    self.dropDown.show()
+                }
+                
+                return cell
+            } else if idx.row == 1 {
+                if isNeedSetup {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2AddressFillCell") as! Checkout2AddressFillCell
+                    
+                    cell.selectionStyle = .none
+                    cell.clipsToBounds = true
+                    
+                    cell.adapt(cartResult.addressBook.count > selectedIndex ? cartResult.addressBook[selectedIndex] : nil, isDefault: cartResult.addressBook[selectedIndex] == cartResult.defaultAddress, isSave: isSave)
+                    
+                    cell.
+                    
+                    return cell
+                    
+                    
+                    return Checkout2AddressFillCell.heightFor()
+                } else {
+                    return Checkout2AddressCompleteCell.heightFor()
+                }
+            } else {
+                if idx.row == 2 && isNeedLocation {
+                    return Checkout2AddressLocationCell.heightFor()
+                } else {
+                    return Checkout2SplitCell.heightFor()
+                }
+            }
+        } else if idx.section == cartResult.cartDetails.count + 1 {
+            return Checkout2TotalBuyingCell.heightFor()
+        }
+        
         return UITableViewCell()
     }
     
@@ -226,23 +367,23 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     
     // MARK: - Setup Dropdown Address
     func setupDropdownAddress() {
-        dropDown = DropDown()
         dropDown.dataSource = []
         
-        for i in 0...addresses.count - 1 {
+        let count = cartResult.addressBook.count
+        
+        for address in cartResult.addressBook {
             
-            let address = addresses[i]
             let text = address.recipientName + " (" + address.addressName + ") " + address.address + " " + address.subdisrictName + ", " + address.regionName + " " + address.provinceName + " " + address.postalCode
 
             dropDown.dataSource.append(text)
         }
         
-        if (addresses.count < 5) {
+        if (count < 5) {
             dropDown.dataSource.append("Alamat Baru")
         }
         
         dropDown.customCellConfiguration = { (index: Index, item: String, cell: DropDownCell) -> Void in
-            if index < self.addresses.count {
+            if index < count {
                 cell.viewWithTag(999)?.removeFromSuperview()
                 
                 // Setup your custom UI components
@@ -256,7 +397,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 
                 let attString : NSMutableAttributedString = NSMutableAttributedString(string: item)
                 
-                attString.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: 14)], range: (item as NSString).range(of: self.addresses[index].recipientName))
+                attString.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: 14)], range: (item as NSString).range(of: self.cartResult.addressBook[index].recipientName))
                 
                 // Setup your custom UI components
                 label.attributedText = attString
@@ -285,14 +426,12 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
         // Action triggered on selection
         dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
             if index != self.selectedIndex {
-                if index < self.addresses.count {
+                if index < count {
                     self.isNeedSetup = false
                     self.selectedIndex = index
-                    self.selectedAddress = self.addresses[index]
                 } else {
                     self.isNeedSetup = true
-                    self.selectedIndex = self.addresses.count
-                    self.selectedAddress = nil
+                    self.selectedIndex = count
                 }
                 
                 self.tableView.reloadData()
@@ -356,16 +495,21 @@ class Checkout2CourierCell: UITableViewCell {
     @IBOutlet weak var lbCourier: UILabel!
     @IBOutlet weak var lbDropdown: UILabel!
     
-    var shippingPackage: ShippingPackageItem!
+    var selectedIndex = 0
+    
+    var dropDown = DropDown()
+    
+    var shippingPackages: Array<ShippingPackageItem>!
     
     var disableColor = UIColor.lightGray
     
     var pickCourier: (String)->() = {_ in }
     
-    func adapt(_ shippingPackage: ShippingPackageItem, isEnable: Bool) {
-        self.shippingPackage = shippingPackage
+    func adapt(_ shippingPackages: Array<ShippingPackageItem>, isEnable: Bool) {
+        self.shippingPackages = shippingPackages
+        self.setupDropdown()
         
-        self.lbCourier.text = shippingPackage.name + " (" + shippingPackage.price.asPrice + ")"
+        self.lbCourier.text = shippingPackages[selectedIndex].name + " (" + shippingPackages[selectedIndex].price.asPrice + ")"
         
         if isEnable {
             self.lbDropdown.textColor = self.disableColor
@@ -378,8 +522,37 @@ class Checkout2CourierCell: UITableViewCell {
         return 37.0
     }
     
+    func setupDropdown() {
+        dropDown.dataSource = []
+        
+        for shippingPackage in shippingPackages {
+            
+            let text = shippingPackage.name + " (" + shippingPackage.price.asPrice + ")"
+            
+            dropDown.dataSource.append(text)
+        }
+        
+        // Action triggered on selection
+        dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
+            if index != self.selectedIndex {
+                self.selectedIndex = index
+                
+                self.lbCourier.text = self.shippingPackages[self.selectedIndex].name + " (" + self.shippingPackages[self.selectedIndex].price.asPrice + ")"
+                
+                // update VC
+                self.pickCourier(self.shippingPackages[self.selectedIndex].shippingId)
+            }
+        }
+        
+        dropDown.textFont = UIFont.systemFont(ofSize: 14)
+        dropDown.cellHeight = 40
+        dropDown.selectRow(at: self.selectedIndex)
+        dropDown.direction = .bottom
+    }
+    
     @IBAction func btnPickCourierPressed(_ sender: Any) {
-        self.pickCourier(self.shippingPackage.shippingId)
+        dropDown.hide()
+        dropDown.show()
     }
 }
 
@@ -391,11 +564,8 @@ class Checkout2CourierDescriptionCell: UITableViewCell {
         self.lbDescriptionCourier.text = "Silahkan lengkapi lokasi jika kamu memilih kurir " + courierName
     }
     
-    static func heightFor(_ isNeed: Bool) -> CGFloat {
-        if isNeed {
-            return 35.0
-        }
-        return 0.0
+    static func heightFor() -> CGFloat {
+        return 35.0
     }
 }
 
@@ -416,7 +586,7 @@ class Checkout2AddressDropdownCell: UITableViewCell {
         self.lbDetailAddress.text = address.recipientName + " (" + address.addressName + ") " + address.address + " " + address.subdisrictName + ", " + address.regionName + ", " + address.provinceName + " " + address.postalCode
     }
     
-    static func heightFor(_ isNeed: Bool) -> CGFloat {
+    static func heightFor() -> CGFloat {
         return 92.0
     }
     
@@ -441,7 +611,7 @@ class Checkout2AddressCompleteCell: UITableViewCell {
         self.lbPhone.text = "Telepon: " + address.phone
     }
     
-    static func heightFor(_ isNeed: Bool) -> CGFloat {
+    static func heightFor() -> CGFloat {
         return 138.0
     }
 }
@@ -524,7 +694,7 @@ class Checkout2AddressFillCell: UITableViewCell {
         }
     }
     
-    static func heightFor(_ isNeed: Bool) -> CGFloat {
+    static func heightFor() -> CGFloat {
         return 312.0
     }
     

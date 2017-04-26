@@ -4485,6 +4485,13 @@ class CartDetailItem : NSObject {
         }
         return ""
     }
+    
+    var isNeedLocation : Bool {
+        if let j = json["is_need_location"].bool {
+            return j
+        }
+        return false
+    }
 }
 
 // shipping-packages
