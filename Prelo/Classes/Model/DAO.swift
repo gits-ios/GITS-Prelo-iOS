@@ -4168,6 +4168,14 @@ class CartV2ResultItem : NSObject {
         return false
     }
     
+    // dependent on isHaveError -> true
+    var message : String {
+        if let j = json["_message"].string {
+            return j
+        }
+        return ""
+    }
+    
     var buyerUsername : String {
         if let j = json["buyer_username"].string {
             return j
