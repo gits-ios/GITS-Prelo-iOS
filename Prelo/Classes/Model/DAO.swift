@@ -4126,6 +4126,225 @@ class AddressItem : NSObject {
 }
 
 // MARK: - CART V2
+// API cart v2 result
+class CartV2ResultItem : NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> CartDetailItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = CartDetailItem()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var totalPrice : Int {
+        if let j = json["total_price"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var totalOngkirMax : Int {
+        if let j = json["total_ongkir_max"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var totalOngkirMin : Int {
+        if let j = json["total_ongkir_min"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var isHaveError : Bool {
+        if let j = json["_have_error"].bool {
+            return j
+        }
+        return false
+    }
+    
+    var buyerUsername : String {
+        if let j = json["buyer_username"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var addressBook : Array<AddressItem> {
+        if let arr = json["address_book"].array {
+            
+            var _addressBook : Array<AddressItem> = []
+            for i in arr {
+                _addressBook.append(AddressItem.instance(i)!)
+            }
+            
+            return _addressBook
+            
+        }
+        return []
+    }
+    
+    var defaultAddress : AddressItem? {
+        if let j = AddressItem.instance(json["default_address"]) {
+            return j
+        }
+        return nil
+    }
+    
+    var isBonusAvailable : Bool {
+        if let j = json["bonus_available"].int {
+            return (j == 1)
+        }
+        return false
+    }
+    
+    var isBalanceAvailable : Bool {
+        if let j = json["balance_available"].int {
+            return (j == 1)
+        }
+        return false
+    }
+    
+    var banktransferDigit : Int {
+        if let j = json["banktransfer_digit"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var abTest : Array<JSON> {
+        if let j = json["ab_test"].array {
+            return j
+        }
+        return []
+    }
+    
+    var veritransCharge : VeritransChargeItem? {
+        if let j = VeritransChargeItem.instance(json["veritrans_charge"]) {
+            return j
+        }
+        return nil
+    }
+    
+    var voucherSerial : String? {
+        if let j = json["voucher_serial"].string {
+            return j
+        }
+        return nil
+    }
+    
+    var voucherAmount : Int {
+        if let j = json["voucher_amount"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var isVoucherValid : Bool {
+        if let j = json["voucher_valid"].bool {
+            return j
+        }
+        return false
+    }
+    
+    var isUserHasUnpaidTransaction : Bool {
+        if let j = json["user_has_unpaid_transaction"].bool {
+            return j
+        }
+        return false
+    }
+    
+    var nTransactionUnpaid : Int {
+        if let j = json["n_transaction_unpaid"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var isShowIndomaret : Bool {
+        if let j = json["show_indomaret"].bool {
+            return j
+        }
+        return false
+    }
+    
+    var cartDetails : Array<CartDetailItem> {
+        if let arr = json["cart_details"].array {
+            
+            var _cartDetails : Array<CartDetailItem> = []
+            for i in arr {
+                _cartDetails.append(CartDetailItem.instance(i)!)
+            }
+            
+            return _cartDetails
+            
+        }
+        return []
+    }
+}
+
+// veritrans-charge
+class VeritransChargeItem : NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> VeritransChargeItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = VeritransChargeItem()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var indomaretText : String {
+        if let j = json["indomaret_text"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var indomaretMultiplyFactor : Float {
+        if let j = json["indomaret_multiply_factor"].float {
+            return j
+        }
+        return 0.0
+    }
+    
+    var indomaret : Int {
+        if let j = json["indomaret"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var creditCardText : String {
+        if let j = json["credit_card_text"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var creditCardMultiplyFactor : Float {
+        if let j = json["credit_card_multiply_factor"].float {
+            return j
+        }
+        return 0.0
+    }
+    
+    var creditCard : Int {
+        if let j = json["credit_card"].int {
+            return j
+        }
+        return 0
+    }
+}
+
 // cart-details
 class CartDetailItem : NSObject {
     var json : JSON!
@@ -4190,7 +4409,7 @@ class CartDetailItem : NSObject {
     }
     
     var shippingPackages : Array<ShippingPackageItem> {
-        if let arr = json["shipping_packages"].array { // tiers , icon, achieved
+        if let arr = json["shipping_packages"].array {
             
             var _shippingPackages : Array<ShippingPackageItem> = []
             for i in arr {
@@ -4211,7 +4430,7 @@ class CartDetailItem : NSObject {
     }
     
     var products : Array<ProductItem> {
-        if let arr = json["shipping_packages"].array { // tiers , icon, achieved
+        if let arr = json["shipping_packages"].array {
             
             var _products : Array<ProductItem> = []
             for i in arr {
