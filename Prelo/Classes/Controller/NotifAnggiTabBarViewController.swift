@@ -52,6 +52,12 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
         
         // option button
         setOptionButton()
+        
+        // swipe gesture for carbon (pop view)
+        let vwLeft = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: UIScreen.main.bounds.height))
+        vwLeft.backgroundColor = UIColor.clear
+        self.view.addSubview(vwLeft)
+        self.view.bringSubview(toFront: vwLeft)
     }
     
     override func viewWillAppear(_ animated: Bool) {
