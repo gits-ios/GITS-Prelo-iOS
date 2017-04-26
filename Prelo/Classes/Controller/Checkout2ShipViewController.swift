@@ -360,8 +360,8 @@ class Checkout2CourierCell: UITableViewCell {
     
     var pickCourier: ()->() = {}
     
-    func adapt(_ courierName: String, courierFee: String, isEnable: Bool) {
-        self.lbCourier.text = courierName + " (" + courierFee + ")"
+    func adapt(_ shippingPackage: ShippingPackageItem, isEnable: Bool) {
+        self.lbCourier.text = shippingPackage.name + " (" + shippingPackage.price.asPrice + ")"
         
         if isEnable {
             self.lbDropdown.textColor = self.disableColor

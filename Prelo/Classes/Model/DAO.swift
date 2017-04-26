@@ -3612,6 +3612,8 @@ class BalanceMutationItem : NSObject {
     }
 }
 
+// author: santensuru
+// MARK: - ACHIEVEMENT
 class AchievementItem : NSObject {
     var json : JSON = JSON([:])
     
@@ -3901,6 +3903,7 @@ class AchievementTierItem : NSObject {
     }
 }
 
+// MARK: - WJP
 class HistoryWithdrawItem : NSObject {
     var json : JSON!
     
@@ -3936,6 +3939,7 @@ class HistoryWithdrawItem : NSObject {
     }
 }
 
+// MARK: - PRELO MESSAGE
 class PreloMessageItem : NSObject {
     var json : JSON = JSON([:])
     
@@ -4014,6 +4018,7 @@ class PreloMessageItem : NSObject {
     }
 }
 
+// MARK: - ADDRESS BOOK
 // address-book
 class AddressItem : NSObject {
     var json : JSON!
@@ -4117,5 +4122,345 @@ class AddressItem : NSObject {
             return j
         }
         return false
+    }
+}
+
+// MARK: - CART V2
+// cart-details
+class CartDetailItem : NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> CartDetailItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = CartDetailItem()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var id : String {
+        if let j = json["_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var username : String {
+        if let j = json["username"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var fullname : String {
+        if let j = json["fullname"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var regionId : String {
+        if let j = json["region_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var provinceId : String {
+        if let j = json["province_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var subdistrictId : String {
+        if let j = json["subdistrict_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var shippingPreferencesIds : Array<JSON> {
+        if let j = json["shipping_preferences_ids"].array {
+            return j
+        }
+        return []
+    }
+    
+    var shippingPackages : Array<ShippingPackageItem> {
+        if let arr = json["shipping_packages"].array { // tiers , icon, achieved
+            
+            var _shippingPackages : Array<ShippingPackageItem> = []
+            for i in arr {
+                _shippingPackages.append(ShippingPackageItem.instance(i)!)
+            }
+            
+            return _shippingPackages
+            
+        }
+        return []
+    }
+
+    var totalProductWeight : Int {
+        if let j = json["total_product_weight"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var products : Array<ProductItem> {
+        if let arr = json["shipping_packages"].array { // tiers , icon, achieved
+            
+            var _products : Array<ProductItem> = []
+            for i in arr {
+                _products.append(ProductItem.instance(i)!)
+            }
+            
+            return _products
+            
+        }
+        return []
+    }
+    
+    var totalProductWeightKg : Int {
+        if let j = json["total_product_weight_kg"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var shippingPackageId : String {
+        if let j = json["shipping_package_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var shippingPackageIdOrigin : String {
+        if let j = json["shipping_package_id_origin"].string {
+            return j
+        }
+        return ""
+    }
+}
+
+// shipping-packages
+class ShippingPackageItem : NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> ShippingPackageItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = ShippingPackageItem()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var id : String {
+        if let j = json["_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var name : String {
+        if let j = json["name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var shippingId : String {
+        if let j = json["shipping_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var price : Int {
+        if let j = json["price"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var timeMax : Int {
+        if let j = json["time_max"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var timeMin : Int {
+        if let j = json["time_min"].int {
+            return j
+        }
+        return 0
+    }
+}
+
+// products
+class ProductItem : NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> ProductItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = ProductItem()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var id : String {
+        if let j = json["_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var name : String {
+        if let j = json["name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var status : Int {
+        if let j = json["status"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var categoryId : String {
+        if let j = json["category_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var brandId : String {
+        if let j = json["brand_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var price : Int {
+        if let j = json["price"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var weight : Int {
+        if let j = json["weight"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var isFreeOngkir : Bool {
+        if let j = json["free_ongkir"].int {
+            return (j == 1)
+        }
+        return false
+    }
+    
+    var commission : Int {
+        if let j = json["commission"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var jenisBarang : String {
+        if let j = json["jenis_barang"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var displayPicts : Array<JSON> {
+        if let j = json["display_picts"].array {
+            return j
+        }
+        return []
+    }
+    
+    var sellerId : String {
+        if let j = json["seller_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var sellerUsername : String {
+        if let j = json["seller_username"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var sellerFullname : String {
+        if let j = json["seller_fullname"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var sellerRegion : String {
+        if let j = json["seller_region"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var sellerProvince : String {
+        if let j = json["seller_province"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var sellerSubdistrict : String {
+        if let j = json["seller_subdistrict"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var sellerShippingPreferences : Array<JSON> {
+        if let j = json["seller_shipping_preferences"].array {
+            return j
+        }
+        return []
+    }
+    
+    var nameOriginal : String {
+        if let j = json["name_original"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var productId : String {
+        if let j = json["product_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var displayPictsOriginal : Array<JSON> {
+        if let j = json["display_picts_original"].array {
+            return j
+        }
+        return []
     }
 }
