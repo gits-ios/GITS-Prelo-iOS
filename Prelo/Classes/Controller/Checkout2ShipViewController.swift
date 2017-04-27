@@ -228,6 +228,8 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 
                 self.tableView.reloadData()
                 
+                self.scrollToTop()
+                
                 self.hideLoading()
             }
         }
@@ -315,6 +317,33 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 
                 cell.adapt(self.cartResult.cartDetails[idx.section].fullname, productIds: pids)
                 
+                cell.removeAll = { pids in
+                    let alertView = SCLAlertView(appearance: Constant.appearance)
+                    alertView.addButton("Hapus") {
+                        for pid in pids {
+                            CartProduct.delete(pid)
+                        }
+                        
+                        self.showLoading()
+                        
+                        let _ = request(APICart.removeItems(pIds: pids)).responseJSON { resp in
+                            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Keranjang Belanja - Hapus Items")) {
+                                print("Keranjang Belanja - Hapus Items, Success")
+                                
+                                self.synchCart()
+                            } else {
+                                print("Keranjang Belanja - Hapus Items, Failed")
+                                
+                                Constant.showDialog("Hapus Items", message: "\"\(self.cartResult.cartDetails[idx.section].fullname)\" gagal dihapus")
+                                
+                                self.hideLoading()
+                            }
+                        }
+                    }
+                    alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+                    alertView.showCustom("Hapus Keranjang", subTitle: "Kamu yakin ingin menghapus semua barang dari seller \"\(self.cartResult.cartDetails[idx.section].fullname)\"?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+                }
+                
                 return cell
             } else if idx.row <= cartResult.cartDetails[idx.section].products.count {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2ProductCell") as! Checkout2ProductCell
@@ -323,6 +352,32 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 cell.clipsToBounds = true
                 
                 cell.adapt(self.cartResult.cartDetails[idx.section].products[idx.row-1])
+                
+                cell.remove = { pid in
+                    let alertView = SCLAlertView(appearance: Constant.appearance)
+                    alertView.addButton("Hapus") {
+                        CartProduct.delete(pid)
+                        
+                        self.showLoading()
+                        
+                        let _ = request(APICart.removeItems(pIds: [pid])).responseJSON { resp in
+                            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Keranjang Belanja - Hapus Items")) {
+                                print("Keranjang Belanja - Hapus Items, Success")
+                                
+                                self.synchCart()
+                            } else {
+                                print("Keranjang Belanja - Hapus Items, Failed")
+                                
+                                Constant.showDialog("Hapus Items", message: "\"\(self.cartResult.cartDetails[idx.section].fullname)\" gagal dihapus")
+                                
+                                self.hideLoading()
+                            }
+                        }
+                    }
+                    alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+                    alertView.showCustom("Hapus Keranjang", subTitle: "Kamu yakin ingin menghapus \"\(self.cartResult.cartDetails[idx.section].products[idx.row-1].name)\"?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+                    
+                }
                 
                 return cell
             } else if idx.row == cartResult.cartDetails[idx.section].products.count + 1 {
@@ -409,7 +464,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                         cell.selectedRegionId = self.selectedAddress.regionId
                     }
                     if selectedAddress.subdistrictId != "" {
-                        cell.lbSubdistrict.text = selectedAddress.subdistrictId
+                        cell.lbSubdistrict.text = selectedAddress.subdistrictName
                         cell.lbSubdistrict.textColor = cell.activeColor
                         cell.selectedSubdistrictId = self.selectedAddress.subdistrictId
                     }
@@ -432,8 +487,6 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                         self.selectedAddress.subdistrictName = subdistrictName
                         
                         self.synchCart()
-                        
-                        self.tableView.reloadData()
                     }
                     
                     cell.saveAddress = {
@@ -502,6 +555,12 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     
     func hideLoading() {
         self.loadingPanel.isHidden = true
+    }
+    
+    func scrollToTop() {
+        if self.cartResult.cartDetails.count > 0 {
+            tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.top, animated: true)
+        }
     }
     
     // MARK: - Setup Dropdown Address
