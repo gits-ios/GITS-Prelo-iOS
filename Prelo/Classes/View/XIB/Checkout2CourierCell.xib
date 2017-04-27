@@ -52,8 +52,8 @@
                             <action selector="btnPickCourierPressed:" destination="NVs-9V-nrE" eventType="touchUpInside" id="D6K-N0-rFf"/>
                         </connections>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="GO-SEND (Rp15.000)" textAlignment="right" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yxq-en-R0Y">
-                        <rect key="frame" x="63" y="9" width="248" height="17"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="GO-SEND (Rp15.000)" textAlignment="right" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="Yxq-en-R0Y">
+                        <rect key="frame" x="63" y="9" width="256" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
@@ -65,7 +65,7 @@
                     <constraint firstItem="wsp-jC-mKP" firstAttribute="leading" secondItem="1qd-Sd-sQM" secondAttribute="trailing" constant="8" id="LRP-0K-nbV"/>
                     <constraint firstItem="1qd-Sd-sQM" firstAttribute="top" secondItem="WpX-Xj-yQJ" secondAttribute="bottom" constant="8" id="NkX-VV-Gm6"/>
                     <constraint firstAttribute="bottom" secondItem="wsp-jC-mKP" secondAttribute="bottom" constant="8" id="OnR-SV-FX1"/>
-                    <constraint firstItem="mN7-du-gjf" firstAttribute="leading" secondItem="Yxq-en-R0Y" secondAttribute="trailing" constant="8" id="WVg-e2-Nno"/>
+                    <constraint firstItem="mN7-du-gjf" firstAttribute="leading" secondItem="Yxq-en-R0Y" secondAttribute="trailing" id="WVg-e2-Nno"/>
                     <constraint firstItem="WpX-Xj-yQJ" firstAttribute="top" secondItem="72E-0w-eSD" secondAttribute="top" id="YLW-SN-sIL"/>
                     <constraint firstItem="wsp-jC-mKP" firstAttribute="top" secondItem="WpX-Xj-yQJ" secondAttribute="bottom" constant="8" id="dIf-US-x3h"/>
                     <constraint firstItem="WpX-Xj-yQJ" firstAttribute="leading" secondItem="72E-0w-eSD" secondAttribute="leading" id="dKe-hA-eog"/>
@@ -77,6 +77,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="btnPickCourier" destination="wsp-jC-mKP" id="woy-X9-Jzv"/>
                 <outlet property="lbCourier" destination="Yxq-en-R0Y" id="qVq-B2-XcV"/>
                 <outlet property="lbDropdown" destination="mN7-du-gjf" id="Eo8-4P-JrR"/>
             </connections>

@@ -10,6 +10,18 @@ import Foundation
 import Alamofire
 import DropDown
 
+// MARK: - Protocol
+struct SelectedAddressItem {
+    var name: String = ""
+    var phone: String = ""
+    var address: String = ""
+    var postalCode: String = ""
+    var provinceId: String = ""
+    var regionId: String = ""
+    var subdistrictId: String = ""
+    var subdistrictName: String = ""
+}
+
 // MARK: - Class
 class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
     // MARK: - Properties
@@ -22,10 +34,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     var dropDown = DropDown()
     
     // Address
-    var selectedProvinceId: String!
-    var selectedRegionId: String!
-    var selectedSubdistrictId: String!
-    var selectedSubdistrictName: String!
+    var selectedAddress = SelectedAddressItem()
     
     var selectedIndex = 0
     var isNeedSetup = false
@@ -35,8 +44,10 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     // Cart Results
     var cartResult: CartV2ResultItem!
     
-    var selectedShippingIds: Array<String>!
+//    var selectedShippingIds: Array<String>!
+    var ongkirs: Array<Int>!
     var isFreeOngkirs: Array<Bool>!
+    var selectedOngkirIndexes: Array<Int>!
     
     // MARK: - Init
     override func viewDidLoad() {
@@ -85,6 +96,22 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
         appearance.animationduration = 0.25
         appearance.textColor = .darkGray
         
+        // Setup table
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
+        self.tableView.tableFooterView = UIView()
+        
+        //TOP, LEFT, BOTTOM, RIGHT
+        let inset = UIEdgeInsetsMake(0, 0, 0, 0)
+        self.tableView.contentInset = inset
+        
+        self.tableView.separatorStyle = .none
+        
+        self.tableView.backgroundColor = UIColor(hexString: "#E8ECEE")
+        
+        // loading
+        self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.7)
+        
         // title
         self.title = "Checkout"
     }
@@ -93,21 +120,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
         super.viewDidAppear(animated)
         
         if self.isFirst {
-            self.isFirst = false
             self.showLoading()
-            
-            // Setup table
-            self.tableView.dataSource = self
-            self.tableView.delegate = self
-            self.tableView.tableFooterView = UIView()
-            
-            //TOP, LEFT, BOTTOM, RIGHT
-            let inset = UIEdgeInsetsMake(0, 0, 0, 0)
-            self.tableView.contentInset = inset
-            
-            self.tableView.separatorStyle = .none
-            
-            self.tableView.backgroundColor = UIColor(hexString: "#E8ECEE")
             
             self.getCart()
         }
@@ -138,10 +151,10 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     
                     // init default shipping
                     let userProfile = CDUserProfile.getOne()
-                    self.selectedProvinceId = userProfile?.provinceID
-                    self.selectedRegionId = userProfile?.regionID
-                    self.selectedSubdistrictId = userProfile?.subdistrictID
-                    self.selectedSubdistrictName = userProfile?.subdistrictName
+                    self.selectedAddress.provinceId = (userProfile?.provinceID)!
+                    self.selectedAddress.regionId = (userProfile?.regionID)!
+                    self.selectedAddress.subdistrictId = (userProfile?.subdistrictID)!
+                    self.selectedAddress.subdistrictName = (userProfile?.subdistrictName)!
                     
                     self.synchCart()
                 }
@@ -160,7 +173,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
             return
         }
         let p = AppToolsObjC.jsonString(from: c)
-        let a = "{\"address\": \"alamat\", \"province_id\": \"" + selectedProvinceId + "\", \"region_id\": \"" + selectedRegionId + "\", \"subdistrict_id\": \"" + selectedSubdistrictId + "\", \"postal_code\": \"\"}"
+        let a = "{\"address\": \"alamat\", \"province_id\": \"" + selectedAddress.provinceId + "\", \"region_id\": \"" + selectedAddress.regionId + "\", \"subdistrict_id\": \"" + selectedAddress.subdistrictId + "\", \"postal_code\": \"\"}"
         //print("cart_products : \(String(describing: p))")
         //print("shipping_address : \(a)")
         
@@ -179,11 +192,36 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 let data = json["_data"]
                 self.cartResult = CartV2ResultItem.instance(data)
                 
-                self.selectedShippingIds = []
+//                self.selectedShippingIds = []
+                self.ongkirs = []
                 self.isFreeOngkirs = []
+                self.selectedOngkirIndexes = []
                 for sp in self.cartResult.cartDetails {
-                    self.selectedShippingIds.append(sp.shippingPackageId)
+//                    self.selectedShippingIds.append(sp.shippingPackageId)
+//                    for s in sp.shippingPackages {
+//                        if s.id == sp.shippingPackageId {
+//                            self.ongkirs.append(s.price)
+//                            self.isFreeOngkirs.append(s.price == 0)
+//                            
+//                            break
+//                        }
+//                    }
+                    
+                    // reset to 0
+                    self.ongkirs.append(sp.shippingPackages[0].price)
                     self.isFreeOngkirs.append(sp.shippingPackages[0].price == 0)
+                    self.selectedOngkirIndexes.append(0)
+                }
+                
+                if self.isFirst && self.cartResult.addressBook.count > 0 {
+                    for i in 0...self.cartResult.addressBook.count-1 {
+                        if self.cartResult.addressBook[i].isMainAddress {
+                            self.selectedIndex = i
+                            break
+                        }
+                    }
+                    
+                    self.isFirst = false
                 }
                 
                 self.setupDropdownAddress()
@@ -293,10 +331,21 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 cell.selectionStyle = .none
                 cell.clipsToBounds = true
                 
-                cell.adapt(cartResult.cartDetails[idx.section].shippingPackages, isEnable: !self.isFreeOngkirs[idx.section])
+                cell.adapt(cartResult.cartDetails[idx.section].shippingPackages, isEnable: !self.isFreeOngkirs[idx.section], selectedIndex: self.selectedOngkirIndexes[idx.section])
                 
-                cell.pickCourier = { result in
-                    self.selectedShippingIds[idx.section] = result // update shipping
+                cell.pickCourier = { courierId, ongkir, index in
+                    //self.selectedShippingIds[idx.section] = result // update shipping
+                    
+                    self.ongkirs[idx.section] = ongkir
+                    self.selectedOngkirIndexes[idx.section] = index
+                    
+                    for p in self.cartResult.cartDetails[idx.section].products {
+                        if let cp = CartProduct.getOne(p.productId, email: User.EmailOrEmptyString) {
+                            if cp.packageId != courierId {
+                                cp.packageId = courierId
+                            }
+                        }
+                    }
                 }
                 
                 return cell
@@ -328,7 +377,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 
                 cell.adapt((cartResult.addressBook.count > selectedIndex ? cartResult.addressBook[selectedIndex] : nil))
                 
-                self.dropDown.anchorView = cell
+                self.dropDown.anchorView = cell.vwBorder
                 
                 // Top of drop down will be below the anchorView
                 self.dropDown.bottomOffset = CGPoint(x: 0, y:(dropDown.anchorView?.plainView.bounds.height)! + 4)
@@ -346,18 +395,45 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     cell.selectionStyle = .none
                     cell.clipsToBounds = true
                     
-                    cell.adapt(cartResult.addressBook.count > selectedIndex ? cartResult.addressBook[selectedIndex] : nil, isDefault: cartResult.addressBook.count > selectedIndex ? cartResult.addressBook[selectedIndex] == cartResult.defaultAddress : false, isSave: isSave)
+                    cell.adapt(cartResult.addressBook.count > selectedIndex ? cartResult.addressBook[selectedIndex] : nil, isDefault: cartResult.addressBook.count > selectedIndex ? cartResult.addressBook[selectedIndex] == cartResult.defaultAddress : false, isSave: isSave, parent: self)
                     
-                    cell.pickProvince = {
-                        
+                    // inject
+                    if selectedAddress.provinceId != "" {
+                        cell.lbProvince.text = CDProvince.getProvinceNameWithID(selectedAddress.provinceId)
+                        cell.lbProvince.textColor = cell.activeColor
+                        cell.selectedProvinceId = self.selectedAddress.provinceId
+                    }
+                    if selectedAddress.regionId != "" {
+                        cell.lbRegion.text = CDRegion.getRegionNameWithID(selectedAddress.regionId)
+                        cell.lbRegion.textColor = cell.activeColor
+                        cell.selectedRegionId = self.selectedAddress.regionId
+                    }
+                    if selectedAddress.subdistrictId != "" {
+                        cell.lbSubdistrict.text = selectedAddress.subdistrictId
+                        cell.lbSubdistrict.textColor = cell.activeColor
+                        cell.selectedSubdistrictId = self.selectedAddress.subdistrictId
                     }
                     
-                    cell.pickRegion = {
-                        
+                    cell.pickProvince = { provinceId in
+                        self.selectedAddress.provinceId = provinceId
+                        self.selectedAddress.regionId = ""
+                        self.selectedAddress.subdistrictId = ""
+                        self.selectedAddress.subdistrictName = ""
                     }
                     
-                    cell.pickSubdistrict = {
+                    cell.pickRegion = { regionId in
+                        self.selectedAddress.regionId = regionId
+                        self.selectedAddress.subdistrictId = ""
+                        self.selectedAddress.subdistrictName = ""
+                    }
+                    
+                    cell.pickSubdistrict = { subdistrictId, subdistrictName in
+                        self.selectedAddress.subdistrictId = subdistrictId
+                        self.selectedAddress.subdistrictName = subdistrictName
                         
+                        self.synchCart()
+                        
+                        self.tableView.reloadData()
                     }
                     
                     cell.saveAddress = {
@@ -401,7 +477,13 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
             cell.selectionStyle = .none
             cell.clipsToBounds = true
             
-            cell.adapt(cartResult.totalPrice.asPrice)
+            var totalWithOngkir = cartResult.totalPrice
+            
+            for o in ongkirs {
+                totalWithOngkir += o
+            }
+            
+            cell.adapt(totalWithOngkir.asPrice)
             
             return cell
         }
@@ -486,9 +568,21 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 if index < count {
                     self.isNeedSetup = false
                     self.selectedIndex = index
+                    
+                    self.selectedAddress.provinceId = self.cartResult.addressBook[index].provinceId
+                    self.selectedAddress.regionId = self.cartResult.addressBook[index].regionId
+                    self.selectedAddress.subdistrictId = self.cartResult.addressBook[index].subdisrictId
+                    self.selectedAddress.subdistrictName = self.cartResult.addressBook[index].subdisrictName
+                    
+                    self.synchCart()
                 } else {
                     self.isNeedSetup = true
                     self.selectedIndex = count
+                    
+                    self.selectedAddress.provinceId = ""
+                    self.selectedAddress.regionId = ""
+                    self.selectedAddress.subdistrictId = ""
+                    self.selectedAddress.subdistrictName = ""
                 }
                 
                 self.tableView.reloadData()
@@ -555,6 +649,7 @@ class Checkout2ProductCell: UITableViewCell {
 class Checkout2CourierCell: UITableViewCell {
     @IBOutlet weak var lbCourier: UILabel!
     @IBOutlet weak var lbDropdown: UILabel!
+    @IBOutlet weak var btnPickCourier: UIButton!
     
     var selectedIndex = 0
     
@@ -566,10 +661,11 @@ class Checkout2CourierCell: UITableViewCell {
     
     var isEnable = true
     
-    var pickCourier: (String)->() = {_ in }
+    var pickCourier: (_ courierId: String, _ ongkir: Int, _ index: Int)->() = {_, _, _ in }
     
-    func adapt(_ shippingPackages: Array<ShippingPackageItem>, isEnable: Bool) {
+    func adapt(_ shippingPackages: Array<ShippingPackageItem>, isEnable: Bool, selectedIndex: Int) {
         self.shippingPackages = shippingPackages
+        self.selectedIndex = selectedIndex
         
         if !isEnable {
             self.lbDropdown.textColor = self.disableColor
@@ -595,11 +691,35 @@ class Checkout2CourierCell: UITableViewCell {
     func setupDropdown() {
         dropDown.dataSource = []
         
+        let count = shippingPackages.count
+        
         for shippingPackage in shippingPackages {
             
             let text = shippingPackage.name + " (" + shippingPackage.price.asPrice + ")"
             
             dropDown.dataSource.append(text)
+        }
+        
+        dropDown.customCellConfiguration = { (index: Index, item: String, cell: DropDownCell) -> Void in
+            if index < count {
+                cell.viewWithTag(999)?.removeFromSuperview()
+                
+                // Setup your custom UI components
+                cell.optionLabel.text = ""
+                let y = (cell.height - cell.optionLabel.height) / 2.0
+                let rectOption = CGRect(x: 16, y: y, width: self.btnPickCourier.bounds.width - (16 + 16), height: cell.optionLabel.height)
+                
+                let label = UILabel(frame: rectOption)
+                label.font = cell.optionLabel.font
+                label.tag = 999
+                
+                // Setup your custom UI components
+                label.text = item
+                label.lineBreakMode = .byTruncatingMiddle
+                label.adjustsFontSizeToFitWidth = true
+                
+                cell.addSubview(label)
+            }
         }
         
         // Action triggered on selection
@@ -610,7 +730,7 @@ class Checkout2CourierCell: UITableViewCell {
                 self.lbCourier.text = self.shippingPackages[self.selectedIndex].name + " (" + self.shippingPackages[self.selectedIndex].price.asPrice + ")"
                 
                 // update VC
-                self.pickCourier(self.shippingPackages[self.selectedIndex].shippingId)
+                self.pickCourier(self.shippingPackages[self.selectedIndex].shippingId, self.shippingPackages[self.selectedIndex].price, self.selectedIndex)
             }
         }
         
@@ -618,7 +738,7 @@ class Checkout2CourierCell: UITableViewCell {
         dropDown.cellHeight = 40
         dropDown.selectRow(at: self.selectedIndex)
         dropDown.direction = .bottom
-        dropDown.anchorView = self
+        dropDown.anchorView = self.btnPickCourier
         
         // Top of drop down will be below the anchorView
         dropDown.bottomOffset = CGPoint(x: 0, y:(dropDown.anchorView?.plainView.bounds.height)! + 4)
@@ -654,6 +774,7 @@ class Checkout2SplitCell: UITableViewCell {
 
 // MARK: - Class Checkout2AddressDropdownCell
 class Checkout2AddressDropdownCell: UITableViewCell {
+    @IBOutlet weak var vwBorder: BorderedView!
     @IBOutlet weak var lbDetailAddress: UILabel!
     
     var pickAddress: ()->() = {}
@@ -665,7 +786,12 @@ class Checkout2AddressDropdownCell: UITableViewCell {
             text += addr.address + " " + addr.subdisrictName + ", "
             text += addr.regionName + ", " + addr.provinceName + " "
             text += addr.postalCode
-            self.lbDetailAddress.text = text
+            
+            let attString : NSMutableAttributedString = NSMutableAttributedString(string: text)
+            
+            attString.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: 14)], range: (text as NSString).range(of: addr.recipientName))
+            
+            self.lbDetailAddress.attributedText = attString
         } else {
             self.lbDetailAddress.text = "Alamat Baru"
         }
@@ -702,7 +828,7 @@ class Checkout2AddressCompleteCell: UITableViewCell {
 }
 
 // MARK: - Class Checkout2AddressFillCell
-class Checkout2AddressFillCell: UITableViewCell {
+class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate {
     @IBOutlet weak var txtName: UITextField!
     @IBOutlet weak var txtPhone: UITextField!
     @IBOutlet weak var lbProvince: UILabel!
@@ -720,16 +846,29 @@ class Checkout2AddressFillCell: UITableViewCell {
     
     // province/region/subdistrict id -> global
     
-    var pickProvince: ()->() = {} // change province & color
-    var pickRegion: ()->() = {} // change region & color
-    var pickSubdistrict: ()->() = {} // change subdistrict & color
+    var pickProvince: (String)->() = {_ in } // change province & color
+    var pickRegion: (String)->() = {_ in } // change region & color
+    var pickSubdistrict: (_ id: String, _ name: String)->() = {_, _ in } // change subdistrict & color
     var saveAddress: ()->() = {}
     
     var disableColor = UIColor.lightGray
     var placeholderColor = UIColor.init(hex: "#CCCCCC")
     var activeColor = UIColor.init(hex: "#6F6F6F")
     
-    func adapt(_ address: AddressItem?, isDefault: Bool, isSave: Bool) {
+    var selectedProvinceId: String = ""
+    var selectedRegionId: String = ""
+    var selectedSubdistrictId: String = ""
+    
+    var kecamatanPickerItems : [String] = []
+    var isPickingProvinsi : Bool = false
+    var isPickingKabKota : Bool = false
+    var isPickingKecamatan : Bool = false
+    
+    var parent: Checkout2ShipViewController!
+    
+    func adapt(_ address: AddressItem?, isDefault: Bool, isSave: Bool, parent: Checkout2ShipViewController) {
+        self.parent = parent
+        
         self.lbProvince.text = "Pilih Provinsi"
         self.lbProvince.textColor = self.placeholderColor
         
@@ -784,16 +923,116 @@ class Checkout2AddressFillCell: UITableViewCell {
         return 340.0
     }
     
+    // MARK: - Picker Delegate
+    func pickerDidSelect(_ item: String) {
+        if (isPickingProvinsi) {
+            lbProvince?.text = PickerViewController.HideHiddenString(item)
+            lbProvince.textColor = UIColor.darkGray
+            isPickingProvinsi = false
+        } else if (isPickingKabKota) {
+            lbRegion?.text = PickerViewController.HideHiddenString(item)
+            lbRegion.textColor = UIColor.darkGray
+            isPickingKabKota = false
+            kecamatanPickerItems = []
+        } else if (isPickingKecamatan) {
+            lbSubdistrict?.text = PickerViewController.HideHiddenString(item)
+            lbSubdistrict.textColor = UIColor.darkGray
+            isPickingKecamatan = false
+        }
+    }
+    
+    func pickerCancelled() {
+        isPickingProvinsi = false
+        isPickingKabKota = false
+        isPickingKecamatan = false
+    }
+    
+    func pickKecamatan() {
+        isPickingKecamatan = true
+        let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
+        p?.items = kecamatanPickerItems
+        p?.pickerDelegate = self
+        p?.selectBlock = { string in
+            self.selectedSubdistrictId = PickerViewController.RevealHiddenString(string)
+            self.lbSubdistrict.text = string.components(separatedBy: PickerViewController.TAG_START_HIDDEN)[0]
+            
+            self.pickSubdistrict(self.selectedSubdistrictId, self.lbSubdistrict.text!) // region id -> global
+        }
+        p?.title = "Kecamatan"
+        parent.navigationController?.pushViewController(p!, animated: true)
+    }
+    
     @IBAction func btnPickProvincePressed(_ sender: Any) {
-        self.pickProvince()
+        isPickingProvinsi = true
+        let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
+        p?.items = CDProvince.getProvincePickerItems()
+        p?.pickerDelegate = self
+        p?.selectBlock = { string in
+            self.selectedProvinceId = PickerViewController.RevealHiddenString(string)
+            
+            self.lbRegion.text = "Pilih Kota/Kabupaten"
+            self.lbRegion.textColor = self.placeholderColor
+            
+            self.lbSubdistrict.text = "Pilih Kecamatan"
+            self.lbSubdistrict.textColor = self.placeholderColor
+            
+            self.pickProvince(self.selectedProvinceId)
+        }
+        p?.title = "Provinsi"
+        parent.navigationController?.pushViewController(p!, animated: true)
     }
     
     @IBAction func btnPickRegionPressed(_ sender: Any) {
-        self.pickRegion() // province id -> global
+        isPickingKabKota = true
+        if (selectedProvinceId == "") {
+            Constant.showDialog("Perhatian", message: "Pilih provinsi terlebih dahulu")
+        } else {
+            let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
+            p?.items = CDRegion.getRegionPickerItems(selectedProvinceId)
+            p?.pickerDelegate = self
+            p?.selectBlock = { string in
+                self.selectedRegionId = PickerViewController.RevealHiddenString(string)
+                self.selectedSubdistrictId = ""
+                
+                self.lbSubdistrict.text = "Pilih Kecamatan"
+                self.lbSubdistrict.textColor = self.placeholderColor
+                
+                self.pickRegion(self.selectedRegionId) // province id -> global
+            }
+            p?.title = "Kota/Kabupaten"
+            parent.navigationController?.pushViewController(p!, animated: true)
+        }
     }
     
     @IBAction func btnPickSubdistrictPressed(_ sender: Any) {
-        self.pickRegion() // region id -> global
+        if (selectedRegionId == "") {
+            Constant.showDialog("Perhatian", message: "Pilih kota/kabupaten terlebih dahulu")
+        } else {
+            if (kecamatanPickerItems.count <= 0) {
+                parent.showLoading()
+                
+                // Retrieve kecamatanPickerItems
+                let _ = request(APIMisc.getSubdistrictsByRegionID(id: self.selectedRegionId)).responseJSON { resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Daftar Kecamatan")) {
+                        let json = JSON(resp.result.value!)
+                        let data = json["_data"].arrayValue
+                        
+                        if (data.count > 0) {
+                            for i in 0...data.count - 1 {
+                                self.kecamatanPickerItems.append(data[i]["name"].stringValue + PickerViewController.TAG_START_HIDDEN + data[i]["_id"].stringValue + PickerViewController.TAG_END_HIDDEN)
+                            }
+                            
+                            self.pickKecamatan()
+                        } else {
+                            Constant.showDialog("Oops", message: "Kecamatan tidak ditemukan")
+                        }
+                    }
+                    self.parent.hideLoading()
+                }
+            } else {
+                self.pickKecamatan()
+            }
+        }
     }
     
     @IBAction func btnSavePressed(_ sender: Any) {
