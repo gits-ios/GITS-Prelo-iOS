@@ -492,6 +492,10 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         // prelo message -- OKE
 //        let preloMessageVC = Bundle.main.loadNibNamed(Tags.XibNamePreloMessage, owner: nil, options: nil)?.first as! PreloMessageViewController
 //        self.navigationController?.pushViewController(preloMessageVC, animated: true)
+        
+        // checkout v2 -- OKE
+        let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
+        self.navigationController?.pushViewController(checkout2ShipVC, animated: true)
     }
     
     func launchFAQ() {

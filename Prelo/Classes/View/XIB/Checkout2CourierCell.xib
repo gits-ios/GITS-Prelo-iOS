@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,7 +20,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="37"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NVs-9V-nrE" id="72E-0w-eSD">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="36"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="36.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WpX-Xj-yQJ" userLabel="line1px">
@@ -31,8 +31,8 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kurir" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1qd-Sd-sQM">
-                        <rect key="frame" x="24" y="9" width="34.5" height="19.5"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <rect key="frame" x="24" y="9" width="30.5" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -47,14 +47,14 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wsp-jC-mKP">
-                        <rect key="frame" x="67" y="9" width="292" height="19.5"/>
+                        <rect key="frame" x="63" y="9" width="296" height="19.5"/>
                         <connections>
                             <action selector="btnPickCourierPressed:" destination="NVs-9V-nrE" eventType="touchUpInside" id="D6K-N0-rFf"/>
                         </connections>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="GO-SEND (Rp15.000)" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yxq-en-R0Y">
-                        <rect key="frame" x="67" y="9" width="244" height="20"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="GO-SEND (Rp15.000)" textAlignment="right" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yxq-en-R0Y">
+                        <rect key="frame" x="63" y="9" width="248" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -62,9 +62,9 @@
                 <constraints>
                     <constraint firstItem="mN7-du-gjf" firstAttribute="top" secondItem="WpX-Xj-yQJ" secondAttribute="bottom" constant="8" id="Adu-ys-SL8"/>
                     <constraint firstItem="Yxq-en-R0Y" firstAttribute="top" secondItem="WpX-Xj-yQJ" secondAttribute="bottom" constant="8" id="CGv-cp-Cjb"/>
+                    <constraint firstItem="wsp-jC-mKP" firstAttribute="leading" secondItem="1qd-Sd-sQM" secondAttribute="trailing" constant="8" id="LRP-0K-nbV"/>
                     <constraint firstItem="1qd-Sd-sQM" firstAttribute="top" secondItem="WpX-Xj-yQJ" secondAttribute="bottom" constant="8" id="NkX-VV-Gm6"/>
                     <constraint firstAttribute="bottom" secondItem="wsp-jC-mKP" secondAttribute="bottom" constant="8" id="OnR-SV-FX1"/>
-                    <constraint firstItem="wsp-jC-mKP" firstAttribute="leading" secondItem="1qd-Sd-sQM" secondAttribute="trailing" constant="8" id="W39-Ew-W2h"/>
                     <constraint firstItem="mN7-du-gjf" firstAttribute="leading" secondItem="Yxq-en-R0Y" secondAttribute="trailing" constant="8" id="WVg-e2-Nno"/>
                     <constraint firstItem="WpX-Xj-yQJ" firstAttribute="top" secondItem="72E-0w-eSD" secondAttribute="top" id="YLW-SN-sIL"/>
                     <constraint firstItem="wsp-jC-mKP" firstAttribute="top" secondItem="WpX-Xj-yQJ" secondAttribute="bottom" constant="8" id="dIf-US-x3h"/>

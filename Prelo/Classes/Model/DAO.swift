@@ -4452,7 +4452,7 @@ class CartDetailItem : NSObject {
     }
     
     var products : Array<ProductItem> {
-        if let arr = json["shipping_packages"].array {
+        if let arr = json["products"].array {
             
             var _products : Array<ProductItem> = []
             for i in arr {
@@ -4640,7 +4640,10 @@ class ProductItem : NSObject {
             
             var _displayPicts : Array<URL> = []
             for i in arr {
-                _displayPicts.append(URL(string: i.stringValue)!)
+                if let urlString = i.string {
+                    let url = URL(string: urlString)
+                    _displayPicts.append(url!)
+                }
             }
             
             return _displayPicts
@@ -4724,7 +4727,10 @@ class ProductItem : NSObject {
             
             var _displayPictsOriginal : Array<URL> = []
             for i in arr {
-                _displayPictsOriginal.append(URL(string: i.stringValue)!)
+                if let urlString = i.string {
+                    let url = URL(string: urlString)
+                    _displayPictsOriginal.append(url!)
+                }
             }
             
             return _displayPictsOriginal
