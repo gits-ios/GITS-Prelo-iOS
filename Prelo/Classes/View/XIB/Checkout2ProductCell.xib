@@ -82,6 +82,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="consWidthBtn" destination="cLQ-yf-VAT" id="xap-Jv-8On"/>
                 <outlet property="imgProduct" destination="XZ5-Cy-ykk" id="xsJ-q9-CQW"/>
                 <outlet property="lbProductName" destination="sur-mT-9rl" id="dPP-yf-hYw"/>
                 <outlet property="lbProductPrice" destination="ZBF-xk-1bs" id="bmo-4M-iOt"/>

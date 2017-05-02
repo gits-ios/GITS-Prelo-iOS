@@ -353,16 +353,15 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     
                     let alertView = SCLAlertView(appearance: Constant.appearance)
                     alertView.addButton("Hapus") {
-                        for pid in pids {
-                            CartProduct.delete(pid)
-                        }
-                        
                         self.showLoading()
                         
                         let _ = request(APICart.removeItems(pIds: pids)).responseJSON { resp in
                             if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Keranjang Belanja - Hapus Items")) {
                                 print("Keranjang Belanja - Hapus Items, Success")
                                 
+                                for pid in pids {
+                                    CartProduct.delete(pid)
+                                }
                                 self.synchCart()
                             } else {
                                 print("Keranjang Belanja - Hapus Items, Failed")
@@ -391,14 +390,13 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     
                     let alertView = SCLAlertView(appearance: Constant.appearance)
                     alertView.addButton("Hapus") {
-                        CartProduct.delete(pid)
-                        
                         self.showLoading()
                         
                         let _ = request(APICart.removeItems(pIds: [pid])).responseJSON { resp in
                             if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Keranjang Belanja - Hapus Items")) {
                                 print("Keranjang Belanja - Hapus Items, Success")
                                 
+                                CartProduct.delete(pid)
                                 self.synchCart()
                             } else {
                                 print("Keranjang Belanja - Hapus Items, Failed")
@@ -436,6 +434,8 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                             }
                         }
                     }
+                    
+                    self.tableView.reloadData()
                 }
                 
                 cell.dismissKeyborad = {
@@ -596,6 +596,68 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
         // do nothing
     }
     
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        /*
+        let more = UITableViewRowAction(style: .normal, title: "More") { action, index in
+            print("more button tapped")
+        }
+        more.backgroundColor = .lightGray
+        
+        let favorite = UITableViewRowAction(style: .normal, title: "Favorite") { action, index in
+            print("favorite button tapped")
+        }
+        favorite.backgroundColor = .orange
+        
+        let share = UITableViewRowAction(style: .normal, title: "Share") { action, index in
+            print("share button tapped")
+        }
+        share.backgroundColor = .blue
+        
+        return [share, favorite, more]
+         */
+        
+        // Checkout2ProductCell
+        let idx = indexPath as IndexPath
+        let cell = tableView.cellForRow(at: idx) as! Checkout2ProductCell
+        
+        let remove = UITableViewRowAction(style: .destructive, title: "Hapus") { action, index in
+            let pid = cell.productDetail.productId
+            
+            self.showLoading()
+            
+            let _ = request(APICart.removeItems(pIds: [pid])).responseJSON { resp in
+                if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Keranjang Belanja - Hapus Items")) {
+                    print("Keranjang Belanja - Hapus Items, Success")
+                    
+                    CartProduct.delete(pid)
+                    self.synchCart()
+                } else {
+                    print("Keranjang Belanja - Hapus Items, Failed")
+                    
+                    Constant.showDialog("Hapus Items", message: "\"\(self.cartResult.cartDetails[idx.section].fullname)\" gagal dihapus")
+                    
+                    self.hideLoading()
+                }
+            }
+            
+            print("hapus tapped")
+        }
+        
+        return [remove]
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        let idx = indexPath as IndexPath
+        if idx.section < cartResult.cartDetails.count {
+            if idx.row <= cartResult.cartDetails[idx.section].products.count && idx.row > 0 {
+                return true
+            }
+            return false
+        }
+        return false
+    }
+    
     // MARK: - Other
     func showLoading() {
         self.loadingPanel.isHidden = false
@@ -744,12 +806,15 @@ class Checkout2ProductCell: UITableViewCell {
     @IBOutlet weak var imgProduct: UIImageView!
     @IBOutlet weak var lbProductName: UILabel!
     @IBOutlet weak var lbProductPrice: UILabel!
+    @IBOutlet weak var consWidthBtn: NSLayoutConstraint!
     
     var productDetail: ProductItem!
     
     var remove: (String)->() = {_ in }
     
     func adapt(_ productDetail: ProductItem) {
+        self.consWidthBtn.constant = 0.0
+        
         self.productDetail = productDetail
         
         self.imgProduct.afSetImage(withURL: productDetail.displayPicts[0], withFilter: .fill)
@@ -762,7 +827,7 @@ class Checkout2ProductCell: UITableViewCell {
     }
     
     @IBAction func btnRemovePressed(_ sender: Any) {
-        self.remove(self.productDetail.productId)
+        //self.remove(self.productDetail.productId)
     }
 }
 
