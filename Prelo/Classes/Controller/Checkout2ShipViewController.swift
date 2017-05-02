@@ -212,6 +212,13 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 let data = json["_data"]
                 self.cartResult = CartV2ResultItem.instance(data)
                 
+                // Show modal text if any
+                if let modalText = self.cartResult.modalVerifyText {
+                    if (!modalText.isEmpty) {
+                        Constant.showDialog("Perhatian", message: modalText)
+                    }
+                }
+                
 //                self.selectedShippingIds = []
                 self.ongkirs = []
                 self.isFreeOngkirs = []

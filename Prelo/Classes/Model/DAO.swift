@@ -4176,6 +4176,13 @@ class CartV2ResultItem : NSObject {
         return ""
     }
     
+    var modalVerifyText : String? {
+        if let j = json["modal_verify_text"].string {
+            return j
+        }
+        return nil
+    }
+    
     var buyerUsername : String {
         if let j = json["buyer_username"].string {
             return j
@@ -4265,6 +4272,13 @@ class CartV2ResultItem : NSObject {
             return j
         }
         return false
+    }
+    
+    var voucherError : String {
+        if let j = json["voucher_error"].string {
+            return j
+        }
+        return ""
     }
     
     var isUserHasUnpaidTransaction : Bool {
