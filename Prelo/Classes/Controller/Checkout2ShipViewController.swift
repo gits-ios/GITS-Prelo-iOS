@@ -20,6 +20,7 @@ struct SelectedAddressItem {
     var regionId: String = ""
     var subdistrictId: String = ""
     var subdistrictName: String = ""
+    var isSave: Bool = false
 }
 
 // MARK: - Class
@@ -38,7 +39,6 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     
     var selectedIndex = 0
     var isNeedSetup = false
-    var isSave = false
     var isNeedLocation = false
     
     // Cart Results
@@ -112,6 +112,14 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
         // loading
         self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.7)
         
+        //Looks for single or multiple taps.
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(Checkout2ShipViewController.dismissKeyboard))
+        
+        //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
+        //tap.cancelsTouchesInView = false
+        
+        view.addGestureRecognizer(tap)
+        
         // title
         self.title = "Checkout"
     }
@@ -124,6 +132,18 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
             
             self.getCart()
         }
+        
+        // Handling keyboard animation
+        self.an_subscribeKeyboard(
+            animations: {r, t, o in
+                
+                if (o) {
+                    self.tableView?.contentInset = UIEdgeInsetsMake(0, 0, r.height, 0)
+                } else {
+                    self.tableView?.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+                }
+                
+        }, completion: nil)
     }
     
     // MARK: - Cart sync
@@ -217,6 +237,17 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     for i in 0...self.cartResult.addressBook.count-1 {
                         if self.cartResult.addressBook[i].isMainAddress {
                             self.selectedIndex = i
+                            
+                            // default address
+                            self.selectedAddress.name = self.cartResult.addressBook[i].recipientName
+                            self.selectedAddress.phone = self.cartResult.addressBook[i].phone
+                            self.selectedAddress.provinceId = self.cartResult.addressBook[i].provinceId
+                            self.selectedAddress.regionId = self.cartResult.addressBook[i].regionId
+                            self.selectedAddress.subdistrictId = self.cartResult.addressBook[i].subdisrictId
+                            self.selectedAddress.subdistrictName = self.cartResult.addressBook[i].subdisrictName
+                            self.selectedAddress.address = self.cartResult.addressBook[i].address
+                            self.selectedAddress.postalCode = self.cartResult.addressBook[i].postalCode
+                            
                             break
                         }
                     }
@@ -450,23 +481,12 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     cell.selectionStyle = .none
                     cell.clipsToBounds = true
                     
-                    cell.adapt(cartResult.addressBook.count > selectedIndex ? cartResult.addressBook[selectedIndex] : nil, isDefault: cartResult.addressBook.count > selectedIndex ? cartResult.addressBook[selectedIndex] == cartResult.defaultAddress : false, isSave: isSave, parent: self)
+                    let isDefault = cartResult.addressBook.count > selectedIndex ? cartResult.addressBook[selectedIndex] == cartResult.defaultAddress : false
                     
-                    // inject
-                    if selectedAddress.provinceId != "" {
-                        cell.lbProvince.text = CDProvince.getProvinceNameWithID(selectedAddress.provinceId)
-                        cell.lbProvince.textColor = cell.activeColor
-                        cell.selectedProvinceId = self.selectedAddress.provinceId
-                    }
-                    if selectedAddress.regionId != "" {
-                        cell.lbRegion.text = CDRegion.getRegionNameWithID(selectedAddress.regionId)
-                        cell.lbRegion.textColor = cell.activeColor
-                        cell.selectedRegionId = self.selectedAddress.regionId
-                    }
-                    if selectedAddress.subdistrictId != "" {
-                        cell.lbSubdistrict.text = selectedAddress.subdistrictName
-                        cell.lbSubdistrict.textColor = cell.activeColor
-                        cell.selectedSubdistrictId = self.selectedAddress.subdistrictId
+                    if isDefault {
+                        cell.adapt(cartResult.addressBook[selectedIndex], parent: self)
+                    } else {
+                        cell.adapt(self.selectedAddress, parent: self)
                     }
                     
                     cell.pickProvince = { provinceId in
@@ -490,7 +510,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     }
                     
                     cell.saveAddress = {
-                        self.isSave = !self.isSave
+                        self.selectedAddress.isSave = !self.selectedAddress.isSave
                         self.tableView.reloadData()
                     }
                     
@@ -537,6 +557,13 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
             }
             
             cell.adapt(totalWithOngkir.asPrice)
+            
+            cell.continueToPayment = {
+                self.dismissKeyboard()
+                
+                // TODO: - validation field
+                print("oke")
+            }
             
             return cell
         }
@@ -628,20 +655,28 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     self.isNeedSetup = false
                     self.selectedIndex = index
                     
+                    self.selectedAddress.name = self.cartResult.addressBook[index].recipientName
+                    self.selectedAddress.phone = self.cartResult.addressBook[index].phone
                     self.selectedAddress.provinceId = self.cartResult.addressBook[index].provinceId
                     self.selectedAddress.regionId = self.cartResult.addressBook[index].regionId
                     self.selectedAddress.subdistrictId = self.cartResult.addressBook[index].subdisrictId
                     self.selectedAddress.subdistrictName = self.cartResult.addressBook[index].subdisrictName
+                    self.selectedAddress.address = self.cartResult.addressBook[index].address
+                    self.selectedAddress.postalCode = self.cartResult.addressBook[index].postalCode
                     
                     self.synchCart()
                 } else {
                     self.isNeedSetup = true
                     self.selectedIndex = count
                     
+                    self.selectedAddress.name = ""
+                    self.selectedAddress.phone = ""
                     self.selectedAddress.provinceId = ""
                     self.selectedAddress.regionId = ""
                     self.selectedAddress.subdistrictId = ""
                     self.selectedAddress.subdistrictName = ""
+                    self.selectedAddress.address = ""
+                    self.selectedAddress.postalCode = ""
                 }
                 
                 self.tableView.reloadData()
@@ -652,6 +687,12 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
         dropDown.cellHeight = 40
         dropDown.selectRow(at: self.selectedIndex)
         dropDown.direction = .bottom
+    }
+    
+    //Calls this function when the tap is recognized.
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
     }
 }
 
@@ -887,7 +928,7 @@ class Checkout2AddressCompleteCell: UITableViewCell {
 }
 
 // MARK: - Class Checkout2AddressFillCell
-class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate {
+class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextFieldDelegate {
     @IBOutlet weak var txtName: UITextField!
     @IBOutlet weak var txtPhone: UITextField!
     @IBOutlet weak var lbProvince: UILabel!
@@ -924,10 +965,9 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate {
     var isPickingKecamatan : Bool = false
     
     var parent: Checkout2ShipViewController!
+    var isDefault: Bool = false
     
-    func adapt(_ address: AddressItem?, isDefault: Bool, isSave: Bool, parent: Checkout2ShipViewController) {
-        self.parent = parent
-        
+    func setup() {
         self.lbProvince.text = "Pilih Provinsi"
         self.lbProvince.textColor = self.placeholderColor
         
@@ -937,44 +977,76 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate {
         self.lbSubdistrict.text = "Pilih Kecamatan"
         self.lbSubdistrict.textColor = self.placeholderColor
         
-        if let addr = address {
-            self.txtName.text = addr.recipientName
-            self.txtPhone.text = addr.phone
-            self.lbProvince.text = addr.provinceName
-            self.lbRegion.text = addr.regionName
-            self.lbSubdistrict.text = addr.subdisrictName
-            self.txtAddress.text = addr.address
-            self.txtPostalCode.text = addr.postalCode
-            
-            self.lbProvince.textColor = self.activeColor
-            self.lbRegion.textColor = self.activeColor
-            self.lbSubdistrict.textColor = self.activeColor
-        }
+        // init default
+        self.isDefault = false
+        self.lbCheckbox.isHidden = false
         
-        if isDefault {
-            self.btnPickProvince.isEnabled = false
-            self.btnPickRegion.isEnabled = false
-            self.btnPickSubdistric.isEnabled = false
-            
-            self.lbProvincePicker.textColor = self.disableColor
-            self.lbRegionPicker.textColor = self.disableColor
-            self.lbSubdistrictPicker.textColor = self.disableColor
-            
-            self.lbCheckbox.isHidden = false // force save
+        self.btnPickProvince.isEnabled = false
+        self.btnPickRegion.isEnabled = false
+        self.btnPickSubdistric.isEnabled = false
+        
+        self.lbProvincePicker.textColor = self.disableColor
+        self.lbRegionPicker.textColor = self.disableColor
+        self.lbSubdistrictPicker.textColor = self.disableColor
+        
+        // delegate
+        self.txtName.delegate = self
+        self.txtPhone.delegate = self
+        self.txtAddress.delegate = self
+        self.txtPostalCode.delegate = self
+
+    }
+    
+    // isDefault == true
+    func adapt(_ address: AddressItem, parent: Checkout2ShipViewController) {
+        self.parent = parent
+        self.setup()
+        
+        // init
+        self.txtName.text = address.recipientName
+        self.txtPhone.text = address.phone
+        self.lbProvince.text = address.provinceName
+        self.lbRegion.text = address.regionName
+        self.lbSubdistrict.text = address.subdisrictName
+        self.txtAddress.text = address.address
+        self.txtPostalCode.text = address.postalCode
+        
+        self.lbProvince.textColor = self.activeColor
+        self.lbRegion.textColor = self.activeColor
+        self.lbSubdistrict.textColor = self.activeColor
+    }
+    
+    // isDefault == false
+    func adapt(_ address: SelectedAddressItem, parent: Checkout2ShipViewController) {
+        self.parent = parent
+        self.setup()
+        
+        // init
+        self.txtName.text = address.name
+        self.txtPhone.text = address.phone
+        self.lbProvince.text = CDProvince.getProvinceNameWithID(address.provinceId)
+        self.lbRegion.text = CDRegion.getRegionNameWithID(address.regionId)
+        self.lbSubdistrict.text = address.subdistrictName
+        self.txtAddress.text = address.address
+        self.txtPostalCode.text = address.postalCode
+        
+        self.lbProvince.textColor = self.activeColor
+        self.lbRegion.textColor = self.activeColor
+        self.lbSubdistrict.textColor = self.activeColor
+        
+        // init non-default
+        self.btnPickProvince.isEnabled = true
+        self.btnPickRegion.isEnabled = true
+        self.btnPickSubdistric.isEnabled = true
+        
+        self.lbProvincePicker.textColor = Theme.PrimaryColorDark
+        self.lbRegionPicker.textColor = Theme.PrimaryColorDark
+        self.lbSubdistrictPicker.textColor = Theme.PrimaryColorDark
+        
+        if address.isSave {
+            self.lbCheckbox.isHidden = false
         } else {
-            self.btnPickProvince.isEnabled = true
-            self.btnPickRegion.isEnabled = true
-            self.btnPickSubdistric.isEnabled = true
-            
-            self.lbProvincePicker.textColor = Theme.PrimaryColorDark
-            self.lbRegionPicker.textColor = Theme.PrimaryColorDark
-            self.lbSubdistrictPicker.textColor = Theme.PrimaryColorDark
-            
-            if isSave {
-                self.lbCheckbox.isHidden = false
-            } else {
-                self.lbCheckbox.isHidden = true
-            }
+            self.lbCheckbox.isHidden = true
         }
     }
     
@@ -1095,8 +1167,25 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate {
     }
     
     @IBAction func btnSavePressed(_ sender: Any) {
-        self.saveAddress()
+        if !self.isDefault {
+            self.saveAddress()
+        }
     }
+    
+    // MARK: - Delegate
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == txtName {
+            self.parent.selectedAddress.name = textField.text!
+        } else if textField == txtPhone {
+            self.parent.selectedAddress.phone = textField.text!
+        } else if textField == txtAddress {
+            self.parent.selectedAddress.address = textField.text!
+        } else if textField == txtPostalCode {
+            self.parent.selectedAddress.postalCode = textField.text!
+        }
+    }
+    
+    
 }
 
 // MARK: - Class Checkout2AddressLocationCell
