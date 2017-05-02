@@ -349,6 +349,8 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 cell.adapt(self.cartResult.cartDetails[idx.section].fullname, productIds: pids)
                 
                 cell.removeAll = { pids in
+                    self.dismissKeyboard()
+                    
                     let alertView = SCLAlertView(appearance: Constant.appearance)
                     alertView.addButton("Hapus") {
                         for pid in pids {
@@ -385,6 +387,8 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 cell.adapt(self.cartResult.cartDetails[idx.section].products[idx.row-1])
                 
                 cell.remove = { pid in
+                    self.dismissKeyboard()
+                    
                     let alertView = SCLAlertView(appearance: Constant.appearance)
                     alertView.addButton("Hapus") {
                         CartProduct.delete(pid)
@@ -434,6 +438,10 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     }
                 }
                 
+                cell.dismissKeyborad = {
+                    self.dismissKeyboard()
+                }
+                
                 return cell
             } else {
                 if idx.row == cartResult.cartDetails[idx.section].products.count + 2 && cartResult.cartDetails[idx.section].isNeedLocation {
@@ -468,7 +476,12 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 // Top of drop down will be below the anchorView
                 self.dropDown.bottomOffset = CGPoint(x: 0, y:(dropDown.anchorView?.plainView.bounds.height)! + 4)
                 
+                // When drop down is displayed with `Direction.top`, it will be above the anchorView
+                self.dropDown.topOffset = CGPoint(x: 0, y:-(dropDown.anchorView?.plainView.bounds.height)! - 4)
+                
                 cell.pickAddress = {
+                    self.dismissKeyboard()
+                    
                     self.dropDown.hide()
                     self.dropDown.show()
                 }
@@ -490,6 +503,8 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     }
                     
                     cell.pickProvince = { provinceId in
+                        // self.dismissKeyboard()
+                        
                         self.selectedAddress.provinceId = provinceId
                         self.selectedAddress.regionId = ""
                         self.selectedAddress.subdistrictId = ""
@@ -497,12 +512,16 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     }
                     
                     cell.pickRegion = { regionId in
+                        // self.dismissKeyboard()
+                        
                         self.selectedAddress.regionId = regionId
                         self.selectedAddress.subdistrictId = ""
                         self.selectedAddress.subdistrictName = ""
                     }
                     
                     cell.pickSubdistrict = { subdistrictId, subdistrictName in
+                        // self.dismissKeyboard()
+                        
                         self.selectedAddress.subdistrictId = subdistrictId
                         self.selectedAddress.subdistrictName = subdistrictName
                         
@@ -510,6 +529,8 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     }
                     
                     cell.saveAddress = {
+                        // self.dismissKeyboard()
+                        
                         self.selectedAddress.isSave = !self.selectedAddress.isSave
                         self.tableView.reloadData()
                     }
@@ -686,7 +707,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
         dropDown.textFont = UIFont.systemFont(ofSize: 14)
         dropDown.cellHeight = 40
         dropDown.selectRow(at: self.selectedIndex)
-        dropDown.direction = .bottom
+//        dropDown.direction = .bottom
     }
     
     //Calls this function when the tap is recognized.
@@ -763,6 +784,8 @@ class Checkout2CourierCell: UITableViewCell {
     
     var pickCourier: (_ courierId: String, _ ongkir: Int, _ index: Int)->() = {_, _, _ in }
     
+    var dismissKeyborad: ()->() = {}
+    
     func adapt(_ shippingPackages: Array<ShippingPackageItem>, isEnable: Bool, selectedIndex: Int) {
         self.shippingPackages = shippingPackages
         self.selectedIndex = selectedIndex
@@ -837,15 +860,20 @@ class Checkout2CourierCell: UITableViewCell {
         dropDown.textFont = UIFont.systemFont(ofSize: 14)
         dropDown.cellHeight = 40
         dropDown.selectRow(at: self.selectedIndex)
-        dropDown.direction = .bottom
+        //dropDown.direction = .bottom
         dropDown.anchorView = self.btnPickCourier
         
         // Top of drop down will be below the anchorView
         dropDown.bottomOffset = CGPoint(x: 0, y:(dropDown.anchorView?.plainView.bounds.height)! + 4)
+        
+        // When drop down is displayed with `Direction.top`, it will be above the anchorView
+        dropDown.topOffset = CGPoint(x: 0, y:-(dropDown.anchorView?.plainView.bounds.height)! - 4)
     }
     
     @IBAction func btnPickCourierPressed(_ sender: Any) {
         if self.isEnable {
+            self.dismissKeyborad()
+            
             dropDown.hide()
             dropDown.show()
         }
