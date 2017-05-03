@@ -1803,6 +1803,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         }
                     }
                 }
+                
+                // Check apps frequency
+                if let frequency = data["ads_config"]["frequency"].int {
+                    UserDefaults.standard.set(frequency + 1, forKey: UserDefaultsKey.AdsFrequency)
+                    
+                    UserDefaults.standard.synchronize()
+                }
             }
         }
     }
