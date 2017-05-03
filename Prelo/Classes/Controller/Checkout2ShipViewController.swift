@@ -263,12 +263,13 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 }
                 
                 self.setupDropdownAddress()
-                
                 self.tableView.reloadData()
-                
                 self.scrollToTop()
-                
                 self.hideLoading()
+                
+            } else {
+                self.hideLoading()
+                
             }
         }
     }
@@ -589,8 +590,9 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
             cell.continueToPayment = {
                 self.dismissKeyboard()
                 
-                // TODO: - validation field
-                print("oke")
+                if self.validateField() {
+                    print("oke")
+                }
             }
             
             return cell
@@ -663,6 +665,24 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
             return false
         }
         return false
+    }
+    
+    // MARK: - Validation (Address)
+    func validateField() -> Bool {
+        if (self.selectedAddress.name == "" ||
+            self.selectedAddress.phone == "" ||
+            self.selectedAddress.provinceId == "" ||
+            self.selectedAddress.regionId == "" ||
+            self.selectedAddress.subdistrictId == "" ||
+            self.selectedAddress.subdistrictName == "" ||
+            self.selectedAddress.address == "" ||
+            self.selectedAddress.postalCode == "") {
+            
+            Constant.showDialog("Form belum lengkap", message: "Harap lengkapi alamat Kamu")
+            return false
+        }
+        
+        return true
     }
     
     // MARK: - Other
@@ -827,6 +847,14 @@ class Checkout2ProductCell: UITableViewCell {
         self.imgProduct.afSetImage(withURL: productDetail.displayPicts[0], withFilter: .fill)
         self.lbProductName.text = productDetail.name
         self.lbProductPrice.text = productDetail.price.asPrice
+        
+        if let err = productDetail.errorMessage {
+            self.lbProductPrice.text = err
+            
+            self.lbProductPrice.textColor = UIColor.red
+        } else {
+            self.lbProductPrice.textColor = Theme.PrimaryColorDark
+        }
     }
     
     static func heightFor() -> CGFloat {
@@ -1124,15 +1152,20 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
         // init
         self.txtName.text = address.name
         self.txtPhone.text = address.phone
-        self.lbProvince.text = CDProvince.getProvinceNameWithID(address.provinceId)
-        self.lbRegion.text = CDRegion.getRegionNameWithID(address.regionId)
-        self.lbSubdistrict.text = address.subdistrictName
+        if let provinceName = CDProvince.getProvinceNameWithID(address.provinceId), provinceName != "" {
+            self.lbProvince.text = provinceName
+            self.lbProvince.textColor = self.activeColor
+        }
+        if let regionName = CDRegion.getRegionNameWithID(address.regionId), regionName != "" {
+            self.lbRegion.text = regionName
+            self.lbRegion.textColor = self.activeColor
+        }
+        if address.subdistrictName != "" {
+            self.lbSubdistrict.text = address.subdistrictName
+            self.lbSubdistrict.textColor = self.activeColor
+        }
         self.txtAddress.text = address.address
         self.txtPostalCode.text = address.postalCode
-        
-        self.lbProvince.textColor = self.activeColor
-        self.lbRegion.textColor = self.activeColor
-        self.lbSubdistrict.textColor = self.activeColor
         
         // init non-default
         self.btnPickProvince.isEnabled = true

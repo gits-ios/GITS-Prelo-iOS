@@ -4752,4 +4752,11 @@ class ProductItem : NSObject {
         }
         return []
     }
+    
+    var errorMessage : String? {
+        if let j = json["_error"].string {
+            return j
+        }
+        return nil
+    }
 }
