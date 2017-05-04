@@ -136,6 +136,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AppsFlyerTracker.shared().appsFlyerDevKey = "JdjGSJmNJwd46zDPxZf9J"
         AppsFlyerTracker.shared().appleAppID = "1027248488"
         
+        if AppTools.isDev {
+            AppsFlyerTracker.shared().isDebug = true
+        }
+        
         // MoEngage
         MoEngage.sharedInstance().initialize(withApiKey: "N4VL0T0CGHRODQUOGRKZVWFH", in: application, withLaunchOptions: launchOptions)
         
@@ -281,7 +285,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         annotation: Any) -> Bool {
             // Kepanggil hanya jika app dibuka ketika sedang dalam background mode, jika app baru saja dibuka maka tidak terpanggil
             //Constant.showDialog("Deeplink", message: "url = \(url)")
+        
+        // deeplinking prelo://
+        if url.absoluteString.contains("prelo://"), let components = URLComponents(url: url, resolvingAgainstBaseURL: true) {
+            var param : [URLQueryItem] = []
+            if let items = components.queryItems {
+                param = items
+            }
+            if let del = UIApplication.shared.delegate as? AppDelegate {
+                del.handleUniversalLink(url, path: components.path, param: param)
+                
+                return true
+            }
+            return false
             
+        // deeplinking fb860723977338277:// (FACEBOOK)
+        } else if url.absoluteString.contains("fb860723977338277://") {
             if (!Branch.getInstance().handleDeepLink(url)) {
                 // Handle deeplink from Facebook
                 if let tipe = url.host {
@@ -298,8 +317,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     sourceApplication: sourceApplication,
                     annotation: annotation)
             }
-            
             return true
+        }
+        return true
     }
     
     func application(_ application: UIApplication, willContinueUserActivityWithType userActivityType: String) -> Bool {
@@ -583,9 +603,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // MoEngage
         MoEngage.sharedInstance().stop(application)
         
+        /* // disable
         if produkUploader != nil {
             produkUploader.stop()
         }
+         */
         
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().didLoseFocus()
@@ -602,11 +624,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Prelo Analytic - Open App
         AnalyticManager.sharedInstance.openApp()
         
+        /* // disable
         if (User.Token != nil && CDUser.getOne() != nil) { // If user is logged in
             DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
                 self.produkUploader.start()
             })
         }
+         */
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -652,27 +676,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
-    }
-    
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        // deeplinking prelo://
-        
-        print(url)
-        
-        if let components = URLComponents(url: url, resolvingAgainstBaseURL: true) {
-            var param : [URLQueryItem] = []
-            if let items = components.queryItems {
-                param = items
-            }
-            if let del = UIApplication.shared.delegate as? AppDelegate {
-                del.handleUniversalLink(url, path: components.path, param: param)
-                
-                return true
-            }
-            return false
-        }
-        
-        return false
     }
     
     // MARK: - Redirection functions
@@ -1799,6 +1802,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             Constant.forceUpdatePrompt()
                         }
                     }
+                }
+                
+                // Check apps frequency
+                if let frequency = data["ads_config"]["frequency"].int {
+                    UserDefaults.standard.set(frequency + 1, forKey: UserDefaultsKey.AdsFrequency)
+                    
+                    UserDefaults.standard.synchronize()
                 }
             }
         }

@@ -920,6 +920,15 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         if (CartProduct.newOne((detail?.productID)!, email : User.EmailOrEmptyString, name : (detail?.name)!) == nil) {
             Constant.showDialog("Failed", message: "Gagal Menyimpan")
         } else {
+            // FB Analytics - Add to Cart
+            if AppTools.IsPreloProduction {
+                let fbPdata: [String : Any] = [
+                    FBSDKAppEventParameterNameContentType          : "product",
+                    FBSDKAppEventParameterNameContentID            : (detail?.productID)!,
+                    FBSDKAppEventParameterNameCurrency             : "IDR"
+                ]
+                FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double((detail?.priceInt)!), parameters: fbPdata)
+            }
             setupView()
 //            self.performSegue(withIdentifier: "segCart", sender: nil)
             let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
@@ -1571,6 +1580,16 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             
             AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.VisitProductDetail, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
             
+            
+            // FB Analytics - Content View
+            if AppTools.IsPreloProduction {
+                let fbPdata: [String : Any] = [
+                    FBSDKAppEventParameterNameContentType          : "product",
+                    FBSDKAppEventParameterNameContentID            : (self.product?.id)!,
+                    FBSDKAppEventParameterNameCurrency             : "IDR"
+                ]
+                FBSDKAppEvents.logEvent(FBSDKAppEventNameViewedContent, valueToSum: Double((self.detail?.priceInt)!), parameters: fbPdata)
+            }
         }
     }
     

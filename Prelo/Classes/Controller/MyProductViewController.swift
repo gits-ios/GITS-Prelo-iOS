@@ -52,6 +52,12 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate, MyPro
         viewJualButton.layer.shadowOffset = CGSize(width: 0, height: 5)
         viewJualButton.layer.shadowOpacity = 0.3
         self.view.bringSubview(toFront: viewJualButton)
+        
+        // swipe gesture for carbon (pop view)
+        let vwLeft = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: UIScreen.main.bounds.height))
+        vwLeft.backgroundColor = UIColor.clear
+        self.view.addSubview(vwLeft)
+        self.view.bringSubview(toFront: vwLeft)
     }
     
     var first = true

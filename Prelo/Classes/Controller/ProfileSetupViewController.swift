@@ -779,6 +779,13 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         
                         // Prelo Analytic - Update User - Init
                         AnalyticManager.sharedInstance.initUser(userProfileData: userProfileData)
+                        
+                        // AppsFlyer
+                        let afPdata: [String : Any] = [
+                            AFEventParamCustomerUserId: userProfileData.id,
+                            AFEventParamRegistrationMethod: self.loginMethod
+                        ]
+                        AppsFlyerTracker.shared().trackEvent("af_setup_account", withValues: afPdata)
                     }
                     
                     let phoneVerificationVC = Bundle.main.loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil)?.first as! PhoneVerificationViewController

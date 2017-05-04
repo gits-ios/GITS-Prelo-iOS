@@ -76,7 +76,8 @@ class MessagePool: NSObject
                     for d in arr {
                         if let inboxId : String = d["inbox_id"] as? String {
                             if let delegate = self.delegates[inboxId] {
-                                if let senderName = d["sender_fullname"] as? String, senderName == "Prelo" {
+                                //Constant.showDialog("test", message: d.debugDescription)
+                                if let senderName = d["sender_fullname"] as? String, (senderName == "Prelo" || senderName == "Prelo Message") {
                                     let json = JSON(d)
                                     let i = PreloMessageItem.instance(json)!
                                     delegate.preloMessageArrived(i)

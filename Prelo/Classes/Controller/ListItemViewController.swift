@@ -181,7 +181,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var isFeatured: Bool = false
     
     // FB-ads
-    let adRowStep: Int = 19 // fit for 1, 2, 3
+    var adRowStep: Int = 19 // fit for 1, 2, 3
     
     var adsManager: FBNativeAdsManager!
     
@@ -191,6 +191,11 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let frequency = UserDefaults.standard.integer(forKey: UserDefaultsKey.AdsFrequency)
+        if frequency > 0 {
+            self.adRowStep = frequency // 37
+        }
         
         if currentMode == .shop || currentMode == .newShop {
             self.navigationController?.navigationBar.isTranslucent = true
@@ -244,10 +249,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         // Add status bar tap observer
         NotificationCenter.default.addObserver(self, selector: #selector(ListItemViewController.statusBarTapped), name: NSNotification.Name(rawValue: AppDelegate.StatusBarTapNotificationName), object: nil)
         
-        // ads
-        if (currentMode == .filter) {
-            configureAdManagerAndLoadAds()
-        }
+//        // ads
+//        if (currentMode == .filter) {
+//            configureAdManagerAndLoadAds()
+//        }
         
         // fixer
         self.repositionScrollCategoryNameContent(false)
@@ -522,6 +527,11 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 
                 // Get initial products
                 self.getInitialProducts()
+            }
+            
+            // ads
+            if (currentMode == .filter || currentMode == .default) {
+                configureAdManagerAndLoadAds()
             }
         }
     }
@@ -1799,19 +1809,19 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     // MARK: - Ads
     func configureAdManagerAndLoadAds() {
         if adsManager == nil {
-            
+            /*
             if (AppTools.isDev) {
-                FBAdSettings.setLogLevel(FBAdLogLevel.log)
+                //FBAdSettings.setLogLevel(FBAdLogLevel.log)
             
                 var hashedIds : Array<String> = []
                 hashedIds.append("c175de056cdb0cca0c902686eb3fa862503918d5") // pw - new id
                 //hashedIds.append("81c2cf31791f7f7513d28f30c48d4186ca00b11f") // nadine - ipad
-                FBAdSettings.addTestDevices(hashedIds)
+                //FBAdSettings.addTestDevices(hashedIds)
             
                 //FBAdSettings.setLogLevel(FBAdLogLevel.none)
-                //FBAdSettings.clearTestDevices()
+                FBAdSettings.clearTestDevices()
             }
- 
+             */
             adsManager = FBNativeAdsManager(placementID: "860723977338277_1233930046684333", forNumAdsRequested: 5)
             adsManager.delegate = self
             adsManager.loadAds()
