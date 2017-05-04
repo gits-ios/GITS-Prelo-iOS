@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 import DropDown
 
-// MARK: - Protocol
+// MARK: - Struct
 struct SelectedAddressItem {
     var name: String = ""
     var phone: String = ""
