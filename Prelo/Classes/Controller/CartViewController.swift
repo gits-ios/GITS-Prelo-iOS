@@ -215,8 +215,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 initUserDataSections()
                 synchCart()
                 
-                // fisrt load
-                getAddresses()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                    // fisrt load
+                    self.getAddresses()
+                })
                 
                 DropDown.startListeningToKeyboard()
                 
@@ -290,7 +292,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                                 self.defaultAddressIndex = i
                                 self.defaultSubdistrictId = (address?.subdisrictId)!
                                 
-                                self.initUserDataSections()
+                                //self.initUserDataSections()
                             }
                         }
                         
