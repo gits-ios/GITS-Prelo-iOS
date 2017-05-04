@@ -34,6 +34,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     
     weak var delegate: MyProductDelegate?
     
+    var isFirst = false // adduploading product when first load
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -239,7 +241,10 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 // Hide refreshControl (for refreshing)
                 self.refreshControl.endRefreshing()
                 
-                self.addUploadingProducts()
+                if !self.isFirst {
+                    self.addUploadingProducts()
+                    self.isFirst = true
+                }
                 
                 if (self.products.count > 0 || self.localProducts.count > 0) {
                     self.lblEmpty.isHidden = true

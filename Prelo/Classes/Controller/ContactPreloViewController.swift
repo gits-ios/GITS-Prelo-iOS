@@ -41,14 +41,14 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
     
     @IBAction func call(_ sender : UIView)
     {
-        if let url = URL(string: "tel:0222503593")
+        if let url = URL(string: "tel:+62227320555") // 0222503593
         {
             if (UIApplication.shared.canOpenURL(url))
             {
                 UIApplication.shared.openURL(url)
             } else
             {
-                putToPasteBoard("0222503593")
+                putToPasteBoard("+62227320555")
                 Constant.showDialog("Perhatian", message: "Nomor kami sudah ada di clipboard :)")
             }
         }

@@ -1219,6 +1219,15 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         }
         
         if (success) {
+            // FB Analytics - Add to Cart
+            if AppTools.IsPreloProduction {
+                let fbPdata: [String : Any] = [
+                    FBSDKAppEventParameterNameContentType          : "product",
+                    FBSDKAppEventParameterNameContentID            : tawarItem.itemId,
+                    FBSDKAppEventParameterNameCurrency             : "IDR"
+                ]
+                FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double(tawarItem.finalPrice), parameters: fbPdata)
+            }
 //            self.performSegue(withIdentifier: "segCart", sender: nil)
             let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
             cart.previousController = self

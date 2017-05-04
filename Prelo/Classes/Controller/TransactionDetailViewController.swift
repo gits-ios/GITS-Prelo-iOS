@@ -1988,6 +1988,16 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     if (!CartProduct.isExist(tProduct.productId, email: User.EmailOrEmptyString)) {
                         if (CartProduct.newOne(tProduct.productId, email: User.EmailOrEmptyString, name: tProduct.productName) == nil) {
                             success = false
+                        } else {
+                            // FB Analytics - Add to Cart
+                            if AppTools.IsPreloProduction {
+                                let fbPdata: [String : Any] = [
+                                    FBSDKAppEventParameterNameContentType          : "product",
+                                    FBSDKAppEventParameterNameContentID            : tProduct.productId,
+                                    FBSDKAppEventParameterNameCurrency             : "IDR"
+                                ]
+                                FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double(tProduct.productPrice), parameters: fbPdata)
+                            }
                         }
                     }
                 }
