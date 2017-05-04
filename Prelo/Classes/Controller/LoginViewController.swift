@@ -494,6 +494,13 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         ]
                         AnalyticManager.sharedInstance.sendWithUserId(eventType: PreloAnalyticEvent.Register, data: pdata, previousScreen: screenBeforeLogin, loginMethod: "Facebook", userId: user!.id)
                         
+                        // AppsFlyer
+                        let afPdata: [String : Any] = [
+                            AFEventParamCustomerUserId: user!.id,
+                            AFEventParamRegistrationMethod: "Facebook"
+                        ]
+                        AppsFlyerTracker.shared().trackEvent("af_initiate_registration", withValues: afPdata)
+                        
                         isNeedPayload = true
                         
                         // Prelo Analytic - Update User - Register
@@ -742,6 +749,13 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                             "Register Method" : "Twitter"
                         ]
                         AnalyticManager.sharedInstance.sendWithUserId(eventType: PreloAnalyticEvent.Register, data: pdata, previousScreen: screenBeforeLogin, loginMethod: "Twitter", userId: user!.id)
+                        
+                        // AppsFlyer
+                        let afPdata: [String : Any] = [
+                            AFEventParamCustomerUserId: user!.id,
+                            AFEventParamRegistrationMethod: "Twitter"
+                        ]
+                        AppsFlyerTracker.shared().trackEvent("af_initiate_registration", withValues: afPdata)
                         
                         isNeedPayload = true
                         
