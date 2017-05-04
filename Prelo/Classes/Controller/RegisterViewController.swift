@@ -240,6 +240,13 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                 ]
                 AnalyticManager.sharedInstance.sendWithUserId(eventType: PreloAnalyticEvent.Register, data: pdata, previousScreen: self.screenBeforeLogin, loginMethod: "Basic", userId: c.id)
                 
+                // AppsFlyer
+                let afPdata: [String : Any] = [
+                    AFEventParamCustomerUserId: c.id,
+                    AFEventParamRegistrationMethod: "Basic"
+                ]
+                AppsFlyerTracker.shared().trackEvent("af_initiate_registration", withValues: afPdata)
+                
                 // Prelo Analytic - Update User - Register
                 AnalyticManager.sharedInstance.registerUser(method: "Basic", metadata: data)
                 
