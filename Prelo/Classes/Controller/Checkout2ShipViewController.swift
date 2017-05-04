@@ -49,6 +49,12 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     var isFreeOngkirs: Array<Bool>!
     var selectedOngkirIndexes: Array<Int>!
     
+    // if contain(s) sold product(s)
+    var isEnableToCheckout = true
+    
+    // troli
+    var unpaid = 0
+    
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -159,6 +165,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     
     // MARK: - Option Button
     func setupOption(_ count: Int) {
+        self.unpaid = count
         let troli = createTroliButton(count)
         
         troli.addTarget(self, action: #selector(Checkout2ShipViewController.launchUnpaid), for: UIControlEvents.touchUpInside)
@@ -170,14 +177,16 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     func launchUnpaid() {
-        let alertView = SCLAlertView(appearance: Constant.appearance)
-        alertView.addButton("Bayar") {
-            let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
-            notifPageVC.previousScreen = PageName.Checkout
-            self.navigationController?.pushViewController(notifPageVC, animated: true)
+        if self.unpaid > 0 {
+            let alertView = SCLAlertView(appearance: Constant.appearance)
+            alertView.addButton("Bayar") {
+                let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
+                notifPageVC.previousScreen = PageName.Checkout
+                self.navigationController?.pushViewController(notifPageVC, animated: true)
+            }
+            alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+            alertView.showCustom("Transaksi", subTitle: "Hi, masih ada \(unpaid) transaksi yang belum kamu bayar loh! Bayar sekarang?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
         }
-        alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
-        alertView.showCustom("Transaksi", subTitle: "Hi, masih ada transaksi yang belum kamu bayar loh! Bayar sekarang?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
     // MARK: - Cart sync
@@ -298,6 +307,9 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 
                 // update troli
                 self.setupOption(self.cartResult.nTransactionUnpaid)
+                
+                // reset - cart
+                self.isEnableToCheckout = true
                 
                 self.setupDropdownAddress()
                 self.tableView.reloadData()
@@ -428,8 +440,16 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 cell.selectionStyle = .none
                 cell.clipsToBounds = true
                 
-                cell.adapt(self.cartResult.cartDetails[idx.section].products[idx.row-1])
+                let product = self.cartResult.cartDetails[idx.section].products[idx.row-1]
                 
+                cell.adapt(product)
+                
+                if product.errorMessage != nil {
+                    self.isEnableToCheckout = false
+                }
+                
+                // disabled
+                /*
                 cell.remove = { pid in
                     self.dismissKeyboard()
                     
@@ -456,6 +476,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     alertView.showCustom("Hapus Keranjang", subTitle: "Kamu yakin ingin menghapus \"\(self.cartResult.cartDetails[idx.section].products[idx.row-1].name)\"?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
                     
                 }
+                */
                 
                 return cell
             } else if idx.row == cartResult.cartDetails[idx.section].products.count + 1 {
@@ -726,7 +747,16 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
             self.selectedAddress.address == "" ||
             self.selectedAddress.postalCode == "") {
             
+            self.scrollToAddress()
+            
             Constant.showDialog("Form belum lengkap", message: "Harap lengkapi alamat Kamu")
+            return false
+        }
+        
+        if !self.isEnableToCheckout {
+            self.scrollToTop()
+            
+            Constant.showDialog("Gagal melanjutkan", message: "Terdapat kesalahan, coba cek pesanan Kamu")
             return false
         }
         
@@ -745,6 +775,12 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     func scrollToTop() {
         if self.cartResult.cartDetails.count > 0 {
             tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.top, animated: true)
+        }
+    }
+    
+    func scrollToAddress() {
+        if self.cartResult.cartDetails.count > 0 {
+            tableView.scrollToRow(at: IndexPath(row: 0, section: self.cartResult.cartDetails.count), at: UITableViewScrollPosition.top, animated: true)
         }
     }
     
@@ -885,7 +921,7 @@ class Checkout2ProductCell: UITableViewCell {
     
     var productDetail: ProductItem!
     
-    var remove: (String)->() = {_ in }
+    //var remove: (String)->() = {_ in }
     
     func adapt(_ productDetail: ProductItem) {
         self.consWidthBtn.constant = 0.0
@@ -910,6 +946,7 @@ class Checkout2ProductCell: UITableViewCell {
     }
     
     @IBAction func btnRemovePressed(_ sender: Any) {
+        // disabled
         //self.remove(self.productDetail.productId)
     }
 }
