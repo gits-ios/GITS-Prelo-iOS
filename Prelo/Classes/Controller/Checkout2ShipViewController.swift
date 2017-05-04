@@ -186,6 +186,8 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
             }
             alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
             alertView.showCustom("Transaksi", subTitle: "Hi, masih ada \(unpaid) transaksi yang belum kamu bayar loh! Bayar sekarang?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+        } else {
+            Constant.showDialog("Transaksi", message: "Kamu sedang tidak memiliki transaksi aktif")
         }
     }
     
