@@ -120,6 +120,9 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
         
         view.addGestureRecognizer(tap)
         
+        // update troli
+        self.setupOption(0)
+        
         // title
         self.title = "Checkout"
     }
@@ -144,6 +147,32 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 }
                 
         }, completion: nil)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // fixer
+        // gesture override
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
+    
+    // MARK: - Option Button
+    func setupOption(_ count: Int) {
+        let troli = createTroliButton(count)
+        
+        troli.addTarget(self, action: #selector(Checkout2ShipViewController.launchUnpaid), for: UIControlEvents.touchUpInside)
+        
+        let troliRecognizer = UITapGestureRecognizer(target: self, action: #selector(Checkout2ShipViewController.launchUnpaid))
+        troli.viewWithTag(100)?.addGestureRecognizer(troliRecognizer)
+        
+        self.navigationItem.rightBarButtonItems = [troli.toBarButton()]
+    }
+    
+    func launchUnpaid() {
+        let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
+        notifPageVC.previousScreen = PageName.Checkout
+        self.navigationController?.pushViewController(notifPageVC, animated: true)
     }
     
     // MARK: - Cart sync
@@ -261,6 +290,9 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     
                     self.isFirst = false
                 }
+                
+                // update troli
+                self.setupOption(self.cartResult.nTransactionUnpaid)
                 
                 self.setupDropdownAddress()
                 self.tableView.reloadData()
@@ -653,7 +685,18 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
             print("hapus tapped")
         }
         
-        return [remove]
+        let detail = UITableViewRowAction(style: .normal, title: "Detail") { action, index in
+            let p = Product.instance(cell.productDetail.json)
+            
+            // Goto product detail
+            let productDetailVC = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+            productDetailVC.product = p
+            productDetailVC.previousScreen = PageName.Checkout
+            self.navigationController?.pushViewController(productDetailVC, animated: true)
+        }
+        detail.backgroundColor = UIColor.blue
+        
+        return [remove, detail]
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
