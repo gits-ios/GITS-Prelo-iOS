@@ -296,7 +296,8 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
         
         // AppsFlyer
         let afPdata: [String : Any] = [
-            AFEventParamCustomerUserId: User.Id!
+            AFEventParamCustomerUserId: User.Id!,
+            AFEventParamRegistrationMethod: self.loginMethod
         ]
         AppsFlyerTracker.shared().trackEvent(AFEventCompleteRegistration, withValues: afPdata)
         
