@@ -656,6 +656,7 @@ class Tags : NSObject {
     static let XibNameAddressAddEdit = "AddressAddEdit"
     static let XibNameUserProfile2 = "UserProfile2"
     static let XibNameReportTransaction = "ReportTransaction"
+    static let XibNameShareProfile = "ShareProfile"
 }
 
 class OrderStatus : NSObject {

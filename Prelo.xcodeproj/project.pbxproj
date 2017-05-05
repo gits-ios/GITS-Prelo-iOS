@@ -685,6 +685,8 @@
 		B2DF58491E484131005B6CF1 /* AddressBookCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2DF58481E484131005B6CF1 /* AddressBookCell.xib */; };
 		B2DF584B1E4844B9005B6CF1 /* AddressBookNewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2DF584A1E4844B9005B6CF1 /* AddressBookNewCell.xib */; };
 		B2DF584D1E484605005B6CF1 /* AddressBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2DF584C1E484605005B6CF1 /* AddressBookViewController.swift */; };
+		B2ECB30C1EBC5DEC00DB87E2 /* ShareProfile.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2ECB30B1EBC5DEC00DB87E2 /* ShareProfile.xib */; };
+		B2ECB31E1EBC64FB00DB87E2 /* ShareProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2ECB31D1EBC64FB00DB87E2 /* ShareProfileViewController.swift */; };
 		B2EE39B01E76548100113E03 /* PaidPushPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2EE39AF1E76548100113E03 /* PaidPushPopup.xib */; };
 		B2EE39C11E76743D00113E03 /* IronSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2EE39C01E76743D00113E03 /* IronSource.framework */; };
 		B2EE39CD1E76905500113E03 /* ic_paid_balance.png in Resources */ = {isa = PBXBuildFile; fileRef = B2EE39CA1E76905500113E03 /* ic_paid_balance.png */; };
@@ -1749,6 +1751,8 @@
 		B2DF58481E484131005B6CF1 /* AddressBookCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressBookCell.xib; sourceTree = "<group>"; };
 		B2DF584A1E4844B9005B6CF1 /* AddressBookNewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressBookNewCell.xib; sourceTree = "<group>"; };
 		B2DF584C1E484605005B6CF1 /* AddressBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBookViewController.swift; sourceTree = "<group>"; };
+		B2ECB30B1EBC5DEC00DB87E2 /* ShareProfile.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShareProfile.xib; sourceTree = "<group>"; };
+		B2ECB31D1EBC64FB00DB87E2 /* ShareProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareProfileViewController.swift; sourceTree = "<group>"; };
 		B2EE39AF1E76548100113E03 /* PaidPushPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PaidPushPopup.xib; path = XIB/PaidPushPopup.xib; sourceTree = "<group>"; };
 		B2EE39C01E76743D00113E03 /* IronSource.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IronSource.framework; sourceTree = "<group>"; };
 		B2EE39CA1E76905500113E03 /* ic_paid_balance.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_paid_balance.png; sourceTree = "<group>"; };
@@ -2388,6 +2392,7 @@
 				21156EB91B8F5B4C001D7842 /* UserProfileViewController.swift */,
 				B21DF53F1E5187EA007A60C5 /* UserProfileViewController2.swift */,
 				21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */,
+				B2ECB31D1EBC64FB00DB87E2 /* ShareProfileViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -3000,6 +3005,7 @@
 				21104AD01BAA8F1200947E7F /* TransactionListCell.xib */,
 				21156EBB1B8F5B5D001D7842 /* UserProfile.xib */,
 				B21DF5291E5179E5007A60C5 /* UserProfile2.xib */,
+				B2ECB30B1EBC5DEC00DB87E2 /* ShareProfile.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -3798,6 +3804,7 @@
 				58F78B601DFACEB3008744F7 /* ProductLovelist.xib in Resources */,
 				589A6FB71D8C08F600654CDD /* ic_comment.png in Resources */,
 				B27948231E35C700002CEED4 /* TarikTunai2.xib in Resources */,
+				B2ECB30C1EBC5DEC00DB87E2 /* ShareProfile.xib in Resources */,
 				5858874D1DBEDBA3006EC6D5 /* NotifAnggiTransactionCell.xib in Resources */,
 				B2BE2E021E29FA42006B6903 /* StorePageShopHeader.xib in Resources */,
 				B2EE39CD1E76905500113E03 /* ic_paid_balance.png in Resources */,
@@ -4239,6 +4246,7 @@
 				21679A371B901C5300F18F90 /* MPObjectIdentityProvider.m in Sources */,
 				581430DB1DCB14DE00B67205 /* GrowingTextViewHandler.swift in Sources */,
 				21E7A7691B9FF2BC00FC9B38 /* LKLineActivity.m in Sources */,
+				B2ECB31E1EBC64FB00DB87E2 /* ShareProfileViewController.swift in Sources */,
 				B2FFCBA01EA52669004F01D0 /* SocketClientManager.swift in Sources */,
 				588148AC1DC09F88004180E1 /* ProductCompareViewController.swift in Sources */,
 				21E7A7571B9FDE4F00FC9B38 /* MGInstagram.m in Sources */,

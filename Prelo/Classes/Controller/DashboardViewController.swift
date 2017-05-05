@@ -492,6 +492,10 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         // prelo message -- OKE
 //        let preloMessageVC = Bundle.main.loadNibNamed(Tags.XibNamePreloMessage, owner: nil, options: nil)?.first as! PreloMessageViewController
 //        self.navigationController?.pushViewController(preloMessageVC, animated: true)
+        
+        // share profile
+        let shareProfileVC = Bundle.main.loadNibNamed(Tags.XibNameShareProfile, owner: nil, options: nil)?.first as! ShareProfileViewController
+        self.navigationController?.pushViewController(shareProfileVC, animated: true)
     }
     
     func launchFAQ() {
