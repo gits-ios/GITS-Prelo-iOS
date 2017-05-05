@@ -47,7 +47,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wsp-jC-mKP">
-                        <rect key="frame" x="63" y="9" width="296" height="19.5"/>
+                        <rect key="frame" x="50" y="9" width="309" height="20"/>
                         <connections>
                             <action selector="btnPickCourierPressed:" destination="NVs-9V-nrE" eventType="touchUpInside" id="D6K-N0-rFf"/>
                         </connections>
@@ -60,9 +60,9 @@
                     </label>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="wsp-jC-mKP" firstAttribute="leading" secondItem="72E-0w-eSD" secondAttribute="leading" constant="50" id="3hn-0b-vZN"/>
                     <constraint firstItem="mN7-du-gjf" firstAttribute="top" secondItem="WpX-Xj-yQJ" secondAttribute="bottom" constant="8" id="Adu-ys-SL8"/>
                     <constraint firstItem="Yxq-en-R0Y" firstAttribute="top" secondItem="WpX-Xj-yQJ" secondAttribute="bottom" constant="8" id="CGv-cp-Cjb"/>
-                    <constraint firstItem="wsp-jC-mKP" firstAttribute="leading" secondItem="1qd-Sd-sQM" secondAttribute="trailing" constant="8" id="LRP-0K-nbV"/>
                     <constraint firstItem="1qd-Sd-sQM" firstAttribute="top" secondItem="WpX-Xj-yQJ" secondAttribute="bottom" constant="8" id="NkX-VV-Gm6"/>
                     <constraint firstAttribute="bottom" secondItem="wsp-jC-mKP" secondAttribute="bottom" constant="8" id="OnR-SV-FX1"/>
                     <constraint firstItem="mN7-du-gjf" firstAttribute="leading" secondItem="Yxq-en-R0Y" secondAttribute="trailing" id="WVg-e2-Nno"/>

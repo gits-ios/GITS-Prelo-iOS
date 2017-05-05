@@ -222,7 +222,15 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     self.selectedAddress.subdistrictName = (userProfile?.subdistrictName)!
                     
                     self.synchCart()
+                } else {
+                    self.hideLoading()
+                    
+                    self.backToPreviousScreen()
                 }
+            } else {
+                self.hideLoading()
+                
+                self.backToPreviousScreen()
             }
         }
     }
@@ -233,10 +241,9 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
         
         // Prepare parameter for API refresh cart
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
-        if (c.count <= 0 && self.shouldBack == false) {
-            _ = self.navigationController?.popViewController(animated: true)
-            return
-        }
+        
+        self.backToPreviousScreen()
+        
         let p = AppToolsObjC.jsonString(from: c)
         let a = "{\"address\": \"alamat\", \"province_id\": \"" + selectedAddress.provinceId + "\", \"region_id\": \"" + selectedAddress.regionId + "\", \"subdistrict_id\": \"" + selectedAddress.subdistrictId + "\", \"postal_code\": \"\"}"
         //print("cart_products : \(String(describing: p))")
@@ -785,6 +792,14 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     func scrollToAddress() {
         if self.cartResult.cartDetails.count > 0 {
             tableView.scrollToRow(at: IndexPath(row: 0, section: self.cartResult.cartDetails.count), at: UITableViewScrollPosition.top, animated: true)
+        }
+    }
+    
+    func backToPreviousScreen() {
+        // Back to prev page if cart is empty
+        if (self.shouldBack == true) {
+            _ = self.navigationController?.popViewController(animated: true)
+            return
         }
     }
     
