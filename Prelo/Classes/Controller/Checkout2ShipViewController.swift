@@ -570,6 +570,8 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                         cell.adapt(self.selectedAddress, parent: self)
                     }
                     
+                    self.scrollToAddress()
+                    
                     cell.pickProvince = { provinceId in
                         // self.dismissKeyboard()
                         
