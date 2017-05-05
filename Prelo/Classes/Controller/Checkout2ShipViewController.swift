@@ -609,7 +609,8 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                         // self.dismissKeyboard()
                         
                         self.selectedAddress.isSave = !self.selectedAddress.isSave
-                        self.tableView.reloadData()
+                        
+                        //print("isSave: \(self.selectedAddress.isSave)")
                     }
                     
                     return cell
@@ -1198,6 +1199,7 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
     
     var parent: Checkout2ShipViewController!
     var isDefault: Bool = false
+    var isSave: Bool = false
     
     func setup() {
         self.lbProvince.text = "Pilih Provinsi"
@@ -1280,7 +1282,13 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
         self.lbRegionPicker.textColor = Theme.PrimaryColorDark
         self.lbSubdistrictPicker.textColor = Theme.PrimaryColorDark
         
-        if address.isSave {
+        self.switchCheckbox(address.isSave)
+    }
+    
+    func switchCheckbox(_ isSave: Bool) {
+        self.isSave = isSave
+        
+        if isSave {
             self.lbCheckbox.isHidden = false
         } else {
             self.lbCheckbox.isHidden = true
@@ -1405,6 +1413,8 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
     
     @IBAction func btnSavePressed(_ sender: Any) {
         if !self.isDefault {
+            self.switchCheckbox(!self.isSave)
+            
             self.saveAddress()
         }
     }
