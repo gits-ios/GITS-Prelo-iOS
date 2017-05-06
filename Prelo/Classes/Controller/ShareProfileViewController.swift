@@ -82,7 +82,7 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
         {
             let s = UIScrollView(frame : (self.coverScrollView?.bounds)!)
             let iv = UIImageView(frame : s.bounds)
-            iv.afSetImage(withURL: URL(string: self.images[i])!, withFilter: .fit)
+            iv.afSetImage(withURL: URL(string: self.images[i])!, withFilter: .fill)
             iv.tag = 1
             s.addSubview(iv)
             s.x = x
