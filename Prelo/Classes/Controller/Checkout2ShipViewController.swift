@@ -194,24 +194,20 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     // MARK: - Cart sync
     func getCart() {
         // Get cart from server
-        let _ = request(APICart.getCart).responseJSON { resp in
+        let _ = request(APIV2Cart.getCart).responseJSON { resp in
             if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Checkout - Get Cart")) {
                 let json = JSON(resp.result.value!)
                 if let arr = json["_data"].array {
                     for a in arr {
                         let spId = a["shipping_package_id"].stringValue
-                        let pId  = a["product_id"].stringValue
-                        let pName  = a["product_name"].stringValue
+                        let pIds  = a["product_ids"].arrayValue
+                        let sellerId  = a["seller_id"].stringValue
                         
-                        if let cp = CartProduct.getOne(pId, email: User.EmailOrEmptyString) {
-                            if cp.packageId != spId {
-                                cp.packageId = spId
-                            }
-                        } else {
-                            if let cp2 = CartProduct.newOne(pId, email: User.EmailOrEmptyString, name: pName) {
-                                cp2.packageId = spId
-                            }
+                        for pId in pIds {
+                            _ = CartManager.sharedInstance.insertProduct(sellerId, productId: pId.string!)
                         }
+                        
+                        CartManager.sharedInstance.updateShippingPackageId(sellerId, shippingPackageId: spId)
                     }
                     
                     // init default shipping
@@ -239,18 +235,15 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     func synchCart() {
         self.showLoading()
         
-        // Prepare parameter for API refresh cart
-        let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
-        
         self.backToPreviousScreen()
         
-        let p = AppToolsObjC.jsonString(from: c)
+        let p = CartManager.sharedInstance.getCartJsonString()
         let a = "{\"address\": \"alamat\", \"province_id\": \"" + selectedAddress.provinceId + "\", \"region_id\": \"" + selectedAddress.regionId + "\", \"subdistrict_id\": \"" + selectedAddress.subdistrictId + "\", \"postal_code\": \"\"}"
         //print("cart_products : \(String(describing: p))")
         //print("shipping_address : \(a)")
         
         // API refresh cart
-        let _ = request(APIV2Cart.refresh(cart: p!, address: a, voucher: nil)).responseJSON { resp in
+        let _ = request(APIV2Cart.refresh(cart: p, address: a, voucher: nil)).responseJSON { resp in
             if (PreloV2Endpoints.validate(true, dataResp: resp, reqAlias: "Keranjang Belanja")) {
                 
                 // Back to prev page if cart is empty

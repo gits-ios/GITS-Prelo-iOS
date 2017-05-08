@@ -119,7 +119,10 @@ extension URLRequest {
 }
 
 enum APIV2Cart : URLRequestConvertible {
+    case getCart
     case refresh(cart : String, address : String, voucher : String?)
+    case checkout(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int, usedReferralBonus : Int, kodeTransfer : Int, targetBank : String)
+    case removeItems(pIds : Array<String>)
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "cart/"
@@ -132,13 +135,19 @@ enum APIV2Cart : URLRequestConvertible {
     
     var method : HTTPMethod {
         switch self {
+        case .getCart : return .get
         case .refresh(_, _, _) : return .post
+        case .checkout(_, _, _, _, _, _, _, _) : return .post
+        case .removeItems(_) : return .post
         }
     }
     
     var path : String {
         switch self {
+        case .getCart : return ""
         case .refresh(_, _, _) : return ""
+        case .checkout(_, _, _, _, _, _, _, _) : return "checkout"
+        case .removeItems(_) : return "remove"
         }
     }
     
@@ -152,6 +161,31 @@ enum APIV2Cart : URLRequestConvertible {
                 "voucher_serial":(voucher == nil) ? "" : voucher!,
                 "platform_sent_from" : "ios"
             ]
+        case .checkout(let cart, let address, let voucher, let payment, let usedBalance, let usedBonus, let kodeTransfer, let targetBank) :
+            p = [
+                "cart_products":cart,
+                "shipping_address":address,
+                "banktransfer_digit":NSNumber(value: 1 as Int),
+                "voucher_serial":(voucher == nil) ? "" : voucher!,
+                "payment_method":payment,
+                "platform_sent_from" : "ios",
+                "target_bank": targetBank
+                ] as [String : Any]
+            if usedBalance != 0 {
+                p["prelobalance_used"] = NSNumber(value: usedBalance as Int)
+            }
+            if kodeTransfer != 0 {
+                p["banktransfer_digit"] = NSNumber(value: kodeTransfer as Int)
+            }
+            if usedBonus != 0 {
+                p["bonus_used"] = NSNumber(value: usedBonus as Int)
+            }
+        case .removeItems(let pIds) :
+            p = [
+                "product_ids" : pIds,
+                "platform_sent_from" : "ios"
+            ]
+        default : break
         }
         return p
     }

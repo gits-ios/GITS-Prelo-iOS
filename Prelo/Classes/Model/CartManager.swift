@@ -17,7 +17,10 @@ class CartManager: NSObject {
     
     fileprivate func getCart() -> Array<[String : Any]> {
         var currentCart: Array<[String : Any]> = []
-        currentCart = UserDefaults.standard.array(forKey: CartManager.cartProductsKey)! as! Array<[String : Any]>
+        
+        if let x = UserDefaults.standard.array(forKey: CartManager.cartProductsKey) {
+            currentCart = x as! Array<[String : Any]>
+        }
         
         return currentCart
     }
