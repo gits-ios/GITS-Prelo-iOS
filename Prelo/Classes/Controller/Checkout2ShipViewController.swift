@@ -279,7 +279,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     self.ongkirs.append(sp.shippingPackages[0].price)
                     self.isFreeOngkirs.append(sp.shippingPackages[0].price == 0)
                     self.selectedOngkirIndexes.append(0)
-                    self.isNeedLocations.append(sp.shippingPackages[0].isNeedLocation)
+                    self.isNeedLocations.append(sp.shippingPackages[0].isNeedLocation && sp.shippingPackages[0].price != 0)
                 }
                 
                 if self.isFirst && self.cartResult.addressBook.count > 0 {
@@ -334,7 +334,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section < cartResult.cartDetails.count {
-            return cartResult.cartDetails[section].products.count + 2 + (self.isNeedLocations.contains(true) ? 1 : 0) + 1
+            return cartResult.cartDetails[section].products.count + 2 + (self.isNeedLocations[section] && !self.isFreeOngkirs[section] ? 1 : 0) + 1
         } else if section == cartResult.cartDetails.count {
             return 2 + (self.isNeedLocations.contains(true) ? 1 : 0) + 1
         } else if section == cartResult.cartDetails.count + 1 {
@@ -353,7 +353,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
             } else if idx.row == cartResult.cartDetails[idx.section].products.count + 1 {
                 return Checkout2CourierCell.heightFor()
             } else {
-                if idx.row == cartResult.cartDetails[idx.section].products.count + 2 && self.isNeedLocations.contains(true) {
+                if idx.row == cartResult.cartDetails[idx.section].products.count + 2 && self.isNeedLocations[idx.section] && !self.isFreeOngkirs[idx.section] {
                     return Checkout2CourierDescriptionCell.heightFor()
                 } else {
                     return Checkout2SplitCell.heightFor()
@@ -500,7 +500,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 
                 return cell
             } else {
-                if idx.row == cartResult.cartDetails[idx.section].products.count + 2 && self.isNeedLocations.contains(true) {
+                if idx.row == cartResult.cartDetails[idx.section].products.count + 2 && self.isNeedLocations[idx.section] && !self.isFreeOngkirs[idx.section] {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2CourierDescriptionCell") as! Checkout2CourierDescriptionCell
                     
                     cell.selectionStyle = .none
