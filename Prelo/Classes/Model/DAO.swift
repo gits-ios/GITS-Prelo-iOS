@@ -4123,6 +4123,20 @@ class AddressItem : NSObject {
         }
         return false
     }
+    
+    var coordinate : String {
+        if let j = json["coordinate"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var coordinateAddress : String {
+        if let j = json["coordinate_address"].string {
+            return j
+        }
+        return ""
+    }
 }
 
 // MARK: - CART V2

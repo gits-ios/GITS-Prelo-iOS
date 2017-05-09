@@ -558,8 +558,8 @@ enum APIMe : URLRequestConvertible {
     case setUserUUID
     case achievement
     case getAddressBook
-    case updateAddress(addressId: String, addressName: String, recipientName: String, phone: String, provinceId: String, provinceName: String, regionId: String, regionName: String, subdistrictId: String, subdistricName: String, address: String, postalCode: String, isMainAddress: Bool)
-    case createAddress(addressName: String, recipientName: String, phone: String, provinceId: String, provinceName: String, regionId: String, regionName: String, subdistrictId: String, subdistricName: String, address: String, postalCode: String)
+    case updateAddress(addressId: String, addressName: String, recipientName: String, phone: String, provinceId: String, provinceName: String, regionId: String, regionName: String, subdistrictId: String, subdistricName: String, address: String, postalCode: String, isMainAddress: Bool, coordinate: String, coordinateAddress: String)
+    case createAddress(addressName: String, recipientName: String, phone: String, provinceId: String, provinceName: String, regionId: String, regionName: String, subdistrictId: String, subdistricName: String, address: String, postalCode: String, coordinate: String, coordinateAddress: String)
     case deleteAddress(addressId: String)
     case setDefaultAddress(addressId: String)
     
@@ -595,8 +595,8 @@ enum APIMe : URLRequestConvertible {
         case .setUserUUID : return .post
         case .achievement : return .get
         case .getAddressBook : return .get
-        case .updateAddress(_, _, _, _, _, _, _, _, _, _, _, _, _) : return .post
-        case .createAddress(_, _, _, _, _, _, _, _, _, _, _) : return .post
+        case .updateAddress(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _) : return .post
+        case .createAddress(_, _, _, _, _, _, _, _, _, _, _, _, _) : return .post
         case .deleteAddress(_) : return .post
         case .setDefaultAddress(_) : return .post
         }
@@ -625,8 +625,8 @@ enum APIMe : URLRequestConvertible {
         case .setUserUUID : return "setgafaid"
         case .achievement : return "achievements"
         case .getAddressBook : return "address_book"
-        case .updateAddress(_, _, _, _, _, _, _, _, _, _, _, _, _) : return "address_book/update"
-        case .createAddress(_, _, _, _, _, _, _, _, _, _, _) : return "address_book/add"
+        case .updateAddress(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _) : return "address_book/update"
+        case .createAddress(_, _, _, _, _, _, _, _, _, _, _, _, _) : return "address_book/add"
         case .deleteAddress(_) : return "address_book/delete"
         case .setDefaultAddress(_) : return "address_book/set_default"
         }
@@ -730,7 +730,7 @@ enum APIMe : URLRequestConvertible {
                 "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
                 "platform_sent_from" : "ios"
             ]
-        case .updateAddress(let addressId, let addressName, let recipientName, let phone, let provinceId, let provinceName, let regionId, let regionName, let subdistrictId, let subdistricName, let address, let postalCode, let isMainAddress) :
+        case .updateAddress(let addressId, let addressName, let recipientName, let phone, let provinceId, let provinceName, let regionId, let regionName, let subdistrictId, let subdistricName, let address, let postalCode, let isMainAddress, let coordinate, let coordinateAddress) :
             p = [
                 "address_id": addressId,
                 "address_name": addressName,
@@ -745,9 +745,11 @@ enum APIMe : URLRequestConvertible {
                 "address": address,
                 "postal_code": postalCode,
                 "is_default": (isMainAddress == true ? 1 : 0),
-                "platform_sent_from" : "ios"
+                "platform_sent_from" : "ios",
+                "coordinate": coordinate,
+                "coordinate_address": coordinateAddress
             ]
-        case .createAddress(let addressName, let recipientName, let phone, let provinceId, let provinceName, let regionId, let regionName, let subdistrictId, let subdistricName, let address, let postalCode) :
+        case .createAddress(let addressName, let recipientName, let phone, let provinceId, let provinceName, let regionId, let regionName, let subdistrictId, let subdistricName, let address, let postalCode, let coordinate, let coordinateAddress) :
             p = [
                 "address_name": addressName,
                 "owner_name": recipientName,
@@ -760,7 +762,9 @@ enum APIMe : URLRequestConvertible {
                 "subdistrict_name": subdistricName,
                 "address": address,
                 "postal_code": postalCode,
-                "platform_sent_from" : "ios"
+                "platform_sent_from" : "ios",
+                "coordinate": coordinate,
+                "coordinate_address": coordinateAddress
             ]
         case .deleteAddress(let addressId) :
             p = [

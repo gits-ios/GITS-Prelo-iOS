@@ -634,6 +634,7 @@
 		B2B34BCF1E37042D001B653F /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B34BCE1E37042D001B653F /* NotificationService.swift */; };
 		B2B34BE71E388395001B653F /* ic_exclamation_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B34BE61E388395001B653F /* ic_exclamation_grey.png */; };
 		B2B4DCC41E2D24B900EBBD33 /* ShopReviewAverageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B4DCC31E2D24B900EBBD33 /* ShopReviewAverageCell.xib */; };
+		B2B6417A1E98D45C00E23413 /* placeholder-prelo-message.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B2B641791E98D45C00E23413 /* placeholder-prelo-message.jpg */; };
 		B2BC10271E442D72003DF4D7 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BC10261E442D72003DF4D7 /* CoreMotion.framework */; };
 		B2BC10291E442DBB003DF4D7 /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BC10281E442DBB003DF4D7 /* FBAudienceNetwork.framework */; };
 		B2BE2DF01E29EBBD006B6903 /* StorePageTabBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */; };
@@ -668,7 +669,6 @@
 		B2CAF7921E79219E00ACB361 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B2CAF78C1E79219E00ACB361 /* Info.plist */; };
 		B2CAF7931E79219E00ACB361 /* RegexParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CAF78D1E79219E00ACB361 /* RegexParser.swift */; };
 		B2CAF7941E79219E00ACB361 /* StringTrimExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CAF78E1E79219E00ACB361 /* StringTrimExtension.swift */; };
-		B2CAF7961E794ED100ACB361 /* placeholder-prelo-message.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B2CAF7951E794ED100ACB361 /* placeholder-prelo-message.jpg */; };
 		B2CB4C441E08C61C00F5D0F2 /* FilterLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2CB4C431E08C61C00F5D0F2 /* FilterLocationCell.xib */; };
 		B2D119871E28C9790064045B /* AchievementCelliOS9xx.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D119861E28C9790064045B /* AchievementCelliOS9xx.xib */; };
 		B2D119891E28CD2A0064045B /* AchievementCellDescriptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D119881E28CD2A0064045B /* AchievementCellDescriptionCell.xib */; };
@@ -678,6 +678,8 @@
 		B2D119931E290BF80064045B /* banner_exclamation.png in Resources */ = {isa = PBXBuildFile; fileRef = B2D1198E1E290BF80064045B /* banner_exclamation.png */; };
 		B2D119941E290BF80064045B /* banner_comment.png in Resources */ = {isa = PBXBuildFile; fileRef = B2D1198F1E290BF80064045B /* banner_comment.png */; };
 		B2D119D41E2922870064045B /* Prelo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B2D119CB1E2922870064045B /* Prelo.xcdatamodeld */; };
+		B2D39B761EB2F7BF00A44A1C /* ic_pin.png in Resources */ = {isa = PBXBuildFile; fileRef = B2D39B751EB2F7BF00A44A1C /* ic_pin.png */; };
+		B2D39B781EB2F7C800A44A1C /* txt_pin.png in Resources */ = {isa = PBXBuildFile; fileRef = B2D39B771EB2F7C800A44A1C /* txt_pin.png */; };
 		B2D481CA1E02A7AD006006CC /* LocationFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D481C81E02A7AD006006CC /* LocationFilterViewController.swift */; };
 		B2D481CB1E02A7AD006006CC /* ReportProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D481C91E02A7AD006006CC /* ReportProductViewController.swift */; };
 		B2D481DC1E02A7E2006006CC /* LocationFilters.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D481DA1E02A7E1006006CC /* LocationFilters.xib */; };
@@ -710,11 +712,23 @@
 		B2DF58491E484131005B6CF1 /* AddressBookCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2DF58481E484131005B6CF1 /* AddressBookCell.xib */; };
 		B2DF584B1E4844B9005B6CF1 /* AddressBookNewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2DF584A1E4844B9005B6CF1 /* AddressBookNewCell.xib */; };
 		B2DF584D1E484605005B6CF1 /* AddressBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2DF584C1E484605005B6CF1 /* AddressBookViewController.swift */; };
+		B2DF6AE01EA8AC280058B59B /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2DF6ADF1EA8AC280058B59B /* GoogleMaps.bundle */; };
+		B2E0DD6F1EA7554F0076A230 /* GooglePlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2E0DD6E1EA7554F0076A230 /* GooglePlaces.framework */; };
+		B2ECB2F61EBC308800DB87E2 /* ic_pin_border.png in Resources */ = {isa = PBXBuildFile; fileRef = B2ECB2F51EBC308800DB87E2 /* ic_pin_border.png */; };
 		B2EE39B01E76548100113E03 /* PaidPushPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2EE39AF1E76548100113E03 /* PaidPushPopup.xib */; };
 		B2EE39C11E76743D00113E03 /* IronSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2EE39C01E76743D00113E03 /* IronSource.framework */; };
 		B2EE39CD1E76905500113E03 /* ic_paid_balance.png in Resources */ = {isa = PBXBuildFile; fileRef = B2EE39CA1E76905500113E03 /* ic_paid_balance.png */; };
 		B2EE39CE1E76905500113E03 /* ic_paid_poin.png in Resources */ = {isa = PBXBuildFile; fileRef = B2EE39CB1E76905500113E03 /* ic_paid_poin.png */; };
 		B2EE39CF1E76905500113E03 /* ic_paid_video.png in Resources */ = {isa = PBXBuildFile; fileRef = B2EE39CC1E76905500113E03 /* ic_paid_video.png */; };
+		B2F184B71E938A4A001EEB36 /* GoogleMapsBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F184B61E938A4A001EEB36 /* GoogleMapsBase.framework */; };
+		B2F184CA1E938A66001EEB36 /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F184C81E938A66001EEB36 /* GoogleMaps.framework */; };
+		B2F184CB1E938A66001EEB36 /* GoogleMapsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F184C91E938A66001EEB36 /* GoogleMapsCore.framework */; };
+		B2F184CD1E938B76001EEB36 /* GoogleMap.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2F184CC1E938B76001EEB36 /* GoogleMap.xib */; };
+		B2F184CF1E938B92001EEB36 /* GoogleMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F184CE1E938B92001EEB36 /* GoogleMapViewController.swift */; };
+		B2F184D11E938E67001EEB36 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F184D01E938E67001EEB36 /* CoreText.framework */; };
+		B2F184D31E938E72001EEB36 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F184D21E938E72001EEB36 /* GLKit.framework */; };
+		B2F184D51E938E82001EEB36 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F184D41E938E82001EEB36 /* libc++.tbd */; };
+		B2F184D71E938E9B001EEB36 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F184D61E938E9B001EEB36 /* libz.tbd */; };
 		B2FFCB9D1EA52669004F01D0 /* SocketAckEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFCB841EA52669004F01D0 /* SocketAckEmitter.swift */; };
 		B2FFCB9E1EA52669004F01D0 /* SocketAckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFCB851EA52669004F01D0 /* SocketAckManager.swift */; };
 		B2FFCB9F1EA52669004F01D0 /* SocketAnyEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFCB861EA52669004F01D0 /* SocketAnyEvent.swift */; };
@@ -1714,6 +1728,7 @@
 		B2B34BD01E37042D001B653F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2B34BE61E388395001B653F /* ic_exclamation_grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_exclamation_grey.png; sourceTree = "<group>"; };
 		B2B4DCC31E2D24B900EBBD33 /* ShopReviewAverageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReviewAverageCell.xib; sourceTree = "<group>"; };
+		B2B641791E98D45C00E23413 /* placeholder-prelo-message.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "placeholder-prelo-message.jpg"; sourceTree = "<group>"; };
 		B2BC10261E442D72003DF4D7 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		B2BC10281E442DBB003DF4D7 /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
 		B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StorePageTabBar.xib; sourceTree = "<group>"; };
@@ -1749,7 +1764,6 @@
 		B2CAF78C1E79219E00ACB361 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2CAF78D1E79219E00ACB361 /* RegexParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegexParser.swift; sourceTree = "<group>"; };
 		B2CAF78E1E79219E00ACB361 /* StringTrimExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTrimExtension.swift; sourceTree = "<group>"; };
-		B2CAF7951E794ED100ACB361 /* placeholder-prelo-message.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "placeholder-prelo-message.jpg"; sourceTree = "<group>"; };
 		B2CB4C431E08C61C00F5D0F2 /* FilterLocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterLocationCell.xib; sourceTree = "<group>"; };
 		B2D119861E28C9790064045B /* AchievementCelliOS9xx.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementCelliOS9xx.xib; sourceTree = "<group>"; };
 		B2D119881E28CD2A0064045B /* AchievementCellDescriptionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementCellDescriptionCell.xib; sourceTree = "<group>"; };
@@ -1767,6 +1781,8 @@
 		B2D119D21E2922870064045B /* Prelo 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 8.xcdatamodel"; sourceTree = "<group>"; };
 		B2D119D31E2922870064045B /* Prelo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Prelo.xcdatamodel; sourceTree = "<group>"; };
 		B2D119D51E2922A10064045B /* Prelo 9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 9.xcdatamodel"; sourceTree = "<group>"; };
+		B2D39B751EB2F7BF00A44A1C /* ic_pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_pin.png; sourceTree = "<group>"; };
+		B2D39B771EB2F7C800A44A1C /* txt_pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = txt_pin.png; sourceTree = "<group>"; };
 		B2D481C81E02A7AD006006CC /* LocationFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationFilterViewController.swift; sourceTree = "<group>"; };
 		B2D481C91E02A7AD006006CC /* ReportProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportProductViewController.swift; sourceTree = "<group>"; };
 		B2D481DA1E02A7E1006006CC /* LocationFilters.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LocationFilters.xib; sourceTree = "<group>"; };
@@ -1799,11 +1815,23 @@
 		B2DF58481E484131005B6CF1 /* AddressBookCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressBookCell.xib; sourceTree = "<group>"; };
 		B2DF584A1E4844B9005B6CF1 /* AddressBookNewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressBookNewCell.xib; sourceTree = "<group>"; };
 		B2DF584C1E484605005B6CF1 /* AddressBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBookViewController.swift; sourceTree = "<group>"; };
+		B2DF6ADF1EA8AC280058B59B /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = Prelo/Framework/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
+		B2E0DD6E1EA7554F0076A230 /* GooglePlaces.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GooglePlaces.framework; sourceTree = "<group>"; };
+		B2ECB2F51EBC308800DB87E2 /* ic_pin_border.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_pin_border.png; sourceTree = "<group>"; };
 		B2EE39AF1E76548100113E03 /* PaidPushPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PaidPushPopup.xib; path = XIB/PaidPushPopup.xib; sourceTree = "<group>"; };
 		B2EE39C01E76743D00113E03 /* IronSource.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IronSource.framework; sourceTree = "<group>"; };
 		B2EE39CA1E76905500113E03 /* ic_paid_balance.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_paid_balance.png; sourceTree = "<group>"; };
 		B2EE39CB1E76905500113E03 /* ic_paid_poin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_paid_poin.png; sourceTree = "<group>"; };
 		B2EE39CC1E76905500113E03 /* ic_paid_video.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_paid_video.png; sourceTree = "<group>"; };
+		B2F184B61E938A4A001EEB36 /* GoogleMapsBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsBase.framework; sourceTree = "<group>"; };
+		B2F184C81E938A66001EEB36 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
+		B2F184C91E938A66001EEB36 /* GoogleMapsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsCore.framework; sourceTree = "<group>"; };
+		B2F184CC1E938B76001EEB36 /* GoogleMap.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GoogleMap.xib; sourceTree = "<group>"; };
+		B2F184CE1E938B92001EEB36 /* GoogleMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleMapViewController.swift; sourceTree = "<group>"; };
+		B2F184D01E938E67001EEB36 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		B2F184D21E938E72001EEB36 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		B2F184D41E938E82001EEB36 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		B2F184D61E938E9B001EEB36 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		B2FFCB841EA52669004F01D0 /* SocketAckEmitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckEmitter.swift; sourceTree = "<group>"; };
 		B2FFCB851EA52669004F01D0 /* SocketAckManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckManager.swift; sourceTree = "<group>"; };
 		B2FFCB861EA52669004F01D0 /* SocketAnyEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAnyEvent.swift; sourceTree = "<group>"; };
@@ -1859,17 +1887,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B2BC10271E442D72003DF4D7 /* CoreMotion.framework in Frameworks */,
+				B2E0DD6F1EA7554F0076A230 /* GooglePlaces.framework in Frameworks */,
+				21679A5C1B901CDA00F18F90 /* SystemConfiguration.framework in Frameworks */,
+				21AE67BB1B4A623300D2CF63 /* QuartzCore.framework in Frameworks */,
+				21EEB4481B86FAEE00CAD5C9 /* OpenGLES.framework in Frameworks */,
+				B2F184D71E938E9B001EEB36 /* libz.tbd in Frameworks */,
+				B2F184D51E938E82001EEB36 /* libc++.tbd in Frameworks */,
 				B285789E1E56B8F7008995F4 /* ImageIO.framework in Frameworks */,
+				B2F184D31E938E72001EEB36 /* GLKit.framework in Frameworks */,
+				B2F184D11E938E67001EEB36 /* CoreText.framework in Frameworks */,
+				58AB577C1CB24CDF0081094B /* CoreLocation.framework in Frameworks */,
+				21679A5E1B901CE700F18F90 /* CoreGraphics.framework in Frameworks */,
 				21EEB43C1B86FA2800CAD5C9 /* Accelerate.framework in Frameworks */,
+				B2BC10271E442D72003DF4D7 /* CoreMotion.framework in Frameworks */,
 				FD4E8BF31C31258100501F7A /* AdSupport.framework in Frameworks */,
 				2127A2AC1B7B45B300469CFC /* AssetsLibrary.framework in Frameworks */,
 				2142E1691B85D9A4009D7131 /* AVFoundation.framework in Frameworks */,
 				4453F43F1BBBFF6D00FE7CB5 /* Bolts.framework in Frameworks */,
+				B2F184CB1E938A66001EEB36 /* GoogleMapsCore.framework in Frameworks */,
 				58AB577E1CB24CEA0081094B /* CoreBluetooth.framework in Frameworks */,
 				21EEB43E1B86FA3000CAD5C9 /* CoreData.framework in Frameworks */,
-				21679A5E1B901CE700F18F90 /* CoreGraphics.framework in Frameworks */,
-				58AB577C1CB24CDF0081094B /* CoreLocation.framework in Frameworks */,
 				5870CFDB1DC6F85900E22EFF /* AlamofireImage.framework in Frameworks */,
 				58BE535B1D460E2E00E358EB /* CoreSpotlight.framework in Frameworks */,
 				21679A5A1B901CD400F18F90 /* CoreTelephony.framework in Frameworks */,
@@ -1883,18 +1920,16 @@
 				21EEB4461B86FADF00CAD5C9 /* MessageUI.framework in Frameworks */,
 				21EEB44C1B86FB0600CAD5C9 /* MobileCoreServices.framework in Frameworks */,
 				B2EE39C11E76743D00113E03 /* IronSource.framework in Frameworks */,
-				21EEB4481B86FAEE00CAD5C9 /* OpenGLES.framework in Frameworks */,
-				21AE67BB1B4A623300D2CF63 /* QuartzCore.framework in Frameworks */,
 				58A99A501C6D874400E3E7D7 /* SafariServices.framework in Frameworks */,
 				58AB57801CB24CFB0081094B /* Security.framework in Frameworks */,
 				21E7A7591B9FE81600FC9B38 /* Social.framework in Frameworks */,
 				21EEB44A1B86FAFF00CAD5C9 /* StoreKit.framework in Frameworks */,
-				21679A5C1B901CDA00F18F90 /* SystemConfiguration.framework in Frameworks */,
 				44B8EDC81BEB47620063DEA8 /* TwitterCore.framework in Frameworks */,
 				44B8EDC61BEB47620063DEA8 /* TwitterKit.framework in Frameworks */,
 				21EEB44E1B86FB0F00CAD5C9 /* UIKit.framework in Frameworks */,
 				58AB578F1CB273D20081094B /* libAdIdAccess.a in Frameworks */,
 				58D7D5231CD9B68300308A50 /* libAppsFlyerLib.a in Frameworks */,
+				B2F184CA1E938A66001EEB36 /* GoogleMaps.framework in Frameworks */,
 				B2BC10291E442DBB003DF4D7 /* FBAudienceNetwork.framework in Frameworks */,
 				58F5BEF61DB088D1009B0E0B /* Alamofire.framework in Frameworks */,
 				21EEB4501B86FB2B00CAD5C9 /* libc++.dylib in Frameworks */,
@@ -1904,6 +1939,7 @@
 				58D125371CDC4D1F002BC78A /* libMoEngageSDK.a in Frameworks */,
 				58AB578D1CB273190081094B /* libNotifyManager.a in Frameworks */,
 				21EEB4441B86FAD100CAD5C9 /* libsqlite3.dylib in Frameworks */,
+				B2F184B71E938A4A001EEB36 /* GoogleMapsBase.framework in Frameworks */,
 				FD3C6D481C1963AC0002C7B4 /* libz.dylib in Frameworks */,
 				21EEB4421B86FAC400CAD5C9 /* libz.1.2.5.dylib in Frameworks */,
 			);
@@ -1922,6 +1958,10 @@
 		163B49F396DAE9C45C1A8F32 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B2F184D61E938E9B001EEB36 /* libz.tbd */,
+				B2F184D41E938E82001EEB36 /* libc++.tbd */,
+				B2F184D21E938E72001EEB36 /* GLKit.framework */,
+				B2F184D01E938E67001EEB36 /* CoreText.framework */,
 				B2BC10261E442D72003DF4D7 /* CoreMotion.framework */,
 				B285789D1E56B8F7008995F4 /* ImageIO.framework */,
 				58BE535A1D460E2E00E358EB /* CoreSpotlight.framework */,
@@ -1968,6 +2008,7 @@
 		2115E6BF1B4A27E500509D2A = {
 			isa = PBXGroup;
 			children = (
+				B2DF6ADF1EA8AC280058B59B /* GoogleMaps.bundle */,
 				5870CFBA1DC6F7E600E22EFF /* AlamofireImage.xcodeproj */,
 				58F5BEDD1DB08810009B0E0B /* Alamofire.xcodeproj */,
 				B24FCEF21E536E8000B517A9 /* DropDown.xcodeproj */,
@@ -2440,6 +2481,7 @@
 				21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */,
 				B2D965EE1E9E3AA400B2C29C /* Checkout2ShipViewController.swift */,
 				B2D965F01E9E3AB600B2C29C /* Checkout2PayViewController.swift */,
+				B2F184CE1E938B92001EEB36 /* GoogleMapViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2514,6 +2556,7 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				B2D39B641EB2F78200A44A1C /* location map */,
 				B2B2F34F1E8D04CC0039167A /* wjp */,
 				B2D1198A1E290BE20064045B /* banner */,
 				B2EE39C91E76903C00113E03 /* paid push */,
@@ -2958,6 +3001,10 @@
 		21EEB4361B86F9EF00CAD5C9 /* Framework */ = {
 			isa = PBXGroup;
 			children = (
+				B2F184B61E938A4A001EEB36 /* GoogleMapsBase.framework */,
+				B2F184C81E938A66001EEB36 /* GoogleMaps.framework */,
+				B2F184C91E938A66001EEB36 /* GoogleMapsCore.framework */,
+				B2E0DD6E1EA7554F0076A230 /* GooglePlaces.framework */,
 				B2BC10281E442DBB003DF4D7 /* FBAudienceNetwork.framework */,
 				44B8EDC41BEB47620063DEA8 /* TwitterKitResources.bundle */,
 				4453F43D1BBBFF6D00FE7CB5 /* Bolts.framework */,
@@ -3056,6 +3103,7 @@
 				21104AD01BAA8F1200947E7F /* TransactionListCell.xib */,
 				21156EBB1B8F5B5D001D7842 /* UserProfile.xib */,
 				B21DF5291E5179E5007A60C5 /* UserProfile2.xib */,
+				B2F184CC1E938B76001EEB36 /* GoogleMap.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -3306,7 +3354,7 @@
 				B2BEBC741E4C27EC009982F9 /* placeholder-standar.png */,
 				B2BEBC751E4C27EC009982F9 /* placeholder-transparent.png */,
 				B2BEBC7B1E4C30BF009982F9 /* placeholder-transparent-ipad.png */,
-				B2CAF7951E794ED100ACB361 /* placeholder-prelo-message.jpg */,
+				B2B641791E98D45C00E23413 /* placeholder-prelo-message.jpg */,
 			);
 			name = placeholder;
 			sourceTree = "<group>";
@@ -3374,7 +3422,17 @@
 				B2D965EB1E9E36EA00B2C29C /* Checkout2PaymentSummaryTotalCell.xib */,
 			);
 			name = "Checkout Version 2";
-			path = XIB;
+path = XIB;
+sourceTree = "<group>";
+};
+		B2D39B641EB2F78200A44A1C /* location map */ = {
+			isa = PBXGroup;
+			children = (
+				B2D39B751EB2F7BF00A44A1C /* ic_pin.png */,
+				B2D39B771EB2F7C800A44A1C /* txt_pin.png */,
+				B2ECB2F51EBC308800DB87E2 /* ic_pin_border.png */,
+			);
+			name = "location map";
 			sourceTree = "<group>";
 		};
 		B2EE39BF1E76548B00113E03 /* Popup */ = {
@@ -3694,6 +3752,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2D965CF1E9DD75700B2C29C /* Checkout2SplitCell.xib in Resources */,
+				B2DF6AE01EA8AC280058B59B /* GoogleMaps.bundle in Resources */,
 				2124FFD21BBD2AC000194B8F /* README.txt in Resources */,
 				B2D965D51E9DFF6200B2C29C /* Checkout2AddressLocationCell.xib in Resources */,
 				B2B2F3621E8D04FE0039167A /* ic_wjp_exclamation.png in Resources */,
@@ -3787,7 +3846,6 @@
 				589A6FC41D8C08F600654CDD /* ic_love.png in Resources */,
 				B26DB3F11E2D3C6F00224675 /* ic_achievement.png in Resources */,
 				589A6FC91D8C08F600654CDD /* ic_tampak_belakang.png in Resources */,
-				B2CAF7961E794ED100ACB361 /* placeholder-prelo-message.jpg in Resources */,
 				585887411DBEDAB9006EC6D5 /* MyProductDetail.xib in Resources */,
 				212007C31B6A0EA600D9C84B /* basic_facebook@2x.png in Resources */,
 				21156ECF1B8F5DBC001D7842 /* ic_socmed_path.png in Resources */,
@@ -3833,6 +3891,7 @@
 				589A6FB81D8C08F600654CDD /* ic_delete.png in Resources */,
 				585887381DBEDA3E006EC6D5 /* Filter.xib in Resources */,
 				B240F4C31E2477FF00DCAFF7 /* shoppingstore27.png in Resources */,
+				B2D39B781EB2F7C800A44A1C /* txt_pin.png in Resources */,
 				5847E1951DBE057800C1B2BA /* LoginFransiska.xib in Resources */,
 				21E7A7661B9FF2BC00FC9B38 /* LKActivity.png in Resources */,
 				58BE53611D479F5B00E358EB /* courier_tiki.png in Resources */,
@@ -3842,6 +3901,7 @@
 				58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */,
 				B240F4D91E24C1AD00DCAFF7 /* AchievementDiamondCell.xib in Resources */,
 				589A6FBE1D8C08F600654CDD /* ic_gambar_utama.png in Resources */,
+				B2F184CD1E938B76001EEB36 /* GoogleMap.xib in Resources */,
 				5847E1971DBE081700C1B2BA /* Register.xib in Resources */,
 				58A223C71C898CB600619518 /* ic_trx_expired.png in Resources */,
 				B2D965CB1E9DCD9500B2C29C /* Checkout2CourierCell.xib in Resources */,
@@ -3906,6 +3966,7 @@
 				B2DF58391E484092005B6CF1 /* AddressBook.xib in Resources */,
 				5858875D1DBEEA28006EC6D5 /* StoreHeader.xib in Resources */,
 				440AF6681BE1090800074CBC /* ic_round_line.png in Resources */,
+				B2D39B761EB2F7BF00A44A1C /* ic_pin.png in Resources */,
 				2109BCA41BDDF85E004F36C5 /* tour_1.jpg in Resources */,
 				21B467DF1CCE5EDB00E145ED /* LICENSE in Resources */,
 				B2D119911E290BF80064045B /* banner_love.png in Resources */,
@@ -3982,6 +4043,7 @@
 				21156EB31B8F3598001D7842 /* ic_prelo_logo_text@2x.png in Resources */,
 				589A6FCD1D8C08F600654CDD /* ic_voucher.png in Resources */,
 				58A4F9721CB4F5DB00E717AF /* banner_reserved.png in Resources */,
+				B2B6417A1E98D45C00E23413 /* placeholder-prelo-message.jpg in Resources */,
 				B2C59A841E2E05E3002E4597 /* banner_achievement.png in Resources */,
 				214864CF1B6F235900EF49EF /* ic_chat@2x.png in Resources */,
 				585887531DBEDC03006EC6D5 /* SetupPasswordPopUp.xib in Resources */,
@@ -4016,6 +4078,7 @@
 				589A6FCA1D8C08F600654CDD /* ic_tarik_uang.png in Resources */,
 				21156ECE1B8F5DBC001D7842 /* ic_socmed_instagram.png in Resources */,
 				210959B31B8DD088000F2939 /* ic_hanger@2x.png in Resources */,
+				B2ECB2F61EBC308800DB87E2 /* ic_pin_border.png in Resources */,
 				58A0F4D41D9BA00E00CD693F /* ic_freeongkir.png in Resources */,
 				58A223C91C898CB600619518 /* ic_trx_received.png in Resources */,
 				58C23B601C9DC86300E4C929 /* ic_share.png in Resources */,
@@ -4128,6 +4191,7 @@
 				216345081CC3A855005CBA37 /* MKSwitch.swift in Sources */,
 				216344FC1CC3A855005CBA37 /* MKCardView.swift in Sources */,
 				58A99A351C6D864E00E3E7D7 /* Branch.m in Sources */,
+				B2F184CF1E938B92001EEB36 /* GoogleMapViewController.swift in Sources */,
 				21679A561B901C5300F18F90 /* UIImage+MPAverageColor.m in Sources */,
 				58DD28EC1DAF36D000130B6F /* Date+BFKit.swift in Sources */,
 				5847E1541DBD9BAB00C1B2BA /* CDUserProfile.swift in Sources */,

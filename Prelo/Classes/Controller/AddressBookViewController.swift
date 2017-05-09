@@ -147,7 +147,7 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
         if ((indexPath as NSIndexPath).item < (self.addresses?.count)!) {
             return 192
         } else {
-            return 50
+            return 41
         }
     }
     
@@ -349,6 +349,7 @@ class AddressBookCell: UITableViewCell { // height 192
     @IBOutlet weak var btnSetMain: UIButton!
     @IBOutlet weak var btnDelete: UIButton!
     @IBOutlet weak var btnEdit: UIButton!
+    @IBOutlet weak var lblPin: UILabel!
     
     var address: AddressItem!
     
@@ -403,6 +404,12 @@ class AddressBookCell: UITableViewCell { // height 192
             //btnDelete.isEnabled = true
             //btnDelete.setTitleColor(UIColor.darkGray)
         }
+        
+        if address.coordinate == "" {
+            lblPin.textColor = UIColor.lightGray
+        } else {
+            lblPin.textColor = UIColor.init(hex: "#1F8879")
+        }
     }
     
     @IBAction func btnEditAddressPressed(_ sender: Any) {
@@ -445,7 +452,7 @@ class AddressBookCell: UITableViewCell { // height 192
 
 
 // MARK: - Class AddressBookNewCell
-class AddressBookNewCell: UITableViewCell { // height 50
+class AddressBookNewCell: UITableViewCell { // height 41
     @IBOutlet weak var vwPlus: UIView!
     
     func adapt() {

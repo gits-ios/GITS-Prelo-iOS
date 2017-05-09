@@ -83,6 +83,8 @@
 		<string>whatsapp</string>
 		<string>line</string>
 		<string>instagram</string>
+		<string>googlechromes</string>
+		<string>comgooglemaps</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

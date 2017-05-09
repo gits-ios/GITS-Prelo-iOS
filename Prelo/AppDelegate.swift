@@ -15,6 +15,8 @@ import Bolts
 import FBSDKCoreKit
 import Alamofire
 import AVFoundation
+import GoogleMaps
+import GooglePlaces
 
 //import AdobeCreativeSDKCore
 
@@ -274,6 +276,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Set status bar color
         self.setStatusBarBackgroundColor(color: UIColor.clear)
+        
+        // G-Maps
+        //prelo
+        GMSServices.provideAPIKey("AIzaSyCY-ZGzGzs6KioZ1Xsv8aLbaOqhERQQMTk")
+        GMSPlacesClient.provideAPIKey("AIzaSyCY-ZGzGzs6KioZ1Xsv8aLbaOqhERQQMTk")
+        //prelo ios
+        //GMSServices.provideAPIKey("AIzaSyAKxEIa5dMhzSt5OfMIfuvMNuqWLkB5xDo")
+        //GMSPlacesClient.provideAPIKey("AIzaSyAKxEIa5dMhzSt5OfMIfuvMNuqWLkB5xDo")
         
         // Override point for customization after application launch
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)

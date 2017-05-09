@@ -2385,7 +2385,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             }
         }
         
-        let _ = request(APIMe.createAddress(addressName: "", recipientName: fullname, phone: phone, provinceId: selectedProvinsiID, provinceName: pID, regionId: selectedKotaID, regionName: rID, subdistrictId: selectedKecamatanID, subdistricName: sdID, address: address, postalCode: postalcode)).responseJSON { resp in
+        let _ = request(APIMe.createAddress(addressName: "", recipientName: fullname, phone: phone, provinceId: selectedProvinsiID, provinceName: pID, regionId: selectedKotaID, regionName: rID, subdistrictId: selectedKecamatanID, subdistricName: sdID, address: address, postalCode: postalcode, coordinate: "", coordinateAddress: "")).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Alamat Baru")) {
 //                Constant.showDialog("Alamat Baru", message: "Alamat berhasil ditambahkan")
             }
