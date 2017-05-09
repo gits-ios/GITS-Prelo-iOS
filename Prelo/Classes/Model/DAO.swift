@@ -4575,7 +4575,7 @@ class ShippingPackageItem : NSObject {
         if let j = json["need_coordinate"].bool {
             return j
         }
-        return true
+        return false
     }
 }
 

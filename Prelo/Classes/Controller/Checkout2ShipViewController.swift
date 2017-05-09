@@ -1158,11 +1158,11 @@ class Checkout2AddressCompleteCell: UITableViewCell {
         self.lbAddress.text = address.address
         self.lbSubdistrictAndRegion.text = address.subdisrictName + ", " + address.regionName
         self.lbProvinceAndPostalCode.text = address.provinceName + " " + address.postalCode
-        self.lbPhone.text = "Telepon: " + address.phone
+        self.lbPhone.text = /*"Telepon: " +*/ address.phone
     }
     
     static func heightFor() -> CGFloat {
-        return 138.0
+        return 117.0
     }
 }
 
@@ -1447,16 +1447,20 @@ class Checkout2AddressLocationCell: UITableViewCell {
     
     var pickLocation: ()->() = {} // open map
     
+    var placeholderColor = UIColor.init(hex: "#CCCCCC")
+    
     func adapt(_ locationName: String?) {
-        if let loc = locationName {
+        if let loc = locationName, loc != "" {
             self.lbLocation.text = loc
+            self.lbLocation.textColor = Theme.PrimaryColorDark
         } else {
             self.lbLocation.text = "Pilih Lokasi"
+            self.lbLocation.textColor = placeholderColor
         }
     }
     
     static func heightFor() -> CGFloat {
-        return 37.0
+        return 45.0
     }
     
     @IBAction func btnPickLocationPressed(_ sender: Any) {
