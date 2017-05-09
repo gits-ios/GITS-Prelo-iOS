@@ -59,6 +59,8 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        CartManager.sharedInstance.deleteAll()
+        
         let Checkout2SellerCell = UINib(nibName: "Checkout2SellerCell", bundle: nil)
         tableView.register(Checkout2SellerCell, forCellReuseIdentifier: "Checkout2SellerCell")
         
@@ -235,8 +237,6 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     func synchCart() {
         self.showLoading()
         
-        self.backToPreviousScreen()
-        
         let p = CartManager.sharedInstance.getCartJsonString()
         let a = "{\"address\": \"alamat\", \"province_id\": \"" + selectedAddress.provinceId + "\", \"region_id\": \"" + selectedAddress.regionId + "\", \"subdistrict_id\": \"" + selectedAddress.subdistrictId + "\", \"postal_code\": \"\"}"
         //print("cart_products : \(String(describing: p))")
@@ -246,16 +246,14 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
         let _ = request(APIV2Cart.refresh(cart: p, address: a, voucher: nil)).responseJSON { resp in
             if (PreloV2Endpoints.validate(true, dataResp: resp, reqAlias: "Keranjang Belanja")) {
                 
-                // Back to prev page if cart is empty
-                if (self.shouldBack == true) {
-                    _ = self.navigationController?.popViewController(animated: true)
-                    return
-                }
-                
                 // Json
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 self.cartResult = CartV2ResultItem.instance(data)
+                
+                if self.cartResult.cartDetails.count == 0 {
+                    self.backToPreviousScreen()
+                }
                 
                 // Show modal text if any
                 if let modalText = self.cartResult.modalVerifyText {
@@ -414,12 +412,13 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     alertView.addButton("Hapus") {
                         self.showLoading()
                         
-                        let _ = request(APICart.removeItems(pIds: pids)).responseJSON { resp in
+                        let _ = request(APIV2Cart.removeItems(pIds: pids)).responseJSON { resp in
                             if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Keranjang Belanja - Hapus Items")) {
                                 print("Keranjang Belanja - Hapus Items, Success")
                                 
                                 for pid in pids {
-                                    CartProduct.delete(pid)
+                                    CartProduct.delete(pid) // v1
+                                    CartManager.sharedInstance.deleteProduct(self.cartResult.cartDetails[idx.section].id, productId: pid)
                                 }
                                 self.synchCart()
                             } else {
@@ -459,11 +458,12 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     alertView.addButton("Hapus") {
                         self.showLoading()
                         
-                        let _ = request(APICart.removeItems(pIds: [pid])).responseJSON { resp in
+                        let _ = request(APIV2Cart.removeItems(pIds: [pid])).responseJSON { resp in
                             if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Keranjang Belanja - Hapus Items")) {
                                 print("Keranjang Belanja - Hapus Items, Success")
                                 
-                                CartProduct.delete(pid)
+                                CartProduct.delete(pid) // v1
+                                CartManager.sharedInstance.deleteProduct(product.sellerId, productId: pid)
                                 self.synchCart()
                             } else {
                                 print("Keranjang Belanja - Hapus Items, Failed")
@@ -695,14 +695,16 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
         
         let remove = UITableViewRowAction(style: .destructive, title: "Hapus") { action, index in
             let pid = cell.productDetail.productId
+            let sellerId = cell.productDetail.sellerId
             
             self.showLoading()
             
-            let _ = request(APICart.removeItems(pIds: [pid])).responseJSON { resp in
+            let _ = request(APIV2Cart.removeItems(pIds: [pid])).responseJSON { resp in
                 if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Keranjang Belanja - Hapus Items")) {
                     print("Keranjang Belanja - Hapus Items, Success")
                     
-                    CartProduct.delete(pid)
+                    CartProduct.delete(pid) // v1
+                    CartManager.sharedInstance.deleteProduct(sellerId, productId: pid)
                     self.synchCart()
                 } else {
                     print("Keranjang Belanja - Hapus Items, Failed")

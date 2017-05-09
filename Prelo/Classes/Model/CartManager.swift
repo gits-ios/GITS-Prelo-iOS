@@ -56,7 +56,7 @@ class CartManager: NSObject {
         if !isOke {
             let _c: [String : Any] = [
                 "seller_id" : sellerId,
-                "products_ids" : [productId],
+                "product_ids" : [productId],
                 "shipping_package_id" : ""
             ]
             newCart.append(_c)
@@ -109,5 +109,10 @@ class CartManager: NSObject {
     func getCartJsonString() -> String {
         let currentCart: Array<[String : Any]> = self.getCart()
         return AppToolsObjC.jsonString(from: currentCart)
+    }
+    
+    func deleteAll() {
+        UserDefaults.standard.set([], forKey: CartManager.cartProductsKey)
+        UserDefaults.standard.synchronize()
     }
 }
