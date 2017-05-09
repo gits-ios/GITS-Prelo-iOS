@@ -7,11 +7,85 @@
 //
 
 import Foundation
+import Alamofire
+import DropDown
 
 // MARK: - class
-
 class Checkout2PayViewController: BaseViewController {
+    // MARK: - Properties
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var loadingPanel: UIView!
     
+    // MARK: - Init
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        CartManager.sharedInstance.deleteAll()
+        
+        let Checkout2PaymentMethodCell = UINib(nibName: "Checkout2PaymentMethodCell", bundle: nil)
+        tableView.register(Checkout2PaymentMethodCell, forCellReuseIdentifier: "Checkout2PaymentMethodCell")
+        
+        let Checkout2PaymentBankCell = UINib(nibName: "Checkout2PaymentBankCell", bundle: nil)
+        tableView.register(Checkout2PaymentBankCell, forCellReuseIdentifier: "Checkout2PaymentBankCell")
+        
+        let Checkout2PaymentCreditCardCell = UINib(nibName: "Checkout2PaymentCreditCardCell", bundle: nil)
+        tableView.register(Checkout2PaymentCreditCardCell, forCellReuseIdentifier: "Checkout2PaymentCreditCardCell")
+        
+        let Checkout2BlackWhiteCell = UINib(nibName: "Checkout2BlackWhiteCell", bundle: nil)
+        tableView.register(Checkout2BlackWhiteCell, forCellReuseIdentifier: "Checkout2BlackWhiteCell")
+        
+        let Checkout2PreloBalanceCell = UINib(nibName: "Checkout2PreloBalanceCell", bundle: nil)
+        tableView.register(Checkout2PreloBalanceCell, forCellReuseIdentifier: "Checkout2PreloBalanceCell")
+        
+        let Checkout2VoucherCell = UINib(nibName: "Checkout2VoucherCell", bundle: nil)
+        tableView.register(Checkout2VoucherCell, forCellReuseIdentifier: "Checkout2VoucherCell")
+        
+        let Checkout2PaymentSummaryCell = UINib(nibName: "Checkout2PaymentSummaryCell", bundle: nil)
+        tableView.register(Checkout2PaymentSummaryCell, forCellReuseIdentifier: "Checkout2PaymentSummaryCell")
+        
+        let Checkout2PaymentSummaryTotalCell = UINib(nibName: "Checkout2PaymentSummaryTotalCell", bundle: nil)
+        tableView.register(Checkout2PaymentSummaryTotalCell, forCellReuseIdentifier: "Checkout2PaymentSummaryTotalCell")
+        
+        // init dropdown
+        DropDown.startListeningToKeyboard()
+        let appearance = DropDown.appearance()
+        appearance.backgroundColor = UIColor(white: 1, alpha: 1)
+        appearance.selectionBackgroundColor = UIColor(red: 0.6494, green: 0.8155, blue: 1.0, alpha: 0.2)
+        appearance.separatorColor = UIColor(white: 0.7, alpha: 0.8)
+        appearance.cornerRadius = 0
+        appearance.shadowColor = UIColor(white: 0.6, alpha: 1)
+        appearance.shadowOpacity = 1
+        appearance.shadowRadius = 2
+        appearance.animationduration = 0.25
+        appearance.textColor = .darkGray
+        
+        // Setup table
+//        self.tableView.dataSource = self
+//        self.tableView.delegate = self
+        self.tableView.tableFooterView = UIView()
+        
+        //TOP, LEFT, BOTTOM, RIGHT
+        let inset = UIEdgeInsetsMake(0, 0, 0, 0)
+        self.tableView.contentInset = inset
+        
+        self.tableView.separatorStyle = .none
+        
+        self.tableView.backgroundColor = UIColor(hexString: "#E8ECEE")
+        
+        // loading
+        self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.7)
+        
+        //Looks for single or multiple taps.
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(Checkout2ShipViewController.dismissKeyboard))
+        
+        //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
+        //tap.cancelsTouchesInView = false
+        
+        view.addGestureRecognizer(tap)
+        
+        // title
+        self.title = "Checkout"
+    }
 }
 
 // MARK: - Class Checkout2PaymentMethodCell
