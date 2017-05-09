@@ -20,6 +20,11 @@ struct SelectedAddressItem {
     var regionId: String = ""
     var subdistrictId: String = ""
     var subdistrictName: String = ""
+    
+    // coordinate
+    var coordinate: String = ""
+    var coordinateAddress: String = ""
+    
     var isSave: Bool = false
 }
 
@@ -39,15 +44,15 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     
     var selectedIndex = 0
     var isNeedSetup = false
-    var isNeedLocation = false
     
     // Cart Results
     var cartResult: CartV2ResultItem!
     
-//    var selectedShippingIds: Array<String>!
+    var shippingPackageIds: Array<String>!
     var ongkirs: Array<Int>!
     var isFreeOngkirs: Array<Bool>!
     var selectedOngkirIndexes: Array<Int>!
+    var isNeedLocations: Array<Bool>!
     
     // if contain(s) sold product(s)
     var isEnableToCheckout = true
@@ -238,7 +243,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
         self.showLoading()
         
         let p = CartManager.sharedInstance.getCartJsonString()
-        let a = "{\"address\": \"alamat\", \"province_id\": \"" + selectedAddress.provinceId + "\", \"region_id\": \"" + selectedAddress.regionId + "\", \"subdistrict_id\": \"" + selectedAddress.subdistrictId + "\", \"postal_code\": \"\"}"
+        let a = "{\"coordinate\": \"" + selectedAddress.coordinate + "\", \"address\": \"alamat\", \"province_id\": \"" + selectedAddress.provinceId + "\", \"region_id\": \"" + selectedAddress.regionId + "\", \"subdistrict_id\": \"" + selectedAddress.subdistrictId + "\", \"postal_code\": \"\"}"
         //print("cart_products : \(String(describing: p))")
         //print("shipping_address : \(a)")
         
@@ -262,25 +267,19 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     }
                 }
                 
-//                self.selectedShippingIds = []
+                self.shippingPackageIds = []
                 self.ongkirs = []
                 self.isFreeOngkirs = []
                 self.selectedOngkirIndexes = []
+                self.isNeedLocations = []
                 for sp in self.cartResult.cartDetails {
-//                    self.selectedShippingIds.append(sp.shippingPackageId)
-//                    for s in sp.shippingPackages {
-//                        if s.id == sp.shippingPackageId {
-//                            self.ongkirs.append(s.price)
-//                            self.isFreeOngkirs.append(s.price == 0)
-//                            
-//                            break
-//                        }
-//                    }
                     
                     // reset to 0
+                    self.shippingPackageIds.append(sp.shippingPackages[0].id)
                     self.ongkirs.append(sp.shippingPackages[0].price)
                     self.isFreeOngkirs.append(sp.shippingPackages[0].price == 0)
                     self.selectedOngkirIndexes.append(0)
+                    self.isNeedLocations.append(sp.shippingPackages[0].isNeedLocation)
                 }
                 
                 if self.isFirst && self.cartResult.addressBook.count > 0 {
@@ -297,6 +296,8 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                             self.selectedAddress.subdistrictName = self.cartResult.addressBook[i].subdisrictName
                             self.selectedAddress.address = self.cartResult.addressBook[i].address
                             self.selectedAddress.postalCode = self.cartResult.addressBook[i].postalCode
+                            self.selectedAddress.coordinate = self.cartResult.addressBook[i].coordinate
+                            self.selectedAddress.coordinateAddress = self.cartResult.addressBook[i].coordinateAddress
                             
                             break
                         }
@@ -333,12 +334,9 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section < cartResult.cartDetails.count {
-            if cartResult.cartDetails[section].isNeedLocation == true {
-                self.isNeedLocation = true
-            }
-            return cartResult.cartDetails[section].products.count + 2 + (cartResult.cartDetails[section].isNeedLocation ? 1 : 0) + 1
+            return cartResult.cartDetails[section].products.count + 2 + (self.isNeedLocations.contains(true) ? 1 : 0) + 1
         } else if section == cartResult.cartDetails.count {
-            return 2 + (isNeedLocation ? 1 : 0) + 1
+            return 2 + (self.isNeedLocations.contains(true) ? 1 : 0) + 1
         } else if section == cartResult.cartDetails.count + 1 {
             return 1
         }
@@ -348,9 +346,6 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let idx = indexPath as IndexPath
         if idx.section < cartResult.cartDetails.count {
-            if cartResult.cartDetails[idx.section].isNeedLocation == true {
-                self.isNeedLocation = true
-            }
             if idx.row == 0 {
                 return Checkout2SellerCell.heightFor()
             } else if idx.row <= cartResult.cartDetails[idx.section].products.count {
@@ -358,7 +353,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
             } else if idx.row == cartResult.cartDetails[idx.section].products.count + 1 {
                 return Checkout2CourierCell.heightFor()
             } else {
-                if idx.row == cartResult.cartDetails[idx.section].products.count + 2 && cartResult.cartDetails[idx.section].isNeedLocation {
+                if idx.row == cartResult.cartDetails[idx.section].products.count + 2 && self.isNeedLocations.contains(true) {
                     return Checkout2CourierDescriptionCell.heightFor()
                 } else {
                     return Checkout2SplitCell.heightFor()
@@ -374,7 +369,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     return Checkout2AddressCompleteCell.heightFor()
                 }
             } else {
-                if idx.row == 2 && isNeedLocation {
+                if idx.row == 2 && self.isNeedLocations.contains(true) {
                     return Checkout2AddressLocationCell.heightFor()
                 } else {
                     return Checkout2SplitCell.heightFor()
@@ -389,9 +384,6 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let idx = indexPath as IndexPath
         if ((indexPath as NSIndexPath).section < cartResult.cartDetails.count) {
-            if cartResult.cartDetails[idx.section].isNeedLocation == true {
-                self.isNeedLocation = true
-            }
             if idx.row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2SellerCell") as! Checkout2SellerCell
                 
@@ -484,24 +476,20 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
             } else if idx.row == cartResult.cartDetails[idx.section].products.count + 1 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2CourierCell") as! Checkout2CourierCell
                 
+                let sellerId = self.cartResult.cartDetails[idx.section].id
+                
                 cell.selectionStyle = .none
                 cell.clipsToBounds = true
                 
                 cell.adapt(cartResult.cartDetails[idx.section].shippingPackages, isEnable: !self.isFreeOngkirs[idx.section], selectedIndex: self.selectedOngkirIndexes[idx.section])
                 
-                cell.pickCourier = { courierId, ongkir, index in
-                    //self.selectedShippingIds[idx.section] = result // update shipping
-                    
+                cell.pickCourier = { courierId, ongkir, index, isNeedLocation in
+                    self.shippingPackageIds[idx.section] = courierId
                     self.ongkirs[idx.section] = ongkir
                     self.selectedOngkirIndexes[idx.section] = index
+                    self.isNeedLocations[idx.section] = isNeedLocation
                     
-                    for p in self.cartResult.cartDetails[idx.section].products {
-                        if let cp = CartProduct.getOne(p.productId, email: User.EmailOrEmptyString) {
-                            if cp.packageId != courierId {
-                                cp.packageId = courierId
-                            }
-                        }
-                    }
+                    CartManager.sharedInstance.updateShippingPackageId(sellerId, shippingPackageId: courierId)
                     
                     self.tableView.reloadData()
                 }
@@ -512,13 +500,13 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 
                 return cell
             } else {
-                if idx.row == cartResult.cartDetails[idx.section].products.count + 2 && cartResult.cartDetails[idx.section].isNeedLocation {
+                if idx.row == cartResult.cartDetails[idx.section].products.count + 2 && self.isNeedLocations.contains(true) {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2CourierDescriptionCell") as! Checkout2CourierDescriptionCell
                     
                     cell.selectionStyle = .none
                     cell.clipsToBounds = true
                     
-                    cell.adapt("GO-SEND") // TODO: - Dinamis
+                    cell.adapt(self.shippingPackageIds[idx.section])
                     
                     return cell
                 } else {
@@ -618,13 +606,25 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     return cell
                 }
             } else {
-                if idx.row == 2 && isNeedLocation {
+                if idx.row == 2 && self.isNeedLocations.contains(true) {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2AddressLocationCell") as! Checkout2AddressLocationCell
                     
                     cell.selectionStyle = .none
                     cell.clipsToBounds = true
                     
-                    cell.adapt("") // TODO: - Coordinate
+                    cell.adapt(self.selectedAddress.coordinateAddress)
+                    
+                    cell.pickLocation = {
+                        let googleMapVC = Bundle.main.loadNibNamed(Tags.XibNameGoogleMap, owner: nil, options: nil)?.first as! GoogleMapViewController
+                        googleMapVC.blockDone = { result in
+                            
+                            self.selectedAddress.coordinate = result["latitude"]! + "," + result["longitude"]!
+                            self.selectedAddress.coordinateAddress = result["address"]!
+                            
+                            self.tableView.reloadData()
+                        }
+                        self.navigationController?.pushViewController(googleMapVC, animated: true)
+                    }
                     
                     return cell
                 } else {
@@ -760,6 +760,13 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
             return false
         }
         
+        if (self.isNeedLocations.contains(true) && (self.selectedAddress.coordinateAddress == "" || self.selectedAddress.coordinate == "")) {
+            self.scrollToAddress()
+            
+            Constant.showDialog("Form belum lengkap", message: "Harap lengkapi lokasi")
+            return false
+        }
+        
         if !self.isEnableToCheckout {
             self.scrollToTop()
             
@@ -872,6 +879,8 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     self.selectedAddress.subdistrictName = self.cartResult.addressBook[index].subdisrictName
                     self.selectedAddress.address = self.cartResult.addressBook[index].address
                     self.selectedAddress.postalCode = self.cartResult.addressBook[index].postalCode
+                    self.selectedAddress.coordinate = self.cartResult.addressBook[index].coordinate
+                    self.selectedAddress.coordinateAddress = self.cartResult.addressBook[index].coordinateAddress
                     
                     self.synchCart()
                 } else {
@@ -886,6 +895,8 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     self.selectedAddress.subdistrictName = ""
                     self.selectedAddress.address = ""
                     self.selectedAddress.postalCode = ""
+                    self.selectedAddress.coordinate = ""
+                    self.selectedAddress.coordinateAddress = ""
                 }
                 
                 self.tableView.reloadData()
@@ -982,7 +993,7 @@ class Checkout2CourierCell: UITableViewCell {
     
     var isEnable = true
     
-    var pickCourier: (_ courierId: String, _ ongkir: Int, _ index: Int)->() = {_, _, _ in }
+    var pickCourier: (_ courierId: String, _ ongkir: Int, _ index: Int, _ isNeedLocation: Bool)->() = {_, _, _, _ in }
     
     var dismissKeyborad: ()->() = {}
     
@@ -1053,7 +1064,7 @@ class Checkout2CourierCell: UITableViewCell {
                 self.lbCourier.text = self.shippingPackages[self.selectedIndex].name + " (" + self.shippingPackages[self.selectedIndex].price.asPrice + ")"
                 
                 // update VC
-                self.pickCourier(self.shippingPackages[self.selectedIndex].shippingId, self.shippingPackages[self.selectedIndex].price, self.selectedIndex)
+                self.pickCourier(self.shippingPackages[self.selectedIndex].id, self.shippingPackages[self.selectedIndex].price, self.selectedIndex, self.shippingPackages[self.selectedIndex].isNeedLocation)
             }
         }
         
@@ -1449,6 +1460,7 @@ class Checkout2AddressLocationCell: UITableViewCell {
     }
     
     @IBAction func btnPickLocationPressed(_ sender: Any) {
+        self.pickLocation()
     }
 }
 

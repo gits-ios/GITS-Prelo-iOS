@@ -292,8 +292,6 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
             self.lblLokasi.text = result["address"]
             self.lblLokasi.textColor = Theme.PrimaryColorDark
         }
-//        let noBtn = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-//        googleMapVC.navigationItem.leftBarButtonItem = noBtn
         self.navigationController?.pushViewController(googleMapVC, animated: true)
     }
     
