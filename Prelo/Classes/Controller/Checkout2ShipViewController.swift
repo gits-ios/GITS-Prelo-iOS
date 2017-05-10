@@ -642,9 +642,9 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
             cell.selectionStyle = .none
             cell.clipsToBounds = true
             
-            var totalWithOngkir = cartResult.totalPrice
+            var totalWithOngkir = self.cartResult.totalPrice
             
-            for o in ongkirs {
+            for o in self.ongkirs {
                 totalWithOngkir += o
             }
             

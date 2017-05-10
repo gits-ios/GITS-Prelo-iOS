@@ -11,10 +11,42 @@ import Alamofire
 import DropDown
 
 // MARK: - class
-class Checkout2PayViewController: BaseViewController {
+class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
     // MARK: - Properties
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var loadingPanel: UIView!
+    
+    // MARK: - Struct
+    struct PaymentMethodItem {
+        var name: String = ""
+        var type: Int = 0
+        var chargeDescription: String = ""
+        var charge: Int = 0
+    }
+    
+    struct DiscountItem {
+        var title: String = ""
+        var value: Int = 0
+    }
+    
+    // Cart Results
+    var cartResult: CartV2ResultItem!
+    
+    // Address -> from previous screen
+    var selectedAddress = SelectedAddressItem()
+    
+    // payment method -> bank etc
+    var paymentMethods: Array<PaymentMethodItem>!
+    var selectedPaymentIndex: Int = 0
+    var selectedBank: String = ""
+    
+    // discount item -> voucher etc
+    var discountItems: Array<DiscountItem>!
+    var isBalanceUsed: Bool = false
+    var isVoucherUsed: Bool = false
+    
+    var preloBalanceUsed: Int = 0
+    var preloBalanceTotal: Int = 0
     
     // MARK: - Init
     override func viewDidLoad() {
@@ -60,8 +92,8 @@ class Checkout2PayViewController: BaseViewController {
         appearance.textColor = .darkGray
         
         // Setup table
-//        self.tableView.dataSource = self
-//        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
         self.tableView.tableFooterView = UIView()
         
         //TOP, LEFT, BOTTOM, RIGHT
@@ -85,6 +117,188 @@ class Checkout2PayViewController: BaseViewController {
         
         // title
         self.title = "Checkout"
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // Handling keyboard animation
+        self.an_subscribeKeyboard(
+            animations: {r, t, o in
+                
+                if (o) {
+                    self.tableView?.contentInset = UIEdgeInsetsMake(0, 0, r.height, 0)
+                } else {
+                    self.tableView?.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+                }
+                
+        }, completion: nil)
+    }
+    
+    func setupPaymentAndDiscount() {
+        
+    }
+    
+    // MARK: - UITableView Delegate
+    func numberOfSections(in tableView: UITableView) -> Int {
+        if cartResult != nil && cartResult.cartDetails.count > 0 {
+            return 3
+        }
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return 1 + self.paymentMethods.count
+        } else if section == 1 {
+            return 1 + 2
+        } else if section == 2 {
+            return 1 + 2 + self.discountItems.count + 1
+        }
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let idx = indexPath as IndexPath
+        if idx.section == 0 {
+            if idx.row == 0 {
+                return Checkout2PaymentMethodCell.heightFor()
+            } else if idx.row == 1 {
+                return Checkout2PaymentBankCell.heightFor(selectedPaymentIndex == idx.row-1)
+            } else { // cc, indomaret, etc
+                return Checkout2PaymentCreditCardCell.heightFor(selectedPaymentIndex == idx.row-1)
+            }
+        } else if idx.section == 1 {
+            if idx.row == 0 {
+                return Checkout2BlackWhiteCell.heightFor()
+            } else if idx.row == 1 {
+                return Checkout2PreloBalanceCell.heightFor(self.isBalanceUsed)
+            } else {
+                return Checkout2VoucherCell.heightFor(self.isVoucherUsed)
+            }
+        } else if idx.section == 2 {
+            if idx.row == 0 {
+                return Checkout2PaymentMethodCell.heightFor()
+            } else if idx.row > 0 && idx.row <= 2 + self.discountItems.count {
+                return Checkout2PaymentSummaryCell.heightFor()
+            } else {
+                return Checkout2PaymentSummaryTotalCell.heightFor()
+            }
+        }
+        return 30
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let idx = indexPath as IndexPath
+        if idx.section == 0 {
+            if idx.row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2PaymentMethodCell") as! Checkout2PaymentMethodCell
+                
+                cell.selectionStyle = .none
+                cell.clipsToBounds = true
+                
+                cell.adapt("METODE PEMBAYARAN")
+                
+                return cell
+            } else if idx.row == 1 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2PaymentBankCell") as! Checkout2PaymentBankCell
+                
+                cell.selectionStyle = .none
+                cell.clipsToBounds = true
+                
+                cell.adapt(self.selectedBank, isSelected: selectedPaymentIndex == idx.row-1)
+                
+                return cell
+            } else { // cc, indomaret, etc
+                let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2PaymentCreditCardCell") as! Checkout2PaymentCreditCardCell
+                
+                cell.selectionStyle = .none
+                cell.clipsToBounds = true
+                
+                cell.adapt(self.paymentMethods[idx.row-1].name, isSelected: selectedPaymentIndex == idx.row-1)
+                
+                return cell
+            }
+        } else if idx.section == 1 {
+            if idx.row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2BlackWhiteCell") as! Checkout2BlackWhiteCell
+                
+                cell.selectionStyle = .none
+                cell.clipsToBounds = true
+                
+                return cell
+            } else if idx.row == 1 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2PreloBalanceCell") as! Checkout2PreloBalanceCell
+                
+                cell.selectionStyle = .none
+                cell.clipsToBounds = true
+                
+                cell.adapt(self, isUsed: self.isBalanceUsed)
+                
+                cell.preloBalanceUsed = {
+                    self.isBalanceUsed = !self.isBalanceUsed
+                }
+                
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2VoucherCell") as! Checkout2VoucherCell
+                
+                cell.selectionStyle = .none
+                cell.clipsToBounds = true
+                
+                cell.adapt(self.cartResult.voucherSerial, isUsed: self.isVoucherUsed)
+                
+                return cell
+            }
+        } else if idx.section == 2 {
+            if idx.row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2PaymentMethodCell") as! Checkout2PaymentMethodCell
+                
+                cell.selectionStyle = .none
+                cell.clipsToBounds = true
+                
+                cell.adapt("RINGKASAN PEMBAYARAN")
+                
+                return cell
+            } else if idx.row > 0 && idx.row <= 2 + self.discountItems.count {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2PaymentSummaryCell") as! Checkout2PaymentSummaryCell
+                
+                cell.selectionStyle = .none
+                cell.clipsToBounds = true
+                
+                if idx.row == 1 {
+                    cell.adapt("Total Belanja", amount: self.cartResult.totalPrice)
+                } else if idx.row == 2 {
+                    cell.adapt(self.paymentMethods[self.selectedPaymentIndex].chargeDescription, amount: self.paymentMethods[self.selectedPaymentIndex].charge)
+                } else {
+                    cell.adapt(self.discountItems[idx.row-3].title, amount: self.discountItems[idx.row-3].value * -1)
+                }
+                
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2PaymentSummaryTotalCell") as! Checkout2PaymentSummaryTotalCell
+                
+                cell.selectionStyle = .none
+                cell.clipsToBounds = true
+                
+                var totalAmount = self.cartResult.totalPrice
+                
+                totalAmount += self.paymentMethods[self.selectedPaymentIndex].charge
+                
+                for d in self.discountItems {
+                    totalAmount -= d.value
+                }
+                
+                cell.adapt(totalAmount)
+                
+                return cell
+            }
+        }
+        return UITableViewCell()
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // do nothing
     }
 }
 
@@ -167,17 +381,24 @@ class Checkout2BlackWhiteCell: UITableViewCell {
 }
 
 // MARK: - Class Checkout2PreloBalanceCell
-class Checkout2PreloBalanceCell: UITableViewCell {
+class Checkout2PreloBalanceCell: UITableViewCell, UITextFieldDelegate {
     @IBOutlet weak var btnSwitch: UISwitch!
     @IBOutlet weak var txtInputPreloBalance: UITextField!
     @IBOutlet weak var lbDescription: UILabel!
     
     var preloBalanceUsed: ()->() = {}
     
-    func adapt(_ preloBalanceUsed: Int, preloBalanceTotal: Int, isUsed: Bool) {
-        self.txtInputPreloBalance.text = preloBalanceUsed.string
-        self.lbDescription.text = "Prelo Balance kamu" + preloBalanceTotal.asPrice
+    var parent: Checkout2PayViewController!
+    
+    func adapt(_ parent: Checkout2PayViewController, isUsed: Bool) {
+        self.parent = parent
+        
+        self.txtInputPreloBalance.text = parent.preloBalanceUsed.string
+        self.lbDescription.text = "Prelo Balance kamu" + parent.preloBalanceTotal.asPrice
         self.btnSwitch.isSelected = isUsed
+        
+        // delegate
+        self.txtInputPreloBalance.delegate = self
     }
     
     static func heightFor(_ isUsed: Bool) -> CGFloat {
@@ -190,6 +411,15 @@ class Checkout2PreloBalanceCell: UITableViewCell {
     @IBAction func btnSwitchPressed(_ sender: Any) {
         self.preloBalanceUsed()
     }
+    
+    // MARK: - Delegate
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == self.txtInputPreloBalance {
+            if let t = textField.text, t.int <= self.parent.preloBalanceTotal {
+                self.parent.preloBalanceUsed = t.int
+            }
+        }
+    }
 }
 
 // MARK: - Class Checkout2VoucherCell
@@ -200,7 +430,7 @@ class Checkout2VoucherCell: UITableViewCell {
     var voucherUsed: ()->() = {}
     var voucherApply: (String)->() = {_ in }
     
-    func adapt(_ voucher: String, isUsed: Bool) {
+    func adapt(_ voucher: String?, isUsed: Bool) {
         self.txtInputVoucher.text = voucher
         self.btnSwitch.isSelected = isUsed
     }
