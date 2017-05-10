@@ -64,8 +64,6 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        CartManager.sharedInstance.deleteAll()
-        
         let Checkout2SellerCell = UINib(nibName: "Checkout2SellerCell", bundle: nil)
         tableView.register(Checkout2SellerCell, forCellReuseIdentifier: "Checkout2SellerCell")
         
