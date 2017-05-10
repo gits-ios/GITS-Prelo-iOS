@@ -657,6 +657,7 @@ class Tags : NSObject {
     static let XibNameUserProfile2 = "UserProfile2"
     static let XibNameReportTransaction = "ReportTransaction"
     static let XibNameCheckout2Ship = "Checkout2Ship"
+    static let XibNameCheckout2Pay = "Checkout2Pay"
     static let XibNameGoogleMap = "GoogleMap"
 }
 

@@ -656,6 +656,12 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 if self.validateField() {
                     print("oke")
                 }
+                
+                let checkout2PayVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Pay, owner: nil, options: nil)?.first as! Checkout2PayViewController
+                checkout2PayVC.cartResult = self.cartResult
+                checkout2PayVC.previousController = self.previousController
+                checkout2PayVC.totalAmount = totalWithOngkir
+                self.navigationController?.pushViewController(checkout2PayVC, animated: true)
             }
             
             return cell

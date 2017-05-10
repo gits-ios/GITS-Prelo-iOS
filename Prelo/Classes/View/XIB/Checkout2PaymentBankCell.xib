@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,7 +20,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="99"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1iZ-j5-3d2" id="UIN-Of-nlL">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="98"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="98.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g6p-zR-ydR" userLabel="line1px">
@@ -47,7 +47,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y4m-VH-xqZ" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                        <rect key="frame" x="24" y="33" width="327" height="30"/>
+                        <rect key="frame" x="24" y="38" width="327" height="30"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pilih Bank Tujuan Transfer" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oW0-B3-nnd">
                                 <rect key="frame" x="8" y="4" width="283" height="22"/>
@@ -93,7 +93,7 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pembayaran Aman dengan sistem REKBER ke rekening Prelo" textAlignment="center" lineBreakMode="clip" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="gzm-cZ-2XN">
-                        <rect key="frame" x="24" y="71" width="327" height="14.5"/>
+                        <rect key="frame" x="24" y="76" width="327" height="14.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
@@ -111,7 +111,7 @@
                     <constraint firstAttribute="trailingMargin" secondItem="Y4m-VH-xqZ" secondAttribute="trailing" constant="16" id="lrT-uG-JBP"/>
                     <constraint firstAttribute="trailing" secondItem="g6p-zR-ydR" secondAttribute="trailing" id="mhF-nS-fF9"/>
                     <constraint firstItem="g6p-zR-ydR" firstAttribute="top" secondItem="UIN-Of-nlL" secondAttribute="top" id="mzY-am-NmK"/>
-                    <constraint firstItem="Y4m-VH-xqZ" firstAttribute="top" secondItem="rj2-tw-PpR" secondAttribute="bottom" constant="7" id="p2R-yt-aUC"/>
+                    <constraint firstItem="Y4m-VH-xqZ" firstAttribute="top" secondItem="rj2-tw-PpR" secondAttribute="bottom" constant="12" id="p2R-yt-aUC"/>
                     <constraint firstItem="gzm-cZ-2XN" firstAttribute="leading" secondItem="UIN-Of-nlL" secondAttribute="leadingMargin" constant="16" id="tWG-wB-EHk"/>
                     <constraint firstItem="g6p-zR-ydR" firstAttribute="leading" secondItem="UIN-Of-nlL" secondAttribute="leading" id="yME-sA-Bav"/>
                 </constraints>

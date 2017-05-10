@@ -4225,18 +4225,18 @@ class CartV2ResultItem : NSObject {
         return nil
     }
     
-    var isBonusAvailable : Bool {
+    var preloBonus : Int {
         if let j = json["bonus_available"].int {
-            return (j == 1)
+            return j
         }
-        return false
+        return 0
     }
     
-    var isBalanceAvailable : Bool {
+    var preloBalance : Int {
         if let j = json["balance_available"].int {
-            return (j == 1)
+            return j
         }
-        return false
+        return 0
     }
     
     var banktransferDigit : Int {

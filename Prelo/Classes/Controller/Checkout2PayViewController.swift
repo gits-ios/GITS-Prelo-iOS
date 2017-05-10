@@ -29,6 +29,9 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         var value: Int = 0
     }
     
+    var isFirst = true
+    var isShowBankBRI = false
+    
     // Cart Results
     var cartResult: CartV2ResultItem!
     
@@ -36,17 +39,23 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
     var selectedAddress = SelectedAddressItem()
     
     // payment method -> bank etc
-    var paymentMethods: Array<PaymentMethodItem>!
+    var paymentMethods: Array<PaymentMethodItem>! = []
     var selectedPaymentIndex: Int = 0
     var selectedBank: String = ""
     
     // discount item -> voucher etc
-    var discountItems: Array<DiscountItem>!
+    var discountItems: Array<DiscountItem>! = []
     var isBalanceUsed: Bool = false
     var isVoucherUsed: Bool = false
     
+    // bonus
+    var isHalfBonusMode: Bool = false
+    var customBonusPercent: Int = 0
+    
     var preloBalanceUsed: Int = 0
     var preloBalanceTotal: Int = 0
+    
+    var totalAmount: Int = 0
     
     // MARK: - Init
     override func viewDidLoad() {
@@ -92,8 +101,6 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         appearance.textColor = .darkGray
         
         // Setup table
-        self.tableView.dataSource = self
-        self.tableView.delegate = self
         self.tableView.tableFooterView = UIView()
         
         //TOP, LEFT, BOTTOM, RIGHT
@@ -107,6 +114,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         // loading
         self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.7)
         
+        /*
         //Looks for single or multiple taps.
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(Checkout2ShipViewController.dismissKeyboard))
         
@@ -114,6 +122,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         //tap.cancelsTouchesInView = false
         
         view.addGestureRecognizer(tap)
+        */
         
         // title
         self.title = "Checkout"
@@ -133,10 +142,143 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 }
                 
         }, completion: nil)
+        
+        // setup data
+        self.setupPaymentAndDiscount()
     }
     
     func setupPaymentAndDiscount() {
+        self.paymentMethods = []
         
+        // transfer bank
+        var p = PaymentMethodItem()
+        p.name = "Transfer Bank"
+        p.charge = self.cartResult.banktransferDigit
+        p.chargeDescription = "Kode Transfer"
+        self.paymentMethods.append(p)
+        
+        let ab = self.cartResult.abTest
+        for _ab in ab {
+            if (_ab == "half_bonus") {
+                self.isHalfBonusMode = true
+            } else if (_ab == "bri") {
+                self.isShowBankBRI = true
+            } else if (_ab == "cc") {
+                var p = PaymentMethodItem()
+                p.name = "Kartu Kredit"
+                p.charge = (self.cartResult.veritransCharge?.creditCard)!
+                p.chargeDescription = "Credit Card Charge"
+                self.paymentMethods.append(p)
+            } else if (_ab == "indomaret") {
+                var p = PaymentMethodItem()
+                p.name = "Indomaret"
+                p.charge = (self.cartResult.veritransCharge?.indomaret)!
+                p.chargeDescription = "Indomaret Charge"
+                self.paymentMethods.append(p)
+            } else if (_ab.range(of: "bonus:") != nil) {
+                self.customBonusPercent = Int(_ab.components(separatedBy: "bonus:")[1])!
+            } else if (_ab == "target_bank") {
+//                self.isDropdownMode = true
+            }
+        }
+        
+        // Discount items
+        self.preloBalanceTotal = self.cartResult.preloBalance
+        
+        if (self.cartResult.isVoucherValid == true) {
+            let voucherAmount = self.cartResult.voucherAmount
+            self.isVoucherUsed = true
+            if voucherAmount > 0 { // if zero, not shown
+                let discVoucher = DiscountItem(title: "Voucher '" + self.cartResult.voucherSerial! + "'", value: voucherAmount)
+                self.discountItems.append(discVoucher)
+            }
+        } else {
+            if self.cartResult.voucherError != "" {
+                self.isVoucherUsed = false
+                Constant.showDialog("Invalid Voucher", message: self.cartResult.voucherError)
+            }
+        }
+        
+        let bonus = self.cartResult.preloBonus
+        if (bonus > 0) {
+            let disc = DiscountItem(title: "Referral Bonus", value: bonus)
+            self.discountItems.append(disc)
+        }
+        
+        // Update bonus discount if its more than half of subtotal
+        if (self.discountItems.count > 0) {
+            for i in 0...self.discountItems.count-1 {
+                if (self.discountItems[i].title == "Referral Bonus") {
+                    if (self.customBonusPercent > 0) {
+                        if (self.discountItems[i].value > self.totalAmount * self.customBonusPercent / 100) {
+                            self.discountItems[i].value = self.totalAmount * customBonusPercent / 100
+                            // Show lblSend
+//                            self.lblSend.text = "Maksimal Referral Bonus yang dapat digunakan adalah \(customBonusPercent)% dari subtotal transaksi"
+//                            self.consHeightLblSend.constant = 31
+                        }
+                    } else if (isHalfBonusMode) {
+                        if (discountItems[i].value > self.totalAmount / 2) {
+                            discountItems[i].value = self.totalAmount / 2
+                            // Show lblSend
+//                            self.lblSend.text = "Maksimal Referral Bonus yang dapat digunakan adalah 50% dari subtotal transaksi"
+//                            self.consHeightLblSend.constant = 31
+                        }
+                    } else {
+                        if (discountItems[i].value > self.totalAmount) {
+                            discountItems[i].value = self.totalAmount
+                        }
+                    }
+                }
+            }
+        }
+
+        
+        if self.isFirst {
+            self.setupTable()
+            
+            self.isFirst = false
+        }
+        
+        self.tableView.reloadData()
+        
+        self.hideLoading()
+    }
+    
+    func setupTable() {
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
+    }
+    
+    // MARK: - Cart synch
+    // Refresh data cart dan seluruh tampilan
+    func synchCart() {
+        self.showLoading()
+        
+        let p = CartManager.sharedInstance.getCartJsonString()
+        let a = "{\"coordinate\": \"" + selectedAddress.coordinate + "\", \"address\": \"alamat\", \"province_id\": \"" + selectedAddress.provinceId + "\", \"region_id\": \"" + selectedAddress.regionId + "\", \"subdistrict_id\": \"" + selectedAddress.subdistrictId + "\", \"postal_code\": \"\"}"
+        //print("cart_products : \(String(describing: p))")
+        //print("shipping_address : \(a)")
+        
+        // API refresh cart
+        let _ = request(APIV2Cart.refresh(cart: p, address: a, voucher: nil)).responseJSON { resp in
+            if (PreloV2Endpoints.validate(true, dataResp: resp, reqAlias: "Keranjang Belanja")) {
+                
+                // Json
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                self.cartResult = CartV2ResultItem.instance(data)
+                
+                self.setupPaymentAndDiscount()
+                
+                self.tableView.reloadData()
+                self.scrollToTop()
+                self.hideLoading()
+                
+            } else {
+                self.hideLoading()
+                
+            }
+        }
     }
     
     // MARK: - UITableView Delegate
@@ -153,7 +295,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         } else if section == 1 {
             return 1 + 2
         } else if section == 2 {
-            return 1 + 2 + self.discountItems.count + 1
+            return 1 + 1 + (self.paymentMethods.count > 0 ? 1 : 0) + self.discountItems.count + 1
         }
         return 0
     }
@@ -237,6 +379,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 
                 cell.preloBalanceUsed = {
                     self.isBalanceUsed = !self.isBalanceUsed
+                    
+                    self.tableView.reloadData()
                 }
                 
                 return cell
@@ -247,6 +391,16 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 cell.clipsToBounds = true
                 
                 cell.adapt(self.cartResult.voucherSerial, isUsed: self.isVoucherUsed)
+                
+                cell.voucherUsed = {
+                    self.isVoucherUsed = !self.isVoucherUsed
+                    
+                    self.tableView.reloadData()
+                }
+                
+                cell.voucherApply = { voucherSerial in
+                    // TODO: - sync again
+                }
                 
                 return cell
             }
@@ -260,14 +414,14 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 cell.adapt("RINGKASAN PEMBAYARAN")
                 
                 return cell
-            } else if idx.row > 0 && idx.row <= 2 + self.discountItems.count {
+            } else if idx.row > 0 && idx.row <= 1 + (self.paymentMethods.count > 0 ? 1 : 0) + self.discountItems.count {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2PaymentSummaryCell") as! Checkout2PaymentSummaryCell
                 
                 cell.selectionStyle = .none
                 cell.clipsToBounds = true
                 
                 if idx.row == 1 {
-                    cell.adapt("Total Belanja", amount: self.cartResult.totalPrice)
+                    cell.adapt("Total Belanja", amount: self.totalAmount)
                 } else if idx.row == 2 {
                     cell.adapt(self.paymentMethods[self.selectedPaymentIndex].chargeDescription, amount: self.paymentMethods[self.selectedPaymentIndex].charge)
                 } else {
@@ -281,7 +435,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 cell.selectionStyle = .none
                 cell.clipsToBounds = true
                 
-                var totalAmount = self.cartResult.totalPrice
+                var totalAmount = self.totalAmount
                 
                 totalAmount += self.paymentMethods[self.selectedPaymentIndex].charge
                 
@@ -298,7 +452,37 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // do nothing
+        let idx = indexPath as IndexPath
+        if idx.section == 0 {
+            if idx.row == 0 {
+                // do nothing
+            } else {
+                self.selectedPaymentIndex = idx.row-1
+                
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    // MARK: - Other
+    func showLoading() {
+        self.loadingPanel.isHidden = false
+    }
+    
+    func hideLoading() {
+        self.loadingPanel.isHidden = true
+    }
+    
+    func scrollToTop() {
+        if self.cartResult.cartDetails.count > 0 {
+            tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.top, animated: true)
+        }
+    }
+    
+    //Calls this function when the tap is recognized.
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
     }
 }
 
@@ -403,7 +587,7 @@ class Checkout2PreloBalanceCell: UITableViewCell, UITextFieldDelegate {
     
     static func heightFor(_ isUsed: Bool) -> CGFloat {
         if isUsed {
-            return 111.0
+            return 115.0
         }
         return 51.0
     }
@@ -437,7 +621,7 @@ class Checkout2VoucherCell: UITableViewCell {
     
     static func heightFor(_ isUsed: Bool) -> CGFloat {
         if isUsed {
-            return 111.0
+            return 115.0
         }
         return 51.0
     }
@@ -448,6 +632,7 @@ class Checkout2VoucherCell: UITableViewCell {
     
     @IBAction func btnApplyPressed(_ sender: Any) {
         if (self.txtInputVoucher.text != "") {
+            self.txtInputVoucher.resignFirstResponder()
             self.voucherApply(self.txtInputVoucher.text!)
         }
     }
