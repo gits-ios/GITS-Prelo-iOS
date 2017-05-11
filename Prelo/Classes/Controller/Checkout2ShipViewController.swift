@@ -136,6 +136,32 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
         
         // title
         self.title = "Checkout"
+        
+        // Prelo Analytic - Go to cart
+        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
+                                            qos: .background,
+                                            target: nil)
+        backgroundQueue.async {
+            print("Work on background queue")
+            
+            let loginMethod = User.LoginMethod ?? ""
+            
+            var localId = User.CartLocalId ?? ""
+            if (localId == "") {
+                let uniqueCode : TimeInterval = Date().timeIntervalSinceReferenceDate
+                let uniqueCodeString = uniqueCode.description
+                localId = UIDevice.current.identifierForVendor!.uuidString + "-" + uniqueCodeString
+                
+                User.SetCartLocalId(localId)
+            }
+            
+            let productIds : [String] = CartManager.sharedInstance.getAllProductIds()
+            let pdata = [
+                "Local ID" : localId,
+                "Product IDs" : productIds
+            ] as [String : Any]
+            AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.GoToCart, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -224,6 +250,9 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     
                     self.synchCart()
                 } else {
+                    // reset localid
+                    User.SetCartLocalId("")
+                    
                     self.hideLoading()
                     
                     self.backToPreviousScreen()
@@ -658,7 +687,9 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 let checkout2PayVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Pay, owner: nil, options: nil)?.first as! Checkout2PayViewController
                 checkout2PayVC.cartResult = self.cartResult
                 checkout2PayVC.previousController = self.previousController
+                checkout2PayVC.previousScreen = self.previousScreen
                 checkout2PayVC.totalAmount = totalWithOngkir
+                checkout2PayVC.selectedAddress = self.selectedAddress
                 self.navigationController?.pushViewController(checkout2PayVC, animated: true)
             }
             

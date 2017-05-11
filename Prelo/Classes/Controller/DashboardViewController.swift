@@ -502,6 +502,8 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         
         // checkout v2 -- OKE
         let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
+        checkout2ShipVC.previousController = self
+        checkout2ShipVC.previousScreen = PageName.DashboardLoggedIn
         self.navigationController?.pushViewController(checkout2ShipVC, animated: true)
     }
     

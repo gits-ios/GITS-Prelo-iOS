@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Crashlytics
 import Alamofire
 import DropDown
 
@@ -31,6 +32,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
     
     var isFirst = true
     var isShowBankBRI = false
+    var isDropdownMode = false
     
     // Cart Results
     var cartResult: CartV2ResultItem!
@@ -41,7 +43,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
     // payment method -> bank etc
     var paymentMethods: Array<PaymentMethodItem>! = []
     var selectedPaymentIndex: Int = 0
-    var selectedBank: String = ""
+    var targetBank: String = ""
     
     // discount item -> voucher etc
     var discountItems: Array<DiscountItem>! = []
@@ -51,6 +53,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
     // bonus
     var isHalfBonusMode: Bool = false
     var customBonusPercent: Int = 0
+    var preloBonusUsed: Int = 0
     
     var preloBalanceUsed: Int = 0
     var preloBalanceTotal: Int = 0
@@ -58,6 +61,10 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
     var totalAmount: Int = 0
     
     var voucherSerial: String?
+    var isFreeze: Bool = false
+    
+    // checkout
+    var checkoutResult: JSON!
     
     // MARK: - Init
     override func viewDidLoad() {
@@ -124,12 +131,25 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         view.addGestureRecognizer(tap)
         */
         
+        // swipe gesture for carbon (pop view)
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeRight.direction = UISwipeGestureRecognizerDirection.right
+        
+        let vwLeft = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: UIScreen.main.bounds.height))
+        vwLeft.backgroundColor = UIColor.clear
+        vwLeft.addGestureRecognizer(swipeRight)
+        self.view.addSubview(vwLeft)
+        self.view.bringSubview(toFront: vwLeft)
+        
         // title
         self.title = "Checkout"
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        // gesture override
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         
         // Handling keyboard animation
         self.an_subscribeKeyboard(
@@ -148,7 +168,13 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
     }
     
     func setupPaymentAndDiscount() {
+        // reset
         self.paymentMethods = []
+        self.discountItems = []
+        self.isFreeze = false
+        self.isHalfBonusMode = false
+        self.isShowBankBRI = false
+        self.isDropdownMode = false
         
         // transfer bank
         var p = PaymentMethodItem()
@@ -175,11 +201,20 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 p.charge = (self.cartResult.veritransCharge?.indomaret)!
                 p.chargeDescription = "Indomaret Charge"
                 self.paymentMethods.append(p)
+                
+                if p.charge == 0 {
+                    self.isFreeze = true
+                }
             } else if (_ab.range(of: "bonus:") != nil) {
                 self.customBonusPercent = Int(_ab.components(separatedBy: "bonus:")[1])!
             } else if (_ab == "target_bank") {
-//                self.isDropdownMode = true
+                self.isDropdownMode = true
             }
+        }
+        
+        // reset selectedBank
+        if !self.isDropdownMode {
+            self.targetBank = ""
         }
         
         // reset if payment out of range
@@ -197,6 +232,9 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             if voucherAmount > 0 { // if zero, not shown
                 let discVoucher = DiscountItem(title: "Voucher '" + self.voucherSerial! + "'", value: voucherAmount)
                 self.discountItems.append(discVoucher)
+                
+                self.isFreeze = true
+                self.scrollToSummary()
             }
         } else {
             if self.cartResult.voucherError != "" {
@@ -208,6 +246,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         
         let bonus = self.cartResult.preloBonus
         if (bonus > 0) {
+            self.preloBonusUsed = bonus
             let disc = DiscountItem(title: "Referral Bonus", value: bonus)
             self.discountItems.append(disc)
         }
@@ -285,7 +324,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 
                 self.setupPaymentAndDiscount()
                 
-                self.scrollToTop()
+                //self.scrollToTop()
                 self.hideLoading()
                 
             } else {
@@ -362,7 +401,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 cell.selectionStyle = .none
                 cell.clipsToBounds = true
                 
-                cell.adapt(self.selectedBank, isSelected: selectedPaymentIndex == idx.row-1)
+                cell.adapt(self.targetBank, isSelected: selectedPaymentIndex == idx.row-1, parent: self)
                 
                 return cell
             } else { // cc, indomaret, etc
@@ -426,7 +465,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 cell.selectionStyle = .none
                 cell.clipsToBounds = true
                 
-                cell.adapt(self.voucherSerial, isUsed: self.isVoucherUsed)
+                cell.adapt(self.voucherSerial, isUsed: self.isVoucherUsed, isFreeze: self.isFreeze)
                 
                 cell.voucherUsed = {
                     self.isVoucherUsed = !self.isVoucherUsed
@@ -485,6 +524,18 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 
                 cell.adapt(totalAmount)
                 
+                cell.checkout = {
+                    self.showLoading()
+                    let alertView = SCLAlertView(appearance: Constant.appearance)
+                    alertView.addButton("Lanjutkan") {
+                        self.performCheckout()
+                    }
+                    alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {
+                        self.hideLoading()
+                    }
+                    alertView.showCustom("Perhatian", subTitle: "Kamu akan melakukan transaksi sebesar \(totalAmount.asPrice) menggunakan \(self.paymentMethods[self.selectedPaymentIndex].name). Lanjutkan?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+                }
+                
                 return cell
             }
         }
@@ -501,6 +552,306 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 
                 self.tableView.reloadData()
             }
+        }
+    }
+    
+    // MARK: - Checkout
+    func performCheckout() {
+        
+        let p = CartManager.sharedInstance.getCartJsonString()
+        let d = [
+            "coordinate": self.selectedAddress.coordinate,
+            "coordinate_address": self.selectedAddress.coordinateAddress,
+            "address": self.selectedAddress.address,
+            "province_id": self.selectedAddress.provinceId,
+            "region_id": self.selectedAddress.regionId,
+            "subdistrict_id": self.selectedAddress.subdistrictId,
+            "subdistrict_name": self.selectedAddress.subdistrictName,
+            "postal_code": self.selectedAddress.postalCode,
+            "recipient_name": self.selectedAddress.name,
+            "recipient_phone": self.selectedAddress.phone,
+            "email": User.EmailOrEmptyString
+        ]
+        let a = AppToolsObjC.jsonString(from: d)
+        
+        let _ = request(APIV2Cart.checkout(cart: p, address: a!, voucher: (self.isVoucherUsed ? self.voucherSerial! : ""), payment: self.paymentMethods[self.selectedPaymentIndex].name, usedPreloBalance: (self.isBalanceUsed ? self.preloBalanceUsed : 0), usedReferralBonus: self.preloBonusUsed, kodeTransfer: self.paymentMethods[0].charge, targetBank: (self.isDropdownMode ? self.targetBank : ""))).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Checkout")) {
+                let json = JSON(resp.result.value!)
+                self.checkoutResult = json["_data"]
+                
+                // Error handling
+                if (json["_data"]["_have_error"].intValue == 1) {
+                    let m = json["_data"]["_message"].stringValue
+                    Constant.showDialog("Perhatian", message: m)
+                    self.hideLoading()
+                    return
+                }
+                
+                if (self.checkoutResult == nil) {
+                    Constant.showDialog("Perhatian", message: "Terdapat kesalahan saat melakukan checkout")
+                    self.hideLoading()
+                    return
+                }
+                
+                // Send tracking data before navigate
+                if (self.checkoutResult != nil) {
+                    
+                    // insert new address if needed
+                    if (self.selectedAddress.isSave) {
+                        //self.insertNewAddress()
+                    }
+                    
+                    var pName : String? = ""
+                    var rName : String? = ""
+                    if let u = CDUser.getOne()
+                    {
+                        pName = CDProvince.getProvinceNameWithID(u.profiles.provinceID)
+                        if (pName == nil) {
+                            pName = ""
+                        }
+                        rName = CDRegion.getRegionNameWithID(u.profiles.regionID)
+                        if (rName == nil) {
+                            rName = ""
+                        }
+                    }
+                    
+                    // Prelo Analytic - Checkout - Item Data
+                    var itemsObject : Array<[String : Any]> = []
+                    
+                    var items : [String] = []
+                    var itemsId : [String] = []
+                    var itemsCategory : [String] = []
+                    var itemsSeller : [String] = []
+                    var itemsPrice : [Int] = []
+                    var itemsCommissionPercentage : [Int] = []
+                    var itemsCommissionPrice : [Int] = []
+                    var totalCommissionPrice = 0
+                    var totalPrice = 0
+                    
+                    for c in self.cartResult.cartDetails {
+                        for p in c.products {
+                            items.append(p.name)
+                            itemsId.append(p.productId)
+                            if let cName = CDCategory.getCategoryNameWithID(p.categoryId) {
+                                itemsCategory.append(cName)
+                            } else {
+                                itemsCategory.append("")
+                            }
+                            itemsSeller.append(p.sellerUsername)
+                            itemsPrice.append(p.price)
+                            itemsCommissionPercentage.append(p.commission)
+                            let cPrice = p.price * p.commission / 100
+                            itemsCommissionPrice.append(cPrice)
+                            totalCommissionPrice += cPrice
+                            
+                            // Prelo Analytic - Checkout - Item Data
+                            let curItem : [String : Any] = [
+                                "Product ID" : p.productId,
+                                "Seller Username" : p.sellerUsername,
+                                "Price" : p.price,
+                                "Commission Percentage" : p.commission,
+                                "Commission Price" : cPrice,
+                                "Free Shipping" : p.isFreeOngkir,
+                                "Category ID" : p.categoryId
+                            ]
+                            itemsObject.append(curItem)
+                            
+                            // AppsFlyer
+                            let afPdata: [String : Any] = [
+                                AFEventParamRevenue     : (p.price).string,
+                                AFEventParamContentType : p.categoryId,
+                                AFEventParamContentId   : p.productId,
+                                AFEventParamCurrency    : "IDR"
+                            ]
+                            AppsFlyerTracker.shared().trackEvent(AFEventInitiatedCheckout, withValues: afPdata)
+                        }
+                    }
+                    
+                    let orderId = self.checkoutResult!["order_id"].stringValue
+                    let paymentMethod = self.checkoutResult!["payment_method"].stringValue
+                    
+                    totalPrice = self.checkoutResult!["total_price"].intValue
+                    
+                    // FB Analytics - initiated Checkout
+                    if AppTools.IsPreloProduction {
+                        do {
+                            //Convert to Data
+                            let jsonData = try! JSONSerialization.data(withJSONObject: itemsId, options: JSONSerialization.WritingOptions.prettyPrinted)
+                            
+                            //Convert back to string. Usually only do this for debugging
+                            if let JSONString = String(data: jsonData, encoding: String.Encoding.utf8) {
+                                print(JSONString)
+                                let productIdsString = JSONString.replaceRegex(Regex.init(pattern: "\n| ") , template: "")
+                                print(productIdsString)
+                                
+                                let fbPdata: [String : Any] = [
+                                    FBSDKAppEventParameterNameContentType          : "product",
+                                    FBSDKAppEventParameterNameContentID            : productIdsString,
+                                    FBSDKAppEventParameterNameNumItems             : itemsId.count.string,
+                                    FBSDKAppEventParameterNameCurrency             : "IDR"
+                                ]
+                                FBSDKAppEvents.logEvent(FBSDKAppEventNameInitiatedCheckout, valueToSum: Double(totalPrice), parameters: fbPdata)
+                            }
+                        }
+                    }
+                    
+                    /*
+                     // MixPanel
+                     let pt = [
+                     "Order ID" : orderId,
+                     "Items" : items,
+                     "Items Category" : itemsCategory,
+                     "Items Seller" : itemsSeller,
+                     "Items Price" : itemsPrice,
+                     "Items Commission Percentage" : itemsCommissionPercentage,
+                     "Items Commission Price" : itemsCommissionPrice,
+                     "Total Commission Price" : totalCommissionPrice,
+                     "Shipping Price" : self.totalOngkir,
+                     "Total Price" : totalPrice,
+                     "Shipping Region" : rName!,
+                     "Shipping Province" : pName!,
+                     "Bonus Used" : 0,
+                     "Balance Used" : 0
+                     ] as [String : Any]
+                     Mixpanel.trackEvent(MixpanelEvent.Checkout, properties: pt as [AnyHashable: Any])
+                     */
+                    
+                    // Prelo Analytic - Checkout
+                    let loginMethod = User.LoginMethod ?? ""
+                    let localId = User.CartLocalId ?? ""
+                    let province = CDProvince.getProvinceNameWithID(self.selectedAddress.provinceId) ?? ""
+                    let region = CDRegion.getRegionNameWithID(self.selectedAddress.regionId) ?? ""
+                    let subdistrict = self.selectedAddress.subdistrictName
+                    
+                    let address = [
+                        "Province" : province,
+                        "Region" : region,
+                        "Subdistrict" : subdistrict
+                        ] as [String : Any]
+                    
+                    var pdata = [
+                        "Local ID" : localId,
+                        "Order ID" : orderId,
+                        "Items" : itemsObject,
+                        "Total Price" : totalPrice,
+                        "Address" : address,
+                        "Payment Method" : paymentMethod,
+                        "Prelo Balance Used" : (self.checkoutResult!["prelobalance_used"].intValue != 0 ? true : false)
+                        ] as [String : Any]
+                    
+                    if (self.checkoutResult!["voucher_serial"].stringValue != "") {
+                        pdata["Voucher Used"] = self.checkoutResult!["voucher_serial"].stringValue
+                    }
+                    
+                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Checkout, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+                    
+                    // reset localid
+                    User.SetCartLocalId("")
+                    
+                    // Answers
+                    if (AppTools.IsPreloProduction) {
+                        Answers.logStartCheckout(withPrice: NSDecimalNumber(value: totalPrice as Int), currency: "IDR", itemCount: NSNumber(value: items.count as Int), customAttributes: nil)
+                        for j in 0...items.count-1 {
+                            Answers.logPurchase(withPrice: NSDecimalNumber(value: itemsPrice[j] as Int), currency: "IDR", success: true, itemName: items[j], itemType: itemsCategory[j], itemId: itemsId[j], customAttributes: nil)
+                        }
+                    }
+                    
+                    // Google Analytics Ecommerce Tracking
+                    if (AppTools.IsPreloProduction) {
+                        let gaTracker = GAI.sharedInstance().defaultTracker
+                        let trxDict = GAIDictionaryBuilder.createTransaction(withId: orderId, affiliation: "iOS Checkout", revenue: totalPrice as NSNumber!, tax: totalCommissionPrice as NSNumber!, shipping: (self.totalAmount - self.cartResult.totalPrice) as NSNumber!, currencyCode: "IDR").build() as NSDictionary? as? [AnyHashable: Any]
+                        gaTracker?.send(trxDict)
+                        
+                        for c in self.cartResult.cartDetails {
+                            for p in c.products {
+                                var cName = CDCategory.getCategoryNameWithID(p.categoryId)
+                                if cName == nil {
+                                    cName = p.categoryId
+                                }
+                                
+                                let trxItemDict = GAIDictionaryBuilder.createItem(withTransactionId: orderId, name: p.name, sku: p.productId, category: cName, price: p.price as NSNumber!, quantity: 1, currencyCode: "IDR").build() as NSDictionary? as? [AnyHashable: Any]
+                                gaTracker?.send(trxItemDict)
+                            }
+                        }
+                        
+                    }
+                    
+                    // MoEngage
+                    let moeDict = NSMutableDictionary()
+                    moeDict.setObject(orderId, forKey: "Order ID" as NSCopying)
+                    moeDict.setObject(items, forKey: "Items" as NSCopying)
+                    moeDict.setObject(itemsCategory, forKey: "Items Category" as NSCopying)
+                    moeDict.setObject(itemsSeller, forKey: "Items Seller" as NSCopying)
+                    moeDict.setObject(itemsPrice, forKey: "Items Price" as NSCopying)
+                    moeDict.setObject(itemsCommissionPercentage, forKey: "Items Commission Percentage" as NSCopying)
+                    moeDict.setObject(itemsCommissionPrice, forKey: "Items Commission Price" as NSCopying)
+                    moeDict.setObject(totalCommissionPrice, forKey: "Total Commission Price" as NSCopying)
+                    moeDict.setObject((self.totalAmount - self.cartResult.totalPrice), forKey: "Shipping Price" as NSCopying)
+                    moeDict.setObject(totalPrice, forKey: "Total Price" as NSCopying)
+                    moeDict.setObject(rName!, forKey: "Shipping Region" as NSCopying)
+                    moeDict.setObject(pName!, forKey: "Shipping Province" as NSCopying)
+                    let moeEventTracker = MOPayloadBuilder.init(dictionary: moeDict)
+                    moeEventTracker?.setTimeStamp(Date.timeIntervalSinceReferenceDate, forKey: "startTime")
+                    moeEventTracker?.setDate(Date(), forKey: "startDate")
+                    let locManager = CLLocationManager()
+                    locManager.requestWhenInUseAuthorization()
+                    var currentLocation : CLLocation!
+                    var currentLat : Double = 0
+                    var currentLng : Double = 0
+                    if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways) {
+                        currentLocation = locManager.location
+                        currentLat = currentLocation.coordinate.latitude
+                        currentLng = currentLocation.coordinate.longitude
+                    }
+                    moeEventTracker?.setLocationLat(currentLat, lng: currentLng, forKey: "startingLocation")
+                    MoEngage.sharedInstance().trackEvent(MixpanelEvent.Checkout, builderPayload: moeEventTracker)
+                }
+                
+                self.hideLoading()
+                
+                // Prepare to navigate to next page
+                if (self.selectedPaymentIndex == 0) { // bank
+                    self.navigateToOrderConfirmVC(false)
+                    
+                    // set 0 badge
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    let notifListener = appDelegate.preloNotifListener
+                    notifListener?.setCartCount(1 + self.cartResult.nTransactionUnpaid)
+                } else { // Credit card, indomaret
+                    let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let webVC = mainStoryboard.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
+                    webVC.url = self.checkoutResult!["veritrans_redirect_url"].stringValue
+                    webVC.titleString = "Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].name)"
+                    webVC.creditCardMode = true
+                    webVC.ccPaymentSucceed = {
+                        self.navigateToOrderConfirmVC(true)
+                        
+                        // set 0 badge
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        let notifListener = appDelegate.preloNotifListener
+                        notifListener?.setCartCount(1 + self.cartResult.nTransactionUnpaid)
+                    }
+                    webVC.ccPaymentUnfinished = {
+                        Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].name)", message: "Pembayaran tertunda")
+                        let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
+                        notifPageVC.isBackTwice = true
+                        notifPageVC.previousScreen = PageName.Checkout
+                        self.navigateToVC(notifPageVC)
+                    }
+                    webVC.ccPaymentFailed = {
+                        Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].name)", message: "Pembayaran gagal, silahkan coba beberapa saat lagi")
+                        let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
+                        notifPageVC.isBackTwice = true
+                        notifPageVC.previousScreen = PageName.Checkout
+                        self.navigateToVC(notifPageVC)
+                    }
+                    let baseNavC = BaseNavigationController()
+                    baseNavC.setViewControllers([webVC], animated: false)
+                    self.present(baseNavC, animated: true, completion: nil)
+                }
+            }
+            
+            self.loadingPanel.isHidden = true
         }
     }
     
@@ -542,6 +893,130 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
     }
+    
+    // MARK: - Navigation
+    func navigateToOrderConfirmVC(_ isMidtrans: Bool) {
+        var gTotal = 0
+        if let totalPrice = self.checkoutResult?["total_price"].int {
+            gTotal += totalPrice
+        }
+        if !isMidtrans, let trfCode = self.checkoutResult?["banktransfer_digit"].int {
+            gTotal += trfCode
+        }
+        if isMidtrans, let trfCharge = self.checkoutResult?["veritrans_charge_amount"].int {
+            gTotal += trfCharge
+        }
+        
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let o = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdOrderConfirm) as! OrderConfirmViewController
+        
+        o.orderID = (self.checkoutResult?["order_id"].string)!
+        
+        o.total = gTotal
+        
+        o.transactionId = (self.checkoutResult?["transaction_id"].string)!
+        o.isBackTwice = true
+        o.isShowBankBRI = self.isShowBankBRI
+        o.targetBank = self.targetBank
+        o.previousScreen = PageName.Checkout
+        
+        if (self.checkoutResult?["expire_time"].string) != nil {
+            o.date = (self.checkoutResult?["expire_time"].string)! // expire_time not found
+        }
+        
+        if (self.checkoutResult?["payment_expired_remaining"].int) != nil {
+            o.remaining = (self.checkoutResult?["payment_expired_remaining"].int)! // payment_expired_remaining not found
+        }
+        
+        var imgs : [URL] = []
+        for c in self.cartResult.cartDetails {
+            for p in c.products {
+                imgs.append(p.displayPicts[0])
+            }
+        }
+        o.images = imgs
+        o.isFromCheckout = true
+        
+        if isMidtrans {
+            o.isMidtrans = true
+        }
+        
+        // cleaning cart - if exist
+        CartProduct.deleteAll()
+        
+        CartManager.sharedInstance.deleteAll()
+        
+        self.navigateToVC(o)
+    }
+    
+    func navigateToVC(_ vc: UIViewController) {
+        if (previousController != nil) {
+            self.previousController!.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    override func backPressed(_ sender: UIBarButtonItem) {
+        let alertView = SCLAlertView(appearance: Constant.appearance)
+        
+        alertView.addButton("Keluar") {
+            
+            // gesture override
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+            
+            print(self.previousController.debugDescription)
+            
+            // back / pop twice
+            if let count = self.navigationController?.viewControllers.count {
+             _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-3])!, animated: true)
+            }
+        }
+        
+        alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+        
+        alertView.showCustom("Checkout", subTitle: "Kamu yakin mau keluar dari sini? Dengan meninggalkan halaman ini, pemesanan akan dibatalkan.", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+    }
+    
+    // MARK: - Swap override
+    func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.right:
+                print("Swiped right")
+                
+                let alertView = SCLAlertView(appearance: Constant.appearance)
+                
+                alertView.addButton("Keluar") {
+                    
+                    // gesture override
+                    self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                    
+                    print(self.previousController.debugDescription)
+                    
+                    // back / pop twice
+                    if let count = self.navigationController?.viewControllers.count {
+                        _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-3])!, animated: true)
+                    }
+                }
+                
+                alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+                
+                alertView.showCustom("Checkout", subTitle: "Kamu yakin mau keluar dari sini? Dengan meninggalkan halaman ini, pemesanan akan dibatalkan.", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+                
+                
+            case UISwipeGestureRecognizerDirection.down:
+                print("Swiped down")
+            case UISwipeGestureRecognizerDirection.left:
+                print("Swiped left")
+            case UISwipeGestureRecognizerDirection.up:
+                print("Swiped up")
+            default:
+                break
+            }
+        }
+    }
+
 }
 
 // MARK: - Class Checkout2PaymentMethodCell
@@ -563,11 +1038,40 @@ class Checkout2PaymentBankCell: UITableViewCell {
     @IBOutlet weak var lbBank: UILabel!
     @IBOutlet weak var lbDropdown: UILabel!
     
-    func adapt(_ bankName: String?, isSelected: Bool) {
-        if let bn = bankName, bn != "" {
-            self.lbBank.text = bn
+    // target_bank
+    @IBOutlet weak var vw3Banks: UIView!
+    @IBOutlet weak var vw4Banks: UIView!
+    @IBOutlet weak var vwDropdown: BorderedView!
+    
+    let dropDown = DropDown()
+    var selectedBankIndex: Int = -1
+    
+    var parent: Checkout2PayViewController!
+    
+    func adapt(_ bankName: String?, isSelected: Bool, parent: Checkout2PayViewController) {
+        self.parent = parent
+        
+        if self.parent.isDropdownMode {
+            self.vwDropdown.isHidden = false
+            
+            if let bn = bankName, bn != "" {
+                self.lbBank.text = bn
+            } else {
+                self.lbBank.text = "Pilih Bank Tujuan Transfer"
+            }
+            
+            self.setupDropdownBank()
         } else {
-            self.lbBank.text = "Pilih Bank Tujuan Transfer"
+            self.vwDropdown.isHidden = true
+            self.selectedBankIndex = -1
+            
+            if self.parent.isShowBankBRI {
+                self.vw3Banks.isHidden = true
+                self.vw4Banks.isHidden = false
+            } else {
+                self.vw3Banks.isHidden = false
+                self.vw4Banks.isHidden = true
+            }
         }
         
         if isSelected {
@@ -582,6 +1086,82 @@ class Checkout2PaymentBankCell: UITableViewCell {
             return 99.0
         }
         return 35.0
+    }
+    
+    func setupDropdownBank() {
+        //dropDown = DropDown()
+        
+        var items = ["BCA", "Mandiri", "BNI"]
+        var icons = ["rsz_ic_bca@2x", "rsz_ic_mandiri@2x", "rsz_ic_bni@2x"]
+        
+        if self.parent.isShowBankBRI {
+            items.append("BRI")
+            icons.append("rsz_ic_bri@2x")
+        }
+        
+        // The list of items to display. Can be changed dynamically
+        dropDown.dataSource = items
+        
+        // Action triggered on selection
+        dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
+            self.lbBank.text = items[index]
+            self.selectedBankIndex = index
+            
+            self.parent.targetBank = items[index]
+        }
+        
+        dropDown.customCellConfiguration = { (index: Index, item: String, cell: DropDownCell) -> Void in
+            if index < items.count {
+                cell.viewWithTag(999)?.removeFromSuperview()
+                cell.viewWithTag(888)?.removeFromSuperview()
+                
+                let icon = UIImage(named: icons[index])
+                let y = (cell.height - cell.optionLabel.height) / 2.0
+                let rect = CGRect(x: 16, y: y, width: 80, height: cell.optionLabel.height)
+                let img = UIImageView(frame: rect, image: icon!)
+                img.afInflate()
+                img.contentMode = .scaleAspectFit
+                img.tag = 999
+                
+                // Setup your custom UI components
+                cell.optionLabel.text = ""
+                let rectOption = CGRect(x: 112, y: y, width: cell.width - (112 + 16), height: cell.optionLabel.height)
+                
+                let label = UILabel(frame: rectOption)
+                label.text = items[index]
+                label.font = cell.optionLabel.font
+                label.tag = 888
+                
+                cell.addSubview(img)
+                cell.addSubview(label)
+            }
+        }
+        
+        dropDown.textFont = UIFont.systemFont(ofSize: 14)
+        
+        //        dropDown.width = self.vwDropdown.width - 16
+        
+        dropDown.cellHeight = 60
+        
+        dropDown.anchorView = self.vwDropdown
+        
+        if selectedBankIndex > -1 {
+            dropDown.selectRow(at: selectedBankIndex)
+            lbBank.text = items[selectedBankIndex]
+        }
+        
+        // Top of drop down will be below the anchorView
+        dropDown.bottomOffset = CGPoint(x: 0, y:(dropDown.anchorView?.plainView.bounds.height)! + 4)
+        
+        // When drop down is displayed with `Direction.top`, it will be above the anchorView
+        //dropDown.topOffset = CGPoint(x: 0, y:-(dropDown.anchorView?.plainView.bounds.height)! + 4)
+        
+        dropDown.direction = .bottom
+    }
+    
+    @IBAction func btnChooseBankPressed(_ sender: Any) {
+        dropDown.hide()
+        dropDown.show()
     }
 }
 
@@ -623,10 +1203,13 @@ class Checkout2BlackWhiteCell: UITableViewCell {
 }
 
 // MARK: - Class Checkout2PreloBalanceCell
-class Checkout2PreloBalanceCell: UITableViewCell {
+class Checkout2PreloBalanceCell: UITableViewCell, UITextFieldDelegate {
     @IBOutlet weak var btnSwitch: UISwitch!
     @IBOutlet weak var txtInputPreloBalance: UITextField!
     @IBOutlet weak var lbDescription: UILabel!
+    @IBOutlet weak var btnApply: UIButton!
+    @IBOutlet weak var consWidthBtnApply: NSLayoutConstraint! // 64
+    @IBOutlet weak var consLeadingBtnApply: NSLayoutConstraint! // 8
     
     var preloBalanceUsed: ()->() = {}
     
@@ -635,9 +1218,17 @@ class Checkout2PreloBalanceCell: UITableViewCell {
     func adapt(_ parent: Checkout2PayViewController, isUsed: Bool) {
         self.parent = parent
         
-        self.txtInputPreloBalance.text = parent.preloBalanceUsed.string
+        self.txtInputPreloBalance.text = parent.preloBalanceUsed.asPrice
         self.lbDescription.text = "Prelo Balance kamu " + parent.preloBalanceTotal.asPrice
-        self.btnSwitch.isSelected = isUsed
+        //self.btnSwitch.isSelected = isUsed
+        
+        self.txtInputPreloBalance.delegate = self
+        self.consWidthBtnApply.constant = 0
+        self.consLeadingBtnApply.constant = 0
+        
+        if isUsed {
+            self.parent.scrollToSummary()
+        }
     }
     
     static func heightFor(_ isUsed: Bool) -> CGFloat {
@@ -661,23 +1252,27 @@ class Checkout2PreloBalanceCell: UITableViewCell {
             }
         }
         
-        if let t = self.txtInputPreloBalance.text, t.int <= self.parent.preloBalanceTotal && t.int <= maksimum && t.int > 0 {
-            self.parent.preloBalanceUsed = t.int
-            
-            if self.parent.discountItems.count > 0 {
-                for i in 0...self.parent.discountItems.count-1 {
-                    if self.parent.discountItems[i].title == "Prelo Balance" {
-                        self.parent.discountItems[i].value = self.parent.preloBalanceUsed
+        if let t = self.txtInputPreloBalance.text {
+            let _t = t.replacingOccurrences(of: ".", with: "").replace("Rp", template: "")
+            if _t.int <= self.parent.preloBalanceTotal && _t.int <= maksimum && _t.int > 0 {
+                
+                self.parent.preloBalanceUsed = _t.int
+                
+                if self.parent.discountItems.count > 0 {
+                    for i in 0...self.parent.discountItems.count-1 {
+                        if self.parent.discountItems[i].title == "Prelo Balance" {
+                            self.parent.discountItems[i].value = self.parent.preloBalanceUsed
+                        }
                     }
                 }
+                
+                self.parent.tableView.reloadData()
+                self.parent.scrollToSummary()
+            } else {
+                let alertView = SCLAlertView(appearance: Constant.appearance)
+                alertView.addButton("Oke") { self.txtInputPreloBalance.becomeFirstResponder() }
+                alertView.showCustom("Prelo Balance", subTitle: "Prelo Balance yang dapat digunakan mulai dari 1 hingga \(maksimum) rupiah", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
             }
-            
-            self.parent.tableView.reloadData()
-            self.parent.scrollToSummary()
-            
-        } else if self.txtInputPreloBalance.text == "" {
-            // do nothing
-            self.parent.scrollToSummary()
         } else {
 //            Constant.showDialog("Prelo Balance", message: "Prelo Balance yang dapat digunakan mulai dari 1 hingga \(maksimum) rupiah")
             
@@ -686,19 +1281,59 @@ class Checkout2PreloBalanceCell: UITableViewCell {
             alertView.showCustom("Prelo Balance", subTitle: "Prelo Balance yang dapat digunakan mulai dari 1 hingga \(maksimum) rupiah", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
         }
     }
+    
+    // MARK: - delegate
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        UIView.animate(withDuration: 0.3, delay: 0,options: .curveLinear, animations: {
+            self.consLeadingBtnApply.constant = 8
+            self.btnApply.frame = CGRect(x: self.btnApply.x - 64, y: self.btnApply.y, width: self.btnApply.frame.width, height: self.btnApply.frame.height)
+            
+        },completion: { finish in
+            self.consWidthBtnApply.constant = 64
+        })
+        
+        if let text = self.txtInputPreloBalance.text {
+            let _text = text.replacingOccurrences(of: ".", with: "").replace("Rp", template: "")
+            self.txtInputPreloBalance.text = _text
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.consLeadingBtnApply.constant = 0
+        self.consWidthBtnApply.constant = 0
+        
+        if let text = self.txtInputPreloBalance.text {
+            let _text = (text != "" ? text.int.asPrice : self.parent.preloBalanceUsed.asPrice)
+            self.txtInputPreloBalance.text = _text
+        }
+    }
 }
 
 // MARK: - Class Checkout2VoucherCell
 class Checkout2VoucherCell: UITableViewCell {
     @IBOutlet weak var btnSwitch: UISwitch!
     @IBOutlet weak var txtInputVoucher: UITextField!
+    @IBOutlet weak var btnApply: UIButton!
     
     var voucherUsed: ()->() = {}
     var voucherApply: (String)->() = {_ in }
     
-    func adapt(_ voucher: String?, isUsed: Bool) {
+    func adapt(_ voucher: String?, isUsed: Bool, isFreeze: Bool) {
         self.txtInputVoucher.text = voucher
-        self.btnSwitch.isSelected = isUsed
+        //self.btnSwitch.isSelected = isUsed
+        
+        self.btnSwitch.isEnabled = !isFreeze
+        self.txtInputVoucher.isEnabled = !isFreeze
+        self.btnApply.isEnabled = !isFreeze
+        
+        if isFreeze {
+            let view = UIView(frame: self.btnApply.bounds)
+            view.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.4)
+            view.tag = 999
+            
+            self.btnApply.viewWithTag(999)?.removeFromSuperview()
+            self.btnApply.addSubview(view)
+        }
     }
     
     static func heightFor(_ isUsed: Bool) -> CGFloat {

@@ -91,6 +91,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="btnApply" destination="UYC-rx-1mh" id="gkA-k7-Nk8"/>
                 <outlet property="btnSwitch" destination="HQL-Wx-pDg" id="mFV-EJ-Zda"/>
                 <outlet property="txtInputVoucher" destination="ILI-qE-izM" id="MEc-1N-zZx"/>
             </connections>

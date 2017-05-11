@@ -54,7 +54,6 @@
                                 <color key="backgroundColor" red="1" green="0.60056952720000001" blue="0.1883386718" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="64" id="GeW-vZ-XHC"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="64" id="LAb-M0-LaP"/>
                                     <constraint firstAttribute="height" constant="30" id="kk9-3N-8Ol"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -92,7 +91,10 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="btnApply" destination="y4X-fG-iKu" id="KbF-s8-b8A"/>
                 <outlet property="btnSwitch" destination="hlQ-ar-7SI" id="yd7-3k-dFI"/>
+                <outlet property="consLeadingBtnApply" destination="y1G-TF-rB1" id="FSm-R8-Tct"/>
+                <outlet property="consWidthBtnApply" destination="GeW-vZ-XHC" id="s8a-ZY-l5l"/>
                 <outlet property="lbDescription" destination="eC5-bA-4Jt" id="mIb-0d-lie"/>
                 <outlet property="txtInputPreloBalance" destination="C5W-Z9-yIW" id="jsO-Kq-tWA"/>
             </connections>

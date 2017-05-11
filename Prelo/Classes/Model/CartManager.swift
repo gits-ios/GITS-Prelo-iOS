@@ -115,4 +115,17 @@ class CartManager: NSObject {
         UserDefaults.standard.set([], forKey: CartManager.cartProductsKey)
         UserDefaults.standard.synchronize()
     }
+    
+    func getAllProductIds() -> [String] {
+        let currentCart: Array<[String : Any]> = self.getCart()
+        var _pIds: Array<String> = []
+        
+        for c in currentCart {
+            let pIds = c["product_ids"] as! Array<String>
+            
+            _pIds.append(contentsOf: pIds)
+        }
+        
+        return _pIds
+    }
 }
