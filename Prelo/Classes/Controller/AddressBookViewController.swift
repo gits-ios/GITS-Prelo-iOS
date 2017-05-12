@@ -438,6 +438,8 @@ class AddressBookCell: UITableViewCell { // height 192
             userProfile.subdistrictName = address.subdisrictName
             userProfile.addressName = address.addressName
             userProfile.recipientName = address.recipientName
+            userProfile.coordinate = address.coordinate
+            userProfile.coordinateAddress = address.coordinateAddress
         }
         
         // Save data

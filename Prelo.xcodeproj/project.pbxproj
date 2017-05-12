@@ -1832,6 +1832,7 @@
 		B2F184D21E938E72001EEB36 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		B2F184D41E938E82001EEB36 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		B2F184D61E938E9B001EEB36 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		B2F192851EC551BC00DFC9D8 /* Prelo 11.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 11.xcdatamodel"; sourceTree = "<group>"; };
 		B2FFCB841EA52669004F01D0 /* SocketAckEmitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckEmitter.swift; sourceTree = "<group>"; };
 		B2FFCB851EA52669004F01D0 /* SocketAckManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckManager.swift; sourceTree = "<group>"; };
 		B2FFCB861EA52669004F01D0 /* SocketAnyEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAnyEvent.swift; sourceTree = "<group>"; };
@@ -3397,6 +3398,16 @@
 			name = banner;
 			sourceTree = "<group>";
 		};
+		B2D39B641EB2F78200A44A1C /* location map */ = {
+			isa = PBXGroup;
+			children = (
+				B2D39B751EB2F7BF00A44A1C /* ic_pin.png */,
+				B2D39B771EB2F7C800A44A1C /* txt_pin.png */,
+				B2ECB2F51EBC308800DB87E2 /* ic_pin_border.png */,
+			);
+			name = "location map";
+			sourceTree = "<group>";
+		};
 		B2D965ED1E9E391E00B2C29C /* Checkout Version 2 */ = {
 			isa = PBXGroup;
 			children = (
@@ -3422,17 +3433,7 @@
 				B2D965EB1E9E36EA00B2C29C /* Checkout2PaymentSummaryTotalCell.xib */,
 			);
 			name = "Checkout Version 2";
-path = XIB;
-sourceTree = "<group>";
-};
-		B2D39B641EB2F78200A44A1C /* location map */ = {
-			isa = PBXGroup;
-			children = (
-				B2D39B751EB2F7BF00A44A1C /* ic_pin.png */,
-				B2D39B771EB2F7C800A44A1C /* txt_pin.png */,
-				B2ECB2F51EBC308800DB87E2 /* ic_pin_border.png */,
-			);
-			name = "location map";
+			path = XIB;
 			sourceTree = "<group>";
 		};
 		B2EE39BF1E76548B00113E03 /* Popup */ = {
@@ -4794,6 +4795,7 @@ sourceTree = "<group>";
 		B2D119CB1E2922870064045B /* Prelo.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				B2F192851EC551BC00DFC9D8 /* Prelo 11.xcdatamodel */,
 				B21DF54F1E519E5E007A60C5 /* Prelo 10.xcdatamodel */,
 				B2D119D51E2922A10064045B /* Prelo 9.xcdatamodel */,
 				B2D119CC1E2922870064045B /* Prelo 3.xcdatamodel */,
@@ -4805,7 +4807,7 @@ sourceTree = "<group>";
 				B2D119D21E2922870064045B /* Prelo 8.xcdatamodel */,
 				B2D119D31E2922870064045B /* Prelo.xcdatamodel */,
 			);
-			currentVersion = B21DF54F1E519E5E007A60C5 /* Prelo 10.xcdatamodel */;
+			currentVersion = B2F192851EC551BC00DFC9D8 /* Prelo 11.xcdatamodel */;
 			path = Prelo.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

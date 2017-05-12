@@ -243,10 +243,13 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     
                     // init default shipping
                     let userProfile = CDUserProfile.getOne()
-                    self.selectedAddress.provinceId = (userProfile?.provinceID)!
-                    self.selectedAddress.regionId = (userProfile?.regionID)!
-                    self.selectedAddress.subdistrictId = (userProfile?.subdistrictID)!
-                    self.selectedAddress.subdistrictName = (userProfile?.subdistrictName)!
+                    self.selectedAddress.provinceId = userProfile?.provinceID ?? ""
+                    self.selectedAddress.regionId = userProfile?.regionID ?? ""
+                    self.selectedAddress.subdistrictId = userProfile?.subdistrictID ?? ""
+                    self.selectedAddress.subdistrictName = userProfile?.subdistrictName ?? ""
+                    
+                    self.selectedAddress.coordinate = userProfile?.coordinate ?? ""
+                    self.selectedAddress.coordinateAddress = userProfile?.coordinateAddress ?? ""
                     
                     self.synchCart()
                 } else {
@@ -682,15 +685,15 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 
                 if self.validateField() {
                     print("oke")
+                    
+                    let checkout2PayVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Pay, owner: nil, options: nil)?.first as! Checkout2PayViewController
+                    checkout2PayVC.cartResult = self.cartResult
+                    checkout2PayVC.previousController = self.previousController
+                    checkout2PayVC.previousScreen = self.previousScreen
+                    checkout2PayVC.totalAmount = totalWithOngkir
+                    checkout2PayVC.selectedAddress = self.selectedAddress
+                    self.navigationController?.pushViewController(checkout2PayVC, animated: true)
                 }
-                
-                let checkout2PayVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Pay, owner: nil, options: nil)?.first as! Checkout2PayViewController
-                checkout2PayVC.cartResult = self.cartResult
-                checkout2PayVC.previousController = self.previousController
-                checkout2PayVC.previousScreen = self.previousScreen
-                checkout2PayVC.totalAmount = totalWithOngkir
-                checkout2PayVC.selectedAddress = self.selectedAddress
-                self.navigationController?.pushViewController(checkout2PayVC, animated: true)
             }
             
             return cell

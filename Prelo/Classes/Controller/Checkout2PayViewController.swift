@@ -471,6 +471,10 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                     self.isVoucherUsed = !self.isVoucherUsed
                     
                     self.tableView.reloadData()
+                    
+                    if self.isVoucherUsed {
+                        self.scrollToSummary()
+                    }
                 }
                 
                 cell.voucherApply = { voucherSerial in
@@ -1322,17 +1326,28 @@ class Checkout2VoucherCell: UITableViewCell {
         self.txtInputVoucher.text = voucher
         //self.btnSwitch.isSelected = isUsed
         
+        /*
         self.btnSwitch.isEnabled = !isFreeze
         self.txtInputVoucher.isEnabled = !isFreeze
         self.btnApply.isEnabled = !isFreeze
+        */
         
         if isFreeze {
+            /*
             let view = UIView(frame: self.btnApply.bounds)
             view.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.4)
             view.tag = 999
             
             self.btnApply.viewWithTag(999)?.removeFromSuperview()
             self.btnApply.addSubview(view)
+             */
+            
+            let view = UIView(frame: self.bounds)
+            view.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.4)
+            view.tag = 999
+            
+            self.viewWithTag(999)?.removeFromSuperview()
+            self.addSubview(view)
         }
     }
     

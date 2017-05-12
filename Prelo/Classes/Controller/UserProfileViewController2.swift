@@ -765,6 +765,12 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
             let recipientName = data["default_address"]["owner_name"].string ?? ""
             userProfile.addressName = addressName
             userProfile.recipientName = recipientName
+            
+            // coordinate
+            let coordinate = data["default_address"]["coordinate"].string ?? ""
+            let coordinateAddress = data["default_address"]["coordinate_address"].string ?? ""
+            userProfile.coordinate = coordinate
+            userProfile.coordinateAddress = coordinateAddress
         }
         
         if let userOther = CDUserOther.getOne() {

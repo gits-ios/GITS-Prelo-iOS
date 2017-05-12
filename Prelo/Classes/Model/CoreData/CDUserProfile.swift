@@ -24,6 +24,8 @@ class CDUserProfile: NSManagedObject {
     @NSManaged var subdistrictName: String
     @NSManaged var addressName: String
     @NSManaged var recipientName: String
+    @NSManaged var coordinate: String
+    @NSManaged var coordinateAddress: String
 
     static func getOne() -> CDUserProfile?
     {
