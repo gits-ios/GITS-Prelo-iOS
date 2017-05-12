@@ -10,6 +10,12 @@ import Foundation
 import UIKit
 import Alamofire
 
+// MARK: - Pop up TT
+enum PopUpTarikTunaiMode {
+    case wjp
+    case confirmation
+}
+
 class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var vwBankKamu: UIView!
@@ -46,6 +52,15 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
     @IBOutlet weak var lblDescription: UILabel!
     @IBOutlet weak var consCenteryPopUp: NSLayoutConstraint! // align center y --> 603 [window height] -> 0
     @IBOutlet weak var vwPopUp: UIView!
+    
+    // for confirmation -- pop up
+    @IBOutlet weak var lblPUCBankName: UILabel!
+    @IBOutlet weak var lblPUCRekeningNumber: UILabel!
+    @IBOutlet weak var lblPUCRekeningName: UILabel!
+    @IBOutlet weak var lblPUCAmount: UILabel!
+    @IBOutlet weak var consCenteryPopUpConfirm: NSLayoutConstraint!
+    @IBOutlet weak var vwPopUpConfirm: UIView!
+    
     
     var initHeight = CGFloat(0) // 67 + 104 + height table row + 36 + 4
     
@@ -308,7 +323,7 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
             Constant.showDialog("Form belum lengkap", message: "Harap pilih Bank Kamu")
             return
         }
-        if (txtNamaBank.text == "Bank Lainnya" && (txtCustomBank.text == nil || txtCustomBank.text!.isEmpty)) {
+        if (txtNamaBank.text == "Lainnya" && (txtCustomBank.text == nil || txtCustomBank.text!.isEmpty)) {
             Constant.showDialog("Form belum lengkap", message: "Harap isi Nama Bank")
             return
         }
@@ -325,6 +340,19 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
             return
         }
         
+        // cal popup
+        // show pop up
+        self.initPopUp()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.setupPopUp(.confirmation)
+            self.displayPopUp(.confirmation)
+            
+            // if oke -> continueWithdraw
+        })
+    }
+    
+    func continueWithdraw() {
+    
         let amount = txtJumlah.text == nil ? "" : txtJumlah.text!
         let i = (amount as NSString).integerValue
         
@@ -366,7 +394,7 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
                 } else
                 {
                     //                    self.getBalance()
-                    let nDays = (self.txtNamaBank.text?.lowercased() == "bank lainnya") ? 5 : 3
+                    let nDays = (self.txtNamaBank.text?.lowercased() == "lainnya") ? 5 : 3
                     Constant.showDialog("Perhatian", message: "Permohonan tarik uang telah diterima. Proses paling lambat membutuhkan \(nDays)x24 jam hari kerja.")
                     
                     /*
@@ -431,8 +459,8 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
         // show pop up
         self.initPopUp()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
-            self.setupPopUp()
-            self.displayPopUp()
+            self.setupPopUp(.wjp)
+            self.displayPopUp(.wjp)
         })
     }
     
@@ -535,7 +563,9 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
     }
     
     // MARK: - Pop up
-    func setupPopUp() {
+    func setupPopUp(_ popUpMode: PopUpTarikTunaiMode) {
+        
+        if popUpMode == .wjp {
         
         let wjpDetail = "Waktu Jaminan Prelo adalah waktu untuk para Pembeli memeriksa barang yang dia terima (terhitung sejak 3x24 jam setelah barang diterima oleh Pembeli).\n\nPembeli bisa melakukan pengembalian barang dan refund jika:\n- barang terbukti KW\n- ada cacat yang tidak diinformasikan\n- barang berbeda dari yang dipesan\n\nPenjual dapat melakukan tarik uang setelah Waktu Jaminan Prelo selesai."
         
@@ -575,9 +605,27 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
             documentAttributes: nil)
         self.lblDescription.attributedText = attrStr
          */
+            
+        } else if popUpMode == .confirmation {
+            self.lblPUCBankName.text = self.txtNamaBank.text != "Lainnya" ? self.txtNamaBank.text : self.txtCustomBank.text
+            self.lblPUCRekeningNumber.text = self.txtNomerRekening.text
+            self.lblPUCRekeningName.text = self.txtNamaRekening.text
+            if let j = self.txtJumlah.text {
+                self.lblPUCAmount.text = j.int.asPrice
+            }
+        }
     }
     
     func initPopUp() {
+        let path = UIBezierPath(roundedRect:vwPopUp.bounds,
+                                byRoundingCorners:[.topRight, .topLeft],
+                                cornerRadii: CGSize(width: 4, height:  4))
+        
+        let maskLayer = CAShapeLayer()
+        
+        maskLayer.path = path.cgPath
+        vwPopUpConfirm.layer.mask = maskLayer
+        
         // Transparent panel
         self.vwBackgroundOverlay.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.2)
         
@@ -589,21 +637,30 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
         
         // force to bottom first
         self.consCenteryPopUp.constant = screenHeight
+        self.consCenteryPopUpConfirm.constant = screenHeight
     }
     
-    func displayPopUp() {
+    func displayPopUp(_ popUpMode: PopUpTarikTunaiMode) {
         let screenSize = UIScreen.main.bounds
         let screenHeight = screenSize.height - 64 // navbar
         
         // force to bottom first
         self.consCenteryPopUp.constant = screenHeight
+        self.consCenteryPopUpConfirm.constant = screenHeight
         
         // 1
         let placeSelectionBar = { () -> () in
-            // parent
-            var curView = self.vwPopUp.frame
-            curView.origin.y = (screenHeight - self.vwPopUp.frame.height) / 2
-            self.vwPopUp.frame = curView
+            if popUpMode == .wjp {
+                // parent
+                var curView = self.vwPopUp.frame
+                curView.origin.y = (screenHeight - self.vwPopUp.frame.height) / 2
+                self.vwPopUp.frame = curView
+            } else if popUpMode == .confirmation {
+                // parent
+                var curView = self.vwPopUpConfirm.frame
+                curView.origin.y = (screenHeight - self.vwPopUpConfirm.frame.height) / 2
+                self.vwPopUpConfirm.frame = curView
+            }
         }
         
         // 2
@@ -611,7 +668,11 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
             placeSelectionBar()
         })
         
-        self.consCenteryPopUp.constant = 0
+        if popUpMode == .wjp {
+            self.consCenteryPopUp.constant = 0
+        } else if popUpMode == .confirmation {
+            self.consCenteryPopUpConfirm.constant = 0
+        }
     }
     
     func unDisplayPopUp() {
@@ -620,13 +681,19 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
         
         // force to bottom first
         self.consCenteryPopUp.constant = 0
+        self.consCenteryPopUpConfirm.constant = 0
         
         // 1
         let placeSelectionBar = { () -> () in
             // parent
+            
             var curView = self.vwPopUp.frame
             curView.origin.y = screenHeight + (screenHeight - self.vwPopUp.frame.height) / 2
             self.vwPopUp.frame = curView
+            
+            var cur2View = self.vwPopUpConfirm.frame
+            cur2View.origin.y = screenHeight + (screenHeight - self.vwPopUpConfirm.frame.height) / 2
+            self.vwPopUpConfirm.frame = cur2View
         }
         
         // 2
@@ -635,8 +702,10 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
         })
         
         self.consCenteryPopUp.constant = screenHeight
+        self.consCenteryPopUpConfirm.constant = screenHeight
     }
     
+    // wjp
     @IBAction func btnOkePressed(_ sender: Any) {
         self.unDisplayPopUp()
         
@@ -646,6 +715,27 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
         })
     }
 
+    // confirmation
+    @IBAction func btnBatalPressed(_ sender: Any) {
+        self.unDisplayPopUp()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.vwOverlayPopUp.isHidden = true
+            self.vwBackgroundOverlay.isHidden = true
+        })
+    }
+    
+    @IBAction func btnTarikPressed(_ sender: Any) {
+        self.unDisplayPopUp()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.vwOverlayPopUp.isHidden = true
+            self.vwBackgroundOverlay.isHidden = true
+            
+            self.continueWithdraw()
+        })
+    }
+    
     func sendRequestWithdrwaMoney(_ namaBank: String, amount: Int, isSuccess: Bool, reason: String) {
         // Prelo Analytic - Request Withdraw Money
         let loginMethod = User.LoginMethod ?? ""
