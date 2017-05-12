@@ -63,6 +63,16 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
             let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: self, action: #selector(PhoneVerificationViewController.backPressed2(_:)))
             newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], for: UIControlState())
             self.navigationItem.leftBarButtonItem = newBackButton
+            
+            // swipe gesture for carbon (pop view)
+            let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+            swipeRight.direction = UISwipeGestureRecognizerDirection.right
+            
+            let vwLeft = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: UIScreen.main.bounds.height))
+            vwLeft.backgroundColor = UIColor.clear
+            vwLeft.addGestureRecognizer(swipeRight)
+            self.view.addSubview(vwLeft)
+            self.view.bringSubview(toFront: vwLeft)
         }
         
         self.fldNoHp.delegate = self
@@ -70,6 +80,9 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        // gesture override
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         
         // Mixpanel
 //        Mixpanel.trackPageVisit(PageName.VerifyPhone)
@@ -85,6 +98,14 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                     self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
                 }
             }, completion: nil)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        // fixer
+        // gesture override
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -110,9 +131,43 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
         alertView.addButton("Keluar") {
             User.Logout()
             self.dismiss(animated: true, completion: nil)
+            
+            // gesture override
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         }
         alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
         alertView.showCustom("Perhatian", subTitle: "Verifikasi belum selesai. Halaman ini akan muncul lagi lain kali kamu login. Keluar?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+    }
+    
+    // MARK: - Swipe Navigation Override
+    func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.right:
+                print("Swiped right")
+                
+                let alertView = SCLAlertView(appearance: Constant.appearance)
+                alertView.addButton("Keluar") {
+                    User.Logout()
+                    self.dismiss(animated: true, completion: nil)
+                    
+                    // gesture override
+                    self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                }
+                alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+                alertView.showCustom("Perhatian", subTitle: "Verifikasi belum selesai. Halaman ini akan muncul lagi lain kali kamu login. Keluar?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+                
+                
+            case UISwipeGestureRecognizerDirection.down:
+                print("Swiped down")
+            case UISwipeGestureRecognizerDirection.left:
+                print("Swiped left")
+            case UISwipeGestureRecognizerDirection.up:
+                print("Swiped up")
+            default:
+                break
+            }
+        }
     }
     
     @IBAction func disableTextFields(_ sender : AnyObject)

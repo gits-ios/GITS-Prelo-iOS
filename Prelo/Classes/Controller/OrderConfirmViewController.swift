@@ -387,8 +387,16 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
 //                UserDefaults.setObjectAndSync(PageName.MyOrders as AnyObject?, forKey: UserDefaultsKey.RedirectFromHome)
             }
             if (isBackToRoot) {
+                
+                // gesture override
+                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                
                 _ = self.navigationController?.popToRootViewController(animated: true)
             } else {
+                
+                // gesture override
+                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                
                 _ = self.navigationController?.popViewController(animated: true)
             }
         } else {
@@ -397,8 +405,16 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
                 //NSUserDefaults.setObjectAndSync(PageName.UnpaidTransaction, forKey: UserDefaultsKey.RedirectFromHome)
             }
             if (isBackToRoot) {
+                
+                // gesture override
+                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                
                 _ = self.navigationController?.popToRootViewController(animated: true)
             } else {
+                
+                // gesture override
+                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                
                 _ = self.navigationController?.popViewController(animated: true)
             }
         }
@@ -413,7 +429,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         self.vwPaymentPopUp.isHidden = false
     }
     
-    // MARK: - Swap override
+    // MARK: - Swipe Navigation Override
     func respondToSwipeGesture(gesture: UIGestureRecognizer) {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
@@ -426,8 +442,16 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
                         //                UserDefaults.setObjectAndSync(PageName.MyOrders as AnyObject?, forKey: UserDefaultsKey.RedirectFromHome)
                     }
                     if (isBackToRoot) {
+                        
+                        // gesture override
+                        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                        
                         _ = self.navigationController?.popToRootViewController(animated: true)
                     } else {
+                        
+                        // gesture override
+                        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                        
                         _ = self.navigationController?.popViewController(animated: true)
                     }
                 } else {
@@ -436,8 +460,16 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
                         //NSUserDefaults.setObjectAndSync(PageName.UnpaidTransaction, forKey: UserDefaultsKey.RedirectFromHome)
                     }
                     if (isBackToRoot) {
+                        
+                        // gesture override
+                        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                        
                         _ = self.navigationController?.popToRootViewController(animated: true)
                     } else {
+                        
+                        // gesture override
+                        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                        
                         _ = self.navigationController?.popViewController(animated: true)
                     }
                 }

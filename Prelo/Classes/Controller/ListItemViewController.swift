@@ -319,6 +319,21 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        if (self.isBackToFltrSearch) {
+            // gesture override
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        
+            // swipe gesture for carbon (pop view)
+            let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+            swipeRight.direction = UISwipeGestureRecognizerDirection.right
+            
+            let vwLeft = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: UIScreen.main.bounds.height))
+            vwLeft.backgroundColor = UIColor.clear
+            vwLeft.addGestureRecognizer(swipeRight)
+            self.view.addSubview(vwLeft)
+            self.view.bringSubview(toFront: vwLeft)
+        }
+        
         // Default search text && status bar color for filter mode
         if (currentMode == .filter) {
             self.searchBar.text = self.fltrName
@@ -350,12 +365,54 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         self.repositionScrollCategoryNameContent(true)
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        // fixer
+        // gesture override
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
+    
     override func backPressed(_ sender: UIBarButtonItem) {
         if (self.isBackToFltrSearch) {
             let viewControllers: [UIViewController] = (self.navigationController?.viewControllers)!
+            
+            // gesture override
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+            
             _ = self.navigationController?.popToViewController(viewControllers[1], animated: true);
         } else {
+            
+            // gesture override
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+            
             _ = self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    // MARK: - Swipe Navigation Override
+    func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.right:
+                print("Swiped right")
+                
+                // gesture override
+                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                
+                let viewControllers: [UIViewController] = (self.navigationController?.viewControllers)!
+                _ = self.navigationController?.popToViewController(viewControllers[1], animated: true);
+                
+                
+            case UISwipeGestureRecognizerDirection.down:
+                print("Swiped down")
+            case UISwipeGestureRecognizerDirection.left:
+                print("Swiped left")
+            case UISwipeGestureRecognizerDirection.up:
+                print("Swiped up")
+            default:
+                break
+            }
         }
     }
     
