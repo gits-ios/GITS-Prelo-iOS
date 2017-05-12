@@ -278,17 +278,30 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             }
         }
 
+        // prelo balance
+        // setup balance
+        var operan = 0
+        for d in self.discountItems {
+            operan += d.value
+        }
+        
+        self.preloBalanceUsed = (self.totalAmount > self.preloBalanceTotal ? self.preloBalanceTotal - operan : self.totalAmount - operan)
+        
+        if self.preloBalanceUsed < 0 {
+            self.preloBalanceUsed = 0
+            self.isBalanceUsed = false
+        }
+        
+        if self.isBalanceUsed {
+            var d = DiscountItem()
+            d.title = "Prelo Balance"
+            d.value = self.preloBalanceUsed
+            
+            self.discountItems.insert(d, at: 0)
+        }
         
         if self.isFirst {
             self.setupTable()
-            
-            // setup balance
-            var operan = 0
-            for d in self.discountItems {
-                operan += d.value
-            }
-            
-            self.preloBalanceUsed = (self.totalAmount > self.preloBalanceTotal ? self.preloBalanceTotal - operan : self.totalAmount - operan)
             
             self.isFirst = false
         }
@@ -433,7 +446,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 cell.preloBalanceUsed = {
                     self.isBalanceUsed = !self.isBalanceUsed
                     
-                    if self.isBalanceUsed && self.discountItems[0].title != "Prelo Balance" {
+                    if self.isBalanceUsed && (self.discountItems.count == 0 || self.discountItems[0].title != "Prelo Balance") {
                         var operan = 0
                         
                         for d in self.discountItems {
@@ -522,8 +535,34 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                     totalAmount -= d.value
                 }
                 
-                if totalAmount != 0 {
+                // charge
+                if totalAmount == self.paymentMethods[self.selectedPaymentIndex].charge {
+                    for i in 0...self.discountItems.count-1 {
+                        if self.discountItems[i].title.contains("Voucher") {
+                            self.discountItems[i].value += totalAmount
+                        }
+                    }
+                    
+                    self.tableView.reloadData()
+                    
+                    totalAmount = 0
+                }
+                
+                if totalAmount > 0 {
                     totalAmount += self.paymentMethods[self.selectedPaymentIndex].charge
+                }
+                
+                // 0
+                if totalAmount < 0 {
+                    for i in 0...self.discountItems.count-1 {
+                        if self.discountItems[i].title.contains("Voucher") {
+                            self.discountItems[i].value += totalAmount
+                        }
+                    }
+                    
+                    self.tableView.reloadData()
+                    
+                    totalAmount = 0
                 }
                 
                 cell.adapt(totalAmount)
@@ -1224,7 +1263,7 @@ class Checkout2PreloBalanceCell: UITableViewCell, UITextFieldDelegate {
         
         self.txtInputPreloBalance.text = parent.preloBalanceUsed.asPrice
         self.lbDescription.text = "Prelo Balance kamu " + parent.preloBalanceTotal.asPrice
-        //self.btnSwitch.isSelected = isUsed
+        self.btnSwitch.isOn = isUsed
         
         self.txtInputPreloBalance.delegate = self
         self.consWidthBtnApply.constant = 0
@@ -1258,7 +1297,7 @@ class Checkout2PreloBalanceCell: UITableViewCell, UITextFieldDelegate {
         
         if let t = self.txtInputPreloBalance.text {
             let _t = t.replacingOccurrences(of: ".", with: "").replace("Rp", template: "")
-            if _t.int <= self.parent.preloBalanceTotal && _t.int <= maksimum && _t.int > 0 {
+            if _t.int <= self.parent.preloBalanceTotal && _t.int <= maksimum && _t.int >= 0 {
                 
                 self.parent.preloBalanceUsed = _t.int
                 
@@ -1275,7 +1314,7 @@ class Checkout2PreloBalanceCell: UITableViewCell, UITextFieldDelegate {
             } else {
                 let alertView = SCLAlertView(appearance: Constant.appearance)
                 alertView.addButton("Oke") { self.txtInputPreloBalance.becomeFirstResponder() }
-                alertView.showCustom("Prelo Balance", subTitle: "Prelo Balance yang dapat digunakan mulai dari 1 hingga \(maksimum) rupiah", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+                alertView.showCustom("Prelo Balance", subTitle: "Prelo Balance yang dapat digunakan mulai dari Rp0 hingga \(maksimum.asPrice)", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
             }
         } else {
 //            Constant.showDialog("Prelo Balance", message: "Prelo Balance yang dapat digunakan mulai dari 1 hingga \(maksimum) rupiah")
@@ -1324,7 +1363,7 @@ class Checkout2VoucherCell: UITableViewCell {
     
     func adapt(_ voucher: String?, isUsed: Bool, isFreeze: Bool) {
         self.txtInputVoucher.text = voucher
-        //self.btnSwitch.isSelected = isUsed
+        self.btnSwitch.isOn = isUsed
         
         /*
         self.btnSwitch.isEnabled = !isFreeze
