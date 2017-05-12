@@ -256,6 +256,15 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         self.captionBankInfoBankName?.isHidden = true
         self.consHeightBankInfo.constant = 0
 
+        // swipe gesture for carbon (pop view)
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeRight.direction = UISwipeGestureRecognizerDirection.right
+        
+        let vwLeft = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: UIScreen.main.bounds.height))
+        vwLeft.backgroundColor = UIColor.clear
+        vwLeft.addGestureRecognizer(swipeRight)
+        self.view.addSubview(vwLeft)
+        self.view.bringSubview(toFront: vwLeft)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -275,6 +284,9 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        // gesture override
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         
         // Content view height
         self.consHeightContentView.constant = vwTrxSummary.height + (isFreeTransaction ? btnFreeTrx.height : vwUnpaidTrx.height) + 16
@@ -302,6 +314,14 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
                 self.consCenteryPaymentPopUp.constant = 0
             }
         }, completion: nil)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        // fixer
+        // gesture override
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     // MARK: - Actions
@@ -391,6 +411,48 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     
     @IBAction func showPaymentPopUp(_ sender: AnyObject) {
         self.vwPaymentPopUp.isHidden = false
+    }
+    
+    // MARK: - Swap override
+    func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.right:
+                print("Swiped right")
+                
+                if (isFreeTransaction) {
+                    // Pop ke home, kemudian buka list belanjaan saya jika dari checkout
+                    if (self.isFromCheckout) {
+                        //                UserDefaults.setObjectAndSync(PageName.MyOrders as AnyObject?, forKey: UserDefaultsKey.RedirectFromHome)
+                    }
+                    if (isBackToRoot) {
+                        _ = self.navigationController?.popToRootViewController(animated: true)
+                    } else {
+                        _ = self.navigationController?.popViewController(animated: true)
+                    }
+                } else {
+                    // Pop ke home, kemudian buka list konfirmasi bayar jika dari checkout
+                    if (self.isFromCheckout) {
+                        //NSUserDefaults.setObjectAndSync(PageName.UnpaidTransaction, forKey: UserDefaultsKey.RedirectFromHome)
+                    }
+                    if (isBackToRoot) {
+                        _ = self.navigationController?.popToRootViewController(animated: true)
+                    } else {
+                        _ = self.navigationController?.popViewController(animated: true)
+                    }
+                }
+                
+                
+            case UISwipeGestureRecognizerDirection.down:
+                print("Swiped down")
+            case UISwipeGestureRecognizerDirection.left:
+                print("Swiped left")
+            case UISwipeGestureRecognizerDirection.up:
+                print("Swiped up")
+            default:
+                break
+            }
+        }
     }
     
     // MARK: - Pop up actions
