@@ -119,10 +119,6 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // fixer
-        // gesture override
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-        
         // Title
         self.titleText = self.title
         
@@ -288,6 +284,9 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        // gesture override
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         
         // Content view height
         self.consHeightContentView.constant = vwTrxSummary.height + (isFreeTransaction ? btnFreeTrx.height : vwUnpaidTrx.height) + 16
