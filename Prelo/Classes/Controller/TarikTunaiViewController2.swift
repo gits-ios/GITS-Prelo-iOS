@@ -61,6 +61,7 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
     @IBOutlet weak var consCenteryPopUpConfirm: NSLayoutConstraint!
     @IBOutlet weak var vwPopUpConfirm: UIView!
     
+    @IBOutlet weak var loadingPanel: UIView!
     
     var initHeight = CGFloat(0) // 67 + 104 + height table row + 36 + 4
     
@@ -127,6 +128,8 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
         
         self.title = "Tarik Uang"
         
@@ -264,6 +267,7 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
                     self.initHeight = self.consHeightVwWJP.constant
                     
                     self.tableViewHistory.reloadData()
+                    self.hideLoading()
                 }
             } else
             {
@@ -523,6 +527,15 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
             
             _ = self.navigationController?.popViewController(animated: true)
         }
+    }
+    
+    // MARK: - Other
+    func showLoading() {
+        self.loadingPanel.isHidden = false
+    }
+    
+    func hideLoading() {
+        self.loadingPanel.isHidden = true
     }
     
     // MARK: - Swipe Navigation Override

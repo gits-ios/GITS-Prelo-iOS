@@ -480,7 +480,7 @@
                                                 <rect key="frame" x="141" y="0.0" width="218" height="43"/>
                                                 <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                             </textField>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rekening Atas Nama" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rbj-ws-1yU">
                                                 <rect key="frame" x="0.0" y="0.0" width="133" height="43"/>
@@ -707,6 +707,20 @@
                             <constraint firstAttribute="trailing" secondItem="3MW-cE-cTg" secondAttribute="trailing" id="wgn-08-rd7"/>
                         </constraints>
                     </scrollView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="99X-5x-vkl" userLabel="loadingPanel">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="936"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="MPJ-gz-zIM" userLabel="loading">
+                                <rect key="frame" x="178" y="95" width="20" height="20"/>
+                                <color key="color" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="MPJ-gz-zIM" secondAttribute="centerX" id="AHc-jt-pzh"/>
+                            <constraint firstItem="MPJ-gz-zIM" firstAttribute="top" secondItem="99X-5x-vkl" secondAttribute="top" constant="95" id="f9W-ZT-XOS"/>
+                        </constraints>
+                    </view>
                     <view hidden="YES" alpha="0.75" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uNq-8h-yPg" userLabel="Background Overlay">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="936"/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -903,9 +917,11 @@ Jumlah penarikan</string>
                 </subviews>
                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
+                    <constraint firstItem="eNX-tz-6z9" firstAttribute="top" secondItem="99X-5x-vkl" secondAttribute="bottom" id="3ca-v2-kap"/>
                     <constraint firstItem="uNq-8h-yPg" firstAttribute="leading" secondItem="esu-bv-4xE" secondAttribute="leading" id="68j-5u-Co6"/>
                     <constraint firstItem="hD9-dx-D0n" firstAttribute="top" secondItem="esu-bv-4xE" secondAttribute="top" id="8V0-b5-DuU"/>
                     <constraint firstItem="HlW-cL-hVh" firstAttribute="leading" secondItem="esu-bv-4xE" secondAttribute="leading" id="ONB-YJ-cj8"/>
+                    <constraint firstAttribute="trailing" secondItem="99X-5x-vkl" secondAttribute="trailing" id="QRe-fA-FZg"/>
                     <constraint firstAttribute="trailing" secondItem="HlW-cL-hVh" secondAttribute="trailing" id="QYA-0S-w2d"/>
                     <constraint firstAttribute="trailing" secondItem="hD9-dx-D0n" secondAttribute="trailing" id="Qn6-fc-VTX"/>
                     <constraint firstItem="3MW-cE-cTg" firstAttribute="width" secondItem="esu-bv-4xE" secondAttribute="width" id="Qvv-kT-YfT"/>
@@ -915,6 +931,8 @@ Jumlah penarikan</string>
                     <constraint firstAttribute="bottom" secondItem="hD9-dx-D0n" secondAttribute="bottom" id="qdU-5f-16J"/>
                     <constraint firstItem="eNX-tz-6z9" firstAttribute="top" secondItem="HlW-cL-hVh" secondAttribute="bottom" id="uLq-mM-dIB"/>
                     <constraint firstItem="uNq-8h-yPg" firstAttribute="top" secondItem="esu-bv-4xE" secondAttribute="top" id="wpZ-WO-BFt"/>
+                    <constraint firstItem="99X-5x-vkl" firstAttribute="top" secondItem="M28-TR-M7c" secondAttribute="bottom" id="xS1-rd-vRv"/>
+                    <constraint firstItem="99X-5x-vkl" firstAttribute="leading" secondItem="esu-bv-4xE" secondAttribute="leading" id="y2k-XE-dZn"/>
                     <constraint firstAttribute="bottom" secondItem="uNq-8h-yPg" secondAttribute="bottom" id="yez-iX-dwV"/>
                 </constraints>
             </view>
@@ -942,6 +960,7 @@ Jumlah penarikan</string>
                 <outlet property="lblPUCBankName" destination="4Jp-gB-aeb" id="sZ6-pc-9jQ"/>
                 <outlet property="lblPUCRekeningName" destination="qRe-O0-aW3" id="bNH-tr-9qn"/>
                 <outlet property="lblPUCRekeningNumber" destination="KTK-Sz-e55" id="5d1-bv-8Xr"/>
+                <outlet property="loadingPanel" destination="99X-5x-vkl" id="IuY-8Y-7rz"/>
                 <outlet property="scrollView" destination="HlW-cL-hVh" id="0De-I0-lm0"/>
                 <outlet property="tableViewHistory" destination="Tua-VD-abB" id="qlv-yT-dsU"/>
                 <outlet property="txtCustomBank" destination="2LT-Vk-hQn" id="xor-gt-L1u"/>
