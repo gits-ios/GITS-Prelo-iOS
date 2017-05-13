@@ -116,6 +116,9 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
                             self.viewSetupPassword!.lblEmail.text = u.email
                         }
                         self.viewSetupPassword!.setPasswordDoneBlock = {
+                            // gesture override
+                            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                            
                             _ = self.navigationController?.popViewController(animated: true)
                         }
                         self.viewSetupPassword!.disableBackBlock = {
@@ -157,6 +160,9 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
                 }
             } else
             {
+                // gesture override
+                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                
                 _ = self.navigationController?.popViewController(animated: true)
             }
             
@@ -233,6 +239,9 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
                         "Amount" : i
                     ] as [String : Any]
                     Mixpanel.trackEvent(MixpanelEvent.RequestedWithdrawMoney, properties: pt as [NSObject : AnyObject])
+                    
+                    // gesture override
+                    self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
                     
                     _ = self.navigationController?.popToRootViewController(animated: true)
                 }

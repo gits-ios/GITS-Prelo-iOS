@@ -364,6 +364,10 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
     func phoneReverificationSucceed() {
         // Pop 2 views (self and phoneReverificationVC)
         let viewControllers: [UIViewController] = (self.navigationController?.viewControllers)!
+        
+        // gesture override
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        
         _ = self.navigationController?.popToViewController(viewControllers[viewControllers.count - 3], animated: true);
     }
     
