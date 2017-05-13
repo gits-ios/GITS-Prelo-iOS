@@ -112,6 +112,10 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     }
     
     func backPressed(_ sender: UIBarButtonItem) {
+        
+        // gesture override
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        
         _ = self.navigationController?.popViewController(animated: true)
     }
     
