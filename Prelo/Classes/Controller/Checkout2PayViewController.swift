@@ -641,7 +641,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                     
                     // insert new address if needed
                     if (self.selectedAddress.isSave) {
-                        //self.insertNewAddress()
+                        self.insertNewAddress()
                     }
                     
                     var pName : String? = ""
@@ -935,6 +935,18 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
     func dismissKeyboard() {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
+    }
+    
+    // MARK: - Save New Address
+    func insertNewAddress() {
+        let provinceName = CDProvince.getProvinceNameWithID(self.selectedAddress.provinceId) ?? ""
+        let regionName = CDRegion.getRegionNameWithID(self.selectedAddress.regionId) ?? ""
+        
+        let _ = request(APIMe.createAddress(addressName: "", recipientName: self.selectedAddress.name, phone: self.selectedAddress.phone, provinceId: self.selectedAddress.provinceId, provinceName: provinceName, regionId: self.selectedAddress.regionId, regionName: regionName, subdistrictId: self.selectedAddress.subdistrictId, subdistricName: self.selectedAddress.subdistrictName, address: self.selectedAddress.address, postalCode: self.selectedAddress.postalCode, coordinate: self.selectedAddress.coordinate, coordinateAddress: self.selectedAddress.coordinateAddress)).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Alamat Baru")) {
+                print("New Address - Save!")
+            }
+        }
     }
     
     // MARK: - Navigation
