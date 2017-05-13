@@ -176,6 +176,9 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
                             self.viewSetupPassword!.lblEmail.text = u.email
                         }
                         self.viewSetupPassword!.setPasswordDoneBlock = {
+                            // gesture override
+                            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                            
                             _ = self.navigationController?.popViewController(animated: true)
                         }
                         self.viewSetupPassword!.disableBackBlock = {
@@ -271,6 +274,9 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
                 }
             } else
             {
+                // gesture override
+                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                
                 _ = self.navigationController?.popViewController(animated: true)
             }
             
@@ -412,6 +418,9 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
                     
                     // Prelo Analytic - Request Withdraw Money
                     self.sendRequestWithdrwaMoney(namaBank, amount: i, isSuccess: true, reason: "")
+                    
+                    // gesture override
+                    self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
                     
                     _ = self.navigationController?.popToRootViewController(animated: true)
                 }

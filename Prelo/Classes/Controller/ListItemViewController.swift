@@ -1062,6 +1062,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     
                 }
             } else {
+                
+                // gesture override
+                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                
                 self.delegate?.popView()
             }
         }
