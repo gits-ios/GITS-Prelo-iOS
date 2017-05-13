@@ -803,6 +803,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     func userCancelLogin() {
         allowLaunchLogin = false
+        
+        // gesture override
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        
         _ = self.navigationController?.popViewController(animated: true)
     }
     
@@ -1791,6 +1795,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             CDDraftProduct.delete((draftProduct?.localId)!)
             //Constant.showBadgeDialog("Berhasil", message: "Draft barang berhasil dihapus", badge: "info", view: self, isBack: true)
             Constant.showDialog("Berhasil", message: "Draft barang berhasil dihapus")
+            
+            // gesture override
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+            
             _ = self.navigationController?.popViewController(animated: true)
         }
     }
@@ -2265,6 +2273,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 
                 //Mixpanel.sharedInstance().track("Editing Product", properties: ["success":"1"])
                 self.editDoneBlock()
+                
+                // gesture override
+                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                
                 _ = self.navigationController?.popViewController(animated: true)
                 return
             }
@@ -2389,6 +2401,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 //            Constant.showBadgeDialog("Berhasil", message: "Draft barang berhasil disimpan di menu Jualan Saya. Jika belum muncul, mohon tunggu beberapa saat dan coba untuk memperbarui menu Jualan Saya.", badge: "info", view: self, isBack: isBack)
             
             Constant.showDialog("Berhasil", message: "Draft barang berhasil disimpan di menu Jualan Saya. Jika belum muncul, mohon tunggu beberapa saat dan coba untuk memperbarui menu Jualan Saya.")
+            
+            // gesture override
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
             
             _ =  self.navigationController?.popViewController(animated: true)
         }
