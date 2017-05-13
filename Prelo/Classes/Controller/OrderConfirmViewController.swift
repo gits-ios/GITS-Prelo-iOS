@@ -422,6 +422,10 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     
     @IBAction func lihatBelanjaanSayaPressed(_ sender: AnyObject) {
         UserDefaults.setObjectAndSync(PageName.MyOrders as AnyObject?, forKey: UserDefaultsKey.RedirectFromHome)
+        
+        // gesture override
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        
         _ = self.navigationController?.popToRootViewController(animated: true)
     }
     
@@ -571,6 +575,10 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
                 notifListener?.increaseCartCount(-1)
                 
                 Constant.showDialog("Konfirmasi Bayar", message: "Terimakasih! Pembayaran kamu akan segera diverifikasi")
+                
+                // gesture override
+                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                
                 _ = self.navigationController?.popToRootViewController(animated: true)
             }
             self.btnKirimPayment.setTitle("KIRIM KONFIRMASI", for: UIControlState())
