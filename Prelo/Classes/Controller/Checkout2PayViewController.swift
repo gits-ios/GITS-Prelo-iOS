@@ -455,11 +455,13 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                         
                         self.preloBalanceUsed = (self.totalAmount > self.preloBalanceTotal ? self.preloBalanceTotal - operan : self.totalAmount - operan)
                         
-                        var d = DiscountItem()
-                        d.title = "Prelo Balance"
-                        d.value = self.preloBalanceUsed
-                        
-                        self.discountItems.insert(d, at: 0)
+                        if self.preloBalanceUsed > 0 {
+                            var d = DiscountItem()
+                            d.title = "Prelo Balance"
+                            d.value = self.preloBalanceUsed
+                            
+                            self.discountItems.insert(d, at: 0)
+                        }
                     } else {
                         self.preloBalanceUsed = 0
                         
