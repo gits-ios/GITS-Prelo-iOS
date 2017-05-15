@@ -155,10 +155,19 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         if (self.detail) != nil
         {
-            if (CartProduct.isExist((detail?.productID)!, email : User.EmailOrEmptyString)) {
-                alreadyInCart = true
-            } else {
-                alreadyInCart = false
+            if AppTools.isNewCart { // v2
+                let sellerId = detail?.json["_data"]["seller"]["_id"].stringValue
+                if CartManager.sharedInstance.contain(sellerId!, productId: (detail?.productID)!) {
+                    alreadyInCart = true
+                } else {
+                    alreadyInCart = false
+                }
+            } else { // v1
+                if (CartProduct.isExist((detail?.productID)!, email : User.EmailOrEmptyString)) {
+                    alreadyInCart = true
+                } else {
+                    alreadyInCart = false
+                }
             }
         }
         
@@ -358,8 +367,15 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
 //            captionPrice.text = Int(0).asPrice
         }
         
-        if (CartProduct.isExist((detail?.productID)!, email : User.EmailOrEmptyString)) {
-            alreadyInCart = true
+        if AppTools.isNewCart { // v2
+            let sellerId = detail?.json["_data"]["seller"]["_id"].stringValue
+            if CartManager.sharedInstance.contain(sellerId!, productId: (detail?.productID)!) {
+                alreadyInCart = true
+            }
+        } else { // v1
+            if (CartProduct.isExist((detail?.productID)!, email : User.EmailOrEmptyString)) {
+                alreadyInCart = true
+            }
         }
         
 //        let freeOngkir = (detail?.json["_data"]["is_free_ongkir"].bool)!
@@ -909,32 +925,60 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     @IBAction func addToCart(_ sender: UIButton) {
         if (alreadyInCart) {
-//            self.performSegue(withIdentifier: "segCart", sender: nil)
-            let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
-            cart.previousController = self
-            cart.previousScreen = thisScreen
-            self.navigationController?.pushViewController(cart, animated: true)
-            return
+            if AppTools.isNewCart {
+                let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
+                checkout2ShipVC.previousController = self
+                checkout2ShipVC.previousScreen = thisScreen
+                self.navigationController?.pushViewController(checkout2ShipVC, animated: true)
+                return
+            } else {
+                //self.performSegue(withIdentifier: "segCart", sender: nil)
+                let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
+                cart.previousController = self
+                cart.previousScreen = thisScreen
+                self.navigationController?.pushViewController(cart, animated: true)
+                return
+            }
         }
         
-        if (CartProduct.newOne((detail?.productID)!, email : User.EmailOrEmptyString, name : (detail?.name)!) == nil) {
-            Constant.showDialog("Failed", message: "Gagal Menyimpan")
-        } else {
-            // FB Analytics - Add to Cart
-            if AppTools.IsPreloProduction {
-                let fbPdata: [String : Any] = [
-                    FBSDKAppEventParameterNameContentType          : "product",
-                    FBSDKAppEventParameterNameContentID            : (detail?.productID)!,
-                    FBSDKAppEventParameterNameCurrency             : "IDR"
-                ]
-                FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double((detail?.priceInt)!), parameters: fbPdata)
+        if AppTools.isNewCart { // v2
+            let sellerId = detail?.json["_data"]["seller"]["_id"].stringValue
+            if CartManager.sharedInstance.insertProduct(sellerId!, productId: (detail?.productID)!) {
+                // FB Analytics - Add to Cart
+                if AppTools.IsPreloProduction {
+                    let fbPdata: [String : Any] = [
+                        FBSDKAppEventParameterNameContentType          : "product",
+                        FBSDKAppEventParameterNameContentID            : (detail?.productID)!,
+                        FBSDKAppEventParameterNameCurrency             : "IDR"
+                    ]
+                    FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double((detail?.priceInt)!), parameters: fbPdata)
+                }
+                setupView()
+                let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
+                checkout2ShipVC.previousController = self
+                checkout2ShipVC.previousScreen = thisScreen
+                self.navigationController?.pushViewController(checkout2ShipVC, animated: true)
             }
-            setupView()
-//            self.performSegue(withIdentifier: "segCart", sender: nil)
-            let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
-            cart.previousController = self
-            cart.previousScreen = thisScreen
-            self.navigationController?.pushViewController(cart, animated: true)
+        } else { // v1
+            if (CartProduct.newOne((detail?.productID)!, email : User.EmailOrEmptyString, name : (detail?.name)!) == nil) {
+                Constant.showDialog("Failed", message: "Gagal Menyimpan")
+            } else {
+                // FB Analytics - Add to Cart
+                if AppTools.IsPreloProduction {
+                    let fbPdata: [String : Any] = [
+                        FBSDKAppEventParameterNameContentType          : "product",
+                        FBSDKAppEventParameterNameContentID            : (detail?.productID)!,
+                        FBSDKAppEventParameterNameCurrency             : "IDR"
+                    ]
+                    FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double((detail?.priceInt)!), parameters: fbPdata)
+                }
+                setupView()
+                //self.performSegue(withIdentifier: "segCart", sender: nil)
+                let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
+                cart.previousController = self
+                cart.previousScreen = thisScreen
+                self.navigationController?.pushViewController(cart, animated: true)
+            }
         }
     }
         

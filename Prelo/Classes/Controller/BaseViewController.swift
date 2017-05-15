@@ -246,10 +246,17 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     // MARK: - Navigation
     
     func launchCart() {
-        let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
-        cart.previousController = self
-        cart.previousScreen = PageName.Home
-        self.navigationController?.pushViewController(cart, animated: true)
+        if AppTools.isNewCart {
+            let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
+            checkout2ShipVC.previousController = self
+            checkout2ShipVC.previousScreen = PageName.Home
+            self.navigationController?.pushViewController(checkout2ShipVC, animated: true)
+        } else {
+            let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
+            cart.previousController = self
+            cart.previousScreen = PageName.Home
+            self.navigationController?.pushViewController(cart, animated: true)
+        }
     }
     
     func launchSearch() {

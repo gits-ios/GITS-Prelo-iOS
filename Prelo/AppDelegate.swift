@@ -1626,9 +1626,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.rootViewController = rootViewController
         }
         
-        self.hideRedirAlertWithDelay(0, completion: { () -> Void in
-            rootViewController!.pushViewController(cartVC, animated: true)
-        })
+        if !AppTools.isNewCart {
+            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                rootViewController!.pushViewController(cartVC, animated: true)
+            })
+            
+        } else { // v2
+            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
+                rootViewController!.pushViewController(checkout2ShipVC, animated: true)
+            })
+        }
     }
     
     // MARK: - Core Data stack

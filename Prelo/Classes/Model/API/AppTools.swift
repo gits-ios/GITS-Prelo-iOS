@@ -68,6 +68,10 @@ class AppTools: NSObject {
     }
     
     static let isOldShopWithBadges : Bool = true // set true kalau jadi bisa nampilin badge
+    
+    static var isNewCart: Bool { // new cart, TODO: - from ab_test (?)
+        return true
+    }
 }
 
 enum AppFont {

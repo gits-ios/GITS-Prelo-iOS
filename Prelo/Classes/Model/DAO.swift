@@ -2544,6 +2544,13 @@ class LovedProduct : NSObject {
         let url = json["display_picts"][0].string!
         return URL(string: url)
     }
+    
+    var sellerId : String {
+        if let j = json["seller_id"].string {
+            return j
+        }
+        return ""
+    }
 }
 
 class UserCheckout : NSObject {

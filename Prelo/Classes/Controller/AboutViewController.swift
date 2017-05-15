@@ -119,15 +119,25 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
     
     func toClearCache(isButton : Bool) {
         // Get cart products
-        let cartProducts = CartProduct.getAll(User.EmailOrEmptyString)
         let delegate = UIApplication.shared.delegate as! AppDelegate
         let notifListener = delegate.preloNotifListener
-        notifListener?.increaseCartCount(-cartProducts.count)
+        
+        if AppTools.isNewCart { // v2
+            let cartSize = CartManager.sharedInstance.getSize()
+            notifListener?.increaseCartCount(-cartSize)
+        } else { // v1
+            let cartProducts = CartProduct.getAll(User.EmailOrEmptyString)
+            notifListener?.increaseCartCount(-cartProducts.count)
+        }
         
         disableBtnClearCache()
         //UIImageView.sharedImageCache().clearAll()
         
-        CartProduct.deleteAll()
+        CartProduct.deleteAll() // v1
+        CartManager.sharedInstance.deleteAll() // v2
+        
+        // disabled
+        /*
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
         let p = AppToolsObjC.jsonString(from: c)
         var pID = ""
@@ -149,6 +159,7 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
                 self.enableBtnClearCache()
             }
         }
+         */
         
         _ = CDDraftProduct.deleteAll()
         

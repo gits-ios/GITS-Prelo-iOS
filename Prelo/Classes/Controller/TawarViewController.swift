@@ -1211,10 +1211,18 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     @IBAction func beli(_ sender : UIView?) {
         var success = true
-        if (CartProduct.getOne(tawarItem.itemId, email: User.EmailOrEmptyString) == nil) {
-            if (CartProduct.newOne(tawarItem.itemId, email : User.EmailOrEmptyString, name : tawarItem.itemName) == nil) {
+        if AppTools.isNewCart { // v2
+            if CartManager.sharedInstance.insertProduct(tawarItem.theirId, productId: tawarItem.theirId) {
+                success = true
+            } else {
                 success = false
-                Constant.showDialog("Failed", message: "Gagal Menyimpan")
+            }
+        } else {
+            if (CartProduct.getOne(tawarItem.itemId, email: User.EmailOrEmptyString) == nil) {
+                if (CartProduct.newOne(tawarItem.itemId, email : User.EmailOrEmptyString, name : tawarItem.itemName) == nil) {
+                    success = false
+                    Constant.showDialog("Failed", message: "Gagal Menyimpan")
+                }
             }
         }
         
@@ -1228,11 +1236,18 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 ]
                 FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double(tawarItem.finalPrice), parameters: fbPdata)
             }
-//            self.performSegue(withIdentifier: "segCart", sender: nil)
-            let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
-            cart.previousController = self
-            cart.previousScreen = PageName.InboxDetail
-            self.navigationController?.pushViewController(cart, animated: true)
+            if AppTools.isNewCart {
+                let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
+                checkout2ShipVC.previousController = self
+                checkout2ShipVC.previousScreen = PageName.InboxDetail
+                self.navigationController?.pushViewController(checkout2ShipVC, animated: true)
+            } else {
+                //self.performSegue(withIdentifier: "segCart", sender: nil)
+                let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
+                cart.previousController = self
+                cart.previousScreen = PageName.InboxDetail
+                self.navigationController?.pushViewController(cart, animated: true)
+            }
         }
     }
     

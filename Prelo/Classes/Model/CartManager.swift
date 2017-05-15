@@ -128,4 +128,34 @@ class CartManager: NSObject {
         
         return _pIds
     }
+    
+    func getSize() -> Int {
+        let currentCart: Array<[String : Any]> = self.getCart()
+        var count: Int = 0
+        
+        for c in currentCart {
+            let pIds = c["product_ids"] as! Array<String>
+            
+            count += pIds.count
+        }
+        
+        return count
+    }
+    
+    func contain(_ sellerId: String, productId: String) -> Bool {
+        let currentCart: Array<[String : Any]> = self.getCart()
+        
+        for c in currentCart {
+            if (c["seller_id"] as! String) == sellerId {
+                let pIds = c["product_ids"] as! Array<String>
+                if let _ = pIds.index(of: productId) {
+                    if pIds.count > 1 {
+                        return true
+                    }
+                }
+            }
+        }
+        
+        return false
+    }
 }

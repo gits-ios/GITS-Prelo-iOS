@@ -1985,10 +1985,10 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 let tProducts = self.trxDetail!.transactionProducts
                 for i in 0...(tProducts.count - 1) {
                     let tProduct : TransactionProductDetail = tProducts[i]
-                    if (!CartProduct.isExist(tProduct.productId, email: User.EmailOrEmptyString)) {
-                        if (CartProduct.newOne(tProduct.productId, email: User.EmailOrEmptyString, name: tProduct.productName) == nil) {
-                            success = false
-                        } else {
+                    
+                    if AppTools.isNewCart { // v2
+                        if CartManager.sharedInstance.insertProduct(tProduct.sellerId, productId: tProduct.productId) {
+                            
                             // FB Analytics - Add to Cart
                             if AppTools.IsPreloProduction {
                                 let fbPdata: [String : Any] = [
@@ -1998,17 +1998,43 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                                 ]
                                 FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double(tProduct.productPrice), parameters: fbPdata)
                             }
+                        } else {
+                            success = false
+                        }
+                    } else { // v1
+                        
+                        if (!CartProduct.isExist(tProduct.productId, email: User.EmailOrEmptyString)) {
+                            if (CartProduct.newOne(tProduct.productId, email: User.EmailOrEmptyString, name: tProduct.productName) == nil) {
+                                success = false
+                            }else {
+                                // FB Analytics - Add to Cart
+                                if AppTools.IsPreloProduction {
+                                    let fbPdata: [String : Any] = [
+                                        FBSDKAppEventParameterNameContentType          : "product",
+                                        FBSDKAppEventParameterNameContentID            : tProduct.productId,
+                                        FBSDKAppEventParameterNameCurrency             : "IDR"
+                                    ]
+                                    FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double(tProduct.productPrice), parameters: fbPdata)
+                                }
+                            }
                         }
                     }
                 }
-                if (!success) {
+                if (!success && !AppTools.isNewCart) {
                     Constant.showDialog("Add to Cart", message: "Terdapat kesalahan saat menambahkan barang ke keranjang belanja")
                 }
-//                self.performSegue(withIdentifier: "segCart", sender: nil)
-                let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
-                cart.previousController = self
-                cart.previousScreen = PageName.TransactionDetail
-                self.navigationController?.pushViewController(cart, animated: true)
+                if AppTools.isNewCart {
+                    let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
+                    checkout2ShipVC.previousController = self
+                    checkout2ShipVC.previousScreen = PageName.InboxDetail
+                    self.navigationController?.pushViewController(checkout2ShipVC, animated: true)
+                } else {
+                    //self.performSegue(withIdentifier: "segCart", sender: nil)
+                    let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
+                    cart.previousController = self
+                    cart.previousScreen = PageName.TransactionDetail
+                    self.navigationController?.pushViewController(cart, animated: true)
+                }
             }
         }
 

@@ -425,7 +425,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     pids.append(p.productId)
                 }
                 
-                cell.adapt(self.cartResult.cartDetails[idx.section].fullname, productIds: pids)
+                cell.adapt(self.cartResult.cartDetails[idx.section].username, productIds: pids)
                 
                 cell.removeAll = { pids in
                     self.dismissKeyboard()
