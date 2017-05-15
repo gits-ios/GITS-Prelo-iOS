@@ -610,6 +610,7 @@ class Tags : NSObject {
     static let StoryBoardIdInbox = "Inbox"
     static let StoryBoardIdProductComments = "ProductComments"
     static let StoryBoardIdListBrand = "ListBrand"
+    static let StoryBoardIdCheckoutTour = "checkoutTour"
     
     static let Browse = "browse"
     static let Dashboard = "dashboard"

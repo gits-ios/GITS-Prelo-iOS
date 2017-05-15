@@ -193,6 +193,14 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 }
                 
         }, completion: nil)
+        
+        // Perform tour for first time checkout
+        let checkTour = UserDefaults.standard.bool(forKey: "cartTour")
+        if (checkTour == false) {
+            UserDefaults.standard.set(true, forKey: "cartTour")
+            UserDefaults.standard.synchronize()
+            Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(Checkout2ShipViewController.performSegTour), userInfo: nil, repeats: false)
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -209,15 +217,19 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     func setupOption(_ count: Int) {
-        self.unpaid = count
-        let troli = createUnpaidButton(count)
-        
-        troli.addTarget(self, action: #selector(Checkout2ShipViewController.launchUnpaid), for: UIControlEvents.touchUpInside)
-        
-        let troliRecognizer = UITapGestureRecognizer(target: self, action: #selector(Checkout2ShipViewController.launchUnpaid))
-        troli.viewWithTag(100)?.addGestureRecognizer(troliRecognizer)
-        
-        self.navigationItem.rightBarButtonItems = [troli.toBarButton()]
+        if count > 0 {
+            self.unpaid = count
+            let troli = createUnpaidButton(count)
+            
+            troli.addTarget(self, action: #selector(Checkout2ShipViewController.launchUnpaid), for: UIControlEvents.touchUpInside)
+            
+            let troliRecognizer = UITapGestureRecognizer(target: self, action: #selector(Checkout2ShipViewController.launchUnpaid))
+            troli.viewWithTag(100)?.addGestureRecognizer(troliRecognizer)
+            
+            self.navigationItem.rightBarButtonItems = [troli.toBarButton()]
+        } else {
+            self.navigationItem.rightBarButtonItems = []
+        }
     }
     
     func launchUnpaid() {
@@ -1031,6 +1043,15 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     func dismissKeyboard() {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
+    }
+    
+    // MARK: - Cart Tour
+    func performSegTour() {
+        //self.performSegue(withIdentifier: "segTour", sender: nil)
+        
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let tourvc = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdCheckoutTour) as! CheckoutTourViewController
+        self.present(tourvc, animated: true, completion: nil)
     }
 }
 
