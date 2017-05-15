@@ -755,7 +755,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
             
             print("hapus tapped")
         }
-        
+        /*
         let detail = UITableViewRowAction(style: .normal, title: "Detail") { action, index in
             let p = Product.instance(cell.productDetail.json)
             
@@ -768,6 +768,8 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
         detail.backgroundColor = UIColor.blue
         
         return [remove, detail]
+ */
+        return [remove]
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

@@ -106,6 +106,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     // new popup paid push
     var newPopup: PaidPushPopup?
     
+    // add to cart popup
+    var add2cartPopup: AddToCartPopup?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -921,9 +924,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         isNeedReload = true
     }
     
-    // MARK: - button
+    // MARK: - add2cart
     
-    @IBAction func addToCart(_ sender: UIButton) {
+    func addProduct2cart() {
         if (alreadyInCart) {
             if AppTools.isNewCart {
                 let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
@@ -954,6 +957,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double((detail?.priceInt)!), parameters: fbPdata)
                 }
                 setupView()
+                self.alreadyInCart = true
                 let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
                 checkout2ShipVC.previousController = self
                 checkout2ShipVC.previousScreen = thisScreen
@@ -973,6 +977,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double((detail?.priceInt)!), parameters: fbPdata)
                 }
                 setupView()
+                self.alreadyInCart = true
                 //self.performSegue(withIdentifier: "segCart", sender: nil)
                 let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
                 cart.previousController = self
@@ -981,7 +986,14 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             }
         }
     }
-        
+    
+    // MARK: - button
+    
+    @IBAction func addToCart(_ sender: UIButton) {
+        self.launchAdd2cartPopUp()
+        //self.addProduct2cart()
+    }
+    
     @IBAction func soldPressed(_ sender: AnyObject) {
         /*
         let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah terjual? (Aksi ini tidak bisa dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
@@ -1556,6 +1568,48 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     @IBAction func btnUpBarangBatalPressed(_ sender: AnyObject) {
         self.hideUpPopUp()
+    }
+    
+    // MARK: - pop up add to cart
+    
+    func launchAdd2cartPopUp() {
+        self.setupAdd2cartPopUp()
+        self.add2cartPopup?.isHidden = false
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.add2cartPopup?.setupPopUp(self.detail!)
+            self.add2cartPopup?.displayPopUp()
+        })
+    }
+    
+    func setupAdd2cartPopUp() {
+        // setup popup
+        if (self.add2cartPopup == nil) {
+            self.add2cartPopup = Bundle.main.loadNibNamed("AddToCartPopup", owner: nil, options: nil)?.first as? AddToCartPopup
+            self.add2cartPopup?.frame = UIScreen.main.bounds
+            self.add2cartPopup?.tag = 100
+            self.add2cartPopup?.isHidden = true
+            self.add2cartPopup?.backgroundColor = UIColor.clear
+            self.view.addSubview(self.add2cartPopup!)
+            
+            self.add2cartPopup?.initPopUp()
+            
+            self.add2cartPopup?.disposePopUp = {
+                self.add2cartPopup?.isHidden = true
+                self.add2cartPopup = nil
+                print("Start remove sibview")
+                if let viewWithTag = self.view.viewWithTag(100) {
+                    viewWithTag.removeFromSuperview()
+                } else {
+                    print("No!")
+                }
+            }
+            
+            self.add2cartPopup?.gotoCart = {
+                self.addProduct2cart()
+            }
+        }
+        
     }
     
     // MARK: - Other functions
@@ -2886,6 +2940,107 @@ class PaidPushPopup: UIView {
     }
     
     @IBAction func btnTidakPressed(_ sender: Any) {
+        self.unDisplayPopUp()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.vwOverlayPopUp.isHidden = true
+            self.vwBackgroundOverlay.isHidden = true
+            self.disposePopUp()
+        })
+    }
+}
+
+// MARK: - Add to Cart Pop up
+class AddToCartPopup: UIView {
+    @IBOutlet weak var vwBackgroundOverlay: UIView!
+    @IBOutlet weak var vwOverlayPopUp: UIView!
+    @IBOutlet weak var vwPopUp: UIView!
+    @IBOutlet weak var consCenteryPopUp: NSLayoutConstraint!
+    @IBOutlet weak var imgProduct: UIImageView!
+    @IBOutlet weak var lbProduct: UILabel!
+    @IBOutlet weak var lbPrice: UILabel!
+    
+    var disposePopUp : ()->() = {}
+    var gotoCart : ()->() = {}
+    
+    func setupPopUp(_ productDetail: ProductDetail) {
+        let urlString = productDetail.displayPicturers[0]
+        
+        self.imgProduct.afSetImage(withURL: URL(string: urlString)!, withFilter: .fill)
+        self.lbProduct.text = productDetail.name
+        self.lbPrice.text = productDetail.price
+    }
+    
+    func initPopUp() {
+        // Transparent panel
+        self.vwBackgroundOverlay.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.2)
+        
+        self.vwBackgroundOverlay.isHidden = false
+        self.vwOverlayPopUp.isHidden = false
+        
+        let screenSize = UIScreen.main.bounds
+        let screenHeight = screenSize.height - 64 // navbar
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = screenHeight
+    }
+    
+    func displayPopUp() {
+        let screenSize = self.bounds
+        let screenHeight = screenSize.height
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = screenHeight
+        
+        // 1
+        let placeSelectionBar = { () -> () in
+            // parent
+            var curView = self.vwPopUp.frame
+            curView.origin.y = (screenHeight - self.vwPopUp.frame.height) / 2 - 32
+            self.vwPopUp.frame = curView
+        }
+        
+        // 2
+        UIView.animate(withDuration: 0.3, animations: {
+            placeSelectionBar()
+        })
+        
+        self.consCenteryPopUp.constant = -32
+    }
+    
+    func unDisplayPopUp() {
+        let screenSize = self.bounds
+        let screenHeight = screenSize.height
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = 0
+        
+        // 1
+        let placeSelectionBar = { () -> () in
+            // parent
+            var curView = self.vwPopUp.frame
+            curView.origin.y = screenHeight + (screenHeight - self.vwPopUp.frame.height) / 2 - 32
+            self.vwPopUp.frame = curView
+        }
+        
+        // 2
+        UIView.animate(withDuration: 0.3, animations: {
+            placeSelectionBar()
+        })
+        
+        self.consCenteryPopUp.constant = screenHeight
+    }
+    
+    @IBAction func btnGoToCartPressed(_ sender: Any) {
+        self.unDisplayPopUp()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.vwOverlayPopUp.isHidden = true
+            self.vwBackgroundOverlay.isHidden = true
+            self.gotoCart()
+            self.disposePopUp()
+        })
+    }
+    
+    @IBAction func btnBelanjaLagiPressed(_ sender: Any) {
         self.unDisplayPopUp()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
             self.vwOverlayPopUp.isHidden = true

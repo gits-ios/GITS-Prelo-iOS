@@ -149,9 +149,7 @@ class CartManager: NSObject {
             if (c["seller_id"] as! String) == sellerId {
                 let pIds = c["product_ids"] as! Array<String>
                 if let _ = pIds.index(of: productId) {
-                    if pIds.count > 1 {
-                        return true
-                    }
+                    return true
                 }
             }
         }

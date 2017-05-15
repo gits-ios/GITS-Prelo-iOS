@@ -720,6 +720,7 @@
 		B2EE39CD1E76905500113E03 /* ic_paid_balance.png in Resources */ = {isa = PBXBuildFile; fileRef = B2EE39CA1E76905500113E03 /* ic_paid_balance.png */; };
 		B2EE39CE1E76905500113E03 /* ic_paid_poin.png in Resources */ = {isa = PBXBuildFile; fileRef = B2EE39CB1E76905500113E03 /* ic_paid_poin.png */; };
 		B2EE39CF1E76905500113E03 /* ic_paid_video.png in Resources */ = {isa = PBXBuildFile; fileRef = B2EE39CC1E76905500113E03 /* ic_paid_video.png */; };
+		B2EE82651EC96D4F00529482 /* AddToCartPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2EE82641EC96D4F00529482 /* AddToCartPopup.xib */; };
 		B2F184B71E938A4A001EEB36 /* GoogleMapsBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F184B61E938A4A001EEB36 /* GoogleMapsBase.framework */; };
 		B2F184CA1E938A66001EEB36 /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F184C81E938A66001EEB36 /* GoogleMaps.framework */; };
 		B2F184CB1E938A66001EEB36 /* GoogleMapsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F184C91E938A66001EEB36 /* GoogleMapsCore.framework */; };
@@ -1823,6 +1824,7 @@
 		B2EE39CA1E76905500113E03 /* ic_paid_balance.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_paid_balance.png; sourceTree = "<group>"; };
 		B2EE39CB1E76905500113E03 /* ic_paid_poin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_paid_poin.png; sourceTree = "<group>"; };
 		B2EE39CC1E76905500113E03 /* ic_paid_video.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_paid_video.png; sourceTree = "<group>"; };
+		B2EE82641EC96D4F00529482 /* AddToCartPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddToCartPopup.xib; sourceTree = "<group>"; };
 		B2F184B61E938A4A001EEB36 /* GoogleMapsBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsBase.framework; sourceTree = "<group>"; };
 		B2F184C81E938A66001EEB36 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
 		B2F184C91E938A66001EEB36 /* GoogleMapsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsCore.framework; sourceTree = "<group>"; };
@@ -3442,6 +3444,7 @@
 				B2932DEB1E85324400782C78 /* FeedbackPopup.xib */,
 				B2EE39AF1E76548100113E03 /* PaidPushPopup.xib */,
 				B2AAB3741E8A6D2000E16BAB /* TransactionReportPopup.xib */,
+				B2EE82641EC96D4F00529482 /* AddToCartPopup.xib */,
 			);
 			name = Popup;
 			sourceTree = "<group>";
@@ -3861,6 +3864,7 @@
 				589A6FC61D8C08F600654CDD /* ic_luxury.png in Resources */,
 				B240F4D31E24BBD500DCAFF7 /* Achievement.xib in Resources */,
 				21D386AA1B6B93CD00D0FA90 /* Default.png in Resources */,
+				B2EE82651EC96D4F00529482 /* AddToCartPopup.xib in Resources */,
 				585887521DBEDBF4006EC6D5 /* ReferralPage.xib in Resources */,
 				212007BE1B6A0BB400D9C84B /* basic_purple@2x.png in Resources */,
 				440AF66B1BE1090800074CBC /* ic_round_twitter.png in Resources */,

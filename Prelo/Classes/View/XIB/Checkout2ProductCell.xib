@@ -51,7 +51,7 @@
                         </constraints>
                         <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="12"/>
                         <state key="normal" title="">
-                            <color key="titleColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <connections>
                             <action selector="btnRemovePressed:" destination="Xg7-Tu-3EX" eventType="touchUpInside" id="zBd-cj-qgP"/>
