@@ -204,9 +204,13 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     // MARK: - Option Button
+    func createUnpaidButton(_ num : Int)->UIButton {
+        return createButtonWithIconAndNumber(UIImage(named: "ic_wjp_exclamation.png")!, num: num)
+    }
+    
     func setupOption(_ count: Int) {
         self.unpaid = count
-        let troli = createTroliButton(count)
+        let troli = createUnpaidButton(count)
         
         troli.addTarget(self, action: #selector(Checkout2ShipViewController.launchUnpaid), for: UIControlEvents.touchUpInside)
         

@@ -714,6 +714,8 @@
 		B2DF584D1E484605005B6CF1 /* AddressBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2DF584C1E484605005B6CF1 /* AddressBookViewController.swift */; };
 		B2DF6AE01EA8AC280058B59B /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2DF6ADF1EA8AC280058B59B /* GoogleMaps.bundle */; };
 		B2E0DD6F1EA7554F0076A230 /* GooglePlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2E0DD6E1EA7554F0076A230 /* GooglePlaces.framework */; };
+		B2E448B31EC9B321007110B6 /* ic_address_defined.png in Resources */ = {isa = PBXBuildFile; fileRef = B2E448B11EC9B321007110B6 /* ic_address_defined.png */; };
+		B2E448B41EC9B321007110B6 /* ic_address_undefined.png in Resources */ = {isa = PBXBuildFile; fileRef = B2E448B21EC9B321007110B6 /* ic_address_undefined.png */; };
 		B2ECB2F61EBC308800DB87E2 /* ic_pin_border.png in Resources */ = {isa = PBXBuildFile; fileRef = B2ECB2F51EBC308800DB87E2 /* ic_pin_border.png */; };
 		B2EE39B01E76548100113E03 /* PaidPushPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2EE39AF1E76548100113E03 /* PaidPushPopup.xib */; };
 		B2EE39C11E76743D00113E03 /* IronSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2EE39C01E76743D00113E03 /* IronSource.framework */; };
@@ -1818,6 +1820,8 @@
 		B2DF584C1E484605005B6CF1 /* AddressBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBookViewController.swift; sourceTree = "<group>"; };
 		B2DF6ADF1EA8AC280058B59B /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = Prelo/Framework/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
 		B2E0DD6E1EA7554F0076A230 /* GooglePlaces.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GooglePlaces.framework; sourceTree = "<group>"; };
+		B2E448B11EC9B321007110B6 /* ic_address_defined.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_address_defined.png; sourceTree = "<group>"; };
+		B2E448B21EC9B321007110B6 /* ic_address_undefined.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_address_undefined.png; sourceTree = "<group>"; };
 		B2ECB2F51EBC308800DB87E2 /* ic_pin_border.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_pin_border.png; sourceTree = "<group>"; };
 		B2EE39AF1E76548100113E03 /* PaidPushPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PaidPushPopup.xib; path = XIB/PaidPushPopup.xib; sourceTree = "<group>"; };
 		B2EE39C01E76743D00113E03 /* IronSource.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IronSource.framework; sourceTree = "<group>"; };
@@ -3406,6 +3410,8 @@
 				B2D39B751EB2F7BF00A44A1C /* ic_pin.png */,
 				B2D39B771EB2F7C800A44A1C /* txt_pin.png */,
 				B2ECB2F51EBC308800DB87E2 /* ic_pin_border.png */,
+				B2E448B11EC9B321007110B6 /* ic_address_defined.png */,
+				B2E448B21EC9B321007110B6 /* ic_address_undefined.png */,
 			);
 			name = "location map";
 			sourceTree = "<group>";
@@ -3878,6 +3884,7 @@
 				217874631B98516900D355A8 /* merk.json in Resources */,
 				5858873D1DBEDA67006EC6D5 /* FilterSwitchCell.xib in Resources */,
 				21D386AB1B6B93CD00D0FA90 /* Default@2x.png in Resources */,
+				B2E448B31EC9B321007110B6 /* ic_address_defined.png in Resources */,
 				58A2A4C11CB768500031C873 /* cchmrk_reserve.png in Resources */,
 				440AF6641BE1090800074CBC /* ic_round_ellipsis.png in Resources */,
 				2116BAF81BAC1D74009B27C8 /* Default-Landscape@2x.png in Resources */,
@@ -3959,6 +3966,7 @@
 				21AE67B91B4A61C600D2CF63 /* dummy@2x.jpg in Resources */,
 				58A9AE971CA9320000DF30C8 /* tour_4.bkp.jpg in Resources */,
 				58F78B601DFACEB3008744F7 /* ProductLovelist.xib in Resources */,
+				B2E448B41EC9B321007110B6 /* ic_address_undefined.png in Resources */,
 				589A6FB71D8C08F600654CDD /* ic_comment.png in Resources */,
 				B27948231E35C700002CEED4 /* TarikTunai2.xib in Resources */,
 				5858874D1DBEDBA3006EC6D5 /* NotifAnggiTransactionCell.xib in Resources */,

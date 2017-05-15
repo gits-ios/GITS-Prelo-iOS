@@ -37,22 +37,19 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="niy-I6-cqm" userLabel="Pin">
-                        <rect key="frame" x="60" y="8" width="12" height="21"/>
+                        <rect key="frame" x="60" y="8" width="21" height="21"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l25-cc-wzb">
-                                <rect key="frame" x="0.0" y="0.0" width="12" height="21"/>
-                                <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="17"/>
-                                <color key="textColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_address_undefined.png" translatesAutoresizingMaskIntoConstraints="NO" id="KI2-JR-s5e">
+                                <rect key="frame" x="0.0" y="0.0" width="21" height="21"/>
+                            </imageView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="l25-cc-wzb" firstAttribute="top" secondItem="niy-I6-cqm" secondAttribute="top" id="8DB-oY-Pei"/>
-                            <constraint firstAttribute="width" constant="12" id="fPb-or-bWp"/>
-                            <constraint firstAttribute="trailing" secondItem="l25-cc-wzb" secondAttribute="trailing" id="loo-nz-dP7"/>
-                            <constraint firstAttribute="bottom" secondItem="l25-cc-wzb" secondAttribute="bottom" id="m7Q-w4-2tA"/>
+                            <constraint firstAttribute="trailing" secondItem="KI2-JR-s5e" secondAttribute="trailing" id="6ho-cY-rgv"/>
+                            <constraint firstItem="KI2-JR-s5e" firstAttribute="leading" secondItem="niy-I6-cqm" secondAttribute="leading" id="8Nw-5V-XZZ"/>
+                            <constraint firstItem="KI2-JR-s5e" firstAttribute="top" secondItem="niy-I6-cqm" secondAttribute="top" id="KfA-3L-qjp"/>
+                            <constraint firstAttribute="width" constant="21" id="fPb-or-bWp"/>
+                            <constraint firstAttribute="bottom" secondItem="KI2-JR-s5e" secondAttribute="bottom" id="lpH-Cx-Lih"/>
                             <constraint firstAttribute="height" constant="21" id="qQN-Oe-tlZ"/>
-                            <constraint firstItem="l25-cc-wzb" firstAttribute="leading" secondItem="niy-I6-cqm" secondAttribute="leading" id="waT-cT-cbK"/>
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2EC-eC-lRD">
@@ -220,10 +217,10 @@
                 <outlet property="btnDelete" destination="ji4-bF-9wf" id="4V7-cc-yRd"/>
                 <outlet property="btnEdit" destination="0PN-2u-xBZ" id="TgL-Bh-0lF"/>
                 <outlet property="btnSetMain" destination="2Jy-Wi-cFm" id="CyQ-LL-9bn"/>
+                <outlet property="imgPin" destination="KI2-JR-s5e" id="aKk-lb-Dcg"/>
                 <outlet property="lblAddress" destination="OXc-rc-BQa" id="YDZ-Q6-kAV"/>
                 <outlet property="lblName" destination="2EC-eC-lRD" id="Eqz-aT-ZbF"/>
                 <outlet property="lblPhone" destination="27s-Re-5gu" id="heb-dW-huv"/>
-                <outlet property="lblPin" destination="l25-cc-wzb" id="CmV-4i-Bjg"/>
                 <outlet property="lblProvince" destination="FDM-qH-vbu" id="kY0-dA-t8C"/>
                 <outlet property="lblRegion" destination="ze4-8c-SaL" id="g3b-Ut-GNk"/>
                 <outlet property="lblType" destination="i3c-N8-zLk" id="WM1-7y-iNr"/>
@@ -233,6 +230,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="ic_address_undefined.png" width="96" height="96"/>
         <image name="ic_home.png" width="96" height="96"/>
     </resources>
 </document>

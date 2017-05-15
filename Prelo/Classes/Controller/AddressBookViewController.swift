@@ -349,7 +349,7 @@ class AddressBookCell: UITableViewCell { // height 192
     @IBOutlet weak var btnSetMain: UIButton!
     @IBOutlet weak var btnDelete: UIButton!
     @IBOutlet weak var btnEdit: UIButton!
-    @IBOutlet weak var lblPin: UILabel!
+    @IBOutlet weak var imgPin: UIImageView!
     
     var address: AddressItem!
     
@@ -406,9 +406,9 @@ class AddressBookCell: UITableViewCell { // height 192
         }
         
         if address.coordinate == "" {
-            lblPin.textColor = UIColor.lightGray
+            imgPin.image = UIImage(named: "ic_address_undefined.png")
         } else {
-            lblPin.textColor = UIColor.init(hex: "#1F8879")
+            imgPin.image = UIImage(named: "ic_address_defined.png")
         }
     }
     
