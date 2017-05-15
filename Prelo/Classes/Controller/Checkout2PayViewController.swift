@@ -854,14 +854,16 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 
                 self.hideLoading()
                 
+                // update troli badge count
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let notifListener = appDelegate.preloNotifListener
+                notifListener?.setCartCount(1 + self.cartResult.nTransactionUnpaid)
+                
                 // Prepare to navigate to next page
                 if (self.selectedPaymentIndex == 0) { // bank
                     self.navigateToOrderConfirmVC(false)
                     
-                    // set 0 badge
-                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    let notifListener = appDelegate.preloNotifListener
-                    notifListener?.setCartCount(1 + self.cartResult.nTransactionUnpaid)
+                    
                 } else { // Credit card, indomaret
                     let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
                     let webVC = mainStoryboard.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
@@ -870,11 +872,6 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                     webVC.creditCardMode = true
                     webVC.ccPaymentSucceed = {
                         self.navigateToOrderConfirmVC(true)
-                        
-                        // set 0 badge
-                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                        let notifListener = appDelegate.preloNotifListener
-                        notifListener?.setCartCount(1 + self.cartResult.nTransactionUnpaid)
                     }
                     webVC.ccPaymentUnfinished = {
                         Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].name)", message: "Pembayaran tertunda")

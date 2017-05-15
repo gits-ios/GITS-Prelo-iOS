@@ -36,6 +36,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     
     var isFirst = true
     var shouldBack = false
+    var isLoading = false
     
     var dropDown = DropDown()
     
@@ -94,6 +95,9 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
         let Checkout2TotalBuyingCell = UINib(nibName: "Checkout2TotalBuyingCell", bundle: nil)
         tableView.register(Checkout2TotalBuyingCell, forCellReuseIdentifier: "Checkout2TotalBuyingCell")
         
+        // Belum ada barang dalam keranjang belanja
+        tableView.register(ProvinceCell.self, forCellReuseIdentifier: "cell")
+        
         // init dropdown
         DropDown.startListeningToKeyboard()
         let appearance = DropDown.appearance()
@@ -118,10 +122,15 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
         
         self.tableView.separatorStyle = .none
         
-        self.tableView.backgroundColor = UIColor(hexString: "#E8ECEE")
-        
         // loading
         self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.7)
+        if CartManager.sharedInstance.getSize() > 0 {
+            self.isLoading = true
+            self.tableView.backgroundColor = UIColor(hexString: "#E8ECEE")
+            self.tableView.reloadData()
+        } else {
+            self.hideLoading()
+        }
         
         //Looks for single or multiple taps.
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(Checkout2ShipViewController.dismissKeyboard))
@@ -168,7 +177,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
         super.viewDidAppear(animated)
         
         if self.isFirst {
-            self.showLoading()
+            //self.showLoading()
             
             self.getCart()
         }
@@ -224,11 +233,14 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     
     // MARK: - Cart sync
     func getCart() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let notifListener = appDelegate.preloNotifListener
+        
         // Get cart from server
         let _ = request(APIV2Cart.getCart).responseJSON { resp in
             if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Checkout - Get Cart")) {
                 let json = JSON(resp.result.value!)
-                if let arr = json["_data"].array {
+                if let arr = json["_data"].array, arr.count > 0 || CartManager.sharedInstance.getSize() > 0 {
                     for a in arr {
                         let spId = a["shipping_package_id"].stringValue
                         let pIds  = a["product_ids"].arrayValue
@@ -251,18 +263,22 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     self.selectedAddress.coordinate = userProfile?.coordinate ?? ""
                     self.selectedAddress.coordinateAddress = userProfile?.coordinateAddress ?? ""
                     
+                    notifListener?.setCartCount(CartManager.sharedInstance.getSize())
+                    
+                    self.isLoading = true
+                    self.tableView.backgroundColor = UIColor(hexString: "#E8ECEE")
+                    self.tableView.reloadData()
+                    
                     self.synchCart()
                 } else {
                     // reset localid
                     User.SetCartLocalId("")
                     
-                    self.hideLoading()
+                    notifListener?.setCartCount(0)
                     
                     self.backToPreviousScreen()
                 }
             } else {
-                self.hideLoading()
-                
                 self.backToPreviousScreen()
             }
         }
@@ -270,7 +286,11 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     
     // Refresh data cart dan seluruh tampilan
     func synchCart() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let notifListener = appDelegate.preloNotifListener
+        
         self.showLoading()
+        self.isLoading = true
         
         let p = CartManager.sharedInstance.getCartJsonString()
         let a = "{\"coordinate\": \"" + selectedAddress.coordinate + "\", \"address\": \"alamat\", \"province_id\": \"" + selectedAddress.provinceId + "\", \"region_id\": \"" + selectedAddress.regionId + "\", \"subdistrict_id\": \"" + selectedAddress.subdistrictId + "\", \"postal_code\": \"\"}"
@@ -338,6 +358,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 
                 // update troli
                 self.setupOption(self.cartResult.nTransactionUnpaid)
+                notifListener?.increaseCartCount(self.cartResult.nTransactionUnpaid)
                 
                 // reset - cart
                 self.isEnableToCheckout = true
@@ -345,9 +366,12 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 self.setupDropdownAddress()
                 self.tableView.reloadData()
                 self.scrollToTop()
+                
+                self.isLoading = false
                 self.hideLoading()
                 
             } else {
+                self.isLoading = false
                 self.hideLoading()
                 
             }
@@ -358,347 +382,375 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     func numberOfSections(in tableView: UITableView) -> Int {
         if cartResult != nil && cartResult.cartDetails.count > 0 {
             return 2 + cartResult.cartDetails.count
+        } else if !self.isLoading {
+            return 1
         }
         return 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section < cartResult.cartDetails.count {
-            return cartResult.cartDetails[section].products.count + 2 + (self.isNeedLocations[section] && !self.isFreeOngkirs[section] ? 1 : 0) + 1
-        } else if section == cartResult.cartDetails.count {
-            return 2 + (self.isNeedLocations.contains(true) ? 1 : 0) + 1
-        } else if section == cartResult.cartDetails.count + 1 {
+        if cartResult != nil && cartResult.cartDetails.count > 0 {
+            if section < cartResult.cartDetails.count {
+                return cartResult.cartDetails[section].products.count + 2 + (self.isNeedLocations[section] && !self.isFreeOngkirs[section] ? 1 : 0) + 1
+            } else if section == cartResult.cartDetails.count {
+                return 2 + (self.isNeedLocations.contains(true) ? 1 : 0) + 1
+            } else if section == cartResult.cartDetails.count + 1 {
+                return 1
+            }
+        } else if !self.isLoading {
             return 1
         }
         return 0
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let idx = indexPath as IndexPath
-        if idx.section < cartResult.cartDetails.count {
-            if idx.row == 0 {
-                return Checkout2SellerCell.heightFor()
-            } else if idx.row <= cartResult.cartDetails[idx.section].products.count {
-                return Checkout2ProductCell.heightFor()
-            } else if idx.row == cartResult.cartDetails[idx.section].products.count + 1 {
-                return Checkout2CourierCell.heightFor()
-            } else {
-                if idx.row == cartResult.cartDetails[idx.section].products.count + 2 && self.isNeedLocations[idx.section] && !self.isFreeOngkirs[idx.section] {
-                    return Checkout2CourierDescriptionCell.heightFor()
+        if cartResult != nil && cartResult.cartDetails.count > 0 {
+            let idx = indexPath as IndexPath
+            if idx.section < cartResult.cartDetails.count {
+                if idx.row == 0 {
+                    return Checkout2SellerCell.heightFor()
+                } else if idx.row <= cartResult.cartDetails[idx.section].products.count {
+                    return Checkout2ProductCell.heightFor()
+                } else if idx.row == cartResult.cartDetails[idx.section].products.count + 1 {
+                    return Checkout2CourierCell.heightFor()
                 } else {
-                    return Checkout2SplitCell.heightFor()
+                    if idx.row == cartResult.cartDetails[idx.section].products.count + 2 && self.isNeedLocations[idx.section] && !self.isFreeOngkirs[idx.section] {
+                        return Checkout2CourierDescriptionCell.heightFor()
+                    } else {
+                        return Checkout2SplitCell.heightFor()
+                    }
                 }
+            } else if idx.section == cartResult.cartDetails.count {
+                if idx.row == 0 {
+                    return Checkout2AddressDropdownCell.heightFor()
+                } else if idx.row == 1 {
+                    if isNeedSetup {
+                        return Checkout2AddressFillCell.heightFor()
+                    } else {
+                        return Checkout2AddressCompleteCell.heightFor()
+                    }
+                } else {
+                    if idx.row == 2 && self.isNeedLocations.contains(true) {
+                        return Checkout2AddressLocationCell.heightFor()
+                    } else {
+                        return Checkout2SplitCell.heightFor()
+                    }
+                }
+            } else if idx.section == cartResult.cartDetails.count + 1 {
+                return Checkout2TotalBuyingCell.heightFor()
             }
-        } else if idx.section == cartResult.cartDetails.count {
-            if idx.row == 0 {
-                return Checkout2AddressDropdownCell.heightFor()
-            } else if idx.row == 1 {
-                if isNeedSetup {
-                    return Checkout2AddressFillCell.heightFor()
-                } else {
-                    return Checkout2AddressCompleteCell.heightFor()
-                }
-            } else {
-                if idx.row == 2 && self.isNeedLocations.contains(true) {
-                    return Checkout2AddressLocationCell.heightFor()
-                } else {
-                    return Checkout2SplitCell.heightFor()
-                }
-            }
-        } else if idx.section == cartResult.cartDetails.count + 1 {
-            return Checkout2TotalBuyingCell.heightFor()
+        } else if !self.isLoading {
+            return 90
         }
         return 30
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let idx = indexPath as IndexPath
-        if ((indexPath as NSIndexPath).section < cartResult.cartDetails.count) {
-            if idx.row == 0 {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2SellerCell") as! Checkout2SellerCell
-                
-                cell.selectionStyle = .none
-                cell.clipsToBounds = true
-                
-                var pids: Array<String> = []
-                for p in self.cartResult.cartDetails[idx.section].products {
-                    pids.append(p.productId)
-                }
-                
-                cell.adapt(self.cartResult.cartDetails[idx.section].username, productIds: pids)
-                
-                cell.removeAll = { pids in
-                    self.dismissKeyboard()
+        if cartResult != nil && cartResult.cartDetails.count > 0 {
+            let idx = indexPath as IndexPath
+            if ((indexPath as NSIndexPath).section < cartResult.cartDetails.count) {
+                if idx.row == 0 {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2SellerCell") as! Checkout2SellerCell
                     
-                    let alertView = SCLAlertView(appearance: Constant.appearance)
-                    alertView.addButton("Hapus") {
-                        self.showLoading()
+                    cell.selectionStyle = .none
+                    cell.clipsToBounds = true
+                    
+                    var pids: Array<String> = []
+                    for p in self.cartResult.cartDetails[idx.section].products {
+                        pids.append(p.productId)
+                    }
+                    
+                    cell.adapt(self.cartResult.cartDetails[idx.section].username, productIds: pids)
+                    
+                    cell.removeAll = { pids in
+                        self.dismissKeyboard()
                         
-                        let _ = request(APIV2Cart.removeItems(pIds: pids)).responseJSON { resp in
-                            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Keranjang Belanja - Hapus Items")) {
-                                print("Keranjang Belanja - Hapus Items, Success")
-                                
-                                for pid in pids {
-                                    CartProduct.delete(pid) // v1
-                                    CartManager.sharedInstance.deleteProduct(self.cartResult.cartDetails[idx.section].id, productId: pid)
+                        let alertView = SCLAlertView(appearance: Constant.appearance)
+                        alertView.addButton("Hapus") {
+                            self.showLoading()
+                            
+                            let _ = request(APIV2Cart.removeItems(pIds: pids)).responseJSON { resp in
+                                if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Keranjang Belanja - Hapus Items")) {
+                                    print("Keranjang Belanja - Hapus Items, Success")
+                                    
+                                    for pid in pids {
+                                        CartProduct.delete(pid) // v1
+                                        CartManager.sharedInstance.deleteProduct(self.cartResult.cartDetails[idx.section].id, productId: pid)
+                                    }
+                                    
+                                    self.updateTroli()
+                                    
+                                    self.synchCart()
+                                } else {
+                                    print("Keranjang Belanja - Hapus Items, Failed")
+                                    
+                                    Constant.showDialog("Hapus Items", message: "\"\(self.cartResult.cartDetails[idx.section].fullname)\" gagal dihapus")
+                                    
+                                    self.hideLoading()
                                 }
-                                self.synchCart()
-                            } else {
-                                print("Keranjang Belanja - Hapus Items, Failed")
-                                
-                                Constant.showDialog("Hapus Items", message: "\"\(self.cartResult.cartDetails[idx.section].fullname)\" gagal dihapus")
-                                
-                                self.hideLoading()
                             }
                         }
+                        alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+                        alertView.showCustom("Hapus Keranjang", subTitle: "Kamu yakin ingin menghapus semua barang dari seller \"\(self.cartResult.cartDetails[idx.section].fullname)\"?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
                     }
-                    alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
-                    alertView.showCustom("Hapus Keranjang", subTitle: "Kamu yakin ingin menghapus semua barang dari seller \"\(self.cartResult.cartDetails[idx.section].fullname)\"?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
-                }
-                
-                return cell
-            } else if idx.row <= cartResult.cartDetails[idx.section].products.count {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2ProductCell") as! Checkout2ProductCell
-                
-                cell.selectionStyle = .none
-                cell.clipsToBounds = true
-                
-                let product = self.cartResult.cartDetails[idx.section].products[idx.row-1]
-                
-                cell.adapt(product)
-                
-                if product.errorMessage != nil {
-                    self.isEnableToCheckout = false
-                }
-                
-                // disabled
-                /*
-                cell.remove = { pid in
-                    self.dismissKeyboard()
                     
-                    let alertView = SCLAlertView(appearance: Constant.appearance)
-                    alertView.addButton("Hapus") {
-                        self.showLoading()
-                        
-                        let _ = request(APIV2Cart.removeItems(pIds: [pid])).responseJSON { resp in
-                            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Keranjang Belanja - Hapus Items")) {
-                                print("Keranjang Belanja - Hapus Items, Success")
-                                
-                                CartProduct.delete(pid) // v1
-                                CartManager.sharedInstance.deleteProduct(product.sellerId, productId: pid)
-                                self.synchCart()
-                            } else {
-                                print("Keranjang Belanja - Hapus Items, Failed")
-                                
-                                Constant.showDialog("Hapus Items", message: "\"\(self.cartResult.cartDetails[idx.section].fullname)\" gagal dihapus")
-                                
-                                self.hideLoading()
-                            }
-                        }
-                    }
-                    alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
-                    alertView.showCustom("Hapus Keranjang", subTitle: "Kamu yakin ingin menghapus \"\(self.cartResult.cartDetails[idx.section].products[idx.row-1].name)\"?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
-                    
-                }
-                */
-                
-                return cell
-            } else if idx.row == cartResult.cartDetails[idx.section].products.count + 1 {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2CourierCell") as! Checkout2CourierCell
-                
-                let sellerId = self.cartResult.cartDetails[idx.section].id
-                
-                cell.selectionStyle = .none
-                cell.clipsToBounds = true
-                
-                cell.adapt(cartResult.cartDetails[idx.section].shippingPackages, isEnable: !self.isFreeOngkirs[idx.section], selectedIndex: self.selectedOngkirIndexes[idx.section])
-                
-                cell.pickCourier = { courierId, ongkir, index, isNeedLocation in
-                    self.shippingPackageIds[idx.section] = courierId
-                    self.ongkirs[idx.section] = ongkir
-                    self.selectedOngkirIndexes[idx.section] = index
-                    self.isNeedLocations[idx.section] = isNeedLocation
-                    
-                    CartManager.sharedInstance.updateShippingPackageId(sellerId, shippingPackageId: courierId)
-                    
-                    self.tableView.reloadData()
-                }
-                
-                cell.dismissKeyborad = {
-                    self.dismissKeyboard()
-                }
-                
-                return cell
-            } else {
-                if idx.row == cartResult.cartDetails[idx.section].products.count + 2 && self.isNeedLocations[idx.section] && !self.isFreeOngkirs[idx.section] {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2CourierDescriptionCell") as! Checkout2CourierDescriptionCell
+                    return cell
+                } else if idx.row <= cartResult.cartDetails[idx.section].products.count {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2ProductCell") as! Checkout2ProductCell
                     
                     cell.selectionStyle = .none
                     cell.clipsToBounds = true
                     
-                    cell.adapt(self.shippingPackageIds[idx.section])
+                    let product = self.cartResult.cartDetails[idx.section].products[idx.row-1]
+                    
+                    cell.adapt(product)
+                    
+                    if product.errorMessage != nil {
+                        self.isEnableToCheckout = false
+                    }
+                    
+                    // disabled
+                    /*
+                    cell.remove = { pid in
+                        self.dismissKeyboard()
+                        
+                        let alertView = SCLAlertView(appearance: Constant.appearance)
+                        alertView.addButton("Hapus") {
+                            self.showLoading()
+                            
+                            let _ = request(APIV2Cart.removeItems(pIds: [pid])).responseJSON { resp in
+                                if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Keranjang Belanja - Hapus Items")) {
+                                    print("Keranjang Belanja - Hapus Items, Success")
+                                    
+                                    CartProduct.delete(pid) // v1
+                                    CartManager.sharedInstance.deleteProduct(product.sellerId, productId: pid)
+                                    
+                                    self.updateTroli()
+                                    
+                                    self.synchCart()
+                                } else {
+                                    print("Keranjang Belanja - Hapus Items, Failed")
+                                    
+                                    Constant.showDialog("Hapus Items", message: "\"\(self.cartResult.cartDetails[idx.section].fullname)\" gagal dihapus")
+                                    
+                                    self.hideLoading()
+                                }
+                            }
+                        }
+                        alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+                        alertView.showCustom("Hapus Keranjang", subTitle: "Kamu yakin ingin menghapus \"\(self.cartResult.cartDetails[idx.section].products[idx.row-1].name)\"?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+                        
+                    }
+                    */
+                    
+                    return cell
+                } else if idx.row == cartResult.cartDetails[idx.section].products.count + 1 {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2CourierCell") as! Checkout2CourierCell
+                    
+                    let sellerId = self.cartResult.cartDetails[idx.section].id
+                    
+                    cell.selectionStyle = .none
+                    cell.clipsToBounds = true
+                    
+                    cell.adapt(cartResult.cartDetails[idx.section].shippingPackages, isEnable: !self.isFreeOngkirs[idx.section], selectedIndex: self.selectedOngkirIndexes[idx.section])
+                    
+                    cell.pickCourier = { courierId, ongkir, index, isNeedLocation in
+                        self.shippingPackageIds[idx.section] = courierId
+                        self.ongkirs[idx.section] = ongkir
+                        self.selectedOngkirIndexes[idx.section] = index
+                        self.isNeedLocations[idx.section] = isNeedLocation
+                        
+                        CartManager.sharedInstance.updateShippingPackageId(sellerId, shippingPackageId: courierId)
+                        
+                        self.tableView.reloadData()
+                    }
+                    
+                    cell.dismissKeyborad = {
+                        self.dismissKeyboard()
+                    }
                     
                     return cell
                 } else {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2SplitCell") as! Checkout2SplitCell
-                    
-                    cell.selectionStyle = .none
-                    cell.clipsToBounds = true
-                    
-                    return cell
-                }
-            }
-        } else if idx.section == cartResult.cartDetails.count {
-            if idx.row == 0 {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2AddressDropdownCell") as! Checkout2AddressDropdownCell
-                
-                cell.selectionStyle = .none
-                cell.clipsToBounds = true
-                
-                cell.adapt((cartResult.addressBook.count > selectedIndex ? cartResult.addressBook[selectedIndex] : nil))
-                
-                self.dropDown.anchorView = cell.vwBorder
-                
-                // Top of drop down will be below the anchorView
-                self.dropDown.bottomOffset = CGPoint(x: 0, y:(dropDown.anchorView?.plainView.bounds.height)! + 4)
-                
-                // When drop down is displayed with `Direction.top`, it will be above the anchorView
-                self.dropDown.topOffset = CGPoint(x: 0, y:-(dropDown.anchorView?.plainView.bounds.height)! - 4)
-                
-                cell.pickAddress = {
-                    self.dismissKeyboard()
-                    
-                    self.dropDown.hide()
-                    self.dropDown.show()
-                }
-                
-                return cell
-            } else if idx.row == 1 {
-                if isNeedSetup {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2AddressFillCell") as! Checkout2AddressFillCell
-                    
-                    cell.selectionStyle = .none
-                    cell.clipsToBounds = true
-                    
-                    let isDefault = cartResult.addressBook.count > selectedIndex ? cartResult.addressBook[selectedIndex] == cartResult.defaultAddress : false
-                    
-                    if isDefault {
-                        cell.adapt(cartResult.addressBook[selectedIndex], parent: self)
+                    if idx.row == cartResult.cartDetails[idx.section].products.count + 2 && self.isNeedLocations[idx.section] && !self.isFreeOngkirs[idx.section] {
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2CourierDescriptionCell") as! Checkout2CourierDescriptionCell
+                        
+                        cell.selectionStyle = .none
+                        cell.clipsToBounds = true
+                        
+                        cell.adapt(self.shippingPackageIds[idx.section])
+                        
+                        return cell
                     } else {
-                        cell.adapt(self.selectedAddress, parent: self)
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2SplitCell") as! Checkout2SplitCell
+                        
+                        cell.selectionStyle = .none
+                        cell.clipsToBounds = true
+                        
+                        return cell
                     }
-                    
-                    self.scrollToAddress()
-                    
-                    cell.pickProvince = { provinceId in
-                        // self.dismissKeyboard()
-                        
-                        self.selectedAddress.provinceId = provinceId
-                        self.selectedAddress.regionId = ""
-                        self.selectedAddress.subdistrictId = ""
-                        self.selectedAddress.subdistrictName = ""
-                    }
-                    
-                    cell.pickRegion = { regionId in
-                        // self.dismissKeyboard()
-                        
-                        self.selectedAddress.regionId = regionId
-                        self.selectedAddress.subdistrictId = ""
-                        self.selectedAddress.subdistrictName = ""
-                    }
-                    
-                    cell.pickSubdistrict = { subdistrictId, subdistrictName in
-                        // self.dismissKeyboard()
-                        
-                        self.selectedAddress.subdistrictId = subdistrictId
-                        self.selectedAddress.subdistrictName = subdistrictName
-                        
-                        self.synchCart()
-                    }
-                    
-                    cell.saveAddress = {
-                        // self.dismissKeyboard()
-                        
-                        self.selectedAddress.isSave = !self.selectedAddress.isSave
-                        
-                        //print("isSave: \(self.selectedAddress.isSave)")
-                    }
-                    
-                    return cell
-                } else {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2AddressCompleteCell") as! Checkout2AddressCompleteCell
-                    
-                    cell.selectionStyle = .none
-                    cell.clipsToBounds = true
-                    
-                    cell.adapt(cartResult.addressBook[selectedIndex])
-                    
-                    return cell
                 }
-            } else {
-                if idx.row == 2 && self.isNeedLocations.contains(true) {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2AddressLocationCell") as! Checkout2AddressLocationCell
+            } else if idx.section == cartResult.cartDetails.count {
+                if idx.row == 0 {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2AddressDropdownCell") as! Checkout2AddressDropdownCell
                     
                     cell.selectionStyle = .none
                     cell.clipsToBounds = true
                     
-                    cell.adapt(self.selectedAddress.coordinateAddress)
+                    cell.adapt((cartResult.addressBook.count > selectedIndex ? cartResult.addressBook[selectedIndex] : nil))
                     
-                    cell.pickLocation = {
-                        let googleMapVC = Bundle.main.loadNibNamed(Tags.XibNameGoogleMap, owner: nil, options: nil)?.first as! GoogleMapViewController
-                        googleMapVC.blockDone = { result in
-                            
-                            self.selectedAddress.coordinate = result["latitude"]! + "," + result["longitude"]!
-                            self.selectedAddress.coordinateAddress = result["address"]!
-                            
-                            self.tableView.reloadData()
+                    self.dropDown.anchorView = cell.vwBorder
+                    
+                    // Top of drop down will be below the anchorView
+                    self.dropDown.bottomOffset = CGPoint(x: 0, y:(dropDown.anchorView?.plainView.bounds.height)! + 4)
+                    
+                    // When drop down is displayed with `Direction.top`, it will be above the anchorView
+                    self.dropDown.topOffset = CGPoint(x: 0, y:-(dropDown.anchorView?.plainView.bounds.height)! - 4)
+                    
+                    cell.pickAddress = {
+                        self.dismissKeyboard()
+                        
+                        self.dropDown.hide()
+                        self.dropDown.show()
+                    }
+                    
+                    return cell
+                } else if idx.row == 1 {
+                    if isNeedSetup {
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2AddressFillCell") as! Checkout2AddressFillCell
+                        
+                        cell.selectionStyle = .none
+                        cell.clipsToBounds = true
+                        
+                        let isDefault = cartResult.addressBook.count > selectedIndex ? cartResult.addressBook[selectedIndex] == cartResult.defaultAddress : false
+                        
+                        if isDefault {
+                            cell.adapt(cartResult.addressBook[selectedIndex], parent: self)
+                        } else {
+                            cell.adapt(self.selectedAddress, parent: self)
                         }
-                        self.navigationController?.pushViewController(googleMapVC, animated: true)
+                        
+                        self.scrollToAddress()
+                        
+                        cell.pickProvince = { provinceId in
+                            // self.dismissKeyboard()
+                            
+                            self.selectedAddress.provinceId = provinceId
+                            self.selectedAddress.regionId = ""
+                            self.selectedAddress.subdistrictId = ""
+                            self.selectedAddress.subdistrictName = ""
+                        }
+                        
+                        cell.pickRegion = { regionId in
+                            // self.dismissKeyboard()
+                            
+                            self.selectedAddress.regionId = regionId
+                            self.selectedAddress.subdistrictId = ""
+                            self.selectedAddress.subdistrictName = ""
+                        }
+                        
+                        cell.pickSubdistrict = { subdistrictId, subdistrictName in
+                            // self.dismissKeyboard()
+                            
+                            self.selectedAddress.subdistrictId = subdistrictId
+                            self.selectedAddress.subdistrictName = subdistrictName
+                            
+                            self.synchCart()
+                        }
+                        
+                        cell.saveAddress = {
+                            // self.dismissKeyboard()
+                            
+                            self.selectedAddress.isSave = !self.selectedAddress.isSave
+                            
+                            //print("isSave: \(self.selectedAddress.isSave)")
+                        }
+                        
+                        return cell
+                    } else {
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2AddressCompleteCell") as! Checkout2AddressCompleteCell
+                        
+                        cell.selectionStyle = .none
+                        cell.clipsToBounds = true
+                        
+                        cell.adapt(cartResult.addressBook[selectedIndex])
+                        
+                        return cell
                     }
-                    
-                    return cell
                 } else {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2SplitCell") as! Checkout2SplitCell
-                    
-                    cell.selectionStyle = .none
-                    cell.clipsToBounds = true
-                    
-                    return cell
+                    if idx.row == 2 && self.isNeedLocations.contains(true) {
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2AddressLocationCell") as! Checkout2AddressLocationCell
+                        
+                        cell.selectionStyle = .none
+                        cell.clipsToBounds = true
+                        
+                        cell.adapt(self.selectedAddress.coordinateAddress)
+                        
+                        cell.pickLocation = {
+                            let googleMapVC = Bundle.main.loadNibNamed(Tags.XibNameGoogleMap, owner: nil, options: nil)?.first as! GoogleMapViewController
+                            googleMapVC.blockDone = { result in
+                                
+                                self.selectedAddress.coordinate = result["latitude"]! + "," + result["longitude"]!
+                                self.selectedAddress.coordinateAddress = result["address"]!
+                                
+                                self.tableView.reloadData()
+                            }
+                            self.navigationController?.pushViewController(googleMapVC, animated: true)
+                        }
+                        
+                        return cell
+                    } else {
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2SplitCell") as! Checkout2SplitCell
+                        
+                        cell.selectionStyle = .none
+                        cell.clipsToBounds = true
+                        
+                        return cell
+                    }
                 }
-            }
-        } else if idx.section == cartResult.cartDetails.count + 1 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2TotalBuyingCell") as! Checkout2TotalBuyingCell
-            
-            cell.selectionStyle = .none
-            cell.clipsToBounds = true
-            
-            var totalWithOngkir = self.cartResult.totalPrice
-            
-            for o in self.ongkirs {
-                totalWithOngkir += o
-            }
-            
-            cell.adapt(totalWithOngkir.asPrice)
-            
-            cell.continueToPayment = {
-                self.dismissKeyboard()
+            } else if idx.section == cartResult.cartDetails.count + 1 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2TotalBuyingCell") as! Checkout2TotalBuyingCell
                 
-                if self.validateField() {
-                    print("oke")
-                    
-                    let checkout2PayVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Pay, owner: nil, options: nil)?.first as! Checkout2PayViewController
-                    checkout2PayVC.cartResult = self.cartResult
-                    checkout2PayVC.previousController = self.previousController
-                    checkout2PayVC.previousScreen = self.previousScreen
-                    checkout2PayVC.totalAmount = totalWithOngkir
-                    checkout2PayVC.selectedAddress = self.selectedAddress
-                    self.navigationController?.pushViewController(checkout2PayVC, animated: true)
+                cell.selectionStyle = .none
+                cell.clipsToBounds = true
+                
+                var totalWithOngkir = self.cartResult.totalPrice
+                
+                for o in self.ongkirs {
+                    totalWithOngkir += o
                 }
+                
+                cell.adapt(totalWithOngkir.asPrice)
+                
+                cell.continueToPayment = {
+                    self.dismissKeyboard()
+                    
+                    if self.validateField() {
+                        print("oke")
+                        
+                        let checkout2PayVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Pay, owner: nil, options: nil)?.first as! Checkout2PayViewController
+                        checkout2PayVC.cartResult = self.cartResult
+                        checkout2PayVC.previousController = self.previousController
+                        checkout2PayVC.previousScreen = self.previousScreen
+                        checkout2PayVC.totalAmount = totalWithOngkir
+                        checkout2PayVC.selectedAddress = self.selectedAddress
+                        self.navigationController?.pushViewController(checkout2PayVC, animated: true)
+                    }
+                }
+                
+                return cell
             }
+        } else if !self.isLoading {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
             
-            return cell
+            cell?.selectionStyle = .none
+            
+            cell?.textLabel!.text = "Belum ada barang dalam keranjang belanja"
+            cell?.textLabel!.font = UIFont.systemFont(ofSize: 12)
+            cell?.textLabel!.textAlignment = .center
+            cell?.textLabel!.textColor = Theme.GrayDark
+            
+            return cell!
         }
-        
         return UITableViewCell()
     }
     
@@ -727,56 +779,65 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
         return [share, favorite, more]
          */
         
-        // Checkout2ProductCell
-        let idx = indexPath as IndexPath
-        let cell = tableView.cellForRow(at: idx) as! Checkout2ProductCell
-        
-        let remove = UITableViewRowAction(style: .destructive, title: "Hapus") { action, index in
-            let pid = cell.productDetail.productId
-            let sellerId = cell.productDetail.sellerId
+        if cartResult != nil && cartResult.cartDetails.count > 0 {
+            // Checkout2ProductCell
+            let idx = indexPath as IndexPath
+            let cell = tableView.cellForRow(at: idx) as! Checkout2ProductCell
             
-            self.showLoading()
-            
-            let _ = request(APIV2Cart.removeItems(pIds: [pid])).responseJSON { resp in
-                if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Keranjang Belanja - Hapus Items")) {
-                    print("Keranjang Belanja - Hapus Items, Success")
-                    
-                    CartProduct.delete(pid) // v1
-                    CartManager.sharedInstance.deleteProduct(sellerId, productId: pid)
-                    self.synchCart()
-                } else {
-                    print("Keranjang Belanja - Hapus Items, Failed")
-                    
-                    Constant.showDialog("Hapus Items", message: "\"\(self.cartResult.cartDetails[idx.section].fullname)\" gagal dihapus")
-                    
-                    self.hideLoading()
+            let remove = UITableViewRowAction(style: .destructive, title: "Hapus") { action, index in
+                let pid = cell.productDetail.productId
+                let sellerId = cell.productDetail.sellerId
+                
+                self.showLoading()
+                
+                let _ = request(APIV2Cart.removeItems(pIds: [pid])).responseJSON { resp in
+                    if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Keranjang Belanja - Hapus Items")) {
+                        print("Keranjang Belanja - Hapus Items, Success")
+                        
+                        CartProduct.delete(pid) // v1
+                        CartManager.sharedInstance.deleteProduct(sellerId, productId: pid)
+                        
+                        self.updateTroli()
+                        
+                        self.synchCart()
+                    } else {
+                        print("Keranjang Belanja - Hapus Items, Failed")
+                        
+                        Constant.showDialog("Hapus Items", message: "\"\(self.cartResult.cartDetails[idx.section].fullname)\" gagal dihapus")
+                        
+                        self.hideLoading()
+                    }
                 }
+                
+                print("hapus tapped")
             }
+            /*
+            let detail = UITableViewRowAction(style: .normal, title: "Detail") { action, index in
+                let p = Product.instance(cell.productDetail.json)
+                
+                // Goto product detail
+                let productDetailVC = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+                productDetailVC.product = p
+                productDetailVC.previousScreen = PageName.Checkout
+                self.navigationController?.pushViewController(productDetailVC, animated: true)
+            }
+            detail.backgroundColor = UIColor.blue
             
-            print("hapus tapped")
+            return [remove, detail]
+            */
+            return [remove]
         }
-        /*
-        let detail = UITableViewRowAction(style: .normal, title: "Detail") { action, index in
-            let p = Product.instance(cell.productDetail.json)
-            
-            // Goto product detail
-            let productDetailVC = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
-            productDetailVC.product = p
-            productDetailVC.previousScreen = PageName.Checkout
-            self.navigationController?.pushViewController(productDetailVC, animated: true)
-        }
-        detail.backgroundColor = UIColor.blue
-        
-        return [remove, detail]
- */
-        return [remove]
+        return nil
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        let idx = indexPath as IndexPath
-        if idx.section < cartResult.cartDetails.count {
-            if idx.row <= cartResult.cartDetails[idx.section].products.count && idx.row > 0 {
-                return true
+        if cartResult != nil && cartResult.cartDetails.count > 0 {
+            let idx = indexPath as IndexPath
+            if idx.section < cartResult.cartDetails.count {
+                if idx.row <= cartResult.cartDetails[idx.section].products.count && idx.row > 0 {
+                    return true
+                }
+                return false
             }
             return false
         }
@@ -844,6 +905,19 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
             _ = self.navigationController?.popViewController(animated: true)
             return
         }
+    }
+    
+    func updateTroli() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let notifListener = appDelegate.preloNotifListener
+        
+        var count = CartManager.sharedInstance.getSize()
+        if count == 0 {
+            self.shouldBack = true
+        }
+        count += self.cartResult.nTransactionUnpaid
+        
+        notifListener?.setCartCount(count)
     }
     
     // MARK: - Setup Dropdown Address

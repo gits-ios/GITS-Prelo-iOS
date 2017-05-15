@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -156,7 +156,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </tableView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RO0-wf-HLg" userLabel="loadingPanel" customClass="AchievementCell" customModule="Prelo" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="40" width="375" height="563"/>
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="yeG-Bc-lYx" userLabel="loading">
                                 <rect key="frame" x="178" y="95" width="20" height="20"/>
@@ -174,8 +174,8 @@
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="RO0-wf-HLg" secondAttribute="bottom" id="Lnn-26-tYh"/>
                     <constraint firstItem="yRW-zd-iOx" firstAttribute="top" secondItem="DTJ-Il-eVm" secondAttribute="bottom" id="Rcl-go-ePt"/>
+                    <constraint firstItem="RO0-wf-HLg" firstAttribute="top" secondItem="yRW-zd-iOx" secondAttribute="bottom" id="Ztr-Gc-nQO"/>
                     <constraint firstItem="8dT-YC-Xh1" firstAttribute="top" secondItem="yRW-zd-iOx" secondAttribute="bottom" id="b0g-Dv-XZ5"/>
-                    <constraint firstItem="RO0-wf-HLg" firstAttribute="top" secondItem="zDv-5k-Sea" secondAttribute="top" id="bmf-gc-GNU"/>
                     <constraint firstAttribute="trailing" secondItem="yRW-zd-iOx" secondAttribute="trailing" id="eUe-Uj-7Oe"/>
                     <constraint firstItem="RO0-wf-HLg" firstAttribute="leading" secondItem="zDv-5k-Sea" secondAttribute="leading" id="jHh-Ib-moz"/>
                     <constraint firstItem="8dT-YC-Xh1" firstAttribute="leading" secondItem="zDv-5k-Sea" secondAttribute="leading" id="mgZ-1n-5yW"/>

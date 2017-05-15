@@ -156,7 +156,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </tableView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Ka-rJ-uok" userLabel="loadingPanel">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="40" width="375" height="563"/>
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="cm8-K6-wsl" userLabel="loading">
                                 <rect key="frame" x="178" y="95" width="20" height="20"/>
@@ -176,12 +176,12 @@
                     <constraint firstItem="j7w-cj-Y21" firstAttribute="leading" secondItem="xHg-2N-PXU" secondAttribute="leading" id="AxD-66-c1w"/>
                     <constraint firstItem="j7w-cj-Y21" firstAttribute="top" secondItem="cZM-UR-omc" secondAttribute="bottom" id="HF7-dF-xrc"/>
                     <constraint firstAttribute="trailing" secondItem="cZM-UR-omc" secondAttribute="trailing" id="LP5-lH-BUj"/>
+                    <constraint firstItem="2Ka-rJ-uok" firstAttribute="top" secondItem="cZM-UR-omc" secondAttribute="bottom" id="Vil-oy-kQF"/>
                     <constraint firstItem="C3P-cF-HVC" firstAttribute="top" secondItem="j7w-cj-Y21" secondAttribute="bottom" id="dRN-aA-AnH"/>
                     <constraint firstAttribute="bottom" secondItem="2Ka-rJ-uok" secondAttribute="bottom" id="i9T-Uh-ipP"/>
                     <constraint firstAttribute="trailing" secondItem="2Ka-rJ-uok" secondAttribute="trailing" id="ijK-e0-caQ"/>
                     <constraint firstItem="2Ka-rJ-uok" firstAttribute="leading" secondItem="xHg-2N-PXU" secondAttribute="leading" id="nhe-F0-qMN"/>
                     <constraint firstItem="cZM-UR-omc" firstAttribute="top" secondItem="yYJ-xb-1hX" secondAttribute="bottom" id="slQ-2X-NUf"/>
-                    <constraint firstItem="2Ka-rJ-uok" firstAttribute="top" secondItem="xHg-2N-PXU" secondAttribute="top" id="uRC-VQ-zCb"/>
                     <constraint firstAttribute="trailing" secondItem="j7w-cj-Y21" secondAttribute="trailing" id="wh1-Ge-3Xz"/>
                 </constraints>
             </view>
