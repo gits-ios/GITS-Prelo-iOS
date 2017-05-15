@@ -1985,20 +1985,16 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     MoEngage.sharedInstance().trackEvent(MixpanelEvent.Checkout, builderPayload: moeEventTracker)
                 }
                 
-//                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//                let notifListener = appDelegate.preloNotifListener
-//                notifListener?.increaseCartCount(1)
-                
                 self.hideLoading()
+                
+                // update troli
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let notifListener = appDelegate.preloNotifListener
+                notifListener?.setCartCount(1 + self.transactionCount)
                 
                 // Prepare to navigate to next page
                 if (self.selectedPayment == .bankTransfer) {
                     self.navigateToOrderConfirmVC(false)
-                    
-                    // set 0 badge
-                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    let notifListener = appDelegate.preloNotifListener
-                    notifListener?.setCartCount(1 + self.transactionCount)
                 } else { // Credit card, indomaret
                     let webVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
                     webVC.url = self.checkoutResult!["veritrans_redirect_url"].stringValue
@@ -2006,11 +2002,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     webVC.creditCardMode = true
                     webVC.ccPaymentSucceed = {
                         self.navigateToOrderConfirmVC(true)
-                        
-                        // set 0 badge
-                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                        let notifListener = appDelegate.preloNotifListener
-                        notifListener?.setCartCount(1 + self.transactionCount)
                     }
                     webVC.ccPaymentUnfinished = {
                         Constant.showDialog("Pembayaran \(self.selectedPayment.value)", message: "Pembayaran tertunda")
