@@ -201,6 +201,10 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
         
         _ = CDDraftProduct.deleteAll()
         
+        //cart
+        CartProduct.deleteAll() // v1
+        CartManager.sharedInstance.deleteAll() // v2
+        
         // Tell delegate class if any
         if let d = self.userRelatedDelegate
         {
