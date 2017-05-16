@@ -14,6 +14,10 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
     @IBOutlet weak var coverScrollView: UIScrollView! // define image of cover(s) here -> UIImageView (pagination)
     @IBOutlet weak var imgAvatar: UIImageView! // user
     @IBOutlet weak var mediaCollectionView: UICollectionView! // twitter, fb, etc
+    @IBOutlet weak var btnPrev: UIButton!
+    @IBOutlet weak var btnNext: UIButton!
+    @IBOutlet weak var lbSeller: UILabel!
+    @IBOutlet weak var lbReferral: UILabel!
     
     var images: [String] = []
     var currentPage = 0
@@ -26,20 +30,13 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
         
         // setup scorll-view
         self.coverScrollView?.isPagingEnabled = true
-        self.coverScrollView?.backgroundColor = UIColor.black
+        self.coverScrollView?.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.2)
         self.coverScrollView?.delegate = self
-        
-        // setup avatar
-        self.imgAvatar?.layer.cornerRadius = (self.imgAvatar?.frame.size.width)!/2
-        self.imgAvatar?.layer.masksToBounds = true
         
         // setup media
         self.setupCollection()
         
         self.title = "Share Profile Shop"
-        
-        // setup UI
-        self.getCover()
         
         let uProf = CDUserProfile.getOne()
         if (uProf != nil) {
@@ -49,13 +46,17 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
             }
         }
         
+        self.lbSeller.text = CDUser.getOne()?.username
+        
+        self.lbReferral.text = "gunakan kode referral xxx\nuntuk mendapatkan potongan Rp25.000"
+        
         self.medias = [
             "https://static.pexels.com/photos/23049/pexels-photo.jpg",
-            "http://copicola.com/images/mountain-pictures/mountain-pictures-23.jpg",
+            "http://wallpapercave.com/wp/ZfzZaSM.jpg",
             "http://wallpaper-gallery.net/images/mountain-wallpaper/mountain-wallpaper-9.jpg",
             "http://wallpaper-gallery.net/images/mountain-wallpaper/mountain-wallpaper-12.jpg",
             "http://wallpaper-gallery.net/images/mountain-images-wallpaper/mountain-images-wallpaper-8.jpg",
-            "http://copicola.com/images/mountain-wallpaper/mountain-wallpaper-2.jpg"
+            "https://i2.wp.com/techbeasts.com/wp-content/uploads/2016/12/4435004-mountain-wallpapers.jpeg"
         ]
         
         self.isSelectedMedias = [false, false, false, false, false, false]
@@ -63,14 +64,32 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
         self.mediaCollectionView.reloadData()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // setup avatar
+        self.imgAvatar?.layer.cornerRadius = (self.imgAvatar?.frame.size.width)!/2
+        self.imgAvatar?.layer.masksToBounds = true
+        
+        // setup prev-next
+        self.btnPrev.layer.cornerRadius = (self.btnPrev.frame.size.width)/2
+        self.btnPrev.layer.masksToBounds = true
+        
+        self.btnNext.layer.cornerRadius = (self.btnNext.frame.size.width)/2
+        self.btnNext.layer.masksToBounds = true
+        
+        // setup UI
+        self.getCover()
+    }
+    
     func getCover() {
         self.images = [
-            "https://static.pexels.com/photos/23049/pexels-photo.jpg",
-            "http://copicola.com/images/mountain-pictures/mountain-pictures-23.jpg",
-            "http://wallpaper-gallery.net/images/mountain-wallpaper/mountain-wallpaper-9.jpg",
-            "http://wallpaper-gallery.net/images/mountain-wallpaper/mountain-wallpaper-12.jpg",
-            "http://wallpaper-gallery.net/images/mountain-images-wallpaper/mountain-images-wallpaper-8.jpg",
-            "http://copicola.com/images/mountain-wallpaper/mountain-wallpaper-2.jpg"
+            "https://trello-attachments.s3.amazonaws.com/55e7c516d9cac863ec924c21/57a1eff3c17d8b09447106bc/74e353fb6d62b48409fb8906854f1f30/all_category.png",
+            "https://trello-attachments.s3.amazonaws.com/55e7c516d9cac863ec924c21/57a1eff3c17d8b09447106bc/0496b4318e3f9478d2d92f98dc9db6e6/hobby.png",
+            "https://trello-attachments.s3.amazonaws.com/55e7c516d9cac863ec924c21/57a1eff3c17d8b09447106bc/a4d9e2ec77b04d857ed8ec9a57499436/gadget.png",
+            "https://trello-attachments.s3.amazonaws.com/55e7c516d9cac863ec924c21/57a1eff3c17d8b09447106bc/72ade007cdd1664d0f8513a8887b1d85/fashion.png",
+            "https://trello-attachments.s3.amazonaws.com/55e7c516d9cac863ec924c21/57a1eff3c17d8b09447106bc/4e3d0e8678a22eeb1199dac5694a6b68/book.png",
+            "https://trello-attachments.s3.amazonaws.com/55e7c516d9cac863ec924c21/57a1eff3c17d8b09447106bc/f58e2638a4f524332b1dd7f5ed5e7cba/beauty.png"
         ]
         
         self.setupCover()
@@ -82,7 +101,7 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
         {
             let s = UIScrollView(frame : (self.coverScrollView?.bounds)!)
             let iv = UIImageView(frame : s.bounds)
-            iv.afSetImage(withURL: URL(string: self.images[i])!, withFilter: .fill)
+            iv.afSetImage(withURL: URL(string: self.images[i])!, withFilter: .fit)
             iv.tag = 1
             s.addSubview(iv)
             s.x = x
@@ -187,8 +206,5 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
     
     @IBAction func btnNextPressed(_ sender: Any) {
         self.scrollSubVC((self.images.count+currentPage+1) % self.images.count)
-    }
-    
-    @IBAction func btnSharePressed(_ sender: Any) {
     }
 }
