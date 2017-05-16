@@ -256,22 +256,25 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             for i in 0...self.discountItems.count-1 {
                 if (self.discountItems[i].title == "Referral Bonus") {
                     if (self.customBonusPercent > 0) {
-                        if (self.discountItems[i].value > self.totalAmount * self.customBonusPercent / 100) {
-                            self.discountItems[i].value = self.totalAmount * customBonusPercent / 100
+                        if (self.preloBonusUsed > self.totalAmount * self.customBonusPercent / 100) {
+                            self.preloBonusUsed = self.totalAmount * customBonusPercent / 100
+                            self.discountItems[i].value = self.preloBonusUsed
                             // Show lblSend
 //                            self.lblSend.text = "Maksimal Referral Bonus yang dapat digunakan adalah \(customBonusPercent)% dari subtotal transaksi"
 //                            self.consHeightLblSend.constant = 31
                         }
                     } else if (isHalfBonusMode) {
-                        if (discountItems[i].value > self.totalAmount / 2) {
-                            discountItems[i].value = self.totalAmount / 2
+                        if (self.preloBonusUsed > self.totalAmount / 2) {
+                            self.preloBonusUsed = self.totalAmount / 2
+                            self.discountItems[i].value = self.preloBonusUsed
                             // Show lblSend
 //                            self.lblSend.text = "Maksimal Referral Bonus yang dapat digunakan adalah 50% dari subtotal transaksi"
 //                            self.consHeightLblSend.constant = 31
                         }
                     } else {
-                        if (discountItems[i].value > self.totalAmount) {
-                            discountItems[i].value = self.totalAmount
+                        if (self.discountItems[i].value > self.totalAmount) {
+                            self.preloBonusUsed = self.totalAmount
+                            self.discountItems[i].value = self.preloBonusUsed
                         }
                     }
                 }
@@ -461,6 +464,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                             d.value = self.preloBalanceUsed
                             
                             self.discountItems.insert(d, at: 0)
+                        } else {
+                            self.preloBalanceUsed = 0
                         }
                     } else {
                         self.preloBalanceUsed = 0
