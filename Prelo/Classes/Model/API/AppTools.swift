@@ -63,14 +63,28 @@ class AppTools: NSObject {
         return UIScreen.main.bounds.height
     }
     
-    static var isNewShop : Bool { // new shop, TODO: - bisa setting di app
-        return true
+    fileprivate static var _isNewShop = true
+    static var isNewShop : Bool {
+        get {
+            return _isNewShop
+        }
+    }
+    
+    static func switchToNewShop(_ isOn: Bool) {
+        _isNewShop = isOn
     }
     
     static let isOldShopWithBadges : Bool = true // set true kalau jadi bisa nampilin badge
     
-    static var isNewCart: Bool { // new cart, TODO: - from ab_test (?)
-        return true
+    fileprivate static var _isNewCart = true
+    static var isNewCart : Bool {
+        get {
+            return _isNewCart
+        }
+    }
+    
+    static func switchToNewCart(_ isOn: Bool) {
+        _isNewCart = isOn
     }
 }
 
