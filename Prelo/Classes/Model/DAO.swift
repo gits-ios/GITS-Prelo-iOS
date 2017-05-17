@@ -3955,7 +3955,7 @@ class PreloMessageItem : NSObject {
         } else if let j = json["title"].string {
             return j
         }
-        return "Prelo Message"
+        return ""
     }
     
     var banner : URL? {
