@@ -210,8 +210,8 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
             cell.zoomImage = {
                 if m.bannerUri != nil {
                     var urlStr = m.bannerUri!.absoluteString
-                    if !urlStr.contains("http://") {
-                        urlStr = "http://" + m.bannerUri!.absoluteString
+                    if !urlStr.contains("http://") && !urlStr.contains("https://") {
+                        urlStr = "https://" + m.bannerUri!.absoluteString
                     }
                     let curl = URL(string: urlStr)!
                     self.openUrl(url: curl)
