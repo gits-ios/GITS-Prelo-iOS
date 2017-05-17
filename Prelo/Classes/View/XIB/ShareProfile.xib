@@ -216,10 +216,10 @@ untuk mendapatkan potongan Rp25.000</string>
                                         </collectionViewFlowLayout>
                                     </collectionView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="zq8-ud-e8m" userLabel="Other Collection View">
-                                        <rect key="frame" x="8" y="578.5" width="359" height="68"/>
+                                        <rect key="frame" x="8" y="578.5" width="359" height="92"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="68" id="WKe-Ua-Kg1"/>
+                                            <constraint firstAttribute="height" constant="92" id="WKe-Ua-Kg1"/>
                                         </constraints>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="8" minimumInteritemSpacing="8" id="FOX-Fh-0XM">
                                             <size key="itemSize" width="60" height="60"/>
@@ -250,7 +250,7 @@ untuk mendapatkan potongan Rp25.000</string>
                                     <constraint firstItem="3yq-NL-uRY" firstAttribute="leading" secondItem="aoL-Ym-dev" secondAttribute="leading" id="pp5-C7-uBQ"/>
                                     <constraint firstItem="3zw-Fh-LTt" firstAttribute="leading" secondItem="aoL-Ym-dev" secondAttribute="leading" constant="16" id="qVu-6B-UXs"/>
                                     <constraint firstItem="zq8-ud-e8m" firstAttribute="leading" secondItem="aoL-Ym-dev" secondAttribute="leading" constant="8" id="rHr-ti-iZP"/>
-                                    <constraint firstAttribute="bottom" secondItem="zq8-ud-e8m" secondAttribute="bottom" constant="40" id="sCH-ls-Beh"/>
+                                    <constraint firstAttribute="bottom" secondItem="zq8-ud-e8m" secondAttribute="bottom" constant="16" id="sCH-ls-Beh"/>
                                     <constraint firstItem="d3l-iz-p5L" firstAttribute="leading" secondItem="aoL-Ym-dev" secondAttribute="leading" constant="16" id="vPf-jS-td0"/>
                                     <constraint firstItem="wm6-pq-EUE" firstAttribute="centerX" secondItem="aoL-Ym-dev" secondAttribute="centerX" id="vkk-Bi-YlO"/>
                                     <constraint firstItem="3zw-Fh-LTt" firstAttribute="top" secondItem="0Kw-hb-4Hc" secondAttribute="bottom" constant="32" id="wM2-dt-WbB"/>
@@ -285,6 +285,7 @@ untuk mendapatkan potongan Rp25.000</string>
                 <outlet property="lbReferral" destination="2st-66-W5f" id="mve-pd-CBD"/>
                 <outlet property="lbSeller" destination="E04-g4-yE8" id="s0s-sF-pOp"/>
                 <outlet property="mediaCollectionView" destination="s3e-gZ-3Cw" id="IPs-tl-EBg"/>
+                <outlet property="otherCollectionView" destination="zq8-ud-e8m" id="Uy8-Z7-cgQ"/>
             </connections>
             <point key="canvasLocation" x="-252.5" y="135"/>
         </viewController>

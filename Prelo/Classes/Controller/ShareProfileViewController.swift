@@ -8,12 +8,71 @@
 
 import Foundation
 
+enum mediaType {
+    case facebook
+    case twitter
+    case instagram
+    case path
+    case whatsapp
+    case line
+    case copyText
+    case email
+    case sms
+    
+    var imageName: String {
+        switch self {
+        case .facebook:
+            return "ic_round_facebook"
+        case .twitter:
+            return "ic_round_twitter"
+        case .instagram:
+            return "ic_round_instagram"
+        case .path:
+            return "ic_round_path"
+        case .whatsapp:
+            return "ic_round_whatsapp"
+        case .line:
+            return "ic_round_line"
+        case .copyText:
+            return "ic_round"
+        case .email:
+            return "ic_round_email"
+        case .sms:
+            return "ic_round_sms"
+        }
+    }
+    
+    var socmedName: String {
+        switch self {
+        case .facebook:
+            return "Facebook"
+        case .twitter:
+            return "Twitter"
+        case .instagram:
+            return "Instagram"
+        case .path:
+            return "Path"
+        case .whatsapp:
+            return "Whatsapp"
+        case .line:
+            return "Line"
+        case .copyText:
+            return "Salin Teks"
+        case .email:
+            return "Email"
+        case .sms:
+            return "SMS"
+        }
+    }
+}
+
 // MARK: - Class
 class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
     // MARK: - Properties
     @IBOutlet weak var coverScrollView: UIScrollView! // define image of cover(s) here -> UIImageView (pagination)
     @IBOutlet weak var imgAvatar: UIImageView! // user
     @IBOutlet weak var mediaCollectionView: UICollectionView! // twitter, fb, etc
+    @IBOutlet weak var otherCollectionView: UICollectionView! // sms, mail, copy
     @IBOutlet weak var btnPrev: UIButton!
     @IBOutlet weak var btnNext: UIButton!
     @IBOutlet weak var lbSeller: UILabel!
@@ -21,8 +80,8 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
     
     var images: [String] = []
     var currentPage = 0
-    var medias: [String] = []
-    var isSelectedMedias: [Bool] = []
+    var medias: [mediaType] = []
+    var others: [mediaType] = []
     
     // MARK: - Init
     override func viewDidLoad() {
@@ -30,11 +89,12 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
         
         // setup scorll-view
         self.coverScrollView?.isPagingEnabled = true
-        self.coverScrollView?.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.2)
+        self.coverScrollView?.backgroundColor = UIColor.clear
         self.coverScrollView?.delegate = self
         
         // setup media
-        self.setupCollection()
+        self.setupMediaCollection()
+        self.setupOtherCollection()
         
         self.title = "Share Profile Shop"
         
@@ -51,17 +111,15 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
         self.lbReferral.text = "gunakan kode referral xxx\nuntuk mendapatkan potongan Rp25.000"
         
         self.medias = [
-            "https://static.pexels.com/photos/23049/pexels-photo.jpg",
-            "http://wallpapercave.com/wp/ZfzZaSM.jpg",
-            "http://wallpaper-gallery.net/images/mountain-wallpaper/mountain-wallpaper-9.jpg",
-            "http://wallpaper-gallery.net/images/mountain-wallpaper/mountain-wallpaper-12.jpg",
-            "http://wallpaper-gallery.net/images/mountain-images-wallpaper/mountain-images-wallpaper-8.jpg",
-            "https://i2.wp.com/techbeasts.com/wp-content/uploads/2016/12/4435004-mountain-wallpapers.jpeg"
+            .facebook, .twitter, .instagram, .path, .whatsapp, .line
         ]
         
-        self.isSelectedMedias = [false, false, false, false, false, false]
+        self.others = [
+            .copyText, .email, .sms
+        ]
         
         self.mediaCollectionView.reloadData()
+        self.otherCollectionView.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -101,7 +159,7 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
         {
             let s = UIScrollView(frame : (self.coverScrollView?.bounds)!)
             let iv = UIImageView(frame : s.bounds)
-            iv.afSetImage(withURL: URL(string: self.images[i])!, withFilter: .fit)
+            iv.afSetImage(withURL: URL(string: self.images[i])!, withFilter: .fitWithoutPlaceHolder)
             iv.tag = 1
             s.addSubview(iv)
             s.x = x
@@ -113,8 +171,7 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
         }
     }
     
-    func setupCollection() {
-        
+    func setupMediaCollection() {
         // Set collection view
         self.mediaCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "collcProgressCell")
         self.mediaCollectionView.delegate = self
@@ -135,6 +192,27 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
         self.mediaCollectionView.isDirectionalLockEnabled = true
     }
     
+    func setupOtherCollection() {
+        // Set collection view
+        self.otherCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "collcProgressCell")
+        self.otherCollectionView.delegate = self
+        self.otherCollectionView.dataSource = self
+        self.otherCollectionView.backgroundView = UIView(frame: self.otherCollectionView.bounds)
+        self.otherCollectionView.backgroundColor = UIColor.clear
+        
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+        layout.itemSize = CGSize(width: 60, height: 84)
+        layout.minimumInteritemSpacing = 8
+        layout.minimumLineSpacing = 8
+        layout.scrollDirection = .horizontal
+        self.otherCollectionView.collectionViewLayout = layout
+        
+        self.otherCollectionView.isScrollEnabled = true
+        self.otherCollectionView.isPagingEnabled = false
+        self.otherCollectionView.isDirectionalLockEnabled = true
+    }
+    
     // MARK: - ScrollView delegate
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if (scrollView == self.coverScrollView)
@@ -152,47 +230,78 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
     
     // MARK: - CollectionView delegate
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.medias.count
+        if collectionView == self.mediaCollectionView {
+            return self.medias.count
+        } else if collectionView == self.otherCollectionView {
+            return self.others.count
+        }
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create cell
         let cell = self.mediaCollectionView.dequeueReusableCell(withReuseIdentifier: "collcProgressCell", for: indexPath)
-        cell.viewWithTag(999)?.removeFromSuperview()
-        
-        // Create icon view
-        let vwIcon : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
-        vwIcon.tag = 999
-        
-        let img = UIImageView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
-        img.layoutIfNeeded()
-        img.layer.cornerRadius = (img.width) / 2
-        img.layer.masksToBounds = true
-        img.afSetImage(withURL: URL(string: medias[(indexPath as NSIndexPath).item])!, withFilter: .circleWithBadgePlaceHolder)
-        
-        if !self.isSelectedMedias[(indexPath as IndexPath).item] {
-            let vwTinted = UIView(frame: img.bounds)
-            vwTinted.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.7)
+        if collectionView == self.mediaCollectionView {
+            cell.viewWithTag(999)?.removeFromSuperview()
             
-            img.addSubview(vwTinted)
+            // Create icon view
+            let vwIcon : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+            vwIcon.tag = 999
+            
+            let img = UIImageView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+            img.layoutIfNeeded()
+            img.layer.cornerRadius = (img.width) / 2
+            img.layer.masksToBounds = true
+            img.image = UIImage(named: self.medias[(indexPath as IndexPath).item].imageName)
+            
+            vwIcon.addSubview(img)
+            
+            // Add view to cell
+            cell.addSubview(vwIcon)
+        } else if collectionView == self.otherCollectionView {
+            cell.viewWithTag(999)?.removeFromSuperview()
+            
+            // Create icon view
+            let vwIcon : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+            vwIcon.tag = 999
+            
+            let img = UIImageView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+            img.layoutIfNeeded()
+            img.layer.cornerRadius = (img.width) / 2
+            img.layer.masksToBounds = true
+            img.image = UIImage(named: self.others[(indexPath as IndexPath).item].imageName)
+            
+            let txt = UILabel(frame: CGRect(x: 0, y: 64, width: 60, height: 20))
+            txt.text = self.others[(indexPath as IndexPath).item].socmedName
+            txt.adjustsFontSizeToFitWidth = true
+            txt.font = UIFont.systemFont(ofSize: 12.0)
+            txt.textColor = UIColor.darkGray
+            txt.textAlignment = .center
+            
+            vwIcon.addSubview(img)
+            vwIcon.addSubview(txt)
+            
+            // Add view to cell
+            cell.addSubview(vwIcon)
         }
-        
-        vwIcon.addSubview(img)
-        
-        // Add view to cell
-        cell.addSubview(vwIcon)
-        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 60, height: 60)
+        if collectionView == self.mediaCollectionView {
+            return CGSize(width: 60, height: 60)
+        } else if collectionView == self.otherCollectionView {
+            return CGSize(width: 60, height: 84)
+        }
+        return CGSize.zero
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.isSelectedMedias[(indexPath as IndexPath).item] = !self.isSelectedMedias[(indexPath as IndexPath).item]
-        
-        self.mediaCollectionView.reloadData()
+        if collectionView == self.mediaCollectionView {
+            self.mediaPressed(self.medias[(indexPath as IndexPath).item])
+        } else if collectionView == self.otherCollectionView {
+            self.mediaPressed(self.others[(indexPath as IndexPath).item])
+        }
     }
     
     func scrollSubVC(_ index: Int) {
@@ -206,5 +315,39 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
     
     @IBAction func btnNextPressed(_ sender: Any) {
         self.scrollSubVC((self.images.count+currentPage+1) % self.images.count)
+    }
+    
+    // MARK: - action
+    func mediaPressed(_ mediaType: mediaType) {
+        Constant.showDialog(mediaType.socmedName, message: "Clicked")
+        switch mediaType {
+        case .facebook:
+            print("fb kena")
+            return
+        case .twitter:
+            print("tw kena")
+            return
+        case .instagram:
+            print("ig kena")
+            return
+        case .path:
+            print("pt kena")
+            return
+        case .whatsapp:
+            print("wa kena")
+            return
+        case .line:
+            print("ln kena")
+            return
+        case .copyText:
+            print("ct kena")
+            return
+        case .email:
+            print("em kena")
+            return
+        case .sms:
+            print("sm kena")
+            return
+        }
     }
 }
