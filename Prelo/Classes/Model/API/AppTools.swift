@@ -20,6 +20,7 @@ enum imageFilterMode {
     case circleWithBadgePlaceHolder
     case fitWithPreloPlaceHolder
     case fillWithPreloMessagePlaceHolder
+    case fitWithPreloMessagePlaceHolder
 }
 
 class AppTools: NSObject {
@@ -501,6 +502,19 @@ extension UIImageView {
             
         else if withFilter == .fillWithPreloMessagePlaceHolder { // badge
             let filter = AspectScaledToFillSizeFilter(
+                size: self.frame.size
+            )
+            
+            self.af_setImage(
+                withURL: withURL,
+                placeholderImage: UIImage(named: "placeholder-prelo-message.jpg")!, // pm
+                filter: filter,
+                imageTransition: .crossDissolve(0.3)
+            )
+        }
+            
+        else if withFilter == .fitWithPreloMessagePlaceHolder {
+            let filter = AspectScaledToFitSizeFilter(
                 size: self.frame.size
             )
             
