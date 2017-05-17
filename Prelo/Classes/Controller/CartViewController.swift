@@ -327,7 +327,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
         
         if (addresses.count < 5) {
-            dropDown.dataSource.append("Alamat Baru")
+            dropDown.dataSource.append("Alamat baru")
         }
         
         dropDown.customCellConfiguration = { (index: Index, item: String, cell: DropDownCell) -> Void in
@@ -1145,7 +1145,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     if addresses.count > selectedIndex {
                         c.adapt(addresses[selectedIndex])
                     } else {
-                        c.adaptNew("Alamat Baru")
+                        c.adaptNew("Alamat baru")
                     }
                     c.selectionStyle = .none
                     
@@ -1457,7 +1457,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 }
                 
                 if (alamatCount < 5) {
-                    alamatAlert.addAction(UIAlertAction(title: "Alamat Baru", style: .default, handler: { act in
+                    alamatAlert.addAction(UIAlertAction(title: "Alamat baru", style: .default, handler: { act in
                         if (self.selectedIndex != alamatCount) {
                             self.isNeedSetup = true
                             self.selectedIndex = alamatCount
@@ -1926,20 +1926,16 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     MoEngage.sharedInstance().trackEvent(MixpanelEvent.Checkout, builderPayload: moeEventTracker)
                 }
                 
-//                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//                let notifListener = appDelegate.preloNotifListener
-//                notifListener?.increaseCartCount(1)
-                
                 self.hideLoading()
+                
+                // update troli
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let notifListener = appDelegate.preloNotifListener
+                notifListener?.setCartCount(1 + self.transactionCount)
                 
                 // Prepare to navigate to next page
                 if (self.selectedPayment == .bankTransfer) {
                     self.navigateToOrderConfirmVC(false)
-                    
-                    // set 0 badge
-                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    let notifListener = appDelegate.preloNotifListener
-                    notifListener?.setCartCount(1 + self.transactionCount)
                 } else { // Credit card, indomaret
                     let webVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
                     webVC.url = self.checkoutResult!["veritrans_redirect_url"].stringValue
@@ -1947,11 +1943,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     webVC.creditCardMode = true
                     webVC.ccPaymentSucceed = {
                         self.navigateToOrderConfirmVC(true)
-                        
-                        // set 0 badge
-                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                        let notifListener = appDelegate.preloNotifListener
-                        notifListener?.setCartCount(1 + self.transactionCount)
                     }
                     webVC.ccPaymentUnfinished = {
                         Constant.showDialog("Pembayaran \(self.selectedPayment.value)", message: "Pembayaran tertunda")
