@@ -40,7 +40,7 @@ class PreloNotificationListener {
     func getTotalUnreadNotifCount() {
         // API Migrasi
         let _ = request(APINotification.getUnreadNotifCount).responseJSON {resp in
-            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Unread Count")) {
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Notifikasi - Unread Count")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
@@ -58,12 +58,14 @@ class PreloNotificationListener {
             if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Checkout - Unpaid Transaction")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
+                self.cartCount = 0
                 if (data["user_has_unpaid_transaction"].boolValue == true) {
-                    self.cartCount = data["n_transaction_unpaid"].intValue
-                    
-                    self.delegate?.showCartCount(self.cartCount)
-                    self.delegate?.refreshCartPage()
+                    self.cartCount += data["n_transaction_unpaid"].intValue
                 }
+                self.cartCount += CartProduct.getAll(User.EmailOrEmptyString).count
+                
+                self.delegate?.showCartCount(self.cartCount)
+                self.delegate?.refreshCartPage()
             }
         }
     }
