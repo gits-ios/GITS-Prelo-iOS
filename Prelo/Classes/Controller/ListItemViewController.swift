@@ -2150,6 +2150,7 @@ class ListItemCell : UICollectionViewCell {
     var currentMode : ListItemMode = .filter
     
     var parent : BaseViewController!
+    var product: Product!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -2189,6 +2190,7 @@ class ListItemCell : UICollectionViewCell {
     
     func adapt(_ product : Product, listStage : Int, currentMode : ListItemMode, shopAvatar : URL?, parent: BaseViewController) {
         self.parent = parent
+        self.product = product
         
         let obj = product.json
         captionTitle.text = product.name
@@ -2363,19 +2365,21 @@ class ListItemCell : UICollectionViewCell {
     }
     
     @IBAction func btnLovePressed(_ sender: Any) {
-        if (User.IsLoggedIn == true) {
-            if (newLove == true) {
-                newLove = false
-                buttonLoveChange(isLoved: false)
-                callApiUnlove()
+        if product.isAggregate == false && product.isAffiliate == false {
+            if (User.IsLoggedIn == true) {
+                if (newLove == true) {
+                    newLove = false
+                    buttonLoveChange(isLoved: false)
+                    callApiUnlove()
+                } else {
+                    newLove = true
+                    buttonLoveChange(isLoved: true)
+                    callApiLove()
+                }
             } else {
-                newLove = true
-                buttonLoveChange(isLoved: true)
-                callApiLove()
+                // call login
+                LoginViewController.Show(self.parent.previousController!, userRelatedDelegate: self.parent.previousController as! UserRelatedDelegate?, animated: true)
             }
-        } else {
-            // call login
-            LoginViewController.Show(self.parent.previousController!, userRelatedDelegate: self.parent.previousController as! UserRelatedDelegate?, animated: true)
         }
     }
 
