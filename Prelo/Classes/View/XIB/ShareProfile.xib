@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -264,14 +264,32 @@ untuk mendapatkan potongan Rp25.000</string>
                             <constraint firstItem="aoL-Ym-dev" firstAttribute="top" secondItem="WpP-rh-M4z" secondAttribute="top" id="uof-Cf-YZ0"/>
                         </constraints>
                     </scrollView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EcK-Cf-ah6" userLabel="loadingPanel">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="936"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="gaP-cJ-erY" userLabel="loading">
+                                <rect key="frame" x="178" y="95" width="20" height="20"/>
+                                <color key="color" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="gaP-cJ-erY" secondAttribute="centerX" id="Ntg-AI-NoZ"/>
+                            <constraint firstItem="gaP-cJ-erY" firstAttribute="top" secondItem="EcK-Cf-ah6" secondAttribute="top" constant="95" id="oZa-ip-21O"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="WpP-rh-M4z" secondAttribute="trailing" id="Hgh-vt-TuE"/>
                     <constraint firstItem="sro-tk-2Yu" firstAttribute="top" secondItem="WpP-rh-M4z" secondAttribute="bottom" id="Hp8-a0-ruw"/>
+                    <constraint firstItem="sro-tk-2Yu" firstAttribute="top" secondItem="EcK-Cf-ah6" secondAttribute="bottom" id="IUO-d3-4WE"/>
                     <constraint firstItem="WpP-rh-M4z" firstAttribute="top" secondItem="glt-5E-Q4g" secondAttribute="bottom" id="M4e-YJ-pJ6"/>
+                    <constraint firstItem="EcK-Cf-ah6" firstAttribute="top" secondItem="glt-5E-Q4g" secondAttribute="bottom" id="X4z-h7-jjt"/>
+                    <constraint firstAttribute="trailing" secondItem="EcK-Cf-ah6" secondAttribute="trailing" id="kFc-4r-XVj"/>
                     <constraint firstItem="aoL-Ym-dev" firstAttribute="width" secondItem="U8w-Em-Med" secondAttribute="width" id="osM-qT-fxw"/>
                     <constraint firstItem="WpP-rh-M4z" firstAttribute="leading" secondItem="U8w-Em-Med" secondAttribute="leading" id="rZX-9K-vMd"/>
+                    <constraint firstItem="EcK-Cf-ah6" firstAttribute="leading" secondItem="U8w-Em-Med" secondAttribute="leading" id="uqd-Pr-Vsf"/>
                 </constraints>
             </view>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
@@ -284,6 +302,7 @@ untuk mendapatkan potongan Rp25.000</string>
                 <outlet property="imgAvatar" destination="pVU-jL-f88" id="AAe-PG-8uX"/>
                 <outlet property="lbReferral" destination="2st-66-W5f" id="mve-pd-CBD"/>
                 <outlet property="lbSeller" destination="E04-g4-yE8" id="s0s-sF-pOp"/>
+                <outlet property="loadingPanel" destination="EcK-Cf-ah6" id="dJr-0A-zPF"/>
                 <outlet property="mediaCollectionView" destination="s3e-gZ-3Cw" id="IPs-tl-EBg"/>
                 <outlet property="otherCollectionView" destination="zq8-ud-e8m" id="Uy8-Z7-cgQ"/>
             </connections>

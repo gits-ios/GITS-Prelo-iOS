@@ -7,6 +7,9 @@
 //
 
 import Foundation
+import Social
+import MessageUI
+import Alamofire
 
 enum mediaType {
     case facebook
@@ -67,7 +70,7 @@ enum mediaType {
 }
 
 // MARK: - Class
-class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate, PathLoginDelegate, UIDocumentInteractionControllerDelegate {
     // MARK: - Properties
     @IBOutlet weak var coverScrollView: UIScrollView! // define image of cover(s) here -> UIImageView (pagination)
     @IBOutlet weak var imgAvatar: UIImageView! // user
@@ -77,11 +80,17 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
     @IBOutlet weak var btnNext: UIButton!
     @IBOutlet weak var lbSeller: UILabel!
     @IBOutlet weak var lbReferral: UILabel!
+    @IBOutlet weak var loadingPanel: UIView!
     
     var images: [String] = []
     var currentPage = 0
     var medias: [mediaType] = []
     var others: [mediaType] = []
+    
+    var shareImage: UIImage!
+    var shareText: String!
+    
+    var mgInstagram : MGInstagram?
     
     // MARK: - Init
     override func viewDidLoad() {
@@ -213,6 +222,19 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
         self.otherCollectionView.isDirectionalLockEnabled = true
     }
     
+    func setupShareContent() {
+        self.shareText = "gunakan kode referral xxx\nuntuk mendapatkan potongan Rp25.000"
+        self.shareImage = self.coverScreenshot()
+    }
+    
+    func coverScreenshot() -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(self.coverScrollView.bounds.size, false, 0)
+        
+        self.view.drawHierarchy(in: CGRect(x: self.coverScrollView.bounds.minX, y: self.coverScrollView.bounds.minY, width: self.coverScrollView.bounds.width, height: self.coverScrollView.bounds.height), afterScreenUpdates: true)
+        
+        return UIGraphicsGetImageFromCurrentImageContext()!
+    }
+    
     // MARK: - ScrollView delegate
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if (scrollView == self.coverScrollView)
@@ -319,35 +341,226 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
     
     // MARK: - action
     func mediaPressed(_ mediaType: mediaType) {
-        Constant.showDialog(mediaType.socmedName, message: "Clicked")
+//        Constant.showDialog(mediaType.socmedName, message: "Clicked")
+        
+        self.setupShareContent()
+        
         switch mediaType {
         case .facebook:
             print("fb kena")
-            return
+            self.facebookPressed()
         case .twitter:
             print("tw kena")
-            return
+            self.twitterPressed()
         case .instagram:
             print("ig kena")
-            return
+            self.instagramPressed()
         case .path:
-            print("pt kena")
-            return
+            print("path kena")
+            self.pathPressed()
         case .whatsapp:
             print("wa kena")
-            return
+            self.whatsappPressed()
         case .line:
-            print("ln kena")
-            return
+            print("line kena")
+            self.linePressed()
         case .copyText:
-            print("ct kena")
-            return
+            print("copy text kena")
+            self.copyPressed()
         case .email:
-            print("em kena")
-            return
+            print("email kena")
+            self.emailPressed()
         case .sms:
-            print("sm kena")
-            return
+            print("sms kena")
+            self.smsPressed()
         }
+    }
+    
+    // MARK: - MFMessage Delegate Functions
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    // MARK: - MFMail Delegate Functions
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    // MARK: - Path
+    func loginPath() {
+        let pathLoginVC = Bundle.main.loadNibNamed(Tags.XibNamePathLogin, owner: nil, options: nil)?.first as! PathLoginViewController
+        pathLoginVC.delegate = self
+        pathLoginVC.standAlone = true
+        let n = UINavigationController(rootViewController: pathLoginVC)
+        self.present(n, animated: true, completion: nil)
+    }
+    
+    func pathLoginSuccess(_ userData: JSON, token: String) {
+        registerPathToken(userData, token : token)
+        postToPath(shareImage, token: token)
+    }
+    
+    func registerPathToken(_ userData : JSON, token : String) {
+        let pathName = userData["name"].string!
+        
+        self.sendShareProfileAnalytic("Path", username: pathName)
+    }
+    
+    func postToPath(_ image : UIImage, token : String) {
+        let alertView = SCLAlertView(appearance: Constant.appearance)
+        let alertViewResponder: SCLAlertViewResponder = alertView.showCustom("Path", subTitle: "Posting to path", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+        
+        AppToolsObjC.pathPostPhoto(image, param: ["private": true, "caption": shareText], token: token, success: {_, _ in
+            alertViewResponder.close()
+        }, failure: nil)
+    }
+    
+    // MARK: - Instagram
+    func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
+        return self
+    }
+    
+    func documentInteractionControllerDidEndPreview(_ controller: UIDocumentInteractionController) {
+        print("DidEndPreview")
+    }
+    
+    // MARK: - Socmed Actions
+    func instagramPressed() {
+        if (UIApplication.shared.canOpenURL(URL(string: "instagram://app")!)) {
+            mgInstagram = MGInstagram()
+            mgInstagram?.post(shareImage, withCaption: shareText, in: self.view, delegate: self)
+            
+            self.sendShareProfileAnalytic("Instagram", username: "")
+        } else {
+            Constant.showDialog("No Instagram app", message: "Silakan install Instagram dari app store terlebih dahulu")
+        }
+    }
+    
+    func facebookPressed() {
+        if (SLComposeViewController.isAvailable(forServiceType: SLServiceTypeFacebook)) {
+            let url = URL(string:AppTools.PreloBaseUrl)
+            let composer = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
+            composer?.add(url!)
+            composer?.add(shareImage)
+            composer?.setInitialText(shareText)
+            composer?.completionHandler = { result -> Void in
+                let getResult = result as SLComposeViewControllerResult
+                switch(getResult.rawValue) {
+                case SLComposeViewControllerResult.cancelled.rawValue:
+                    print("Cancelled")
+                case SLComposeViewControllerResult.done.rawValue:
+                    print("Done")
+                    
+                    self.sendShareProfileAnalytic("Facebook", username: "")
+                default:
+                    print("Error")
+                }
+                self.dismiss(animated: true, completion: nil)
+            }
+            self.present(composer!, animated: true, completion: nil)
+        } else {
+            Constant.showDialog("Anda belum login", message: "Silakan login Facebook dari menu Settings")
+        }
+    }
+    
+    func twitterPressed() {
+        if (SLComposeViewController.isAvailable(forServiceType: SLServiceTypeTwitter)) {
+            let url = URL(string:AppTools.PreloBaseUrl)
+            let composer = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+            composer?.add(url!)
+            composer?.add(shareImage)
+            composer?.setInitialText(shareText)
+            composer?.completionHandler = { result -> Void in
+                let getResult = result as SLComposeViewControllerResult
+                switch(getResult.rawValue) {
+                case SLComposeViewControllerResult.cancelled.rawValue:
+                    print("Cancelled")
+                case SLComposeViewControllerResult.done.rawValue:
+                    print("Done")
+                    
+                    self.sendShareProfileAnalytic("Twitter", username: "")
+                default:
+                    print("Error")
+                }
+                self.dismiss(animated: true, completion: nil)
+            }
+            self.present(composer!, animated: true, completion: nil)
+        } else {
+            Constant.showDialog("Anda belum login", message: "Silakan login Twitter dari menu Settings")
+        }
+    }
+    
+    func pathPressed() {
+        if (CDUser.pathTokenAvailable()) {
+            postToPath(shareImage, token: UserDefaults.standard.string(forKey: "pathtoken")!)
+            
+            if let o = CDUserOther.getOne() {
+                self.sendShareProfileAnalytic("Path", username: (o.pathUsername != nil) ? o.pathUsername! : "")
+            }
+        } else {
+            loginPath()
+        }
+    }
+    
+    func whatsappPressed() {
+        if (UIApplication.shared.canOpenURL(URL(string: "whatsapp://app")!)) {
+            let url = URL(string : "whatsapp://send?text=" + shareText.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlHostAllowed)!)
+            UIApplication.shared.openURL(url!)
+            
+            self.sendShareProfileAnalytic("Whatsapp", username: "")
+        } else {
+            Constant.showDialog("No Whatsapp", message: "Silakan install Whatsapp dari app store terlebih dahulu")
+        }
+    }
+    
+    func linePressed() {
+        if (Line.isLineInstalled()) {
+            Line.shareText(shareText)
+            
+            self.sendShareProfileAnalytic("Line", username: "")
+        } else {
+            Constant.showDialog("No Line app", message: "Silakan install Line dari app store terlebih dahulu")
+        }
+    }
+    
+    func smsPressed() {
+        let composer = MFMessageComposeViewController()
+        composer.body = shareText
+        composer.messageComposeDelegate = self
+        self.present(composer, animated: true, completion: nil)
+        
+        self.sendShareProfileAnalytic("SMS", username: "")
+    }
+    
+    func emailPressed() {
+        let composer = MFMailComposeViewController()
+        if (MFMailComposeViewController.canSendMail()) {
+            composer.setMessageBody(shareText, isHTML: false)
+            composer.mailComposeDelegate = self
+            self.present(composer, animated: true, completion: nil)
+            
+            self.sendShareProfileAnalytic("Email", username: "")
+        } else {
+            Constant.showDialog("No Active E-mail", message: "Untuk dapat membagi kode referral melalui e-mail, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
+        }
+    }
+    
+    func copyPressed() {
+        UIPasteboard.general.string = shareText
+        Constant.showDialog("Copied", message: "Teks telah disalin")
+    }
+    
+    // MARK: - Analytics
+    func sendShareProfileAnalytic(_ socmed : String, username : String) {
+        // TODO: Prelo Analytic - Share Profile
+    }
+
+    // MARK: - Other
+    func hideLoading() {
+        self.loadingPanel.isHidden = true
+    }
+    
+    func showLoading() {
+        self.loadingPanel.isHidden = false
     }
 }
