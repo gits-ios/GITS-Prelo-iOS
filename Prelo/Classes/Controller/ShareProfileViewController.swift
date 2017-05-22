@@ -96,6 +96,8 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+        
         // setup scorll-view
         self.coverScrollView?.isPagingEnabled = true
         self.coverScrollView?.backgroundColor = UIColor.clear
@@ -178,6 +180,8 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
             
             x += s.width
         }
+        
+        self.hideLoading()
     }
     
     func setupMediaCollection() {
@@ -525,11 +529,13 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
     
     func smsPressed() {
         let composer = MFMessageComposeViewController()
-        composer.body = shareText
-        composer.messageComposeDelegate = self
-        self.present(composer, animated: true, completion: nil)
-        
-        self.sendShareProfileAnalytic("SMS", username: "")
+        if (MFMessageComposeViewController.canSendText()) {
+            composer.body = shareText
+            composer.messageComposeDelegate = self
+            self.present(composer, animated: true, completion: nil)
+            
+            self.sendShareProfileAnalytic("SMS", username: "")
+        }
     }
     
     func emailPressed() {
