@@ -139,6 +139,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     let delegate = UIApplication.shared.delegate as! AppDelegate
                     let notifListener = delegate.preloNotifListener
                     notifListener?.getTotalUnreadNotifCount()
+                    notifListener?.getTotalUnpaidCount()
                     
                     // Save in core data
                     let m = UIApplication.appDelegate.managedObjectContext

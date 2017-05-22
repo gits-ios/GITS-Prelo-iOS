@@ -58,26 +58,25 @@ class PreloNotificationListener {
             if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Checkout - Unpaid Transaction")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
+                self.cartCount = 0
                 if (data["user_has_unpaid_transaction"].boolValue == true) {
-                    // cart <- local
-                    if AppTools.isNewCart {
-                        let count = CartManager.sharedInstance.getSize()
-                        self.cartCount = data["n_transaction_unpaid"].intValue + count
-                    } else {
-                        let cartProducts = CartProduct.getAll(User.EmailOrEmptyString)
-                        self.cartCount = data["n_transaction_unpaid"].intValue + cartProducts.count
-                    }
-                    
-                    self.delegate?.showCartCount(self.cartCount)
-                    
-                    self.delegate?.refreshCartPage()
+                    self.cartCount += data["n_transaction_unpaid"].intValue
                 }
+                // cart <- local
+                if AppTools.isNewCart {
+                    self.cartCount += CartManager.sharedInstance.getSize()
+                } else {
+                    self.cartCount += CartProduct.getAll(User.EmailOrEmptyString).count
+                }
+                
+                self.delegate?.showCartCount(self.cartCount)
+                
+                self.delegate?.refreshCartPage()
             } else {
                 if AppTools.isNewCart {
                     self.cartCount = CartManager.sharedInstance.getSize()
                 } else {
-                    let cartProducts = CartProduct.getAll(User.EmailOrEmptyString)
-                    self.cartCount = cartProducts.count
+                    self.cartCount = CartProduct.getAll(User.EmailOrEmptyString).count
                 }
                 
                 self.delegate?.showCartCount(self.cartCount)
