@@ -40,7 +40,7 @@ class PreloNotificationListener {
     func getTotalUnreadNotifCount() {
         // API Migrasi
         let _ = request(APINotification.getUnreadNotifCount).responseJSON {resp in
-            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Unread Count")) {
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Notifikasi - Unread Count")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
