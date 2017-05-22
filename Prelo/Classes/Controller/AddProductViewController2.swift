@@ -1061,8 +1061,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                                             target: nil)
         backgroundQueue.async {
             print("Work on background queue -- Save Image \(index)")
-            if self.isCamera[index] == true {
-                if let img = (images[index] as! UIImage).resizeWithMaxWidthOrHeight(1600) {
+            if self.isCamera[index] == true && self.images[index] is UIImage {
+                if let img = (self.images[index] as! UIImage).resizeWithMaxWidthOrHeight(1600) {
                     
                     // save & get
                     let photoURLpath = CustomPhotoAlbum.sharedInstance.save(image: img)
