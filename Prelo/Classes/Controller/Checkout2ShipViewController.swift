@@ -343,7 +343,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     // reset to 0
                     self.shippingPackageIds.append(sp.shippingPackages[0].id)
                     self.ongkirs.append(sp.shippingPackages[0].price)
-                    self.isFreeOngkirs.append(sp.shippingPackages[0].name == "Free Ongkir" && sp.shippingPackages[0].price == 0)
+                    self.isFreeOngkirs.append(sp.shippingPackages[0].name.lowercased() == "free ongkir" && sp.shippingPackages[0].price == 0)
                     self.selectedOngkirIndexes.append(0)
                     self.isNeedLocations.append(sp.shippingPackages[0].isNeedLocation && sp.shippingPackages[0].price != 0)
                 }
