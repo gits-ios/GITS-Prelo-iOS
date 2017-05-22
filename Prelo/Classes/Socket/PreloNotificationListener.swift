@@ -72,16 +72,6 @@ class PreloNotificationListener {
                 self.delegate?.showCartCount(self.cartCount)
                 
                 self.delegate?.refreshCartPage()
-            } else {
-                if AppTools.isNewCart {
-                    self.cartCount = CartManager.sharedInstance.getSize()
-                } else {
-                    self.cartCount = CartProduct.getAll(User.EmailOrEmptyString).count
-                }
-                
-                self.delegate?.showCartCount(self.cartCount)
-                
-                self.delegate?.refreshCartPage()
             }
         }
     }
