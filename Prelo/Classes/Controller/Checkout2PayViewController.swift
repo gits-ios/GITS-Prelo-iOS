@@ -273,7 +273,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             operan += d.value
         }
         
-        self.preloBalanceUsed = (self.totalAmount > self.preloBalanceTotal ? self.preloBalanceTotal - operan : self.totalAmount - operan)
+        self.preloBalanceUsed = (self.totalAmount - operan > self.preloBalanceTotal ? self.preloBalanceTotal : self.totalAmount - operan)
         
         if self.preloBalanceUsed < 0 {
             self.preloBalanceUsed = 0
@@ -479,7 +479,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                             operan += d.value
                         }
                         
-                        self.preloBalanceUsed = (self.totalAmount > self.preloBalanceTotal ? self.preloBalanceTotal - operan : self.totalAmount - operan)
+                        self.preloBalanceUsed = (self.totalAmount - operan > self.preloBalanceTotal ? self.preloBalanceTotal : self.totalAmount - operan)
                         
                         if self.preloBalanceUsed > 0 {
                             var d = DiscountItem()
@@ -1356,9 +1356,13 @@ class Checkout2PreloBalanceCell: UITableViewCell, UITextFieldDelegate {
             }
         }
         
+        if maksimum > self.parent.preloBalanceTotal {
+            maksimum = self.parent.preloBalanceTotal
+        }
+        
         if let t = self.txtInputPreloBalance.text {
             let _t = t.replacingOccurrences(of: ".", with: "").replace("Rp", template: "")
-            if _t.int <= self.parent.preloBalanceTotal && _t.int <= maksimum && _t.int >= 0 {
+            if _t.int <= maksimum && _t.int >= 0 {
                 
                 self.parent.preloBalanceUsed = _t.int
                 
