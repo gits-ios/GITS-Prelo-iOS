@@ -228,12 +228,18 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     
                     self.adjustButtonByStatus()
                     
-                    // Setup add comment view
-                    self.vwAddComment.isHidden = false
-                    if (self.detail?.discussions?.count > 0) {
+                    // affiliate & checkout -> hunstreet
+                    if (self.product?.isCheckout)! {
                         self.consHeightLblNoComment.constant = 0
+                        self.tableView?.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
                     } else {
-                        self.consHeightLblNoComment.constant = 16
+                        // Setup add comment view
+                        self.vwAddComment.isHidden = false
+                        if (self.detail?.discussions?.count > 0) {
+                            self.consHeightLblNoComment.constant = 0
+                        } else {
+                            self.consHeightLblNoComment.constant = 16
+                        }
                     }
                     
                     // Setup table
@@ -245,7 +251,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     let userid = CDUser.getOne()?.id
                     let sellerid = self.detail?.theirId
                     
-                    if User.IsLoggedIn && sellerid != userid {
+                    if User.IsLoggedIn && sellerid != userid && !((self.product?.isCheckout)!) {
                         self.setOptionButton()
                     } else {
                         // ads
@@ -566,6 +572,10 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     func numberOfSections(in tableView: UITableView) -> Int {
 //        return 1+(((detail?.discussions?.count)! == 0) ? 0 : 1)
+        
+        if (product?.isCheckout)! {
+            return 1
+        }
         return 2
     }
     
@@ -579,6 +589,10 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 cellTitle?.cellDelegate = self
                 cellTitle?.product = self.product
                 cellTitle?.adapt(detail)
+                
+                if (product?.isCheckout)! {
+                    cellTitle?.sectionComment?.isHidden = true
+                }
                 
                 // Share socmed
                 var textToShare = ""

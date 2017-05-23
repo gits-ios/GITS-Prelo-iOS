@@ -2291,6 +2291,14 @@ class ListItemCell : UICollectionViewCell {
             } else {
                 buttonLoveChange(isLoved: false)
             }
+            
+            // affiliate checkout -> hunstreet
+            if product.isCheckout {
+                self.imgFreeOngkir.afSetImage(withURL: (product.AffiliateData?.icon)!, withFilter: .circle)
+                self.imgFreeOngkir.isHidden = false
+            } else {
+                self.imgFreeOngkir.image = UIImage(named: "ic_free_ongkir")
+            }
         } else {
             btnLove.isHidden = true
             consbtnWidthLove.constant = 0
