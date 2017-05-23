@@ -413,7 +413,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         self.shopName.isHidden = false
         self.vwGeolocation.isHidden = false
         
-        let countReview = json["num_reviewer"].int
+        let countReview = json["num_reviewer"].int ?? 0
 //        let countAchievement = (json["achievements"].array)?.count
         
         if self.segmentView.numberOfSegments == 1 {
@@ -425,7 +425,11 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
             self.segmentView.addSegmentWithTitle("Badge", onSelectionImage: nil, offSelectionImage: nil)
             */
             
-            self.segmentView.addSegmentWithTitle("Review (" + countReview!.string + ")", onSelectionImage: nil, offSelectionImage: nil)
+            if countReview > 0 {
+                self.segmentView.addSegmentWithTitle("Review (" + countReview.string + ")", onSelectionImage: nil, offSelectionImage: nil)
+            } else {
+                self.segmentView.addSegmentWithTitle("Review", onSelectionImage: nil, offSelectionImage: nil)
+            }
             
             self.segmentView.addSegmentWithTitle("Badge", onSelectionImage: nil, offSelectionImage: nil)
         }
@@ -434,8 +438,8 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         // setup review
         self.shopReviewVC?.userReviews = []
         self.shopReviewVC?.sellerName = self.shopName.text!
-        self.shopReviewVC?.averageRate = json["average_star"].float!
-        self.shopReviewVC?.countReview = countReview!
+        self.shopReviewVC?.averageRate = json["average_star"].float ?? 0.0
+        self.shopReviewVC?.countReview = countReview
         self.shopReviewVC?.setUserReviews(json["reviews"]["as_seller"])
         
         self.shopBadgeVC?.userAchievements = []
