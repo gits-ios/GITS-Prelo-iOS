@@ -327,7 +327,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
         
         if (addresses.count < 5) {
-            dropDown.dataSource.append("Alamat baru")
+            dropDown.dataSource.append("+ Alamat baru")
         }
         
         dropDown.customCellConfiguration = { (index: Index, item: String, cell: DropDownCell) -> Void in
@@ -1145,7 +1145,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     if addresses.count > selectedIndex {
                         c.adapt(addresses[selectedIndex])
                     } else {
-                        c.adaptNew("Alamat baru")
+                        c.adaptNew("+ Alamat baru")
                     }
                     c.selectionStyle = .none
                     
@@ -1457,7 +1457,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 }
                 
                 if (alamatCount < 5) {
-                    alamatAlert.addAction(UIAlertAction(title: "Alamat baru", style: .default, handler: { act in
+                    alamatAlert.addAction(UIAlertAction(title: "+ Alamat baru", style: .default, handler: { act in
                         if (self.selectedIndex != alamatCount) {
                             self.isNeedSetup = true
                             self.selectedIndex = alamatCount
