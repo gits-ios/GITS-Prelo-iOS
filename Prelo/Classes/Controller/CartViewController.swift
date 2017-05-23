@@ -132,8 +132,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     @IBOutlet weak var loadingPanel: UIView!
     
-    var creditCardCharge: Int = 0
-    var indomaretCharge: Int = 0
+    var creditCardAdditionalFee: Int = 2500
+    var indomaretMinimumFee: Int = 5000
+    
+    var creditCardMultiply: Double = 0.032
+    var indomaretMultiply: Double = 0.02
     
     // MARK: - Init
     
@@ -461,8 +464,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 
                 //default address
                 self.defaultAddress = AddressItem.instance(data["default_address"])
-                self.creditCardCharge = data["veritrans_charge"]["credit_card"].intValue
-                self.indomaretCharge = data["veritrans_charge"]["indomaret"].intValue
+                self.creditCardAdditionalFee = data["veritrans_charge"]["credit_card"].intValue
+                self.indomaretMinimumFee = data["veritrans_charge"]["indomaret"].intValue
+                self.creditCardMultiply = data["veritrans_charge"]["credit_card_multiply_factor"].doubleValue
+                self.indomaretMultiply = data["veritrans_charge"]["indomaret_multiply_factor"].doubleValue
                 
                 // Ab test check
                 self.isHalfBonusMode = false
@@ -914,15 +919,13 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             priceAfterDiscounts = 0
         }
         
-        /*
-         // override from backend
+        
         // Determine payment charge & set cellsData for payment charge
-        let creditCardCharge = 2500 + Int((Double(priceAfterDiscounts) * 0.032) + 0.5)
-        var indomaretCharge = Int((Double(priceAfterDiscounts) * 0.02) + 0.5)
-        if (indomaretCharge < 5000) {
-            indomaretCharge = 5000
+        let creditCardCharge = creditCardAdditionalFee + Int((Double(priceAfterDiscounts) * creditCardMultiply) + 0.5)
+        var indomaretCharge = Int((Double(priceAfterDiscounts) * indomaretMultiply) + 0.5)
+        if (indomaretCharge < indomaretMinimumFee) {
+            indomaretCharge = indomaretMinimumFee
         }
-         */
         if (priceAfterDiscounts > 0) {
             let idxPaymentCharge = IndexPath(row: 1 + discountItems.count, section: self.sectionPaySummary)
             if (selectedPayment == .bankTransfer) {
