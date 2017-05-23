@@ -4014,7 +4014,11 @@ class PreloMessageItem : NSObject {
         dateFormatter.locale = Locale(identifier: "id")
         dateFormatter.timeZone = NSTimeZone.system
         
-        return dateFormatter.string(from: date!)
+        if let d = date {
+            return dateFormatter.string(from: d)
+        } else {
+            return ds
+        }
     }
     
     var isContainAttachment : Bool {

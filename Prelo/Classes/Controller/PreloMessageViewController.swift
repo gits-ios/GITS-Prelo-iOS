@@ -502,7 +502,7 @@ class PreloMessageCell: UITableViewCell {
         let heightBanner : CGFloat = (((UIScreen.main.bounds.width - 8) / 940.0 /*1024.0*/) * 492.0 /*337.0*/)
         let titleRect = message.title.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 16), width: UIScreen.main.bounds.size.width - 24)
         let textRect = message.desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 24)
-        return standardHeight + titleRect.height + (isOpen ? textRect.height - 21.5 : (84.0 > textRect.height ? textRect.height - 21.5 : 67.0)) + (message.banner != nil ? heightBanner : 0) + (message.title == "" ? -20 : 0)
+        return standardHeight + titleRect.height + (isOpen ? textRect.height - 21.5 : (84.0 > textRect.height ? textRect.height - 21.5 : 67.0)) + (message.banner != nil ? heightBanner : 0) + (message.title == "" ? -19.5 : 0)
         
     }
     
