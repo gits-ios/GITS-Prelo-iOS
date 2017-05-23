@@ -950,7 +950,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
         }
         
         if (count < 5) {
-            dropDown.dataSource.append("Alamat baru")
+            dropDown.dataSource.append("+ Alamat baru")
         }
         
         dropDown.customCellConfiguration = { (index: Index, item: String, cell: DropDownCell) -> Void in
@@ -1271,7 +1271,7 @@ class Checkout2AddressDropdownCell: UITableViewCell {
             
             self.lbDetailAddress.attributedText = attString
         } else {
-            self.lbDetailAddress.text = "Alamat baru"
+            self.lbDetailAddress.text = "+ Alamat baru"
         }
     }
     
