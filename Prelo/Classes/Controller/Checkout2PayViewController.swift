@@ -32,6 +32,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
     
     var isFirst = true
     var isShowBankBRI = false
+    var isCreditCard = false
+    var isIndomaret = false
     var isDropdownMode = false
     
     // Cart Results
@@ -190,21 +192,9 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             } else if (_ab == "bri") {
                 self.isShowBankBRI = true
             } else if (_ab == "cc") {
-                var p = PaymentMethodItem()
-                p.name = "Kartu Kredit"
-                p.charge = (self.cartResult.veritransCharge?.creditCard)!
-                p.chargeDescription = "Credit Card Charge"
-                self.paymentMethods.append(p)
+                self.isCreditCard = true
             } else if (_ab == "indomaret") {
-                var p = PaymentMethodItem()
-                p.name = "Indomaret"
-                p.charge = (self.cartResult.veritransCharge?.indomaret)!
-                p.chargeDescription = "Indomaret Charge"
-                self.paymentMethods.append(p)
-                
-                if p.charge == 0 {
-                    self.isFreeze = true
-                }
+                self.isIndomaret = true
             } else if (_ab.range(of: "bonus:") != nil) {
                 self.customBonusPercent = Int(_ab.components(separatedBy: "bonus:")[1])!
             } else if (_ab == "target_bank") {
@@ -215,11 +205,6 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         // reset selectedBank
         if !self.isDropdownMode {
             self.targetBank = ""
-        }
-        
-        // reset if payment out of range
-        if self.paymentMethods.count <= self.selectedPaymentIndex {
-            self.selectedPaymentIndex = 0
         }
         
         // Discount items
@@ -301,6 +286,44 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             d.value = self.preloBalanceUsed
             
             self.discountItems.insert(d, at: 0)
+        }
+        
+        // Kartu Kredit & Indomaret re-count
+        var priceAfterDiscounts = self.totalAmount - operan
+        if self.isBalanceUsed {
+            priceAfterDiscounts -= self.preloBalanceUsed
+        }
+        
+        let creditCardCharge = (self.cartResult.veritransCharge?.creditCard)! + Int((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.creditCardMultiplyFactor)!) + 0.5)
+        
+        var indomaretCharge = Int((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.indomaretMultiplyFactor)!) + 0.5)
+        if (indomaretCharge < (self.cartResult.veritransCharge?.indomaret)!) {
+            indomaretCharge = (self.cartResult.veritransCharge?.indomaret)!
+        }
+        
+        if self.isCreditCard {
+            var p = PaymentMethodItem()
+            p.name = "Kartu Kredit"
+            p.charge = creditCardCharge
+            p.chargeDescription = "Credit Card Charge"
+            self.paymentMethods.append(p)
+        }
+        
+        if self.isIndomaret {
+            var p = PaymentMethodItem()
+            p.name = "Indomaret"
+            p.charge = indomaretCharge
+            p.chargeDescription = "Indomaret Charge"
+            self.paymentMethods.append(p)
+            
+            if p.charge == 0 {
+                self.isFreeze = true
+            }
+        }
+        
+        // reset if payment out of range
+        if self.paymentMethods.count <= self.selectedPaymentIndex {
+            self.selectedPaymentIndex = 0
         }
         
         if self.isFirst {
@@ -524,6 +547,28 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 if idx.row == 1 {
                     cell.adapt("Total Belanja", amount: self.totalAmount)
                 } else if idx.row > self.discountItems.count + 1 {
+                    // recalculate
+                    var operan = 0
+                    for d in self.discountItems {
+                        operan += d.value // include balance
+                    }
+                    
+                    // Kartu Kredit & Indomaret re-count
+                    let priceAfterDiscounts = self.totalAmount - operan
+                    
+                    if self.paymentMethods[self.selectedPaymentIndex].name == "Kartu Kredit" {
+                        let creditCardCharge = (self.cartResult.veritransCharge?.creditCard)! + Int((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.creditCardMultiplyFactor)!) + 0.5)
+                        
+                        self.paymentMethods[self.selectedPaymentIndex].charge = creditCardCharge
+                    } else if self.paymentMethods[self.selectedPaymentIndex].name == "Indomaret" {
+                        var indomaretCharge = Int((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.indomaretMultiplyFactor)!) + 0.5)
+                        if (indomaretCharge < (self.cartResult.veritransCharge?.indomaret)!) {
+                            indomaretCharge = (self.cartResult.veritransCharge?.indomaret)!
+                        }
+                        
+                        self.paymentMethods[self.selectedPaymentIndex].charge = indomaretCharge
+                    }
+                    
                     cell.adapt(self.paymentMethods[self.selectedPaymentIndex].chargeDescription, amount: self.paymentMethods[self.selectedPaymentIndex].charge)
                 } else {
                     cell.adapt(self.discountItems[idx.row-2].title, amount: self.discountItems[idx.row-2].value * -1)

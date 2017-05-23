@@ -4363,8 +4363,8 @@ class VeritransChargeItem : NSObject {
         return ""
     }
     
-    var indomaretMultiplyFactor : Float {
-        if let j = json["indomaret_multiply_factor"].float {
+    var indomaretMultiplyFactor : Double {
+        if let j = json["indomaret_multiply_factor"].double {
             return j
         }
         return 0.0
@@ -4384,8 +4384,8 @@ class VeritransChargeItem : NSObject {
         return ""
     }
     
-    var creditCardMultiplyFactor : Float {
-        if let j = json["credit_card_multiply_factor"].float {
+    var creditCardMultiplyFactor : Double {
+        if let j = json["credit_card_multiply_factor"].double {
             return j
         }
         return 0.0
