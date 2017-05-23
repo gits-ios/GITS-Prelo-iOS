@@ -261,7 +261,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             self.setStatusBarBackgroundColor(color: Theme.PrimaryColor)
             
             // Prelo Analytic - Filter
-            sendFilterAnalytic()
+            self.sendFilterAnalytic()
         }
         
         if currentMode == .shop || currentMode == .newShop {
