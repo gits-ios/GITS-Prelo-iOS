@@ -438,7 +438,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         // setup review
         self.shopReviewVC?.userReviews = []
         self.shopReviewVC?.sellerName = self.shopName.text!
-        self.shopReviewVC?.averageRate = json["average_star"].float!
+        self.shopReviewVC?.averageRate = json["average_star"].float ?? 0.0
         self.shopReviewVC?.countReview = countReview
         self.shopReviewVC?.setUserReviews(json["reviews"]["as_seller"])
         
