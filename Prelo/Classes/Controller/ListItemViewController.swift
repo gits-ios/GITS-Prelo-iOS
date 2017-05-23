@@ -1166,6 +1166,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         case .featuredHeader:
             return 1
         case .subcategories:
+            // fixer subcategory hidden in segment (women & men)
+            if lblTopHeader.text == "Barang apa yang ingin kamu lihat hari ini?" {
+                return 0
+            }
             return self.subcategoryItems.count
         case .segments:
             return self.segments.count
@@ -1325,6 +1329,12 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             p.currentMode = .filter
             p.fltrCategId = subcategoryItems[(indexPath as NSIndexPath).item].id
             p.fltrSortBy = "recent"
+            
+            // fixer subcategory hidden in segment (women & men)
+            if self.selectedSegment != "" {
+                p.fltrSegment = self.selectedSegment
+            }
+            
             self.navigationController?.pushViewController(p, animated: true)
         case .segments:
             self.selectedSegment = self.segments[(indexPath as NSIndexPath).item].type
