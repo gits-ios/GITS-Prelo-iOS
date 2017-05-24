@@ -693,6 +693,8 @@
 		B2EE39CE1E76905500113E03 /* ic_paid_poin.png in Resources */ = {isa = PBXBuildFile; fileRef = B2EE39CB1E76905500113E03 /* ic_paid_poin.png */; };
 		B2EE39CF1E76905500113E03 /* ic_paid_video.png in Resources */ = {isa = PBXBuildFile; fileRef = B2EE39CC1E76905500113E03 /* ic_paid_video.png */; };
 		B2FCF6931ED5431A00A6D9E7 /* ic_prelo_balance@2x_128.png in Resources */ = {isa = PBXBuildFile; fileRef = B2FCF6921ED5431A00A6D9E7 /* ic_prelo_balance@2x_128.png */; };
+		B2FCF6C71ED5696B00A6D9E7 /* ic_left.png in Resources */ = {isa = PBXBuildFile; fileRef = B2FCF6C51ED5696B00A6D9E7 /* ic_left.png */; };
+		B2FCF6C81ED5696B00A6D9E7 /* ic_right.png in Resources */ = {isa = PBXBuildFile; fileRef = B2FCF6C61ED5696B00A6D9E7 /* ic_right.png */; };
 		B2FFCB9D1EA52669004F01D0 /* SocketAckEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFCB841EA52669004F01D0 /* SocketAckEmitter.swift */; };
 		B2FFCB9E1EA52669004F01D0 /* SocketAckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFCB851EA52669004F01D0 /* SocketAckManager.swift */; };
 		B2FFCB9F1EA52669004F01D0 /* SocketAnyEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFCB861EA52669004F01D0 /* SocketAnyEvent.swift */; };
@@ -1760,6 +1762,8 @@
 		B2EE39CB1E76905500113E03 /* ic_paid_poin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_paid_poin.png; sourceTree = "<group>"; };
 		B2EE39CC1E76905500113E03 /* ic_paid_video.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_paid_video.png; sourceTree = "<group>"; };
 		B2FCF6921ED5431A00A6D9E7 /* ic_prelo_balance@2x_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_prelo_balance@2x_128.png"; sourceTree = "<group>"; };
+		B2FCF6C51ED5696B00A6D9E7 /* ic_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_left.png; sourceTree = "<group>"; };
+		B2FCF6C61ED5696B00A6D9E7 /* ic_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_right.png; sourceTree = "<group>"; };
 		B2FFCB841EA52669004F01D0 /* SocketAckEmitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckEmitter.swift; sourceTree = "<group>"; };
 		B2FFCB851EA52669004F01D0 /* SocketAckManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckManager.swift; sourceTree = "<group>"; };
 		B2FFCB861EA52669004F01D0 /* SocketAnyEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAnyEvent.swift; sourceTree = "<group>"; };
@@ -2466,6 +2470,7 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				B2FCF6B41ED5694500A6D9E7 /* share */,
 				B2B2F34F1E8D04CC0039167A /* wjp */,
 				B2D1198A1E290BE20064045B /* banner */,
 				B2EE39C91E76903C00113E03 /* paid push */,
@@ -3322,6 +3327,15 @@
 			name = "paid push";
 			sourceTree = "<group>";
 		};
+		B2FCF6B41ED5694500A6D9E7 /* share */ = {
+			isa = PBXGroup;
+			children = (
+				B2FCF6C51ED5696B00A6D9E7 /* ic_left.png */,
+				B2FCF6C61ED5696B00A6D9E7 /* ic_right.png */,
+			);
+			name = share;
+			sourceTree = "<group>";
+		};
 		B2FFCB831EA52669004F01D0 /* SocketIOClientSwift */ = {
 			isa = PBXGroup;
 			children = (
@@ -3704,6 +3718,7 @@
 				21D386A81B6B93CD00D0FA90 /* Default-Portrait.png in Resources */,
 				B2AAB3751E8A6D2000E16BAB /* TransactionReportPopup.xib in Resources */,
 				589A6FC41D8C08F600654CDD /* ic_love.png in Resources */,
+				B2FCF6C81ED5696B00A6D9E7 /* ic_right.png in Resources */,
 				B26DB3F11E2D3C6F00224675 /* ic_achievement.png in Resources */,
 				589A6FC91D8C08F600654CDD /* ic_tampak_belakang.png in Resources */,
 				B2CAF7961E794ED100ACB361 /* placeholder-prelo-message.jpg in Resources */,
@@ -3786,6 +3801,7 @@
 				B2CB4C441E08C61C00F5D0F2 /* FilterLocationCell.xib in Resources */,
 				B213E41A1E698A6500C76D04 /* tour_4.jpg in Resources */,
 				589A6FB01D8C08F600654CDD /* ic_2kg.png in Resources */,
+				B2FCF6C71ED5696B00A6D9E7 /* ic_left.png in Resources */,
 				5895E86A1C48E08600752ACA /* img_setup_pwd.png in Resources */,
 				2109BCA61BDDF85E004F36C5 /* tour_3.jpg in Resources */,
 				5858875A1DBEE9B1006EC6D5 /* AddProductHeader.xib in Resources */,
