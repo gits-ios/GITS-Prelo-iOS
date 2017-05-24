@@ -440,6 +440,19 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             case UISwipeGestureRecognizerDirection.right:
                 print("Swiped right")
                 
+                // gesture override
+                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                
+                if (!isNavCtrlsChecked && isBackTwice) {
+                    var x = self.navigationController?.viewControllers
+                    x?.remove(at: (x?.count)! - 2)
+                    if (x == nil) {
+                        x = []
+                    }
+                    self.navigationController?.setViewControllers(x!, animated: false)
+                    isNavCtrlsChecked = true
+                }
+                
                 if (isFreeTransaction) {
                     // Pop ke home, kemudian buka list belanjaan saya jika dari checkout
                     if (self.isFromCheckout) {

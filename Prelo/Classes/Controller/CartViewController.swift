@@ -1996,7 +1996,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 notifListener?.setCartCount(1 + self.transactionCount)
                 
                 // cleaning cart - if exist
-                self.arrayItem.removeAll()
                 CartProduct.deleteAll()
                 self.itemcount = 0
                 
@@ -2099,6 +2098,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         if isMidtrans {
             o.isMidtrans = true
         }
+        
+        // cleaning cart - if exist
+        self.arrayItem.removeAll()
         
         self.navigateToVC(o)
     }
