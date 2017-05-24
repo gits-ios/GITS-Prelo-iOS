@@ -457,6 +457,33 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 }
             }
         }
+        
+        if (product?.isCheckout)! {
+            btnBuy.isHidden = true
+            btnTawar.isHidden = true
+            
+            btnEdit.isHidden = true
+            btnUp.isHidden = true
+            btnSold.isHidden = true
+            
+            // use this view as based
+            btnSold.superview?.isHidden = false
+            
+            let btnCheckoutAffiliate = UIButton()
+            btnCheckoutAffiliate.frame = CGRect(x: btnUp.x, y: btnUp.y, width: UIScreen.main.bounds.width - (btnUp.x * 2), height: btnUp.height)
+            
+            btnCheckoutAffiliate.backgroundColor = Theme.ThemeOrange
+            btnCheckoutAffiliate.setImage(UIImage(named: "ic_cart")?.resizeWithMaxWidthOrHeight(32), for: .normal)
+            btnCheckoutAffiliate.setTitle("BELI DI " + (product?.AffiliateData?.name)!.uppercased(), for: .normal)
+            btnCheckoutAffiliate.imageEdgeInsets = UIEdgeInsets(top: 6, left: 6, bottom: 6, right: 6)
+            btnCheckoutAffiliate.imageView?.contentMode = .scaleAspectFit
+            btnCheckoutAffiliate.adjustsImageWhenHighlighted = false
+            btnCheckoutAffiliate.titleLabel?.font = btnBuy.titleLabel?.font
+            
+            btnCheckoutAffiliate.addTarget(self, action: #selector(ProductDetailViewController.checkoutAffiliate), for: UIControlEvents.touchUpInside)
+            
+            btnSold.superview?.addSubview(btnCheckoutAffiliate)
+        }
     }
 
     @IBAction func dismiss(_ sender: AnyObject)
@@ -1094,6 +1121,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     func userLoggedOut() {
         
+    }
+    
+    func checkoutAffiliate() {
+        // TODO: - affiliate checkout hunstreet
+        Constant.showDialog((product?.AffiliateData?.name)!.uppercased(), message: "TODO gan")
     }
     
     // MARK: - Coachmark
