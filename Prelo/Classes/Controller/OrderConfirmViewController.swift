@@ -291,6 +291,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         // Content view height
         self.consHeightContentView.constant = vwTrxSummary.height + (isFreeTransaction ? btnFreeTrx.height : vwUnpaidTrx.height) + 16
         
+        /*
         // Back action handling
         if (!isNavCtrlsChecked && isBackTwice) {
             var x = self.navigationController?.viewControllers
@@ -301,6 +302,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             self.navigationController?.setViewControllers(x!, animated: false)
             isNavCtrlsChecked = true
         }
+         */
         
         // Keyboard handling
         self.an_subscribeKeyboard(animations: { r, t, o in
@@ -381,22 +383,27 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     }
     
     override func backPressed(_ sender: UIBarButtonItem) {
+        // gesture override
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        
+        if let count = self.navigationController?.viewControllers.count, isBackTwice {
+            _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-3])!, animated: true)
+        }
+        if (isBackToRoot) {
+            _ = self.navigationController?.popToRootViewController(animated: true)
+        } else {
+            _ = self.navigationController?.popViewController(animated: true)
+        }
+        
+        /*
         if (isFreeTransaction) {
             // Pop ke home, kemudian buka list belanjaan saya jika dari checkout
             if (self.isFromCheckout) {
 //                UserDefaults.setObjectAndSync(PageName.MyOrders as AnyObject?, forKey: UserDefaultsKey.RedirectFromHome)
             }
             if (isBackToRoot) {
-                
-                // gesture override
-                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-                
                 _ = self.navigationController?.popToRootViewController(animated: true)
             } else {
-                
-                // gesture override
-                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-                
                 _ = self.navigationController?.popViewController(animated: true)
             }
         } else {
@@ -405,19 +412,12 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
                 //NSUserDefaults.setObjectAndSync(PageName.UnpaidTransaction, forKey: UserDefaultsKey.RedirectFromHome)
             }
             if (isBackToRoot) {
-                
-                // gesture override
-                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-                
                 _ = self.navigationController?.popToRootViewController(animated: true)
             } else {
-                
-                // gesture override
-                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-                
                 _ = self.navigationController?.popViewController(animated: true)
             }
         }
+         */
     }
     
     @IBAction func lihatBelanjaanSayaPressed(_ sender: AnyObject) {
@@ -443,52 +443,13 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
                 // gesture override
                 self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
                 
-                if (!isNavCtrlsChecked && isBackTwice) {
-                    var x = self.navigationController?.viewControllers
-                    x?.remove(at: (x?.count)! - 2)
-                    if (x == nil) {
-                        x = []
-                    }
-                    self.navigationController?.setViewControllers(x!, animated: false)
-                    isNavCtrlsChecked = true
+                if let count = self.navigationController?.viewControllers.count, isBackTwice {
+                    _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-3])!, animated: true)
                 }
-                
-                if (isFreeTransaction) {
-                    // Pop ke home, kemudian buka list belanjaan saya jika dari checkout
-                    if (self.isFromCheckout) {
-                        //                UserDefaults.setObjectAndSync(PageName.MyOrders as AnyObject?, forKey: UserDefaultsKey.RedirectFromHome)
-                    }
-                    if (isBackToRoot) {
-                        
-                        // gesture override
-                        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-                        
-                        _ = self.navigationController?.popToRootViewController(animated: true)
-                    } else {
-                        
-                        // gesture override
-                        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-                        
-                        _ = self.navigationController?.popViewController(animated: true)
-                    }
+                if (isBackToRoot) {
+                    _ = self.navigationController?.popToRootViewController(animated: true)
                 } else {
-                    // Pop ke home, kemudian buka list konfirmasi bayar jika dari checkout
-                    if (self.isFromCheckout) {
-                        //NSUserDefaults.setObjectAndSync(PageName.UnpaidTransaction, forKey: UserDefaultsKey.RedirectFromHome)
-                    }
-                    if (isBackToRoot) {
-                        
-                        // gesture override
-                        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-                        
-                        _ = self.navigationController?.popToRootViewController(animated: true)
-                    } else {
-                        
-                        // gesture override
-                        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-                        
-                        _ = self.navigationController?.popViewController(animated: true)
-                    }
+                    _ = self.navigationController?.popViewController(animated: true)
                 }
                 
                 
