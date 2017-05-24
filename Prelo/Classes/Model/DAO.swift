@@ -1086,6 +1086,13 @@ open class ProductDetail : NSObject, TawarItem
         }
         return ""
     }
+    
+    var AffiliateData : AffiliateItem? {
+        if let j = AffiliateItem.instance(json["affiliate_data"]) {
+            return j
+        }
+        return nil
+    }
 }
 
 open class Product : NSObject
