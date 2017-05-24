@@ -81,6 +81,7 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
     @IBOutlet weak var lbSeller: UILabel!
     @IBOutlet weak var lbReferral: UILabel!
     @IBOutlet weak var loadingPanel: UIView!
+    @IBOutlet weak var imgPrelo: TintedImageView!
     
     var images: [String] = []
     var currentPage = 0
@@ -104,6 +105,14 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
         self.coverScrollView?.delegate = self
         
         // setup media
+        self.medias = [
+            .facebook, .twitter, .instagram, .path, .whatsapp, .line
+        ]
+        
+        self.others = [
+            .copyText, .email, .sms
+        ]
+        
         self.setupMediaCollection()
         self.setupOtherCollection()
         
@@ -118,16 +127,28 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
         }
         
         self.lbSeller.text = CDUser.getOne()?.username
+        if AppTools.isIPad {
+            self.lbSeller.font = UIFont.systemFont(ofSize: 28)
+        } else {
+            self.lbSeller.font = UIFont.systemFont(ofSize: 14)
+        }
         
         self.lbReferral.text = "gunakan kode referral xxx\nuntuk mendapatkan potongan Rp25.000"
+        self.lbReferral.backgroundColor = UIColor.colorWithColor(Theme.PrimaryColor, alpha: 0.7)
+        if AppTools.isIPad {
+            self.lbReferral.font = UIFont.systemFont(ofSize: 20)
+        } else {
+            self.lbReferral.font = UIFont.systemFont(ofSize: 10)
+        }
         
-        self.medias = [
-            .facebook, .twitter, .instagram, .path, .whatsapp, .line
-        ]
-        
-        self.others = [
-            .copyText, .email, .sms
-        ]
+        // setup prelo
+        self.imgPrelo.tint = true
+        self.imgPrelo.tintColor = Theme.PrimaryColor
+        if AppTools.isIPad {
+            self.imgPrelo.image = UIImage(named: "ic_prelo_balance")
+        } else {
+            self.imgPrelo.image = UIImage(named: "ic_prelo_balance@2x_128.png")
+        }
         
         self.mediaCollectionView.reloadData()
         self.otherCollectionView.reloadData()
@@ -153,12 +174,11 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
     
     func getCover() {
         self.images = [
-            "https://trello-attachments.s3.amazonaws.com/55e7c516d9cac863ec924c21/57a1eff3c17d8b09447106bc/74e353fb6d62b48409fb8906854f1f30/all_category.png",
-            "https://trello-attachments.s3.amazonaws.com/55e7c516d9cac863ec924c21/57a1eff3c17d8b09447106bc/0496b4318e3f9478d2d92f98dc9db6e6/hobby.png",
-            "https://trello-attachments.s3.amazonaws.com/55e7c516d9cac863ec924c21/57a1eff3c17d8b09447106bc/a4d9e2ec77b04d857ed8ec9a57499436/gadget.png",
-            "https://trello-attachments.s3.amazonaws.com/55e7c516d9cac863ec924c21/57a1eff3c17d8b09447106bc/72ade007cdd1664d0f8513a8887b1d85/fashion.png",
-            "https://trello-attachments.s3.amazonaws.com/55e7c516d9cac863ec924c21/57a1eff3c17d8b09447106bc/4e3d0e8678a22eeb1199dac5694a6b68/book.png",
-            "https://trello-attachments.s3.amazonaws.com/55e7c516d9cac863ec924c21/57a1eff3c17d8b09447106bc/f58e2638a4f524332b1dd7f5ed5e7cba/beauty.png"
+            "https://trello-attachments.s3.amazonaws.com/5599f3283609769544ed1891/58e76d618d917f372f7a28d2/06c075031e8e53c90f23f95f5d59d9dd/image_only_-_hobby.png",
+            "https://trello-attachments.s3.amazonaws.com/5599f3283609769544ed1891/58e76d618d917f372f7a28d2/d8f30edf8c535b391fca2c943a134ed5/image_only_-_gadget.png",
+            "https://trello-attachments.s3.amazonaws.com/5599f3283609769544ed1891/58e76d618d917f372f7a28d2/33e5fe5332147cb06f9790bc745029e7/image_only_-_fashion.png",
+            "https://trello-attachments.s3.amazonaws.com/5599f3283609769544ed1891/58e76d618d917f372f7a28d2/3b5bac850eda1f04ebed34226b7f0655/image_only_-_book.png",
+            "https://trello-attachments.s3.amazonaws.com/5599f3283609769544ed1891/58e76d618d917f372f7a28d2/0284fb39102e7d99300070bb4aa10613/image_only_-_beauty.png"
         ]
         
         self.setupCover()
@@ -185,6 +205,10 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
     }
     
     func setupMediaCollection() {
+        let width = 68 * CGFloat(self.medias.count)
+        let sWidth = UIScreen.main.bounds.width - 16
+        let lrWidth = (sWidth - width) > 0 ? (sWidth - width) / 2.0 : 4.0
+        
         // Set collection view
         self.mediaCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "collcProgressCell")
         self.mediaCollectionView.delegate = self
@@ -193,7 +217,7 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
         self.mediaCollectionView.backgroundColor = UIColor.clear
         
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+        layout.sectionInset = UIEdgeInsets(top: 4, left: lrWidth, bottom: 4, right: lrWidth)
         layout.itemSize = CGSize(width: 60, height: 60)
         layout.minimumInteritemSpacing = 8
         layout.minimumLineSpacing = 8
@@ -206,6 +230,10 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
     }
     
     func setupOtherCollection() {
+        let width = 68 * CGFloat(self.medias.count) // others
+        let sWidth = UIScreen.main.bounds.width - 16
+        let lrWidth = (sWidth - width) > 0 ? (sWidth - width) / 2.0 : 4.0
+        
         // Set collection view
         self.otherCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "collcProgressCell")
         self.otherCollectionView.delegate = self
@@ -214,7 +242,7 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
         self.otherCollectionView.backgroundColor = UIColor.clear
         
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+        layout.sectionInset = UIEdgeInsets(top: 4, left: lrWidth, bottom: 4, right: lrWidth)
         layout.itemSize = CGSize(width: 60, height: 84)
         layout.minimumInteritemSpacing = 8
         layout.minimumLineSpacing = 8

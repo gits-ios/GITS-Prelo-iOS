@@ -55,6 +55,20 @@
                                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NBw-dI-5ud">
                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="343"/>
                                             </scrollView>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="orZ-9P-z0L" userLabel="Prelo">
+                                                <rect key="frame" x="28" y="48.5" width="287" height="49.5"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_prelo_balance_128.png" translatesAutoresizingMaskIntoConstraints="NO" id="aPY-vO-Sfe" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
+                                                        <rect key="frame" x="2" y="2" width="283" height="61.5"/>
+                                                    </imageView>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="bottom" secondItem="aPY-vO-Sfe" secondAttribute="bottom" constant="-14" id="CNA-UM-gnh"/>
+                                                    <constraint firstAttribute="trailing" secondItem="aPY-vO-Sfe" secondAttribute="trailing" constant="2" id="Cyb-IY-d3y"/>
+                                                    <constraint firstItem="aPY-vO-Sfe" firstAttribute="leading" secondItem="orZ-9P-z0L" secondAttribute="leading" constant="2" id="Fhg-sU-1Nl"/>
+                                                    <constraint firstItem="aPY-vO-Sfe" firstAttribute="top" secondItem="orZ-9P-z0L" secondAttribute="top" constant="2" id="kiv-am-tHW"/>
+                                                </constraints>
+                                            </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QfZ-i5-zjv" userLabel="Avatar">
                                                 <rect key="frame" x="100.5" y="98" width="143.5" height="143.5"/>
                                                 <subviews>
@@ -143,11 +157,11 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DmS-O3-7du" userLabel="Kode Referral Teks">
                                                         <rect key="frame" x="0.0" y="0.5" width="287" height="41"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="2st-66-W5f" userLabel="Kode Referral">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2st-66-W5f" userLabel="Kode Referral">
                                                                 <rect key="frame" x="2" y="2" width="283" height="37"/>
                                                                 <string key="text">gunakan kode referral xxx
 untuk mendapatkan potongan Rp25.000</string>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
@@ -173,6 +187,7 @@ untuk mendapatkan potongan Rp25.000</string>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="0nI-km-Wpw" firstAttribute="width" secondItem="2it-ZS-5gz" secondAttribute="width" id="0cV-CG-pDI"/>
+                                            <constraint firstItem="orZ-9P-z0L" firstAttribute="height" secondItem="0nI-km-Wpw" secondAttribute="height" id="3Jt-ao-y9E"/>
                                             <constraint firstAttribute="bottom" secondItem="2it-ZS-5gz" secondAttribute="bottom" id="41E-vc-AhC"/>
                                             <constraint firstItem="QfZ-i5-zjv" firstAttribute="width" secondItem="wm6-pq-EUE" secondAttribute="height" multiplier="42:100" id="88E-nh-5hL"/>
                                             <constraint firstItem="Ea1-Na-bB6" firstAttribute="leading" secondItem="wm6-pq-EUE" secondAttribute="leading" id="9RE-vW-NWp"/>
@@ -184,10 +199,13 @@ untuk mendapatkan potongan Rp25.000</string>
                                             <constraint firstItem="ONG-yg-a8S" firstAttribute="centerY" secondItem="wm6-pq-EUE" secondAttribute="centerY" id="KMZ-Bo-MHf"/>
                                             <constraint firstItem="NBw-dI-5ud" firstAttribute="leading" secondItem="wm6-pq-EUE" secondAttribute="leading" id="MNP-5g-fPD"/>
                                             <constraint firstAttribute="bottom" secondItem="NBw-dI-5ud" secondAttribute="bottom" id="Mlr-TC-z9o"/>
+                                            <constraint firstItem="orZ-9P-z0L" firstAttribute="centerX" secondItem="wm6-pq-EUE" secondAttribute="centerX" id="NKp-NO-cRp"/>
                                             <constraint firstItem="0nI-km-Wpw" firstAttribute="top" secondItem="QfZ-i5-zjv" secondAttribute="bottom" id="TZd-fO-NzL"/>
                                             <constraint firstItem="Ea1-Na-bB6" firstAttribute="centerY" secondItem="wm6-pq-EUE" secondAttribute="centerY" id="YoU-cZ-ad0"/>
                                             <constraint firstItem="QfZ-i5-zjv" firstAttribute="centerX" secondItem="wm6-pq-EUE" secondAttribute="centerX" id="aQQ-Dx-NKs"/>
                                             <constraint firstItem="ONG-yg-a8S" firstAttribute="width" secondItem="QfZ-i5-zjv" secondAttribute="height" multiplier="7:20" id="bBm-DK-7Hf"/>
+                                            <constraint firstItem="orZ-9P-z0L" firstAttribute="width" secondItem="0nI-km-Wpw" secondAttribute="width" id="bPJ-gs-cBI"/>
+                                            <constraint firstItem="QfZ-i5-zjv" firstAttribute="top" secondItem="orZ-9P-z0L" secondAttribute="bottom" id="j3G-PD-ltT"/>
                                             <constraint firstAttribute="trailing" secondItem="ONG-yg-a8S" secondAttribute="trailing" id="ljf-jG-gPI"/>
                                             <constraint firstItem="Ea1-Na-bB6" firstAttribute="width" secondItem="QfZ-i5-zjv" secondAttribute="height" multiplier="7:20" id="rQc-a4-atz"/>
                                             <constraint firstAttribute="width" secondItem="wm6-pq-EUE" secondAttribute="height" multiplier="1:1" id="us7-tG-wES"/>
@@ -272,7 +290,6 @@ untuk mendapatkan potongan Rp25.000</string>
                                 <color key="color" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="gaP-cJ-erY" secondAttribute="centerX" id="Ntg-AI-NoZ"/>
                             <constraint firstItem="gaP-cJ-erY" firstAttribute="top" secondItem="EcK-Cf-ah6" secondAttribute="top" constant="95" id="oZa-ip-21O"/>
@@ -300,6 +317,7 @@ untuk mendapatkan potongan Rp25.000</string>
                 <outlet property="btnPrev" destination="EKp-aM-ash" id="SKi-6z-Tip"/>
                 <outlet property="coverScrollView" destination="NBw-dI-5ud" id="7KB-rB-Ovk"/>
                 <outlet property="imgAvatar" destination="pVU-jL-f88" id="AAe-PG-8uX"/>
+                <outlet property="imgPrelo" destination="aPY-vO-Sfe" id="LnL-EF-5UP"/>
                 <outlet property="lbReferral" destination="2st-66-W5f" id="mve-pd-CBD"/>
                 <outlet property="lbSeller" destination="E04-g4-yE8" id="s0s-sF-pOp"/>
                 <outlet property="loadingPanel" destination="EcK-Cf-ah6" id="dJr-0A-zPF"/>
@@ -309,4 +327,7 @@ untuk mendapatkan potongan Rp25.000</string>
             <point key="canvasLocation" x="-252.5" y="135"/>
         </viewController>
     </objects>
+    <resources>
+        <image name="ic_prelo_balance_128.png" width="64" height="64"/>
+    </resources>
 </document>

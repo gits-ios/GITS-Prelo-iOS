@@ -692,6 +692,7 @@
 		B2EE39CD1E76905500113E03 /* ic_paid_balance.png in Resources */ = {isa = PBXBuildFile; fileRef = B2EE39CA1E76905500113E03 /* ic_paid_balance.png */; };
 		B2EE39CE1E76905500113E03 /* ic_paid_poin.png in Resources */ = {isa = PBXBuildFile; fileRef = B2EE39CB1E76905500113E03 /* ic_paid_poin.png */; };
 		B2EE39CF1E76905500113E03 /* ic_paid_video.png in Resources */ = {isa = PBXBuildFile; fileRef = B2EE39CC1E76905500113E03 /* ic_paid_video.png */; };
+		B2FCF6931ED5431A00A6D9E7 /* ic_prelo_balance@2x_128.png in Resources */ = {isa = PBXBuildFile; fileRef = B2FCF6921ED5431A00A6D9E7 /* ic_prelo_balance@2x_128.png */; };
 		B2FFCB9D1EA52669004F01D0 /* SocketAckEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFCB841EA52669004F01D0 /* SocketAckEmitter.swift */; };
 		B2FFCB9E1EA52669004F01D0 /* SocketAckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFCB851EA52669004F01D0 /* SocketAckManager.swift */; };
 		B2FFCB9F1EA52669004F01D0 /* SocketAnyEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFCB861EA52669004F01D0 /* SocketAnyEvent.swift */; };
@@ -1758,6 +1759,7 @@
 		B2EE39CA1E76905500113E03 /* ic_paid_balance.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_paid_balance.png; sourceTree = "<group>"; };
 		B2EE39CB1E76905500113E03 /* ic_paid_poin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_paid_poin.png; sourceTree = "<group>"; };
 		B2EE39CC1E76905500113E03 /* ic_paid_video.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_paid_video.png; sourceTree = "<group>"; };
+		B2FCF6921ED5431A00A6D9E7 /* ic_prelo_balance@2x_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_prelo_balance@2x_128.png"; sourceTree = "<group>"; };
 		B2FFCB841EA52669004F01D0 /* SocketAckEmitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckEmitter.swift; sourceTree = "<group>"; };
 		B2FFCB851EA52669004F01D0 /* SocketAckManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckManager.swift; sourceTree = "<group>"; };
 		B2FFCB861EA52669004F01D0 /* SocketAnyEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAnyEvent.swift; sourceTree = "<group>"; };
@@ -2581,6 +2583,7 @@
 				589A6FA81D8C08F600654CDD /* ic_ongkir.png */,
 				21EEB46D1B87095C00CAD5C9 /* ic_phone.png */,
 				21C6587D1B8EED520037F85F /* ic_prelo_balance@2x.png */,
+				B2FCF6921ED5431A00A6D9E7 /* ic_prelo_balance@2x_128.png */,
 				58E8FCDC1D92819C0084FAA8 /* ic_prelo_logo_text_white@2x.png */,
 				21156EB21B8F3598001D7842 /* ic_prelo_logo_text@2x.png */,
 				5856875A1C6C97F4002A19CE /* ic_request.png */,
@@ -3851,6 +3854,7 @@
 				58A4F9781CB5146B00E717AF /* ic_trx_reserved.png in Resources */,
 				212007C41B6A0EA600D9C84B /* basic_path@2x.png in Resources */,
 				2109BCA51BDDF85E004F36C5 /* tour_2.jpg in Resources */,
+				B2FCF6931ED5431A00A6D9E7 /* ic_prelo_balance@2x_128.png in Resources */,
 				212007BC1B6A087F00D9C84B /* ic_logo_white@2x.png in Resources */,
 				21E7A7671B9FF2BC00FC9B38 /* LKActivity@2x.png in Resources */,
 				B2BF267F1E82898400BD9EEB /* ic_edit_white.png in Resources */,
