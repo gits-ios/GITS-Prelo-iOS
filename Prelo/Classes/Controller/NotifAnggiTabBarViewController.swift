@@ -106,6 +106,7 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
             notifListener?.delegate = self
         }
         
+        /*
         // Back action handling
         if (!isNavCtrlsChecked && isBackTwice) {
             var x = self.navigationController?.viewControllers
@@ -116,6 +117,7 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
             self.navigationController?.setViewControllers(x!, animated: false)
             isNavCtrlsChecked = true
         }
+         */
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -124,7 +126,18 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
         // gesture override
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
+    
+    override func backPressed(_ sender: UIBarButtonItem) {
+        // gesture override
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
+        if let count = self.navigationController?.viewControllers.count, isBackTwice {
+            _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-3])!, animated: true)
+        }
+        
+        _ = self.navigationController?.popViewController(animated: true)
+    }
+    
     func tabSwipeNavigation(_ tabSwipe: CarbonTabSwipeNavigation!, viewControllerAt index: UInt) -> UIViewController! {
         if (index == 0) { // Transaction
             return notifAnggiTransactionVC
@@ -299,15 +312,8 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
                 // gesture override
                 self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
                 
-                // Back action handling
-                if (!isNavCtrlsChecked && isBackTwice) {
-                    var x = self.navigationController?.viewControllers
-                    x?.remove(at: (x?.count)! - 2)
-                    if (x == nil) {
-                        x = []
-                    }
-                    self.navigationController?.setViewControllers(x!, animated: false)
-                    isNavCtrlsChecked = true
+                if let count = self.navigationController?.viewControllers.count, isBackTwice {
+                    _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-3])!, animated: true)
                 }
                 
                 _ = self.navigationController?.popViewController(animated: true)
