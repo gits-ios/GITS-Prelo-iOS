@@ -104,20 +104,9 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
         self.coverScrollView?.backgroundColor = UIColor.clear
         self.coverScrollView?.delegate = self
         
-        // setup media
-        self.medias = [
-            .facebook, .twitter, .instagram, .path, .whatsapp, .line
-        ]
-        
-        self.others = [
-            .copyText, .email, .sms
-        ]
-        
-        self.setupMediaCollection()
-        self.setupOtherCollection()
-        
         self.title = "Share Profile Shop"
         
+        // setup preview
         let uProf = CDUserProfile.getOne()
         if (uProf != nil) {
             let url = URL(string: uProf!.pict)
@@ -149,6 +138,18 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
         } else {
             self.imgPrelo.image = UIImage(named: "ic_prelo_balance@2x_128.png")
         }
+        
+        // setup media
+        self.medias = [
+            .facebook, .twitter, .instagram, .path, .whatsapp, .line
+        ]
+        
+        self.others = [
+            .copyText, .email, .sms
+        ]
+        
+        self.setupMediaCollection()
+        self.setupOtherCollection()
         
         self.mediaCollectionView.reloadData()
         self.otherCollectionView.reloadData()
