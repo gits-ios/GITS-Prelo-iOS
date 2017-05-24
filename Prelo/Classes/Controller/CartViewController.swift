@@ -1936,6 +1936,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 let notifListener = appDelegate.preloNotifListener
                 notifListener?.setCartCount(1 + self.transactionCount)
                 
+                // cleaning cart - if exist
+                self.arrayItem.removeAll()
+                CartProduct.deleteAll()
+                
                 // Prepare to navigate to next page
                 if (self.selectedPayment == .bankTransfer) {
                     self.navigateToOrderConfirmVC(false)
@@ -2035,10 +2039,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         if isMidtrans {
             o.isMidtrans = true
         }
-        
-        // cleaning cart - if exist
-        self.arrayItem.removeAll()
-        CartProduct.deleteAll()
         
         self.navigateToVC(o)
     }
