@@ -215,9 +215,11 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         }
                     }
                     
-                    // Veritrans url check
+                    // Veritrans / Kredivo url check
                     if let vrtUrl = data["veritrans_redirect_url"].string {
                         self.veritransRedirectUrl = vrtUrl
+                    } else if let kdvUrl = data["kredivo_redirect_url"].string {
+                        self.veritransRedirectUrl = kdvUrl
                     }
                     
                     // Refundable check
@@ -2551,6 +2553,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             return TransactionDetailTools.TitleContentPembayaranBuyerPaidCC
         } else if (trxProductDetail.paymentMethod.lowercased() == "indomaret") {
             return TransactionDetailTools.TitleContentPembayaranBuyerPaidIndomaret
+        } else if (trxProductDetail.paymentMethod.lowercased() == "kredivo") {
+            return TransactionDetailTools.TitleContentPembayaranBuyerPaidKredivo
         } else if (trxProductDetail.paymentBankSource.lowercased() == "prelo bonus") {
             return TransactionDetailTools.TitleContentPembayaranBuyerPaidBonus
         } else {
@@ -2790,6 +2794,7 @@ class TransactionDetailTools : NSObject {
     static let TitleContentPembayaranBuyerPaidCC = "tcpembayaranbuyerpaidcc"
     static let TitleContentPembayaranBuyerPaidBonus = "tcpembayaranbuyerpaidbonus"
     static let TitleContentPembayaranBuyerPaidIndomaret = "tcpembayaranbuyerpaidindomaret"
+    static let TitleContentPembayaranBuyerPaidKredivo = "tcpembayaranbuyerpaidkredivo"
     static let TitleContentPembayaranSeller = "tcpembayaranseller"
     static let TitleContentPengirimanBuyer = "tcpengirimanbuyer"
     static let TitleContentPengirimanSeller = "tcpengirimanseller"
@@ -3018,6 +3023,11 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentDate)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentCode)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentNominal.asPrice)
+        } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidKredivo) {
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentMethod)
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentDate)
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentCode)
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentNominal.asPrice)
         } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentMethod)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentDate)
@@ -3141,6 +3151,8 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidBonus) {
                 return 2
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidIndomaret) {
+                return 4
+            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidKredivo) {
                 return 4
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
                 return 2
@@ -3299,6 +3311,32 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     }
                 }
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidIndomaret) {
+                if (idx == 0) {
+                    if (isTrxDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentMethod)
+                    } else if (isTrxProductDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentMethod)
+                    }
+                } else if (idx == 1) {
+                    if (isTrxDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentDate)
+                    } else if (isTrxProductDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
+                    }
+                } else if (idx == 2) {
+                    if (isTrxDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentCode)
+                    } else if (isTrxProductDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentCode)
+                    }
+                } else if (idx == 3) {
+                    if (isTrxDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentNominal.asPrice)
+                    } else if (isTrxProductDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentNominal.asPrice)
+                    }
+                }
+            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidKredivo) {
                 if (idx == 0) {
                     if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentMethod)
@@ -3640,6 +3678,9 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         } else if (trxDetail!.paymentMethodInt == 4) {
                             title = "Charge Indomaret"
                             content = trxDetail!.veritransChargeAmount.asPrice
+                        } else if (trxDetail!.paymentMethodInt == 5) {
+                            title = "Charge Kredivo"
+                            content = trxDetail!.kredivoChargeAmount.asPrice
                         } else {
                             title = "Kode Unik"
                             content = trxDetail!.bankTransferDigit.asPrice
@@ -3658,6 +3699,8 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                             p += trxDetail!.veritransChargeAmount
                         } else if (trxDetail!.paymentMethodInt == 4) {
                             p += trxDetail!.veritransChargeAmount
+                        } else if (trxDetail!.paymentMethodInt == 5) {
+                            p += trxDetail!.kredivoChargeAmount
                         } else {
                             p += trxDetail!.bankTransferDigit
                         }
@@ -3773,6 +3816,40 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         content = trxProductDetail!.paymentCode
                     }
                     return self.createTitleContentCell("Kode", content: content)
+                } else if (idx == 3) {
+                    var content = ""
+                    if (isTrxDetail()) {
+                        content = trxDetail!.paymentNominal.asPrice
+                    } else if (isTrxProductDetail()) {
+                        content = trxProductDetail!.paymentNominal.asPrice
+                    }
+                    return self.createTitleContentCell("Nominal", content: content)
+                }
+            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidKredivo) {
+                if (idx == 0) {
+                    var content = ""
+                    if (isTrxDetail()) {
+                        content = trxDetail!.paymentMethod
+                    } else if (isTrxProductDetail()) {
+                        content = trxProductDetail!.paymentMethod
+                    }
+                    return self.createTitleContentCell("Metode", content: content)
+                } else if (idx == 1) {
+                    var content = ""
+                    if (isTrxDetail()) {
+                        content = trxDetail!.paymentDate
+                    } else if (isTrxProductDetail()) {
+                        content = trxProductDetail!.paymentDate
+                    }
+                    return self.createTitleContentCell("Tanggal", content: content)
+                } else if (idx == 2) {
+                    var content = ""
+                    if (isTrxDetail()) {
+                        content = trxDetail!.paymentType
+                    } else if (isTrxProductDetail()) {
+                        content = trxProductDetail!.paymentType
+                    }
+                    return self.createTitleContentCell("Tipe", content: content)
                 } else if (idx == 3) {
                     var content = ""
                     if (isTrxDetail()) {
@@ -4487,7 +4564,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     lblDesc.text = TransactionDetailTools.TextNotPaid + expireTime + TransactionDetailTools.TextNotPaidSeller
                 } else {
                     var lastText = ""
-                    if (trxDetail.paymentMethodInt == 1 || trxDetail.paymentMethodInt == 4) {
+                    if (trxDetail.paymentMethodInt == 1 || trxDetail.paymentMethodInt == 4 || trxDetail.paymentMethodInt == 5) {
                         lastText = TransactionDetailTools.TextNotPaidBuyerVeritrans
                     } else {
                         lastText = TransactionDetailTools.TextNotPaidBuyerTransfer

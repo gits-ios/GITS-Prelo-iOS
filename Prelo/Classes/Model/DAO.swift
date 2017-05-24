@@ -1933,8 +1933,22 @@ class TransactionDetail : NSObject {
         return 0
     }
     
+    var kredivoChargeAmount : Int {
+        if let j = json["kredivo_charge_amount"].int {
+            return j
+        }
+        return 0
+    }
+    
     var paymentCode: String {
         if let j = json["payment_method_param"]["payment_code"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var paymentType: String {
+        if let j = json["payment_method_param"]["payment_type"].string {
             return j
         }
         return ""
@@ -2402,6 +2416,13 @@ class TransactionProductDetail : NSObject {
     
     var paymentCode : String {
         if let j = json["payment_method_param"]["payment_code"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var paymentType: String {
+        if let j = json["payment_method_param"]["payment_type"].string {
             return j
         }
         return ""
