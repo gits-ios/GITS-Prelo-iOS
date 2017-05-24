@@ -54,8 +54,12 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
         setOptionButton()
         
         // swipe gesture for carbon (pop view)
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeRight.direction = UISwipeGestureRecognizerDirection.right
+        
         let vwLeft = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: UIScreen.main.bounds.height))
         vwLeft.backgroundColor = UIColor.clear
+        vwLeft.addGestureRecognizer(swipeRight)
         self.view.addSubview(vwLeft)
         self.view.bringSubview(toFront: vwLeft)
     }
@@ -72,6 +76,9 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        // gesture override
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         
         if (User.IsLoggedIn == false) {
             if (allowLaunchLogin) {
@@ -109,6 +116,13 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
             self.navigationController?.setViewControllers(x!, animated: false)
             isNavCtrlsChecked = true
         }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        // gesture override
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
         
     func tabSwipeNavigation(_ tabSwipe: CarbonTabSwipeNavigation!, viewControllerAt index: UInt) -> UIViewController! {
@@ -273,5 +287,41 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
     
     func isBadgeValuesCompleted() -> Bool {
         return (self.transactionBadgeNumber != nil && self.conversationBadgeNumber != nil)
+    }
+    
+    // MARK: - Swipe Navigation Override
+    func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.right:
+                print("Swiped right")
+                
+                // gesture override
+                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                
+                // Back action handling
+                if (!isNavCtrlsChecked && isBackTwice) {
+                    var x = self.navigationController?.viewControllers
+                    x?.remove(at: (x?.count)! - 2)
+                    if (x == nil) {
+                        x = []
+                    }
+                    self.navigationController?.setViewControllers(x!, animated: false)
+                    isNavCtrlsChecked = true
+                }
+                
+                _ = self.navigationController?.popViewController(animated: true)
+                
+                
+            case UISwipeGestureRecognizerDirection.down:
+                print("Swiped down")
+            case UISwipeGestureRecognizerDirection.left:
+                print("Swiped left")
+            case UISwipeGestureRecognizerDirection.up:
+                print("Swiped up")
+            default:
+                break
+            }
+        }
     }
 }
