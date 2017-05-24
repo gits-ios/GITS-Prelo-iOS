@@ -303,7 +303,6 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             self.navigationController?.setViewControllers(x!, animated: false)
             isNavCtrlsChecked = true
         }
-         */
         
         if (!isNavCtrlsChecked && isBackThreeTimes) {
             var x = self.navigationController?.viewControllers
@@ -314,6 +313,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             self.navigationController?.setViewControllers(x!, animated: false)
             isNavCtrlsChecked = true
         }
+        */
         
         // Keyboard handling
         self.an_subscribeKeyboard(animations: { r, t, o in
