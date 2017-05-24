@@ -960,14 +960,14 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                     webVC.ccPaymentUnfinished = {
                         Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].name)", message: "Pembayaran tertunda")
                         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
-                        notifPageVC.isBackTwice = true
+                        notifPageVC.isBackThreeTimes = true
                         notifPageVC.previousScreen = PageName.Checkout
                         self.navigateToVC(notifPageVC)
                     }
                     webVC.ccPaymentFailed = {
                         Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].name)", message: "Pembayaran gagal, silahkan coba beberapa saat lagi")
                         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
-                        notifPageVC.isBackTwice = true
+                        notifPageVC.isBackThreeTimes = true
                         notifPageVC.previousScreen = PageName.Checkout
                         self.navigateToVC(notifPageVC)
                     }
@@ -987,14 +987,14 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                     webVC.ccPaymentUnfinished = {
                         Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].name)", message: "Pembayaran tertunda")
                         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
-                        notifPageVC.isBackTwice = true
+                        notifPageVC.isBackThreeTimes = true
                         notifPageVC.previousScreen = PageName.Checkout
                         self.navigateToVC(notifPageVC)
                     }
                     webVC.ccPaymentFailed = {
                         Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].name)", message: "Pembayaran gagal, silahkan coba beberapa saat lagi")
                         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
-                        notifPageVC.isBackTwice = true
+                        notifPageVC.isBackThreeTimes = true
                         notifPageVC.previousScreen = PageName.Checkout
                         self.navigateToVC(notifPageVC)
                     }

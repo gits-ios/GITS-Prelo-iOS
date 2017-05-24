@@ -28,6 +28,7 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
     let ConversationBadgeRightOffset = 13
     
     var isBackTwice : Bool = false
+    var isBackThreeTimes : Bool = false
     var isNavCtrlsChecked : Bool = false
     
     // MARK: - Init
@@ -110,6 +111,16 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
         if (!isNavCtrlsChecked && isBackTwice) {
             var x = self.navigationController?.viewControllers
             x?.remove(at: (x?.count)! - 2)
+            if (x == nil) {
+                x = []
+            }
+            self.navigationController?.setViewControllers(x!, animated: false)
+            isNavCtrlsChecked = true
+        }
+        
+        if (!isNavCtrlsChecked && isBackThreeTimes) {
+            var x = self.navigationController?.viewControllers
+            x?.remove(at: (x?.count)! - 3)
             if (x == nil) {
                 x = []
             }
@@ -303,6 +314,16 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
                 if (!isNavCtrlsChecked && isBackTwice) {
                     var x = self.navigationController?.viewControllers
                     x?.remove(at: (x?.count)! - 2)
+                    if (x == nil) {
+                        x = []
+                    }
+                    self.navigationController?.setViewControllers(x!, animated: false)
+                    isNavCtrlsChecked = true
+                }
+                
+                if (!isNavCtrlsChecked && isBackThreeTimes) {
+                    var x = self.navigationController?.viewControllers
+                    x?.remove(at: (x?.count)! - 3)
                     if (x == nil) {
                         x = []
                     }
