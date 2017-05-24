@@ -11,6 +11,12 @@ import Crashlytics
 import Alamofire
 import DropDown
 
+enum paymentMethodProvider {
+    case bankTransfer
+    case veritrans
+    case kredivo
+}
+
 // MARK: - class
 class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
     // MARK: - Properties
@@ -23,6 +29,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         var type: Int = 0
         var chargeDescription: String = ""
         var charge: Int = 0
+        var provider: paymentMethodProvider = .bankTransfer
     }
     
     struct DiscountItem {
@@ -34,6 +41,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
     var isShowBankBRI = false
     var isCreditCard = false
     var isIndomaret = false
+    var isKredivo = false
     var isDropdownMode = false
     
     // Cart Results
@@ -176,6 +184,9 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         self.isFreeze = false
         self.isHalfBonusMode = false
         self.isShowBankBRI = false
+        self.isCreditCard = false
+        self.isIndomaret = false
+        self.isKredivo = false
         self.isDropdownMode = false
         
         // transfer bank
@@ -183,6 +194,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         p.name = "Transfer Bank"
         p.charge = self.cartResult.banktransferDigit
         p.chargeDescription = "Kode Unik Transfer"
+        p.provider = .bankTransfer
         self.paymentMethods.append(p)
         
         let ab = self.cartResult.abTest
@@ -199,6 +211,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 self.customBonusPercent = Int(_ab.components(separatedBy: "bonus:")[1])!
             } else if (_ab == "target_bank") {
                 self.isDropdownMode = true
+            } else if (_ab == "kredivo") {
+                self.isKredivo = true
             }
         }
         
@@ -301,11 +315,14 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             indomaretCharge = (self.cartResult.veritransCharge?.indomaret)!
         }
         
+        let kredivoCharge = Int((Double(priceAfterDiscounts) * (self.cartResult.kredivoCharge?.installment)!) + 0.5)
+        
         if self.isCreditCard {
             var p = PaymentMethodItem()
             p.name = "Kartu Kredit"
             p.charge = creditCardCharge
             p.chargeDescription = "Credit Card Charge"
+            p.provider = .veritrans
             self.paymentMethods.append(p)
         }
         
@@ -314,11 +331,21 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             p.name = "Indomaret"
             p.charge = indomaretCharge
             p.chargeDescription = "Indomaret Charge"
+            p.provider = .veritrans
             self.paymentMethods.append(p)
             
             if p.charge == 0 {
                 self.isFreeze = true
             }
+        }
+        
+        if self.isKredivo {
+            var p = PaymentMethodItem()
+            p.name = "Kredivo"
+            p.charge = kredivoCharge
+            p.chargeDescription = "Kredivo Charge"
+            p.provider = .kredivo
+            self.paymentMethods.append(p)
         }
         
         // reset if payment out of range
@@ -567,6 +594,10 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                         }
                         
                         self.paymentMethods[self.selectedPaymentIndex].charge = indomaretCharge
+                    } else if self.paymentMethods[self.selectedPaymentIndex].name == "Kredivo" {
+                        let kredivoCharge = Int((Double(priceAfterDiscounts) * (self.cartResult.kredivoCharge?.installment)!) + 0.5)
+                        
+                        self.paymentMethods[self.selectedPaymentIndex].charge = kredivoCharge
                     }
                     
                     cell.adapt(self.paymentMethods[self.selectedPaymentIndex].chargeDescription, amount: self.paymentMethods[self.selectedPaymentIndex].charge)
@@ -909,15 +940,45 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 let notifListener = appDelegate.preloNotifListener
                 notifListener?.setCartCount(1 + self.cartResult.nTransactionUnpaid)
                 
+                // cleaning cart - if exist
+                CartProduct.deleteAll()
+                CartManager.sharedInstance.deleteAll()
+                
                 // Prepare to navigate to next page
-                if (self.selectedPaymentIndex == 0) { // bank
+                if (self.paymentMethods[self.selectedPaymentIndex].provider == .bankTransfer) { // bank
                     self.navigateToOrderConfirmVC(false)
                     
-                    
-                } else { // Credit card, indomaret
+                } else if (self.paymentMethods[self.selectedPaymentIndex].provider == .veritrans) { // Credit card, indomaret
                     let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
                     let webVC = mainStoryboard.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
                     webVC.url = self.checkoutResult!["veritrans_redirect_url"].stringValue
+                    webVC.titleString = "Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].name)"
+                    webVC.creditCardMode = true
+                    webVC.ccPaymentSucceed = {
+                        self.navigateToOrderConfirmVC(true)
+                    }
+                    webVC.ccPaymentUnfinished = {
+                        Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].name)", message: "Pembayaran tertunda")
+                        let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
+                        notifPageVC.isBackTwice = true
+                        notifPageVC.previousScreen = PageName.Checkout
+                        self.navigateToVC(notifPageVC)
+                    }
+                    webVC.ccPaymentFailed = {
+                        Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].name)", message: "Pembayaran gagal, silahkan coba beberapa saat lagi")
+                        let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
+                        notifPageVC.isBackTwice = true
+                        notifPageVC.previousScreen = PageName.Checkout
+                        self.navigateToVC(notifPageVC)
+                    }
+                    let baseNavC = BaseNavigationController()
+                    baseNavC.setViewControllers([webVC], animated: false)
+                    self.present(baseNavC, animated: true, completion: nil)
+                    
+                } else if (self.paymentMethods[self.selectedPaymentIndex].provider == .kredivo) { // Kredivo
+                    let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let webVC = mainStoryboard.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
+                    webVC.url = self.checkoutResult!["kredivo_redirect_url"].stringValue
                     webVC.titleString = "Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].name)"
                     webVC.creditCardMode = true
                     webVC.ccPaymentSucceed = {
@@ -1044,11 +1105,6 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         if isMidtrans {
             o.isMidtrans = true
         }
-        
-        // cleaning cart - if exist
-        CartProduct.deleteAll()
-        
-        CartManager.sharedInstance.deleteAll()
         
         self.navigateToVC(o)
     }

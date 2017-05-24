@@ -4278,6 +4278,13 @@ class CartV2ResultItem : NSObject {
         return nil
     }
     
+    var kredivoCharge : KredivoChargeItem? {
+        if let j = KredivoChargeItem.instance(json["kredivo_charge"]) {
+            return j
+        }
+        return nil
+    }
+    
     var voucherSerial : String? {
         if let j = json["voucher_serial"].string {
             return j
@@ -4396,6 +4403,35 @@ class VeritransChargeItem : NSObject {
             return j
         }
         return 0
+    }
+}
+
+// kredivo-charge
+class KredivoChargeItem : NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> KredivoChargeItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = KredivoChargeItem()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var text : String {
+        if let j = json["installment_text"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var installment : Double {
+        if let j = json["installment"].double {
+            return j
+        }
+        return 0.0
     }
 }
 
