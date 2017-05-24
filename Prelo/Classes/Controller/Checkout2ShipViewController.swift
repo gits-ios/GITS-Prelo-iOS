@@ -248,6 +248,26 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     // MARK: - Cart sync
+    // just in case getcart return 0
+    func getUnpaid() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let notifListener = appDelegate.preloNotifListener
+        
+        // Get unpaid transaction
+        let _ = request(APITransactionCheck.checkUnpaidTransaction).responseJSON { resp in
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Checkout - Unpaid Transaction")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                if (data["user_has_unpaid_transaction"].boolValue == true) {
+                    let nUnpaid = data["n_transaction_unpaid"].intValue
+                    notifListener?.setCartCount(nUnpaid)
+                    
+                    self.setupOption(nUnpaid)
+                }
+            }
+        }
+    }
+    
     func getCart() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let notifListener = appDelegate.preloNotifListener
@@ -291,6 +311,8 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     User.SetCartLocalId("")
                     
                     notifListener?.setCartCount(0)
+                    
+                    self.getUnpaid()
                     
                     self.backToPreviousScreen()
                 }
