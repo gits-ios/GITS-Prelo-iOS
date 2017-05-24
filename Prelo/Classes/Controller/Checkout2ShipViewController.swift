@@ -396,7 +396,8 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 
                 // update troli
                 self.setupOption(self.cartResult.nTransactionUnpaid)
-                notifListener?.increaseCartCount(self.cartResult.nTransactionUnpaid)
+                let count = CartManager.sharedInstance.getSize() + self.cartResult.nTransactionUnpaid
+                notifListener?.setCartCount(count)
                 
                 // reset - cart
                 self.isEnableToCheckout = true
