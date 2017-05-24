@@ -52,6 +52,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     var isFromCheckout = true
     var isFreeTransaction = false
     var isBackTwice = false
+    var isBackThreeTimes = false
     var isNavCtrlsChecked = false
     var isShowBankBRI = false
     var isBackToRoot = true
@@ -302,6 +303,16 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             isNavCtrlsChecked = true
         }
         
+        if (!isNavCtrlsChecked && isBackThreeTimes) {
+            var x = self.navigationController?.viewControllers
+            x?.remove(at: (x?.count)! - 3)
+            if (x == nil) {
+                x = []
+            }
+            self.navigationController?.setViewControllers(x!, animated: false)
+            isNavCtrlsChecked = true
+        }
+        
         // Keyboard handling
         self.an_subscribeKeyboard(animations: { r, t, o in
             if (o) {
@@ -446,6 +457,16 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
                 if (!isNavCtrlsChecked && isBackTwice) {
                     var x = self.navigationController?.viewControllers
                     x?.remove(at: (x?.count)! - 2)
+                    if (x == nil) {
+                        x = []
+                    }
+                    self.navigationController?.setViewControllers(x!, animated: false)
+                    isNavCtrlsChecked = true
+                }
+                
+                if (!isNavCtrlsChecked && isBackThreeTimes) {
+                    var x = self.navigationController?.viewControllers
+                    x?.remove(at: (x?.count)! - 3)
                     if (x == nil) {
                         x = []
                     }

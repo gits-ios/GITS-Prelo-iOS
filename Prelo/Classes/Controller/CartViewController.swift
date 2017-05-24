@@ -1997,7 +1997,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 
                 // cleaning cart - if exist
                 CartProduct.deleteAll()
-                self.itemcount = 0
                 
                 // Prepare to navigate to next page
                 if (self.selectedPayment == .bankTransfer) {
@@ -2101,6 +2100,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         // cleaning cart - if exist
         self.arrayItem.removeAll()
+        self.itemcount = 0
         
         self.navigateToVC(o)
     }

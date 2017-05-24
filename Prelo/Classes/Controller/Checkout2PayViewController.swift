@@ -1080,7 +1080,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         o.total = gTotal
         
         o.transactionId = (self.checkoutResult?["transaction_id"].string)!
-        o.isBackTwice = true
+        o.isBackThreeTimes = true
         o.isShowBankBRI = self.isShowBankBRI
         o.targetBank = self.targetBank
         o.previousScreen = PageName.Checkout
