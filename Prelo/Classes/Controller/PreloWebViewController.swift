@@ -32,6 +32,8 @@ class PreloWebViewController: UIViewController, UIWebViewDelegate
     var checkoutFailed : () -> () = {}
     var checkoutInitiateUrl : String = ""
     
+    var affiliateTransactionMode : Bool = false
+    
     var contactPreloMode : Bool = false
     @IBOutlet var btnStickyFooter: BorderedButton!
     @IBOutlet var consHeightStickyFooter: NSLayoutConstraint!
