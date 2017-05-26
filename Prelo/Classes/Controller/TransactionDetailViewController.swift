@@ -203,7 +203,6 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         // affiliate
                         if (self.trxDetail?.isAffiliate)! {
                             TransactionDetailTools.setAffiliateName((self.trxDetail?.AffiliateData?.name)!)
-                            TransactionDetailTools.setAffiliateCheckoutPattern((self.trxDetail?.AffiliateData?.checkoutUrlPattern)!)
                             TransactionDetailTools.setAffiliateConfirmURL((self.trxDetail?.AffiliateData?.confirmPaymentUrl)!)
                             TransactionDetailTools.setAffiliateURL((self.trxDetail?.AffiliateData?.transactionDetailUrl)!)
                             TransactionDetailTools.setAffiliateRefundURL((self.trxDetail?.AffiliateData?.refundTransactionUrl)!)
@@ -222,7 +221,6 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         // affiliate
                         if (self.trxProductDetail?.isAffiliate)! {
                             TransactionDetailTools.setAffiliateName((self.trxProductDetail?.AffiliateData?.name)!)
-                            TransactionDetailTools.setAffiliateCheckoutPattern((self.trxProductDetail?.AffiliateData?.checkoutUrlPattern)!)
                             TransactionDetailTools.setAffiliateConfirmURL((self.trxProductDetail?.AffiliateData?.confirmPaymentUrl)!)
                             TransactionDetailTools.setAffiliateURL((self.trxProductDetail?.AffiliateData?.transactionDetailUrl)!)
                             TransactionDetailTools.setAffiliateRefundURL((self.trxProductDetail?.AffiliateData?.refundTransactionUrl)!)
@@ -3014,13 +3012,6 @@ class TransactionDetailTools : NSObject {
         }
     }
     
-    fileprivate static var _AffiliateCheckoutPattern = "Affiliate"
-    static var AffiliateCheckoutPattern : String {
-        get {
-            return _AffiliateCheckoutPattern
-        }
-    }
-    
     // Affiliate
     static let TextAffiliateUnpaid = "Transaksi ini belum dibayar. Segera konfirmasi pembayaran di " + TransactionDetailTools.AffiliateName + "."
     static let TextAffiliateExpired = "Pembayaran ini expired karena kamu belum membayar hingga batas waktu yang ditentukan."
@@ -3063,10 +3054,6 @@ class TransactionDetailTools : NSObject {
     
     static func setAffiliateRefundURL(_ affiliateRefundURL: String) {
         _AffiliateRefundURL = affiliateRefundURL
-    }
-    
-    static func setAffiliateCheckoutPattern(_ affiliateCheckoutPattern: String) {
-        _AffiliateCheckoutPattern = affiliateCheckoutPattern
     }
 }
 
