@@ -458,7 +458,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             }
         }
         
-        if (product?.isCheckout)! {
+        if (detail?.isCheckout)! {
             btnBuy.isHidden = true
             btnTawar.isHidden = true
             
@@ -474,7 +474,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             
             btnCheckoutAffiliate.backgroundColor = Theme.ThemeOrange
             btnCheckoutAffiliate.setImage(UIImage(named: "ic_cart")?.resizeWithMaxWidthOrHeight(32), for: .normal)
-            btnCheckoutAffiliate.setTitle("BELI DI " + (product?.AffiliateData?.name)!.uppercased(), for: .normal)
+            btnCheckoutAffiliate.setTitle("BELI DI " + (detail?.AffiliateData?.name)!.uppercased(), for: .normal)
             btnCheckoutAffiliate.imageEdgeInsets = UIEdgeInsets(top: 6, left: 6, bottom: 6, right: 6)
             btnCheckoutAffiliate.imageView?.contentMode = .scaleAspectFit
             btnCheckoutAffiliate.adjustsImageWhenHighlighted = false
@@ -1134,16 +1134,16 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     func checkoutAffiliate() {
         // TODO: - affiliate checkout hunstreet
-//        Constant.showDialog((product?.AffiliateData?.name)!.uppercased(), message: "TODO gan")
+//        Constant.showDialog((detail?.AffiliateData?.name)!.uppercased(), message: "TODO gan")
         
-        let _ = request(APIAffiliate.postCheckout(productIds: (product?.id)!, affiliateName: (product?.AffiliateData?.name)!)).responseJSON {resp in
+        let _ = request(APIAffiliate.postCheckout(productIds: (product?.id)!, affiliateName: (detail?.AffiliateData?.name)!)).responseJSON {resp in
             if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Post Affiliate Checkout")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 if let checkoutUrl = data["checkout_url"].string {
                     let webVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
                     webVC.url = checkoutUrl
-                    webVC.titleString = "Checkout"
+                    webVC.titleString = (self.detail?.AffiliateData?.name)!
                     webVC.affilateMode = true
                     webVC.checkoutPattern = (self.detail?.AffiliateData?.checkoutUrlPattern)!
                     webVC.checkoutInitiateUrl = checkoutUrl

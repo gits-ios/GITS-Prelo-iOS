@@ -1087,6 +1087,13 @@ open class ProductDetail : NSObject, TawarItem
         return ""
     }
     
+    var isCheckout : Bool {
+        if let j = json["_data"]["affiliate_data"]["affiliate_type"].string {
+            return (j.lowercased() == "checkout")
+        }
+        return false
+    }
+    
     var AffiliateData : AffiliateItem? {
         if let j = AffiliateItem.instance(json["_data"]["affiliate_data"]) {
             return j
@@ -1960,6 +1967,20 @@ class TransactionDetail : NSObject {
         }
         return ""
     }
+    
+    var isAffiliate : Bool {
+        if let _ = json["affiliate_data"]["affiliate_name"].string {
+            return true
+        }
+        return false
+    }
+    
+    var AffiliateData : AffiliateItem? {
+        if let j = AffiliateItem.instance(json["affiliate_data"]) {
+            return j
+        }
+        return nil
+    }
 }
 
 class TransactionProductDetail : NSObject {
@@ -2447,6 +2468,20 @@ class TransactionProductDetail : NSObject {
             return j.string
         }
         return "6" // default
+    }
+    
+    var isAffiliate : Bool {
+        if let _ = json["affiliate_data"]["affiliate_name"].string {
+            return true
+        }
+        return false
+    }
+    
+    var AffiliateData : AffiliateItem? {
+        if let j = AffiliateItem.instance(json["affiliate_data"]) {
+            return j
+        }
+        return nil
     }
 }
 
