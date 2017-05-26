@@ -1088,7 +1088,7 @@ open class ProductDetail : NSObject, TawarItem
     }
     
     var AffiliateData : AffiliateItem? {
-        if let j = AffiliateItem.instance(json["affiliate_data"]) {
+        if let j = AffiliateItem.instance(json["_data"]["affiliate_data"]) {
             return j
         }
         return nil
@@ -4188,6 +4188,34 @@ class AffiliateItem : NSObject {
     
     var productId : String? {
         if let j = json["affiliate_product_id"].string {
+            return j
+        }
+        return nil
+    }
+    
+    var checkoutUrlPattern : String? {
+        if let j = json["checkout_url_pattern"].string {
+            return j
+        }
+        return nil
+    }
+    
+    var confirmPaymentUrl : String? {
+        if let j = json["confirm_payment_url"].string {
+            return j
+        }
+        return nil
+    }
+    
+    var transactionDetailUrl : String? {
+        if let j = json["transaction_detail_url"].string {
+            return j
+        }
+        return nil
+    }
+    
+    var refundTransactionUrl : String? {
+        if let j = json["refund_transaction_url"].string {
             return j
         }
         return nil

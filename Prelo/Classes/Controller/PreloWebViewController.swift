@@ -25,6 +25,13 @@ class PreloWebViewController: UIViewController, UIWebViewDelegate
     var ccPaymentUnfinished : () -> () = {}
     var ccPaymentFailed : () -> () = {}
     
+    var affilateMode : Bool = false
+    var checkoutPattern : String = ""
+    var checkoutSucceed : (_ orderId: String) -> () = {_ in}
+    var checkoutUnfinished : () -> () = {}
+    var checkoutFailed : () -> () = {}
+    var checkoutInitiateUrl : String = ""
+    
     var contactPreloMode : Bool = false
     @IBOutlet var btnStickyFooter: BorderedButton!
     @IBOutlet var consHeightStickyFooter: NSLayoutConstraint!
@@ -76,6 +83,9 @@ class PreloWebViewController: UIViewController, UIWebViewDelegate
     func closePressed() {
         if (creditCardMode) {
             ccPaymentUnfinished()
+        }
+        if (affilateMode) {
+            checkoutUnfinished()
         }
         self.dismiss(animated: true, completion: nil)
     }
@@ -136,6 +146,37 @@ class PreloWebViewController: UIViewController, UIWebViewDelegate
             }*/
         }
         
+        if (affilateMode) {
+            let incomingURL = request.url
+            
+            if let url = incomingURL?.absoluteString, url != self.checkoutInitiateUrl {
+                
+                do {
+                    let input = url
+                    let regex = try NSRegularExpression(pattern: self.checkoutPattern)
+                    let matches = regex.matches(in: input, options: [], range: NSRange(location: 0, length: input.utf16.count))
+                    
+                    if let match = matches.first {
+                        let range = match.rangeAt(1)
+                        if let swiftRange = range.range(for: input) {
+                            let orderId = input.substring(with: swiftRange)
+                            if orderId != "" { // Success
+                                self.checkoutSucceed(orderId)
+                                self.dismiss(animated: true, completion: nil)
+                            } else { // Failed
+                                self.checkoutFailed()
+                                self.dismiss(animated: true, completion: nil)
+                            }
+                        }
+                    }
+                } catch {
+                    // regex was bad!
+                    checkoutFailed()
+                    self.dismiss(animated: true, completion: nil)
+                }
+            }
+        }
+        
         return true
     }
     
@@ -154,5 +195,18 @@ class PreloWebViewController: UIViewController, UIWebViewDelegate
                 })
             }
         }
+    }
+}
+
+extension NSRange {
+    func range(for str: String) -> Range<String.Index>? {
+        guard location != NSNotFound else { return nil }
+        
+        guard let fromUTFIndex = str.utf16.index(str.utf16.startIndex, offsetBy: location, limitedBy: str.utf16.endIndex) else { return nil }
+        guard let toUTFIndex = str.utf16.index(fromUTFIndex, offsetBy: length, limitedBy: str.utf16.endIndex) else { return nil }
+        guard let fromIndex = String.Index(fromUTFIndex, within: str) else { return nil }
+        guard let toIndex = String.Index(toUTFIndex, within: str) else { return nil }
+        
+        return fromIndex ..< toIndex
     }
 }

@@ -482,6 +482,15 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             
             btnCheckoutAffiliate.addTarget(self, action: #selector(ProductDetailViewController.checkoutAffiliate), for: UIControlEvents.touchUpInside)
             
+            if (detail?.status)! == 3 {
+                btnCheckoutAffiliate.isEnabled = false
+                
+                let vw = UIView(frame: btnCheckoutAffiliate.bounds)
+                vw.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+                
+                btnCheckoutAffiliate.addSubview(vw)
+            }
+            
             btnSold.superview?.addSubview(btnCheckoutAffiliate)
         }
     }
@@ -1125,11 +1134,82 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     func checkoutAffiliate() {
         // TODO: - affiliate checkout hunstreet
-        Constant.showDialog((product?.AffiliateData?.name)!.uppercased(), message: "TODO gan")
+//        Constant.showDialog((product?.AffiliateData?.name)!.uppercased(), message: "TODO gan")
+        
+        let _ = request(APIAffiliate.postCheckout(productIds: (product?.id)!, affiliateName: (product?.AffiliateData?.name)!)).responseJSON {resp in
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Post Affiliate Checkout")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                if let checkoutUrl = data["checkout_url"].string {
+                    let webVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
+                    webVC.url = checkoutUrl
+                    webVC.titleString = "Checkout"
+                    webVC.affilateMode = true
+                    webVC.checkoutPattern = (self.detail?.AffiliateData?.checkoutUrlPattern)!
+                    webVC.checkoutInitiateUrl = checkoutUrl
+                    webVC.checkoutSucceed = { orderId in
+                        print(orderId)
+                        // TODO: - navigate
+                        self.navigateToOrderConfirmVC(orderId)
+                        self.showLoading()
+                    }
+                    webVC.checkoutUnfinished = {
+                        Constant.showDialog("Checkout", message: "Checkout tertunda")
+                    }
+                    webVC.checkoutFailed = {
+                        Constant.showDialog("Checkout", message: "Checkout gagal, silahkan coba beberapa saat lagi")
+                    }
+                    let baseNavC = BaseNavigationController()
+                    baseNavC.setViewControllers([webVC], animated: false)
+                    self.present(baseNavC, animated: true, completion: nil)
+                }
+            }
+        }
     }
     
+    func navigateToOrderConfirmVC(_ orderId: String) {
+        // get data
+        let _ = request(APIAffiliate.getCheckoutResult(orderId: orderId)).responseJSON {resp in
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Get Affiliate Checkout")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                
+                let tId = data["transaction_id"].stringValue
+                let price = data["total_price"].stringValue
+                var imgs : [URL] = []
+                if let ps = data["cart_details"]["products"].array {
+                    for p in ps {
+                        if let pics = p["display_picts"].array {
+                            if let url = URL(string: pics[0].stringValue) {
+                                imgs.append(url)
+                            }
+                        }
+                    }
+                }
+                
+                let o = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdOrderConfirm) as! OrderConfirmViewController
+                
+                o.orderID = orderId
+                o.total = price.int
+                o.transactionId = tId
+                o.isBackTwice = false
+                o.isShowBankBRI = false
+                o.targetBank = ""
+                o.previousScreen = PageName.ProductDetail
+                o.images = imgs
+                o.isFromCheckout = false
+                
+                // hidden payment bank transfer
+                o.isMidtrans = true
+                
+                self.hideLoading()
+                self.navigationController?.pushViewController(o, animated: true)
+            }
+        }
+    }
+
     // MARK: - Coachmark
-    
+
     @IBAction func coachmarkTapped(_ sender: AnyObject) {
         self.vwCoachmark.isHidden = true
         self.vwCoachmarkMine.isHidden = true
