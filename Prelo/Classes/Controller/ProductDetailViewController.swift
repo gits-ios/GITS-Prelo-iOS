@@ -482,11 +482,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             
             btnCheckoutAffiliate.addTarget(self, action: #selector(ProductDetailViewController.checkoutAffiliate), for: UIControlEvents.touchUpInside)
             
-            if (detail?.status)! == 3 {
+            if (detail?.status)! == 4 {
                 btnCheckoutAffiliate.isEnabled = false
                 
                 let vw = UIView(frame: btnCheckoutAffiliate.bounds)
-                vw.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+                vw.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.2)
                 
                 btnCheckoutAffiliate.addSubview(vw)
             }
