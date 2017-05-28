@@ -181,7 +181,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var isFeatured: Bool = false
     
     // FB-ads
-    let adRowStep: Int = 19 // fit for 1, 2, 3
+    var adRowStep: Int = 19 // fit for 1, 2, 3
     
     var adsManager: FBNativeAdsManager!
     
@@ -191,6 +191,11 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let frequency = UserDefaults.standard.integer(forKey: UserDefaultsKey.AdsFrequency)
+        if frequency > 0 {
+            self.adRowStep = frequency // 37
+        }
         
         if currentMode == .shop || currentMode == .newShop {
             self.navigationController?.navigationBar.isTranslucent = true
@@ -244,10 +249,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         // Add status bar tap observer
         NotificationCenter.default.addObserver(self, selector: #selector(ListItemViewController.statusBarTapped), name: NSNotification.Name(rawValue: AppDelegate.StatusBarTapNotificationName), object: nil)
         
-        // ads
-        if (currentMode == .filter) {
-            configureAdManagerAndLoadAds()
-        }
+//        // ads
+//        if (currentMode == .filter) {
+//            configureAdManagerAndLoadAds()
+//        }
         
         // fixer
         self.repositionScrollCategoryNameContent(false)
@@ -256,7 +261,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             self.setStatusBarBackgroundColor(color: Theme.PrimaryColor)
             
             // Prelo Analytic - Filter
-            sendFilterAnalytic()
+            self.sendFilterAnalytic()
         }
         
         if currentMode == .shop || currentMode == .newShop {
@@ -314,6 +319,21 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        if (self.isBackToFltrSearch) {
+            // gesture override
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        
+            // swipe gesture for carbon (pop view)
+            let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+            swipeRight.direction = UISwipeGestureRecognizerDirection.right
+            
+            let vwLeft = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: UIScreen.main.bounds.height))
+            vwLeft.backgroundColor = UIColor.clear
+            vwLeft.addGestureRecognizer(swipeRight)
+            self.view.addSubview(vwLeft)
+            self.view.bringSubview(toFront: vwLeft)
+        }
+        
         // Default search text && status bar color for filter mode
         if (currentMode == .filter) {
             self.searchBar.text = self.fltrName
@@ -345,12 +365,54 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         self.repositionScrollCategoryNameContent(true)
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        // fixer
+        // gesture override
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
+    
     override func backPressed(_ sender: UIBarButtonItem) {
         if (self.isBackToFltrSearch) {
             let viewControllers: [UIViewController] = (self.navigationController?.viewControllers)!
+            
+            // gesture override
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+            
             _ = self.navigationController?.popToViewController(viewControllers[1], animated: true);
         } else {
+            
+            // gesture override
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+            
             _ = self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    // MARK: - Swipe Navigation Override
+    func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.right:
+                print("Swiped right")
+                
+                // gesture override
+                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                
+                let viewControllers: [UIViewController] = (self.navigationController?.viewControllers)!
+                _ = self.navigationController?.popToViewController(viewControllers[1], animated: true);
+                
+                
+            case UISwipeGestureRecognizerDirection.down:
+                print("Swiped down")
+            case UISwipeGestureRecognizerDirection.left:
+                print("Swiped left")
+            case UISwipeGestureRecognizerDirection.up:
+                print("Swiped up")
+            default:
+                break
+            }
         }
     }
     
@@ -522,6 +584,11 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 
                 // Get initial products
                 self.getInitialProducts()
+            }
+            
+            // ads
+            if (currentMode == .filter || currentMode == .default) {
+                configureAdManagerAndLoadAds()
             }
         }
     }
@@ -995,6 +1062,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     
                 }
             } else {
+                
+                // gesture override
+                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                
                 self.delegate?.popView()
             }
         }
@@ -1095,6 +1166,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         case .featuredHeader:
             return 1
         case .subcategories:
+            // fixer subcategory hidden in segment (women & men)
+            if lblTopHeader.text == "Barang apa yang ingin kamu lihat hari ini?" {
+                return 0
+            }
             return self.subcategoryItems.count
         case .segments:
             return self.segments.count
@@ -1254,6 +1329,12 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             p.currentMode = .filter
             p.fltrCategId = subcategoryItems[(indexPath as NSIndexPath).item].id
             p.fltrSortBy = "recent"
+            
+            // fixer subcategory hidden in segment (women & men)
+            if self.selectedSegment != "" {
+                p.fltrSegment = self.selectedSegment
+            }
+            
             self.navigationController?.pushViewController(p, animated: true)
         case .segments:
             self.selectedSegment = self.segments[(indexPath as NSIndexPath).item].type
@@ -1799,19 +1880,19 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     // MARK: - Ads
     func configureAdManagerAndLoadAds() {
         if adsManager == nil {
-            
+            /*
             if (AppTools.isDev) {
-                FBAdSettings.setLogLevel(FBAdLogLevel.log)
+                //FBAdSettings.setLogLevel(FBAdLogLevel.log)
             
                 var hashedIds : Array<String> = []
                 hashedIds.append("c175de056cdb0cca0c902686eb3fa862503918d5") // pw - new id
                 //hashedIds.append("81c2cf31791f7f7513d28f30c48d4186ca00b11f") // nadine - ipad
-                FBAdSettings.addTestDevices(hashedIds)
+                //FBAdSettings.addTestDevices(hashedIds)
             
                 //FBAdSettings.setLogLevel(FBAdLogLevel.none)
-                //FBAdSettings.clearTestDevices()
+                FBAdSettings.clearTestDevices()
             }
- 
+             */
             adsManager = FBNativeAdsManager(placementID: "860723977338277_1233930046684333", forNumAdsRequested: 5)
             adsManager.delegate = self
             adsManager.loadAds()
@@ -2079,6 +2160,7 @@ class ListItemCell : UICollectionViewCell {
     var currentMode : ListItemMode = .filter
     
     var parent : BaseViewController!
+    var product: Product!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -2118,6 +2200,7 @@ class ListItemCell : UICollectionViewCell {
     
     func adapt(_ product : Product, listStage : Int, currentMode : ListItemMode, shopAvatar : URL?, parent: BaseViewController) {
         self.parent = parent
+        self.product = product
         
         let obj = product.json
         captionTitle.text = product.name
@@ -2292,19 +2375,21 @@ class ListItemCell : UICollectionViewCell {
     }
     
     @IBAction func btnLovePressed(_ sender: Any) {
-        if (User.IsLoggedIn == true) {
-            if (newLove == true) {
-                newLove = false
-                buttonLoveChange(isLoved: false)
-                callApiUnlove()
+        if product.isAggregate == false && product.isAffiliate == false {
+            if (User.IsLoggedIn == true) {
+                if (newLove == true) {
+                    newLove = false
+                    buttonLoveChange(isLoved: false)
+                    callApiUnlove()
+                } else {
+                    newLove = true
+                    buttonLoveChange(isLoved: true)
+                    callApiLove()
+                }
             } else {
-                newLove = true
-                buttonLoveChange(isLoved: true)
-                callApiLove()
+                // call login
+                LoginViewController.Show(self.parent.previousController!, userRelatedDelegate: self.parent.previousController as! UserRelatedDelegate?, animated: true)
             }
-        } else {
-            // call login
-            LoginViewController.Show(self.parent.previousController!, userRelatedDelegate: self.parent.previousController as! UserRelatedDelegate?, animated: true)
         }
     }
 

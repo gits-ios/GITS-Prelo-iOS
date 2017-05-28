@@ -3955,7 +3955,7 @@ class PreloMessageItem : NSObject {
         } else if let j = json["title"].string {
             return j
         }
-        return "Prelo Message"
+        return ""
     }
     
     var banner : URL? {
@@ -4003,7 +4003,11 @@ class PreloMessageItem : NSObject {
         dateFormatter.locale = Locale(identifier: "id")
         dateFormatter.timeZone = NSTimeZone.system
         
-        return dateFormatter.string(from: date!)
+        if let d = date {
+            return dateFormatter.string(from: d)
+        } else {
+            return ds
+        }
     }
     
     var isContainAttachment : Bool {

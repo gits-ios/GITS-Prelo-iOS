@@ -20,6 +20,7 @@ enum imageFilterMode {
     case circleWithBadgePlaceHolder
     case fitWithPreloPlaceHolder
     case fillWithPreloMessagePlaceHolder
+    case fitWithPreloMessagePlaceHolder
 }
 
 class AppTools: NSObject {
@@ -511,6 +512,19 @@ extension UIImageView {
                 imageTransition: .crossDissolve(0.3)
             )
         }
+            
+        else if withFilter == .fitWithPreloMessagePlaceHolder {
+            let filter = AspectScaledToFitSizeFilter(
+                size: self.frame.size
+            )
+            
+            self.af_setImage(
+                withURL: withURL,
+                placeholderImage: UIImage(named: "placeholder-prelo-message.jpg")!, // pm
+                filter: filter,
+                imageTransition: .crossDissolve(0.3)
+            )
+        }
         
         // default fill
         else {
@@ -905,6 +919,7 @@ class UserDefaultsKey : NSObject {
     static let UpdatePopUpForced = "updatepopupforced"
     static let AbTestFakeApprove = "abtestfakeapprove"
     static let UpdatePopUpNotes = "updatepopupnotes"
+    static let AdsFrequency = "adsfrequency"
 }
 
 extension UserDefaults {

@@ -122,10 +122,23 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         
         // Transparent panel
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+        
+        // swipe gesture for carbon (pop view)
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeRight.direction = UISwipeGestureRecognizerDirection.right
+        
+        let vwLeft = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: UIScreen.main.bounds.height))
+        vwLeft.backgroundColor = UIColor.clear
+        vwLeft.addGestureRecognizer(swipeRight)
+        self.view.addSubview(vwLeft)
+        self.view.bringSubview(toFront: vwLeft)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        // gesture override
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         
         // Mixpanel
         if (!self.isMixpanelPageVisitSent) {
@@ -194,6 +207,14 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             }, completion: nil)
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        // fixer
+        // gesture override
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.an_unsubscribeKeyboard()
@@ -214,9 +235,43 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         alertView.addButton("Keluar") {
             User.Logout()
             self.dismiss(animated: true, completion: nil)
+            
+            // gesture override
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         }
         alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
         alertView.showCustom("Perhatian", subTitle: "Setelan akun belum selesai. Halaman ini akan muncul lagi ketika kamu login. Keluar?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+    }
+    
+    // MARK: - Swipe Navigation Override
+    func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.right:
+                print("Swiped right")
+                
+                let alertView = SCLAlertView(appearance: Constant.appearance)
+                alertView.addButton("Keluar") {
+                    User.Logout()
+                    self.dismiss(animated: true, completion: nil)
+                    
+                    // gesture override
+                    self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                }
+                alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+                alertView.showCustom("Perhatian", subTitle: "Setelan akun belum selesai. Halaman ini akan muncul lagi ketika kamu login. Keluar?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+                
+                
+            case UISwipeGestureRecognizerDirection.down:
+                print("Swiped down")
+            case UISwipeGestureRecognizerDirection.left:
+                print("Swiped left")
+            case UISwipeGestureRecognizerDirection.up:
+                print("Swiped up")
+            default:
+                break
+            }
+        }
     }
     
     func setupContent() {
@@ -779,6 +834,13 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         
                         // Prelo Analytic - Update User - Init
                         AnalyticManager.sharedInstance.initUser(userProfileData: userProfileData)
+                        
+                        // AppsFlyer
+                        let afPdata: [String : Any] = [
+                            AFEventParamCustomerUserId: userProfileData.id,
+                            AFEventParamRegistrationMethod: self.loginMethod
+                        ]
+                        AppsFlyerTracker.shared().trackEvent("af_setup_account", withValues: afPdata)
                     }
                     
                     let phoneVerificationVC = Bundle.main.loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil)?.first as! PhoneVerificationViewController

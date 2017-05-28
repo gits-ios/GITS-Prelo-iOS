@@ -122,14 +122,21 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     var isFirst = true
     var defaultAddressIndex = 0
     var defaultSubdistrictId = ""
+    var defaultAddress: AddressItem?
     
-    var dropDown: DropDown!
+    let dropDown = DropDown()
     
     var selectedBankIndex = -1
     var targetBank = ""
     var isDropdownMode = false
     
     @IBOutlet weak var loadingPanel: UIView!
+    
+    var creditCardAdditionalFee: Int = 2500
+    var indomaretMinimumFee: Int = 5000
+    
+    var creditCardMultiply: Double = 0.032
+    var indomaretMultiply: Double = 0.02
     
     // MARK: - Init
     
@@ -211,7 +218,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 initUserDataSections()
                 synchCart()
                 
-                getAddresses()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                    // fisrt load
+                    self.getAddresses()
+                })
                 
                 DropDown.startListeningToKeyboard()
                 
@@ -273,6 +283,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     json = json["_data"]
                     
                     if let arr = json.array {
+                        self.addresses = []
+                        self.showLoading()
+                        
                         for i in 0...arr.count - 1 {
                             let address = AddressItem.instance(arr[i])
                             self.addresses.append(address!)
@@ -282,7 +295,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                                 self.defaultAddressIndex = i
                                 self.defaultSubdistrictId = (address?.subdisrictId)!
                                 
-                                self.initUserDataSections()
+                                //self.initUserDataSections()
                             }
                         }
                         
@@ -297,7 +310,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     }
     
     func setupDropdownAddress() {
-        dropDown = DropDown()
+        //dropDown = DropDown()
         
         // The list of items to display. Can be changed dynamically
         //                dropDown.dataSource = ["Car", "Motorcycle", "Truck"]
@@ -317,7 +330,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
         
         if (addresses.count < 5) {
-            dropDown.dataSource.append("Alamat Baru")
+            dropDown.dataSource.append("+ Alamat baru")
         }
         
         dropDown.customCellConfiguration = { (index: Index, item: String, cell: DropDownCell) -> Void in
@@ -429,7 +442,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
         let p = AppToolsObjC.jsonString(from: c)
         let a = "{\"address\": \"alamat\", \"province_id\": \"" + selectedProvinsiID + "\", \"region_id\": \"" + selectedKotaID + "\", \"subdistrict_id\": \"" + selectedKecamatanID + "\", \"postal_code\": \"\"}"
-        print("cart_products : \(p)")
+        print("cart_products : \(String(describing: p))")
         print("shipping_address : \(a)")
         
         // API refresh cart
@@ -448,6 +461,13 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 self.currentCart = data
                 self.arrayItem = data["cart_details"].array!
                 //print("arrayItem = \(self.arrayItem)")
+                
+                //default address
+                self.defaultAddress = AddressItem.instance(data["default_address"])
+                self.creditCardAdditionalFee = data["veritrans_charge"]["credit_card"].intValue
+                self.indomaretMinimumFee = data["veritrans_charge"]["indomaret"].intValue
+                self.creditCardMultiply = data["veritrans_charge"]["credit_card_multiply_factor"].doubleValue
+                self.indomaretMultiply = data["veritrans_charge"]["indomaret_multiply_factor"].doubleValue
                 
                 // Ab test check
                 self.isHalfBonusMode = false
@@ -488,8 +508,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         if let voucherAmount = data["voucher_amount"].int {
                             self.isVoucherApplied = true
                             self.voucherApplied = data["voucher_serial"].stringValue
-                            let discVoucher = DiscountItem(title: "Voucher '" + self.voucherApplied + "'", value: voucherAmount)
-                            self.discountItems.append(discVoucher)
+                            if voucherAmount > 0 { // if zero, not shown
+                                let discVoucher = DiscountItem(title: "Voucher '" + self.voucherApplied + "'", value: voucherAmount)
+                                self.discountItems.append(discVoucher)
+                            }
                         }
                     } else {
                         if let voucherError = data["voucher_error"].string {
@@ -897,11 +919,12 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             priceAfterDiscounts = 0
         }
         
+        
         // Determine payment charge & set cellsData for payment charge
-        let creditCardCharge = 2500 + Int((Double(priceAfterDiscounts) * 0.032) + 0.5)
-        var indomaretCharge = Int((Double(priceAfterDiscounts) * 0.02) + 0.5)
-        if (indomaretCharge < 5000) {
-            indomaretCharge = 5000
+        let creditCardCharge = creditCardAdditionalFee + Int((Double(priceAfterDiscounts) * creditCardMultiply) + 0.5)
+        var indomaretCharge = Int((Double(priceAfterDiscounts) * indomaretMultiply) + 0.5)
+        if (indomaretCharge < indomaretMinimumFee) {
+            indomaretCharge = indomaretMinimumFee
         }
         if (priceAfterDiscounts > 0) {
             let idxPaymentCharge = IndexPath(row: 1 + discountItems.count, section: self.sectionPaySummary)
@@ -1056,7 +1079,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             if isNeedSetup {
                 return 9
             } else {
-                if self.addresses.count > 0 {
+                if self.addresses.count > 0 || self.defaultAddress != nil {
                     return 2
                 } else {
                     return 0
@@ -1125,11 +1148,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     if addresses.count > selectedIndex {
                         c.adapt(addresses[selectedIndex])
                     } else {
-                        c.adaptNew("Alamat Baru")
+                        c.adaptNew("+ Alamat baru")
                     }
                     c.selectionStyle = .none
                     
-                    if (dropDown != nil) {
+                    //if (dropDown != nil) {
                     
                         // dropDown.width = c.vwDropdown.width - 16
                         
@@ -1141,7 +1164,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         // When drop down is displayed with `Direction.top`, it will be above the anchorView
                         //dropDown.topOffset = CGPoint(x: 0, y:-(dropDown.anchorView?.plainView.bounds.height)! + 4)
                         
-                    }
+                    //}
                     
                     cell = c
                 } else if (row == 1 || row == 2) { // Nama, Telepon
@@ -1164,11 +1187,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     if addresses.count > selectedIndex {
                         c.adapt(addresses[selectedIndex])
                     } else { // wait if data not loaded
-                        c.adaptNew("...")
+                        c.adapt(self.defaultAddress!)
                     }
                     c.selectionStyle = .none
                     
-                    if (dropDown != nil) {
+                    //if (dropDown != nil) {
                     
                         // dropDown.width = c.vwDropdown.width - 16
                         
@@ -1180,12 +1203,16 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         // When drop down is displayed with `Direction.top`, it will be above the anchorView
                         //dropDown.topOffset = CGPoint(x: 0, y:-(dropDown.anchorView?.plainView.bounds.height)! + 4)
                         
-                    }
+                    //}
                     
                     cell = c
                 } else { // Provinsi, Kab/Kota, Kode Pos, Kecamatan
                     let c = tableView.dequeueReusableCell(withIdentifier: "cell_fullAddress") as! FullAlamatCell
-                    c.adapt(addresses[selectedIndex])
+                    if addresses.count > selectedIndex {
+                        c.adapt(addresses[selectedIndex])
+                    } else {
+                        c.adapt(self.defaultAddress!)
+                    }
                     c.selectionStyle = .none
                     cell = c
                 }
@@ -1404,6 +1431,12 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             }
         } else if ((indexPath as NSIndexPath).section == sectionAlamatUser) {
             if ((indexPath as NSIndexPath).row == 0) { // Choose address book
+                if addresses.count == 0 {
+                    self.getAddresses()
+                    
+                    Constant.showDialog("Perhatian", message: "Mohon tunggu beberapa saat, kemudian coba lagi.")
+                } else {
+                
                 /*
                 let c = tableView.cellForRow(at: indexPath) as! DropdownCell
                 
@@ -1427,7 +1460,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 }
                 
                 if (alamatCount < 5) {
-                    alamatAlert.addAction(UIAlertAction(title: "Alamat Baru", style: .default, handler: { act in
+                    alamatAlert.addAction(UIAlertAction(title: "+ Alamat baru", style: .default, handler: { act in
                         if (self.selectedIndex != alamatCount) {
                             self.isNeedSetup = true
                             self.selectedIndex = alamatCount
@@ -1444,10 +1477,13 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 self.present(alamatAlert, animated: true, completion: nil)
                 */
                 
-                dropDown.hide()
-                dropDown.show()
+                //if dropDown != nil {
+                    dropDown.hide()
+                    dropDown.show()
+                //}
                 
                 self.isSave = false
+                }
                 
             } else if ((indexPath as NSIndexPath).row == 6 /*3*/) { // Kecamatan
                 if (selectedKotaID == "") {
@@ -1746,12 +1782,44 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             "Category ID" : json["category_id"].stringValue
                         ]
                         itemsObject.append(curItem)
+                        
+                        // AppsFlyer
+                        let afPdata: [String : Any] = [
+                            AFEventParamRevenue     : (json["price"].intValue).string,
+                            AFEventParamContentType : json["category_id"].stringValue,
+                            AFEventParamContentId   : json["product_id"].stringValue,
+                            AFEventParamCurrency    : "IDR"
+                        ]
+                        AppsFlyerTracker.shared().trackEvent(AFEventInitiatedCheckout, withValues: afPdata)
                     }
                     
                     let orderId = self.checkoutResult!["order_id"].stringValue
                     let paymentMethod = self.checkoutResult!["payment_method"].stringValue
                     
                     totalPrice = self.checkoutResult!["total_price"].intValue
+                    
+                    // FB Analytics - initiated Checkout
+                    if AppTools.IsPreloProduction {
+                        do {
+                            //Convert to Data
+                            let jsonData = try! JSONSerialization.data(withJSONObject: itemsId, options: JSONSerialization.WritingOptions.prettyPrinted)
+                            
+                            //Convert back to string. Usually only do this for debugging
+                            if let JSONString = String(data: jsonData, encoding: String.Encoding.utf8) {
+                                print(JSONString)
+                                let productIdsString = JSONString.replaceRegex(Regex.init(pattern: "\n| ") , template: "")
+                                print(productIdsString)
+                                
+                                let fbPdata: [String : Any] = [
+                                    FBSDKAppEventParameterNameContentType          : "product",
+                                    FBSDKAppEventParameterNameContentID            : productIdsString,
+                                    FBSDKAppEventParameterNameNumItems             : itemsId.count.string,
+                                    FBSDKAppEventParameterNameCurrency             : "IDR"
+                                ]
+                                FBSDKAppEvents.logEvent(FBSDKAppEventNameInitiatedCheckout, valueToSum: Double(totalPrice), parameters: fbPdata)
+                            }
+                        }
+                    }
                     
                     /*
                     // MixPanel
@@ -1861,20 +1929,16 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     MoEngage.sharedInstance().trackEvent(MixpanelEvent.Checkout, builderPayload: moeEventTracker)
                 }
                 
-//                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//                let notifListener = appDelegate.preloNotifListener
-//                notifListener?.increaseCartCount(1)
-                
                 self.hideLoading()
+                
+                // update troli
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let notifListener = appDelegate.preloNotifListener
+                notifListener?.setCartCount(1 + self.transactionCount)
                 
                 // Prepare to navigate to next page
                 if (self.selectedPayment == .bankTransfer) {
                     self.navigateToOrderConfirmVC(false)
-                    
-                    // set 0 badge
-                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    let notifListener = appDelegate.preloNotifListener
-                    notifListener?.setCartCount(1 + self.transactionCount)
                 } else { // Credit card, indomaret
                     let webVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
                     webVC.url = self.checkoutResult!["veritrans_redirect_url"].stringValue
@@ -1882,11 +1946,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     webVC.creditCardMode = true
                     webVC.ccPaymentSucceed = {
                         self.navigateToOrderConfirmVC(true)
-                        
-                        // set 0 badge
-                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                        let notifListener = appDelegate.preloNotifListener
-                        notifListener?.setCartCount(1 + self.transactionCount)
                     }
                     webVC.ccPaymentUnfinished = {
                         Constant.showDialog("Pembayaran \(self.selectedPayment.value)", message: "Pembayaran tertunda")
@@ -1907,6 +1966,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     self.present(baseNavC, animated: true, completion: nil)
                 }
             }
+            
+            self.loadingPanel.isHidden = true
             self.btnSend.isEnabled = true
         }
     }
@@ -2913,7 +2974,7 @@ class CartPaymethodCell : UITableViewCell {
     
     @IBOutlet var lblDesc: [UILabel]!
     
-    var dropDown: DropDown!
+    let dropDown = DropDown()
     var selectedBankIndex = -1
     
     // Tag set in storyboard
@@ -3021,12 +3082,14 @@ class CartPaymethodCell : UITableViewCell {
         parent?.present(bankAlert, animated: true, completion: nil)
          */
         
-        dropDown.hide()
-        dropDown.show()
+        //if dropDown != nil {
+            dropDown.hide()
+            dropDown.show()
+        //}
     }
     
     func setupDropdownBank() {
-        dropDown = DropDown()
+        //dropDown = DropDown()
         
         var items = ["BCA", "Mandiri", "BNI"]
         var icons = ["rsz_ic_bca@2x", "rsz_ic_mandiri@2x", "rsz_ic_bni@2x"]

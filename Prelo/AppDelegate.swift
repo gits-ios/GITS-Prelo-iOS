@@ -136,6 +136,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AppsFlyerTracker.shared().appsFlyerDevKey = "JdjGSJmNJwd46zDPxZf9J"
         AppsFlyerTracker.shared().appleAppID = "1027248488"
         
+        if AppTools.isDev {
+            AppsFlyerTracker.shared().isDebug = true
+        }
+        
         // MoEngage
         MoEngage.sharedInstance().initialize(withApiKey: "N4VL0T0CGHRODQUOGRKZVWFH", in: application, withLaunchOptions: launchOptions)
         
@@ -281,7 +285,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         annotation: Any) -> Bool {
             // Kepanggil hanya jika app dibuka ketika sedang dalam background mode, jika app baru saja dibuka maka tidak terpanggil
             //Constant.showDialog("Deeplink", message: "url = \(url)")
+        
+        // deeplinking prelo://
+        if url.absoluteString.contains("prelo://"), let components = URLComponents(url: url, resolvingAgainstBaseURL: true) {
+            var param : [URLQueryItem] = []
+            if let items = components.queryItems {
+                param = items
+            }
+            if let del = UIApplication.shared.delegate as? AppDelegate {
+                del.handleUniversalLink(url, path: components.path, param: param)
+                
+                return true
+            }
+            return false
             
+        // deeplinking fb860723977338277:// (FACEBOOK)
+        } else if url.absoluteString.contains("fb860723977338277://") {
             if (!Branch.getInstance().handleDeepLink(url)) {
                 // Handle deeplink from Facebook
                 if let tipe = url.host {
@@ -298,8 +317,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     sourceApplication: sourceApplication,
                     annotation: annotation)
             }
-            
             return true
+        }
+        return true
     }
     
     func application(_ application: UIApplication, willContinueUserActivityWithType userActivityType: String) -> Bool {
@@ -583,9 +603,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // MoEngage
         MoEngage.sharedInstance().stop(application)
         
+        /* // disable
         if produkUploader != nil {
             produkUploader.stop()
         }
+         */
         
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().didLoseFocus()
@@ -602,11 +624,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Prelo Analytic - Open App
         AnalyticManager.sharedInstance.openApp()
         
+        /* // disable
         if (User.Token != nil && CDUser.getOne() != nil) { // If user is logged in
             DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
                 self.produkUploader.start()
             })
         }
+         */
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -652,27 +676,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
-    }
-    
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        // deeplinking prelo://
-        
-        print(url)
-        
-        if let components = URLComponents(url: url, resolvingAgainstBaseURL: true) {
-            var param : [URLQueryItem] = []
-            if let items = components.queryItems {
-                param = items
-            }
-            if let del = UIApplication.shared.delegate as? AppDelegate {
-                del.handleUniversalLink(url, path: components.path, param: param)
-                
-                return true
-            }
-            return false
-        }
-        
-        return false
     }
     
     // MARK: - Redirection functions
@@ -886,14 +889,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         if let userId = json["_id"].string {
                             self.redirectShopPage(userId)
                         } else {
-                            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                            self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
                                 // Choose one method
                                 UIApplication.shared.openURL(url) // Open in safari
                                 //self.redirectWebview(url.absoluteString) // Open in prelo's webview
                             })
                         }
                     } else {
-                        self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                        self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
                             // Choose one method
                             UIApplication.shared.openURL(url) // Open in safari
                             //self.redirectWebview(url.absoluteString) // Open in prelo's webview
@@ -903,7 +906,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             
         } else if (url.absoluteString.contains("http://") || url.absoluteString.contains("https://")) { // other
-            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+            self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
                 // Choose one method
                 UIApplication.shared.openURL(url) // Open in safari
                 //self.redirectWebview(url.absoluteString) // Open in prelo's webview
@@ -1057,7 +1060,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     let productDetailVC = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
                     productDetailVC.product = p!
                     
-                    self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                    self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
                         rootViewController!.pushViewController(productDetailVC, animated: true)
                     })
                 } else {
@@ -1101,7 +1104,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     p.pDetail = pDetail
                     p.previousScreen = "Push Notification"
                     
-                    self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                    self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
                         rootViewController!.pushViewController(p, animated: true)
                     })
                     
@@ -1141,7 +1144,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         if (!AppTools.isNewShop) {
-            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+            self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
                 rootViewController!.pushViewController(listItemVC, animated: true)
             })
             
@@ -1149,7 +1152,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
             storePageTabBarVC.shopId = userId
             
-            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+            self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
                 rootViewController!.pushViewController(storePageTabBarVC, animated: true)
             })
         }
@@ -1190,7 +1193,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     tawarVC.tawarItem = inbox
                     tawarVC.previousScreen = "Push Notification"
                     
-                    self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                    self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
                         rootViewController!.pushViewController(tawarVC, animated: true)
                     })
                 } else {
@@ -1227,7 +1230,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if (rootViewController != nil) {
             let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
             
-            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+            self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
                 rootViewController!.pushViewController(notifPageVC, animated: true)
             })
         } else {
@@ -1289,7 +1292,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             orderConfirmVC.images = imgs
                             orderConfirmVC.isFromCheckout = false
                             
-                            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+                            self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
                                 rootViewController!.pushViewController(orderConfirmVC, animated: true)
                             })
                         }
@@ -1332,7 +1335,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             transactionDetailVC.trxProductId = trxProductId
             transactionDetailVC.isSeller = isSeller
             
-            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+            self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
                 rootViewController!.pushViewController(transactionDetailVC, animated: true)
             })
         } else {
@@ -1362,7 +1365,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             expProductsVC.navigationItem.leftBarButtonItem = noBtn
         }
         
-        self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+        self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
             rootViewController!.pushViewController(expProductsVC, animated: true)
         })
     }
@@ -1393,7 +1396,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             listItemVC.navigationItem.leftBarButtonItem = noBtn
         }
         
-        self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+        self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
             rootViewController!.pushViewController(listItemVC, animated: true)
         })
     }
@@ -1425,7 +1428,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let productLovelistVC = Bundle.main.loadNibNamed(Tags.XibNameProductLovelist, owner: nil, options: nil)?.first as! ProductLovelistViewController
             productLovelistVC.productId = productId
             
-            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+            self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
                 rootViewController!.pushViewController(productLovelistVC, animated: true)
             })
         } else {
@@ -1460,7 +1463,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let AchievementVC = Bundle.main.loadNibNamed(Tags.XibNameAchievement, owner: nil, options: nil)?.first as! AchievementViewController
             AchievementVC.previousScreen = "Push Notification"
             
-            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+            self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
                 rootViewController!.pushViewController(AchievementVC, animated: true)
             })
         } else {
@@ -1494,7 +1497,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let referralPageVC = Bundle.main.loadNibNamed(Tags.XibNameReferralPage, owner: nil, options: nil)?.first as! ReferralPageViewController
             referralPageVC.previousScreen = "Push Notification"
             
-            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+            self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
                 rootViewController!.pushViewController(referralPageVC, animated: true)
             })
         } else {
@@ -1528,7 +1531,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let preloMessageVC = Bundle.main.loadNibNamed(Tags.XibNamePreloMessage, owner: nil, options: nil)?.first as! PreloMessageViewController
             preloMessageVC.previousScreen = "Push Notification"
             
-            self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+            self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
                 rootViewController!.pushViewController(preloMessageVC, animated: true)
             })
         } else {
@@ -1558,7 +1561,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.rootViewController = rootViewController
         }
         
-        self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+        self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
             rootViewController!.pushViewController(myProductVC, animated: true)
         })
     }
@@ -1587,7 +1590,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             webVC.navigationItem.leftBarButtonItem = noBtn
         }
         
-        self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+        self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
             rootViewController!.pushViewController(webVC, animated: true)
         })
     }
@@ -1613,7 +1616,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.rootViewController = rootViewController
         }
         
-        self.hideRedirAlertWithDelay(0, completion: { () -> Void in
+        self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
             rootViewController!.pushViewController(cartVC, animated: true)
         })
     }
@@ -1799,6 +1802,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             Constant.forceUpdatePrompt()
                         }
                     }
+                }
+                
+                // Check apps frequency
+                if let frequency = data["ads_config"]["frequency"].int {
+                    UserDefaults.standard.set(frequency + 1, forKey: UserDefaultsKey.AdsFrequency)
+                    
+                    UserDefaults.standard.synchronize()
                 }
             }
         }

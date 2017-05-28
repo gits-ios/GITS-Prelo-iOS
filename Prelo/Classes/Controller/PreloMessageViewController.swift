@@ -27,7 +27,6 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
     
     @IBOutlet weak var vwTopBannerParent: UIView!
     @IBOutlet weak var consHeightTopBannerParent: NSLayoutConstraint!
-    var isLoaded: Bool = true
     
     var lastContentOffset = CGPoint.zero
     
@@ -36,9 +35,7 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
     
     @IBOutlet weak var btnBackToTop: BorderedButton!
     
-    var startTime : TimeInterval! = nil
-    
-    var myRequest: Request?
+    var deadline = DispatchTime.now()
     
     // MARK: - Init
     override func viewDidLoad() {
@@ -213,17 +210,19 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
             cell.zoomImage = {
                 if m.bannerUri != nil {
                     var urlStr = m.bannerUri!.absoluteString
-                    if !urlStr.contains("http://") {
-                        urlStr = "http://" + m.bannerUri!.absoluteString
+                    if !urlStr.contains("http://") && !urlStr.contains("https://") {
+                        urlStr = "https://" + m.bannerUri!.absoluteString
                     }
                     let curl = URL(string: urlStr)!
                     self.openUrl(url: curl)
                 } else {
+                    /*
                     let c = CoverZoomController()
                     c.labels = [(m.isContainAttachment ? "pesan gambar" : (m.title == "" ? "Prelo Message" : m.title))]
                     c.images = [(m.banner?.absoluteString)!]
                     c.index = 0
                     self.navigationController?.present(c, animated: true, completion: nil)
+                     */
                 }
             }
             
@@ -320,8 +319,6 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
     }
     
     func showNewMessage() {
-        self.startTime = Date().timeIntervalSinceReferenceDate
-        
         let inset = UIEdgeInsetsMake(0, 0, 4, 0)
         self.tableView.contentInset = inset
         
@@ -351,24 +348,12 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
             placeSelectionBar()
         })
         
+        deadline = DispatchTime.now() + 0.4
+        
         // inject center (fixer)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
+        DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
             self.vwTopBannerParent.isHidden = true
             self.consHeightTopBannerParent.constant = 0
-            while (true) {
-                if self.isLoaded {
-                    self.scrollToTop()
-                    self.tableView.reloadData()
-                    self.hideLoading()
-                    break
-                } else if ((Date().timeIntervalSinceReferenceDate - self.startTime) >= 5.0) { // 5 detik
-                    Constant.showDialog("Get New Prelo Message", message: "Oops, terdapat kesalahan")
-                    self.myRequest?.cancel()
-                    self.tableView.reloadData()
-                    self.hideLoading()
-                    break
-                }
-            }
         })
     }
     
@@ -451,28 +436,34 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
         let notifListener = appDelegate.preloNotifListener
         let newNotifCount = (notifListener?.newNotifCount)! - count
         
-        self.isLoaded = false
-        self.myRequest = request(APIPreloMessage.getMessage).responseJSON { resp in
+        let _ = request(APIPreloMessage.getMessage).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Get New Prelo Message")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 if let _messages = data["messages"].array {
-                    for m in _messages.count-(count+1)..._messages.count-1 {
+                    for m in _messages.count-count..._messages.count-1 {
                         let message = PreloMessageItem.instance(_messages[m])
                         
                         self.isOpens.insert(false, at: 0)
                         self.messages?.insert(message!, at: 0)
                         
-                        notifListener?.setNewNotifCount(newNotifCount)
-                        
-                        self.isLoaded = true
                     }
+                    notifListener?.setNewNotifCount(newNotifCount)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: self.deadline, execute: {
+                        self.scrollToTop()
+                        self.tableView.reloadData()
+                        self.hideLoading()
+                    })
                 } else {
                     Constant.showDialog("Get New Prelo Message", message: "Oops, terdapat kesalahan")
-                    self.isLoaded = true
+                    
+                    self.hideLoading()
                 }
             } else {
-                self.isLoaded = true
+                Constant.showDialog("Get New Prelo Message", message: "Oops, terdapat kesalahan")
+                
+                self.hideLoading()
             }
         }
     }
@@ -507,20 +498,22 @@ class PreloMessageCell: UITableViewCell {
     var openUrl  : (_ url: URL)->() = {_ in }
     
     static func heightFor(_ message : PreloMessageItem, isOpen: Bool) -> CGFloat {
-        let standardHeight : CGFloat = 148.0 - 67.0 + 4
-        let heightBanner : CGFloat = (((UIScreen.main.bounds.width - 8) / 1024.0) * 337.0)
+        let standardHeight : CGFloat = 148.0 - 67.0 + 4 - 19.5
+        let heightBanner : CGFloat = (((UIScreen.main.bounds.width - 8) / 940.0 /*1024.0*/) * 492.0 /*337.0*/)
+        let titleRect = message.title.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 16), width: UIScreen.main.bounds.size.width - 24)
         let textRect = message.desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 24)
-        return standardHeight + (isOpen ? textRect.height - 21.5 : (84.0 > textRect.height ? textRect.height - 21.5 : 67.0)) + (message.banner != nil ? heightBanner : 0) + (message.title == "" ? -20 : 0)
+        return standardHeight + titleRect.height + (isOpen ? textRect.height - 21.5 : (84.0 > textRect.height ? textRect.height - 21.5 : 67.0)) + (message.banner != nil ? heightBanner : 0) + (message.title == "" ? -19.5 : 0)
         
     }
     
     func adapt(_ message : PreloMessageItem, isOpen: Bool) {
         if message.banner != nil {
-            let height = (((UIScreen.main.bounds.width - 8) / 1024.0) * 337.0)
+            let height = (((UIScreen.main.bounds.width - 8) / 940.0 /*1024.0*/) * 492.0 /*337.0*/)
             self.consHeightBannerImage.constant = height
             self.bannerImage.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 8, height: height)
+            self.bannerImage.backgroundColor = UIColor.clear
             
-            self.bannerImage.afSetImage(withURL: message.banner!, withFilter: .fillWithPreloMessagePlaceHolder)
+            self.bannerImage.afSetImage(withURL: message.banner!, withFilter: .fitWithPreloMessagePlaceHolder)
             
             /*if message.bannerUri != nil {
                 self.headerUri = message.bannerUri!

@@ -607,10 +607,23 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         for i in 0..<imgTitleIcons.count {
             imgTitleIcons[i].image = imgTitleIcons[i].image!.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
         }
+        
+        // swipe gesture for carbon (pop view)
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeRight.direction = UISwipeGestureRecognizerDirection.right
+        
+        let vwLeft = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: UIScreen.main.bounds.height))
+        vwLeft.backgroundColor = UIColor.clear
+        vwLeft.addGestureRecognizer(swipeRight)
+        self.view.addSubview(vwLeft)
+        self.view.bringSubview(toFront: vwLeft)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        // gesture override
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         
         if (self.editMode) {
             // Mixpanel
@@ -665,6 +678,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         self.an_unsubscribeKeyboard()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // gesture override
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
+    
     override func backPressed(_ sender: UIBarButtonItem) {
         let title = editMode ? "Edit" : "Jual"
         
@@ -717,6 +737,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         let alertView = SCLAlertView(appearance: Constant.appearance)
         
         alertView.addButton((self.fakeScrollView.isHidden == false && self.isImage == false || self.editMode == true) ? "Keluar" : "Simpan") {
+            
+            // gesture override
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+            
             if ((self.fakeScrollView.isHidden == true || self.isImage == true) && self.editMode == false){
                 
                 // save the draft
@@ -730,6 +754,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
         } else {
             alertView.addBorderButton("Keluar", backgroundColor: UIColor.white, textColor: Theme.PrimaryColor, borderColor: Theme.PrimaryColor, borderRadius: 4.0, borderWidth: 2.0, showDurationStatus: false) {
+                
+                // gesture override
+                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                
                 _ = self.navigationController?.popViewController(animated: true)
             }
             alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
@@ -775,6 +803,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     func userCancelLogin() {
         allowLaunchLogin = false
+        
+        // gesture override
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        
         _ = self.navigationController?.popViewController(animated: true)
     }
     
@@ -1029,8 +1061,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                                             target: nil)
         backgroundQueue.async {
             print("Work on background queue -- Save Image \(index)")
-            if self.isCamera[index] == true {
-                if let img = (images[index] as! UIImage).resizeWithMaxWidthOrHeight(1600) {
+            if self.isCamera[index] == true && self.images[index] is UIImage {
+                if let img = (self.images[index] as! UIImage).resizeWithMaxWidthOrHeight(1600) {
                     
                     // save & get
                     let photoURLpath = CustomPhotoAlbum.sharedInstance.save(image: img)
@@ -1763,6 +1795,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             CDDraftProduct.delete((draftProduct?.localId)!)
             //Constant.showBadgeDialog("Berhasil", message: "Draft barang berhasil dihapus", badge: "info", view: self, isBack: true)
             Constant.showDialog("Berhasil", message: "Draft barang berhasil dihapus")
+            
+            // gesture override
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+            
             _ = self.navigationController?.popViewController(animated: true)
         }
     }
@@ -2237,6 +2273,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 
                 //Mixpanel.sharedInstance().track("Editing Product", properties: ["success":"1"])
                 self.editDoneBlock()
+                
+                // gesture override
+                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                
                 _ = self.navigationController?.popViewController(animated: true)
                 return
             }
@@ -2362,6 +2402,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             
             Constant.showDialog("Berhasil", message: "Draft barang berhasil disimpan di menu Jualan Saya. Jika belum muncul, mohon tunggu beberapa saat dan coba untuk memperbarui menu Jualan Saya.")
             
+            // gesture override
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+            
             _ =  self.navigationController?.popViewController(animated: true)
         }
     }
@@ -2392,6 +2435,67 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
     }
     
+    // MARK: - Swipe Navigation Override
+    func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.right:
+                print("Swiped right")
+                
+                let title = editMode ? "Edit" : "Jual"
+                
+                
+                var message = "Kamu yakin mau keluar dari \(title) Barang? "
+                if title == "Edit" {
+                    message += "Seluruh perubahan akan dihapus"
+                } else {
+                    message += "Seluruh keterangan yang telah diisi akan dihapus"
+                }
+                message += (self.fakeScrollView.isHidden == true || self.isImage == true) && self.editMode == false ? ". Ingin disimpan?" : ""
+                
+                let alertView = SCLAlertView(appearance: Constant.appearance)
+                
+                alertView.addButton((self.fakeScrollView.isHidden == false && self.isImage == false || self.editMode == true) ? "Keluar" : "Simpan") {
+                    
+                    // gesture override
+                    self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                    
+                    if ((self.fakeScrollView.isHidden == true || self.isImage == true) && self.editMode == false){
+                        
+                        // save the draft
+                        self.saveDraft(isBack: true)
+                    } else {
+                        _ = self.navigationController?.popViewController(animated: true)
+                    }
+                }
+                
+                if (self.fakeScrollView.isHidden == false && self.isImage == false || self.editMode == true) {
+                    alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+                } else {
+                    alertView.addBorderButton("Keluar", backgroundColor: UIColor.white, textColor: Theme.PrimaryColor, borderColor: Theme.PrimaryColor, borderRadius: 4.0, borderWidth: 2.0, showDurationStatus: false) {
+                        
+                        // gesture override
+                        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                        
+                        _ = self.navigationController?.popViewController(animated: true)
+                    }
+                    alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+                }
+                
+                alertView.showCustom(title, subTitle: message, color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+                
+                
+            case UISwipeGestureRecognizerDirection.down:
+                print("Swiped down")
+            case UISwipeGestureRecognizerDirection.left:
+                print("Swiped left")
+            case UISwipeGestureRecognizerDirection.up:
+                print("Swiped up")
+            default:
+                break
+            }
+        }
+    }
     
     /*
     // MARK: - Navigation
