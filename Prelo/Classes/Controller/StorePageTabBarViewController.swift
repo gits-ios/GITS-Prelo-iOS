@@ -42,6 +42,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     @IBOutlet weak var shopName: UILabel! // hide
     @IBOutlet weak var shopLocation: UILabel!
     @IBOutlet weak var shopBadges: UICollectionView!
+    @IBOutlet weak var shopVerified: UIImageView!
     
     @IBOutlet weak var vwHeaderTabBar: UIView!
     @IBOutlet weak var vwChild: UIView!
@@ -383,6 +384,12 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         self.shopAvatar.afSetImage(withURL: shopAvatar, withFilter: .circle)
         let avatarFull = avatarThumbnail.replacingOccurrences(of: "thumbnails/", with: "", options: NSString.CompareOptions.literal, range: nil)
         self.avatarUrls.append(avatarFull)
+        
+        if let isAffiliate = json["is_affiliate"].bool, isAffiliate {
+            self.shopVerified.isHidden = false
+        } else {
+            self.shopVerified.isHidden = true
+        }
         
 //        self.badges = [ (URL(string: "https://trello-avatars.s3.amazonaws.com/c86b504990d8edbb569ab7c02fb55e3d/50.png")!), (URL(string: "https://trello-avatars.s3.amazonaws.com/3a83ed4d4b42810c05608cdc5547e709/50.png")!), (URL(string: "https://trello-avatars.s3.amazonaws.com/7a98b746bc71ccaf9af1d16c4a6b152e/50.png")!) ]
         

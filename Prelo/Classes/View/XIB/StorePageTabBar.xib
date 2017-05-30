@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -72,6 +72,13 @@
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="layer.maskToBounds" value="YES"/>
                                         </userDefinedRuntimeAttributes>
                                     </view>
+                                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_verified.png" translatesAutoresizingMaskIntoConstraints="NO" id="5sv-f6-Wcw" userLabel="Verified">
+                                        <rect key="frame" x="192" y="94" width="40" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="RGs-f2-xbP"/>
+                                            <constraint firstAttribute="width" constant="40" id="dML-Ja-rH0"/>
+                                        </constraints>
+                                    </imageView>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YsW-Fz-LJ0" userLabel="Shop Name">
                                         <rect key="frame" x="165" y="134" width="45" height="21"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
@@ -139,6 +146,8 @@
                                     <constraint firstItem="Xax-xW-Wct" firstAttribute="top" secondItem="f0o-nD-Jk7" secondAttribute="bottom" constant="4" id="1vR-c3-lW4"/>
                                     <constraint firstItem="YsW-Fz-LJ0" firstAttribute="top" secondItem="FLo-Uq-qwE" secondAttribute="bottom" constant="4" id="Bte-lY-2Cy"/>
                                     <constraint firstItem="FLo-Uq-qwE" firstAttribute="top" secondItem="ta8-wP-cZr" secondAttribute="top" constant="50" id="C1J-pB-Z74"/>
+                                    <constraint firstItem="5sv-f6-Wcw" firstAttribute="bottom" secondItem="FLo-Uq-qwE" secondAttribute="bottom" constant="4" id="Fo8-Np-xyF"/>
+                                    <constraint firstItem="5sv-f6-Wcw" firstAttribute="trailing" secondItem="FLo-Uq-qwE" secondAttribute="trailing" constant="4" id="MWX-ob-iCI"/>
                                     <constraint firstItem="f0o-nD-Jk7" firstAttribute="centerX" secondItem="ta8-wP-cZr" secondAttribute="centerX" id="aVH-dz-XK0"/>
                                     <constraint firstItem="FLo-Uq-qwE" firstAttribute="centerX" secondItem="ta8-wP-cZr" secondAttribute="centerX" id="jWg-H8-oPH"/>
                                     <constraint firstItem="f0o-nD-Jk7" firstAttribute="top" secondItem="YsW-Fz-LJ0" secondAttribute="bottom" constant="4" id="lBb-sZ-JYz"/>
@@ -281,6 +290,7 @@
                 <outlet property="shopBadges" destination="dEf-bb-yC9" id="Ff9-fx-BJ2"/>
                 <outlet property="shopLocation" destination="vn1-VL-Emu" id="nay-E0-Eqv"/>
                 <outlet property="shopName" destination="YsW-Fz-LJ0" id="nIY-SX-6r0"/>
+                <outlet property="shopVerified" destination="5sv-f6-Wcw" id="aaE-BW-gOA"/>
                 <outlet property="vwBadge" destination="bwY-ex-pxm" id="5WZ-JQ-cSI"/>
                 <outlet property="vwChild" destination="vH0-wM-j22" id="cqI-Sm-tye"/>
                 <outlet property="vwCollection" destination="Xax-xW-Wct" id="AQE-BM-4pU"/>
@@ -295,5 +305,6 @@
     </objects>
     <resources>
         <image name="cover_shop_persegi_1024px.png" width="1024" height="1024"/>
+        <image name="ic_verified.png" width="256" height="256"/>
     </resources>
 </document>

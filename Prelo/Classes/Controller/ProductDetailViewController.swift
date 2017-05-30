@@ -2232,7 +2232,7 @@ class ProductCellSeller : UITableViewCell, UICollectionViewDataSource, UICollect
     @IBOutlet weak var badgeCollectionView: UICollectionView! // achievement
     @IBOutlet weak var consWidthCollectionView: NSLayoutConstraint!
     
-    var badges : Array<URL>! = []
+    var badges : Array<String>! = []
     
     // love floatable
     @IBOutlet var vwLove: UIView!
@@ -2303,19 +2303,26 @@ class ProductCellSeller : UITableViewCell, UICollectionViewDataSource, UICollect
         badges = []
         consWidthCollectionView.constant = 0
         
-        if let arr = product["seller"]["achievements"].array {
-//            for i in arr {
-//                let ach = AchievementItem.instance(i)
-//                
-//                self.badges.append((ach?.icon)!)
-//            }
+        self.badges = []
+        if (obj?.isCheckout)! {
+            self.badges.append("ic_verified")
             
-            if arr.count > 0 {
-                let ach = AchievementItem.instance(arr[0])
+            setupCollection()
+        } else {
+            if let arr = product["seller"]["achievements"].array {
+//                for i in arr {
+//                    let ach = AchievementItem.instance(i)
+//                    
+//                    self.badges.append((ach?.icon)!)
+//                }
                 
-                self.badges.append((ach?.icon)!)
-                
-                setupCollection()
+                if arr.count > 0 {
+                    let ach = AchievementItem.instance(arr[0])
+                    
+                    self.badges.append((ach?.icon)!.absoluteString)
+                    
+                    setupCollection()
+                }
             }
         }
     }
@@ -2368,15 +2375,19 @@ class ProductCellSeller : UITableViewCell, UICollectionViewDataSource, UICollect
         // Create icon view
         let vwIcon : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
         
-//        vwIcon.layer.cornerRadius = vwIcon.frame.size.width/2
-//        vwIcon.layer.masksToBounds = true
-//        vwIcon.backgroundColor = UIColor.white
-        
         let img = UIImageView(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
         img.layoutIfNeeded()
         img.layer.cornerRadius = (img.width ) / 2
         img.layer.masksToBounds = true
-        img.afSetImage(withURL: badges[(indexPath as NSIndexPath).row], withFilter: .circleWithBadgePlaceHolder)
+        if badges[(indexPath as NSIndexPath).row] == "ic_verified" { // affiliate -> verified icon
+//            vwIcon.layer.cornerRadius = vwIcon.frame.size.width/2
+//            vwIcon.layer.masksToBounds = true
+//            vwIcon.backgroundColor = UIColor.red
+            
+            img.image = UIImage(named: badges[(indexPath as NSIndexPath).row])
+        } else {
+            img.afSetImage(withURL: URL(string: badges[(indexPath as NSIndexPath).row])!, withFilter: .circleWithBadgePlaceHolder)
+        }
         
         vwIcon.addSubview(img)
         
