@@ -15,6 +15,7 @@ import Bolts
 import FBSDKCoreKit
 import Alamofire
 import AVFoundation
+import AlamofireImage
 
 //import AdobeCreativeSDKCore
 
@@ -63,6 +64,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Application delegate functions
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        // alamofire-image fixer
+        DataRequest.addAcceptableImageContentTypes(["image/jpg","binary/octet-stream"])
         
         produkUploader = ProdukUploader()
         
