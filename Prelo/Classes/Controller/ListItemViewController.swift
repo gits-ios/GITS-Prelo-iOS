@@ -417,8 +417,12 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func setupContent() {
-        if (!isContentLoaded) {
-            isContentLoaded = true
+        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
+                                            qos: .background,
+                                            target: nil)
+        backgroundQueue.async {
+        if (!self.isContentLoaded) {
+            self.isContentLoaded = true
             
             // Default, Standalone, Shop, and Filter mode is predefined
             // Featured and Segment mode will be identified here
@@ -484,26 +488,29 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             }
             
             // Adjust content base on the mode
-            switch (currentMode) {
+            switch (self.currentMode) {
             case .default, .standalone:
+                DispatchQueue.main.async(execute: {
                 // Upper 4px padding handling
                 self.consTopTopHeader.constant = 4
                 
                 // Top header setup
                 self.consHeightVwTopHeader.constant = 0
-                
+                })
                 // Get initial products
                 self.getInitialProducts()
             case .shop, .newShop:
+                DispatchQueue.main.async(execute: {
                 // Upper 4px padding handling
                 self.consTopTopHeader.constant = 0
                 
                 // Top header setup
                 self.consHeightVwTopHeader.constant = 0
-                
+                })
                 // Get initial products
                 self.getInitialProducts()
             case .featured:
+                DispatchQueue.main.async(execute: {
                 // Upper 4px padding handling
                 self.consTopTopHeader.constant = 4
                 
@@ -511,62 +518,65 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.consHeightVwTopHeader.constant = 0
                 
                 // Set color
-                if let name = categoryJson?["name"].string, name.lowercased() == "all" {
+                if let name = self.categoryJson?["name"].string, name.lowercased() == "all" {
                     self.view.backgroundColor = Theme.GrayGranite // Upper 4px padding color
                     self.gridView.backgroundColor = Theme.GrayGranite // Background color
                 }
-                
+                })
                 // Get initial products
                 self.getInitialProducts()
             case .segment:
+                DispatchQueue.main.async(execute: {
                 // Top header setup
-                consHeightVwTopHeader.constant = 40
+                self.consHeightVwTopHeader.constant = 40
                 
                 // Show segments
                 self.setDefaultTopHeaderWomen()
                 
                 // Setup grid
                 self.setupGrid()
+                })
             case .filter:
+                DispatchQueue.main.async(execute: {
                 // Upper 4px padding handling
                 self.consTopTopHeader.constant = 4
                 self.view.backgroundColor = UIColor(hexString: "#E8ECEE")
                 
                 // Top header setup
-                consHeightVwTopHeader.constant = 52
+                self.consHeightVwTopHeader.constant = 52
                 
                 // Setup filter related views
-                for i in 0...vwTopHeaderFilter.subviews.count - 1 {
-                    vwTopHeaderFilter.subviews[i].createBordersWithColor(UIColor(hexString: "#e3e3e3"), radius: 0, width: 1)
+                for i in 0...self.vwTopHeaderFilter.subviews.count - 1 {
+                    self.vwTopHeaderFilter.subviews[i].createBordersWithColor(UIColor(hexString: "#e3e3e3"), radius: 0, width: 1)
                 }
-                vwTopHeaderFilter.isHidden = false
-                vwTopHeader.isHidden = true
-                if (fltrBrands.count > 0) {
-                    if (fltrBrands.count == 1) {
-                        lblFilterMerek.text = [String](fltrBrands.keys)[0]
+                self.vwTopHeaderFilter.isHidden = false
+                self.vwTopHeader.isHidden = true
+                if (self.fltrBrands.count > 0) {
+                    if (self.fltrBrands.count == 1) {
+                        self.lblFilterMerek.text = [String](self.fltrBrands.keys)[0]
                     } else {
-                        lblFilterMerek.text = [String](fltrBrands.keys)[0] + ", \(fltrBrands.count - 1)+"
+                        self.lblFilterMerek.text = [String](self.fltrBrands.keys)[0] + ", \(self.fltrBrands.count - 1)+"
                     }
                 } else {
-                    lblFilterMerek.text = "All"
+                    self.lblFilterMerek.text = "All"
                 }
-                if (fltrCategId == "") {
-                    lblFilterKategori.text = "All"
+                if (self.fltrCategId == "") {
+                    self.lblFilterKategori.text = "All"
                 } else {
-                    lblFilterKategori.text = CDCategory.getCategoryNameWithID(fltrCategId)
+                    self.lblFilterKategori.text = CDCategory.getCategoryNameWithID(self.fltrCategId)
                 }
-                lblFilterSort.text = self.FltrValSortBy[self.fltrSortBy]
-                if (lblFilterSort.text?.lowercased() == "highest rp") {
-                    lblFilterSort.font = UIFont.boldSystemFont(ofSize: 12)
+                self.lblFilterSort.text = self.FltrValSortBy[self.fltrSortBy]
+                if (self.lblFilterSort.text?.lowercased() == "highest rp") {
+                    self.lblFilterSort.font = UIFont.boldSystemFont(ofSize: 12)
                 } else {
-                    lblFilterSort.font = UIFont.boldSystemFont(ofSize: 13)
+                    self.lblFilterSort.font = UIFont.boldSystemFont(ofSize: 13)
                 }
                 // Search bar setup
                 var searchBarWidth = UIScreen.main.bounds.size.width * 0.8375
                 if (AppTools.isIPad) {
                     searchBarWidth = UIScreen.main.bounds.size.width - 68
                 }
-                searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: searchBarWidth, height: 30))
+                self.searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: searchBarWidth, height: 30))
                 if let searchField = self.searchBar.value(forKey: "searchField") as? UITextField {
                     searchField.backgroundColor = Theme.PrimaryColorDark
                     searchField.textColor = UIColor.white
@@ -578,17 +588,18 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     }
                     searchField.borderStyle = UITextBorderStyle.none
                 }
-                searchBar.delegate = self
-                searchBar.placeholder = "Cari di Prelo"
-                self.navigationItem.rightBarButtonItem = searchBar.toBarButton()
-                
+                self.searchBar.delegate = self
+                self.searchBar.placeholder = "Cari di Prelo"
+                self.navigationItem.rightBarButtonItem = self.searchBar.toBarButton()
+                })
                 // Get initial products
                 self.getInitialProducts()
             }
+            }
             
             // ads
-            if (currentMode == .filter || currentMode == .default) {
-                configureAdManagerAndLoadAds()
+            if (self.currentMode == .filter || self.currentMode == .default) {
+                self.configureAdManagerAndLoadAds()
             }
         }
     }
@@ -659,20 +670,21 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func getProducts() {
-        switch (currentMode) {
+        DispatchQueue.main.async(execute: {
+        switch (self.currentMode) {
         case .default:
-            if let catId = categoryJson?["_id"].string {
+            if let catId = self.categoryJson?["_id"].string {
                 self.getCategorizedProducts(catId)
             }
         case .standalone:
-            self.getCategorizedProducts(standaloneCategoryID)
+            self.getCategorizedProducts(self.standaloneCategoryID)
         case .shop:
             self.getShopProducts()
         case .featured:
             self.getFeaturedProducts()
         case .segment:
             if (self.listItemSections.contains(.products)) {
-                if let catId = categoryJson?["_id"].string {
+                if let catId = self.categoryJson?["_id"].string {
                     self.getCategorizedProducts(catId)
                 }
             }
@@ -682,6 +694,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         case .newShop:
             self.getNewShopProducts()
         }
+        })
     }
     
     func getCategorizedProducts(_ catId : String) {
@@ -1111,46 +1124,42 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func setupGrid() {
-        if (currentMode == .filter && products?.count <= 0 && !requesting) {
-            gridView.isHidden = true
-            vwFilterZeroResult.isHidden = false
-            if (fltrName != "") {
-                lblFilterZeroResult.text = "Tidak ada hasil yang ditemukan untuk '\(fltrName)'"
-                btnFilterZeroResult.isHidden = false
+        if (self.currentMode == .filter && self.products?.count <= 0 && !self.requesting) {
+            self.gridView.isHidden = true
+            self.vwFilterZeroResult.isHidden = false
+            if (self.fltrName != "") {
+                self.lblFilterZeroResult.text = "Tidak ada hasil yang ditemukan untuk '\(self.fltrName)'"
+                self.btnFilterZeroResult.isHidden = false
             } else {
-                lblFilterZeroResult.text = "Tidak ada hasil yang ditemukan"
-                btnFilterZeroResult.isHidden = true
+                self.lblFilterZeroResult.text = "Tidak ada hasil yang ditemukan"
+                self.btnFilterZeroResult.isHidden = true
             }
             return
         }
         
-        if (gridView.dataSource == nil || gridView.delegate == nil) {
-            gridView.dataSource = self
-            gridView.delegate = self
+        if (self.gridView.dataSource == nil || self.gridView.delegate == nil) {
+            self.gridView.dataSource = self
+            self.gridView.delegate = self
         }
         
-        if (!(currentMode == .segment && listItemSections.contains(.segments))) {
-            if (listStage == 1) {
-                itemCellWidth = ((UIScreen.main.bounds.size.width - 16) / 3)
-            } else if (listStage == 2) {
-                itemCellWidth = ((UIScreen.main.bounds.size.width - 12) / 2)
-            } else if (listStage == 3) {
-                itemCellWidth = ((UIScreen.main.bounds.size.width - 8) / 1)
+        if (!(self.currentMode == .segment && self.listItemSections.contains(.segments))) {
+            if (self.listStage == 1) {
+                self.itemCellWidth = ((UIScreen.main.bounds.size.width - 16) / 3)
+            } else if (self.listStage == 2) {
+                self.itemCellWidth = ((UIScreen.main.bounds.size.width - 12) / 2)
+            } else if (self.listStage == 3) {
+                self.itemCellWidth = ((UIScreen.main.bounds.size.width - 8) / 1)
             }
         }
         
-        gridView.reloadData()
-        if (currentMode == .segment || self.isFeatured == true) {
-            gridView.contentInset = UIEdgeInsetsMake(0, 0, 48, 0)
-        } else if (currentMode == .filter || currentMode == .shop || currentMode == .newShop) {
-            gridView.contentInset = UIEdgeInsetsMake(0, 0, 24, 0)
+        self.gridView.reloadData()
+        if (self.currentMode == .segment || self.isFeatured == true) {
+            self.gridView.contentInset = UIEdgeInsetsMake(0, 0, 48, 0)
+        } else if (self.currentMode == .filter || self.currentMode == .shop || self.currentMode == .newShop) {
+            self.gridView.contentInset = UIEdgeInsetsMake(0, 0, 24, 0)
         }
-        gridView.isHidden = false
-        vwFilterZeroResult.isHidden = true
-        
-//        if (currentMode == .filter) {
-//            configureAdManagerAndLoadAds()
-//        }
+        self.gridView.isHidden = false
+        self.vwFilterZeroResult.isHidden = true
     }
     
     // MARK: - Collection view functions
