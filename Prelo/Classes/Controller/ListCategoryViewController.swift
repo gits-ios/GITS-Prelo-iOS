@@ -336,8 +336,11 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         for i in 0...count-1
         {
             let button = UIButton(type: .custom)
-            button.setTitleColor(Theme.GrayLight)
-            button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+            //button.setTitleColor(Theme.GrayLight)
+            //button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+            
+            // text only
+            /*
             if let name = categoriesFix[i]["name"].string {
                 var nameFix = name
                 if (nameFix.lowercased() == "all") {
@@ -346,9 +349,67 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                     }
                 }
                 button.setTitle(nameFix, for: UIControlState())
-            }
+            } */
             
-            button.sizeToFit()
+            // icon only
+            /*
+            if let icon = categoriesFix[i]["image_name"].string {
+                button.af_setImage(for: UIControlState(), url: URL(string: icon)!)
+                button.imageView?.contentMode = .scaleAspectFit
+                button.imageEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
+            } */
+            
+            //button.sizeToFit()
+            
+            if let name = categoriesFix[i]["name"].string, let icon = categoriesFix[i]["image_name"].string {
+                var nameFix = name
+                if (nameFix.lowercased() == "all") {
+                    if let ftrd = categoriesFix[i]["is_featured"].bool , ftrd == true {
+                        nameFix = "Home"
+                    }
+                }
+                
+                let imgLb = UILabel()
+                imgLb.frame = CGRect(x: 0, y: 30, width: 40, height: 8)
+                imgLb.font = UIFont.systemFont(ofSize: 8)
+                imgLb.text = nameFix
+                imgLb.tag = 999
+                let c = imgLb.sizeThatFits(CGSize(width: 40, height: 8))
+                if c.width > 40 {
+                    imgLb.sizeToFit()
+                }
+                imgLb.textAlignment = .center
+                imgLb.textColor = Theme.GrayLight
+                
+                let imgVw = TintedImageView()
+                imgVw.frame = CGRect(x: 0, y: 4, width: imgLb.width, height: 24)
+                //imgVw.afSetImage(withURL: URL(string: icon)!, withFilter: .noneWithoutPlaceHolder)
+                
+                imgVw.af_setImage(
+                    withURL: URL(string: icon)!,
+                    imageTransition: .custom(
+                        duration: 0.3,
+                        animationOptions: .transitionCrossDissolve,
+                        animations: { imageView, image in
+                            imageView.image = image.withRenderingMode(.alwaysTemplate)
+                    },
+                        completion: nil
+                    )
+                )
+                
+                imgVw.contentMode = .scaleAspectFit
+                imgVw.tag = 998
+                imgVw.tint = true
+                imgVw.tintColor = Theme.GrayLight
+                
+                button.viewWithTag(998)?.removeFromSuperview()
+                button.viewWithTag(999)?.removeFromSuperview()
+                
+                button.addSubview(imgVw)
+                button.addSubview(imgLb)
+                
+                button.frame = CGRect(x: 0, y: 0, width: imgLb.width, height: 40)
+            }
             
             button.addTarget(self, action: #selector(ListCategoryViewController.categoryButtonAction(_:)), for: UIControlEvents.touchUpInside)
             
@@ -508,10 +569,28 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         for i in 0...categoryNames.count-1 {
             if index != i {
                 let button = categoryNames[i] as! UIButton
-                button.setTitleColor(Theme.GrayLight)
+                //button.setTitleColor(Theme.GrayLight)
+                if let imgLb = button.viewWithTag(999) {
+                    let lb = imgLb as! UILabel
+                    lb.textColor = Theme.GrayLight
+                }
+                if let imgVw = button.viewWithTag(998) {
+                    let vw = imgVw as! TintedImageView
+                    vw.tint = true
+                    vw.tintColor = Theme.GrayLight
+                }
             } else {
                 let button = categoryNames[i] as! UIButton
-                button.setTitleColor(Theme.GrayDark)
+                //button.setTitleColor(Theme.GrayDark)
+                if let imgLb = button.viewWithTag(999) {
+                    let lb = imgLb as! UILabel
+                    lb.textColor = Theme.GrayDark
+                }
+                if let imgVw = button.viewWithTag(998) {
+                    let vw = imgVw as! TintedImageView
+                    vw.tint = true
+                    vw.tintColor = Theme.GrayDark
+                }
             }
         }
     }
@@ -523,7 +602,16 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         indicatorWidth?.constant = v.width
         
         let button = categoryNames[index] as! UIButton
-        button.setTitleColor(Theme.GrayDark)
+        //button.setTitleColor(Theme.GrayDark)
+        if let imgLb = button.viewWithTag(999) {
+            let lb = imgLb as! UILabel
+            lb.textColor = Theme.GrayDark
+        }
+        if let imgVw = button.viewWithTag(998) {
+            let vw = imgVw as! TintedImageView
+            vw.tint = true
+            vw.tintColor = Theme.GrayDark
+        }
         
         centerCategoryView(index)
     }
