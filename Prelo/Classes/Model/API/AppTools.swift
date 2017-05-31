@@ -451,7 +451,8 @@ extension UIImageView {
             
             self.af_setImage(
                 withURL: withURL,
-                placeholderImage: UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad" : "placeholder-transparent"))!, // full screen
+                placeholderImage: UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-gray" : "placeholder-transparent-gray"))!, // full screen
+                
                 filter: filter,
                 imageTransition: .crossDissolve(0.3)
             )
