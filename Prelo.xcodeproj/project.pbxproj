@@ -615,6 +615,7 @@
 		B240F4DE1E24DAD900DCAFF7 /* AchievementCellProgressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B240F4DD1E24DAD900DCAFF7 /* AchievementCellProgressCell.xib */; };
 		B240F4F11E24DE7000DCAFF7 /* AchievementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B240F4F01E24DE7000DCAFF7 /* AchievementViewController.swift */; };
 		B26DB3F11E2D3C6F00224675 /* ic_achievement.png in Resources */ = {isa = PBXBuildFile; fileRef = B26DB3F01E2D3C6F00224675 /* ic_achievement.png */; };
+		B271A66A1EDEC40400C6A973 /* placeholder-standar-white.png in Resources */ = {isa = PBXBuildFile; fileRef = B271A6691EDEC40400C6A973 /* placeholder-standar-white.png */; };
 		B27948231E35C700002CEED4 /* TarikTunai2.xib in Resources */ = {isa = PBXBuildFile; fileRef = B27948221E35C700002CEED4 /* TarikTunai2.xib */; };
 		B27948251E35D971002CEED4 /* TarikTunaiViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27948241E35D971002CEED4 /* TarikTunaiViewController2.swift */; };
 		B27EE2071E4DBD230018E8A0 /* PushNotif.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B2B34BCC1E37042C001B653F /* PushNotif.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -1670,6 +1671,7 @@
 		B240F4F01E24DE7000DCAFF7 /* AchievementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AchievementViewController.swift; sourceTree = "<group>"; };
 		B24FCEF21E536E8000B517A9 /* DropDown.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DropDown.xcodeproj; path = DropDown/DropDown.xcodeproj; sourceTree = "<group>"; };
 		B26DB3F01E2D3C6F00224675 /* ic_achievement.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_achievement.png; sourceTree = "<group>"; };
+		B271A6691EDEC40400C6A973 /* placeholder-standar-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-standar-white.png"; sourceTree = "<group>"; };
 		B27948221E35C700002CEED4 /* TarikTunai2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunai2.xib; sourceTree = "<group>"; };
 		B27948241E35D971002CEED4 /* TarikTunaiViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiViewController2.swift; sourceTree = "<group>"; };
 		B285789D1E56B8F7008995F4 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
@@ -3251,6 +3253,7 @@
 				B2BEBC751E4C27EC009982F9 /* placeholder-transparent.png */,
 				B2BEBC7B1E4C30BF009982F9 /* placeholder-transparent-ipad.png */,
 				B2CAF7951E794ED100ACB361 /* placeholder-prelo-message.jpg */,
+				B271A6691EDEC40400C6A973 /* placeholder-standar-white.png */,
 			);
 			name = placeholder;
 			sourceTree = "<group>";
@@ -3852,6 +3855,7 @@
 				210DF0EB1B730764004AE3D9 /* ic_dollar@2x.png in Resources */,
 				585887421DBEDAC3006EC6D5 /* MyProductProcessing.xib in Resources */,
 				215C526D1B6B5CCE00EA4E61 /* ic_love@2x.png in Resources */,
+				B271A66A1EDEC40400C6A973 /* placeholder-standar-white.png in Resources */,
 				5858873B1DBEDA54006EC6D5 /* FilterCollectionCell.xib in Resources */,
 				5856875B1C6C97F4002A19CE /* ic_request.png in Resources */,
 				589A6FAE1D8C08F600654CDD /* ic_1_2kg.png in Resources */,

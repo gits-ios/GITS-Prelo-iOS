@@ -218,10 +218,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 initUserDataSections()
                 synchCart()
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
-                    // fisrt load
-                    self.getAddresses()
-                })
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+//                    // fisrt load
+//                    self.getAddresses()
+//                })
                 
                 DropDown.startListeningToKeyboard()
                 
@@ -468,6 +468,26 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 self.indomaretMinimumFee = data["veritrans_charge"]["indomaret"].intValue
                 self.creditCardMultiply = data["veritrans_charge"]["credit_card_multiply_factor"].doubleValue
                 self.indomaretMultiply = data["veritrans_charge"]["indomaret_multiply_factor"].doubleValue
+                
+                // address book
+                self.addresses = []
+                self.showLoading()
+                
+                if let arr = data["address_book"].array {
+                    for i in 0...arr.count - 1 {
+                        let address = AddressItem.instance(arr[i])
+                        self.addresses.append(address!)
+                        if (address?.isMainAddress)! {
+                            self.selectedIndex = i
+                            
+                            self.defaultAddressIndex = i
+                            self.defaultSubdistrictId = (address?.subdisrictId)!
+                            
+                            //self.initUserDataSections()
+                        }
+                    }
+                    self.setupDropdownAddress()
+                }
                 
                 // Ab test check
                 self.isHalfBonusMode = false

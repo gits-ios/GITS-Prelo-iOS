@@ -399,7 +399,7 @@ extension UIImageView {
         
         // default fill
         
-        let placeholderImage = UIImage(named: "placeholder-standar")!
+        let placeholderImage = UIImage(named: "placeholder-standar-white")!
         
         let filter = AspectScaledToFillSizeFilter(
             size: self.frame.size
@@ -417,7 +417,7 @@ extension UIImageView {
     
     func afSetImage(withURL: URL, withFilter: imageFilterMode) {
         
-        let placeholderImage = UIImage(named: "placeholder-standar")!
+        let placeholderImage = UIImage(named: "placeholder-standar-white")!
         
         if withFilter == .fitWithPreloPlaceHolder {
             let filter = AspectScaledToFitSizeFilter(
