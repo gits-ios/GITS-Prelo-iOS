@@ -1204,21 +1204,29 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 cell.setCarouselTimer()
                 isCarouselTimerSet = true
             }
+            cell.layer.shouldRasterize = true
+            cell.layer.rasterizationScale = UIScreen.main.scale
             return cell
         case .featuredHeader:
             let cell : ListItemFeaturedHeaderCell = collectionView.dequeueReusableCell(withReuseIdentifier: "featured_cell", for: indexPath) as! ListItemFeaturedHeaderCell
             if let name = categoryJson?["name"].string {
                 cell.adapt(name, featuredTitle: categoryJson?["featured_title"].string, featuredDescription: categoryJson?["featured_description"].string)
             }
+            cell.layer.shouldRasterize = true
+            cell.layer.rasterizationScale = UIScreen.main.scale
             return cell
         case .subcategories:
             let cell : ListItemSubcategoryCell = collectionView.dequeueReusableCell(withReuseIdentifier: "subcategory_cell", for: indexPath) as! ListItemSubcategoryCell
             cell.imgSubcategory.image = subcategoryItems[(indexPath as NSIndexPath).item].image
             cell.lblSubcategory.isHidden = true // Unused label
+            cell.layer.shouldRasterize = true
+            cell.layer.rasterizationScale = UIScreen.main.scale
             return cell
         case .segments:
             let cell : ListItemSegmentCell = collectionView.dequeueReusableCell(withReuseIdentifier: "segment_cell", for: indexPath) as! ListItemSegmentCell
             cell.imgSegment.image = segments[(indexPath as NSIndexPath).item].image
+            cell.layer.shouldRasterize = true
+            cell.layer.rasterizationScale = UIScreen.main.scale
             return cell
         case .products:
             if adsCellProvider != nil && adsCellProvider.isAdCell(at: indexPath, forStride: UInt(adRowStep)) {
@@ -1247,12 +1255,35 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     // Hide featured ribbon
                     cell.imgFeatured.isHidden = true
                 }
+                cell.layer.shouldRasterize = true
+                cell.layer.rasterizationScale = UIScreen.main.scale
                 return cell
             }
         case .aboutShop:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "StorePageShopHeader", for: indexPath) as! StoreInfo
             cell.adapt(self.shopData, count: self.products!.count, isExpand: self.isExpand, star: self.star)
+            cell.layer.shouldRasterize = true
+            cell.layer.rasterizationScale = UIScreen.main.scale
             return cell
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        switch listItemSections[(indexPath as NSIndexPath).section] {
+        case .products:
+            if adsCellProvider != nil && adsCellProvider.isAdCell(at: indexPath, forStride: UInt(adRowStep)) {
+                // do nothing
+            }
+            else {
+                var idx  = (indexPath as NSIndexPath).item
+                if (adsCellProvider != nil && adRowStep != 0) {
+                    idx = indexPath.row - indexPath.row / adRowStep
+                }
+                
+                let c = cell as! ListItemCell
+                c.ivCover.afCancelRequest()
+            }
+        default: break
         }
     }
     
