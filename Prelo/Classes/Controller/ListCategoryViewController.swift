@@ -53,6 +53,8 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
     var imgCoachmarkPinch : UIImageView?
     var imgCoachmarkSpread : UIImageView?
     
+    var tabbarBtnMargin = 8 // 20
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -198,6 +200,28 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         categories = JSON(NSKeyedUnarchiver.unarchiveObject(with: data!)!)
         
         categoriesFix = categories!["_data"].arrayValue
+        
+        
+        // setup space
+        let c = categoriesFix.count
+        
+        // iphone
+        var small = c - 1 // 40 , 53
+        var width = small*40 + 53
+        
+        if AppTools.isIPad {
+            // ipad
+            small = c - 4 // 40, 42.5, 41.5, 44, 62
+            width = small*40 + 42
+            width += 42 + 44 + 62
+        }
+        
+        let nw = UIScreen.main.bounds.width - CGFloat(width)
+        if nw > 0 {
+            let nnw = Int(nw) - (Int(nw) / c)
+            self.tabbarBtnMargin = Int(nnw) / c - 1
+        }
+        
         addChilds(categoriesFix.count)
     }
     
@@ -369,14 +393,21 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                     }
                 }
                 
+                var h: CGFloat = 10
+                
+                if AppTools.isIPad {
+                    h = 12
+                }
+                
                 let imgLb = UILabel()
-                imgLb.frame = CGRect(x: 0, y: 30, width: 40, height: 8)
-                imgLb.font = UIFont.systemFont(ofSize: 8)
+                imgLb.frame = CGRect(x: 0, y: 30, width: 40, height: h)
+                imgLb.font = UIFont.systemFont(ofSize: h)
                 imgLb.text = nameFix
                 imgLb.tag = 999
-                let c = imgLb.sizeThatFits(CGSize(width: 40, height: 8))
+                let c = imgLb.sizeThatFits(CGSize(width: 40, height: h))
                 if c.width > 40 {
-                    imgLb.sizeToFit()
+                    //imgLb.sizeToFit()
+                    imgLb.frame = CGRect(x: 0, y: 30, width: c.width + 4, height: h)
                 }
                 imgLb.textAlignment = .center
                 imgLb.textColor = Theme.GrayLight
@@ -385,17 +416,21 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 imgVw.frame = CGRect(x: 0, y: 4, width: imgLb.width, height: 24)
                 //imgVw.afSetImage(withURL: URL(string: icon)!, withFilter: .noneWithoutPlaceHolder)
                 
-                imgVw.af_setImage(
-                    withURL: URL(string: icon)!,
-                    imageTransition: .custom(
-                        duration: 0.3,
-                        animationOptions: .transitionCrossDissolve,
-                        animations: { imageView, image in
-                            imageView.image = image.withRenderingMode(.alwaysTemplate)
-                    },
-                        completion: nil
+                if nameFix == "Home" {
+                    imgVw.image = UIImage(named: "ic_home")?.withRenderingMode(.alwaysTemplate)
+                } else {
+                    imgVw.af_setImage(
+                        withURL: URL(string: icon)!,
+                        imageTransition: .custom(
+                            duration: 0.3,
+                            animationOptions: .transitionCrossDissolve,
+                            animations: { imageView, image in
+                                imageView.image = image.withRenderingMode(.alwaysTemplate)
+                        },
+                            completion: nil
+                        )
                     )
-                )
+                }
                 
                 imgVw.contentMode = .scaleAspectFit
                 imgVw.tag = 998
@@ -419,13 +454,14 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             v.translatesAutoresizingMaskIntoConstraints = false
             contentCategoryNames?.addSubview(v)
             d["v"] = v
+            
             if let lv = lastView
             {
                 d["lv"] = lv
-                contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "[lv]-20-[v]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
+                contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "[lv]-" + tabbarBtnMargin.string + "-[v]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
                 
             } else {
-                contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "|-20-[v]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
+                contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "|-" + tabbarBtnMargin.string + "-[v]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
             }
             
             contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[v]-0-|", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
@@ -434,7 +470,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             
             if (i == count-1)
             {
-            contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "[v]-20-|", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
+            contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "[v]-" + tabbarBtnMargin.string + "-|", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
             }
             
             lastView = v
