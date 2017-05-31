@@ -51,6 +51,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     @IBOutlet weak var vwBadge: UIView!
     @IBOutlet weak var consTopVw: NSLayoutConstraint! // 0 --> -170
     @IBOutlet weak var consWidthCollectionView: NSLayoutConstraint!
+    @IBOutlet weak var consCenterxLbToko: NSLayoutConstraint!
     
     @IBOutlet weak var vwCollection: UIView! // hide
     @IBOutlet weak var vwGeolocation: UIView! // hide
@@ -387,8 +388,11 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         
         if let isAffiliate = json["is_affiliate"].bool, isAffiliate {
             self.shopVerified.isHidden = false
+            
+            self.consCenterxLbToko.constant = 12
         } else {
             self.shopVerified.isHidden = true
+            self.consCenterxLbToko.constant = 0
         }
         
 //        self.badges = [ (URL(string: "https://trello-avatars.s3.amazonaws.com/c86b504990d8edbb569ab7c02fb55e3d/50.png")!), (URL(string: "https://trello-avatars.s3.amazonaws.com/3a83ed4d4b42810c05608cdc5547e709/50.png")!), (URL(string: "https://trello-avatars.s3.amazonaws.com/7a98b746bc71ccaf9af1d16c4a6b152e/50.png")!) ]

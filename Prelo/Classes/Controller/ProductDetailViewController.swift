@@ -2299,16 +2299,31 @@ class ProductCellSeller : UITableViewCell, UICollectionViewDataSource, UICollect
 
         ivSellerAvatar?.afSetImage(withURL: (obj?.shopAvatarURL)!, withFilter: .circle)
         
+        if (obj?.isCheckout)! {
+            let w = self.captionSellerName?.sizeThatFits((self.captionSellerName?.intrinsicContentSize)!)
+            
+            let img = UIImageView()
+            let h = self.captionSellerName?.height
+            let y = (20 - h!) / 2
+            
+            img.frame = CGRect(x: (self.captionSellerName?.x)! + (w?.width)! + 4, y: (self.captionSellerName?.y)! - y, width: 20, height: 20)
+            img.image = UIImage(named: "ic_verified")
+            img.tag = 999
+            
+            self.viewWithTag(999)?.removeFromSuperview()
+            self.addSubview(img)
+        }
+        
         // reset
         badges = []
         consWidthCollectionView.constant = 0
         
         self.badges = []
-        if (obj?.isCheckout)! {
-            self.badges.append("ic_verified")
-            
-            setupCollection()
-        } else {
+//        if (obj?.isCheckout)! {
+//            self.badges.append("ic_verified")
+//            
+//            setupCollection()
+//        } else {
             if let arr = product["seller"]["achievements"].array {
 //                for i in arr {
 //                    let ach = AchievementItem.instance(i)
@@ -2324,7 +2339,7 @@ class ProductCellSeller : UITableViewCell, UICollectionViewDataSource, UICollect
                     setupCollection()
                 }
             }
-        }
+//        }
     }
     
     override func awakeFromNib() {

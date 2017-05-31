@@ -2607,6 +2607,9 @@ class StoreInfo : UICollectionViewCell {
     @IBOutlet var vwLove: UIView!
     var floatRatingView: FloatRatingView!
     
+    @IBOutlet weak var vwVerified: UIView!
+    @IBOutlet weak var consHeightVwVerified: NSLayoutConstraint!
+    
     static func heightFor(_ json: JSON, isExpand: Bool) -> CGFloat {
         var height = 21 + 94
         var completeDesc = ""
@@ -2633,6 +2636,10 @@ class StoreInfo : UICollectionViewCell {
             height += Int(completeDesc.boundsWithFontSize(UIFont.systemFont(ofSize: 16), width: UIScreen.main.bounds.width-24).height)
         }
         
+        if let isAffiliate = json["is_affiliate"].bool, isAffiliate {
+            height += 21
+        }
+        
         return CGFloat(height)
     }
     
@@ -2656,6 +2663,13 @@ class StoreInfo : UICollectionViewCell {
         
         self.vwLove.addSubview(self.floatRatingView )
         
+        if let isAffiliate = json["is_affiliate"].bool, isAffiliate {
+            self.vwVerified.isHidden = false
+            self.consHeightVwVerified.constant = 21
+        } else {
+            self.vwVerified.isHidden = true
+            self.consHeightVwVerified.constant = 0
+        }
         
         // Last seen
         if let lastSeenDateString = json["others"]["last_seen"].string {
