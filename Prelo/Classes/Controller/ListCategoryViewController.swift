@@ -217,10 +217,13 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         }
         
         let nw = UIScreen.main.bounds.width - CGFloat(width)
-        if nw > 0 {
+        if nw > CGFloat(8 * (c + 1)) {
             let nnw = Int(nw) - (Int(nw) / c)
             self.tabbarBtnMargin = Int(nnw) / c - 1
+            self.scrollCategoryName.isScrollEnabled = false
         }
+        
+        self.scrollCategoryName.isDirectionalLockEnabled = true
         
         addChilds(categoriesFix.count)
     }
