@@ -57,6 +57,8 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
     var isAlreadyGetCategory : Bool = false
     var userDidLoggedIn : Bool?
     
+    var currentTab = 0
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -316,6 +318,10 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
     @IBAction func switchController(_ sender: AnyObject) {
         let btn : AppButton = sender as! AppButton
         if (btn.stringTag == Tags.Browse) {
+            if currentTab == 0 {
+                return
+            }
+            
             if isAlreadyGetCategory == false {
                 self.showLoading()
             }
@@ -328,7 +334,12 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
                 Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(KumangTabBarViewController.delayBrowseSwitch), userInfo: nil, repeats: false)
             }
             
+            self.currentTab = 0
         } else {
+            if currentTab == 1 {
+                return
+            }
+            
             self.hideLoading()
             
             if (User.IsLoggedIn) {
@@ -341,6 +352,8 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
                 controllerDashboard2?.previousController = self
                 changeToController(controllerDashboard2!)
             }
+            
+            self.currentTab = 1
         }
     }
     
