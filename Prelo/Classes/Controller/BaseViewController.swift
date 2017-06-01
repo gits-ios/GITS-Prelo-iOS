@@ -103,6 +103,10 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        if !Reachability.isConnectedToNetwork() {
+            Constant.showDisconnectBanner()
+        }
     }
     
     override func didReceiveMemoryWarning() {

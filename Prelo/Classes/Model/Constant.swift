@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 var dateFormatter : DateFormatter = DateFormatter()
 
@@ -480,6 +481,29 @@ class Constant: NSObject {
                 alertView.showCustom("Prelo \(newVer)", subTitle: "", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
             }
         }
+    }
+    
+    static func showDisconnectBanner() {
+        guard let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else { return }
+        
+        let c = statusBar.backgroundColor
+        
+        statusBar.backgroundColor = UIColor.clear
+        
+        let imageBanner = UIImage(named: "banner_exclamation.png")
+        
+        // banner
+        let banner = Banner(title: "Tidak Ada Jaringan", subtitle: "Pastikan perangkat kamu terhubung dengan jaringan", image: imageBanner, backgroundColor: UIColor.red, didTapBlock: {
+            
+            statusBar.backgroundColor = c
+        })
+        
+        banner.dismissesOnTap = true
+        
+        AudioServicesPlaySystemSound(SystemSoundID(1050)) // alert
+        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+        
+        banner.show(duration: 3.0)
     }
 }
 

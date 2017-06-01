@@ -620,6 +620,7 @@
 		B271A6821EDED6D900C6A973 /* placeholder-transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = B271A6801EDED6D900C6A973 /* placeholder-transparent.png */; };
 		B271A6891EDFD16D00C6A973 /* placeholder-transparent-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = B271A6871EDFD16D00C6A973 /* placeholder-transparent-gray.png */; };
 		B271A68A1EDFD16D00C6A973 /* placeholder-transparent-ipad-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = B271A6881EDFD16D00C6A973 /* placeholder-transparent-ipad-gray.png */; };
+		B271A6981EDFFFAC00C6A973 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = B271A6971EDFFFAC00C6A973 /* Reachability.swift */; };
 		B27948231E35C700002CEED4 /* TarikTunai2.xib in Resources */ = {isa = PBXBuildFile; fileRef = B27948221E35C700002CEED4 /* TarikTunai2.xib */; };
 		B27948251E35D971002CEED4 /* TarikTunaiViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27948241E35D971002CEED4 /* TarikTunaiViewController2.swift */; };
 		B27EE2071E4DBD230018E8A0 /* PushNotif.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B2B34BCC1E37042C001B653F /* PushNotif.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -1678,6 +1679,7 @@
 		B271A6801EDED6D900C6A973 /* placeholder-transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-transparent.png"; sourceTree = "<group>"; };
 		B271A6871EDFD16D00C6A973 /* placeholder-transparent-gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-transparent-gray.png"; sourceTree = "<group>"; };
 		B271A6881EDFD16D00C6A973 /* placeholder-transparent-ipad-gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-transparent-ipad-gray.png"; sourceTree = "<group>"; };
+		B271A6971EDFFFAC00C6A973 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		B27948221E35C700002CEED4 /* TarikTunai2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunai2.xib; sourceTree = "<group>"; };
 		B27948241E35D971002CEED4 /* TarikTunaiViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiViewController2.swift; sourceTree = "<group>"; };
 		B285789D1E56B8F7008995F4 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
@@ -2412,6 +2414,7 @@
 				211B1A4E1CF5FAFF00108063 /* ProdukUploader.swift */,
 				B2099FAA1E1E83BB00EBB57F /* CustomPhotoAlbum.swift */,
 				B21B3F181E5ADFE600FE5DB4 /* AnalyticManager.swift */,
+				B271A6971EDFFFAC00C6A973 /* Reachability.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -4125,6 +4128,7 @@
 				5858879B1DBF339A006EC6D5 /* PreloShareController.swift in Sources */,
 				B2D481CA1E02A7AD006006CC /* LocationFilterViewController.swift in Sources */,
 				B2FFCBA31EA52669004F01D0 /* SocketEnginePacketType.swift in Sources */,
+				B271A6981EDFFFAC00C6A973 /* Reachability.swift in Sources */,
 				58A99A491C6D864E00E3E7D7 /* BranchShortUrlSyncRequest.m in Sources */,
 				B292B4721EAF4F1200C6A32B /* AHKNavigationController.m in Sources */,
 				21B467E31CCE5EDB00E145ED /* BFDataStructures.swift in Sources */,
