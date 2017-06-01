@@ -405,7 +405,7 @@ extension UIImageView {
             size: self.frame.size
         )
         
-        let imageTransition = UIImageView.ImageTransition.crossDissolve(2.0)
+        let imageTransition = UIImageView.ImageTransition.crossDissolve(0.2)
         
         self.af_setImage(
             withURL: withURL,
@@ -421,7 +421,7 @@ extension UIImageView {
         
         let placeholderImage = UIImage(named: "placeholder-standar-white")!
         
-        let imageTransition = UIImageView.ImageTransition.crossDissolve(2.0)
+        let imageTransition = UIImageView.ImageTransition.crossDissolve(0.2)
         
         if withFilter == .fitWithPreloPlaceHolder {
             let filter = AspectScaledToFitSizeFilter(
