@@ -755,7 +755,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         requesting = true
         
-        _ = request(APIProduct.getAllFeaturedProducts(categoryId: self.categoryJson!["_id"].stringValue)).responseJSON { resp in
+        let req = request(APIProduct.getAllFeaturedProducts(categoryId: self.categoryJson!["_id"].stringValue)).responseJSON { resp in
             self.requesting = false
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Featured Products")) {
                 self.products = []
@@ -765,6 +765,16 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             DispatchQueue.main.async(execute: {
                 self.refresher?.endRefreshing()
                 self.setupGrid()
+            })
+        }
+        
+        // testing gzip
+        if AppTools.isDev {
+            let t = ((APIProduct.getAllFeaturedProducts(categoryId: self.categoryJson!["_id"].stringValue)).urlRequest?.allHTTPHeaderFields?.description) ?? ""
+            req.responseData(completionHandler: { (resp) in
+                Constant.showDialog("Response", message: (resp.data?.debugDescription)! + "\n\n" + resp.debugDescription)
+                Constant.showDialog("Response Header", message: (resp.response?.allHeaderFields.description)!)
+                Constant.showDialog("Request", message: t)
             })
         }
     }
