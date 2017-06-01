@@ -410,7 +410,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                     imgLb.frame = CGRect(x: 0, y: 30, width: c.width + 4, height: h)
                 }
                 imgLb.textAlignment = .center
-                imgLb.textColor = Theme.GrayLight
+                imgLb.textColor = Theme.TabNormalColor
                 
                 let imgVw = TintedImageView()
                 imgVw.frame = CGRect(x: 0, y: 4, width: imgLb.width, height: 24)
@@ -422,7 +422,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                     imgVw.af_setImage(
                         withURL: URL(string: icon)!,
                         imageTransition: .custom(
-                            duration: 0.3,
+                            duration: 0.2,
                             animationOptions: .transitionCrossDissolve,
                             animations: { imageView, image in
                                 imageView.image = image.withRenderingMode(.alwaysTemplate)
@@ -435,7 +435,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 imgVw.contentMode = .scaleAspectFit
                 imgVw.tag = 998
                 imgVw.tint = true
-                imgVw.tintColor = Theme.GrayLight
+                imgVw.tintColor = Theme.TabNormalColor
                 
                 button.viewWithTag(998)?.removeFromSuperview()
                 button.viewWithTag(999)?.removeFromSuperview()
@@ -608,24 +608,24 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 //button.setTitleColor(Theme.GrayLight)
                 if let imgLb = button.viewWithTag(999) {
                     let lb = imgLb as! UILabel
-                    lb.textColor = Theme.GrayLight
+                    lb.textColor = Theme.TabNormalColor
                 }
                 if let imgVw = button.viewWithTag(998) {
                     let vw = imgVw as! TintedImageView
                     vw.tint = true
-                    vw.tintColor = Theme.GrayLight
+                    vw.tintColor = Theme.TabNormalColor
                 }
             } else {
                 let button = categoryNames[i] as! UIButton
                 //button.setTitleColor(Theme.GrayDark)
                 if let imgLb = button.viewWithTag(999) {
                     let lb = imgLb as! UILabel
-                    lb.textColor = Theme.GrayDark
+                    lb.textColor = Theme.TabSelectedColor
                 }
                 if let imgVw = button.viewWithTag(998) {
                     let vw = imgVw as! TintedImageView
                     vw.tint = true
-                    vw.tintColor = Theme.GrayDark
+                    vw.tintColor = Theme.TabSelectedColor
                 }
             }
         }
@@ -641,12 +641,12 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         //button.setTitleColor(Theme.GrayDark)
         if let imgLb = button.viewWithTag(999) {
             let lb = imgLb as! UILabel
-            lb.textColor = Theme.GrayDark
+            lb.textColor = Theme.TabSelectedColor
         }
         if let imgVw = button.viewWithTag(998) {
             let vw = imgVw as! TintedImageView
             vw.tint = true
-            vw.tintColor = Theme.GrayDark
+            vw.tintColor = Theme.TabSelectedColor
         }
         
         centerCategoryView(index)
