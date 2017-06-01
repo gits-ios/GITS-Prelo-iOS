@@ -621,6 +621,8 @@
 		B271A6891EDFD16D00C6A973 /* placeholder-transparent-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = B271A6871EDFD16D00C6A973 /* placeholder-transparent-gray.png */; };
 		B271A68A1EDFD16D00C6A973 /* placeholder-transparent-ipad-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = B271A6881EDFD16D00C6A973 /* placeholder-transparent-ipad-gray.png */; };
 		B271A6981EDFFFAC00C6A973 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = B271A6971EDFFFAC00C6A973 /* Reachability.swift */; };
+		B271A6AB1EE0ACA900C6A973 /* placeholder-transparent-ipad-lightgray.png in Resources */ = {isa = PBXBuildFile; fileRef = B271A6A91EE0ACA900C6A973 /* placeholder-transparent-ipad-lightgray.png */; };
+		B271A6AC1EE0ACA900C6A973 /* placeholder-transparent-lightgray.png in Resources */ = {isa = PBXBuildFile; fileRef = B271A6AA1EE0ACA900C6A973 /* placeholder-transparent-lightgray.png */; };
 		B27948231E35C700002CEED4 /* TarikTunai2.xib in Resources */ = {isa = PBXBuildFile; fileRef = B27948221E35C700002CEED4 /* TarikTunai2.xib */; };
 		B27948251E35D971002CEED4 /* TarikTunaiViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27948241E35D971002CEED4 /* TarikTunaiViewController2.swift */; };
 		B27EE2071E4DBD230018E8A0 /* PushNotif.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B2B34BCC1E37042C001B653F /* PushNotif.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -1680,6 +1682,8 @@
 		B271A6871EDFD16D00C6A973 /* placeholder-transparent-gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-transparent-gray.png"; sourceTree = "<group>"; };
 		B271A6881EDFD16D00C6A973 /* placeholder-transparent-ipad-gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-transparent-ipad-gray.png"; sourceTree = "<group>"; };
 		B271A6971EDFFFAC00C6A973 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		B271A6A91EE0ACA900C6A973 /* placeholder-transparent-ipad-lightgray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-transparent-ipad-lightgray.png"; sourceTree = "<group>"; };
+		B271A6AA1EE0ACA900C6A973 /* placeholder-transparent-lightgray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-transparent-lightgray.png"; sourceTree = "<group>"; };
 		B27948221E35C700002CEED4 /* TarikTunai2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunai2.xib; sourceTree = "<group>"; };
 		B27948241E35D971002CEED4 /* TarikTunaiViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiViewController2.swift; sourceTree = "<group>"; };
 		B285789D1E56B8F7008995F4 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
@@ -3263,6 +3267,8 @@
 				B271A6691EDEC40400C6A973 /* placeholder-standar-white.png */,
 				B271A6871EDFD16D00C6A973 /* placeholder-transparent-gray.png */,
 				B271A6881EDFD16D00C6A973 /* placeholder-transparent-ipad-gray.png */,
+				B271A6A91EE0ACA900C6A973 /* placeholder-transparent-ipad-lightgray.png */,
+				B271A6AA1EE0ACA900C6A973 /* placeholder-transparent-lightgray.png */,
 			);
 			name = placeholder;
 			sourceTree = "<group>";
@@ -3655,6 +3661,7 @@
 				210107F91B687ED4005698D1 /* Prelo2.ttf in Resources */,
 				589A6FB41D8C08F600654CDD /* ic_box.png in Resources */,
 				FDF0AC951C0C4A6200FC7D61 /* wm_logo@2x.png in Resources */,
+				B271A6AC1EE0ACA900C6A973 /* placeholder-transparent-lightgray.png in Resources */,
 				58A223CA1C898CB600619518 /* ic_trx_shipped.png in Resources */,
 				B2D119901E290BF80064045B /* banner_notif.png in Resources */,
 				B2BE2DF01E29EBBD006B6903 /* StorePageTabBar.xib in Resources */,
@@ -3869,6 +3876,7 @@
 				B271A66A1EDEC40400C6A973 /* placeholder-standar-white.png in Resources */,
 				5858873B1DBEDA54006EC6D5 /* FilterCollectionCell.xib in Resources */,
 				5856875B1C6C97F4002A19CE /* ic_request.png in Resources */,
+				B271A6AB1EE0ACA900C6A973 /* placeholder-transparent-ipad-lightgray.png in Resources */,
 				589A6FAE1D8C08F600654CDD /* ic_1_2kg.png in Resources */,
 				5858872F1DBED978006EC6D5 /* ProfileSetup.xib in Resources */,
 				589A6FB91D8C08F600654CDD /* ic_dipakai.png in Resources */,

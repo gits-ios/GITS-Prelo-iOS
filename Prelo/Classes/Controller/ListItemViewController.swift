@@ -9,6 +9,7 @@
 import UIKit
 import MessageUI
 import Alamofire
+import AlamofireImage
 
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
@@ -67,13 +68,15 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     struct SegmentItem {
         var type : String = ""
         var name : String = ""
-        var image : UIImage = UIImage()
+        //var image : UIImage = UIImage()
+        var imageLink : URL!
     }
     
     struct SubcategoryItem {
         var id : String = ""
         var name : String = ""
-        var image : UIImage = UIImage()
+        //var image : UIImage = UIImage()
+        var imageLink : URL!
     }
     
     // MARK: - Properties
@@ -436,6 +439,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             
             if !Reachability.isConnectedToNetwork() {
                 self.isContentLoaded = false
+                return
             }
             
             // Default, Standalone, Shop, and Filter mode is predefined
@@ -446,15 +450,18 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             if let segmentsJson = self.categoryJson?["segments"].array, segmentsJson.count > 0 {
                 self.currentMode = .segment
                 for i in 0...segmentsJson.count - 1 {
-                    var img : UIImage = UIImage()
+                    //var img : UIImage = UIImage()
+                    var imgUrl : URL!
                     if let url = URL(string: segmentsJson[i]["image"].stringValue) {
-                        if let data = try? Data(contentsOf: url) {
-                            if let uiimg = UIImage(data: data) {
-                                img = uiimg
-                            }
-                        }
+                        imgUrl = url
+                        //if let data = try? Data(contentsOf: url) {
+                        //    if let uiimg = UIImage(data: data) {
+                        //        img = uiimg
+                        //    }
+                        //}
                     }
-                    self.segments.append(SegmentItem(type: segmentsJson[i]["type"].stringValue, name: segmentsJson[i]["name"].stringValue, image: img))
+                    //self.segments.append(SegmentItem(type: segmentsJson[i]["type"].stringValue, name: segmentsJson[i]["name"].stringValue, image: img))
+                    self.segments.append(SegmentItem(type: segmentsJson[i]["type"].stringValue, name: segmentsJson[i]["name"].stringValue, imageLink: imgUrl))
                 }
                 self.listItemSections.remove(at: self.listItemSections.index(of: .products)!)
                 self.listItemSections.insert(.segments, at: 0)
@@ -470,15 +477,18 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             if let subcatJson = self.categoryJson?["sub_categories"].array, subcatJson.count > 0 {
                 self.isShowSubcategory = true
                 for i in 0...subcatJson.count - 1 {
-                    var img : UIImage = UIImage()
+                    //var img : UIImage = UIImage()
+                    var imgUrl : URL!
                     if let url = URL(string: subcatJson[i]["image"].stringValue.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!) {
-                        if let data = try? Data(contentsOf: url) {
-                            if let uiimg = UIImage(data: data) {
-                                img = uiimg
-                            }
-                        }
+                        imgUrl = url
+                        //if let data = try? Data(contentsOf: url) {
+                        //    if let uiimg = UIImage(data: data) {
+                        //        img = uiimg
+                        //    }
+                        //}
                     }
-                    self.subcategoryItems.append(SubcategoryItem(id: subcatJson[i]["_id"].stringValue, name: subcatJson[i]["name"].stringValue, image: img))
+                    //self.subcategoryItems.append(SubcategoryItem(id: subcatJson[i]["_id"].stringValue, name: subcatJson[i]["name"].stringValue, image: img))
+                    self.subcategoryItems.append(SubcategoryItem(id: subcatJson[i]["_id"].stringValue, name: subcatJson[i]["name"].stringValue, imageLink: imgUrl))
                 }
                 self.listItemSections.insert(.subcategories, at: 0)
             }
@@ -487,15 +497,20 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.isShowCarousel = true
                 self.carouselItems = []
                 for i in 0..<carouselJson.count {
-                    var img = UIImage()
+                    //var img = UIImage()
+                    var imgLink : URL!
                     var link : URL!
-                    if let url = URL(string: carouselJson[i]["image"].stringValue), let data = try? Data(contentsOf: url), let uiimg = UIImage(data: data) {
-                        img = uiimg
+                    //if let url = URL(string: carouselJson[i]["image"].stringValue), let data = try? Data(contentsOf: url), let uiimg = UIImage(data: data) {
+                    //    img = uiimg
+                    //}
+                    if let url = URL(string: carouselJson[i]["image"].stringValue) {
+                        imgLink = url
                     }
                     if let url = URL(string: carouselJson[i]["link"].stringValue) {
                         link = url
                     }
-                    let item = CarouselItem.init(name: carouselJson[i]["name"].stringValue, img: img, link: link)
+                    //let item = CarouselItem.init(name: carouselJson[i]["name"].stringValue, img: img, link: link)
+                    let item = CarouselItem.init(name: carouselJson[i]["name"].stringValue, imgLink: imgLink, link: link)
                     self.carouselItems.append(item)
                 }
                 self.listItemSections.insert(.carousel, at: 0)
@@ -736,8 +751,6 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     func getFeaturedProducts() {
         if (categoryJson == nil) {
             return
-            
-            self.isContentLoaded = false
         }
         
         requesting = true
@@ -1252,14 +1265,16 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             return cell
         case .subcategories:
             let cell : ListItemSubcategoryCell = collectionView.dequeueReusableCell(withReuseIdentifier: "subcategory_cell", for: indexPath) as! ListItemSubcategoryCell
-            cell.imgSubcategory.image = subcategoryItems[(indexPath as NSIndexPath).item].image
+            //cell.imgSubcategory.image = subcategoryItems[(indexPath as NSIndexPath).item].image
+            cell.adapt(subcategoryItems[(indexPath as NSIndexPath).item].imageLink)
             cell.lblSubcategory.isHidden = true // Unused label
 //            cell.layer.shouldRasterize = true
 //            cell.layer.rasterizationScale = UIScreen.main.scale
             return cell
         case .segments:
             let cell : ListItemSegmentCell = collectionView.dequeueReusableCell(withReuseIdentifier: "segment_cell", for: indexPath) as! ListItemSegmentCell
-            cell.imgSegment.image = segments[(indexPath as NSIndexPath).item].image
+            //cell.imgSegment.image = segments[(indexPath as NSIndexPath).item].image
+            cell.adapt(segments[(indexPath as NSIndexPath).item].imageLink)
 //            cell.layer.shouldRasterize = true
 //            cell.layer.rasterizationScale = UIScreen.main.scale
             return cell
@@ -1275,12 +1290,12 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                                                             qos: .background,
                                                             target: nil)
                         backgroundQueue.async {
+                            if !Reachability.isConnectedToNetwork() {
+                                Constant.showDisconnectBanner()
+                                return
+                            }
                             print("Work on background queue")
                             self.getProducts()
-                        }
-                        
-                        if !Reachability.isConnectedToNetwork() {
-                            Constant.showDisconnectBanner()
                         }
                     }
                 }
@@ -1322,11 +1337,6 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             if adsCellProvider != nil && adsCellProvider.isAdCell(at: indexPath, forStride: UInt(adRowStep)) {
                 // do nothing
             } else if cell is ListItemCell {
-                var idx  = (indexPath as NSIndexPath).item
-                if (adsCellProvider != nil && adRowStep != 0) {
-                    idx = indexPath.row - indexPath.row / adRowStep
-                }
-                
                 let c = cell as! ListItemCell
                 c.ivCover.af_cancelImageRequest()
             } else {
@@ -1340,21 +1350,24 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         let viewWidthMinusMargin = UIScreen.main.bounds.size.width - 8
         switch listItemSections[(indexPath as NSIndexPath).section] {
         case .carousel:
-            var maxHeight : CGFloat = 0
-            for i in 0..<self.carouselItems.count {
-                let height = ((viewWidthMinusMargin / carouselItems[i].img.size.width) * carouselItems[i].img.size.height)
-                if (height > maxHeight) {
-                    maxHeight = height
-                }
-            }
-            return CGSize(width: viewWidthMinusMargin, height: maxHeight)
+            //var maxHeight : CGFloat = 0
+            //for i in 0..<self.carouselItems.count {
+            //    let height = ((viewWidthMinusMargin / carouselItems[i].img.size.width) * carouselItems[i].img.size.height)
+            //    if (height > maxHeight) {
+            //        maxHeight = height
+            //    }
+            //}
+            //return CGSize(width: viewWidthMinusMargin, height: maxHeight)
+            return ListItemCarouselCell.sizeFor()
         case .featuredHeader:
             return CGSize(width: viewWidthMinusMargin, height: 56)
         case .subcategories:
-            return CGSize(width: viewWidthMinusMargin / 3, height: viewWidthMinusMargin / 3)
+            //return CGSize(width: viewWidthMinusMargin / 3, height: viewWidthMinusMargin / 3)
+            return ListItemSubcategoryCell.sizeFor()
         case .segments:
-            let segHeight = viewWidthMinusMargin * segments[(indexPath as NSIndexPath).item].image.size.height / segments[(indexPath as NSIndexPath).item].image.size.width
-            return CGSize(width: viewWidthMinusMargin, height: segHeight)
+            //let segHeight = viewWidthMinusMargin * segments[(indexPath as NSIndexPath).item].image.size.height / segments[(indexPath as NSIndexPath).item].image.size.width
+            //return CGSize(width: viewWidthMinusMargin, height: segHeight)
+            return ListItemSegmentCell.sizeFor()
         case .products:
             if !AppTools.isIPad && adsCellProvider != nil && adsCellProvider.isAdCell(at: indexPath, forStride: UInt(adRowStep)) {
                 return CGSize(width: ((UIScreen.main.bounds.size.width - 8) / 1), height: adsCellProvider.collectionView(gridView, heightForRowAt: indexPath))
@@ -2095,12 +2108,19 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
 
 class CarouselItem {
     var name : String = ""
-    var img : UIImage = UIImage()
+    //var img : UIImage = UIImage()
     var link : URL!
+    var imgLink : URL!
     
-    init(name : String, img : UIImage, link : URL) {
+//    init(name : String, img : UIImage, link : URL) {
+//        self.name = name
+//        self.img = img
+//        self.link = link
+//    }
+    
+    init(name : String, imgLink : URL, link : URL) {
         self.name = name
-        self.img = img
+        self.imgLink = imgLink
         self.link = link
     }
 }
@@ -2113,7 +2133,20 @@ class ListItemSubcategoryCell : UICollectionViewCell {
     @IBOutlet var lblSubcategory: UILabel!
     
     override func prepareForReuse() {
-        imgSubcategory.image = nil
+        //imgSubcategory.image = nil
+        imgSubcategory.afCancelRequest()
+    }
+    
+    static func sizeFor() -> CGSize {
+        let wh : CGFloat = (UIScreen.main.bounds.width - 8) / 3
+        return CGSize(width: wh, height: wh)
+    }
+    
+    func adapt(_ imageURL : URL) {
+        let wh : CGFloat = (UIScreen.main.bounds.width - 8) / 3
+        let rect = CGRect(x: 0, y: 0, width: wh, height: wh)
+        imgSubcategory.frame = rect
+        imgSubcategory.afSetImage(withURL: imageURL, withFilter: .fitWithStandarPlaceHolder)
     }
 }
 
@@ -2123,7 +2156,22 @@ class ListItemSegmentCell : UICollectionViewCell {
     @IBOutlet var imgSegment: UIImageView!
     
     override func prepareForReuse() {
-        imgSegment.image = nil
+        //imgSegment.image = nil
+        imgSegment.afCancelRequest()
+    }
+    
+    static func sizeFor() -> CGSize {
+        let rectWidthFix : CGFloat = UIScreen.main.bounds.size.width - 8
+        let heightBanner : CGFloat = ((rectWidthFix / 1024.0) * 514.0)
+        return CGSize(width: rectWidthFix, height: heightBanner)
+    }
+    
+    func adapt(_ imageURL : URL) {
+        let rectWidthFix : CGFloat = UIScreen.main.bounds.size.width - 8
+        let rectHeightFix : CGFloat = ((rectWidthFix / 1024.0) * 514.0)
+        let rect = CGRect(x: 0, y: 0, width: rectWidthFix, height: rectHeightFix)
+        imgSegment.frame = rect
+        imgSegment.afSetImage(withURL: imageURL, withFilter: .fitWithStandarPlaceHolder)
     }
 }
 
@@ -2136,29 +2184,37 @@ class ListItemCarouselCell : UICollectionViewCell, UIScrollViewDelegate {
     @IBOutlet var consWidthContentVwCarousel: NSLayoutConstraint!
     var carouselItems : [CarouselItem] = []
     
+    static func sizeFor() -> CGSize {
+        let rectWidthFix : CGFloat = UIScreen.main.bounds.size.width - 8
+        let heightBanner : CGFloat = ((rectWidthFix / 1024.0) * 337.0)
+        return CGSize(width: rectWidthFix, height: heightBanner)
+    }
+    
     func adapt(_ carouselItems : [CarouselItem]) {
         self.carouselItems = carouselItems
         scrlVwCarousel.delegate = self
         
         self.pageCtrlCarousel.numberOfPages = carouselItems.count
         self.pageCtrlCarousel.currentPage = 0
-        var rectHeightFix : CGFloat = 0
         let rectWidthFix : CGFloat = UIScreen.main.bounds.size.width - 8
+        let rectHeightFix : CGFloat = ((rectWidthFix / 1024.0) * 337.0) //0
         self.consWidthContentVwCarousel.constant = rectWidthFix * CGFloat(carouselItems.count)
-        for i in 0..<carouselItems.count {
-            let height = ((rectWidthFix / carouselItems[i].img.size.width) * carouselItems[i].img.size.height)
-            if (height > rectHeightFix) {
-                rectHeightFix = height
-            }
-        }
+//        for i in 0..<carouselItems.count {
+//            let height = ((rectWidthFix / carouselItems[i].img.size.width) * carouselItems[i].img.size.height)
+//            if (height > rectHeightFix) {
+//                rectHeightFix = height
+//            }
+//        }
         for i in 0...carouselItems.count - 1 {
             let rect = CGRect(x: CGFloat(i * Int(rectWidthFix)), y: 0, width: rectWidthFix, height: rectHeightFix)
-            let uiImg = UIImageView(frame: rect, image: carouselItems[i].img)
-            let uiBtn = UIButton(frame: rect)
+            //let uiImg = UIImageView(frame: rect, image: carouselItems[i].img)
+            let uiImg = UIImageView(frame: rect)
+            uiImg.afSetImage(withURL: carouselItems[i].imgLink, withFilter: .fitWithStandarPlaceHolder)
+            let uiBtn = UIButton(frame: uiImg.bounds)
             uiBtn.addTarget(self, action: #selector(ListItemCarouselCell.btnCarouselPressed(_:)), for: UIControlEvents.touchUpInside)
             uiBtn.tag = i
-            contentVwCarousel.addSubview(uiImg)
-            contentVwCarousel.addSubview(uiBtn)
+            self.contentVwCarousel.addSubview(uiImg)
+            self.contentVwCarousel.addSubview(uiBtn)
         }
     }
     

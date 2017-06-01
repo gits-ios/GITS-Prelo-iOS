@@ -21,6 +21,7 @@ enum imageFilterMode {
     case fitWithPreloPlaceHolder
     case fillWithPreloMessagePlaceHolder
     case fitWithPreloMessagePlaceHolder
+    case fitWithStandarPlaceHolder
 }
 
 class AppTools: NSObject {
@@ -456,7 +457,21 @@ extension UIImageView {
             self.af_setImage(
                 withURL: withURL,
                 placeholderImage: UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-gray" : "placeholder-transparent-gray"))!.resizeWithMaxWidth(self.frame.size.width), // full screen
-                
+                filter: filter,
+                imageTransition: imageTransition
+            )
+        }
+            
+        else if withFilter == .fitWithStandarPlaceHolder { // featured, segment, sub-category
+            self.contentMode = .scaleAspectFit
+            
+            let filter = AspectScaledToFitSizeFilter(
+                size: self.frame.size
+            )
+            
+            self.af_setImage(
+                withURL: withURL,
+                placeholderImage: UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-lightgray" : "placeholder-transparent-lightgray"))!.resizeWithMaxWidth(self.frame.size.width),
                 filter: filter,
                 imageTransition: imageTransition
             )
