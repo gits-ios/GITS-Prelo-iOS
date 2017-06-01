@@ -1200,7 +1200,6 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             }
         }
         
-        self.gridView.reloadData()
         if (self.currentMode == .segment || self.isFeatured == true) {
             self.gridView.contentInset = UIEdgeInsetsMake(0, 0, 48, 0)
         } else if (self.currentMode == .filter || self.currentMode == .shop || self.currentMode == .newShop) {
@@ -1208,6 +1207,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
         self.gridView.isHidden = false
         self.vwFilterZeroResult.isHidden = true
+        
+        self.gridView.reloadData()
     }
     
     // MARK: - Collection view functions
