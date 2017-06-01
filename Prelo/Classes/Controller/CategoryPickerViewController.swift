@@ -35,7 +35,7 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
     // Data container
     var categories : Array<JSON> = []
     var selectedCategory : JSON?
-    let cellWidth = (UIScreen.main.bounds.size.width - 32) / 3
+    var cellWidth = (UIScreen.main.bounds.size.width - 32) / 3
     
     // Delegate
     var delegate : CategoryPickerDelegate? = nil
@@ -47,6 +47,10 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
         
         // Status bar style
         UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: true)
+        
+        if AppTools.isIPad {
+            cellWidth = (UIScreen.main.bounds.size.width - 56) / 6
+        }
         
         // Set title
         self.title = "Pilih Kategori"
