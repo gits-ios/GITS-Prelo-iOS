@@ -120,6 +120,8 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         controllerDashboard2 = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdDashboard) as? BaseViewController
         controllerDashboard2?.previousController = self
         changeToController(controllerBrowse!)
+        
+        currentTab = 0
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -230,16 +232,22 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         d.previousController = self
         changeToController(d)
         controllerDashboard = d
+        
+        currentTab = 1
     }
     
     func userLoggedOut() {
         btnDashboard.setTitle("LOG IN", for: UIControlState())
         changeToController(controllerBrowse!)
+        
+        currentTab = 0
     }
     
     func userCancelLogin() {
         btnDashboard.setTitle("LOG IN", for: UIControlState())
         changeToController(controllerBrowse!)
+        
+        currentTab = 0
     }
     
     // MARK: - Navigation
@@ -276,6 +284,8 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
     func delayBrowseSwitch() {
         sectionContent?.isHidden = false
         changeToController(controllerBrowse!)
+        
+        currentTab = 0
     }
     
     func changeToController(_ newController : UIViewController) {

@@ -174,14 +174,24 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Category Home")) {
                     UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: resp.result.value!), forKey: "pre_categories")
                     UserDefaults.standard.synchronize()
-                    self.setupCategory()
                     
-                    if let kumangTabBarVC = self.previousController as? KumangTabBarViewController {
-                        kumangTabBarVC.isAlreadyGetCategory = true
-                        if (kumangTabBarVC.isVersionChecked) { // Only hide loading if category is already loaded and version already checked
-                            kumangTabBarVC.hideLoading()
+                    let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
+                                                        qos: .background,
+                                                        target: nil)
+                    backgroundQueue.async {
+                        if let kumangTabBarVC = self.previousController as? KumangTabBarViewController {
+                            kumangTabBarVC.isAlreadyGetCategory = true
+                            if (kumangTabBarVC.isVersionChecked) { // Only hide loading if category is already loaded and version already checked
+                                DispatchQueue.main.async(execute: {
+                                    
+                                    // continue to main async
+                                    kumangTabBarVC.hideLoading()
+                                })
+                            }
                         }
                     }
+                    
+                    self.setupCategory()
                 }
         }
         

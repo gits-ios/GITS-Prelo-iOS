@@ -434,6 +434,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         if (!self.isContentLoaded) {
             self.isContentLoaded = true
             
+            if !Reachability.isConnectedToNetwork() {
+                self.isContentLoaded = false
+            }
+            
             // Default, Standalone, Shop, and Filter mode is predefined
             // Featured and Segment mode will be identified here
             // Carousel and Subcategories also will be identified here
@@ -624,6 +628,12 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func refresh() {
+        if !Reachability.isConnectedToNetwork() {
+            Constant.showDisconnectBanner()
+            self.refresher?.endRefreshing()
+            return
+        }
+        
         if (self.currentMode == .shop && self.isFirst == false) {
             self.transparentNavigationBar(false)
         }
@@ -726,6 +736,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     func getFeaturedProducts() {
         if (categoryJson == nil) {
             return
+            
+            self.isContentLoaded = false
         }
         
         requesting = true
@@ -738,8 +750,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.setupData(resp.result.value)
             }
             DispatchQueue.main.async(execute: {
-            self.refresher?.endRefreshing()
-            self.setupGrid()
+                self.refresher?.endRefreshing()
+                self.setupGrid()
             })
         }
     }
@@ -1265,6 +1277,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                         backgroundQueue.async {
                             print("Work on background queue")
                             self.getProducts()
+                        }
+                        
+                        if !Reachability.isConnectedToNetwork() {
+                            Constant.showDisconnectBanner()
                         }
                     }
                 }
