@@ -1305,8 +1305,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         case .products:
             if adsCellProvider != nil && adsCellProvider.isAdCell(at: indexPath, forStride: UInt(adRowStep)) {
                 // do nothing
-            }
-            else {
+            } else if cell is ListItemCell {
                 var idx  = (indexPath as NSIndexPath).item
                 if (adsCellProvider != nil && adRowStep != 0) {
                     idx = indexPath.row - indexPath.row / adRowStep
@@ -1314,6 +1313,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 
                 let c = cell as! ListItemCell
                 c.ivCover.af_cancelImageRequest()
+            } else {
+                break
             }
         default: break
         }

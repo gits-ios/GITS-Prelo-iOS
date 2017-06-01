@@ -5166,7 +5166,7 @@ class TransactionDetailReviewCell : UITableViewCell {
         self.imgReviewer?.layer.borderWidth = 3
 
         if let url = trxProductDetail.reviewerImageURL {
-            imgReviewer.afSetImage(withURL: url)
+            imgReviewer.afSetImage(withURL: url, withFilter: .circle)
         }
         
         // Text
