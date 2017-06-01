@@ -14,6 +14,8 @@ var dateFormatter : DateFormatter = DateFormatter()
 class Constant: NSObject {
     static var escapesSymbols : [String : String] = ["&amp;":"&"]
     
+    static var disconnectBannerShowing = false
+    
     static var appearance : SCLAlertView.SCLAppearance {
         get {
             var _appearance = SCLAlertView.SCLAppearance()
@@ -484,26 +486,38 @@ class Constant: NSObject {
     }
     
     static func showDisconnectBanner() {
-        guard let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else { return }
-        
-        let c = statusBar.backgroundColor
-        
-        statusBar.backgroundColor = UIColor.clear
-        
-        let imageBanner = UIImage(named: "banner_exclamation.png")
-        
-        // banner
-        let banner = Banner(title: "Tidak Ada Jaringan", subtitle: "Pastikan perangkat kamu terhubung dengan jaringan", image: imageBanner, backgroundColor: UIColor.red, didTapBlock: {
+        if !Constant.disconnectBannerShowing {
+            guard let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else { return }
             
-            statusBar.backgroundColor = c
-        })
-        
-        banner.dismissesOnTap = true
-        
-        AudioServicesPlaySystemSound(SystemSoundID(1050)) // alert
-        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-        
-        banner.show(duration: 3.0)
+            Constant.disconnectBannerShowing = true
+            
+            //let c = statusBar.backgroundColor
+            
+            statusBar.isHidden = true
+            
+            //statusBar.backgroundColor = UIColor.clear
+            
+            let imageBanner = UIImage(named: "banner_exclamation.png")
+            
+            // banner
+            let banner = Banner(title: "Tidak Ada Jaringan", subtitle: "Pastikan perangkat kamu terhubung dengan jaringan", image: imageBanner, backgroundColor: UIColor.red, didTapBlock: {
+                // nothing
+            })
+            
+            banner.dismissesOnTap = true
+            
+            AudioServicesPlaySystemSound(SystemSoundID(1050)) // alert
+            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+            
+            banner.show(duration: 3.0)
+            
+            banner.didDismissBlock = {
+                //statusBar.backgroundColor = c
+                
+                statusBar.isHidden = false
+                Constant.disconnectBannerShowing = false
+            }
+        }
     }
 }
 
