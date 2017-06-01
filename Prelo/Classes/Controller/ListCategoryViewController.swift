@@ -18,6 +18,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
     
     @IBOutlet var scrollCategoryName: UIScrollView!
     @IBOutlet var scroll_View : UIScrollView!
+    @IBOutlet weak var consHeightScrollCategoryName: NSLayoutConstraint!
     
     var tabSwipe : CarbonTabSwipeNavigation?
     var first = false
@@ -53,7 +54,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
     var imgCoachmarkPinch : UIImageView?
     var imgCoachmarkSpread : UIImageView?
     
-    var tabbarBtnMargin = 8 // 20
+    var tabbarBtnMargin: CGFloat = 8 // 20 (previous) ; 8 -> iphone, 16 -> ipad
     
     // MARK: - Init
     
@@ -216,21 +217,29 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         let c = categoriesFix.count
         
         // iphone
-        var small = c - 1 // 40 , 53
-        var width = small*40 + 53
+        var small = c - 1 // 40 , 53 + 4
+        var width = small*40 + 57
+        
+        var operanMin: CGFloat = 8
         
         if AppTools.isIPad {
             // ipad
-            small = c - 4 // 40, 42.5, 41.5, 44, 62
-            width = small*40 + 42
-            width += 42 + 44 + 62
+            self.consHeightScrollCategoryName.constant = 66
+            
+            small = c - 1 // 60, 75 + 4
+            width = small*60 + 79
+            
+            operanMin = 16
         }
         
         let nw = UIScreen.main.bounds.width - CGFloat(width)
-        if nw > CGFloat(8 * (c + 1)) {
-            let nnw = Int(nw) - (Int(nw) / c)
-            self.tabbarBtnMargin = Int(nnw) / c - 1
+        if nw > operanMin * CGFloat(c + 1) {
+            let nnw = nw - nw / CGFloat(c)
+            self.tabbarBtnMargin = nnw / CGFloat(c)
+            
             self.scrollCategoryName.isScrollEnabled = false
+        } else {
+            self.tabbarBtnMargin = operanMin
         }
         
         self.scrollCategoryName.isDirectionalLockEnabled = true
@@ -345,15 +354,25 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             
             pContentView.translatesAutoresizingMaskIntoConstraints = false
             
+            var h = 44 // content height
+            if AppTools.isIPad {
+                h = 66
+            }
+            
             d["content"] = pContentView
             scrollCategoryName.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "|-0-[content]-0-|", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
             scrollCategoryName.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[content]-0-|", options: .alignAllLastBaseline, metrics: nil, views: d))
-            pContentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[content(==44)]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
+            pContentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[content(==\(h))]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
             contentCategoryNames = pContentView
         }
         
         if (categoryIndicator == nil)
         {
+            var w = 44 // 100; width of indicator category
+            if AppTools.isIPad {
+                w = 66
+            }
+            
             categoryIndicator = UIView()
             categoryIndicator?.translatesAutoresizingMaskIntoConstraints = false
             categoryIndicator?.backgroundColor = Theme.ThemeOrange
@@ -362,7 +381,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[indicator]-0-|", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
             categoryIndicator?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[indicator(==4)]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
             indicatorMargin = NSLayoutConstraint.constraints(withVisualFormat: "|-0-[indicator]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d).first
-            indicatorWidth = NSLayoutConstraint.constraints(withVisualFormat: "[indicator(==100)]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d).first
+            indicatorWidth = NSLayoutConstraint.constraints(withVisualFormat: "[indicator(==\(w))]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d).first
             contentCategoryNames?.addConstraint(indicatorMargin!)
             categoryIndicator?.addConstraint(indicatorWidth!)
         }
@@ -406,27 +425,32 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                     }
                 }
                 
-                var h: CGFloat = 10
-                
+                var h: CGFloat = 10  // height label
+                var w: CGFloat = 40  // width (btn default)
+                var hI: CGFloat = 24 // height icon
+                var y: CGFloat = 30  // y position of label
                 if AppTools.isIPad {
-                    h = 12
+                    h = 15
+                    w = 60
+                    hI = 40
+                    y = 45
                 }
                 
                 let imgLb = UILabel()
-                imgLb.frame = CGRect(x: 0, y: 30, width: 40, height: h)
+                imgLb.frame = CGRect(x: 0, y: y, width: w, height: h)
                 imgLb.font = UIFont.systemFont(ofSize: h)
                 imgLb.text = nameFix
                 imgLb.tag = 999
-                let c = imgLb.sizeThatFits(CGSize(width: 40, height: h))
-                if c.width > 40 {
+                let c = imgLb.sizeThatFits(CGSize(width: w, height: h))
+                if c.width > w {
                     //imgLb.sizeToFit()
-                    imgLb.frame = CGRect(x: 0, y: 30, width: c.width + 4, height: h)
+                    imgLb.frame = CGRect(x: 0, y: y, width: c.width + 4, height: h)
                 }
                 imgLb.textAlignment = .center
                 imgLb.textColor = Theme.TabNormalColor
                 
                 let imgVw = TintedImageView()
-                imgVw.frame = CGRect(x: 0, y: 4, width: imgLb.width, height: 24)
+                imgVw.frame = CGRect(x: 0, y: 4, width: imgLb.width, height: hI)
                 //imgVw.afSetImage(withURL: URL(string: icon)!, withFilter: .noneWithoutPlaceHolder)
                 
                 if nameFix == "Home" {
@@ -456,7 +480,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 button.addSubview(imgVw)
                 button.addSubview(imgLb)
                 
-                button.frame = CGRect(x: 0, y: 0, width: imgLb.width, height: 40)
+                button.frame = CGRect(x: 0, y: 0, width: imgLb.width, height: w) // height equal initial width
             }
             
             button.addTarget(self, action: #selector(ListCategoryViewController.categoryButtonAction(_:)), for: UIControlEvents.touchUpInside)
@@ -468,22 +492,27 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             contentCategoryNames?.addSubview(v)
             d["v"] = v
             
+            var h = 44 // content height
+            if AppTools.isIPad {
+                h = 66
+            }
+            
             if let lv = lastView
             {
                 d["lv"] = lv
-                contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "[lv]-" + tabbarBtnMargin.string + "-[v]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
+                contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "[lv]-\(tabbarBtnMargin)-[v]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
                 
             } else {
-                contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "|-" + tabbarBtnMargin.string + "-[v]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
+                contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "|-\(tabbarBtnMargin)-[v]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
             }
             
             contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[v]-0-|", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
-            v.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[v(==44)]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
+            v.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[v(==\(h))]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
             v.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "[v(==\(width))]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
             
             if (i == count-1)
             {
-            contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "[v]-" + tabbarBtnMargin.string + "-|", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
+            contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "[v]-\(tabbarBtnMargin)-|", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
             }
             
             lastView = v
