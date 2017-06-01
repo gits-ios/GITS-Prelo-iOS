@@ -193,6 +193,7 @@ enum APIAuth : URLRequestConvertible {
     case loginFacebook(email : String, fullname : String, fbId : String, fbUsername : String, fbAccessToken : String)
     case loginPath(email : String, fullname : String, pathId : String, pathAccessToken : String)
     case loginTwitter(email : String, fullname : String, username : String, id : String, accessToken : String, tokenSecret : String)
+    case loginGoogle(email : String, fullname : String, google_id : String, google_username : String, google_access_token : String)
     case logout
     case forgotPassword(email : String)
     
@@ -212,6 +213,7 @@ enum APIAuth : URLRequestConvertible {
         case .loginFacebook(_, _, _, _, _) : return .post
         case .loginPath(_, _, _, _) : return .post
         case .loginTwitter(_, _, _, _, _, _) : return .post
+        case .loginGoogle(_, _, _, _, _) : return .post
         case .logout : return .post
         case .forgotPassword(_) : return .post
         }
@@ -224,6 +226,7 @@ enum APIAuth : URLRequestConvertible {
         case .loginFacebook(_, _, _, _, _) : return "login/facebook"
         case .loginPath(_, _, _, _) : return "login/path"
         case .loginTwitter(_, _, _, _, _, _) : return "login/twitter"
+            case .loginGoogle(_, _, _, _, _) : return "login/google"
         case .logout : return "logout"
         case .forgotPassword(_) : return "forgot_password"
         }
@@ -273,6 +276,15 @@ enum APIAuth : URLRequestConvertible {
                 "twitter_id" : id,
                 "twitter_access_token" : accessToken,
                 "twitter_token_secret" : tokenSecret,
+                "platform_sent_from" : "ios"
+            ]
+        case .loginGoogle(let email, let fullname, let google_id, let google_username, let google_access_token) :
+            p = [
+                "email" : email,
+                "fullname" : fullname,
+                "google_id" : google_id,
+                "google_username" : google_username,
+                "google_access_token" : google_access_token,
                 "platform_sent_from" : "ios"
             ]
         case .logout:

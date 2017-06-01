@@ -56,5 +56,6 @@
 #import <IronSource/ISRewardedVideoDelegate.h>
 #import <IronSource/ISSupersonicAdsConfiguration.h>
 #import "AHKNavigationController.h"
+#import <GoogleSignIn/GIDSignIn.h>
 
 #endif

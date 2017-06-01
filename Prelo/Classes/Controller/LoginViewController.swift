@@ -11,10 +11,11 @@ import CoreData
 import TwitterKit
 import Crashlytics
 import Alamofire
+import GoogleSignIn
 
 // MARK: - Class
 
-class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITextFieldDelegate, UIScrollViewDelegate, PathLoginDelegate/*, UIAlertViewDelegate*/ {
+class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITextFieldDelegate, UIScrollViewDelegate, PathLoginDelegate, GIDSignInUIDelegate/*, UIAlertViewDelegate*/ {
     
     // MARK: - Properties
 
@@ -560,6 +561,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         }
     }
     
+    
     // Required param: "sender"
     static func LoginWithTwitter(_ param : [String : AnyObject], onFinish : @escaping (NSMutableDictionary) -> ()) {
         guard let sender = param["sender"] as? BaseViewController else {
@@ -826,7 +828,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         // Setup placeholder
         txtEmail?.attributedPlaceholder = NSAttributedString(string: (txtEmail?.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.white])
         txtPassword?.attributedPlaceholder = NSAttributedString(string: (txtPassword?.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.white])
-    }
+        GIDSignIn.sharedInstance().uiDelegate = self
+
+           }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -848,7 +852,124 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                 self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
             }
         }, completion: nil)
+        
+        // buat dapet notif dari appdelegate kalau udah login google
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(LoginViewController.receiveToggleAuthUINotification(_:)),
+                                               name: NSNotification.Name(rawValue: "ToggleAuthUINotification"),
+                                               object: nil)
+
+        // toggleAuthUI()
+        if(GIDSignIn.sharedInstance().hasAuthInKeychain()){
+            LoginViewController.AfterLoginGoogle()
+        }
     }
+    
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self,
+                                                  name: NSNotification.Name(rawValue: "ToggleAuthUINotification"),
+                                                  object: nil)
+    }
+    
+    @objc func receiveToggleAuthUINotification(_ notification: NSNotification) {
+        if notification.name.rawValue == "ToggleAuthUINotification" {
+            self.toggleAuthUI()
+            if notification.userInfo != nil {
+                guard let userInfo = notification.userInfo as? [String:String] else { return }
+                
+            }
+        }
+    }
+
+    
+    // [START toggle_auth]
+    func toggleAuthUI() {
+        if GIDSignIn.sharedInstance().hasAuthInKeychain() {
+            // print("berhasil yey")
+        } else {
+            print("jadi gagal")
+        }
+    }
+    // [END toggle_auth]
+    
+    
+    // Required param: "sender"
+    static func LoginWithGoogle(){
+        print("beforelogin")
+        GIDSignIn.sharedInstance().signIn()
+    }
+    
+    static func AfterLoginGoogle() {
+        print("afterlogin")
+        
+        let gEmail = GIDSignIn.sharedInstance().currentUser.profile.email
+        let gFullname = GIDSignIn.sharedInstance().currentUser.profile.givenName+" "+GIDSignIn.sharedInstance().currentUser.profile.familyName
+        let gGoogle_id = GIDSignIn.sharedInstance().currentUser.userID
+        let gUsername = GIDSignIn.sharedInstance().currentUser.profile.name
+        let gGoogle_access_token = GIDSignIn.sharedInstance().currentUser.authentication.accessToken
+        
+        let _ = request(APIAuth.loginGoogle(email: gEmail!, fullname: gFullname, google_id: gGoogle_id!, google_username: gUsername!, google_access_token: gGoogle_access_token!)).responseJSON {resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Google")) {
+                let json = JSON(resp.result.value!)
+                print(json)
+                let data = json["_data"]
+                if (data == nil || data == []) { // Data kembalian kosong
+                    if (json["_message"] != nil) {
+                        LoginViewController.LoginGoogleCancelled()
+                    }
+                } else { // Berhasil
+                    print("Google login data: \(data)")
+                
+                }
+            } else {
+            }
+        }
+
+    }
+    
+    static func LoginGoogleCancelled() {
+//        
+//        let vcLogin = sender as? LoginViewController
+//        let vcRegister = sender as? RegisterViewController
+//        let vcProductDetail = sender as? ProductDetailViewController
+//        let vcAddProductShare = sender as? AddProductShareViewController
+//        let vcUserProfile = sender as? UserProfileViewController
+//        let vcUserProfile2 = sender as? UserProfileViewController2
+//        
+//        if (vcLogin != nil || vcRegister != nil) { // Jika login dari halaman login atau register
+//            User.Logout()
+//        } else {
+//            User.LogoutTwitter()
+//        }
+//        
+//        // Hide loading
+//        if (vcLogin != nil) {
+//            vcLogin!.hideLoading()
+//        }
+//        if (vcRegister != nil) {
+//            vcRegister!.hideLoading()
+//        }
+//        if (vcProductDetail != nil) {
+//            vcProductDetail!.hideLoading()
+//        }
+//        if (vcAddProductShare != nil) {
+//            vcAddProductShare!.hideLoading()
+//        }
+//        if (vcUserProfile != nil) {
+//            vcUserProfile!.hideLoading()
+//        }
+//        if (vcUserProfile2 != nil) {
+//            vcUserProfile2!.hideLoading()
+//        }
+//        
+//        // Show alert if there's reason
+//        if (reason != nil) {
+//            Constant.showDialog("Login Twitter", message: reason!)
+//        }
+
+    }
+    
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -991,6 +1112,12 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         LoginViewController.LoginWithTwitter(p as [String : AnyObject], onFinish: { resultDict in
             LoginViewController.AfterLoginTwitter(resultDict)
         })
+    }
+    
+    // MARK: - Google
+    
+    @IBAction func loginGooglePressed(_ sender: Any) {
+        LoginViewController.LoginWithGoogle()
     }
     
     // MARK: - Path Login

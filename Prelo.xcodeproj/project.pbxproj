@@ -583,6 +583,12 @@
 		58F0A41C1C7C634A002A488F /* cchmrk_imgzoom.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4171C7C634A002A488F /* cchmrk_imgzoom.png */; };
 		58F0A41D1C7C634A002A488F /* cchmrk_pinch.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4181C7C634A002A488F /* cchmrk_pinch.png */; };
 		58F0A41E1C7C634A002A488F /* cchmrk_spread.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4191C7C634A002A488F /* cchmrk_spread.png */; };
+		58F561F61EDEC3B10054A3CE /* GoogleAppUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F561F51EDEC3B10054A3CE /* GoogleAppUtilities.framework */; };
+		58F562081EDEC3BA0054A3CE /* GoogleSignIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F562071EDEC3BA0054A3CE /* GoogleSignIn.framework */; };
+		58F5620A1EDEC3C20054A3CE /* GoogleSignInDependencies.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F562091EDEC3C20054A3CE /* GoogleSignInDependencies.framework */; };
+		58F5620C1EDEC3CD0054A3CE /* GoogleSymbolUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F5620B1EDEC3CD0054A3CE /* GoogleSymbolUtilities.framework */; };
+		58F5620E1EDEC4210054A3CE /* GoogleSignIn.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 58F5620D1EDEC4210054A3CE /* GoogleSignIn.bundle */; };
+		58F562101EDECD590054A3CE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58F5620F1EDECD590054A3CE /* GoogleService-Info.plist */; };
 		58F5BEF61DB088D1009B0E0B /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F5BEE91DB08810009B0E0B /* Alamofire.framework */; };
 		58F5BEF71DB088D1009B0E0B /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 58F5BEE91DB08810009B0E0B /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		58F78B501DFACE2B008744F7 /* ProductLovelistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F78B4F1DFACE2B008744F7 /* ProductLovelistViewController.swift */; };
@@ -1635,6 +1641,12 @@
 		58F0A4171C7C634A002A488F /* cchmrk_imgzoom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_imgzoom.png; sourceTree = "<group>"; };
 		58F0A4181C7C634A002A488F /* cchmrk_pinch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_pinch.png; sourceTree = "<group>"; };
 		58F0A4191C7C634A002A488F /* cchmrk_spread.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_spread.png; sourceTree = "<group>"; };
+		58F561F51EDEC3B10054A3CE /* GoogleAppUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleAppUtilities.framework; sourceTree = "<group>"; };
+		58F562071EDEC3BA0054A3CE /* GoogleSignIn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSignIn.framework; sourceTree = "<group>"; };
+		58F562091EDEC3C20054A3CE /* GoogleSignInDependencies.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSignInDependencies.framework; sourceTree = "<group>"; };
+		58F5620B1EDEC3CD0054A3CE /* GoogleSymbolUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSymbolUtilities.framework; sourceTree = "<group>"; };
+		58F5620D1EDEC4210054A3CE /* GoogleSignIn.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleSignIn.bundle; sourceTree = "<group>"; };
+		58F5620F1EDECD590054A3CE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		58F5BEDD1DB08810009B0E0B /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
 		58F78B4F1DFACE2B008744F7 /* ProductLovelistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductLovelistViewController.swift; sourceTree = "<group>"; };
 		58F78B5F1DFACEB3008744F7 /* ProductLovelist.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductLovelist.xib; sourceTree = "<group>"; };
@@ -1809,6 +1821,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58F562081EDEC3BA0054A3CE /* GoogleSignIn.framework in Frameworks */,
 				B2BC10271E442D72003DF4D7 /* CoreMotion.framework in Frameworks */,
 				B285789E1E56B8F7008995F4 /* ImageIO.framework in Frameworks */,
 				21EEB43C1B86FA2800CAD5C9 /* Accelerate.framework in Frameworks */,
@@ -1826,7 +1839,9 @@
 				FD3C8DEC1C43A42B00D40EF8 /* Crashlytics.framework in Frameworks */,
 				216799961B9010E900F18F90 /* Fabric.framework in Frameworks */,
 				4453F43C1BBBF2C100FE7CB5 /* FBSDKCoreKit.framework in Frameworks */,
+				58F5620A1EDEC3C20054A3CE /* GoogleSignInDependencies.framework in Frameworks */,
 				4453F4401BBBFF6D00FE7CB5 /* FBSDKLoginKit.framework in Frameworks */,
+				58F561F61EDEC3B10054A3CE /* GoogleAppUtilities.framework in Frameworks */,
 				21EEB4401B86FABE00CAD5C9 /* Foundation.framework in Frameworks */,
 				58D7D5251CD9B6FC00308A50 /* iAd.framework in Frameworks */,
 				B28578C31E570C0B008995F4 /* DropDown.framework in Frameworks */,
@@ -1848,6 +1863,7 @@
 				B2BC10291E442DBB003DF4D7 /* FBAudienceNetwork.framework in Frameworks */,
 				58F5BEF61DB088D1009B0E0B /* Alamofire.framework in Frameworks */,
 				21EEB4501B86FB2B00CAD5C9 /* libc++.dylib in Frameworks */,
+				58F5620C1EDEC3CD0054A3CE /* GoogleSymbolUtilities.framework in Frameworks */,
 				21679A601B901DD400F18F90 /* libicucore.dylib in Frameworks */,
 				FD3C6D4A1C1964390002C7B4 /* libGoogleAnalyticsServices.a in Frameworks */,
 				2124FFD11BBD2AC000194B8F /* libGoogleConversionTracking.a in Frameworks */,
@@ -1942,6 +1958,7 @@
 		2115E6CA1B4A27E500509D2A /* Prelo */ = {
 			isa = PBXGroup;
 			children = (
+				58F5620F1EDECD590054A3CE /* GoogleService-Info.plist */,
 				58A99A4D1C6D866000E3E7D7 /* Prelo.entitlements */,
 				2115E6CD1B4A27E500509D2A /* AppDelegate.swift */,
 				2115E6D71B4A27E500509D2A /* Images.xcassets */,
@@ -2902,6 +2919,11 @@
 		21EEB4361B86F9EF00CAD5C9 /* Framework */ = {
 			isa = PBXGroup;
 			children = (
+				58F5620D1EDEC4210054A3CE /* GoogleSignIn.bundle */,
+				58F5620B1EDEC3CD0054A3CE /* GoogleSymbolUtilities.framework */,
+				58F562091EDEC3C20054A3CE /* GoogleSignInDependencies.framework */,
+				58F562071EDEC3BA0054A3CE /* GoogleSignIn.framework */,
+				58F561F51EDEC3B10054A3CE /* GoogleAppUtilities.framework */,
 				B2BC10281E442DBB003DF4D7 /* FBAudienceNetwork.framework */,
 				44B8EDC41BEB47620063DEA8 /* TwitterKitResources.bundle */,
 				4453F43D1BBBFF6D00FE7CB5 /* Bolts.framework */,
@@ -3677,6 +3699,7 @@
 				588148BA1DC0B244004180E1 /* ProductCompareMainCell.xib in Resources */,
 				FDAD1BE51BF0A5DB00505A35 /* ic_take_photo.png in Resources */,
 				5858875C1DBEEA1A006EC6D5 /* SearchResultHeader.xib in Resources */,
+				58F5620E1EDEC4210054A3CE /* GoogleSignIn.bundle in Resources */,
 				B2D119931E290BF80064045B /* banner_exclamation.png in Resources */,
 				58BE535F1D479F5B00E358EB /* courier_jne.png in Resources */,
 				589A6FB31D8C08F600654CDD /* ic_berat.png in Resources */,
@@ -3742,6 +3765,7 @@
 				585887381DBEDA3E006EC6D5 /* Filter.xib in Resources */,
 				B240F4C31E2477FF00DCAFF7 /* shoppingstore27.png in Resources */,
 				5847E1951DBE057800C1B2BA /* LoginFransiska.xib in Resources */,
+				58F562101EDECD590054A3CE /* GoogleService-Info.plist in Resources */,
 				21E7A7661B9FF2BC00FC9B38 /* LKActivity.png in Resources */,
 				58BE53611D479F5B00E358EB /* courier_tiki.png in Resources */,
 				5858873E1DBEDA79006EC6D5 /* MyLovelist.xib in Resources */,
