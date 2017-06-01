@@ -1258,7 +1258,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             else {
                 // Load next products here
                 if (currentMode == .default || currentMode == .standalone || currentMode == .shop || currentMode == .filter || (currentMode == .segment && listItemSections.contains(.products)) || currentMode == .newShop) {
-                    if ((indexPath as NSIndexPath).row == (products?.count)! - 6 && requesting == false && done == false) {
+                    if ((indexPath as NSIndexPath).row == (products?.count)! - 4 && requesting == false && done == false) {
                         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
                                                             qos: .background,
                                                             target: nil)
@@ -1287,10 +1287,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
 //                cell.layer.shouldRasterize = true
 //                cell.layer.rasterizationScale = UIScreen.main.scale
             
-                cell.alpha = 1.0
-                cell.backgroundColor = UIColor.groupTableViewBackground
-                cell.avatar.alpha = 1.0
-                cell.avatar.backgroundColor = UIColor.groupTableViewBackground
+                cell.ivCover.alpha = 1.0
+                cell.ivCover.backgroundColor = UIColor.white
                 return cell
             }
         case .aboutShop:

@@ -405,11 +405,13 @@ extension UIImageView {
             size: self.frame.size
         )
         
+        let imageTransition = UIImageView.ImageTransition.crossDissolve(2.0)
+        
         self.af_setImage(
             withURL: withURL,
             placeholderImage: placeholderImage.resizeWithMaxWidth(self.frame.size.width),
             filter: filter,
-            imageTransition: .crossDissolve(0.3)
+            imageTransition: imageTransition
         )
         
         self.image?.af_inflate()
@@ -418,6 +420,8 @@ extension UIImageView {
     func afSetImage(withURL: URL, withFilter: imageFilterMode) {
         
         let placeholderImage = UIImage(named: "placeholder-standar-white")!
+        
+        let imageTransition = UIImageView.ImageTransition.crossDissolve(2.0)
         
         if withFilter == .fitWithPreloPlaceHolder {
             let filter = AspectScaledToFitSizeFilter(
@@ -428,7 +432,7 @@ extension UIImageView {
                 withURL: withURL,
                 placeholderImage: UIImage(named: "raisa.jpg")!.resizeWithMaxWidth(self.frame.size.width), // prelo hijau
                 filter: filter,
-                imageTransition: .crossDissolve(0.3)
+                imageTransition: imageTransition
             )
         }
         
@@ -440,7 +444,7 @@ extension UIImageView {
             self.af_setImage(
                 withURL: withURL,
                 filter: filter,
-                imageTransition: .crossDissolve(0.3)
+                imageTransition: imageTransition
             )
         }
         
@@ -454,7 +458,7 @@ extension UIImageView {
                 placeholderImage: UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-gray" : "placeholder-transparent-gray"))!.resizeWithMaxWidth(self.frame.size.width), // full screen
                 
                 filter: filter,
-                imageTransition: .crossDissolve(0.3)
+                imageTransition: imageTransition
             )
         }
             
@@ -467,7 +471,7 @@ extension UIImageView {
                 withURL: withURL,
                 placeholderImage: UIImage(named: "placeholder-badge")!.resizeWithMaxWidth(self.frame.size.width), // badge
                 filter: filter,
-                imageTransition: .crossDissolve(0.3)
+                imageTransition: imageTransition
             )
         }
         
@@ -480,7 +484,7 @@ extension UIImageView {
                 withURL: withURL,
                 placeholderImage: UIImage(named: "placeholder-circle")!.resizeWithMaxWidth(self.frame.size.width), // people
                 filter: filter,
-                imageTransition: .crossDissolve(0.3)
+                imageTransition: imageTransition
             )
         }
             
@@ -488,7 +492,7 @@ extension UIImageView {
             
             self.af_setImage(
                 withURL: withURL,
-                imageTransition: .crossDissolve(0.3)
+                imageTransition: imageTransition
             )
         }
         
@@ -497,7 +501,7 @@ extension UIImageView {
             self.af_setImage(
                 withURL: withURL,
                 placeholderImage: placeholderImage.resizeWithMaxWidth(self.frame.size.width),
-                imageTransition: .crossDissolve(0.3)
+                imageTransition: imageTransition
             )
         }
             
@@ -510,7 +514,7 @@ extension UIImageView {
                 withURL: withURL,
                 placeholderImage: UIImage(named: "placeholder-prelo-message.jpg")!.resizeWithMaxWidth(self.frame.size.width), // pm
                 filter: filter,
-                imageTransition: .crossDissolve(0.3)
+                imageTransition: imageTransition
             )
         }
             
@@ -523,7 +527,7 @@ extension UIImageView {
                 withURL: withURL,
                 placeholderImage: UIImage(named: "placeholder-prelo-message.jpg")!.resizeWithMaxWidth(self.frame.size.width), // pm
                 filter: filter,
-                imageTransition: .crossDissolve(0.3)
+                imageTransition: imageTransition
             )
         }
         
@@ -537,7 +541,7 @@ extension UIImageView {
                 withURL: withURL,
                 placeholderImage: placeholderImage.resizeWithMaxWidth(self.frame.size.width),
                 filter: filter,
-                imageTransition: .crossDissolve(0.3)
+                imageTransition: imageTransition
             )
         }
         

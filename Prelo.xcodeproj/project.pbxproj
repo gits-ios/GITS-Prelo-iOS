@@ -616,10 +616,10 @@
 		B240F4F11E24DE7000DCAFF7 /* AchievementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B240F4F01E24DE7000DCAFF7 /* AchievementViewController.swift */; };
 		B26DB3F11E2D3C6F00224675 /* ic_achievement.png in Resources */ = {isa = PBXBuildFile; fileRef = B26DB3F01E2D3C6F00224675 /* ic_achievement.png */; };
 		B271A66A1EDEC40400C6A973 /* placeholder-standar-white.png in Resources */ = {isa = PBXBuildFile; fileRef = B271A6691EDEC40400C6A973 /* placeholder-standar-white.png */; };
-		B271A67D1EDED08900C6A973 /* placeholder-transparent-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = B271A67B1EDED08900C6A973 /* placeholder-transparent-gray.png */; };
-		B271A67E1EDED08900C6A973 /* placeholder-transparent-ipad-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = B271A67C1EDED08900C6A973 /* placeholder-transparent-ipad-gray.png */; };
 		B271A6811EDED6D900C6A973 /* placeholder-transparent-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B271A67F1EDED6D900C6A973 /* placeholder-transparent-ipad.png */; };
 		B271A6821EDED6D900C6A973 /* placeholder-transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = B271A6801EDED6D900C6A973 /* placeholder-transparent.png */; };
+		B271A6891EDFD16D00C6A973 /* placeholder-transparent-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = B271A6871EDFD16D00C6A973 /* placeholder-transparent-gray.png */; };
+		B271A68A1EDFD16D00C6A973 /* placeholder-transparent-ipad-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = B271A6881EDFD16D00C6A973 /* placeholder-transparent-ipad-gray.png */; };
 		B27948231E35C700002CEED4 /* TarikTunai2.xib in Resources */ = {isa = PBXBuildFile; fileRef = B27948221E35C700002CEED4 /* TarikTunai2.xib */; };
 		B27948251E35D971002CEED4 /* TarikTunaiViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27948241E35D971002CEED4 /* TarikTunaiViewController2.swift */; };
 		B27EE2071E4DBD230018E8A0 /* PushNotif.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B2B34BCC1E37042C001B653F /* PushNotif.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -1674,10 +1674,10 @@
 		B24FCEF21E536E8000B517A9 /* DropDown.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DropDown.xcodeproj; path = DropDown/DropDown.xcodeproj; sourceTree = "<group>"; };
 		B26DB3F01E2D3C6F00224675 /* ic_achievement.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_achievement.png; sourceTree = "<group>"; };
 		B271A6691EDEC40400C6A973 /* placeholder-standar-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-standar-white.png"; sourceTree = "<group>"; };
-		B271A67B1EDED08900C6A973 /* placeholder-transparent-gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-transparent-gray.png"; sourceTree = "<group>"; };
-		B271A67C1EDED08900C6A973 /* placeholder-transparent-ipad-gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-transparent-ipad-gray.png"; sourceTree = "<group>"; };
 		B271A67F1EDED6D900C6A973 /* placeholder-transparent-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-transparent-ipad.png"; sourceTree = "<group>"; };
 		B271A6801EDED6D900C6A973 /* placeholder-transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-transparent.png"; sourceTree = "<group>"; };
+		B271A6871EDFD16D00C6A973 /* placeholder-transparent-gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-transparent-gray.png"; sourceTree = "<group>"; };
+		B271A6881EDFD16D00C6A973 /* placeholder-transparent-ipad-gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-transparent-ipad-gray.png"; sourceTree = "<group>"; };
 		B27948221E35C700002CEED4 /* TarikTunai2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunai2.xib; sourceTree = "<group>"; };
 		B27948241E35D971002CEED4 /* TarikTunaiViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiViewController2.swift; sourceTree = "<group>"; };
 		B285789D1E56B8F7008995F4 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
@@ -3258,8 +3258,8 @@
 				B271A67F1EDED6D900C6A973 /* placeholder-transparent-ipad.png */,
 				B2CAF7951E794ED100ACB361 /* placeholder-prelo-message.jpg */,
 				B271A6691EDEC40400C6A973 /* placeholder-standar-white.png */,
-				B271A67B1EDED08900C6A973 /* placeholder-transparent-gray.png */,
-				B271A67C1EDED08900C6A973 /* placeholder-transparent-ipad-gray.png */,
+				B271A6871EDFD16D00C6A973 /* placeholder-transparent-gray.png */,
+				B271A6881EDFD16D00C6A973 /* placeholder-transparent-ipad-gray.png */,
 			);
 			name = placeholder;
 			sourceTree = "<group>";
@@ -3642,7 +3642,7 @@
 				440AF66C1BE1090800074CBC /* ic_round_whatsapp.png in Resources */,
 				2115E6D61B4A27E500509D2A /* Main.storyboard in Resources */,
 				589A6FCC1D8C08F600654CDD /* ic_ukuran.png in Resources */,
-				B271A67D1EDED08900C6A973 /* placeholder-transparent-gray.png in Resources */,
+				B271A6891EDFD16D00C6A973 /* placeholder-transparent-gray.png in Resources */,
 				588148C31DC0B598004180E1 /* ProductCompareCell.xib in Resources */,
 				58528C531D13A3D200074EC6 /* cchmrk_share.png in Resources */,
 				21679A531B901C5300F18F90 /* snapshot_config.json in Resources */,
@@ -3837,7 +3837,7 @@
 				21B4680B1CCE5EDB00E145ED /* BFKit.strings in Resources */,
 				5858873C1DBEDA5E006EC6D5 /* FilterPriceCell.xib in Resources */,
 				589A6FBF1D8C08F600654CDD /* ic_harga.png in Resources */,
-				B271A67E1EDED08900C6A973 /* placeholder-transparent-ipad-gray.png in Resources */,
+				B271A68A1EDFD16D00C6A973 /* placeholder-transparent-ipad-gray.png in Resources */,
 				2115E6D81B4A27E500509D2A /* Images.xcassets in Resources */,
 				B240F4DB1E24D63400DCAFF7 /* AchievementCellBadgeCell.xib in Resources */,
 				B2EE39CE1E76905500113E03 /* ic_paid_poin.png in Resources */,
