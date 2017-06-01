@@ -407,7 +407,7 @@ extension UIImageView {
         
         self.af_setImage(
             withURL: withURL,
-            placeholderImage: placeholderImage,
+            placeholderImage: placeholderImage.resizeWithMaxWidth(self.frame.size.width),
             filter: filter,
             imageTransition: .crossDissolve(0.3)
         )
@@ -426,7 +426,7 @@ extension UIImageView {
             
             self.af_setImage(
                 withURL: withURL,
-                placeholderImage: UIImage(named: "raisa.jpg")!, // prelo hijau
+                placeholderImage: UIImage(named: "raisa.jpg")!.resizeWithMaxWidth(self.frame.size.width), // prelo hijau
                 filter: filter,
                 imageTransition: .crossDissolve(0.3)
             )
@@ -451,7 +451,7 @@ extension UIImageView {
             
             self.af_setImage(
                 withURL: withURL,
-                placeholderImage: UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-gray" : "placeholder-transparent-gray"))!, // full screen
+                placeholderImage: UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-gray" : "placeholder-transparent-gray"))!.resizeWithMaxWidth(self.frame.size.width), // full screen
                 
                 filter: filter,
                 imageTransition: .crossDissolve(0.3)
@@ -465,7 +465,7 @@ extension UIImageView {
             
             self.af_setImage(
                 withURL: withURL,
-                placeholderImage: UIImage(named: "placeholder-badge")!, // badge
+                placeholderImage: UIImage(named: "placeholder-badge")!.resizeWithMaxWidth(self.frame.size.width), // badge
                 filter: filter,
                 imageTransition: .crossDissolve(0.3)
             )
@@ -478,7 +478,7 @@ extension UIImageView {
             
             self.af_setImage(
                 withURL: withURL,
-                placeholderImage: UIImage(named: "placeholder-circle")!, // people
+                placeholderImage: UIImage(named: "placeholder-circle")!.resizeWithMaxWidth(self.frame.size.width), // people
                 filter: filter,
                 imageTransition: .crossDissolve(0.3)
             )
@@ -496,7 +496,7 @@ extension UIImageView {
             
             self.af_setImage(
                 withURL: withURL,
-                placeholderImage: placeholderImage,
+                placeholderImage: placeholderImage.resizeWithMaxWidth(self.frame.size.width),
                 imageTransition: .crossDissolve(0.3)
             )
         }
@@ -508,7 +508,7 @@ extension UIImageView {
             
             self.af_setImage(
                 withURL: withURL,
-                placeholderImage: UIImage(named: "placeholder-prelo-message.jpg")!, // pm
+                placeholderImage: UIImage(named: "placeholder-prelo-message.jpg")!.resizeWithMaxWidth(self.frame.size.width), // pm
                 filter: filter,
                 imageTransition: .crossDissolve(0.3)
             )
@@ -521,7 +521,7 @@ extension UIImageView {
             
             self.af_setImage(
                 withURL: withURL,
-                placeholderImage: UIImage(named: "placeholder-prelo-message.jpg")!, // pm
+                placeholderImage: UIImage(named: "placeholder-prelo-message.jpg")!.resizeWithMaxWidth(self.frame.size.width), // pm
                 filter: filter,
                 imageTransition: .crossDissolve(0.3)
             )
@@ -535,7 +535,7 @@ extension UIImageView {
             
             self.af_setImage(
                 withURL: withURL,
-                placeholderImage: placeholderImage,
+                placeholderImage: placeholderImage.resizeWithMaxWidth(self.frame.size.width),
                 filter: filter,
                 imageTransition: .crossDissolve(0.3)
             )
