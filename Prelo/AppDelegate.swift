@@ -51,6 +51,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var produkUploader : ProdukUploader!
     
+    var isFromBackground = false // for defined wait time for redir alert to show
+    
     static var Instance : AppDelegate {
         return UIApplication.shared.delegate as! AppDelegate
     }
@@ -622,6 +624,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
         
+        self.isFromBackground = true
+        
         self.versionForceUpdateCheck()
         
         // Prelo Analytic - Open App
@@ -665,6 +669,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        Constant.showDialog("FIrst INIT", message: "firts INIT")
         
         self.versionForceUpdateCheck()
+        
+        self.isFromBackground = false
         
         // Prelo Analytic - Open App
         AnalyticManager.sharedInstance.openApp()
@@ -1004,8 +1010,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        redirAlert = UIAlertController(title: "Redirecting...", message: "Harap tunggu beberapa saat", preferredStyle: .alert)
 //        UIApplication.shared.keyWindow?.rootViewController?.present(redirAlert!, animated: true, completion: nil)
         
-        redirAlert = SCLAlertView(appearance: Constant.appearance)
-        alertViewResponder = redirAlert!.showCustom("Redirecting...", subTitle: "Harap tunggu beberapa saat", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+        let delayTime = (self.isFromBackground ? 0 : 0.5) * Double(NSEC_PER_SEC)
+        let time = DispatchTime.now() + Double(Int64(delayTime)) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time, execute: {
+            self.redirAlert = SCLAlertView(appearance: Constant.appearance)
+            self.alertViewResponder = self.redirAlert!.showCustom("Redirecting...", subTitle: "Harap tunggu beberapa saat", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+        })
     }
     
     func hideRedirAlertWithDelay(_ delay: Double, completion: (() -> Void)?) {
