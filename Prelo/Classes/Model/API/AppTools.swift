@@ -327,6 +327,16 @@ extension UIImage {
         return self
     }
     
+    func resizeWithMinWidthOrHeight(_ min: CGFloat) -> UIImage? {
+        if (self.size.width <= self.size.height && self.size.width > min) {
+            return self.resizeWithWidth(min)
+        } else if (self.size.width > self.size.height && self.size.height > min) {
+            let newWidth = min * self.size.width / self.size.height
+            return self.resizeWithWidth(newWidth)
+        }
+        return self
+    }
+    
     func correctlyOrientedImage() -> UIImage {
         if self.imageOrientation == UIImageOrientation.up {
             return self
@@ -400,6 +410,8 @@ extension UIImageView {
         
         // default fill
         
+        self.contentMode = .scaleAspectFit
+        
         let placeholderImage = UIImage(named: "placeholder-standar-white")!
         
         let filter = AspectScaledToFillSizeFilter(
@@ -419,6 +431,7 @@ extension UIImageView {
     }
     
     func afSetImage(withURL: URL, withFilter: imageFilterMode) {
+        self.contentMode = .scaleAspectFit
         
         let placeholderImage = UIImage(named: "placeholder-standar-white")!
         
@@ -431,7 +444,7 @@ extension UIImageView {
             
             self.af_setImage(
                 withURL: withURL,
-                placeholderImage: UIImage(named: "raisa.jpg")!.resizeWithMaxWidth(self.frame.size.width), // prelo hijau
+                placeholderImage: UIImage(named: "raisa.jpg")!.resizeWithMinWidthOrHeight(self.frame.size.width), // prelo hijau
                 filter: filter,
                 imageTransition: imageTransition
             )
@@ -456,22 +469,20 @@ extension UIImageView {
             
             self.af_setImage(
                 withURL: withURL,
-                placeholderImage: UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-gray" : "placeholder-transparent-gray"))!.resizeWithMaxWidth(self.frame.size.width), // full screen
+                placeholderImage: UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-gray" : "placeholder-transparent-gray"))!.resizeWithMinWidthOrHeight(self.frame.size.width), // full screen
                 filter: filter,
                 imageTransition: imageTransition
             )
         }
             
         else if withFilter == .fitWithStandarPlaceHolder { // featured, segment, sub-category
-            self.contentMode = .scaleAspectFit
-            
             let filter = AspectScaledToFitSizeFilter(
                 size: self.frame.size
             )
             
             self.af_setImage(
                 withURL: withURL,
-                placeholderImage: UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-lightgray" : "placeholder-transparent-lightgray"))!.resizeWithMaxWidth(self.frame.size.width),
+                placeholderImage: UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-lightgray" : "placeholder-transparent-lightgray"))!.resizeWithMinWidthOrHeight(self.frame.size.width),
                 filter: filter,
                 imageTransition: imageTransition
             )
@@ -484,7 +495,7 @@ extension UIImageView {
             
             self.af_setImage(
                 withURL: withURL,
-                placeholderImage: UIImage(named: "placeholder-badge")!.resizeWithMaxWidth(self.frame.size.width), // badge
+                placeholderImage: UIImage(named: "placeholder-badge")!.resizeWithMinWidthOrHeight(self.frame.size.width), // badge
                 filter: filter,
                 imageTransition: imageTransition
             )
@@ -497,7 +508,7 @@ extension UIImageView {
             
             self.af_setImage(
                 withURL: withURL,
-                placeholderImage: UIImage(named: "placeholder-circle")!.resizeWithMaxWidth(self.frame.size.width), // people
+                placeholderImage: UIImage(named: "placeholder-circle")!.resizeWithMinWidthOrHeight(self.frame.size.width), // people
                 filter: filter,
                 imageTransition: imageTransition
             )
@@ -515,7 +526,7 @@ extension UIImageView {
             
             self.af_setImage(
                 withURL: withURL,
-                placeholderImage: placeholderImage.resizeWithMaxWidth(self.frame.size.width),
+                placeholderImage: placeholderImage.resizeWithMinWidthOrHeight(self.frame.size.width),
                 imageTransition: imageTransition
             )
         }
@@ -527,7 +538,7 @@ extension UIImageView {
             
             self.af_setImage(
                 withURL: withURL,
-                placeholderImage: UIImage(named: "placeholder-prelo-message.jpg")!.resizeWithMaxWidth(self.frame.size.width), // pm
+                placeholderImage: UIImage(named: "placeholder-prelo-message.jpg")!.resizeWithMinWidthOrHeight(self.frame.size.width), // pm
                 filter: filter,
                 imageTransition: imageTransition
             )
@@ -540,7 +551,7 @@ extension UIImageView {
             
             self.af_setImage(
                 withURL: withURL,
-                placeholderImage: UIImage(named: "placeholder-prelo-message.jpg")!.resizeWithMaxWidth(self.frame.size.width), // pm
+                placeholderImage: UIImage(named: "placeholder-prelo-message.jpg")!.resizeWithMinWidthOrHeight(self.frame.size.width), // pm
                 filter: filter,
                 imageTransition: imageTransition
             )
@@ -554,7 +565,7 @@ extension UIImageView {
             
             self.af_setImage(
                 withURL: withURL,
-                placeholderImage: placeholderImage.resizeWithMaxWidth(self.frame.size.width),
+                placeholderImage: placeholderImage.resizeWithMinWidthOrHeight(self.frame.size.width),
                 filter: filter,
                 imageTransition: imageTransition
             )
