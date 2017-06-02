@@ -1137,8 +1137,16 @@ extension NSManagedObjectContext {
 }
 
 func print(_ items: Any..., separator: String = " ", terminator: String = "\n") {
-    if (AppTools.isSimulator) {
-        Swift.print(items[0], separator:separator, terminator: terminator)
+    let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo.print",
+                                        qos: .background,
+                                        target: nil)
+    backgroundQueue.async {
+        if AppTools.isDev {
+            if AppTools.isSimulator {
+                Swift.print("\nSimulator\n=========\n\n", separator: separator, terminator: terminator)
+            }
+            Swift.print(items[0], separator: separator, terminator: terminator)
+        }
     }
 }
 

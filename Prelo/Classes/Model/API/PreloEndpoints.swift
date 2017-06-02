@@ -37,9 +37,7 @@ class PreloEndpoints: NSObject {
             Crashlytics.sharedInstance().setObjectValue(resJson.stringValue, forKey: "last_api_result_string")
         }
         
-        if !AppTools.IsPreloProduction {
-            print("\(reqAlias) req = \(req)")
-        }
+        print("\(reqAlias) req = \(req)")
         
         if let response = resp {
             if (response.statusCode != 200) {
@@ -48,9 +46,7 @@ class PreloEndpoints: NSObject {
                         if (showErrorDialog) {
                             Constant.showDialog(reqAlias, message: msg)
                         }
-                        if !AppTools.IsPreloProduction {
-                            print("\(reqAlias) _message = \(msg)")
-                        }
+                        print("\(reqAlias) _message = \(msg)")
                         
                         if (msg.lowercased() == "user belum login") {
                             User.Logout()
@@ -89,16 +85,12 @@ class PreloEndpoints: NSObject {
             if (showErrorDialog) {
                 Constant.showDialog(reqAlias, message: "Oops, terdapat kesalahan, silahkan coba beberapa saat lagi")
             }
-            if !AppTools.IsPreloProduction {
-                print("\(reqAlias) err = \(error.localizedDescription)")
-            }
+            print("\(reqAlias) err = \(error.localizedDescription)")
             return false
         } else {
             let json = JSON(res!)
             let data = json["_data"]
-            if !AppTools.IsPreloProduction {
-                print("\(reqAlias) _data = \(data)")
-            }
+            print("\(reqAlias) _data = \(data)")
             return true
         }
     }
@@ -111,9 +103,7 @@ extension URLRequest {
         // Set token
         if let token = User.Token {
             urlRequest.setValue("Token \(token)", forHTTPHeaderField: "Authorization")
-            if !AppTools.IsPreloProduction {
-                print("User token = \(token)")
-            }
+            print("User token = \(token)")
         }
         
         // Set user agent
