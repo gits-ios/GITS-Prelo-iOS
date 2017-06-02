@@ -2222,7 +2222,7 @@ class ListItemCarouselCell : UICollectionViewCell, UIScrollViewDelegate {
             //let uiImg = UIImageView(frame: rect, image: carouselItems[i].img)
             let uiImg = UIImageView(frame: rect)
             uiImg.afSetImage(withURL: carouselItems[i].imgLink, withFilter: .fitWithStandarPlaceHolder)
-            let uiBtn = UIButton(frame: uiImg.bounds)
+            let uiBtn = UIButton(frame: rect)
             uiBtn.addTarget(self, action: #selector(ListItemCarouselCell.btnCarouselPressed(_:)), for: UIControlEvents.touchUpInside)
             uiBtn.tag = i
             self.contentVwCarousel.addSubview(uiImg)
