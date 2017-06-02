@@ -416,7 +416,7 @@ extension UIImageView {
         backgroundQueue.async {
             self.contentMode = .scaleAspectFit // placeholder
             
-            let placeholderImage = UIImage(named: "placeholder-standar-white")! //.resizeWithMinWidthOrHeight(self.frame.size)
+            let placeholderImage = UIImage(named: "placeholder-standar-white")!
             placeholderImage.afInflate()
             
             let filter = AspectScaledToFillSizeFilter(
@@ -457,7 +457,7 @@ extension UIImageView {
                 )
                 
                 // prelo hijau
-                let _placeholder = UIImage(named: "raisa.jpg")! //.resizeWithMinWidthOrHeight(self.frame.size)
+                let _placeholder = UIImage(named: "raisa.jpg")!
                 _placeholder.afInflate()
                 
                 DispatchQueue.main.async(execute: {
@@ -494,7 +494,7 @@ extension UIImageView {
                 )
                 
                 // full screen
-                let _placeholder = UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-gray" : "placeholder-transparent-gray"))! //.resizeWithMinWidthOrHeight(self.frame.size)
+                let _placeholder = UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-gray" : "placeholder-transparent-gray"))!
                 _placeholder.afInflate()
                 
                 DispatchQueue.main.async(execute: {
@@ -517,7 +517,7 @@ extension UIImageView {
                 )
                 
                 // pm
-                let _placeholder = UIImage(named: "placeholder-prelo-message.jpg")! //.resizeWithMinWidthOrHeight(self.frame.size)
+                let _placeholder = UIImage(named: "placeholder-prelo-message.jpg")!
                 _placeholder.afInflate()
                 
                 DispatchQueue.main.async(execute: {
@@ -539,7 +539,7 @@ extension UIImageView {
                 )
                 
                 // badge
-                let _placeholder = UIImage(named: "placeholder-badge")! //.resizeWithMinWidthOrHeight(self.frame.size)
+                let _placeholder = UIImage(named: "placeholder-badge")!
                 _placeholder.afInflate()
                 
                 DispatchQueue.main.async(execute: {
@@ -561,7 +561,7 @@ extension UIImageView {
                 )
                 
                 // people
-                let _placeholder = UIImage(named: "placeholder-circle")! //.resizeWithMinWidthOrHeight(self.frame.size)
+                let _placeholder = UIImage(named: "placeholder-circle")!
                 _placeholder.afInflate()
                 
                 DispatchQueue.main.async(execute: {
@@ -594,7 +594,7 @@ extension UIImageView {
             else if withFilter == .none {
                 self.contentMode = .scaleAspectFill // image
                 
-                let _placeholder = placeholderImage //.resizeWithMinWidthOrHeight(self.frame.size)
+                let _placeholder = placeholderImage
                 _placeholder.afInflate()
                 
                 DispatchQueue.main.async(execute: {
@@ -616,7 +616,7 @@ extension UIImageView {
                 )
                 
                 // pm
-                let _placeholder = UIImage(named: "placeholder-prelo-message.jpg")! //.resizeWithMinWidthOrHeight(self.frame.size)
+                let _placeholder = UIImage(named: "placeholder-prelo-message.jpg")!
                 _placeholder.afInflate()
                 
                 DispatchQueue.main.async(execute: {
@@ -636,7 +636,7 @@ extension UIImageView {
                     size: self.frame.size
                 )
                 
-                let _placeholder = UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-lightgray" : "placeholder-transparent-lightgray"))! //.resizeWithMinWidthOrHeight(self.frame.size)
+                let _placeholder = UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-lightgray" : "placeholder-transparent-lightgray"))!
                 _placeholder.afInflate()
                 
                 DispatchQueue.main.async(execute: {
@@ -658,7 +658,7 @@ extension UIImageView {
                     size: self.frame.size
                 )
                 
-                let _placeholder = placeholderImage //.resizeWithMinWidthOrHeight(self.frame.size)
+                let _placeholder = placeholderImage
                 _placeholder.afInflate()
                 
                 DispatchQueue.main.async(execute: {

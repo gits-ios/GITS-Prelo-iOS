@@ -767,16 +767,21 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             })
         }
         
-        /*
+        
         // testing gzip
         if AppTools.isDev {
             let t = ((APIProduct.getAllFeaturedProducts(categoryId: self.categoryJson!["_id"].stringValue)).urlRequest?.allHTTPHeaderFields?.description) ?? ""
             req.responseData(completionHandler: { (resp) in
+                /*
                 Constant.showDialog("Response", message: (resp.data?.debugDescription)! + "\n\n" + resp.debugDescription)
                 Constant.showDialog("Response Header", message: (resp.response?.allHeaderFields.description)!)
                 Constant.showDialog("Request", message: t)
+                */
+                print("\nRequest:\n" + t)
+                print("\nResponse Header:\n" + (resp.response?.allHeaderFields.description)!)
+                print("\nResponse:\n" + (resp.data?.debugDescription)! + "\n" + resp.debugDescription)
             })
-        }*/
+        }
     }
     
     func getFilteredProducts() {
@@ -1263,31 +1268,31 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 cell.setCarouselTimer()
                 isCarouselTimerSet = true
             }
-//            cell.layer.shouldRasterize = true
-//            cell.layer.rasterizationScale = UIScreen.main.scale
+            cell.layer.shouldRasterize = true
+            cell.layer.rasterizationScale = UIScreen.main.scale
             return cell
         case .featuredHeader:
             let cell : ListItemFeaturedHeaderCell = collectionView.dequeueReusableCell(withReuseIdentifier: "featured_cell", for: indexPath) as! ListItemFeaturedHeaderCell
             if let name = categoryJson?["name"].string {
                 cell.adapt(name, featuredTitle: categoryJson?["featured_title"].string, featuredDescription: categoryJson?["featured_description"].string)
             }
-//            cell.layer.shouldRasterize = true
-//            cell.layer.rasterizationScale = UIScreen.main.scale
+            cell.layer.shouldRasterize = true
+            cell.layer.rasterizationScale = UIScreen.main.scale
             return cell
         case .subcategories:
             let cell : ListItemSubcategoryCell = collectionView.dequeueReusableCell(withReuseIdentifier: "subcategory_cell", for: indexPath) as! ListItemSubcategoryCell
             //cell.imgSubcategory.image = subcategoryItems[(indexPath as NSIndexPath).item].image
             cell.adapt(subcategoryItems[(indexPath as NSIndexPath).item].imageLink)
             cell.lblSubcategory.isHidden = true // Unused label
-//            cell.layer.shouldRasterize = true
-//            cell.layer.rasterizationScale = UIScreen.main.scale
+            cell.layer.shouldRasterize = true
+            cell.layer.rasterizationScale = UIScreen.main.scale
             return cell
         case .segments:
             let cell : ListItemSegmentCell = collectionView.dequeueReusableCell(withReuseIdentifier: "segment_cell", for: indexPath) as! ListItemSegmentCell
             //cell.imgSegment.image = segments[(indexPath as NSIndexPath).item].image
             cell.adapt(segments[(indexPath as NSIndexPath).item].imageLink)
-//            cell.layer.shouldRasterize = true
-//            cell.layer.rasterizationScale = UIScreen.main.scale
+            cell.layer.shouldRasterize = true
+            cell.layer.rasterizationScale = UIScreen.main.scale
             return cell
         case .products:
             if adsCellProvider != nil && adsCellProvider.isAdCell(at: indexPath, forStride: UInt(adRowStep)) {
@@ -1336,26 +1341,26 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         case .aboutShop:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "StorePageShopHeader", for: indexPath) as! StoreInfo
             cell.adapt(self.shopData, count: self.products!.count, isExpand: self.isExpand, star: self.star)
-//            cell.layer.shouldRasterize = true
-//            cell.layer.rasterizationScale = UIScreen.main.scale
+            cell.layer.shouldRasterize = true
+            cell.layer.rasterizationScale = UIScreen.main.scale
             return cell
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        switch listItemSections[(indexPath as NSIndexPath).section] {
-        case .products:
-            if adsCellProvider != nil && adsCellProvider.isAdCell(at: indexPath, forStride: UInt(adRowStep)) {
-                // do nothing
-            } else if cell is ListItemCell {
-                let c = cell as! ListItemCell
-                c.ivCover.af_cancelImageRequest()
-            } else {
-                break
-            }
-        default: break
-        }
-    }
+//    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+//        switch listItemSections[(indexPath as NSIndexPath).section] {
+//        case .products:
+//            if adsCellProvider != nil && adsCellProvider.isAdCell(at: indexPath, forStride: UInt(adRowStep)) {
+//                // do nothing
+//            } else if cell is ListItemCell {
+//                let c = cell as! ListItemCell
+//                c.ivCover.af_cancelImageRequest()
+//            } else {
+//                break
+//            }
+//        default: break
+//        }
+//    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let viewWidthMinusMargin = UIScreen.main.bounds.size.width - 8
