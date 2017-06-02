@@ -451,7 +451,6 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 
                 let imgVw = TintedImageView()
                 imgVw.frame = CGRect(x: 0, y: 4, width: imgLb.width, height: hI)
-                //imgVw.afSetImage(withURL: URL(string: icon)!, withFilter: .noneWithoutPlaceHolder)
                 
                 if nameFix == "Home" {
                     imgVw.image = UIImage(named: "ic_home")?.withRenderingMode(.alwaysTemplate)
@@ -544,10 +543,10 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                                         self.vwHomePromo = UIView(frame: screenSize, backgroundColor: UIColor.colorWithColor(UIColor.black, alpha: 0.7))
                                         
                                         let imgHomePromo = UIImageView()
-                                        imgHomePromo.afSetImage(withURL: promoUrl, withFilter: .noneWithoutPlaceHolder) // fix
                                         let imgHomePromoSize = CGSize(width: 300, height: 400)
                                         imgHomePromo.frame = CGRect(x: (screenSize.width / 2) - (imgHomePromoSize.width / 2), y: (screenSize.height / 2) - (imgHomePromoSize.height / 2), width: imgHomePromoSize.width, height: imgHomePromoSize.height)
-                                        imgHomePromo.contentMode = UIViewContentMode.scaleAspectFit
+                                        imgHomePromo.afSetImage(withURL: promoUrl, withFilter: .fitWithoutPlaceHolder) // fix
+                                        //imgHomePromo.contentMode = UIViewContentMode.scaleAspectFit
                                         
                                         let btnHomePromo : UIButton = UIButton(frame: screenSize)
                                         btnHomePromo.addTarget(self, action: #selector(ListCategoryViewController.btnHomePromoPressed(_:)), for: UIControlEvents.touchUpInside)

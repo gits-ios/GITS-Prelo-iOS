@@ -410,187 +410,270 @@ extension UIImageView {
 //        self.af_setImage(withURL: withURL, placeholderImage: placeholderImage)
         
         // default fill
-        
-        self.contentMode = .scaleAspectFit // placeholder
-        
-        let placeholderImage = UIImage(named: "placeholder-standar-white")!
-        
-        let filter = AspectScaledToFillSizeFilter(
-            size: self.frame.size
-        )
-        
-        let imageTransition = UIImageView.ImageTransition.crossDissolve(0.2)
-        
-        self.af_setImage(
-            withURL: withURL,
-            placeholderImage: placeholderImage.resizeWithMinWidthOrHeight(self.frame.size),
-            filter: filter,
-            imageTransition: imageTransition,
-            completion: { res in
-                self.contentMode = .scaleAspectFill // image
-        })
-        
-        self.image?.af_inflate()
+        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo.afSetImage",
+                                            qos: .background,
+                                            target: nil)
+        backgroundQueue.async {
+            self.contentMode = .scaleAspectFit // placeholder
+            
+            let placeholderImage = UIImage(named: "placeholder-standar-white")! //.resizeWithMinWidthOrHeight(self.frame.size)
+            placeholderImage.afInflate()
+            
+            let filter = AspectScaledToFillSizeFilter(
+                size: self.frame.size
+            )
+            
+            let imageTransition = UIImageView.ImageTransition.crossDissolve(0.2)
+            
+            DispatchQueue.main.async(execute: {
+                self.af_setImage(
+                    withURL: withURL,
+                    placeholderImage: placeholderImage,
+                    filter: filter,
+                    imageTransition: imageTransition,
+                    completion: { res in
+                        self.contentMode = .scaleAspectFill // image
+                        self.image?.afInflate()
+                })
+            })
+        }
     }
     
     func afSetImage(withURL: URL, withFilter: imageFilterMode) {
-        self.contentMode = .scaleAspectFit // placeholder
-        
-        let placeholderImage = UIImage(named: "placeholder-standar-white")!
-        
-        let imageTransition = UIImageView.ImageTransition.crossDissolve(0.2)
-        
-        // FIT
-        if withFilter == .fitWithPreloPlaceHolder {
-            let filter = AspectScaledToFitSizeFilter(
-                size: self.frame.size
-            )
+        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo.afSetImage",
+                                            qos: .background,
+                                            target: nil)
+        backgroundQueue.async {
+            self.contentMode = .scaleAspectFit // placeholder
             
-            self.af_setImage(
-                withURL: withURL,
-                placeholderImage: UIImage(named: "raisa.jpg")!.resizeWithMinWidthOrHeight(self.frame.size), // prelo hijau
-                filter: filter,
-                imageTransition: imageTransition)
+            let placeholderImage = UIImage(named: "placeholder-standar-white")!
+            
+            let imageTransition = UIImageView.ImageTransition.crossDissolve(0.2)
+            
+            // FIT
+            if withFilter == .fitWithPreloPlaceHolder {
+                let filter = AspectScaledToFitSizeFilter(
+                    size: self.frame.size
+                )
+                
+                // prelo hijau
+                let _placeholder = UIImage(named: "raisa.jpg")! //.resizeWithMinWidthOrHeight(self.frame.size)
+                _placeholder.afInflate()
+                
+                DispatchQueue.main.async(execute: {
+                    self.af_setImage(
+                        withURL: withURL,
+                        placeholderImage: _placeholder,
+                        filter: filter,
+                        imageTransition: imageTransition,
+                        completion: { res in
+                            self.image?.afInflate()
+                    })
+                })
+            }
+                
+            else if withFilter == .fitWithoutPlaceHolder {
+                let filter = AspectScaledToFitSizeFilter(
+                    size: self.frame.size
+                )
+                
+                DispatchQueue.main.async(execute: {
+                    self.af_setImage(
+                        withURL: withURL,
+                        filter: filter,
+                        imageTransition: imageTransition,
+                        completion: { res in
+                            self.image?.afInflate()
+                    })
+                })
+            }
+                
+            else if withFilter == .fit { // full screen
+                let filter = AspectScaledToFitSizeFilter(
+                    size: self.frame.size
+                )
+                
+                // full screen
+                let _placeholder = UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-gray" : "placeholder-transparent-gray"))! //.resizeWithMinWidthOrHeight(self.frame.size)
+                _placeholder.afInflate()
+                
+                DispatchQueue.main.async(execute: {
+                    self.af_setImage(
+                        withURL: withURL,
+                        placeholderImage: _placeholder,
+                        filter: filter,
+                        imageTransition: imageTransition,
+                        completion: { res in
+                            self.image?.afInflate()
+                    })
+                })
+            }
+                
+            else if withFilter == .fitWithPreloMessagePlaceHolder {
+                self.contentMode = .scaleAspectFill // placeholder
+                
+                let filter = AspectScaledToFitSizeFilter(
+                    size: self.frame.size
+                )
+                
+                // pm
+                let _placeholder = UIImage(named: "placeholder-prelo-message.jpg")! //.resizeWithMinWidthOrHeight(self.frame.size)
+                _placeholder.afInflate()
+                
+                DispatchQueue.main.async(execute: {
+                    self.af_setImage(
+                        withURL: withURL,
+                        placeholderImage: _placeholder,
+                        filter: filter,
+                        imageTransition: imageTransition,
+                        completion: { res in
+                            self.image?.afInflate()
+                    })
+                })
+            }
+                
+                // FILL - CIRCLE
+            else if withFilter == .circleWithBadgePlaceHolder { // badge
+                let filter = AspectScaledToFillSizeCircleFilter(
+                    size: self.frame.size
+                )
+                
+                // badge
+                let _placeholder = UIImage(named: "placeholder-badge")! //.resizeWithMinWidthOrHeight(self.frame.size)
+                _placeholder.afInflate()
+                
+                DispatchQueue.main.async(execute: {
+                    self.af_setImage(
+                        withURL: withURL,
+                        placeholderImage: _placeholder,
+                        filter: filter,
+                        imageTransition: imageTransition,
+                        completion: { res in
+                            self.contentMode = .scaleAspectFill // image
+                            self.image?.afInflate()
+                    })
+                })
+            }
+                
+            else if withFilter == .circle { // people
+                let filter = AspectScaledToFillSizeCircleFilter(
+                    size: self.frame.size
+                )
+                
+                // people
+                let _placeholder = UIImage(named: "placeholder-circle")! //.resizeWithMinWidthOrHeight(self.frame.size)
+                _placeholder.afInflate()
+                
+                DispatchQueue.main.async(execute: {
+                    self.af_setImage(
+                        withURL: withURL,
+                        placeholderImage: _placeholder,
+                        filter: filter,
+                        imageTransition: imageTransition,
+                        completion: { res in
+                            self.contentMode = .scaleAspectFill // image
+                            self.image?.afInflate()
+                    })
+                })
+            }
+                
+                // FILL
+            else if withFilter == .noneWithoutPlaceHolder {
+                self.contentMode = .scaleAspectFill // image
+                
+                DispatchQueue.main.async(execute: {
+                    self.af_setImage(
+                        withURL: withURL,
+                        imageTransition: imageTransition,
+                        completion: { res in
+                            self.image?.afInflate()
+                    })
+                })
+            }
+                
+            else if withFilter == .none {
+                self.contentMode = .scaleAspectFill // image
+                
+                let _placeholder = placeholderImage //.resizeWithMinWidthOrHeight(self.frame.size)
+                _placeholder.afInflate()
+                
+                DispatchQueue.main.async(execute: {
+                    self.af_setImage(
+                        withURL: withURL,
+                        placeholderImage: _placeholder,
+                        imageTransition: imageTransition,
+                        completion: { res in
+                            self.image?.afInflate()
+                    })
+                })
+            }
+                
+            else if withFilter == .fillWithPreloMessagePlaceHolder { // badge
+                self.contentMode = .scaleAspectFill // placeholder
+                
+                let filter = AspectScaledToFillSizeFilter(
+                    size: self.frame.size
+                )
+                
+                // pm
+                let _placeholder = UIImage(named: "placeholder-prelo-message.jpg")! //.resizeWithMinWidthOrHeight(self.frame.size)
+                _placeholder.afInflate()
+                
+                DispatchQueue.main.async(execute: {
+                    self.af_setImage(
+                        withURL: withURL,
+                        placeholderImage: _placeholder,
+                        filter: filter,
+                        imageTransition: imageTransition,
+                        completion: { res in
+                            self.image?.afInflate()
+                    })
+                })
+            }
+                
+            else if withFilter == .fitWithStandarPlaceHolder { // featured, segment, sub-category
+                let filter = AspectScaledToFitSizeFilter(
+                    size: self.frame.size
+                )
+                
+                let _placeholder = UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-lightgray" : "placeholder-transparent-lightgray"))! //.resizeWithMinWidthOrHeight(self.frame.size)
+                _placeholder.afInflate()
+                
+                DispatchQueue.main.async(execute: {
+                    self.af_setImage(
+                        withURL: withURL,
+                        placeholderImage: _placeholder,
+                        filter: filter,
+                        imageTransition: imageTransition,
+                        completion: { res in
+                            self.contentMode = .scaleAspectFill // image
+                            self.image?.afInflate()
+                    })
+                })
+            }
+                
+                // default fill
+            else {
+                let filter = AspectScaledToFillSizeFilter(
+                    size: self.frame.size
+                )
+                
+                let _placeholder = placeholderImage //.resizeWithMinWidthOrHeight(self.frame.size)
+                _placeholder.afInflate()
+                
+                DispatchQueue.main.async(execute: {
+                    self.af_setImage(
+                        withURL: withURL,
+                        placeholderImage: _placeholder,
+                        filter: filter,
+                        imageTransition: imageTransition,
+                        completion: { res in
+                            self.contentMode = .scaleAspectFill // image
+                            self.image?.afInflate()
+                    })
+                })
+            }
         }
-        
-        else if withFilter == .fitWithoutPlaceHolder {
-            let filter = AspectScaledToFitSizeFilter(
-                size: self.frame.size
-            )
-            
-            self.af_setImage(
-                withURL: withURL,
-                filter: filter,
-                imageTransition: imageTransition
-            )
-        }
-        
-        else if withFilter == .fit { // full screen
-            let filter = AspectScaledToFitSizeFilter(
-                size: self.frame.size
-            )
-            
-            self.af_setImage(
-                withURL: withURL,
-                placeholderImage: UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-gray" : "placeholder-transparent-gray"))!.resizeWithMinWidthOrHeight(self.frame.size), // full screen
-                filter: filter,
-                imageTransition: imageTransition
-            )
-        }
-            
-        else if withFilter == .fitWithPreloMessagePlaceHolder {
-            self.contentMode = .scaleAspectFill // placeholder
-            
-            let filter = AspectScaledToFitSizeFilter(
-                size: self.frame.size
-            )
-            
-            self.af_setImage(
-                withURL: withURL,
-                placeholderImage: UIImage(named: "placeholder-prelo-message.jpg")!.resizeWithMinWidthOrHeight(self.frame.size), // pm
-                filter: filter,
-                imageTransition: imageTransition
-            )
-        }
-            
-        // FILL - CIRCLE
-        else if withFilter == .circleWithBadgePlaceHolder { // badge
-            let filter = AspectScaledToFillSizeCircleFilter(
-                size: self.frame.size
-            )
-            
-            self.af_setImage(
-                withURL: withURL,
-                placeholderImage: UIImage(named: "placeholder-badge")!.resizeWithMinWidthOrHeight(self.frame.size), // badge
-                filter: filter,
-                imageTransition: imageTransition,
-                completion: { res in
-                    self.contentMode = .scaleAspectFill // image
-            })
-        }
-        
-        else if withFilter == .circle { // people
-            let filter = AspectScaledToFillSizeCircleFilter(
-                size: self.frame.size
-            )
-            
-            self.af_setImage(
-                withURL: withURL,
-                placeholderImage: UIImage(named: "placeholder-circle")!.resizeWithMinWidthOrHeight(self.frame.size), // people
-                filter: filter,
-                imageTransition: imageTransition,
-                completion: { res in
-                    self.contentMode = .scaleAspectFill // image
-            })
-        }
-            
-        // FILL
-        else if withFilter == .noneWithoutPlaceHolder {
-            self.contentMode = .scaleAspectFill // image
-            
-            self.af_setImage(
-                withURL: withURL,
-                imageTransition: imageTransition
-            )
-        }
-        
-        else if withFilter == .none {
-            self.contentMode = .scaleAspectFill // image
-            
-            self.af_setImage(
-                withURL: withURL,
-                placeholderImage: placeholderImage.resizeWithMinWidthOrHeight(self.frame.size),
-                imageTransition: imageTransition
-            )
-        }
-            
-        else if withFilter == .fillWithPreloMessagePlaceHolder { // badge
-            self.contentMode = .scaleAspectFill // placeholder
-            
-            let filter = AspectScaledToFillSizeFilter(
-                size: self.frame.size
-            )
-            
-            self.af_setImage(
-                withURL: withURL,
-                placeholderImage: UIImage(named: "placeholder-prelo-message.jpg")!.resizeWithMinWidthOrHeight(self.frame.size), // pm
-                filter: filter,
-                imageTransition: imageTransition
-            )
-        }
-            
-        else if withFilter == .fitWithStandarPlaceHolder { // featured, segment, sub-category
-            let filter = AspectScaledToFitSizeFilter(
-                size: self.frame.size
-            )
-            
-            self.af_setImage(
-                withURL: withURL,
-                placeholderImage: UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-lightgray" : "placeholder-transparent-lightgray"))!.resizeWithMinWidthOrHeight(self.frame.size),
-                filter: filter,
-                imageTransition: imageTransition,
-                completion: { res in
-                    self.contentMode = .scaleAspectFill // image
-            })
-        }
-        
-        // default fill
-        else {
-            let filter = AspectScaledToFillSizeFilter(
-                size: self.frame.size
-            )
-            
-            self.af_setImage(
-                withURL: withURL,
-                placeholderImage: placeholderImage.resizeWithMinWidthOrHeight(self.frame.size),
-                filter: filter,
-                imageTransition: imageTransition,
-                completion: { res in
-                    self.contentMode = .scaleAspectFill // image
-            })
-        }
-        
-        self.image?.af_inflate()
     }
     
     func afCancelRequest() {
@@ -600,7 +683,7 @@ extension UIImageView {
     }
     
     func afInflate() {
-        self.image?.af_inflate()
+        self.image?.afInflate()
     }
 }
 

@@ -1327,8 +1327,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     // Hide featured ribbon
                     cell.imgFeatured.isHidden = true
                 }
-//                cell.layer.shouldRasterize = true
-//                cell.layer.rasterizationScale = UIScreen.main.scale
+                cell.layer.shouldRasterize = true
+                cell.layer.rasterizationScale = UIScreen.main.scale
             
                 cell.ivCover.alpha = 1.0
                 cell.ivCover.backgroundColor = UIColor.white
@@ -2444,8 +2444,8 @@ class ListItemCell : UICollectionViewCell {
             consbtnWidthLove.constant = 0
         }
         
-        ivCover.afSetImage(withURL: product.coverImageURL!)
-        print(product.coverImageURL!)
+        self.ivCover.afSetImage(withURL: product.coverImageURL!)
+        //print(product.coverImageURL!)
         
         if let op = product.json["price_original"].int {
             captionOldPrice.text = op.asPrice
@@ -2474,11 +2474,14 @@ class ListItemCell : UICollectionViewCell {
                 }
                 
             }
-            let url = URL(string: product.json["affiliate_data"]["affiliate_icon"].stringValue)
-            affiliateLogo.afSetImage(withURL: url!, withFilter: .noneWithoutPlaceHolder)
             
-            affiliateLogo.contentMode = .scaleAspectFit
-            consWidthAffiliateLogo.constant = const / 3 * 8
+            let w = const / 3 * 8
+            let url = URL(string: product.json["affiliate_data"]["affiliate_icon"].stringValue)
+            affiliateLogo.frame = CGRect(x: self.bounds.width - w - 4, y: self.bounds.maxY - const - 4, width: w, height: const)
+            affiliateLogo.afSetImage(withURL: url!, withFilter: .fitWithoutPlaceHolder)
+            
+            //affiliateLogo.contentMode = .scaleAspectFit
+            consWidthAffiliateLogo.constant = w
             consHeightAffiliateLogo.constant = const
             affiliateLogo.isHidden = false
         }
