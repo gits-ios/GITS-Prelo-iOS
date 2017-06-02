@@ -327,7 +327,8 @@ extension UIImage {
         return self
     }
     
-    func resizeWithMinWidthOrHeight(_ min: CGFloat) -> UIImage? {
+    func resizeWithMinWidthOrHeight(_ size: CGSize) -> UIImage? {
+        let min = (size.width < size.height ? size.width : size.height)
         if (self.size.width <= self.size.height && self.size.width > min) {
             return self.resizeWithWidth(min)
         } else if (self.size.width > self.size.height && self.size.height > min) {
@@ -422,10 +423,12 @@ extension UIImageView {
         
         self.af_setImage(
             withURL: withURL,
-            placeholderImage: placeholderImage.resizeWithMaxWidth(self.frame.size.width),
+            placeholderImage: placeholderImage.resizeWithMinWidthOrHeight(self.frame.size),
             filter: filter,
-            imageTransition: imageTransition
-        )
+            imageTransition: imageTransition,
+            completion: { res in
+                self.contentMode = .scaleAspectFill
+        })
         
         self.image?.af_inflate()
     }
@@ -437,6 +440,7 @@ extension UIImageView {
         
         let imageTransition = UIImageView.ImageTransition.crossDissolve(0.2)
         
+        // FIT
         if withFilter == .fitWithPreloPlaceHolder {
             let filter = AspectScaledToFitSizeFilter(
                 size: self.frame.size
@@ -444,10 +448,9 @@ extension UIImageView {
             
             self.af_setImage(
                 withURL: withURL,
-                placeholderImage: UIImage(named: "raisa.jpg")!.resizeWithMinWidthOrHeight(self.frame.size.width), // prelo hijau
+                placeholderImage: UIImage(named: "raisa.jpg")!.resizeWithMinWidthOrHeight(self.frame.size), // prelo hijau
                 filter: filter,
-                imageTransition: imageTransition
-            )
+                imageTransition: imageTransition)
         }
         
         else if withFilter == .fitWithoutPlaceHolder {
@@ -469,76 +472,7 @@ extension UIImageView {
             
             self.af_setImage(
                 withURL: withURL,
-                placeholderImage: UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-gray" : "placeholder-transparent-gray"))!.resizeWithMinWidthOrHeight(self.frame.size.width), // full screen
-                filter: filter,
-                imageTransition: imageTransition
-            )
-        }
-            
-        else if withFilter == .fitWithStandarPlaceHolder { // featured, segment, sub-category
-            let filter = AspectScaledToFitSizeFilter(
-                size: self.frame.size
-            )
-            
-            self.af_setImage(
-                withURL: withURL,
-                placeholderImage: UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-lightgray" : "placeholder-transparent-lightgray"))!.resizeWithMinWidthOrHeight(self.frame.size.width),
-                filter: filter,
-                imageTransition: imageTransition
-            )
-        }
-            
-        else if withFilter == .circleWithBadgePlaceHolder { // badge
-            let filter = AspectScaledToFillSizeCircleFilter(
-                size: self.frame.size
-            )
-            
-            self.af_setImage(
-                withURL: withURL,
-                placeholderImage: UIImage(named: "placeholder-badge")!.resizeWithMinWidthOrHeight(self.frame.size.width), // badge
-                filter: filter,
-                imageTransition: imageTransition
-            )
-        }
-        
-        else if withFilter == .circle { // people
-            let filter = AspectScaledToFillSizeCircleFilter(
-                size: self.frame.size
-            )
-            
-            self.af_setImage(
-                withURL: withURL,
-                placeholderImage: UIImage(named: "placeholder-circle")!.resizeWithMinWidthOrHeight(self.frame.size.width), // people
-                filter: filter,
-                imageTransition: imageTransition
-            )
-        }
-            
-        else if withFilter == .noneWithoutPlaceHolder {
-            
-            self.af_setImage(
-                withURL: withURL,
-                imageTransition: imageTransition
-            )
-        }
-        
-        else if withFilter == .none {
-            
-            self.af_setImage(
-                withURL: withURL,
-                placeholderImage: placeholderImage.resizeWithMinWidthOrHeight(self.frame.size.width),
-                imageTransition: imageTransition
-            )
-        }
-            
-        else if withFilter == .fillWithPreloMessagePlaceHolder { // badge
-            let filter = AspectScaledToFillSizeFilter(
-                size: self.frame.size
-            )
-            
-            self.af_setImage(
-                withURL: withURL,
-                placeholderImage: UIImage(named: "placeholder-prelo-message.jpg")!.resizeWithMinWidthOrHeight(self.frame.size.width), // pm
+                placeholderImage: UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-gray" : "placeholder-transparent-gray"))!.resizeWithMinWidthOrHeight(self.frame.size), // full screen
                 filter: filter,
                 imageTransition: imageTransition
             )
@@ -551,10 +485,91 @@ extension UIImageView {
             
             self.af_setImage(
                 withURL: withURL,
-                placeholderImage: UIImage(named: "placeholder-prelo-message.jpg")!.resizeWithMinWidthOrHeight(self.frame.size.width), // pm
+                placeholderImage: UIImage(named: "placeholder-prelo-message.jpg")!.resizeWithMinWidthOrHeight(self.frame.size), // pm
                 filter: filter,
                 imageTransition: imageTransition
             )
+        }
+            
+        // FILL - CIRCLE
+        else if withFilter == .circleWithBadgePlaceHolder { // badge
+            let filter = AspectScaledToFillSizeCircleFilter(
+                size: self.frame.size
+            )
+            
+            self.af_setImage(
+                withURL: withURL,
+                placeholderImage: UIImage(named: "placeholder-badge")!.resizeWithMinWidthOrHeight(self.frame.size), // badge
+                filter: filter,
+                imageTransition: imageTransition,
+                completion: { res in
+                    self.contentMode = .scaleAspectFill
+            })
+        }
+        
+        else if withFilter == .circle { // people
+            let filter = AspectScaledToFillSizeCircleFilter(
+                size: self.frame.size
+            )
+            
+            self.af_setImage(
+                withURL: withURL,
+                placeholderImage: UIImage(named: "placeholder-circle")!.resizeWithMinWidthOrHeight(self.frame.size), // people
+                filter: filter,
+                imageTransition: imageTransition,
+                completion: { res in
+                    self.contentMode = .scaleAspectFill
+            })
+        }
+            
+        // FILL
+        else if withFilter == .noneWithoutPlaceHolder {
+            self.af_setImage(
+                withURL: withURL,
+                imageTransition: imageTransition,
+                completion: { res in
+                    self.contentMode = .scaleAspectFill
+            })
+        }
+        
+        else if withFilter == .none {
+            self.af_setImage(
+                withURL: withURL,
+                placeholderImage: placeholderImage.resizeWithMinWidthOrHeight(self.frame.size),
+                imageTransition: imageTransition,
+                completion: { res in
+                    self.contentMode = .scaleAspectFill
+            })
+        }
+            
+        else if withFilter == .fillWithPreloMessagePlaceHolder { // badge
+            let filter = AspectScaledToFillSizeFilter(
+                size: self.frame.size
+            )
+            
+            self.af_setImage(
+                withURL: withURL,
+                placeholderImage: UIImage(named: "placeholder-prelo-message.jpg")!.resizeWithMinWidthOrHeight(self.frame.size), // pm
+                filter: filter,
+                imageTransition: imageTransition,
+                completion: { res in
+                    self.contentMode = .scaleAspectFill
+            })
+        }
+            
+        else if withFilter == .fitWithStandarPlaceHolder { // featured, segment, sub-category
+            let filter = AspectScaledToFitSizeFilter(
+                size: self.frame.size
+            )
+            
+            self.af_setImage(
+                withURL: withURL,
+                placeholderImage: UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-lightgray" : "placeholder-transparent-lightgray"))!.resizeWithMinWidthOrHeight(self.frame.size),
+                filter: filter,
+                imageTransition: imageTransition,
+                completion: { res in
+                    self.contentMode = .scaleAspectFill
+            })
         }
         
         // default fill
@@ -565,10 +580,12 @@ extension UIImageView {
             
             self.af_setImage(
                 withURL: withURL,
-                placeholderImage: placeholderImage.resizeWithMinWidthOrHeight(self.frame.size.width),
+                placeholderImage: placeholderImage.resizeWithMinWidthOrHeight(self.frame.size),
                 filter: filter,
-                imageTransition: imageTransition
-            )
+                imageTransition: imageTransition,
+                completion: { res in
+                    self.contentMode = .scaleAspectFill
+            })
         }
         
         self.image?.af_inflate()

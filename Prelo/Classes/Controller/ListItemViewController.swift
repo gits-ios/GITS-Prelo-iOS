@@ -768,6 +768,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             })
         }
         
+        /*
         // testing gzip
         if AppTools.isDev {
             let t = ((APIProduct.getAllFeaturedProducts(categoryId: self.categoryJson!["_id"].stringValue)).urlRequest?.allHTTPHeaderFields?.description) ?? ""
@@ -776,7 +777,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 Constant.showDialog("Response Header", message: (resp.response?.allHeaderFields.description)!)
                 Constant.showDialog("Request", message: t)
             })
-        }
+        }*/
     }
     
     func getFilteredProducts() {
