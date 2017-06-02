@@ -289,7 +289,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
     }
     
     func changeToController(_ newController : UIViewController) {
-        print("class name = \(type(of: newController))")
+        //print("class name = \(type(of: newController))")
         if ("\(type(of: newController))" == "ListCategoryViewController") { // Browse
             btnDashboard.titleLabel?.font = UIFont.systemFont(ofSize: 13)
             btnDashboard.setTitleColor(UIColor.lightGray, for: UIControlState())
@@ -353,12 +353,12 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
             self.hideLoading()
             
             if (User.IsLoggedIn) {
-                print("To Dashboard")
+                //print("To Dashboard")
                 controllerDashboard?.previousController = self
                 self.setupNormalOptions() // Agar notification terupdate
                 changeToController(controllerDashboard!)
             } else {
-                print("To Dashboard2")
+                //print("To Dashboard2")
                 controllerDashboard2?.previousController = self
                 changeToController(controllerDashboard2!)
             }
@@ -403,7 +403,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
                             
                             // Save categories
                             if let categArr = metadataJson["_data"]["categories"].array {
-                                //print("categArr = \(categArr)")
+                                ////print("categArr = \(categArr)")
                                 if (!CDCategory.saveCategoriesFromArrayJson(categArr)) {
                                     isInitialMetadataSaveSuccess = false
                                 }
@@ -413,7 +413,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
                             
                             // Save product conditions
                             if let prodCondArr = metadataJson["_data"]["product_conditions"].array {
-                                //print("prodCondArr = \(prodCondArr)")
+                                ////print("prodCondArr = \(prodCondArr)")
                                 if (!CDProductCondition.saveProductConditionsFromArrayJson(prodCondArr)) {
                                     isInitialMetadataSaveSuccess = false
                                 }
@@ -423,7 +423,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
                             
                             // Save provinces
                             if let provArr = metadataJson["_data"]["provinces"].array {
-                                print("provArr = \(provArr)")
+                                //print("provArr = \(provArr)")
                                 if (!CDProvince.saveProvincesFromArrayJson(provArr)) {
                                     isInitialMetadataSaveSuccess = false
                                 }
@@ -433,7 +433,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
                             
                             // Save regions
                             if let regArr = metadataJson["_data"]["regions"].array {
-                                print("regArr = \(regArr)")
+                                //print("regArr = \(regArr)")
                                 if (!CDRegion.saveRegionsFromArrayJson(regArr)) {
                                     isInitialMetadataSaveSuccess = false
                                 }
@@ -443,7 +443,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
                             
                             // Save shippings
                             if let shipArr = metadataJson["_data"]["shippings"].array {
-                                print("shipArr = \(shipArr)")
+                                //print("shipArr = \(shipArr)")
                                 if (!CDShipping.saveShippingsFromArrayJson(shipArr)) {
                                     isInitialMetadataSaveSuccess = false
                                 }

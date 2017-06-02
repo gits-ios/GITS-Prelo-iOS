@@ -36,10 +36,10 @@ class CDRegion : NSManagedObject {
         }
         
         if (m.saveSave() == false) {
-            print("saveRegionsFromArrayJson failed")
+            //print("saveRegionsFromArrayJson failed")
             return false
         } else {
-            print("saveRegionsFromArrayJson success")
+            //print("saveRegionsFromArrayJson success")
             return true
         }
     }
@@ -70,10 +70,10 @@ class CDRegion : NSManagedObject {
             }
         }
         if (m.saveSave() == true) {
-            print("updateRegionsFromArrayJson success")
+            //print("updateRegionsFromArrayJson success")
         } else {
             isSuccess = false
-            print("updateRegionsFromArrayJson failed")
+            //print("updateRegionsFromArrayJson failed")
         }
         return isSuccess
     }
@@ -102,10 +102,10 @@ class CDRegion : NSManagedObject {
         }
         
         if (m.saveSave() == true) {
-            print("deleteRegionsFromArrayJson success")
+            //print("deleteRegionsFromArrayJson success")
         } else {
             isSuccess = false
-            print("deleteRegionsFromArrayJson failed")
+            //print("deleteRegionsFromArrayJson failed")
         }
         return isSuccess
     }
@@ -134,7 +134,7 @@ class CDRegion : NSManagedObject {
                 }
                 
                 if (m.saveSave() == true) {
-                    print("deleteAll CDRegion success")
+                    //print("deleteAll CDRegion success")
                 }
             }
         } catch {

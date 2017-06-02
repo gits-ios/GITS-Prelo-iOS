@@ -275,7 +275,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
             shopReviewVC.sellerName = self.sellerName
             self.navigationController?.pushViewController(shopReviewVC, animated: true)
         }
-        //print("Row \(indexPath.row) selected")
+        ////print("Row \(indexPath.row) selected")
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath:  IndexPath) -> CGFloat {

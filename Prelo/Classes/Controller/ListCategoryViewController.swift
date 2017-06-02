@@ -165,10 +165,10 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 let string = resp.result.value
                 if (string != nil)
                 {
-                    print((string ?? ""))
+                    //print((string ?? ""))
                 } else
                 {
-                    print((resp.result.error ?? ""))
+                    //print((resp.result.error ?? ""))
                 }
             }
             .responseJSON {resp in
@@ -285,7 +285,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                                             qos: .background,
                                             target: nil)
         backgroundQueue.async {
-            print("Work on background queue: Init Category " + self.categoriesFix[1]["name"].stringValue)
+            //print("Work on background queue: Init Category " + self.categoriesFix[1]["name"].stringValue)
             
             for i in 1...self.childViewControllers.count-1 {
                 if let allChild = self.childViewControllers[i] as? ListItemViewController {
@@ -530,7 +530,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
-                print(data.debugDescription)
+                //print(data.debugDescription)
                 
                 if let isPromo = data["is_promo"].bool {
                     if (isPromo) {
@@ -740,10 +740,10 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         if (p.state == UIGestureRecognizerState.began)
         {
             firstPinch = p.scale
-            print("Start Scale : " + String(stringInterpolationSegment: p.scale))
+            //print("Start Scale : " + String(stringInterpolationSegment: p.scale))
         } else if (p.state == UIGestureRecognizerState.ended)
         {
-            print("End Scale : " + String(stringInterpolationSegment: p.scale) + " -> " + String(stringInterpolationSegment: firstPinch))
+            //print("End Scale : " + String(stringInterpolationSegment: p.scale) + " -> " + String(stringInterpolationSegment: firstPinch))
             
             if (abs(firstPinch - p.scale) > 0.3)
             {
@@ -790,8 +790,8 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             adjustIndicator(currentTabIndex)
         }
         
-        //print("lastContentOffset = \(lastContentOffset)")
-        //print("scrollView.contentOffset = \(scrollView.contentOffset)")
+        ////print("lastContentOffset = \(lastContentOffset)")
+        ////print("scrollView.contentOffset = \(scrollView.contentOffset)")
         if (lastContentOffset.x != scrollView.contentOffset.x) {
             isPageTracked = false
         }

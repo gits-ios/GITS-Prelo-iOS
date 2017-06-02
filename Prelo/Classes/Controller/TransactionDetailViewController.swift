@@ -2326,7 +2326,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 if (sender == b) {
                     isFound = true
                     loveValue = i + 1
-                    print("loveValue = \(loveValue)")
+                    //print("loveValue = \(loveValue)")
                 }
                 lblsRvwLove[i].text = ""
             } else {
@@ -2369,7 +2369,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     let json = JSON(resp.result.value!)
                     let dataBool : Bool = json["_data"].boolValue
                     let dataInt : Int = json["_data"].intValue
-                    //print("dataBool = \(dataBool), dataInt = \(dataInt)")
+                    ////print("dataBool = \(dataBool), dataInt = \(dataInt)")
                     if (dataBool == true || dataInt == 1) {
                         // Prelo Analytic - Review and Rate Seller
                         self.sendReviewRateSellerAnalytic()
@@ -2691,11 +2691,11 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             self.newPopup?.disposePopUp = {
                 self.newPopup?.isHidden = true
                 self.newPopup = nil
-                print("Start remove sibview")
+                //print("Start remove sibview")
                 if let viewWithTag = self.view.viewWithTag(100) {
                     viewWithTag.removeFromSuperview()
                 } else {
-                    print("No!")
+                    //print("No!")
                 }
             }
             

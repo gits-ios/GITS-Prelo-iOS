@@ -158,7 +158,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func deleteCell(_ cell: MyLovelistCell) {
-        print("delete cell with productId = \(cell.productId)")
+        //print("delete cell with productId = \(cell.productId)")
         
         // Delete data in userLovelist
         for i in 0 ..< userLovelist!.count {
@@ -203,7 +203,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //print("Row \(indexPath.row) selected")
+        ////print("Row \(indexPath.row) selected")
         
         // Tampilkan loading
         loadingPanel.isHidden = false

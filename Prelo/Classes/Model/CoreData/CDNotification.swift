@@ -68,7 +68,7 @@ class CDNotification : NSManagedObject {
                 }
                 
                 if (m.saveSave() != false) {
-                    print("deleteAll CDNotification success")
+                    //print("deleteAll CDNotification success")
                 }
             }
         } catch
@@ -166,9 +166,9 @@ class CDNotification : NSManagedObject {
                 }
             }
             if (m.saveSave() == false) {
-                print("setAllNotifToOpened failed")
+                //print("setAllNotifToOpened failed")
             } else {
-                print("setAllNotifToOpened success")
+                //print("setAllNotifToOpened success")
             }
         } catch {
             
@@ -190,10 +190,10 @@ class CDNotification : NSManagedObject {
                 }
                 
                 if (m.saveSave() == false) {
-                    print("setAllNotifTransactionToOpened failed")
+                    //print("setAllNotifTransactionToOpened failed")
                     return nil
                 } else {
-                    print("setAllNotifTransactionToOpened success")
+                    //print("setAllNotifTransactionToOpened success")
                     
                     // Hitung notif inbox + aktivitas yang not opened
                     let predicate2 = NSPredicate(format: "(notifType like[c] %@ OR notifType like[c] %@) AND opened == false", NotificationType.Inbox, NotificationType.Aktivitas)
@@ -208,7 +208,7 @@ class CDNotification : NSManagedObject {
                     }
                 }
             } else {
-                print("setAllNotifTransactionToOpened failed")
+                //print("setAllNotifTransactionToOpened failed")
                 return nil
             }
         } catch {
@@ -232,10 +232,10 @@ class CDNotification : NSManagedObject {
                 }
                 
                 if (m.saveSave() == false) {
-                    print("setAllNotifInboxToOpened failed")
+                    //print("setAllNotifInboxToOpened failed")
                     return nil
                 } else {
-                    print("setAllNotifInboxToOpened success")
+                    //print("setAllNotifInboxToOpened success")
                     
                     // Hitung notif transaksi + aktivitas yang not opened
                     let predicate2 = NSPredicate(format: "(notifType like[c] %@ OR notifType like[c] %@) AND opened == false", NotificationType.Transaksi, NotificationType.Aktivitas)
@@ -250,7 +250,7 @@ class CDNotification : NSManagedObject {
                     }
                 }
             } else {
-                print("setAllNotifInboxToOpened failed")
+                //print("setAllNotifInboxToOpened failed")
                 return nil
             }
         } catch {
@@ -274,10 +274,10 @@ class CDNotification : NSManagedObject {
                 }
                 
                 if (m.saveSave() == false) {
-                    print("setAllNotifActivityToOpened failed")
+                    //print("setAllNotifActivityToOpened failed")
                     return nil
                 } else {
-                    print("setAllNotifActivityToOpened success")
+                    //print("setAllNotifActivityToOpened success")
                     
                     // Hitung notif transaksi + inbox yang not opened
                     let predicate2 = NSPredicate(format: "(notifType like[c] %@ OR notifType like[c] %@) AND opened == false", NotificationType.Transaksi, NotificationType.Inbox)
@@ -292,7 +292,7 @@ class CDNotification : NSManagedObject {
                     }
                 }
             } else {
-                print("setAllNotifActivityToOpened failed")
+                //print("setAllNotifActivityToOpened failed")
                 return nil
             }
         } catch {
@@ -316,10 +316,10 @@ class CDNotification : NSManagedObject {
                 result.read = true
                 
                 if (m.saveSave() == false) {
-                    print("setReadNotifTransactionAndGetUnreadCount failed")
+                    //print("setReadNotifTransactionAndGetUnreadCount failed")
                     return nil
                 } else {
-                    print("setReadNotifTransactionAndGetUnreadCount success")
+                    //print("setReadNotifTransactionAndGetUnreadCount success")
                     
                     // Hitung notif transaction yang not read
                     let predicate2 = NSPredicate(format: "notifType like[c] %@ AND read == false", NotificationType.Transaksi)
@@ -334,7 +334,7 @@ class CDNotification : NSManagedObject {
                     }
                 }
             } else {
-                print("setReadNotifTransactionAndGetUnreadCount failed")
+                //print("setReadNotifTransactionAndGetUnreadCount failed")
                 return nil
             }
         } catch {
@@ -358,10 +358,10 @@ class CDNotification : NSManagedObject {
                 result.read = true
                 
                 if (m.saveSave() == false) {
-                    print("setReadNotifInboxAndGetUnreadCount failed")
+                    //print("setReadNotifInboxAndGetUnreadCount failed")
                     return nil
                 } else {
-                    print("setReadNotifInboxAndGetUnreadCount success")
+                    //print("setReadNotifInboxAndGetUnreadCount success")
                     
                     // Hitung notif inbox yang not read
                     let predicate2 = NSPredicate(format: "notifType like[c] %@ AND read == false", NotificationType.Inbox)
@@ -376,7 +376,7 @@ class CDNotification : NSManagedObject {
                     }
                 }
             } else {
-                print("setReadNotifInboxAndGetUnreadCount failed")
+                //print("setReadNotifInboxAndGetUnreadCount failed")
                 return nil
             }
         } catch {
@@ -400,10 +400,10 @@ class CDNotification : NSManagedObject {
                 result.read = true
                 
                 if (m.saveSave() == false) {
-                    print("setReadNotifActivityAndGetUnreadCount failed")
+                    //print("setReadNotifActivityAndGetUnreadCount failed")
                     return nil
                 } else {
-                    print("setReadNotifActivityAndGetUnreadCount success")
+                    //print("setReadNotifActivityAndGetUnreadCount success")
                     
                     // Hitung notif aktivitas yang not read
                     let predicate2 = NSPredicate(format: "notifType like[c] %@ AND read == false", NotificationType.Aktivitas)
@@ -418,7 +418,7 @@ class CDNotification : NSManagedObject {
                     }
                 }
             } else {
-                print("setReadNotifActivityAndGetUnreadCount failed")
+                //print("setReadNotifActivityAndGetUnreadCount failed")
                 return nil
             }
         } catch {
@@ -441,9 +441,9 @@ class CDNotification : NSManagedObject {
                 result.read = true
                 
                 if (m.saveSave() == false) {
-                    print("setReadNotifActivity failed")
+                    //print("setReadNotifActivity failed")
                 } else {
-                    print("setReadNotifActivity success")
+                    //print("setReadNotifActivity success")
                 }
             }
         } catch {
@@ -466,7 +466,7 @@ class CDNotification : NSManagedObject {
                 }
                 
                 if (m.saveSave() != false) {
-                    print("Notification with ids:\(ids) deleted")
+                    //print("Notification with ids:\(ids) deleted")
                 }
             }
         } catch {

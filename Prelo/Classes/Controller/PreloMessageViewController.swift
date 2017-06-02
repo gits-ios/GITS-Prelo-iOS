@@ -138,7 +138,7 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
                     self.hideLoading()
                     
                     self.threadId = data["_id"].stringValue
-                    print(self.threadId)
+                    //print(self.threadId)
                     
                     self.isFirst = false
                     
@@ -244,8 +244,8 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
         
         /*
         if (currentOffset.y > 4 && currentOffset.y < (tableView.contentSize.height - tableView.height)) {
-            //print(currentOffset.y)
-            //print((tableView.contentSize.height - tableView.height))
+            ////print(currentOffset.y)
+            ////print((tableView.contentSize.height - tableView.height))
             if (currentOffset.y > self.lastContentOffset.y) {
                 // Downward
                 self.btnScrollToBottom.isHidden = false
@@ -324,7 +324,7 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
         
         self.showLoading()
         
-//        print(self.newMessages.count)
+//        //print(self.newMessages.count)
 //        while self.newMessages.count > 0 {
 //            let message = self.newMessages.popLast()
 //            self.isOpens.insert(false, at: 0)

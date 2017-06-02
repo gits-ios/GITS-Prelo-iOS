@@ -50,10 +50,10 @@ class CDCategory: NSManagedObject {
         }
         
         if (m.saveSave() == false) {
-            print("saveCategoriesFromArrayJson failed")
+            //print("saveCategoriesFromArrayJson failed")
             return false
         } else {
-            print("saveCategoriesFromArrayJson success")
+            //print("saveCategoriesFromArrayJson success")
             return true
         }
     }
@@ -91,10 +91,10 @@ class CDCategory: NSManagedObject {
             }
         }
         if (m.saveSave() == true) {
-            print("updateCategoriesFromArrayJson success")
+            //print("updateCategoriesFromArrayJson success")
         } else {
             isSuccess = false
-            print("updateCategoriesFromArrayJson failed")
+            //print("updateCategoriesFromArrayJson failed")
         }
         return isSuccess
     }
@@ -123,10 +123,10 @@ class CDCategory: NSManagedObject {
         }
         
         if (m.saveSave() == true) {
-            print("deleteCategoriesFromArrayJson success")
+            //print("deleteCategoriesFromArrayJson success")
         } else {
             isSuccess = false
-            print("deleteCategoriesFromArrayJson failed")
+            //print("deleteCategoriesFromArrayJson failed")
         }
         return isSuccess
     }
@@ -148,10 +148,10 @@ class CDCategory: NSManagedObject {
         self.saveCategoryChildren(a, json: allJson["children"])
         
         if (m.saveSave() == false) {
-            print("saveCategories failed")
+            //print("saveCategories failed")
             return false
         }
-        print("saveCategories success")
+        //print("saveCategories success")
         return true
     }
     
@@ -160,7 +160,7 @@ class CDCategory: NSManagedObject {
         for i in 0 ..< json.count {
             let childJson = json[i]
             let c = NSEntityDescription.insertNewObject(forEntityName: "CDCategory", into: m) as! CDCategory
-            //print("a CDCategory created")
+            ////print("a CDCategory created")
             c.id = childJson["_id"].string!
             c.name = childJson["name"].string!
             c.permalink = childJson["permalink"].string!
@@ -190,9 +190,9 @@ class CDCategory: NSManagedObject {
                 
                 
                 if (m.saveSave() == true) {
-                    print("deleteAll CDCategory success")
+                    //print("deleteAll CDCategory success")
                 } else {
-                    print("deleteAll CDCategory failed with error")
+                    //print("deleteAll CDCategory failed with error")
                     return false
                 }
             }
@@ -289,7 +289,7 @@ class CDCategory: NSManagedObject {
     static func getParent(_ id : String) -> CDCategory? {
         if let categ = CDCategory.getCategoryWithID(id) {
             
-            print(categ.description)
+            //print(categ.description)
             
             if categ.parentId != nil && categ.parentId != "55de6d4e9ffd40362ae310a7", let parent = CDCategory.getCategoryWithID(categ.parentId!) {
                 return parent

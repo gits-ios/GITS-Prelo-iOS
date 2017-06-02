@@ -226,7 +226,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // FIXME: Swift 3
 //            FBSDKAppLinkUtility.fetchDeferredAppLink({(url : URL!, error : NSError!) -> Void in
 //                if (error != nil) { // Process error
-//                    print("Received error while fetching deferred app link \(error)")
+//                    //print("Received error while fetching deferred app link \(error)")
 //                }
 //                if (url != nil) {
 //                    UIApplication.shared.openURL(url)
@@ -241,8 +241,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Route the user based on what's in params
             let sessionParams = Branch.getInstance().getLatestReferringParams()
             let firstParams = Branch.getInstance().getFirstReferringParams()
-            print("launch sessionParams = \(sessionParams)")
-            print("launch firstParams = \(firstParams)")
+            //print("launch sessionParams = \(sessionParams)")
+            //print("launch firstParams = \(firstParams)")
             
             let params = JSON((sessionParams ?? [:]))
             if let tipe = params["tipe"].string {
@@ -355,11 +355,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [AnyHashable: Any], completionHandler: @escaping () -> Void) {
-        print("Action : \(identifier)")
+        //print("Action : \(identifier)")
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        print("deviceToken = \(deviceToken)")
+        //print("deviceToken = \(deviceToken)")
         
         // Mixpanel push notification setup
         Mixpanel.sharedInstance().people.addPushDeviceToken(deviceToken)
@@ -381,7 +381,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            .trimmingCharacters(in: CharacterSet(charactersIn: "<>"))
 //            .replacingOccurrences(of: " ", with: "")
         
-        print("deviceRegId = \(deviceRegId)")
+        //print("deviceRegId = \(deviceRegId)")
         
         UserDefaults.standard.set(deviceRegId, forKey: "deviceregid")
         UserDefaults.standard.synchronize()
@@ -393,21 +393,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // API Migrasi
             let _ = request(APIVisitors.updateVisitor(deviceRegId: deviceRegId)).responseJSON {resp in
                 if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Update Visitor")) {
-                    print("Visitor updated with deviceRegId: \(deviceRegId)")
+                    //print("Visitor updated with deviceRegId: \(deviceRegId)")
                 }
             }
         }
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("ERROR : \(error)")
+        //print("ERROR : \(error)")
         
         // MoEngage
         MoEngage.sharedInstance().didFailToRegisterForPush()
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-        print("userInfo = \(userInfo)")
+        //print("userInfo = \(userInfo)")
         
         // MoEngage
         MoEngage.sharedInstance().didReceieveNotificationinApplication(application, withInfo: userInfo)
@@ -484,7 +484,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         if (application.applicationState == UIApplicationState.active) { // active mode
-            print("App were active when receiving remote notification")
+            //print("App were active when receiving remote notification")
             
 //            Constant.showDialog("APNS", message: userInfo.description)
             
@@ -551,7 +551,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             
         } else { // background mode
-            print("App weren't active when receiving remote notification")
+            //print("App weren't active when receiving remote notification")
             
 //            Constant.showDialog("APNS", message: userInfo.description)
             
@@ -1738,7 +1738,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if (orientation == UIInterfaceOrientation.portrait || orientation == UIInterfaceOrientation.portraitUpsideDown)
         {
             if(orientation != orientations) {
-                print("Portrait")
+                //print("Portrait")
                 
                 
                 //Do Rotation stuff here
@@ -1748,7 +1748,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         else if (orientation == UIInterfaceOrientation.landscapeLeft || orientation == UIInterfaceOrientation.landscapeRight)
         {
             if(orientation != orientations) {
-                print("Landscape")
+                //print("Landscape")
                 
                 Constant.showDialog("Device Orientation", message: "Halo Prelovers, Prelo menyarankan untuk menggunakan aplikasi Prelo dengan orientasi portrait atau tegak")
                 

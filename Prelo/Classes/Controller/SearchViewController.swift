@@ -195,7 +195,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 //let maxY = tag.maxY
                 y = curMaxY + 4 //maxY + 4
                 tag.y = y
-                //print("tag new y : \(y)")
+                ////print("tag new y : \(y)")
             }
             
             if curMaxY < tag.maxY {
@@ -409,9 +409,9 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                     // Insert top search
                     let _ = request(APISearch.insertTopSearch(search: searchText)).responseJSON { resp in
                         if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Insert Top Search")) {
-                            //print("TOP")
-                            //print(resp.result.value)
-                            //print("TOPEND")
+                            ////print("TOP")
+                            ////print(resp.result.value)
+                            ////print("TOPEND")
                         }
                     }
                     // Save history
@@ -433,9 +433,9 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 // Insert top search
                 let _ = request(APISearch.insertTopSearch(search: foundItems[(indexPath as NSIndexPath).row].name)).responseJSON {resp in
                     if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Insert Top Search")) {
-                        //print("TOP")
-                        //print(resp.result.value)
-                        //print("TOPEND")
+                        ////print("TOP")
+                        ////print(resp.result.value)
+                        ////print("TOPEND")
                     }
                 }
                 // Save history

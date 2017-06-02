@@ -289,7 +289,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        //print("viewWillDisappear x")
+        ////print("viewWillDisappear x")
         
         // Show navbar - non animated
         NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
@@ -409,7 +409,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.right:
-                print("Swiped right")
+                //print("Swiped right")
                 
                 // gesture override
                 self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
@@ -417,12 +417,6 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 let viewControllers: [UIViewController] = (self.navigationController?.viewControllers)!
                     _ = self.navigationController?.popToViewController(viewControllers[1], animated: true);
                 
-            case UISwipeGestureRecognizerDirection.down:
-                print("Swiped down")
-            case UISwipeGestureRecognizerDirection.left:
-                print("Swiped left")
-            case UISwipeGestureRecognizerDirection.up:
-                print("Swiped up")
             default:
                 break
             }
@@ -831,7 +825,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 }
                 
                 let json = JSON(resp.result.value!)["_data"]
-                print(json)
+                //print(json)
                 
                 self.shopName = json["username"].stringValue
                 self.shopHeader?.captionName.text = self.shopName
@@ -1311,7 +1305,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                                 Constant.showDisconnectBanner()
                                 return
                             }
-                            print("Work on background queue")
+                            //print("Work on background queue")
                             self.getProducts()
                         }
                     }
@@ -1880,7 +1874,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func pinch(_ pinchedIn : Bool) {
-        //print("current stage : \(listStage)")
+        ////print("current stage : \(listStage)")
         listStage += (pinchedIn ? 1 : -1)
         if (listStage > 3) {
             listStage = 1
@@ -1888,7 +1882,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         if (listStage < 1) {
             listStage = 3
         }
-        //print("next stage : \(listStage)")
+        ////print("next stage : \(listStage)")
         
         setupGrid()
         
@@ -2068,11 +2062,11 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func nativeAdsFailedToLoadWithError(_ error: Error) {
-        print(error)
+        //print(error)
     }
     
     func nativeAdDidClick(_ nativeAd: FBNativeAd) {
-        print("Ad tapped: \(nativeAd.title)")
+        //print("Ad tapped: \(nativeAd.title)")
     }
     
     // Prelo Analytic - Filter
@@ -2081,7 +2075,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                                             qos: .background,
                                             target: nil)
         backgroundQueue.async {
-            print("Work on background queue")
+            //print("Work on background queue")
             var brands: Array<String> = []
             for i in self.fltrBrands {
                 brands.append(String(i.key))
@@ -2450,7 +2444,7 @@ class ListItemCell : UICollectionViewCell {
         }
         
         self.ivCover.afSetImage(withURL: product.coverImageURL!)
-        //print(product.coverImageURL!)
+        ////print(product.coverImageURL!)
         
         if let op = product.json["price_original"].int {
             captionOldPrice.text = op.asPrice
@@ -2552,7 +2546,7 @@ class ListItemCell : UICollectionViewCell {
         
         // API Migrasi
         let _ = request(APIProduct.love(productID: self.pid!)).responseJSON {resp in
-            print(resp)
+            //print(resp)
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Love Product"))
             {
 //                Constant.showDialog("Lovelist", message: self.captionTitle.text! + " berhasil ditambahkan ke Lovelist")
@@ -2578,7 +2572,7 @@ class ListItemCell : UICollectionViewCell {
     {
         // API Migrasi
         let _ = request(APIProduct.unlove(productID: self.pid!)).responseJSON {resp in
-            print(resp)
+            //print(resp)
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Unlove Product"))
             {
 //                Constant.showDialog("Lovelist", message: self.captionTitle.text! + " berhasil dihapus dari Lovelist")

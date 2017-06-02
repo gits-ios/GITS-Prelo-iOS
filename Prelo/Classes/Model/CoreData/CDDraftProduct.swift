@@ -79,7 +79,7 @@ class CDDraftProduct: NSManagedObject {
                 }
                 
                 if (m.saveSave() != false) {
-                    print("deleteAll CDDraftProduct success")
+                    //print("deleteAll CDDraftProduct success")
                 }
             }
         } catch
@@ -246,9 +246,9 @@ class CDDraftProduct: NSManagedObject {
         }
         
         if (m.saveSave() == false) {
-            print("saveDraft failed")
+            //print("saveDraft failed")
         } else {
-            print("saveDraft success")
+            //print("saveDraft success")
         }
     }
     
@@ -260,9 +260,9 @@ class CDDraftProduct: NSManagedObject {
         }
         
         if (m.saveSave() == false) {
-            print("saveDraft failed")
+            //print("saveDraft failed")
         } else {
-            print("saveDraft success")
+            //print("saveDraft success")
         }
     }
     
@@ -273,9 +273,9 @@ class CDDraftProduct: NSManagedObject {
             m.delete(result!)
         }
         if (m.saveSave() != false) {
-            print("deleteDraft success")
+            //print("deleteDraft success")
         } else {
-            print("deleteDraft failed")
+            //print("deleteDraft failed")
         }
     }
 

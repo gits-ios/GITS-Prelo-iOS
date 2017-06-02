@@ -307,7 +307,7 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.right:
-                print("Swiped right")
+                //print("Swiped right")
                 
                 // gesture override
                 self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
@@ -318,13 +318,6 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
                 
                 _ = self.navigationController?.popViewController(animated: true)
                 
-                
-            case UISwipeGestureRecognizerDirection.down:
-                print("Swiped down")
-            case UISwipeGestureRecognizerDirection.left:
-                print("Swiped left")
-            case UISwipeGestureRecognizerDirection.up:
-                print("Swiped up")
             default:
                 break
             }

@@ -539,18 +539,18 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             self.feedback?.disposePopUp = {
                 self.feedback?.isHidden = true
                 self.feedback = nil
-                print("Start remove sibview")
+                //print("Start remove sibview")
                 if let viewWithTag = self.view.viewWithTag(100) {
                     viewWithTag.removeFromSuperview()
                 } else {
-                    print("No!")
+                    //print("No!")
                 }
             }
             
             self.feedback?.sendMail = {
                 let my_device = UserDefaults().value(forKey: UserDefaultsKey.UserAgent)
-                //        print("this is my_device")
-                //        print(my_device)
+                //        //print("this is my_device")
+                //        //print(my_device)
                 
                 //        Constant.showDialog("Device Info", message: String(describing: my_device))
                 
@@ -594,7 +594,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                  **/
                 
                 self.rateApp(appId: "id1027248488") { success in
-                    print("RateApp \(success)")
+                    //print("RateApp \(success)")
                 }
             }
         }
@@ -763,7 +763,7 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
         
         let _ = request(APIUser.rateApp(appVersion: appVersion!, rate: Int(self.rate), review: "")).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Rate App")) {
-                print("rated")
+                //print("rated")
                 
                 // Prelo Analytic - Rate
                 self.sentPreloAnalyticRate(false)

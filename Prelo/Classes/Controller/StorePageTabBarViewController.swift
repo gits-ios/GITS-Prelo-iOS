@@ -289,7 +289,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     
     // button move view VC
     func navigateSegment(_ segmentView: SMSegmentView) {
-        print("Select segment at index: \(segmentView.selectedSegmentIndex)")
+        //print("Select segment at index: \(segmentView.selectedSegmentIndex)")
         setSelectionBar(segmentView.selectedSegmentIndex)
         scrollSubVC(segmentView.selectedSegmentIndex)
     }

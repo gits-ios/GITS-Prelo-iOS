@@ -630,9 +630,9 @@ extension Foundation.Date
 //        var comp : NSDateComponents = calendar.components((.Era | .Year | .Month | .Day | .Hour | .Minute | .Second), fromDate: NSDate())
         var comp : DateComponents = (calendar as NSCalendar).components([.era, .year, .month, .day, .hour, .minute, .second], from: Foundation.Date())
         if let nowDate = calendar.date(from: comp) {
-            //print("nowDate = \(nowDate)")
+            ////print("nowDate = \(nowDate)")
             if let rollbackNSDate = Foundation.Date().rollbackIsoFormatted(formatted) {
-                //print("rollbackNSDate = \(rollbackNSDate)")
+                ////print("rollbackNSDate = \(rollbackNSDate)")
                 comp = (calendar as NSCalendar).components([.era, .year, .month, .day, .hour, .minute, .second], from: rollbackNSDate)
                 if let rollbackDate = calendar.date(from: comp) {
                     return nowDate.minutesFrom(rollbackDate)

@@ -1127,9 +1127,9 @@ extension NSManagedObjectContext {
         var results : [NSManagedObject]?
         do {
             try results = self.fetch(req) as? [NSManagedObject]
-            print("Fetch request success")
+            //print("Fetch request success")
         } catch {
-            print("Fetch request failed")
+            //print("Fetch request failed")
             results = nil
         }
         return results

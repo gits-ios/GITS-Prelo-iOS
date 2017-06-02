@@ -637,7 +637,7 @@ open class ProductDetail : NSObject, TawarItem
     
     var productID : String
     {
-        print(json)
+        //print(json)
         return json["_data"]["_id"].string!
     }
     
@@ -691,7 +691,7 @@ open class ProductDetail : NSObject, TawarItem
     
     var originalPicturers : Array<String>
         {
-            print(json)
+            //print(json)
             if let ori : Array<String> = json["_data"]["original_picts"].arrayObject as? Array<String>
             {
                 return ori
@@ -716,7 +716,7 @@ open class ProductDetail : NSObject, TawarItem
     var imageLabels : [String]
     {
         var labels : [String] = []
-        print(json["_data"]["original_picts"])
+        //print(json["_data"]["original_picts"])
         if let ori = json["_data"]["original_picts"].arrayObject
         {
             var i = 0
@@ -1189,7 +1189,7 @@ open class Product : NSObject
     
     var price : String
     {
-        print(json)
+        //print(json)
         if let p = json["price"].int
         {
             return p.asPrice
@@ -3158,7 +3158,7 @@ class InboxMessage : NSObject
     fileprivate var lastImg : UIImage?
     func sendTo(_ threadId : String, withImg : UIImage?, completion : @escaping (InboxMessage)->())
     {
-        print("sending chat to thread " + threadId)
+        //print("sending chat to thread " + threadId)
         lastThreadId = threadId
         lastCompletion = completion
         lastImg = withImg

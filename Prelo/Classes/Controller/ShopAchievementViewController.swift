@@ -207,7 +207,7 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //print("Row \(indexPath.row) selected")
+        ////print("Row \(indexPath.row) selected")
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath:  IndexPath) -> CGFloat {

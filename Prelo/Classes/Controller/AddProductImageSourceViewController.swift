@@ -106,7 +106,7 @@ class AddProductImageSourceViewController: BaseViewController, UICollectionViewD
         } else {
             
             let p = cell.longPress?.location(in: self.view)
-            print("begin drag | x : " + String(Int((p?.x)!)) + ", y : " + String(Int((p?.y)!)))
+            //print("begin drag | x : " + String(Int((p?.x)!)) + ", y : " + String(Int((p?.y)!)))
             if (cell.longPress?.state == UIGestureRecognizerState.began) {
                 cell.isHidden = true
                 dragDropView?.center = (gridView?.convert(cell.center, to: self.view))!
@@ -131,7 +131,7 @@ class AddProductImageSourceViewController: BaseViewController, UICollectionViewD
             return
         }
         highlightting = true
-        print("highlightting")
+        //print("highlightting")
         let h = (dragDropView?.isHidden)!
         for p in arrayProductRow
         {

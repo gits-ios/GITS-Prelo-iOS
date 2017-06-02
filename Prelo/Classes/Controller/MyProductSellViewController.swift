@@ -114,13 +114,13 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         refresh(0 as AnyObject, isSearchMode: false)
         //        Constant.showDialog("Upload Barang Berhasil", message: "Proses review barang akan memakan waktu maksimal 2 hari kerja. Mohon tunggu :)")
         
-//        print(notif.object)
+//        //print(notif.object)
         let o = notif.object as! [Any]
         
 //        let metaJson = JSON((notif.object ?? [:]))
         let metaJson = JSON(o[0])
         let metadata = metaJson["_data"]
-        print(metadata)
+        //print(metadata)
         if let message = metadata["message"].string {
             Constant.showDialog("Upload Barang Berhasil", message: message)
         }
@@ -152,7 +152,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         // imgae
         var imagesOke : [Bool] = []
         for i in 0...images.count - 1 {
-//            print(images[i].description)
+//            //print(images[i].description)
             if images[i].description != "null" {
                 imagesOke.append(true)
             } else {
@@ -339,7 +339,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 
                 // Fix product status text width
                 let sizeThatShouldFitTheContent = cell.lblOrderStatus.sizeThatFits(cell.lblOrderStatus.frame.size)
-                //print("size untuk '\(cell.lblOrderStatus.text)' = \(sizeThatShouldFitTheContent)")
+                ////print("size untuk '\(cell.lblOrderStatus.text)' = \(sizeThatShouldFitTheContent)")
                 cell.consWidthLblOrderStatus.constant = sizeThatShouldFitTheContent.width
                 
                 // Socmed share status
@@ -389,7 +389,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 
                 // Fix product status text width
                 let sizeThatShouldFitTheContent = cell.lblOrderStatus.sizeThatFits(cell.lblOrderStatus.frame.size)
-                //print("size untuk '\(cell.lblOrderStatus.text)' = \(sizeThatShouldFitTheContent)")
+                ////print("size untuk '\(cell.lblOrderStatus.text)' = \(sizeThatShouldFitTheContent)")
                 cell.consWidthLblOrderStatus.constant = sizeThatShouldFitTheContent.width
                 
                 // Socmed share status

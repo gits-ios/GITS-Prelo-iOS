@@ -630,12 +630,12 @@ class NotifAnggiConversationCell: UITableViewCell {
             
             // Set conv status text width
             var sizeThatShouldFitTheContent = lblConvStatus.sizeThatFits(lblConvStatus.frame.size)
-            //print("size untuk '\(lblConvStatus.text)' = \(sizeThatShouldFitTheContent)")
+            ////print("size untuk '\(lblConvStatus.text)' = \(sizeThatShouldFitTheContent)")
             consWidthLblConvStatus.constant = sizeThatShouldFitTheContent.width
             
             // Set time text width
             sizeThatShouldFitTheContent = lblTime.sizeThatFits(lblTime.frame.size)
-            //print("size untuk '\(lblTime)' = \(sizeThatShouldFitTheContent)")
+            ////print("size untuk '\(lblTime)' = \(sizeThatShouldFitTheContent)")
             consWidthLblTime.constant = sizeThatShouldFitTheContent.width
         }
         

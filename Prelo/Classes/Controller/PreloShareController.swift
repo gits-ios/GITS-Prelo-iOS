@@ -242,9 +242,9 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             return
         }
         
-        //print(item.url)
-        //print(item.text)
-        print((item.url?.absoluteString)!)
+        ////print(item.url)
+        ////print(item.text)
+        //print((item.url?.absoluteString)!)
 //        Alamofire.download(item.url!.absoluteString, method: .get, parameters: nil, encoding: ParameterEncoding., headers: nil, to: nil)(item.url!.absoluteString)
         
         Alamofire.request(item.url!.absoluteString).responseData { resp in
@@ -328,7 +328,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         // API Migrasi
         let _ = request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, resp, res, err in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Path")) {
-                print("Path login req = \(req)")
+                //print("Path login req = \(req)")
                 
                 if (err != nil) { // Terdapat error
                     
@@ -492,17 +492,17 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
                 composer?.completionHandler = { result -> Void in
                     let getResult = result as SLComposeViewControllerResult
                     switch(getResult.rawValue) {
-                    case SLComposeViewControllerResult.cancelled.rawValue:
-                        print("Cancelled")
+                    //case SLComposeViewControllerResult.cancelled.rawValue:
+                        //print("Cancelled")
                     case SLComposeViewControllerResult.done.rawValue:
-                        print("Done")
+                        //print("Done")
                         if (type == SLServiceTypeFacebook) {
                             self.mixpanelSharedProduct("Facebook", username: "")
                         } else if (type == SLServiceTypeTwitter) {
                             self.mixpanelSharedProduct("Twitter", username: "")
                         }
-                    default:
-                        print("Error")
+                    default: break
+                        //print("Error")
                     }
                 }
                 self.present(composer!, animated: true, completion: nil)
