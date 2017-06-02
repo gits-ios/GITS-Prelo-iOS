@@ -669,7 +669,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.getProducts()
             } else {
                 self.refresher?.endRefreshing()
-                self.setupGrid()
+                DispatchQueue.main.async(execute: {
+                    //self.setupGrid()
+                    self.gridView.contentInset = UIEdgeInsetsMake(0, 0, 48, 0)
+                })
             }
         default:
             requesting = true
@@ -698,7 +701,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                         }
                     }
                     self.refresher?.endRefreshing()
-                    self.setupGrid()
+                    DispatchQueue.main.async(execute: {
+                        self.setupGrid()
+                    })
                 }
             }
         }
