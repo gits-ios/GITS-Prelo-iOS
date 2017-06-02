@@ -411,7 +411,7 @@ extension UIImageView {
         
         // default fill
         
-        self.contentMode = .scaleAspectFit
+        self.contentMode = .scaleAspectFit // placeholder
         
         let placeholderImage = UIImage(named: "placeholder-standar-white")!
         
@@ -427,14 +427,14 @@ extension UIImageView {
             filter: filter,
             imageTransition: imageTransition,
             completion: { res in
-                self.contentMode = .scaleAspectFill
+                self.contentMode = .scaleAspectFill // image
         })
         
         self.image?.af_inflate()
     }
     
     func afSetImage(withURL: URL, withFilter: imageFilterMode) {
-        self.contentMode = .scaleAspectFit
+        self.contentMode = .scaleAspectFit // placeholder
         
         let placeholderImage = UIImage(named: "placeholder-standar-white")!
         
@@ -479,6 +479,8 @@ extension UIImageView {
         }
             
         else if withFilter == .fitWithPreloMessagePlaceHolder {
+            self.contentMode = .scaleAspectFill // placeholder
+            
             let filter = AspectScaledToFitSizeFilter(
                 size: self.frame.size
             )
@@ -503,7 +505,7 @@ extension UIImageView {
                 filter: filter,
                 imageTransition: imageTransition,
                 completion: { res in
-                    self.contentMode = .scaleAspectFill
+                    self.contentMode = .scaleAspectFill // image
             })
         }
         
@@ -518,31 +520,33 @@ extension UIImageView {
                 filter: filter,
                 imageTransition: imageTransition,
                 completion: { res in
-                    self.contentMode = .scaleAspectFill
+                    self.contentMode = .scaleAspectFill // image
             })
         }
             
         // FILL
         else if withFilter == .noneWithoutPlaceHolder {
+            self.contentMode = .scaleAspectFill // image
+            
             self.af_setImage(
                 withURL: withURL,
-                imageTransition: imageTransition,
-                completion: { res in
-                    self.contentMode = .scaleAspectFill
-            })
+                imageTransition: imageTransition
+            )
         }
         
         else if withFilter == .none {
+            self.contentMode = .scaleAspectFill // image
+            
             self.af_setImage(
                 withURL: withURL,
                 placeholderImage: placeholderImage.resizeWithMinWidthOrHeight(self.frame.size),
-                imageTransition: imageTransition,
-                completion: { res in
-                    self.contentMode = .scaleAspectFill
-            })
+                imageTransition: imageTransition
+            )
         }
             
         else if withFilter == .fillWithPreloMessagePlaceHolder { // badge
+            self.contentMode = .scaleAspectFill // placeholder
+            
             let filter = AspectScaledToFillSizeFilter(
                 size: self.frame.size
             )
@@ -551,10 +555,8 @@ extension UIImageView {
                 withURL: withURL,
                 placeholderImage: UIImage(named: "placeholder-prelo-message.jpg")!.resizeWithMinWidthOrHeight(self.frame.size), // pm
                 filter: filter,
-                imageTransition: imageTransition,
-                completion: { res in
-                    self.contentMode = .scaleAspectFill
-            })
+                imageTransition: imageTransition
+            )
         }
             
         else if withFilter == .fitWithStandarPlaceHolder { // featured, segment, sub-category
@@ -568,7 +570,7 @@ extension UIImageView {
                 filter: filter,
                 imageTransition: imageTransition,
                 completion: { res in
-                    self.contentMode = .scaleAspectFill
+                    self.contentMode = .scaleAspectFill // image
             })
         }
         
@@ -584,7 +586,7 @@ extension UIImageView {
                 filter: filter,
                 imageTransition: imageTransition,
                 completion: { res in
-                    self.contentMode = .scaleAspectFill
+                    self.contentMode = .scaleAspectFill // image
             })
         }
         
