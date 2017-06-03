@@ -204,6 +204,9 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
                 }
             }
         }
+        cell.layer.shouldRasterize = true
+        cell.layer.rasterizationScale = UIScreen.main.scale
+        
         return cell
     }
     

@@ -210,6 +210,8 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
                     cell.vwOverlay.isHidden = true
                 }
             }
+            cell.layer.shouldRasterize = true
+            cell.layer.rasterizationScale = UIScreen.main.scale
             
             return cell
         }

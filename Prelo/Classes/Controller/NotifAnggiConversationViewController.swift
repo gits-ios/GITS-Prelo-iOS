@@ -208,6 +208,8 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                     cell.lblCheckBox.isHidden = true
                 }
             }
+            cell.layer.shouldRasterize = true
+            cell.layer.rasterizationScale = UIScreen.main.scale
             
             return cell
         }

@@ -346,6 +346,9 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 cell.vwShareStatus.isHidden = false
                 
                 cell.lblPercentage.text = "90%"
+                
+                cell.layer.shouldRasterize = true
+                cell.layer.rasterizationScale = UIScreen.main.scale
             } else {
                 let p = products[(indexPath as NSIndexPath).row]
                 
@@ -404,6 +407,9 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                     cell.lblTwitter.textColor = Theme.PrimaryColor
                 }
                 cell.lblPercentage.text = "\(100 - p.commission)%"
+                
+                cell.layer.shouldRasterize = true
+                cell.layer.rasterizationScale = UIScreen.main.scale
             }
         }
         

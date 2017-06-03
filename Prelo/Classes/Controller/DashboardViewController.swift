@@ -241,34 +241,32 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             
             cell.captionTitle?.text = m["title"]
             cell.selectionStyle = .none
-            
             return cell
             
         } else if m["type"] == "text" || m["type"] == "text-separator" {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "BottomCell")
+            let cell: BottomCell = tableView.dequeueReusableCell(withIdentifier: "BottomCell") as! BottomCell
             
-            cell?.textLabel?.font = UIFont.systemFont(ofSize: 16)
-            cell?.textLabel?.textColor = UIColor(hex: "555555")
+            cell.textLabel?.font = UIFont.systemFont(ofSize: 16)
+            cell.textLabel?.textColor = UIColor(hex: "555555")
             
-            cell?.textLabel!.text = m["title"]
-            cell?.selectionStyle = .none
+            cell.textLabel!.text = m["title"]
+            cell.selectionStyle = .none
             
             if m["type"] == "text-separator" {
                 let inView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: 1), backgroundColor: UIColor(hex: "AAAAAA"))
             
-                cell?.contentView.addSubview(inView)
+                cell.contentView.addSubview(inView)
             } else {
                 
-                cell?.contentView.removeAllSubviews()
+                cell.contentView.removeAllSubviews()
             }
-            return cell!
+            return cell
 
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "BottomCell")
-            cell?.textLabel!.text = ""
-            cell?.selectionStyle = .none
-            
-            return cell!
+            let cell: BottomCell = tableView.dequeueReusableCell(withIdentifier: "BottomCell") as! BottomCell
+            cell.textLabel!.text = ""
+            cell.selectionStyle = .none
+            return cell
         }
     }
     
