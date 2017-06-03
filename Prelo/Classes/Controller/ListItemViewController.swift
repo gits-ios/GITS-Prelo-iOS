@@ -761,8 +761,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 
                 self.setupData(resp.result.value)
             }
+            self.refresher?.endRefreshing()
             DispatchQueue.main.async(execute: {
-                self.refresher?.endRefreshing()
                 self.setupGrid()
             })
         }
@@ -804,10 +804,12 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Filter Product")) {
                     self.setupData(resp.result.value)
                 }
-                DispatchQueue.main.async(execute: {
                 self.refresher?.endRefreshing()
-                self.setupGrid()
+                DispatchQueue.main.async(execute: {
+                    self.setupGrid()
                 })
+            } else {
+                self.refresher?.endRefreshing()
             }
         }
     }
@@ -1299,9 +1301,14 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 return adsCellProvider.collectionView(gridView, cellForItemAt: indexPath)
             }
             else {
+                var idx  = (indexPath as NSIndexPath).item
+                if (adsCellProvider != nil && adRowStep != 0) {
+                    idx = indexPath.row - indexPath.row / adRowStep
+                }
+                
                 // Load next products here
                 if (currentMode == .default || currentMode == .standalone || currentMode == .shop || currentMode == .filter || (currentMode == .segment && listItemSections.contains(.products)) || currentMode == .newShop) {
-                    if ((indexPath as NSIndexPath).row == (products?.count)! - 4 && requesting == false && done == false) {
+                    if (idx == (products?.count)! - 4 && requesting == false && done == false) {
                         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
                                                             qos: .background,
                                                             target: nil)
@@ -1314,11 +1321,6 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                             self.getProducts()
                         }
                     }
-                }
-                
-                var idx  = (indexPath as NSIndexPath).item
-                if (adsCellProvider != nil && adRowStep != 0) {
-                    idx = indexPath.row - indexPath.row / adRowStep
                 }
                 
                 let cell : ListItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ListItemCell
