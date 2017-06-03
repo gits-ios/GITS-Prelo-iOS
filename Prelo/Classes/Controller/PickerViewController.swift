@@ -166,6 +166,9 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
             cell.isBottomCell = true
             cell.adapt()
             
+            cell.layer.shouldRasterize = true
+            cell.layer.rasterizationScale = UIScreen.main.scale
+            
             return cell
         } else {
             var cell = tableView.dequeueReusableCell(withIdentifier: "cell")
@@ -191,6 +194,9 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
                 cell?.detailTextLabel?.adjustsFontSizeToFitWidth = true
                 cell?.detailTextLabel?.text = subtitles[(indexPath as NSIndexPath).row]
             }
+            
+            cell?.layer.shouldRasterize = true
+            cell?.layer.rasterizationScale = UIScreen.main.scale
             
             return cell!
         }

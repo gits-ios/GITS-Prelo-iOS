@@ -200,6 +200,8 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
             let u = userPurchases?[(indexPath as NSIndexPath).item]
             cell.adaptItem(u!)
         }
+        cell.layer.shouldRasterize = true
+        cell.layer.rasterizationScale = UIScreen.main.scale
         return cell
     }
     

@@ -200,6 +200,8 @@ class MyProductProcessingViewController : BaseViewController, UITableViewDataSou
                 let u = userProducts?[(indexPath as NSIndexPath).item]
                 cell.adaptItem(u!)
             }
+            cell.layer.shouldRasterize = true
+            cell.layer.rasterizationScale = UIScreen.main.scale
             return cell
     }
     
