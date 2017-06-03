@@ -432,8 +432,10 @@ extension UIImageView {
                     filter: filter,
                     imageTransition: imageTransition,
                     completion: { res in
-                        self.contentMode = .scaleAspectFill // image
-                        self.image?.afInflate()
+                        if res.result.isSuccess {
+                            self.contentMode = .scaleAspectFill // image
+                            self.image?.afInflate()
+                        }
                 })
             })
         }
@@ -467,7 +469,9 @@ extension UIImageView {
                         filter: filter,
                         imageTransition: imageTransition,
                         completion: { res in
-                            self.image?.afInflate()
+                            if res.result.isSuccess {
+                                self.image?.afInflate()
+                            }
                     })
                 })
             }
@@ -483,7 +487,9 @@ extension UIImageView {
                         filter: filter,
                         imageTransition: imageTransition,
                         completion: { res in
-                            self.image?.afInflate()
+                            if res.result.isSuccess {
+                                self.image?.afInflate()
+                            }
                     })
                 })
             }
@@ -504,7 +510,9 @@ extension UIImageView {
                         filter: filter,
                         imageTransition: imageTransition,
                         completion: { res in
-                            self.image?.afInflate()
+                            if res.result.isSuccess {
+                                self.image?.afInflate()
+                            }
                     })
                 })
             }
@@ -527,7 +535,9 @@ extension UIImageView {
                         filter: filter,
                         imageTransition: imageTransition,
                         completion: { res in
-                            self.image?.afInflate()
+                            if res.result.isSuccess {
+                                self.image?.afInflate()
+                            }
                     })
                 })
             }
@@ -549,8 +559,10 @@ extension UIImageView {
                         filter: filter,
                         imageTransition: imageTransition,
                         completion: { res in
-                            self.contentMode = .scaleAspectFill // image
-                            self.image?.afInflate()
+                            if res.result.isSuccess {
+                                self.contentMode = .scaleAspectFill // image
+                                self.image?.afInflate()
+                            }
                     })
                 })
             }
@@ -571,8 +583,10 @@ extension UIImageView {
                         filter: filter,
                         imageTransition: imageTransition,
                         completion: { res in
-                            self.contentMode = .scaleAspectFill // image
-                            self.image?.afInflate()
+                            if res.result.isSuccess {
+                                self.contentMode = .scaleAspectFill // image
+                                self.image?.afInflate()
+                            }
                     })
                 })
             }
@@ -586,7 +600,9 @@ extension UIImageView {
                         withURL: withURL,
                         imageTransition: imageTransition,
                         completion: { res in
-                            self.image?.afInflate()
+                            if res.result.isSuccess {
+                                self.image?.afInflate()
+                            }
                     })
                 })
             }
@@ -603,7 +619,9 @@ extension UIImageView {
                         placeholderImage: _placeholder,
                         imageTransition: imageTransition,
                         completion: { res in
-                            self.image?.afInflate()
+                            if res.result.isSuccess {
+                                self.image?.afInflate()
+                            }
                     })
                 })
             }
@@ -626,7 +644,9 @@ extension UIImageView {
                         filter: filter,
                         imageTransition: imageTransition,
                         completion: { res in
-                            self.image?.afInflate()
+                            if res.result.isSuccess {
+                                self.image?.afInflate()
+                            }
                     })
                 })
             }
@@ -646,8 +666,10 @@ extension UIImageView {
                         filter: filter,
                         imageTransition: imageTransition,
                         completion: { res in
-                            self.contentMode = .scaleAspectFill // image
-                            self.image?.afInflate()
+                            if res.result.isSuccess {
+                                self.contentMode = .scaleAspectFill // image
+                                self.image?.afInflate()
+                            }
                     })
                 })
             }
@@ -668,8 +690,10 @@ extension UIImageView {
                         filter: filter,
                         imageTransition: imageTransition,
                         completion: { res in
-                            self.contentMode = .scaleAspectFill // image
-                            self.image?.afInflate()
+                            if res.result.isSuccess {
+                                self.contentMode = .scaleAspectFill // image
+                                self.image?.afInflate()
+                            }
                     })
                 })
             }
