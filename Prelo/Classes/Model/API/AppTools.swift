@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import AlamofireImage
+import Nuke
 
 enum imageFilterMode {
     case fit
@@ -410,7 +411,7 @@ extension UIImageView {
 //        self.af_setImage(withURL: withURL, placeholderImage: placeholderImage)
         
         // default fill
-        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo.afSetImage",
+        /*let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo.afSetImage",
                                             qos: .background,
                                             target: nil)
         backgroundQueue.async {
@@ -436,7 +437,10 @@ extension UIImageView {
                         self.image?.afInflate()
                 })
             })
-        }
+        }*/
+        
+        
+        Nuke.loadImage(with: withURL, into: self)
     }
     
     func afSetImage(withURL: URL, withFilter: imageFilterMode) {
