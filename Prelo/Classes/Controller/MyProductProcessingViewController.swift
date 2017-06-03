@@ -57,6 +57,8 @@ class MyProductProcessingViewController : BaseViewController, UITableViewDataSou
     
     var userProducts : Array <UserTransactionItem>?
     
+    var isRefreshing = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -151,10 +153,14 @@ class MyProductProcessingViewController : BaseViewController, UITableViewDataSou
                 self.tableView.isHidden = false
                 self.setupTable()
             }
+            
+            self.isRefreshing = false
         }
     }
     
     func refresh(_ sender: AnyObject) {
+        self.isRefreshing = true
+        
         // Reset data
         self.userProducts = []
         self.nextIdx = 0
@@ -216,7 +222,7 @@ class MyProductProcessingViewController : BaseViewController, UITableViewDataSou
         let h : CGFloat = size.height
         
         let reloadDistance : CGFloat = 0
-        if (y > h + reloadDistance) {
+        if (y > h + reloadDistance && !self.isRefreshing) {
             // Load next items only if all items not loaded yet and if its not currently loading items
             if (!self.isAllItemLoaded && !self.bottomLoading.isAnimating) {
                 // Tampilkan loading di bawah

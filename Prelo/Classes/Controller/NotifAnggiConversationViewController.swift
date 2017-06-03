@@ -78,6 +78,8 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     
     var countDecreaseNotifCount = 0
     
+    var isRefreshing = false
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -117,6 +119,8 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     }
     
     func refreshPage() {
+        self.isRefreshing = true
+        
         // Reset data
         self.notifications = []
         self.currentPage = 0
@@ -171,6 +175,8 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
             
             // Show content
             self.showContent()
+            
+            self.isRefreshing = false
         }
     }
     
@@ -276,7 +282,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         let h : CGFloat = size.height
         
         let reloadDistance : CGFloat = 0
-        if (y > h + reloadDistance) {
+        if (y > h + reloadDistance && !self.isRefreshing) {
             // Load next items only if all items not loaded yet and if its not currently loading items
             if (!self.isAllItemLoaded && !self.bottomLoading.isAnimating) {
                 // Show bottomLoading

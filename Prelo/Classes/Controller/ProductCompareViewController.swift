@@ -36,6 +36,8 @@ class ProductCompareViewController : BaseViewController, UITableViewDelegate, UI
     var productCompareMain : ProductCompareMain = ProductCompareMain()
     var productCompareItems : [Product] = []
     
+    var isRefreshing = false
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -68,6 +70,8 @@ class ProductCompareViewController : BaseViewController, UITableViewDelegate, UI
     }
     
     func refreshTable() {
+        self.isRefreshing = true
+        
         // Reset data
         self.productCompareMain = ProductCompareMain()
         self.productCompareItems = []
@@ -114,6 +118,8 @@ class ProductCompareViewController : BaseViewController, UITableViewDelegate, UI
             
             // Show content
             self.showContent()
+            
+            self.isRefreshing = false
         }
     }
     
@@ -177,7 +183,7 @@ class ProductCompareViewController : BaseViewController, UITableViewDelegate, UI
         let h : CGFloat = size.height
         
         let reloadDistance : CGFloat = 0
-        if (y > h + reloadDistance) {
+        if (y > h + reloadDistance && !self.isRefreshing) {
             // Load next items only if all items not loaded yet and if its not currently loading items
             if (!self.isAllItemLoaded && self.bottomLoadingPanel.isHidden) {
                 // Show bottomLoading

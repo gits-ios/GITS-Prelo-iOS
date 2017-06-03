@@ -36,6 +36,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     
     var isFirst = false // adduploading product when first load
     
+    var isRefreshing = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -256,6 +258,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                     self.tableView.isHidden = true
                 }
             }
+            
+            self.isRefreshing = false
         }
     }
     
@@ -265,6 +269,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     func refresh(_ sender: AnyObject, isSearchMode : Bool) {
+        self.isRefreshing = true
+        
         // Reset data
         self.products = []
         if (!isSearchMode) {
@@ -480,7 +486,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         let h : CGFloat = size.height
         
         let reloadDistance : CGFloat = 0
-        if (y > h + reloadDistance && self.products.count >= 10) {
+        if (y > h + reloadDistance && !self.isRefreshing) {
             // Load next items only if all items not loaded yet and if its not currently loading items
             if (!self.isAllItemLoaded && !self.bottomLoading.isAnimating) {
                 // Tampilkan loading di bawah

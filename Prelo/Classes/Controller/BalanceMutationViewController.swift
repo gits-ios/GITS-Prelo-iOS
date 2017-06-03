@@ -59,6 +59,8 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     
     var totalPreloBalance : Int = 0
     
+    var isRefreshing = false
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -94,6 +96,8 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     }
     
     func refreshTable() {
+        self.isRefreshing = true
+        
         // Reset data
         self.balanceMutationItems = []
         self.nextIdx = 0
@@ -164,6 +168,8 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
             
             // Show content
             self.showContent()
+            
+            self.isRefreshing = false
         }
     }
     
@@ -236,7 +242,7 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
         let h : CGFloat = size.height
         
         let reloadDistance : CGFloat = 0
-        if (y > h + reloadDistance && self.balanceMutationItems?.count > 0) {
+        if (y > h + reloadDistance && !self.isRefreshing) {
             // Load next items only if all items not loaded yet and if its not currently loading items
             if (!self.isAllItemLoaded && self.bottomLoadingPanel.isHidden) {
                 // Show bottomLoading
