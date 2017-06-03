@@ -1349,20 +1349,18 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
     }
     
-//    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//        switch listItemSections[(indexPath as NSIndexPath).section] {
-//        case .products:
-//            if adsCellProvider != nil && adsCellProvider.isAdCell(at: indexPath, forStride: UInt(adRowStep)) {
-//                // do nothing
-//            } else if cell is ListItemCell {
-//                let c = cell as! ListItemCell
-//                c.ivCover.af_cancelImageRequest()
-//            } else {
-//                break
-//            }
-//        default: break
-//        }
-//    }
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        switch listItemSections[(indexPath as NSIndexPath).section] {
+        case .products:
+            if cell is ListItemCell {
+                let c = cell as! ListItemCell
+                c.ivCover.af_cancelImageRequest()
+                c.avatar.af_cancelImageRequest()
+            }
+            break
+        default: break
+        }
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let viewWidthMinusMargin = UIScreen.main.bounds.size.width - 8
