@@ -165,8 +165,8 @@ class ProductCompareViewController : BaseViewController, UITableViewDelegate, UI
                 self.navigationController?.pushViewController(c, animated: true)
             }
         }
-        cell.layer.shouldRasterize = true
-        cell.layer.rasterizationScale = UIScreen.main.scale
+        //cell.layer.shouldRasterize = true
+        //cell.layer.rasterizationScale = UIScreen.main.scale
         return cell
     }
     

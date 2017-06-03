@@ -166,8 +166,8 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
             cell.isBottomCell = true
             cell.adapt()
             
-            cell.layer.shouldRasterize = true
-            cell.layer.rasterizationScale = UIScreen.main.scale
+            //cell.layer.shouldRasterize = true
+            //cell.layer.rasterizationScale = UIScreen.main.scale
             
             return cell
         } else {

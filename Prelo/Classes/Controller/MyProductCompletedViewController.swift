@@ -200,8 +200,8 @@ class MyProductCompletedViewController : BaseViewController, UITableViewDataSour
                 let u = userProducts?[(indexPath as NSIndexPath).item]
                 cell.adaptItem(u!)
             }
-            cell.layer.shouldRasterize = true
-            cell.layer.rasterizationScale = UIScreen.main.scale
+            //cell.layer.shouldRasterize = true
+            //cell.layer.rasterizationScale = UIScreen.main.scale
             return cell
     }
     

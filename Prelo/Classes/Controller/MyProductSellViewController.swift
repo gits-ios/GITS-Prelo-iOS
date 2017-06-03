@@ -353,8 +353,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 
                 cell.lblPercentage.text = "90%"
                 
-                cell.layer.shouldRasterize = true
-                cell.layer.rasterizationScale = UIScreen.main.scale
+                //cell.layer.shouldRasterize = true
+                //cell.layer.rasterizationScale = UIScreen.main.scale
             } else {
                 let p = products[(indexPath as NSIndexPath).row]
                 
@@ -414,8 +414,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 }
                 cell.lblPercentage.text = "\(100 - p.commission)%"
                 
-                cell.layer.shouldRasterize = true
-                cell.layer.rasterizationScale = UIScreen.main.scale
+                //cell.layer.shouldRasterize = true
+                //cell.layer.rasterizationScale = UIScreen.main.scale
             }
         }
         

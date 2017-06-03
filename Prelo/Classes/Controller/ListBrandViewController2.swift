@@ -189,8 +189,8 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
             }
             cell.adapt(name, isChecked: ((indexPath as NSIndexPath).row < self.selectedBrands.count))
             
-            cell.layer.shouldRasterize = true
-            cell.layer.rasterizationScale = UIScreen.main.scale
+            //cell.layer.shouldRasterize = true
+            //cell.layer.rasterizationScale = UIScreen.main.scale
         }
         
         return cell

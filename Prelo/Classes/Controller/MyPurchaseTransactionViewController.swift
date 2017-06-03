@@ -164,8 +164,8 @@ class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSo
                 cell.isDiffUnread = false
                 let p = userProducts[(indexPath as NSIndexPath).item]
                 cell.adapt(p, idx: (indexPath as NSIndexPath).item)
-                cell.layer.shouldRasterize = true
-                cell.layer.rasterizationScale = UIScreen.main.scale
+                //cell.layer.shouldRasterize = true
+                //cell.layer.rasterizationScale = UIScreen.main.scale
                 return cell
             }
         }

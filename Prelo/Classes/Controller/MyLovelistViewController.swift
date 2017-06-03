@@ -199,8 +199,8 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         cell.delegate = self
         let u = userLovelist?[(indexPath as NSIndexPath).item]
         cell.adapt(u!)
-        cell.layer.shouldRasterize = true
-        cell.layer.rasterizationScale = UIScreen.main.scale
+        //cell.layer.shouldRasterize = true
+        //cell.layer.rasterizationScale = UIScreen.main.scale
         return cell
     }
     
