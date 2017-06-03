@@ -2482,9 +2482,26 @@ class ListItemCell : UICollectionViewCell {
             let w = const / 3 * 8
             let url = URL(string: product.json["affiliate_data"]["affiliate_icon"].stringValue)
             affiliateLogo.frame = CGRect(x: self.bounds.width - w - 4, y: self.bounds.maxY - const - 4, width: w, height: const)
-            affiliateLogo.afSetImage(withURL: url!, withFilter: .fitWithoutPlaceHolder)
+            //affiliateLogo.afSetImage(withURL: url!, withFilter: .noneWithoutPlaceHolder)
             
-            //affiliateLogo.contentMode = .scaleAspectFit
+            // CRASH sometimes
+            //affiliateLogo.afSetImage(withURL: url!, withFilter: .fitWithoutPlaceHolder)
+            
+            let imageTransition = UIImageView.ImageTransition.crossDissolve(0.2)
+            
+            let filter = AspectScaledToFitSizeFilter(
+                size: affiliateLogo.frame.size
+            )
+            
+            affiliateLogo.af_setImage(
+                withURL: url!,
+                filter: filter,
+                imageTransition: imageTransition,
+                completion: { res in
+                    self.affiliateLogo.image?.afInflate()
+            })
+            
+            affiliateLogo.contentMode = .scaleAspectFit
             consWidthAffiliateLogo.constant = w
             consHeightAffiliateLogo.constant = const
             affiliateLogo.isHidden = false
