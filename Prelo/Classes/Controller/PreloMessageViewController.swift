@@ -229,6 +229,9 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
             cell.openUrl = { url in
                 self.openUrl(url: url)
             }
+            
+            cell.layer.shouldRasterize = true
+            cell.layer.rasterizationScale = UIScreen.main.scale
         }
         
         return cell
