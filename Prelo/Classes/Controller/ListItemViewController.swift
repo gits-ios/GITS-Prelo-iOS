@@ -2098,7 +2098,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             ]
             let loginMethod = User.LoginMethod ?? ""
             let pdata = [
-                "Category" : self.lblFilterKategori.text!,
+                "Category" : self.lblFilterKategori.text ?? "",
                 "Brand" : brands,
                 "Condition" : self.fltrProdCondIds.count > 0 ? true : false,
                 "Location": location,
