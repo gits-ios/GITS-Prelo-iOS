@@ -616,6 +616,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().didLoseFocus()
+        
+        if AppTools.isDev {
+            GDPerformanceMonitor.sharedInstance.stopMonitoring()
+        }
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -623,6 +627,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
+        
+        if AppTools.isDev {
+            GDPerformanceMonitor.sharedInstance.startMonitoring()
+        }
         
         self.isFromBackground = true
         
@@ -667,6 +675,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
 //        Constant.showDialog("FIrst INIT", message: "firts INIT")
+        
+        if AppTools.isDev {
+            GDPerformanceMonitor.sharedInstance.startMonitoring()
+        }
         
         self.versionForceUpdateCheck()
         

@@ -634,6 +634,11 @@
 		B29482561E91E397001B6C75 /* cover_shop_persegi_1024px.png in Resources */ = {isa = PBXBuildFile; fileRef = B29482551E91E397001B6C75 /* cover_shop_persegi_1024px.png */; };
 		B2A834451E7055EB004C575A /* SCLAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A834421E7055EB004C575A /* SCLAlertView.swift */; };
 		B2A834461E7055EB004C575A /* SCLExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A834431E7055EB004C575A /* SCLExtensions.swift */; };
+		B2A8D69D1EE3D42A0097EF3F /* GDMarginLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A8D6981EE3D42A0097EF3F /* GDMarginLabel.swift */; };
+		B2A8D69E1EE3D42A0097EF3F /* GDPerformanceMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A8D6991EE3D42A0097EF3F /* GDPerformanceMonitor.swift */; };
+		B2A8D69F1EE3D42A0097EF3F /* GDPerformanceMonitorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A8D69A1EE3D42A0097EF3F /* GDPerformanceMonitorDelegate.swift */; };
+		B2A8D6A01EE3D42A0097EF3F /* GDPerformanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A8D69B1EE3D42A0097EF3F /* GDPerformanceView.swift */; };
+		B2A8D6A11EE3D42A0097EF3F /* GDWindowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A8D69C1EE3D42A0097EF3F /* GDWindowViewController.swift */; };
 		B2AAB3751E8A6D2000E16BAB /* TransactionReportPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2AAB3741E8A6D2000E16BAB /* TransactionReportPopup.xib */; };
 		B2B2F3621E8D04FE0039167A /* ic_wjp_exclamation.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B2F3601E8D04FE0039167A /* ic_wjp_exclamation.png */; };
 		B2B2F3631E8D04FE0039167A /* ic_wjp_refund.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B2F3611E8D04FE0039167A /* ic_wjp_refund.png */; };
@@ -1693,6 +1698,11 @@
 		B29482551E91E397001B6C75 /* cover_shop_persegi_1024px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover_shop_persegi_1024px.png; sourceTree = "<group>"; };
 		B2A834421E7055EB004C575A /* SCLAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCLAlertView.swift; sourceTree = "<group>"; };
 		B2A834431E7055EB004C575A /* SCLExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCLExtensions.swift; sourceTree = "<group>"; };
+		B2A8D6981EE3D42A0097EF3F /* GDMarginLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GDMarginLabel.swift; sourceTree = "<group>"; };
+		B2A8D6991EE3D42A0097EF3F /* GDPerformanceMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GDPerformanceMonitor.swift; sourceTree = "<group>"; };
+		B2A8D69A1EE3D42A0097EF3F /* GDPerformanceMonitorDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GDPerformanceMonitorDelegate.swift; sourceTree = "<group>"; };
+		B2A8D69B1EE3D42A0097EF3F /* GDPerformanceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GDPerformanceView.swift; sourceTree = "<group>"; };
+		B2A8D69C1EE3D42A0097EF3F /* GDWindowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GDWindowViewController.swift; sourceTree = "<group>"; };
 		B2AAB3741E8A6D2000E16BAB /* TransactionReportPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TransactionReportPopup.xib; path = XIB/TransactionReportPopup.xib; sourceTree = "<group>"; };
 		B2B2F3601E8D04FE0039167A /* ic_wjp_exclamation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_wjp_exclamation.png; sourceTree = "<group>"; };
 		B2B2F3611E8D04FE0039167A /* ic_wjp_refund.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_wjp_refund.png; sourceTree = "<group>"; };
@@ -2054,6 +2064,7 @@
 				21B467A11CCE5EDB00E145ED /* BFKit-Swift */,
 				58A999DF1C6D864E00E3E7D7 /* Branch-SDK */,
 				21D387511B6B967A00D0FA90 /* CarbonKit */,
+				B2A8D6971EE3D42A0097EF3F /* GDPerformanceMonitoring */,
 				FD3C6D3C1C1963190002C7B4 /* GoogleAnalytics_3.13 */,
 				2124FFC91BBD2AC000194B8F /* GoogleConversionTrackingSDK-iOS-3.2.0 */,
 				211BC9951B96D53300FDB1DC /* GrowingTextView */,
@@ -3237,6 +3248,18 @@
 			path = SCLAlertView;
 			sourceTree = "<group>";
 		};
+		B2A8D6971EE3D42A0097EF3F /* GDPerformanceMonitoring */ = {
+			isa = PBXGroup;
+			children = (
+				B2A8D6981EE3D42A0097EF3F /* GDMarginLabel.swift */,
+				B2A8D6991EE3D42A0097EF3F /* GDPerformanceMonitor.swift */,
+				B2A8D69A1EE3D42A0097EF3F /* GDPerformanceMonitorDelegate.swift */,
+				B2A8D69B1EE3D42A0097EF3F /* GDPerformanceView.swift */,
+				B2A8D69C1EE3D42A0097EF3F /* GDWindowViewController.swift */,
+			);
+			path = GDPerformanceMonitoring;
+			sourceTree = "<group>";
+		};
 		B2B2F34F1E8D04CC0039167A /* wjp */ = {
 			isa = PBXGroup;
 			children = (
@@ -3974,6 +3997,7 @@
 				21679A161B901C5300F18F90 /* Mixpanel.m in Sources */,
 				B2FFCBAB1EA52669004F01D0 /* SocketIOClientOption.swift in Sources */,
 				B2FFCBA81EA52669004F01D0 /* SocketExtensions.swift in Sources */,
+				B2A8D6A01EE3D42A0097EF3F /* GDPerformanceView.swift in Sources */,
 				2167998F1B8F8AB900F18F90 /* AFURLConnectionOperation.m in Sources */,
 				58C27CAC1DB9CA65008201FA /* PreloEndpoints.swift in Sources */,
 				58A99A341C6D864E00E3E7D7 /* BNCSystemObserver.m in Sources */,
@@ -3983,6 +4007,7 @@
 				21B467F41CCE5EDB00E145ED /* NSObject+BFKit.swift in Sources */,
 				216799911B8F8AB900F18F90 /* AFURLResponseSerialization.m in Sources */,
 				B2FFCB9E1EA52669004F01D0 /* SocketAckManager.swift in Sources */,
+				B2A8D69F1EE3D42A0097EF3F /* GDPerformanceMonitorDelegate.swift in Sources */,
 				21679A3D1B901C5300F18F90 /* MPPropertyDescription.m in Sources */,
 				585887731DBEF571006EC6D5 /* TransactionDetailViewController.swift in Sources */,
 				216344FF1CC3A855005CBA37 /* MKEmbedDrawerControllerSegue.swift in Sources */,
@@ -4083,6 +4108,7 @@
 				B2CAF7861E78F9DD00ACB361 /* PreloMessageViewController.swift in Sources */,
 				58A99A401C6D864E00E3E7D7 /* BranchInstallRequest.m in Sources */,
 				58A99A3B1C6D864E00E3E7D7 /* BNCServerRequest.m in Sources */,
+				B2A8D6A11EE3D42A0097EF3F /* GDWindowViewController.swift in Sources */,
 				5858877F1DBF1728006EC6D5 /* CartViewController.swift in Sources */,
 				21679A191B901C5300F18F90 /* MPABTestDesignerChangeResponseMessage.m in Sources */,
 				585B6AEF1DBE152C005DEBA4 /* AddProductImageSourceViewController.swift in Sources */,
@@ -4174,6 +4200,7 @@
 				5847E1961DBE067400C1B2BA /* RegisterViewController.swift in Sources */,
 				21B467E11CCE5EDB00E145ED /* BFApp.swift in Sources */,
 				B21B3F091E5AD33400FE5DB4 /* PreloAnalyticEndpoints.swift in Sources */,
+				B2A8D69E1EE3D42A0097EF3F /* GDPerformanceMonitor.swift in Sources */,
 				21C658961B8EF25E0037F85F /* ActionSheetDatePicker.m in Sources */,
 				21679A1E1B901C5300F18F90 /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,
 				B2C3A3C81E2B8E450082A15D /* ShopAchievementViewController.swift in Sources */,
@@ -4304,6 +4331,7 @@
 				58A99A4A1C6D864E00E3E7D7 /* BranchSpotlightUrlRequest.m in Sources */,
 				58A99A381C6D864E00E3E7D7 /* BranchCSSearchableItemAttributeSet.m in Sources */,
 				21679A4B1B901C5300F18F90 /* MPUIEdgeInsetsToNSDictionaryValueTransformer.m in Sources */,
+				B2A8D69D1EE3D42A0097EF3F /* GDMarginLabel.swift in Sources */,
 				585887771DBF0636006EC6D5 /* ReferralPageViewController.swift in Sources */,
 				5858877D1DBF1241006EC6D5 /* NotifAnggiTabBarViewController.swift in Sources */,
 				21B467FE1CCE5EDB00E145ED /* UIImage+BFKit.swift in Sources */,
