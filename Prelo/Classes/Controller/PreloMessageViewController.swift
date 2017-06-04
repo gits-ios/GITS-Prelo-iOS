@@ -198,6 +198,7 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
             let m = (messages?[idx])!
             
             cell.selectionStyle = .none
+            cell.alpha = 1.0
             cell.backgroundColor = UIColor(hexString: "#E8ECEE")
             cell.clipsToBounds = true
             cell.adapt(m, isOpen: isOpens[idx])
@@ -229,9 +230,6 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
             cell.openUrl = { url in
                 self.openUrl(url: url)
             }
-            
-            //cell.layer.shouldRasterize = true
-            //cell.layer.rasterizationScale = UIScreen.main.scale
         }
         
         return cell

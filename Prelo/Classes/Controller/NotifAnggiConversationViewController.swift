@@ -192,7 +192,11 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell : NotifAnggiConversationCell = self.tableView.dequeueReusableCell(withIdentifier: "NotifAnggiConversationCell") as? NotifAnggiConversationCell, notifications != nil, notifications!.count > (indexPath as NSIndexPath).item {
+            
             cell.selectionStyle = .none
+            cell.alpha = 1.0
+            cell.backgroundColor = UIColor.white
+            
             if let n = notifications?[(indexPath as NSIndexPath).item] {
                 cell.adapt(n)
             
@@ -214,8 +218,6 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                     cell.lblCheckBox.isHidden = true
                 }
             }
-            //cell.layer.shouldRasterize = true
-            //cell.layer.rasterizationScale = UIScreen.main.scale
             
             return cell
         }

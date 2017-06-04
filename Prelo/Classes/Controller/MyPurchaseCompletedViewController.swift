@@ -196,12 +196,14 @@ class MyPurchaseCompletedViewController: BaseViewController, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) ->
         UITableViewCell {
             let cell : TransactionListCell = self.tableView.dequeueReusableCell(withIdentifier: "TransactionListCell") as! TransactionListCell
+            
+            cell.alpha = 1.0
+            cell.backgroundColor = UIColor.white
+            
             if (!refreshControl.isRefreshing) {
                 let u = userPurchases?[(indexPath as NSIndexPath).item]
                 cell.adaptItem(u!)
             }
-            //cell.layer.shouldRasterize = true
-            //cell.layer.rasterizationScale = UIScreen.main.scale
             return cell
     }
     

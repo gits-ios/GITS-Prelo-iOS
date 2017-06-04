@@ -195,12 +195,15 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: MyLovelistCell = self.tableView.dequeueReusableCell(withIdentifier: "MyLovelistCell") as! MyLovelistCell
+        
         cell.selectionStyle = .none
+        cell.alpha = 1.0
+        cell.backgroundColor = UIColor.white
         cell.delegate = self
+        
         let u = userLovelist?[(indexPath as NSIndexPath).item]
         cell.adapt(u!)
-        //cell.layer.shouldRasterize = true
-        //cell.layer.rasterizationScale = UIScreen.main.scale
+        
         return cell
     }
     
@@ -267,7 +270,9 @@ class MyLovelistCell : UITableViewCell {
     }
     
     func adapt(_ lovedProduct : LovedProduct) {
-        imgProduct.afSetImage(withURL: lovedProduct.productImageURL!)
+        if lovedProduct.productImageURL != nil {
+            imgProduct.afSetImage(withURL: lovedProduct.productImageURL!)
+        }
         lblProductName.text = lovedProduct.name
         lblPrice.text = "\(lovedProduct.price.asPrice)"
         lblCommentCount.text = lovedProduct.numComment.string

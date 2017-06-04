@@ -175,16 +175,20 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
                 let cell : ShopAchievementCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopAchievementCell") as! ShopAchievementCell
                 
                 cell.selectionStyle = .none
+                cell.alpha = 1.0
                 cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
                 cell.clipsToBounds = true
                 
                 let u = userAchievements[(indexPath as NSIndexPath).item]
                 cell.adapt(u)
+                
                 return cell
             } else { // Belum ada badge untuk user ini
                 let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
                 
                 cell?.selectionStyle = .none
+                cell?.alpha = 1.0
+                cell?.backgroundColor = UIColor.white
                 
                 cell?.textLabel!.text = "Belum ada badge untuk user ini"
                 cell?.textLabel!.font = UIFont.systemFont(ofSize: 12)
@@ -197,11 +201,13 @@ class ShopAchievementViewController: BaseViewController, UITableViewDataSource, 
             let cell : ShopAchievementCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopAchievementCell") as! ShopAchievementCell
             
             cell.selectionStyle = .none
+            cell.alpha = 1.0
             cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
             cell.clipsToBounds = true
             
             let u = userAchievements[(indexPath as NSIndexPath).item]
             cell.adapt(u)
+            
             return cell
         }
     }

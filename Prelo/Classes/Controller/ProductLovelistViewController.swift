@@ -146,7 +146,11 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : ProductLovelistCell = self.tblLovers.dequeueReusableCell(withIdentifier: "ProductLovelistCell") as! ProductLovelistCell
         cell.adapt(productLovelistItem: productLovelistItems[indexPath.row])
+        
         cell.selectionStyle = .none
+        cell.alpha = 1.0
+        cell.backgroundColor = UIColor.white
+        
         cell.chatPressed = {
 //            self.tblLovers.isHidden = true
             self.showLoading()
@@ -204,8 +208,6 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
                 }
             }
         }
-        //cell.layer.shouldRasterize = true
-        //cell.layer.rasterizationScale = UIScreen.main.scale
         
         return cell
     }

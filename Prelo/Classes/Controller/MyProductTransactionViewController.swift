@@ -150,12 +150,15 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell : NotifAnggiTransactionCell = self.tableView.dequeueReusableCell(withIdentifier: "NotifAnggiTransactionCell") as? NotifAnggiTransactionCell {
             if ((indexPath as NSIndexPath).item < self.userProducts.count) {
+                
                 cell.selectionStyle = .none
+                cell.alpha = 1.0
+                cell.backgroundColor = UIColor.white
                 cell.isDiffUnread = false
+                
                 let p = userProducts[(indexPath as NSIndexPath).item]
                 cell.adapt(p, idx: (indexPath as NSIndexPath).item)
-                //cell.layer.shouldRasterize = true
-                //cell.layer.rasterizationScale = UIScreen.main.scale
+                
                 return cell
             }
         }

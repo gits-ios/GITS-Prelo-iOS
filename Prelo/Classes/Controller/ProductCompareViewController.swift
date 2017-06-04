@@ -150,7 +150,11 @@ class ProductCompareViewController : BaseViewController, UITableViewDelegate, UI
         // Product cell
         let cell : ProductCompareCell = self.tableView.dequeueReusableCell(withIdentifier: "ProductCompareCell") as! ProductCompareCell
         cell.adapt(productCompareItem: productCompareItems[indexPath.row - 1])
+        
         cell.selectionStyle = .none
+        cell.alpha = 1.0
+        cell.backgroundColor = UIColor.white
+        
         cell.buyPressed = {
             var success = true
             if (CartProduct.getOne(self.productCompareItems[indexPath.row - 1].id, email: User.EmailOrEmptyString) == nil) {
@@ -165,8 +169,6 @@ class ProductCompareViewController : BaseViewController, UITableViewDelegate, UI
                 self.navigationController?.pushViewController(c, animated: true)
             }
         }
-        //cell.layer.shouldRasterize = true
-        //cell.layer.rasterizationScale = UIScreen.main.scale
         return cell
     }
     
