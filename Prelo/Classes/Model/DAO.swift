@@ -2507,42 +2507,56 @@ class LovedProduct : NSObject {
     }
     
     var id : String {
-        let i = (json["_id"].string)!
-        return i
+        if let i = (json["_id"].string) {
+            return i
+        }
+        return ""
     }
     
     var name : String {
-        let n = (json["name"].string)!
-        return n
+        if let n = (json["name"].string) {
+            return n
+        }
+        return ""
     }
     
     var price : Int {
-        let p = (json["price"].int)!
-        return p
+        if let p = (json["price"].int) {
+            return p
+        }
+        return 0
     }
     
     var priceOriginal : Int {
-        let p = (json["price_original"].int)!
-        return p
+        if let p = (json["price_original"].int) {
+            return p
+        }
+        return 0
     }
     
     var numLovelist : Int {
-        let n = (json["num_lovelist"].int)!
-        return n
+        if let n = (json["num_lovelist"].int) {
+            return n
+        }
+        return 0
     }
     
     var numComment : Int {
-        let n = (json["num_comment"].int)!
-        return n
+        if let n = (json["num_comment"].int) {
+            return n
+        }
+        return 0
     }
     
     var productImageURL : URL? {
-        if (json["display_picts"][0].string == nil)
-        {
-            return nil
+        if let arr = json["display_picts"].array {
+            for i in arr {
+                if let j = i.string {
+                    return URL(string: j)
+                }
+            }
         }
-        let url = json["display_picts"][0].string!
-        return URL(string: url)
+        return nil
     }
 }
 

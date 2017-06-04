@@ -191,7 +191,11 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell : NotifAnggiTransactionCell = self.tableView.dequeueReusableCell(withIdentifier: "NotifAnggiTransactionCell") as? NotifAnggiTransactionCell, notifications != nil, notifications!.count > (indexPath as NSIndexPath).item {
+            
             cell.selectionStyle = .none
+            cell.alpha = 1.0
+            cell.backgroundColor = UIColor.white
+            
             if let n = notifications?[(indexPath as NSIndexPath).item] {
                 cell.adapt(n, idx: (indexPath as NSIndexPath).item)
                 cell.delegate = self
@@ -216,8 +220,6 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
                     cell.vwOverlay.isHidden = true
                 }
             }
-            //cell.layer.shouldRasterize = true
-            //cell.layer.rasterizationScale = UIScreen.main.scale
             
             return cell
         }

@@ -315,6 +315,9 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 let idx = (indexPath as NSIndexPath).row
                 let p = localProducts[idx]
                 
+                cell.alpha = 1.0
+                cell.backgroundColor = UIColor.white
+                
                 cell.lblProductName.text = p.name
                 cell.lblPrice.text = p.price.int.asPrice
                 cell.lblOrderTime.text = ""
@@ -352,11 +355,11 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 cell.vwShareStatus.isHidden = false
                 
                 cell.lblPercentage.text = "90%"
-                
-                //cell.layer.shouldRasterize = true
-                //cell.layer.rasterizationScale = UIScreen.main.scale
             } else {
                 let p = products[(indexPath as NSIndexPath).row]
+                
+                cell.alpha = 1.0
+                cell.backgroundColor = UIColor.white
                 
                 cell.lblProductName.text = p.name
                 cell.lblPrice.text = p.price
@@ -413,9 +416,6 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                     cell.lblTwitter.textColor = Theme.PrimaryColor
                 }
                 cell.lblPercentage.text = "\(100 - p.commission)%"
-                
-                //cell.layer.shouldRasterize = true
-                //cell.layer.rasterizationScale = UIScreen.main.scale
             }
         }
         

@@ -166,8 +166,8 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
             cell.isBottomCell = true
             cell.adapt()
             
-            //cell.layer.shouldRasterize = true
-            //cell.layer.rasterizationScale = UIScreen.main.scale
+            cell.alpha = 1.0
+            cell.backgroundColor = UIColor.white
             
             return cell
         } else {
@@ -195,8 +195,8 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
                 cell?.detailTextLabel?.text = subtitles[(indexPath as NSIndexPath).row]
             }
             
-            cell?.layer.shouldRasterize = true
-            cell?.layer.rasterizationScale = UIScreen.main.scale
+            cell?.alpha = 1.0
+            cell?.backgroundColor = UIColor.white
             
             return cell!
         }
