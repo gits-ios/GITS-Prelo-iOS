@@ -2442,12 +2442,12 @@ class ListItemCell : UICollectionViewCell {
             
             // affiliate checkout -> hunstreet
             if product.isCheckout {
-                //self.imgFreeOngkir.afSetImage(withURL: (product.AffiliateData?.icon)!, withFilter: .circle)
-                if let url = product.avatar {
+                self.imgFreeOngkir.afSetImage(withURL: (product.AffiliateData?.icon)!, withFilter: .circle)
+                /*if let url = product.avatar {
                     self.imgFreeOngkir.afSetImage(withURL: url, withFilter: .circle)
                 } else if currentMode == .shop || currentMode == .newShop {
                     self.imgFreeOngkir.afSetImage(withURL: shopAvatar!, withFilter: .circle)
-                }
+                }*/
                 self.imgFreeOngkir.isHidden = false
             } else {
                 self.imgFreeOngkir.image = UIImage(named: "ic_free_ongkir")
