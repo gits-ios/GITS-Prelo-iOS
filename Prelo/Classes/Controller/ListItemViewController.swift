@@ -193,6 +193,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     // filter
     var isHiddenTop = false
     
+    // need refresh
+    var curTime = NSDate().timeIntervalSince1970 // init time
+    var interval: Double = 3600.0 * 3 // 3 hours
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -428,6 +432,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                                             qos: .background,
                                             target: nil)
         backgroundQueue.async {
+            
         if (!self.isContentLoaded) {
             self.isContentLoaded = true
             
@@ -617,12 +622,24 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 })
                 // Get initial products
                 self.getInitialProducts()
+                
+                // ads
+                if (self.currentMode == .filter || self.currentMode == .default) {
+                    self.configureAdManagerAndLoadAds()
+                }
             }
-            }
+            } else if (self.products != nil && (self.products?.count)! <= 24) || self.currentMode == .featured {
             
-            // ads
-            if (self.currentMode == .filter || self.currentMode == .default) {
-                self.configureAdManagerAndLoadAds()
+                // refrsher
+                let _curTime = NSDate().timeIntervalSince1970
+            
+                if (_curTime - self.curTime) >= self.interval {
+                    self.curTime = _curTime
+                    
+                    self.refresher?.beginRefreshing()
+                    
+                    self.refresh()
+                }
             }
         }
     }
@@ -651,7 +668,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         self.products = []
         self.done = false
         self.footerLoading?.isHidden = false
-        self.setupGrid() // Agar muncul loading
+        self.gridView.reloadData()
+        //self.setupGrid() // Agar muncul loading
         
         switch (currentMode) {
         case .shop, .filter, .newShop:
