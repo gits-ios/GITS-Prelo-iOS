@@ -59,6 +59,8 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     
     var totalPreloBalance : Int = 0
     
+    var isRefreshing = false
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -94,6 +96,8 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     }
     
     func refreshTable() {
+        self.isRefreshing = true
+        
         // Reset data
         self.balanceMutationItems = []
         self.nextIdx = 0
@@ -164,6 +168,8 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
             
             // Show content
             self.showContent()
+            
+            self.isRefreshing = false
         }
     }
     
@@ -189,16 +195,19 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : BalanceMutationCell = self.tblMutation.dequeueReusableCell(withIdentifier: "BalanceMutationCell") as! BalanceMutationCell
         if balanceMutationItems?.count > 0 {
+            
+            cell.selectionStyle = .none
+            cell.alpha = 1.0
+            cell.backgroundColor = UIColor.white
+            
             if let b = balanceMutationItems?[(indexPath as NSIndexPath).item] {
                 cell.adapt(b)
                 if b.isHold {
                     cell.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1) //UIColor(hex: "E5E9EB")
-                } else {
-                    cell.backgroundColor = UIColor.clear
                 }
             }
         }
-        cell.selectionStyle = .none
+        
         return cell
     }
     
@@ -236,7 +245,7 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
         let h : CGFloat = size.height
         
         let reloadDistance : CGFloat = 0
-        if (y > h + reloadDistance && self.balanceMutationItems?.count > 0) {
+        if (y > h + reloadDistance && !self.isRefreshing) {
             // Load next items only if all items not loaded yet and if its not currently loading items
             if (!self.isAllItemLoaded && self.bottomLoadingPanel.isHidden) {
                 // Show bottomLoading

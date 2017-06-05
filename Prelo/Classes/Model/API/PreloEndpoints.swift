@@ -111,6 +111,8 @@ extension URLRequest {
             urlRequest.setValue(userAgent, forHTTPHeaderField: "User-Agent")
         }
         
+        urlRequest.setValue("gzip", forHTTPHeaderField: "Accept-Encoding")
+        
         // Set crashlytics custom key
         Crashlytics.sharedInstance().setObjectValue(urlRequest, forKey: "last_req_url")
         
