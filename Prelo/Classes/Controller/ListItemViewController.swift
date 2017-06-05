@@ -427,6 +427,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
     }
     
+    // MARK: - Setup
+    
     func setupContent() {
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
                                             qos: .background,
@@ -2899,5 +2901,54 @@ class StoreInfo : UICollectionViewCell {
         } else {
             self.captionTotal.text = String(count) + " BARANG"
         }
+    }
+}
+
+class ButtonJualView: UIView {
+    var icon: UILabel = UILabel()  // icon foto
+    var label: UILabel = UILabel() // label JUAL
+    var btn: UIButton = UIButton() // button
+    
+    var parent: UIViewController!
+    var currentPage: String!
+    
+    func addCustomView(parent: UIViewController, currentPage: String) {
+        self.parent = parent
+        self.currentPage = currentPage
+        
+        self.frame = CGRect(x: 0, y: 0, width: 64, height: 64)
+        self.backgroundColor = Theme.ThemeOrange
+        
+        icon.frame = CGRect(x: 8, y: 12, width: 48, height: 26)
+        icon.textColor = UIColor.white
+        icon.textAlignment = NSTextAlignment.center
+        icon.text = ""
+        icon.font = AppFont.preloAwesome.getFont(22)!
+        self.addSubview(icon)
+        
+        label.frame = CGRect(x: 15, y: 38, width: 34.5, height: 16)
+        label.textColor = UIColor.white
+        label.textAlignment = NSTextAlignment.center
+        label.text = "JUAL"
+        label.font = UIFont.boldSystemFont(ofSize: 13)
+        self.addSubview(label)
+        
+        btn.frame = CGRect(x: 0, y: 0, width: 64, height: 64)
+        btn.backgroundColor = UIColor.clear
+        btn.addTarget(self, action: #selector(ButtonJualView.sellPressed(_:)), for: UIControlEvents.touchUpInside)
+        
+        self.addSubview(btn)
+        
+        self.layoutIfNeeded()
+        self.layer.cornerRadius = (self.frame.size.width) / 2
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOffset = CGSize(width: 0, height: 5)
+        self.layer.shadowOpacity = 0.3
+    }
+    
+    func sellPressed(_ sender: AnyObject) {
+        let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
+        add.screenBeforeAddProduct = self.currentPage
+        self.parent.navigationController?.pushViewController(add, animated: true)
     }
 }
