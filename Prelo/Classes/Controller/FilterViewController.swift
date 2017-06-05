@@ -362,7 +362,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
             let filterlocation = Bundle.main.loadNibNamed(Tags.XibNameLocationFilter, owner: nil, options: nil)?.first as! LocationFilterViewController
             filterlocation.root = self
             filterlocation.blockDone = { data in
-                print(data)
+                //print(data)
                 self.locationId = data[1]
 //                self.locationName = data[0]
                 self.locationType = data[2].int

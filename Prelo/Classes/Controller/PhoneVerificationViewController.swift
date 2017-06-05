@@ -144,7 +144,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.right:
-                print("Swiped right")
+                //print("Swiped right")
                 
                 let alertView = SCLAlertView(appearance: Constant.appearance)
                 alertView.addButton("Keluar") {
@@ -157,13 +157,6 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                 alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
                 alertView.showCustom("Perhatian", subTitle: "Verifikasi belum selesai. Halaman ini akan muncul lagi lain kali kamu login. Keluar?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
                 
-                
-            case UISwipeGestureRecognizerDirection.down:
-                print("Swiped down")
-            case UISwipeGestureRecognizerDirection.left:
-                print("Swiped left")
-            case UISwipeGestureRecognizerDirection.up:
-                print("Swiped up")
             default:
                 break
             }

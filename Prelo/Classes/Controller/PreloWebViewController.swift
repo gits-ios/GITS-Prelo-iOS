@@ -86,7 +86,7 @@ class PreloWebViewController: UIViewController, UIWebViewDelegate
         loading.startAnimating()
         
         //let currentURL = webView.request // Not incoming URL
-        //print(currentURL)
+        ////print(currentURL)
     }
     
     func webViewDidFinishLoad(_ webView: UIWebView) {
@@ -95,17 +95,17 @@ class PreloWebViewController: UIViewController, UIWebViewDelegate
         loading.stopAnimating()
         
         //let currentURL = webView.request?.URL // Incoming URL
-        //print(currentURL)
+        ////print(currentURL)
     }
     
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
-        print("Load webview failed!")
+        //print("Load webview failed!")
     }
     
     func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         let auth = request.value(forHTTPHeaderField: "Authorization")
-        print("Auth = \(auth)")
-        print("URL = \(webView.request?.url), INCOMING REQUEST = \(request), NAVIGATION TYPE = \(navigationType.rawValue)")
+        //print("Auth = \(auth)")
+        //print("URL = \(webView.request?.url), INCOMING REQUEST = \(request), NAVIGATION TYPE = \(navigationType.rawValue)")
         
         if (creditCardMode) {
             let incomingURL = request.url

@@ -182,7 +182,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
-                print("Transaction detail: \(data)")
+                //print("Transaction detail: \(data)")
                 
                 // Set label text and image
                 self.transactionDetail = TransactionProductDetail.instance(data)
@@ -231,7 +231,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         // lblAlamatPengiriman height fix
         let lblAlamatPengirimanHeight = lblAlamatPengiriman.frame.size.height
         let sizeThatShouldFitTheContent = lblAlamatPengiriman.sizeThatFits(lblAlamatPengiriman.frame.size)
-        //print("sizeThatShouldFitTheContent.height = \(sizeThatShouldFitTheContent.height)")
+        ////print("sizeThatShouldFitTheContent.height = \(sizeThatShouldFitTheContent.height)")
         consHeightGroupPengiriman.constant = consHeightGroupPengiriman.constant + sizeThatShouldFitTheContent.height - lblAlamatPengirimanHeight
         consHeightAlamatPengiriman.constant = sizeThatShouldFitTheContent.height
         var groupPengirimanFrame : CGRect = groupPengiriman.frame
@@ -403,7 +403,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
                 if (sender == b) {
                     isFound = true
                     loveValue = i + 1
-                    print("loveValue = \(loveValue)")
+                    //print("loveValue = \(loveValue)")
                 }
                 lblsRvwLove[i].text = ""
             } else {
@@ -442,7 +442,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
                 let json = JSON(resp.result.value!)
                 let dataBool : Bool = json["_data"].boolValue
                 let dataInt : Int = json["_data"].intValue
-                //print("dataBool = \(dataBool), dataInt = \(dataInt)")
+                ////print("dataBool = \(dataBool), dataInt = \(dataInt)")
                 if (dataBool == true || dataInt == 1) {
                     Constant.showDialog("Success", message: "Review berhasil ditambahkan")
                 } else {

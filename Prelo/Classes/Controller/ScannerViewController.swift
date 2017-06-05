@@ -179,7 +179,7 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
     }
     
     func found(code: String) {
-        print(code)
+        //print(code)
     }
     
     override var prefersStatusBarHidden: Bool {
