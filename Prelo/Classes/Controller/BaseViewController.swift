@@ -157,6 +157,9 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         search.addTarget(self, action: #selector(BaseViewController.launchSearch), for: UIControlEvents.touchUpInside)
         
         self.navigationItem.rightBarButtonItems = [troli.toBarButton(), bell.toBarButton(), search.toBarButton()]
+        
+        // badge notif update
+        UIApplication.shared.applicationIconBadgeNumber = newNotifCount!
     }
 
     func setupTitle() {

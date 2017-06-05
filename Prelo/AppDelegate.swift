@@ -275,7 +275,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UserDefaults.setObjectAndSync(userAgent as AnyObject?, forKey: UserDefaultsKey.UserAgent)
         
         // Remove app badge if any
-        UIApplication.shared.applicationIconBadgeNumber = 0
+        //UIApplication.shared.applicationIconBadgeNumber = 0
         
         // Set status bar color
         self.setStatusBarBackgroundColor(color: UIColor.clear)
@@ -646,7 +646,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Remove app badge if any
         // show badge
-        UIApplication.shared.applicationIconBadgeNumber = 0 //User.getNotifCount() as NSInteger
+        //UIApplication.shared.applicationIconBadgeNumber = 0 //User.getNotifCount() as NSInteger
         
         // AppsFlyer
         // Track Installs, updates & sessions(app opens) (You must include this API to enable tracking)
