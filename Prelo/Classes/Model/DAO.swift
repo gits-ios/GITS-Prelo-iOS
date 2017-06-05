@@ -4251,21 +4251,21 @@ class AffiliateItem : NSObject {
     
     var confirmPaymentUrl : String? {
         if let j = json["confirm_payment_url"].string {
-            return j.replace("https://", template: "http://")
+            return j //.replace("https://", template: "http://")
         }
         return nil
     }
     
     var transactionDetailUrl : String? {
         if let j = json["transaction_detail_url"].string {
-            return j.replace("https://", template: "http://")
+            return j //.replace("https://", template: "http://")
         }
         return nil
     }
     
     var refundTransactionUrl : String? {
         if let j = json["refund_transaction_url"].string {
-            return j.replace("https://", template: "http://")
+            return j //.replace("https://", template: "http://")
         }
         return nil
     }
