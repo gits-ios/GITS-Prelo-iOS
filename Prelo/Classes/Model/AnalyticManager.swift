@@ -72,7 +72,7 @@ class AnalyticManager: NSObject {
         
         // not allow
         if !isWhiteList(eventType) {
-            print("Analytics - " + eventType + ", Disabled")
+            //print("Analytics - " + eventType + ", Disabled")
             if self.isShowDialog {
                 Constant.showDialog("Analytics - " + eventType, message: "BlackList")
             }
@@ -83,7 +83,7 @@ class AnalyticManager: NSObject {
         
         let _ = request(APIAnalytic.event(eventType: eventType, data: wrappedData)).responseJSON {resp in
             if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - " + eventType)) {
-                print("Analytics - " + eventType + ", Sent!")
+                //print("Analytics - " + eventType + ", Sent!")
                 if self.isShowDialog {
                     Constant.showDialog("Analytics - " + eventType, message: "Success")
                 }
@@ -96,7 +96,7 @@ class AnalyticManager: NSObject {
         
         // not allow
         if !isWhiteList(eventType) {
-            print("Analytics - " + eventType + ", Disabled")
+            //print("Analytics - " + eventType + ", Disabled")
             if self.isShowDialog {
                 Constant.showDialog("Analytics - " + eventType, message: "BlackList")
             }
@@ -107,7 +107,7 @@ class AnalyticManager: NSObject {
         
         let _ = request(APIAnalytic.eventWithUserId(eventType: eventType, data: wrappedData, userId: userId)).responseJSON {resp in
             if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - " + eventType)) {
-                print("Analytics - " + eventType + ", Sent!")
+                //print("Analytics - " + eventType + ", Sent!")
                 if self.isShowDialog {
                     Constant.showDialog("Analytics - " + eventType, message: "Success")
                 }
@@ -120,7 +120,7 @@ class AnalyticManager: NSObject {
         let eventType = PreloAnalyticEvent.OpenApp
         let _ = request(APIAnalytic.eventOpenApp).responseJSON {resp in
             if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - User")) {
-                print("Analytics - " + eventType + ", Sent!")
+                //print("Analytics - " + eventType + ", Sent!")
                 if self.isShowDialog {
                     Constant.showDialog("Analytics - " + eventType, message: "Success")
                 }
@@ -133,7 +133,7 @@ class AnalyticManager: NSObject {
         if (User.IsLoggedIn) {
             let _ = request(APIAnalytic.user(isNeedPayload: isNeedPayload)).responseJSON {resp in
                 if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - User")) {
-                    print("Analytics - User, Sent!")
+                    //print("Analytics - User, Sent!")
                     if self.isShowDialog {
                         Constant.showDialog("Analytics - User", message: "Success")
                     }
@@ -146,7 +146,7 @@ class AnalyticManager: NSObject {
     func registerUser(method: String, metadata: JSON) {
         let _ = request(APIAnalytic.userRegister(registerMethod: method, metadata: metadata)).responseJSON {resp in
             if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - User")) {
-                print("Analytics - User, Sent!")
+                //print("Analytics - User, Sent!")
                 if self.isShowDialog {
                     Constant.showDialog("Analytics - User", message: "Success")
                 }
@@ -158,7 +158,7 @@ class AnalyticManager: NSObject {
     func initUser(userProfileData: UserProfile) {
         let _ = request(APIAnalytic.userInit(userProfileData: userProfileData)).responseJSON {resp in
             if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - User")) {
-                print("Analytics - User, Sent!")
+                //print("Analytics - User, Sent!")
                 if self.isShowDialog {
                     Constant.showDialog("Analytics - User", message: "Success")
                 }
@@ -170,7 +170,7 @@ class AnalyticManager: NSObject {
     func updateUserPhone(phone: String) {
         let _ = request(APIAnalytic.userUpdate(phone: phone)).responseJSON {resp in
             if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - User")) {
-                print("Analytics - User, Sent!")
+                //print("Analytics - User, Sent!")
                 if self.isShowDialog {
                     Constant.showDialog("Analytics - User", message: "Success")
                 }

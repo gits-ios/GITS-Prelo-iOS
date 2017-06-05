@@ -37,7 +37,7 @@ class PreloAnalyticEndpoints: NSObject {
             Crashlytics.sharedInstance().setObjectValue(resJson.stringValue, forKey: "last_api_result_string")
         }
         
-        print("\(reqAlias) req = \(req)")
+        //print("\(reqAlias) req = \(req)")
         
         if let response = resp {
             if (response.statusCode != 200) {
@@ -46,7 +46,7 @@ class PreloAnalyticEndpoints: NSObject {
                         if (showErrorDialog) {
                             Constant.showDialog(reqAlias, message: msg)
                         }
-                        print("\(reqAlias) _message = \(msg)")
+                        //print("\(reqAlias) _message = \(msg)")
                         
                         if (msg.lowercased() == "user belum login") {
                             User.Logout()
@@ -85,12 +85,12 @@ class PreloAnalyticEndpoints: NSObject {
             if (showErrorDialog) {
                 Constant.showDialog(reqAlias, message: "Oops, terdapat kesalahan, silahkan coba beberapa saat lagi")
             }
-            print("\(reqAlias) err = \(error.localizedDescription)")
+            //print("\(reqAlias) err = \(error.localizedDescription)")
             return false
         } else {
             let json = JSON(res!)
             let data = json["_data"]
-            print("\(reqAlias) _data = \(data)")
+            //print("\(reqAlias) _data = \(data)")
             return true
         }
     }
@@ -333,7 +333,7 @@ enum APIAnalytic : URLRequestConvertible {
                 "data" : d
             ]
         }
-        print(p.debugDescription)
+        //print(p.debugDescription)
         return p
     }
 }

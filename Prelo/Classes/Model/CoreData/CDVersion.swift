@@ -57,9 +57,9 @@ class CDVersion: NSManagedObject {
         }
         
         if (m.saveSave() == false) {
-            print("saveVersion failed")
+            //print("saveVersion failed")
         } else {
-            print("saveVersion success")
+            //print("saveVersion success")
         }
     }
 }
