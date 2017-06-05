@@ -218,6 +218,11 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
             notifListener?.setCartCount(0)
         }
         
+        if (GIDSignIn.sharedInstance().hasAuthInKeychain()) {
+            GIDSignIn.sharedInstance().signOut()
+            print("masukSignOut")
+        }
+        
         /*
         // Reset mixpanel
         Mixpanel.sharedInstance().reset()
