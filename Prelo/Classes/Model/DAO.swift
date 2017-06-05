@@ -1086,6 +1086,20 @@ open class ProductDetail : NSObject, TawarItem
         }
         return ""
     }
+    
+    var isCheckout : Bool {
+        if let j = json["_data"]["affiliate_data"]["affiliate_type"].string {
+            return (j.lowercased() == "checkout")
+        }
+        return false
+    }
+    
+    var AffiliateData : AffiliateItem? {
+        if let j = AffiliateItem.instance(json["_data"]["affiliate_data"]) {
+            return j
+        }
+        return nil
+    }
 }
 
 open class Product : NSObject
@@ -1313,10 +1327,24 @@ open class Product : NSObject
     }
     
     var isAffiliate : Bool {
-        if let _ = json["affiliate_data"]["affiliate_name"].string {
+        if let _ = json["affiliate_data"]["affiliate_name"].string, !self.isCheckout {
             return true
         }
         return false
+    }
+    
+    var isCheckout : Bool {
+        if let j = json["affiliate_data"]["affiliate_type"].string {
+            return (j.lowercased() == "checkout")
+        }
+        return false
+    }
+    
+    var AffiliateData : AffiliateItem? {
+        if let j = AffiliateItem.instance(json["affiliate_data"]) {
+            return j
+        }
+        return nil
     }
 }
 
@@ -1953,6 +1981,20 @@ class TransactionDetail : NSObject {
         }
         return ""
     }
+    
+    var isAffiliate : Bool {
+        if let _ = json["affiliate_data"]["affiliate_name"].string {
+            return true
+        }
+        return false
+    }
+    
+    var AffiliateData : AffiliateItem? {
+        if let j = AffiliateItem.instance(json["affiliate_data"]) {
+            return j
+        }
+        return nil
+    }
 }
 
 class TransactionProductDetail : NSObject {
@@ -2447,6 +2489,20 @@ class TransactionProductDetail : NSObject {
             return j.string
         }
         return "6" // default
+    }
+    
+    var isAffiliate : Bool {
+        if let _ = json["affiliate_data"]["affiliate_name"].string {
+            return true
+        }
+        return false
+    }
+    
+    var AffiliateData : AffiliateItem? {
+        if let j = AffiliateItem.instance(json["affiliate_data"]) {
+            return j
+        }
+        return nil
     }
 }
 
@@ -4852,6 +4908,83 @@ class ProductItem : NSObject {
     var errorMessage : String? {
         if let j = json["_error"].string {
             return j
+        }
+        return nil
+    }
+}
+
+class AffiliateItem : NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> AffiliateItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = AffiliateItem()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var url : URL? {
+        if let j = json["affiliate_url"].string {
+            return URL(string: j)!
+        }
+        return nil
+    }
+    
+    var type : String? {
+        if let j = json["affiliate_type"].string {
+            return j
+        }
+        return nil
+    }
+    
+    var icon : URL? {
+        if let j = json["affiliate_icon"].string {
+            return URL(string: j)!
+        }
+        return nil
+    }
+    
+    var name : String? {
+        if let j = json["affiliate_name"].string {
+            return j
+        }
+        return nil
+    }
+    
+    var productId : String? {
+        if let j = json["affiliate_product_id"].string {
+            return j
+        }
+        return nil
+    }
+    
+    var checkoutUrlPattern : String? {
+        if let j = json["checkout_url_pattern"].string {
+            return j
+        }
+        return nil
+    }
+    
+    var confirmPaymentUrl : String? {
+        if let j = json["confirm_payment_url"].string {
+            return j //.replace("https://", template: "http://")
+        }
+        return nil
+    }
+    
+    var transactionDetailUrl : String? {
+        if let j = json["transaction_detail_url"].string {
+            return j //.replace("https://", template: "http://")
+        }
+        return nil
+    }
+    
+    var refundTransactionUrl : String? {
+        if let j = json["refund_transaction_url"].string {
+            return j //.replace("https://", template: "http://")
         }
         return nil
     }
