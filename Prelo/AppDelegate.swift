@@ -15,6 +15,7 @@ import Bolts
 import FBSDKCoreKit
 import Alamofire
 import AVFoundation
+import AlamofireImage
 
 //import AdobeCreativeSDKCore
 
