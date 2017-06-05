@@ -2439,6 +2439,19 @@ class ListItemCell : UICollectionViewCell {
             } else {
                 buttonLoveChange(isLoved: false)
             }
+            
+            // affiliate checkout -> hunstreet
+            if product.isCheckout {
+                //self.imgFreeOngkir.afSetImage(withURL: (product.AffiliateData?.icon)!, withFilter: .circle)
+                if let url = product.avatar {
+                    self.imgFreeOngkir.afSetImage(withURL: url, withFilter: .circle)
+                } else if currentMode == .shop || currentMode == .newShop {
+                    self.imgFreeOngkir.afSetImage(withURL: shopAvatar!, withFilter: .circle)
+                }
+                self.imgFreeOngkir.isHidden = false
+            } else {
+                self.imgFreeOngkir.image = UIImage(named: "ic_free_ongkir")
+            }
         } else {
             btnLove.isHidden = true
             consbtnWidthLove.constant = 0
@@ -2751,6 +2764,9 @@ class StoreInfo : UICollectionViewCell {
     @IBOutlet var vwLove: UIView!
     var floatRatingView: FloatRatingView!
     
+    @IBOutlet weak var vwVerified: UIView!
+    @IBOutlet weak var consHeightVwVerified: NSLayoutConstraint!
+    
     static func heightFor(_ json: JSON, isExpand: Bool) -> CGFloat {
         var height = 21 + 94
         var completeDesc = ""
@@ -2777,6 +2793,10 @@ class StoreInfo : UICollectionViewCell {
             height += Int(completeDesc.boundsWithFontSize(UIFont.systemFont(ofSize: 16), width: UIScreen.main.bounds.width-24).height)
         }
         
+        if let isAffiliate = json["is_affiliate"].bool, isAffiliate {
+            height += 21
+        }
+        
         return CGFloat(height)
     }
     
@@ -2800,6 +2820,13 @@ class StoreInfo : UICollectionViewCell {
         
         self.vwLove.addSubview(self.floatRatingView )
         
+        if let isAffiliate = json["is_affiliate"].bool, isAffiliate {
+            self.vwVerified.isHidden = false
+            self.consHeightVwVerified.constant = 21
+        } else {
+            self.vwVerified.isHidden = true
+            self.consHeightVwVerified.constant = 0
+        }
         
         // Last seen
         if let lastSeenDateString = json["others"]["last_seen"].string {
