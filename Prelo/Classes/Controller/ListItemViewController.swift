@@ -2917,7 +2917,7 @@ class ButtonJualView: UIView {
         self.currentPage = currentPage
         
         self.frame = CGRect(x: 0, y: 0, width: 64, height: 64)
-        self.backgroundColor = Theme.ThemeOrange
+        self.backgroundColor = UIColor.init(hexString: "#FD9226")
         
         icon.frame = CGRect(x: 8, y: 12, width: 48, height: 26)
         icon.textColor = UIColor.white

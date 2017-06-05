@@ -271,7 +271,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         
         // jual
         let vw = ButtonJualView()
-        vw.addCustomView(parent: self, currentPage: PageName.SearchResult)
+        vw.addCustomView(parent: self, currentPage: PageName.ShopMine)
         
         vw.center.x = UIScreen.main.bounds.width / 2 // center horizontaly
         vw.center.y = self.view.bounds.height + vw.bounds.height / 2 - 12
