@@ -210,14 +210,20 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
             if (self.userReviews.count > 0) {
                 if ((indexPath as NSIndexPath).section == 0) {
                     let cell : ShopReviewAverageCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewAverageCell") as! ShopReviewAverageCell
+                    
                     cell.selectionStyle = .none
+                    cell.alpha = 1.0
+                    cell.backgroundColor = UIColor.white
+                    
                     cell.adapt(self.averageRate)
+                    
                     return cell
                 } else if ((indexPath as NSIndexPath).section == 2) {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell") as! ButtonCell
                     
                     cell.selectionStyle = .none
-                    cell.backgroundColor = UIColor.clear
+                    cell.alpha = 1.0
+                    cell.backgroundColor = UIColor.white
                     cell.clipsToBounds = true
                     cell.separatorInset = UIEdgeInsetsMake(0, UIScreen.main.bounds.size.width, 0, 0);
                     
@@ -242,15 +248,22 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
                     
                 } else {
                     let cell : ShopReviewCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
+                    
                     cell.selectionStyle = .none
+                    cell.alpha = 1.0
+                    cell.backgroundColor = UIColor.white
+                    
                     let u = userReviews[(indexPath as NSIndexPath).row]
                     cell.adapt(u)
+                    
                     return cell
                 }
             } else { // Belum ada review untuk user ini
                 let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
                 
                 cell?.selectionStyle = .none
+                cell?.alpha = 1.0
+                cell?.backgroundColor = UIColor.white
                 
                 cell?.textLabel!.text = "Belum ada review untuk user ini"
                 cell?.textLabel!.font = UIFont.systemFont(ofSize: 12)
@@ -261,9 +274,14 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
             }
         } else {
             let cell : ShopReviewCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
+            
             cell.selectionStyle = .none
+            cell.alpha = 1.0
+            cell.backgroundColor = UIColor.white
+            
             let u = userReviews[(indexPath as NSIndexPath).row]
             cell.adapt(u)
+            
             return cell
         }
     }
@@ -275,7 +293,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
             shopReviewVC.sellerName = self.sellerName
             self.navigationController?.pushViewController(shopReviewVC, animated: true)
         }
-        //print("Row \(indexPath.row) selected")
+        ////print("Row \(indexPath.row) selected")
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath:  IndexPath) -> CGFloat {

@@ -185,7 +185,7 @@ class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate, UIIma
                 self.apImage.image = result
                 self.imageView.image = result
             } else {
-                print("Error highres render: \(error)")
+                //print("Error highres render: \(error)")
                 self.apImage.image = image
                 self.imageView.image = image
             }

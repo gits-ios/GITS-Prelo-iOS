@@ -241,34 +241,32 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             
             cell.captionTitle?.text = m["title"]
             cell.selectionStyle = .none
-            
             return cell
             
         } else if m["type"] == "text" || m["type"] == "text-separator" {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "BottomCell")
+            let cell: BottomCell = tableView.dequeueReusableCell(withIdentifier: "BottomCell") as! BottomCell
             
-            cell?.textLabel?.font = UIFont.systemFont(ofSize: 16)
-            cell?.textLabel?.textColor = UIColor(hex: "555555")
+            cell.textLabel?.font = UIFont.systemFont(ofSize: 16)
+            cell.textLabel?.textColor = UIColor(hex: "555555")
             
-            cell?.textLabel!.text = m["title"]
-            cell?.selectionStyle = .none
+            cell.textLabel!.text = m["title"]
+            cell.selectionStyle = .none
             
             if m["type"] == "text-separator" {
                 let inView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: 1), backgroundColor: UIColor(hex: "AAAAAA"))
             
-                cell?.contentView.addSubview(inView)
+                cell.contentView.addSubview(inView)
             } else {
                 
-                cell?.contentView.removeAllSubviews()
+                cell.contentView.removeAllSubviews()
             }
-            return cell!
+            return cell
 
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "BottomCell")
-            cell?.textLabel!.text = ""
-            cell?.selectionStyle = .none
-            
-            return cell!
+            let cell: BottomCell = tableView.dequeueReusableCell(withIdentifier: "BottomCell") as! BottomCell
+            cell.textLabel!.text = ""
+            cell.selectionStyle = .none
+            return cell
         }
     }
     
@@ -543,18 +541,18 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             self.feedback?.disposePopUp = {
                 self.feedback?.isHidden = true
                 self.feedback = nil
-                print("Start remove sibview")
+                //print("Start remove sibview")
                 if let viewWithTag = self.view.viewWithTag(100) {
                     viewWithTag.removeFromSuperview()
                 } else {
-                    print("No!")
+                    //print("No!")
                 }
             }
             
             self.feedback?.sendMail = {
                 let my_device = UserDefaults().value(forKey: UserDefaultsKey.UserAgent)
-                //        print("this is my_device")
-                //        print(my_device)
+                //        //print("this is my_device")
+                //        //print(my_device)
                 
                 //        Constant.showDialog("Device Info", message: String(describing: my_device))
                 
@@ -598,7 +596,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                  **/
                 
                 self.rateApp(appId: "id1027248488") { success in
-                    print("RateApp \(success)")
+                    //print("RateApp \(success)")
                 }
             }
         }
@@ -767,7 +765,7 @@ class FeedbackPopup: UIView, FloatRatingViewDelegate {
         
         let _ = request(APIUser.rateApp(appVersion: appVersion!, rate: Int(self.rate), review: "")).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Rate App")) {
-                print("rated")
+                //print("rated")
                 
                 // Prelo Analytic - Rate
                 self.sentPreloAnalyticRate(false)

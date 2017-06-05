@@ -245,7 +245,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         // lblAlamatPengiriman height fix
         let lblAlamatPengirimanHeight = lblAlamatPengiriman.frame.size.height
         let sizeThatShouldFitTheContent = lblAlamatPengiriman.sizeThatFits(lblAlamatPengiriman.frame.size)
-        //print("sizeThatShouldFitTheContent.height = \(sizeThatShouldFitTheContent.height)")
+        ////print("sizeThatShouldFitTheContent.height = \(sizeThatShouldFitTheContent.height)")
         consHeightGroupPengiriman.constant = consHeightGroupPengiriman.constant + sizeThatShouldFitTheContent.height - lblAlamatPengirimanHeight
         consHeightAlamatPengiriman.constant = (sizeThatShouldFitTheContent.height < 21) ? 21 : sizeThatShouldFitTheContent.height
         var groupPengirimanFrame : CGRect = groupPengiriman.frame
@@ -540,7 +540,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         let userAgent : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String
         
         AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: { op, res in
-            print("KonfKirim res = \(res)")
+            //print("KonfKirim res = \(res)")
             let json = JSON((res ?? [:]))
             let data : Bool? = json["_data"].bool
             if (data == nil || data == false) { // Gagal

@@ -32,10 +32,10 @@ class CDProvince : NSManagedObject {
         }
         
         if (m.saveSave() == false) {
-            print("saveProvincesFromArrayJson failed")
+            //print("saveProvincesFromArrayJson failed")
             return false
         } else {
-            print("saveProvincesFromArrayJson success")
+            //print("saveProvincesFromArrayJson success")
             return true
         }
     }
@@ -63,10 +63,10 @@ class CDProvince : NSManagedObject {
             }
         }
         if (m.saveSave() == true) {
-            print("updateProvincesFromArrayJson success")
+            //print("updateProvincesFromArrayJson success")
         } else {
             isSuccess = false
-            print("updateProvincesFromArrayJson failed")
+            //print("updateProvincesFromArrayJson failed")
         }
         return isSuccess
     }
@@ -95,10 +95,10 @@ class CDProvince : NSManagedObject {
         }
         
         if (m.saveSave() == true) {
-            print("deleteProvincesFromArrayJson success")
+            //print("deleteProvincesFromArrayJson success")
         } else {
             isSuccess = false
-            print("deleteProvincesFromArrayJson failed")
+            //print("deleteProvincesFromArrayJson failed")
         }
         return isSuccess
     }
@@ -109,7 +109,7 @@ class CDProvince : NSManagedObject {
             let p = NSEntityDescription.insertNewObject(forEntityName: "CDProvince", into: m) as! CDProvince
             p.id = provJson["_id"].string!
             p.name = provJson["name"].string!
-            //print("Province \(p.name) added")
+            ////print("Province \(p.name) added")
             for j in 0 ..< provJson["regions"].count {
                 let regJson = provJson["regions"][j]
                 let r = NSEntityDescription.insertNewObject(forEntityName: "CDRegion", into: m) as! CDRegion
@@ -119,15 +119,15 @@ class CDProvince : NSManagedObject {
                 r.idRajaOngkir = regJson["id_rajaongkir"].stringValue
                 r.postalCode = regJson["postal_code"].stringValue
                 p.regions.add(r)
-                //print("Region: \(r.name) added to province: \(p.name)")
+                ////print("Region: \(r.name) added to province: \(p.name)")
             }
         }
         
         if (m.saveSave() == false) {
-            print("saveProvinceRegions failed")
+            //print("saveProvinceRegions failed")
             return false
         }
-        print("saveProvinceRegions success")
+        //print("saveProvinceRegions success")
         return true
     }
 
@@ -142,9 +142,9 @@ class CDProvince : NSManagedObject {
                 }
                 
                 if (m.saveSave() == true) {
-                    print("deleteAll CDProvince success")
+                    //print("deleteAll CDProvince success")
                 } else {
-                    print("deleteAll CDProvince failed")
+                    //print("deleteAll CDProvince failed")
                     return false
                 }
             }

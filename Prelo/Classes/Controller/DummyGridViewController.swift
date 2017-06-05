@@ -29,7 +29,7 @@ class DummyGridViewController: UIViewController, UICollectionViewDataSource, UIC
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("SELECT")
+        //print("SELECT")
     }
     
     var dragging = false
