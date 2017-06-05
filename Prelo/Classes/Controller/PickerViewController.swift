@@ -166,6 +166,9 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
             cell.isBottomCell = true
             cell.adapt()
             
+            cell.alpha = 1.0
+            cell.backgroundColor = UIColor.white
+            
             return cell
         } else {
             var cell = tableView.dequeueReusableCell(withIdentifier: "cell")
@@ -191,6 +194,9 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
                 cell?.detailTextLabel?.adjustsFontSizeToFitWidth = true
                 cell?.detailTextLabel?.text = subtitles[(indexPath as NSIndexPath).row]
             }
+            
+            cell?.alpha = 1.0
+            cell?.backgroundColor = UIColor.white
             
             return cell!
         }

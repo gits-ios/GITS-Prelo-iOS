@@ -51,9 +51,9 @@ class CDUserProfile: NSManagedObject {
                 }
                 
                 if (m.saveSave() != false) {
-                    print("deleteAll CDUserProfile success")
+                    //print("deleteAll CDUserProfile success")
                 } else {
-                    print("deleteAll CDUserProfile failed")
+                    //print("deleteAll CDUserProfile failed")
                     return false
                 }
             }

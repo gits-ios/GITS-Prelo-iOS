@@ -103,6 +103,10 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        if !Reachability.isConnectedToNetwork() {
+            Constant.showDisconnectBanner()
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -153,6 +157,9 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         search.addTarget(self, action: #selector(BaseViewController.launchSearch), for: UIControlEvents.touchUpInside)
         
         self.navigationItem.rightBarButtonItems = [troli.toBarButton(), bell.toBarButton(), search.toBarButton()]
+        
+        // badge notif update
+        UIApplication.shared.applicationIconBadgeNumber = newNotifCount!
     }
 
     func setupTitle() {
@@ -285,7 +292,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     // MARK: - PreloNotifListenerDelegate function
     
     func showNewNotifCount(_ count: Int) {
-        print("showNewNotifCount: \(count)")
+        //print("showNewNotifCount: \(count)")
         setupNormalOptions()
     }
     
@@ -294,7 +301,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     }
     
     func showCartCount(_ count: Int) {
-        print("showCartCount: \(count)")
+        //print("showCartCount: \(count)")
         setupNormalOptions()
     }
     
@@ -303,7 +310,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     }
     
     func increaseCartCount(_ value: Int) {
-        print("increaseCartCount: \(value)")
+        //print("increaseCartCount: \(value)")
         setupNormalOptions()
     }
     

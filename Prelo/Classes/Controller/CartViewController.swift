@@ -219,10 +219,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 initUserDataSections()
                 synchCart()
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
-                    // fisrt load
-                    self.getAddresses()
-                })
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+//                    // fisrt load
+//                    self.getAddresses()
+//                })
                 
                 DropDown.startListeningToKeyboard()
                 
@@ -244,8 +244,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                                                     qos: .background,
                                                     target: nil)
                 backgroundQueue.async {
-                    print("Work on background queue")
-                    
+                    //print("Work on background queue")
+                
                     let loginMethod = User.LoginMethod ?? ""
                     
                     var localId = User.CartLocalId ?? ""
@@ -496,8 +496,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
         let p = AppToolsObjC.jsonString(from: c)
         let a = "{\"address\": \"alamat\", \"province_id\": \"" + selectedProvinsiID + "\", \"region_id\": \"" + selectedKotaID + "\", \"subdistrict_id\": \"" + selectedKecamatanID + "\", \"postal_code\": \"\"}"
-        print("cart_products : \(String(describing: p))")
-        print("shipping_address : \(a)")
+        //print("cart_products : \(String(describing: p))")
+        //print("shipping_address : \(a)")
         
         // API refresh cart
         let _ = request(APICart.refresh(cart: p!, address: a, voucher: voucherApplied)).responseJSON { resp in
@@ -524,6 +524,26 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 self.indomaretMinimumFee = data["veritrans_charge"]["indomaret"].intValue
                 self.creditCardMultiply = data["veritrans_charge"]["credit_card_multiply_factor"].doubleValue
                 self.indomaretMultiply = data["veritrans_charge"]["indomaret_multiply_factor"].doubleValue
+                
+                // address book
+                self.addresses = []
+                self.showLoading()
+                
+                if let arr = data["address_book"].array {
+                    for i in 0...arr.count - 1 {
+                        let address = AddressItem.instance(arr[i])
+                        self.addresses.append(address!)
+                        if (address?.isMainAddress)! {
+                            self.selectedIndex = i
+                            
+                            self.defaultAddressIndex = i
+                            self.defaultSubdistrictId = (address?.subdisrictId)!
+                            
+                            //self.initUserDataSections()
+                        }
+                    }
+                    self.setupDropdownAddress()
+                }
                 
                 // Ab test check
                 self.isHalfBonusMode = false
@@ -1685,7 +1705,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 postal = (b?.value)!
             }
             
-            print((b?.title)! + " : " + (b?.value)!)
+            //print((b?.title)! + " : " + (b?.value)!)
         }
         
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
@@ -1865,9 +1885,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             
                             //Convert back to string. Usually only do this for debugging
                             if let JSONString = String(data: jsonData, encoding: String.Encoding.utf8) {
-                                print(JSONString)
+                                //print(JSONString)
                                 let productIdsString = JSONString.replaceRegex(Regex.init(pattern: "\n| ") , template: "")
-                                print(productIdsString)
+                                //print(productIdsString)
                                 
                                 let fbPdata: [String : Any] = [
                                     FBSDKAppEventParameterNameContentType          : "product",
@@ -2110,13 +2130,13 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     }
     
     func itemNeedDelete(_ indexPath: IndexPath) {
-        let j = arrayItem[(indexPath as NSIndexPath).row - (itemcount > 2 ? 1 : 0)]
-        print(j)
-        arrayItem.remove(at: (indexPath as NSIndexPath).row - (itemcount > 2 ? 1 : 0))
+        let j = arrayItem[(indexPath as NSIndexPath).row - (arrayItem.count > 2 ? 1 : 0)]
+        //print(j)
+        arrayItem.remove(at: (indexPath as NSIndexPath).row - (arrayItem.count > 2 ? 1 : 0))
         
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
         let x = AppToolsObjC.jsonString(from: c)
-        print((x ?? ""))
+        //print((x ?? ""))
         
         let pid = j["product_id"].stringValue
         
@@ -2131,7 +2151,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
         
         if let p = deletedProduct {
-            print(p.cpID)
+            //print(p.cpID)
             
             // server synch
             self.deleteItems([p.cpID])
@@ -2171,7 +2191,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
         
         if let cp = cartProduct {
-            print(j)
+            //print(j)
             var names : Array<String> = []
             var arr = j["shipping_packages"].array
             if let shippings = j["shipping_packages"].arrayObject {
@@ -2205,7 +2225,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     }
     
     func printCellsData() {
-        print("CELLSDATA")
+        //print("CELLSDATA")
         if (cellsData.count > 0) {
             for i in 0...cellsData.count - 1 {
                 let index = cellsData.index(cellsData.startIndex, offsetBy: i)
@@ -2218,7 +2238,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 if let v = baseCartData?.value {
                     value = v
                 }
-                print("\((idxPath as NSIndexPath).section) - \((idxPath as NSIndexPath).row) : title = \(title), value = \(value)")
+                //print("\((idxPath as NSIndexPath).section) - \((idxPath as NSIndexPath).row) : title = \(title), value = \(value)")
             }
         }
     }
@@ -2350,7 +2370,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         for i in cellsData.keys {
             let b = cellsData[i]
 
-//            print(b?.value!)
+//            //print(b?.value!)
             
             if (b?.title == titleNama) {
                 fullname = (b?.value)!
@@ -2779,7 +2799,7 @@ class CartCellItem : UITableViewCell
     
     func adapt (_ json : JSON)
     {
-        print(json)
+        //print(json)
         captionName?.text = json["name"].stringValue
         captionLocation?.text = ""
         captionFrom?.text = ""

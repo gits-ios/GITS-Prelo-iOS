@@ -286,7 +286,7 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.right:
-                print("Swiped right")
+                //print("Swiped right")
                 
                 if (self.backEnabled) {
                     
@@ -296,13 +296,6 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
                     _ = self.navigationController?.popViewController(animated: true)
                 }
                 
-                
-            case UISwipeGestureRecognizerDirection.down:
-                print("Swiped down")
-            case UISwipeGestureRecognizerDirection.left:
-                print("Swiped left")
-            case UISwipeGestureRecognizerDirection.up:
-                print("Swiped up")
             default:
                 break
             }
@@ -328,7 +321,7 @@ class SetupPasswordPopUp : UIView {
                 let json = JSON(resp.result.value!)
                 let dataBool : Bool = json["_data"].boolValue
                 let dataInt : Int = json["_data"].intValue
-                //print("dataBool = \(dataBool), dataInt = \(dataInt)")
+                ////print("dataBool = \(dataBool), dataInt = \(dataInt)")
                 if (dataBool == true || dataInt == 1) {
                     Constant.showDialog("Success", message: "E-mail sudah dikirim ke \(self.lblEmail.text!)")
                 } else {

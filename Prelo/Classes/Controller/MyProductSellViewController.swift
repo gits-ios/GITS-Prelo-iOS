@@ -36,6 +36,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     
     var isFirst = false // adduploading product when first load
     
+    var isRefreshing = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -114,13 +116,13 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         refresh(0 as AnyObject, isSearchMode: false)
         //        Constant.showDialog("Upload Barang Berhasil", message: "Proses review barang akan memakan waktu maksimal 2 hari kerja. Mohon tunggu :)")
         
-//        print(notif.object)
+//        //print(notif.object)
         let o = notif.object as! [Any]
         
 //        let metaJson = JSON((notif.object ?? [:]))
         let metaJson = JSON(o[0])
         let metadata = metaJson["_data"]
-        print(metadata)
+        //print(metadata)
         if let message = metadata["message"].string {
             Constant.showDialog("Upload Barang Berhasil", message: message)
         }
@@ -152,7 +154,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         // imgae
         var imagesOke : [Bool] = []
         for i in 0...images.count - 1 {
-//            print(images[i].description)
+//            //print(images[i].description)
             if images[i].description != "null" {
                 imagesOke.append(true)
             } else {
@@ -256,6 +258,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                     self.tableView.isHidden = true
                 }
             }
+            
+            self.isRefreshing = false
         }
     }
     
@@ -265,6 +269,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     func refresh(_ sender: AnyObject, isSearchMode : Bool) {
+        self.isRefreshing = true
+        
         // Reset data
         self.products = []
         if (!isSearchMode) {
@@ -309,6 +315,9 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 let idx = (indexPath as NSIndexPath).row
                 let p = localProducts[idx]
                 
+                cell.alpha = 1.0
+                cell.backgroundColor = UIColor.white
+                
                 cell.lblProductName.text = p.name
                 cell.lblPrice.text = p.price.int.asPrice
                 cell.lblOrderTime.text = ""
@@ -339,7 +348,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 
                 // Fix product status text width
                 let sizeThatShouldFitTheContent = cell.lblOrderStatus.sizeThatFits(cell.lblOrderStatus.frame.size)
-                //print("size untuk '\(cell.lblOrderStatus.text)' = \(sizeThatShouldFitTheContent)")
+                ////print("size untuk '\(cell.lblOrderStatus.text)' = \(sizeThatShouldFitTheContent)")
                 cell.consWidthLblOrderStatus.constant = sizeThatShouldFitTheContent.width
                 
                 // Socmed share status
@@ -348,6 +357,9 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 cell.lblPercentage.text = "90%"
             } else {
                 let p = products[(indexPath as NSIndexPath).row]
+                
+                cell.alpha = 1.0
+                cell.backgroundColor = UIColor.white
                 
                 cell.lblProductName.text = p.name
                 cell.lblPrice.text = p.price
@@ -389,7 +401,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 
                 // Fix product status text width
                 let sizeThatShouldFitTheContent = cell.lblOrderStatus.sizeThatFits(cell.lblOrderStatus.frame.size)
-                //print("size untuk '\(cell.lblOrderStatus.text)' = \(sizeThatShouldFitTheContent)")
+                ////print("size untuk '\(cell.lblOrderStatus.text)' = \(sizeThatShouldFitTheContent)")
                 cell.consWidthLblOrderStatus.constant = sizeThatShouldFitTheContent.width
                 
                 // Socmed share status
@@ -474,7 +486,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         let h : CGFloat = size.height
         
         let reloadDistance : CGFloat = 0
-        if (y > h + reloadDistance && self.products.count >= 10) {
+        if (y > h + reloadDistance && !self.isRefreshing) {
             // Load next items only if all items not loaded yet and if its not currently loading items
             if (!self.isAllItemLoaded && !self.bottomLoading.isAnimating) {
                 // Tampilkan loading di bawah

@@ -328,14 +328,14 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 let i = Inbox(jsn: data)
-                //print(data)
+                ////print(data)
                 if (i.itemId != "") {
                     self.tawarItem = i
                 }
                 self.tawarFromMe = self.tawarItem.bargainerIsMe
                 self.adjustButtons()
                 self.getMessages()
-                //print(res)
+                ////print(res)
             }
             self.tableView.isHidden = false
         }
@@ -960,7 +960,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
 //                }
 //            } else {
 //                self.adjustButtons()
-//                print(resp.result.error)
+//                //print(resp.result.error)
 //            }
 //        }
     }

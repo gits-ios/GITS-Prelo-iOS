@@ -444,9 +444,9 @@ class AddressBookCell: UITableViewCell { // height 192
         
         // Save data
         if (m.saveSave() == false) {
-            print("Failed")
+            //print("Failed")
         } else {
-            print("Data saved")
+            //print("Data saved")
         }
     }
 
@@ -464,5 +464,4 @@ class AddressBookNewCell: UITableViewCell { // height 41
         
         self.vwPlus?.backgroundColor = UIColor(hex: "E5E9EB")
     }
-    
 }

@@ -236,7 +236,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     self.title = self.detail?.name
                     
                     self.activated = (self.detail?.isActive)!
-                    print((self.detail?.json ?? ""))
+                    //print((self.detail?.json ?? ""))
                     
                     self.adjustButtonByStatus()
                     
@@ -523,7 +523,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     func documentInteractionControllerDidEndPreview(_ controller: UIDocumentInteractionController) {
-        print("DidEndPreview")
+        //print("DidEndPreview")
     }
     
     // MARK: - Facebook
@@ -670,8 +670,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             let name = result["name"] as? String
                             let accessToken = FBSDKAccessToken.current().tokenString
                             
-                            print("result = \(result)")
-                            print("accessToken = \(accessToken)")
+                            //print("result = \(result)")
+                            //print("accessToken = \(accessToken)")
                             
                             // userId & name is required
                             if (userId != nil && name != nil) {
@@ -1433,7 +1433,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         self.newPopup?.isHidden = false
         
         let isAdsAvailable = IronSource.hasRewardedVideo()
-        print(isAdsAvailable)
+        //print(isAdsAvailable)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
             self.newPopup?.setupPopUp(isAdsAvailable)
@@ -1456,11 +1456,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             self.newPopup?.disposePopUp = {
                 self.newPopup?.isHidden = true
                 self.newPopup = nil
-                print("Start remove sibview")
+                //print("Start remove sibview")
                 if let viewWithTag = self.view.viewWithTag(100) {
                     viewWithTag.removeFromSuperview()
                 } else {
-                    print("No!")
+                    //print("No!")
                 }
             }
             
@@ -1617,7 +1617,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                                             qos: .background,
                                             target: nil)
         backgroundQueue.async {
-            print("Work on background queue")
+            //print("Work on background queue")
             
             let loginMethod = User.LoginMethod ?? ""
             
@@ -2587,7 +2587,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
             ranges = []
         }
         
-        print(ranges)  // prints [(0,3), (18,3), (27,3)]
+        //print(ranges)  // prints [(0,3), (18,3), (27,3)]
         
         let attString : NSMutableAttributedString = NSMutableAttributedString(string: categoryString)
         for p in param
@@ -2621,7 +2621,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
     }
     
     func tappableLabel(_ tappableLabel: ZSWTappableLabel!, tappedAt idx: Int, withAttributes attributes: [AnyHashable: Any]!) {
-        //print(attributes)
+        ////print(attributes)
         
         if (cellDelegate != nil) {
             if let brandName = attributes["brand"] as? String { // Brand clicked

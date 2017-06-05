@@ -149,7 +149,7 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         
         // Set fields' default value
         if (userProfile.pict != "") {
-            //print("userProfile.pict = \(userProfile.pict)")
+            ////print("userProfile.pict = \(userProfile.pict)")
             let url = URL(string: userProfile.pict)
             if (url != nil) {
                 self.imgUser.layoutIfNeeded()
@@ -299,8 +299,8 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
                 let name = result["name"] as? String
                 let accessToken = FBSDKAccessToken.current().tokenString
                 
-                print("result = \(result)")
-                print("accessToken = \(accessToken)")
+                //print("result = \(result)")
+                //print("accessToken = \(accessToken)")
                 
                 // userId & name is required
                 if (userId != nil && name != nil) {
@@ -579,9 +579,9 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         let m = UIApplication.appDelegate.managedObjectContext
         
         if (m.saveSave() == false) {
-            print("Update phone in core data failed")
+            //print("Update phone in core data failed")
         } else {
-            print("Update phone in core data success")
+            //print("Update phone in core data success")
         }
     }
     
@@ -596,7 +596,7 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     
     func textViewDidChange(_ textView: UITextView) {
         let sizeThatShouldFitTheContent = fieldTentangShop.sizeThatFits(fieldTentangShop.frame.size)
-        //print("sizeThatShouldFitTheContent.height = \(sizeThatShouldFitTheContent.height)")
+        ////print("sizeThatShouldFitTheContent.height = \(sizeThatShouldFitTheContent.height)")
         
         // Update tinggi textview
         fieldTentangShopHeightConstraint.constant = sizeThatShouldFitTheContent.height
@@ -721,11 +721,11 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
                 let userAgent : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String
                 
                 AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: { op, res in
-                    print("Edit profile res = \(res)")
+                    //print("Edit profile res = \(res)")
                     let json = JSON((res ?? [:]))
                     self.simpanDataSucceed(json)
                 }, failure: { op, err in
-                    print((err ?? "")) // failed
+                    //print((err ?? "")) // failed
                     Constant.showDialog("Edit Profil", message: "Gagal mengupload data")//:err.description)
                     self.btnSimpanData.isEnabled = true
                     self.loadingPanel.isHidden = true
@@ -736,7 +736,7 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     }
     
     func simpanDataSucceed(_ json : JSON) {
-        print("json = \(json)")
+        //print("json = \(json)")
         let data = json["_data"]
         let profile : UserProfile = UserProfile.instance(data)!
         let m = UIApplication.appDelegate.managedObjectContext
@@ -784,7 +784,7 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
             self.loadingPanel.isHidden = true
             self.loading.stopAnimating()
         } else {
-            print("Data saved")
+            //print("Data saved")
             _ = self.navigationController?.popViewController(animated: true)
         }
     }

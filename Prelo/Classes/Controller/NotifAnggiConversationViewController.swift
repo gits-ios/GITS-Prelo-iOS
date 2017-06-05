@@ -78,6 +78,8 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     
     var countDecreaseNotifCount = 0
     
+    var isRefreshing = false
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -117,6 +119,8 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     }
     
     func refreshPage() {
+        self.isRefreshing = true
+        
         // Reset data
         self.notifications = []
         self.currentPage = 0
@@ -171,6 +175,8 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
             
             // Show content
             self.showContent()
+            
+            self.isRefreshing = false
         }
     }
     
@@ -186,7 +192,11 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell : NotifAnggiConversationCell = self.tableView.dequeueReusableCell(withIdentifier: "NotifAnggiConversationCell") as? NotifAnggiConversationCell, notifications != nil, notifications!.count > (indexPath as NSIndexPath).item {
+            
             cell.selectionStyle = .none
+            cell.alpha = 1.0
+            cell.backgroundColor = UIColor.white
+            
             if let n = notifications?[(indexPath as NSIndexPath).item] {
                 cell.adapt(n)
             
@@ -274,7 +284,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         let h : CGFloat = size.height
         
         let reloadDistance : CGFloat = 0
-        if (y > h + reloadDistance) {
+        if (y > h + reloadDistance && !self.isRefreshing) {
             // Load next items only if all items not loaded yet and if its not currently loading items
             if (!self.isAllItemLoaded && !self.bottomLoading.isAnimating) {
                 // Show bottomLoading
@@ -630,12 +640,12 @@ class NotifAnggiConversationCell: UITableViewCell {
             
             // Set conv status text width
             var sizeThatShouldFitTheContent = lblConvStatus.sizeThatFits(lblConvStatus.frame.size)
-            //print("size untuk '\(lblConvStatus.text)' = \(sizeThatShouldFitTheContent)")
+            ////print("size untuk '\(lblConvStatus.text)' = \(sizeThatShouldFitTheContent)")
             consWidthLblConvStatus.constant = sizeThatShouldFitTheContent.width
             
             // Set time text width
             sizeThatShouldFitTheContent = lblTime.sizeThatFits(lblTime.frame.size)
-            //print("size untuk '\(lblTime)' = \(sizeThatShouldFitTheContent)")
+            ////print("size untuk '\(lblTime)' = \(sizeThatShouldFitTheContent)")
             consWidthLblTime.constant = sizeThatShouldFitTheContent.width
         }
         

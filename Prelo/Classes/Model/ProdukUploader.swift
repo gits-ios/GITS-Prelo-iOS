@@ -117,11 +117,11 @@ class ProdukUploader: NSObject {
             let userAgent : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String
             
             currentStatus = .uploading
-            print("starting produk upload took \(Date().timeIntervalSince(t)) seconds")
+            //print("starting produk upload took \(Date().timeIntervalSince(t)) seconds")
             currentUploadManager = AppToolsObjC.sendMultipart2(p.param, images: p.images, withToken: User.Token!, andUserAgent: userAgent!, to:url, success: {op, res in
                 
-                print("queue upload success :")
-                print((res ?? ""))
+                //print("queue upload success :")
+                //print((res ?? ""))
                 self.currentRetryCount = 0
                 
                 /*
@@ -134,12 +134,12 @@ class ProdukUploader: NSObject {
                 {
                     queue.removeFirst()
                     self.saveQueue(queue)
-                    print("queue : move to next product!")
+                    //print("queue : move to next product!")
                     self.start(true)
                 } else
                 {
                     self.saveQueue([])
-                    print("Queue finished!")
+                    //print("Queue finished!")
                 }
                 
                 DispatchQueue.main.async(execute: {
@@ -147,7 +147,7 @@ class ProdukUploader: NSObject {
                 })
                 
             }, failure: { op, err in
-                print((err ?? ""))
+                //print((err ?? ""))
                 if (self.autoRetry && self.currentRetryCount < self.maxRetry)
                 {
                     self.currentRetryCount = self.currentRetryCount + 1
@@ -159,12 +159,12 @@ class ProdukUploader: NSObject {
                     {
                         queue.removeFirst()
                         self.saveQueue(queue)
-                        print("queue : move to next product!")
+                        //print("queue : move to next product!")
                         self.start(true)
                     } else
                     {
                         self.saveQueue([])
-                        print("Queue finished!")
+                        //print("Queue finished!")
                     }
                     
                     self.currentRetryCount = 0
@@ -175,7 +175,7 @@ class ProdukUploader: NSObject {
             })
         } else
         {
-            print("Queue is empty")
+            //print("Queue is empty")
         }
     }
     
@@ -197,7 +197,7 @@ class ProdukUploader: NSObject {
         rawQueue.val.append(produk.toDictionary)
         saveRawQueue(rawQueue)
         
-        print("adding queue took \(Date().timeIntervalSince(t)) seconds")
+        //print("adding queue took \(Date().timeIntervalSince(t)) seconds")
         
         if (rawQueue.val.count >= 1)
         {
@@ -221,7 +221,7 @@ class ProdukUploader: NSObject {
             }
         }
         
-        print("getting queue took \(Date().timeIntervalSince(t)) seconds")
+        //print("getting queue took \(Date().timeIntervalSince(t)) seconds")
         return queue
     }
     
@@ -287,10 +287,10 @@ class ProdukRawQueue: NSObject, NSCoding
     func encode(with aCoder: NSCoder) {
         nsVal = NSMutableArray()
         for p in val {
-            print("obj = \(p)")
-            //print("images : " + "\(p["images"])")
-            //print("param : " + "\(p["param"])")
-            //print("mixpanelParam : " + "\(p["mixpanelParam"])")
+            //print("obj = \(p)")
+            ////print("images : " + "\(p["images"])")
+            ////print("param : " + "\(p["param"])")
+            ////print("mixpanelParam : " + "\(p["mixpanelParam"])")
             nsVal.add(p as [String : AnyObject])
         }
         aCoder.encode(nsVal, forKey: "nsVal")

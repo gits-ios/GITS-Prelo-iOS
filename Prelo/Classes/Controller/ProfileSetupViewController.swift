@@ -248,7 +248,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.right:
-                print("Swiped right")
+                //print("Swiped right")
                 
                 let alertView = SCLAlertView(appearance: Constant.appearance)
                 alertView.addButton("Keluar") {
@@ -261,13 +261,6 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                 alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
                 alertView.showCustom("Perhatian", subTitle: "Setelan akun belum selesai. Halaman ini akan muncul lagi ketika kamu login. Keluar?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
                 
-                
-            case UISwipeGestureRecognizerDirection.down:
-                print("Swiped down")
-            case UISwipeGestureRecognizerDirection.left:
-                print("Swiped left")
-            case UISwipeGestureRecognizerDirection.up:
-                print("Swiped up")
             default:
                 break
             }
@@ -721,7 +714,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             
             // Get device token
             let deviceToken = UserDefaults.standard.string(forKey: "deviceregid")!
-            //print("deviceToken = \(deviceToken)")
+            ////print("deviceToken = \(deviceToken)")
             
             // Token belum disimpan pake User.StoreUser karna di titik ini user belum dianggap login
             // Set token first, because APIMe.SetupAccount & APIMe.SetUserPreferencedCategories need token
@@ -743,9 +736,9 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                             let json = JSON(resp.result.value!)
                             let isSuccess = json["_data"].bool!
                             if (isSuccess) { // Berhasil
-                                print("Success setting user preferenced categories")
+                                //print("Success setting user preferenced categories")
                             } else { // Gagal
-                                print("Error setting user preferenced categories")
+                                //print("Error setting user preferenced categories")
                             }
                         }
                         // Delete token because user is considered not logged in
@@ -804,7 +797,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                                                         qos: .background,
                                                         target: nil)
                     backgroundQueue.async {
-                        print("Work on background queue")
+                        //print("Work on background queue")
                         var shippingArrName : Array<String> = []
                         for i in 0 ..< data["shipping_preferences_ids"].count {
                             let s : String = data["shipping_preferences_ids"][i].string!

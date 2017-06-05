@@ -72,7 +72,7 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
         loading.stopAnimating()
         
         let currentURL = webView.request?.url
-        print("currentURL = \(currentURL)")
+        //print("currentURL = \(currentURL)")
         
         if (currentURL?.absoluteString.lowercased().range(of: pathDeclineUrlString) != nil) { // User canceled path login
             self.delegate?.hideLoading()
@@ -87,14 +87,14 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
         } else if (currentURL?.absoluteString.lowercased().range(of: pathLoginSuccessUrlString) != nil) { // User successfully login
             let codeParam : String = (currentURL?.query)!
             let code : String = codeParam.substring(with: codeParam.characters.index(codeParam.startIndex, offsetBy: 5) ..< codeParam.endIndex)
-            //print("code = \(code)")
+            ////print("code = \(code)")
             
             // Get token
             // API Migrasi
         let _ = request(APIPathAuth.getToken(clientId: pathClientId, clientSecret: pathClientSecret, code: code)).responseJSON {resp in
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Path")) {
                     let json = JSON(resp.result.value!)
-                    print("json = \(json)")
+                    //print("json = \(json)")
                     if (json["code"].int == 200) { // OK
                         _ = json["user_id"].string!
                         let pathToken : String = json["access_token"].string!
@@ -104,7 +104,7 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
         let _ = request(APIPathUser.getSelfData(token: pathToken)).responseJSON {resp in
                             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Path")) {
                                 let json = JSON(resp.result.value!)
-                                print("json = \(json)")
+                                //print("json = \(json)")
                                 if (json["code"].int == 200) { // OK
                                     self.delegate?.pathLoginSuccess(json["user"], token: pathToken)
                                 } else { // Not OK

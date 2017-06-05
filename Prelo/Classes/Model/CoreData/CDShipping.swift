@@ -34,10 +34,10 @@ class CDShipping: NSManagedObject {
         }
         
         if (m.saveSave() == false) {
-            print("saveShippingsFromArrayJson failed")
+            //print("saveShippingsFromArrayJson failed")
             return false
         } else {
-            print("saveShippingsFromArrayJson success")
+            //print("saveShippingsFromArrayJson success")
             return true
         }
     }
@@ -87,10 +87,10 @@ class CDShipping: NSManagedObject {
             r.packageName = ""
         }
         if (m.saveSave() == false) {
-            print("saveShippings failed")
+            //print("saveShippings failed")
             return false
         } else {
-            print("saveShippings success")
+            //print("saveShippings success")
             return true
         }
     }
@@ -114,17 +114,17 @@ class CDShipping: NSManagedObject {
         fetchRequest.includesPropertyValues = false
         
         guard let results = m.tryExecuteFetchRequest(fetchRequest) else {
-            print("deleteAll CDShipping failed")
+            //print("deleteAll CDShipping failed")
             return false
         }
         for result in results {
             m.delete(result)
         }
         if (m.saveSave() == false) {
-            print("deleteAll CDShipping failed")
+            //print("deleteAll CDShipping failed")
             return false
         } else {
-            print("deleteAll CDShipping success")
+            //print("deleteAll CDShipping success")
             return true
         }
     }

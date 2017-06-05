@@ -637,7 +637,7 @@ open class ProductDetail : NSObject, TawarItem
     
     var productID : String
     {
-        print(json)
+        //print(json)
         return json["_data"]["_id"].string!
     }
     
@@ -691,7 +691,7 @@ open class ProductDetail : NSObject, TawarItem
     
     var originalPicturers : Array<String>
         {
-            print(json)
+            //print(json)
             if let ori : Array<String> = json["_data"]["original_picts"].arrayObject as? Array<String>
             {
                 return ori
@@ -716,7 +716,7 @@ open class ProductDetail : NSObject, TawarItem
     var imageLabels : [String]
     {
         var labels : [String] = []
-        print(json["_data"]["original_picts"])
+        //print(json["_data"]["original_picts"])
         if let ori = json["_data"]["original_picts"].arrayObject
         {
             var i = 0
@@ -1189,7 +1189,7 @@ open class Product : NSObject
     
     var price : String
     {
-        print(json)
+        //print(json)
         if let p = json["price"].int
         {
             return p.asPrice
@@ -2528,42 +2528,56 @@ class LovedProduct : NSObject {
     }
     
     var id : String {
-        let i = (json["_id"].string)!
-        return i
+        if let i = (json["_id"].string) {
+            return i
+        }
+        return ""
     }
     
     var name : String {
-        let n = (json["name"].string)!
-        return n
+        if let n = (json["name"].string) {
+            return n
+        }
+        return ""
     }
     
     var price : Int {
-        let p = (json["price"].int)!
-        return p
+        if let p = (json["price"].int) {
+            return p
+        }
+        return 0
     }
     
     var priceOriginal : Int {
-        let p = (json["price_original"].int)!
-        return p
+        if let p = (json["price_original"].int) {
+            return p
+        }
+        return 0
     }
     
     var numLovelist : Int {
-        let n = (json["num_lovelist"].int)!
-        return n
+        if let n = (json["num_lovelist"].int) {
+            return n
+        }
+        return 0
     }
     
     var numComment : Int {
-        let n = (json["num_comment"].int)!
-        return n
+        if let n = (json["num_comment"].int) {
+            return n
+        }
+        return 0
     }
     
     var productImageURL : URL? {
-        if (json["display_picts"][0].string == nil)
-        {
-            return nil
+        if let arr = json["display_picts"].array {
+            for i in arr {
+                if let j = i.string {
+                    return URL(string: j)
+                }
+            }
         }
-        let url = json["display_picts"][0].string!
-        return URL(string: url)
+        return nil
     }
     
     var sellerId : String {
@@ -3186,7 +3200,7 @@ class InboxMessage : NSObject
     fileprivate var lastImg : UIImage?
     func sendTo(_ threadId : String, withImg : UIImage?, completion : @escaping (InboxMessage)->())
     {
-        print("sending chat to thread " + threadId)
+        //print("sending chat to thread " + threadId)
         lastThreadId = threadId
         lastCompletion = completion
         lastImg = withImg
