@@ -343,7 +343,10 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         {
             return
         }
-        pDetailCover = ProductDetailCover.instance((detail?.displayPicturers)!, status: (detail?.status)!, topBannerText: (detail?.rejectionText), isFakeApprove: (detail?.isFakeApprove)!, isFakeApproveV2: (detail?.isFakeApproveV2)!, width: UIScreen.main.bounds.size.width)
+        
+        let sellerId = detail?.json["_data"]["seller"]["_id"].stringValue
+        
+        pDetailCover = ProductDetailCover.instance((detail?.displayPicturers)!, status: (detail?.status)!, topBannerText: (sellerId == User.Id ? (detail?.rejectionText) : ""), isFakeApprove: (detail?.isFakeApprove)!, isFakeApproveV2: (detail?.isFakeApproveV2)!, width: UIScreen.main.bounds.size.width)
         pDetailCover?.parent = self
         pDetailCover?.largeImageURLS = (detail?.originalPicturers)!
         if let isFeatured = self.product?.isFeatured , isFeatured {
