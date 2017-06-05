@@ -598,6 +598,7 @@
 		B21B3F191E5ADFE600FE5DB4 /* AnalyticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B3F181E5ADFE600FE5DB4 /* AnalyticManager.swift */; };
 		B21DF52A1E5179E5007A60C5 /* UserProfile2.xib in Resources */ = {isa = PBXBuildFile; fileRef = B21DF5291E5179E5007A60C5 /* UserProfile2.xib */; };
 		B21DF5401E5187EA007A60C5 /* UserProfileViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21DF53F1E5187EA007A60C5 /* UserProfileViewController2.swift */; };
+		B2223D941EDEA64F0013E886 /* ic_verified.png in Resources */ = {isa = PBXBuildFile; fileRef = B2223D931EDEA64F0013E886 /* ic_verified.png */; };
 		B22357611E35F90800CEC6F5 /* TarikTunai2Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B22357601E35F90800CEC6F5 /* TarikTunai2Cell.xib */; };
 		B22C0E311E090FA900C3D661 /* ic_love_96px.png in Resources */ = {isa = PBXBuildFile; fileRef = B22C0E301E090FA900C3D661 /* ic_love_96px.png */; };
 		B22C0E331E091C2D00C3D661 /* ic_love_96px_trp.png in Resources */ = {isa = PBXBuildFile; fileRef = B22C0E321E091C2D00C3D661 /* ic_love_96px_trp.png */; };
@@ -1663,6 +1664,7 @@
 		B21DF5291E5179E5007A60C5 /* UserProfile2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserProfile2.xib; sourceTree = "<group>"; };
 		B21DF53F1E5187EA007A60C5 /* UserProfileViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController2.swift; sourceTree = "<group>"; };
 		B21DF54F1E519E5E007A60C5 /* Prelo 10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 10.xcdatamodel"; sourceTree = "<group>"; };
+		B2223D931EDEA64F0013E886 /* ic_verified.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_verified.png; sourceTree = "<group>"; };
 		B22357601E35F90800CEC6F5 /* TarikTunai2Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunai2Cell.xib; sourceTree = "<group>"; };
 		B22C0E301E090FA900C3D661 /* ic_love_96px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_love_96px.png; sourceTree = "<group>"; };
 		B22C0E321E091C2D00C3D661 /* ic_love_96px_trp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_love_96px_trp.png; sourceTree = "<group>"; };
@@ -2646,6 +2648,7 @@
 				589A6FAC1D8C08F600654CDD /* ic_ukuran.png */,
 				21EEB46E1B87095C00CAD5C9 /* ic_user_2.png */,
 				21EEB46F1B87095C00CAD5C9 /* ic_user.png */,
+				B2223D931EDEA64F0013E886 /* ic_verified.png */,
 				589A6FAD1D8C08F600654CDD /* ic_voucher.png */,
 				5895E8691C48E08600752ACA /* img_setup_pwd.png */,
 				58AD00FE1D49DAA8002C7CCF /* preloteam.png */,
@@ -3845,6 +3848,7 @@
 				B2ECB30C1EBC5DEC00DB87E2 /* ShareProfile.xib in Resources */,
 				5858874D1DBEDBA3006EC6D5 /* NotifAnggiTransactionCell.xib in Resources */,
 				B2BE2E021E29FA42006B6903 /* StorePageShopHeader.xib in Resources */,
+				B2223D941EDEA64F0013E886 /* ic_verified.png in Resources */,
 				B2EE39CD1E76905500113E03 /* ic_paid_balance.png in Resources */,
 				B271A6821EDED6D900C6A973 /* placeholder-transparent.png in Resources */,
 				B2BEBC601E4C190D009982F9 /* ic_coin.png in Resources */,
