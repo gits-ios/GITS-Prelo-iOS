@@ -1895,6 +1895,9 @@ class TransactionDetail : NSObject {
         if let j = json["shipping_name"].string {
             return j
         }
+        if let j = json["courier"].string {
+            return j
+        }
         return ""
     }
     
@@ -2196,11 +2199,13 @@ class TransactionProductDetail : NSObject {
     }
     
     var shippingName : String {
-        if (json["shipping_name"] != nil) {
-            return json["shipping_name"].stringValue
-        } else {
-            return ""
+        if let j = json["shipping_name"].string {
+            return j
         }
+        if let j = json["courier"].string {
+            return j
+        }
+        return ""
     }
     
     var shippingTimeMin : Int {
