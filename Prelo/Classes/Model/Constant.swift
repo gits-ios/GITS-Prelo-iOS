@@ -7,11 +7,14 @@
 //
 
 import UIKit
+import AVFoundation
 
 var dateFormatter : DateFormatter = DateFormatter()
 
 class Constant: NSObject {
     static var escapesSymbols : [String : String] = ["&amp;":"&"]
+    
+    static var disconnectBannerShowing = false
     
     static var appearance : SCLAlertView.SCLAppearance {
         get {
@@ -481,6 +484,41 @@ class Constant: NSObject {
             }
         }
     }
+    
+    static func showDisconnectBanner() {
+        if !Constant.disconnectBannerShowing {
+            guard let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else { return }
+            
+            Constant.disconnectBannerShowing = true
+            
+            //let c = statusBar.backgroundColor
+            
+            statusBar.isHidden = true
+            
+            //statusBar.backgroundColor = UIColor.clear
+            
+            let imageBanner = UIImage(named: "banner_exclamation.png")
+            
+            // banner
+            let banner = Banner(title: "Tidak Ada Jaringan", subtitle: "Pastikan perangkat kamu terhubung dengan jaringan", image: imageBanner, backgroundColor: UIColor.red, didTapBlock: {
+                // nothing
+            })
+            
+            banner.dismissesOnTap = true
+            
+            AudioServicesPlaySystemSound(SystemSoundID(1050)) // alert
+            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+            
+            banner.show(duration: 3.0)
+            
+            banner.didDismissBlock = {
+                //statusBar.backgroundColor = c
+                
+                statusBar.isHidden = false
+                Constant.disconnectBannerShowing = false
+            }
+        }
+    }
 }
 
 extension String
@@ -592,9 +630,9 @@ extension Foundation.Date
 //        var comp : NSDateComponents = calendar.components((.Era | .Year | .Month | .Day | .Hour | .Minute | .Second), fromDate: NSDate())
         var comp : DateComponents = (calendar as NSCalendar).components([.era, .year, .month, .day, .hour, .minute, .second], from: Foundation.Date())
         if let nowDate = calendar.date(from: comp) {
-            //print("nowDate = \(nowDate)")
+            ////print("nowDate = \(nowDate)")
             if let rollbackNSDate = Foundation.Date().rollbackIsoFormatted(formatted) {
-                //print("rollbackNSDate = \(rollbackNSDate)")
+                ////print("rollbackNSDate = \(rollbackNSDate)")
                 comp = (calendar as NSCalendar).components([.era, .year, .month, .day, .hour, .minute, .second], from: rollbackNSDate)
                 if let rollbackDate = calendar.date(from: comp) {
                     return nowDate.minutesFrom(rollbackDate)

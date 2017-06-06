@@ -111,6 +111,8 @@ extension URLRequest {
             urlRequest.setValue(userAgent, forHTTPHeaderField: "User-Agent")
         }
         
+        urlRequest.setValue("gzip", forHTTPHeaderField: "Accept-Encoding")
+        
         // Set crashlytics custom key
         Crashlytics.sharedInstance().setObjectValue(urlRequest, forKey: "last_req_url")
         
@@ -1795,3 +1797,47 @@ enum APIPreloMessage : URLRequestConvertible {
     }
 }
 
+enum APIAffiliate : URLRequestConvertible {
+    case getCheckoutResult(orderId: String)
+    case postCheckout(productIds: String, affiliateName: String)
+    
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = "affiliate/"
+        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
+        return encodedURLRequest
+    }
+    
+    var method : HTTPMethod {
+        switch self {
+        case .getCheckoutResult(_) : return .get
+        case .postCheckout(_, _) : return .post
+        }
+    }
+    
+    var path : String {
+        switch self {
+        case .getCheckoutResult(_),
+             .postCheckout(_, _) : return "checkout"
+        }
+    }
+    
+    var param : [String : Any] {
+        var p : [String : Any] = [:]
+        switch self {
+        case .getCheckoutResult(let orderId) :
+            p = [
+                "order_id" : orderId
+            ]
+        case .postCheckout(let productIds, let affiliateName) :
+            p = [
+                "product_ids" : productIds,
+                "affiliate_name" : affiliateName,
+                "platform_sent_from" : "ios"
+            ]
+        }
+        return p
+    }
+}

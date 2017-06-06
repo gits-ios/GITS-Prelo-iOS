@@ -18,6 +18,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
     
     @IBOutlet var scrollCategoryName: UIScrollView!
     @IBOutlet var scroll_View : UIScrollView!
+    @IBOutlet weak var consHeightScrollCategoryName: NSLayoutConstraint!
     
     var tabSwipe : CarbonTabSwipeNavigation?
     var first = false
@@ -52,6 +53,8 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
     var vwCoachmark : UIView?
     var imgCoachmarkPinch : UIImageView?
     var imgCoachmarkSpread : UIImageView?
+    
+    var tabbarBtnMargin: CGFloat = 8 // 20 (previous) ; 8 -> iphone, 16 -> ipad
     
     // MARK: - Init
     
@@ -162,24 +165,34 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 let string = resp.result.value
                 if (string != nil)
                 {
-                    print((string ?? ""))
+                    //print((string ?? ""))
                 } else
                 {
-                    print((resp.result.error ?? ""))
+                    //print((resp.result.error ?? ""))
                 }
             }
             .responseJSON {resp in
                 if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Category Home")) {
                     UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: resp.result.value!), forKey: "pre_categories")
                     UserDefaults.standard.synchronize()
-                    self.setupCategory()
                     
-                    if let kumangTabBarVC = self.previousController as? KumangTabBarViewController {
-                        kumangTabBarVC.isAlreadyGetCategory = true
-                        if (kumangTabBarVC.isVersionChecked) { // Only hide loading if category is already loaded and version already checked
-                            kumangTabBarVC.hideLoading()
+                    let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
+                                                        qos: .background,
+                                                        target: nil)
+                    backgroundQueue.async {
+                        if let kumangTabBarVC = self.previousController as? KumangTabBarViewController {
+                            kumangTabBarVC.isAlreadyGetCategory = true
+                            if (kumangTabBarVC.isVersionChecked) { // Only hide loading if category is already loaded and version already checked
+                                DispatchQueue.main.async(execute: {
+                                    
+                                    // continue to main async
+                                    kumangTabBarVC.hideLoading()
+                                })
+                            }
                         }
                     }
+                    
+                    self.setupCategory()
                 }
         }
         
@@ -198,6 +211,39 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         categories = JSON(NSKeyedUnarchiver.unarchiveObject(with: data!)!)
         
         categoriesFix = categories!["_data"].arrayValue
+        
+        
+        // setup space
+        let c = categoriesFix.count
+        
+        // iphone
+        var small = c - 1 // 40 , 53 + 4
+        var width = small*40 + 57
+        
+        var operanMin: CGFloat = 8
+        
+        if AppTools.isIPad {
+            // ipad
+            self.consHeightScrollCategoryName.constant = 66
+            
+            small = c - 1 // 60, 75 + 4
+            width = small*60 + 79
+            
+            operanMin = 16
+        }
+        
+        let nw = UIScreen.main.bounds.width - CGFloat(width)
+        if nw > operanMin * CGFloat(c + 1) {
+            let nnw = nw - nw / CGFloat(c)
+            self.tabbarBtnMargin = nnw / CGFloat(c)
+            
+            self.scrollCategoryName.isScrollEnabled = false
+        } else {
+            self.tabbarBtnMargin = operanMin
+        }
+        
+        self.scrollCategoryName.isDirectionalLockEnabled = true
+        
         addChilds(categoriesFix.count)
     }
     
@@ -239,7 +285,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                                             qos: .background,
                                             target: nil)
         backgroundQueue.async {
-            print("Work on background queue: Init Category " + self.categoriesFix[1]["name"].stringValue)
+            //print("Work on background queue: Init Category " + self.categoriesFix[1]["name"].stringValue)
             
             for i in 1...self.childViewControllers.count-1 {
                 if let allChild = self.childViewControllers[i] as? ListItemViewController {
@@ -308,15 +354,25 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             
             pContentView.translatesAutoresizingMaskIntoConstraints = false
             
+            var h = 44 // content height
+            if AppTools.isIPad {
+                h = 66
+            }
+            
             d["content"] = pContentView
             scrollCategoryName.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "|-0-[content]-0-|", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
             scrollCategoryName.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[content]-0-|", options: .alignAllLastBaseline, metrics: nil, views: d))
-            pContentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[content(==44)]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
+            pContentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[content(==\(h))]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
             contentCategoryNames = pContentView
         }
         
         if (categoryIndicator == nil)
         {
+            var w = 44 // 100; width of indicator category
+            if AppTools.isIPad {
+                w = 66
+            }
+            
             categoryIndicator = UIView()
             categoryIndicator?.translatesAutoresizingMaskIntoConstraints = false
             categoryIndicator?.backgroundColor = Theme.ThemeOrange
@@ -325,7 +381,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[indicator]-0-|", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
             categoryIndicator?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[indicator(==4)]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
             indicatorMargin = NSLayoutConstraint.constraints(withVisualFormat: "|-0-[indicator]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d).first
-            indicatorWidth = NSLayoutConstraint.constraints(withVisualFormat: "[indicator(==100)]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d).first
+            indicatorWidth = NSLayoutConstraint.constraints(withVisualFormat: "[indicator(==\(w))]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d).first
             contentCategoryNames?.addConstraint(indicatorMargin!)
             categoryIndicator?.addConstraint(indicatorWidth!)
         }
@@ -336,8 +392,11 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         for i in 0...count-1
         {
             let button = UIButton(type: .custom)
-            button.setTitleColor(Theme.GrayLight)
-            button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+            //button.setTitleColor(Theme.GrayLight)
+            //button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+            
+            // text only
+            /*
             if let name = categoriesFix[i]["name"].string {
                 var nameFix = name
                 if (nameFix.lowercased() == "all") {
@@ -346,9 +405,82 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                     }
                 }
                 button.setTitle(nameFix, for: UIControlState())
-            }
+            } */
             
-            button.sizeToFit()
+            // icon only
+            /*
+            if let icon = categoriesFix[i]["image_name"].string {
+                button.af_setImage(for: UIControlState(), url: URL(string: icon)!)
+                button.imageView?.contentMode = .scaleAspectFit
+                button.imageEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
+            } */
+            
+            //button.sizeToFit()
+            
+            if let name = categoriesFix[i]["name"].string, let icon = categoriesFix[i]["image_name"].string {
+                var nameFix = name
+                if (nameFix.lowercased() == "all") {
+                    if let ftrd = categoriesFix[i]["is_featured"].bool , ftrd == true {
+                        nameFix = "Home"
+                    }
+                }
+                
+                var h: CGFloat = 10  // height label
+                var w: CGFloat = 40  // width (btn default)
+                var hI: CGFloat = 24 // height icon
+                var y: CGFloat = 30  // y position of label
+                if AppTools.isIPad {
+                    h = 15
+                    w = 60
+                    hI = 40
+                    y = 45
+                }
+                
+                let imgLb = UILabel()
+                imgLb.frame = CGRect(x: 0, y: y, width: w, height: h)
+                imgLb.font = UIFont.systemFont(ofSize: h)
+                imgLb.text = nameFix
+                imgLb.tag = 999
+                let c = imgLb.sizeThatFits(CGSize(width: w, height: h))
+                if c.width > w {
+                    //imgLb.sizeToFit()
+                    imgLb.frame = CGRect(x: 0, y: y, width: c.width + 4, height: h)
+                }
+                imgLb.textAlignment = .center
+                imgLb.textColor = Theme.TabNormalColor
+                
+                let imgVw = TintedImageView()
+                imgVw.frame = CGRect(x: 0, y: 4, width: imgLb.width, height: hI)
+                
+                if nameFix == "Home" {
+                    imgVw.image = UIImage(named: "ic_home")?.withRenderingMode(.alwaysTemplate)
+                } else {
+                    imgVw.af_setImage(
+                        withURL: URL(string: icon)!,
+                        imageTransition: .custom(
+                            duration: 0.2,
+                            animationOptions: .transitionCrossDissolve,
+                            animations: { imageView, image in
+                                imageView.image = image.withRenderingMode(.alwaysTemplate)
+                        },
+                            completion: nil
+                        )
+                    )
+                }
+                
+                imgVw.contentMode = .scaleAspectFit
+                imgVw.tag = 998
+                imgVw.tint = true
+                imgVw.tintColor = Theme.TabNormalColor
+                
+                button.viewWithTag(998)?.removeFromSuperview()
+                button.viewWithTag(999)?.removeFromSuperview()
+                
+                button.addSubview(imgVw)
+                button.addSubview(imgLb)
+                
+                button.frame = CGRect(x: 0, y: 0, width: imgLb.width, height: w) // height equal initial width
+            }
             
             button.addTarget(self, action: #selector(ListCategoryViewController.categoryButtonAction(_:)), for: UIControlEvents.touchUpInside)
             
@@ -358,22 +490,28 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             v.translatesAutoresizingMaskIntoConstraints = false
             contentCategoryNames?.addSubview(v)
             d["v"] = v
+            
+            var h = 44 // content height
+            if AppTools.isIPad {
+                h = 66
+            }
+            
             if let lv = lastView
             {
                 d["lv"] = lv
-                contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "[lv]-20-[v]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
+                contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "[lv]-\(tabbarBtnMargin)-[v]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
                 
             } else {
-                contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "|-20-[v]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
+                contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "|-\(tabbarBtnMargin)-[v]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
             }
             
             contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[v]-0-|", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
-            v.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[v(==44)]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
+            v.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[v(==\(h))]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
             v.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "[v(==\(width))]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
             
             if (i == count-1)
             {
-            contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "[v]-20-|", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
+            contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "[v]-\(tabbarBtnMargin)-|", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
             }
             
             lastView = v
@@ -392,7 +530,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
-                print(data.debugDescription)
+                //print(data.debugDescription)
                 
                 if let isPromo = data["is_promo"].bool {
                     if (isPromo) {
@@ -405,10 +543,10 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                                         self.vwHomePromo = UIView(frame: screenSize, backgroundColor: UIColor.colorWithColor(UIColor.black, alpha: 0.7))
                                         
                                         let imgHomePromo = UIImageView()
-                                        imgHomePromo.afSetImage(withURL: promoUrl, withFilter: .noneWithoutPlaceHolder) // fix
                                         let imgHomePromoSize = CGSize(width: 300, height: 400)
                                         imgHomePromo.frame = CGRect(x: (screenSize.width / 2) - (imgHomePromoSize.width / 2), y: (screenSize.height / 2) - (imgHomePromoSize.height / 2), width: imgHomePromoSize.width, height: imgHomePromoSize.height)
-                                        imgHomePromo.contentMode = UIViewContentMode.scaleAspectFit
+                                        imgHomePromo.afSetImage(withURL: promoUrl, withFilter: .fitWithoutPlaceHolder) // fix
+                                        //imgHomePromo.contentMode = UIViewContentMode.scaleAspectFit
                                         
                                         let btnHomePromo : UIButton = UIButton(frame: screenSize)
                                         btnHomePromo.addTarget(self, action: #selector(ListCategoryViewController.btnHomePromoPressed(_:)), for: UIControlEvents.touchUpInside)
@@ -508,10 +646,28 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         for i in 0...categoryNames.count-1 {
             if index != i {
                 let button = categoryNames[i] as! UIButton
-                button.setTitleColor(Theme.GrayLight)
+                //button.setTitleColor(Theme.GrayLight)
+                if let imgLb = button.viewWithTag(999) {
+                    let lb = imgLb as! UILabel
+                    lb.textColor = Theme.TabNormalColor
+                }
+                if let imgVw = button.viewWithTag(998) {
+                    let vw = imgVw as! TintedImageView
+                    vw.tint = true
+                    vw.tintColor = Theme.TabNormalColor
+                }
             } else {
                 let button = categoryNames[i] as! UIButton
-                button.setTitleColor(Theme.GrayDark)
+                //button.setTitleColor(Theme.GrayDark)
+                if let imgLb = button.viewWithTag(999) {
+                    let lb = imgLb as! UILabel
+                    lb.textColor = Theme.TabSelectedColor
+                }
+                if let imgVw = button.viewWithTag(998) {
+                    let vw = imgVw as! TintedImageView
+                    vw.tint = true
+                    vw.tintColor = Theme.TabSelectedColor
+                }
             }
         }
     }
@@ -523,7 +679,16 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         indicatorWidth?.constant = v.width
         
         let button = categoryNames[index] as! UIButton
-        button.setTitleColor(Theme.GrayDark)
+        //button.setTitleColor(Theme.GrayDark)
+        if let imgLb = button.viewWithTag(999) {
+            let lb = imgLb as! UILabel
+            lb.textColor = Theme.TabSelectedColor
+        }
+        if let imgVw = button.viewWithTag(998) {
+            let vw = imgVw as! TintedImageView
+            vw.tint = true
+            vw.tintColor = Theme.TabSelectedColor
+        }
         
         centerCategoryView(index)
     }
@@ -575,10 +740,10 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         if (p.state == UIGestureRecognizerState.began)
         {
             firstPinch = p.scale
-            print("Start Scale : " + String(stringInterpolationSegment: p.scale))
+            //print("Start Scale : " + String(stringInterpolationSegment: p.scale))
         } else if (p.state == UIGestureRecognizerState.ended)
         {
-            print("End Scale : " + String(stringInterpolationSegment: p.scale) + " -> " + String(stringInterpolationSegment: firstPinch))
+            //print("End Scale : " + String(stringInterpolationSegment: p.scale) + " -> " + String(stringInterpolationSegment: firstPinch))
             
             if (abs(firstPinch - p.scale) > 0.3)
             {
@@ -625,8 +790,8 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             adjustIndicator(currentTabIndex)
         }
         
-        //print("lastContentOffset = \(lastContentOffset)")
-        //print("scrollView.contentOffset = \(scrollView.contentOffset)")
+        ////print("lastContentOffset = \(lastContentOffset)")
+        ////print("scrollView.contentOffset = \(scrollView.contentOffset)")
         if (lastContentOffset.x != scrollView.contentOffset.x) {
             isPageTracked = false
         }

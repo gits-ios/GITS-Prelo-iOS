@@ -129,8 +129,8 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                         let name = result["name"] as? String
                         let accessToken = FBSDKAccessToken.current().tokenString
                         
-                        print("result = \(result)")
-                        print("accessToken = \(accessToken)")
+                        //print("result = \(result)")
+                        //print("accessToken = \(accessToken)")
                         
                         // userId & name is required
                         if (userId != nil && name != nil) {
@@ -430,7 +430,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
 //        let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
 //        
 //        AppToolsObjC.sendMultipart(self.sendProductParam, images: self.sendProductImages, withToken: User.Token!, andUserAgent: userAgent!, to:url, success: {op, res in
-//            print(res)
+//            //print(res)
 //            
 //            let json = JSON(res)
 //            
@@ -496,10 +496,10 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
 //                var msgContent = "Terdapat kesalahan saat upload barang, silahkan coba beberapa saat lagi"
 //                if let msg = op.responseString {
 //                    if let range1 = msg.rangeOfString("{\"_message\":\"") {
-//                        //print(range1)
+//                        ////print(range1)
 //                        let msg1 = msg.substringFromIndex(range1.endIndex)
 //                        if let range2 = msg1.rangeOfString("\"}") {
-//                            //print(range2)
+//                            ////print(range2)
 //                            msgContent = msg1.substringToIndex(range2.startIndex)
 //                        }
 //                    }

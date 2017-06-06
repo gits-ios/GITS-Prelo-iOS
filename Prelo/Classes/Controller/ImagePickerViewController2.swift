@@ -163,7 +163,7 @@ class ImagePickerViewController2: BaseViewController, UICollectionViewDataSource
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         self.picker = picker
-        print(info)
+        //print(info)
         let apImage = APImage()
         apImage.image = info[UIImagePickerControllerOriginalImage] as? UIImage
         let r : [APImage] = [apImage]

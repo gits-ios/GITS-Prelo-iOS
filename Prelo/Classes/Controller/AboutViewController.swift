@@ -168,7 +168,7 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
         // API Migrasi
         let _ = request(APIAuth.logout).responseJSON {resp in
             if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Logout")) {
-                print("Logout API success")
+                //print("Logout API success")
             }
         }
         
@@ -273,6 +273,7 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
         btnClear2.isUserInteractionEnabled = false
     }
     
+    // for testing only
     func printCoreDataCount() {
         print("Category = \(CDCategory.getCategoryCount())")
         print("Brand = \(CDBrand.getBrandCount())")
@@ -336,7 +337,7 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
                     moc.persistentStoreCoordinator = psc
                     
                     // Update categories
-                    print("Updating categories..")
+                    //print("Updating categories..")
                     if (CDCategory.deleteAll(moc)) {
                         if (CDCategory.saveCategories(metadata["categories"], m: moc)) {
                             DispatchQueue.main.async(execute: {
@@ -356,7 +357,7 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
                     moc.persistentStoreCoordinator = psc
                     
                     // Update shippings
-                    print("Updating shippings..")
+                    //print("Updating shippings..")
                     if (CDShipping.deleteAll(moc)) {
                         if (CDShipping.saveShippings(metadata["shippings"], m: moc)) {
                             DispatchQueue.main.async(execute: {
@@ -375,7 +376,7 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
                     moc.persistentStoreCoordinator = psc
                     
                     // Update product conditions
-                    print("Updating product conditions..")
+                    //print("Updating product conditions..")
                     if (CDProductCondition.deleteAll(moc)) {
                         if (CDProductCondition.saveProductConditions(metadata["product_conditions"], m: moc)) {
                             DispatchQueue.main.async(execute: {
@@ -394,7 +395,7 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
                     moc.persistentStoreCoordinator = psc
                     
                     // Update provinces regions
-                    print("Updating provinces regions..")
+                    //print("Updating provinces regions..")
                     if (CDProvince.deleteAll(moc) && CDRegion.deleteAll(moc)) {
                         if (CDProvince.saveProvinceRegions(metadata["provinces_regions"], m: moc)) {
                             DispatchQueue.main.async(execute: {

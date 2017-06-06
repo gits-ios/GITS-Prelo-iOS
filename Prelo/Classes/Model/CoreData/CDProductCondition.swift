@@ -34,10 +34,10 @@ class CDProductCondition: NSManagedObject {
         }
         
         if (m.saveSave() == false) {
-            print("saveProductConditionsFromArrayJson failed")
+            //print("saveProductConditionsFromArrayJson failed")
             return false
         } else {
-            print("saveProductConditionsFromArrayJson success")
+            //print("saveProductConditionsFromArrayJson success")
             return true
         }
     }
@@ -52,10 +52,10 @@ class CDProductCondition: NSManagedObject {
             r.order = condJson["order"].number!
         }
         if (m.saveSave() == false) {
-            print("saveProductConditions failed")
+            //print("saveProductConditions failed")
             return false
         }
-        print("saveProductConditions success")
+        //print("saveProductConditions success")
         return true
     }
     
@@ -111,14 +111,14 @@ class CDProductCondition: NSManagedObject {
                 }
                 
                 if (m.saveSave() == true) {
-                    print("deleteAll CDProductCondition success")
+                    //print("deleteAll CDProductCondition success")
                 }
             } else
             {
                 
             }
         } catch {
-            print("deleteAll CDProductCondition failed with fetch error : \(error)")
+            //print("deleteAll CDProductCondition failed with fetch error : \(error)")
             return false
         }
         return true

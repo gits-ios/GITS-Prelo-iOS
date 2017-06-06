@@ -115,15 +115,15 @@ class CartProduct: NSManagedObject {
                 }
                 
                 if (m.saveSave() != false) {
-                    print("deleteAll CartProduct success")
+                    //print("deleteAll CartProduct success")
                 } else {
-                    print("deleteAll CartProduct failed")
+                    //print("deleteAll CartProduct failed")
                 }
             }
         } catch {
-            print("deleteAll CartProduct failed")
+            //print("deleteAll CartProduct failed")
         }
-        print("deleteAll CartProduct success")
+        //print("deleteAll CartProduct success")
     }
     
     var toDictionary : [String : String]
