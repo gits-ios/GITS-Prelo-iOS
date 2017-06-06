@@ -33,7 +33,7 @@ class CDBrand: NSManagedObject {
             for i in 0 ..< brandCount
             {
                 let brandJson = json[i]
-                //print(brandJson.rawString())
+                ////print(brandJson.rawString())
                 var catIds : [String] = []
                 let bcount = brandJson["category_ids"].arrayValue.count
                 for j in 0 ..< bcount
@@ -59,13 +59,13 @@ class CDBrand: NSManagedObject {
                 }
             }
             if (m.saveSave() == false) {
-                print("saveBrands failed")
+                //print("saveBrands failed")
                 return false
             }
-            print("saveBrands success")
+            //print("saveBrands success")
             return true
         }
-        print("saveBrands failed, no brand at all")
+        //print("saveBrands failed, no brand at all")
         return false
     }
     
@@ -97,7 +97,7 @@ class CDBrand: NSManagedObject {
                 }
                 
                 if (m.saveSave() == true) {
-                    print("deleteAll CDBrand success")
+                    //print("deleteAll CDBrand success")
                 }
             }
         } catch {

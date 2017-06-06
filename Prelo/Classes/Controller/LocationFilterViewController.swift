@@ -158,7 +158,7 @@ class LocationFilterViewController : BaseViewController, UITableViewDataSource, 
         if (indexPath as NSIndexPath).row != 0 && self.deep != 2 {
 //            self.selectedLocation = parts[1]
 //            self.selectedLocationName = parts[0]
-//            print(CDRegion.getRegionPickerItems(selectedLocation!))
+//            //print(CDRegion.getRegionPickerItems(selectedLocation!))
             
             if (self.deep > 0) {
                 self.stackLocationName += "  "
@@ -170,7 +170,7 @@ class LocationFilterViewController : BaseViewController, UITableViewDataSource, 
             getRegion(_selectedLocation: parts[1], _selectedLocationName: parts[0])
         } else {
             //return
-//            print(parts[0])
+//            //print(parts[0])
             
             if (indexPath as NSIndexPath).row == 0 && self.deep != 0 {
                 self.blockDone!([self.selectedLocationName!, self.selectedLocation!, (self.deep - 1).string, self.stackLocationName, self.stackLocationId] as [String])
@@ -196,6 +196,6 @@ class ProvinceCell : UITableViewCell {
 //let filterlocation = Bundle.main.loadNibNamed(Tags.XibNameLocationFilter, owner: nil, options: nil)?.first as! LocationFilterViewController
 //filterlocation.root = self
 //filterlocation.blockDone = { data in
-//    print(data)
+//    //print(data)
 //}
 //self.navigationController?.pushViewController(filterlocation, animated: true)

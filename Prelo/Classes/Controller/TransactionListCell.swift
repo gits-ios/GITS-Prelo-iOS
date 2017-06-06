@@ -74,7 +74,7 @@ class TransactionListCell : UITableViewCell {
         
         // Fix order status text width
         let sizeThatShouldFitTheContent = lblOrderStatus.sizeThatFits(lblOrderStatus.frame.size)
-        //print("size untuk '\(lblOrderStatus.text)' = \(sizeThatShouldFitTheContent)")
+        ////print("size untuk '\(lblOrderStatus.text)' = \(sizeThatShouldFitTheContent)")
         consWidthLblOrderStatus.constant = sizeThatShouldFitTheContent.width
         
         // Fix order status text color
@@ -101,7 +101,7 @@ class TransactionListCell : UITableViewCell {
         
         // Fix order status text width
         let sizeThatShouldFitTheContent = lblOrderStatus.sizeThatFits(lblOrderStatus.frame.size)
-        //print("size untuk '\(lblOrderStatus.text)' = \(sizeThatShouldFitTheContent)")
+        ////print("size untuk '\(lblOrderStatus.text)' = \(sizeThatShouldFitTheContent)")
         consWidthLblOrderStatus.constant = sizeThatShouldFitTheContent.width
         
         // Fix order status text color

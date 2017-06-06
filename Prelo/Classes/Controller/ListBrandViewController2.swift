@@ -173,7 +173,10 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListBrandVC2Cell") as! ListBrandVC2Cell
+        
         cell.selectionStyle = .none
+        cell.alpha = 1.0
+        cell.backgroundColor = UIColor.white
         
         if ((indexPath as NSIndexPath).row >= brands.count + selectedBrands.count) { // Make this loading cell
             cell.isBottomCell = true
