@@ -828,9 +828,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         // Setup placeholder
         txtEmail?.attributedPlaceholder = NSAttributedString(string: (txtEmail?.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.white])
         txtPassword?.attributedPlaceholder = NSAttributedString(string: (txtPassword?.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.white])
-        GIDSignIn.sharedInstance().uiDelegate = self
-
-           }
+        
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -859,7 +858,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                                                name: NSNotification.Name(rawValue: "ToggleAuthUINotification"),
                                                object: nil)
 
+        GIDSignIn.sharedInstance().uiDelegate = self
         
+
     }
     
     

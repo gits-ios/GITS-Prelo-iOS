@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -329,17 +329,17 @@
                                             <constraint firstItem="ySN-j3-bue" firstAttribute="centerY" secondItem="8mg-PL-W93" secondAttribute="centerY" id="z0Q-Mi-ju7"/>
                                         </constraints>
                                     </view>
-                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CSv-m6-LXu" userLabel="TWTR">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CSv-m6-LXu" userLabel="TWTR">
                                         <rect key="frame" x="20" y="504" width="335" height="40"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Daftar dengan Twitter" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WSE-Ec-PfU">
-                                                <rect key="frame" x="91.5" y="11.5" width="152" height="17"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Daftar dengan Google" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WSE-Ec-PfU">
+                                                <rect key="frame" x="92" y="11.5" width="151" height="17"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3IV-0f-deZ">
-                                                <rect key="frame" x="70.5" y="8" width="17" height="24"/>
+                                                <rect key="frame" x="71" y="8" width="17" height="24"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="24" id="bQt-vE-vZg"/>
                                                     <constraint firstAttribute="width" constant="17" id="z8z-Uh-0PQ"/>
@@ -356,7 +356,7 @@
                                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="loginTwitterPressed:" destination="MUf-3y-RbF" eventType="touchUpInside" id="arj-TM-lm7"/>
+                                                    <action selector="loginGooglePressed:" destination="MUf-3y-RbF" eventType="touchUpInside" id="vbL-iK-804"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -380,7 +380,7 @@
                                         </variation>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prelo tidak akan post apapun tanpa persetujuan kamu" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="gmt-gZ-HSd">
-                                        <rect key="frame" x="20" y="512" width="335" height="14"/>
+                                        <rect key="frame" x="20" y="552" width="335" height="14"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -404,7 +404,7 @@
                                     <constraint firstItem="Exj-xE-MOx" firstAttribute="top" secondItem="RMu-ag-AbO" secondAttribute="bottom" constant="7" id="Sm0-Gh-TmZ"/>
                                     <constraint firstItem="CSv-m6-LXu" firstAttribute="top" secondItem="8mg-PL-W93" secondAttribute="bottom" constant="8" id="U45-7B-klu"/>
                                     <constraint firstItem="gmt-gZ-HSd" firstAttribute="leading" secondItem="C9h-Rp-CKr" secondAttribute="leading" constant="20" id="UkU-XB-boa"/>
-                                    <constraint firstItem="gmt-gZ-HSd" firstAttribute="top" secondItem="CSv-m6-LXu" secondAttribute="bottom" constant="-32" id="YMa-VP-opm"/>
+                                    <constraint firstItem="gmt-gZ-HSd" firstAttribute="top" secondItem="CSv-m6-LXu" secondAttribute="bottom" constant="8" id="YMa-VP-opm"/>
                                     <constraint firstAttribute="trailing" secondItem="cL8-6h-jbw" secondAttribute="trailing" constant="20" id="atb-7G-kMB"/>
                                     <constraint firstItem="Rr5-LH-qPT" firstAttribute="top" secondItem="K8f-1p-Gmm" secondAttribute="bottom" constant="7" id="bIj-qM-Qmh"/>
                                     <constraint firstAttribute="trailing" secondItem="8mg-PL-W93" secondAttribute="trailing" constant="20" id="bpm-bw-gbH"/>
