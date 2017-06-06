@@ -639,7 +639,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     self.configureAdManagerAndLoadAds()
                 }
             }
-            } else if (self.products != nil && (self.products?.count)! <= 24) || self.currentMode == .featured {
+            } else if (self.products != nil && (self.products?.count)! <= 24 && (self.products?.count)! > 0) || self.currentMode == .featured {
             
                 // refrsher
                 let _curTime = NSDate().timeIntervalSince1970
@@ -679,8 +679,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         self.products = []
         self.done = false
         self.footerLoading?.isHidden = false
-        self.gridView.reloadData()
-        //self.setupGrid() // Agar muncul loading
+        DispatchQueue.main.async(execute: {
+            self.gridView.reloadData()
+            //self.setupGrid() // Agar muncul loading
+        })
         
         switch (currentMode) {
         case .shop, .filter, .newShop:
