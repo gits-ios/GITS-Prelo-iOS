@@ -243,7 +243,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         branch.initSession(launchOptions: launchOptions, andRegisterDeepLinkHandler: { params, error in
             // Route the user based on what's in params
             let sessionParams = Branch.getInstance().getLatestReferringParams()
-            let firstParams = Branch.getInstance().getFirstReferringParams()
+            //let firstParams = Branch.getInstance().getFirstReferringParams()
             //print("launch sessionParams = \(sessionParams)")
             //print("launch firstParams = \(firstParams)")
             
@@ -678,6 +678,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Prelo Analytic - Update User
         AnalyticManager.sharedInstance.updateUser(isNeedPayload: true)
+        
+        let mainQueue = OperationQueue.main
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationUserDidTakeScreenshot,
+                                                                object: nil,
+                                                                queue: mainQueue) { notification in
+                                                                    // executes after screenshot
+                                                                    
+                                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                                                                    
+                                                                        self.takeScreenshot()
+                                                                    
+                                                                    })
+        }
         
         return true
     }
@@ -1826,5 +1839,71 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
+    }
+    
+    // screenshot
+    func takeScreenshot() {
+        CustomPhotoAlbum.sharedInstance.fetchLastPhoto(resizeTo: nil , imageCallback: {
+            ss in
+            
+            let appearance = Constant.appearance
+            //appearance.shouldAutoDismiss = false
+            
+            let alertView = SCLAlertView(appearance: appearance)
+            
+            let width = Constant.appearance.kWindowWidth - 24
+            let frame = CGRect(x: 0, y: 0, width: width, height: width)
+            
+            let pView = UIImageView(frame: frame)
+            pView.image = ss?.resizeWithMaxWidthOrHeight(width * UIScreen.main.scale)
+            pView.afInflate()
+            pView.contentMode = .scaleAspectFit
+            
+            // Creat the subview
+            let subview = UIView(frame: CGRect(x: 0, y: 0, width: width, height: width))
+            subview.addSubview(pView)
+            
+            alertView.customSubview = subview
+            
+            alertView.addButton("Share", action: {
+                self.openShare(image: ss!)
+            })
+            
+            alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+            
+            alertView.showCustom("Screenshot", subTitle: "", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+        })
+    }
+    
+    func openShare(image: UIImage) {
+        let firstActivityItem = "Prelo"
+        let secondActivityItem : NSURL = NSURL(string: "https://prelo.co.id/")!
+        
+        // If you want to put an image
+        
+        let activityViewController : UIActivityViewController = UIActivityViewController(
+            activityItems: [firstActivityItem, secondActivityItem, image], applicationActivities: nil)
+        /*
+         // This lines is for the popover you need to show in iPad
+         activityViewController.popoverPresentationController?.sourceView = (sender as! UIButton)
+         
+         // This line remove the arrow of the popover to show in iPad
+         activityViewController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.allZeros
+         activityViewController.popoverPresentationController?.sourceRect = CGRect(x: 150, y: 150, width: 0, height: 0)
+         
+         // Anything you want to exclude
+         activityViewController.excludedActivityTypes = [
+         UIActivityTypePostToWeibo,
+         UIActivityTypePrint,
+         UIActivityTypeAssignToContact,
+         UIActivityTypeSaveToCameraRoll,
+         UIActivityTypeAddToReadingList,
+         UIActivityTypePostToFlickr,
+         UIActivityTypePostToVimeo,
+         UIActivityTypePostToTencentWeibo
+         ]
+         */
+        
+        UIApplication.shared.keyWindow?.rootViewController?.present(activityViewController, animated: true, completion: nil)
     }
 }
