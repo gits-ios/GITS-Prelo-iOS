@@ -685,10 +685,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                                 queue: mainQueue) { notification in
                                                                     // executes after screenshot
                                                                     
+                                                                    self.showAlert()
+                                                                    
                                                                     DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                                                                    
+                                                                        
+                                                                        self.hideRedirAlertWithDelay(0.0, completion: nil)
                                                                         self.takeScreenshot()
-                                                                    
+                                                                        
                                                                     })
         }
         
@@ -1018,6 +1021,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let unreadNotifCount = self.preloNotifListener.newNotifCount - 1
             self.preloNotifListener.setNewNotifCount(unreadNotifCount)
         })
+    }
+    
+    func showAlert() {
+        self.redirAlert = SCLAlertView(appearance: Constant.appearance)
+        self.alertViewResponder = self.redirAlert!.showCustom("Take Screenshot", subTitle: "Harap tunggu beberapa saat", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
     func showRedirAlert() {
