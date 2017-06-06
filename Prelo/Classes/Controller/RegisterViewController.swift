@@ -64,7 +64,6 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         txtRepeatPassword?.attributedPlaceholder = NSAttributedString(string: (txtRepeatPassword?.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.init(white: 1, alpha: 1)])
         txtName?.attributedPlaceholder = NSAttributedString(string: (txtName?.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.init(white: 1, alpha: 1)])
         
-        GIDSignIn.sharedInstance().uiDelegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -86,6 +85,8 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                 }
                 
             }, completion: nil)
+        
+        GIDSignIn.sharedInstance().uiDelegate = self
     }
     
     override func viewWillDisappear(_ animated: Bool) {
