@@ -194,13 +194,22 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var isHiddenTop = false
     
     // need refresh
-    var curTime = NSDate().timeIntervalSince1970 // init time
-    var interval: Double = 3600.0 * 3 // 3 hours
+    var curTime: TimeInterval!
+    var interval: Double!
     
     // MARK: - Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        curTime = NSDate().timeIntervalSince1970 // init time
+        //interval = 60.0 * 60.0 * 3 // 3 hours
+        
+        var minute = UserDefaults.standard.integer(forKey: UserDefaultsKey.RefreshTime)
+        if minute <= 0 {
+            minute = 60 * 3
+        }
+        interval = 60.0 * Double(minute)
         
         let frequency = UserDefaults.standard.integer(forKey: UserDefaultsKey.AdsFrequency)
         if frequency > 0 {

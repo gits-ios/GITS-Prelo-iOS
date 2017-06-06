@@ -44,6 +44,8 @@ class AnalyticManager: NSObject {
         return (_PreloAnalyticBaseUrl == prodAnalyticURL)
     }
     
+    static let faId = (UIDevice.current.identifierForVendor != nil ? UIDevice.current.identifierForVendor!.uuidString : "")
+    
     // skeleton generator + append data
     fileprivate func skeletonData(data : [String : Any], previousScreen : String, loginMethod : String) -> [String : Any] {
         var appVersion = ""

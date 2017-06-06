@@ -1077,6 +1077,7 @@ class UserDefaultsKey : NSObject {
     static let AbTestFakeApprove = "abtestfakeapprove"
     static let UpdatePopUpNotes = "updatepopupnotes"
     static let AdsFrequency = "adsfrequency"
+    static let RefreshTime = "refreshtime"
 }
 
 extension UserDefaults {
