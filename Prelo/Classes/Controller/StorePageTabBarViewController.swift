@@ -140,7 +140,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
                 shopBadgeVC?.sellerName = ""
                 
                 // edit button
-                if (self.shopId == CDUser.getOne()?.id) {
+                if (self.shopId == User.Id) {
                     setEditButton()
                 }
                 

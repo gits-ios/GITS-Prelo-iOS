@@ -1547,6 +1547,22 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             f.lblFooter.isHidden = true
             f.loading.isHidden = false
             
+            if (self.shopId == User.Id && self.currentMode == .newShop) {
+                f.loading.isHidden = true
+                let newLoader = UIActivityIndicatorView()
+                newLoader.frame = f.loading.frame
+                newLoader.center.x = UIScreen.main.bounds.width - newLoader.bounds.width
+                newLoader.tag = 888
+                newLoader.startAnimating()
+                newLoader.color = f.loading.color
+                
+                f.viewWithTag(888)?.removeFromSuperview()
+                
+                if !self.done {
+                    f.addSubview(newLoader)
+                }
+            }
+            
             // Loading handle
             self.footerLoading = f.loading
             if (self.done) {
