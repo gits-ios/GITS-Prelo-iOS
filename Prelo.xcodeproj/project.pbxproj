@@ -439,6 +439,7 @@
 		585B6AEF1DBE152C005DEBA4 /* AddProductImageSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127A2A71B7B336000469CFC /* AddProductImageSourceViewController.swift */; };
 		5870CFDB1DC6F85900E22EFF /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5870CFCE1DC6F7E600E22EFF /* AlamofireImage.framework */; };
 		5870CFDC1DC6F85900E22EFF /* AlamofireImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5870CFCE1DC6F7E600E22EFF /* AlamofireImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5881236C1EE65D48005047AD /* LoginViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5881236B1EE65D48005047AD /* LoginViewControllerTest.swift */; };
 		588148AC1DC09F88004180E1 /* ProductCompareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588148AB1DC09F88004180E1 /* ProductCompareViewController.swift */; };
 		588148B51DC09FBA004180E1 /* ProductCompare.xib in Resources */ = {isa = PBXBuildFile; fileRef = 588148B41DC09FBA004180E1 /* ProductCompare.xib */; };
 		588148BA1DC0B244004180E1 /* ProductCompareMainCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 588148B91DC0B244004180E1 /* ProductCompareMainCell.xib */; };
@@ -577,6 +578,7 @@
 		58DD4E8A1DEC377D00B130C5 /* ic_camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 58DD4E891DEC377D00B130C5 /* ic_camera.png */; };
 		58E368161DA4E40700C6FFE3 /* ic_share2.png in Resources */ = {isa = PBXBuildFile; fileRef = 58E368151DA4E40700C6FFE3 /* ic_share2.png */; };
 		58E8FCDD1D92819C0084FAA8 /* ic_prelo_logo_text_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58E8FCDC1D92819C0084FAA8 /* ic_prelo_logo_text_white@2x.png */; };
+		58EBCD661EE63C2E002A3ED5 /* ic_socmed_google.png in Resources */ = {isa = PBXBuildFile; fileRef = 58EBCD651EE63C2E002A3ED5 /* ic_socmed_google.png */; };
 		58EF19DA1D4F55FB00997828 /* ic_search_filter.png in Resources */ = {isa = PBXBuildFile; fileRef = 58EF19D91D4F55FB00997828 /* ic_search_filter.png */; };
 		58F0A41A1C7C634A002A488F /* cchmrk_buy.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4151C7C634A002A488F /* cchmrk_buy.png */; };
 		58F0A41B1C7C634A002A488F /* cchmrk_chat.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4161C7C634A002A488F /* cchmrk_chat.png */; };
@@ -1429,6 +1431,7 @@
 		585373CF1DF9388A00CEE663 /* InstagramSharePreview.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InstagramSharePreview.xib; sourceTree = "<group>"; };
 		5856875A1C6C97F4002A19CE /* ic_request.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_request.png; sourceTree = "<group>"; };
 		5870CFBA1DC6F7E600E22EFF /* AlamofireImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireImage.xcodeproj; path = AlamofireImage/AlamofireImage.xcodeproj; sourceTree = "<group>"; };
+		5881236B1EE65D48005047AD /* LoginViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewControllerTest.swift; sourceTree = "<group>"; };
 		588148AB1DC09F88004180E1 /* ProductCompareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCompareViewController.swift; sourceTree = "<group>"; };
 		588148B41DC09FBA004180E1 /* ProductCompare.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCompare.xib; sourceTree = "<group>"; };
 		588148B91DC0B244004180E1 /* ProductCompareMainCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCompareMainCell.xib; sourceTree = "<group>"; };
@@ -1632,6 +1635,7 @@
 		58E368151DA4E40700C6FFE3 /* ic_share2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_share2.png; sourceTree = "<group>"; };
 		58E8FCDC1D92819C0084FAA8 /* ic_prelo_logo_text_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_prelo_logo_text_white@2x.png"; sourceTree = "<group>"; };
 		58EADB961CFBE47800410330 /* ShippingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShippingCell.xib; sourceTree = "<group>"; };
+		58EBCD651EE63C2E002A3ED5 /* ic_socmed_google.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_socmed_google.png; sourceTree = "<group>"; };
 		58EC90BA1D780ED600712E8A /* ExpiringProductsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ExpiringProductsViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		58EC90BC1D78100400712E8A /* ExpiringProducts.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExpiringProducts.xib; sourceTree = "<group>"; };
 		58EC90BE1D78142F00712E8A /* ExpiringProductsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExpiringProductsCell.xib; sourceTree = "<group>"; };
@@ -1986,6 +1990,7 @@
 			isa = PBXGroup;
 			children = (
 				2115E6E61B4A27E500509D2A /* PreloTests.swift */,
+				5881236B1EE65D48005047AD /* LoginViewControllerTest.swift */,
 				2115E6E41B4A27E500509D2A /* Supporting Files */,
 			);
 			path = PreloTests;
@@ -2612,6 +2617,7 @@
 				215C52691B6B349C00EA4E61 /* ic_shirt@2x.png */,
 				21156EC31B8F5DBC001D7842 /* ic_socmed_facebook.png */,
 				21156EC41B8F5DBC001D7842 /* ic_socmed_instagram.png */,
+				58EBCD651EE63C2E002A3ED5 /* ic_socmed_google.png */,
 				21156EC51B8F5DBC001D7842 /* ic_socmed_path.png */,
 				21156EC61B8F5DBC001D7842 /* ic_socmed_twitter.png */,
 				210959B01B8DD088000F2939 /* ic_tag@2x.png */,
@@ -3732,6 +3738,7 @@
 				58F0A41D1C7C634A002A488F /* cchmrk_pinch.png in Resources */,
 				58DD28DF1DAF367000130B6F /* Info.plist in Resources */,
 				58A223C51C898CB600619518 /* ic_trx_done.png in Resources */,
+				58EBCD661EE63C2E002A3ED5 /* ic_socmed_google.png in Resources */,
 				589A6FC61D8C08F600654CDD /* ic_luxury.png in Resources */,
 				B240F4D31E24BBD500DCAFF7 /* Achievement.xib in Resources */,
 				21D386AA1B6B93CD00D0FA90 /* Default.png in Resources */,
@@ -3997,6 +4004,7 @@
 				585887701DBEF436006EC6D5 /* MyProductSellViewController.swift in Sources */,
 				5858877E1DBF1248006EC6D5 /* NotifAnggiConversationViewController.swift in Sources */,
 				B2C59AA01E2E4B31002E4597 /* SMSegment.swift in Sources */,
+				5881236C1EE65D48005047AD /* LoginViewControllerTest.swift in Sources */,
 				21679A3E1B901C5300F18F90 /* MPSequenceGenerator.m in Sources */,
 				585887A01DBF3606006EC6D5 /* TawarViewController.swift in Sources */,
 				58A99A2E1C6D864E00E3E7D7 /* BNCLinkData.m in Sources */,

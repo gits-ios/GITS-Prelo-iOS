@@ -11,7 +11,7 @@ import CoreData
 import TwitterKit
 import Alamofire
 
-class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, PhoneVerificationDelegate, /*UIAlertViewDelegate,*/ UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate {
+class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, PhoneVerificationDelegate, /*UIAlertViewDelegate,*/ UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, GIDSignInUIDelegate {
     
     @IBOutlet weak var scrollView : UIScrollView?
     
@@ -22,6 +22,7 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     
     @IBOutlet weak var lblLoginFacebook: UILabel!
     @IBOutlet weak var lblLoginTwitter: UILabel!
+    @IBOutlet weak var lblLoginGoogle: UILabel!
     
     @IBOutlet weak var fieldNama: UITextField!
     @IBOutlet weak var lblNoHP: UILabel!
@@ -48,6 +49,7 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     
     var isLoggedInFacebook : Bool = false
     var isLoggedInTwitter : Bool = false
+    var isLoggedInGoogle : Bool = false
     
     let FldTentangShopPlaceholder = "Barang kamu terpercaya? Deskripsikan shop kamu di sini."
     
@@ -69,6 +71,8 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         
         // Tampilan loading
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+        
+        GIDSignIn.sharedInstance().uiDelegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -226,6 +230,13 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
             self.lblLoginTwitter.text = "@\(userOther.twitterUsername!)"
             self.isLoggedInTwitter = true
         }
+        if GIDSignIn.sharedInstance().hasAuthInKeychain() {
+            lblLoginGoogle.text = user.email
+        } else {
+            lblLoginGoogle.text = "LOGIN GOOGLE"
+        }
+        
+
     }
     
     func checkFbLogin(_ userOther : CDUserOther) -> Bool {
@@ -447,6 +458,27 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
                 self.hideLoading()
             }
             alertView.showCustom("Twitter Logout", subTitle: "Yakin mau logout akun Twitter \(self.lblLoginTwitter.text!)?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+        }
+    }
+    
+    @IBAction func loginGooglePressed(_ sender: UIButton) {
+        if(lblLoginGoogle.text == "LOGIN GOOGLE"){
+            let p = ["sender" : self, "screenBeforeLogin" : ""] as [String : Any]
+            LoginViewController.LoginWithGoogle(p as [String : AnyObject], onFinish: { resultDict in
+                LoginViewController.AfterLoginGoogle(resultDict)})
+        } else {
+            // logout
+            let alertView = SCLAlertView(appearance: Constant.appearance)
+            alertView.addButton("Ya") {
+                // API Migrasi
+                GIDSignIn.sharedInstance().signOut()
+                self.lblLoginGoogle.text = "LOGIN GOOGLE"
+            }
+            alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {
+                // Hide loading
+                self.hideLoading()
+            }
+            alertView.showCustom("Google Logout", subTitle: "Yakin mau logout akun Google \(self.lblLoginGoogle.text!)?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
         }
     }
     
