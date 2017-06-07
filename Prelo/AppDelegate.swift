@@ -1891,13 +1891,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func openShare(image: UIImage) {
-        let firstActivityItem = "Prelo"
-        let secondActivityItem : NSURL = NSURL(string: "https://prelo.co.id/")!
+        //let firstActivityItem = "Prelo"
+        //let secondActivityItem : NSURL = NSURL(string: "https://prelo.co.id/")!
         
         // If you want to put an image
         
         let activityViewController : UIActivityViewController = UIActivityViewController(
-            activityItems: [firstActivityItem, secondActivityItem, image], applicationActivities: nil)
+            activityItems: [image], applicationActivities: nil) // firstActivityItem, secondActivityItem, 
         /*
          // This lines is for the popover you need to show in iPad
          activityViewController.popoverPresentationController?.sourceView = (sender as! UIButton)
