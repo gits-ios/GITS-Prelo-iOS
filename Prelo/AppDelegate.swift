@@ -1859,42 +1859,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // screenshot
     func takeScreenshot() {
         CustomPhotoAlbum.sharedInstance.fetchLastPhoto(resizeTo: nil , imageCallback: {
-            ss in
-            
-            let appearance = Constant.appearance
-            //appearance.shouldAutoDismiss = false
-            
-            let alertView = SCLAlertView(appearance: appearance)
-            
-            let width = Constant.appearance.kWindowWidth - 24
-            let frame = CGRect(x: 0, y: 0, width: width, height: width)
-            
-            let pView = UIImageView(frame: frame)
-            pView.image = ss?.resizeWithMaxWidthOrHeight(width * UIScreen.main.scale)
-            pView.afInflate()
-            pView.contentMode = .scaleAspectFit
-            
-            // Creat the subview
-            let subview = UIView(frame: CGRect(x: 0, y: 0, width: width, height: width))
-            subview.addSubview(pView)
-            
-            alertView.customSubview = subview
-            
-            alertView.addButton("Share", action: {
-                self.openShare(image: ss!)
-            })
-            
-            alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
-            
-            alertView.showCustom("Screenshot", subTitle: "", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+            image in
+            if let ss = image {
+                let appearance = Constant.appearance
+                //appearance.shouldAutoDismiss = false
+                
+                let alertView = SCLAlertView(appearance: appearance)
+                
+                let width = Constant.appearance.kWindowWidth - 24
+                let frame = CGRect(x: 0, y: 0, width: width, height: width)
+                
+                let pView = UIImageView(frame: frame)
+                pView.image = ss.resizeWithMaxWidthOrHeight(width * UIScreen.main.scale)
+                pView.afInflate()
+                pView.contentMode = .scaleAspectFit
+                
+                // Creat the subview
+                let subview = UIView(frame: CGRect(x: 0, y: 0, width: width, height: width))
+                subview.addSubview(pView)
+                
+                alertView.customSubview = subview
+                
+                alertView.addButton("Share", action: {
+                    self.openShare(image: ss)
+                })
+                
+                alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+                
+                alertView.showCustom("Screenshot", subTitle: "", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+            } else {
+                Constant.showDialog("Screenshot", message: "Pastikan untuk memberi akses aplikasi Prelo, dan coba untuk mengambil screenshot sekali lagi.")
+            }
         })
     }
     
     func openShare(image: UIImage) {
+        // disable deeplink
         //let firstActivityItem = "Prelo"
         //let secondActivityItem : NSURL = NSURL(string: "https://prelo.co.id/")!
         
         // If you want to put an image
+        // image (param)
         
         let activityViewController : UIActivityViewController = UIActivityViewController(
             activityItems: [image], applicationActivities: nil) // firstActivityItem, secondActivityItem,
