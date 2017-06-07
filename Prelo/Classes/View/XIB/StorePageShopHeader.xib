@@ -94,7 +94,7 @@
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BmK-lV-w6S" userLabel="Vw Verified">
                                 <rect key="frame" x="8" y="71" width="359" height="21"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Verified User" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gjp-Dw-08u">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Official Account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gjp-Dw-08u">
                                         <rect key="frame" x="0.0" y="0.0" width="118" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="118" id="Sh4-Wa-7Yn"/>
