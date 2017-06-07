@@ -560,6 +560,7 @@
 		58D125381CDC4D1F002BC78A /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 58D125241CDC4D1F002BC78A /* LICENSE */; };
 		58D125391CDC4D1F002BC78A /* MoEngage.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 58D125251CDC4D1F002BC78A /* MoEngage.bundle */; };
 		58D1253E1CDC4D1F002BC78A /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 58D125361CDC4D1F002BC78A /* README.md */; };
+		58D504591EE79BEA00BC07C8 /* PreloTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D504581EE79BEA00BC07C8 /* PreloTests.swift */; };
 		58D7360B1D759B0B009D7C61 /* ic_cart.png in Resources */ = {isa = PBXBuildFile; fileRef = 58D736091D759B0B009D7C61 /* ic_cart.png */; };
 		58D7360C1D759B0B009D7C61 /* ic_notif.png in Resources */ = {isa = PBXBuildFile; fileRef = 58D7360A1D759B0B009D7C61 /* ic_notif.png */; };
 		58D7D5231CD9B68300308A50 /* libAppsFlyerLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D7D5221CD9B68300308A50 /* libAppsFlyerLib.a */; };
@@ -804,7 +805,7 @@
 			remoteGlobalIDString = 2115E6C71B4A27E500509D2A;
 			remoteInfo = Prelo;
 		};
-		588123951EE65FA0005047AD /* PBXContainerItemProxy */ = {
+		58D5045B1EE79BEA00BC07C8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2115E6C01B4A27E500509D2A /* Project object */;
 			proxyType = 1;
@@ -1007,8 +1008,6 @@
 		2115E6D51B4A27E500509D2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2115E6D71B4A27E500509D2A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		2115E6DA1B4A27E500509D2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		2115E6E51B4A27E500509D2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2115E6E61B4A27E500509D2A /* PreloTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloTests.swift; sourceTree = "<group>"; };
 		2116BAF71BAC1D74009B27C8 /* Default-Landscape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x.png"; sourceTree = "<group>"; };
 		2116BAF91BAC1DC9009B27C8 /* Default-Portrait-2048h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait-2048h.png"; sourceTree = "<group>"; };
 		2119FE361BA2BC25006EF0CB /* AddProductViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AddProductViewController2.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -1455,7 +1454,6 @@
 		588123821EE65F5B005047AD /* PreloUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreloUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		588123841EE65F5B005047AD /* PreloUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloUITests.swift; sourceTree = "<group>"; };
 		588123861EE65F5B005047AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		588123901EE65FA0005047AD /* LoginViewControllerPreloUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LoginViewControllerPreloUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		588148AB1DC09F88004180E1 /* ProductCompareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCompareViewController.swift; sourceTree = "<group>"; };
 		588148B41DC09FBA004180E1 /* ProductCompare.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCompare.xib; sourceTree = "<group>"; };
 		588148B91DC0B244004180E1 /* ProductCompareMainCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCompareMainCell.xib; sourceTree = "<group>"; };
@@ -1638,6 +1636,9 @@
 		58D1252A1CDC4D1F002BC78A /* MoEngage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoEngage.h; sourceTree = "<group>"; };
 		58D1252B1CDC4D1F002BC78A /* MOPayloadBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOPayloadBuilder.h; sourceTree = "<group>"; };
 		58D125361CDC4D1F002BC78A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		58D504561EE79BEA00BC07C8 /* PreloTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreloTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		58D504581EE79BEA00BC07C8 /* PreloTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloTests.swift; sourceTree = "<group>"; };
+		58D5045A1EE79BEA00BC07C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		58D736091D759B0B009D7C61 /* ic_cart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_cart.png; sourceTree = "<group>"; };
 		58D7360A1D759B0B009D7C61 /* ic_notif.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_notif.png; sourceTree = "<group>"; };
 		58D7D5211CD9B68300308A50 /* AppsFlyerTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsFlyerTracker.h; sourceTree = "<group>"; };
@@ -1917,7 +1918,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5881238D1EE65FA0005047AD /* Frameworks */ = {
+		58D504531EE79BEA00BC07C8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1988,9 +1989,9 @@
 				B24FCEF21E536E8000B517A9 /* DropDown.xcodeproj */,
 				21D387641B6B969600D0FA90 /* Prelo-Bridging-Header.h */,
 				2115E6CA1B4A27E500509D2A /* Prelo */,
-				2115E6E31B4A27E500509D2A /* PreloTests */,
 				B2B34BCD1E37042D001B653F /* PushNotif */,
 				588123831EE65F5B005047AD /* PreloUITests */,
+				58D504571EE79BEA00BC07C8 /* PreloTests */,
 				2115E6C91B4A27E500509D2A /* Products */,
 				163B49F396DAE9C45C1A8F32 /* Frameworks */,
 			);
@@ -2002,7 +2003,7 @@
 				2115E6C81B4A27E500509D2A /* Prelo.app */,
 				B2B34BCC1E37042C001B653F /* PushNotif.appex */,
 				588123821EE65F5B005047AD /* PreloUITests.xctest */,
-				588123901EE65FA0005047AD /* LoginViewControllerPreloUITests.xctest */,
+				58D504561EE79BEA00BC07C8 /* PreloTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2030,23 +2031,6 @@
 			children = (
 				2115E6CC1B4A27E500509D2A /* Info.plist */,
 				21A6C40D1CEF461100966B42 /* dummyCart.json */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		2115E6E31B4A27E500509D2A /* PreloTests */ = {
-			isa = PBXGroup;
-			children = (
-				2115E6E61B4A27E500509D2A /* PreloTests.swift */,
-				2115E6E41B4A27E500509D2A /* Supporting Files */,
-			);
-			path = PreloTests;
-			sourceTree = "<group>";
-		};
-		2115E6E41B4A27E500509D2A /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				2115E6E51B4A27E500509D2A /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -3259,6 +3243,15 @@
 			path = MOHeaders;
 			sourceTree = "<group>";
 		};
+		58D504571EE79BEA00BC07C8 /* PreloTests */ = {
+			isa = PBXGroup;
+			children = (
+				58D504581EE79BEA00BC07C8 /* PreloTests.swift */,
+				58D5045A1EE79BEA00BC07C8 /* Info.plist */,
+			);
+			path = PreloTests;
+			sourceTree = "<group>";
+		};
 		58D7D5201CD9B68300308A50 /* AF-iOS-SDK */ = {
 			isa = PBXGroup;
 			children = (
@@ -3499,23 +3492,23 @@
 			productReference = 588123821EE65F5B005047AD /* PreloUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		5881238F1EE65FA0005047AD /* LoginViewControllerPreloUITests */ = {
+		58D504551EE79BEA00BC07C8 /* PreloTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 588123971EE65FA0005047AD /* Build configuration list for PBXNativeTarget "LoginViewControllerPreloUITests" */;
+			buildConfigurationList = 58D5045D1EE79BEA00BC07C8 /* Build configuration list for PBXNativeTarget "PreloTests" */;
 			buildPhases = (
-				5881238C1EE65FA0005047AD /* Sources */,
-				5881238D1EE65FA0005047AD /* Frameworks */,
-				5881238E1EE65FA0005047AD /* Resources */,
+				58D504521EE79BEA00BC07C8 /* Sources */,
+				58D504531EE79BEA00BC07C8 /* Frameworks */,
+				58D504541EE79BEA00BC07C8 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				588123961EE65FA0005047AD /* PBXTargetDependency */,
+				58D5045C1EE79BEA00BC07C8 /* PBXTargetDependency */,
 			);
-			name = LoginViewControllerPreloUITests;
-			productName = LoginViewControllerPreloUITests;
-			productReference = 588123901EE65FA0005047AD /* LoginViewControllerPreloUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
+			name = PreloTests;
+			productName = PreloTests;
+			productReference = 58D504561EE79BEA00BC07C8 /* PreloTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		B2B34BCB1E37042C001B653F /* PushNotif */ = {
 			isa = PBXNativeTarget;
@@ -3565,7 +3558,7 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2115E6C71B4A27E500509D2A;
 					};
-					5881238F1EE65FA0005047AD = {
+					58D504551EE79BEA00BC07C8 = {
 						CreatedOnToolsVersion = 8.3.2;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2115E6C71B4A27E500509D2A;
@@ -3616,7 +3609,7 @@
 				2115E6C71B4A27E500509D2A /* Prelo */,
 				B2B34BCB1E37042C001B653F /* PushNotif */,
 				588123811EE65F5B005047AD /* PreloUITests */,
-				5881238F1EE65FA0005047AD /* LoginViewControllerPreloUITests */,
+				58D504551EE79BEA00BC07C8 /* PreloTests */,
 			);
 		};
 /* End PBXProject section */
@@ -4074,7 +4067,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5881238E1EE65FA0005047AD /* Resources */ = {
+		58D504541EE79BEA00BC07C8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -4464,10 +4457,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5881238C1EE65FA0005047AD /* Sources */ = {
+		58D504521EE79BEA00BC07C8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58D504591EE79BEA00BC07C8 /* PreloTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4492,10 +4486,10 @@
 			target = 2115E6C71B4A27E500509D2A /* Prelo */;
 			targetProxy = 588123871EE65F5B005047AD /* PBXContainerItemProxy */;
 		};
-		588123961EE65FA0005047AD /* PBXTargetDependency */ = {
+		58D5045C1EE79BEA00BC07C8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 2115E6C71B4A27E500509D2A /* Prelo */;
-			targetProxy = 588123951EE65FA0005047AD /* PBXContainerItemProxy */;
+			targetProxy = 58D5045B1EE79BEA00BC07C8 /* PBXContainerItemProxy */;
 		};
 		58F5BEF91DB088D1009B0E0B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -4768,9 +4762,10 @@
 			};
 			name = Release;
 		};
-		588123981EE65FA0005047AD /* Debug */ = {
+		58D5045E1EE79BEA00BC07C8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -4778,35 +4773,34 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
-				INFOPLIST_FILE = LoginViewControllerPreloUITests/Info.plist;
+				INFOPLIST_FILE = PreloTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.prelo.LoginViewControllerPreloUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.prelo.PreloTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2cdc1344-60c3-41bc-9cf0-40c4bf6c0a0b";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = Prelo;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Prelo.app/Prelo";
 			};
 			name = Debug;
 		};
-		588123991EE65FA0005047AD /* Release */ = {
+		58D5045F1EE79BEA00BC07C8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				INFOPLIST_FILE = LoginViewControllerPreloUITests/Info.plist;
+				INFOPLIST_FILE = PreloTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.prelo.LoginViewControllerPreloUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.prelo.PreloTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2cdc1344-60c3-41bc-9cf0-40c4bf6c0a0b";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = Prelo;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Prelo.app/Prelo";
 			};
 			name = Release;
 		};
@@ -4887,14 +4881,13 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		588123971EE65FA0005047AD /* Build configuration list for PBXNativeTarget "LoginViewControllerPreloUITests" */ = {
+		58D5045D1EE79BEA00BC07C8 /* Build configuration list for PBXNativeTarget "PreloTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				588123981EE65FA0005047AD /* Debug */,
-				588123991EE65FA0005047AD /* Release */,
+				58D5045E1EE79BEA00BC07C8 /* Debug */,
+				58D5045F1EE79BEA00BC07C8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 		B2B34BE41E37042D001B653F /* Build configuration list for PBXNativeTarget "PushNotif" */ = {
 			isa = XCConfigurationList;

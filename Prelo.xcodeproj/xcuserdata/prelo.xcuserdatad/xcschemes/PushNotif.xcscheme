@@ -43,13 +43,43 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "588123811EE65F5B005047AD"
+               BuildableName = "PreloUITests.xctest"
+               BlueprintName = "PreloUITests"
+               ReferencedContainer = "container:Prelo.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "5881238F1EE65FA0005047AD"
+               BuildableName = "LoginViewControllerPreloUITests.xctest"
+               BlueprintName = "LoginViewControllerPreloUITests"
+               ReferencedContainer = "container:Prelo.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "58D504471EE79B8F00BC07C8"
+               BuildableName = "PreloTests.xctest"
+               BlueprintName = "PreloTests"
+               ReferencedContainer = "container:Prelo.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B2B34BCB1E37042C001B653F"
-            BuildableName = "PushNotif.appex"
-            BlueprintName = "PushNotif"
+            BlueprintIdentifier = "2115E6C71B4A27E500509D2A"
+            BuildableName = "Prelo.app"
+            BlueprintName = "Prelo"
             ReferencedContainer = "container:Prelo.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
