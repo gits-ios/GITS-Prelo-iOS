@@ -39,10 +39,10 @@ class CDCategorySize: NSManagedObject {
         }
         
         if (m.saveSave() == false) {
-            print("saveCategorySizes failed")
+            //print("saveCategorySizes failed")
             return false
         }
-        print("saveCategorySizes success")
+        //print("saveCategorySizes success")
         return true
     }
     
@@ -74,9 +74,9 @@ class CDCategorySize: NSManagedObject {
                 }
                 
                 if (m.saveSave() == true) {
-                    print("deleteAll CDCategorySize success")
+                    //print("deleteAll CDCategorySize success")
                 } else {
-                    print("deleteAll CDCategorySize failed")
+                    //print("deleteAll CDCategorySize failed")
                     return false
                 }
             }

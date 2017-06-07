@@ -176,9 +176,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         conHeightSize.constant = 0
         sizePicker.superview?.isHidden = true
         
-//        print(editProduct?.status)
-//        print(editProduct?.isFakeApprove)
-//        print(editProduct?.isFakeApproveV2)
+//        //print(editProduct?.status)
+//        //print(editProduct?.isFakeApprove)
+//        //print(editProduct?.isFakeApproveV2)
         
         if (self.editMode) {
             lblSubmit.isHidden = true
@@ -644,7 +644,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             if (o)
             {
                 self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, f.height, 0)
-                print("an_subscribeKeyboardWithAnimations")
+                //print("an_subscribeKeyboardWithAnimations")
                 
             } else
             {
@@ -857,7 +857,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         case 2:rm_image3 = 1
         case 3:rm_image4 = 1
         case 4:rm_image5 = 1
-        default:print("")
+        default: break//print("")
         }
         
         self.localPath[controller.index] = ""
@@ -877,7 +877,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 //        case 2:rm_image3 = 1
 //        case 3:rm_image4 = 1
 //        case 4:rm_image5 = 1
-//        default:print("")
+//        default://print("")
 //        }
         switch (controller.index)
         {
@@ -886,7 +886,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         case 2:updt_image3 = 1
         case 3:updt_image4 = 1
         case 4:updt_image5 = 1
-        default:print("")
+        default: break//print("")
         }
         if let i = image.image
         {
@@ -919,7 +919,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             do {
                 try data?.write(to: URL(fileURLWithPath: localPath), options: .atomic)
             } catch {
-                print("err")
+                //print("err")
             }
             
             let photoURL = NSURL(fileURLWithPath: localPath)
@@ -964,7 +964,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             case 2:rm_image3 = 1
             case 3:rm_image4 = 1
             case 4:rm_image5 = 1
-            default:print("")
+            default://print("")
             }
         }
     }
@@ -1031,7 +1031,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 //                case 2:self.rm_image3=0
 //                case 3:self.rm_image4=0
 //                case 4:self.rm_image5=0
-//                default:print()
+//                default://print()
 //                }
 //
 //            } else if (forceBackOnCancel)
@@ -1060,7 +1060,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                                             qos: .background,
                                             target: nil)
         backgroundQueue.async {
-            print("Work on background queue -- Save Image \(index)")
+            //print("Work on background queue -- Save Image \(index)")
             if self.isCamera[index] == true && self.images[index] is UIImage {
                 if let img = (self.images[index] as! UIImage).resizeWithMaxWidthOrHeight(1600) {
                     
@@ -1076,7 +1076,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     do {
                         try data?.write(to: URL(fileURLWithPath: localPath), options: .atomic)
                     } catch {
-                        print("err")
+                        //print("err")
                     }
                     
                     let photoURL = NSURL(fileURLWithPath: localPath)
@@ -1097,7 +1097,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let img = info[UIImagePickerControllerOriginalImage] as? UIImage
         {
-            //print(img)
+            ////print(img)
             let index = picker.view.tag
             self.imageViews[index].image = img
             self.fakeImageViews[index].image = img
@@ -1110,7 +1110,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             case 2:self.rm_image3=0
             case 3:self.rm_image4=0
             case 4:self.rm_image5=0
-            default:print()
+            default: break//print()
             }
             
             if (self.editMode) {
@@ -1133,7 +1133,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 do {
                     try data?.write(to: URL(fileURLWithPath: localPath), options: .atomic)
                 } catch {
-                    print("err")
+                    //print("err")
                 }
                 
                 let photoURL = NSURL(fileURLWithPath: localPath)
@@ -1176,7 +1176,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     var activeTextview : UITextView?
     func textViewDidBeginEditing(_ textView: UITextView) {
-        print("textViewDidBeginEditing")
+        //print("textViewDidBeginEditing")
         activeTextview = textView
     }
     
@@ -1352,15 +1352,15 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             if let catLv2Name = dataJson["category_level2_name"].string {
                 // Set placeholder for item name and description
                 guard let filePath = Bundle.main.path(forResource: "AddProductPlaceholder", ofType: "plist"), let placeholdersDict = NSDictionary(contentsOfFile: filePath) else {
-                    print("Couldn't load .plist as a dictionary")
+                    //print("Couldn't load .plist as a dictionary")
                     return
                 }
-                //print("placehodlersDict = \(placeholdersDict)")
+                ////print("placehodlersDict = \(placeholdersDict)")
                 
                 let predicate = NSPredicate(format: "SELF CONTAINS[cd] %@", "\(catLv2Name.lowercased())")
                 let matchingKeys = placeholdersDict.allKeys.filter { predicate.evaluate(with: $0) }
                 if let placeholderDict = placeholdersDict.dictionaryWithValues(forKeys: matchingKeys as! [String]).first?.1 {
-                    //print("placehodlerDict = \(placeholderDict)")
+                    ////print("placehodlerDict = \(placeholderDict)")
                     if let itemNamePlaceholder = (placeholderDict as AnyObject).object(forKey: "name") {
                         self.txtName.placeholder = "mis: \(itemNamePlaceholder)"
                     }
@@ -2017,7 +2017,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         // Compress and remove exif from images
         for i in 0...images.count - 1 {
             if let img = images[i] as? UIImage {
-                //print("Resizing image no-\(i) with width = \(img.size.width)")
+                ////print("Resizing image no-\(i) with width = \(img.size.width)")
                 if let imgResized = img.resizeWithMaxWidthOrHeight(1600) { // max 1600 * 1600
 //                    var curImg : UIImage?
 //                    if let imgData = ImageHelper.removeExifData(UIImagePNGRepresentation(imgResized)!) {
@@ -2025,7 +2025,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 //                    } else {
 //                        curImg = imgResized
 //                    }
-                    //print("Image no-\(i) has been resized")
+                    ////print("Image no-\(i) has been resized")
                     
                     // optimize
 //                    var curImg = imgResized.compress(0.6)
@@ -2061,7 +2061,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                                                     qos: .background,
                                                     target: nil)
                 backgroundQueue.async {
-                    print("Work on background queue")
+                    //print("Work on background queue")
                     
                     let loginMethod = User.LoginMethod ?? ""
                     
@@ -2186,7 +2186,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                                                     qos: .background,
                                                     target: nil)
                 backgroundQueue.async {
-                    print("Work on background queue")
+                    //print("Work on background queue")
                     
                     let loginMethod = User.LoginMethod ?? ""
                     
@@ -2265,7 +2265,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
         
         AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to:url, success: {op, res in
-//            print(res)
+//            //print(res)
             
             if (self.editMode)
             {
@@ -2308,10 +2308,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 var msgContent = "Terdapat kesalahan saat upload barang, silahkan coba beberapa saat lagi"
                 if let msg = op?.responseString {
                     if let range1 = msg.range(of: "{\"_message\":\"") {
-                        //print(range1)
+                        ////print(range1)
                         let msg1 = msg.substring(from: range1.upperBound)
                         if let range2 = msg1.range(of: "\"}") {
-                            //print(range2)
+                            ////print(range2)
                             msgContent = msg1.substring(to: range2.lowerBound)
                         }
                     }
@@ -2346,7 +2346,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                                             qos: .background,
                                             target: nil)
         backgroundQueue.async {
-            print("Work on background queue")
+            //print("Work on background queue")
             
             //  0  styleName : String
             //  1  serialNumber : String
@@ -2440,7 +2440,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.right:
-                print("Swiped right")
+                //print("Swiped right")
                 
                 let title = editMode ? "Edit" : "Jual"
                 
@@ -2484,13 +2484,6 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 
                 alertView.showCustom(title, subTitle: message, color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
                 
-                
-            case UISwipeGestureRecognizerDirection.down:
-                print("Swiped down")
-            case UISwipeGestureRecognizerDirection.left:
-                print("Swiped left")
-            case UISwipeGestureRecognizerDirection.up:
-                print("Swiped up")
             default:
                 break
             }

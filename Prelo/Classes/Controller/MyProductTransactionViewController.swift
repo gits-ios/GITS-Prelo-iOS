@@ -32,6 +32,8 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
     var isAllItemLoaded : Bool = false
     var userProducts : [NotificationObj] = []
     
+    var isRefreshing = false
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -77,6 +79,8 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
     }
     
     func refreshPage() {
+        self.isRefreshing = true
+        
         // Reset data
         self.userProducts = []
         self.currentPage = 0
@@ -128,6 +132,8 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
                 // Show content
                 self.showContent()
             }
+            
+            self.isRefreshing = false
         }
     }
     
@@ -144,10 +150,15 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell : NotifAnggiTransactionCell = self.tableView.dequeueReusableCell(withIdentifier: "NotifAnggiTransactionCell") as? NotifAnggiTransactionCell {
             if ((indexPath as NSIndexPath).item < self.userProducts.count) {
+                
                 cell.selectionStyle = .none
+                cell.alpha = 1.0
+                cell.backgroundColor = UIColor.white
                 cell.isDiffUnread = false
+                
                 let p = userProducts[(indexPath as NSIndexPath).item]
                 cell.adapt(p, idx: (indexPath as NSIndexPath).item)
+                
                 return cell
             }
         }
@@ -167,7 +178,7 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
         let h : CGFloat = size.height
         
         let reloadDistance : CGFloat = 0
-        if (y > h + reloadDistance && self.userProducts.count >= 10) {
+        if (y > h + reloadDistance && !self.isRefreshing) {
             // Load next items only if all items not loaded yet and if its not currently loading items
             if (!self.isAllItemLoaded && self.bottomLoading.isHidden) {
                 // Show bottomLoading

@@ -53,7 +53,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         } else if (parentType == "ProductDetailViewController") {
             l.screenBeforeLogin = PageName.ProductDetail
         }
-        //print("screenBeforeLogin = \(l.screenBeforeLogin)")
+        ////print("screenBeforeLogin = \(l.screenBeforeLogin)")
         l.userRelatedDelegate = userRelatedDelegate
         l.isFromTourVC = isFromTourVC
         l.setupTabSwipe()
@@ -80,9 +80,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                 let json = JSON(resp.result.value!)
                 let isSuccess = json["_data"].int!
                 if (isSuccess == 1) { // Berhasil
-                    print("Kode deviceRegId berhasil ditambahkan: \(deviceToken)")
+                    //print("Kode deviceRegId berhasil ditambahkan: \(deviceToken)")
                 } else { // Gagal
-                    print("Error setting deviceRegId")
+                    //print("Error setting deviceRegId")
                 }
             }
             
@@ -441,9 +441,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             _ = "https://graph.facebook.com/\(userId)/picture?type=large" // FIXME: harusnya dipasang di profile kan?
             let accessToken = FBSDKAccessToken.current().tokenString
             
-            //print("result = \(result)")
-            //print("profilePictureUrl = \(profilePictureUrl)")
-            //print("accessToken = \(accessToken)")
+            ////print("result = \(result)")
+            ////print("profilePictureUrl = \(profilePictureUrl)")
+            ////print("accessToken = \(accessToken)")
             
             // API Migrasi
             let _ = request(APIAuth.loginFacebook(email: emailToSend, fullname: name!, fbId: userId!, fbUsername: name!, fbAccessToken: accessToken!)).responseJSON {resp in
@@ -582,7 +582,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                 let twShareEmailVC = TWTRShareEmailViewController() { email, error in
                     
                     let err = error.debugDescription
-                    print(err)
+                    //print(err)
                     
                     if (email != nil || err.contains("Your application may not have access to email addresses or the user may not have an email address.")) {
                         
@@ -620,7 +620,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                             UIApplication.shared.keyWindow?.rootViewController?.present(x, animated: true, completion: nil)
                             */
                         }
-                        //print("twEmail = \(twEmail)")
+                        ////print("twEmail = \(twEmail)")
                         
                         if isExecute {
                             let twClient = TWTRAPIClient()
@@ -643,7 +643,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                                         do {
                                             let json : Any = try JSONSerialization.jsonObject(with: res!, options: .allowFragments)
                                             let data = JSON(json)
-                                            print("Twitter user show json: \(data)")
+                                            //print("Twitter user show json: \(data)")
                                             
                                             twFullname = data["name"].string!
                                             
@@ -699,7 +699,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         LoginViewController.LoginTwitterCancelled(sender, reason: json["_message"].string!)
                     }
                 } else { // Berhasil
-                    print("Twitter login data: \(data)")
+                    //print("Twitter login data: \(data)")
                     
                     // Save in core data
                     let m = UIApplication.appDelegate.managedObjectContext

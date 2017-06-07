@@ -52,7 +52,7 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
                         for i in 0...arr.count-1
                         {
                             let inbox = arr[i]
-                            //print(inbox)
+                            ////print(inbox)
                             self.inboxes.append(Inbox(jsn: inbox))
                         }
                     }
@@ -63,7 +63,7 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
                 
             }
         }.responseString { resp in
-            //print(string)
+            ////print(string)
         }
 //        let url = NSBundle.mainBundle().URLForResource("inbox", withExtension: ".json")
 //        request(.GET, (url?.absoluteString)!).responseJSON {resp in
@@ -77,7 +77,7 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
 //                        for i in 0...arr.count-1
 //                        {
 //                            let inbox = arr[i]
-//                            print(inbox)
+//                            //print(inbox)
 //                            self.inboxes.append(Inbox(jsn: inbox))
 //                        }
 //                    }

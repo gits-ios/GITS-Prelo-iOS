@@ -128,12 +128,12 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
         }
         if (priority != nil) { // Sedang terpilih
             selectedIds.remove(at: priority!)
-            print("selectedIds = \(selectedIds)")
+            //print("selectedIds = \(selectedIds)")
             self.setupCollection()
         } else { // Sedang tidak terpilih
             if (self.selectedIds.count < 3) {
                 self.selectedIds.append(cell.categoryId)
-                print("selectedIds = \(selectedIds)")
+                //print("selectedIds = \(selectedIds)")
                 cell.lblPriority.text = "\(self.selectedIds.count)"
                 cell.lblPriority.isHidden = false
                 cell.imgCategory.isHidden = true
@@ -235,7 +235,7 @@ class CategoryPreferencesCell : UICollectionViewCell {
                 self.imgCategory.image = img.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
                 self.imgCategory.tintColor = UIColor.white
                 }, failure: { (_, _, err) -> Void in
-                    print("Show category image err: \(err)")
+                    //print("Show category image err: \(err)")
             })
         }
     }
@@ -271,7 +271,7 @@ class CategoryPreferencesCell : UICollectionViewCell {
                 self.imgCategory.image = img.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
                 self.imgCategory.tintColor = UIColor.white
                 }, failure: { (_, _, err) -> Void in
-                    print("Show category image err: \(err)")
+                    //print("Show category image err: \(err)")
             })
         }
     }

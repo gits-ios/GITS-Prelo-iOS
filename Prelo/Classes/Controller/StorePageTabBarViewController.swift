@@ -42,6 +42,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     @IBOutlet weak var shopName: UILabel! // hide
     @IBOutlet weak var shopLocation: UILabel!
     @IBOutlet weak var shopBadges: UICollectionView!
+    @IBOutlet weak var shopVerified: UIImageView!
     
     @IBOutlet weak var vwHeaderTabBar: UIView!
     @IBOutlet weak var vwChild: UIView!
@@ -50,6 +51,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     @IBOutlet weak var vwBadge: UIView!
     @IBOutlet weak var consTopVw: NSLayoutConstraint! // 0 --> -170
     @IBOutlet weak var consWidthCollectionView: NSLayoutConstraint!
+    @IBOutlet weak var consCenterxLbToko: NSLayoutConstraint!
     
     @IBOutlet weak var vwCollection: UIView! // hide
     @IBOutlet weak var vwGeolocation: UIView! // hide
@@ -138,7 +140,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
                 shopBadgeVC?.sellerName = ""
                 
                 // edit button
-                if (self.shopId == CDUser.getOne()?.id) {
+                if (self.shopId == User.Id) {
                     setEditButton()
                 }
                 
@@ -266,6 +268,16 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         btnEdit.addTarget(self, action: #selector(StorePageTabBarViewController.editProfile), for: UIControlEvents.touchUpInside)
         
         self.navigationItem.rightBarButtonItem = btnEdit.toBarButton()
+        
+        // jual
+        let vw = ButtonJualView()
+        vw.addCustomView(parent: self, currentPage: PageName.ShopMine)
+        
+        vw.center.x = UIScreen.main.bounds.width / 2 // center horizontaly
+        vw.center.y = self.view.bounds.height + vw.bounds.height / 2 - 12
+        
+        self.view.addSubview(vw)
+        self.view.bringSubview(toFront: vw)
     }
     
     func editProfile()
@@ -289,7 +301,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     
     // button move view VC
     func navigateSegment(_ segmentView: SMSegmentView) {
-        print("Select segment at index: \(segmentView.selectedSegmentIndex)")
+        //print("Select segment at index: \(segmentView.selectedSegmentIndex)")
         setSelectionBar(segmentView.selectedSegmentIndex)
         scrollSubVC(segmentView.selectedSegmentIndex)
     }
@@ -383,6 +395,15 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         self.shopAvatar.afSetImage(withURL: shopAvatar, withFilter: .circle)
         let avatarFull = avatarThumbnail.replacingOccurrences(of: "thumbnails/", with: "", options: NSString.CompareOptions.literal, range: nil)
         self.avatarUrls.append(avatarFull)
+        
+        if let isAffiliate = json["is_affiliate"].bool, isAffiliate {
+            self.shopVerified.isHidden = false
+            
+            self.consCenterxLbToko.constant = 12
+        } else {
+            self.shopVerified.isHidden = true
+            self.consCenterxLbToko.constant = 0
+        }
         
 //        self.badges = [ (URL(string: "https://trello-avatars.s3.amazonaws.com/c86b504990d8edbb569ab7c02fb55e3d/50.png")!), (URL(string: "https://trello-avatars.s3.amazonaws.com/3a83ed4d4b42810c05608cdc5547e709/50.png")!), (URL(string: "https://trello-avatars.s3.amazonaws.com/7a98b746bc71ccaf9af1d16c4a6b152e/50.png")!) ]
         

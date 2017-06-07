@@ -239,6 +239,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementDiamondCell") as! AchievementDiamondCell
             
             cell.selectionStyle = .none
+            cell.alpha = 1.0
             cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
             cell.clipsToBounds = true
             cell.adapt(diamonds, isOpen: isOpens[(indexPath as NSIndexPath).row])
@@ -248,6 +249,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell") as! ButtonCell
             
             cell.selectionStyle = .none
+            cell.alpha = 1.0
             cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
             cell.clipsToBounds = true
             
@@ -272,6 +274,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementCell") as! AchievementCelliOS9xx
                 
                 cell.selectionStyle = .none
+                cell.alpha = 1.0
                 cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
                 cell.clipsToBounds = true
                 cell.adapt((achievements?[(indexPath as NSIndexPath).section - 1])!, isOpen: isOpens[(indexPath as NSIndexPath).section])
@@ -281,6 +284,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementCellDescriptionCell") as! AchievementCellDescriptionCell
                 
                 cell.selectionStyle = .none
+                cell.alpha = 1.0
                 cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
                 cell.clipsToBounds = true
                 // adapt
@@ -294,6 +298,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementCellProgressCell") as! AchievementCellProgressCell
                 
                 cell.selectionStyle = .none
+                cell.alpha = 1.0
                 cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
                 cell.clipsToBounds = true
                 cell.adapt((achievements?[(indexPath as NSIndexPath).section - 1].conditions[(indexPath as NSIndexPath).row - 2])!)
@@ -303,6 +308,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementCellBadgeCell") as! AchievementCellBadgeCell
                 
                 cell.selectionStyle = .none
+                cell.alpha = 1.0
                 cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
                 cell.clipsToBounds = true
                 
@@ -320,6 +326,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementCellDescriptionCell") as! AchievementCellDescriptionCell
                 
                 cell.selectionStyle = .none
+                cell.alpha = 1.0
                 cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
                 cell.clipsToBounds = true
                 // adapt
@@ -332,6 +339,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementCellDescriptionCell") as! AchievementCellDescriptionCell
                 
                 cell.selectionStyle = .none
+                cell.alpha = 1.0
                 cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
                 cell.clipsToBounds = true
                 // adapt

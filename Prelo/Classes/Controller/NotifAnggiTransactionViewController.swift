@@ -78,6 +78,8 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     
     var countDecreaseNotifCount = 0
     
+    var isRefreshing = false
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -116,6 +118,8 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     }
     
     func refreshPage() {
+        self.isRefreshing = true
+        
         // Reset data
         self.notifications = []
         self.currentPage = 0
@@ -170,6 +174,8 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
             
             // Show content
             self.showContent()
+            
+            self.isRefreshing = false
         }
     }
     
@@ -185,7 +191,11 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell : NotifAnggiTransactionCell = self.tableView.dequeueReusableCell(withIdentifier: "NotifAnggiTransactionCell") as? NotifAnggiTransactionCell, notifications != nil, notifications!.count > (indexPath as NSIndexPath).item {
+            
             cell.selectionStyle = .none
+            cell.alpha = 1.0
+            cell.backgroundColor = UIColor.white
+            
             if let n = notifications?[(indexPath as NSIndexPath).item] {
                 cell.adapt(n, idx: (indexPath as NSIndexPath).item)
                 cell.delegate = self
@@ -251,7 +261,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         let h : CGFloat = size.height
         
         let reloadDistance : CGFloat = 0
-        if (y > h + reloadDistance) {
+        if (y > h + reloadDistance && !self.isRefreshing) {
             // Load next items only if all items not loaded yet and if its not currently loading items
             if (!self.isAllItemLoaded && !self.bottomLoading.isAnimating) {
                 // Show bottomLoading
@@ -609,7 +619,7 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         
         // Set trx status text width
         let sizeThatShouldFitTheContent = lblTrxStatus.sizeThatFits(lblTrxStatus.frame.size)
-        //print("size untuk '\(lblTrxStatus.text)' = \(sizeThatShouldFitTheContent)")
+        ////print("size untuk '\(lblTrxStatus.text)' = \(sizeThatShouldFitTheContent)")
         consWidthLblTrxStatus.constant = sizeThatShouldFitTheContent.width
         
         // Set collection view

@@ -71,8 +71,8 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
     @IBAction func email(_ sender : UIView)
     {
         let my_device = UserDefaults().value(forKey: UserDefaultsKey.UserAgent)
-//        print("this is my_device")
-//        print(my_device)
+//        //print("this is my_device")
+//        //print(my_device)
         
 //        Constant.showDialog("Device Info", message: String(describing: my_device))
         
