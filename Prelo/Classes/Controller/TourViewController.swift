@@ -27,6 +27,11 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
         UserDefaults.standard.set(true, forKey: UserDefaultsKey.Tour)
 //        NSUserDefaults.standardUserDefaults().synchronize()
         
+        // Prelo Analytic - First Tutorial
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [:] as! [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.FinishFirst, data: pdata, previousScreen: PageName.Home, loginMethod: loginMethod)
+        
         self.navigationController?.isNavigationBarHidden = true
     }
     
