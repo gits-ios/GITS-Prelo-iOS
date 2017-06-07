@@ -54,6 +54,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var isFromBackground = false // for defined wait time for redir alert to show
     
+    var isTakingScreenshot = false // for use when take screenshot (dialog show)
+    
     static var Instance : AppDelegate {
         return UIApplication.shared.delegate as! AppDelegate
     }
@@ -685,14 +687,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                                 queue: mainQueue) { notification in
                                                                     // executes after screenshot
                                                                     
-                                                                    self.showAlert()
-                                                                    
-                                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                                                                    if !self.isTakingScreenshot {
                                                                         
-                                                                        self.hideRedirAlertWithDelay(0.0, completion: nil)
-                                                                        self.takeScreenshot()
+                                                                        self.isTakingScreenshot = true
+                                                                        self.showAlert()
                                                                         
-                                                                    })
+                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                                                                            
+                                                                            self.hideRedirAlertWithDelay(0.0, completion: nil)
+                                                                            self.takeScreenshot()
+                                                                            
+                                                                        })
+                                                                    }
         }
         
         return true
@@ -1859,42 +1865,50 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // screenshot
     func takeScreenshot() {
         CustomPhotoAlbum.sharedInstance.fetchLastPhoto(resizeTo: nil , imageCallback: {
-            ss in
-            
-            let appearance = Constant.appearance
-            //appearance.shouldAutoDismiss = false
-            
-            let alertView = SCLAlertView(appearance: appearance)
-            
-            let width = Constant.appearance.kWindowWidth - 24
-            let frame = CGRect(x: 0, y: 0, width: width, height: width)
-            
-            let pView = UIImageView(frame: frame)
-            pView.image = ss?.resizeWithMaxWidthOrHeight(width * UIScreen.main.scale)
-            pView.afInflate()
-            pView.contentMode = .scaleAspectFit
-            
-            // Creat the subview
-            let subview = UIView(frame: CGRect(x: 0, y: 0, width: width, height: width))
-            subview.addSubview(pView)
-            
-            alertView.customSubview = subview
-            
-            alertView.addButton("Share", action: {
-                self.openShare(image: ss!)
-            })
-            
-            alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
-            
-            alertView.showCustom("Screenshot", subTitle: "", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+            image in
+            if let ss = image {
+                let appearance = Constant.appearance
+                //appearance.shouldAutoDismiss = false
+                
+                let alertView = SCLAlertView(appearance: appearance)
+                
+                let width = Constant.appearance.kWindowWidth - 24
+                let frame = CGRect(x: 0, y: 0, width: width, height: width)
+                
+                let pView = UIImageView(frame: frame)
+                pView.image = ss.resizeWithMaxWidthOrHeight(width * UIScreen.main.scale)
+                pView.afInflate()
+                pView.contentMode = .scaleAspectFit
+                
+                // Creat the subview
+                let subview = UIView(frame: CGRect(x: 0, y: 0, width: width, height: width))
+                subview.addSubview(pView)
+                
+                alertView.customSubview = subview
+                
+                alertView.addButton("Share", action: {
+                    self.openShare(image: ss)
+                })
+                
+                alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {
+                    self.isTakingScreenshot = false
+                }
+                
+                alertView.showCustom("Screenshot", subTitle: "", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+            } else {
+                Constant.showDialog("Screenshot", message: "Pastikan untuk memberi akses aplikasi Prelo, dan coba untuk mengambil screenshot sekali lagi.")
+                self.isTakingScreenshot = false
+            }
         })
     }
     
     func openShare(image: UIImage) {
+        // disable deeplink
         //let firstActivityItem = "Prelo"
         //let secondActivityItem : NSURL = NSURL(string: "https://prelo.co.id/")!
         
         // If you want to put an image
+        // image (param)
         
         let activityViewController : UIActivityViewController = UIActivityViewController(
             activityItems: [image], applicationActivities: nil) // firstActivityItem, secondActivityItem,
@@ -1919,6 +1933,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          ]
          */
         
-        UIApplication.shared.keyWindow?.rootViewController?.present(activityViewController, animated: true, completion: nil)
+        //UIApplication.shared.keyWindow?.rootViewController?.present(activityViewController, animated: true, completion: nil)
+        
+        activityViewController.completionWithItemsHandler = { activity, success, items, error in
+            self.isTakingScreenshot = false
+        }
+        
+        // https://stackoverflow.com/questions/26667009/get-top-most-uiviewcontroller
+        if var topController = UIApplication.shared.keyWindow?.rootViewController {
+            while let presentedViewController = topController.presentedViewController {
+                topController = presentedViewController
+            }
+            
+            // topController should now be your topmost view controller
+            topController.present(activityViewController, animated: true, completion: nil)
+        }
     }
 }

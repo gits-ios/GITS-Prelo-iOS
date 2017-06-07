@@ -93,7 +93,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         
         // disable redirect delay
         let delegate = UIApplication.shared.delegate as! AppDelegate
-        delegate.isFromBackground = false
+        delegate.isFromBackground = true
     }
     
     override func didReceiveMemoryWarning() {
