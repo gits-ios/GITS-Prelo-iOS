@@ -345,7 +345,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         //Mixpanel.sharedInstance().timeEvent("Adding Product")
         
         AppToolsObjC.sendMultipart(["name":name!, "description":desc!, "category":selectedCategoryID, "price":price!, "weight":currentWeight], images: self.sendIMGs, withToken: User.Token!, success: {op, res in
-            print((res ?? ""))
+            //print((res ?? ""))
             //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"1"])
             let json = JSON((res ?? [:]))
             let s = self.storyboard?.instantiateViewController(withIdentifier: "share") as! AddProductShareViewController
@@ -486,7 +486,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     */
     
 //    func actionSheet(_ actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
-//        print("index \(buttonIndex)")
+//        //print("index \(buttonIndex)")
 //        if (buttonIndex == 0)
 //        {
 //            replaceIndex = -1
@@ -656,7 +656,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             if (r == 0) {
                 let g = tableView.dequeueReusableCell(withIdentifier: "cell_size") as! AddProductSizeCell
                 g.decorate()
-                print("asd")
+                //print("asd")
                 c = g
             } else if (r == 1) {
                 let b = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input")

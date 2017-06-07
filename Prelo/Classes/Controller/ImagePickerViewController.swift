@@ -121,7 +121,7 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
             if (result != nil) {
                 ap.image = result
             } else {
-                print("Error highres render: \(error)")
+                //print("Error highres render: \(error)")
                 ap.image = image
             }
             editor.dismissViewControllerAnimated(false, completion: {
@@ -243,7 +243,7 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         self.picker = picker
-        print(info)
+        //print(info)
         let apImage = APImage()
         apImage.image = info[UIImagePickerControllerOriginalImage] as? UIImage
         let r : [APImage] = [apImage]
@@ -375,7 +375,7 @@ class ImagePickerCell : UICollectionViewCell
             session?.addInput(input)
             session?.startRunning()
         } catch {
-            print("CAMERA ERROR")
+            //print("CAMERA ERROR")
         }
     }
 }

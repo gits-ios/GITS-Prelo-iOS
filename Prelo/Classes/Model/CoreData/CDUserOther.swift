@@ -60,9 +60,9 @@ class CDUserOther: NSManagedObject {
                 }
                 
                 if (m.saveSave() != false) {
-                    print("deleteAll CDUserOther success")
+                    //print("deleteAll CDUserOther success")
                 } else {
-                    print("deleteAll CDUserOther failed")
+                    //print("deleteAll CDUserOther failed")
                     return false
                 }
             }

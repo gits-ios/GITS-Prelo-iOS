@@ -552,7 +552,7 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.right:
-                print("Swiped right")
+                //print("Swiped right")
                 
                 if (self.backEnabled) {
                     
@@ -562,13 +562,6 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
                     _ = self.navigationController?.popViewController(animated: true)
                 }
                 
-                
-            case UISwipeGestureRecognizerDirection.down:
-                print("Swiped down")
-            case UISwipeGestureRecognizerDirection.left:
-                print("Swiped left")
-            case UISwipeGestureRecognizerDirection.up:
-                print("Swiped up")
             default:
                 break
             }

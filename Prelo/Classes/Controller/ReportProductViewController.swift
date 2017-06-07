@@ -169,22 +169,22 @@ class ReportProductViewController: BaseViewController, UITextViewDelegate {
         // post to api
         var report = ""
         var category_id_sebenarnya = ""
-        print(checklist)
+        //print(checklist)
         if checklist == 0 {
             report = txtvwKW.text == placeholder ? "" : txtvwKW.text
             category_id_sebenarnya = ""
-//            print(txtvwKW.text)
+//            //print(txtvwKW.text)
         } else if checklist == 1 {
             report = ""
             category_id_sebenarnya = categoryIdSelected
-//            print(txtvwKategoriTerpilih.text)
+//            //print(txtvwKategoriTerpilih.text)
         } else if checklist == 2 {
             report = ""
             category_id_sebenarnya = ""
         } else if checklist == 3 {
             report = txtvwTerindikasiPenipuan.text == placeholder ? "" : txtvwTerindikasiPenipuan.text
             category_id_sebenarnya = ""
-//            print(txtvwTerindikasiPenipuan.text)
+//            //print(txtvwTerindikasiPenipuan.text)
         }
         
         if (checklist == 1 && category_id_sebenarnya == "") {

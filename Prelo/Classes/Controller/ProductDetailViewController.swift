@@ -224,16 +224,22 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     self.title = self.detail?.name
                     
                     self.activated = (self.detail?.isActive)!
-                    print((self.detail?.json ?? ""))
+                    //print((self.detail?.json ?? ""))
                     
                     self.adjustButtonByStatus()
                     
-                    // Setup add comment view
-                    self.vwAddComment.isHidden = false
-                    if (self.detail?.discussions?.count > 0) {
+                    // affiliate & checkout -> hunstreet
+                    if (self.product?.isCheckout)! {
                         self.consHeightLblNoComment.constant = 0
+                        self.tableView?.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
                     } else {
-                        self.consHeightLblNoComment.constant = 16
+                        // Setup add comment view
+                        self.vwAddComment.isHidden = false
+                        if (self.detail?.discussions?.count > 0) {
+                            self.consHeightLblNoComment.constant = 0
+                        } else {
+                            self.consHeightLblNoComment.constant = 16
+                        }
                     }
                     
                     // Setup table
@@ -245,7 +251,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     let userid = CDUser.getOne()?.id
                     let sellerid = self.detail?.theirId
                     
-                    if User.IsLoggedIn && sellerid != userid {
+                    if User.IsLoggedIn && sellerid != userid && !((self.product?.isCheckout)!) {
                         self.setOptionButton()
                     } else {
                         // ads
@@ -337,7 +343,10 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         {
             return
         }
-        pDetailCover = ProductDetailCover.instance((detail?.displayPicturers)!, status: (detail?.status)!, topBannerText: (detail?.rejectionText), isFakeApprove: (detail?.isFakeApprove)!, isFakeApproveV2: (detail?.isFakeApproveV2)!, width: UIScreen.main.bounds.size.width)
+        
+        let sellerId = detail?.json["_data"]["seller"]["_id"].stringValue
+        
+        pDetailCover = ProductDetailCover.instance((detail?.displayPicturers)!, status: (detail?.status)!, topBannerText: (sellerId == User.Id ? (detail?.rejectionText) : ""), isFakeApprove: (detail?.isFakeApprove)!, isFakeApproveV2: (detail?.isFakeApproveV2)!, width: UIScreen.main.bounds.size.width)
         pDetailCover?.parent = self
         pDetailCover?.largeImageURLS = (detail?.originalPicturers)!
         if let isFeatured = self.product?.isFeatured , isFeatured {
@@ -451,6 +460,42 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 }
             }
         }
+        
+        if (detail?.isCheckout)! {
+            btnBuy.isHidden = true
+            btnTawar.isHidden = true
+            
+            btnEdit.isHidden = true
+            btnUp.isHidden = true
+            btnSold.isHidden = true
+            
+            // use this view as based
+            btnSold.superview?.isHidden = false
+            
+            let btnCheckoutAffiliate = UIButton()
+            btnCheckoutAffiliate.frame = CGRect(x: btnUp.x, y: btnUp.y, width: UIScreen.main.bounds.width - (btnUp.x * 2), height: btnUp.height)
+            
+            btnCheckoutAffiliate.backgroundColor = Theme.ThemeOrange
+            btnCheckoutAffiliate.setImage(UIImage(named: "ic_cart")?.resizeWithMaxWidthOrHeight(32), for: .normal)
+            btnCheckoutAffiliate.setTitle("BELI DI " + (detail?.AffiliateData?.name)!.uppercased(), for: .normal)
+            btnCheckoutAffiliate.imageEdgeInsets = UIEdgeInsets(top: 6, left: 6, bottom: 6, right: 6)
+            btnCheckoutAffiliate.imageView?.contentMode = .scaleAspectFit
+            btnCheckoutAffiliate.adjustsImageWhenHighlighted = false
+            btnCheckoutAffiliate.titleLabel?.font = btnBuy.titleLabel?.font
+            
+            btnCheckoutAffiliate.addTarget(self, action: #selector(ProductDetailViewController.checkoutAffiliate), for: UIControlEvents.touchUpInside)
+            
+            if (detail?.status)! == 4 {
+                btnCheckoutAffiliate.isEnabled = false
+                
+                let vw = UIView(frame: btnCheckoutAffiliate.bounds)
+                vw.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.2)
+                
+                btnCheckoutAffiliate.addSubview(vw)
+            }
+            
+            btnSold.superview?.addSubview(btnCheckoutAffiliate)
+        }
     }
 
     @IBAction func dismiss(_ sender: AnyObject)
@@ -504,7 +549,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     func documentInteractionControllerDidEndPreview(_ controller: UIDocumentInteractionController) {
-        print("DidEndPreview")
+        //print("DidEndPreview")
     }
     
     // MARK: - Facebook
@@ -566,6 +611,10 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     func numberOfSections(in tableView: UITableView) -> Int {
 //        return 1+(((detail?.discussions?.count)! == 0) ? 0 : 1)
+        
+        if (product?.isCheckout)! {
+            return 1
+        }
         return 2
     }
     
@@ -579,6 +628,10 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 cellTitle?.cellDelegate = self
                 cellTitle?.product = self.product
                 cellTitle?.adapt(detail)
+                
+                if (product?.isCheckout)! {
+                    cellTitle?.sectionComment?.isHidden = true
+                }
                 
                 // Share socmed
                 var textToShare = ""
@@ -651,8 +704,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             let name = result["name"] as? String
                             let accessToken = FBSDKAccessToken.current().tokenString
                             
-                            print("result = \(result)")
-                            print("accessToken = \(accessToken)")
+                            //print("result = \(result)")
+                            //print("accessToken = \(accessToken)")
                             
                             // userId & name is required
                             if (userId != nil && name != nil) {
@@ -1082,8 +1135,84 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
     }
     
-    // MARK: - Coachmark
+    func checkoutAffiliate() {
+        // TODO: - affiliate checkout hunstreet
+//        Constant.showDialog((detail?.AffiliateData?.name)!.uppercased(), message: "TODO gan")
+        
+        let _ = request(APIAffiliate.postCheckout(productIds: (product?.id)!, affiliateName: (detail?.AffiliateData?.name)!)).responseJSON {resp in
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Post Affiliate Checkout")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                if let checkoutUrl = data["checkout_url"].string {
+                    let webVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
+                    webVC.url = checkoutUrl
+                    webVC.titleString = (self.detail?.AffiliateData?.name)!
+                    webVC.affilateMode = true
+                    webVC.checkoutPattern = (self.detail?.AffiliateData?.checkoutUrlPattern)!
+                    webVC.checkoutInitiateUrl = checkoutUrl
+                    webVC.checkoutSucceed = { orderId in
+                        print(orderId)
+                        // TODO: - navigate
+                        self.navigateToOrderConfirmVC(orderId)
+                        self.showLoading()
+                    }
+                    webVC.checkoutUnfinished = {
+                        Constant.showDialog("Checkout", message: "Checkout tertunda")
+                    }
+                    webVC.checkoutFailed = {
+                        Constant.showDialog("Checkout", message: "Checkout gagal, silahkan coba beberapa saat lagi")
+                    }
+                    let baseNavC = BaseNavigationController()
+                    baseNavC.setViewControllers([webVC], animated: false)
+                    self.present(baseNavC, animated: true, completion: nil)
+                }
+            }
+        }
+    }
     
+    func navigateToOrderConfirmVC(_ orderId: String) {
+        // get data
+        let _ = request(APIAffiliate.getCheckoutResult(orderId: orderId)).responseJSON {resp in
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Get Affiliate Checkout")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                
+                let tId = data["transaction_id"].stringValue
+                let price = data["total_price"].stringValue
+                var imgs : [URL] = []
+                if let ps = data["cart_details"]["products"].array {
+                    for p in ps {
+                        if let pics = p["display_picts"].array {
+                            if let url = URL(string: pics[0].stringValue) {
+                                imgs.append(url)
+                            }
+                        }
+                    }
+                }
+                
+                let o = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdOrderConfirm) as! OrderConfirmViewController
+                
+                o.orderID = orderId
+                o.total = price.int
+                o.transactionId = tId
+                o.isBackTwice = false
+                o.isShowBankBRI = false
+                o.targetBank = ""
+                o.previousScreen = PageName.ProductDetail
+                o.images = imgs
+                o.isFromCheckout = false
+                
+                // hidden payment bank transfer
+                o.isMidtrans = true
+                
+                self.hideLoading()
+                self.navigationController?.pushViewController(o, animated: true)
+            }
+        }
+    }
+
+    // MARK: - Coachmark
+
     @IBAction func coachmarkTapped(_ sender: AnyObject) {
         self.vwCoachmark.isHidden = true
         self.vwCoachmarkMine.isHidden = true
@@ -1388,7 +1517,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         self.newPopup?.isHidden = false
         
         let isAdsAvailable = IronSource.hasRewardedVideo()
-        print(isAdsAvailable)
+        //print(isAdsAvailable)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
             self.newPopup?.setupPopUp(isAdsAvailable)
@@ -1411,11 +1540,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             self.newPopup?.disposePopUp = {
                 self.newPopup?.isHidden = true
                 self.newPopup = nil
-                print("Start remove sibview")
+                //print("Start remove sibview")
                 if let viewWithTag = self.view.viewWithTag(100) {
                     viewWithTag.removeFromSuperview()
                 } else {
-                    print("No!")
+                    //print("No!")
                 }
             }
             
@@ -1530,7 +1659,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                                             qos: .background,
                                             target: nil)
         backgroundQueue.async {
-            print("Work on background queue")
+            //print("Work on background queue")
             
             let loginMethod = User.LoginMethod ?? ""
             
@@ -2106,7 +2235,7 @@ class ProductCellSeller : UITableViewCell, UICollectionViewDataSource, UICollect
     @IBOutlet weak var badgeCollectionView: UICollectionView! // achievement
     @IBOutlet weak var consWidthCollectionView: NSLayoutConstraint!
     
-    var badges : Array<URL>! = []
+    var badges : Array<String>! = []
     
     // love floatable
     @IBOutlet var vwLove: UIView!
@@ -2173,25 +2302,47 @@ class ProductCellSeller : UITableViewCell, UICollectionViewDataSource, UICollect
 
         ivSellerAvatar?.afSetImage(withURL: (obj?.shopAvatarURL)!, withFilter: .circle)
         
+        if (obj?.isCheckout)! {
+            let w = self.captionSellerName?.sizeThatFits((self.captionSellerName?.intrinsicContentSize)!)
+            
+            let img = UIImageView()
+            let h = self.captionSellerName?.height
+            let y = (20 - h!) / 2
+            
+            img.frame = CGRect(x: (self.captionSellerName?.x)! + (w?.width)! + 4, y: (self.captionSellerName?.y)! - y, width: 20, height: 20)
+            img.image = UIImage(named: "ic_verified")
+            img.tag = 999
+            
+            self.viewWithTag(999)?.removeFromSuperview()
+            self.addSubview(img)
+        }
+        
         // reset
         badges = []
         consWidthCollectionView.constant = 0
         
-        if let arr = product["seller"]["achievements"].array {
-//            for i in arr {
-//                let ach = AchievementItem.instance(i)
-//                
-//                self.badges.append((ach?.icon)!)
-//            }
-            
-            if arr.count > 0 {
-                let ach = AchievementItem.instance(arr[0])
+        self.badges = []
+//        if (obj?.isCheckout)! {
+//            self.badges.append("ic_verified")
+//            
+//            setupCollection()
+//        } else {
+            if let arr = product["seller"]["achievements"].array {
+//                for i in arr {
+//                    let ach = AchievementItem.instance(i)
+//                    
+//                    self.badges.append((ach?.icon)!)
+//                }
                 
-                self.badges.append((ach?.icon)!)
-                
-                setupCollection()
+                if arr.count > 0 {
+                    let ach = AchievementItem.instance(arr[0])
+                    
+                    self.badges.append((ach?.icon)!.absoluteString)
+                    
+                    setupCollection()
+                }
             }
-        }
+//        }
     }
     
     override func awakeFromNib() {
@@ -2242,15 +2393,19 @@ class ProductCellSeller : UITableViewCell, UICollectionViewDataSource, UICollect
         // Create icon view
         let vwIcon : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
         
-//        vwIcon.layer.cornerRadius = vwIcon.frame.size.width/2
-//        vwIcon.layer.masksToBounds = true
-//        vwIcon.backgroundColor = UIColor.white
-        
         let img = UIImageView(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
         img.layoutIfNeeded()
         img.layer.cornerRadius = (img.width ) / 2
         img.layer.masksToBounds = true
-        img.afSetImage(withURL: badges[(indexPath as NSIndexPath).row], withFilter: .circleWithBadgePlaceHolder)
+        if badges[(indexPath as NSIndexPath).row] == "ic_verified" { // affiliate -> verified icon
+//            vwIcon.layer.cornerRadius = vwIcon.frame.size.width/2
+//            vwIcon.layer.masksToBounds = true
+//            vwIcon.backgroundColor = UIColor.red
+            
+            img.image = UIImage(named: badges[(indexPath as NSIndexPath).row])
+        } else {
+            img.afSetImage(withURL: URL(string: badges[(indexPath as NSIndexPath).row])!, withFilter: .circleWithBadgePlaceHolder)
+        }
         
         vwIcon.addSubview(img)
         
@@ -2500,7 +2655,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
             ranges = []
         }
         
-        print(ranges)  // prints [(0,3), (18,3), (27,3)]
+        //print(ranges)  // prints [(0,3), (18,3), (27,3)]
         
         let attString : NSMutableAttributedString = NSMutableAttributedString(string: categoryString)
         for p in param
@@ -2534,7 +2689,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
     }
     
     func tappableLabel(_ tappableLabel: ZSWTappableLabel!, tappedAt idx: Int, withAttributes attributes: [AnyHashable: Any]!) {
-        //print(attributes)
+        ////print(attributes)
         
         if (cellDelegate != nil) {
             if let brandName = attributes["brand"] as? String { // Brand clicked

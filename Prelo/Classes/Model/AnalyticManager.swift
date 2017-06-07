@@ -44,6 +44,8 @@ class AnalyticManager: NSObject {
         return (_PreloAnalyticBaseUrl == prodAnalyticURL)
     }
     
+    static let faId = (UIDevice.current.identifierForVendor != nil ? UIDevice.current.identifierForVendor!.uuidString : "")
+    
     // skeleton generator + append data
     fileprivate func skeletonData(data : [String : Any], previousScreen : String, loginMethod : String) -> [String : Any] {
         var appVersion = ""
@@ -72,7 +74,7 @@ class AnalyticManager: NSObject {
         
         // not allow
         if !isWhiteList(eventType) {
-            print("Analytics - " + eventType + ", Disabled")
+            //print("Analytics - " + eventType + ", Disabled")
             if self.isShowDialog {
                 Constant.showDialog("Analytics - " + eventType, message: "BlackList")
             }
@@ -83,7 +85,7 @@ class AnalyticManager: NSObject {
         
         let _ = request(APIAnalytic.event(eventType: eventType, data: wrappedData)).responseJSON {resp in
             if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - " + eventType)) {
-                print("Analytics - " + eventType + ", Sent!")
+                //print("Analytics - " + eventType + ", Sent!")
                 if self.isShowDialog {
                     Constant.showDialog("Analytics - " + eventType, message: "Success")
                 }
@@ -96,7 +98,7 @@ class AnalyticManager: NSObject {
         
         // not allow
         if !isWhiteList(eventType) {
-            print("Analytics - " + eventType + ", Disabled")
+            //print("Analytics - " + eventType + ", Disabled")
             if self.isShowDialog {
                 Constant.showDialog("Analytics - " + eventType, message: "BlackList")
             }
@@ -107,7 +109,7 @@ class AnalyticManager: NSObject {
         
         let _ = request(APIAnalytic.eventWithUserId(eventType: eventType, data: wrappedData, userId: userId)).responseJSON {resp in
             if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - " + eventType)) {
-                print("Analytics - " + eventType + ", Sent!")
+                //print("Analytics - " + eventType + ", Sent!")
                 if self.isShowDialog {
                     Constant.showDialog("Analytics - " + eventType, message: "Success")
                 }
@@ -120,7 +122,7 @@ class AnalyticManager: NSObject {
         let eventType = PreloAnalyticEvent.OpenApp
         let _ = request(APIAnalytic.eventOpenApp).responseJSON {resp in
             if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - User")) {
-                print("Analytics - " + eventType + ", Sent!")
+                //print("Analytics - " + eventType + ", Sent!")
                 if self.isShowDialog {
                     Constant.showDialog("Analytics - " + eventType, message: "Success")
                 }
@@ -133,7 +135,7 @@ class AnalyticManager: NSObject {
         if (User.IsLoggedIn) {
             let _ = request(APIAnalytic.user(isNeedPayload: isNeedPayload)).responseJSON {resp in
                 if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - User")) {
-                    print("Analytics - User, Sent!")
+                    //print("Analytics - User, Sent!")
                     if self.isShowDialog {
                         Constant.showDialog("Analytics - User", message: "Success")
                     }
@@ -146,7 +148,7 @@ class AnalyticManager: NSObject {
     func registerUser(method: String, metadata: JSON) {
         let _ = request(APIAnalytic.userRegister(registerMethod: method, metadata: metadata)).responseJSON {resp in
             if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - User")) {
-                print("Analytics - User, Sent!")
+                //print("Analytics - User, Sent!")
                 if self.isShowDialog {
                     Constant.showDialog("Analytics - User", message: "Success")
                 }
@@ -158,7 +160,7 @@ class AnalyticManager: NSObject {
     func initUser(userProfileData: UserProfile) {
         let _ = request(APIAnalytic.userInit(userProfileData: userProfileData)).responseJSON {resp in
             if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - User")) {
-                print("Analytics - User, Sent!")
+                //print("Analytics - User, Sent!")
                 if self.isShowDialog {
                     Constant.showDialog("Analytics - User", message: "Success")
                 }
@@ -170,7 +172,7 @@ class AnalyticManager: NSObject {
     func updateUserPhone(phone: String) {
         let _ = request(APIAnalytic.userUpdate(phone: phone)).responseJSON {resp in
             if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - User")) {
-                print("Analytics - User, Sent!")
+                //print("Analytics - User, Sent!")
                 if self.isShowDialog {
                     Constant.showDialog("Analytics - User", message: "Success")
                 }
@@ -203,6 +205,9 @@ class AnalyticManager: NSObject {
     // TODO: - Enable all analytics
     fileprivate func isWhiteList(_ preloAnalyticEvent: String) -> Bool {
         let _whiteList = [
+            // Achievement
+            PreloAnalyticEvent.VisitAchievementPage,
+            
             // Add Product
             PreloAnalyticEvent.SaveAsDraft,
             PreloAnalyticEvent.SubmitProduct,
@@ -234,6 +239,7 @@ class AnalyticManager: NSObject {
             PreloAnalyticEvent.UpProduct,
             PreloAnalyticEvent.VisitProductDetail,
             PreloAnalyticEvent.VisitAggregate,
+            PreloAnalyticEvent.ShareForCommission,
             
             // Purchase
             PreloAnalyticEvent.GoToCart,
@@ -253,12 +259,12 @@ class AnalyticManager: NSObject {
             
             // Withdraw
             PreloAnalyticEvent.RequestWithdrawMoney,
+            
+            // Tutorial
+            PreloAnalyticEvent.FinishFirst,
         ]
         
         let _developmentList = [
-            // Achievement
-            PreloAnalyticEvent.VisitAchievementPage,
-            
             // Chat
             PreloAnalyticEvent.SuccessfulBargain,
             PreloAnalyticEvent.SendMediaOnChat,
@@ -267,7 +273,6 @@ class AnalyticManager: NSObject {
             PreloAnalyticEvent.ChagePhone,
             
             // Product
-            PreloAnalyticEvent.ShareForCommission,
             PreloAnalyticEvent.EraseProduct,
             PreloAnalyticEvent.MarkAsSold,
             PreloAnalyticEvent.CommentOnProduct,

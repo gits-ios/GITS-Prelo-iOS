@@ -9,6 +9,7 @@
 import UIKit
 import MessageUI
 import Alamofire
+import AlamofireImage
 
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
@@ -67,13 +68,15 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     struct SegmentItem {
         var type : String = ""
         var name : String = ""
-        var image : UIImage = UIImage()
+        //var image : UIImage = UIImage()
+        var imageLink : URL!
     }
     
     struct SubcategoryItem {
         var id : String = ""
         var name : String = ""
-        var image : UIImage = UIImage()
+        //var image : UIImage = UIImage()
+        var imageLink : URL!
     }
     
     // MARK: - Properties
@@ -187,10 +190,26 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     var adsCellProvider: FBNativeAdCollectionViewCellProvider!
     
+    // filter
+    var isHiddenTop = false
+    
+    // need refresh
+    var curTime: TimeInterval!
+    var interval: Double!
+    
     // MARK: - Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        curTime = NSDate().timeIntervalSince1970 // init time
+        //interval = 60.0 * 60.0 * 3 // 3 hours
+        
+        var minute = UserDefaults.standard.integer(forKey: UserDefaultsKey.RefreshTime)
+        if minute <= 0 {
+            minute = 60 * 3
+        }
+        interval = 60.0 * Double(minute)
         
         let frequency = UserDefaults.standard.integer(forKey: UserDefaultsKey.AdsFrequency)
         if frequency > 0 {
@@ -283,7 +302,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        //print("viewWillDisappear x")
+        ////print("viewWillDisappear x")
         
         // Show navbar - non animated
         NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
@@ -338,6 +357,14 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         if (currentMode == .filter) {
             self.searchBar.text = self.fltrName
             self.setStatusBarBackgroundColor(color: Theme.PrimaryColor)
+            
+            if isHiddenTop {
+                self.navigationController?.setNavigationBarHidden(true, animated: true)
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.consTopTopHeaderFilter.constant = UIApplication.shared.statusBarFrame.height
+                    self.consTopGridView.constant = UIApplication.shared.statusBarFrame.height
+                })
+            }
         }
         
         // Mixpanel for store mode
@@ -395,30 +422,35 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.right:
-                print("Swiped right")
+                //print("Swiped right")
                 
                 // gesture override
                 self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
                 
                 let viewControllers: [UIViewController] = (self.navigationController?.viewControllers)!
-                _ = self.navigationController?.popToViewController(viewControllers[1], animated: true);
+                    _ = self.navigationController?.popToViewController(viewControllers[1], animated: true);
                 
-                
-            case UISwipeGestureRecognizerDirection.down:
-                print("Swiped down")
-            case UISwipeGestureRecognizerDirection.left:
-                print("Swiped left")
-            case UISwipeGestureRecognizerDirection.up:
-                print("Swiped up")
             default:
                 break
             }
         }
     }
     
+    // MARK: - Setup
+    
     func setupContent() {
-        if (!isContentLoaded) {
-            isContentLoaded = true
+        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
+                                            qos: .background,
+                                            target: nil)
+        backgroundQueue.async {
+            
+        if (!self.isContentLoaded) {
+            self.isContentLoaded = true
+            
+            if !Reachability.isConnectedToNetwork() {
+                self.isContentLoaded = false
+                return
+            }
             
             // Default, Standalone, Shop, and Filter mode is predefined
             // Featured and Segment mode will be identified here
@@ -428,15 +460,18 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             if let segmentsJson = self.categoryJson?["segments"].array, segmentsJson.count > 0 {
                 self.currentMode = .segment
                 for i in 0...segmentsJson.count - 1 {
-                    var img : UIImage = UIImage()
+                    //var img : UIImage = UIImage()
+                    var imgUrl : URL!
                     if let url = URL(string: segmentsJson[i]["image"].stringValue) {
-                        if let data = try? Data(contentsOf: url) {
-                            if let uiimg = UIImage(data: data) {
-                                img = uiimg
-                            }
-                        }
+                        imgUrl = url
+                        //if let data = try? Data(contentsOf: url) {
+                        //    if let uiimg = UIImage(data: data) {
+                        //        img = uiimg
+                        //    }
+                        //}
                     }
-                    self.segments.append(SegmentItem(type: segmentsJson[i]["type"].stringValue, name: segmentsJson[i]["name"].stringValue, image: img))
+                    //self.segments.append(SegmentItem(type: segmentsJson[i]["type"].stringValue, name: segmentsJson[i]["name"].stringValue, image: img))
+                    self.segments.append(SegmentItem(type: segmentsJson[i]["type"].stringValue, name: segmentsJson[i]["name"].stringValue, imageLink: imgUrl))
                 }
                 self.listItemSections.remove(at: self.listItemSections.index(of: .products)!)
                 self.listItemSections.insert(.segments, at: 0)
@@ -452,15 +487,18 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             if let subcatJson = self.categoryJson?["sub_categories"].array, subcatJson.count > 0 {
                 self.isShowSubcategory = true
                 for i in 0...subcatJson.count - 1 {
-                    var img : UIImage = UIImage()
+                    //var img : UIImage = UIImage()
+                    var imgUrl : URL!
                     if let url = URL(string: subcatJson[i]["image"].stringValue.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!) {
-                        if let data = try? Data(contentsOf: url) {
-                            if let uiimg = UIImage(data: data) {
-                                img = uiimg
-                            }
-                        }
+                        imgUrl = url
+                        //if let data = try? Data(contentsOf: url) {
+                        //    if let uiimg = UIImage(data: data) {
+                        //        img = uiimg
+                        //    }
+                        //}
                     }
-                    self.subcategoryItems.append(SubcategoryItem(id: subcatJson[i]["_id"].stringValue, name: subcatJson[i]["name"].stringValue, image: img))
+                    //self.subcategoryItems.append(SubcategoryItem(id: subcatJson[i]["_id"].stringValue, name: subcatJson[i]["name"].stringValue, image: img))
+                    self.subcategoryItems.append(SubcategoryItem(id: subcatJson[i]["_id"].stringValue, name: subcatJson[i]["name"].stringValue, imageLink: imgUrl))
                 }
                 self.listItemSections.insert(.subcategories, at: 0)
             }
@@ -469,41 +507,49 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.isShowCarousel = true
                 self.carouselItems = []
                 for i in 0..<carouselJson.count {
-                    var img = UIImage()
+                    //var img = UIImage()
+                    var imgLink : URL!
                     var link : URL!
-                    if let url = URL(string: carouselJson[i]["image"].stringValue), let data = try? Data(contentsOf: url), let uiimg = UIImage(data: data) {
-                        img = uiimg
+                    //if let url = URL(string: carouselJson[i]["image"].stringValue), let data = try? Data(contentsOf: url), let uiimg = UIImage(data: data) {
+                    //    img = uiimg
+                    //}
+                    if let url = URL(string: carouselJson[i]["image"].stringValue) {
+                        imgLink = url
                     }
                     if let url = URL(string: carouselJson[i]["link"].stringValue) {
                         link = url
                     }
-                    let item = CarouselItem.init(name: carouselJson[i]["name"].stringValue, img: img, link: link)
+                    //let item = CarouselItem.init(name: carouselJson[i]["name"].stringValue, img: img, link: link)
+                    let item = CarouselItem.init(name: carouselJson[i]["name"].stringValue, imgLink: imgLink, link: link)
                     self.carouselItems.append(item)
                 }
                 self.listItemSections.insert(.carousel, at: 0)
             }
             
             // Adjust content base on the mode
-            switch (currentMode) {
+            switch (self.currentMode) {
             case .default, .standalone:
+                DispatchQueue.main.async(execute: {
                 // Upper 4px padding handling
                 self.consTopTopHeader.constant = 4
                 
                 // Top header setup
                 self.consHeightVwTopHeader.constant = 0
-                
+                })
                 // Get initial products
                 self.getInitialProducts()
             case .shop, .newShop:
+                DispatchQueue.main.async(execute: {
                 // Upper 4px padding handling
                 self.consTopTopHeader.constant = 0
                 
                 // Top header setup
                 self.consHeightVwTopHeader.constant = 0
-                
+                })
                 // Get initial products
                 self.getInitialProducts()
             case .featured:
+                DispatchQueue.main.async(execute: {
                 // Upper 4px padding handling
                 self.consTopTopHeader.constant = 4
                 
@@ -511,62 +557,65 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.consHeightVwTopHeader.constant = 0
                 
                 // Set color
-                if let name = categoryJson?["name"].string, name.lowercased() == "all" {
+                if let name = self.categoryJson?["name"].string, name.lowercased() == "all" {
                     self.view.backgroundColor = Theme.GrayGranite // Upper 4px padding color
                     self.gridView.backgroundColor = Theme.GrayGranite // Background color
                 }
-                
+                })
                 // Get initial products
                 self.getInitialProducts()
             case .segment:
+                DispatchQueue.main.async(execute: {
                 // Top header setup
-                consHeightVwTopHeader.constant = 40
+                self.consHeightVwTopHeader.constant = 40
                 
                 // Show segments
                 self.setDefaultTopHeaderWomen()
                 
                 // Setup grid
                 self.setupGrid()
+                })
             case .filter:
+                DispatchQueue.main.async(execute: {
                 // Upper 4px padding handling
                 self.consTopTopHeader.constant = 4
                 self.view.backgroundColor = UIColor(hexString: "#E8ECEE")
                 
                 // Top header setup
-                consHeightVwTopHeader.constant = 52
+                self.consHeightVwTopHeader.constant = 52
                 
                 // Setup filter related views
-                for i in 0...vwTopHeaderFilter.subviews.count - 1 {
-                    vwTopHeaderFilter.subviews[i].createBordersWithColor(UIColor(hexString: "#e3e3e3"), radius: 0, width: 1)
+                for i in 0...self.vwTopHeaderFilter.subviews.count - 1 {
+                    self.vwTopHeaderFilter.subviews[i].createBordersWithColor(UIColor(hexString: "#e3e3e3"), radius: 0, width: 1)
                 }
-                vwTopHeaderFilter.isHidden = false
-                vwTopHeader.isHidden = true
-                if (fltrBrands.count > 0) {
-                    if (fltrBrands.count == 1) {
-                        lblFilterMerek.text = [String](fltrBrands.keys)[0]
+                self.vwTopHeaderFilter.isHidden = false
+                self.vwTopHeader.isHidden = true
+                if (self.fltrBrands.count > 0) {
+                    if (self.fltrBrands.count == 1) {
+                        self.lblFilterMerek.text = [String](self.fltrBrands.keys)[0]
                     } else {
-                        lblFilterMerek.text = [String](fltrBrands.keys)[0] + ", \(fltrBrands.count - 1)+"
+                        self.lblFilterMerek.text = [String](self.fltrBrands.keys)[0] + ", \(self.fltrBrands.count - 1)+"
                     }
                 } else {
-                    lblFilterMerek.text = "All"
+                    self.lblFilterMerek.text = "All"
                 }
-                if (fltrCategId == "") {
-                    lblFilterKategori.text = "All"
+                if (self.fltrCategId == "") {
+                    self.lblFilterKategori.text = "All"
                 } else {
-                    lblFilterKategori.text = CDCategory.getCategoryNameWithID(fltrCategId)
+                    self.lblFilterKategori.text = CDCategory.getCategoryNameWithID(self.fltrCategId)
                 }
-                lblFilterSort.text = self.FltrValSortBy[self.fltrSortBy]
-                if (lblFilterSort.text?.lowercased() == "highest rp") {
-                    lblFilterSort.font = UIFont.boldSystemFont(ofSize: 12)
+                self.lblFilterSort.text = self.FltrValSortBy[self.fltrSortBy]
+                if (self.lblFilterSort.text?.lowercased() == "highest rp") {
+                    self.lblFilterSort.font = UIFont.boldSystemFont(ofSize: 12)
                 } else {
-                    lblFilterSort.font = UIFont.boldSystemFont(ofSize: 13)
+                    self.lblFilterSort.font = UIFont.boldSystemFont(ofSize: 13)
                 }
                 // Search bar setup
                 var searchBarWidth = UIScreen.main.bounds.size.width * 0.8375
                 if (AppTools.isIPad) {
                     searchBarWidth = UIScreen.main.bounds.size.width - 68
                 }
-                searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: searchBarWidth, height: 30))
+                self.searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: searchBarWidth, height: 30))
                 if let searchField = self.searchBar.value(forKey: "searchField") as? UITextField {
                     searchField.backgroundColor = Theme.PrimaryColorDark
                     searchField.textColor = UIColor.white
@@ -578,17 +627,30 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     }
                     searchField.borderStyle = UITextBorderStyle.none
                 }
-                searchBar.delegate = self
-                searchBar.placeholder = "Cari di Prelo"
-                self.navigationItem.rightBarButtonItem = searchBar.toBarButton()
-                
+                self.searchBar.delegate = self
+                self.searchBar.placeholder = "Cari di Prelo"
+                self.navigationItem.rightBarButtonItem = self.searchBar.toBarButton()
+                })
                 // Get initial products
                 self.getInitialProducts()
+                
+                // ads
+                if (self.currentMode == .filter || self.currentMode == .default) {
+                    self.configureAdManagerAndLoadAds()
+                }
             }
+            } else if (self.products != nil && (self.products?.count)! <= 24 && (self.products?.count)! > 0) || self.currentMode == .featured {
             
-            // ads
-            if (currentMode == .filter || currentMode == .default) {
-                configureAdManagerAndLoadAds()
+                // refrsher
+                let _curTime = NSDate().timeIntervalSince1970
+            
+                if (_curTime - self.curTime) >= self.interval {
+                    self.curTime = _curTime
+                    
+                    self.refresher?.beginRefreshing()
+                    
+                    self.refresh()
+                }
             }
         }
     }
@@ -603,6 +665,12 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func refresh() {
+        if !Reachability.isConnectedToNetwork() {
+            Constant.showDisconnectBanner()
+            self.refresher?.endRefreshing()
+            return
+        }
+        
         if (self.currentMode == .shop && self.isFirst == false) {
             self.transparentNavigationBar(false)
         }
@@ -611,7 +679,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         self.products = []
         self.done = false
         self.footerLoading?.isHidden = false
-        self.setupGrid() // Agar muncul loading
+        DispatchQueue.main.async(execute: {
+            self.gridView.reloadData()
+            //self.setupGrid() // Agar muncul loading
+        })
         
         switch (currentMode) {
         case .shop, .filter, .newShop:
@@ -623,7 +694,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.getProducts()
             } else {
                 self.refresher?.endRefreshing()
-                self.setupGrid()
+                DispatchQueue.main.async(execute: {
+                    //self.setupGrid()
+                    self.gridView.contentInset = UIEdgeInsetsMake(0, 0, 48, 0)
+                })
             }
         default:
             requesting = true
@@ -652,27 +726,29 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                         }
                     }
                     self.refresher?.endRefreshing()
-                    self.setupGrid()
+                    DispatchQueue.main.async(execute: {
+                        self.setupGrid()
+                    })
                 }
             }
         }
     }
     
     func getProducts() {
-        switch (currentMode) {
+        switch (self.currentMode) {
         case .default:
-            if let catId = categoryJson?["_id"].string {
+            if let catId = self.categoryJson?["_id"].string {
                 self.getCategorizedProducts(catId)
             }
         case .standalone:
-            self.getCategorizedProducts(standaloneCategoryID)
+            self.getCategorizedProducts(self.standaloneCategoryID)
         case .shop:
             self.getShopProducts()
         case .featured:
             self.getFeaturedProducts()
         case .segment:
             if (self.listItemSections.contains(.products)) {
-                if let catId = categoryJson?["_id"].string {
+                if let catId = self.categoryJson?["_id"].string {
                     self.getCategorizedProducts(catId)
                 }
             }
@@ -696,7 +772,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Product By Category")) {
                 self.setupData(resp.result.value)
             }
-            self.setupGrid()
+            self.refresher?.endRefreshing()
+            DispatchQueue.main.async(execute: {
+                self.setupGrid()
+            })
         }
     }
     
@@ -707,7 +786,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         requesting = true
         
-        _ = request(APIProduct.getAllFeaturedProducts(categoryId: self.categoryJson!["_id"].stringValue)).responseJSON { resp in
+        let req = request(APIProduct.getAllFeaturedProducts(categoryId: self.categoryJson!["_id"].stringValue)).responseJSON { resp in
             self.requesting = false
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Featured Products")) {
                 self.products = []
@@ -715,7 +794,25 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.setupData(resp.result.value)
             }
             self.refresher?.endRefreshing()
-            self.setupGrid()
+            DispatchQueue.main.async(execute: {
+                self.setupGrid()
+            })
+        }
+        
+        
+        // testing gzip
+        if AppTools.isDev {
+            let t = ((APIProduct.getAllFeaturedProducts(categoryId: self.categoryJson!["_id"].stringValue)).urlRequest?.allHTTPHeaderFields?.description) ?? ""
+            req.responseData(completionHandler: { (resp) in
+                /*
+                Constant.showDialog("Response", message: (resp.data?.debugDescription)! + "\n\n" + resp.debugDescription)
+                Constant.showDialog("Response Header", message: (resp.response?.allHeaderFields.description)!)
+                Constant.showDialog("Request", message: t)
+                */
+                print("\nRequest:\n" + t)
+                print("\nResponse Header:\n" + (resp.response?.allHeaderFields.description)!)
+                print("\nResponse:\n" + (resp.data?.debugDescription)! + "\n" + resp.debugDescription)
+            })
         }
     }
     
@@ -740,7 +837,11 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     self.setupData(resp.result.value)
                 }
                 self.refresher?.endRefreshing()
-                self.setupGrid()
+                DispatchQueue.main.async(execute: {
+                    self.setupGrid()
+                })
+            } else {
+                self.refresher?.endRefreshing()
             }
         }
     }
@@ -756,14 +857,14 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             self.requesting = false
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Data Shop Pengguna")) {
                 self.setupData(resp.result.value)
-                
+                DispatchQueue.main.async(execute: {
                 if (self.shopHeader == nil) {
                     self.shopHeader = Bundle.main.loadNibNamed("StoreHeader", owner: nil, options: nil)?.first as? StoreHeader
                     self.gridView.addSubview(self.shopHeader!)
                 }
                 
                 let json = JSON(resp.result.value!)["_data"]
-                print(json)
+                //print(json)
                 
                 self.shopName = json["username"].stringValue
                 self.shopHeader?.captionName.text = self.shopName
@@ -985,6 +1086,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 if (self.isFirst == false && current == 0) {
                     self.transparentNavigationBar(true)
                 }
+                })
             }
         }
     }
@@ -1001,6 +1103,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.setupData(resp.result.value)
                 
                 let json = JSON(resp.result.value!)["_data"]
+                
+                DispatchQueue.main.async(execute: {
                 
                 self.shopData = json
                 
@@ -1061,12 +1165,14 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     self.gridView.contentInset = inset
                     
                 }
+                })
             } else {
-                
+                DispatchQueue.main.async(execute: {
                 // gesture override
                 self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
                 
                 self.delegate?.popView()
+                })
             }
         }
         
@@ -1080,7 +1186,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         if let arr = obj["_data"].array {
             if arr.count == 0 {
                 self.done = true
+                DispatchQueue.main.async(execute: {
                 self.footerLoading?.isHidden = true
+                })
             } else {
                 for (_, item) in obj["_data"] {
                     let p = Product.instance(item)
@@ -1092,7 +1200,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         } else if let arr = obj["_data"]["products"].array {
             if arr.count == 0 {
                 self.done = true
+                DispatchQueue.main.async(execute: {
                 self.footerLoading?.isHidden = true
+                })
             } else {
                 for item in arr
                 {
@@ -1111,46 +1221,43 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func setupGrid() {
-        if (currentMode == .filter && products?.count <= 0 && !requesting) {
-            gridView.isHidden = true
-            vwFilterZeroResult.isHidden = false
-            if (fltrName != "") {
-                lblFilterZeroResult.text = "Tidak ada hasil yang ditemukan untuk '\(fltrName)'"
-                btnFilterZeroResult.isHidden = false
+        if (self.currentMode == .filter && self.products?.count <= 0 && !self.requesting) {
+            self.gridView.isHidden = true
+            self.vwFilterZeroResult.isHidden = false
+            if (self.fltrName != "") {
+                self.lblFilterZeroResult.text = "Tidak ada hasil yang ditemukan untuk '\(self.fltrName)'"
+                self.btnFilterZeroResult.isHidden = false
             } else {
-                lblFilterZeroResult.text = "Tidak ada hasil yang ditemukan"
-                btnFilterZeroResult.isHidden = true
+                self.lblFilterZeroResult.text = "Tidak ada hasil yang ditemukan"
+                self.btnFilterZeroResult.isHidden = true
             }
             return
         }
         
-        if (gridView.dataSource == nil || gridView.delegate == nil) {
-            gridView.dataSource = self
-            gridView.delegate = self
+        if (self.gridView.dataSource == nil || self.gridView.delegate == nil) {
+            self.gridView.dataSource = self
+            self.gridView.delegate = self
         }
         
-        if (!(currentMode == .segment && listItemSections.contains(.segments))) {
-            if (listStage == 1) {
-                itemCellWidth = ((UIScreen.main.bounds.size.width - 16) / 3)
-            } else if (listStage == 2) {
-                itemCellWidth = ((UIScreen.main.bounds.size.width - 12) / 2)
-            } else if (listStage == 3) {
-                itemCellWidth = ((UIScreen.main.bounds.size.width - 8) / 1)
+        if (!(self.currentMode == .segment && self.listItemSections.contains(.segments))) {
+            if (self.listStage == 1) {
+                self.itemCellWidth = ((UIScreen.main.bounds.size.width - 16) / 3)
+            } else if (self.listStage == 2) {
+                self.itemCellWidth = ((UIScreen.main.bounds.size.width - 12) / 2)
+            } else if (self.listStage == 3) {
+                self.itemCellWidth = ((UIScreen.main.bounds.size.width - 8) / 1)
             }
         }
         
-        gridView.reloadData()
-        if (currentMode == .segment || self.isFeatured == true) {
-            gridView.contentInset = UIEdgeInsetsMake(0, 0, 48, 0)
-        } else if (currentMode == .filter || currentMode == .shop || currentMode == .newShop) {
-            gridView.contentInset = UIEdgeInsetsMake(0, 0, 24, 0)
+        if (self.currentMode == .segment || self.isFeatured == true) {
+            self.gridView.contentInset = UIEdgeInsetsMake(0, 0, 48, 0)
+        } else if (self.currentMode == .filter || self.currentMode == .shop || self.currentMode == .newShop) {
+            self.gridView.contentInset = UIEdgeInsetsMake(0, 0, 24, 0)
         }
-        gridView.isHidden = false
-        vwFilterZeroResult.isHidden = true
+        self.gridView.isHidden = false
+        self.vwFilterZeroResult.isHidden = true
         
-//        if (currentMode == .filter) {
-//            configureAdManagerAndLoadAds()
-//        }
+        self.gridView.reloadData()
     }
     
     // MARK: - Collection view functions
@@ -1204,28 +1311,40 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             return cell
         case .subcategories:
             let cell : ListItemSubcategoryCell = collectionView.dequeueReusableCell(withReuseIdentifier: "subcategory_cell", for: indexPath) as! ListItemSubcategoryCell
-            cell.imgSubcategory.image = subcategoryItems[(indexPath as NSIndexPath).item].image
+            //cell.imgSubcategory.image = subcategoryItems[(indexPath as NSIndexPath).item].image
+            cell.adapt(subcategoryItems[(indexPath as NSIndexPath).item].imageLink)
             cell.lblSubcategory.isHidden = true // Unused label
             return cell
         case .segments:
             let cell : ListItemSegmentCell = collectionView.dequeueReusableCell(withReuseIdentifier: "segment_cell", for: indexPath) as! ListItemSegmentCell
-            cell.imgSegment.image = segments[(indexPath as NSIndexPath).item].image
+            //cell.imgSegment.image = segments[(indexPath as NSIndexPath).item].image
+            cell.adapt(segments[(indexPath as NSIndexPath).item].imageLink)
             return cell
         case .products:
             if adsCellProvider != nil && adsCellProvider.isAdCell(at: indexPath, forStride: UInt(adRowStep)) {
                 return adsCellProvider.collectionView(gridView, cellForItemAt: indexPath)
             }
             else {
-                // Load next products here
-                if (currentMode == .default || currentMode == .standalone || currentMode == .shop || currentMode == .filter || (currentMode == .segment && listItemSections.contains(.products)) || currentMode == .newShop) {
-                    if ((indexPath as NSIndexPath).row == (products?.count)! - 4 && requesting == false && done == false) {
-                        getProducts()
-                    }
-                }
-                
                 var idx  = (indexPath as NSIndexPath).item
                 if (adsCellProvider != nil && adRowStep != 0) {
                     idx = indexPath.row - indexPath.row / adRowStep
+                }
+                
+                // Load next products here
+                if (currentMode == .default || currentMode == .standalone || currentMode == .shop || currentMode == .filter || (currentMode == .segment && listItemSections.contains(.products)) || currentMode == .newShop) {
+                    if (idx == (products?.count)! - 4 && requesting == false && done == false) {
+                        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
+                                                            qos: .background,
+                                                            target: nil)
+                        backgroundQueue.async {
+                            if !Reachability.isConnectedToNetwork() {
+                                Constant.showDisconnectBanner()
+                                return
+                            }
+                            //print("Work on background queue")
+                            self.getProducts()
+                        }
+                    }
                 }
                 
                 let cell : ListItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ListItemCell
@@ -1238,12 +1357,36 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     // Hide featured ribbon
                     cell.imgFeatured.isHidden = true
                 }
+                
+                cell.alpha = 1.0
+                cell.backgroundColor = UIColor.white
+            
+                cell.ivCover.alpha = 1.0
+                cell.ivCover.backgroundColor = UIColor.white
+                
                 return cell
             }
         case .aboutShop:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "StorePageShopHeader", for: indexPath) as! StoreInfo
             cell.adapt(self.shopData, count: self.products!.count, isExpand: self.isExpand, star: self.star)
+            
+            cell.alpha = 1.0
+            cell.backgroundColor = UIColor.white
+            
             return cell
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        switch listItemSections[(indexPath as NSIndexPath).section] {
+        case .products:
+            if cell is ListItemCell {
+                let c = cell as! ListItemCell
+                c.ivCover.af_cancelImageRequest()
+                c.avatar.af_cancelImageRequest()
+            }
+            break
+        default: break
         }
     }
     
@@ -1251,21 +1394,24 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         let viewWidthMinusMargin = UIScreen.main.bounds.size.width - 8
         switch listItemSections[(indexPath as NSIndexPath).section] {
         case .carousel:
-            var maxHeight : CGFloat = 0
-            for i in 0..<self.carouselItems.count {
-                let height = ((viewWidthMinusMargin / carouselItems[i].img.size.width) * carouselItems[i].img.size.height)
-                if (height > maxHeight) {
-                    maxHeight = height
-                }
-            }
-            return CGSize(width: viewWidthMinusMargin, height: maxHeight)
+            //var maxHeight : CGFloat = 0
+            //for i in 0..<self.carouselItems.count {
+            //    let height = ((viewWidthMinusMargin / carouselItems[i].img.size.width) * carouselItems[i].img.size.height)
+            //    if (height > maxHeight) {
+            //        maxHeight = height
+            //    }
+            //}
+            //return CGSize(width: viewWidthMinusMargin, height: maxHeight)
+            return ListItemCarouselCell.sizeFor()
         case .featuredHeader:
             return CGSize(width: viewWidthMinusMargin, height: 56)
         case .subcategories:
-            return CGSize(width: viewWidthMinusMargin / 3, height: viewWidthMinusMargin / 3)
+            //return CGSize(width: viewWidthMinusMargin / 3, height: viewWidthMinusMargin / 3)
+            return ListItemSubcategoryCell.sizeFor()
         case .segments:
-            let segHeight = viewWidthMinusMargin * segments[(indexPath as NSIndexPath).item].image.size.height / segments[(indexPath as NSIndexPath).item].image.size.width
-            return CGSize(width: viewWidthMinusMargin, height: segHeight)
+            //let segHeight = viewWidthMinusMargin * segments[(indexPath as NSIndexPath).item].image.size.height / segments[(indexPath as NSIndexPath).item].image.size.width
+            //return CGSize(width: viewWidthMinusMargin, height: segHeight)
+            return ListItemSegmentCell.sizeFor()
         case .products:
             if !AppTools.isIPad && adsCellProvider != nil && adsCellProvider.isAdCell(at: indexPath, forStride: UInt(adRowStep)) {
                 return CGSize(width: ((UIScreen.main.bounds.size.width - 8) / 1), height: adsCellProvider.collectionView(gridView, heightForRowAt: indexPath))
@@ -1413,6 +1559,22 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             f.lblFooter.isHidden = true
             f.loading.isHidden = false
             
+            if (self.shopId == User.Id && self.currentMode == .newShop) {
+                f.loading.isHidden = true
+                let newLoader = UIActivityIndicatorView()
+                newLoader.frame = f.loading.frame
+                newLoader.center.x = UIScreen.main.bounds.width - newLoader.bounds.width
+                newLoader.tag = 888
+                newLoader.startAnimating()
+                newLoader.color = f.loading.color
+                
+                f.viewWithTag(888)?.removeFromSuperview()
+                
+                if !self.done {
+                    f.addSubview(newLoader)
+                }
+            }
+            
             // Loading handle
             self.footerLoading = f.loading
             if (self.done) {
@@ -1482,9 +1644,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                         }
                         self.repositionScrollCategoryNameContent(true)
                         if (currentMode == .filter) {
+                            self.isHiddenTop = true
                             UIView.animate(withDuration: 0.2, animations: {
-                            self.consTopTopHeaderFilter.constant = UIApplication.shared.statusBarFrame.height
-                            self.consTopGridView.constant = UIApplication.shared.statusBarFrame.height
+                                self.consTopTopHeaderFilter.constant = UIApplication.shared.statusBarFrame.height
+                                self.consTopGridView.constant = UIApplication.shared.statusBarFrame.height
                             })
                         }
                     }
@@ -1500,6 +1663,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     }
                     self.repositionScrollCategoryNameContent(true)
                     if (currentMode == .filter) {
+                        self.isHiddenTop = false
                         UIView.animate(withDuration: 0.2, animations: {
                             self.consTopTopHeaderFilter.constant = 0
                             self.consTopGridView.constant = 0
@@ -1759,7 +1923,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func pinch(_ pinchedIn : Bool) {
-        //print("current stage : \(listStage)")
+        ////print("current stage : \(listStage)")
         listStage += (pinchedIn ? 1 : -1)
         if (listStage > 3) {
             listStage = 1
@@ -1767,7 +1931,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         if (listStage < 1) {
             listStage = 3
         }
-        //print("next stage : \(listStage)")
+        ////print("next stage : \(listStage)")
         
         setupGrid()
         
@@ -1947,11 +2111,11 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func nativeAdsFailedToLoadWithError(_ error: Error) {
-        print(error)
+        //print(error)
     }
     
     func nativeAdDidClick(_ nativeAd: FBNativeAd) {
-        print("Ad tapped: \(nativeAd.title)")
+        //print("Ad tapped: \(nativeAd.title)")
     }
     
     // Prelo Analytic - Filter
@@ -1960,7 +2124,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                                             qos: .background,
                                             target: nil)
         backgroundQueue.async {
-            print("Work on background queue")
+            //print("Work on background queue")
             var brands: Array<String> = []
             for i in self.fltrBrands {
                 brands.append(String(i.key))
@@ -1978,7 +2142,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             ]
             let loginMethod = User.LoginMethod ?? ""
             let pdata = [
-                "Category" : self.lblFilterKategori.text!,
+                "Category" : self.lblFilterKategori.text ?? "",
                 "Brand" : brands,
                 "Condition" : self.fltrProdCondIds.count > 0 ? true : false,
                 "Location": location,
@@ -2004,12 +2168,19 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
 
 class CarouselItem {
     var name : String = ""
-    var img : UIImage = UIImage()
+    //var img : UIImage = UIImage()
     var link : URL!
+    var imgLink : URL!
     
-    init(name : String, img : UIImage, link : URL) {
+//    init(name : String, img : UIImage, link : URL) {
+//        self.name = name
+//        self.img = img
+//        self.link = link
+//    }
+    
+    init(name : String, imgLink : URL, link : URL) {
         self.name = name
-        self.img = img
+        self.imgLink = imgLink
         self.link = link
     }
 }
@@ -2022,7 +2193,20 @@ class ListItemSubcategoryCell : UICollectionViewCell {
     @IBOutlet var lblSubcategory: UILabel!
     
     override func prepareForReuse() {
-        imgSubcategory.image = nil
+        //imgSubcategory.image = nil
+        imgSubcategory.afCancelRequest()
+    }
+    
+    static func sizeFor() -> CGSize {
+        let wh : CGFloat = (UIScreen.main.bounds.width - 8) / 3
+        return CGSize(width: wh, height: wh)
+    }
+    
+    func adapt(_ imageURL : URL) {
+        let wh : CGFloat = (UIScreen.main.bounds.width - 8) / 3
+        let rect = CGRect(x: 0, y: 0, width: wh, height: wh)
+        imgSubcategory.frame = rect
+        imgSubcategory.afSetImage(withURL: imageURL, withFilter: .fitWithStandarPlaceHolder)
     }
 }
 
@@ -2032,7 +2216,22 @@ class ListItemSegmentCell : UICollectionViewCell {
     @IBOutlet var imgSegment: UIImageView!
     
     override func prepareForReuse() {
-        imgSegment.image = nil
+        //imgSegment.image = nil
+        imgSegment.afCancelRequest()
+    }
+    
+    static func sizeFor() -> CGSize {
+        let rectWidthFix : CGFloat = UIScreen.main.bounds.size.width - 8
+        let heightBanner : CGFloat = ((rectWidthFix / 1024.0) * 514.0)
+        return CGSize(width: rectWidthFix, height: heightBanner)
+    }
+    
+    func adapt(_ imageURL : URL) {
+        let rectWidthFix : CGFloat = UIScreen.main.bounds.size.width - 8
+        let rectHeightFix : CGFloat = ((rectWidthFix / 1024.0) * 514.0)
+        let rect = CGRect(x: 0, y: 0, width: rectWidthFix, height: rectHeightFix)
+        imgSegment.frame = rect
+        imgSegment.afSetImage(withURL: imageURL, withFilter: .fitWithStandarPlaceHolder)
     }
 }
 
@@ -2045,29 +2244,37 @@ class ListItemCarouselCell : UICollectionViewCell, UIScrollViewDelegate {
     @IBOutlet var consWidthContentVwCarousel: NSLayoutConstraint!
     var carouselItems : [CarouselItem] = []
     
+    static func sizeFor() -> CGSize {
+        let rectWidthFix : CGFloat = UIScreen.main.bounds.size.width - 8
+        let heightBanner : CGFloat = ((rectWidthFix / 1024.0) * 337.0)
+        return CGSize(width: rectWidthFix, height: heightBanner)
+    }
+    
     func adapt(_ carouselItems : [CarouselItem]) {
         self.carouselItems = carouselItems
         scrlVwCarousel.delegate = self
         
         self.pageCtrlCarousel.numberOfPages = carouselItems.count
         self.pageCtrlCarousel.currentPage = 0
-        var rectHeightFix : CGFloat = 0
         let rectWidthFix : CGFloat = UIScreen.main.bounds.size.width - 8
+        let rectHeightFix : CGFloat = ((rectWidthFix / 1024.0) * 337.0) //0
         self.consWidthContentVwCarousel.constant = rectWidthFix * CGFloat(carouselItems.count)
-        for i in 0..<carouselItems.count {
-            let height = ((rectWidthFix / carouselItems[i].img.size.width) * carouselItems[i].img.size.height)
-            if (height > rectHeightFix) {
-                rectHeightFix = height
-            }
-        }
+//        for i in 0..<carouselItems.count {
+//            let height = ((rectWidthFix / carouselItems[i].img.size.width) * carouselItems[i].img.size.height)
+//            if (height > rectHeightFix) {
+//                rectHeightFix = height
+//            }
+//        }
         for i in 0...carouselItems.count - 1 {
             let rect = CGRect(x: CGFloat(i * Int(rectWidthFix)), y: 0, width: rectWidthFix, height: rectHeightFix)
-            let uiImg = UIImageView(frame: rect, image: carouselItems[i].img)
+            //let uiImg = UIImageView(frame: rect, image: carouselItems[i].img)
+            let uiImg = UIImageView(frame: rect)
+            uiImg.afSetImage(withURL: carouselItems[i].imgLink, withFilter: .fitWithStandarPlaceHolder)
             let uiBtn = UIButton(frame: rect)
             uiBtn.addTarget(self, action: #selector(ListItemCarouselCell.btnCarouselPressed(_:)), for: UIControlEvents.touchUpInside)
             uiBtn.tag = i
-            contentVwCarousel.addSubview(uiImg)
-            contentVwCarousel.addSubview(uiBtn)
+            self.contentVwCarousel.addSubview(uiImg)
+            self.contentVwCarousel.addSubview(uiBtn)
         }
     }
     
@@ -2230,17 +2437,6 @@ class ListItemCell : UICollectionViewCell {
         avatar.layer.borderColor = Theme.GrayLight.cgColor
         avatar.layer.borderWidth = 1
         
-        // if without special story still using profpic
-//        sectionSpecialStory.isHidden = false
-//        captionSpecialStory.text = ""
-//        
-//        if (product.specialStory == nil || product.specialStory == "") {
-//            sectionSpecialStory.backgroundColor = UIColor.clear
-//        } else {
-//            sectionSpecialStory.backgroundColor = UIColor.darkGray.alpha(0.65) // darkgray transparent
-//            captionSpecialStory.text = "\"\(product.specialStory!)\""
-//        }
-        
         if (product.specialStory == nil || product.specialStory == "") {
             sectionSpecialStory.isHidden = true
         } else {
@@ -2291,15 +2487,26 @@ class ListItemCell : UICollectionViewCell {
             } else {
                 buttonLoveChange(isLoved: false)
             }
+            
+            // affiliate checkout -> hunstreet
+            if product.isCheckout {
+                self.imgFreeOngkir.afSetImage(withURL: (product.AffiliateData?.icon)!, withFilter: .circle)
+                /*if let url = product.avatar {
+                    self.imgFreeOngkir.afSetImage(withURL: url, withFilter: .circle)
+                } else if currentMode == .shop || currentMode == .newShop {
+                    self.imgFreeOngkir.afSetImage(withURL: shopAvatar!, withFilter: .circle)
+                }*/
+                self.imgFreeOngkir.isHidden = false
+            } else {
+                self.imgFreeOngkir.image = UIImage(named: "ic_free_ongkir")
+            }
         } else {
             btnLove.isHidden = true
             consbtnWidthLove.constant = 0
         }
         
-//        _ = obj["display_picts"][0].string
-//        ivCover.image = nil
-        ivCover.afSetImage(withURL: product.coverImageURL!)
-        print(product.coverImageURL!)
+        self.ivCover.afSetImage(withURL: product.coverImageURL!)
+        ////print(product.coverImageURL!)
         
         if let op = product.json["price_original"].int {
             captionOldPrice.text = op.asPrice
@@ -2328,22 +2535,33 @@ class ListItemCell : UICollectionViewCell {
                 }
                 
             }
+            
+            let w = const / 3 * 8
             let url = URL(string: product.json["affiliate_data"]["affiliate_icon"].stringValue)
-            affiliateLogo.afSetImage(withURL: url!, withFilter: .noneWithoutPlaceHolder)
+            affiliateLogo.frame = CGRect(x: self.bounds.width - w - 4, y: self.bounds.maxY - const - 4, width: w, height: const)
+            //affiliateLogo.afSetImage(withURL: url!, withFilter: .noneWithoutPlaceHolder)
+            
+            // CRASH sometimes
+            //affiliateLogo.afSetImage(withURL: url!, withFilter: .fitWithoutPlaceHolder)
+            
+            let imageTransition = UIImageView.ImageTransition.crossDissolve(0.2)
+            
+            let filter = AspectScaledToFitSizeFilter(
+                size: affiliateLogo.frame.size
+            )
+            
+            affiliateLogo.af_setImage(
+                withURL: url!,
+                filter: filter,
+                imageTransition: imageTransition,
+                completion: { res in
+                    self.affiliateLogo.image?.afInflate()
+            })
             
             affiliateLogo.contentMode = .scaleAspectFit
-            consWidthAffiliateLogo.constant = const / 3 * 8
+            consWidthAffiliateLogo.constant = w
             consHeightAffiliateLogo.constant = const
             affiliateLogo.isHidden = false
-            
-            // not good
-//            if let data = NSData(contentsOf: product.coverImageURL!) {
-//                if let imageUrl = UIImage(data: data as Data) {
-//                    
-//                    ivCover.image = imageUrl
-//                }
-//                
-//            }
         }
         
         if let status = product.status {
@@ -2407,7 +2625,7 @@ class ListItemCell : UICollectionViewCell {
         
         // API Migrasi
         let _ = request(APIProduct.love(productID: self.pid!)).responseJSON {resp in
-            print(resp)
+            //print(resp)
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Love Product"))
             {
 //                Constant.showDialog("Lovelist", message: self.captionTitle.text! + " berhasil ditambahkan ke Lovelist")
@@ -2433,7 +2651,7 @@ class ListItemCell : UICollectionViewCell {
     {
         // API Migrasi
         let _ = request(APIProduct.unlove(productID: self.pid!)).responseJSON {resp in
-            print(resp)
+            //print(resp)
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Unlove Product"))
             {
 //                Constant.showDialog("Lovelist", message: self.captionTitle.text! + " berhasil dihapus dari Lovelist")
@@ -2594,6 +2812,9 @@ class StoreInfo : UICollectionViewCell {
     @IBOutlet var vwLove: UIView!
     var floatRatingView: FloatRatingView!
     
+    @IBOutlet weak var vwVerified: UIView!
+    @IBOutlet weak var consHeightVwVerified: NSLayoutConstraint!
+    
     static func heightFor(_ json: JSON, isExpand: Bool) -> CGFloat {
         var height = 21 + 94
         var completeDesc = ""
@@ -2620,6 +2841,10 @@ class StoreInfo : UICollectionViewCell {
             height += Int(completeDesc.boundsWithFontSize(UIFont.systemFont(ofSize: 16), width: UIScreen.main.bounds.width-24).height)
         }
         
+        if let isAffiliate = json["is_affiliate"].bool, isAffiliate {
+            height += 21
+        }
+        
         return CGFloat(height)
     }
     
@@ -2643,6 +2868,13 @@ class StoreInfo : UICollectionViewCell {
         
         self.vwLove.addSubview(self.floatRatingView )
         
+        if let isAffiliate = json["is_affiliate"].bool, isAffiliate {
+            self.vwVerified.isHidden = false
+            self.consHeightVwVerified.constant = 21
+        } else {
+            self.vwVerified.isHidden = true
+            self.consHeightVwVerified.constant = 0
+        }
         
         // Last seen
         if let lastSeenDateString = json["others"]["last_seen"].string {
@@ -2697,5 +2929,54 @@ class StoreInfo : UICollectionViewCell {
         } else {
             self.captionTotal.text = String(count) + " BARANG"
         }
+    }
+}
+
+class ButtonJualView: UIView {
+    var icon: UILabel = UILabel()  // icon foto
+    var label: UILabel = UILabel() // label JUAL
+    var btn: UIButton = UIButton() // button
+    
+    var parent: UIViewController!
+    var currentPage: String!
+    
+    func addCustomView(parent: UIViewController, currentPage: String) {
+        self.parent = parent
+        self.currentPage = currentPage
+        
+        self.frame = CGRect(x: 0, y: 0, width: 64, height: 64)
+        self.backgroundColor = UIColor.init(hexString: "#FD9226")
+        
+        icon.frame = CGRect(x: 8, y: 12, width: 48, height: 26)
+        icon.textColor = UIColor.white
+        icon.textAlignment = NSTextAlignment.center
+        icon.text = ""
+        icon.font = AppFont.preloAwesome.getFont(22)!
+        self.addSubview(icon)
+        
+        label.frame = CGRect(x: 15, y: 38, width: 34.5, height: 16)
+        label.textColor = UIColor.white
+        label.textAlignment = NSTextAlignment.center
+        label.text = "JUAL"
+        label.font = UIFont.boldSystemFont(ofSize: 13)
+        self.addSubview(label)
+        
+        btn.frame = CGRect(x: 0, y: 0, width: 64, height: 64)
+        btn.backgroundColor = UIColor.clear
+        btn.addTarget(self, action: #selector(ButtonJualView.sellPressed(_:)), for: UIControlEvents.touchUpInside)
+        
+        self.addSubview(btn)
+        
+        self.layoutIfNeeded()
+        self.layer.cornerRadius = (self.frame.size.width) / 2
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOffset = CGSize(width: 0, height: 5)
+        self.layer.shadowOpacity = 0.3
+    }
+    
+    func sellPressed(_ sender: AnyObject) {
+        let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
+        add.screenBeforeAddProduct = self.currentPage
+        self.parent.navigationController?.pushViewController(add, animated: true)
     }
 }
