@@ -1897,7 +1897,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If you want to put an image
         
         let activityViewController : UIActivityViewController = UIActivityViewController(
-            activityItems: [image], applicationActivities: nil) // firstActivityItem, secondActivityItem, 
+            activityItems: [image], applicationActivities: nil) // firstActivityItem, secondActivityItem,
         /*
          // This lines is for the popover you need to show in iPad
          activityViewController.popoverPresentationController?.sourceView = (sender as! UIButton)
