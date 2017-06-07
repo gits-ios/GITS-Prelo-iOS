@@ -1043,6 +1043,9 @@ class PreloAnalyticEvent {
     
     // Achievement
     static let VisitAchievementPage = "Achievement:Visit Achievement Page"
+    
+    // Tutorial
+    static let FinishFirst = "Tutorial:Finish First"
 }
 
 extension GAI {
@@ -1078,6 +1081,7 @@ class UserDefaultsKey : NSObject {
     static let AbTestFakeApprove = "abtestfakeapprove"
     static let UpdatePopUpNotes = "updatepopupnotes"
     static let AdsFrequency = "adsfrequency"
+    static let RefreshTime = "refreshtime"
 }
 
 extension UserDefaults {
