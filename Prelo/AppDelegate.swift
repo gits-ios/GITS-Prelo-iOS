@@ -54,6 +54,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var isFromBackground = false // for defined wait time for redir alert to show
     
+    var isTakingScreenshot = false // for use when take screenshot (dialog show)
+    
     static var Instance : AppDelegate {
         return UIApplication.shared.delegate as! AppDelegate
     }
@@ -685,14 +687,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                                 queue: mainQueue) { notification in
                                                                     // executes after screenshot
                                                                     
-                                                                    self.showAlert()
-                                                                    
-                                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                                                                    if !self.isTakingScreenshot {
                                                                         
-                                                                        self.hideRedirAlertWithDelay(0.0, completion: nil)
-                                                                        self.takeScreenshot()
+                                                                        self.isTakingScreenshot = true
+                                                                        self.showAlert()
                                                                         
-                                                                    })
+                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                                                                            
+                                                                            self.hideRedirAlertWithDelay(0.0, completion: nil)
+                                                                            self.takeScreenshot()
+                                                                            
+                                                                        })
+                                                                    }
         }
         
         return true
@@ -1884,11 +1890,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     self.openShare(image: ss)
                 })
                 
-                alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+                alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {
+                    self.isTakingScreenshot = false
+                }
                 
                 alertView.showCustom("Screenshot", subTitle: "", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
             } else {
                 Constant.showDialog("Screenshot", message: "Pastikan untuk memberi akses aplikasi Prelo, dan coba untuk mengambil screenshot sekali lagi.")
+                self.isTakingScreenshot = false
             }
         })
     }
@@ -1924,6 +1933,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          ]
          */
         
-        UIApplication.shared.keyWindow?.rootViewController?.present(activityViewController, animated: true, completion: nil)
+        //UIApplication.shared.keyWindow?.rootViewController?.present(activityViewController, animated: true, completion: nil)
+        
+        activityViewController.completionWithItemsHandler = { activity, success, items, error in
+            self.isTakingScreenshot = false
+        }
+        
+        // https://stackoverflow.com/questions/26667009/get-top-most-uiviewcontroller
+        if var topController = UIApplication.shared.keyWindow?.rootViewController {
+            while let presentedViewController = topController.presentedViewController {
+                topController = presentedViewController
+            }
+            
+            // topController should now be your topmost view controller
+            topController.present(activityViewController, animated: true, completion: nil)
+        }
     }
 }
