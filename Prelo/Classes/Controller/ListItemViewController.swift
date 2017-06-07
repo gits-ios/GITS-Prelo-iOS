@@ -772,6 +772,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Product By Category")) {
                 self.setupData(resp.result.value)
             }
+            self.refresher?.endRefreshing()
             DispatchQueue.main.async(execute: {
                 self.setupGrid()
             })
