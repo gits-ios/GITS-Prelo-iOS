@@ -1042,6 +1042,9 @@ class PreloAnalyticEvent {
     
     // Achievement
     static let VisitAchievementPage = "Achievement:Visit Achievement Page"
+    
+    // Tutorial
+    static let FinishFirst = "Tutorial:Finish First"
 }
 
 extension GAI {

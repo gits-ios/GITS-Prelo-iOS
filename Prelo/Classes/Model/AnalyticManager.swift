@@ -205,6 +205,9 @@ class AnalyticManager: NSObject {
     // TODO: - Enable all analytics
     fileprivate func isWhiteList(_ preloAnalyticEvent: String) -> Bool {
         let _whiteList = [
+            // Achievement
+            PreloAnalyticEvent.VisitAchievementPage,
+            
             // Add Product
             PreloAnalyticEvent.SaveAsDraft,
             PreloAnalyticEvent.SubmitProduct,
@@ -236,6 +239,7 @@ class AnalyticManager: NSObject {
             PreloAnalyticEvent.UpProduct,
             PreloAnalyticEvent.VisitProductDetail,
             PreloAnalyticEvent.VisitAggregate,
+            PreloAnalyticEvent.ShareForCommission,
             
             // Purchase
             PreloAnalyticEvent.GoToCart,
@@ -255,12 +259,12 @@ class AnalyticManager: NSObject {
             
             // Withdraw
             PreloAnalyticEvent.RequestWithdrawMoney,
+            
+            // Tutorial
+            PreloAnalyticEvent.FinishFirst,
         ]
         
         let _developmentList = [
-            // Achievement
-            PreloAnalyticEvent.VisitAchievementPage,
-            
             // Chat
             PreloAnalyticEvent.SuccessfulBargain,
             PreloAnalyticEvent.SendMediaOnChat,
@@ -269,7 +273,6 @@ class AnalyticManager: NSObject {
             PreloAnalyticEvent.ChagePhone,
             
             // Product
-            PreloAnalyticEvent.ShareForCommission,
             PreloAnalyticEvent.EraseProduct,
             PreloAnalyticEvent.MarkAsSold,
             PreloAnalyticEvent.CommentOnProduct,
