@@ -560,7 +560,7 @@
 		58D125381CDC4D1F002BC78A /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 58D125241CDC4D1F002BC78A /* LICENSE */; };
 		58D125391CDC4D1F002BC78A /* MoEngage.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 58D125251CDC4D1F002BC78A /* MoEngage.bundle */; };
 		58D1253E1CDC4D1F002BC78A /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 58D125361CDC4D1F002BC78A /* README.md */; };
-		58D504591EE79BEA00BC07C8 /* PreloTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D504581EE79BEA00BC07C8 /* PreloTests.swift */; };
+		58D504621EE7D4D300BC07C8 /* PreloTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D504581EE79BEA00BC07C8 /* PreloTests.swift */; };
 		58D7360B1D759B0B009D7C61 /* ic_cart.png in Resources */ = {isa = PBXBuildFile; fileRef = 58D736091D759B0B009D7C61 /* ic_cart.png */; };
 		58D7360C1D759B0B009D7C61 /* ic_notif.png in Resources */ = {isa = PBXBuildFile; fileRef = 58D7360A1D759B0B009D7C61 /* ic_notif.png */; };
 		58D7D5231CD9B68300308A50 /* libAppsFlyerLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D7D5221CD9B68300308A50 /* libAppsFlyerLib.a */; };
@@ -4461,7 +4461,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				58D504591EE79BEA00BC07C8 /* PreloTests.swift in Sources */,
+				58D504621EE7D4D300BC07C8 /* PreloTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
