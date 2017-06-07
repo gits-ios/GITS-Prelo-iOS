@@ -15,6 +15,7 @@ import Bolts
 import FBSDKCoreKit
 import Alamofire
 import AVFoundation
+import AlamofireImage
 import GoogleMaps
 import GooglePlaces
 
@@ -54,6 +55,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var produkUploader : ProdukUploader!
     
     var isFromBackground = false // for defined wait time for redir alert to show
+    
+    var isTakingScreenshot = false // for use when take screenshot (dialog show)
     
     static var Instance : AppDelegate {
         return UIApplication.shared.delegate as! AppDelegate
@@ -244,7 +247,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         branch.initSession(launchOptions: launchOptions, andRegisterDeepLinkHandler: { params, error in
             // Route the user based on what's in params
             let sessionParams = Branch.getInstance().getLatestReferringParams()
-            let firstParams = Branch.getInstance().getFirstReferringParams()
+            //let firstParams = Branch.getInstance().getFirstReferringParams()
             //print("launch sessionParams = \(sessionParams)")
             //print("launch firstParams = \(firstParams)")
             
@@ -688,6 +691,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Prelo Analytic - Update User
         AnalyticManager.sharedInstance.updateUser(isNeedPayload: true)
         
+        let mainQueue = OperationQueue.main
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationUserDidTakeScreenshot,
+                                                                object: nil,
+                                                                queue: mainQueue) { notification in
+                                                                    // executes after screenshot
+                                                                    
+                                                                    if !self.isTakingScreenshot {
+                                                                        
+                                                                        self.isTakingScreenshot = true
+                                                                        self.showAlert()
+                                                                        
+                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                                                                            
+                                                                            self.hideRedirAlertWithDelay(0.0, completion: nil)
+                                                                            self.takeScreenshot()
+                                                                            
+                                                                        })
+                                                                    }
+        }
+        
         return true
     }
     
@@ -1014,6 +1037,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let unreadNotifCount = self.preloNotifListener.newNotifCount - 1
             self.preloNotifListener.setNewNotifCount(unreadNotifCount)
         })
+    }
+    
+    func showAlert() {
+        self.redirAlert = SCLAlertView(appearance: Constant.appearance)
+        self.alertViewResponder = self.redirAlert!.showCustom("Take Screenshot", subTitle: "Harap tunggu beberapa saat", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
     func showRedirAlert() {
@@ -1841,7 +1869,102 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     
                     UserDefaults.standard.synchronize()
                 }
+                
+                // Check apps refresh time
+                if let refreshTime = data["editors_page_refresh_time"].int {
+                    UserDefaults.standard.set(refreshTime, forKey: UserDefaultsKey.RefreshTime)
+                    
+                    UserDefaults.standard.synchronize()
+                }
             }
+        }
+    }
+    
+    // screenshot
+    func takeScreenshot() {
+        CustomPhotoAlbum.sharedInstance.fetchLastPhoto(resizeTo: nil , imageCallback: {
+            image in
+            if let ss = image {
+                let appearance = Constant.appearance
+                //appearance.shouldAutoDismiss = false
+                
+                let alertView = SCLAlertView(appearance: appearance)
+                
+                let width = Constant.appearance.kWindowWidth - 24
+                let frame = CGRect(x: 0, y: 0, width: width, height: width)
+                
+                let pView = UIImageView(frame: frame)
+                pView.image = ss.resizeWithMaxWidthOrHeight(width * UIScreen.main.scale)
+                pView.afInflate()
+                pView.contentMode = .scaleAspectFit
+                
+                // Creat the subview
+                let subview = UIView(frame: CGRect(x: 0, y: 0, width: width, height: width))
+                subview.addSubview(pView)
+                
+                alertView.customSubview = subview
+                
+                alertView.addButton("Share", action: {
+                    self.openShare(image: ss)
+                })
+                
+                alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {
+                    self.isTakingScreenshot = false
+                }
+                
+                alertView.showCustom("Screenshot", subTitle: "", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+            } else {
+                Constant.showDialog("Screenshot", message: "Pastikan untuk memberi akses aplikasi Prelo, dan coba untuk mengambil screenshot sekali lagi.")
+                self.isTakingScreenshot = false
+            }
+        })
+    }
+    
+    func openShare(image: UIImage) {
+        // disable deeplink
+        //let firstActivityItem = "Prelo"
+        //let secondActivityItem : NSURL = NSURL(string: "https://prelo.co.id/")!
+        
+        // If you want to put an image
+        // image (param)
+        
+        let activityViewController : UIActivityViewController = UIActivityViewController(
+            activityItems: [image], applicationActivities: nil) // firstActivityItem, secondActivityItem,
+        /*
+         // This lines is for the popover you need to show in iPad
+         activityViewController.popoverPresentationController?.sourceView = (sender as! UIButton)
+         
+         // This line remove the arrow of the popover to show in iPad
+         activityViewController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.allZeros
+         activityViewController.popoverPresentationController?.sourceRect = CGRect(x: 150, y: 150, width: 0, height: 0)
+         
+         // Anything you want to exclude
+         activityViewController.excludedActivityTypes = [
+         UIActivityTypePostToWeibo,
+         UIActivityTypePrint,
+         UIActivityTypeAssignToContact,
+         UIActivityTypeSaveToCameraRoll,
+         UIActivityTypeAddToReadingList,
+         UIActivityTypePostToFlickr,
+         UIActivityTypePostToVimeo,
+         UIActivityTypePostToTencentWeibo
+         ]
+         */
+        
+        //UIApplication.shared.keyWindow?.rootViewController?.present(activityViewController, animated: true, completion: nil)
+        
+        activityViewController.completionWithItemsHandler = { activity, success, items, error in
+            self.isTakingScreenshot = false
+        }
+        
+        // https://stackoverflow.com/questions/26667009/get-top-most-uiviewcontroller
+        if var topController = UIApplication.shared.keyWindow?.rootViewController {
+            while let presentedViewController = topController.presentedViewController {
+                topController = presentedViewController
+            }
+            
+            // topController should now be your topmost view controller
+            topController.present(activityViewController, animated: true, completion: nil)
         }
     }
 }

@@ -193,10 +193,23 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     // filter
     var isHiddenTop = false
     
+    // need refresh
+    var curTime: TimeInterval!
+    var interval: Double!
+    
     // MARK: - Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        curTime = NSDate().timeIntervalSince1970 // init time
+        //interval = 60.0 * 60.0 * 3 // 3 hours
+        
+        var minute = UserDefaults.standard.integer(forKey: UserDefaultsKey.RefreshTime)
+        if minute <= 0 {
+            minute = 60 * 3
+        }
+        interval = 60.0 * Double(minute)
         
         let frequency = UserDefaults.standard.integer(forKey: UserDefaultsKey.AdsFrequency)
         if frequency > 0 {
@@ -423,11 +436,14 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
     }
     
+    // MARK: - Setup
+    
     func setupContent() {
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
                                             qos: .background,
                                             target: nil)
         backgroundQueue.async {
+            
         if (!self.isContentLoaded) {
             self.isContentLoaded = true
             
@@ -617,12 +633,24 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 })
                 // Get initial products
                 self.getInitialProducts()
+                
+                // ads
+                if (self.currentMode == .filter || self.currentMode == .default) {
+                    self.configureAdManagerAndLoadAds()
+                }
             }
-            }
+            } else if (self.products != nil && (self.products?.count)! <= 24 && (self.products?.count)! > 0) || self.currentMode == .featured {
             
-            // ads
-            if (self.currentMode == .filter || self.currentMode == .default) {
-                self.configureAdManagerAndLoadAds()
+                // refrsher
+                let _curTime = NSDate().timeIntervalSince1970
+            
+                if (_curTime - self.curTime) >= self.interval {
+                    self.curTime = _curTime
+                    
+                    self.refresher?.beginRefreshing()
+                    
+                    self.refresh()
+                }
             }
         }
     }
@@ -651,7 +679,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         self.products = []
         self.done = false
         self.footerLoading?.isHidden = false
-        self.setupGrid() // Agar muncul loading
+        DispatchQueue.main.async(execute: {
+            self.gridView.reloadData()
+            //self.setupGrid() // Agar muncul loading
+        })
         
         switch (currentMode) {
         case .shop, .filter, .newShop:
@@ -741,6 +772,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Product By Category")) {
                 self.setupData(resp.result.value)
             }
+            self.refresher?.endRefreshing()
             DispatchQueue.main.async(execute: {
                 self.setupGrid()
             })
@@ -1526,6 +1558,22 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             f.btnFooter.isHidden = true
             f.lblFooter.isHidden = true
             f.loading.isHidden = false
+            
+            if (self.shopId == User.Id && self.currentMode == .newShop) {
+                f.loading.isHidden = true
+                let newLoader = UIActivityIndicatorView()
+                newLoader.frame = f.loading.frame
+                newLoader.center.x = UIScreen.main.bounds.width - newLoader.bounds.width
+                newLoader.tag = 888
+                newLoader.startAnimating()
+                newLoader.color = f.loading.color
+                
+                f.viewWithTag(888)?.removeFromSuperview()
+                
+                if !self.done {
+                    f.addSubview(newLoader)
+                }
+            }
             
             // Loading handle
             self.footerLoading = f.loading
@@ -2439,6 +2487,19 @@ class ListItemCell : UICollectionViewCell {
             } else {
                 buttonLoveChange(isLoved: false)
             }
+            
+            // affiliate checkout -> hunstreet
+            if product.isCheckout {
+                self.imgFreeOngkir.afSetImage(withURL: (product.AffiliateData?.icon)!, withFilter: .circle)
+                /*if let url = product.avatar {
+                    self.imgFreeOngkir.afSetImage(withURL: url, withFilter: .circle)
+                } else if currentMode == .shop || currentMode == .newShop {
+                    self.imgFreeOngkir.afSetImage(withURL: shopAvatar!, withFilter: .circle)
+                }*/
+                self.imgFreeOngkir.isHidden = false
+            } else {
+                self.imgFreeOngkir.image = UIImage(named: "ic_free_ongkir")
+            }
         } else {
             btnLove.isHidden = true
             consbtnWidthLove.constant = 0
@@ -2751,6 +2812,9 @@ class StoreInfo : UICollectionViewCell {
     @IBOutlet var vwLove: UIView!
     var floatRatingView: FloatRatingView!
     
+    @IBOutlet weak var vwVerified: UIView!
+    @IBOutlet weak var consHeightVwVerified: NSLayoutConstraint!
+    
     static func heightFor(_ json: JSON, isExpand: Bool) -> CGFloat {
         var height = 21 + 94
         var completeDesc = ""
@@ -2777,6 +2841,10 @@ class StoreInfo : UICollectionViewCell {
             height += Int(completeDesc.boundsWithFontSize(UIFont.systemFont(ofSize: 16), width: UIScreen.main.bounds.width-24).height)
         }
         
+        if let isAffiliate = json["is_affiliate"].bool, isAffiliate {
+            height += 21
+        }
+        
         return CGFloat(height)
     }
     
@@ -2800,6 +2868,13 @@ class StoreInfo : UICollectionViewCell {
         
         self.vwLove.addSubview(self.floatRatingView )
         
+        if let isAffiliate = json["is_affiliate"].bool, isAffiliate {
+            self.vwVerified.isHidden = false
+            self.consHeightVwVerified.constant = 21
+        } else {
+            self.vwVerified.isHidden = true
+            self.consHeightVwVerified.constant = 0
+        }
         
         // Last seen
         if let lastSeenDateString = json["others"]["last_seen"].string {
@@ -2854,5 +2929,54 @@ class StoreInfo : UICollectionViewCell {
         } else {
             self.captionTotal.text = String(count) + " BARANG"
         }
+    }
+}
+
+class ButtonJualView: UIView {
+    var icon: UILabel = UILabel()  // icon foto
+    var label: UILabel = UILabel() // label JUAL
+    var btn: UIButton = UIButton() // button
+    
+    var parent: UIViewController!
+    var currentPage: String!
+    
+    func addCustomView(parent: UIViewController, currentPage: String) {
+        self.parent = parent
+        self.currentPage = currentPage
+        
+        self.frame = CGRect(x: 0, y: 0, width: 64, height: 64)
+        self.backgroundColor = UIColor.init(hexString: "#FD9226")
+        
+        icon.frame = CGRect(x: 8, y: 12, width: 48, height: 26)
+        icon.textColor = UIColor.white
+        icon.textAlignment = NSTextAlignment.center
+        icon.text = ""
+        icon.font = AppFont.preloAwesome.getFont(22)!
+        self.addSubview(icon)
+        
+        label.frame = CGRect(x: 15, y: 38, width: 34.5, height: 16)
+        label.textColor = UIColor.white
+        label.textAlignment = NSTextAlignment.center
+        label.text = "JUAL"
+        label.font = UIFont.boldSystemFont(ofSize: 13)
+        self.addSubview(label)
+        
+        btn.frame = CGRect(x: 0, y: 0, width: 64, height: 64)
+        btn.backgroundColor = UIColor.clear
+        btn.addTarget(self, action: #selector(ButtonJualView.sellPressed(_:)), for: UIControlEvents.touchUpInside)
+        
+        self.addSubview(btn)
+        
+        self.layoutIfNeeded()
+        self.layer.cornerRadius = (self.frame.size.width) / 2
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOffset = CGSize(width: 0, height: 5)
+        self.layer.shadowOpacity = 0.3
+    }
+    
+    func sellPressed(_ sender: AnyObject) {
+        let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
+        add.screenBeforeAddProduct = self.currentPage
+        self.parent.navigationController?.pushViewController(add, animated: true)
     }
 }
