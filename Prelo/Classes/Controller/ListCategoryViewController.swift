@@ -90,10 +90,6 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             }
             UserDefaults.standard.removeObject(forKey: UserDefaultsKey.RedirectFromHome)
         }
-        
-        // disable redirect delay
-        let delegate = UIApplication.shared.delegate as! AppDelegate
-        delegate.isFromBackground = true
     }
     
     override func didReceiveMemoryWarning() {
