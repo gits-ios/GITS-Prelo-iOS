@@ -39,7 +39,7 @@ class MessagePool: NSObject
     var started = false
     func start()
     {
-        if (CDUser.getOne()?.id != nil)
+        if (User.Id != nil)
         {
             let url = URL(string: AppTools.PreloBaseUrl)
             if (url == nil)

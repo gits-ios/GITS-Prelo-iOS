@@ -25,7 +25,7 @@ class PreloAnalyticEndpoints: NSObject {
     }
     
     static func validate(_ showErrorDialog : Bool, dataResp : DataResponse<Any>, reqAlias : String) -> Bool {
-        let req = dataResp.request!
+        //let req = dataResp.request!
         let resp = dataResp.response
         let res = dataResp.result.value
         let err = dataResp.result.error
@@ -81,15 +81,15 @@ class PreloAnalyticEndpoints: NSObject {
             return false
         }
         
-        if let error = err {
+        if let _ = err {
             if (showErrorDialog) {
                 Constant.showDialog(reqAlias, message: "Oops, terdapat kesalahan, silahkan coba beberapa saat lagi")
             }
             //print("\(reqAlias) err = \(error.localizedDescription)")
             return false
         } else {
-            let json = JSON(res!)
-            let data = json["_data"]
+            //let json = JSON(res!)
+            //let data = json["_data"]
             //print("\(reqAlias) _data = \(data)")
             return true
         }
@@ -126,10 +126,12 @@ enum APIAnalytic : URLRequestConvertible {
     
     public func asURLRequest() throws -> URLRequest {
         //convert the JSON to a raw String
-        let prettyJSONstring = JSON(param).rawString()
-        let JSONstring = prettyJSONstring!.replace("\n", template: "")
+//        let prettyJSONstring = JSON(param).rawString()
+//        let JSONstring = prettyJSONstring!.replace("\n", template: "")
         
-        let curparam : [String : Any] = [ "payload" : JSONstring ]
+        let JSONString = AppToolsObjC.jsonString(from:param)
+        
+        let curparam : [String : Any] = [ "payload" : JSONString! ]
         
         let basePath = "analytics/"
         let url = URL(string: preloAnalyticHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
@@ -173,24 +175,24 @@ enum APIAnalytic : URLRequestConvertible {
         case .eventWithUserId(let eventType, let data, let userId):
             p = [
                 "user_id" : userId,
-                "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
-                "device_id" : UIDevice.current.identifierForVendor!.uuidString,
+                "fa_id" : AnalyticManager.faId,
+                "device_id" : AnalyticManager.faId,
                 "event_type" : eventType,
                 "data" : data
             ]
         case .event(let eventType, let data):
             p = [
                 "user_id" : (User.IsLoggedIn ? User.Id! : ""),
-                "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
-                "device_id" : UIDevice.current.identifierForVendor!.uuidString,
+                "fa_id" : AnalyticManager.faId,
+                "device_id" : AnalyticManager.faId,
                 "event_type" : eventType,
                 "data" : data
             ]
         case .eventOpenApp:
             p = [
                 "user_id" : (User.IsLoggedIn ? User.Id! : ""),
-                "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
-                "device_id" : UIDevice.current.identifierForVendor!.uuidString,
+                "fa_id" : AnalyticManager.faId,
+                "device_id" : AnalyticManager.faId,
                 "event_type" : PreloAnalyticEvent.OpenApp,
                 "collapsible" : true
             ]
@@ -218,8 +220,8 @@ enum APIAnalytic : URLRequestConvertible {
             ]
             p = [
                 "user_id" : metadata["_id"].stringValue,
-                "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
-                "device_id" : UIDevice.current.identifierForVendor!.uuidString,
+                "fa_id" : AnalyticManager.faId,
+                "device_id" : AnalyticManager.faId,
                 "username" : metadata["username"].stringValue,
                 "data" : d
             ]
@@ -253,8 +255,8 @@ enum APIAnalytic : URLRequestConvertible {
             ]
             p = [
                 "user_id" : userProfileData.id,
-                "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
-                "device_id" : UIDevice.current.identifierForVendor!.uuidString,
+                "fa_id" : AnalyticManager.faId,
+                "device_id" : AnalyticManager.faId,
                 "username" : userProfileData.username,
                 "data" : d
             ]
@@ -274,8 +276,8 @@ enum APIAnalytic : URLRequestConvertible {
             ]
             p = [
                 "user_id" : (User.Id != nil ? User.Id! : (_user?.id)!),
-                "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
-                "device_id" : UIDevice.current.identifierForVendor!.uuidString,
+                "fa_id" : AnalyticManager.faId,
+                "device_id" : AnalyticManager.faId,
                 "username" : (_user?.username)!,
                 "data" : d
             ]
@@ -327,8 +329,8 @@ enum APIAnalytic : URLRequestConvertible {
             }
             p = [
                 "user_id" : (User.Id != nil ? User.Id! : (_user?.id)!),
-                "fa_id" : UIDevice.current.identifierForVendor!.uuidString,
-                "device_id" : UIDevice.current.identifierForVendor!.uuidString,
+                "fa_id" : AnalyticManager.faId,
+                "device_id" : AnalyticManager.faId,
                 "username" : (_user?.username)!,
                 "data" : d
             ]
