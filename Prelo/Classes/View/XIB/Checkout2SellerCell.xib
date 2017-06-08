@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -24,7 +24,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DB4-tG-gWg">
-                        <rect key="frame" x="319" y="7.5" width="40" height="40"/>
+                        <rect key="frame" x="327" y="7.5" width="40" height="40"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="40" id="Xef-t6-olE"/>
                             <constraint firstAttribute="width" constant="40" id="uPM-oP-IuG"/>
@@ -38,7 +38,7 @@
                         </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uYt-d7-Ykh">
-                        <rect key="frame" x="24" y="7.5" width="287" height="40"/>
+                        <rect key="frame" x="12" y="7.5" width="307" height="40"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="40" id="vyk-ff-ecM"/>
                         </constraints>
@@ -50,9 +50,9 @@
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="uYt-d7-Ykh" secondAttribute="bottom" id="6dv-fM-X3b"/>
                     <constraint firstItem="DB4-tG-gWg" firstAttribute="leading" secondItem="uYt-d7-Ykh" secondAttribute="trailing" constant="8" id="CYx-TP-Twe"/>
-                    <constraint firstItem="uYt-d7-Ykh" firstAttribute="leading" secondItem="eQO-Pc-DFV" secondAttribute="leadingMargin" constant="16" id="IO1-FD-yy1"/>
+                    <constraint firstItem="uYt-d7-Ykh" firstAttribute="leading" secondItem="eQO-Pc-DFV" secondAttribute="leadingMargin" constant="4" id="IO1-FD-yy1"/>
                     <constraint firstItem="DB4-tG-gWg" firstAttribute="leading" secondItem="uYt-d7-Ykh" secondAttribute="trailing" constant="8" id="TV6-VW-mOP"/>
-                    <constraint firstAttribute="trailing" secondItem="DB4-tG-gWg" secondAttribute="trailing" constant="16" id="egN-MA-2zf"/>
+                    <constraint firstAttribute="trailing" secondItem="DB4-tG-gWg" secondAttribute="trailing" constant="8" id="egN-MA-2zf"/>
                     <constraint firstAttribute="bottom" secondItem="DB4-tG-gWg" secondAttribute="bottom" id="ohX-1T-7BT"/>
                 </constraints>
             </tableViewCellContentView>

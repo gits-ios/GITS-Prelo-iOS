@@ -1188,7 +1188,7 @@ class Checkout2PaymentMethodCell: UITableViewCell {
     }
     
     static func heightFor() -> CGFloat {
-        return 52.0
+        return 40.0
     }
 }
 
@@ -1358,7 +1358,7 @@ class Checkout2PaymentCreditCardCell: UITableViewCell {
 // MARK: - Class Checkout2BlackWhiteCell
 class Checkout2BlackWhiteCell: UITableViewCell {
     static func heightFor() -> CGFloat {
-        return 15.0
+        return 9.0
     }
 }
 
@@ -1559,7 +1559,7 @@ class Checkout2PaymentSummaryTotalCell: UITableViewCell {
     }
     
     static func heightFor() -> CGFloat {
-        return 104.0
+        return 88.0
     }
     
     @IBAction func btnCheckoutPressed(_ sender: Any) {

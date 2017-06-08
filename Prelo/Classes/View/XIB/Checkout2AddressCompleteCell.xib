@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,52 +19,52 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nama" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vuZ-H0-lIR">
-                        <rect key="frame" x="24" y="16" width="327" height="17"/>
+                        <rect key="frame" x="16" y="12" width="343" height="17"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                         <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alamat" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kIw-zv-geB">
-                        <rect key="frame" x="24" y="37" width="327" height="16"/>
+                        <rect key="frame" x="16" y="33" width="343" height="16"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kecamatan, Kota" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H6x-hU-Pt3">
-                        <rect key="frame" x="24" y="53" width="327" height="16"/>
+                        <rect key="frame" x="16" y="49" width="343" height="16"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Provinsi Kode Pos" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iF6-an-Ze6">
-                        <rect key="frame" x="24" y="69" width="327" height="16"/>
+                        <rect key="frame" x="16" y="65" width="343" height="16"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Telepon: no telpon" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FN9-bM-bSk">
-                        <rect key="frame" x="24" y="85" width="327" height="16"/>
+                        <rect key="frame" x="16" y="81" width="343" height="16"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailingMargin" secondItem="iF6-an-Ze6" secondAttribute="trailing" constant="16" id="0o9-y3-Nai"/>
-                    <constraint firstItem="H6x-hU-Pt3" firstAttribute="leading" secondItem="mFo-pM-H8l" secondAttribute="leadingMargin" constant="16" id="21J-Cs-e0K"/>
-                    <constraint firstItem="vuZ-H0-lIR" firstAttribute="top" secondItem="mFo-pM-H8l" secondAttribute="topMargin" constant="8" id="49f-6e-JaF"/>
-                    <constraint firstItem="vuZ-H0-lIR" firstAttribute="leading" secondItem="mFo-pM-H8l" secondAttribute="leadingMargin" constant="16" id="6ao-JN-0OB"/>
-                    <constraint firstItem="FN9-bM-bSk" firstAttribute="leading" secondItem="mFo-pM-H8l" secondAttribute="leadingMargin" constant="16" id="KKW-wV-fPD"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="FN9-bM-bSk" secondAttribute="trailing" constant="16" id="W3M-2r-rGo"/>
-                    <constraint firstItem="iF6-an-Ze6" firstAttribute="leading" secondItem="mFo-pM-H8l" secondAttribute="leadingMargin" constant="16" id="Xcq-Qf-zs6"/>
+                    <constraint firstItem="FN9-bM-bSk" firstAttribute="trailing" secondItem="vuZ-H0-lIR" secondAttribute="trailing" id="1fW-ru-fbh"/>
+                    <constraint firstItem="FN9-bM-bSk" firstAttribute="leading" secondItem="vuZ-H0-lIR" secondAttribute="leading" id="3xd-bP-oVZ"/>
+                    <constraint firstItem="vuZ-H0-lIR" firstAttribute="top" secondItem="mFo-pM-H8l" secondAttribute="topMargin" constant="4" id="49f-6e-JaF"/>
+                    <constraint firstItem="vuZ-H0-lIR" firstAttribute="leading" secondItem="mFo-pM-H8l" secondAttribute="leadingMargin" constant="8" id="6ao-JN-0OB"/>
+                    <constraint firstItem="kIw-zv-geB" firstAttribute="trailing" secondItem="vuZ-H0-lIR" secondAttribute="trailing" id="UVC-HY-GUV"/>
+                    <constraint firstItem="kIw-zv-geB" firstAttribute="leading" secondItem="vuZ-H0-lIR" secondAttribute="leading" id="Z67-4u-owT"/>
                     <constraint firstItem="H6x-hU-Pt3" firstAttribute="top" secondItem="kIw-zv-geB" secondAttribute="bottom" id="ZK8-5h-2j6"/>
                     <constraint firstItem="kIw-zv-geB" firstAttribute="top" secondItem="vuZ-H0-lIR" secondAttribute="bottom" constant="4" id="anW-48-OSJ"/>
+                    <constraint firstItem="iF6-an-Ze6" firstAttribute="trailing" secondItem="vuZ-H0-lIR" secondAttribute="trailing" id="awt-oD-xEl"/>
                     <constraint firstItem="FN9-bM-bSk" firstAttribute="top" secondItem="iF6-an-Ze6" secondAttribute="bottom" id="bS3-fK-22i"/>
-                    <constraint firstItem="kIw-zv-geB" firstAttribute="leading" secondItem="mFo-pM-H8l" secondAttribute="leadingMargin" constant="16" id="dU2-UP-kei"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="H6x-hU-Pt3" secondAttribute="trailing" constant="16" id="eMH-aI-bZK"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="kIw-zv-geB" secondAttribute="trailing" constant="16" id="u9A-Qy-z8w"/>
+                    <constraint firstItem="H6x-hU-Pt3" firstAttribute="leading" secondItem="vuZ-H0-lIR" secondAttribute="leading" id="nlM-M8-kXK"/>
+                    <constraint firstItem="iF6-an-Ze6" firstAttribute="leading" secondItem="vuZ-H0-lIR" secondAttribute="leading" id="pXz-Rj-BsD"/>
                     <constraint firstItem="iF6-an-Ze6" firstAttribute="top" secondItem="H6x-hU-Pt3" secondAttribute="bottom" id="vXl-I4-G09"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="vuZ-H0-lIR" secondAttribute="trailing" constant="16" id="vuF-3K-YNL"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="vuZ-H0-lIR" secondAttribute="trailing" constant="8" id="vuF-3K-YNL"/>
+                    <constraint firstItem="H6x-hU-Pt3" firstAttribute="trailing" secondItem="vuZ-H0-lIR" secondAttribute="trailing" id="xNX-M9-E2b"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

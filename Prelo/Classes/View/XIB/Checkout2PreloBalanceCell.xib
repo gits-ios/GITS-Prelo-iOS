@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,23 +18,23 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pEo-1b-XeF">
-                        <rect key="frame" x="24" y="2" width="327" height="110.5"/>
+                        <rect key="frame" x="4" y="2" width="367" height="110.5"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gunakan Prelo Balance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UmQ-ho-Kv1">
-                                <rect key="frame" x="8" y="15.5" width="254" height="17"/>
+                                <rect key="frame" x="8" y="15.5" width="294" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="hlQ-ar-7SI">
-                                <rect key="frame" x="270" y="8" width="51" height="31"/>
+                                <rect key="frame" x="310" y="8" width="51" height="31"/>
                                 <color key="onTintColor" red="1" green="0.60056952720000001" blue="0.1883386718" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <action selector="btnSwitchPressed:" destination="52g-Wv-QTc" eventType="valueChanged" id="1WU-Qs-Ryd"/>
                                 </connections>
                             </switch>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="300000" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="C5W-Z9-yIW">
-                                <rect key="frame" x="8" y="51" width="239" height="30"/>
+                                <rect key="frame" x="8" y="51" width="279" height="30"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="pGN-8R-k4C"/>
@@ -44,13 +44,13 @@
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prelo Balance kamu Rp31.529.565" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eC5-bA-4Jt">
-                                <rect key="frame" x="8" y="89" width="311" height="16"/>
+                                <rect key="frame" x="8" y="89" width="351" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y4X-fG-iKu">
-                                <rect key="frame" x="255" y="51" width="64" height="30"/>
+                                <rect key="frame" x="295" y="51" width="64" height="30"/>
                                 <color key="backgroundColor" red="1" green="0.60056952720000001" blue="0.1883386718" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="64" id="GeW-vZ-XHC"/>
@@ -85,8 +85,8 @@
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="pEo-1b-XeF" secondAttribute="bottom" constant="2" id="5td-dI-Kki"/>
-                    <constraint firstAttribute="trailing" secondItem="pEo-1b-XeF" secondAttribute="trailing" constant="24" id="WbV-Kg-Gf9"/>
-                    <constraint firstItem="pEo-1b-XeF" firstAttribute="leading" secondItem="wBf-mS-ErZ" secondAttribute="leading" constant="24" id="d3j-eD-Ml7"/>
+                    <constraint firstAttribute="trailing" secondItem="pEo-1b-XeF" secondAttribute="trailing" constant="4" id="WbV-Kg-Gf9"/>
+                    <constraint firstItem="pEo-1b-XeF" firstAttribute="leading" secondItem="wBf-mS-ErZ" secondAttribute="leading" constant="4" id="d3j-eD-Ml7"/>
                     <constraint firstItem="pEo-1b-XeF" firstAttribute="top" secondItem="wBf-mS-ErZ" secondAttribute="top" constant="2" id="hM3-CA-n1W"/>
                 </constraints>
             </tableViewCellContentView>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,13 +19,13 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rp3.000.000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cbL-co-ris">
-                        <rect key="frame" x="132" y="16" width="219" height="17"/>
+                        <rect key="frame" x="120" y="12" width="243" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wxs-z8-Qwy">
-                        <rect key="frame" x="24" y="49" width="327" height="40"/>
+                        <rect key="frame" x="12" y="37" width="351" height="40"/>
                         <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="40" id="vnu-oi-ZEP"/>
@@ -39,7 +39,7 @@
                         </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Belanja" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rFN-0C-ukw">
-                        <rect key="frame" x="24" y="16" width="100" height="17"/>
+                        <rect key="frame" x="12" y="12" width="100" height="17"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="100" id="1GO-wu-fde"/>
                         </constraints>
@@ -49,14 +49,15 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailingMargin" secondItem="cbL-co-ris" secondAttribute="trailing" constant="16" id="32Y-nE-dxo"/>
-                    <constraint firstItem="Wxs-z8-Qwy" firstAttribute="top" secondItem="cbL-co-ris" secondAttribute="bottom" constant="16" id="MLf-1Q-O5L"/>
-                    <constraint firstItem="Wxs-z8-Qwy" firstAttribute="leading" secondItem="zIo-GF-q1i" secondAttribute="leadingMargin" constant="16" id="PN9-zG-9RU"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="Wxs-z8-Qwy" secondAttribute="trailing" constant="16" id="Qjs-jl-mgr"/>
-                    <constraint firstItem="cbL-co-ris" firstAttribute="top" secondItem="zIo-GF-q1i" secondAttribute="topMargin" constant="8" id="W1y-GJ-wxw"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="cbL-co-ris" secondAttribute="trailing" constant="4" id="32Y-nE-dxo"/>
+                    <constraint firstItem="cbL-co-ris" firstAttribute="bottom" secondItem="rFN-0C-ukw" secondAttribute="bottom" id="3yM-Z4-Z77"/>
+                    <constraint firstItem="Wxs-z8-Qwy" firstAttribute="leading" secondItem="zIo-GF-q1i" secondAttribute="leadingMargin" constant="4" id="PN9-zG-9RU"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="Wxs-z8-Qwy" secondAttribute="trailing" constant="4" id="Qjs-jl-mgr"/>
+                    <constraint firstItem="cbL-co-ris" firstAttribute="top" secondItem="rFN-0C-ukw" secondAttribute="top" id="cfW-Ce-lel"/>
+                    <constraint firstItem="Wxs-z8-Qwy" firstAttribute="top" secondItem="rFN-0C-ukw" secondAttribute="bottom" constant="8" id="eln-Fr-PdI"/>
                     <constraint firstItem="cbL-co-ris" firstAttribute="leading" secondItem="rFN-0C-ukw" secondAttribute="trailing" constant="8" id="gcx-93-FtT"/>
-                    <constraint firstItem="rFN-0C-ukw" firstAttribute="leading" secondItem="zIo-GF-q1i" secondAttribute="leadingMargin" constant="16" id="hoA-Hp-T0o"/>
-                    <constraint firstItem="rFN-0C-ukw" firstAttribute="top" secondItem="zIo-GF-q1i" secondAttribute="topMargin" constant="8" id="rf5-GY-rf7"/>
+                    <constraint firstItem="rFN-0C-ukw" firstAttribute="leading" secondItem="zIo-GF-q1i" secondAttribute="leadingMargin" constant="4" id="hoA-Hp-T0o"/>
+                    <constraint firstItem="rFN-0C-ukw" firstAttribute="top" secondItem="zIo-GF-q1i" secondAttribute="topMargin" constant="4" id="rf5-GY-rf7"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

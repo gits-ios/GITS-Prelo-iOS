@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -31,13 +31,13 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Transfer Bank" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rj2-tw-PpR">
-                        <rect key="frame" x="24" y="9" width="299" height="17"/>
+                        <rect key="frame" x="12" y="9" width="327" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x5I-jy-yyt">
-                        <rect key="frame" x="331" y="9" width="20" height="20"/>
+                        <rect key="frame" x="347" y="9" width="20" height="20"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="20" id="PSp-lm-f19"/>
                             <constraint firstAttribute="height" constant="20" id="r83-hC-bFG"/>
@@ -47,13 +47,13 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LU6-gF-zQf" userLabel="3 Banks">
-                        <rect key="frame" x="24" y="38" width="327" height="30"/>
+                        <rect key="frame" x="12" y="38" width="351" height="30"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jn3-4Q-a7r" userLabel="BCA">
-                                <rect key="frame" x="0.0" y="0.0" width="103.5" height="30"/>
+                                <rect key="frame" x="0.0" y="0.0" width="111.5" height="30"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rsz_ic_bca.png" translatesAutoresizingMaskIntoConstraints="NO" id="Vv1-cL-tVg">
-                                        <rect key="frame" x="2" y="2" width="99.5" height="26"/>
+                                        <rect key="frame" x="2" y="2" width="107.5" height="26"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -65,10 +65,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ntu-Tb-lH0" userLabel="Mandiri">
-                                <rect key="frame" x="111.5" y="0.0" width="104" height="30"/>
+                                <rect key="frame" x="119.5" y="0.0" width="112" height="30"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rsz_ic_mandiri.png" translatesAutoresizingMaskIntoConstraints="NO" id="s3P-Ml-886">
-                                        <rect key="frame" x="2" y="2" width="100" height="26"/>
+                                        <rect key="frame" x="2" y="2" width="108" height="26"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -80,10 +80,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q9V-rk-Ph7" userLabel="BNI">
-                                <rect key="frame" x="223.5" y="0.0" width="103.5" height="30"/>
+                                <rect key="frame" x="239.5" y="0.0" width="111.5" height="30"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rsz_ic_bni.png" translatesAutoresizingMaskIntoConstraints="NO" id="ahe-h5-kDr">
-                                        <rect key="frame" x="2" y="2" width="99.5" height="26"/>
+                                        <rect key="frame" x="2" y="2" width="107.5" height="26"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -112,13 +112,13 @@
                         </constraints>
                     </view>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yh7-5T-EBs" userLabel="4 Banks">
-                        <rect key="frame" x="24" y="38" width="327" height="30"/>
+                        <rect key="frame" x="12" y="38" width="351" height="30"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vbk-K6-oGg" userLabel="BCA">
-                                <rect key="frame" x="0.0" y="0.0" width="76" height="30"/>
+                                <rect key="frame" x="0.0" y="0.0" width="82" height="30"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rsz_ic_bca.png" translatesAutoresizingMaskIntoConstraints="NO" id="3gJ-ed-U0O">
-                                        <rect key="frame" x="2" y="2" width="72" height="26"/>
+                                        <rect key="frame" x="2" y="2" width="78" height="26"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -130,10 +130,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="he3-P6-vNR" userLabel="Mandiri">
-                                <rect key="frame" x="84" y="0.0" width="76" height="30"/>
+                                <rect key="frame" x="90" y="0.0" width="82" height="30"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rsz_ic_mandiri.png" translatesAutoresizingMaskIntoConstraints="NO" id="pYS-Eh-v5U">
-                                        <rect key="frame" x="2" y="2" width="72" height="26"/>
+                                        <rect key="frame" x="2" y="2" width="78" height="26"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -145,10 +145,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="17f-rp-miI" userLabel="BNI">
-                                <rect key="frame" x="168" y="0.0" width="75.5" height="30"/>
+                                <rect key="frame" x="180" y="0.0" width="81.5" height="30"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rsz_ic_bni.png" translatesAutoresizingMaskIntoConstraints="NO" id="jPq-8w-fxl">
-                                        <rect key="frame" x="2" y="2" width="71.5" height="26"/>
+                                        <rect key="frame" x="2" y="2" width="77.5" height="26"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -160,10 +160,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NKX-b9-XTS" userLabel="BRI">
-                                <rect key="frame" x="251.5" y="0.0" width="75.5" height="30"/>
+                                <rect key="frame" x="269.5" y="0.0" width="81.5" height="30"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rsz_ic_bri.png" translatesAutoresizingMaskIntoConstraints="NO" id="cKc-sN-fQC">
-                                        <rect key="frame" x="2" y="2" width="71.5" height="26"/>
+                                        <rect key="frame" x="2" y="2" width="77.5" height="26"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -196,16 +196,16 @@
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y4m-VH-xqZ" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                        <rect key="frame" x="24" y="38" width="327" height="30"/>
+                        <rect key="frame" x="8" y="38" width="359" height="30"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pilih Bank Tujuan Transfer" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oW0-B3-nnd">
-                                <rect key="frame" x="8" y="4" width="283" height="22"/>
+                                <rect key="frame" x="8" y="4" width="315" height="22"/>
                                 <fontDescription key="fontDescription" name=".SFNSText" family=".SF NS Text" pointSize="14"/>
                                 <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pcx-nb-eUq">
-                                <rect key="frame" x="299" y="5" width="20" height="20"/>
+                                <rect key="frame" x="331" y="5" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="20" id="YcN-zd-pHk"/>
                                     <constraint firstAttribute="height" constant="20" id="jwZ-2e-Hnw"/>
@@ -215,7 +215,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1xH-RZ-GHQ">
-                                <rect key="frame" x="0.0" y="0.0" width="327" height="30"/>
+                                <rect key="frame" x="0.0" y="0.0" width="359" height="30"/>
                                 <connections>
                                     <action selector="btnChooseBankPressed:" destination="1iZ-j5-3d2" eventType="touchUpInside" id="sUT-kf-LsS"/>
                                 </connections>
@@ -245,34 +245,34 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pembayaran Aman dengan sistem REKBER ke rekening Prelo" textAlignment="center" lineBreakMode="clip" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="gzm-cZ-2XN">
-                        <rect key="frame" x="24" y="76" width="327" height="14.5"/>
+                        <rect key="frame" x="12" y="76" width="351" height="14.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailingMargin" secondItem="yh7-5T-EBs" secondAttribute="trailing" constant="16" id="0fP-O4-4a4"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="x5I-jy-yyt" secondAttribute="trailing" constant="16" id="BeO-hg-lIi"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="yh7-5T-EBs" secondAttribute="trailing" constant="4" id="0fP-O4-4a4"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="x5I-jy-yyt" secondAttribute="trailing" id="BeO-hg-lIi"/>
                     <constraint firstItem="gzm-cZ-2XN" firstAttribute="top" secondItem="yh7-5T-EBs" secondAttribute="bottom" constant="8" id="GQk-bG-GiO"/>
-                    <constraint firstItem="Y4m-VH-xqZ" firstAttribute="leading" secondItem="rj2-tw-PpR" secondAttribute="leading" id="Gcu-nf-T3Y"/>
-                    <constraint firstItem="rj2-tw-PpR" firstAttribute="leading" secondItem="UIN-Of-nlL" secondAttribute="leadingMargin" constant="16" id="KCh-XU-vFP"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="LU6-gF-zQf" secondAttribute="trailing" constant="16" id="Lta-nx-hZJ"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="gzm-cZ-2XN" secondAttribute="trailing" constant="16" id="NV3-1J-o10"/>
+                    <constraint firstItem="rj2-tw-PpR" firstAttribute="leading" secondItem="UIN-Of-nlL" secondAttribute="leadingMargin" constant="4" id="KCh-XU-vFP"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="LU6-gF-zQf" secondAttribute="trailing" constant="4" id="Lta-nx-hZJ"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="gzm-cZ-2XN" secondAttribute="trailing" constant="4" id="NV3-1J-o10"/>
+                    <constraint firstItem="Y4m-VH-xqZ" firstAttribute="leading" secondItem="UIN-Of-nlL" secondAttribute="leadingMargin" id="Qv2-Oe-u5K"/>
                     <constraint firstItem="x5I-jy-yyt" firstAttribute="leading" secondItem="rj2-tw-PpR" secondAttribute="trailing" constant="8" id="Rfs-nM-yBC"/>
                     <constraint firstItem="yh7-5T-EBs" firstAttribute="top" secondItem="rj2-tw-PpR" secondAttribute="bottom" constant="12" id="SDE-d4-5H7"/>
                     <constraint firstItem="gzm-cZ-2XN" firstAttribute="top" secondItem="Y4m-VH-xqZ" secondAttribute="bottom" constant="8" id="U7O-Q2-Kir"/>
-                    <constraint firstItem="LU6-gF-zQf" firstAttribute="leading" secondItem="UIN-Of-nlL" secondAttribute="leadingMargin" constant="16" id="WQj-Xk-Dd4"/>
+                    <constraint firstItem="LU6-gF-zQf" firstAttribute="leading" secondItem="UIN-Of-nlL" secondAttribute="leadingMargin" constant="4" id="WQj-Xk-Dd4"/>
                     <constraint firstItem="rj2-tw-PpR" firstAttribute="top" secondItem="g6p-zR-ydR" secondAttribute="bottom" constant="8" id="YFq-6s-jYz"/>
-                    <constraint firstItem="yh7-5T-EBs" firstAttribute="leading" secondItem="UIN-Of-nlL" secondAttribute="leadingMargin" constant="16" id="ZSh-Oc-YtY"/>
+                    <constraint firstItem="yh7-5T-EBs" firstAttribute="leading" secondItem="UIN-Of-nlL" secondAttribute="leadingMargin" constant="4" id="ZSh-Oc-YtY"/>
                     <constraint firstItem="LU6-gF-zQf" firstAttribute="top" secondItem="rj2-tw-PpR" secondAttribute="bottom" constant="12" id="cxm-XX-khm"/>
                     <constraint firstItem="x5I-jy-yyt" firstAttribute="top" secondItem="g6p-zR-ydR" secondAttribute="bottom" constant="8" id="hb8-EM-UtO"/>
                     <constraint firstItem="gzm-cZ-2XN" firstAttribute="top" secondItem="LU6-gF-zQf" secondAttribute="bottom" constant="8" id="iej-rN-FzV"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="Y4m-VH-xqZ" secondAttribute="trailing" constant="16" id="lrT-uG-JBP"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="Y4m-VH-xqZ" secondAttribute="trailing" id="lrT-uG-JBP"/>
                     <constraint firstAttribute="trailing" secondItem="g6p-zR-ydR" secondAttribute="trailing" id="mhF-nS-fF9"/>
                     <constraint firstItem="g6p-zR-ydR" firstAttribute="top" secondItem="UIN-Of-nlL" secondAttribute="top" id="mzY-am-NmK"/>
                     <constraint firstItem="Y4m-VH-xqZ" firstAttribute="top" secondItem="rj2-tw-PpR" secondAttribute="bottom" constant="12" id="p2R-yt-aUC"/>
-                    <constraint firstItem="gzm-cZ-2XN" firstAttribute="leading" secondItem="UIN-Of-nlL" secondAttribute="leadingMargin" constant="16" id="tWG-wB-EHk"/>
+                    <constraint firstItem="gzm-cZ-2XN" firstAttribute="leading" secondItem="UIN-Of-nlL" secondAttribute="leadingMargin" constant="4" id="tWG-wB-EHk"/>
                     <constraint firstItem="g6p-zR-ydR" firstAttribute="leading" secondItem="UIN-Of-nlL" secondAttribute="leading" id="yME-sA-Bav"/>
                 </constraints>
             </tableViewCellContentView>

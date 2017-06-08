@@ -65,8 +65,9 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let Checkout2SellerCell = UINib(nibName: "Checkout2SellerCell", bundle: nil)
-        tableView.register(Checkout2SellerCell, forCellReuseIdentifier: "Checkout2SellerCell")
+        // disable join with courier
+        //let Checkout2SellerCell = UINib(nibName: "Checkout2SellerCell", bundle: nil)
+        //tableView.register(Checkout2SellerCell, forCellReuseIdentifier: "Checkout2SellerCell")
         
         let Checkout2ProductCell = UINib(nibName: "Checkout2ProductCell", bundle: nil)
         tableView.register(Checkout2ProductCell, forCellReuseIdentifier: "Checkout2ProductCell")
@@ -74,8 +75,9 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
         let Checkout2CourierCell = UINib(nibName: "Checkout2CourierCell", bundle: nil)
         tableView.register(Checkout2CourierCell, forCellReuseIdentifier: "Checkout2CourierCell")
         
-        let Checkout2CourierDescriptionCell = UINib(nibName: "Checkout2CourierDescriptionCell", bundle: nil)
-        tableView.register(Checkout2CourierDescriptionCell, forCellReuseIdentifier: "Checkout2CourierDescriptionCell")
+        // disable
+        //let Checkout2CourierDescriptionCell = UINib(nibName: "Checkout2CourierDescriptionCell", bundle: nil)
+        //tableView.register(Checkout2CourierDescriptionCell, forCellReuseIdentifier: "Checkout2CourierDescriptionCell")
         
         let Checkout2SplitCell = UINib(nibName: "Checkout2SplitCell", bundle: nil)
         tableView.register(Checkout2SplitCell, forCellReuseIdentifier: "Checkout2SplitCell")
@@ -430,7 +432,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if cartResult != nil && cartResult.cartDetails.count > 0 {
             if section < cartResult.cartDetails.count {
-                return cartResult.cartDetails[section].products.count + 2 + (self.isNeedLocations[section] && !self.isFreeOngkirs[section] ? 1 : 0) + 1
+                return cartResult.cartDetails[section].products.count + 2 /*+ (self.isNeedLocations[section] && !self.isFreeOngkirs[section] ? 1 : 0) + 1*/ // disable sellerCell & courierDescriptionCell
             } else if section == cartResult.cartDetails.count {
                 return 2 + (self.isNeedLocations.contains(true) ? 1 : 0) + 1
             } else if section == cartResult.cartDetails.count + 1 {
@@ -447,17 +449,17 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
             let idx = indexPath as IndexPath
             if idx.section < cartResult.cartDetails.count {
                 if idx.row == 0 {
-                    return Checkout2SellerCell.heightFor()
+                    return Checkout2CourierCell.heightFor() //Checkout2SellerCell.heightFor()
                 } else if idx.row <= cartResult.cartDetails[idx.section].products.count {
                     return Checkout2ProductCell.heightFor()
-                } else if idx.row == cartResult.cartDetails[idx.section].products.count + 1 {
+                } /*else if idx.row == cartResult.cartDetails[idx.section].products.count + 1 {
                     return Checkout2CourierCell.heightFor()
-                } else {
-                    if idx.row == cartResult.cartDetails[idx.section].products.count + 2 && self.isNeedLocations[idx.section] && !self.isFreeOngkirs[idx.section] {
+                }*/ else {
+                    /*if idx.row == cartResult.cartDetails[idx.section].products.count + 2 && self.isNeedLocations[idx.section] && !self.isFreeOngkirs[idx.section] {
                         return Checkout2CourierDescriptionCell.heightFor()
-                    } else {
+                    } else {*/
                         return Checkout2SplitCell.heightFor()
-                    }
+                    //}
                 }
             } else if idx.section == cartResult.cartDetails.count {
                 if idx.row == 0 {
@@ -489,7 +491,33 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
             let idx = indexPath as IndexPath
             if ((indexPath as NSIndexPath).section < cartResult.cartDetails.count) {
                 if idx.row == 0 {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2SellerCell") as! Checkout2SellerCell
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2CourierCell") as! Checkout2CourierCell
+                    
+                    let sellerId = self.cartResult.cartDetails[idx.section].id
+                    
+                    cell.selectionStyle = .none
+                    cell.clipsToBounds = true
+                    
+                    cell.adapt(self.cartResult.cartDetails[idx.section].shippingPackages, isEnable: !self.isFreeOngkirs[idx.section], selectedIndex: self.selectedOngkirIndexes[idx.section], title: self.cartResult.cartDetails[idx.section].username)
+                    
+                    cell.pickCourier = { courierId, ongkir, index, isNeedLocation in
+                        self.shippingPackageIds[idx.section] = courierId
+                        self.ongkirs[idx.section] = ongkir
+                        self.selectedOngkirIndexes[idx.section] = index
+                        self.isNeedLocations[idx.section] = isNeedLocation
+                        
+                        CartManager.sharedInstance.updateShippingPackageId(sellerId, shippingPackageId: courierId)
+                        
+                        self.tableView.reloadData()
+                    }
+                    
+                    cell.dismissKeyborad = {
+                        self.dismissKeyboard()
+                    }
+                    
+                    return cell
+                    
+                    /*let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2SellerCell") as! Checkout2SellerCell
                     
                     cell.selectionStyle = .none
                     cell.clipsToBounds = true
@@ -533,7 +561,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                         alertView.showCustom("Hapus Keranjang", subTitle: "Kamu yakin ingin menghapus semua barang dari seller \"\(self.cartResult.cartDetails[idx.section].fullname)\"?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
                     }
                     
-                    return cell
+                    return cell*/
                 } else if idx.row <= cartResult.cartDetails[idx.section].products.count {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2ProductCell") as! Checkout2ProductCell
                     
@@ -583,7 +611,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     */
                     
                     return cell
-                } else if idx.row == cartResult.cartDetails[idx.section].products.count + 1 {
+                } /*else if idx.row == cartResult.cartDetails[idx.section].products.count + 1 {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2CourierCell") as! Checkout2CourierCell
                     
                     let sellerId = self.cartResult.cartDetails[idx.section].id
@@ -609,8 +637,8 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     }
                     
                     return cell
-                } else {
-                    if idx.row == cartResult.cartDetails[idx.section].products.count + 2 && self.isNeedLocations[idx.section] && !self.isFreeOngkirs[idx.section] {
+                }*/ else {
+                    /*if idx.row == cartResult.cartDetails[idx.section].products.count + 2 && self.isNeedLocations[idx.section] && !self.isFreeOngkirs[idx.section] {
                         let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2CourierDescriptionCell") as! Checkout2CourierDescriptionCell
                         
                         cell.selectionStyle = .none
@@ -619,14 +647,14 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                         cell.adapt(self.shippingPackageIds[idx.section])
                         
                         return cell
-                    } else {
+                    } else {*/
                         let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2SplitCell") as! Checkout2SplitCell
                         
                         cell.selectionStyle = .none
                         cell.clipsToBounds = true
                         
                         return cell
-                    }
+                    //}
                 }
             } else if idx.section == cartResult.cartDetails.count {
                 if idx.row == 0 {
@@ -1144,6 +1172,8 @@ class Checkout2CourierCell: UITableViewCell {
     @IBOutlet weak var lbCourier: UILabel!
     @IBOutlet weak var lbDropdown: UILabel!
     @IBOutlet weak var btnPickCourier: UIButton!
+    @IBOutlet weak var lbTitle: UILabel!
+    @IBOutlet weak var vwLine1px: UIView!
     
     var selectedIndex = 0
     
@@ -1159,7 +1189,7 @@ class Checkout2CourierCell: UITableViewCell {
     
     var dismissKeyborad: ()->() = {}
     
-    func adapt(_ shippingPackages: Array<ShippingPackageItem>, isEnable: Bool, selectedIndex: Int) {
+    func adapt(_ shippingPackages: Array<ShippingPackageItem>, isEnable: Bool, selectedIndex: Int, title: String) {
         self.shippingPackages = shippingPackages
         self.selectedIndex = selectedIndex
         
@@ -1178,6 +1208,12 @@ class Checkout2CourierCell: UITableViewCell {
             
             self.isEnable = true
         }
+        
+        // title for seller name
+        self.lbTitle.text = title
+        self.lbTitle.font = UIFont.boldSystemFont(ofSize: 14)
+        
+        self.vwLine1px.isHidden = true
     }
     
     static func heightFor() -> CGFloat {
@@ -1299,7 +1335,7 @@ class Checkout2AddressDropdownCell: UITableViewCell {
     }
     
     static func heightFor() -> CGFloat {
-        return 76.0
+        return 68.0
     }
     
     @IBAction func btnPickAddressPressed(_ sender: Any) {
@@ -1324,7 +1360,7 @@ class Checkout2AddressCompleteCell: UITableViewCell {
     }
     
     static func heightFor() -> CGFloat {
-        return 117.0
+        return 109.0
     }
 }
 
@@ -1464,7 +1500,7 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
     }
     
     static func heightFor() -> CGFloat {
-        return 340.0
+        return 328.0
     }
     
     // MARK: - Picker Delegate
@@ -1641,7 +1677,7 @@ class Checkout2TotalBuyingCell: UITableViewCell {
     }
     
     static func heightFor() -> CGFloat {
-        return 108.0
+        return 96.0
     }
     
     @IBAction func btnContinuePressed(_ sender: Any) {
