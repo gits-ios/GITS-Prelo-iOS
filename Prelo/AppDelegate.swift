@@ -1041,6 +1041,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let delayTime = (self.isFromBackground ? 0 : 0.5) * Double(NSEC_PER_SEC)
         let time = DispatchTime.now() + Double(Int64(delayTime)) / Double(NSEC_PER_SEC)
         DispatchQueue.main.asyncAfter(deadline: time, execute: {
+            self.isFromBackground = false // remove delay
             self.redirAlert = SCLAlertView(appearance: Constant.appearance)
             self.alertViewResponder = self.redirAlert!.showCustom("Redirecting...", subTitle: "Harap tunggu beberapa saat", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
         })
