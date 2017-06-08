@@ -12,6 +12,9 @@ import DropDown
 
 // MARK: - Struct
 struct SelectedAddressItem {
+    var addressId: String = ""
+    var isDefault: Bool = false
+    
     var name: String = ""
     var phone: String = ""
     var address: String = ""
@@ -153,7 +156,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                                             qos: .background,
                                             target: nil)
         backgroundQueue.async {
-            print("Work on background queue")
+            //print("Work on background queue")
             
             let loginMethod = User.LoginMethod ?? ""
             
@@ -378,6 +381,9 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                             self.selectedIndex = i
                             
                             // default address
+                            self.selectedAddress.addressId = self.cartResult.addressBook[i].id
+                            self.selectedAddress.isDefault = true
+                            
                             self.selectedAddress.name = self.cartResult.addressBook[i].recipientName
                             self.selectedAddress.phone = self.cartResult.addressBook[i].phone
                             self.selectedAddress.provinceId = self.cartResult.addressBook[i].provinceId
@@ -792,7 +798,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     self.dismissKeyboard()
                     
                     if self.validateField() {
-                        print("oke")
+                        //print("oke")
                         
                         let checkout2PayVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Pay, owner: nil, options: nil)?.first as! Checkout2PayViewController
                         checkout2PayVC.cartResult = self.cartResult
@@ -859,7 +865,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 
                 let _ = request(APIV2Cart.removeItems(pIds: [pid])).responseJSON { resp in
                     if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Keranjang Belanja - Hapus Items")) {
-                        print("Keranjang Belanja - Hapus Items, Success")
+                        //print("Keranjang Belanja - Hapus Items, Success")
                         
                         CartProduct.delete(pid) // v1
                         CartManager.sharedInstance.deleteProduct(sellerId, productId: pid)
@@ -868,7 +874,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                         
                         self.synchCart()
                     } else {
-                        print("Keranjang Belanja - Hapus Items, Failed")
+                        //print("Keranjang Belanja - Hapus Items, Failed")
                         
                         Constant.showDialog("Hapus Items", message: "\"\(self.cartResult.cartDetails[idx.section].fullname)\" gagal dihapus")
                         
@@ -876,7 +882,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     }
                 }
                 
-                print("hapus tapped")
+                //print("hapus tapped")
             }
             /*
             let detail = UITableViewRowAction(style: .normal, title: "Detail") { action, index in
@@ -1052,6 +1058,9 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     self.isNeedSetup = false
                     self.selectedIndex = index
                     
+                    self.selectedAddress.addressId = self.cartResult.addressBook[index].id
+                    self.selectedAddress.isDefault = self.cartResult.addressBook[index].isMainAddress
+                    
                     self.selectedAddress.name = self.cartResult.addressBook[index].recipientName
                     self.selectedAddress.phone = self.cartResult.addressBook[index].phone
                     self.selectedAddress.provinceId = self.cartResult.addressBook[index].provinceId
@@ -1067,6 +1076,9 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 } else {
                     self.isNeedSetup = true
                     self.selectedIndex = count
+                    
+                    self.selectedAddress.addressId = ""
+                    self.selectedAddress.isDefault = false
                     
                     self.selectedAddress.name = ""
                     self.selectedAddress.phone = ""
@@ -1094,6 +1106,36 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     func dismissKeyboard() {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
+    }
+    
+    // MARK: - Update Exist Address
+    func insertNewAddress() {
+        let _ = request(APIMe.updateCoordinate(addressId: self.selectedAddress.addressId, coordinate: self.selectedAddress.coordinate, coordinateAddress: self.selectedAddress.coordinateAddress)).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Alamat Baru")) {
+                //print("Update Address - Save!")
+            }
+        }
+        
+        if self.selectedAddress.isDefault {
+            self.setupProfile()
+        }
+    }
+    
+    // MARK: - Update user Profile
+    func setupProfile() {
+        let m = UIApplication.appDelegate.managedObjectContext
+        
+        if let userProfile = CDUserProfile.getOne() {
+            userProfile.coordinate = self.selectedAddress.coordinate
+            userProfile.coordinateAddress = self.selectedAddress.coordinateAddress
+        }
+        
+        // Save data
+        if (m.saveSave() == false) {
+            //print("Failed")
+        } else {
+            //print("Data saved")
+        }
     }
     
     // MARK: - Cart Tour
@@ -1646,14 +1688,15 @@ class Checkout2AddressLocationCell: UITableViewCell {
     var pickLocation: ()->() = {} // open map
     
     var placeholderColor = UIColor.init(hex: "#CCCCCC")
+    var activeColor = UIColor.init(hex: "#6F6F6F")
     
     func adapt(_ locationName: String?) {
         if let loc = locationName, loc != "" {
-            self.lbLocation.text = loc
-            self.lbLocation.textColor = Theme.PrimaryColorDark
+            self.lbLocation.text = "Koordinat alamat sudah dipilih" //loc
+            self.lbLocation.textColor = activeColor //Theme.PrimaryColorDark
         } else {
-            self.lbLocation.text = "Pilih Lokasi"
-            self.lbLocation.textColor = placeholderColor
+            self.lbLocation.text = "Pilih Lokasi (untuk Same Day Service)"
+            self.lbLocation.textColor = Theme.PrimaryColorDark //placeholderColor
         }
     }
     

@@ -564,6 +564,7 @@ enum APIMe : URLRequestConvertible {
     case createAddress(addressName: String, recipientName: String, phone: String, provinceId: String, provinceName: String, regionId: String, regionName: String, subdistrictId: String, subdistricName: String, address: String, postalCode: String, coordinate: String, coordinateAddress: String)
     case deleteAddress(addressId: String)
     case setDefaultAddress(addressId: String)
+    case updateCoordinate(addressId: String, coordinate: String, coordinateAddress: String)
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "me/"
@@ -601,6 +602,7 @@ enum APIMe : URLRequestConvertible {
         case .createAddress(_, _, _, _, _, _, _, _, _, _, _, _, _) : return .post
         case .deleteAddress(_) : return .post
         case .setDefaultAddress(_) : return .post
+        case .updateCoordinate(_, _, _) : return .post
         }
     }
     
@@ -631,6 +633,7 @@ enum APIMe : URLRequestConvertible {
         case .createAddress(_, _, _, _, _, _, _, _, _, _, _, _, _) : return "address_book/add"
         case .deleteAddress(_) : return "address_book/delete"
         case .setDefaultAddress(_) : return "address_book/set_default"
+        case .updateCoordinate(_, _, _) : return "address_book/update"
         }
     }
     
@@ -777,6 +780,13 @@ enum APIMe : URLRequestConvertible {
             p = [
                 "address_id": addressId,
                 "platform_sent_from" : "ios"
+            ]
+        case .updateCoordinate(let addressId, let coordinate, let coordinateAddress) :
+            p = [
+                "address_id": addressId,
+                "platform_sent_from" : "ios",
+                "coordinate": coordinate,
+                "coordinate_address": coordinateAddress
             ]
         default : break
         }

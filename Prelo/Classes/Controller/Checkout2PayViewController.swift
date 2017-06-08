@@ -1054,7 +1054,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         
         let _ = request(APIMe.createAddress(addressName: "", recipientName: self.selectedAddress.name, phone: self.selectedAddress.phone, provinceId: self.selectedAddress.provinceId, provinceName: provinceName, regionId: self.selectedAddress.regionId, regionName: regionName, subdistrictId: self.selectedAddress.subdistrictId, subdistricName: self.selectedAddress.subdistrictName, address: self.selectedAddress.address, postalCode: self.selectedAddress.postalCode, coordinate: self.selectedAddress.coordinate, coordinateAddress: self.selectedAddress.coordinateAddress)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Alamat Baru")) {
-                print("New Address - Save!")
+                //print("New Address - Save!")
             }
         }
     }
@@ -1125,7 +1125,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             // gesture override
             self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
             
-            print(self.previousController.debugDescription)
+            //print(self.previousController.debugDescription)
             
             // back / pop twice
             if let count = self.navigationController?.viewControllers.count {
@@ -1143,7 +1143,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.right:
-                print("Swiped right")
+                //print("Swiped right")
                 
                 let alertView = SCLAlertView(appearance: Constant.appearance)
                 
@@ -1164,13 +1164,6 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 
                 alertView.showCustom("Checkout", subTitle: "Kamu yakin mau keluar dari sini? Dengan meninggalkan halaman ini, pemesanan akan dibatalkan.", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
                 
-                
-            case UISwipeGestureRecognizerDirection.down:
-                print("Swiped down")
-            case UISwipeGestureRecognizerDirection.left:
-                print("Swiped left")
-            case UISwipeGestureRecognizerDirection.up:
-                print("Swiped up")
             default:
                 break
             }
