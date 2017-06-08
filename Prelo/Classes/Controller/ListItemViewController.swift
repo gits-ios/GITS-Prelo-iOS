@@ -484,7 +484,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.isFeatured = true
             }
             // Identify Subcategories
-            if let subcatJson = self.categoryJson?["sub_categories"].array, subcatJson.count > 0 {
+            if let subcatJson = self.categoryJson?["sub_categories"].array, subcatJson.count > 0 && self.currentMode != .segment {
                 self.isShowSubcategory = true
                 for i in 0...subcatJson.count - 1 {
                     //var img : UIImage = UIImage()
@@ -771,6 +771,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             self.requesting = false
             if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Product By Category")) {
                 self.setupData(resp.result.value)
+                
+                if self.currentMode == .segment && !self.listItemSections.contains(.subcategories) {
+                    self.setupSubcategoriesInsideSegment(resp.result.value)
+                }
             }
             self.refresher?.endRefreshing()
             DispatchQueue.main.async(execute: {
@@ -1220,6 +1224,41 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
     }
     
+    func setupSubcategoriesInsideSegment(_ res : Any?) {
+        guard res != nil else {
+            return
+        }
+        
+        // TODO: - get subcategories from result -> getCategoriesProduct
+        
+        //var obj = JSON(res!)
+        // obj["_data"]["sub_categories"].array
+        
+        self.subcategoryItems = []
+            
+        // Identify Subcategories
+        if let subcatJson = self.categoryJson?["sub_categories"].array, subcatJson.count > 0 {
+            self.isShowSubcategory = true
+            for i in 0...subcatJson.count - 1 {
+                //var img : UIImage = UIImage()
+                var imgUrl : URL!
+                if let url = URL(string: subcatJson[i]["image"].stringValue.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!) {
+                    imgUrl = url
+                    //if let data = try? Data(contentsOf: url) {
+                    //    if let uiimg = UIImage(data: data) {
+                    //        img = uiimg
+                    //    }
+                    //}
+                }
+                //self.subcategoryItems.append(SubcategoryItem(id: subcatJson[i]["_id"].stringValue, name: subcatJson[i]["name"].stringValue, image: img))
+                self.subcategoryItems.append(SubcategoryItem(id: subcatJson[i]["_id"].stringValue, name: subcatJson[i]["name"].stringValue, imageLink: imgUrl))
+            }
+            DispatchQueue.main.async(execute: {
+                self.listItemSections.insert(.subcategories, at: 0)
+            })
+        }
+    }
+    
     func setupGrid() {
         if (self.currentMode == .filter && self.products?.count <= 0 && !self.requesting) {
             self.gridView.isHidden = true
@@ -1378,6 +1417,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if listItemSections.count > (indexPath as NSIndexPath).section {
         switch listItemSections[(indexPath as NSIndexPath).section] {
         case .products:
             if cell is ListItemCell {
@@ -1387,6 +1427,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             }
             break
         default: break
+        }
         }
     }
     
@@ -1823,6 +1864,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         if (!listItemSections.contains(.segments)) {
             setDefaultTopHeaderWomen()
             selectedSegment = ""
+            if self.listItemSections.contains(.subcategories) {
+                self.listItemSections.remove(at: self.listItemSections.index(of: .subcategories)!)
+            }
             self.listItemSections.remove(at: self.listItemSections.index(of: .products)!)
             self.listItemSections.append(.segments)
             gridView.reloadData()
