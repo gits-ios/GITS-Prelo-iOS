@@ -1734,7 +1734,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
     
     func scrollToSummary() {
         if self.cartResult.cartDetails.count > 0 {
-            tableView.scrollToRow(at: IndexPath(row: 0, section: self.cartResult.cartDetails.count + 3), at: UITableViewScrollPosition.top, animated: true)
+            tableView.scrollToRow(at: IndexPath(row: 0, section: self.cartResult.cartDetails.count + 5), at: UITableViewScrollPosition.top, animated: true)
         }
     }
     
