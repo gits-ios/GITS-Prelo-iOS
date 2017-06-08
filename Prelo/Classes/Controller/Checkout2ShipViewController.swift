@@ -582,8 +582,6 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                         self.isEnableToCheckout = false
                     }
                     
-                    // disabled
-                    /*
                     cell.remove = { pid in
                         self.dismissKeyboard()
                         
@@ -614,7 +612,6 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                         alertView.showCustom("Hapus Keranjang", subTitle: "Kamu yakin ingin menghapus \"\(self.cartResult.cartDetails[idx.section].products[idx.row-1].name)\"?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
                         
                     }
-                    */
                     
                     return cell
                 } /*else if idx.row == cartResult.cartDetails[idx.section].products.count + 1 {
@@ -1181,10 +1178,10 @@ class Checkout2ProductCell: UITableViewCell {
     
     var productDetail: ProductItem!
     
-    //var remove: (String)->() = {_ in }
+    var remove: (String)->() = {_ in }
     
     func adapt(_ productDetail: ProductItem) {
-        self.consWidthBtn.constant = 0.0
+        self.consWidthBtn.constant = 40.0
         
         self.productDetail = productDetail
         
@@ -1206,8 +1203,7 @@ class Checkout2ProductCell: UITableViewCell {
     }
     
     @IBAction func btnRemovePressed(_ sender: Any) {
-        // disabled
-        //self.remove(self.productDetail.productId)
+        self.remove(self.productDetail.productId)
     }
 }
 
@@ -1756,6 +1752,7 @@ class Checkout2AddressLocationCell: UITableViewCell {
 // MARK: - Class Checkout2TotalBuyingCell
 class Checkout2TotalBuyingCell: UITableViewCell {
     @IBOutlet weak var lbTotalPrice: UILabel!
+    @IBOutlet weak var btnContinue: UIButton!
     
     var continueToPayment: ()->() = {}
     

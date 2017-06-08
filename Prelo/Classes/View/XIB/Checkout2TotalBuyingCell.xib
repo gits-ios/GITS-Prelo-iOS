@@ -61,6 +61,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="btnContinue" destination="Wxs-z8-Qwy" id="9lK-hX-bG6"/>
                 <outlet property="lbTotalPrice" destination="cbL-co-ris" id="nVp-xp-jJ3"/>
             </connections>
             <point key="canvasLocation" x="-2.5" y="-254"/>

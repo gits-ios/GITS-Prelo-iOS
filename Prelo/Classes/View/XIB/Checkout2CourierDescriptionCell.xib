@@ -19,8 +19,8 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fPj-oW-dFm" userLabel="line1px">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
-                        <color key="backgroundColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <rect key="frame" x="12" y="0.0" width="351" height="1"/>
+                        <color key="backgroundColor" red="0.85490196080000003" green="0.85490196080000003" blue="0.85490196080000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="juD-ri-qL9"/>
                         </constraints>
@@ -34,8 +34,8 @@
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailingMargin" secondItem="Na5-KR-I5V" secondAttribute="trailing" constant="4" id="2zR-6x-a38"/>
-                    <constraint firstItem="fPj-oW-dFm" firstAttribute="leading" secondItem="ay8-Dw-Ra2" secondAttribute="leading" id="735-Ig-o5Z"/>
-                    <constraint firstAttribute="trailing" secondItem="fPj-oW-dFm" secondAttribute="trailing" id="7bp-Jc-jbx"/>
+                    <constraint firstItem="fPj-oW-dFm" firstAttribute="leading" secondItem="ay8-Dw-Ra2" secondAttribute="leading" constant="12" id="735-Ig-o5Z"/>
+                    <constraint firstAttribute="trailing" secondItem="fPj-oW-dFm" secondAttribute="trailing" constant="12" id="7bp-Jc-jbx"/>
                     <constraint firstItem="Na5-KR-I5V" firstAttribute="top" secondItem="fPj-oW-dFm" secondAttribute="bottom" constant="8" id="onA-w8-reh"/>
                     <constraint firstItem="fPj-oW-dFm" firstAttribute="top" secondItem="ay8-Dw-Ra2" secondAttribute="top" id="ujF-Kb-1Fv"/>
                     <constraint firstItem="Na5-KR-I5V" firstAttribute="leading" secondItem="ay8-Dw-Ra2" secondAttribute="leadingMargin" constant="4" id="vMg-hi-7Qk"/>
