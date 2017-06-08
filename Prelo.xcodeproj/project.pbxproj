@@ -4888,6 +4888,7 @@
 				58D5045F1EE79BEA00BC07C8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B2B34BE41E37042D001B653F /* Build configuration list for PBXNativeTarget "PushNotif" */ = {
 			isa = XCConfigurationList;
