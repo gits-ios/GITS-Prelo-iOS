@@ -281,6 +281,7 @@
 		44B8EDC81BEB47620063DEA8 /* TwitterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B8EDC51BEB47620063DEA8 /* TwitterCore.framework */; };
 		44BB8EF81BC6ABF70052B020 /* GIBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44BB8EF71BC6ABF70052B020 /* GIBadgeView.m */; };
 		44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C10A661B8C8145006D8770 /* basic_green@2x.png */; };
+		58095B441EE9272A0023F499 /* PreloTestsCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58095B431EE9272A0023F499 /* PreloTestsCoreData.swift */; };
 		580A30E51DFFF29E00453AA0 /* ProductLovelistCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 580A30E41DFFF29E00453AA0 /* ProductLovelistCell.xib */; };
 		580B07291DD5D99A0079C11C /* bday-splashscreen-2048x2048.png in Resources */ = {isa = PBXBuildFile; fileRef = 580B07281DD5D99A0079C11C /* bday-splashscreen-2048x2048.png */; };
 		581430DB1DCB14DE00B67205 /* GrowingTextViewHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581430DA1DCB14DE00B67205 /* GrowingTextViewHandler.swift */; };
@@ -742,6 +743,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		58095B461EE9272A0023F499 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2115E6C01B4A27E500509D2A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2115E6C71B4A27E500509D2A;
+			remoteInfo = Prelo;
+		};
 		5870CFCD1DC6F7E600E22EFF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5870CFBA1DC6F7E600E22EFF /* AlamofireImage.xcodeproj */;
@@ -1435,6 +1443,9 @@
 		5800FF9E1C883E1600492DB2 /* NotifAnggiConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = NotifAnggiConversationViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5800FFA21C8852D600492DB2 /* NotifAnggiTransaction.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiTransaction.xib; sourceTree = "<group>"; };
 		5800FFA41C88530900492DB2 /* NotifAnggiConversation.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiConversation.xib; sourceTree = "<group>"; };
+		58095B411EE927290023F499 /* PreloTestsCoreData.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreloTestsCoreData.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		58095B431EE9272A0023F499 /* PreloTestsCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloTestsCoreData.swift; sourceTree = "<group>"; };
+		58095B451EE9272A0023F499 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		580A30E41DFFF29E00453AA0 /* ProductLovelistCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductLovelistCell.xib; sourceTree = "<group>"; };
 		580B07281DD5D99A0079C11C /* bday-splashscreen-2048x2048.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bday-splashscreen-2048x2048.png"; sourceTree = "<group>"; };
 		581430DA1DCB14DE00B67205 /* GrowingTextViewHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrowingTextViewHandler.swift; sourceTree = "<group>"; };
@@ -1911,6 +1922,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		58095B3E1EE927290023F499 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5881237F1EE65F5B005047AD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1992,6 +2010,7 @@
 				B2B34BCD1E37042D001B653F /* PushNotif */,
 				588123831EE65F5B005047AD /* PreloUITests */,
 				58D504571EE79BEA00BC07C8 /* PreloTests */,
+				58095B421EE927290023F499 /* PreloTestsCoreData */,
 				2115E6C91B4A27E500509D2A /* Products */,
 				163B49F396DAE9C45C1A8F32 /* Frameworks */,
 			);
@@ -2004,6 +2023,7 @@
 				B2B34BCC1E37042C001B653F /* PushNotif.appex */,
 				588123821EE65F5B005047AD /* PreloUITests.xctest */,
 				58D504561EE79BEA00BC07C8 /* PreloTests.xctest */,
+				58095B411EE927290023F499 /* PreloTestsCoreData.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3074,6 +3094,15 @@
 			name = Socket;
 			sourceTree = "<group>";
 		};
+		58095B421EE927290023F499 /* PreloTestsCoreData */ = {
+			isa = PBXGroup;
+			children = (
+				58095B431EE9272A0023F499 /* PreloTestsCoreData.swift */,
+				58095B451EE9272A0023F499 /* Info.plist */,
+			);
+			path = PreloTestsCoreData;
+			sourceTree = "<group>";
+		};
 		5870CFBB1DC6F7E600E22EFF /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -3474,6 +3503,24 @@
 			productReference = 2115E6C81B4A27E500509D2A /* Prelo.app */;
 			productType = "com.apple.product-type.application";
 		};
+		58095B401EE927290023F499 /* PreloTestsCoreData */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 58095B481EE9272A0023F499 /* Build configuration list for PBXNativeTarget "PreloTestsCoreData" */;
+			buildPhases = (
+				58095B3D1EE927290023F499 /* Sources */,
+				58095B3E1EE927290023F499 /* Frameworks */,
+				58095B3F1EE927290023F499 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				58095B471EE9272A0023F499 /* PBXTargetDependency */,
+			);
+			name = PreloTestsCoreData;
+			productName = PreloTestsCoreData;
+			productReference = 58095B411EE927290023F499 /* PreloTestsCoreData.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		588123811EE65F5B005047AD /* PreloUITests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 588123891EE65F5B005047AD /* Build configuration list for PBXNativeTarget "PreloUITests" */;
@@ -3553,6 +3600,11 @@
 							};
 						};
 					};
+					58095B401EE927290023F499 = {
+						CreatedOnToolsVersion = 8.3.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 2115E6C71B4A27E500509D2A;
+					};
 					588123811EE65F5B005047AD = {
 						CreatedOnToolsVersion = 8.3.2;
 						ProvisioningStyle = Automatic;
@@ -3610,6 +3662,7 @@
 				B2B34BCB1E37042C001B653F /* PushNotif */,
 				588123811EE65F5B005047AD /* PreloUITests */,
 				58D504551EE79BEA00BC07C8 /* PreloTests */,
+				58095B401EE927290023F499 /* PreloTestsCoreData */,
 			);
 		};
 /* End PBXProject section */
@@ -4060,6 +4113,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		58095B3F1EE927290023F499 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		588123801EE65F5B005047AD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4449,6 +4509,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		58095B3D1EE927290023F499 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				58095B441EE9272A0023F499 /* PreloTestsCoreData.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5881237E1EE65F5B005047AD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4476,6 +4544,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		58095B471EE9272A0023F499 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2115E6C71B4A27E500509D2A /* Prelo */;
+			targetProxy = 58095B461EE9272A0023F499 /* PBXContainerItemProxy */;
+		};
 		5870CFDE1DC6F85900E22EFF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "AlamofireImage iOS";
@@ -4644,6 +4717,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: M. R. Al-ghazali (QEA6HEZ3FA)";
 				DEVELOPMENT_TEAM = A72B22UTXM;
 				ENABLE_BITCODE = NO;
+				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Prelo/Framework",
@@ -4689,6 +4763,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: M. R. Al-ghazali (QEA6HEZ3FA)";
 				DEVELOPMENT_TEAM = A72B22UTXM;
 				ENABLE_BITCODE = NO;
+				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Prelo/Framework",
@@ -4717,6 +4792,48 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		58095B491EE9272A0023F499 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				INFOPLIST_FILE = PreloTestsCoreData/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.prelo.PreloTestsCoreData;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Prelo.app/Prelo";
+			};
+			name = Debug;
+		};
+		58095B4A1EE9272A0023F499 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				INFOPLIST_FILE = PreloTestsCoreData/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.prelo.PreloTestsCoreData;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Prelo.app/Prelo";
 			};
 			name = Release;
 		};
@@ -4871,6 +4988,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		58095B481EE9272A0023F499 /* Build configuration list for PBXNativeTarget "PreloTestsCoreData" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				58095B491EE9272A0023F499 /* Debug */,
+				58095B4A1EE9272A0023F499 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		588123891EE65F5B005047AD /* Build configuration list for PBXNativeTarget "PreloUITests" */ = {
 			isa = XCConfigurationList;
