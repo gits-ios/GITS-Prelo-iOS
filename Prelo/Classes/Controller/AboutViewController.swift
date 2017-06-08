@@ -568,12 +568,31 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
         
         lblNewCart.frame = CGRect(x: 0, y: tglNewShop.height + 8, width: width - tglNewCart.width - 8, height: tglNewCart.height)
         
+        let lblSigCart = UILabel()
+        
+        lblSigCart.text = "Cart 1 page?"
+        lblSigCart.font = Constant.appearance.kTextFont
+        lblSigCart.textColor = alertView.labelTitle.textColor
+        lblSigCart.numberOfLines = 1
+        lblSigCart.textAlignment = .left
+        
+        let tglSigCart = UISwitch()
+        
+        tglSigCart.isOn = AppTools.isNewCart
+        tglSigCart.addTarget(self, action: #selector(self.sigCartToggle(sender:)), for: UIControlEvents.valueChanged)
+        
+        tglSigCart.frame = CGRect(x: width - tglSigCart.width, y: tglNewCart.height + 8, width: tglSigCart.width, height: tglNewCart.height)
+        
+        lblSigCart.frame = CGRect(x: 0, y: tglNewCart.height + 8, width: width - tglSigCart.width - 8, height: tglSigCart.height)
+        
         // Creat the subview
-        let subview = UIView(frame: CGRect(x: 0, y: 0, width: width, height: tglNewShop.height + 8 + tglNewCart.height))
+        let subview = UIView(frame: CGRect(x: 0, y: 0, width: width, height: tglNewShop.height + 8 + tglNewCart.height + 8 + tglSigCart.height))
         subview.addSubview(lblNewShop)
         subview.addSubview(tglNewShop)
         subview.addSubview(lblNewCart)
         subview.addSubview(tglNewCart)
+        subview.addSubview(lblSigCart)
+        subview.addSubview(tglSigCart)
         
         alertView.customSubview = subview
         
@@ -588,5 +607,9 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
     
     func newCartToggle(sender: UISwitch) {
         AppTools.switchToNewCart(sender.isOn)
+    }
+    
+    func sigCartToggle(sender: UISwitch) {
+        AppTools.switchToSingleCart(sender.isOn)
     }
 }

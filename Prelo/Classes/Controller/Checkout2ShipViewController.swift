@@ -766,6 +766,8 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                                 self.selectedAddress.coordinateAddress = result["address"]!
                                 
                                 self.tableView.reloadData()
+                                
+                                self.updateAddress()
                             }
                             self.navigationController?.pushViewController(googleMapVC, animated: true)
                         }
@@ -1109,7 +1111,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     // MARK: - Update Exist Address
-    func insertNewAddress() {
+    func updateAddress() {
         let _ = request(APIMe.updateCoordinate(addressId: self.selectedAddress.addressId, coordinate: self.selectedAddress.coordinate, coordinateAddress: self.selectedAddress.coordinateAddress)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Alamat Baru")) {
                 //print("Update Address - Save!")
@@ -1443,7 +1445,8 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
     var isPickingKabKota : Bool = false
     var isPickingKecamatan : Bool = false
     
-    var parent: Checkout2ShipViewController!
+    var parent2: Checkout2ShipViewController?
+    var parent1: Checkout2ViewController?
     var isDefault: Bool = false
     var isSave: Bool = false
     
@@ -1478,8 +1481,12 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
     }
     
     // isDefault == true
-    func adapt(_ address: AddressItem, parent: Checkout2ShipViewController) {
-        self.parent = parent
+    func adapt(_ address: AddressItem, parent: UIViewController) {
+        if parent is Checkout2ShipViewController {
+            self.parent2 = parent as? Checkout2ShipViewController
+        } else if parent is Checkout2ViewController {
+            self.parent1 = parent as? Checkout2ViewController
+        }
         self.setup()
         
         // init
@@ -1497,8 +1504,12 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
     }
     
     // isDefault == false
-    func adapt(_ address: SelectedAddressItem, parent: Checkout2ShipViewController) {
-        self.parent = parent
+    func adapt(_ address: SelectedAddressItem, parent: UIViewController) {
+        if parent is Checkout2ShipViewController {
+            self.parent2 = parent as? Checkout2ShipViewController
+        } else if parent is Checkout2ViewController {
+            self.parent1 = parent as? Checkout2ViewController
+        }
         self.setup()
         
         // init
@@ -1581,7 +1592,12 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
             self.pickSubdistrict(self.selectedSubdistrictId, self.lbSubdistrict.text!) // region id -> global
         }
         p?.title = "Kecamatan"
-        parent.navigationController?.pushViewController(p!, animated: true)
+        
+        if let parent = self.parent2 {
+            parent.navigationController?.pushViewController(p!, animated: true)
+        } else if let parent = self.parent1 {
+            parent.navigationController?.pushViewController(p!, animated: true)
+        }
     }
     
     @IBAction func btnPickProvincePressed(_ sender: Any) {
@@ -1601,7 +1617,12 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
             self.pickProvince(self.selectedProvinceId)
         }
         p?.title = "Provinsi"
-        parent.navigationController?.pushViewController(p!, animated: true)
+        
+        if let parent = self.parent2 {
+            parent.navigationController?.pushViewController(p!, animated: true)
+        } else if let parent = self.parent1 {
+            parent.navigationController?.pushViewController(p!, animated: true)
+        }
     }
     
     @IBAction func btnPickRegionPressed(_ sender: Any) {
@@ -1622,7 +1643,12 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
                 self.pickRegion(self.selectedRegionId) // province id -> global
             }
             p?.title = "Kota/Kabupaten"
-            parent.navigationController?.pushViewController(p!, animated: true)
+            
+            if let parent = self.parent2 {
+                parent.navigationController?.pushViewController(p!, animated: true)
+            } else if let parent = self.parent1 {
+                parent.navigationController?.pushViewController(p!, animated: true)
+            }
         }
     }
     
@@ -1631,7 +1657,11 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
             Constant.showDialog("Perhatian", message: "Pilih kota/kabupaten terlebih dahulu")
         } else {
             if (kecamatanPickerItems.count <= 0) {
-                parent.showLoading()
+                if let parent = self.parent2 {
+                    parent.showLoading()
+                } else if let parent = self.parent1 {
+                    parent.showLoading()
+                }
                 
                 // Retrieve kecamatanPickerItems
                 let _ = request(APIMisc.getSubdistrictsByRegionID(id: self.selectedRegionId)).responseJSON { resp in
@@ -1649,7 +1679,11 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
                             Constant.showDialog("Oops", message: "Kecamatan tidak ditemukan")
                         }
                     }
-                    self.parent.hideLoading()
+                    if let parent = self.parent2 {
+                        parent.hideLoading()
+                    } else if let parent = self.parent1 {
+                        parent.hideLoading()
+                    }
                 }
             } else {
                 self.pickKecamatan()
@@ -1667,18 +1701,28 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
     
     // MARK: - Delegate
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField == txtName {
-            self.parent.selectedAddress.name = textField.text!
-        } else if textField == txtPhone {
-            self.parent.selectedAddress.phone = textField.text!
-        } else if textField == txtAddress {
-            self.parent.selectedAddress.address = textField.text!
-        } else if textField == txtPostalCode {
-            self.parent.selectedAddress.postalCode = textField.text!
+        if let parent = self.parent2 {
+            if textField == txtName {
+                parent.selectedAddress.name = textField.text!
+            } else if textField == txtPhone {
+                parent.selectedAddress.phone = textField.text!
+            } else if textField == txtAddress {
+                parent.selectedAddress.address = textField.text!
+            } else if textField == txtPostalCode {
+                parent.selectedAddress.postalCode = textField.text!
+            }
+        } else if let parent = self.parent1 {
+            if textField == txtName {
+                parent.selectedAddress.name = textField.text!
+            } else if textField == txtPhone {
+                parent.selectedAddress.phone = textField.text!
+            } else if textField == txtAddress {
+                parent.selectedAddress.address = textField.text!
+            } else if textField == txtPostalCode {
+                parent.selectedAddress.postalCode = textField.text!
+            }
         }
     }
-    
-    
 }
 
 // MARK: - Class Checkout2AddressLocationCell

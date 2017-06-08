@@ -2166,10 +2166,17 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     Constant.showDialog("Add to Cart", message: "Terdapat kesalahan saat menambahkan barang ke keranjang belanja")
                 }
                 if AppTools.isNewCart {
-                    let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
-                    checkout2ShipVC.previousController = self
-                    checkout2ShipVC.previousScreen = PageName.InboxDetail
-                    self.navigationController?.pushViewController(checkout2ShipVC, animated: true)
+                    if AppTools.isSingleCart {
+                        let checkout2VC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2, owner: nil, options: nil)?.first as! Checkout2ViewController
+                        checkout2VC.previousController = self
+                        checkout2VC.previousScreen = PageName.TransactionDetail
+                        self.navigationController?.pushViewController(checkout2VC, animated: true)
+                    } else {
+                        let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
+                        checkout2ShipVC.previousController = self
+                        checkout2ShipVC.previousScreen = PageName.TransactionDetail
+                        self.navigationController?.pushViewController(checkout2ShipVC, animated: true)
+                    }
                 } else {
                     //self.performSegue(withIdentifier: "segCart", sender: nil)
                     let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController

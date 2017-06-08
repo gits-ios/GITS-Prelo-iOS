@@ -503,6 +503,12 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
 //        checkout2ShipVC.previousController = self
 //        checkout2ShipVC.previousScreen = PageName.DashboardLoggedIn
 //        self.navigationController?.pushViewController(checkout2ShipVC, animated: true)
+        
+        // checkout v2 - single page -- OKE
+//        let checkout2VC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2, owner: nil, options: nil)?.first as! Checkout2ViewController
+//        checkout2VC.previousController = self
+//        checkout2VC.previousScreen = PageName.DashboardLoggedIn
+//        self.navigationController?.pushViewController(checkout2VC, animated: true)
     }
     
     func launchFAQ() {

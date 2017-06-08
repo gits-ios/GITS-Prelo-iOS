@@ -1199,31 +1199,61 @@ class Checkout2PaymentBankCell: UITableViewCell {
     let dropDown = DropDown()
     var selectedBankIndex: Int = -1
     
-    var parent: Checkout2PayViewController!
+    var parent2: Checkout2PayViewController?
+    var parent1: Checkout2ViewController?
     
-    func adapt(_ bankName: String?, isSelected: Bool, parent: Checkout2PayViewController) {
-        self.parent = parent
+    func adapt(_ bankName: String?, isSelected: Bool, parent: UIViewController) {
+        if parent is Checkout2PayViewController {
+            self.parent2 = parent as? Checkout2PayViewController
+        } else if parent is Checkout2ViewController {
+            self.parent1 = parent as? Checkout2ViewController
+        }
         
-        if self.parent.isDropdownMode {
-            self.vwDropdown.isHidden = false
-            
-            if let bn = bankName, bn != "" {
-                self.lbBank.text = bn
+        if let curParent = self.parent2 {
+            if curParent.isDropdownMode {
+                self.vwDropdown.isHidden = false
+                
+                if let bn = bankName, bn != "" {
+                    self.lbBank.text = bn
+                } else {
+                    self.lbBank.text = "Pilih Bank Tujuan Transfer"
+                }
+                
+                self.setupDropdownBank()
             } else {
-                self.lbBank.text = "Pilih Bank Tujuan Transfer"
+                self.vwDropdown.isHidden = true
+                self.selectedBankIndex = -1
+                
+                if curParent.isShowBankBRI {
+                    self.vw3Banks.isHidden = true
+                    self.vw4Banks.isHidden = false
+                } else {
+                    self.vw3Banks.isHidden = false
+                    self.vw4Banks.isHidden = true
+                }
             }
-            
-            self.setupDropdownBank()
-        } else {
-            self.vwDropdown.isHidden = true
-            self.selectedBankIndex = -1
-            
-            if self.parent.isShowBankBRI {
-                self.vw3Banks.isHidden = true
-                self.vw4Banks.isHidden = false
+        } else if let curParent = self.parent1 {
+            if curParent.isDropdownMode {
+                self.vwDropdown.isHidden = false
+                
+                if let bn = bankName, bn != "" {
+                    self.lbBank.text = bn
+                } else {
+                    self.lbBank.text = "Pilih Bank Tujuan Transfer"
+                }
+                
+                self.setupDropdownBank()
             } else {
-                self.vw3Banks.isHidden = false
-                self.vw4Banks.isHidden = true
+                self.vwDropdown.isHidden = true
+                self.selectedBankIndex = -1
+                
+                if curParent.isShowBankBRI {
+                    self.vw3Banks.isHidden = true
+                    self.vw4Banks.isHidden = false
+                } else {
+                    self.vw3Banks.isHidden = false
+                    self.vw4Banks.isHidden = true
+                }
             }
         }
         
@@ -1247,9 +1277,16 @@ class Checkout2PaymentBankCell: UITableViewCell {
         var items = ["BCA", "Mandiri", "BNI"]
         var icons = ["rsz_ic_bca@2x", "rsz_ic_mandiri@2x", "rsz_ic_bni@2x"]
         
-        if self.parent.isShowBankBRI {
-            items.append("BRI")
-            icons.append("rsz_ic_bri@2x")
+        if let parent = self.parent2 {
+            if parent.isShowBankBRI {
+                items.append("BRI")
+                icons.append("rsz_ic_bri@2x")
+            }
+        } else if let parent = self.parent1 {
+            if parent.isShowBankBRI {
+                items.append("BRI")
+                icons.append("rsz_ic_bri@2x")
+            }
         }
         
         // The list of items to display. Can be changed dynamically
@@ -1260,7 +1297,11 @@ class Checkout2PaymentBankCell: UITableViewCell {
             self.lbBank.text = items[index]
             self.selectedBankIndex = index
             
-            self.parent.targetBank = items[index]
+            if let parent = self.parent2 {
+                parent.targetBank = items[index]
+            } else if let parent = self.parent1 {
+                parent.targetBank = items[index]
+            }
         }
         
         dropDown.customCellConfiguration = { (index: Index, item: String, cell: DropDownCell) -> Void in
@@ -1366,21 +1407,40 @@ class Checkout2PreloBalanceCell: UITableViewCell, UITextFieldDelegate {
     
     var preloBalanceUsed: ()->() = {}
     
-    var parent: Checkout2PayViewController!
+    var parent2: Checkout2PayViewController?
+    var parent1: Checkout2ViewController?
     
-    func adapt(_ parent: Checkout2PayViewController, isUsed: Bool) {
-        self.parent = parent
+    func adapt(_ parent: UIViewController, isUsed: Bool) {
+        if parent is Checkout2PayViewController {
+            self.parent2 = parent as? Checkout2PayViewController
+        } else if parent is Checkout2ViewController {
+            self.parent1 = parent as? Checkout2ViewController
+        }
         
-        self.txtInputPreloBalance.text = parent.preloBalanceUsed.asPrice
-        self.lbDescription.text = "Prelo Balance kamu " + parent.preloBalanceTotal.asPrice
-        self.btnSwitch.isOn = isUsed
-        
-        self.txtInputPreloBalance.delegate = self
-        self.consWidthBtnApply.constant = 0
-        self.consLeadingBtnApply.constant = 0
-        
-        if isUsed {
-            self.parent.scrollToSummary()
+        if let curParent = parent2 {
+            self.txtInputPreloBalance.text = curParent.preloBalanceUsed.asPrice
+            self.lbDescription.text = "Prelo Balance kamu " + curParent.preloBalanceTotal.asPrice
+            self.btnSwitch.isOn = isUsed
+            
+            self.txtInputPreloBalance.delegate = self
+            self.consWidthBtnApply.constant = 0
+            self.consLeadingBtnApply.constant = 0
+            
+            if isUsed {
+                curParent.scrollToSummary()
+            }
+        } else if let curParent = parent1 {
+            self.txtInputPreloBalance.text = curParent.preloBalanceUsed.asPrice
+            self.lbDescription.text = "Prelo Balance kamu " + curParent.preloBalanceTotal.asPrice
+            self.btnSwitch.isOn = isUsed
+            
+            self.txtInputPreloBalance.delegate = self
+            self.consWidthBtnApply.constant = 0
+            self.consLeadingBtnApply.constant = 0
+            
+            if isUsed {
+                curParent.scrollToSummary()
+            }
         }
     }
     
@@ -1398,44 +1458,86 @@ class Checkout2PreloBalanceCell: UITableViewCell, UITextFieldDelegate {
     @IBAction func btnApplyPressed(_ sender: Any) {
         self.txtInputPreloBalance.resignFirstResponder()
         
-        var maksimum = self.parent.totalAmount
-        for d in self.parent.discountItems {
-            if d.title != "Prelo Balance" {
-                maksimum -= d.value
+        if let parent = parent2 {
+            var maksimum = parent.totalAmount
+            for d in parent.discountItems {
+                if d.title != "Prelo Balance" {
+                    maksimum -= d.value
+                }
             }
-        }
-        
-        if maksimum > self.parent.preloBalanceTotal {
-            maksimum = self.parent.preloBalanceTotal
-        }
-        
-        if let t = self.txtInputPreloBalance.text {
-            let _t = t.replacingOccurrences(of: ".", with: "").replace("Rp", template: "")
-            if _t.int <= maksimum && _t.int >= 0 {
-                
-                self.parent.preloBalanceUsed = _t.int
-                
-                if self.parent.discountItems.count > 0 {
-                    for i in 0...self.parent.discountItems.count-1 {
-                        if self.parent.discountItems[i].title == "Prelo Balance" {
-                            self.parent.discountItems[i].value = self.parent.preloBalanceUsed
+            
+            if maksimum > parent.preloBalanceTotal {
+                maksimum = parent.preloBalanceTotal
+            }
+            
+            if let t = self.txtInputPreloBalance.text {
+                let _t = t.replacingOccurrences(of: ".", with: "").replace("Rp", template: "")
+                if _t.int <= maksimum && _t.int >= 0 {
+                    
+                    parent.preloBalanceUsed = _t.int
+                    
+                    if parent.discountItems.count > 0 {
+                        for i in 0...parent.discountItems.count-1 {
+                            if parent.discountItems[i].title == "Prelo Balance" {
+                                parent.discountItems[i].value = parent.preloBalanceUsed
+                            }
                         }
                     }
+                    
+                    parent.tableView.reloadData()
+                    parent.scrollToSummary()
+                } else {
+                    let alertView = SCLAlertView(appearance: Constant.appearance)
+                    alertView.addButton("Oke") { self.txtInputPreloBalance.becomeFirstResponder() }
+                    alertView.showCustom("Prelo Balance", subTitle: "Prelo Balance yang dapat digunakan mulai dari Rp0 hingga \(maksimum.asPrice)", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
                 }
-                
-                self.parent.tableView.reloadData()
-                self.parent.scrollToSummary()
             } else {
+                //Constant.showDialog("Prelo Balance", message: "Prelo Balance yang dapat digunakan mulai dari 1 hingga \(maksimum) rupiah")
+                
                 let alertView = SCLAlertView(appearance: Constant.appearance)
                 alertView.addButton("Oke") { self.txtInputPreloBalance.becomeFirstResponder() }
-                alertView.showCustom("Prelo Balance", subTitle: "Prelo Balance yang dapat digunakan mulai dari Rp0 hingga \(maksimum.asPrice)", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+                alertView.showCustom("Prelo Balance", subTitle: "Prelo Balance yang dapat digunakan mulai dari 1 hingga \(maksimum) rupiah", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
             }
-        } else {
-//            Constant.showDialog("Prelo Balance", message: "Prelo Balance yang dapat digunakan mulai dari 1 hingga \(maksimum) rupiah")
+        } else if let parent = parent1 {
+            var maksimum = parent.totalAmount
+            for d in parent.discountItems {
+                if d.title != "Prelo Balance" {
+                    maksimum -= d.value
+                }
+            }
             
-            let alertView = SCLAlertView(appearance: Constant.appearance)
-            alertView.addButton("Oke") { self.txtInputPreloBalance.becomeFirstResponder() }
-            alertView.showCustom("Prelo Balance", subTitle: "Prelo Balance yang dapat digunakan mulai dari 1 hingga \(maksimum) rupiah", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+            if maksimum > parent.preloBalanceTotal {
+                maksimum = parent.preloBalanceTotal
+            }
+            
+            if let t = self.txtInputPreloBalance.text {
+                let _t = t.replacingOccurrences(of: ".", with: "").replace("Rp", template: "")
+                if _t.int <= maksimum && _t.int >= 0 {
+                    
+                    parent.preloBalanceUsed = _t.int
+                    
+                    if parent.discountItems.count > 0 {
+                        for i in 0...parent.discountItems.count-1 {
+                            if parent.discountItems[i].title == "Prelo Balance" {
+                                parent.discountItems[i].value = parent.preloBalanceUsed
+                            }
+                        }
+                    }
+                    
+                    parent.tableView.reloadData()
+                    parent.scrollToSummary()
+                } else {
+                    let alertView = SCLAlertView(appearance: Constant.appearance)
+                    alertView.addButton("Oke") { self.txtInputPreloBalance.becomeFirstResponder() }
+                    alertView.showCustom("Prelo Balance", subTitle: "Prelo Balance yang dapat digunakan mulai dari Rp0 hingga \(maksimum.asPrice)", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+                }
+            } else {
+                //Constant.showDialog("Prelo Balance", message: "Prelo Balance yang dapat digunakan mulai dari 1 hingga \(maksimum) rupiah")
+                
+                let alertView = SCLAlertView(appearance: Constant.appearance)
+                alertView.addButton("Oke") { self.txtInputPreloBalance.becomeFirstResponder() }
+                alertView.showCustom("Prelo Balance", subTitle: "Prelo Balance yang dapat digunakan mulai dari 1 hingga \(maksimum) rupiah", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+            }
         }
     }
     
@@ -1460,8 +1562,13 @@ class Checkout2PreloBalanceCell: UITableViewCell, UITextFieldDelegate {
         self.consWidthBtnApply.constant = 0
         
         if let text = self.txtInputPreloBalance.text {
-            let _text = (text != "" ? text.int.asPrice : self.parent.preloBalanceUsed.asPrice)
-            self.txtInputPreloBalance.text = _text
+            if let parent = parent2 {
+                let _text = (text != "" ? text.int.asPrice : parent.preloBalanceUsed.asPrice)
+                self.txtInputPreloBalance.text = _text
+            } else if let parent = parent1 {
+                let _text = (text != "" ? text.int.asPrice : parent.preloBalanceUsed.asPrice)
+                self.txtInputPreloBalance.text = _text
+            }
         }
     }
 }

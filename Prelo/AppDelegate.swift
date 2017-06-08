@@ -1674,10 +1674,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             })
             
         } else { // v2
-            self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
-                let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
-                rootViewController!.pushViewController(checkout2ShipVC, animated: true)
-            })
+            if AppTools.isSingleCart {
+                self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
+                    let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
+                    rootViewController!.pushViewController(checkout2ShipVC, animated: true)
+                })
+            } else {
+                self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
+                    let checkout2VC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2, owner: nil, options: nil)?.first as! Checkout2ViewController
+                    rootViewController!.pushViewController(checkout2VC, animated: true)
+                })
+            }
         }
     }
     

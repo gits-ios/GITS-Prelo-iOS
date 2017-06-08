@@ -981,11 +981,19 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     func addProduct2cart() {
         if AppTools.isNewCart {
-            let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
-            checkout2ShipVC.previousController = self
-            checkout2ShipVC.previousScreen = thisScreen
-            self.navigationController?.pushViewController(checkout2ShipVC, animated: true)
-            return
+            if AppTools.isSingleCart {
+                let checkout2VC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2, owner: nil, options: nil)?.first as! Checkout2ViewController
+                checkout2VC.previousController = self
+                checkout2VC.previousScreen = thisScreen
+                self.navigationController?.pushViewController(checkout2VC, animated: true)
+                return
+            } else {
+                let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
+                checkout2ShipVC.previousController = self
+                checkout2ShipVC.previousScreen = thisScreen
+                self.navigationController?.pushViewController(checkout2ShipVC, animated: true)
+                return
+            }
         } else {
             //self.performSegue(withIdentifier: "segCart", sender: nil)
             let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController

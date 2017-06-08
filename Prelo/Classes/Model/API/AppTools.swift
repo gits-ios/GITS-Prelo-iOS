@@ -88,6 +88,17 @@ class AppTools: NSObject {
     static func switchToNewCart(_ isOn: Bool) {
         _isNewCart = isOn
     }
+    
+    fileprivate static var _isSingleCart = true
+    static var isSingleCart : Bool {
+        get {
+            return _isSingleCart
+        }
+    }
+    
+    static func switchToSingleCart(_ isOn: Bool) {
+        _isSingleCart = isOn
+    }
 }
 
 enum AppFont {
@@ -849,6 +860,7 @@ class Tags : NSObject {
     static let XibNameCheckout2Ship = "Checkout2Ship"
     static let XibNameCheckout2Pay = "Checkout2Pay"
     static let XibNameGoogleMap = "GoogleMap"
+    static let XibNameCheckout2 = "Checkout2"
 }
 
 class OrderStatus : NSObject {
