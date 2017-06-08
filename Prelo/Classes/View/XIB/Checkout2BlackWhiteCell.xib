@@ -31,6 +31,10 @@
                     <constraint firstAttribute="trailing" secondItem="Egn-91-YFJ" secondAttribute="trailing" constant="12" id="t50-0E-IHg"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="consHeightVwLine1px" destination="DvP-MG-iNq" id="nua-4s-gfM"/>
+                <outlet property="vwLine1px" destination="Egn-91-YFJ" id="pzJ-54-X7w"/>
+            </connections>
             <point key="canvasLocation" x="40.5" y="-84.5"/>
         </tableViewCell>
     </objects>

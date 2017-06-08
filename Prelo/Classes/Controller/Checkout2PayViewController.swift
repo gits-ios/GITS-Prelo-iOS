@@ -1391,6 +1391,9 @@ class Checkout2PaymentCreditCardCell: UITableViewCell {
 
 // MARK: - Class Checkout2BlackWhiteCell
 class Checkout2BlackWhiteCell: UITableViewCell {
+    @IBOutlet weak var vwLine1px: UIView!
+    @IBOutlet weak var consHeightVwLine1px: NSLayoutConstraint!
+    
     static func heightFor() -> CGFloat {
         return 9.0
     }

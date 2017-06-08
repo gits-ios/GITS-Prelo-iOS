@@ -1175,6 +1175,7 @@ class Checkout2ProductCell: UITableViewCell {
     @IBOutlet weak var lbProductName: UILabel!
     @IBOutlet weak var lbProductPrice: UILabel!
     @IBOutlet weak var consWidthBtn: NSLayoutConstraint!
+    @IBOutlet weak var vwLine1px: UIView!
     
     var productDetail: ProductItem!
     

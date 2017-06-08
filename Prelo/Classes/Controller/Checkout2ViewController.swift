@@ -722,7 +722,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                 if idx.row == 0 {
                     return Checkout2PaymentMethodCell.heightFor()
                 } else {
-                    return Checkout2BlackWhiteCell.heightFor() // 1.0
+                    return 2.0 //Checkout2BlackWhiteCell.heightFor()
                 }
             } else if idx.section <= cartResult.cartDetails.count {
                 if idx.row == 0 {
@@ -730,7 +730,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                 } else if idx.row <= cartResult.cartDetails[idx.section-1].products.count {
                     return Checkout2ProductCell.heightFor()
                 } else {
-                    return Checkout2BlackWhiteCell.heightFor() // 1.0
+                    return 2.0 //Checkout2BlackWhiteCell.heightFor()
                 }
             } else if idx.section == cartResult.cartDetails.count + 2 {
                 if idx.row == 0 {
@@ -804,6 +804,8 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     cell.selectionStyle = .none
                     cell.clipsToBounds = true
                     
+                    cell.consHeightVwLine1px.constant = 2.0
+                    
                     return cell
                 }
             } else if ((indexPath as NSIndexPath).section <= cartResult.cartDetails.count) {
@@ -841,6 +843,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     
                     let product = self.cartResult.cartDetails[idx.section-1].products[idx.row-1]
                     
+                    //cell.vwLine1px.isHidden = true
                     cell.adapt(product)
                     
                     if product.errorMessage != nil {
@@ -884,6 +887,8 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     
                     cell.selectionStyle = .none
                     cell.clipsToBounds = true
+                    
+                    cell.consHeightVwLine1px.constant = 2.0
                     
                     return cell
                 }
@@ -1067,6 +1072,8 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     
                     cell.selectionStyle = .none
                     cell.clipsToBounds = true
+                    
+                    cell.consHeightVwLine1px.constant = 2.0
                     
                     return cell
                 } else if idx.row == 1 {
