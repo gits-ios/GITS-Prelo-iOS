@@ -722,7 +722,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                 if idx.row == 0 {
                     return Checkout2PaymentMethodCell.heightFor()
                 } else {
-                    return 1.0 //Checkout2BlackWhiteCell.heightFor()
+                    return Checkout2BlackWhiteCell.heightFor() // 1.0
                 }
             } else if idx.section <= cartResult.cartDetails.count {
                 if idx.row == 0 {
@@ -730,7 +730,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                 } else if idx.row <= cartResult.cartDetails[idx.section-1].products.count {
                     return Checkout2ProductCell.heightFor()
                 } else {
-                    return 1.0 //Checkout2BlackWhiteCell.heightFor()
+                    return Checkout2BlackWhiteCell.heightFor() // 1.0
                 }
             } else if idx.section == cartResult.cartDetails.count + 2 {
                 if idx.row == 0 {

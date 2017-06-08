@@ -578,12 +578,12 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
         
         let tglSigCart = UISwitch()
         
-        tglSigCart.isOn = AppTools.isNewCart
+        tglSigCart.isOn = AppTools.isSingleCart
         tglSigCart.addTarget(self, action: #selector(self.sigCartToggle(sender:)), for: UIControlEvents.valueChanged)
         
-        tglSigCart.frame = CGRect(x: width - tglSigCart.width, y: tglNewCart.height + 8, width: tglSigCart.width, height: tglNewCart.height)
+        tglSigCart.frame = CGRect(x: width - tglSigCart.width, y: tglNewShop.height + 8 + tglNewCart.height + 8, width: tglSigCart.width, height: tglNewCart.height)
         
-        lblSigCart.frame = CGRect(x: 0, y: tglNewCart.height + 8, width: width - tglSigCart.width - 8, height: tglSigCart.height)
+        lblSigCart.frame = CGRect(x: 0, y: tglNewShop.height + 8 + tglNewCart.height + 8, width: width - tglSigCart.width - 8, height: tglSigCart.height)
         
         // Creat the subview
         let subview = UIView(frame: CGRect(x: 0, y: 0, width: width, height: tglNewShop.height + 8 + tglNewCart.height + 8 + tglSigCart.height))
