@@ -1073,7 +1073,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     cell.selectionStyle = .none
                     cell.clipsToBounds = true
                     
-                    cell.consHeightVwLine1px.constant = 2.0
+                    cell.consHeightVwLine1px.constant = 1.0
                     
                     return cell
                 } else if idx.row == 1 {
