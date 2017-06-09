@@ -69,14 +69,16 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         var type : String = ""
         var name : String = ""
         //var image : UIImage = UIImage()
-        var imageLink : URL!
+        var imageLink : URL?
+        
+        var subCategories : [JSON]?
     }
     
     struct SubcategoryItem {
         var id : String = ""
         var name : String = ""
         //var image : UIImage = UIImage()
-        var imageLink : URL!
+        var imageLink : URL?
     }
     
     // MARK: - Properties
@@ -471,7 +473,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                         //}
                     }
                     //self.segments.append(SegmentItem(type: segmentsJson[i]["type"].stringValue, name: segmentsJson[i]["name"].stringValue, image: img))
-                    self.segments.append(SegmentItem(type: segmentsJson[i]["type"].stringValue, name: segmentsJson[i]["name"].stringValue, imageLink: imgUrl))
+                    self.segments.append(SegmentItem(type: segmentsJson[i]["type"].stringValue, name: segmentsJson[i]["name"].stringValue, imageLink: imgUrl, subCategories: segmentsJson[i]["sub_categories"].array))
                 }
                 self.listItemSections.remove(at: self.listItemSections.index(of: .products)!)
                 self.listItemSections.insert(.segments, at: 0)
@@ -484,7 +486,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.isFeatured = true
             }
             // Identify Subcategories
-            if let subcatJson = self.categoryJson?["sub_categories"].array, subcatJson.count > 0 {
+            if let subcatJson = self.categoryJson?["sub_categories"].array, subcatJson.count > 0 && self.currentMode != .segment {
                 self.isShowSubcategory = true
                 for i in 0...subcatJson.count - 1 {
                     //var img : UIImage = UIImage()
@@ -771,6 +773,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             self.requesting = false
             if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Product By Category")) {
                 self.setupData(resp.result.value)
+                
+                if self.currentMode == .segment && !self.listItemSections.contains(.subcategories) {
+                    self.setupSubcategoriesInsideSegment()
+                }
             }
             self.refresher?.endRefreshing()
             DispatchQueue.main.async(execute: {
@@ -1220,6 +1226,49 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
     }
     
+    func setupSubcategoriesInsideSegment() {
+        if segments.count == 0 {
+            return
+        }
+        
+        self.subcategoryItems = []
+        
+        var idx = 0
+        for i in 0..<segments.count {
+            if segments[i].type == self.selectedSegment {
+                idx = i
+                
+                if segments[i].subCategories == nil {
+                    return
+                }
+                
+                break
+            }
+        }
+            
+        // Identify Subcategories
+        if let subcatJson = segments[idx].subCategories, subcatJson.count > 0 {
+            self.isShowSubcategory = true
+            for i in 0...subcatJson.count - 1 {
+                //var img : UIImage = UIImage()
+                var imgUrl : URL!
+                if let url = URL(string: subcatJson[i]["image"].stringValue.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!) {
+                    imgUrl = url
+                    //if let data = try? Data(contentsOf: url) {
+                    //    if let uiimg = UIImage(data: data) {
+                    //        img = uiimg
+                    //    }
+                    //}
+                }
+                //self.subcategoryItems.append(SubcategoryItem(id: subcatJson[i]["_id"].stringValue, name: subcatJson[i]["name"].stringValue, image: img))
+                self.subcategoryItems.append(SubcategoryItem(id: subcatJson[i]["_id"].stringValue, name: subcatJson[i]["name"].stringValue, imageLink: imgUrl))
+            }
+            DispatchQueue.main.async(execute: {
+                self.listItemSections.insert(.subcategories, at: 0)
+            })
+        }
+    }
+    
     func setupGrid() {
         if (self.currentMode == .filter && self.products?.count <= 0 && !self.requesting) {
             self.gridView.isHidden = true
@@ -1378,6 +1427,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if listItemSections.count > (indexPath as NSIndexPath).section {
         switch listItemSections[(indexPath as NSIndexPath).section] {
         case .products:
             if cell is ListItemCell {
@@ -1387,6 +1437,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             }
             break
         default: break
+        }
         }
     }
     
@@ -1823,6 +1874,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         if (!listItemSections.contains(.segments)) {
             setDefaultTopHeaderWomen()
             selectedSegment = ""
+            if self.listItemSections.contains(.subcategories) {
+                self.listItemSections.remove(at: self.listItemSections.index(of: .subcategories)!)
+            }
             self.listItemSections.remove(at: self.listItemSections.index(of: .products)!)
             self.listItemSections.append(.segments)
             gridView.reloadData()
@@ -2202,11 +2256,17 @@ class ListItemSubcategoryCell : UICollectionViewCell {
         return CGSize(width: wh, height: wh)
     }
     
-    func adapt(_ imageURL : URL) {
+    func adapt(_ imageURL : URL?) {
         let wh : CGFloat = (UIScreen.main.bounds.width - 8) / 3
         let rect = CGRect(x: 0, y: 0, width: wh, height: wh)
         imgSubcategory.frame = rect
-        imgSubcategory.afSetImage(withURL: imageURL, withFilter: .fitWithStandarPlaceHolder)
+        if let img = imageURL {
+            imgSubcategory.afSetImage(withURL: img, withFilter: .fitWithStandarPlaceHolder)
+        } else {
+            imgSubcategory.image = UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-lightgray" : "placeholder-transparent-lightgray"))
+            imgSubcategory.contentMode = .scaleAspectFit
+            imgSubcategory.afInflate()
+        }
     }
 }
 
@@ -2226,12 +2286,18 @@ class ListItemSegmentCell : UICollectionViewCell {
         return CGSize(width: rectWidthFix, height: heightBanner)
     }
     
-    func adapt(_ imageURL : URL) {
+    func adapt(_ imageURL : URL?) {
         let rectWidthFix : CGFloat = UIScreen.main.bounds.size.width - 8
         let rectHeightFix : CGFloat = ((rectWidthFix / 1024.0) * 514.0)
         let rect = CGRect(x: 0, y: 0, width: rectWidthFix, height: rectHeightFix)
         imgSegment.frame = rect
-        imgSegment.afSetImage(withURL: imageURL, withFilter: .fitWithStandarPlaceHolder)
+        if let img = imageURL {
+            imgSegment.afSetImage(withURL: img, withFilter: .fitWithStandarPlaceHolder)
+        } else {
+            imgSegment.image = UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-lightgray" : "placeholder-transparent-lightgray"))
+            imgSegment.contentMode = .scaleAspectFit
+            imgSegment.afInflate()
+        }
     }
 }
 
