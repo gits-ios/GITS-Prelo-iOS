@@ -649,7 +649,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 if (_curTime - self.curTime) >= self.interval {
                     self.curTime = _curTime
                     
-                    self.refresher?.beginRefreshing()
+                    /*DispatchQueue.main.async(execute: {
+                        self.refresher?.beginRefreshing()
+                    })*/
                     
                     self.refresh()
                 }
