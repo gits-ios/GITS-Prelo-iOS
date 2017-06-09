@@ -2303,20 +2303,6 @@ class ListItemSegmentCell : UICollectionViewCell {
         imgSegment.frame = rect
         if let img = imageURL {
             imgSegment.afSetImage(withURL: img, withFilter: .fitWithStandarPlaceHolder)
-            
-            let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo.loader.\((imageURL?.absoluteString)!)",
-                                                qos: .background,
-                                                target: nil)
-            backgroundQueue.async {
-                while self.imgSegment == nil {
-                    if self.imgSegment.image != nil {
-                        DispatchQueue.main.async(execute: {
-                            self.imgSegment.contentMode = .scaleAspectFill
-                        })
-                        break
-                    }
-                }
-            }
         } else {
             imgSegment.image = UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-lightgray" : "placeholder-transparent-lightgray"))
             imgSegment.contentMode = .scaleAspectFit
@@ -2459,6 +2445,8 @@ class ListItemCell : UICollectionViewCell {
     var parent : BaseViewController!
     var product: Product!
     
+    var isNeedSetup = true
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -2519,13 +2507,11 @@ class ListItemCell : UICollectionViewCell {
         
         self.currentMode = currentMode
         
-        avatar.contentMode = .scaleAspectFill
-        avatar.layoutIfNeeded()
-        avatar.layer.cornerRadius = avatar.bounds.width / 2
-        avatar.layer.masksToBounds = true
-        
-        avatar.layer.borderColor = Theme.GrayLight.cgColor
-        avatar.layer.borderWidth = 1
+        if self.isNeedSetup {
+            self.isNeedSetup = false
+            
+            self.setupCell()
+        }
         
         if (product.specialStory == nil || product.specialStory == "") {
             sectionSpecialStory.isHidden = true
@@ -2606,7 +2592,6 @@ class ListItemCell : UICollectionViewCell {
             captionOldPrice.attributedText = attString
         }
         
-        
         consWidthAffiliateLogo.constant = 0
         consHeightAffiliateLogo.constant = 0
         
@@ -2667,6 +2652,16 @@ class ListItemCell : UICollectionViewCell {
         if product.isFreeOngkir {
             imgFreeOngkir.isHidden = false
         }
+    }
+    
+    func setupCell() {
+        avatar.contentMode = .scaleAspectFill
+        avatar.layoutIfNeeded()
+        avatar.layer.cornerRadius = avatar.bounds.width / 2
+        avatar.layer.masksToBounds = true
+        
+        avatar.layer.borderColor = Theme.GrayLight.cgColor
+        avatar.layer.borderWidth = 1
     }
     
     func buttonLoveChange(isLoved : Bool) {
