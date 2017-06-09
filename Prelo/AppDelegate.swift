@@ -1920,9 +1920,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
                 
                 // Check apps icon need update?
-                let iconType = "ramadhan" // "default", "christmas", "ramadhan",
+                let iconType = "christmas" // "default", "christmas", "ramadhan",
                 
-                // change icon from server
+                // change icon from server iOS 10.3.*
                 if #available(iOS 10.3, *) {
                     if UIApplication.shared.supportsAlternateIcons {
                         if iconType == "default" && UIApplication.shared.alternateIconName != nil {
@@ -1943,8 +1943,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             }
                         }
                     }
-                } else {
-                    // Fallback on earlier versions
                 }
             }
         }
