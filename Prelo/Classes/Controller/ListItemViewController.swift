@@ -69,7 +69,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         var type : String = ""
         var name : String = ""
         //var image : UIImage = UIImage()
-        var imageLink : URL!
+        var imageLink : URL?
         
         var subCategories : [JSON]?
     }
@@ -78,7 +78,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         var id : String = ""
         var name : String = ""
         //var image : UIImage = UIImage()
-        var imageLink : URL!
+        var imageLink : URL?
     }
     
     // MARK: - Properties
@@ -1237,6 +1237,11 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         for i in 0..<segments.count {
             if segments[i].type == self.selectedSegment {
                 idx = i
+                
+                if segments[i].subCategories == nil {
+                    return
+                }
+                
                 break
             }
         }
@@ -2251,11 +2256,17 @@ class ListItemSubcategoryCell : UICollectionViewCell {
         return CGSize(width: wh, height: wh)
     }
     
-    func adapt(_ imageURL : URL) {
+    func adapt(_ imageURL : URL?) {
         let wh : CGFloat = (UIScreen.main.bounds.width - 8) / 3
         let rect = CGRect(x: 0, y: 0, width: wh, height: wh)
         imgSubcategory.frame = rect
-        imgSubcategory.afSetImage(withURL: imageURL, withFilter: .fitWithStandarPlaceHolder)
+        if let img = imageURL {
+            imgSubcategory.afSetImage(withURL: img, withFilter: .fitWithStandarPlaceHolder)
+        } else {
+            imgSubcategory.image = UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-lightgray" : "placeholder-transparent-lightgray"))
+            imgSubcategory.contentMode = .scaleAspectFit
+            imgSubcategory.afInflate()
+        }
     }
 }
 
@@ -2275,12 +2286,18 @@ class ListItemSegmentCell : UICollectionViewCell {
         return CGSize(width: rectWidthFix, height: heightBanner)
     }
     
-    func adapt(_ imageURL : URL) {
+    func adapt(_ imageURL : URL?) {
         let rectWidthFix : CGFloat = UIScreen.main.bounds.size.width - 8
         let rectHeightFix : CGFloat = ((rectWidthFix / 1024.0) * 514.0)
         let rect = CGRect(x: 0, y: 0, width: rectWidthFix, height: rectHeightFix)
         imgSegment.frame = rect
-        imgSegment.afSetImage(withURL: imageURL, withFilter: .fitWithStandarPlaceHolder)
+        if let img = imageURL {
+            imgSegment.afSetImage(withURL: img, withFilter: .fitWithStandarPlaceHolder)
+        } else {
+            imgSegment.image = UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-lightgray" : "placeholder-transparent-lightgray"))
+            imgSegment.contentMode = .scaleAspectFit
+            imgSegment.afInflate()
+        }
     }
 }
 
