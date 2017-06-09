@@ -52,8 +52,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var produkUploader : ProdukUploader!
     
-    var isFromBackground = false // for defined wait time for redir alert to show
-    
     var isTakingScreenshot = false // for use when take screenshot (dialog show)
     
     static var Instance : AppDelegate {
@@ -202,8 +200,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     if let _ = remoteNotif.object(forKey: "is_prelo_message") as? Bool {
                         tipe = self.RedirPreloMessage
                     }
-//                    Constant.showDialog(tipe, message: targetId! )
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
+                    //Constant.showDialog(tipe, message: targetId)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                         self.deeplinkRedirect(tipe, targetId: targetId)
                     })
                     
@@ -225,7 +223,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let tipe = launchURL.host {
                 var targetId : String?
                 targetId = launchURL.path.substringFromIndex(1)
-                self.deeplinkRedirect(tipe, targetId: targetId)
+                
+                let param : [URLQueryItem] = []
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    // prelo:// http:// https://
+                    if (launchURL.absoluteString.contains("prelo://") || launchURL.absoluteString.contains("http://") || launchURL.absoluteString.contains("https://")) {
+                        self.handleUniversalLink(launchURL.absoluteURL, path: launchURL.path, param: param)
+                    } else {
+                        // fb ?
+                        self.deeplinkRedirect(tipe, targetId: targetId)
+                    }
+                })
             }
 
             // FIXME: Swift 3
@@ -255,7 +263,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if let tId = params["target_id"].string {
                     targetId = tId
                 }
-                self.deeplinkRedirect(tipe, targetId: targetId)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    self.deeplinkRedirect(tipe, targetId: targetId)
+                })
             }
         })
         
@@ -267,7 +277,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     if let items = components.queryItems {
                         param = items
                     }
-                    self.handleUniversalLink(url, path: components.path, param: param)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                        self.handleUniversalLink(url, path: components.path, param: param)
+                    })
                 }
             }
         }
@@ -627,8 +639,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
         
-        self.isFromBackground = true
-        
         self.versionForceUpdateCheck()
         
         // Prelo Analytic - Open App
@@ -673,8 +683,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.versionForceUpdateCheck()
         
-        self.isFromBackground = false
-        
         // Prelo Analytic - Open App
         AnalyticManager.sharedInstance.openApp()
         
@@ -717,7 +725,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if (url.absoluteString.lowercased().contains("prelo://")) { // prelo://
             let urlString = url.absoluteString.lowercased().replace("prelo:/", template: "")
-            let parameter = path.replace("/", template: "")
+            var parameter = path
+            
+            if parameter.characterAtIndex(0) == "/" {
+                parameter.remove(at: parameter.startIndex)
+            }
             
             // #1 User
             if (urlString.contains("/user")) {
@@ -744,6 +756,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             // #2 Category
             } else if (urlString.contains("/category")) {
+                if parameter != "" {
+                    if parameter.contains("/") {
+                        let separators = NSCharacterSet(charactersIn: "/")
+                        // Split based on characters.
+                        let params = parameter.components(separatedBy: separators as CharacterSet)
+                        
+                        if params.count >= 2 && params[1] != "" {
+                            self.redirectSubCategorySegment(params[0], segment: params[1])
+                        } else {
+                            self.redirectCategory(params[0])
+                        }
+                    } else {
+                        self.redirectCategory(parameter) // user id
+                    }
+                } else {
+                    self.showFailedRedirAlert()
+                }
+                
+                /*
                 let _ = request(APIReference.getCategoryByPermalink(permalink: path.replace("/", template: ""))).responseJSON { resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Get Category ID")) {
                         let json = JSON(resp.result.value!)
@@ -757,6 +788,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         self.showFailedRedirAlert()
                     }
                 }
+                 */
                 
             // #3 Chat
             } else if (urlString.contains("/chat")) {
@@ -1038,13 +1070,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        redirAlert = UIAlertController(title: "Redirecting...", message: "Harap tunggu beberapa saat", preferredStyle: .alert)
 //        UIApplication.shared.keyWindow?.rootViewController?.present(redirAlert!, animated: true, completion: nil)
         
-        let delayTime = (self.isFromBackground ? 0 : 0.5) * Double(NSEC_PER_SEC)
-        let time = DispatchTime.now() + Double(Int64(delayTime)) / Double(NSEC_PER_SEC)
-        DispatchQueue.main.asyncAfter(deadline: time, execute: {
-            self.isFromBackground = false // remove delay
-            self.redirAlert = SCLAlertView(appearance: Constant.appearance)
-            self.alertViewResponder = self.redirAlert!.showCustom("Redirecting...", subTitle: "Harap tunggu beberapa saat", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
-        })
+        self.redirAlert = SCLAlertView(appearance: Constant.appearance)
+        self.alertViewResponder = self.redirAlert!.showCustom("Redirecting...", subTitle: "Harap tunggu beberapa saat", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
     func hideRedirAlertWithDelay(_ delay: Double, completion: (() -> Void)?) {
@@ -1418,6 +1445,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         listItemVC.currentMode = .filter
         listItemVC.fltrCategId = categoryId
         listItemVC.fltrSortBy = "recent"
+        
+        var rootViewController : UINavigationController?
+        if let rVC = self.window?.rootViewController {
+            if (rVC.childViewControllers.count > 0) {
+                if let chld = rVC.childViewControllers[0] as? UINavigationController {
+                    rootViewController = chld
+                }
+            }
+        }
+        if (rootViewController == nil) {
+            // Set root view controller
+            rootViewController = UINavigationController()
+            rootViewController?.navigationBar.barTintColor = Theme.PrimaryColor
+            rootViewController?.navigationBar.tintColor = UIColor.white
+            rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+            self.window?.rootViewController = rootViewController
+            let noBtn = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+            listItemVC.navigationItem.leftBarButtonItem = noBtn
+        }
+        
+        self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
+            rootViewController!.pushViewController(listItemVC, animated: true)
+        })
+    }
+    
+    func redirectSubCategorySegment(_ categoryId : String, segment : String) {
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+        listItemVC.currentMode = .filter
+        listItemVC.fltrCategId = categoryId
+        listItemVC.fltrSortBy = "recent"
+        listItemVC.fltrSegment = segment
         
         var rootViewController : UINavigationController?
         if let rVC = self.window?.rootViewController {
