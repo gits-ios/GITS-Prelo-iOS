@@ -974,7 +974,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         let bGTotal = BaseCartData.instance("Total Pembayaran", placeHolder: nil, value: self.grandTotal.asPrice, enable: false)
         self.cellsData[idxGTotal] = bGTotal
         
-        self.printCellsData()
+        //self.printCellsData()
         self.setupTable()
     }
     
@@ -2074,8 +2074,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         //print(j)
         arrayItem.remove(at: (indexPath as NSIndexPath).row - (arrayItem.count > 2 ? 1 : 0))
         
-        let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
-        let x = AppToolsObjC.jsonString(from: c)
+        //let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
+        //let x = AppToolsObjC.jsonString(from: c)
         //print((x ?? ""))
         
         let pid = j["product_id"].stringValue
@@ -2159,7 +2159,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     }
     
     func printCellsData() {
-        //print("CELLSDATA")
+        print("CELLSDATA")
         if (cellsData.count > 0) {
             for i in 0...cellsData.count - 1 {
                 let index = cellsData.index(cellsData.startIndex, offsetBy: i)
@@ -2172,7 +2172,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 if let v = baseCartData?.value {
                     value = v
                 }
-                //print("\((idxPath as NSIndexPath).section) - \((idxPath as NSIndexPath).row) : title = \(title), value = \(value)")
+                print("\((idxPath as NSIndexPath).section) - \((idxPath as NSIndexPath).row) : title = \(title), value = \(value)")
             }
         }
     }
