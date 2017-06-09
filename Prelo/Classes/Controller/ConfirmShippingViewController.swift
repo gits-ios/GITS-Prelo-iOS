@@ -273,7 +273,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                 let userAgent : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String
                 
                 AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: { op, res in
-                    print("Refund sent res = \(res)")
+                    //print("Refund sent res = \(res)")
                     let json = JSON(res!)
                     let data = json["_data"].boolValue
                     if (data == true) {
@@ -343,7 +343,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                 let userAgent : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String
                 
                 AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: { op, res in
-                    print("Confirm shipping res = \(res)")
+                    //print("Confirm shipping res = \(res)")
                     let json = JSON(res!)
                     let data = json["_data"].boolValue
                     if (data == true) {

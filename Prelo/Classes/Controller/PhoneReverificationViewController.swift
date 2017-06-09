@@ -45,7 +45,7 @@ class PhoneReverificationViewController : BaseViewController {
                 }
             }, completion: nil)
         
-        print("verifiedHP = \(verifiedHP)")
+        //print("verifiedHP = \(verifiedHP)")
         lblNoHP.text = verifiedHP
     }
     

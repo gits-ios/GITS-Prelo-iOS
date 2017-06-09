@@ -15,6 +15,7 @@ import Bolts
 import FBSDKCoreKit
 import Alamofire
 import AVFoundation
+import AlamofireImage
 
 //import AdobeCreativeSDKCore
 
@@ -51,6 +52,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var produkUploader : ProdukUploader!
     
+    var isFromBackground = false // for defined wait time for redir alert to show
+    
+    var isTakingScreenshot = false // for use when take screenshot (dialog show)
+    
     static var Instance : AppDelegate {
         return UIApplication.shared.delegate as! AppDelegate
     }
@@ -63,6 +68,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Application delegate functions
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        // alamofire-image fixer
+        DataRequest.addAcceptableImageContentTypes(["image/jpg","binary/octet-stream"])
         
         produkUploader = ProdukUploader()
         
@@ -223,7 +231,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // FIXME: Swift 3
 //            FBSDKAppLinkUtility.fetchDeferredAppLink({(url : URL!, error : NSError!) -> Void in
 //                if (error != nil) { // Process error
-//                    print("Received error while fetching deferred app link \(error)")
+//                    //print("Received error while fetching deferred app link \(error)")
 //                }
 //                if (url != nil) {
 //                    UIApplication.shared.openURL(url)
@@ -237,9 +245,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         branch.initSession(launchOptions: launchOptions, andRegisterDeepLinkHandler: { params, error in
             // Route the user based on what's in params
             let sessionParams = Branch.getInstance().getLatestReferringParams()
-            let firstParams = Branch.getInstance().getFirstReferringParams()
-            print("launch sessionParams = \(sessionParams)")
-            print("launch firstParams = \(firstParams)")
+            //let firstParams = Branch.getInstance().getFirstReferringParams()
+            //print("launch sessionParams = \(sessionParams)")
+            //print("launch firstParams = \(firstParams)")
             
             let params = JSON((sessionParams ?? [:]))
             if let tipe = params["tipe"].string {
@@ -270,7 +278,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UserDefaults.setObjectAndSync(userAgent as AnyObject?, forKey: UserDefaultsKey.UserAgent)
         
         // Remove app badge if any
-        UIApplication.shared.applicationIconBadgeNumber = 0
+        //UIApplication.shared.applicationIconBadgeNumber = 0
         
         // Set status bar color
         self.setStatusBarBackgroundColor(color: UIColor.clear)
@@ -352,11 +360,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [AnyHashable: Any], completionHandler: @escaping () -> Void) {
-        print("Action : \(identifier)")
+        //print("Action : \(identifier)")
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        print("deviceToken = \(deviceToken)")
+        //print("deviceToken = \(deviceToken)")
         
         // Mixpanel push notification setup
         Mixpanel.sharedInstance().people.addPushDeviceToken(deviceToken)
@@ -378,7 +386,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            .trimmingCharacters(in: CharacterSet(charactersIn: "<>"))
 //            .replacingOccurrences(of: " ", with: "")
         
-        print("deviceRegId = \(deviceRegId)")
+        //print("deviceRegId = \(deviceRegId)")
         
         UserDefaults.standard.set(deviceRegId, forKey: "deviceregid")
         UserDefaults.standard.synchronize()
@@ -390,21 +398,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // API Migrasi
             let _ = request(APIVisitors.updateVisitor(deviceRegId: deviceRegId)).responseJSON {resp in
                 if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Update Visitor")) {
-                    print("Visitor updated with deviceRegId: \(deviceRegId)")
+                    //print("Visitor updated with deviceRegId: \(deviceRegId)")
                 }
             }
         }
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("ERROR : \(error)")
+        //print("ERROR : \(error)")
         
         // MoEngage
         MoEngage.sharedInstance().didFailToRegisterForPush()
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-        print("userInfo = \(userInfo)")
+        //print("userInfo = \(userInfo)")
         
         // MoEngage
         MoEngage.sharedInstance().didReceieveNotificationinApplication(application, withInfo: userInfo)
@@ -481,7 +489,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         if (application.applicationState == UIApplicationState.active) { // active mode
-            print("App were active when receiving remote notification")
+            //print("App were active when receiving remote notification")
             
 //            Constant.showDialog("APNS", message: userInfo.description)
             
@@ -548,7 +556,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             
         } else { // background mode
-            print("App weren't active when receiving remote notification")
+            //print("App weren't active when receiving remote notification")
             
 //            Constant.showDialog("APNS", message: userInfo.description)
             
@@ -619,6 +627,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
         
+        self.isFromBackground = true
+        
         self.versionForceUpdateCheck()
         
         // Prelo Analytic - Open App
@@ -639,7 +649,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Remove app badge if any
         // show badge
-        UIApplication.shared.applicationIconBadgeNumber = 0 //User.getNotifCount() as NSInteger
+        //UIApplication.shared.applicationIconBadgeNumber = 0 //User.getNotifCount() as NSInteger
         
         // AppsFlyer
         // Track Installs, updates & sessions(app opens) (You must include this API to enable tracking)
@@ -663,11 +673,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.versionForceUpdateCheck()
         
+        self.isFromBackground = false
+        
         // Prelo Analytic - Open App
         AnalyticManager.sharedInstance.openApp()
         
         // Prelo Analytic - Update User
         AnalyticManager.sharedInstance.updateUser(isNeedPayload: true)
+        
+        let mainQueue = OperationQueue.main
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationUserDidTakeScreenshot,
+                                                                object: nil,
+                                                                queue: mainQueue) { notification in
+                                                                    // executes after screenshot
+                                                                    
+                                                                    if !self.isTakingScreenshot {
+                                                                        
+                                                                        self.isTakingScreenshot = true
+                                                                        self.showAlert()
+                                                                        
+                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                                                                            
+                                                                            self.hideRedirAlertWithDelay(0.0, completion: nil)
+                                                                            self.takeScreenshot()
+                                                                            
+                                                                        })
+                                                                    }
+        }
         
         return true
     }
@@ -997,12 +1029,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
     }
     
+    func showAlert() {
+        self.redirAlert = SCLAlertView(appearance: Constant.appearance)
+        self.alertViewResponder = self.redirAlert!.showCustom("Take Screenshot", subTitle: "Harap tunggu beberapa saat", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+    }
+    
     func showRedirAlert() {
 //        redirAlert = UIAlertController(title: "Redirecting...", message: "Harap tunggu beberapa saat", preferredStyle: .alert)
 //        UIApplication.shared.keyWindow?.rootViewController?.present(redirAlert!, animated: true, completion: nil)
         
-        redirAlert = SCLAlertView(appearance: Constant.appearance)
-        alertViewResponder = redirAlert!.showCustom("Redirecting...", subTitle: "Harap tunggu beberapa saat", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+        let delayTime = (self.isFromBackground ? 0 : 0.5) * Double(NSEC_PER_SEC)
+        let time = DispatchTime.now() + Double(Int64(delayTime)) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time, execute: {
+            self.isFromBackground = false // remove delay
+            self.redirAlert = SCLAlertView(appearance: Constant.appearance)
+            self.alertViewResponder = self.redirAlert!.showCustom("Redirecting...", subTitle: "Harap tunggu beberapa saat", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+        })
     }
     
     func hideRedirAlertWithDelay(_ delay: Double, completion: (() -> Void)?) {
@@ -1735,7 +1777,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if (orientation == UIInterfaceOrientation.portrait || orientation == UIInterfaceOrientation.portraitUpsideDown)
         {
             if(orientation != orientations) {
-                print("Portrait")
+                //print("Portrait")
                 
                 
                 //Do Rotation stuff here
@@ -1745,7 +1787,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         else if (orientation == UIInterfaceOrientation.landscapeLeft || orientation == UIInterfaceOrientation.landscapeRight)
         {
             if(orientation != orientations) {
-                print("Landscape")
+                //print("Landscape")
                 
                 Constant.showDialog("Device Orientation", message: "Halo Prelovers, Prelo menyarankan untuk menggunakan aplikasi Prelo dengan orientasi portrait atau tegak")
                 
@@ -1810,7 +1852,102 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     
                     UserDefaults.standard.synchronize()
                 }
+                
+                // Check apps refresh time
+                if let refreshTime = data["editors_page_refresh_time"].int {
+                    UserDefaults.standard.set(refreshTime, forKey: UserDefaultsKey.RefreshTime)
+                    
+                    UserDefaults.standard.synchronize()
+                }
             }
+        }
+    }
+    
+    // screenshot
+    func takeScreenshot() {
+        CustomPhotoAlbum.sharedInstance.fetchLastPhoto(resizeTo: nil , imageCallback: {
+            image in
+            if let ss = image {
+                let appearance = Constant.appearance
+                //appearance.shouldAutoDismiss = false
+                
+                let alertView = SCLAlertView(appearance: appearance)
+                
+                let width = Constant.appearance.kWindowWidth - 24
+                let frame = CGRect(x: 0, y: 0, width: width, height: width)
+                
+                let pView = UIImageView(frame: frame)
+                pView.image = ss.resizeWithMaxWidthOrHeight(width * UIScreen.main.scale)
+                pView.afInflate()
+                pView.contentMode = .scaleAspectFit
+                
+                // Creat the subview
+                let subview = UIView(frame: CGRect(x: 0, y: 0, width: width, height: width))
+                subview.addSubview(pView)
+                
+                alertView.customSubview = subview
+                
+                alertView.addButton("Share", action: {
+                    self.openShare(image: ss)
+                })
+                
+                alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {
+                    self.isTakingScreenshot = false
+                }
+                
+                alertView.showCustom("Screenshot", subTitle: "", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+            } else {
+                Constant.showDialog("Screenshot", message: "Pastikan untuk memberi akses aplikasi Prelo, dan coba untuk mengambil screenshot sekali lagi.")
+                self.isTakingScreenshot = false
+            }
+        })
+    }
+    
+    func openShare(image: UIImage) {
+        // disable deeplink
+        //let firstActivityItem = "Prelo"
+        //let secondActivityItem : NSURL = NSURL(string: "https://prelo.co.id/")!
+        
+        // If you want to put an image
+        // image (param)
+        
+        let activityViewController : UIActivityViewController = UIActivityViewController(
+            activityItems: [image], applicationActivities: nil) // firstActivityItem, secondActivityItem,
+        /*
+         // This lines is for the popover you need to show in iPad
+         activityViewController.popoverPresentationController?.sourceView = (sender as! UIButton)
+         
+         // This line remove the arrow of the popover to show in iPad
+         activityViewController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.allZeros
+         activityViewController.popoverPresentationController?.sourceRect = CGRect(x: 150, y: 150, width: 0, height: 0)
+         
+         // Anything you want to exclude
+         activityViewController.excludedActivityTypes = [
+         UIActivityTypePostToWeibo,
+         UIActivityTypePrint,
+         UIActivityTypeAssignToContact,
+         UIActivityTypeSaveToCameraRoll,
+         UIActivityTypeAddToReadingList,
+         UIActivityTypePostToFlickr,
+         UIActivityTypePostToVimeo,
+         UIActivityTypePostToTencentWeibo
+         ]
+         */
+        
+        //UIApplication.shared.keyWindow?.rootViewController?.present(activityViewController, animated: true, completion: nil)
+        
+        activityViewController.completionWithItemsHandler = { activity, success, items, error in
+            self.isTakingScreenshot = false
+        }
+        
+        // https://stackoverflow.com/questions/26667009/get-top-most-uiviewcontroller
+        if var topController = UIApplication.shared.keyWindow?.rootViewController {
+            while let presentedViewController = topController.presentedViewController {
+                topController = presentedViewController
+            }
+            
+            // topController should now be your topmost view controller
+            topController.present(activityViewController, animated: true, completion: nil)
         }
     }
 }

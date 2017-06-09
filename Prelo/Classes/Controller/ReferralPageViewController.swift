@@ -331,7 +331,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     }
     
     func documentInteractionControllerDidEndPreview(_ controller: UIDocumentInteractionController) {
-        print("DidEndPreview")
+        //print("DidEndPreview")
     }
     
     // MARK: - IBActions
@@ -356,13 +356,13 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             composer?.completionHandler = { result -> Void in
                 let getResult = result as SLComposeViewControllerResult
                 switch(getResult.rawValue) {
-                case SLComposeViewControllerResult.cancelled.rawValue:
-                    print("Cancelled")
+                //case SLComposeViewControllerResult.cancelled.rawValue:
+                    //print("Cancelled")
                 case SLComposeViewControllerResult.done.rawValue:
-                    print("Done")
+                    //print("Done")
                     self.mixpanelSharedReferral("Facebook", username: "")
-                default:
-                    print("Error")
+                default: break
+                    //print("Error")
                 }
                 self.dismiss(animated: true, completion: nil)
             }
@@ -382,13 +382,13 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             composer?.completionHandler = { result -> Void in
                 let getResult = result as SLComposeViewControllerResult
                 switch(getResult.rawValue) {
-                case SLComposeViewControllerResult.cancelled.rawValue:
-                    print("Cancelled")
+                //case SLComposeViewControllerResult.cancelled.rawValue:
+                    //print("Cancelled")
                 case SLComposeViewControllerResult.done.rawValue:
-                    print("Done")
+                    //print("Done")
                     self.mixpanelSharedReferral("Twitter", username: "")
-                default:
-                    print("Error")
+                default: break
+                    //print("Error")
                 }
                 self.dismiss(animated: true, completion: nil)
             }

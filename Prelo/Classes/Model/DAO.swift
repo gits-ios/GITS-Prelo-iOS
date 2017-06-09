@@ -637,7 +637,7 @@ open class ProductDetail : NSObject, TawarItem
     
     var productID : String
     {
-        print(json)
+        //print(json)
         return json["_data"]["_id"].string!
     }
     
@@ -691,7 +691,7 @@ open class ProductDetail : NSObject, TawarItem
     
     var originalPicturers : Array<String>
         {
-            print(json)
+            //print(json)
             if let ori : Array<String> = json["_data"]["original_picts"].arrayObject as? Array<String>
             {
                 return ori
@@ -716,7 +716,7 @@ open class ProductDetail : NSObject, TawarItem
     var imageLabels : [String]
     {
         var labels : [String] = []
-        print(json["_data"]["original_picts"])
+        //print(json["_data"]["original_picts"])
         if let ori = json["_data"]["original_picts"].arrayObject
         {
             var i = 0
@@ -1086,6 +1086,20 @@ open class ProductDetail : NSObject, TawarItem
         }
         return ""
     }
+    
+    var isCheckout : Bool {
+        if let j = json["_data"]["affiliate_data"]["affiliate_type"].string {
+            return (j.lowercased() == "checkout")
+        }
+        return false
+    }
+    
+    var AffiliateData : AffiliateItem? {
+        if let j = AffiliateItem.instance(json["_data"]["affiliate_data"]) {
+            return j
+        }
+        return nil
+    }
 }
 
 open class Product : NSObject
@@ -1189,7 +1203,7 @@ open class Product : NSObject
     
     var price : String
     {
-        print(json)
+        //print(json)
         if let p = json["price"].int
         {
             return p.asPrice
@@ -1313,10 +1327,24 @@ open class Product : NSObject
     }
     
     var isAffiliate : Bool {
-        if let _ = json["affiliate_data"]["affiliate_name"].string {
+        if let _ = json["affiliate_data"]["affiliate_name"].string, !self.isCheckout {
             return true
         }
         return false
+    }
+    
+    var isCheckout : Bool {
+        if let j = json["affiliate_data"]["affiliate_type"].string {
+            return (j.lowercased() == "checkout")
+        }
+        return false
+    }
+    
+    var AffiliateData : AffiliateItem? {
+        if let j = AffiliateItem.instance(json["affiliate_data"]) {
+            return j
+        }
+        return nil
     }
 }
 
@@ -1867,6 +1895,9 @@ class TransactionDetail : NSObject {
         if let j = json["shipping_name"].string {
             return j
         }
+        if let j = json["courier"].string {
+            return j
+        }
         return ""
     }
     
@@ -1938,6 +1969,20 @@ class TransactionDetail : NSObject {
             return j
         }
         return ""
+    }
+    
+    var isAffiliate : Bool {
+        if let _ = json["affiliate_data"]["affiliate_name"].string {
+            return true
+        }
+        return false
+    }
+    
+    var AffiliateData : AffiliateItem? {
+        if let j = AffiliateItem.instance(json["affiliate_data"]) {
+            return j
+        }
+        return nil
     }
 }
 
@@ -2154,11 +2199,13 @@ class TransactionProductDetail : NSObject {
     }
     
     var shippingName : String {
-        if (json["shipping_name"] != nil) {
-            return json["shipping_name"].stringValue
-        } else {
-            return ""
+        if let j = json["shipping_name"].string {
+            return j
         }
+        if let j = json["courier"].string {
+            return j
+        }
+        return ""
     }
     
     var shippingTimeMin : Int {
@@ -2427,6 +2474,20 @@ class TransactionProductDetail : NSObject {
         }
         return "6" // default
     }
+    
+    var isAffiliate : Bool {
+        if let _ = json["affiliate_data"]["affiliate_name"].string {
+            return true
+        }
+        return false
+    }
+    
+    var AffiliateData : AffiliateItem? {
+        if let j = AffiliateItem.instance(json["affiliate_data"]) {
+            return j
+        }
+        return nil
+    }
 }
 
 class UserReview : NSObject {
@@ -2507,42 +2568,56 @@ class LovedProduct : NSObject {
     }
     
     var id : String {
-        let i = (json["_id"].string)!
-        return i
+        if let i = (json["_id"].string) {
+            return i
+        }
+        return ""
     }
     
     var name : String {
-        let n = (json["name"].string)!
-        return n
+        if let n = (json["name"].string) {
+            return n
+        }
+        return ""
     }
     
     var price : Int {
-        let p = (json["price"].int)!
-        return p
+        if let p = (json["price"].int) {
+            return p
+        }
+        return 0
     }
     
     var priceOriginal : Int {
-        let p = (json["price_original"].int)!
-        return p
+        if let p = (json["price_original"].int) {
+            return p
+        }
+        return 0
     }
     
     var numLovelist : Int {
-        let n = (json["num_lovelist"].int)!
-        return n
+        if let n = (json["num_lovelist"].int) {
+            return n
+        }
+        return 0
     }
     
     var numComment : Int {
-        let n = (json["num_comment"].int)!
-        return n
+        if let n = (json["num_comment"].int) {
+            return n
+        }
+        return 0
     }
     
     var productImageURL : URL? {
-        if (json["display_picts"][0].string == nil)
-        {
-            return nil
+        if let arr = json["display_picts"].array {
+            for i in arr {
+                if let j = i.string {
+                    return URL(string: j)
+                }
+            }
         }
-        let url = json["display_picts"][0].string!
-        return URL(string: url)
+        return nil
     }
 }
 
@@ -3158,7 +3233,7 @@ class InboxMessage : NSObject
     fileprivate var lastImg : UIImage?
     func sendTo(_ threadId : String, withImg : UIImage?, completion : @escaping (InboxMessage)->())
     {
-        print("sending chat to thread " + threadId)
+        //print("sending chat to thread " + threadId)
         lastThreadId = threadId
         lastCompletion = completion
         lastImg = withImg
@@ -4121,5 +4196,82 @@ class AddressItem : NSObject {
             return j
         }
         return false
+    }
+}
+
+class AffiliateItem : NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> AffiliateItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = AffiliateItem()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var url : URL? {
+        if let j = json["affiliate_url"].string {
+            return URL(string: j)!
+        }
+        return nil
+    }
+    
+    var type : String? {
+        if let j = json["affiliate_type"].string {
+            return j
+        }
+        return nil
+    }
+    
+    var icon : URL? {
+        if let j = json["affiliate_icon"].string {
+            return URL(string: j)!
+        }
+        return nil
+    }
+    
+    var name : String? {
+        if let j = json["affiliate_name"].string {
+            return j
+        }
+        return nil
+    }
+    
+    var productId : String? {
+        if let j = json["affiliate_product_id"].string {
+            return j
+        }
+        return nil
+    }
+    
+    var checkoutUrlPattern : String? {
+        if let j = json["checkout_url_pattern"].string {
+            return j
+        }
+        return nil
+    }
+    
+    var confirmPaymentUrl : String? {
+        if let j = json["confirm_payment_url"].string {
+            return j //.replace("https://", template: "http://")
+        }
+        return nil
+    }
+    
+    var transactionDetailUrl : String? {
+        if let j = json["transaction_detail_url"].string {
+            return j //.replace("https://", template: "http://")
+        }
+        return nil
+    }
+    
+    var refundTransactionUrl : String? {
+        if let j = json["refund_transaction_url"].string {
+            return j //.replace("https://", template: "http://")
+        }
+        return nil
     }
 }
