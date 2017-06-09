@@ -328,7 +328,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                     var image : UIImage?
                     if let data = NSData(contentsOfFile: p.imagePath1){
                         if let imageUrl = UIImage(data: data as Data) {
-                            let img = UIImage(cgImage: imageUrl.cgImage!, scale: 1, orientation: UIImageOrientation(rawValue: p.imageOrientation1 as Int)!).resizeWithWidth(120)
+                            let img = UIImage(cgImage: imageUrl.cgImage!, scale: 1, orientation: UIImageOrientation(rawValue: p.imageOrientation1 as! Int)!).resizeWithWidth(120)
                             image = img
                         }
                     } else { // placeholder image
