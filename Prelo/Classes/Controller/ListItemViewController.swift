@@ -2304,8 +2304,18 @@ class ListItemSegmentCell : UICollectionViewCell {
         if let img = imageURL {
             imgSegment.afSetImage(withURL: img, withFilter: .fitWithStandarPlaceHolder)
             
-            if imgSegment.image != nil {
-                imgSegment.contentMode = .scaleAspectFill
+            let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo.loader.\((imageURL?.absoluteString)!)",
+                                                qos: .background,
+                                                target: nil)
+            backgroundQueue.async {
+                while self.imgSegment == nil {
+                    if self.imgSegment.image != nil {
+                        DispatchQueue.main.async(execute: {
+                            self.imgSegment.contentMode = .scaleAspectFill
+                        })
+                        break
+                    }
+                }
             }
         } else {
             imgSegment.image = UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-lightgray" : "placeholder-transparent-lightgray"))
