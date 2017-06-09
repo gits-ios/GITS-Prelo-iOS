@@ -727,7 +727,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let urlString = url.absoluteString.lowercased().replace("prelo:/", template: "")
             var parameter = path
             
-            if parameter.characterAtIndex(0) == "/" {
+            if parameter != "" && parameter.characterAtIndex(0) == "/" {
                 parameter.remove(at: parameter.startIndex)
             }
             

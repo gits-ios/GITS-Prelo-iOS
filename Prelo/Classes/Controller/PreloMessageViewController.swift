@@ -498,6 +498,8 @@ class PreloMessageCell: UITableViewCell {
     var zoomImage: ()->() = {}
     var openUrl  : (_ url: URL)->() = {_ in }
     
+    var isNeedSetup = true
+    
     static func heightFor(_ message : PreloMessageItem, isOpen: Bool) -> CGFloat {
         let standardHeight : CGFloat = 148.0 - 67.0 + 4 - 19.5
         let heightBanner : CGFloat = (((UIScreen.main.bounds.width - 8) / 940.0 /*1024.0*/) * 492.0 /*337.0*/)
@@ -550,6 +552,43 @@ class PreloMessageCell: UITableViewCell {
 //        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(PreloMessageCell.textPressed))
 //        self.lblDesc.addGestureRecognizer(longPressRecognizer)
         
+        if self.isNeedSetup {
+            self.isNeedSetup = false
+            self.setupDescriptionLabel()
+        }
+        
+        self.lblDesc.text = message.desc
+        self.desc = message.desc
+        
+        if message.desc == "pesan gambar" {
+            self.lblDesc.font = UIFont.italicSystemFont(ofSize: 14)
+            self.lblDesc.textColor = UIColor.lightGray
+            self.lblDesc.textAlignment = .center
+        } else {
+            self.lblDesc.textAlignment = .natural
+        }
+        
+        if isOpen {
+            self.lblDesc.numberOfLines = 0
+        } else {
+            self.lblDesc.numberOfLines = 4
+        }
+        
+        let textRect = message.desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 24)
+        if textRect.height <= 84.0 && textRect.height >= 67.0 {
+            self.lblDesc.numberOfLines = 5
+        }
+        
+        if textRect.height > 84.0 && !isOpen {
+            self.btnReadMore.isHidden = false
+            self.consTopLblDate.constant = 29.5
+        } else {
+            self.btnReadMore.isHidden = true
+            self.consTopLblDate.constant = 8
+        }
+    }
+    
+    func setupDescriptionLabel() {
         let customType = ActiveType.custom(pattern: "(?:^|\\s|$)prelo.co.id[^\\s]*") //Regex that looks for " prelo.co.id/* "
         let customType2 = ActiveType.custom(pattern: "prelo://[^\\s]*") //Regex that looks for "prelo://* "
         let customType3 = ActiveType.custom(pattern: "(?:^|\\s|$)dev.prelo.id[^\\s]*") //Regex that looks for " prelo.co.id/* "
@@ -593,36 +632,6 @@ class PreloMessageCell: UITableViewCell {
             let urlStr = "http://" + element
             let curl = URL(string: urlStr)!
             self.openUrl(curl)
-        }
-        
-        self.lblDesc.text = message.desc
-        self.desc = message.desc
-        
-        if message.desc == "pesan gambar" {
-            self.lblDesc.font = UIFont.italicSystemFont(ofSize: 14)
-            self.lblDesc.textColor = UIColor.lightGray
-            self.lblDesc.textAlignment = .center
-        } else {
-            self.lblDesc.textAlignment = .natural
-        }
-        
-        if isOpen {
-            self.lblDesc.numberOfLines = 0
-        } else {
-            self.lblDesc.numberOfLines = 4
-        }
-        
-        let textRect = message.desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 24)
-        if textRect.height <= 84.0 && textRect.height >= 67.0 {
-            self.lblDesc.numberOfLines = 5
-        }
-        
-        if textRect.height > 84.0 && !isOpen {
-            self.btnReadMore.isHidden = false
-            self.consTopLblDate.constant = 29.5
-        } else {
-            self.btnReadMore.isHidden = true
-            self.consTopLblDate.constant = 8
         }
     }
     
