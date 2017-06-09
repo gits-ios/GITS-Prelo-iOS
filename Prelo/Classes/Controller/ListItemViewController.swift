@@ -2240,6 +2240,10 @@ class ListItemSegmentCell : UICollectionViewCell {
         let rect = CGRect(x: 0, y: 0, width: rectWidthFix, height: rectHeightFix)
         imgSegment.frame = rect
         imgSegment.afSetImage(withURL: imageURL, withFilter: .fitWithStandarPlaceHolder)
+        
+        if imgSegment.image != nil {
+            imgSegment.contentMode = .scaleAspectFill
+        }
     }
 }
 
