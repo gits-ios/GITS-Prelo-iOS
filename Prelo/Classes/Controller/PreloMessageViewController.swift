@@ -510,6 +510,11 @@ class PreloMessageCell: UITableViewCell {
     }
     
     func adapt(_ message : PreloMessageItem, isOpen: Bool) {
+        if self.isNeedSetup {
+            self.isNeedSetup = false
+            self.setupDescriptionLabel()
+        }
+        
         if message.banner != nil {
             let height = (((UIScreen.main.bounds.width - 8) / 940.0 /*1024.0*/) * 492.0 /*337.0*/)
             self.consHeightBannerImage.constant = height
@@ -537,26 +542,12 @@ class PreloMessageCell: UITableViewCell {
                 
                 vwGradient.layer.insertSublayer(gradient, at: 0)
             } else {*/
-                self.vwGradient.isHidden = true
+                //self.vwGradient.isHidden = true
             //}
-        } else {
-            self.consHeightBannerImage.constant = 0
-            self.vwGradient.isHidden = true
         }
-        
-        self.btnReadMore.setTitleColor(Theme.PrimaryColorDark)
         
         self.lblTitle.text = message.title
         self.lblDate.text = message.date
-        
-//        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(PreloMessageCell.textPressed))
-//        self.lblDesc.addGestureRecognizer(longPressRecognizer)
-        
-        if self.isNeedSetup {
-            self.isNeedSetup = false
-            self.setupDescriptionLabel()
-        }
-        
         self.lblDesc.text = message.desc
         self.desc = message.desc
         
@@ -564,14 +555,10 @@ class PreloMessageCell: UITableViewCell {
             self.lblDesc.font = UIFont.italicSystemFont(ofSize: 14)
             self.lblDesc.textColor = UIColor.lightGray
             self.lblDesc.textAlignment = .center
-        } else {
-            self.lblDesc.textAlignment = .natural
         }
         
         if isOpen {
             self.lblDesc.numberOfLines = 0
-        } else {
-            self.lblDesc.numberOfLines = 4
         }
         
         let textRect = message.desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 24)
@@ -633,10 +620,22 @@ class PreloMessageCell: UITableViewCell {
             let curl = URL(string: urlStr)!
             self.openUrl(curl)
         }
+        
+        self.consHeightBannerImage.constant = 0
+        self.vwGradient.isHidden = true
+        self.lblDesc.textAlignment = .natural
+        self.lblDesc.numberOfLines = 4
+        
+        self.btnReadMore.setTitleColor(Theme.PrimaryColorDark)
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        
+        self.consHeightBannerImage.constant = 0
+        self.vwGradient.isHidden = true
+        self.lblDesc.textAlignment = .natural
+        self.lblDesc.numberOfLines = 4
         
         self.bannerImage.afCancelRequest()
         self.lblDesc.font = UIFont.systemFont(ofSize: 14)
