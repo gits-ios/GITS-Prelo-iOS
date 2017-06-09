@@ -1545,6 +1545,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             self.lblTopHeader.attributedText = attTxt
             self.listItemSections.remove(at: self.listItemSections.index(of: .segments)!)
             self.listItemSections.append(.products)
+            
+            // update time
+            self.curTime = NSDate().timeIntervalSince1970
+            
             self.refresh()
         case .products:
             var idx  = (indexPath as NSIndexPath).item
@@ -1879,6 +1883,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             }
             self.listItemSections.remove(at: self.listItemSections.index(of: .products)!)
             self.listItemSections.append(.segments)
+            
+            // update time
+            self.curTime = NSDate().timeIntervalSince1970
+            
             gridView.reloadData()
         }
     }
@@ -2293,6 +2301,10 @@ class ListItemSegmentCell : UICollectionViewCell {
         imgSegment.frame = rect
         if let img = imageURL {
             imgSegment.afSetImage(withURL: img, withFilter: .fitWithStandarPlaceHolder)
+            
+            if imgSegment.image != nil {
+                imgSegment.contentMode = .scaleAspectFill
+            }
         } else {
             imgSegment.image = UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-lightgray" : "placeholder-transparent-lightgray"))
             imgSegment.contentMode = .scaleAspectFit
