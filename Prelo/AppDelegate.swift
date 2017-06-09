@@ -52,8 +52,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var produkUploader : ProdukUploader!
     
-    var isFromBackground = false // for defined wait time for redir alert to show
-    
     var isTakingScreenshot = false // for use when take screenshot (dialog show)
     
     static var Instance : AppDelegate {
@@ -202,8 +200,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     if let _ = remoteNotif.object(forKey: "is_prelo_message") as? Bool {
                         tipe = self.RedirPreloMessage
                     }
-//                    Constant.showDialog(tipe, message: targetId! )
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
+                    //Constant.showDialog(tipe, message: targetId)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                         self.deeplinkRedirect(tipe, targetId: targetId)
                     })
                     
@@ -225,7 +223,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let tipe = launchURL.host {
                 var targetId : String?
                 targetId = launchURL.path.substringFromIndex(1)
-                self.deeplinkRedirect(tipe, targetId: targetId)
+                
+                let param : [URLQueryItem] = []
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    // prelo:// http:// https://
+                    if (launchURL.absoluteString.contains("prelo://") || launchURL.absoluteString.contains("http://") || launchURL.absoluteString.contains("https://")) {
+                        self.handleUniversalLink(launchURL.absoluteURL, path: launchURL.path, param: param)
+                    } else {
+                        // fb ?
+                        self.deeplinkRedirect(tipe, targetId: targetId)
+                    }
+                })
             }
 
             // FIXME: Swift 3
@@ -255,7 +263,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if let tId = params["target_id"].string {
                     targetId = tId
                 }
-                self.deeplinkRedirect(tipe, targetId: targetId)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    self.deeplinkRedirect(tipe, targetId: targetId)
+                })
             }
         })
         
@@ -267,7 +277,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     if let items = components.queryItems {
                         param = items
                     }
-                    self.handleUniversalLink(url, path: components.path, param: param)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                        self.handleUniversalLink(url, path: components.path, param: param)
+                    })
                 }
             }
         }
@@ -627,8 +639,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
         
-        self.isFromBackground = true
-        
         self.versionForceUpdateCheck()
         
         // Prelo Analytic - Open App
@@ -672,8 +682,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        Constant.showDialog("FIrst INIT", message: "firts INIT")
         
         self.versionForceUpdateCheck()
-        
-        self.isFromBackground = false
         
         // Prelo Analytic - Open App
         AnalyticManager.sharedInstance.openApp()
@@ -1062,13 +1070,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        redirAlert = UIAlertController(title: "Redirecting...", message: "Harap tunggu beberapa saat", preferredStyle: .alert)
 //        UIApplication.shared.keyWindow?.rootViewController?.present(redirAlert!, animated: true, completion: nil)
         
-        let delayTime = (self.isFromBackground ? 0 : 0.5) * Double(NSEC_PER_SEC)
-        let time = DispatchTime.now() + Double(Int64(delayTime)) / Double(NSEC_PER_SEC)
-        DispatchQueue.main.asyncAfter(deadline: time, execute: {
-            self.isFromBackground = false // remove delay
-            self.redirAlert = SCLAlertView(appearance: Constant.appearance)
-            self.alertViewResponder = self.redirAlert!.showCustom("Redirecting...", subTitle: "Harap tunggu beberapa saat", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
-        })
+        self.redirAlert = SCLAlertView(appearance: Constant.appearance)
+        self.alertViewResponder = self.redirAlert!.showCustom("Redirecting...", subTitle: "Harap tunggu beberapa saat", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
     func hideRedirAlertWithDelay(_ delay: Double, completion: (() -> Void)?) {
