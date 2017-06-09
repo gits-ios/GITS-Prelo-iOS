@@ -70,6 +70,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         var name : String = ""
         //var image : UIImage = UIImage()
         var imageLink : URL!
+        
+        var subCategories : [JSON]?
     }
     
     struct SubcategoryItem {
@@ -471,7 +473,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                         //}
                     }
                     //self.segments.append(SegmentItem(type: segmentsJson[i]["type"].stringValue, name: segmentsJson[i]["name"].stringValue, image: img))
-                    self.segments.append(SegmentItem(type: segmentsJson[i]["type"].stringValue, name: segmentsJson[i]["name"].stringValue, imageLink: imgUrl))
+                    self.segments.append(SegmentItem(type: segmentsJson[i]["type"].stringValue, name: segmentsJson[i]["name"].stringValue, imageLink: imgUrl, subCategories: segmentsJson[i]["sub_categories"].array))
                 }
                 self.listItemSections.remove(at: self.listItemSections.index(of: .products)!)
                 self.listItemSections.insert(.segments, at: 0)
@@ -773,7 +775,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.setupData(resp.result.value)
                 
                 if self.currentMode == .segment && !self.listItemSections.contains(.subcategories) {
-                    self.setupSubcategoriesInsideSegment(resp.result.value)
+                    self.setupSubcategoriesInsideSegment()
                 }
             }
             self.refresher?.endRefreshing()
@@ -1224,20 +1226,23 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
     }
     
-    func setupSubcategoriesInsideSegment(_ res : Any?) {
-        guard res != nil else {
+    func setupSubcategoriesInsideSegment() {
+        if segments.count == 0 {
             return
         }
         
-        // TODO: - get subcategories from result -> getCategoriesProduct
-        
-        //var obj = JSON(res!)
-        // obj["_data"]["sub_categories"].array
-        
         self.subcategoryItems = []
+        
+        var idx = 0
+        for i in 0..<segments.count {
+            if segments[i].type == self.selectedSegment {
+                idx = i
+                break
+            }
+        }
             
         // Identify Subcategories
-        if let subcatJson = self.categoryJson?["sub_categories"].array, subcatJson.count > 0 {
+        if let subcatJson = segments[idx].subCategories, subcatJson.count > 0 {
             self.isShowSubcategory = true
             for i in 0...subcatJson.count - 1 {
                 //var img : UIImage = UIImage()
