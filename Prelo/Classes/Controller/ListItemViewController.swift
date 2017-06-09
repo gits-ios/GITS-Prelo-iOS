@@ -1494,6 +1494,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             self.lblTopHeader.attributedText = attTxt
             self.listItemSections.remove(at: self.listItemSections.index(of: .segments)!)
             self.listItemSections.append(.products)
+            
+            // update time
+            self.curTime = NSDate().timeIntervalSince1970
+            
             self.refresh()
         case .products:
             var idx  = (indexPath as NSIndexPath).item
@@ -1825,6 +1829,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             selectedSegment = ""
             self.listItemSections.remove(at: self.listItemSections.index(of: .products)!)
             self.listItemSections.append(.segments)
+            
+            // update time
+            self.curTime = NSDate().timeIntervalSince1970
+            
             gridView.reloadData()
         }
     }
