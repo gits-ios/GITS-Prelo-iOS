@@ -2455,6 +2455,7 @@
 		21AE67B41B4A61C600D2CF63 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				B2686C561EEAF26500FF3A27 /* App Icon */,
 				21AE67B51B4A61C600D2CF63 /* Fonts */,
 				21AE67B61B4A61C600D2CF63 /* Images */,
 				21AE67B81B4A61C600D2CF63 /* Other */,
@@ -3220,6 +3221,14 @@
 				B24FCEFD1E536E8000B517A9 /* DropDown.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		B2686C561EEAF26500FF3A27 /* App Icon */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "App Icon";
+			path = Images;
 			sourceTree = "<group>";
 		};
 		B292B46F1EAF4F1200C6A32B /* AHKNavigationController */ = {
