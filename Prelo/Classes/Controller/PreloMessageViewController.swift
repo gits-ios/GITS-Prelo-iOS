@@ -197,15 +197,11 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
             let idx = (indexPath as NSIndexPath).row
             let m = (messages?[idx])!
             
-            cell.selectionStyle = .none
-            cell.alpha = 1.0
-            cell.backgroundColor = UIColor(hexString: "#E8ECEE")
-            cell.clipsToBounds = true
             cell.adapt(m, isOpen: isOpens[idx])
             
             cell.readMore = {
                 self.isOpens[(indexPath as NSIndexPath).row] = true
-                tableView.reloadData()
+                tableView.reloadRows(at: [indexPath], with: .fade)
             }
             
             cell.zoomImage = {
@@ -627,6 +623,13 @@ class PreloMessageCell: UITableViewCell {
         self.lblDesc.numberOfLines = 4
         
         self.btnReadMore.setTitleColor(Theme.PrimaryColorDark)
+        self.btnReadMore.setTitleColor(Theme.PrimaryColorLight, for: .selected)
+        
+        // style
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor(hexString: "#E8ECEE")
+        self.clipsToBounds = true
     }
     
     override func prepareForReuse() {

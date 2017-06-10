@@ -443,6 +443,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     func setupContent() {
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
                                             qos: .background,
+                                            attributes: .concurrent,
                                             target: nil)
         backgroundQueue.async {
             
@@ -767,11 +768,14 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     func getCategorizedProducts(_ catId : String) {
         requesting = true
         
+        let current = products!.count
+        let lastSec = self.gridView.numberOfSections - 1
+        
         var lastTimeUuid = ""
         if (products != nil && products?.count > 0) {
             lastTimeUuid = products![products!.count - 1].updateTimeUuid
         }
-        let _ = request(APISearch.productByCategory(categoryId: catId, sort: "recent", current: (products?.count)!, limit: itemsPerReq, priceMin: 0, priceMax: 999999999, segment: selectedSegment, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
+        let _ = request(APISearch.productByCategory(categoryId: catId, sort: "recent", current: current, limit: itemsPerReq, priceMin: 0, priceMax: 999999999, segment: selectedSegment, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
             self.requesting = false
             if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Product By Category")) {
                 self.setupData(resp.result.value)
@@ -781,9 +785,16 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 }
             }
             self.refresher?.endRefreshing()
-            DispatchQueue.main.async(execute: {
-                self.setupGrid()
-            })
+            
+            if current == 0 {
+                DispatchQueue.main.async(execute: {
+                    self.setupGrid()
+                })
+            } else {
+                DispatchQueue.main.async(execute: {
+                    self.gridView.reloadSections(NSIndexSet(index: lastSec) as IndexSet)
+                })
+            }
         }
     }
     
@@ -827,6 +838,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     func getFilteredProducts() {
         requesting = true
         
+        let current = products!.count
+        let lastSec = self.gridView.numberOfSections - 1
+        
         let fltrNameReq = self.fltrName
         var lastTimeUuid = ""
         if (products != nil && products?.count > 0) {
@@ -838,16 +852,24 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         let regionId =  self.fltrLocation[2].int == 1 ? self.fltrLocation[1] : (parentids.count > 1 ? parentids[1] : "")
         let subDistrictId =  self.fltrLocation[2].int == 2 ? self.fltrLocation[1] : ""
         
-        let _ = request(APISearch.productByFilter(name: fltrName, aggregateId: fltrAggregateId, categoryId: fltrCategId, brandIds: AppToolsObjC.jsonString(from: [String](fltrBrands.values)), productConditionIds: AppToolsObjC.jsonString(from: fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonString(from: fltrSizes), sortBy: fltrSortBy, current: NSNumber(value: products!.count), limit: NSNumber(value: itemsPerReq), lastTimeUuid: lastTimeUuid, provinceId : provinceId, regionId: regionId, subDistrictId: subDistrictId)).responseJSON { resp in
+        let _ = request(APISearch.productByFilter(name: fltrName, aggregateId: fltrAggregateId, categoryId: fltrCategId, brandIds: AppToolsObjC.jsonString(from: [String](fltrBrands.values)), productConditionIds: AppToolsObjC.jsonString(from: fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonString(from: fltrSizes), sortBy: fltrSortBy, current: NSNumber(value: current), limit: NSNumber(value: itemsPerReq), lastTimeUuid: lastTimeUuid, provinceId : provinceId, regionId: regionId, subDistrictId: subDistrictId)).responseJSON { resp in
             if (fltrNameReq == self.fltrName) { // Jika response ini sesuai dengan request terakhir
                 self.requesting = false
                 if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Filter Product")) {
                     self.setupData(resp.result.value)
                 }
                 self.refresher?.endRefreshing()
-                DispatchQueue.main.async(execute: {
-                    self.setupGrid()
-                })
+                
+                if current == 0 {
+                    DispatchQueue.main.async(execute: {
+                        self.setupGrid()
+                    })
+                } else {
+                    DispatchQueue.main.async(execute: {
+                        self.gridView.reloadSections(NSIndexSet(index: lastSec) as IndexSet)
+                    })
+                }
+                
             } else {
                 self.refresher?.endRefreshing()
             }
@@ -1100,7 +1122,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     func getNewShopProducts() {
-        let current = self.products!.count
+        let current = products!.count
+        let lastSec = self.gridView.numberOfSections - 1
         
         self.requesting = true
         
@@ -1112,74 +1135,68 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 
                 let json = JSON(resp.result.value!)["_data"]
                 
-                DispatchQueue.main.async(execute: {
-                
                 self.shopData = json
                 
-                if (current == 0) {
-                    self.delegate?.setupBanner(json: json)
-                }
-                
-                self.shopName = json["username"].stringValue
-                
-                self.star = json["average_star"].float!
-                
-                let avatarThumbnail = json["profile"]["pict"].stringValue
-                self.shopAvatar = URL(string: avatarThumbnail)!
-                
-                if self.listItemSections.count > 1 {
-                    self.listItemSections.remove(at: 0)
-                }
-                self.listItemSections.insert(.aboutShop, at: 0)
-                
-                self.refresher?.endRefreshing()
-                
-                self.setupGrid()
-                
-                if (current == 0) {
-                    let screenSize = UIScreen.main.bounds
-                    let screenHeight = screenSize.height - (64 + 45) // (170 + 45)
-//                    let height = CGFloat((self.products?.count)! + 1) * 65
-                    
-                    var height = StoreInfo.heightFor(self.shopData, isExpand: self.isExpand) + 4
-
-                    let pCount = (self.products?.count)!
-                    
-                    if pCount > 0 {
-                        if AppTools.isIPad {
-                            height += CGFloat(Int(CGFloat(pCount) / 3.0 + 0.7)) * (self.itemCellWidth! + 70)
+                if current == 0 {
+                    DispatchQueue.main.async(execute: {
+                        self.delegate?.setupBanner(json: json)
+                        self.shopName = json["username"].stringValue
+                        self.star = json["average_star"].float!
+                        let avatarThumbnail = json["profile"]["pict"].stringValue
+                        self.shopAvatar = URL(string: avatarThumbnail)!
+                        self.listItemSections.insert(.aboutShop, at: 0)
+                        
+                        let screenSize = UIScreen.main.bounds
+                        let screenHeight = screenSize.height - (64 + 45) // (170 + 45)
+                        //                    let height = CGFloat((self.products?.count)! + 1) * 65
+                        
+                        var height = StoreInfo.heightFor(self.shopData, isExpand: self.isExpand) + 4
+                        
+                        let pCount = (self.products?.count)!
+                        
+                        if pCount > 0 {
+                            if AppTools.isIPad {
+                                height += CGFloat(Int(CGFloat(pCount) / 3.0 + 0.7)) * (self.itemCellWidth! + 70)
+                            } else {
+                                height += CGFloat(Int(CGFloat(pCount) / 2.0 + 0.53)) * (self.itemCellWidth! + 70)
+                            }
                         } else {
-                            height += CGFloat(Int(CGFloat(pCount) / 2.0 + 0.53)) * (self.itemCellWidth! + 70)
+                            height += 4
                         }
-                    } else {
-                        height += 4
-                    }
-                    
-                    var bottom = CGFloat(0)
-                    if (height < screenHeight) {
-                        bottom += screenHeight - height
-                    }
-                    
-                    /*
-                    if bottom > 50 {
-                        bottom -= 50
-                    } else  {
-                        bottom = 1
-                    }
-                     */
-                    
-                    //TOP, LEFT, BOTTOM, RIGHT
-                    let inset = UIEdgeInsetsMake(0, 0, bottom, 0)
-                    self.gridView.contentInset = inset
-                    
+                        
+                        var bottom = CGFloat(0)
+                        if (height < screenHeight) {
+                            bottom += screenHeight - height
+                        }
+                        
+                        /*
+                         if bottom > 50 {
+                         bottom -= 50
+                         } else  {
+                         bottom = 1
+                         }
+                         */
+                        
+                        self.refresher?.endRefreshing()
+                        self.setupGrid()
+                        
+                        //TOP, LEFT, BOTTOM, RIGHT
+                        let inset = UIEdgeInsetsMake(0, 0, bottom, 0)
+                        self.gridView.contentInset = inset
+                    })
+                } else {
+                    self.refresher?.endRefreshing()
+                    DispatchQueue.main.async(execute: {
+                        self.gridView.reloadSections(NSIndexSet(index: lastSec) as IndexSet)
+                    })
                 }
-                })
+                
             } else {
                 DispatchQueue.main.async(execute: {
-                // gesture override
-                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-                
-                self.delegate?.popView()
+                    // gesture override
+                    self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                    
+                    self.delegate?.popView()
                 })
             }
         }
@@ -1190,12 +1207,13 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         guard res != nil else {
             return
         }
+        
         var obj = JSON(res!)
         if let arr = obj["_data"].array {
             if arr.count == 0 {
                 self.done = true
                 DispatchQueue.main.async(execute: {
-                self.footerLoading?.isHidden = true
+                    self.footerLoading?.isHidden = true
                 })
             } else {
                 for (_, item) in obj["_data"] {
@@ -1209,11 +1227,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             if arr.count == 0 {
                 self.done = true
                 DispatchQueue.main.async(execute: {
-                self.footerLoading?.isHidden = true
+                    self.footerLoading?.isHidden = true
                 })
             } else {
-                for item in arr
-                {
+                for item in arr {
                     let p = Product.instance(item)
                     if (p != nil) {
                         self.products?.append(p!)
@@ -1300,10 +1317,12 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             }
         }
         
-        if (self.currentMode == .segment || self.isFeatured == true) {
+        if (self.isFeatured == true || (self.currentMode == .segment && self.listItemSections.contains(.segments))) {
             self.gridView.contentInset = UIEdgeInsetsMake(0, 0, 48, 0)
         } else if (self.currentMode == .filter || self.currentMode == .shop || self.currentMode == .newShop) {
             self.gridView.contentInset = UIEdgeInsetsMake(0, 0, 24, 0)
+        } else if self.currentMode == .segment {
+            self.gridView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
         }
         self.gridView.isHidden = false
         self.vwFilterZeroResult.isHidden = true
@@ -1386,6 +1405,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     if (idx == (products?.count)! - 4 && requesting == false && done == false) {
                         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
                                                             qos: .background,
+                                                            attributes: .concurrent,
                                                             target: nil)
                         backgroundQueue.async {
                             if !Reachability.isConnectedToNetwork() {
@@ -1472,7 +1492,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             else {
                 return CGSize(width: itemCellWidth!, height: itemCellWidth! + 66)
             }
-        case . aboutShop:
+        case .aboutShop:
             return CGSize(width: viewWidthMinusMargin, height: StoreInfo.heightFor(shopData, isExpand: isExpand))
         }
     }
@@ -1601,7 +1621,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             }
         case .aboutShop:
             self.isExpand = !self.isExpand
-            self.gridView.reloadData()
+            self.gridView.reloadSections(NSIndexSet(index: indexPath.section) as IndexSet)
         }
     }
     
@@ -1887,7 +1907,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             self.listItemSections.append(.segments)
             
             // update time
-            self.curTime = NSDate().timeIntervalSince1970
+            //self.curTime = NSDate().timeIntervalSince1970
+            
+            self.gridView.contentInset = UIEdgeInsetsMake(0, 0, 48, 0)
             
             gridView.reloadData()
         }
@@ -2186,6 +2208,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     func sendFilterAnalytic() {
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
                                             qos: .background,
+                                            attributes: .concurrent,
                                             target: nil)
         backgroundQueue.async {
             //print("Work on background queue")
@@ -2438,7 +2461,7 @@ class ListItemCell : UICollectionViewCell {
     var cid : String?
     var sid : String?
     
-    var sname : String = "" // seller name
+    //var sname : String = "" // seller name
     var isFeatured : Bool = false
     var currentMode : ListItemMode = .filter
     
@@ -2453,6 +2476,9 @@ class ListItemCell : UICollectionViewCell {
         sectionLove.layoutIfNeeded()
         sectionLove.layer.cornerRadius = sectionLove.frame.size.width/2
         sectionLove.layer.masksToBounds = true
+        
+        consWidthAffiliateLogo.constant = 0
+        consHeightAffiliateLogo.constant = 0
         
         // TODO : if used (switch)
         btnTawar.isHidden = true
@@ -2481,10 +2507,14 @@ class ListItemCell : UICollectionViewCell {
         affiliateLogo.afCancelRequest()
         
         isFeatured = false
+        
+        imgFreeOngkir.image = UIImage(named: "ic_free_ongkir")
+        
+        consWidthAffiliateLogo.constant = 0
+        consHeightAffiliateLogo.constant = 0
     }
     
     func adapt(_ product : Product, listStage : Int, currentMode : ListItemMode, shopAvatar : URL?, parent: BaseViewController) {
-        self.parent = parent
         self.product = product
         
         let obj = product.json
@@ -2499,18 +2529,16 @@ class ListItemCell : UICollectionViewCell {
         self.cid = obj["category_id"].string
         self.sid = obj["seller_id"].string
         
-        self.sname = ""
+        //self.sname = ""
         
         if !self.isFeatured {
             self.isFeatured = product.isFeatured
         }
         
-        self.currentMode = currentMode
-        
         if self.isNeedSetup {
             self.isNeedSetup = false
             
-            self.setupCell()
+            self.setupCell(parent, currentMode: currentMode, shopAvatar: shopAvatar)
         }
         
         if (product.specialStory == nil || product.specialStory == "") {
@@ -2518,21 +2546,24 @@ class ListItemCell : UICollectionViewCell {
         } else {
             sectionSpecialStory.isHidden = false
             captionSpecialStory.text = "\"\(product.specialStory!)\""
-            if let url = product.avatar {
-                avatar.afSetImage(withURL: url, withFilter: .circle)
-            } else if currentMode == .shop || currentMode == .newShop {
-                avatar.afSetImage(withURL: shopAvatar!, withFilter: .circle)
-            } else {
-                avatar.image = nil
+            
+            if currentMode != .shop && currentMode != .newShop {
+                if let url = product.avatar {
+                    avatar.afSetImage(withURL: url, withFilter: .circle)
+                } else {
+                    avatar.image = nil
+                }
             }
         }
         
+        /*
         let loved = obj["is_preloved"].bool
         if (loved == true) {
             captionMyLove.text = ""
         } else {
             captionMyLove.text = ""
         }
+        */
         
         let myId = CDUser.getOne()?.id
         if ((self.sid != myId) && product.isAggregate == false && product.isAffiliate == false) {
@@ -2573,8 +2604,6 @@ class ListItemCell : UICollectionViewCell {
                     self.imgFreeOngkir.afSetImage(withURL: shopAvatar!, withFilter: .circle)
                 }*/
                 self.imgFreeOngkir.isHidden = false
-            } else {
-                self.imgFreeOngkir.image = UIImage(named: "ic_free_ongkir")
             }
         } else {
             btnLove.isHidden = true
@@ -2591,9 +2620,6 @@ class ListItemCell : UICollectionViewCell {
             attString.addAttributes([NSStrikethroughStyleAttributeName:NSUnderlineStyle.styleSingle.rawValue], range: s.range(of: s as String))
             captionOldPrice.attributedText = attString
         }
-        
-        consWidthAffiliateLogo.constant = 0
-        consHeightAffiliateLogo.constant = 0
         
         if product.isAggregate {
             captionOldPrice.text = "Mulai dari"
@@ -2654,7 +2680,10 @@ class ListItemCell : UICollectionViewCell {
         }
     }
     
-    func setupCell() {
+    func setupCell(_ parent: BaseViewController, currentMode: ListItemMode, shopAvatar: URL?) {
+        self.parent = parent
+        self.currentMode = currentMode
+        
         avatar.contentMode = .scaleAspectFill
         avatar.layoutIfNeeded()
         avatar.layer.cornerRadius = avatar.bounds.width / 2
@@ -2662,6 +2691,10 @@ class ListItemCell : UICollectionViewCell {
         
         avatar.layer.borderColor = Theme.GrayLight.cgColor
         avatar.layer.borderWidth = 1
+        
+        if let url = shopAvatar, currentMode == .shop || currentMode == .newShop {
+            avatar.afSetImage(withURL: url, withFilter: .circle)
+        }
     }
     
     func buttonLoveChange(isLoved : Bool) {

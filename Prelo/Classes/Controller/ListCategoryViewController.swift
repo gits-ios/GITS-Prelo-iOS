@@ -178,6 +178,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                     
                     let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
                                                         qos: .background,
+                                                        attributes: .concurrent,
                                                         target: nil)
                     backgroundQueue.async {
                         if let kumangTabBarVC = self.previousController as? KumangTabBarViewController {
@@ -283,6 +284,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         /*
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
                                             qos: .background,
+                                            attributes: .concurrent,
                                             target: nil)
         backgroundQueue.async {
             //print("Work on background queue: Init Category " + self.categoriesFix[1]["name"].stringValue)

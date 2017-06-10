@@ -241,6 +241,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 // Prelo Analytic - Go to cart
                 let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
                                                     qos: .background,
+                                                    attributes: .concurrent,
                                                     target: nil)
                 backgroundQueue.async {
                     //print("Work on background queue")

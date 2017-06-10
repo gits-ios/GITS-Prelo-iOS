@@ -412,6 +412,7 @@ extension UIImageView {
         // default fill
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo.afSetImage",
                                             qos: .background,
+                                            attributes: .concurrent,
                                             target: nil)
         backgroundQueue.async {
             self.contentMode = .scaleAspectFit // placeholder
@@ -444,6 +445,7 @@ extension UIImageView {
     func afSetImage(withURL: URL, withFilter: imageFilterMode) {
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo.afSetImage",
                                             qos: .background,
+                                            attributes: .concurrent,
                                             target: nil)
         backgroundQueue.async {
             self.contentMode = .scaleAspectFit // placeholder
@@ -1167,6 +1169,7 @@ extension NSManagedObjectContext {
 func print(_ items: Any..., separator: String = " ", terminator: String = "\n") {
     let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo.print",
                                         qos: .background,
+                                        attributes: .concurrent,
                                         target: nil)
     backgroundQueue.async {
         if AppTools.isDev {
