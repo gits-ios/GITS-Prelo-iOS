@@ -178,7 +178,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                     
                     let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
                                                         qos: .background,
-                                                        attributes: .concurrent,
+                                                        //attributes: .concurrent, // -> raise error
                                                         target: nil)
                     backgroundQueue.async {
                         if let kumangTabBarVC = self.previousController as? KumangTabBarViewController {
@@ -281,25 +281,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         if let firstChild = self.childViewControllers[0] as? ListItemViewController { // First child
             firstChild.setupContent()
         }
-        /*
-        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
-                                            qos: .background,
-                                            attributes: .concurrent,
-                                            target: nil)
-        backgroundQueue.async {
-            //print("Work on background queue: Init Category " + self.categoriesFix[1]["name"].stringValue)
-            
-            for i in 1...self.childViewControllers.count-1 {
-                if let allChild = self.childViewControllers[i] as? ListItemViewController {
-                    DispatchQueue.main.async(execute: {
-                        
-                        // continue to main async
-                        allChild.setupContent()
-                    })
-                }
-            }
-        }
-        */
+        
         scroll_View.layoutIfNeeded()
         contentView?.layoutIfNeeded()
         addCategoryNames(count)
