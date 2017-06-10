@@ -446,212 +446,212 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                                             target: nil)
         backgroundQueue.async {
             
-        if (!self.isContentLoaded) {
-            self.isContentLoaded = true
-            
-            if !Reachability.isConnectedToNetwork() {
-                self.isContentLoaded = false
-                return
-            }
-            
-            // Default, Standalone, Shop, and Filter mode is predefined
-            // Featured and Segment mode will be identified here
-            // Carousel and Subcategories also will be identified here
-            
-            // Identify Segment mode
-            if let segmentsJson = self.categoryJson?["segments"].array, segmentsJson.count > 0 {
-                self.currentMode = .segment
-                for i in 0...segmentsJson.count - 1 {
-                    //var img : UIImage = UIImage()
-                    var imgUrl : URL!
-                    if let url = URL(string: segmentsJson[i]["image"].stringValue) {
-                        imgUrl = url
-                        //if let data = try? Data(contentsOf: url) {
-                        //    if let uiimg = UIImage(data: data) {
-                        //        img = uiimg
-                        //    }
+            if (!self.isContentLoaded) {
+                self.isContentLoaded = true
+                
+                if !Reachability.isConnectedToNetwork() {
+                    self.isContentLoaded = false
+                    return
+                }
+                
+                // Default, Standalone, Shop, and Filter mode is predefined
+                // Featured and Segment mode will be identified here
+                // Carousel and Subcategories also will be identified here
+                
+                // Identify Segment mode
+                if let segmentsJson = self.categoryJson?["segments"].array, segmentsJson.count > 0 {
+                    self.currentMode = .segment
+                    for i in 0...segmentsJson.count - 1 {
+                        //var img : UIImage = UIImage()
+                        var imgUrl : URL!
+                        if let url = URL(string: segmentsJson[i]["image"].stringValue) {
+                            imgUrl = url
+                            //if let data = try? Data(contentsOf: url) {
+                            //    if let uiimg = UIImage(data: data) {
+                            //        img = uiimg
+                            //    }
+                            //}
+                        }
+                        //self.segments.append(SegmentItem(type: segmentsJson[i]["type"].stringValue, name: segmentsJson[i]["name"].stringValue, image: img))
+                        self.segments.append(SegmentItem(type: segmentsJson[i]["type"].stringValue, name: segmentsJson[i]["name"].stringValue, imageLink: imgUrl, subCategories: segmentsJson[i]["sub_categories"].array))
+                    }
+                    self.listItemSections.remove(at: self.listItemSections.index(of: .products)!)
+                    self.listItemSections.insert(.segments, at: 0)
+                }
+                // Identify Featured mode
+                if let isFeatured = self.categoryJson?["is_featured"].bool, isFeatured {
+                    self.currentMode = .featured
+                    self.listItemSections.insert(.featuredHeader, at: 0)
+                    
+                    self.isFeatured = true
+                }
+                // Identify Subcategories
+                if let subcatJson = self.categoryJson?["sub_categories"].array, subcatJson.count > 0 && self.currentMode != .segment {
+                    self.isShowSubcategory = true
+                    for i in 0...subcatJson.count - 1 {
+                        //var img : UIImage = UIImage()
+                        var imgUrl : URL!
+                        if let url = URL(string: subcatJson[i]["image"].stringValue.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!) {
+                            imgUrl = url
+                            //if let data = try? Data(contentsOf: url) {
+                            //    if let uiimg = UIImage(data: data) {
+                            //        img = uiimg
+                            //    }
+                            //}
+                        }
+                        //self.subcategoryItems.append(SubcategoryItem(id: subcatJson[i]["_id"].stringValue, name: subcatJson[i]["name"].stringValue, image: img))
+                        self.subcategoryItems.append(SubcategoryItem(id: subcatJson[i]["_id"].stringValue, name: subcatJson[i]["name"].stringValue, imageLink: imgUrl))
+                    }
+                    self.listItemSections.insert(.subcategories, at: 0)
+                }
+                // Identify Carousel
+                if let carouselJson = self.categoryJson?["carousel"].array, carouselJson.count > 0 {
+                    self.isShowCarousel = true
+                    self.carouselItems = []
+                    for i in 0..<carouselJson.count {
+                        //var img = UIImage()
+                        var imgLink : URL!
+                        var link : URL!
+                        //if let url = URL(string: carouselJson[i]["image"].stringValue), let data = try? Data(contentsOf: url), let uiimg = UIImage(data: data) {
+                        //    img = uiimg
                         //}
+                        if let url = URL(string: carouselJson[i]["image"].stringValue) {
+                            imgLink = url
+                        }
+                        if let url = URL(string: carouselJson[i]["link"].stringValue) {
+                            link = url
+                        }
+                        //let item = CarouselItem.init(name: carouselJson[i]["name"].stringValue, img: img, link: link)
+                        let item = CarouselItem.init(name: carouselJson[i]["name"].stringValue, imgLink: imgLink, link: link)
+                        self.carouselItems.append(item)
                     }
-                    //self.segments.append(SegmentItem(type: segmentsJson[i]["type"].stringValue, name: segmentsJson[i]["name"].stringValue, image: img))
-                    self.segments.append(SegmentItem(type: segmentsJson[i]["type"].stringValue, name: segmentsJson[i]["name"].stringValue, imageLink: imgUrl, subCategories: segmentsJson[i]["sub_categories"].array))
+                    self.listItemSections.insert(.carousel, at: 0)
                 }
-                self.listItemSections.remove(at: self.listItemSections.index(of: .products)!)
-                self.listItemSections.insert(.segments, at: 0)
-            }
-            // Identify Featured mode
-            if let isFeatured = self.categoryJson?["is_featured"].bool, isFeatured {
-                self.currentMode = .featured
-                self.listItemSections.insert(.featuredHeader, at: 0)
                 
-                self.isFeatured = true
-            }
-            // Identify Subcategories
-            if let subcatJson = self.categoryJson?["sub_categories"].array, subcatJson.count > 0 && self.currentMode != .segment {
-                self.isShowSubcategory = true
-                for i in 0...subcatJson.count - 1 {
-                    //var img : UIImage = UIImage()
-                    var imgUrl : URL!
-                    if let url = URL(string: subcatJson[i]["image"].stringValue.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!) {
-                        imgUrl = url
-                        //if let data = try? Data(contentsOf: url) {
-                        //    if let uiimg = UIImage(data: data) {
-                        //        img = uiimg
-                        //    }
-                        //}
-                    }
-                    //self.subcategoryItems.append(SubcategoryItem(id: subcatJson[i]["_id"].stringValue, name: subcatJson[i]["name"].stringValue, image: img))
-                    self.subcategoryItems.append(SubcategoryItem(id: subcatJson[i]["_id"].stringValue, name: subcatJson[i]["name"].stringValue, imageLink: imgUrl))
+                // Adjust content base on the mode
+                switch (self.currentMode) {
+                case .default, .standalone:
+                    DispatchQueue.main.async(execute: {
+                        // Upper 4px padding handling
+                        self.consTopTopHeader.constant = 4
+                        
+                        // Top header setup
+                        self.consHeightVwTopHeader.constant = 0
+                    })
+                    // Get initial products
+                    self.getInitialProducts()
+                case .shop, .newShop:
+                    DispatchQueue.main.async(execute: {
+                        // Upper 4px padding handling
+                        self.consTopTopHeader.constant = 0
+                        
+                        // Top header setup
+                        self.consHeightVwTopHeader.constant = 0
+                    })
+                    // Get initial products
+                    self.getInitialProducts()
+                case .featured:
+                    DispatchQueue.main.async(execute: {
+                        // Upper 4px padding handling
+                        self.consTopTopHeader.constant = 4
+                        
+                        // Top header setup
+                        self.consHeightVwTopHeader.constant = 0
+                        
+                        // Set color
+                        if let name = self.categoryJson?["name"].string, name.lowercased() == "all" {
+                            self.view.backgroundColor = Theme.GrayGranite // Upper 4px padding color
+                            self.gridView.backgroundColor = Theme.GrayGranite // Background color
+                        }
+                    })
+                    // Get initial products
+                    self.getInitialProducts()
+                case .segment:
+                    DispatchQueue.main.async(execute: {
+                        // Top header setup
+                        self.consHeightVwTopHeader.constant = 40
+                        
+                        // Show segments
+                        self.setDefaultTopHeaderWomen()
+                        
+                        // Setup grid
+                        self.setupGrid()
+                    })
+                case .filter:
+                    DispatchQueue.main.async(execute: {
+                        // Upper 4px padding handling
+                        self.consTopTopHeader.constant = 4
+                        self.view.backgroundColor = UIColor(hexString: "#E8ECEE")
+                        
+                        // Top header setup
+                        self.consHeightVwTopHeader.constant = 52
+                        
+                        // Setup filter related views
+                        for i in 0...self.vwTopHeaderFilter.subviews.count - 1 {
+                            self.vwTopHeaderFilter.subviews[i].createBordersWithColor(UIColor(hexString: "#e3e3e3"), radius: 0, width: 1)
+                        }
+                        self.vwTopHeaderFilter.isHidden = false
+                        self.vwTopHeader.isHidden = true
+                        if (self.fltrBrands.count > 0) {
+                            if (self.fltrBrands.count == 1) {
+                                self.lblFilterMerek.text = [String](self.fltrBrands.keys)[0]
+                            } else {
+                                self.lblFilterMerek.text = [String](self.fltrBrands.keys)[0] + ", \(self.fltrBrands.count - 1)+"
+                            }
+                        } else {
+                            self.lblFilterMerek.text = "All"
+                        }
+                        if (self.fltrCategId == "") {
+                            self.lblFilterKategori.text = "All"
+                        } else {
+                            self.lblFilterKategori.text = CDCategory.getCategoryNameWithID(self.fltrCategId)
+                        }
+                        self.lblFilterSort.text = self.FltrValSortBy[self.fltrSortBy]
+                        if (self.lblFilterSort.text?.lowercased() == "highest rp") {
+                            self.lblFilterSort.font = UIFont.boldSystemFont(ofSize: 12)
+                        } else {
+                            self.lblFilterSort.font = UIFont.boldSystemFont(ofSize: 13)
+                        }
+                        // Search bar setup
+                        var searchBarWidth = UIScreen.main.bounds.size.width * 0.8375
+                        if (AppTools.isIPad) {
+                            searchBarWidth = UIScreen.main.bounds.size.width - 68
+                        }
+                        self.searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: searchBarWidth, height: 30))
+                        if let searchField = self.searchBar.value(forKey: "searchField") as? UITextField {
+                            searchField.backgroundColor = Theme.PrimaryColorDark
+                            searchField.textColor = UIColor.white
+                            let attrPlaceholder = NSAttributedString(string: "Cari di Prelo", attributes: [NSForegroundColorAttributeName : UIColor.lightGray])
+                            searchField.attributedPlaceholder = attrPlaceholder
+                            if let icon = searchField.leftView as? UIImageView {
+                                icon.image = icon.image?.withRenderingMode(.alwaysTemplate)
+                                icon.tintColor = UIColor.lightGray
+                            }
+                            searchField.borderStyle = UITextBorderStyle.none
+                        }
+                        self.searchBar.delegate = self
+                        self.searchBar.placeholder = "Cari di Prelo"
+                        self.navigationItem.rightBarButtonItem = self.searchBar.toBarButton()
+                    })
+                    // Get initial products
+                    self.getInitialProducts()
                 }
-                self.listItemSections.insert(.subcategories, at: 0)
-            }
-            // Identify Carousel
-            if let carouselJson = self.categoryJson?["carousel"].array, carouselJson.count > 0 {
-                self.isShowCarousel = true
-                self.carouselItems = []
-                for i in 0..<carouselJson.count {
-                    //var img = UIImage()
-                    var imgLink : URL!
-                    var link : URL!
-                    //if let url = URL(string: carouselJson[i]["image"].stringValue), let data = try? Data(contentsOf: url), let uiimg = UIImage(data: data) {
-                    //    img = uiimg
-                    //}
-                    if let url = URL(string: carouselJson[i]["image"].stringValue) {
-                        imgLink = url
-                    }
-                    if let url = URL(string: carouselJson[i]["link"].stringValue) {
-                        link = url
-                    }
-                    //let item = CarouselItem.init(name: carouselJson[i]["name"].stringValue, img: img, link: link)
-                    let item = CarouselItem.init(name: carouselJson[i]["name"].stringValue, imgLink: imgLink, link: link)
-                    self.carouselItems.append(item)
-                }
-                self.listItemSections.insert(.carousel, at: 0)
-            }
-            
-            // Adjust content base on the mode
-            switch (self.currentMode) {
-            case .default, .standalone:
-                DispatchQueue.main.async(execute: {
-                // Upper 4px padding handling
-                self.consTopTopHeader.constant = 4
-                
-                // Top header setup
-                self.consHeightVwTopHeader.constant = 0
-                })
-                // Get initial products
-                self.getInitialProducts()
-            case .shop, .newShop:
-                DispatchQueue.main.async(execute: {
-                // Upper 4px padding handling
-                self.consTopTopHeader.constant = 0
-                
-                // Top header setup
-                self.consHeightVwTopHeader.constant = 0
-                })
-                // Get initial products
-                self.getInitialProducts()
-            case .featured:
-                DispatchQueue.main.async(execute: {
-                // Upper 4px padding handling
-                self.consTopTopHeader.constant = 4
-                
-                // Top header setup
-                self.consHeightVwTopHeader.constant = 0
-                
-                // Set color
-                if let name = self.categoryJson?["name"].string, name.lowercased() == "all" {
-                    self.view.backgroundColor = Theme.GrayGranite // Upper 4px padding color
-                    self.gridView.backgroundColor = Theme.GrayGranite // Background color
-                }
-                })
-                // Get initial products
-                self.getInitialProducts()
-            case .segment:
-                DispatchQueue.main.async(execute: {
-                // Top header setup
-                self.consHeightVwTopHeader.constant = 40
-                
-                // Show segments
-                self.setDefaultTopHeaderWomen()
-                
-                // Setup grid
-                self.setupGrid()
-                })
-            case .filter:
-                DispatchQueue.main.async(execute: {
-                // Upper 4px padding handling
-                self.consTopTopHeader.constant = 4
-                self.view.backgroundColor = UIColor(hexString: "#E8ECEE")
-                
-                // Top header setup
-                self.consHeightVwTopHeader.constant = 52
-                
-                // Setup filter related views
-                for i in 0...self.vwTopHeaderFilter.subviews.count - 1 {
-                    self.vwTopHeaderFilter.subviews[i].createBordersWithColor(UIColor(hexString: "#e3e3e3"), radius: 0, width: 1)
-                }
-                self.vwTopHeaderFilter.isHidden = false
-                self.vwTopHeader.isHidden = true
-                if (self.fltrBrands.count > 0) {
-                    if (self.fltrBrands.count == 1) {
-                        self.lblFilterMerek.text = [String](self.fltrBrands.keys)[0]
-                    } else {
-                        self.lblFilterMerek.text = [String](self.fltrBrands.keys)[0] + ", \(self.fltrBrands.count - 1)+"
-                    }
-                } else {
-                    self.lblFilterMerek.text = "All"
-                }
-                if (self.fltrCategId == "") {
-                    self.lblFilterKategori.text = "All"
-                } else {
-                    self.lblFilterKategori.text = CDCategory.getCategoryNameWithID(self.fltrCategId)
-                }
-                self.lblFilterSort.text = self.FltrValSortBy[self.fltrSortBy]
-                if (self.lblFilterSort.text?.lowercased() == "highest rp") {
-                    self.lblFilterSort.font = UIFont.boldSystemFont(ofSize: 12)
-                } else {
-                    self.lblFilterSort.font = UIFont.boldSystemFont(ofSize: 13)
-                }
-                // Search bar setup
-                var searchBarWidth = UIScreen.main.bounds.size.width * 0.8375
-                if (AppTools.isIPad) {
-                    searchBarWidth = UIScreen.main.bounds.size.width - 68
-                }
-                self.searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: searchBarWidth, height: 30))
-                if let searchField = self.searchBar.value(forKey: "searchField") as? UITextField {
-                    searchField.backgroundColor = Theme.PrimaryColorDark
-                    searchField.textColor = UIColor.white
-                    let attrPlaceholder = NSAttributedString(string: "Cari di Prelo", attributes: [NSForegroundColorAttributeName : UIColor.lightGray])
-                    searchField.attributedPlaceholder = attrPlaceholder
-                    if let icon = searchField.leftView as? UIImageView {
-                        icon.image = icon.image?.withRenderingMode(.alwaysTemplate)
-                        icon.tintColor = UIColor.lightGray
-                    }
-                    searchField.borderStyle = UITextBorderStyle.none
-                }
-                self.searchBar.delegate = self
-                self.searchBar.placeholder = "Cari di Prelo"
-                self.navigationItem.rightBarButtonItem = self.searchBar.toBarButton()
-                })
-                // Get initial products
-                self.getInitialProducts()
                 
                 // ads
                 if (self.currentMode == .filter || self.currentMode == .default) {
                     self.configureAdManagerAndLoadAds()
                 }
-            }
             } else if (self.products != nil && (self.products?.count)! <= 24 && (self.products?.count)! > 0) || self.currentMode == .featured {
-            
+                
                 // refrsher
                 let _curTime = NSDate().timeIntervalSince1970
-            
+                
                 if (_curTime - self.curTime) >= self.interval {
                     self.curTime = _curTime
                     
                     /*DispatchQueue.main.async(execute: {
-                        self.refresher?.beginRefreshing()
-                    })*/
+                     self.refresher?.beginRefreshing()
+                     })*/
                     
                     self.refresh()
                 }
