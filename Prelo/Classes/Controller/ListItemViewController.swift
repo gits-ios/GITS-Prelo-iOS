@@ -1447,7 +1447,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             return cell
         }
     }
-    /*
+    
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if listItemSections.count > (indexPath as NSIndexPath).section {
         switch listItemSections[(indexPath as NSIndexPath).section] {
@@ -1462,7 +1462,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
         }
     }
-    */
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let viewWidthMinusMargin = UIScreen.main.bounds.size.width - 8
         switch listItemSections[(indexPath as NSIndexPath).section] {
