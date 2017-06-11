@@ -187,6 +187,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     // FB-ads
     var adRowStep: Int = 19 // fit for 1, 2, 3
+    var adRowOffset: Int = 0 //6 // 6-1
     
     var adsManager: FBNativeAdsManager!
     
@@ -770,7 +771,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         let current = products!.count
         let lastSec = self.gridView.numberOfSections - 1
-        let lastRow = self.gridView.numberOfItems(inSection: lastSec) - 1
+        var lastRow = self.gridView.numberOfItems(inSection: lastSec) - 1
         
         var lastTimeUuid = ""
         if (products != nil && products?.count > 0) {
@@ -788,16 +789,20 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             }
             self.refresher?.endRefreshing()
             
-            var idxs: Array<IndexPath> = []
-            for i in 1...count {
-                idxs.append(IndexPath(row: lastRow+i, section: lastSec))
-            }
-            
             if current == 0 {
                 DispatchQueue.main.async(execute: {
                     self.setupGrid()
                 })
             } else if count > 0 {
+                var idxs: Array<IndexPath> = []
+                for i in 1...count {
+                    if self.adsCellProvider != nil && self.adsCellProvider.isAdCell(at: (IndexPath(item: lastRow+i + self.adRowOffset, section: lastSec)), forStride: UInt(self.adRowStep)) {
+                        idxs.append(IndexPath(row: lastRow+i, section: lastSec))
+                        lastRow += 1
+                    }
+                    idxs.append(IndexPath(row: lastRow+i, section: lastSec))
+                }
+                
                 DispatchQueue.main.async(execute: {
                     //UIView.performWithoutAnimation {
                     //    self.gridView.reloadSections(NSIndexSet(index: lastSec) as IndexSet)
@@ -850,7 +855,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         let current = products!.count
         let lastSec = self.gridView.numberOfSections - 1
-        let lastRow = self.gridView.numberOfItems(inSection: lastSec) - 1
+        var lastRow = self.gridView.numberOfItems(inSection: lastSec) - 1
         
         let fltrNameReq = self.fltrName
         var lastTimeUuid = ""
@@ -872,16 +877,20 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 }
                 self.refresher?.endRefreshing()
                 
-                var idxs: Array<IndexPath> = []
-                for i in 1...count {
-                    idxs.append(IndexPath(row: lastRow+i, section: lastSec))
-                }
-                
                 if current == 0 {
                     DispatchQueue.main.async(execute: {
                         self.setupGrid()
                     })
                 } else if count > 0 {
+                    var idxs: Array<IndexPath> = []
+                    for i in 1...count {
+                        if self.adsCellProvider != nil && self.adsCellProvider.isAdCell(at: (IndexPath(item: lastRow+i + self.adRowOffset, section: lastSec)), forStride: UInt(self.adRowStep)) {
+                            idxs.append(IndexPath(row: lastRow+i, section: lastSec))
+                            lastRow += 1
+                        }
+                        idxs.append(IndexPath(row: lastRow+i, section: lastSec))
+                    }
+                    
                     DispatchQueue.main.async(execute: {
                         //UIView.performWithoutAnimation {
                         //    self.gridView.reloadSections(NSIndexSet(index: lastSec) as IndexSet)
@@ -908,7 +917,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         let _ = request(APIUser.getShopPage(id: shopId, current: current, limit: itemsPerReq)).responseJSON { resp in
             self.requesting = false
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Data Shop Pengguna")) {
-                var count = self.setupData(resp.result.value)
+                let count = self.setupData(resp.result.value)
                 
                 if current == 0 {
                 DispatchQueue.main.async(execute: {
@@ -1146,6 +1155,13 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     
                     var idxs: Array<IndexPath> = []
                     for i in 1...count {
+                        // No ads
+                        /*
+                        if self.adsCellProvider != nil && self.adsCellProvider.isAdCell(at: (IndexPath(item: lastRow+i + self.adRowOffset, section: lastSec)), forStride: UInt(self.adRowStep)) {
+                            idxs.append(IndexPath(row: lastRow+i, section: lastSec))
+                            lastRow += 1
+                        }
+                         */
                         idxs.append(IndexPath(row: lastRow+i, section: lastSec))
                     }
                     
@@ -1229,6 +1245,13 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     
                     var idxs: Array<IndexPath> = []
                     for i in 1...count {
+                        // No ads
+                        /*
+                        if self.adsCellProvider != nil && self.adsCellProvider.isAdCell(at: (IndexPath(item: lastRow+i + self.adRowOffset, section: lastSec)), forStride: UInt(self.adRowStep)) {
+                            idxs.append(IndexPath(row: lastRow+i, section: lastSec))
+                            lastRow += 1
+                        }
+                         */
                         idxs.append(IndexPath(row: lastRow+i, section: lastSec))
                     }
                     
@@ -1445,13 +1468,13 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             cell.adapt(segments[(indexPath as NSIndexPath).item].imageLink)
             return cell
         case .products:
-            if adsCellProvider != nil && adsCellProvider.isAdCell(at: indexPath, forStride: UInt(adRowStep)) {
+            if adsCellProvider != nil && adsCellProvider.isAdCell(at: (IndexPath(item: indexPath.item + adRowOffset, section: indexPath.section)), forStride: UInt(adRowStep)) {
                 return adsCellProvider.collectionView(gridView, cellForItemAt: indexPath)
             }
             else {
                 var idx  = (indexPath as NSIndexPath).item
                 if (adsCellProvider != nil && adRowStep != 0) {
-                    idx = indexPath.row - indexPath.row / adRowStep
+                    idx = indexPath.row - (indexPath.row + adRowOffset) / adRowStep
                 }
                 
                 // Load next products here
@@ -1534,7 +1557,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             //return CGSize(width: viewWidthMinusMargin, height: segHeight)
             return ListItemSegmentCell.sizeFor()
         case .products:
-            if !AppTools.isIPad && adsCellProvider != nil && adsCellProvider.isAdCell(at: indexPath, forStride: UInt(adRowStep)) {
+            if !AppTools.isIPad && adsCellProvider != nil && adsCellProvider.isAdCell(at: (IndexPath(item: indexPath.item + adRowOffset, section: indexPath.section)), forStride: UInt(adRowStep)) {
                 return CGSize(width: ((UIScreen.main.bounds.size.width - 8) / 1), height: adsCellProvider.collectionView(gridView, heightForRowAt: indexPath))
             }
             else {
