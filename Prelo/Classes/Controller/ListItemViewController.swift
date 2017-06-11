@@ -792,7 +792,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 })
             } else {
                 DispatchQueue.main.async(execute: {
-                    self.gridView.reloadSections(NSIndexSet(index: lastSec) as IndexSet)
+                    //UIView.performWithoutAnimation {
+                        self.gridView.reloadSections(NSIndexSet(index: lastSec) as IndexSet)
+                    //}
                 })
             }
         }
@@ -866,7 +868,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     })
                 } else {
                     DispatchQueue.main.async(execute: {
-                        self.gridView.reloadSections(NSIndexSet(index: lastSec) as IndexSet)
+                        //UIView.performWithoutAnimation {
+                            self.gridView.reloadSections(NSIndexSet(index: lastSec) as IndexSet)
+                        //}
                     })
                 }
                 
@@ -1187,7 +1191,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 } else {
                     self.refresher?.endRefreshing()
                     DispatchQueue.main.async(execute: {
-                        self.gridView.reloadSections(NSIndexSet(index: lastSec) as IndexSet)
+                        //UIView.performWithoutAnimation {
+                            self.gridView.reloadSections(NSIndexSet(index: lastSec) as IndexSet)
+                        //}
                     })
                 }
                 
@@ -1428,12 +1434,6 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     // Hide featured ribbon
                     cell.imgFeatured.isHidden = true
                 }
-                
-                cell.alpha = 1.0
-                cell.backgroundColor = UIColor.white
-            
-                cell.ivCover.alpha = 1.0
-                cell.ivCover.backgroundColor = UIColor.white
                 
                 return cell
             }
@@ -2473,12 +2473,15 @@ class ListItemCell : UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        
+        self.ivCover.alpha = 1.0
+        self.ivCover.backgroundColor = UIColor.white
+        
         sectionLove.layoutIfNeeded()
         sectionLove.layer.cornerRadius = sectionLove.frame.size.width/2
         sectionLove.layer.masksToBounds = true
-        
-        consWidthAffiliateLogo.constant = 0
-        consHeightAffiliateLogo.constant = 0
         
         // TODO : if used (switch)
         btnTawar.isHidden = true
@@ -2489,7 +2492,8 @@ class ListItemCell : UICollectionViewCell {
 //        btnTawar.tintColor = UIColor.lightGray
 //        btnTawar.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
         
-        
+        btnLove.isHidden = true
+        affiliateLogo.isHidden = true
     }
     
     override func prepareForReuse() {
@@ -2500,7 +2504,7 @@ class ListItemCell : UICollectionViewCell {
         btnTawar.isHidden = true
         btnLove.isHidden = true
         affiliateLogo.isHidden = true
-        captionOldPrice.isHidden = false
+        //captionOldPrice.isHidden = false
         
         ivCover.afCancelRequest()
         avatar.afCancelRequest()
@@ -2509,9 +2513,6 @@ class ListItemCell : UICollectionViewCell {
         isFeatured = false
         
         imgFreeOngkir.image = UIImage(named: "ic_free_ongkir")
-        
-        consWidthAffiliateLogo.constant = 0
-        consHeightAffiliateLogo.constant = 0
     }
     
     func adapt(_ product : Product, listStage : Int, currentMode : ListItemMode, shopAvatar : URL?, parent: BaseViewController) {
@@ -2538,7 +2539,7 @@ class ListItemCell : UICollectionViewCell {
         if self.isNeedSetup {
             self.isNeedSetup = false
             
-            self.setupCell(parent, currentMode: currentMode, shopAvatar: shopAvatar)
+            self.setupCell(parent, currentMode: currentMode, shopAvatar: shopAvatar, listStage: listStage)
         }
         
         if (product.specialStory == nil || product.specialStory == "") {
@@ -2568,25 +2569,10 @@ class ListItemCell : UICollectionViewCell {
         let myId = CDUser.getOne()?.id
         if ((self.sid != myId) && product.isAggregate == false && product.isAffiliate == false) {
             btnLove.isHidden = false
-            var const : CGFloat = CGFloat(30)
             
-            if listStage == 1 && AppTools.isIPad == false {
-                const = CGFloat(15)
-            } else if listStage == 3 {
-                if AppTools.isIPad == false  {
-                    const = CGFloat(39)
-                } else {
-                    const = CGFloat(45)
-                }
-                
-            }
-            
-            consbtnWidthLove.constant = const
-            consbtnHeightLove.constant = const
-            btnLove.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
-            
-            consHeightFO.constant = const
-            consWidthFO.constant = const
+            //-------------------
+            // inside setup cell
+            //-------------------
             
             newLove = obj["love"].bool
             if (newLove == true) {
@@ -2605,9 +2591,6 @@ class ListItemCell : UICollectionViewCell {
                 }*/
                 self.imgFreeOngkir.isHidden = false
             }
-        } else {
-            btnLove.isHidden = true
-            consbtnWidthLove.constant = 0
         }
         
         self.ivCover.afSetImage(withURL: product.coverImageURL!)
@@ -2624,27 +2607,18 @@ class ListItemCell : UICollectionViewCell {
         if product.isAggregate {
             captionOldPrice.text = "Mulai dari"
         } else if product.isAffiliate {
-            var const : CGFloat = CGFloat(30)
-            
-            if listStage == 1 && AppTools.isIPad == false {
-                const = CGFloat(15)
-            } else if listStage == 3 {
-                if AppTools.isIPad == false  {
-                    const = CGFloat(39)
-                } else {
-                    const = CGFloat(45)
-                }
-                
-            }
-            
-            let w = const / 3 * 8
             let url = URL(string: product.json["affiliate_data"]["affiliate_icon"].stringValue)
-            affiliateLogo.frame = CGRect(x: self.bounds.width - w - 4, y: self.bounds.maxY - const - 4, width: w, height: const)
+            
+            //-------------------
+            // inside setup cell
+            //-------------------
+            
             //affiliateLogo.afSetImage(withURL: url!, withFilter: .noneWithoutPlaceHolder)
             
             // CRASH sometimes
-            //affiliateLogo.afSetImage(withURL: url!, withFilter: .fitWithoutPlaceHolder)
+            affiliateLogo.afSetImage(withURL: url!, withFilter: .fitWithoutPlaceHolder)
             
+            /*
             let imageTransition = UIImageView.ImageTransition.crossDissolve(0.2)
             
             let filter = AspectScaledToFitSizeFilter(
@@ -2658,10 +2632,7 @@ class ListItemCell : UICollectionViewCell {
                 completion: { res in
                     self.affiliateLogo.image?.afInflate()
             })
-            
-            affiliateLogo.contentMode = .scaleAspectFit
-            consWidthAffiliateLogo.constant = w
-            consHeightAffiliateLogo.constant = const
+ */
             affiliateLogo.isHidden = false
         }
         
@@ -2680,7 +2651,7 @@ class ListItemCell : UICollectionViewCell {
         }
     }
     
-    func setupCell(_ parent: BaseViewController, currentMode: ListItemMode, shopAvatar: URL?) {
+    func setupCell(_ parent: BaseViewController, currentMode: ListItemMode, shopAvatar: URL?, listStage: Int) {
         self.parent = parent
         self.currentMode = currentMode
         
@@ -2695,6 +2666,35 @@ class ListItemCell : UICollectionViewCell {
         if let url = shopAvatar, currentMode == .shop || currentMode == .newShop {
             avatar.afSetImage(withURL: url, withFilter: .circle)
         }
+        
+        // for standard product
+        var const : CGFloat = CGFloat(30)
+        
+        if listStage == 1 && AppTools.isIPad == false {
+            const = CGFloat(15)
+        } else if listStage == 3 {
+            if AppTools.isIPad == false  {
+                const = CGFloat(39)
+            } else {
+                const = CGFloat(45)
+            }
+        }
+        
+        consbtnWidthLove.constant = const
+        consbtnHeightLove.constant = const
+        btnLove.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
+        
+        consHeightFO.constant = const
+        consWidthFO.constant = const
+        
+        // for affiliate icon
+        
+        let w = const / 3 * 8
+        affiliateLogo.frame = CGRect(x: self.bounds.width - w - 4, y: self.bounds.maxY - const - 4, width: w, height: const)
+        
+        affiliateLogo.contentMode = .scaleAspectFit
+        consWidthAffiliateLogo.constant = w
+        consHeightAffiliateLogo.constant = const
     }
     
     func buttonLoveChange(isLoved : Bool) {
