@@ -770,6 +770,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         let current = products!.count
         let lastSec = self.gridView.numberOfSections - 1
+        let lastRow = self.gridView.numberOfItems(inSection: lastSec) - 1
         
         var lastTimeUuid = ""
         if (products != nil && products?.count > 0) {
@@ -777,8 +778,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
         let _ = request(APISearch.productByCategory(categoryId: catId, sort: "recent", current: current, limit: itemsPerReq, priceMin: 0, priceMax: 999999999, segment: selectedSegment, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
             self.requesting = false
+            var count = 0
             if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Product By Category")) {
-                self.setupData(resp.result.value)
+                count = self.setupData(resp.result.value)
                 
                 if self.currentMode == .segment && !self.listItemSections.contains(.subcategories) {
                     self.setupSubcategoriesInsideSegment()
@@ -786,14 +788,20 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             }
             self.refresher?.endRefreshing()
             
+            var idxs: Array<IndexPath> = []
+            for i in 1...count {
+                idxs.append(IndexPath(row: lastRow+i, section: lastSec))
+            }
+            
             if current == 0 {
                 DispatchQueue.main.async(execute: {
                     self.setupGrid()
                 })
-            } else {
+            } else if count > 0 {
                 DispatchQueue.main.async(execute: {
                     //UIView.performWithoutAnimation {
-                        self.gridView.reloadSections(NSIndexSet(index: lastSec) as IndexSet)
+                    //    self.gridView.reloadSections(NSIndexSet(index: lastSec) as IndexSet)
+                    self.gridView.insertItems(at: idxs)
                     //}
                 })
             }
@@ -812,7 +820,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Featured Products")) {
                 self.products = []
                 
-                self.setupData(resp.result.value)
+                _ = self.setupData(resp.result.value)
             }
             self.refresher?.endRefreshing()
             DispatchQueue.main.async(execute: {
@@ -842,6 +850,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         let current = products!.count
         let lastSec = self.gridView.numberOfSections - 1
+        let lastRow = self.gridView.numberOfItems(inSection: lastSec) - 1
         
         let fltrNameReq = self.fltrName
         var lastTimeUuid = ""
@@ -857,19 +866,26 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         let _ = request(APISearch.productByFilter(name: fltrName, aggregateId: fltrAggregateId, categoryId: fltrCategId, brandIds: AppToolsObjC.jsonString(from: [String](fltrBrands.values)), productConditionIds: AppToolsObjC.jsonString(from: fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonString(from: fltrSizes), sortBy: fltrSortBy, current: NSNumber(value: current), limit: NSNumber(value: itemsPerReq), lastTimeUuid: lastTimeUuid, provinceId : provinceId, regionId: regionId, subDistrictId: subDistrictId)).responseJSON { resp in
             if (fltrNameReq == self.fltrName) { // Jika response ini sesuai dengan request terakhir
                 self.requesting = false
+                var count = 0
                 if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Filter Product")) {
-                    self.setupData(resp.result.value)
+                    count = self.setupData(resp.result.value)
                 }
                 self.refresher?.endRefreshing()
+                
+                var idxs: Array<IndexPath> = []
+                for i in 1...count {
+                    idxs.append(IndexPath(row: lastRow+i, section: lastSec))
+                }
                 
                 if current == 0 {
                     DispatchQueue.main.async(execute: {
                         self.setupGrid()
                     })
-                } else {
+                } else if count > 0 {
                     DispatchQueue.main.async(execute: {
                         //UIView.performWithoutAnimation {
-                            self.gridView.reloadSections(NSIndexSet(index: lastSec) as IndexSet)
+                        //    self.gridView.reloadSections(NSIndexSet(index: lastSec) as IndexSet)
+                        self.gridView.insertItems(at: idxs)
                         //}
                     })
                 }
@@ -883,6 +899,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     func getShopProducts() {
         // need for navbar
         let current = self.products!.count
+        let lastSec = self.gridView.numberOfSections - 1
+        let lastRow = self.gridView.numberOfItems(inSection: lastSec) - 1
         
         self.requesting = true
         
@@ -890,7 +908,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         let _ = request(APIUser.getShopPage(id: shopId, current: current, limit: itemsPerReq)).responseJSON { resp in
             self.requesting = false
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Data Shop Pengguna")) {
-                self.setupData(resp.result.value)
+                var count = self.setupData(resp.result.value)
+                
+                if current == 0 {
                 DispatchQueue.main.async(execute: {
                 if (self.shopHeader == nil) {
                     self.shopHeader = Bundle.main.loadNibNamed("StoreHeader", owner: nil, options: nil)?.first as? StoreHeader
@@ -1117,10 +1137,25 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.setupGrid()
                 self.gridView.contentInset = UIEdgeInsetsMake(CGFloat(height), 0, 0, 0)
                 
-                if (self.isFirst == false && current == 0) {
+                if (self.isFirst == false) {
                     self.transparentNavigationBar(true)
                 }
                 })
+                } else if count > 0 {
+                    self.refresher?.endRefreshing()
+                    
+                    var idxs: Array<IndexPath> = []
+                    for i in 1...count {
+                        idxs.append(IndexPath(row: lastRow+i, section: lastSec))
+                    }
+                    
+                    DispatchQueue.main.async(execute: {
+                        //UIView.performWithoutAnimation {
+                        //    self.gridView.reloadSections(NSIndexSet(index: lastSec) as IndexSet)
+                        //}
+                        self.gridView.insertItems(at: idxs)
+                    })
+                }
             }
         }
     }
@@ -1128,6 +1163,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     func getNewShopProducts() {
         let current = products!.count
         let lastSec = self.gridView.numberOfSections - 1
+        let lastRow = self.gridView.numberOfItems(inSection: lastSec) - 1
         
         self.requesting = true
         
@@ -1135,7 +1171,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         let _ = request(APIUser.getShopPage(id: shopId, current: current, limit: itemsPerReq)).responseJSON { resp in
             self.requesting = false
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Data Shop Pengguna")) {
-                self.setupData(resp.result.value)
+                let count = self.setupData(resp.result.value)
                 
                 let json = JSON(resp.result.value!)["_data"]
                 
@@ -1188,12 +1224,19 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                         let inset = UIEdgeInsetsMake(0, 0, bottom, 0)
                         self.gridView.contentInset = inset
                     })
-                } else {
+                } else if count > 0 {
                     self.refresher?.endRefreshing()
+                    
+                    var idxs: Array<IndexPath> = []
+                    for i in 1...count {
+                        idxs.append(IndexPath(row: lastRow+i, section: lastSec))
+                    }
+                    
                     DispatchQueue.main.async(execute: {
                         //UIView.performWithoutAnimation {
-                            self.gridView.reloadSections(NSIndexSet(index: lastSec) as IndexSet)
+                        //    self.gridView.reloadSections(NSIndexSet(index: lastSec) as IndexSet)
                         //}
+                        self.gridView.insertItems(at: idxs)
                     })
                 }
                 
@@ -1209,12 +1252,13 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
     }
     
-    func setupData(_ res : Any?) {
+    func setupData(_ res : Any?) -> Int {
         guard res != nil else {
-            return
+            return 0
         }
         
         var obj = JSON(res!)
+        var count = 0
         if let arr = obj["_data"].array {
             if arr.count == 0 {
                 self.done = true
@@ -1228,6 +1272,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                         self.products?.append(p!)
                     }
                 }
+                count = arr.count
             }
         } else if let arr = obj["_data"]["products"].array {
             if arr.count == 0 {
@@ -1242,6 +1287,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                         self.products?.append(p!)
                     }
                 }
+                count = arr.count
             }
         }
         
@@ -1249,6 +1295,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             self.done = true
             self.footerLoading?.isHidden = true
         }
+        
+        return count
     }
     
     func setupSubcategoriesInsideSegment() {
@@ -1325,7 +1373,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         if (self.isFeatured == true || (self.currentMode == .segment && self.listItemSections.contains(.segments))) {
             self.gridView.contentInset = UIEdgeInsetsMake(0, 0, 48, 0)
-        } else if (self.currentMode == .filter || self.currentMode == .shop || self.currentMode == .newShop) {
+        } else if (self.currentMode == .filter /*|| self.currentMode == .shop || self.currentMode == .newShop*/) {
             self.gridView.contentInset = UIEdgeInsetsMake(0, 0, 24, 0)
         } else if self.currentMode == .segment {
             self.gridView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
