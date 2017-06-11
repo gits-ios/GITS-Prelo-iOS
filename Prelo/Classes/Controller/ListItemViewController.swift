@@ -187,7 +187,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     // FB-ads
     var adRowStep: Int = 19 // fit for 1, 2, 3
-    var adRowOffset: Int = 0 //6 // 6-1
+    var adRowOffset: Int = 0 //12 // 6-1 -> offset, multiple by 2 // ads only show in filter, categories
     
     var adsManager: FBNativeAdsManager!
     
@@ -796,7 +796,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             } else if count > 0 {
                 var idxs: Array<IndexPath> = []
                 for i in 1...count {
-                    if self.adsCellProvider != nil && self.adsCellProvider.isAdCell(at: (IndexPath(item: lastRow+i + self.adRowOffset, section: lastSec)), forStride: UInt(self.adRowStep)) {
+                    if self.adsCellProvider != nil && self.adsCellProvider.isAdCell(at: (IndexPath(item: lastRow+i /*+ self.adRowOffset*/, section: lastSec)), forStride: UInt(self.adRowStep)) {
                         idxs.append(IndexPath(row: lastRow+i, section: lastSec))
                         lastRow += 1
                     }
@@ -884,7 +884,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 } else if count > 0 {
                     var idxs: Array<IndexPath> = []
                     for i in 1...count {
-                        if self.adsCellProvider != nil && self.adsCellProvider.isAdCell(at: (IndexPath(item: lastRow+i + self.adRowOffset, section: lastSec)), forStride: UInt(self.adRowStep)) {
+                        if self.adsCellProvider != nil && self.adsCellProvider.isAdCell(at: (IndexPath(item: lastRow+i /*+ self.adRowOffset*/, section: lastSec)), forStride: UInt(self.adRowStep)){
                             idxs.append(IndexPath(row: lastRow+i, section: lastSec))
                             lastRow += 1
                         }
@@ -1157,7 +1157,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     for i in 1...count {
                         // No ads
                         /*
-                        if self.adsCellProvider != nil && self.adsCellProvider.isAdCell(at: (IndexPath(item: lastRow+i + self.adRowOffset, section: lastSec)), forStride: UInt(self.adRowStep)) {
+                        if self.adsCellProvider != nil && self.adsCellProvider.isAdCell(at: (IndexPath(item: lastRow+i /*+ self.adRowOffset*/, section: lastSec)), forStride: UInt(self.adRowStep)) {
                             idxs.append(IndexPath(row: lastRow+i, section: lastSec))
                             lastRow += 1
                         }
@@ -1247,7 +1247,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     for i in 1...count {
                         // No ads
                         /*
-                        if self.adsCellProvider != nil && self.adsCellProvider.isAdCell(at: (IndexPath(item: lastRow+i + self.adRowOffset, section: lastSec)), forStride: UInt(self.adRowStep)) {
+                        if self.adsCellProvider != nil && self.adsCellProvider.isAdCell(at: (IndexPath(item: lastRow+i /*+ self.adRowOffset*/, section: lastSec)), forStride: UInt(self.adRowStep)) {
                             idxs.append(IndexPath(row: lastRow+i, section: lastSec))
                             lastRow += 1
                         }
