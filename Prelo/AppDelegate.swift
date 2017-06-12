@@ -1927,7 +1927,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
                 
                 // Check apps icon need update?
-                let iconType = "default" // "default", "christmas", "ramadhan",
+                let iconType = "ramadhan" // "default", "christmas", "ramadhan",
                 
                 // change icon from server iOS 10.3.*
                 if #available(iOS 10.3, *) {

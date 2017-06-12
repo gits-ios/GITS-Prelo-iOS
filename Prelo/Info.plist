@@ -152,7 +152,7 @@
             <dict>
                 <key>CFBundleIconFiles</key>
                 <array>
-                    <string>placeholder-standar-white</string>
+                    <string>ic_christmas</string>
                 </array>
                 <key>UIPrerenderedIcon</key>
                 <false/>
@@ -161,7 +161,7 @@
             <dict>
                 <key>CFBundleIconFiles</key>
                 <array>
-                    <string>placeholder-standar</string>
+                    <string>ic_ramadhan</string>
                 </array>
                 <key>UIPrerenderedIcon</key>
                 <false/>
