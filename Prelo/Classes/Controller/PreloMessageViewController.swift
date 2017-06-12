@@ -418,13 +418,17 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
     
     func scrollToTop() {
         if ((self.messages?.count)! > 0) {
-            tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.top, animated: true)
+            UIView.animate(withDuration: 0.2, animations: {
+                self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.top, animated: false)
+            })
         }
     }
     
     func scrollToBottom() {
         if ((self.messages?.count)! > 0) {
-            tableView.scrollToRow(at: IndexPath(row: (self.messages?.count)! - 1, section: 0), at: UITableViewScrollPosition.bottom, animated: true)
+            UIView.animate(withDuration: 0.2, animations: {
+                self.tableView.scrollToRow(at: IndexPath(row: (self.messages?.count)! - 1, section: 0), at: UITableViewScrollPosition.bottom, animated: false)
+            })
         }
     }
     
