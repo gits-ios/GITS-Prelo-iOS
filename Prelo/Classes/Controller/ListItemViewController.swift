@@ -225,32 +225,11 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             self.adRowOffset = offset // 20
         }
         
-        if currentMode == .shop || currentMode == .newShop {
-            self.navigationController?.navigationBar.isTranslucent = true
-        }
-        
-        if (currentMode == .newShop) {
-            let StoreInfo = UINib(nibName: "StorePageShopHeader", bundle: nil)
-            gridView.register(StoreInfo, forCellWithReuseIdentifier: "StorePageShopHeader")
-        }
-        
         // listStage initiation
         if (AppTools.isIPad) {
             listStage = 1
         } else {
             listStage = 2
-        }
-        
-        // Set title
-        switch currentMode {
-        case .standalone:
-            self.title = standaloneCategoryName
-//        case .shop:
-//            self.title = shopName
-        default:
-            if let name = categoryJson?["name"].string {
-                self.title = name
-            }
         }
         
         // Hide top header first
@@ -262,8 +241,30 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         refresher!.addTarget(self, action: #selector(ListItemViewController.refresh), for: UIControlEvents.valueChanged)
         self.gridView.addSubview(refresher!)
         
+        switch currentMode {
+        case .standalone: // Set title
+            self.title = standaloneCategoryName
+            
+        case .shop: // Set navbar
+            self.navigationController?.navigationBar.isTranslucent = true
+            
+        case .newShop: // Set navbar & register cell
+            let StoreInfo = UINib(nibName: "StorePageShopHeader", bundle: nil)
+            gridView.register(StoreInfo, forCellWithReuseIdentifier: "StorePageShopHeader")
+            self.navigationController?.navigationBar.isTranslucent = true
+            
+        default: // Set title
+            if let name = categoryJson?["name"].string {
+                self.title = name
+            }
+        }
+        
         // Setup content for filter, shop, or standalone mode
-        if (currentMode == .standalone || currentMode == .shop || currentMode == .filter || currentMode == .newShop) {
+        if (currentMode == .standalone ||
+            currentMode == .shop ||
+            currentMode == .filter ||
+            currentMode == .newShop) {
+            
             self.setupContent()
         }
     }
@@ -1917,7 +1918,7 @@ extension ListItemViewController: UICollectionViewDataSource, UICollectionViewDe
             }
             
             cell.alpha = 1.0
-            cell.backgroundColor = self.gridView.backgroundColor
+            cell.backgroundColor = Theme.GrayGranite
             
             return cell
         case .featuredHeader:
@@ -1927,7 +1928,11 @@ extension ListItemViewController: UICollectionViewDataSource, UICollectionViewDe
             }
             
             cell.alpha = 1.0
-            cell.backgroundColor = self.gridView.backgroundColor
+            if let name = self.categoryJson?["name"].string, name.lowercased() == "all" {
+                cell.backgroundColor = Theme.GrayGranite
+            } else {
+                cell.backgroundColor = self.gridView.backgroundColor
+            }
             
             return cell
         case .subcategories:

@@ -692,7 +692,11 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                         //child.setupContent()
                         child.refresh()
                     } else {
-                        child.gridView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
+                        child.isScrolling = true
+                        UIView.animate(withDuration: 0.3, animations: {
+                            child.gridView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+                        })
+                        
                     }
                 }
             }
