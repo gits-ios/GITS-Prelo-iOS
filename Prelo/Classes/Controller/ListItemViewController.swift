@@ -1915,23 +1915,39 @@ extension ListItemViewController: UICollectionViewDataSource, UICollectionViewDe
                 cell.setCarouselTimer()
                 isCarouselTimerSet = true
             }
+            
+            cell.alpha = 1.0
+            cell.backgroundColor = self.gridView.backgroundColor
+            
             return cell
         case .featuredHeader:
             let cell : ListItemFeaturedHeaderCell = collectionView.dequeueReusableCell(withReuseIdentifier: "featured_cell", for: indexPath) as! ListItemFeaturedHeaderCell
             if let name = categoryJson?["name"].string {
                 cell.adapt(name, featuredTitle: categoryJson?["featured_title"].string, featuredDescription: categoryJson?["featured_description"].string)
             }
+            
+            cell.alpha = 1.0
+            cell.backgroundColor = self.gridView.backgroundColor
+            
             return cell
         case .subcategories:
             let cell : ListItemSubcategoryCell = collectionView.dequeueReusableCell(withReuseIdentifier: "subcategory_cell", for: indexPath) as! ListItemSubcategoryCell
             //cell.imgSubcategory.image = subcategoryItems[(indexPath as NSIndexPath).item].image
             cell.adapt(subcategoryItems[(indexPath as NSIndexPath).item].imageLink)
             cell.lblSubcategory.isHidden = true // Unused label
+            
+            cell.alpha = 1.0
+            cell.backgroundColor = self.gridView.backgroundColor
+            
             return cell
         case .segments:
             let cell : ListItemSegmentCell = collectionView.dequeueReusableCell(withReuseIdentifier: "segment_cell", for: indexPath) as! ListItemSegmentCell
             //cell.imgSegment.image = segments[(indexPath as NSIndexPath).item].image
             cell.adapt(segments[(indexPath as NSIndexPath).item].imageLink)
+            
+            cell.alpha = 1.0
+            cell.backgroundColor = self.gridView.backgroundColor
+            
             return cell
         case .products:
             if adsCellProvider != nil && adsCellProvider.isAdCell(at: (IndexPath(item: indexPath.item - adRowOffset, section: indexPath.section)), forStride: UInt(adRowStep)) && indexPath.item > adRowOffset {
@@ -2397,9 +2413,6 @@ class ListItemSubcategoryCell : UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.alpha = 1.0
-        self.backgroundColor = UIColor.white
-        
         self.layer.rasterizationScale = UIScreen.main.scale
     }
     
@@ -2434,9 +2447,6 @@ class ListItemSegmentCell : UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        self.alpha = 1.0
-        self.backgroundColor = UIColor.white
         
         self.layer.rasterizationScale = UIScreen.main.scale
     }
@@ -2478,9 +2488,6 @@ class ListItemCarouselCell : UICollectionViewCell, UIScrollViewDelegate {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        self.alpha = 1.0
-        self.backgroundColor = UIColor.white
         
         self.layer.rasterizationScale = UIScreen.main.scale
     }
@@ -2551,9 +2558,6 @@ class ListItemFeaturedHeaderCell : UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        self.alpha = 1.0
-        self.backgroundColor = UIColor.white
         
         self.layer.rasterizationScale = UIScreen.main.scale
     }
