@@ -468,6 +468,8 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             
             button.addTarget(self, action: #selector(ListCategoryViewController.categoryButtonAction(_:)), for: UIControlEvents.touchUpInside)
             
+            //button.addTarget(self, action: #selector(ListCategoryViewController.longPressCategoryButtonAction(_:)), for: UIControlEvents.touchDownRepeat)
+            
             let width = button.width
             let v = button
             v.tag = i
@@ -680,9 +682,42 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
     func categoryButtonAction(_ sender : UIView)
     {
         let index = sender.tag
-        setCurrentTab(index)
         
-        centerCategoryView(currentTabIndex)
+        if self.currentTabIndex == index {
+            if let child = self.childViewControllers[self.currentTabIndex] as? ListItemViewController {
+                if child.isContentLoaded {
+                    let c = child.gridView.indexPathsForVisibleItems
+                    print(c)
+                    if child.gridView.indexPathsForVisibleItems[0] == IndexPath(item: 0, section: 0) {
+                        let _curTime = NSDate().timeIntervalSince1970
+                        child.curTime = _curTime //- child.interval
+                        //child.setupContent()
+                        child.refresh()
+                    } else {
+                        child.gridView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
+                    }
+                }
+            }
+        } else {
+            setCurrentTab(index)
+            centerCategoryView(currentTabIndex)
+        }
+    }
+    
+    func longPressCategoryButtonAction(_ sender : UIView)
+    {
+        let index = sender.tag
+        
+        if self.currentTabIndex == index {
+            if let child = self.childViewControllers[self.currentTabIndex] as? ListItemViewController {
+                if child.isContentLoaded {
+                    let _curTime = NSDate().timeIntervalSince1970
+                    child.curTime = _curTime //- child.interval
+                    //child.setupContent()
+                    child.refresh()
+                }
+            }
+        }
     }
     
     func centerCategoryView(_ index : Int)
