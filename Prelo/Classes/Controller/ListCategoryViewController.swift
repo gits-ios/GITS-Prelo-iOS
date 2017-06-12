@@ -686,9 +686,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         if self.currentTabIndex == index {
             if let child = self.childViewControllers[self.currentTabIndex] as? ListItemViewController {
                 if child.isContentLoaded {
-                    let c = child.gridView.indexPathsForVisibleItems
-                    print(c)
-                    if child.gridView.indexPathsForVisibleItems[0] == IndexPath(item: 0, section: 0) {
+                    if child.gridView.indexPathsForVisibleItems.contains(IndexPath(item: 0, section: 0)) {
                         let _curTime = NSDate().timeIntervalSince1970
                         child.curTime = _curTime //- child.interval
                         //child.setupContent()
