@@ -186,8 +186,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var isFeatured: Bool = false
     
     // FB-ads
-    var adRowStep: Int = 19 // fit for 1, 2, 3
-    var adRowOffset: Int = 0 //12 // 6-1 -> offset, multiple by 2 // ads only show in filter, categories
+    var adRowStep: Int = 24 // fit for 1, 2, 3 // best 24
+    var adRowOffset: Int = 20 //12 // 6-1 -> offset, multiple by 2 // ads only show in filter, categories // best 20
     
     var adsManager: FBNativeAdsManager!
     
@@ -796,7 +796,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             } else if count > 0 {
                 var idxs: Array<IndexPath> = []
                 for i in 1...count {
-                    if self.adsCellProvider != nil && self.adsCellProvider.isAdCell(at: (IndexPath(item: lastRow+i /*+ self.adRowOffset*/, section: lastSec)), forStride: UInt(self.adRowStep)) {
+                    if self.adsCellProvider != nil && self.adsCellProvider.isAdCell(at: (IndexPath(item: lastRow+i, section: lastSec)), forStride: UInt(self.adRowStep)) {
                         idxs.append(IndexPath(row: lastRow+i, section: lastSec))
                         lastRow += 1
                     }
@@ -884,7 +884,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 } else if count > 0 {
                     var idxs: Array<IndexPath> = []
                     for i in 1...count {
-                        if self.adsCellProvider != nil && self.adsCellProvider.isAdCell(at: (IndexPath(item: lastRow+i /*+ self.adRowOffset*/, section: lastSec)), forStride: UInt(self.adRowStep)){
+                        if self.adsCellProvider != nil && self.adsCellProvider.isAdCell(at: (IndexPath(item: lastRow+i, section: lastSec)), forStride: UInt(self.adRowStep)){
                             idxs.append(IndexPath(row: lastRow+i, section: lastSec))
                             lastRow += 1
                         }
@@ -1157,7 +1157,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     for i in 1...count {
                         // No ads
                         /*
-                        if self.adsCellProvider != nil && self.adsCellProvider.isAdCell(at: (IndexPath(item: lastRow+i /*+ self.adRowOffset*/, section: lastSec)), forStride: UInt(self.adRowStep)) {
+                        if self.adsCellProvider != nil && self.adsCellProvider.isAdCell(at: (IndexPath(item: lastRow+i, section: lastSec)), forStride: UInt(self.adRowStep)) {
                             idxs.append(IndexPath(row: lastRow+i, section: lastSec))
                             lastRow += 1
                         }
@@ -1247,7 +1247,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     for i in 1...count {
                         // No ads
                         /*
-                        if self.adsCellProvider != nil && self.adsCellProvider.isAdCell(at: (IndexPath(item: lastRow+i /*+ self.adRowOffset*/, section: lastSec)), forStride: UInt(self.adRowStep)) {
+                        if self.adsCellProvider != nil && self.adsCellProvider.isAdCell(at: (IndexPath(item: lastRow+i, section: lastSec)), forStride: UInt(self.adRowStep)) {
                             idxs.append(IndexPath(row: lastRow+i, section: lastSec))
                             lastRow += 1
                         }
@@ -1468,13 +1468,13 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             cell.adapt(segments[(indexPath as NSIndexPath).item].imageLink)
             return cell
         case .products:
-            if adsCellProvider != nil && adsCellProvider.isAdCell(at: (IndexPath(item: indexPath.item + adRowOffset, section: indexPath.section)), forStride: UInt(adRowStep)) {
+            if adsCellProvider != nil && adsCellProvider.isAdCell(at: (IndexPath(item: indexPath.item - adRowOffset, section: indexPath.section)), forStride: UInt(adRowStep)) && indexPath.item > adRowOffset {
                 return adsCellProvider.collectionView(gridView, cellForItemAt: indexPath)
             }
             else {
                 var idx  = (indexPath as NSIndexPath).item
-                if (adsCellProvider != nil && adRowStep != 0) {
-                    idx = indexPath.row - (indexPath.row + adRowOffset) / adRowStep
+                if (adsCellProvider != nil && adRowStep != 0 && indexPath.item > adRowOffset) {
+                    idx = indexPath.row - (indexPath.row - adRowOffset) / adRowStep
                 }
                 
                 // Load next products here
@@ -1557,7 +1557,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             //return CGSize(width: viewWidthMinusMargin, height: segHeight)
             return ListItemSegmentCell.sizeFor()
         case .products:
-            if !AppTools.isIPad && adsCellProvider != nil && adsCellProvider.isAdCell(at: (IndexPath(item: indexPath.item + adRowOffset, section: indexPath.section)), forStride: UInt(adRowStep)) {
+            if !AppTools.isIPad && adsCellProvider != nil && adsCellProvider.isAdCell(at: (IndexPath(item: indexPath.item - adRowOffset, section: indexPath.section)), forStride: UInt(adRowStep)) && indexPath.item > adRowOffset {
                 return CGSize(width: ((UIScreen.main.bounds.size.width - 8) / 1), height: adsCellProvider.collectionView(gridView, heightForRowAt: indexPath))
             }
             else {
