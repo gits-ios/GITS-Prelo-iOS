@@ -1082,6 +1082,7 @@ class UserDefaultsKey : NSObject {
     static let AbTestFakeApprove = "abtestfakeapprove"
     static let UpdatePopUpNotes = "updatepopupnotes"
     static let AdsFrequency = "adsfrequency"
+    static let AdsOffset = "adsoffset"
     static let RefreshTime = "refreshtime"
 }
 

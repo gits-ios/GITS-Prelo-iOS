@@ -216,7 +216,12 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         let frequency = UserDefaults.standard.integer(forKey: UserDefaultsKey.AdsFrequency)
         if frequency > 0 {
-            self.adRowStep = frequency // 37
+            self.adRowStep = frequency // 25
+        }
+        
+        let offset = UserDefaults.standard.integer(forKey: UserDefaultsKey.AdsOffset)
+        if offset > 0 {
+            self.adRowOffset = offset // 20
         }
         
         if currentMode == .shop || currentMode == .newShop {

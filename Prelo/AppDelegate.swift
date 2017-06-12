@@ -1912,6 +1912,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     UserDefaults.standard.synchronize()
                 }
                 
+                // Check apps offset
+                if let offset = data["ads_config"]["offset"].int {
+                    UserDefaults.standard.set(offset, forKey: UserDefaultsKey.AdsOffset)
+                    
+                    UserDefaults.standard.synchronize()
+                }
+                
                 // Check apps refresh time
                 if let refreshTime = data["editors_page_refresh_time"].int {
                     UserDefaults.standard.set(refreshTime, forKey: UserDefaultsKey.RefreshTime)
