@@ -1369,7 +1369,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             let orderConfirmVC : OrderConfirmViewController = (mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdOrderConfirm) as? OrderConfirmViewController)!
                             orderConfirmVC.transactionId = transactionId
                             orderConfirmVC.orderID = data["order_id"].stringValue
-                            orderConfirmVC.total = data["total_price"].intValue
+                            orderConfirmVC.total = data["total_price"].int64Value
                             orderConfirmVC.images = imgs
                             orderConfirmVC.isFromCheckout = false
                             

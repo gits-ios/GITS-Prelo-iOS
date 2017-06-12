@@ -139,8 +139,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var fltrBrands : [String : String] = [:] // [name:id]
     // Predefined values from filtervc
     var fltrProdCondIds : [String] = []
-    var fltrPriceMin : NSNumber = 0
-    var fltrPriceMax : NSNumber = 0
+    var fltrPriceMin : Int64 = 0
+    var fltrPriceMax : Int64 = 0
     var fltrIsFreeOngkir : Bool = false
     var fltrSizes : [String] = []
     var fltrSortBy : String = "" // "recent"/"lowest_price"/"highest_price"/"popular"
@@ -1205,6 +1205,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                         self.star = json["average_star"].float!
                         let avatarThumbnail = json["profile"]["pict"].stringValue
                         self.shopAvatar = URL(string: avatarThumbnail)!
+                        
+                        if let idx = self.listItemSections.index(of: .aboutShop) {
+                            self.listItemSections.remove(at: idx)
+                        }
                         self.listItemSections.insert(.aboutShop, at: 0)
                         
                         let screenSize = UIScreen.main.bounds
@@ -1923,7 +1927,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     // MARK: - Filter delegate function
     
-    func adjustFilter(_ fltrProdCondIds: [String], fltrPriceMin: NSNumber, fltrPriceMax: NSNumber, fltrIsFreeOngkir: Bool, fltrSizes: [String], fltrSortBy: String, fltrLocation: [String]) {
+    func adjustFilter(_ fltrProdCondIds: [String], fltrPriceMin: Int64, fltrPriceMax: Int64, fltrIsFreeOngkir: Bool, fltrSizes: [String], fltrSortBy: String, fltrLocation: [String]) {
         self.fltrProdCondIds = fltrProdCondIds
         self.fltrPriceMin = fltrPriceMin
         self.fltrPriceMax = fltrPriceMax
@@ -2017,8 +2021,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         filterVC.initSelectedCategSizeVal = self.fltrSizes
         filterVC.selectedIdxSortBy = filterVC.SortByDataValue.index(of: self.fltrSortBy)!
         filterVC.isFreeOngkir = self.fltrIsFreeOngkir
-        filterVC.minPrice = (self.fltrPriceMin > 0) ? self.fltrPriceMin.stringValue : ""
-        filterVC.maxPrice = (self.fltrPriceMax > 0) ? self.fltrPriceMax.stringValue : ""
+        filterVC.minPrice = (self.fltrPriceMin > 0) ? self.fltrPriceMin.string : ""
+        filterVC.maxPrice = (self.fltrPriceMax > 0) ? self.fltrPriceMax.string : ""
         filterVC.locationId = self.fltrLocation[1]
         filterVC.locationName = self.fltrLocation[0]
         filterVC.locationType = self.fltrLocation[2].int

@@ -160,6 +160,19 @@ extension Int {
     }
 }
 
+extension Int64 {
+    var string : String {
+        return String(self)
+    }
+    
+    var asPrice : String {
+        let f = NumberFormatter()
+        f.numberStyle = NumberFormatter.Style.currency
+        f.locale = Locale(identifier: "id_ID")
+        return f.string(from: NSNumber(value: self as Int64))!
+    }
+}
+
 extension Float {
     var clean: String {
         return (self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self))
