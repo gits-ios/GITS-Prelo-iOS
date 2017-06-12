@@ -1869,6 +1869,25 @@ extension ListItemViewController: UIScrollViewDelegate {
     func visibleCellsShouldRasterize(aBool: Bool) {
         for cell in self.gridView.visibleCells as [UICollectionViewCell] {
             cell.layer.shouldRasterize = aBool
+            
+            // TODO: - make it better approach -> for now back to prvious approach
+            // MARK: - Setup cover image for Not Rasterize Cell
+            /*
+            if !aBool && cell is ListItemCell {
+                let c = cell as! ListItemCell
+                
+                let indexPath = self.gridView.indexPath(for: cell)!
+                
+                var idx  = (indexPath as NSIndexPath).item
+                if (adsCellProvider != nil && adRowStep != 0 && indexPath.item > adRowOffset) {
+                    idx = indexPath.row - (indexPath.row - adRowOffset) / adRowStep
+                }
+                
+                if let p = self.products, p.count > idx {
+                    c.ivCover.afSetImage(withURL: (p[idx].coverImageURL!))
+                }
+            }
+             */
         }
     }
 }
@@ -2616,7 +2635,7 @@ class ListItemCell : UICollectionViewCell {
     @IBOutlet weak var consWidthAffiliateLogo: NSLayoutConstraint!
     @IBOutlet weak var consHeightAffiliateLogo: NSLayoutConstraint!
     
-    var newLove : Bool?
+    var newLove : Bool!
     var pid : String?
     var cid : String?
     var sid : String?
@@ -2672,6 +2691,12 @@ class ListItemCell : UICollectionViewCell {
         avatar.afCancelRequest()
         affiliateLogo.afCancelRequest()
         
+        /*
+        ivCover.image = UIImage(named: "placeholder-standar-white")
+        ivCover.contentMode = .scaleAspectFit
+        ivCover.afInflate()
+        */
+        
         isFeatured = false
         
         imgFreeOngkir.image = UIImage(named: "ic_free_ongkir")
@@ -2691,8 +2716,6 @@ class ListItemCell : UICollectionViewCell {
         self.pid = obj["_id"].string
         self.cid = obj["category_id"].string
         self.sid = obj["seller_id"].string
-        
-        //self.sname = ""
         
         if !self.isFeatured {
             self.isFeatured = product.isFeatured
@@ -2736,34 +2759,21 @@ class ListItemCell : UICollectionViewCell {
             // inside setup cell
             //-------------------
             
-            newLove = obj["love"].bool
-            if (newLove == true) {
-                buttonLoveChange(isLoved: true)
-            } else {
-                buttonLoveChange(isLoved: false)
-            }
+            newLove = obj["love"].bool ?? false
+            buttonLoveChange(isLoved: newLove)
             
             // affiliate checkout -> hunstreet
             if product.isCheckout {
                 self.imgFreeOngkir.afSetImage(withURL: (product.AffiliateData?.icon)!, withFilter: .circle)
-                /*if let url = product.avatar {
-                    self.imgFreeOngkir.afSetImage(withURL: url, withFilter: .circle)
-                } else if currentMode == .shop || currentMode == .newShop {
-                    self.imgFreeOngkir.afSetImage(withURL: shopAvatar!, withFilter: .circle)
-                }*/
                 self.imgFreeOngkir.isHidden = false
             }
         }
         
         self.ivCover.afSetImage(withURL: product.coverImageURL!)
-        ////print(product.coverImageURL!)
         
-        if let op = product.json["price_original"].int {
-            captionOldPrice.text = op.asPrice
-            let s = captionOldPrice.text! as NSString
-            let attString = NSMutableAttributedString(string: s as String)
-            attString.addAttributes([NSStrikethroughStyleAttributeName:NSUnderlineStyle.styleSingle.rawValue], range: s.range(of: s as String))
-            captionOldPrice.attributedText = attString
+        if let op = product.json["price_original"].int64, !product.isAggregate {
+            let attrString = NSAttributedString(string: op.asPrice, attributes: [NSStrikethroughStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue])
+            captionOldPrice.attributedText = attrString
         }
         
         if product.isAggregate {
@@ -2775,26 +2785,7 @@ class ListItemCell : UICollectionViewCell {
             // inside setup cell
             //-------------------
             
-            //affiliateLogo.afSetImage(withURL: url!, withFilter: .noneWithoutPlaceHolder)
-            
-            // CRASH sometimes
             affiliateLogo.afSetImage(withURL: url!, withFilter: .fitWithoutPlaceHolder)
-            
-            /*
-            let imageTransition = UIImageView.ImageTransition.crossDissolve(0.2)
-            
-            let filter = AspectScaledToFitSizeFilter(
-                size: affiliateLogo.frame.size
-            )
-            
-            affiliateLogo.af_setImage(
-                withURL: url!,
-                filter: filter,
-                imageTransition: imageTransition,
-                completion: { res in
-                    self.affiliateLogo.image?.afInflate()
-            })
- */
             affiliateLogo.isHidden = false
         }
         
@@ -2850,7 +2841,6 @@ class ListItemCell : UICollectionViewCell {
         consWidthFO.constant = const
         
         // for affiliate icon
-        
         let w = const / 3 * 8
         affiliateLogo.frame = CGRect(x: self.bounds.width - w - 4, y: self.bounds.maxY - const - 4, width: w, height: const)
         
@@ -2869,7 +2859,6 @@ class ListItemCell : UICollectionViewCell {
             btnLove.setImage(image, for: .normal)
             btnLove.tintColor = Theme.GrayLight
         }
-    
     }
     
     @IBAction func btnLovePressed(_ sender: Any) {
