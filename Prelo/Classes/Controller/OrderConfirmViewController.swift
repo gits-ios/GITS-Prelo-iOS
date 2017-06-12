@@ -61,8 +61,8 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     var orderID : String = ""
     var transactionId : String = ""
     var images : [URL] = []
-    var total : Int = 0
-    var kodeTransfer = 0
+    var total : Int64 = 0
+    var kodeTransfer : Int64 = 0
     
     // new UI
     var targetBank : String!
@@ -514,7 +514,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         let timePaidString = timePaidFormatter.string(from: timePaid)
         
         // API Migrasi
-        let _ = request(APITransaction.confirmPayment(bankFrom: "", bankTo: self.lblBankTujuan.text!, name: "", nominal: Int(fldNominalTrf.text!)!, orderId: self.transactionId, timePaid: timePaidString)).responseJSON { resp in
+        let _ = request(APITransaction.confirmPayment(bankFrom: "", bankTo: self.lblBankTujuan.text!, name: "", nominal: Int64(fldNominalTrf.text!)!, orderId: self.transactionId, timePaid: timePaidString)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Konfirmasi Bayar")) {
                 /*
                 // Mixpanel
