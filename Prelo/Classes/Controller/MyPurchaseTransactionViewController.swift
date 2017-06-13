@@ -35,6 +35,8 @@ class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSo
     
     var isRefreshing = false
     
+    var isFirst = true
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -75,16 +77,25 @@ class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSo
         // Search bar setup
         searchBar.delegate = self
         searchBar.placeholder = "Cari Barang"
+        
+        self.getMyPurchase()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        /*
         if (userProducts.isEmpty) {
             getMyPurchase()
         } else {
             self.hideLoading()
             self.showContent()
+        }*/
+        
+        if isFirst {
+            isFirst = false
+        } else {
+            self.hideLoading()
         }
     }
     

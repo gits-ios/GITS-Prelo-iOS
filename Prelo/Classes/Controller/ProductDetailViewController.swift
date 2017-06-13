@@ -963,6 +963,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     @IBAction func addToCart(_ sender: UIButton) {
         if (alreadyInCart) {
 //            self.performSegue(withIdentifier: "segCart", sender: nil)
+            
+            isNeedReload = true
+            
             let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
             cart.previousController = self
             cart.previousScreen = thisScreen
@@ -973,6 +976,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         if (CartProduct.newOne((detail?.productID)!, email : User.EmailOrEmptyString, name : (detail?.name)!) == nil) {
             Constant.showDialog("Failed", message: "Gagal Menyimpan")
         } else {
+            
+            isNeedReload = true
+            
             // FB Analytics - Add to Cart
             if AppTools.IsPreloProduction {
                 let fbPdata: [String : Any] = [
@@ -1138,6 +1144,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     func checkoutAffiliate() {
         // TODO: - affiliate checkout hunstreet
 //        Constant.showDialog((detail?.AffiliateData?.name)!.uppercased(), message: "TODO gan")
+        
+        isNeedReload = true
         
         let _ = request(APIAffiliate.postCheckout(productIds: (product?.id)!, affiliateName: (detail?.AffiliateData?.name)!)).responseJSON {resp in
             if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Post Affiliate Checkout")) {
@@ -1334,8 +1342,15 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         isNeedReload = true
         
+        // deprecated
+        /*
         let paymentConfirmationVC = Bundle.main.loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil)?.first as! PaymentConfirmationViewController
         self.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
+ */
+        
+        let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+        myPurchaseVC.previousScreen = PageName.ProductDetail
+        self.navigationController?.pushViewController(myPurchaseVC, animated: true)
     }
     
     @IBAction func toTransactionProductDetail(_ sender: AnyObject) {

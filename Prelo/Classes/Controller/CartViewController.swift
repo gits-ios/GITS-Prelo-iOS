@@ -1973,17 +1973,49 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     }
                     webVC.ccPaymentUnfinished = {
                         Constant.showDialog("Pembayaran \(self.selectedPayment.value)", message: "Pembayaran tertunda")
+                        /*
                         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
                         notifPageVC.isBackTwice = true
                         notifPageVC.previousScreen = PageName.Checkout
                         self.navigateToVC(notifPageVC)
+                         */
+                        
+                        // back & push
+                        if let count = self.navigationController?.viewControllers.count, count > 2 {
+                            let navController = self.navigationController!
+                            var controllers = navController.viewControllers
+                            controllers.removeLast()
+                            
+                            navController.setViewControllers(controllers, animated: false)
+                            
+                            let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                            myPurchaseVC.previousScreen = PageName.Checkout
+                            
+                            navController.pushViewController(myPurchaseVC, animated: true)
+                        }
                     }
                     webVC.ccPaymentFailed = {
                         Constant.showDialog("Pembayaran \(self.selectedPayment.value)", message: "Pembayaran gagal, silahkan coba beberapa saat lagi")
+                        /*
                         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
                         notifPageVC.isBackTwice = true
                         notifPageVC.previousScreen = PageName.Checkout
                         self.navigateToVC(notifPageVC)
+                         */
+                        
+                        // back & push
+                        if let count = self.navigationController?.viewControllers.count, count > 2 {
+                            let navController = self.navigationController!
+                            var controllers = navController.viewControllers
+                            controllers.removeLast()
+                            
+                            navController.setViewControllers(controllers, animated: false)
+                            
+                            let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                            myPurchaseVC.previousScreen = PageName.Checkout
+                            
+                            navController.pushViewController(myPurchaseVC, animated: true)
+                        }
                     }
                     let baseNavC = BaseNavigationController()
                     baseNavC.setViewControllers([webVC], animated: false)
@@ -2154,9 +2186,14 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     }
     
     @IBAction func paymentReminderPressed(_ sender: AnyObject) {
+        /*
         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
         notifPageVC.previousScreen = PageName.Checkout
-        self.navigateToVC(notifPageVC)
+        */
+        
+        let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+        myPurchaseVC.previousScreen = PageName.Checkout
+        self.navigateToVC(myPurchaseVC)
     }
     
     func printCellsData() {

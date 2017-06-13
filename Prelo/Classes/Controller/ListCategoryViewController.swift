@@ -85,8 +85,11 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
                 self.previousController?.navigationController?.pushViewController(myPurchaseVC, animated: true)
             } else if (redirectFromHome == PageName.UnpaidTransaction) {
+                // deprecated
+                /*
                 let paymentConfirmationVC = Bundle.main.loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil)?.first as! PaymentConfirmationViewController
                 self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
+                */
             }
             UserDefaults.standard.removeObject(forKey: UserDefaultsKey.RedirectFromHome)
         }
