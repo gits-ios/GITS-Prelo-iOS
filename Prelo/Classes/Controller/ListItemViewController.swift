@@ -2151,8 +2151,8 @@ extension ListItemViewController: UICollectionViewDataSource, UICollectionViewDe
             self.refresh()
         case .products:
             var idx  = (indexPath as NSIndexPath).item
-            if (adsCellProvider != nil && adRowStep != 0) {
-                idx = indexPath.row - indexPath.row / adRowStep
+            if (adsCellProvider != nil && adRowStep != 0 && indexPath.item > adRowOffset) {
+                idx = indexPath.row - (indexPath.row - adRowOffset) / adRowStep
             }
             
             self.selectedProduct = products?[idx]
@@ -2708,10 +2708,13 @@ class ListItemCell : UICollectionViewCell {
         let obj = product.json
         captionTitle.text = product.name
         captionPrice.text = product.price
+        
+        /*
         let loveCount = obj["love"].int
         captionLove.text = String(loveCount == nil ? 0 : loveCount!)
         let commentCount = obj["discussions"].int
         captionComment.text = String(commentCount == nil ? 0 : commentCount!)
+        */
         
         self.pid = obj["_id"].string
         self.cid = obj["category_id"].string
