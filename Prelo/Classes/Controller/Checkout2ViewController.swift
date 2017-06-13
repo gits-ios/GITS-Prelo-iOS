@@ -1048,7 +1048,9 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                                 //self.tableView.reloadData()
                                 self.tableView.reloadRows(at: [idx], with: .fade)
                                 
-                                self.updateAddress()
+                                if self.selectedAddress.addressId != "" {
+                                    self.updateAddress()
+                                }
                             }
                             self.navigationController?.pushViewController(googleMapVC, animated: true)
                         }
