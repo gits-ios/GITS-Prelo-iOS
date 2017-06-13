@@ -1319,6 +1319,10 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     cell.adapt(totalAmount)
                     
                     cell.checkout = {
+                        if !self.validateField() {
+                            return
+                        }
+                        
                         self.showLoading()
                         let alertView = SCLAlertView(appearance: Constant.appearance)
                         alertView.addButton("Lanjutkan") {
@@ -1451,9 +1455,6 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
     
     // MARK: - Checkout
     func performCheckout() {
-        if !self.validateField() {
-            return
-        }
         
         let p = CartManager.sharedInstance.getCartJsonString()
         let d = [
