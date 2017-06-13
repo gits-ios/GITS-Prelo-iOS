@@ -40,6 +40,9 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
     var isFirst = true
     var isShowBankBRI = false
     var isCreditCard = false
+    var isMandiriClickpay = false
+    var isMandiriEcash = false
+    var isCimbClicks = false
     var isIndomaret = false
     var isKredivo = false
     var isDropdownMode = false
@@ -186,6 +189,9 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         self.isShowBankBRI = false
         self.isCreditCard = false
         self.isIndomaret = false
+        self.isMandiriClickpay = false
+        self.isMandiriEcash = false
+        self.isCimbClicks = false
         self.isKredivo = false
         self.isDropdownMode = false
         
@@ -213,6 +219,12 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 self.isDropdownMode = true
             } else if (_ab == "kredivo") {
                 self.isKredivo = true
+            } else if (_ab == "mandiri_clickpay") {
+                self.isMandiriClickpay = true
+            } else if (_ab == "mandiri_ecash") {
+                self.isMandiriEcash = true
+            } else if (_ab == "cimb_clicks") {
+                self.isCimbClicks = true
             }
         }
         
@@ -315,6 +327,15 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             indomaretCharge = (self.cartResult.veritransCharge?.indomaret)!
         }
         
+        let mandiriClickpayCharge = (self.cartResult.veritransCharge?.mandiriClickpay)!
+        
+        var mandiriEcashCharge = Int((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.mandiriEcashMultiplyFactor)!) + 0.5)
+        if (mandiriEcashCharge < (self.cartResult.veritransCharge?.mandiriEcash)!) {
+            mandiriEcashCharge = (self.cartResult.veritransCharge?.mandiriEcash)!
+        }
+        
+        let cimbClicksCharge = (self.cartResult.veritransCharge?.cimbClicks)!
+        
         let kredivoCharge = Int((Double(priceAfterDiscounts) * (self.cartResult.kredivoCharge?.installment)!) + 0.5)
         
         if self.isCreditCard {
@@ -345,6 +366,33 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             p.charge = kredivoCharge
             p.chargeDescription = "Kredivo Charge"
             p.provider = .kredivo
+            self.paymentMethods.append(p)
+        }
+        
+        if self.isCimbClicks {
+            var p = PaymentMethodItem()
+            p.name = "CIMB Clicks"
+            p.charge = cimbClicksCharge
+            p.chargeDescription = "CIMB Clicks Charge"
+            p.provider = .veritrans
+            self.paymentMethods.append(p)
+        }
+        
+        if self.isMandiriClickpay {
+            var p = PaymentMethodItem()
+            p.name = "Mandiri Clickpay"
+            p.charge = mandiriClickpayCharge
+            p.chargeDescription = "Mandiri Clickpay Charge"
+            p.provider = .veritrans
+            self.paymentMethods.append(p)
+        }
+        
+        if self.isMandiriEcash {
+            var p = PaymentMethodItem()
+            p.name = "Mandiri Ecash"
+            p.charge = mandiriEcashCharge
+            p.chargeDescription = "Mandiri Ecash Charge"
+            p.provider = .veritrans
             self.paymentMethods.append(p)
         }
         
@@ -525,7 +573,12 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                         }
                     }
                     
-                    self.tableView.reloadData()
+                    //self.tableView.reloadData()
+                    self.tableView.reloadSections(IndexSet.init(arrayLiteral: idx.section, idx.section+1), with: .fade)
+                    
+                    if self.isBalanceUsed {
+                        self.scrollToSummary()
+                    }
                 }
                 
                 return cell
@@ -540,7 +593,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 cell.voucherUsed = {
                     self.isVoucherUsed = !self.isVoucherUsed
                     
-                    self.tableView.reloadData()
+                    //self.tableView.reloadData()
+                    self.tableView.reloadSections(IndexSet.init(arrayLiteral: idx.section, idx.section+1), with: .fade)
                     
                     if self.isVoucherUsed {
                         self.scrollToSummary()
@@ -587,6 +641,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                         let creditCardCharge = (self.cartResult.veritransCharge?.creditCard)! + Int((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.creditCardMultiplyFactor)!) + 0.5)
                         
                         self.paymentMethods[self.selectedPaymentIndex].charge = creditCardCharge
+                        
                     } else if self.paymentMethods[self.selectedPaymentIndex].name == "Indomaret" {
                         var indomaretCharge = Int((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.indomaretMultiplyFactor)!) + 0.5)
                         if (indomaretCharge < (self.cartResult.veritransCharge?.indomaret)!) {
@@ -594,10 +649,30 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                         }
                         
                         self.paymentMethods[self.selectedPaymentIndex].charge = indomaretCharge
+                        
+                    } else if self.paymentMethods[self.selectedPaymentIndex].name == "Mandiri Clickpay" {
+                        let mandiriClickpayCharge = (self.cartResult.veritransCharge?.mandiriClickpay)!
+                        
+                        self.paymentMethods[self.selectedPaymentIndex].charge = mandiriClickpayCharge
+                        
+                    } else if self.paymentMethods[self.selectedPaymentIndex].name == "Mandiri Ecash" {
+                        var mandiriEcashCharge = Int((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.mandiriEcashMultiplyFactor)!) + 0.5)
+                        if (mandiriEcashCharge < (self.cartResult.veritransCharge?.mandiriEcash)!) {
+                            mandiriEcashCharge = (self.cartResult.veritransCharge?.mandiriEcash)!
+                        }
+                        
+                        self.paymentMethods[self.selectedPaymentIndex].charge = mandiriEcashCharge
+                        
+                    } else if self.paymentMethods[self.selectedPaymentIndex].name == "CIMB Clicks" {
+                        let cimbClicksCharge = (self.cartResult.veritransCharge?.cimbClicks)!
+                        
+                        self.paymentMethods[self.selectedPaymentIndex].charge = cimbClicksCharge
+                        
                     } else if self.paymentMethods[self.selectedPaymentIndex].name == "Kredivo" {
                         let kredivoCharge = Int((Double(priceAfterDiscounts) * (self.cartResult.kredivoCharge?.installment)!) + 0.5)
                         
                         self.paymentMethods[self.selectedPaymentIndex].charge = kredivoCharge
+                        
                     }
                     
                     cell.adapt(self.paymentMethods[self.selectedPaymentIndex].chargeDescription, amount: self.paymentMethods[self.selectedPaymentIndex].charge)
@@ -626,7 +701,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                         }
                     }
                     
-                    self.tableView.reloadData()
+                    //self.tableView.reloadData()
+                    self.tableView.reloadSections(IndexSet.init(integer: idx.section), with: .fade)
                     
                     totalAmount = 0
                 }
@@ -643,7 +719,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                         }
                     }
                     
-                    self.tableView.reloadData()
+                    //self.tableView.reloadData()
+                    self.tableView.reloadSections(IndexSet.init(integer: idx.section), with: .fade)
                     
                     totalAmount = 0
                 }
@@ -1429,9 +1506,9 @@ class Checkout2PreloBalanceCell: UITableViewCell, UITextFieldDelegate {
             self.consWidthBtnApply.constant = 0
             self.consLeadingBtnApply.constant = 0
             
-            if isUsed {
+            /*if isUsed {
                 curParent.scrollToSummary()
-            }
+            }*/
         } else if let curParent = parent1 {
             self.txtInputPreloBalance.text = curParent.preloBalanceUsed.asPrice
             self.lbDescription.text = "Prelo Balance kamu " + curParent.preloBalanceTotal.asPrice
@@ -1441,9 +1518,9 @@ class Checkout2PreloBalanceCell: UITableViewCell, UITextFieldDelegate {
             self.consWidthBtnApply.constant = 0
             self.consLeadingBtnApply.constant = 0
             
-            if isUsed {
+            /*if isUsed {
                 curParent.scrollToSummary()
-            }
+            }*/
         }
     }
     

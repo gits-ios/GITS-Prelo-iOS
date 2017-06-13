@@ -4500,6 +4500,55 @@ class VeritransChargeItem : NSObject {
         }
         return 0
     }
+    
+    var mandiriClickpayText : String {
+        if let j = json["mandiri_clickpay_text"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var mandiriClickpay : Int {
+        if let j = json["mandiri_clickpay"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var mandiriEcashText : String {
+        if let j = json["mandiri_ecash_text"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var mandiriEcashMultiplyFactor : Double {
+        if let j = json["mandiri_ecash_multiply_factor"].double {
+            return j
+        }
+        return 0.0
+    }
+    
+    var mandiriEcash : Int {
+        if let j = json["mandiri_ecash"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var cimbClicksText : String {
+        if let j = json["cimb_clicks_text"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var cimbClicks : Int {
+        if let j = json["cimb_clicks"].int {
+            return j
+        }
+        return 0
+    }
 }
 
 // kredivo-charge
