@@ -737,7 +737,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let urlString = url.absoluteString.lowercased().replace("prelo:/", template: "")
             var parameter = path
             
-            if parameter.characterAtIndex(0) == "/" {
+            if parameter != "" && parameter.characterAtIndex(0) == "/" {
                 parameter.remove(at: parameter.startIndex)
             }
             
@@ -1367,7 +1367,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             let orderConfirmVC : OrderConfirmViewController = (mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdOrderConfirm) as? OrderConfirmViewController)!
                             orderConfirmVC.transactionId = transactionId
                             orderConfirmVC.orderID = data["order_id"].stringValue
-                            orderConfirmVC.total = data["total_price"].intValue
+                            orderConfirmVC.total = data["total_price"].int64Value
                             orderConfirmVC.images = imgs
                             orderConfirmVC.isFromCheckout = false
                             
@@ -1937,11 +1937,52 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     UserDefaults.standard.synchronize()
                 }
                 
+                // Check apps offset
+                if let offset = data["ads_config"]["offset"].int {
+                    UserDefaults.standard.set(offset, forKey: UserDefaultsKey.AdsOffset)
+                    
+                    UserDefaults.standard.synchronize()
+                }
+                
                 // Check apps refresh time
                 if let refreshTime = data["editors_page_refresh_time"].int {
                     UserDefaults.standard.set(refreshTime, forKey: UserDefaultsKey.RefreshTime)
                     
                     UserDefaults.standard.synchronize()
+                }
+                
+                // change icon from server iOS 10.3.*
+                if #available(iOS 10.3, *) {
+                    guard UIApplication.shared.supportsAlternateIcons,
+                        let iconType = data["icon_launcher"].string else { return }
+                    
+                    // Check apps icon need update?
+                    //let iconType = "ramadhan" // "default", "christmas", "ramadhan",
+                    
+                    // https://stackoverflow.com/questions/42195325/setting-alternate-app-icon-returns-error-3072-the-operation-was-cancelled-in
+                    if iconType == "default" && UIApplication.shared.alternateIconName != nil {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                            UIApplication.shared.setAlternateIconName(nil) { error in
+                                /*if let error = error {
+                                    print("ERROR")
+                                    print(error.localizedDescription)
+                                } else {
+                                    print("Success!")
+                                }*/
+                            }
+                        })
+                    } else if UIApplication.shared.alternateIconName != iconType && iconType != "default" {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                            UIApplication.shared.setAlternateIconName(iconType) { error in
+                                /*if let error = error {
+                                    print("ERROR")
+                                    print(String(describing: error))
+                                } else {
+                                    print("Success!")
+                                }*/
+                            }
+                        })
+                    }
                 }
             }
         }

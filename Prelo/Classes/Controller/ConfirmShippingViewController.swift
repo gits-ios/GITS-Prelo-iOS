@@ -536,6 +536,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     func sendConfirmShippingAnalytic() {
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
                                             qos: .background,
+                                            attributes: .concurrent,
                                             target: nil)
         backgroundQueue.async {
             

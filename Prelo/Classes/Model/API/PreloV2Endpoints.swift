@@ -121,7 +121,7 @@ extension URLRequest {
 enum APIV2Cart : URLRequestConvertible {
     case getCart
     case refresh(cart : String, address : String, voucher : String?)
-    case checkout(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int, usedReferralBonus : Int, kodeTransfer : Int, targetBank : String)
+    case checkout(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int64, usedReferralBonus : Int64, kodeTransfer : Int64, targetBank : String)
     case removeItems(pIds : Array<String>)
     
     public func asURLRequest() throws -> URLRequest {
@@ -172,13 +172,13 @@ enum APIV2Cart : URLRequestConvertible {
                 "target_bank": targetBank
                 ] as [String : Any]
             if usedBalance != 0 {
-                p["prelobalance_used"] = NSNumber(value: usedBalance as Int)
+                p["prelobalance_used"] = NSNumber(value: usedBalance as Int64)
             }
             if kodeTransfer != 0 {
-                p["banktransfer_digit"] = NSNumber(value: kodeTransfer as Int)
+                p["banktransfer_digit"] = NSNumber(value: kodeTransfer as Int64)
             }
             if usedBonus != 0 {
-                p["bonus_used"] = NSNumber(value: usedBonus as Int)
+                p["bonus_used"] = NSNumber(value: usedBonus as Int64)
             }
         case .removeItems(let pIds) :
             p = [

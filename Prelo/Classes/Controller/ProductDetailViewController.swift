@@ -372,7 +372,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         pDetailCover?.height = UIScreen.main.bounds.size.width * 340 / 480 + (pDetailCover?.topBannerHeight)!
         tableView?.tableHeaderView = pDetailCover
         
-        if (detail?.json["_data"]["price"].int?.asPrice) != nil
+        if (detail?.json["_data"]["price"].int64?.asPrice) != nil
         {
 //            captionPrice.text = price
         } else {
@@ -406,7 +406,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             {
                 if let catName = arr.last?["name"].string
                 {
-                    if let price = detail?.json["_data"]["price"].int
+                    if let price = detail?.json["_data"]["price"].int64
                     {
                         ACTRemarketingReporter.report(withConversionID: "953474992", customParameters: ["dynx_itemid":id, "dynx_pagetype":catName, "dynx_totalvalue":price])
                     }
@@ -982,12 +982,18 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     func addProduct2cart() {
         if AppTools.isNewCart {
             if AppTools.isSingleCart {
+                
+                isNeedReload = true
+                
                 let checkout2VC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2, owner: nil, options: nil)?.first as! Checkout2ViewController
                 checkout2VC.previousController = self
                 checkout2VC.previousScreen = thisScreen
                 self.navigationController?.pushViewController(checkout2VC, animated: true)
                 return
             } else {
+                
+                isNeedReload = true
+                
                 let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
                 checkout2ShipVC.previousController = self
                 checkout2ShipVC.previousScreen = thisScreen
@@ -995,6 +1001,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 return
             }
         } else {
+            
+            isNeedReload = true
+            
             //self.performSegue(withIdentifier: "segCart", sender: nil)
             let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
             cart.previousController = self
@@ -1192,6 +1201,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         // TODO: - affiliate checkout hunstreet
 //        Constant.showDialog((detail?.AffiliateData?.name)!.uppercased(), message: "TODO gan")
         
+        isNeedReload = true
+        
         let _ = request(APIAffiliate.postCheckout(productIds: (product?.id)!, affiliateName: (detail?.AffiliateData?.name)!)).responseJSON {resp in
             if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Post Affiliate Checkout")) {
                 let json = JSON(resp.result.value!)
@@ -1246,7 +1257,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 let o = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdOrderConfirm) as! OrderConfirmViewController
                 
                 o.orderID = orderId
-                o.total = price.int
+                o.total = price.int64
                 o.transactionId = tId
                 o.isBackTwice = false
                 o.isShowBankBRI = false
@@ -1387,8 +1398,15 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         isNeedReload = true
         
+        // deprecated
+        /*
         let paymentConfirmationVC = Bundle.main.loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil)?.first as! PaymentConfirmationViewController
         self.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
+ */
+        
+        let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+        myPurchaseVC.previousScreen = PageName.ProductDetail
+        self.navigationController?.pushViewController(myPurchaseVC, animated: true)
     }
     
     @IBAction func toTransactionProductDetail(_ sender: AnyObject) {
@@ -1426,8 +1444,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     let json = JSON(resp.result.value!)
                     let isSuccess = json["_data"]["result"].boolValue
                     let message = json["_data"]["message"].stringValue
-                    let paidAmount = json["_data"]["paid_amount"].intValue
-                    let preloBalance = json["_data"]["my_prelo_balance"].intValue
+                    let paidAmount = json["_data"]["paid_amount"].int64Value
+                    let preloBalance = json["_data"]["my_prelo_balance"].int64Value
                     let coinAmount = json["_data"]["diamond_amount"].intValue
                     let coin = json["_data"]["my_total_diamonds"].intValue
                     
@@ -1447,7 +1465,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
-    func showUpPopUp(withText: String, isShowUpOther: Bool, isShowPaidUp: Bool, paidAmount: Int, preloBalance: Int, coinAmount: Int, coin: Int) {
+    func showUpPopUp(withText: String, isShowUpOther: Bool, isShowPaidUp: Bool, paidAmount: Int64, preloBalance: Int64, coinAmount: Int, coin: Int) {
         self.vwUpBarangPopUp.isHidden = false
         if (isShowUpOther) {
             self.lblUpOther.isHidden = false
@@ -1519,8 +1537,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                         let json = JSON(resp.result.value!)
                         let isSuccess = json["_data"]["result"].boolValue
                         let message = json["_data"]["message"].stringValue
-                        let paidAmount = json["_data"]["paid_amount"].intValue
-                        let preloBalance = json["_data"]["my_prelo_balance"].intValue
+                        let paidAmount = json["_data"]["paid_amount"].int64Value
+                        let preloBalance = json["_data"]["my_prelo_balance"].int64Value
                         let coinAmount = json["_data"]["diamond_amount"].intValue
                         let coin = json["_data"]["my_total_diamonds"].intValue
                         
@@ -1543,8 +1561,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                         let json = JSON(resp.result.value!)
                         let isSuccess = json["_data"]["result"].boolValue
                         let message = json["_data"]["message"].stringValue
-                        let paidAmount = json["_data"]["paid_amount"].intValue
-                        let preloBalance = json["_data"]["my_prelo_balance"].intValue
+                        let paidAmount = json["_data"]["paid_amount"].int64Value
+                        let preloBalance = json["_data"]["my_prelo_balance"].int64Value
                         let coinAmount = json["_data"]["diamond_amount"].intValue
                         let coin = json["_data"]["my_total_diamonds"].intValue
                         
@@ -1565,7 +1583,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     // MARK: - Setup popup
     
-    func launchNewPopUp(withText: String, paidAmount: Int, preloBalance: Int, poinAmount: Int, poin: Int) {
+    func launchNewPopUp(withText: String, paidAmount: Int64, preloBalance: Int64, poinAmount: Int, poin: Int) {
         self.setupPopUp(withText: withText, paidAmount: paidAmount, preloBalance: preloBalance, poinAmount: poinAmount, poin: poin)
         self.newPopup?.isHidden = false
         
@@ -1578,7 +1596,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         })
     }
     
-    func setupPopUp(withText: String, paidAmount: Int, preloBalance: Int, poinAmount: Int, poin: Int) {
+    func setupPopUp(withText: String, paidAmount: Int64, preloBalance: Int64, poinAmount: Int, poin: Int) {
         // setup popup
         if (self.newPopup == nil) {
             self.newPopup = Bundle.main.loadNibNamed("PaidPushPopup", owner: nil, options: nil)?.first as? PaidPushPopup
@@ -1610,8 +1628,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             let json = JSON(resp.result.value!)
                             let isSuccess = json["_data"]["result"].boolValue
                             let message = json["_data"]["message"].stringValue
-                            let paidAmount = json["_data"]["paid_amount"].intValue
-                            let preloBalance = json["_data"]["my_prelo_balance"].intValue
+                            let paidAmount = json["_data"]["paid_amount"].int64Value
+                            let preloBalance = json["_data"]["my_prelo_balance"].int64Value
                             let coinAmount = json["_data"]["diamond_amount"].intValue
                             let coin = json["_data"]["my_total_diamonds"].intValue
                             
@@ -1638,8 +1656,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             let json = JSON(resp.result.value!)
                             let isSuccess = json["_data"]["result"].boolValue
                             let message = json["_data"]["message"].stringValue
-                            let paidAmount = json["_data"]["paid_amount"].intValue
-                            let preloBalance = json["_data"]["my_prelo_balance"].intValue
+                            let paidAmount = json["_data"]["paid_amount"].int64Value
+                            let preloBalance = json["_data"]["my_prelo_balance"].int64Value
                             let coinAmount = json["_data"]["diamond_amount"].intValue
                             let coin = json["_data"]["my_total_diamonds"].intValue
                             
@@ -1752,6 +1770,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     func sendVisitProductDetailAnalytic() {
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
                                             qos: .background,
+                                            attributes: .concurrent,
                                             target: nil)
         backgroundQueue.async {
             //print("Work on background queue")
@@ -1876,8 +1895,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     let json = JSON(resp.result.value!)
                     let isSuccess = json["_data"]["result"].boolValue
                     let message = json["_data"]["message"].stringValue
-                    let paidAmount = json["_data"]["paid_amount"].intValue
-                    let preloBalance = json["_data"]["my_prelo_balance"].intValue
+                    let paidAmount = json["_data"]["paid_amount"].int64Value
+                    let preloBalance = json["_data"]["my_prelo_balance"].int64Value
                     let coinAmount = json["_data"]["diamond_amount"].intValue
                     let coin = json["_data"]["my_total_diamonds"].intValue
                     
@@ -2165,7 +2184,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
                 captionTotalViews.text = " \((tViews / 1000))K+"
             }
         }
-        if let oldPrice = product["price_original"].int?.asPrice
+        if let oldPrice = product["price_original"].int64?.asPrice
         {
             captionOldPrice?.text = oldPrice
         } else
@@ -2173,7 +2192,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
             captionOldPrice?.text = ""
         }
         
-        if let price = product["price"].int?.asPrice
+        if let price = product["price"].int64?.asPrice
         {
             captionPrice?.text = price
         } else
@@ -2941,7 +2960,7 @@ class PaidPushPopup: UIView {
         }
     }
     
-    func initPopUp(withText: String, paidAmount: Int, preloBalance: Int, poinAmount: Int, poin: Int) {
+    func initPopUp(withText: String, paidAmount: Int64, preloBalance: Int64, poinAmount: Int, poin: Int) {
         let path = UIBezierPath(roundedRect:vwPopUp.bounds,
                                 byRoundingCorners:[.topRight, .topLeft],
                                 cornerRadii: CGSize(width: 4, height:  4))

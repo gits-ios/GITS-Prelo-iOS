@@ -49,14 +49,14 @@ protocol  TawarItem {
     var opIsMe : Bool {get} // True if user is buyer
     var threadId : String {get}
     var threadState : Int {get}
-    var bargainPrice : Int {get} // Current bargain price
+    var bargainPrice : Int64 {get} // Current bargain price
     var bargainerIsMe : Bool {get}
     var productStatus : Int {get}
-    var finalPrice : Int {get} // Final price after bargain accept/reject
+    var finalPrice : Int64 {get} // Final price after bargain accept/reject
     var markAsSoldTo : String {get}
     
-    func setBargainPrice(_ price : Int)
-    func setFinalPrice(_ price : Int)
+    func setBargainPrice(_ price : Int64)
+    func setFinalPrice(_ price : Int64)
 }
 
 // MARK: - Protocol
@@ -782,7 +782,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             // fix : Kalau tawaran diterima, tulisannya "0" di hape sendiri, tapi di hape lawan sih tulisannya "terima tawaran RpX" (kadang) (https://trello.com/c/W3Oajm96)
             // kemungkinan karna ini, awal nya gak ada if (type == 1), jadi bisa aja waktu type 2 atau 3, dia ke set bargainprice nya 0, walaupun gak bisa ku reproduce
             if (type == 1) {
-                tawarItem.setBargainPrice(message.int)
+                tawarItem.setBargainPrice(message.int64)
             }
         }
         
@@ -883,7 +883,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             let time = f.string(from: date)
             let i = InboxMessage.messageFromMe(localId, type: type, message: message, time: time, attachmentType: (withImg != nil ? "image" : ""), attachmentURL: imageURL!)
             if (type == 1) {
-                self.tawarItem.setBargainPrice(message.int)
+                self.tawarItem.setBargainPrice(message.int64)
             }
 
             self.inboxMessages.append(i)
@@ -1043,14 +1043,14 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         if (txtTawar.text == "" || txtTawar.text!.match(tawarRegex) == false) {
             Constant.showDialog("Masukkan hanya angka penawaran", message: "Contoh: 150000")
         } else {
-            let m = txtTawar.text!.int
+            let m = txtTawar.text!.int64
             if (m < 1000) {
                 Constant.showDialog("Tawar", message: "Mungkin maksud kamu " + m.asPrice + "0")
                 return
             }
             var originalPrice = tawarItem.price.replacingOccurrences(of: "Rp", with: "", options: .literal, range: nil)
             originalPrice = originalPrice.replacingOccurrences(of: ".", with: "", options: .literal, range: nil)
-            let halfPrice = originalPrice.int / 2
+            let halfPrice = originalPrice.int64 / 2
             if m <= halfPrice && CDUser.getOne()?.id == tawarItem!.myId && tawarItem!.opIsMe == true {
                 Constant.showDialog("Tawar", message: "Tawaran yang kamu ajukan terlalu rendah, hanya penjual yang dapat memberikan penawaran dengan harga tersebut")
                 return
@@ -1134,7 +1134,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             self.tawarDelegate?.tawarNeedReloadList()
         }
         if (message.messageType == 1) {
-            self.tawarItem.setBargainPrice(message.message.int)
+            self.tawarItem.setBargainPrice(message.message.int64)
             if (threadState == 1 && message.isMe == true) {
                 tawarFromMe = true
             } else {
@@ -1149,7 +1149,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         }
         
         if (threadState == 1) {
-            tawarItem.setBargainPrice(message.message.int)
+            tawarItem.setBargainPrice(message.message.int64)
         }
         
         self.tableView.reloadData()
@@ -1394,7 +1394,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         let bargainPrice = Double(self.tawarItem.bargainPrice)
         var _originalPrice = tawarItem.price.replacingOccurrences(of: "Rp", with: "", options: .literal, range: nil)
         _originalPrice = _originalPrice.replacingOccurrences(of: ".", with: "", options: .literal, range: nil)
-        let originalPrice = Double(_originalPrice.int)
+        let originalPrice = Double(_originalPrice.int64)
         let percentagePrice = (bargainPrice * 100.0 / originalPrice)
         let pdata = [
             "Product ID" : self.prodId,

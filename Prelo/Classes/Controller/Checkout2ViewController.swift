@@ -38,7 +38,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
     var cartResult: CartV2ResultItem!
     
     var shippingPackageIds: Array<String>!
-    var ongkirs: Array<Int>!
+    var ongkirs: Array<Int64>!
     var isFreeOngkirs: Array<Bool>!
     var selectedOngkirIndexes: Array<Int>!
     var isNeedLocations: Array<Bool>!
@@ -58,13 +58,13 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         var name: String = ""
         var type: Int = 0
         var chargeDescription: String = ""
-        var charge: Int = 0
+        var charge: Int64 = 0
         var provider: paymentMethodProvider = .bankTransfer
     }
     
     struct DiscountItem {
         var title: String = ""
-        var value: Int = 0
+        var value: Int64 = 0
     }
     
     var isShowBankBRI = false
@@ -88,13 +88,13 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
     
     // bonus
     var isHalfBonusMode: Bool = false
-    var customBonusPercent: Int = 0
-    var preloBonusUsed: Int = 0
+    var customBonusPercent: Int64 = 0
+    var preloBonusUsed: Int64 = 0
     
-    var preloBalanceUsed: Int = 0
-    var preloBalanceTotal: Int = 0
+    var preloBalanceUsed: Int64 = 0
+    var preloBalanceTotal: Int64 = 0
     
-    var totalAmount: Int = 0
+    var totalAmount: Int64 = 0
     
     var voucherSerial: String?
     var isFreeze: Bool = false
@@ -527,7 +527,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
             } else if (_ab == "indomaret") {
                 self.isIndomaret = true
             } else if (_ab.range(of: "bonus:") != nil) {
-                self.customBonusPercent = Int(_ab.components(separatedBy: "bonus:")[1])!
+                self.customBonusPercent = Int64(_ab.components(separatedBy: "bonus:")[1])!
             } else if (_ab == "target_bank") {
                 self.isDropdownMode = true
             } else if (_ab == "kredivo") {
@@ -607,7 +607,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         
         // prelo balance
         // setup balance
-        var operan = 0
+        var operan: Int64 = 0
         for d in self.discountItems {
             operan += d.value
         }
@@ -633,23 +633,23 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
             priceAfterDiscounts -= self.preloBalanceUsed
         }
         
-        let creditCardCharge = (self.cartResult.veritransCharge?.creditCard)! + Int((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.creditCardMultiplyFactor)!) + 0.5)
+        let creditCardCharge = (self.cartResult.veritransCharge?.creditCard)! + Int64((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.creditCardMultiplyFactor)!) + 0.5)
         
-        var indomaretCharge = Int((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.indomaretMultiplyFactor)!) + 0.5)
+        var indomaretCharge = Int64((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.indomaretMultiplyFactor)!) + 0.5)
         if (indomaretCharge < (self.cartResult.veritransCharge?.indomaret)!) {
             indomaretCharge = (self.cartResult.veritransCharge?.indomaret)!
         }
         
         let mandiriClickpayCharge = (self.cartResult.veritransCharge?.mandiriClickpay)!
         
-        var mandiriEcashCharge = Int((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.mandiriEcashMultiplyFactor)!) + 0.5)
+        var mandiriEcashCharge = Int64((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.mandiriEcashMultiplyFactor)!) + 0.5)
         if (mandiriEcashCharge < (self.cartResult.veritransCharge?.mandiriEcash)!) {
             mandiriEcashCharge = (self.cartResult.veritransCharge?.mandiriEcash)!
         }
         
         let cimbClicksCharge = (self.cartResult.veritransCharge?.cimbClicks)!
         
-        let kredivoCharge = Int((Double(priceAfterDiscounts) * (self.cartResult.kredivoCharge?.installment)!) + 0.5)
+        let kredivoCharge = Int64((Double(priceAfterDiscounts) * (self.cartResult.kredivoCharge?.installment)!) + 0.5)
         
         if self.isCreditCard {
             var p = PaymentMethodItem()
@@ -1139,7 +1139,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         self.isBalanceUsed = !self.isBalanceUsed
                         
                         if self.isBalanceUsed && (self.discountItems.count == 0 || self.discountItems[0].title != "Prelo Balance") {
-                            var operan = 0
+                            var operan: Int64 = 0
                             
                             for d in self.discountItems {
                                 operan += d.value
@@ -1220,7 +1220,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         cell.adapt("Total Belanja", amount: self.totalAmount)
                     } else if idx.row > self.discountItems.count + 1 {
                         // recalculate
-                        var operan = 0
+                        var operan: Int64 = 0
                         for d in self.discountItems {
                             operan += d.value // include balance
                         }
@@ -1229,12 +1229,12 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         let priceAfterDiscounts = self.totalAmount - operan
                         
                         if self.paymentMethods[self.selectedPaymentIndex].name == "Kartu Kredit" {
-                            let creditCardCharge = (self.cartResult.veritransCharge?.creditCard)! + Int((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.creditCardMultiplyFactor)!) + 0.5)
+                            let creditCardCharge = (self.cartResult.veritransCharge?.creditCard)! + Int64((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.creditCardMultiplyFactor)!) + 0.5)
                             
                             self.paymentMethods[self.selectedPaymentIndex].charge = creditCardCharge
                             
                         } else if self.paymentMethods[self.selectedPaymentIndex].name == "Indomaret" {
-                            var indomaretCharge = Int((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.indomaretMultiplyFactor)!) + 0.5)
+                            var indomaretCharge = Int64((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.indomaretMultiplyFactor)!) + 0.5)
                             if (indomaretCharge < (self.cartResult.veritransCharge?.indomaret)!) {
                                 indomaretCharge = (self.cartResult.veritransCharge?.indomaret)!
                             }
@@ -1247,7 +1247,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                             self.paymentMethods[self.selectedPaymentIndex].charge = mandiriClickpayCharge
                             
                         } else if self.paymentMethods[self.selectedPaymentIndex].name == "Mandiri Ecash" {
-                            var mandiriEcashCharge = Int((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.mandiriEcashMultiplyFactor)!) + 0.5)
+                            var mandiriEcashCharge = Int64((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.mandiriEcashMultiplyFactor)!) + 0.5)
                             if (mandiriEcashCharge < (self.cartResult.veritransCharge?.mandiriEcash)!) {
                                 mandiriEcashCharge = (self.cartResult.veritransCharge?.mandiriEcash)!
                             }
@@ -1260,7 +1260,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                             self.paymentMethods[self.selectedPaymentIndex].charge = cimbClicksCharge
                             
                         } else if self.paymentMethods[self.selectedPaymentIndex].name == "Kredivo" {
-                            let kredivoCharge = Int((Double(priceAfterDiscounts) * (self.cartResult.kredivoCharge?.installment)!) + 0.5)
+                            let kredivoCharge = Int64((Double(priceAfterDiscounts) * (self.cartResult.kredivoCharge?.installment)!) + 0.5)
                             
                             self.paymentMethods[self.selectedPaymentIndex].charge = kredivoCharge
                             
@@ -1520,11 +1520,11 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     var itemsId : [String] = []
                     var itemsCategory : [String] = []
                     var itemsSeller : [String] = []
-                    var itemsPrice : [Int] = []
-                    var itemsCommissionPercentage : [Int] = []
-                    var itemsCommissionPrice : [Int] = []
-                    var totalCommissionPrice = 0
-                    var totalPrice = 0
+                    var itemsPrice : [Int64] = []
+                    var itemsCommissionPercentage : [Int64] = []
+                    var itemsCommissionPrice : [Int64] = []
+                    var totalCommissionPrice : Int64 = 0
+                    var totalPrice : Int64 = 0
                     
                     for c in self.cartResult.cartDetails {
                         for p in c.products {
@@ -1568,7 +1568,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     let orderId = self.checkoutResult!["order_id"].stringValue
                     let paymentMethod = self.checkoutResult!["payment_method"].stringValue
                     
-                    totalPrice = self.checkoutResult!["total_price"].intValue
+                    totalPrice = self.checkoutResult!["total_price"].int64Value
                     
                     // FB Analytics - initiated Checkout
                     if AppTools.IsPreloProduction {
@@ -1634,7 +1634,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         "Total Price" : totalPrice,
                         "Address" : address,
                         "Payment Method" : paymentMethod,
-                        "Prelo Balance Used" : (self.checkoutResult!["prelobalance_used"].intValue != 0 ? true : false)
+                        "Prelo Balance Used" : (self.checkoutResult!["prelobalance_used"].int64Value != 0 ? true : false)
                         ] as [String : Any]
                     
                     if (self.checkoutResult!["voucher_serial"].stringValue != "") {
@@ -1648,9 +1648,9 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     
                     // Answers
                     if (AppTools.IsPreloProduction) {
-                        Answers.logStartCheckout(withPrice: NSDecimalNumber(value: totalPrice as Int), currency: "IDR", itemCount: NSNumber(value: items.count as Int), customAttributes: nil)
+                        Answers.logStartCheckout(withPrice: NSDecimalNumber(value: totalPrice as Int64), currency: "IDR", itemCount: NSNumber(value: items.count as Int), customAttributes: nil)
                         for j in 0...items.count-1 {
-                            Answers.logPurchase(withPrice: NSDecimalNumber(value: itemsPrice[j] as Int), currency: "IDR", success: true, itemName: items[j], itemType: itemsCategory[j], itemId: itemsId[j], customAttributes: nil)
+                            Answers.logPurchase(withPrice: NSDecimalNumber(value: itemsPrice[j] as Int64), currency: "IDR", success: true, itemName: items[j], itemType: itemsCategory[j], itemId: itemsId[j], customAttributes: nil)
                         }
                     }
                     
@@ -2012,14 +2012,14 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
     
     // MARK: - Navigation
     func navigateToOrderConfirmVC(_ isMidtrans: Bool) {
-        var gTotal = 0
-        if let totalPrice = self.checkoutResult?["total_price"].int {
+        var gTotal: Int64 = 0
+        if let totalPrice = self.checkoutResult?["total_price"].int64 {
             gTotal += totalPrice
         }
-        if !isMidtrans, let trfCode = self.checkoutResult?["banktransfer_digit"].int {
+        if !isMidtrans, let trfCode = self.checkoutResult?["banktransfer_digit"].int64 {
             gTotal += trfCode
         }
-        if isMidtrans, let trfCharge = self.checkoutResult?["veritrans_charge_amount"].int {
+        if isMidtrans, let trfCharge = self.checkoutResult?["veritrans_charge_amount"].int64 {
             gTotal += trfCharge
         }
         

@@ -828,15 +828,15 @@ open class ProductDetail : NSObject, TawarItem
     }
     
     var price : String {
-        if let fullname = json["_data"]["price"].int
+        if let fullname = json["_data"]["price"].int64
         {
             return fullname.asPrice
         }
         return ""
     }
     
-    var priceInt : Int {
-        if let j = json["_data"]["price"].int
+    var priceInt : Int64 {
+        if let j = json["_data"]["price"].int64
         {
             return j
         }
@@ -970,15 +970,15 @@ open class ProductDetail : NSObject, TawarItem
         return 0
     }
     
-    var bargainPrice : Int {
+    var bargainPrice : Int64 {
         return 0
     }
     
-    func setBargainPrice(_ price: Int) {
+    func setBargainPrice(_ price: Int64) {
         
     }
     
-    func setFinalPrice(_ price: Int) {
+    func setFinalPrice(_ price: Int64) {
         
     }
     
@@ -994,7 +994,7 @@ open class ProductDetail : NSObject, TawarItem
         return json["_data"]["status"].intValue
     }
     
-    var finalPrice : Int { // FIXME: ?
+    var finalPrice : Int64 { // FIXME: ?
         return 0
     }
     
@@ -1204,14 +1204,14 @@ open class Product : NSObject
     var price : String
     {
         //print(json)
-        if let p = json["price"].int
+        if let p = json["price"].int64
         {
             return p.asPrice
         }
         
         if (isLokal)
         {
-            if let p = json["price"].string?.int
+            if let p = json["price"].string?.int64
             {
                 return p.asPrice
             }
@@ -1298,8 +1298,8 @@ open class Product : NSObject
         return false
     }
     
-    var commission : Int {
-        if let j = json["commission"].int {
+    var commission : Int64 {
+        if let j = json["commission"].int64 {
             return j
         }
         return 10
@@ -1362,7 +1362,7 @@ class MyProductItem : Product {
     }
     
     override var price : String {
-        if let l = json["price"].int {
+        if let l = json["price"].int64 {
             return String(l)
         }
         return ""
@@ -1529,13 +1529,13 @@ class UserTransaction: NSObject {
         return p
     }
     
-    var productPrice : Int {
-        let p = (json["product_price"].int)!
+    var productPrice : Int64 {
+        let p = (json["product_price"].int64)!
         return p
     }
     
-    var totalPrice : Int {
-        let t = (json["total_price"].int)!
+    var totalPrice : Int64 {
+        let t = (json["total_price"].int64)!
         return t
     }
     
@@ -1755,36 +1755,36 @@ class TransactionDetail : NSObject {
         return ""
     }
     
-    var bonusUsed : Int {
-        if let j = json["bonus_used"].int {
+    var bonusUsed : Int64 {
+        if let j = json["bonus_used"].int64 {
             return j
         }
         return 0
     }
     
-    var preloBalanceUsed : Int {
-        if let j = json["prelobalance_used"].int {
+    var preloBalanceUsed : Int64 {
+        if let j = json["prelobalance_used"].int64 {
             return j
         }
         return 0
     }
     
-    var totalPrice : Int {
-        if let j = json["total_price"].int {
+    var totalPrice : Int64 {
+        if let j = json["total_price"].int64 {
             return j
         }
         return 0
     }
     
-    var totalPriceTotall : Int {
-        if let j = json["total_price_totall"].int {
+    var totalPriceTotall : Int64 {
+        if let j = json["total_price_totall"].int64 {
             return j
         }
         return 0
     }
     
-    var bankTransferDigit : Int {
-        if let j = json["banktransfer_digit"].int {
+    var bankTransferDigit : Int64 {
+        if let j = json["banktransfer_digit"].int64 {
             return j
         }
         return 0
@@ -1828,8 +1828,8 @@ class TransactionDetail : NSObject {
         return ""
     }
     
-    var voucherAmount : Int {
-        if let j = json["voucher_amount"].int {
+    var voucherAmount : Int64 {
+        if let j = json["voucher_amount"].int64 {
             return j
         }
         return 0
@@ -1957,8 +1957,8 @@ class TransactionDetail : NSObject {
         return shipVerified != nil
     }
     
-    var veritransChargeAmount : Int {
-        if let j = json["veritrans_charge_amount"].int {
+    var veritransChargeAmount : Int64 {
+        if let j = json["veritrans_charge_amount"].int64 {
             return j
         }
         return 0
@@ -2088,32 +2088,32 @@ class TransactionProductDetail : NSObject {
         return p
     }
     
-    var productPrice : Int {
-        let p = (json["product_price"].int)!
+    var productPrice : Int64 {
+        let p = (json["product_price"].int64)!
         return p
     }
     
-    var totalPrice : Int {
-        let t = (json["total_price"].int)!
+    var totalPrice : Int64 {
+        let t = (json["total_price"].int64)!
         return t
     }
     
-    var commissionPrice : Int {
-        if let p = json["commission_price"].int {
+    var commissionPrice : Int64 {
+        if let p = json["commission_price"].int64 {
             return p
         }
         return 0
     }
     
-    var totalPriceTotall : Int {
-        if let j = json["total_price_totall"].int {
+    var totalPriceTotall : Int64 {
+        if let j = json["total_price_totall"].int64 {
             return j
         }
         return 0
     }
     
-    var commission : Int {
-        if let c = json["commission"].int {
+    var commission : Int64 {
+        if let c = json["commission"].int64 {
             return c
         }
         return -9999
@@ -2363,15 +2363,15 @@ class TransactionProductDetail : NSObject {
         }
     }
     
-    var myPreloBalance : Int {
-        if let j = json["my_prelo_balance"].int {
+    var myPreloBalance : Int64 {
+        if let j = json["my_prelo_balance"].int64 {
             return j
         }
         return 0
     }
     
-    var myPreloBonus : Int {
-        if let j = json["my_prelo_bonus"].int {
+    var myPreloBonus : Int64 {
+        if let j = json["my_prelo_bonus"].int64 {
             return j
         }
         return 0
@@ -2602,15 +2602,15 @@ class LovedProduct : NSObject {
         return ""
     }
     
-    var price : Int {
-        if let p = (json["price"].int) {
+    var price : Int64 {
+        if let p = (json["price"].int64) {
             return p
         }
         return 0
     }
     
-    var priceOriginal : Int {
-        if let p = (json["price_original"].int) {
+    var priceOriginal : Int64 {
+        if let p = (json["price_original"].int64) {
             return p
         }
         return 0
@@ -2699,8 +2699,8 @@ class UserCheckout : NSObject {
         return ""
     }
     
-    var totalPrice : Int {
-        if let t = json["total_price"].int {
+    var totalPrice : Int64 {
+        if let t = json["total_price"].int64 {
             return t
         }
         return 0
@@ -2741,9 +2741,9 @@ class UserCheckout : NSObject {
         return ""
     }
     
-    var banktransferDigit : Int
+    var banktransferDigit : Int64
         {
-        return json["banktransfer_digit"].intValue
+        return json["banktransfer_digit"].int64Value
     }
 }
 
@@ -2963,7 +2963,7 @@ class Inbox : NSObject, TawarItem
     }
     
     var price : String {
-        if let x = json["product_price"].int
+        if let x = json["product_price"].int64
         {
             return x.asPrice
         }
@@ -3062,25 +3062,25 @@ class Inbox : NSObject, TawarItem
         return 0
     }
     
-    var settedBargainPrice = -1
-    var bargainPrice : Int {
+    var settedBargainPrice : Int64 = -1
+    var bargainPrice : Int64 {
         if (settedBargainPrice != -1)
         {
             return settedBargainPrice
         }
-        if let s = json["current_bargain_amount"].int
+        if let s = json["current_bargain_amount"].int64
         {
             return s
         }
         return 0
     }
     
-    func setBargainPrice(_ price: Int) {
+    func setBargainPrice(_ price: Int64) {
         settedBargainPrice = price
         json["current_bargain_amount"] = JSON(price)
     }
     
-    func setFinalPrice(_ price: Int) {
+    func setFinalPrice(_ price: Int64) {
         json["final_price"] = JSON(price)
     }
     
@@ -3101,8 +3101,8 @@ class Inbox : NSObject, TawarItem
         return 0
     }
     
-    var finalPrice : Int {
-        if let j = json["final_price"].int {
+    var finalPrice : Int64 {
+        if let j = json["final_price"].int64 {
             return j
         }
         return 0
@@ -3136,13 +3136,13 @@ class InboxMessage : NSObject
         
         if (messageType == 1)
         {
-            return "Tawar\n" + message.int.asPrice
+            return "Tawar\n" + message.int64.asPrice
         }
         
         if (messageType == 2)
         {
-            if (message.int != 0) {
-                return "Terima tawaran\n" + message.int.asPrice
+            if (message.int64 != 0) {
+                return "Terima tawaran\n" + message.int64.asPrice
             } else if (message.contains("Terima tawaran")) {
                 return message.replace("Terima tawaran ", template: "Terima tawaran\n")
             } else {
@@ -3152,8 +3152,8 @@ class InboxMessage : NSObject
         
         if (messageType == 3)
         {
-            if (message.int != 0) {
-                return "Tolak tawaran\n" + message.int.asPrice
+            if (message.int64 != 0) {
+                return "Tolak tawaran\n" + message.int64.asPrice
             } else if (message.contains("Membatalkan tawaran")) {
                 return message.replace("Membatalkan tawaran ", template: "Membatalkan tawaran\n")
             } else if (message.contains("Tolak tawaran")) {
@@ -3596,8 +3596,8 @@ class ProductCompareItem : NSObject {
         return ""
     }
     
-    var price : Int {
-        if let j = json["price"].int {
+    var price : Int64 {
+        if let j = json["price"].int64 {
             return j
         }
         return 0
@@ -3617,7 +3617,7 @@ class BalanceMutationItem : NSObject {
     
     var json : JSON = JSON([:])
     
-    static func instance(_ json : JSON?, totalAmount : Int) -> BalanceMutationItem? {
+    static func instance(_ json : JSON?, totalAmount : Int64) -> BalanceMutationItem? {
         if (json == nil) {
             return nil
         } else {
@@ -3628,7 +3628,7 @@ class BalanceMutationItem : NSObject {
         }
     }
     
-    var totalAmount : Int = 0
+    var totalAmount : Int64 = 0
     
     var id : String {
         if let j = json["_id"].string {
@@ -3658,8 +3658,8 @@ class BalanceMutationItem : NSObject {
         return ""
     }
     
-    var amount : Int {
-        if let j = json["amount"].int {
+    var amount : Int64 {
+        if let j = json["amount"].int64 {
             return j
         }
         return 0
@@ -4034,8 +4034,8 @@ class HistoryWithdrawItem : NSObject {
         return ""
     }
     
-    var amount : Int {
-        if let j = json["amount"].int {
+    var amount : Int64 {
+        if let j = json["amount"].int64 {
             return j
         }
         return 0
@@ -4261,22 +4261,22 @@ class CartV2ResultItem : NSObject {
         }
     }
     
-    var totalPrice : Int {
-        if let j = json["total_price"].int {
+    var totalPrice : Int64 {
+        if let j = json["total_price"].int64 {
             return j
         }
         return 0
     }
     
-    var totalOngkirMax : Int {
-        if let j = json["total_ongkir_max"].int {
+    var totalOngkirMax : Int64 {
+        if let j = json["total_ongkir_max"].int64 {
             return j
         }
         return 0
     }
     
-    var totalOngkirMin : Int {
-        if let j = json["total_ongkir_min"].int {
+    var totalOngkirMin : Int64 {
+        if let j = json["total_ongkir_min"].int64 {
             return j
         }
         return 0
@@ -4332,22 +4332,22 @@ class CartV2ResultItem : NSObject {
         return nil
     }
     
-    var preloBonus : Int {
-        if let j = json["bonus_available"].int {
+    var preloBonus : Int64 {
+        if let j = json["bonus_available"].int64 {
             return j
         }
         return 0
     }
     
-    var preloBalance : Int {
-        if let j = json["balance_available"].int {
+    var preloBalance : Int64 {
+        if let j = json["balance_available"].int64 {
             return j
         }
         return 0
     }
     
-    var banktransferDigit : Int {
-        if let j = json["banktransfer_digit"].int {
+    var banktransferDigit : Int64 {
+        if let j = json["banktransfer_digit"].int64 {
             return j
         }
         return 0
@@ -4388,8 +4388,8 @@ class CartV2ResultItem : NSObject {
         return nil
     }
     
-    var voucherAmount : Int {
-        if let j = json["voucher_amount"].int {
+    var voucherAmount : Int64 {
+        if let j = json["voucher_amount"].int64 {
             return j
         }
         return 0
@@ -4473,8 +4473,8 @@ class VeritransChargeItem : NSObject {
         return 0.0
     }
     
-    var indomaret : Int {
-        if let j = json["indomaret"].int {
+    var indomaret : Int64 {
+        if let j = json["indomaret"].int64 {
             return j
         }
         return 0
@@ -4494,8 +4494,8 @@ class VeritransChargeItem : NSObject {
         return 0.0
     }
     
-    var creditCard : Int {
-        if let j = json["credit_card"].int {
+    var creditCard : Int64 {
+        if let j = json["credit_card"].int64 {
             return j
         }
         return 0
@@ -4508,8 +4508,8 @@ class VeritransChargeItem : NSObject {
         return ""
     }
     
-    var mandiriClickpay : Int {
-        if let j = json["mandiri_clickpay"].int {
+    var mandiriClickpay : Int64 {
+        if let j = json["mandiri_clickpay"].int64 {
             return j
         }
         return 0
@@ -4529,8 +4529,8 @@ class VeritransChargeItem : NSObject {
         return 0.0
     }
     
-    var mandiriEcash : Int {
-        if let j = json["mandiri_ecash"].int {
+    var mandiriEcash : Int64 {
+        if let j = json["mandiri_ecash"].int64 {
             return j
         }
         return 0
@@ -4543,8 +4543,8 @@ class VeritransChargeItem : NSObject {
         return ""
     }
     
-    var cimbClicks : Int {
-        if let j = json["cimb_clicks"].int {
+    var cimbClicks : Int64 {
+        if let j = json["cimb_clicks"].int64 {
             return j
         }
         return 0
@@ -4742,8 +4742,8 @@ class ShippingPackageItem : NSObject {
         return ""
     }
     
-    var price : Int {
-        if let j = json["price"].int {
+    var price : Int64 {
+        if let j = json["price"].int64 {
             return j
         }
         return 0
@@ -4820,8 +4820,8 @@ class ProductItem : NSObject {
         return ""
     }
     
-    var price : Int {
-        if let j = json["price"].int {
+    var price : Int64 {
+        if let j = json["price"].int64 {
             return j
         }
         return 0
@@ -4841,8 +4841,8 @@ class ProductItem : NSObject {
         return false
     }
     
-    var commission : Int {
-        if let j = json["commission"].int {
+    var commission : Int64 {
+        if let j = json["commission"].int64 {
             return j
         }
         return 0

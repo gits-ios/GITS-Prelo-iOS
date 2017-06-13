@@ -53,7 +53,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     var cartResult: CartV2ResultItem!
     
     var shippingPackageIds: Array<String>!
-    var ongkirs: Array<Int>!
+    var ongkirs: Array<Int64>!
     var isFreeOngkirs: Array<Bool>!
     var selectedOngkirIndexes: Array<Int>!
     var isNeedLocations: Array<Bool>!
@@ -1230,7 +1230,7 @@ class Checkout2CourierCell: UITableViewCell {
     
     var isEnable = true
     
-    var pickCourier: (_ courierId: String, _ ongkir: Int, _ index: Int, _ isNeedLocation: Bool)->() = {_, _, _, _ in }
+    var pickCourier: (_ courierId: String, _ ongkir: Int64, _ index: Int, _ isNeedLocation: Bool)->() = {_, _, _, _ in }
     
     var dismissKeyborad: ()->() = {}
     
