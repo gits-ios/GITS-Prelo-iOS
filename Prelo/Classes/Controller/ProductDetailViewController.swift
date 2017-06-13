@@ -1188,11 +1188,18 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 let tId = data["transaction_id"].stringValue
                 let price = data["total_price"].stringValue
                 var imgs : [URL] = []
-                if let ps = data["cart_details"]["products"].array {
-                    for p in ps {
-                        if let pics = p["display_picts"].array {
-                            if let url = URL(string: pics[0].stringValue) {
-                                imgs.append(url)
+                if let cd = data["cart_details"].array {
+                    for c in cd {
+                        if let ps = c["products"].array {
+                            for p in ps {
+                                if let pics = p["display_picts"].array {
+                                    for pic in pics {
+                                        if let url = URL(string: pic.stringValue) {
+                                            imgs.append(url)
+                                            break
+                                        }
+                                    }
+                                }
                             }
                         }
                     }

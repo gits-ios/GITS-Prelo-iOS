@@ -303,12 +303,12 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 selectOngkirByIndex(index)
             }
             
-            if let oldPrice = editProduct?.json["_data"]["price_original"].int
+            if let oldPrice = editProduct?.json["_data"]["price_original"].int64
             {
                 txtOldPrice.text = String(oldPrice)
             }
             
-            if let oldPrice = editProduct?.json["_data"]["price"].int
+            if let oldPrice = editProduct?.json["_data"]["price"].int64
             {
                 txtNewPrice.text = String(oldPrice)
             }
@@ -2251,7 +2251,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 let share = self.storyboard?.instantiateViewController(withIdentifier: "share") as! AddProductShareViewController
                 share.sendProductParam = param
                 share.sendProductImages = self.images
-                share.basePrice = (newPrice.int)
+                share.basePrice = (newPrice.int64)
                 share.productName = name
                 share.productImgImage = self.images.first as? UIImage
                 share.sendProductBeforeScreen = PageName.AddProduct //self.screenBeforeAddProduct
@@ -2287,7 +2287,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             let json = JSON((res ?? [:]))
             
             let s = self.storyboard?.instantiateViewController(withIdentifier: "share") as! AddProductShareViewController
-            if let price = json["_data"]["price"].int
+            if let price = json["_data"]["price"].int64
             {
                 s.basePrice = price
             }
