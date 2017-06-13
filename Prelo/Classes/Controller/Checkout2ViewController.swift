@@ -1045,7 +1045,8 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                                 self.selectedAddress.coordinate = result["latitude"]! + "," + result["longitude"]!
                                 self.selectedAddress.coordinateAddress = result["address"]!
                                 
-                                self.tableView.reloadData()
+                                //self.tableView.reloadData()
+                                self.tableView.reloadRows(at: [idx], with: .fade)
                                 
                                 self.updateAddress()
                             }

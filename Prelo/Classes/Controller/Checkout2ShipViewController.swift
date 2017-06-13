@@ -762,7 +762,8 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                                 self.selectedAddress.coordinate = result["latitude"]! + "," + result["longitude"]!
                                 self.selectedAddress.coordinateAddress = result["address"]!
                                 
-                                self.tableView.reloadData()
+                                //self.tableView.reloadData()
+                                self.tableView.reloadRows(at: [idx], with: .fade)
                                 
                                 self.updateAddress()
                             }
@@ -1091,7 +1092,8 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     self.selectedAddress.coordinateAddress = ""
                 }
                 
-                self.tableView.reloadData()
+                //self.tableView.reloadData()
+                self.tableView.reloadSections(IndexSet.init(integer: self.cartResult.cartDetails.count), with: .fade)
             }
         }
         
