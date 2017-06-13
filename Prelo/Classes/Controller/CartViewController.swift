@@ -1770,11 +1770,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     var itemsId : [String] = []
                     var itemsCategory : [String] = []
                     var itemsSeller : [String] = []
-                    var itemsPrice : [Int] = []
-                    var itemsCommissionPercentage : [Int] = []
-                    var itemsCommissionPrice : [Int] = []
-                    var totalCommissionPrice = 0
-                    var totalPrice = 0
+                    var itemsPrice : [Int64] = []
+                    var itemsCommissionPercentage : [Int64] = []
+                    var itemsCommissionPrice : [Int64] = []
+                    var totalCommissionPrice : Int64 = 0
+                    var totalPrice : Int64 = 0
                     for i in 0...self.arrayItem.count - 1 {
                         let json = self.arrayItem[i]
                         items.append(json["name"].stringValue)
@@ -1785,10 +1785,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         }
                         itemsCategory.append(cName!)
                         itemsSeller.append(json["seller_username"].stringValue)
-                        itemsPrice.append(json["price"].intValue)
-//                        totalPrice += json["price"].intValue
-                        itemsCommissionPercentage.append(json["commission"].intValue)
-                        let cPrice = json["price"].intValue * json["commission"].intValue / 100
+                        itemsPrice.append(json["price"].int64Value)
+//                        totalPrice += json["price"].int64Value
+                        itemsCommissionPercentage.append(json["commission"].int64Value)
+                        let cPrice: Int64 = json["price"].int64Value * json["commission"].int64Value / 100
                         itemsCommissionPrice.append(cPrice)
                         totalCommissionPrice += cPrice
                         
@@ -1797,7 +1797,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             "Product ID" : json["product_id"].stringValue,
                             "Seller Username" : json["seller_username"].stringValue,
                             "Price" : json["price"].intValue,
-                            "Commission Percentage" : json["commission"].intValue,
+                            "Commission Percentage" : json["commission"].int64Value,
                             "Commission Price" : cPrice,
                             "Free Shipping" : (json["free_ongkir"].intValue == 1 ? true : false),
                             "Category ID" : json["category_id"].stringValue
@@ -1806,7 +1806,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         
                         // AppsFlyer
                         let afPdata: [String : Any] = [
-                            AFEventParamRevenue     : (json["price"].intValue).string,
+                            AFEventParamRevenue     : (json["price"].int64Value).string,
                             AFEventParamContentType : json["category_id"].stringValue,
                             AFEventParamContentId   : json["product_id"].stringValue,
                             AFEventParamCurrency    : "IDR"
@@ -1817,7 +1817,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     let orderId = self.checkoutResult!["order_id"].stringValue
                     let paymentMethod = self.checkoutResult!["payment_method"].stringValue
                     
-                    totalPrice = self.checkoutResult!["total_price"].intValue
+                    totalPrice = self.checkoutResult!["total_price"].int64Value
                     
                     // FB Analytics - initiated Checkout
                     if AppTools.IsPreloProduction {
@@ -1883,7 +1883,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         "Total Price" : totalPrice,
                         "Address" : address,
                         "Payment Method" : paymentMethod,
-                        "Prelo Balance Used" : (self.checkoutResult!["prelobalance_used"].intValue != 0 ? true : false)
+                        "Prelo Balance Used" : (self.checkoutResult!["prelobalance_used"].int64Value != 0 ? true : false)
                     ] as [String : Any]
                     
                     if (self.checkoutResult!["voucher_serial"].stringValue != "") {
@@ -1897,9 +1897,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     
                     // Answers
                     if (AppTools.IsPreloProduction) {
-                        Answers.logStartCheckout(withPrice: NSDecimalNumber(value: totalPrice as Int), currency: "IDR", itemCount: NSNumber(value: items.count as Int), customAttributes: nil)
+                        Answers.logStartCheckout(withPrice: NSDecimalNumber(value: totalPrice as Int64), currency: "IDR", itemCount: NSNumber(value: items.count as Int), customAttributes: nil)
                         for j in 0...items.count-1 {
-                            Answers.logPurchase(withPrice: NSDecimalNumber(value: itemsPrice[j] as Int), currency: "IDR", success: true, itemName: items[j], itemType: itemsCategory[j], itemId: itemsId[j], customAttributes: nil)
+                            Answers.logPurchase(withPrice: NSDecimalNumber(value: itemsPrice[j] as Int64), currency: "IDR", success: true, itemName: items[j], itemType: itemsCategory[j], itemId: itemsId[j], customAttributes: nil)
                         }
                     }
                     
@@ -1973,17 +1973,49 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     }
                     webVC.ccPaymentUnfinished = {
                         Constant.showDialog("Pembayaran \(self.selectedPayment.value)", message: "Pembayaran tertunda")
+                        /*
                         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
                         notifPageVC.isBackTwice = true
                         notifPageVC.previousScreen = PageName.Checkout
                         self.navigateToVC(notifPageVC)
+                         */
+                        
+                        // back & push
+                        if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                            let navController = self.navigationController!
+                            var controllers = navController.viewControllers
+                            controllers.removeLast()
+                            
+                            navController.setViewControllers(controllers, animated: false)
+                            
+                            let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                            myPurchaseVC.previousScreen = PageName.Checkout
+                            
+                            navController.pushViewController(myPurchaseVC, animated: true)
+                        }
                     }
                     webVC.ccPaymentFailed = {
                         Constant.showDialog("Pembayaran \(self.selectedPayment.value)", message: "Pembayaran gagal, silahkan coba beberapa saat lagi")
+                        /*
                         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
                         notifPageVC.isBackTwice = true
                         notifPageVC.previousScreen = PageName.Checkout
                         self.navigateToVC(notifPageVC)
+                         */
+                        
+                        // back & push
+                        if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                            let navController = self.navigationController!
+                            var controllers = navController.viewControllers
+                            controllers.removeLast()
+                            
+                            navController.setViewControllers(controllers, animated: false)
+                            
+                            let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                            myPurchaseVC.previousScreen = PageName.Checkout
+                            
+                            navController.pushViewController(myPurchaseVC, animated: true)
+                        }
                     }
                     let baseNavC = BaseNavigationController()
                     baseNavC.setViewControllers([webVC], animated: false)
@@ -2154,9 +2186,14 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     }
     
     @IBAction func paymentReminderPressed(_ sender: AnyObject) {
+        /*
         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
         notifPageVC.previousScreen = PageName.Checkout
-        self.navigateToVC(notifPageVC)
+        */
+        
+        let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+        myPurchaseVC.previousScreen = PageName.Checkout
+        self.navigateToVC(myPurchaseVC)
     }
     
     func printCellsData() {
@@ -2771,7 +2808,7 @@ class CartCellItem : UITableViewCell
             {
                 first = sh.first
             }
-            let ongkir = json["free_ongkir"].bool == true ? 0 : first?["price"].int
+            let ongkir = json["free_ongkir"].bool == true ? Int64(0) : first?["price"].int64
             
             if let name = first?["name"].string
             {
@@ -2783,7 +2820,7 @@ class CartCellItem : UITableViewCell
             }
             
             let ongkirString = ongkir == 0 ? "(FREE ONGKIR)" : " (+ONGKIR " + ongkir!.asPrice + ")"
-            let priceString = json["price"].int!.asPrice + ongkirString
+            let priceString = json["price"].int64!.asPrice + ongkirString
             let string = priceString + "" + ""
             let attString = NSMutableAttributedString(string: string)
             attString.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColorDark, NSFontAttributeName:UIFont.boldSystemFont(ofSize: 14)], range: AppToolsObjC.range(of: priceString, inside: string))

@@ -386,8 +386,19 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         // gesture override
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
-        if let count = self.navigationController?.viewControllers.count, isBackTwice {
-            _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-3])!, animated: true)
+        if let count = self.navigationController?.viewControllers.count, count >= 3 && isBackTwice {
+            //_ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-3])!, animated: true)
+            
+            let navController = self.navigationController!
+            var controllers = navController.viewControllers
+            controllers.removeLast()
+            controllers.removeLast()
+            
+            navController.setViewControllers(controllers, animated: false)
+            
+            let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+            
+            navController.pushViewController(myPurchaseVC, animated: true)
         }
         if (isBackToRoot) {
             _ = self.navigationController?.popToRootViewController(animated: true)
@@ -443,8 +454,19 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
                 // gesture override
                 self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
                 
-                if let count = self.navigationController?.viewControllers.count, isBackTwice {
-                    _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-3])!, animated: true)
+                if let count = self.navigationController?.viewControllers.count, count >= 3 && isBackTwice {
+                    //_ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-3])!, animated: true)
+                    
+                    let navController = self.navigationController!
+                    var controllers = navController.viewControllers
+                    controllers.removeLast()
+                    controllers.removeLast()
+                    
+                    navController.setViewControllers(controllers, animated: false)
+                    
+                    let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                    
+                    navController.pushViewController(myPurchaseVC, animated: true)
                 }
                 if (isBackToRoot) {
                     _ = self.navigationController?.popToRootViewController(animated: true)
