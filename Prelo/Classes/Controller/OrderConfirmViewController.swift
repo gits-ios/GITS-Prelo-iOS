@@ -386,7 +386,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         // gesture override
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
-        if let count = self.navigationController?.viewControllers.count, count > 3 && isBackTwice {
+        if let count = self.navigationController?.viewControllers.count, count >= 3 && isBackTwice {
             //_ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-3])!, animated: true)
             
             let navController = self.navigationController!
@@ -454,7 +454,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
                 // gesture override
                 self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
                 
-                if let count = self.navigationController?.viewControllers.count, count > 3 && isBackTwice {
+                if let count = self.navigationController?.viewControllers.count, count >= 3 && isBackTwice {
                     //_ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-3])!, animated: true)
                     
                     let navController = self.navigationController!

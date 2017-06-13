@@ -1981,7 +1981,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                          */
                         
                         // back & push
-                        if let count = self.navigationController?.viewControllers.count, count > 2 {
+                        if let count = self.navigationController?.viewControllers.count, count >= 2 {
                             let navController = self.navigationController!
                             var controllers = navController.viewControllers
                             controllers.removeLast()
@@ -2004,7 +2004,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                          */
                         
                         // back & push
-                        if let count = self.navigationController?.viewControllers.count, count > 2 {
+                        if let count = self.navigationController?.viewControllers.count, count >= 2 {
                             let navController = self.navigationController!
                             var controllers = navController.viewControllers
                             controllers.removeLast()
