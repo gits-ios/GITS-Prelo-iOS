@@ -753,7 +753,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             } else {
                 self.selectedPaymentIndex = idx.row-1
                 
-                self.tableView.reloadData()
+                //self.tableView.reloadData()
+                self.tableView.reloadSections(IndexSet.init(integer: idx.section), with: .fade)
             }
         }
     }
