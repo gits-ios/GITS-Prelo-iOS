@@ -238,20 +238,13 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
         if ((indexPath as NSIndexPath).section == 0) { // diamond
             let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementDiamondCell") as! AchievementDiamondCell
             
-            cell.selectionStyle = .none
-            cell.alpha = 1.0
-            cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
-            cell.clipsToBounds = true
             cell.adapt(diamonds, isOpen: isOpens[(indexPath as NSIndexPath).row])
             
             return cell
         } else if ((indexPath as NSIndexPath).section == (achievements?.count)! + 1) { // button
             let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell") as! ButtonCell
             
-            cell.selectionStyle = .none
-            cell.alpha = 1.0
             cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
-            cell.clipsToBounds = true
             
             let lblButton = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.width - 8, height: 40))
             
@@ -273,20 +266,12 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
             if ((indexPath as NSIndexPath).row == 0) { // always open
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementCell") as! AchievementCelliOS9xx
                 
-                cell.selectionStyle = .none
-                cell.alpha = 1.0
-                cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
-                cell.clipsToBounds = true
                 cell.adapt((achievements?[(indexPath as NSIndexPath).section - 1])!, isOpen: isOpens[(indexPath as NSIndexPath).section])
                 
                 return cell
             } else if ((indexPath as NSIndexPath).row == 1) { // description cell
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementCellDescriptionCell") as! AchievementCellDescriptionCell
                 
-                cell.selectionStyle = .none
-                cell.alpha = 1.0
-                cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
-                cell.clipsToBounds = true
                 // adapt
                 cell.lblDesc.isHidden = false
                 cell.lblDesc.text = self.achievements![(indexPath as NSIndexPath).section - 1].desc
@@ -297,20 +282,11 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementCellProgressCell") as! AchievementCellProgressCell
                 
-                cell.selectionStyle = .none
-                cell.alpha = 1.0
-                cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
-                cell.clipsToBounds = true
                 cell.adapt((achievements?[(indexPath as NSIndexPath).section - 1].conditions[(indexPath as NSIndexPath).row - 2])!)
                 
                 return cell
             } else if ((indexPath as NSIndexPath).row > achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1 && (indexPath as NSIndexPath).row <= achievements![(indexPath as NSIndexPath).section - 1].tiers.count + achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1) { // tier icons cell
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementCellBadgeCell") as! AchievementCellBadgeCell
-                
-                cell.selectionStyle = .none
-                cell.alpha = 1.0
-                cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
-                cell.clipsToBounds = true
                 
                 if ((indexPath as NSIndexPath).row - (achievements?[(indexPath as NSIndexPath).section - 1].conditions.count)! - 2) == 0 {
                     cell.vwSeparator.isHidden = false
@@ -325,10 +301,6 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
             } else if ((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].tiers.count + achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1 + 1 && achievements![(indexPath as NSIndexPath).section - 1].actionUri != nil) { // action cell
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementCellDescriptionCell") as! AchievementCellDescriptionCell
                 
-                cell.selectionStyle = .none
-                cell.alpha = 1.0
-                cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
-                cell.clipsToBounds = true
                 // adapt
                 cell.lblDesc.isHidden = false
                 cell.lblDesc.text = self.achievements![(indexPath as NSIndexPath).section - 1].actionTitle
@@ -338,10 +310,6 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
             } else { // border bottom
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AchievementCellDescriptionCell") as! AchievementCellDescriptionCell
                 
-                cell.selectionStyle = .none
-                cell.alpha = 1.0
-                cell.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
-                cell.clipsToBounds = true
                 // adapt
                 cell.lblDesc.isHidden = true
                 
@@ -363,7 +331,7 @@ class AchievementViewController: BaseViewController, UITableViewDataSource, UITa
         } else {
             if ((indexPath as NSIndexPath).row == 0) {
                 isOpens[(indexPath as NSIndexPath).section] = !isOpens[(indexPath as NSIndexPath).section]
-                tableView.reloadData()
+                tableView.reloadSections(NSIndexSet(index: (indexPath as NSIndexPath).section) as IndexSet, with: .fade)
             } else if ((indexPath as NSIndexPath).row == achievements![(indexPath as NSIndexPath).section - 1].tiers.count + achievements![(indexPath as NSIndexPath).section - 1].conditions.count + 1 + 1 && achievements![(indexPath as NSIndexPath).section - 1].actionUri != nil) { // action cell
                 
                 // deeplinking
@@ -492,6 +460,15 @@ class AchievementCelliOS9xx: UITableViewCell { // height 75 ++
     
     var achievement : AchievementItem!
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
+        self.clipsToBounds = true
+    }
+    
     // kalau point point (fullfilled, condition) + progressicon
     static func heightFor(_ conditionCount: Int, isOpen: Bool, isProgress: Bool, desc: String) -> CGFloat {
         let standardHeight : CGFloat = 75.0
@@ -533,11 +510,29 @@ class AchievementCelliOS9xx: UITableViewCell { // height 75 ++
 class AchievementCellDescriptionCell : UITableViewCell { // height depent on description
     @IBOutlet weak var lblDesc: UILabel! // hidden
     @IBOutlet weak var vwBorder: UIView!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
+        self.clipsToBounds = true
+    }
 }
 
 class AchievementCellProgressCell: UITableViewCell { // height 30
     @IBOutlet weak var lblCondition: UILabel!
     @IBOutlet weak var lblFullfilled: UILabel!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
+        self.clipsToBounds = true
+    }
     
     // adapt
     func adapt(_ condition: AchievementConditionItem) {
@@ -556,6 +551,15 @@ class AchievementCellBadgeCell: UITableViewCell { // height 30
     @IBOutlet weak var vwSeparator: UIView! // height 1 default hidden
     @IBOutlet weak var consCentery: NSLayoutConstraint!
     @IBOutlet weak var consCenteryImage: NSLayoutConstraint!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
+        self.clipsToBounds = true
+    }
     
     override func prepareForReuse() {
         self.vwSeparator.isHidden = true
@@ -588,6 +592,15 @@ class AchievementDiamondCell: UITableViewCell { // 135 + lbldesc
     @IBOutlet weak var lblDesc: UILabel! // hidden
     @IBOutlet weak var vwBorder: UIView!
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
+        self.clipsToBounds = true
+    }
+    
     static func heightFor(_ isOpen: Bool) -> CGFloat {
         let standardHeight : CGFloat = 125.0
         let text = "Kumpulkan Poin untuk digunakan di aplikasi Prelo. Saat ini Poin sudah dapat digunakan untuk meng-up barang secara gratis!"
@@ -615,5 +628,12 @@ class AchievementDiamondCell: UITableViewCell { // 135 + lbldesc
 }
 
 class ButtonCell : UITableViewCell { // height 40
-    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        //self.backgroundColor = UIColor(hexString: "#E8ECEE") //UIColor(hex: "E5E9EB")
+        self.clipsToBounds = true
+    }
 }

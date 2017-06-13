@@ -702,6 +702,10 @@
 		B2FCF6931ED5431A00A6D9E7 /* ic_prelo_balance@2x_128.png in Resources */ = {isa = PBXBuildFile; fileRef = B2FCF6921ED5431A00A6D9E7 /* ic_prelo_balance@2x_128.png */; };
 		B2FCF6C71ED5696B00A6D9E7 /* ic_left.png in Resources */ = {isa = PBXBuildFile; fileRef = B2FCF6C51ED5696B00A6D9E7 /* ic_left.png */; };
 		B2FCF6C81ED5696B00A6D9E7 /* ic_right.png in Resources */ = {isa = PBXBuildFile; fileRef = B2FCF6C61ED5696B00A6D9E7 /* ic_right.png */; };
+		B2F0EFE81EEECAEB00A678F8 /* ic_christmas@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F0EFE41EEECAEB00A678F8 /* ic_christmas@2x.png */; };
+		B2F0EFE91EEECAEB00A678F8 /* ic_christmas@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F0EFE51EEECAEB00A678F8 /* ic_christmas@3x.png */; };
+		B2F0EFEA1EEECAEB00A678F8 /* ic_ramadhan@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F0EFE61EEECAEB00A678F8 /* ic_ramadhan@2x.png */; };
+		B2F0EFEB1EEECAEB00A678F8 /* ic_ramadhan@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F0EFE71EEECAEB00A678F8 /* ic_ramadhan@3x.png */; };
 		B2FFCB9D1EA52669004F01D0 /* SocketAckEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFCB841EA52669004F01D0 /* SocketAckEmitter.swift */; };
 		B2FFCB9E1EA52669004F01D0 /* SocketAckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFCB851EA52669004F01D0 /* SocketAckManager.swift */; };
 		B2FFCB9F1EA52669004F01D0 /* SocketAnyEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFCB861EA52669004F01D0 /* SocketAnyEvent.swift */; };
@@ -1778,6 +1782,10 @@
 		B2FCF6921ED5431A00A6D9E7 /* ic_prelo_balance@2x_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_prelo_balance@2x_128.png"; sourceTree = "<group>"; };
 		B2FCF6C51ED5696B00A6D9E7 /* ic_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_left.png; sourceTree = "<group>"; };
 		B2FCF6C61ED5696B00A6D9E7 /* ic_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_right.png; sourceTree = "<group>"; };
+		B2F0EFE41EEECAEB00A678F8 /* ic_christmas@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_christmas@2x.png"; sourceTree = "<group>"; };
+		B2F0EFE51EEECAEB00A678F8 /* ic_christmas@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_christmas@3x.png"; sourceTree = "<group>"; };
+		B2F0EFE61EEECAEB00A678F8 /* ic_ramadhan@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_ramadhan@2x.png"; sourceTree = "<group>"; };
+		B2F0EFE71EEECAEB00A678F8 /* ic_ramadhan@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_ramadhan@3x.png"; sourceTree = "<group>"; };
 		B2FFCB841EA52669004F01D0 /* SocketAckEmitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckEmitter.swift; sourceTree = "<group>"; };
 		B2FFCB851EA52669004F01D0 /* SocketAckManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckManager.swift; sourceTree = "<group>"; };
 		B2FFCB861EA52669004F01D0 /* SocketAnyEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAnyEvent.swift; sourceTree = "<group>"; };
@@ -2466,6 +2474,7 @@
 		21AE67B41B4A61C600D2CF63 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				B2686C561EEAF26500FF3A27 /* App Icon */,
 				21AE67B51B4A61C600D2CF63 /* Fonts */,
 				21AE67B61B4A61C600D2CF63 /* Images */,
 				21AE67B81B4A61C600D2CF63 /* Other */,
@@ -3236,6 +3245,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		B2686C561EEAF26500FF3A27 /* App Icon */ = {
+			isa = PBXGroup;
+			children = (
+				B2F0EFE41EEECAEB00A678F8 /* ic_christmas@2x.png */,
+				B2F0EFE51EEECAEB00A678F8 /* ic_christmas@3x.png */,
+				B2F0EFE61EEECAEB00A678F8 /* ic_ramadhan@2x.png */,
+				B2F0EFE71EEECAEB00A678F8 /* ic_ramadhan@3x.png */,
+			);
+			name = "App Icon";
+			path = Images;
+			sourceTree = "<group>";
+		};
 		B292B46F1EAF4F1200C6A32B /* AHKNavigationController */ = {
 			isa = PBXGroup;
 			children = (
@@ -3703,6 +3724,7 @@
 				58528C541D13A3D200074EC6 /* cchmrk_sold.png in Resources */,
 				5830A42F1CE3443000FB1577 /* AddProductPlaceholder.plist in Resources */,
 				58D125381CDC4D1F002BC78A /* LICENSE in Resources */,
+				B2F0EFEA1EEECAEB00A678F8 /* ic_ramadhan@2x.png in Resources */,
 				58E368161DA4E40700C6FFE3 /* ic_share2.png in Resources */,
 				580B07291DD5D99A0079C11C /* bday-splashscreen-2048x2048.png in Resources */,
 				21EEB4771B87095C00CAD5C9 /* ic_phone.png in Resources */,
@@ -3734,6 +3756,7 @@
 				58A4F9771CB5146B00E717AF /* ic_trx_reservation_done.png in Resources */,
 				B21DF52A1E5179E5007A60C5 /* UserProfile2.xib in Resources */,
 				21EEB4751B87095C00CAD5C9 /* ic_heart.png in Resources */,
+				B2F0EFE91EEECAEB00A678F8 /* ic_christmas@3x.png in Resources */,
 				B22C0E311E090FA900C3D661 /* ic_love_96px.png in Resources */,
 				21F4FCE91B61F28C00223028 /* PreloAwesome.ttf in Resources */,
 				589A6FBA1D8C08F600654CDD /* ic_ditanggung_pembeli.png in Resources */,
@@ -3809,6 +3832,7 @@
 				210702E41BE7A8F100DD9E52 /* cu_wasap@2x.png in Resources */,
 				589A6FAF1D8C08F600654CDD /* ic_1kg.png in Resources */,
 				B2BEBC7A1E4C29FD009982F9 /* placeholder-badge.png in Resources */,
+				B2F0EFE81EEECAEB00A678F8 /* ic_christmas@2x.png in Resources */,
 				210702E11BE7A8F100DD9E52 /* cu_email@2x.png in Resources */,
 				216799751B8F879A00F18F90 /* rsz_ic_mandiri@2x.png in Resources */,
 				212007C01B6A0CD100D9C84B /* basic_orange@2x.png in Resources */,
@@ -3965,6 +3989,7 @@
 				589A6FCA1D8C08F600654CDD /* ic_tarik_uang.png in Resources */,
 				21156ECE1B8F5DBC001D7842 /* ic_socmed_instagram.png in Resources */,
 				210959B31B8DD088000F2939 /* ic_hanger@2x.png in Resources */,
+				B2F0EFEB1EEECAEB00A678F8 /* ic_ramadhan@3x.png in Resources */,
 				58A0F4D41D9BA00E00CD693F /* ic_freeongkir.png in Resources */,
 				58A223C91C898CB600619518 /* ic_trx_received.png in Resources */,
 				58C23B601C9DC86300E4C929 /* ic_share.png in Resources */,

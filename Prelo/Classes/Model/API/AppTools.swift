@@ -160,6 +160,19 @@ extension Int {
     }
 }
 
+extension Int64 {
+    var string : String {
+        return String(self)
+    }
+    
+    var asPrice : String {
+        let f = NumberFormatter()
+        f.numberStyle = NumberFormatter.Style.currency
+        f.locale = Locale(identifier: "id_ID")
+        return f.string(from: NSNumber(value: self as Int64))!
+    }
+}
+
 extension Float {
     var clean: String {
         return (self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self))
@@ -412,6 +425,7 @@ extension UIImageView {
         // default fill
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo.afSetImage",
                                             qos: .background,
+                                            attributes: .concurrent,
                                             target: nil)
         backgroundQueue.async {
             self.contentMode = .scaleAspectFit // placeholder
@@ -444,6 +458,7 @@ extension UIImageView {
     func afSetImage(withURL: URL, withFilter: imageFilterMode) {
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo.afSetImage",
                                             qos: .background,
+                                            attributes: .concurrent,
                                             target: nil)
         backgroundQueue.async {
             self.contentMode = .scaleAspectFit // placeholder
@@ -1081,6 +1096,7 @@ class UserDefaultsKey : NSObject {
     static let AbTestFakeApprove = "abtestfakeapprove"
     static let UpdatePopUpNotes = "updatepopupnotes"
     static let AdsFrequency = "adsfrequency"
+    static let AdsOffset = "adsoffset"
     static let RefreshTime = "refreshtime"
 }
 
@@ -1168,6 +1184,7 @@ extension NSManagedObjectContext {
 func print(_ items: Any..., separator: String = " ", terminator: String = "\n") {
     let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo.print",
                                         qos: .background,
+                                        attributes: .concurrent,
                                         target: nil)
     backgroundQueue.async {
         if AppTools.isDev {

@@ -181,8 +181,8 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
         // Prelo Analytic - Logout
         let loginMethod = User.LoginMethod ?? ""
         let pdata = [
-            "Username" : CDUser.getOne()?.username
-        ]
+            "Username" : CDUser.getOne()?.username ?? ""
+        ] as [String : Any]
         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Logout, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
         
         // Clear local data
