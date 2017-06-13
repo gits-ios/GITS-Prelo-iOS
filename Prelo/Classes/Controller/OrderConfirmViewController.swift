@@ -411,7 +411,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             
             navController.pushViewController(myPurchaseVC, animated: true)
         }
-        if let count = self.navigationController?.viewControllers.count, count > 4 && isBackThreeTimes {
+        if let count = self.navigationController?.viewControllers.count, count >= 4 && isBackThreeTimes {
            // _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-4])!, animated: true)
             
             let navController = self.navigationController!
@@ -494,7 +494,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
                     
                     navController.pushViewController(myPurchaseVC, animated: true)
                 }
-                if let count = self.navigationController?.viewControllers.count, count > 4 && isBackThreeTimes {
+                if let count = self.navigationController?.viewControllers.count, count >= 4 && isBackThreeTimes {
                    // _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-4])!, animated: true)
                     
                     let navController = self.navigationController!

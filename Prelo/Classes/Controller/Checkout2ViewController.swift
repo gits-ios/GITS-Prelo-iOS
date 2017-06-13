@@ -177,6 +177,8 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         appearance.textColor = .darkGray
         
         // Setup table
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
         self.tableView.tableFooterView = UIView()
         
         //TOP, LEFT, BOTTOM, RIGHT
@@ -715,7 +717,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         }
         
         if self.isFirst {
-            self.setupTable()
+            //self.setupTable()
             
             self.isFirst = false
         }
@@ -1731,17 +1733,49 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     }
                     webVC.ccPaymentUnfinished = {
                         Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].name)", message: "Pembayaran tertunda")
+                        /*
                         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
                         notifPageVC.isBackTwice = true
                         notifPageVC.previousScreen = PageName.Checkout
                         self.navigateToVC(notifPageVC)
+                        */
+                        
+                        // back & push
+                        if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                            let navController = self.navigationController!
+                            var controllers = navController.viewControllers
+                            controllers.removeLast()
+                            
+                            navController.setViewControllers(controllers, animated: false)
+                            
+                            let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                            myPurchaseVC.previousScreen = PageName.Checkout
+                            
+                            navController.pushViewController(myPurchaseVC, animated: true)
+                        }
                     }
                     webVC.ccPaymentFailed = {
                         Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].name)", message: "Pembayaran gagal, silahkan coba beberapa saat lagi")
+                        /*
                         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
                         notifPageVC.isBackTwice = true
                         notifPageVC.previousScreen = PageName.Checkout
                         self.navigateToVC(notifPageVC)
+                        */
+                        
+                        // back & push
+                        if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                            let navController = self.navigationController!
+                            var controllers = navController.viewControllers
+                            controllers.removeLast()
+                            
+                            navController.setViewControllers(controllers, animated: false)
+                            
+                            let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                            myPurchaseVC.previousScreen = PageName.Checkout
+                            
+                            navController.pushViewController(myPurchaseVC, animated: true)
+                        }
                     }
                     let baseNavC = BaseNavigationController()
                     baseNavC.setViewControllers([webVC], animated: false)
@@ -1758,17 +1792,49 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     }
                     webVC.ccPaymentUnfinished = {
                         Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].name)", message: "Pembayaran tertunda")
+                        /*
                         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
                         notifPageVC.isBackTwice = true
                         notifPageVC.previousScreen = PageName.Checkout
                         self.navigateToVC(notifPageVC)
+                        */
+                        
+                        // back & push
+                        if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                            let navController = self.navigationController!
+                            var controllers = navController.viewControllers
+                            controllers.removeLast()
+                            
+                            navController.setViewControllers(controllers, animated: false)
+                            
+                            let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                            myPurchaseVC.previousScreen = PageName.Checkout
+                            
+                            navController.pushViewController(myPurchaseVC, animated: true)
+                        }
                     }
                     webVC.ccPaymentFailed = {
                         Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].name)", message: "Pembayaran gagal, silahkan coba beberapa saat lagi")
+                        /*
                         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
                         notifPageVC.isBackTwice = true
                         notifPageVC.previousScreen = PageName.Checkout
                         self.navigateToVC(notifPageVC)
+                        */
+                        
+                        // back & push
+                        if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                            let navController = self.navigationController!
+                            var controllers = navController.viewControllers
+                            controllers.removeLast()
+                            
+                            navController.setViewControllers(controllers, animated: false)
+                            
+                            let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                            myPurchaseVC.previousScreen = PageName.Checkout
+                            
+                            navController.pushViewController(myPurchaseVC, animated: true)
+                        }
                     }
                     let baseNavC = BaseNavigationController()
                     baseNavC.setViewControllers([webVC], animated: false)
