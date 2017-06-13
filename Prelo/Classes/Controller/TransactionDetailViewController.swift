@@ -2714,6 +2714,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     func sendReviewRateSellerAnalytic() {
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
                                             qos: .background,
+                                            attributes: .concurrent,
                                             target: nil)
         backgroundQueue.async {
             let tp = self.trxProductDetail!
@@ -2751,6 +2752,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     func sendDelayShippingAnalytic() {
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
                                             qos: .background,
+                                            attributes: .concurrent,
                                             target: nil)
         backgroundQueue.async {
             /*

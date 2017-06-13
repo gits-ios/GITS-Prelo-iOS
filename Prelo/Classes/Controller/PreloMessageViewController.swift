@@ -197,15 +197,11 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
             let idx = (indexPath as NSIndexPath).row
             let m = (messages?[idx])!
             
-            cell.selectionStyle = .none
-            cell.alpha = 1.0
-            cell.backgroundColor = UIColor(hexString: "#E8ECEE")
-            cell.clipsToBounds = true
             cell.adapt(m, isOpen: isOpens[idx])
             
             cell.readMore = {
                 self.isOpens[(indexPath as NSIndexPath).row] = true
-                tableView.reloadData()
+                tableView.reloadRows(at: [indexPath], with: .fade)
             }
             
             cell.zoomImage = {
@@ -422,13 +418,17 @@ class PreloMessageViewController: BaseViewController, UITableViewDataSource, UIT
     
     func scrollToTop() {
         if ((self.messages?.count)! > 0) {
-            tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.top, animated: true)
+            UIView.animate(withDuration: 0.2, animations: {
+                self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.top, animated: false)
+            })
         }
     }
     
     func scrollToBottom() {
         if ((self.messages?.count)! > 0) {
-            tableView.scrollToRow(at: IndexPath(row: (self.messages?.count)! - 1, section: 0), at: UITableViewScrollPosition.bottom, animated: true)
+            UIView.animate(withDuration: 0.2, animations: {
+                self.tableView.scrollToRow(at: IndexPath(row: (self.messages?.count)! - 1, section: 0), at: UITableViewScrollPosition.bottom, animated: false)
+            })
         }
     }
     
@@ -498,6 +498,8 @@ class PreloMessageCell: UITableViewCell {
     var zoomImage: ()->() = {}
     var openUrl  : (_ url: URL)->() = {_ in }
     
+    var isNeedSetup = true
+    
     static func heightFor(_ message : PreloMessageItem, isOpen: Bool) -> CGFloat {
         let standardHeight : CGFloat = 148.0 - 67.0 + 4 - 19.5
         let heightBanner : CGFloat = (((UIScreen.main.bounds.width - 8) / 940.0 /*1024.0*/) * 492.0 /*337.0*/)
@@ -508,6 +510,11 @@ class PreloMessageCell: UITableViewCell {
     }
     
     func adapt(_ message : PreloMessageItem, isOpen: Bool) {
+        if self.isNeedSetup {
+            self.isNeedSetup = false
+            self.setupDescriptionLabel()
+        }
+        
         if message.banner != nil {
             let height = (((UIScreen.main.bounds.width - 8) / 940.0 /*1024.0*/) * 492.0 /*337.0*/)
             self.consHeightBannerImage.constant = height
@@ -535,21 +542,40 @@ class PreloMessageCell: UITableViewCell {
                 
                 vwGradient.layer.insertSublayer(gradient, at: 0)
             } else {*/
-                self.vwGradient.isHidden = true
+                //self.vwGradient.isHidden = true
             //}
-        } else {
-            self.consHeightBannerImage.constant = 0
-            self.vwGradient.isHidden = true
         }
-        
-        self.btnReadMore.setTitleColor(Theme.PrimaryColorDark)
         
         self.lblTitle.text = message.title
         self.lblDate.text = message.date
+        self.lblDesc.text = message.desc
+        self.desc = message.desc
         
-//        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(PreloMessageCell.textPressed))
-//        self.lblDesc.addGestureRecognizer(longPressRecognizer)
+        if message.desc == "pesan gambar" {
+            self.lblDesc.font = UIFont.italicSystemFont(ofSize: 14)
+            self.lblDesc.textColor = UIColor.lightGray
+            self.lblDesc.textAlignment = .center
+        }
         
+        if isOpen {
+            self.lblDesc.numberOfLines = 0
+        }
+        
+        let textRect = message.desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 24)
+        if textRect.height <= 84.0 && textRect.height >= 67.0 {
+            self.lblDesc.numberOfLines = 5
+        }
+        
+        if textRect.height > 84.0 && !isOpen {
+            self.btnReadMore.isHidden = false
+            self.consTopLblDate.constant = 29.5
+        } else {
+            self.btnReadMore.isHidden = true
+            self.consTopLblDate.constant = 8
+        }
+    }
+    
+    func setupDescriptionLabel() {
         let customType = ActiveType.custom(pattern: "(?:^|\\s|$)prelo.co.id[^\\s]*") //Regex that looks for " prelo.co.id/* "
         let customType2 = ActiveType.custom(pattern: "prelo://[^\\s]*") //Regex that looks for "prelo://* "
         let customType3 = ActiveType.custom(pattern: "(?:^|\\s|$)dev.prelo.id[^\\s]*") //Regex that looks for " prelo.co.id/* "
@@ -595,39 +621,28 @@ class PreloMessageCell: UITableViewCell {
             self.openUrl(curl)
         }
         
-        self.lblDesc.text = message.desc
-        self.desc = message.desc
+        self.consHeightBannerImage.constant = 0
+        self.vwGradient.isHidden = true
+        self.lblDesc.textAlignment = .natural
+        self.lblDesc.numberOfLines = 4
         
-        if message.desc == "pesan gambar" {
-            self.lblDesc.font = UIFont.italicSystemFont(ofSize: 14)
-            self.lblDesc.textColor = UIColor.lightGray
-            self.lblDesc.textAlignment = .center
-        } else {
-            self.lblDesc.textAlignment = .natural
-        }
+        self.btnReadMore.setTitleColor(Theme.PrimaryColorDark)
+        self.btnReadMore.setTitleColor(Theme.PrimaryColorLight, for: .selected)
         
-        if isOpen {
-            self.lblDesc.numberOfLines = 0
-        } else {
-            self.lblDesc.numberOfLines = 4
-        }
-        
-        let textRect = message.desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 24)
-        if textRect.height <= 84.0 && textRect.height >= 67.0 {
-            self.lblDesc.numberOfLines = 5
-        }
-        
-        if textRect.height > 84.0 && !isOpen {
-            self.btnReadMore.isHidden = false
-            self.consTopLblDate.constant = 29.5
-        } else {
-            self.btnReadMore.isHidden = true
-            self.consTopLblDate.constant = 8
-        }
+        // style
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor(hexString: "#E8ECEE")
+        self.clipsToBounds = true
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        
+        self.consHeightBannerImage.constant = 0
+        self.vwGradient.isHidden = true
+        self.lblDesc.textAlignment = .natural
+        self.lblDesc.numberOfLines = 4
         
         self.bannerImage.afCancelRequest()
         self.lblDesc.font = UIFont.systemFont(ofSize: 14)

@@ -1058,6 +1058,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     func saveImages(_ images: Array<AnyObject>, index: Int, uniqueCode: String) {
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
                                             qos: .background,
+                                            attributes: .concurrent,
                                             target: nil)
         backgroundQueue.async {
             //print("Work on background queue -- Save Image \(index)")
@@ -2059,6 +2060,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 // Prelo Analytic - Submit Product
                 let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
                                                     qos: .background,
+                                                    attributes: .concurrent,
                                                     target: nil)
                 backgroundQueue.async {
                     //print("Work on background queue")
@@ -2184,6 +2186,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 // Prelo Analytic - Submit Product
                 let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
                                                     qos: .background,
+                                                    attributes: .concurrent,
                                                     target: nil)
                 backgroundQueue.async {
                     //print("Work on background queue")
@@ -2344,6 +2347,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     func saveDraft(isBack: Bool) {
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
                                             qos: .background,
+                                            attributes: .concurrent,
                                             target: nil)
         backgroundQueue.async {
             //print("Work on background queue")
