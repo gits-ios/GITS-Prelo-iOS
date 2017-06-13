@@ -560,6 +560,13 @@ extension String
     var int : Int {
         return (self as NSString).integerValue
     }
+    
+    var int64 : Int64 {
+        if let c = Int64(self) {
+            return c
+        }
+        return 0
+    }
 }
 
 extension NSAttributedString {
