@@ -1926,27 +1926,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     UserDefaults.standard.synchronize()
                 }
                 
-                // Check apps icon need update?
-                let iconType = "ramadhan" // "default", "christmas", "ramadhan",
-                
                 // change icon from server iOS 10.3.*
                 if #available(iOS 10.3, *) {
                     if UIApplication.shared.supportsAlternateIcons {
-                        if iconType == "default" && UIApplication.shared.alternateIconName != nil {
-                            UIApplication.shared.setAlternateIconName(nil) { error in
-                                /*if let error = error {
-                                    print(error.localizedDescription)
-                                } else {
-                                    print("Success!")
-                                }*/
-                            }
-                         } else if UIApplication.shared.alternateIconName != iconType {
-                            UIApplication.shared.setAlternateIconName(iconType) { error in
-                                /*if let error = error {
-                                    print(error.localizedDescription)
-                                } else {
-                                    print("Success!")
-                                }*/
+                        // Check apps icon need update?
+                        //let iconType = "ramadhan" // "default", "christmas", "ramadhan",
+                        if let iconType = data["icon_launcher"].string {
+                            if iconType == "default" && UIApplication.shared.alternateIconName != nil {
+                                UIApplication.shared.setAlternateIconName(nil) { error in
+                                    /*if let error = error {
+                                        print(error.localizedDescription)
+                                    } else {
+                                        print("Success!")
+                                    }*/
+                                }
+                            } else if UIApplication.shared.alternateIconName != iconType {
+                                UIApplication.shared.setAlternateIconName(iconType) { error in
+                                    /*if let error = error {
+                                        print(error.localizedDescription)
+                                    } else {
+                                        print("Success!")
+                                    }*/
+                                }
                             }
                         }
                     }
