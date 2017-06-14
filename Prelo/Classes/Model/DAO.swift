@@ -4270,3 +4270,44 @@ class AffiliateItem : NSObject {
         return nil
     }
 }
+
+// rekening-list
+class RekeningItem : NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> RekeningItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = RekeningItem()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var target_bank : String {
+        if let j = json["_target_bank"].string {
+            return j
+        }
+        return ""
+    }
+    var nomor_rekening : String {
+        if let j = json["_nomor_rekening"].string {
+            return j
+        }
+        return ""
+    }
+    var name : String {
+        if let j = json["_name"].string {
+            return j
+        }
+        return ""
+    }
+    var cabang : String {
+        if let j = json["_cabang"].string {
+            return j
+        }
+        return ""
+    }
+    
+}

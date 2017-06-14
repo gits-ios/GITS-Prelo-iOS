@@ -281,9 +281,17 @@
 		44B8EDC81BEB47620063DEA8 /* TwitterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B8EDC51BEB47620063DEA8 /* TwitterCore.framework */; };
 		44BB8EF81BC6ABF70052B020 /* GIBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44BB8EF71BC6ABF70052B020 /* GIBadgeView.m */; };
 		44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C10A661B8C8145006D8770 /* basic_green@2x.png */; };
+		5804CBC21EEE300C00B7D032 /* RekeningListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5804CBC11EEE300C00B7D032 /* RekeningListViewController.swift */; };
+		5804CBD51EEE6A8900B7D032 /* RekeningListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5804CBD31EEE6A8900B7D032 /* RekeningListCell.xib */; };
+		5804CBD61EEE6A8900B7D032 /* RekeningListNewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5804CBD41EEE6A8900B7D032 /* RekeningListNewCell.xib */; };
+		5804CBD81EEE6CC100B7D032 /* RekeningAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5804CBD71EEE6CC100B7D032 /* RekeningAddViewController.swift */; };
 		58095B441EE9272A0023F499 /* PreloTestsCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58095B431EE9272A0023F499 /* PreloTestsCoreData.swift */; };
 		580A30E51DFFF29E00453AA0 /* ProductLovelistCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 580A30E41DFFF29E00453AA0 /* ProductLovelistCell.xib */; };
 		580B07291DD5D99A0079C11C /* bday-splashscreen-2048x2048.png in Resources */ = {isa = PBXBuildFile; fileRef = 580B07281DD5D99A0079C11C /* bday-splashscreen-2048x2048.png */; };
+		5810268F1EEA3F8F00C0D324 /* TarikTunaiwithSaveBankAccount.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5810268E1EEA3F8F00C0D324 /* TarikTunaiwithSaveBankAccount.xib */; };
+		5810269C1EEA81FE00C0D324 /* RekeningAdd.xib in Resources */ = {isa = PBXBuildFile; fileRef = 581026981EEA81FE00C0D324 /* RekeningAdd.xib */; };
+		581026B71EEA933800C0D324 /* RekeningList.xib in Resources */ = {isa = PBXBuildFile; fileRef = 581026B61EEA933800C0D324 /* RekeningList.xib */; };
+		581026B91EEA949100C0D324 /* TarikTunaiwithSaveBankAccountController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581026B81EEA949100C0D324 /* TarikTunaiwithSaveBankAccountController.swift */; };
 		581430DB1DCB14DE00B67205 /* GrowingTextViewHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581430DA1DCB14DE00B67205 /* GrowingTextViewHandler.swift */; };
 		581E87AE1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 581E87AD1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg */; };
 		581E87B01CE08EE00055CCDD /* cover-shop-page.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 581E87AF1CE08EE00055CCDD /* cover-shop-page.jpg */; };
@@ -562,6 +570,7 @@
 		58D125391CDC4D1F002BC78A /* MoEngage.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 58D125251CDC4D1F002BC78A /* MoEngage.bundle */; };
 		58D1253E1CDC4D1F002BC78A /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 58D125361CDC4D1F002BC78A /* README.md */; };
 		58D504621EE7D4D300BC07C8 /* PreloTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D504581EE79BEA00BC07C8 /* PreloTests.swift */; };
+		58D577771EEFC88100FD6E69 /* ListBankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D577761EEFC88100FD6E69 /* ListBankViewController.swift */; };
 		58D7360B1D759B0B009D7C61 /* ic_cart.png in Resources */ = {isa = PBXBuildFile; fileRef = 58D736091D759B0B009D7C61 /* ic_cart.png */; };
 		58D7360C1D759B0B009D7C61 /* ic_notif.png in Resources */ = {isa = PBXBuildFile; fileRef = 58D7360A1D759B0B009D7C61 /* ic_notif.png */; };
 		58D7D5231CD9B68300308A50 /* libAppsFlyerLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D7D5221CD9B68300308A50 /* libAppsFlyerLib.a */; };
@@ -1443,11 +1452,19 @@
 		5800FF9E1C883E1600492DB2 /* NotifAnggiConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = NotifAnggiConversationViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5800FFA21C8852D600492DB2 /* NotifAnggiTransaction.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiTransaction.xib; sourceTree = "<group>"; };
 		5800FFA41C88530900492DB2 /* NotifAnggiConversation.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiConversation.xib; sourceTree = "<group>"; };
+		5804CBC11EEE300C00B7D032 /* RekeningListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RekeningListViewController.swift; sourceTree = "<group>"; };
+		5804CBD31EEE6A8900B7D032 /* RekeningListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RekeningListCell.xib; sourceTree = "<group>"; };
+		5804CBD41EEE6A8900B7D032 /* RekeningListNewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RekeningListNewCell.xib; sourceTree = "<group>"; };
+		5804CBD71EEE6CC100B7D032 /* RekeningAddViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RekeningAddViewController.swift; sourceTree = "<group>"; };
 		58095B411EE927290023F499 /* PreloTestsCoreData.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreloTestsCoreData.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		58095B431EE9272A0023F499 /* PreloTestsCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloTestsCoreData.swift; sourceTree = "<group>"; };
 		58095B451EE9272A0023F499 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		580A30E41DFFF29E00453AA0 /* ProductLovelistCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductLovelistCell.xib; sourceTree = "<group>"; };
 		580B07281DD5D99A0079C11C /* bday-splashscreen-2048x2048.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bday-splashscreen-2048x2048.png"; sourceTree = "<group>"; };
+		5810268E1EEA3F8F00C0D324 /* TarikTunaiwithSaveBankAccount.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunaiwithSaveBankAccount.xib; sourceTree = "<group>"; };
+		581026981EEA81FE00C0D324 /* RekeningAdd.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RekeningAdd.xib; sourceTree = "<group>"; };
+		581026B61EEA933800C0D324 /* RekeningList.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RekeningList.xib; sourceTree = "<group>"; };
+		581026B81EEA949100C0D324 /* TarikTunaiwithSaveBankAccountController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiwithSaveBankAccountController.swift; sourceTree = "<group>"; };
 		581430DA1DCB14DE00B67205 /* GrowingTextViewHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrowingTextViewHandler.swift; sourceTree = "<group>"; };
 		581E87AD1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "ic_dashboard_cover@2x.jpg"; sourceTree = "<group>"; };
 		581E87AF1CE08EE00055CCDD /* cover-shop-page.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "cover-shop-page.jpg"; sourceTree = "<group>"; };
@@ -1650,6 +1667,7 @@
 		58D504561EE79BEA00BC07C8 /* PreloTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreloTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		58D504581EE79BEA00BC07C8 /* PreloTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloTests.swift; sourceTree = "<group>"; };
 		58D5045A1EE79BEA00BC07C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		58D577761EEFC88100FD6E69 /* ListBankViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListBankViewController.swift; sourceTree = "<group>"; };
 		58D736091D759B0B009D7C61 /* ic_cart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_cart.png; sourceTree = "<group>"; };
 		58D7360A1D759B0B009D7C61 /* ic_notif.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_notif.png; sourceTree = "<group>"; };
 		58D7D5211CD9B68300308A50 /* AppsFlyerTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsFlyerTracker.h; sourceTree = "<group>"; };
@@ -2461,6 +2479,10 @@
 				21156EB91B8F5B4C001D7842 /* UserProfileViewController.swift */,
 				B21DF53F1E5187EA007A60C5 /* UserProfileViewController2.swift */,
 				21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */,
+				581026B81EEA949100C0D324 /* TarikTunaiwithSaveBankAccountController.swift */,
+				5804CBC11EEE300C00B7D032 /* RekeningListViewController.swift */,
+				5804CBD71EEE6CC100B7D032 /* RekeningAddViewController.swift */,
+				58D577761EEFC88100FD6E69 /* ListBankViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -3081,6 +3103,11 @@
 				21104AD01BAA8F1200947E7F /* TransactionListCell.xib */,
 				21156EBB1B8F5B5D001D7842 /* UserProfile.xib */,
 				B21DF5291E5179E5007A60C5 /* UserProfile2.xib */,
+				5810268E1EEA3F8F00C0D324 /* TarikTunaiwithSaveBankAccount.xib */,
+				581026981EEA81FE00C0D324 /* RekeningAdd.xib */,
+				581026B61EEA933800C0D324 /* RekeningList.xib */,
+				5804CBD31EEE6A8900B7D032 /* RekeningListCell.xib */,
+				5804CBD41EEE6A8900B7D032 /* RekeningListNewCell.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -3833,6 +3860,7 @@
 				B2D119901E290BF80064045B /* banner_notif.png in Resources */,
 				B2BE2DF01E29EBBD006B6903 /* StorePageTabBar.xib in Resources */,
 				585887511DBEDBD5006EC6D5 /* PhoneReverification.xib in Resources */,
+				581026B71EEA933800C0D324 /* RekeningList.xib in Resources */,
 				21156ECB1B8F5DBC001D7842 /* btn_checkbox_purple_empty.png in Resources */,
 				5827E9611E03F844007F0833 /* ic_trx_refund4.png in Resources */,
 				21679A541B901C5300F18F90 /* test_variant.json in Resources */,
@@ -3904,6 +3932,7 @@
 				585887521DBEDBF4006EC6D5 /* ReferralPage.xib in Resources */,
 				212007BE1B6A0BB400D9C84B /* basic_purple@2x.png in Resources */,
 				440AF66B1BE1090800074CBC /* ic_round_twitter.png in Resources */,
+				5804CBD61EEE6A8900B7D032 /* RekeningListNewCell.xib in Resources */,
 				B2C3A3C61E2B8E370082A15D /* ShopAchievementCell.xib in Resources */,
 				58F0A41B1C7C634A002A488F /* cchmrk_chat.png in Resources */,
 				B2CAF7841E78F58900ACB361 /* PreloMessageCell.xib in Resources */,
@@ -3990,6 +4019,7 @@
 				5858874D1DBEDBA3006EC6D5 /* NotifAnggiTransactionCell.xib in Resources */,
 				B2BE2E021E29FA42006B6903 /* StorePageShopHeader.xib in Resources */,
 				B2223D941EDEA64F0013E886 /* ic_verified.png in Resources */,
+				5810269C1EEA81FE00C0D324 /* RekeningAdd.xib in Resources */,
 				B2EE39CD1E76905500113E03 /* ic_paid_balance.png in Resources */,
 				B271A6821EDED6D900C6A973 /* placeholder-transparent.png in Resources */,
 				B2BEBC601E4C190D009982F9 /* ic_coin.png in Resources */,
@@ -4058,6 +4088,7 @@
 				216799731B8F879A00F18F90 /* rsz_ic_bca@2x.png in Resources */,
 				58A99A4E1C6D866000E3E7D7 /* Prelo.entitlements in Resources */,
 				B2DF58491E484131005B6CF1 /* AddressBookCell.xib in Resources */,
+				5804CBD51EEE6A8900B7D032 /* RekeningListCell.xib in Resources */,
 				B2BEBC761E4C27EC009982F9 /* placeholder-circle.png in Resources */,
 				211BC9921B96AC9100FDB1DC /* category_placeholder@2x.png in Resources */,
 				B2D481DD1E02A7E2006006CC /* ReportProducts.xib in Resources */,
@@ -4070,6 +4101,7 @@
 				B29482561E91E397001B6C75 /* cover_shop_persegi_1024px.png in Resources */,
 				58AD00FF1D49DAA8002C7CCF /* preloteam.png in Resources */,
 				58F7DD511D73E90800EF43AC /* ic_free_ongkir_truck.png in Resources */,
+				5810268F1EEA3F8F00C0D324 /* TarikTunaiwithSaveBankAccount.xib in Resources */,
 				21D386A61B6B93CD00D0FA90 /* Default-667h@2x.png in Resources */,
 				21156EB31B8F3598001D7842 /* ic_prelo_logo_text@2x.png in Resources */,
 				589A6FCD1D8C08F600654CDD /* ic_voucher.png in Resources */,
@@ -4268,6 +4300,7 @@
 				21679A501B901C5300F18F90 /* MPWebSocket.m in Sources */,
 				583234321DB8C66B0059B3A2 /* KumangTabBarViewController.swift in Sources */,
 				B2FFCBA11EA52669004F01D0 /* SocketEngine.swift in Sources */,
+				5804CBD81EEE6CC100B7D032 /* RekeningAddViewController.swift in Sources */,
 				5847E1991DBE0D7500C1B2BA /* PreloNotificationListener.swift in Sources */,
 				2167998C1B8F8AB900F18F90 /* AFHTTPSessionManager.m in Sources */,
 				5858875F1DBEEA41006EC6D5 /* ProductDetailCover.swift in Sources */,
@@ -4277,6 +4310,7 @@
 				58A99A3B1C6D864E00E3E7D7 /* BNCServerRequest.m in Sources */,
 				5858877F1DBF1728006EC6D5 /* CartViewController.swift in Sources */,
 				21679A191B901C5300F18F90 /* MPABTestDesignerChangeResponseMessage.m in Sources */,
+				5804CBC21EEE300C00B7D032 /* RekeningListViewController.swift in Sources */,
 				585B6AEF1DBE152C005DEBA4 /* AddProductImageSourceViewController.swift in Sources */,
 				216344FB1CC3A855005CBA37 /* MKButton.swift in Sources */,
 				21679A341B901C5300F18F90 /* MPNotificationViewController.m in Sources */,
@@ -4338,6 +4372,7 @@
 				5847E1981DBE0D0400C1B2BA /* MessagePool.swift in Sources */,
 				21679A221B901C5300F18F90 /* MPABTestDesignerTweakRequestMessage.m in Sources */,
 				5847E1931DBDFCE600C1B2BA /* LoginViewController.swift in Sources */,
+				58D577771EEFC88100FD6E69 /* ListBankViewController.swift in Sources */,
 				44BB8EF81BC6ABF70052B020 /* GIBadgeView.m in Sources */,
 				21679A511B901C5300F18F90 /* NSData+MPBase64.m in Sources */,
 				21679A231B901C5300F18F90 /* MPABTestDesignerTweakResponseMessage.m in Sources */,
@@ -4372,6 +4407,7 @@
 				21679A141B901C5300F18F90 /* _MPTweakBindObserver.m in Sources */,
 				21B468031CCE5EDB00E145ED /* UIScrollView+BFKit.swift in Sources */,
 				21679A281B901C5300F18F90 /* MPCGColorRefToNSStringValueTransformer.m in Sources */,
+				581026B91EEA949100C0D324 /* TarikTunaiwithSaveBankAccountController.swift in Sources */,
 				B2C3A3BC1E2B6B550082A15D /* FloatRatingView.swift in Sources */,
 				21679A391B901C5300F18F90 /* MPObjectSerializer.m in Sources */,
 				21679A271B901C5300F18F90 /* MPCGAffineTransformToNSDictionaryValueTransformer.m in Sources */,
@@ -4996,6 +5032,7 @@
 				58095B4A1EE9272A0023F499 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		588123891EE65F5B005047AD /* Build configuration list for PBXNativeTarget "PreloUITests" */ = {
 			isa = XCConfigurationList;

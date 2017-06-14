@@ -60,6 +60,14 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     @IBOutlet weak var lblRegion: UILabel!
     @IBOutlet weak var lblProvince: UILabel!
     
+    // rekening
+    @IBOutlet weak var imgLogo: UIImageView!
+    @IBOutlet weak var lblRekMain: UILabel!
+    @IBOutlet weak var lblBank: UILabel!
+    @IBOutlet weak var lblRek: UILabel!
+    @IBOutlet weak var lblRekName: UILabel!
+    
+    
     var isNeedReload = false
     
     override func viewDidLoad() {
@@ -237,6 +245,16 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         }
         
 
+        // Rekening List
+        //if (punya rek){}
+        //else (ga punya rek){
+//        self.lblRek.text = ""
+//        self.lblRekName.text = ""
+//        self.lblBank.text = "- (belum ada rekening)"
+//        self.imgLogo.isHidden = true
+        //}
+        
+        
     }
     
     func checkFbLogin(_ userOther : CDUserOther) -> Bool {
@@ -823,4 +841,46 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         let addressBookVC = Bundle.main.loadNibNamed(Tags.XibNameAddressBook, owner: nil, options: nil)?.first as! AddressBookViewController
         self.navigationController?.pushViewController(addressBookVC, animated: true)
     }
+    
+    // MARK: - Rekening
+    
+    @IBAction func RekeningPressed(_ sender: Any) {
+        isNeedReload = true
+        
+        let rekeningVC = Bundle.main.loadNibNamed(Tags.XibNameRekeningList, owner: nil, options: nil)?.first as! RekeningListViewController
+        self.navigationController?.pushViewController(rekeningVC, animated: true)
+    }
+    
+    var rekening: Array<RekeningItem> = [] // rekeninglist
+    
+    func getRekening(){
+        // use API
+        let _ = request(APIMe.getBankAccount).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Rekening List")) {
+                if let x: AnyObject = resp.result.value as AnyObject? {
+                    var json = JSON(x)
+                    json = json["_data"]
+                    print("ini json rekening")
+                    print(json)
+                    if let arr = json.array {
+                        if(arr.count != 0){
+                            for i in 0...arr.count {
+                                print(i)
+                                let rekening2 = RekeningItem.instance(arr[i])
+                                self.rekening.append(rekening2!)
+                            }
+                        }
+                    }
+                    self.hideLoading()
+                }
+                
+            } else {
+                
+                self.hideLoading()
+                _ = self.navigationController?.popViewController(animated: true)
+            }
+        }
+    }
+
+    
 }

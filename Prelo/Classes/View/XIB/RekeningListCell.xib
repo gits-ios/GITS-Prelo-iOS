@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="PreloAwesome.ttf">
+            <string>PreloAwesome</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="205" id="ZJQ-An-rvX" customClass="RekeningListCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZJQ-An-rvX" id="iP5-e3-D4d">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mNx-XY-nm9" userLabel="Vw Border">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="116"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bank Mandiri" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WVV-pB-Rqf">
+                        <rect key="frame" x="8" y="8" width="108" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="Ack-yK-14l"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GC8-gT-nvr" userLabel="REKENING UTAMA">
+                        <rect key="frame" x="245" y="8" width="122" height="21"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_kartu_kredit.png" translatesAutoresizingMaskIntoConstraints="NO" id="doZ-lV-QSV" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
+                                <rect key="frame" x="9" y="0.0" width="17" height="21"/>
+                                <color key="tintColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="17" id="SN5-xg-1zC"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Rekening Utama" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NDv-ko-qRt">
+                                <rect key="frame" x="29" y="0.0" width="93" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="doZ-lV-QSV" firstAttribute="top" secondItem="GC8-gT-nvr" secondAttribute="top" id="QJ4-8u-jfD"/>
+                            <constraint firstItem="doZ-lV-QSV" firstAttribute="top" secondItem="NDv-ko-qRt" secondAttribute="top" id="hQd-gV-5rC"/>
+                            <constraint firstItem="NDv-ko-qRt" firstAttribute="leading" secondItem="doZ-lV-QSV" secondAttribute="trailing" constant="3" id="nIf-LC-CJh"/>
+                            <constraint firstAttribute="trailing" secondItem="NDv-ko-qRt" secondAttribute="trailing" id="pjc-Ik-PfT"/>
+                            <constraint firstItem="doZ-lV-QSV" firstAttribute="bottom" secondItem="NDv-ko-qRt" secondAttribute="bottom" id="rAR-zD-8Er"/>
+                            <constraint firstAttribute="bottom" secondItem="doZ-lV-QSV" secondAttribute="bottom" id="uIT-DW-L7s"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="90001234567890" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nM9-Zt-W6b">
+                        <rect key="frame" x="8" y="37" width="359" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="ReL-CE-L6f"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Maya Purero" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SJW-s6-gbZ">
+                        <rect key="frame" x="8" y="58" width="359" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="26i-2K-JSW">
+                        <rect key="frame" x="8" y="90" width="30" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="30" id="ZaR-hH-bsB"/>
+                            <constraint firstAttribute="height" constant="30" id="i1F-tV-brQ"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="21"/>
+                        <state key="normal" title="">
+                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jxt-S2-ozK">
+                        <rect key="frame" x="46" y="90" width="30" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="o6S-d4-S3u"/>
+                            <constraint firstAttribute="width" constant="30" id="sOx-yZ-Zcu"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="21"/>
+                        <state key="normal" title="">
+                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                    </button>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yI0-U9-rT1">
+                        <rect key="frame" x="257" y="80" width="110" height="30"/>
+                        <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="8rZ-qs-zPL"/>
+                            <constraint firstAttribute="width" constant="110" id="hF3-Xd-3di"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                        <state key="normal" title="Set Utama">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="mNx-XY-nm9" firstAttribute="leading" secondItem="iP5-e3-D4d" secondAttribute="leading" id="00N-c1-Jfl"/>
+                    <constraint firstItem="nM9-Zt-W6b" firstAttribute="leading" secondItem="SJW-s6-gbZ" secondAttribute="leading" id="4cZ-i0-QCC"/>
+                    <constraint firstItem="GC8-gT-nvr" firstAttribute="leading" secondItem="iP5-e3-D4d" secondAttribute="leading" constant="245" id="CMH-kZ-2sl"/>
+                    <constraint firstItem="jxt-S2-ozK" firstAttribute="leading" secondItem="26i-2K-JSW" secondAttribute="trailing" constant="8" id="Id5-1h-Uxk"/>
+                    <constraint firstItem="nM9-Zt-W6b" firstAttribute="top" secondItem="WVV-pB-Rqf" secondAttribute="bottom" constant="8" symbolic="YES" id="J0h-b2-bBq"/>
+                    <constraint firstItem="WVV-pB-Rqf" firstAttribute="leading" secondItem="iP5-e3-D4d" secondAttribute="leadingMargin" id="NxL-c7-9rv"/>
+                    <constraint firstItem="nM9-Zt-W6b" firstAttribute="leading" secondItem="WVV-pB-Rqf" secondAttribute="leading" id="OB1-0g-qp7"/>
+                    <constraint firstItem="GC8-gT-nvr" firstAttribute="top" secondItem="WVV-pB-Rqf" secondAttribute="top" id="ObV-MS-Waa"/>
+                    <constraint firstItem="jxt-S2-ozK" firstAttribute="baseline" secondItem="26i-2K-JSW" secondAttribute="baseline" id="Pax-iQ-zk9"/>
+                    <constraint firstItem="nM9-Zt-W6b" firstAttribute="top" secondItem="GC8-gT-nvr" secondAttribute="bottom" constant="8" id="QVo-tp-GbQ"/>
+                    <constraint firstAttribute="trailing" secondItem="mNx-XY-nm9" secondAttribute="trailing" id="RwA-1Q-odG"/>
+                    <constraint firstItem="SJW-s6-gbZ" firstAttribute="top" secondItem="nM9-Zt-W6b" secondAttribute="bottom" id="Twr-Gc-Oo5"/>
+                    <constraint firstItem="yI0-U9-rT1" firstAttribute="trailing" secondItem="GC8-gT-nvr" secondAttribute="trailing" id="U9I-ib-Vp1"/>
+                    <constraint firstItem="nM9-Zt-W6b" firstAttribute="top" secondItem="GC8-gT-nvr" secondAttribute="bottom" constant="8" symbolic="YES" id="Usr-Bg-DVZ"/>
+                    <constraint firstItem="jxt-S2-ozK" firstAttribute="leading" secondItem="26i-2K-JSW" secondAttribute="trailing" constant="8" id="XUA-qz-tWm"/>
+                    <constraint firstItem="yI0-U9-rT1" firstAttribute="trailing" secondItem="iP5-e3-D4d" secondAttribute="trailingMargin" id="XVv-H1-FrN"/>
+                    <constraint firstItem="26i-2K-JSW" firstAttribute="leading" secondItem="iP5-e3-D4d" secondAttribute="leadingMargin" id="ZqP-cN-atA"/>
+                    <constraint firstAttribute="bottom" secondItem="mNx-XY-nm9" secondAttribute="bottom" constant="4" id="cPV-eV-iGn"/>
+                    <constraint firstItem="jxt-S2-ozK" firstAttribute="top" secondItem="SJW-s6-gbZ" secondAttribute="bottom" constant="11" id="g4B-xY-XdD"/>
+                    <constraint firstItem="yI0-U9-rT1" firstAttribute="trailing" secondItem="SJW-s6-gbZ" secondAttribute="trailing" id="g9c-Z7-dgh"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="yI0-U9-rT1" secondAttribute="bottom" constant="1.5" id="iac-YS-kn9"/>
+                    <constraint firstItem="WVV-pB-Rqf" firstAttribute="top" secondItem="iP5-e3-D4d" secondAttribute="topMargin" id="kGA-Cj-nYZ"/>
+                    <constraint firstItem="yI0-U9-rT1" firstAttribute="top" secondItem="SJW-s6-gbZ" secondAttribute="bottom" constant="1" id="m27-NJ-EPW"/>
+                    <constraint firstItem="nM9-Zt-W6b" firstAttribute="trailing" secondItem="GC8-gT-nvr" secondAttribute="trailing" id="rQR-Wz-28E"/>
+                    <constraint firstItem="yI0-U9-rT1" firstAttribute="trailing" secondItem="nM9-Zt-W6b" secondAttribute="trailing" id="sYS-QO-QMa"/>
+                    <constraint firstItem="mNx-XY-nm9" firstAttribute="top" secondItem="iP5-e3-D4d" secondAttribute="top" id="ugG-s7-BFy"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="btnDelete" destination="jxt-S2-ozK" id="won-Pd-SEB"/>
+                <outlet property="btnEdit" destination="26i-2K-JSW" id="tAl-yJ-As3"/>
+                <outlet property="btnSetMain" destination="yI0-U9-rT1" id="cCn-2S-fJS"/>
+                <outlet property="lblBank" destination="WVV-pB-Rqf" id="hQD-JT-wAb"/>
+                <outlet property="lblName" destination="SJW-s6-gbZ" id="nND-zV-sdT"/>
+                <outlet property="lblRekening" destination="nM9-Zt-W6b" id="hON-Q5-ATy"/>
+                <outlet property="vwMain" destination="GC8-gT-nvr" id="9LJ-cF-PiJ"/>
+            </connections>
+            <point key="canvasLocation" x="-13.5" y="52.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="ic_kartu_kredit.png" width="96" height="96"/>
+    </resources>
+</document>

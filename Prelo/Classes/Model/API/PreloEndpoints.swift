@@ -40,6 +40,7 @@ class PreloEndpoints: NSObject {
         print("\(reqAlias) req = \(req)")
         
         if let response = resp {
+            print("response code" + String(response.statusCode))
             if (response.statusCode != 200) {
                 if (res != nil) {
                     if let msg = JSON(res!)["_message"].string {
@@ -562,6 +563,8 @@ enum APIMe : URLRequestConvertible {
     case deleteAddress(addressId: String)
     case setDefaultAddress(addressId: String)
     
+    case getBankAccount
+    
     public func asURLRequest() throws -> URLRequest {
         let basePath = "me/"
         let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
@@ -598,6 +601,8 @@ enum APIMe : URLRequestConvertible {
         case .createAddress(_, _, _, _, _, _, _, _, _, _, _) : return .post
         case .deleteAddress(_) : return .post
         case .setDefaultAddress(_) : return .post
+            
+        case .getBankAccount : return .get
         }
     }
     
@@ -628,6 +633,8 @@ enum APIMe : URLRequestConvertible {
         case .createAddress(_, _, _, _, _, _, _, _, _, _, _) : return "address_book/add"
         case .deleteAddress(_) : return "address_book/delete"
         case .setDefaultAddress(_) : return "address_book/set_default"
+            
+        case .getBankAccount : return "bank_account"
         }
     }
     
