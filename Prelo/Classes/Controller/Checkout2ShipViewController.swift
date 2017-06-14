@@ -1095,7 +1095,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 }
                 
                 //self.tableView.reloadData()
-                self.tableView.reloadSections(IndexSet.init(integer: self.cartResult.cartDetails.count), with: .fade)
+                self.tableView.reloadSections(IndexSet.init(integersIn: 0...self.cartResult.cartDetails.count + 1), with: .fade)
             }
         }
         

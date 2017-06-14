@@ -485,7 +485,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         }
     }
     
-    func setupPaymentAndDiscount() {
+    func countSubTotal() {
         // count total
         var totalWithOngkir = self.cartResult.totalPrice
         
@@ -495,6 +495,10 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         
         self.totalAmount = totalWithOngkir
         // count total
+    }
+    
+    func setupPaymentAndDiscount() {
+        self.countSubTotal()
         
         // reset
         self.paymentMethods = []
@@ -876,6 +880,8 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         self.isNeedLocations[idx.section-1] = isNeedLocation
                         
                         CartManager.sharedInstance.updateShippingPackageId(sellerId, shippingPackageId: courierId)
+                        
+                        self.countSubTotal()
                         
                         self.tableView.reloadData()
                     }
@@ -1363,7 +1369,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                 self.selectedPaymentIndex = idx.row-1
                 
                 //self.tableView.reloadData()
-                self.tableView.reloadSections(IndexSet.init(integer: idx.section), with: .fade)
+                self.tableView.reloadSections(IndexSet.init(arrayLiteral: idx.section, idx.section + 1, idx.section + 2), with: .fade)
             }
         }
     }
@@ -2008,8 +2014,13 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     self.isNeedScroll = true
                 }
                 
+                let r1 = (1...self.cartResult.cartDetails.count + 2)
+                let r2 = (self.cartResult.cartDetails.count + 4...self.cartResult.cartDetails.count + 5)
+                //let r = [r1, r2].joined()
+                
                 //self.tableView.reloadData()
-                self.tableView.reloadSections(IndexSet.init(integer: self.cartResult.cartDetails.count + 2), with: .fade)
+                self.tableView.reloadSections(IndexSet.init(integersIn: r1), with: .fade)
+                self.tableView.reloadSections(IndexSet.init(integersIn: r2), with: .fade)
             }
         }
         
