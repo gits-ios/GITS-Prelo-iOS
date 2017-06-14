@@ -88,6 +88,17 @@ class AppTools: NSObject {
     static func switchToNewCart(_ isOn: Bool) {
         _isNewCart = isOn
     }
+    
+    fileprivate static var _isSingleCart = true
+    static var isSingleCart : Bool {
+        get {
+            return _isSingleCart
+        }
+    }
+    
+    static func switchToSingleCart(_ isOn: Bool) {
+        _isSingleCart = isOn
+    }
 }
 
 enum AppFont {
@@ -175,6 +186,19 @@ extension Int {
         f.numberStyle = NumberFormatter.Style.currency
         f.locale = Locale(identifier: "id_ID")
         return f.string(from: NSNumber(value: self as Int))!
+    }
+}
+
+extension Int64 {
+    var string : String {
+        return String(self)
+    }
+    
+    var asPrice : String {
+        let f = NumberFormatter()
+        f.numberStyle = NumberFormatter.Style.currency
+        f.locale = Locale(identifier: "id_ID")
+        return f.string(from: NSNumber(value: self as Int64))!
     }
 }
 
@@ -430,6 +454,7 @@ extension UIImageView {
         // default fill
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo.afSetImage",
                                             qos: .background,
+                                            attributes: .concurrent,
                                             target: nil)
         backgroundQueue.async {
             self.contentMode = .scaleAspectFit // placeholder
@@ -462,6 +487,7 @@ extension UIImageView {
     func afSetImage(withURL: URL, withFilter: imageFilterMode) {
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo.afSetImage",
                                             qos: .background,
+                                            attributes: .concurrent,
                                             target: nil)
         backgroundQueue.async {
             self.contentMode = .scaleAspectFit // placeholder
@@ -849,6 +875,7 @@ class Tags : NSObject {
     static let XibNameCheckout2Ship = "Checkout2Ship"
     static let XibNameCheckout2Pay = "Checkout2Pay"
     static let XibNameGoogleMap = "GoogleMap"
+    static let XibNameCheckout2 = "Checkout2"
 }
 
 class OrderStatus : NSObject {
@@ -1064,6 +1091,9 @@ class PreloAnalyticEvent {
     
     // Achievement
     static let VisitAchievementPage = "Achievement:Visit Achievement Page"
+    
+    // Tutorial
+    static let FinishFirst = "Tutorial:Finish First"
 }
 
 extension GAI {
@@ -1099,6 +1129,8 @@ class UserDefaultsKey : NSObject {
     static let AbTestFakeApprove = "abtestfakeapprove"
     static let UpdatePopUpNotes = "updatepopupnotes"
     static let AdsFrequency = "adsfrequency"
+    static let AdsOffset = "adsoffset"
+    static let RefreshTime = "refreshtime"
 }
 
 extension UserDefaults {
@@ -1185,6 +1217,7 @@ extension NSManagedObjectContext {
 func print(_ items: Any..., separator: String = " ", terminator: String = "\n") {
     let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo.print",
                                         qos: .background,
+                                        attributes: .concurrent,
                                         target: nil)
     backgroundQueue.async {
         if AppTools.isDev {

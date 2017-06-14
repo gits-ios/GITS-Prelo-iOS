@@ -144,7 +144,7 @@ class GoogleMapViewController: BaseViewController, UITableViewDataSource, UITabl
         placesClient.autocompleteQuery(query, bounds: nil, filter: filter, callback: {(results, error) -> Void in
             if let error = error {
                 //Constant.showDialog("Peringatan", message: "Terdapat kesalahan saat mengakses peta \(error)")
-                print("Autocomplete error \(error)")
+                //print("Autocomplete error \(error)")
                 return
             }
             if let results = results {
@@ -152,7 +152,7 @@ class GoogleMapViewController: BaseViewController, UITableViewDataSource, UITabl
                 self.placeId = []
                 for result in results {
                     self.filtered.append(result.attributedFullText.string)
-                    print("Result \(result.attributedFullText) with placeID \(String(describing: result.placeID))")
+                    //print("Result \(result.attributedFullText) with placeID \(String(describing: result.placeID))")
                     
                     self.placeId.append(result.placeID ?? "")
                 }
@@ -175,7 +175,7 @@ class GoogleMapViewController: BaseViewController, UITableViewDataSource, UITabl
         
         placesClient.lookUpPlaceID(placeId, callback: {(result, error) -> Void in
             if let error = error {
-                print("Autocomplete error \(error)")
+                //print("Autocomplete error \(error)")
                 return
             }
 //            Constant.showDialog("LongLat", message: String(describing: result?.coordinate))
@@ -192,9 +192,10 @@ class GoogleMapViewController: BaseViewController, UITableViewDataSource, UITabl
     // MARK: - Button Action
     @IBAction func btnMarkerPressed(_ sender: Any) {
         if selectedLocation != nil && (fabs(selectedLocation.latitude - mapView.camera.target.latitude) <= epsilon && fabs(selectedLocation.longitude - mapView.camera.target.longitude) <= epsilon) {
-            print("same location")
+            //print("same location")
         } else {
-            self.getAddressFromGeocodeCoordinate(mapView.camera.target)
+            // disable bottom view
+            //self.getAddressFromGeocodeCoordinate(mapView.camera.target)
         }
             
         btnMarkerTeks.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
@@ -211,9 +212,9 @@ class GoogleMapViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     @IBAction func btnChooseLOcationPressed(_ sender: Any) {
-        Constant.showDialog("Lokasi kamu", message: lbAddress.text!)
+        //Constant.showDialog("Lokasi kamu", message: lbAddress.text!)
         let res = [
-            "address": self.lbAddress.text!,
+            "address": "oke", //self.lbAddress.text!,
             "latitude": "\(self.selectedLocation.latitude)",
             "longitude": "\(self.selectedLocation.longitude)"
         ]
@@ -346,7 +347,8 @@ extension GoogleMapViewController: CLLocationManagerDelegate {
             mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: mapZoomLevel, bearing: 0, viewingAngle: 0)
 //            marker.position = location.coordinate
             
-            self.getAddressFromGeocodeCoordinate(location.coordinate)
+            // disable botoom view
+            //self.getAddressFromGeocodeCoordinate(location.coordinate)
             
             // 8
             locationManager.stopUpdatingLocation()
@@ -365,7 +367,7 @@ extension GoogleMapViewController: CLLocationManagerDelegate {
             //Add this line
             if let address = response!.firstResult() {
                 let lines = address.lines! as [String]
-                print(lines)
+                //print(lines)
                 
                 var detailAddress = ""
                 for i in 0...lines.count-1 {

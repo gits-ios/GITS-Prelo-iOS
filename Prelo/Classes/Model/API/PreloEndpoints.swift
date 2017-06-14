@@ -294,8 +294,8 @@ enum APIAuth : URLRequestConvertible {
 enum APICart : URLRequestConvertible {
     case getCart
     case refresh(cart : String, address : String, voucher : String?)
-    case checkout(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int, usedReferralBonus : Int, kodeTransfer : Int, targetBank : String)
-    case generateVeritransUrl(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int, usedReferralBonus : Int, kodeTransfer : Int)
+    case checkout(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int64, usedReferralBonus : Int64, kodeTransfer : Int64, targetBank : String)
+    case generateVeritransUrl(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int64, usedReferralBonus : Int64, kodeTransfer : Int64)
     case removeItems(pIds : Array<String>)
     case removeAllItems
     
@@ -351,13 +351,13 @@ enum APICart : URLRequestConvertible {
                 "target_bank": targetBank
                 ] as [String : Any]
             if usedBalance != 0 {
-                p["prelobalance_used"] = NSNumber(value: usedBalance as Int)
+                p["prelobalance_used"] = NSNumber(value: usedBalance as Int64)
             }
             if kodeTransfer != 0 {
-                p["banktransfer_digit"] = NSNumber(value: kodeTransfer as Int)
+                p["banktransfer_digit"] = NSNumber(value: kodeTransfer as Int64)
             }
             if usedBonus != 0 {
-                p["bonus_used"] = NSNumber(value: usedBonus as Int)
+                p["bonus_used"] = NSNumber(value: usedBonus as Int64)
             }
         case .generateVeritransUrl(let cart, let address, let voucher, let payment, let usedBalance, let usedBonus, let kodeTransfer) :
             p = [
@@ -369,13 +369,13 @@ enum APICart : URLRequestConvertible {
                 "platform_sent_from" : "ios"
                 ] as [String : Any]
             if usedBalance != 0 {
-                p["prelobalance_used"] = NSNumber(value: usedBalance as Int)
+                p["prelobalance_used"] = NSNumber(value: usedBalance as Int64)
             }
             if kodeTransfer != 0 {
-                p["banktransfer_digit"] = NSNumber(value: kodeTransfer as Int)
+                p["banktransfer_digit"] = NSNumber(value: kodeTransfer as Int64)
             }
             if usedBonus != 0 {
-                p["bonus_used"] = NSNumber(value: usedBonus as Int)
+                p["bonus_used"] = NSNumber(value: usedBonus as Int64)
             }
         case .removeItems(let pIds) :
             p = [
@@ -564,6 +564,7 @@ enum APIMe : URLRequestConvertible {
     case createAddress(addressName: String, recipientName: String, phone: String, provinceId: String, provinceName: String, regionId: String, regionName: String, subdistrictId: String, subdistricName: String, address: String, postalCode: String, coordinate: String, coordinateAddress: String)
     case deleteAddress(addressId: String)
     case setDefaultAddress(addressId: String)
+    case updateCoordinate(addressId: String, coordinate: String, coordinateAddress: String)
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "me/"
@@ -601,6 +602,7 @@ enum APIMe : URLRequestConvertible {
         case .createAddress(_, _, _, _, _, _, _, _, _, _, _, _, _) : return .post
         case .deleteAddress(_) : return .post
         case .setDefaultAddress(_) : return .post
+        case .updateCoordinate(_, _, _) : return .post
         }
     }
     
@@ -631,6 +633,7 @@ enum APIMe : URLRequestConvertible {
         case .createAddress(_, _, _, _, _, _, _, _, _, _, _, _, _) : return "address_book/add"
         case .deleteAddress(_) : return "address_book/delete"
         case .setDefaultAddress(_) : return "address_book/set_default"
+        case .updateCoordinate(_, _, _) : return "address_book/update"
         }
     }
     
@@ -778,6 +781,13 @@ enum APIMe : URLRequestConvertible {
                 "address_id": addressId,
                 "platform_sent_from" : "ios"
             ]
+        case .updateCoordinate(let addressId, let coordinate, let coordinateAddress) :
+            p = [
+                "address_id": addressId,
+                "platform_sent_from" : "ios",
+                "coordinate": coordinate,
+                "coordinate_address": coordinateAddress
+            ]
         default : break
         }
         return p
@@ -887,7 +897,7 @@ enum APINotification : URLRequestConvertible {
 }
 
 enum APIProduct : URLRequestConvertible {
-    case listByCategory(categoryId : String, location : String, sort : String, current : Int, limit : Int, priceMin : Int, priceMax : Int)
+    case listByCategory(categoryId : String, location : String, sort : String, current : Int, limit : Int, priceMin : Int64, priceMax : Int64)
     case detail(productId : String, forEdit : Int)
     case add(name : String, desc : String, price : String, weight : String, category : String)
     case love(productID : String)
@@ -1205,12 +1215,12 @@ enum APIReference : URLRequestConvertible {
 
 enum APISearch : URLRequestConvertible {
     case user(keyword : String)
-    case find(keyword : String, categoryId : String, brandId : String, condition : String, current : Int, limit : Int, priceMin : Int, priceMax : Int)
-    case productByCategory(categoryId : String, sort : String, current : Int, limit : Int, priceMin : Int, priceMax : Int, segment: String, lastTimeUuid : String)
+    case find(keyword : String, categoryId : String, brandId : String, condition : String, current : Int, limit : Int, priceMin : Int64, priceMax : Int64)
+    case productByCategory(categoryId : String, sort : String, current : Int, limit : Int, priceMin : Int64, priceMax : Int64, segment: String, lastTimeUuid : String)
     case getTopSearch(limit : String)
     case insertTopSearch(search : String)
     case brands(name : String, current : Int, limit : Int)
-    case productByFilter(name : String, aggregateId : String, categoryId : String, brandIds : String, productConditionIds : String, segment : String, priceMin : NSNumber, priceMax : NSNumber, isFreeOngkir : String, sizes : String, sortBy : String, current : NSNumber, limit : NSNumber, lastTimeUuid : String, provinceId : String, regionId : String, subDistrictId : String)
+    case productByFilter(name : String, aggregateId : String, categoryId : String, brandIds : String, productConditionIds : String, segment : String, priceMin : Int64, priceMax : Int64, isFreeOngkir : String, sizes : String, sortBy : String, current : NSNumber, limit : NSNumber, lastTimeUuid : String, provinceId : String, regionId : String, subDistrictId : String)
     case autocomplete(key : String)
     
     public func asURLRequest() throws -> URLRequest {
@@ -1400,7 +1410,7 @@ enum APISocmed : URLRequestConvertible {
 
 enum APITransaction : URLRequestConvertible {
     case transactionDetail(tId : String)
-    case confirmPayment(bankFrom : String, bankTo : String, name : String, nominal : Int, orderId : String, timePaid : String)
+    case confirmPayment(bankFrom : String, bankTo : String, name : String, nominal : Int64, orderId : String, timePaid : String)
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "transaction/"

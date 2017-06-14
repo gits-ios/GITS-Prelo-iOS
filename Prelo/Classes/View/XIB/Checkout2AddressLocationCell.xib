@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -27,22 +27,22 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5sM-Zv-Ruj" userLabel="line1px">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
-                        <color key="backgroundColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <rect key="frame" x="12" y="0.0" width="351" height="1"/>
+                        <color key="backgroundColor" red="0.85490196080000003" green="0.85490196080000003" blue="0.85490196080000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="Usd-En-PRX"/>
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pAr-w2-r0m">
-                        <rect key="frame" x="24" y="15" width="9.5" height="16"/>
+                        <rect key="frame" x="12" y="15" width="9.5" height="16"/>
                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                         <color key="textColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6fi-Bk-Wbu">
-                        <rect key="frame" x="319" y="13" width="40" height="20"/>
+                        <rect key="frame" x="347" y="13" width="20" height="20"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="40" id="3Ej-YK-Fob"/>
+                            <constraint firstAttribute="width" constant="20" id="3Ej-YK-Fob"/>
                             <constraint firstAttribute="height" constant="20" id="Fnc-yR-ujB"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="12"/>
@@ -50,13 +50,13 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MjR-No-lVF">
-                        <rect key="frame" x="16" y="3" width="343" height="39.5"/>
+                        <rect key="frame" x="12" y="3" width="351" height="39.5"/>
                         <connections>
                             <action selector="btnPickLocationPressed:" destination="y1y-Qb-edg" eventType="touchUpInside" id="8Gc-HF-gjh"/>
                         </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Pilih Lokasi" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="FNy-Bb-SB0">
-                        <rect key="frame" x="42" y="3" width="269" height="40"/>
+                        <rect key="frame" x="30" y="3" width="309" height="40"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="40" id="P7F-Ah-L5c"/>
                         </constraints>
@@ -67,17 +67,17 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="6fi-Bk-Wbu" firstAttribute="centerY" secondItem="FNy-Bb-SB0" secondAttribute="centerY" id="8mA-bi-IUw"/>
-                    <constraint firstAttribute="trailing" secondItem="5sM-Zv-Ruj" secondAttribute="trailing" id="G0h-Ju-6gp"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="6fi-Bk-Wbu" secondAttribute="trailing" constant="8" id="HUy-qU-Akc"/>
+                    <constraint firstAttribute="trailing" secondItem="5sM-Zv-Ruj" secondAttribute="trailing" constant="12" id="G0h-Ju-6gp"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="6fi-Bk-Wbu" secondAttribute="trailing" id="HUy-qU-Akc"/>
                     <constraint firstItem="FNy-Bb-SB0" firstAttribute="top" secondItem="5sM-Zv-Ruj" secondAttribute="bottom" constant="2" id="R6O-vM-wTL"/>
                     <constraint firstItem="6fi-Bk-Wbu" firstAttribute="leading" secondItem="FNy-Bb-SB0" secondAttribute="trailing" constant="8" id="VbJ-GB-5Jw"/>
                     <constraint firstItem="5sM-Zv-Ruj" firstAttribute="top" secondItem="7SN-to-cj0" secondAttribute="top" id="XB2-IJ-Kcf"/>
-                    <constraint firstAttribute="trailing" secondItem="MjR-No-lVF" secondAttribute="trailing" constant="16" id="cVM-gn-eyP"/>
+                    <constraint firstAttribute="trailing" secondItem="MjR-No-lVF" secondAttribute="trailing" constant="12" id="cVM-gn-eyP"/>
                     <constraint firstItem="pAr-w2-r0m" firstAttribute="centerY" secondItem="FNy-Bb-SB0" secondAttribute="centerY" id="cgd-5U-bXV"/>
-                    <constraint firstItem="MjR-No-lVF" firstAttribute="leading" secondItem="7SN-to-cj0" secondAttribute="leading" constant="16" id="drE-mY-AgI"/>
-                    <constraint firstItem="5sM-Zv-Ruj" firstAttribute="leading" secondItem="7SN-to-cj0" secondAttribute="leading" id="g8p-tO-e3z"/>
+                    <constraint firstItem="MjR-No-lVF" firstAttribute="leading" secondItem="7SN-to-cj0" secondAttribute="leading" constant="12" id="drE-mY-AgI"/>
+                    <constraint firstItem="5sM-Zv-Ruj" firstAttribute="leading" secondItem="7SN-to-cj0" secondAttribute="leading" constant="12" id="g8p-tO-e3z"/>
                     <constraint firstItem="MjR-No-lVF" firstAttribute="top" secondItem="5sM-Zv-Ruj" secondAttribute="bottom" constant="2" id="j54-Fn-sdo"/>
-                    <constraint firstItem="pAr-w2-r0m" firstAttribute="leading" secondItem="7SN-to-cj0" secondAttribute="leadingMargin" constant="16" id="l2K-P4-lB1"/>
+                    <constraint firstItem="pAr-w2-r0m" firstAttribute="leading" secondItem="7SN-to-cj0" secondAttribute="leadingMargin" constant="4" id="l2K-P4-lB1"/>
                     <constraint firstItem="FNy-Bb-SB0" firstAttribute="leading" secondItem="pAr-w2-r0m" secondAttribute="trailing" constant="8" id="sz5-HF-aLp"/>
                     <constraint firstAttribute="bottom" secondItem="MjR-No-lVF" secondAttribute="bottom" constant="2" id="xIe-LO-sM3"/>
                 </constraints>

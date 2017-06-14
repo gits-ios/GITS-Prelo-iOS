@@ -57,7 +57,7 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     
     var balanceMutationItems : [BalanceMutationItem]?
     
-    var totalPreloBalance : Int = 0
+    var totalPreloBalance : Int64 = 0
     
     var isRefreshing = false
     
@@ -116,7 +116,7 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
                 
                 // Set Prelo Balance text
                 if (self.nextIdx == 0) { // First request
-                    self.totalPreloBalance = json["_data"]["total_prelo_balance"].intValue
+                    self.totalPreloBalance = json["_data"]["total_prelo_balance"].int64Value
                 }
 //                let f = NumberFormatter()
 //                f.numberStyle = NumberFormatter.Style.currency

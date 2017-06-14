@@ -54,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var produkUploader : ProdukUploader!
     
-    var isFromBackground = false // for defined wait time for redir alert to show
+    var isTakingScreenshot = false // for use when take screenshot (dialog show)
     
     static var Instance : AppDelegate {
         return UIApplication.shared.delegate as! AppDelegate
@@ -202,8 +202,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     if let _ = remoteNotif.object(forKey: "is_prelo_message") as? Bool {
                         tipe = self.RedirPreloMessage
                     }
-//                    Constant.showDialog(tipe, message: targetId! )
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
+                    //Constant.showDialog(tipe, message: targetId)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                         self.deeplinkRedirect(tipe, targetId: targetId)
                     })
                     
@@ -225,7 +225,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let tipe = launchURL.host {
                 var targetId : String?
                 targetId = launchURL.path.substringFromIndex(1)
-                self.deeplinkRedirect(tipe, targetId: targetId)
+                
+                let param : [URLQueryItem] = []
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    // prelo:// http:// https://
+                    if (launchURL.absoluteString.contains("prelo://") || launchURL.absoluteString.contains("http://") || launchURL.absoluteString.contains("https://")) {
+                        self.handleUniversalLink(launchURL.absoluteURL, path: launchURL.path, param: param)
+                    } else {
+                        // fb ?
+                        self.deeplinkRedirect(tipe, targetId: targetId)
+                    }
+                })
             }
 
             // FIXME: Swift 3
@@ -245,7 +255,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         branch.initSession(launchOptions: launchOptions, andRegisterDeepLinkHandler: { params, error in
             // Route the user based on what's in params
             let sessionParams = Branch.getInstance().getLatestReferringParams()
-            let firstParams = Branch.getInstance().getFirstReferringParams()
+            //let firstParams = Branch.getInstance().getFirstReferringParams()
             //print("launch sessionParams = \(sessionParams)")
             //print("launch firstParams = \(firstParams)")
             
@@ -255,7 +265,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if let tId = params["target_id"].string {
                     targetId = tId
                 }
-                self.deeplinkRedirect(tipe, targetId: targetId)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    self.deeplinkRedirect(tipe, targetId: targetId)
+                })
             }
         })
         
@@ -267,7 +279,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     if let items = components.queryItems {
                         param = items
                     }
-                    self.handleUniversalLink(url, path: components.path, param: param)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                        self.handleUniversalLink(url, path: components.path, param: param)
+                    })
                 }
             }
         }
@@ -635,8 +649,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
         
-        self.isFromBackground = true
-        
         self.versionForceUpdateCheck()
         
         // Prelo Analytic - Open App
@@ -681,13 +693,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.versionForceUpdateCheck()
         
-        self.isFromBackground = false
-        
         // Prelo Analytic - Open App
         AnalyticManager.sharedInstance.openApp()
         
         // Prelo Analytic - Update User
         AnalyticManager.sharedInstance.updateUser(isNeedPayload: true)
+        
+        let mainQueue = OperationQueue.main
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationUserDidTakeScreenshot,
+                                                                object: nil,
+                                                                queue: mainQueue) { notification in
+                                                                    // executes after screenshot
+                                                                    
+                                                                    if !self.isTakingScreenshot {
+                                                                        
+                                                                        self.isTakingScreenshot = true
+                                                                        self.showAlert()
+                                                                        
+                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                                                                            
+                                                                            self.hideRedirAlertWithDelay(0.0, completion: nil)
+                                                                            self.takeScreenshot()
+                                                                            
+                                                                        })
+                                                                    }
+        }
         
         return true
     }
@@ -705,7 +735,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if (url.absoluteString.lowercased().contains("prelo://")) { // prelo://
             let urlString = url.absoluteString.lowercased().replace("prelo:/", template: "")
-            let parameter = path.replace("/", template: "")
+            var parameter = path
+            
+            if parameter != "" && parameter.characterAtIndex(0) == "/" {
+                parameter.remove(at: parameter.startIndex)
+            }
             
             // #1 User
             if (urlString.contains("/user")) {
@@ -732,6 +766,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             // #2 Category
             } else if (urlString.contains("/category")) {
+                if parameter != "" {
+                    if parameter.contains("/") {
+                        let separators = NSCharacterSet(charactersIn: "/")
+                        // Split based on characters.
+                        let params = parameter.components(separatedBy: separators as CharacterSet)
+                        
+                        if params.count >= 2 && params[1] != "" {
+                            self.redirectSubCategorySegment(params[0], segment: params[1])
+                        } else {
+                            self.redirectCategory(params[0])
+                        }
+                    } else {
+                        self.redirectCategory(parameter) // user id
+                    }
+                } else {
+                    self.showFailedRedirAlert()
+                }
+                
+                /*
                 let _ = request(APIReference.getCategoryByPermalink(permalink: path.replace("/", template: ""))).responseJSON { resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Get Category ID")) {
                         let json = JSON(resp.result.value!)
@@ -745,6 +798,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         self.showFailedRedirAlert()
                     }
                 }
+                 */
                 
             // #3 Chat
             } else if (urlString.contains("/chat")) {
@@ -1017,16 +1071,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
     }
     
+    func showAlert() {
+        self.redirAlert = SCLAlertView(appearance: Constant.appearance)
+        self.alertViewResponder = self.redirAlert!.showCustom("Take Screenshot", subTitle: "Harap tunggu beberapa saat", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+    }
+    
     func showRedirAlert() {
 //        redirAlert = UIAlertController(title: "Redirecting...", message: "Harap tunggu beberapa saat", preferredStyle: .alert)
 //        UIApplication.shared.keyWindow?.rootViewController?.present(redirAlert!, animated: true, completion: nil)
         
-        let delayTime = (self.isFromBackground ? 0 : 0.5) * Double(NSEC_PER_SEC)
-        let time = DispatchTime.now() + Double(Int64(delayTime)) / Double(NSEC_PER_SEC)
-        DispatchQueue.main.asyncAfter(deadline: time, execute: {
-            self.redirAlert = SCLAlertView(appearance: Constant.appearance)
-            self.alertViewResponder = self.redirAlert!.showCustom("Redirecting...", subTitle: "Harap tunggu beberapa saat", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
-        })
+        self.redirAlert = SCLAlertView(appearance: Constant.appearance)
+        self.alertViewResponder = self.redirAlert!.showCustom("Redirecting...", subTitle: "Harap tunggu beberapa saat", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
     func hideRedirAlertWithDelay(_ delay: Double, completion: (() -> Void)?) {
@@ -1312,7 +1367,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             let orderConfirmVC : OrderConfirmViewController = (mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdOrderConfirm) as? OrderConfirmViewController)!
                             orderConfirmVC.transactionId = transactionId
                             orderConfirmVC.orderID = data["order_id"].stringValue
-                            orderConfirmVC.total = data["total_price"].intValue
+                            orderConfirmVC.total = data["total_price"].int64Value
                             orderConfirmVC.images = imgs
                             orderConfirmVC.isFromCheckout = false
                             
@@ -1400,6 +1455,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         listItemVC.currentMode = .filter
         listItemVC.fltrCategId = categoryId
         listItemVC.fltrSortBy = "recent"
+        
+        var rootViewController : UINavigationController?
+        if let rVC = self.window?.rootViewController {
+            if (rVC.childViewControllers.count > 0) {
+                if let chld = rVC.childViewControllers[0] as? UINavigationController {
+                    rootViewController = chld
+                }
+            }
+        }
+        if (rootViewController == nil) {
+            // Set root view controller
+            rootViewController = UINavigationController()
+            rootViewController?.navigationBar.barTintColor = Theme.PrimaryColor
+            rootViewController?.navigationBar.tintColor = UIColor.white
+            rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+            self.window?.rootViewController = rootViewController
+            let noBtn = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+            listItemVC.navigationItem.leftBarButtonItem = noBtn
+        }
+        
+        self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
+            rootViewController!.pushViewController(listItemVC, animated: true)
+        })
+    }
+    
+    func redirectSubCategorySegment(_ categoryId : String, segment : String) {
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+        listItemVC.currentMode = .filter
+        listItemVC.fltrCategId = categoryId
+        listItemVC.fltrSortBy = "recent"
+        listItemVC.fltrSegment = segment
         
         var rootViewController : UINavigationController?
         if let rVC = self.window?.rootViewController {
@@ -1646,10 +1733,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             })
             
         } else { // v2
-            self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
-                let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
-                rootViewController!.pushViewController(checkout2ShipVC, animated: true)
-            })
+            if AppTools.isSingleCart {
+                self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
+                    let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
+                    rootViewController!.pushViewController(checkout2ShipVC, animated: true)
+                })
+            } else {
+                self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
+                    let checkout2VC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2, owner: nil, options: nil)?.first as! Checkout2ViewController
+                    rootViewController!.pushViewController(checkout2VC, animated: true)
+                })
+            }
         }
     }
     
@@ -1842,7 +1936,143 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     
                     UserDefaults.standard.synchronize()
                 }
+                
+                // Check apps offset
+                if let offset = data["ads_config"]["offset"].int {
+                    UserDefaults.standard.set(offset, forKey: UserDefaultsKey.AdsOffset)
+                    
+                    UserDefaults.standard.synchronize()
+                }
+                
+                // Check apps refresh time
+                if let refreshTime = data["editors_page_refresh_time"].int {
+                    UserDefaults.standard.set(refreshTime, forKey: UserDefaultsKey.RefreshTime)
+                    
+                    UserDefaults.standard.synchronize()
+                }
+                
+                // change icon from server iOS 10.3.*
+                if #available(iOS 10.3, *) {
+                    guard UIApplication.shared.supportsAlternateIcons,
+                        let iconType = data["icon_launcher"].string else { return }
+                    
+                    // Check apps icon need update?
+                    //let iconType = "ramadhan" // "default", "christmas", "ramadhan",
+                    
+                    // https://stackoverflow.com/questions/42195325/setting-alternate-app-icon-returns-error-3072-the-operation-was-cancelled-in
+                    if iconType == "default" && UIApplication.shared.alternateIconName != nil {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                            UIApplication.shared.setAlternateIconName(nil) { error in
+                                /*if let error = error {
+                                    print("ERROR")
+                                    print(error.localizedDescription)
+                                } else {
+                                    print("Success!")
+                                }*/
+                            }
+                        })
+                    } else if UIApplication.shared.alternateIconName != iconType && iconType != "default" {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                            UIApplication.shared.setAlternateIconName(iconType) { error in
+                                /*if let error = error {
+                                    print("ERROR")
+                                    print(String(describing: error))
+                                } else {
+                                    print("Success!")
+                                }*/
+                            }
+                        })
+                    }
+                }
             }
+        }
+    }
+    
+    // screenshot
+    func takeScreenshot() {
+        CustomPhotoAlbum.sharedInstance.fetchLastPhoto(resizeTo: nil , imageCallback: {
+            image in
+            if let ss = image {
+                let appearance = Constant.appearance
+                //appearance.shouldAutoDismiss = false
+                
+                let alertView = SCLAlertView(appearance: appearance)
+                
+                let width = Constant.appearance.kWindowWidth - 24
+                let frame = CGRect(x: 0, y: 0, width: width, height: width)
+                
+                let pView = UIImageView(frame: frame)
+                pView.image = ss.resizeWithMaxWidthOrHeight(width * UIScreen.main.scale)
+                pView.afInflate()
+                pView.contentMode = .scaleAspectFit
+                
+                // Creat the subview
+                let subview = UIView(frame: CGRect(x: 0, y: 0, width: width, height: width))
+                subview.addSubview(pView)
+                
+                alertView.customSubview = subview
+                
+                alertView.addButton("Share", action: {
+                    self.openShare(image: ss)
+                })
+                
+                alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {
+                    self.isTakingScreenshot = false
+                }
+                
+                alertView.showCustom("Screenshot", subTitle: "", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+            } else {
+                Constant.showDialog("Screenshot", message: "Pastikan untuk memberi akses aplikasi Prelo, dan coba untuk mengambil screenshot sekali lagi.")
+                self.isTakingScreenshot = false
+            }
+        })
+    }
+    
+    func openShare(image: UIImage) {
+        // disable deeplink
+        //let firstActivityItem = "Prelo"
+        //let secondActivityItem : NSURL = NSURL(string: "https://prelo.co.id/")!
+        
+        // If you want to put an image
+        // image (param)
+        
+        let activityViewController : UIActivityViewController = UIActivityViewController(
+            activityItems: [image], applicationActivities: nil) // firstActivityItem, secondActivityItem,
+        /*
+         // This lines is for the popover you need to show in iPad
+         activityViewController.popoverPresentationController?.sourceView = (sender as! UIButton)
+         
+         // This line remove the arrow of the popover to show in iPad
+         activityViewController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.allZeros
+         activityViewController.popoverPresentationController?.sourceRect = CGRect(x: 150, y: 150, width: 0, height: 0)
+         
+         // Anything you want to exclude
+         activityViewController.excludedActivityTypes = [
+         UIActivityTypePostToWeibo,
+         UIActivityTypePrint,
+         UIActivityTypeAssignToContact,
+         UIActivityTypeSaveToCameraRoll,
+         UIActivityTypeAddToReadingList,
+         UIActivityTypePostToFlickr,
+         UIActivityTypePostToVimeo,
+         UIActivityTypePostToTencentWeibo
+         ]
+         */
+        
+        //UIApplication.shared.keyWindow?.rootViewController?.present(activityViewController, animated: true, completion: nil)
+        
+        activityViewController.completionWithItemsHandler = { activity, success, items, error in
+            self.isTakingScreenshot = false
+        }
+        
+        // https://stackoverflow.com/questions/26667009/get-top-most-uiviewcontroller
+        if var topController = UIApplication.shared.keyWindow?.rootViewController {
+            while let presentedViewController = topController.presentedViewController {
+                topController = presentedViewController
+            }
+            
+            // topController should now be your topmost view controller
+            topController.present(activityViewController, animated: true, completion: nil)
         }
     }
 }

@@ -28,18 +28,21 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         var name: String = ""
         var type: Int = 0
         var chargeDescription: String = ""
-        var charge: Int = 0
+        var charge: Int64 = 0
         var provider: paymentMethodProvider = .bankTransfer
     }
     
     struct DiscountItem {
         var title: String = ""
-        var value: Int = 0
+        var value: Int64 = 0
     }
     
     var isFirst = true
     var isShowBankBRI = false
     var isCreditCard = false
+    var isMandiriClickpay = false
+    var isMandiriEcash = false
+    var isCimbClicks = false
     var isIndomaret = false
     var isKredivo = false
     var isDropdownMode = false
@@ -62,13 +65,13 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
     
     // bonus
     var isHalfBonusMode: Bool = false
-    var customBonusPercent: Int = 0
-    var preloBonusUsed: Int = 0
+    var customBonusPercent: Int64 = 0
+    var preloBonusUsed: Int64 = 0
     
-    var preloBalanceUsed: Int = 0
-    var preloBalanceTotal: Int = 0
+    var preloBalanceUsed: Int64 = 0
+    var preloBalanceTotal: Int64 = 0
     
-    var totalAmount: Int = 0
+    var totalAmount: Int64 = 0
     
     var voucherSerial: String?
     var isFreeze: Bool = false
@@ -186,6 +189,9 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         self.isShowBankBRI = false
         self.isCreditCard = false
         self.isIndomaret = false
+        self.isMandiriClickpay = false
+        self.isMandiriEcash = false
+        self.isCimbClicks = false
         self.isKredivo = false
         self.isDropdownMode = false
         
@@ -208,11 +214,17 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             } else if (_ab == "indomaret") {
                 self.isIndomaret = true
             } else if (_ab.range(of: "bonus:") != nil) {
-                self.customBonusPercent = Int(_ab.components(separatedBy: "bonus:")[1])!
+                self.customBonusPercent = Int64(_ab.components(separatedBy: "bonus:")[1])!
             } else if (_ab == "target_bank") {
                 self.isDropdownMode = true
             } else if (_ab == "kredivo") {
                 self.isKredivo = true
+            } else if (_ab == "mandiri_clickpay") {
+                self.isMandiriClickpay = true
+            } else if (_ab == "mandiri_ecash") {
+                self.isMandiriEcash = true
+            } else if (_ab == "cimb_clicks") {
+                self.isCimbClicks = true
             }
         }
         
@@ -282,7 +294,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
 
         // prelo balance
         // setup balance
-        var operan = 0
+        var operan: Int64 = 0
         for d in self.discountItems {
             operan += d.value
         }
@@ -308,14 +320,23 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             priceAfterDiscounts -= self.preloBalanceUsed
         }
         
-        let creditCardCharge = (self.cartResult.veritransCharge?.creditCard)! + Int((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.creditCardMultiplyFactor)!) + 0.5)
+        let creditCardCharge = (self.cartResult.veritransCharge?.creditCard)! + Int64((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.creditCardMultiplyFactor)!) + 0.5)
         
-        var indomaretCharge = Int((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.indomaretMultiplyFactor)!) + 0.5)
+        var indomaretCharge = Int64((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.indomaretMultiplyFactor)!) + 0.5)
         if (indomaretCharge < (self.cartResult.veritransCharge?.indomaret)!) {
             indomaretCharge = (self.cartResult.veritransCharge?.indomaret)!
         }
         
-        let kredivoCharge = Int((Double(priceAfterDiscounts) * (self.cartResult.kredivoCharge?.installment)!) + 0.5)
+        let mandiriClickpayCharge = (self.cartResult.veritransCharge?.mandiriClickpay)!
+        
+        var mandiriEcashCharge = Int64((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.mandiriEcashMultiplyFactor)!) + 0.5)
+        if (mandiriEcashCharge < (self.cartResult.veritransCharge?.mandiriEcash)!) {
+            mandiriEcashCharge = (self.cartResult.veritransCharge?.mandiriEcash)!
+        }
+        
+        let cimbClicksCharge = (self.cartResult.veritransCharge?.cimbClicks)!
+        
+        let kredivoCharge = Int64((Double(priceAfterDiscounts) * (self.cartResult.kredivoCharge?.installment)!) + 0.5)
         
         if self.isCreditCard {
             var p = PaymentMethodItem()
@@ -345,6 +366,33 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             p.charge = kredivoCharge
             p.chargeDescription = "Kredivo Charge"
             p.provider = .kredivo
+            self.paymentMethods.append(p)
+        }
+        
+        if self.isCimbClicks {
+            var p = PaymentMethodItem()
+            p.name = "CIMB Clicks"
+            p.charge = cimbClicksCharge
+            p.chargeDescription = "CIMB Clicks Charge"
+            p.provider = .veritrans
+            self.paymentMethods.append(p)
+        }
+        
+        if self.isMandiriClickpay {
+            var p = PaymentMethodItem()
+            p.name = "Mandiri Clickpay"
+            p.charge = mandiriClickpayCharge
+            p.chargeDescription = "Mandiri Clickpay Charge"
+            p.provider = .veritrans
+            self.paymentMethods.append(p)
+        }
+        
+        if self.isMandiriEcash {
+            var p = PaymentMethodItem()
+            p.name = "Mandiri Ecash"
+            p.charge = mandiriEcashCharge
+            p.chargeDescription = "Mandiri Ecash Charge"
+            p.provider = .veritrans
             self.paymentMethods.append(p)
         }
         
@@ -500,7 +548,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                     self.isBalanceUsed = !self.isBalanceUsed
                     
                     if self.isBalanceUsed && (self.discountItems.count == 0 || self.discountItems[0].title != "Prelo Balance") {
-                        var operan = 0
+                        var operan: Int64 = 0
                         
                         for d in self.discountItems {
                             operan += d.value
@@ -525,7 +573,12 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                         }
                     }
                     
-                    self.tableView.reloadData()
+                    //self.tableView.reloadData()
+                    self.tableView.reloadSections(IndexSet.init(arrayLiteral: idx.section, idx.section+1), with: .fade)
+                    
+                    if self.isBalanceUsed {
+                        self.scrollToSummary()
+                    }
                 }
                 
                 return cell
@@ -540,7 +593,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 cell.voucherUsed = {
                     self.isVoucherUsed = !self.isVoucherUsed
                     
-                    self.tableView.reloadData()
+                    //self.tableView.reloadData()
+                    self.tableView.reloadSections(IndexSet.init(arrayLiteral: idx.section, idx.section+1), with: .fade)
                     
                     if self.isVoucherUsed {
                         self.scrollToSummary()
@@ -575,7 +629,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                     cell.adapt("Total Belanja", amount: self.totalAmount)
                 } else if idx.row > self.discountItems.count + 1 {
                     // recalculate
-                    var operan = 0
+                    var operan: Int64 = 0
                     for d in self.discountItems {
                         operan += d.value // include balance
                     }
@@ -584,20 +638,41 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                     let priceAfterDiscounts = self.totalAmount - operan
                     
                     if self.paymentMethods[self.selectedPaymentIndex].name == "Kartu Kredit" {
-                        let creditCardCharge = (self.cartResult.veritransCharge?.creditCard)! + Int((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.creditCardMultiplyFactor)!) + 0.5)
+                        let creditCardCharge = (self.cartResult.veritransCharge?.creditCard)! + Int64((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.creditCardMultiplyFactor)!) + 0.5)
                         
                         self.paymentMethods[self.selectedPaymentIndex].charge = creditCardCharge
+                        
                     } else if self.paymentMethods[self.selectedPaymentIndex].name == "Indomaret" {
-                        var indomaretCharge = Int((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.indomaretMultiplyFactor)!) + 0.5)
+                        var indomaretCharge = Int64((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.indomaretMultiplyFactor)!) + 0.5)
                         if (indomaretCharge < (self.cartResult.veritransCharge?.indomaret)!) {
                             indomaretCharge = (self.cartResult.veritransCharge?.indomaret)!
                         }
                         
                         self.paymentMethods[self.selectedPaymentIndex].charge = indomaretCharge
+                        
+                    } else if self.paymentMethods[self.selectedPaymentIndex].name == "Mandiri Clickpay" {
+                        let mandiriClickpayCharge = (self.cartResult.veritransCharge?.mandiriClickpay)!
+                        
+                        self.paymentMethods[self.selectedPaymentIndex].charge = mandiriClickpayCharge
+                        
+                    } else if self.paymentMethods[self.selectedPaymentIndex].name == "Mandiri Ecash" {
+                        var mandiriEcashCharge = Int64((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.mandiriEcashMultiplyFactor)!) + 0.5)
+                        if (mandiriEcashCharge < (self.cartResult.veritransCharge?.mandiriEcash)!) {
+                            mandiriEcashCharge = (self.cartResult.veritransCharge?.mandiriEcash)!
+                        }
+                        
+                        self.paymentMethods[self.selectedPaymentIndex].charge = mandiriEcashCharge
+                        
+                    } else if self.paymentMethods[self.selectedPaymentIndex].name == "CIMB Clicks" {
+                        let cimbClicksCharge = (self.cartResult.veritransCharge?.cimbClicks)!
+                        
+                        self.paymentMethods[self.selectedPaymentIndex].charge = cimbClicksCharge
+                        
                     } else if self.paymentMethods[self.selectedPaymentIndex].name == "Kredivo" {
-                        let kredivoCharge = Int((Double(priceAfterDiscounts) * (self.cartResult.kredivoCharge?.installment)!) + 0.5)
+                        let kredivoCharge = Int64((Double(priceAfterDiscounts) * (self.cartResult.kredivoCharge?.installment)!) + 0.5)
                         
                         self.paymentMethods[self.selectedPaymentIndex].charge = kredivoCharge
+                        
                     }
                     
                     cell.adapt(self.paymentMethods[self.selectedPaymentIndex].chargeDescription, amount: self.paymentMethods[self.selectedPaymentIndex].charge)
@@ -626,7 +701,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                         }
                     }
                     
-                    self.tableView.reloadData()
+                    //self.tableView.reloadData()
+                    self.tableView.reloadSections(IndexSet.init(integer: idx.section), with: .fade)
                     
                     totalAmount = 0
                 }
@@ -643,7 +719,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                         }
                     }
                     
-                    self.tableView.reloadData()
+                    //self.tableView.reloadData()
+                    self.tableView.reloadSections(IndexSet.init(integer: idx.section), with: .fade)
                     
                     totalAmount = 0
                 }
@@ -676,7 +753,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             } else {
                 self.selectedPaymentIndex = idx.row-1
                 
-                self.tableView.reloadData()
+                //self.tableView.reloadData()
+                self.tableView.reloadSections(IndexSet.init(arrayLiteral: idx.section, idx.section + 1, idx.section + 2), with: .fade)
             }
         }
     }
@@ -748,11 +826,11 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                     var itemsId : [String] = []
                     var itemsCategory : [String] = []
                     var itemsSeller : [String] = []
-                    var itemsPrice : [Int] = []
-                    var itemsCommissionPercentage : [Int] = []
-                    var itemsCommissionPrice : [Int] = []
-                    var totalCommissionPrice = 0
-                    var totalPrice = 0
+                    var itemsPrice : [Int64] = []
+                    var itemsCommissionPercentage : [Int64] = []
+                    var itemsCommissionPrice : [Int64] = []
+                    var totalCommissionPrice : Int64 = 0
+                    var totalPrice : Int64 = 0
                     
                     for c in self.cartResult.cartDetails {
                         for p in c.products {
@@ -796,7 +874,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                     let orderId = self.checkoutResult!["order_id"].stringValue
                     let paymentMethod = self.checkoutResult!["payment_method"].stringValue
                     
-                    totalPrice = self.checkoutResult!["total_price"].intValue
+                    totalPrice = self.checkoutResult!["total_price"].int64Value
                     
                     // FB Analytics - initiated Checkout
                     if AppTools.IsPreloProduction {
@@ -862,7 +940,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                         "Total Price" : totalPrice,
                         "Address" : address,
                         "Payment Method" : paymentMethod,
-                        "Prelo Balance Used" : (self.checkoutResult!["prelobalance_used"].intValue != 0 ? true : false)
+                        "Prelo Balance Used" : (self.checkoutResult!["prelobalance_used"].int64Value != 0 ? true : false)
                         ] as [String : Any]
                     
                     if (self.checkoutResult!["voucher_serial"].stringValue != "") {
@@ -876,9 +954,9 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                     
                     // Answers
                     if (AppTools.IsPreloProduction) {
-                        Answers.logStartCheckout(withPrice: NSDecimalNumber(value: totalPrice as Int), currency: "IDR", itemCount: NSNumber(value: items.count as Int), customAttributes: nil)
+                        Answers.logStartCheckout(withPrice: NSDecimalNumber(value: totalPrice as Int64), currency: "IDR", itemCount: NSNumber(value: items.count as Int), customAttributes: nil)
                         for j in 0...items.count-1 {
-                            Answers.logPurchase(withPrice: NSDecimalNumber(value: itemsPrice[j] as Int), currency: "IDR", success: true, itemName: items[j], itemType: itemsCategory[j], itemId: itemsId[j], customAttributes: nil)
+                            Answers.logPurchase(withPrice: NSDecimalNumber(value: itemsPrice[j] as Int64), currency: "IDR", success: true, itemName: items[j], itemType: itemsCategory[j], itemId: itemsId[j], customAttributes: nil)
                         }
                     }
                     
@@ -959,17 +1037,51 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                     }
                     webVC.ccPaymentUnfinished = {
                         Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].name)", message: "Pembayaran tertunda")
+                        /*
                         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
                         notifPageVC.isBackThreeTimes = true
                         notifPageVC.previousScreen = PageName.Checkout
                         self.navigateToVC(notifPageVC)
+                        */
+                        
+                        // back2 & push
+                        if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                            let navController = self.navigationController!
+                            var controllers = navController.viewControllers
+                            controllers.removeLast()
+                            controllers.removeLast()
+                            
+                            navController.setViewControllers(controllers, animated: false)
+                            
+                            let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                            myPurchaseVC.previousScreen = PageName.Checkout
+                            
+                            navController.pushViewController(myPurchaseVC, animated: true)
+                        }
                     }
                     webVC.ccPaymentFailed = {
                         Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].name)", message: "Pembayaran gagal, silahkan coba beberapa saat lagi")
+                        /*
                         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
                         notifPageVC.isBackThreeTimes = true
                         notifPageVC.previousScreen = PageName.Checkout
                         self.navigateToVC(notifPageVC)
+                        */
+                        
+                        // back2 & push
+                        if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                            let navController = self.navigationController!
+                            var controllers = navController.viewControllers
+                            controllers.removeLast()
+                            controllers.removeLast()
+                            
+                            navController.setViewControllers(controllers, animated: false)
+                            
+                            let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                            myPurchaseVC.previousScreen = PageName.Checkout
+                            
+                            navController.pushViewController(myPurchaseVC, animated: true)
+                        }
                     }
                     let baseNavC = BaseNavigationController()
                     baseNavC.setViewControllers([webVC], animated: false)
@@ -986,17 +1098,51 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                     }
                     webVC.ccPaymentUnfinished = {
                         Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].name)", message: "Pembayaran tertunda")
+                        /*
                         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
                         notifPageVC.isBackThreeTimes = true
                         notifPageVC.previousScreen = PageName.Checkout
                         self.navigateToVC(notifPageVC)
+                        */
+                        
+                        // back2 & push
+                        if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                            let navController = self.navigationController!
+                            var controllers = navController.viewControllers
+                            controllers.removeLast()
+                            controllers.removeLast()
+                            
+                            navController.setViewControllers(controllers, animated: false)
+                            
+                            let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                            myPurchaseVC.previousScreen = PageName.Checkout
+                            
+                            navController.pushViewController(myPurchaseVC, animated: true)
+                        }
                     }
                     webVC.ccPaymentFailed = {
                         Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].name)", message: "Pembayaran gagal, silahkan coba beberapa saat lagi")
+                        /*
                         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
                         notifPageVC.isBackThreeTimes = true
                         notifPageVC.previousScreen = PageName.Checkout
                         self.navigateToVC(notifPageVC)
+                        */
+                        
+                        // back2 & push
+                        if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                            let navController = self.navigationController!
+                            var controllers = navController.viewControllers
+                            controllers.removeLast()
+                            controllers.removeLast()
+                            
+                            navController.setViewControllers(controllers, animated: false)
+                            
+                            let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                            myPurchaseVC.previousScreen = PageName.Checkout
+                            
+                            navController.pushViewController(myPurchaseVC, animated: true)
+                        }
                     }
                     let baseNavC = BaseNavigationController()
                     baseNavC.setViewControllers([webVC], animated: false)
@@ -1054,21 +1200,21 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         
         let _ = request(APIMe.createAddress(addressName: "", recipientName: self.selectedAddress.name, phone: self.selectedAddress.phone, provinceId: self.selectedAddress.provinceId, provinceName: provinceName, regionId: self.selectedAddress.regionId, regionName: regionName, subdistrictId: self.selectedAddress.subdistrictId, subdistricName: self.selectedAddress.subdistrictName, address: self.selectedAddress.address, postalCode: self.selectedAddress.postalCode, coordinate: self.selectedAddress.coordinate, coordinateAddress: self.selectedAddress.coordinateAddress)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Alamat Baru")) {
-                print("New Address - Save!")
+                //print("New Address - Save!")
             }
         }
     }
     
     // MARK: - Navigation
     func navigateToOrderConfirmVC(_ isMidtrans: Bool) {
-        var gTotal = 0
-        if let totalPrice = self.checkoutResult?["total_price"].int {
+        var gTotal: Int64 = 0
+        if let totalPrice = self.checkoutResult?["total_price"].int64 {
             gTotal += totalPrice
         }
-        if !isMidtrans, let trfCode = self.checkoutResult?["banktransfer_digit"].int {
+        if !isMidtrans, let trfCode = self.checkoutResult?["banktransfer_digit"].int64 {
             gTotal += trfCode
         }
-        if isMidtrans, let trfCharge = self.checkoutResult?["veritrans_charge_amount"].int {
+        if isMidtrans, let trfCharge = self.checkoutResult?["veritrans_charge_amount"].int64 {
             gTotal += trfCharge
         }
         
@@ -1125,7 +1271,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             // gesture override
             self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
             
-            print(self.previousController.debugDescription)
+            //print(self.previousController.debugDescription)
             
             // back / pop twice
             if let count = self.navigationController?.viewControllers.count {
@@ -1143,7 +1289,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.right:
-                print("Swiped right")
+                //print("Swiped right")
                 
                 let alertView = SCLAlertView(appearance: Constant.appearance)
                 
@@ -1164,13 +1310,6 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 
                 alertView.showCustom("Checkout", subTitle: "Kamu yakin mau keluar dari sini? Dengan meninggalkan halaman ini, pemesanan akan dibatalkan.", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
                 
-                
-            case UISwipeGestureRecognizerDirection.down:
-                print("Swiped down")
-            case UISwipeGestureRecognizerDirection.left:
-                print("Swiped left")
-            case UISwipeGestureRecognizerDirection.up:
-                print("Swiped up")
             default:
                 break
             }
@@ -1188,7 +1327,7 @@ class Checkout2PaymentMethodCell: UITableViewCell {
     }
     
     static func heightFor() -> CGFloat {
-        return 52.0
+        return 40.0
     }
 }
 
@@ -1206,31 +1345,61 @@ class Checkout2PaymentBankCell: UITableViewCell {
     let dropDown = DropDown()
     var selectedBankIndex: Int = -1
     
-    var parent: Checkout2PayViewController!
+    var parent2: Checkout2PayViewController?
+    var parent1: Checkout2ViewController?
     
-    func adapt(_ bankName: String?, isSelected: Bool, parent: Checkout2PayViewController) {
-        self.parent = parent
+    func adapt(_ bankName: String?, isSelected: Bool, parent: UIViewController) {
+        if parent is Checkout2PayViewController {
+            self.parent2 = parent as? Checkout2PayViewController
+        } else if parent is Checkout2ViewController {
+            self.parent1 = parent as? Checkout2ViewController
+        }
         
-        if self.parent.isDropdownMode {
-            self.vwDropdown.isHidden = false
-            
-            if let bn = bankName, bn != "" {
-                self.lbBank.text = bn
+        if let curParent = self.parent2 {
+            if curParent.isDropdownMode {
+                self.vwDropdown.isHidden = false
+                
+                if let bn = bankName, bn != "" {
+                    self.lbBank.text = bn
+                } else {
+                    self.lbBank.text = "Pilih Bank Tujuan Transfer"
+                }
+                
+                self.setupDropdownBank()
             } else {
-                self.lbBank.text = "Pilih Bank Tujuan Transfer"
+                self.vwDropdown.isHidden = true
+                self.selectedBankIndex = -1
+                
+                if curParent.isShowBankBRI {
+                    self.vw3Banks.isHidden = true
+                    self.vw4Banks.isHidden = false
+                } else {
+                    self.vw3Banks.isHidden = false
+                    self.vw4Banks.isHidden = true
+                }
             }
-            
-            self.setupDropdownBank()
-        } else {
-            self.vwDropdown.isHidden = true
-            self.selectedBankIndex = -1
-            
-            if self.parent.isShowBankBRI {
-                self.vw3Banks.isHidden = true
-                self.vw4Banks.isHidden = false
+        } else if let curParent = self.parent1 {
+            if curParent.isDropdownMode {
+                self.vwDropdown.isHidden = false
+                
+                if let bn = bankName, bn != "" {
+                    self.lbBank.text = bn
+                } else {
+                    self.lbBank.text = "Pilih Bank Tujuan Transfer"
+                }
+                
+                self.setupDropdownBank()
             } else {
-                self.vw3Banks.isHidden = false
-                self.vw4Banks.isHidden = true
+                self.vwDropdown.isHidden = true
+                self.selectedBankIndex = -1
+                
+                if curParent.isShowBankBRI {
+                    self.vw3Banks.isHidden = true
+                    self.vw4Banks.isHidden = false
+                } else {
+                    self.vw3Banks.isHidden = false
+                    self.vw4Banks.isHidden = true
+                }
             }
         }
         
@@ -1254,9 +1423,16 @@ class Checkout2PaymentBankCell: UITableViewCell {
         var items = ["BCA", "Mandiri", "BNI"]
         var icons = ["rsz_ic_bca@2x", "rsz_ic_mandiri@2x", "rsz_ic_bni@2x"]
         
-        if self.parent.isShowBankBRI {
-            items.append("BRI")
-            icons.append("rsz_ic_bri@2x")
+        if let parent = self.parent2 {
+            if parent.isShowBankBRI {
+                items.append("BRI")
+                icons.append("rsz_ic_bri@2x")
+            }
+        } else if let parent = self.parent1 {
+            if parent.isShowBankBRI {
+                items.append("BRI")
+                icons.append("rsz_ic_bri@2x")
+            }
         }
         
         // The list of items to display. Can be changed dynamically
@@ -1267,7 +1443,11 @@ class Checkout2PaymentBankCell: UITableViewCell {
             self.lbBank.text = items[index]
             self.selectedBankIndex = index
             
-            self.parent.targetBank = items[index]
+            if let parent = self.parent2 {
+                parent.targetBank = items[index]
+            } else if let parent = self.parent1 {
+                parent.targetBank = items[index]
+            }
         }
         
         dropDown.customCellConfiguration = { (index: Index, item: String, cell: DropDownCell) -> Void in
@@ -1357,8 +1537,11 @@ class Checkout2PaymentCreditCardCell: UITableViewCell {
 
 // MARK: - Class Checkout2BlackWhiteCell
 class Checkout2BlackWhiteCell: UITableViewCell {
+    @IBOutlet weak var vwLine1px: UIView!
+    @IBOutlet weak var consHeightVwLine1px: NSLayoutConstraint!
+    
     static func heightFor() -> CGFloat {
-        return 15.0
+        return 9.0
     }
 }
 
@@ -1373,21 +1556,40 @@ class Checkout2PreloBalanceCell: UITableViewCell, UITextFieldDelegate {
     
     var preloBalanceUsed: ()->() = {}
     
-    var parent: Checkout2PayViewController!
+    var parent2: Checkout2PayViewController?
+    var parent1: Checkout2ViewController?
     
-    func adapt(_ parent: Checkout2PayViewController, isUsed: Bool) {
-        self.parent = parent
+    func adapt(_ parent: UIViewController, isUsed: Bool) {
+        if parent is Checkout2PayViewController {
+            self.parent2 = parent as? Checkout2PayViewController
+        } else if parent is Checkout2ViewController {
+            self.parent1 = parent as? Checkout2ViewController
+        }
         
-        self.txtInputPreloBalance.text = parent.preloBalanceUsed.asPrice
-        self.lbDescription.text = "Prelo Balance kamu " + parent.preloBalanceTotal.asPrice
-        self.btnSwitch.isOn = isUsed
-        
-        self.txtInputPreloBalance.delegate = self
-        self.consWidthBtnApply.constant = 0
-        self.consLeadingBtnApply.constant = 0
-        
-        if isUsed {
-            self.parent.scrollToSummary()
+        if let curParent = parent2 {
+            self.txtInputPreloBalance.text = curParent.preloBalanceUsed.asPrice
+            self.lbDescription.text = "Prelo Balance kamu " + curParent.preloBalanceTotal.asPrice
+            self.btnSwitch.isOn = isUsed
+            
+            self.txtInputPreloBalance.delegate = self
+            self.consWidthBtnApply.constant = 0
+            self.consLeadingBtnApply.constant = 0
+            
+            /*if isUsed {
+                curParent.scrollToSummary()
+            }*/
+        } else if let curParent = parent1 {
+            self.txtInputPreloBalance.text = curParent.preloBalanceUsed.asPrice
+            self.lbDescription.text = "Prelo Balance kamu " + curParent.preloBalanceTotal.asPrice
+            self.btnSwitch.isOn = isUsed
+            
+            self.txtInputPreloBalance.delegate = self
+            self.consWidthBtnApply.constant = 0
+            self.consLeadingBtnApply.constant = 0
+            
+            /*if isUsed {
+                curParent.scrollToSummary()
+            }*/
         }
     }
     
@@ -1405,44 +1607,86 @@ class Checkout2PreloBalanceCell: UITableViewCell, UITextFieldDelegate {
     @IBAction func btnApplyPressed(_ sender: Any) {
         self.txtInputPreloBalance.resignFirstResponder()
         
-        var maksimum = self.parent.totalAmount
-        for d in self.parent.discountItems {
-            if d.title != "Prelo Balance" {
-                maksimum -= d.value
+        if let parent = parent2 {
+            var maksimum = parent.totalAmount
+            for d in parent.discountItems {
+                if d.title != "Prelo Balance" {
+                    maksimum -= d.value
+                }
             }
-        }
-        
-        if maksimum > self.parent.preloBalanceTotal {
-            maksimum = self.parent.preloBalanceTotal
-        }
-        
-        if let t = self.txtInputPreloBalance.text {
-            let _t = t.replacingOccurrences(of: ".", with: "").replace("Rp", template: "")
-            if _t.int <= maksimum && _t.int >= 0 {
-                
-                self.parent.preloBalanceUsed = _t.int
-                
-                if self.parent.discountItems.count > 0 {
-                    for i in 0...self.parent.discountItems.count-1 {
-                        if self.parent.discountItems[i].title == "Prelo Balance" {
-                            self.parent.discountItems[i].value = self.parent.preloBalanceUsed
+            
+            if maksimum > parent.preloBalanceTotal {
+                maksimum = parent.preloBalanceTotal
+            }
+            
+            if let t = self.txtInputPreloBalance.text {
+                let _t = t.replacingOccurrences(of: ".", with: "").replace("Rp", template: "")
+                if _t.int64 <= maksimum && _t.int64 >= 0 {
+                    
+                    parent.preloBalanceUsed = _t.int64
+                    
+                    if parent.discountItems.count > 0 {
+                        for i in 0...parent.discountItems.count-1 {
+                            if parent.discountItems[i].title == "Prelo Balance" {
+                                parent.discountItems[i].value = parent.preloBalanceUsed
+                            }
                         }
                     }
+                    
+                    parent.tableView.reloadData()
+                    parent.scrollToSummary()
+                } else {
+                    let alertView = SCLAlertView(appearance: Constant.appearance)
+                    alertView.addButton("Oke") { self.txtInputPreloBalance.becomeFirstResponder() }
+                    alertView.showCustom("Prelo Balance", subTitle: "Prelo Balance yang dapat digunakan mulai dari Rp0 hingga \(maksimum.asPrice)", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
                 }
-                
-                self.parent.tableView.reloadData()
-                self.parent.scrollToSummary()
             } else {
+                //Constant.showDialog("Prelo Balance", message: "Prelo Balance yang dapat digunakan mulai dari 1 hingga \(maksimum) rupiah")
+                
                 let alertView = SCLAlertView(appearance: Constant.appearance)
                 alertView.addButton("Oke") { self.txtInputPreloBalance.becomeFirstResponder() }
-                alertView.showCustom("Prelo Balance", subTitle: "Prelo Balance yang dapat digunakan mulai dari Rp0 hingga \(maksimum.asPrice)", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+                alertView.showCustom("Prelo Balance", subTitle: "Prelo Balance yang dapat digunakan mulai dari 1 hingga \(maksimum) rupiah", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
             }
-        } else {
-//            Constant.showDialog("Prelo Balance", message: "Prelo Balance yang dapat digunakan mulai dari 1 hingga \(maksimum) rupiah")
+        } else if let parent = parent1 {
+            var maksimum = parent.totalAmount
+            for d in parent.discountItems {
+                if d.title != "Prelo Balance" {
+                    maksimum -= d.value
+                }
+            }
             
-            let alertView = SCLAlertView(appearance: Constant.appearance)
-            alertView.addButton("Oke") { self.txtInputPreloBalance.becomeFirstResponder() }
-            alertView.showCustom("Prelo Balance", subTitle: "Prelo Balance yang dapat digunakan mulai dari 1 hingga \(maksimum) rupiah", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+            if maksimum > parent.preloBalanceTotal {
+                maksimum = parent.preloBalanceTotal
+            }
+            
+            if let t = self.txtInputPreloBalance.text {
+                let _t = t.replacingOccurrences(of: ".", with: "").replace("Rp", template: "")
+                if _t.int64 <= maksimum && _t.int64 >= 0 {
+                    
+                    parent.preloBalanceUsed = _t.int64
+                    
+                    if parent.discountItems.count > 0 {
+                        for i in 0...parent.discountItems.count-1 {
+                            if parent.discountItems[i].title == "Prelo Balance" {
+                                parent.discountItems[i].value = parent.preloBalanceUsed
+                            }
+                        }
+                    }
+                    
+                    parent.tableView.reloadData()
+                    parent.scrollToSummary()
+                } else {
+                    let alertView = SCLAlertView(appearance: Constant.appearance)
+                    alertView.addButton("Oke") { self.txtInputPreloBalance.becomeFirstResponder() }
+                    alertView.showCustom("Prelo Balance", subTitle: "Prelo Balance yang dapat digunakan mulai dari Rp0 hingga \(maksimum.asPrice)", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+                }
+            } else {
+                //Constant.showDialog("Prelo Balance", message: "Prelo Balance yang dapat digunakan mulai dari 1 hingga \(maksimum) rupiah")
+                
+                let alertView = SCLAlertView(appearance: Constant.appearance)
+                alertView.addButton("Oke") { self.txtInputPreloBalance.becomeFirstResponder() }
+                alertView.showCustom("Prelo Balance", subTitle: "Prelo Balance yang dapat digunakan mulai dari 1 hingga \(maksimum) rupiah", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+            }
         }
     }
     
@@ -1467,8 +1711,13 @@ class Checkout2PreloBalanceCell: UITableViewCell, UITextFieldDelegate {
         self.consWidthBtnApply.constant = 0
         
         if let text = self.txtInputPreloBalance.text {
-            let _text = (text != "" ? text.int.asPrice : self.parent.preloBalanceUsed.asPrice)
-            self.txtInputPreloBalance.text = _text
+            if let parent = parent2 {
+                let _text = (text != "" ? text.int64.asPrice : parent.preloBalanceUsed.asPrice)
+                self.txtInputPreloBalance.text = _text
+            } else if let parent = parent1 {
+                let _text = (text != "" ? text.int64.asPrice : parent.preloBalanceUsed.asPrice)
+                self.txtInputPreloBalance.text = _text
+            }
         }
     }
 }
@@ -1536,7 +1785,7 @@ class Checkout2PaymentSummaryCell: UITableViewCell {
     @IBOutlet weak var lbTitle: UILabel!
     @IBOutlet weak var lbAmount: UILabel!
     
-    func adapt(_ title: String, amount: Int) {
+    func adapt(_ title: String, amount: Int64) {
         self.lbTitle.text = title
         self.lbAmount.text = amount.asPrice
     }
@@ -1553,13 +1802,13 @@ class Checkout2PaymentSummaryTotalCell: UITableViewCell {
     
     var checkout: ()->() = {}
     
-    func adapt(_ amount: Int) {
+    func adapt(_ amount: Int64) {
         self.lbTitle.text = "Total Pembayaran"
         self.lbAmount.text = amount.asPrice
     }
     
     static func heightFor() -> CGFloat {
-        return 104.0
+        return 88.0
     }
     
     @IBAction func btnCheckoutPressed(_ sender: Any) {

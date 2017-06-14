@@ -620,7 +620,6 @@
 		B258A30B1EBAD95F005CC92C /* CartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B258A30A1EBAD95F005CC92C /* CartManager.swift */; };
 		B26DB3F11E2D3C6F00224675 /* ic_achievement.png in Resources */ = {isa = PBXBuildFile; fileRef = B26DB3F01E2D3C6F00224675 /* ic_achievement.png */; };
 		B271A66A1EDEC40400C6A973 /* placeholder-standar-white.png in Resources */ = {isa = PBXBuildFile; fileRef = B271A6691EDEC40400C6A973 /* placeholder-standar-white.png */; };
-		B271A6811EDED6D900C6A973 /* placeholder-transparent-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B271A67F1EDED6D900C6A973 /* placeholder-transparent-ipad.png */; };
 		B271A6821EDED6D900C6A973 /* placeholder-transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = B271A6801EDED6D900C6A973 /* placeholder-transparent.png */; };
 		B271A6891EDFD16D00C6A973 /* placeholder-transparent-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = B271A6871EDFD16D00C6A973 /* placeholder-transparent-gray.png */; };
 		B271A68A1EDFD16D00C6A973 /* placeholder-transparent-ipad-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = B271A6881EDFD16D00C6A973 /* placeholder-transparent-ipad-gray.png */; };
@@ -668,6 +667,8 @@
 		B2C59AA11E2E4B31002E4597 /* SMSegmentAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C59A9D1E2E4B31002E4597 /* SMSegmentAppearance.swift */; };
 		B2C59AA21E2E4B31002E4597 /* SMSegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C59A9E1E2E4B31002E4597 /* SMSegmentView.swift */; };
 		B2C59AA31E2E4B31002E4597 /* SMSegmentViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C59A9F1E2E4B31002E4597 /* SMSegmentViewConstants.swift */; };
+		B2C9F6E01EE923C600833E27 /* Checkout2.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2C9F6DF1EE923C600833E27 /* Checkout2.xib */; };
+		B2C9F6E21EE9242700833E27 /* Checkout2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C9F6E11EE9242700833E27 /* Checkout2ViewController.swift */; };
 		B2CAF7741E78F53300ACB361 /* PreloMessage.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2CAF7731E78F53300ACB361 /* PreloMessage.xib */; };
 		B2CAF7841E78F58900ACB361 /* PreloMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2CAF7831E78F58900ACB361 /* PreloMessageCell.xib */; };
 		B2CAF7861E78F9DD00ACB361 /* PreloMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CAF7851E78F9DD00ACB361 /* PreloMessageViewController.swift */; };
@@ -740,6 +741,10 @@
 		B2F184D31E938E72001EEB36 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F184D21E938E72001EEB36 /* GLKit.framework */; };
 		B2F184D51E938E82001EEB36 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F184D41E938E82001EEB36 /* libc++.tbd */; };
 		B2F184D71E938E9B001EEB36 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F184D61E938E9B001EEB36 /* libz.tbd */; };
+		B2F0EFE81EEECAEB00A678F8 /* ic_christmas@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F0EFE41EEECAEB00A678F8 /* ic_christmas@2x.png */; };
+		B2F0EFE91EEECAEB00A678F8 /* ic_christmas@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F0EFE51EEECAEB00A678F8 /* ic_christmas@3x.png */; };
+		B2F0EFEA1EEECAEB00A678F8 /* ic_ramadhan@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F0EFE61EEECAEB00A678F8 /* ic_ramadhan@2x.png */; };
+		B2F0EFEB1EEECAEB00A678F8 /* ic_ramadhan@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F0EFE71EEECAEB00A678F8 /* ic_ramadhan@3x.png */; };
 		B2FFCB9D1EA52669004F01D0 /* SocketAckEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFCB841EA52669004F01D0 /* SocketAckEmitter.swift */; };
 		B2FFCB9E1EA52669004F01D0 /* SocketAckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFCB851EA52669004F01D0 /* SocketAckManager.swift */; };
 		B2FFCB9F1EA52669004F01D0 /* SocketAnyEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFCB861EA52669004F01D0 /* SocketAnyEvent.swift */; };
@@ -1773,6 +1778,8 @@
 		B2C59A9D1E2E4B31002E4597 /* SMSegmentAppearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSegmentAppearance.swift; sourceTree = "<group>"; };
 		B2C59A9E1E2E4B31002E4597 /* SMSegmentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSegmentView.swift; sourceTree = "<group>"; };
 		B2C59A9F1E2E4B31002E4597 /* SMSegmentViewConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSegmentViewConstants.swift; sourceTree = "<group>"; };
+		B2C9F6DF1EE923C600833E27 /* Checkout2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Checkout2.xib; sourceTree = "<group>"; };
+		B2C9F6E11EE9242700833E27 /* Checkout2ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Checkout2ViewController.swift; sourceTree = "<group>"; };
 		B2CAF7731E78F53300ACB361 /* PreloMessage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreloMessage.xib; sourceTree = "<group>"; };
 		B2CAF7831E78F58900ACB361 /* PreloMessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreloMessageCell.xib; sourceTree = "<group>"; };
 		B2CAF7851E78F9DD00ACB361 /* PreloMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreloMessageViewController.swift; sourceTree = "<group>"; };
@@ -1855,6 +1862,10 @@
 		B2F184D41E938E82001EEB36 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		B2F184D61E938E9B001EEB36 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		B2F192851EC551BC00DFC9D8 /* Prelo 11.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 11.xcdatamodel"; sourceTree = "<group>"; };
+		B2F0EFE41EEECAEB00A678F8 /* ic_christmas@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_christmas@2x.png"; sourceTree = "<group>"; };
+		B2F0EFE51EEECAEB00A678F8 /* ic_christmas@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_christmas@3x.png"; sourceTree = "<group>"; };
+		B2F0EFE61EEECAEB00A678F8 /* ic_ramadhan@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_ramadhan@2x.png"; sourceTree = "<group>"; };
+		B2F0EFE71EEECAEB00A678F8 /* ic_ramadhan@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_ramadhan@3x.png"; sourceTree = "<group>"; };
 		B2FFCB841EA52669004F01D0 /* SocketAckEmitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckEmitter.swift; sourceTree = "<group>"; };
 		B2FFCB851EA52669004F01D0 /* SocketAckManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckManager.swift; sourceTree = "<group>"; };
 		B2FFCB861EA52669004F01D0 /* SocketAnyEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAnyEvent.swift; sourceTree = "<group>"; };
@@ -2502,6 +2513,7 @@
 				21156EB91B8F5B4C001D7842 /* UserProfileViewController.swift */,
 				B21DF53F1E5187EA007A60C5 /* UserProfileViewController2.swift */,
 				21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */,
+				B2C9F6E11EE9242700833E27 /* Checkout2ViewController.swift */,
 				B2D965EE1E9E3AA400B2C29C /* Checkout2ShipViewController.swift */,
 				B2D965F01E9E3AB600B2C29C /* Checkout2PayViewController.swift */,
 				B2F184CE1E938B92001EEB36 /* GoogleMapViewController.swift */,
@@ -2561,6 +2573,7 @@
 		21AE67B41B4A61C600D2CF63 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				B2686C561EEAF26500FF3A27 /* App Icon */,
 				21AE67B51B4A61C600D2CF63 /* Fonts */,
 				21AE67B61B4A61C600D2CF63 /* Images */,
 				21AE67B81B4A61C600D2CF63 /* Other */,
@@ -3336,6 +3349,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		B2686C561EEAF26500FF3A27 /* App Icon */ = {
+			isa = PBXGroup;
+			children = (
+				B2F0EFE41EEECAEB00A678F8 /* ic_christmas@2x.png */,
+				B2F0EFE51EEECAEB00A678F8 /* ic_christmas@3x.png */,
+				B2F0EFE61EEECAEB00A678F8 /* ic_ramadhan@2x.png */,
+				B2F0EFE71EEECAEB00A678F8 /* ic_ramadhan@3x.png */,
+			);
+			name = "App Icon";
+			path = Images;
+			sourceTree = "<group>";
+		};
 		B292B46F1EAF4F1200C6A32B /* AHKNavigationController */ = {
 			isa = PBXGroup;
 			children = (
@@ -3443,6 +3468,7 @@
 		B2D965ED1E9E391E00B2C29C /* Checkout Version 2 */ = {
 			isa = PBXGroup;
 			children = (
+				B2C9F6DF1EE923C600833E27 /* Checkout2.xib */,
 				B2D965B21E9D2A4A00B2C29C /* Checkout2Ship.xib */,
 				B2D965C41E9D2A6100B2C29C /* Checkout2Pay.xib */,
 				B2D965C61E9DC3D100B2C29C /* Checkout2SellerCell.xib */,
@@ -3824,6 +3850,7 @@
 				589A6FB41D8C08F600654CDD /* ic_box.png in Resources */,
 				FDF0AC951C0C4A6200FC7D61 /* wm_logo@2x.png in Resources */,
 				B271A6AC1EE0ACA900C6A973 /* placeholder-transparent-lightgray.png in Resources */,
+				B2C9F6E01EE923C600833E27 /* Checkout2.xib in Resources */,
 				58A223CA1C898CB600619518 /* ic_trx_shipped.png in Resources */,
 				B2D119901E290BF80064045B /* banner_notif.png in Resources */,
 				B2BE2DF01E29EBBD006B6903 /* StorePageTabBar.xib in Resources */,
@@ -3841,6 +3868,7 @@
 				5830A42F1CE3443000FB1577 /* AddProductPlaceholder.plist in Resources */,
 				58D125381CDC4D1F002BC78A /* LICENSE in Resources */,
 				B2D965EC1E9E36EA00B2C29C /* Checkout2PaymentSummaryTotalCell.xib in Resources */,
+				B2F0EFEA1EEECAEB00A678F8 /* ic_ramadhan@2x.png in Resources */,
 				58E368161DA4E40700C6FFE3 /* ic_share2.png in Resources */,
 				580B07291DD5D99A0079C11C /* bday-splashscreen-2048x2048.png in Resources */,
 				21EEB4771B87095C00CAD5C9 /* ic_phone.png in Resources */,
@@ -3872,6 +3900,7 @@
 				58A4F9771CB5146B00E717AF /* ic_trx_reservation_done.png in Resources */,
 				B21DF52A1E5179E5007A60C5 /* UserProfile2.xib in Resources */,
 				21EEB4751B87095C00CAD5C9 /* ic_heart.png in Resources */,
+				B2F0EFE91EEECAEB00A678F8 /* ic_christmas@3x.png in Resources */,
 				B22C0E311E090FA900C3D661 /* ic_love_96px.png in Resources */,
 				21F4FCE91B61F28C00223028 /* PreloAwesome.ttf in Resources */,
 				589A6FBA1D8C08F600654CDD /* ic_ditanggung_pembeli.png in Resources */,
@@ -3922,7 +3951,6 @@
 				585887571DBEDC28006EC6D5 /* TransactionListCell.xib in Resources */,
 				B2D965E21E9E294600B2C29C /* Checkout2BlackWhiteCell.xib in Resources */,
 				B2D965C51E9D2A6100B2C29C /* Checkout2Pay.xib in Resources */,
-				B2BEBC7C1E4C30BF009982F9 /* placeholder-transparent-ipad.png in Resources */,
 				440AF6671BE1090800074CBC /* ic_round_instagram.png in Resources */,
 				585887481DBEDB6D006EC6D5 /* MyPurchaseTransaction.xib in Resources */,
 				589A6FB21D8C08F600654CDD /* ic_belanjaan_saya.png in Resources */,
@@ -3958,6 +3986,7 @@
 				589A6FAF1D8C08F600654CDD /* ic_1kg.png in Resources */,
 				B2D965DF1E9E1F4000B2C29C /* Checkout2PaymentCreditCardCell.xib in Resources */,
 				B2BEBC7A1E4C29FD009982F9 /* placeholder-badge.png in Resources */,
+				B2F0EFE81EEECAEB00A678F8 /* ic_christmas@2x.png in Resources */,
 				210702E11BE7A8F100DD9E52 /* cu_email@2x.png in Resources */,
 				216799751B8F879A00F18F90 /* rsz_ic_mandiri@2x.png in Resources */,
 				212007C01B6A0CD100D9C84B /* basic_orange@2x.png in Resources */,
@@ -4123,6 +4152,7 @@
 				21156ECE1B8F5DBC001D7842 /* ic_socmed_instagram.png in Resources */,
 				210959B31B8DD088000F2939 /* ic_hanger@2x.png in Resources */,
 				B2ECB2F61EBC308800DB87E2 /* ic_pin_border.png in Resources */,
+				B2F0EFEB1EEECAEB00A678F8 /* ic_ramadhan@3x.png in Resources */,
 				58A0F4D41D9BA00E00CD693F /* ic_freeongkir.png in Resources */,
 				58A223C91C898CB600619518 /* ic_trx_received.png in Resources */,
 				58C23B601C9DC86300E4C929 /* ic_share.png in Resources */,
@@ -4500,6 +4530,7 @@
 				21679A4B1B901C5300F18F90 /* MPUIEdgeInsetsToNSDictionaryValueTransformer.m in Sources */,
 				585887771DBF0636006EC6D5 /* ReferralPageViewController.swift in Sources */,
 				5858877D1DBF1241006EC6D5 /* NotifAnggiTabBarViewController.swift in Sources */,
+				B2C9F6E21EE9242700833E27 /* Checkout2ViewController.swift in Sources */,
 				21B467FE1CCE5EDB00E145ED /* UIImage+BFKit.swift in Sources */,
 				21679A461B901C5300F18F90 /* MPTweakInline.m in Sources */,
 				58A99A361C6D864E00E3E7D7 /* BranchActivityItemProvider.m in Sources */,

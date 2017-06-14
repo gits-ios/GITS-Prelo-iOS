@@ -193,8 +193,11 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
                 self.previousController?.navigationController?.pushViewController(myPurchaseVC, animated: true)
             } else if (redirectFromHome == PageName.UnpaidTransaction) {
+                // deprecated
+                /*
                 let paymentConfirmationVC = Bundle.main.loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil)?.first as! PaymentConfirmationViewController
                 self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
+                */
             }
             UserDefaults.standard.removeObject(forKey: UserDefaultsKey.RedirectFromHome)
         }
@@ -503,6 +506,12 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
 //        checkout2ShipVC.previousController = self
 //        checkout2ShipVC.previousScreen = PageName.DashboardLoggedIn
 //        self.navigationController?.pushViewController(checkout2ShipVC, animated: true)
+        
+        // checkout v2 - single page -- OKE
+//        let checkout2VC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2, owner: nil, options: nil)?.first as! Checkout2ViewController
+//        checkout2VC.previousController = self
+//        checkout2VC.previousScreen = PageName.DashboardLoggedIn
+//        self.navigationController?.pushViewController(checkout2VC, animated: true)
     }
     
     func launchFAQ() {

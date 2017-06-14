@@ -302,6 +302,9 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
                 if ((indexPath as NSIndexPath).section == 0) {
                     return 140
                 } else if ((indexPath as NSIndexPath).section == 2) {
+                    if (self.sellerId == User.Id) {
+                        return 134
+                    }
                     return 62
                     
                 } else {

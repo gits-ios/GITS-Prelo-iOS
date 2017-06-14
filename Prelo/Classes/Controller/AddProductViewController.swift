@@ -349,7 +349,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"1"])
             let json = JSON((res ?? [:]))
             let s = self.storyboard?.instantiateViewController(withIdentifier: "share") as! AddProductShareViewController
-            if let price = json["_data"]["price"].int
+            if let price = json["_data"]["price"].int64
             {
                 s.basePrice = price
             }

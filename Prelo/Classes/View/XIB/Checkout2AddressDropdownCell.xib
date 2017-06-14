@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -24,22 +24,22 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ALAMAT PENGIRIMAN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="79y-2J-NWm">
-                        <rect key="frame" x="24" y="16" width="327" height="20"/>
+                        <rect key="frame" x="8" y="12" width="359" height="20"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                         <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kt8-TA-Vip" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                        <rect key="frame" x="24" y="43" width="327" height="30"/>
+                        <rect key="frame" x="8" y="39" width="359" height="30"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ariana Grande (Kantor) Jalan Kebon Bibit Barat 31" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="id7-mc-Yg5">
-                                <rect key="frame" x="8" y="4" width="283" height="22"/>
+                                <rect key="frame" x="8" y="4" width="315" height="22"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8j4-pT-ITv">
-                                <rect key="frame" x="299" y="5" width="20" height="20"/>
+                                <rect key="frame" x="331" y="5" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="NMe-1a-7SE"/>
                                     <constraint firstAttribute="width" constant="20" id="Oop-Ne-iZ8"/>
@@ -49,7 +49,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oTc-AA-ffq">
-                                <rect key="frame" x="0.0" y="0.0" width="327" height="30"/>
+                                <rect key="frame" x="0.0" y="0.0" width="359" height="30"/>
                                 <connections>
                                     <action selector="btnPickAddressPressed:" destination="XQo-bN-37F" eventType="touchUpInside" id="0RO-Oe-Qez"/>
                                 </connections>
@@ -80,10 +80,10 @@
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="79y-2J-NWm" firstAttribute="leading" secondItem="YNR-C5-Kit" secondAttribute="leadingMargin" constant="16" id="6S5-Nh-fo4"/>
+                    <constraint firstItem="79y-2J-NWm" firstAttribute="leading" secondItem="YNR-C5-Kit" secondAttribute="leadingMargin" id="6S5-Nh-fo4"/>
                     <constraint firstItem="kt8-TA-Vip" firstAttribute="leading" secondItem="79y-2J-NWm" secondAttribute="leading" id="Jc2-NA-rjM"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="79y-2J-NWm" secondAttribute="trailing" constant="16" id="Jd1-sN-zKA"/>
-                    <constraint firstItem="79y-2J-NWm" firstAttribute="top" secondItem="YNR-C5-Kit" secondAttribute="topMargin" constant="8" id="Xru-6T-zvW"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="79y-2J-NWm" secondAttribute="trailing" id="Jd1-sN-zKA"/>
+                    <constraint firstItem="79y-2J-NWm" firstAttribute="top" secondItem="YNR-C5-Kit" secondAttribute="topMargin" constant="4" id="Xru-6T-zvW"/>
                     <constraint firstItem="kt8-TA-Vip" firstAttribute="top" secondItem="79y-2J-NWm" secondAttribute="bottom" constant="7" id="fzt-ad-teX"/>
                     <constraint firstItem="kt8-TA-Vip" firstAttribute="trailing" secondItem="79y-2J-NWm" secondAttribute="trailing" id="yue-lE-uEZ"/>
                 </constraints>

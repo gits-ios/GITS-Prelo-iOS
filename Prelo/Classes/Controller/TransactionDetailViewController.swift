@@ -321,8 +321,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 if (userIsSeller()) {
                     hideableCell[3] = true
                     isFroze[3] = false
-                    hideableCell[6] = true
-                    isFroze[6] = false
+                    //hideableCell[6] = true
+                    //isFroze[6] = false
                 } else {
                     hideableCell[3] = true
                     isFroze[3] = false
@@ -446,7 +446,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 }
             } else if (progress == TransactionDetailTools.ProgressRejectedBySeller || progress == TransactionDetailTools.ProgressNotSent) {
                 if (userIsSeller()) {
-                    return 9 // 6
+                    return 6 // 9 // 6
                 } else {
                     return 12 // 9
                 }
@@ -609,7 +609,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                             return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPembayaranSeller)
                         }
                         // tambahan
-                    } else if (idx == 4) {
+                    } /*else if (idx == 4) {
                         return SeparatorHeight
                     } else if (idx == 5) {
                         return DefaultHeight
@@ -618,9 +618,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                             return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPengirimanSeller)
                         }
                         // tambahan
-                    } else if (idx == 7) {
+                    }*/ else if (idx == 4) {
                         return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
-                    } else if (idx == 8) {
+                    } else if (idx == 5) {
                         return ContactPreloHeight
                     }
                 } else {
@@ -1264,16 +1264,16 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     } else if (idx == 3) {
                         return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranSeller)
                         // tambahan
-                    } else if (idx == 4) {
+                    } /*else if (idx == 4) {
                         return self.createSeparatorCell()
                     } else if (idx == 5) {
                         return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
                     } else if (idx == 6) {
                         return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanSeller)
                         // tambahan
-                    } else if (idx == 7) {
+                    }*/ else if (idx == 4) {
                         return self.createDescriptionCell(1)
-                    } else if (idx == 8) {
+                    } else if (idx == 5) {
                         return self.createContactPreloCell()
                     }
                 } else {
@@ -2166,10 +2166,17 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     Constant.showDialog("Add to Cart", message: "Terdapat kesalahan saat menambahkan barang ke keranjang belanja")
                 }
                 if AppTools.isNewCart {
-                    let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
-                    checkout2ShipVC.previousController = self
-                    checkout2ShipVC.previousScreen = PageName.InboxDetail
-                    self.navigationController?.pushViewController(checkout2ShipVC, animated: true)
+                    if AppTools.isSingleCart {
+                        let checkout2VC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2, owner: nil, options: nil)?.first as! Checkout2ViewController
+                        checkout2VC.previousController = self
+                        checkout2VC.previousScreen = PageName.TransactionDetail
+                        self.navigationController?.pushViewController(checkout2VC, animated: true)
+                    } else {
+                        let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
+                        checkout2ShipVC.previousController = self
+                        checkout2ShipVC.previousScreen = PageName.TransactionDetail
+                        self.navigationController?.pushViewController(checkout2ShipVC, animated: true)
+                    }
                 } else {
                     //self.performSegue(withIdentifier: "segCart", sender: nil)
                     let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
@@ -2744,6 +2751,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     func sendReviewRateSellerAnalytic() {
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
                                             qos: .background,
+                                            attributes: .concurrent,
                                             target: nil)
         backgroundQueue.async {
             let tp = self.trxProductDetail!
@@ -2781,6 +2789,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     func sendDelayShippingAnalytic() {
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
                                             qos: .background,
+                                            attributes: .concurrent,
                                             target: nil)
         backgroundQueue.async {
             /*
@@ -4182,7 +4191,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     if let img = TransactionDetailTools.ImgCouriers[content.components(separatedBy: " ")[0].lowercased()] {
                         return self.createTitleContentCell(title, content: content, image: img!)
                     } else {
-                        return self.createTitleContentCell(title, content: (content.contains("-") ? "Free Ongkir" : content))
+                        return self.createTitleContentCell(title, content: content)
                     }
                 } else if (idx == 8) {
                     var content = ""

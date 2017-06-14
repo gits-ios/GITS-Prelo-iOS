@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -14,23 +14,27 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="15"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oNZ-fz-3Yo" id="f0F-ZD-pf9">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="14"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="14.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Egn-91-YFJ" userLabel="line1px">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
-                        <color key="backgroundColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <rect key="frame" x="12" y="0.0" width="351" height="1"/>
+                        <color key="backgroundColor" red="0.85490196080000003" green="0.85490196080000003" blue="0.85490196080000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="DvP-MG-iNq"/>
                         </constraints>
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="Egn-91-YFJ" firstAttribute="leading" secondItem="f0F-ZD-pf9" secondAttribute="leading" id="jBh-Wz-c0s"/>
+                    <constraint firstItem="Egn-91-YFJ" firstAttribute="leading" secondItem="f0F-ZD-pf9" secondAttribute="leading" constant="12" id="jBh-Wz-c0s"/>
                     <constraint firstItem="Egn-91-YFJ" firstAttribute="top" secondItem="f0F-ZD-pf9" secondAttribute="top" id="lbd-QQ-ElA"/>
-                    <constraint firstAttribute="trailing" secondItem="Egn-91-YFJ" secondAttribute="trailing" id="t50-0E-IHg"/>
+                    <constraint firstAttribute="trailing" secondItem="Egn-91-YFJ" secondAttribute="trailing" constant="12" id="t50-0E-IHg"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="consHeightVwLine1px" destination="DvP-MG-iNq" id="nua-4s-gfM"/>
+                <outlet property="vwLine1px" destination="Egn-91-YFJ" id="pzJ-54-X7w"/>
+            </connections>
             <point key="canvasLocation" x="40.5" y="-84.5"/>
         </tableViewCell>
     </objects>

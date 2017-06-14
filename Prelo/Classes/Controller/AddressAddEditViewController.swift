@@ -43,6 +43,8 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
     
     var coordinate : String = "" // lat,long
     
+    let coordinateText = "Pilih Lokasi (opsional)"
+    
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,6 +88,9 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
             } else {
                 self.title = "Tambah Alamat"
                 self.btnAction.setTitle("TAMBAH ALAMAT", for: .normal)
+                
+                lblLokasi.text = coordinateText
+                lblLokasi.textColor = Theme.PrimaryColorDark
                 
                 self.hideLoading()
                 self.setupLocation(false)
@@ -135,18 +140,22 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
             lblKecamatan.textColor = UIColor(hex: "C9C9CE")
         }
         
-        lblLokasi.textColor = Theme.PrimaryColorDark
+        //lblLokasi.textColor = Theme.PrimaryColorDark
         
         if address.coordinateAddress == "" {
-            let text = "Pilih Lokasi (opsional)"
+            /*let text = "Pilih Lokasi (opsional)"
             
             let attString : NSMutableAttributedString = NSMutableAttributedString(string: text)
             
             attString.addAttributes([NSForegroundColorAttributeName:UIColor.init(hex: "C9C9CE")], range: (text as NSString).range(of: "(opsional)"))
             
             lblLokasi.attributedText = attString
+ */
+            lblLokasi.text = coordinateText
+            lblLokasi.textColor = Theme.PrimaryColorDark
         } else {
-            lblLokasi.text = address.coordinateAddress
+            lblLokasi.text = "Koordinat alamat sudah dipilih" //address.coordinateAddress
+            lblLokasi.textColor = UIColor.init(hex: "C9C9CE")
         }
     }
     
