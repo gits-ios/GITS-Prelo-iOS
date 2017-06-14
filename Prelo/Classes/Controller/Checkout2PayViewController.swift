@@ -594,7 +594,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                     self.isVoucherUsed = !self.isVoucherUsed
                     
                     //self.tableView.reloadData()
-                    self.tableView.reloadSections(IndexSet.init(arrayLiteral: idx.section, idx.section+1), with: .fade)
+                    //self.tableView.reloadSections(IndexSet.init(arrayLiteral: idx.section, idx.section+1), with: .fade)
+                    self.tableView.reloadRows(at: [idx], with: .fade)
                     
                     if self.isVoucherUsed {
                         self.scrollToSummary()
@@ -701,8 +702,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                         }
                     }
                     
-                    //self.tableView.reloadData()
-                    self.tableView.reloadSections(IndexSet.init(integer: idx.section), with: .fade)
+                    self.tableView.reloadData()
+                    //self.tableView.reloadSections(IndexSet.init(integer: idx.section), with: .fade)
                     
                     totalAmount = 0
                 }
@@ -719,8 +720,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                         }
                     }
                     
-                    //self.tableView.reloadData()
-                    self.tableView.reloadSections(IndexSet.init(integer: idx.section), with: .fade)
+                    self.tableView.reloadData()
+                    //self.tableView.reloadSections(IndexSet.init(integer: idx.section), with: .fade)
                     
                     totalAmount = 0
                 }
