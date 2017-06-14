@@ -123,6 +123,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     var defaultAddressIndex = 0
     var defaultSubdistrictId = ""
     var defaultAddress: AddressItem?
+    var isAddressNeedSetup = true
     
     let dropDown = DropDown()
     
@@ -527,10 +528,12 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 self.indomaretMultiply = data["veritrans_charge"]["indomaret_multiply_factor"].doubleValue
                 
                 // address book
-                self.addresses = []
-                self.showLoading()
-                
-                if let arr = data["address_book"].array {
+                if let arr = data["address_book"].array, self.isAddressNeedSetup {
+                    self.addresses = []
+                    self.showLoading()
+                    
+                    self.isAddressNeedSetup = false
+                    
                     for i in 0...arr.count - 1 {
                         let address = AddressItem.instance(arr[i])
                         self.addresses.append(address!)
@@ -1512,7 +1515,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         } else if ((indexPath as NSIndexPath).section == sectionAlamatUser) {
             if ((indexPath as NSIndexPath).row == 0) { // Choose address book
                 if addresses.count == 0 {
-                    self.getAddresses()
+                    //self.getAddresses()
                     
                     Constant.showDialog("Perhatian", message: "Mohon tunggu beberapa saat, kemudian coba lagi.")
                 } else {
