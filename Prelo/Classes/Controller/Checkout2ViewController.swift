@@ -301,9 +301,14 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         if self.unpaid > 0 {
             let alertView = SCLAlertView(appearance: Constant.appearance)
             alertView.addButton("Bayar") {
+                /*
                 let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
                 notifPageVC.previousScreen = PageName.Checkout
-                self.navigationController?.pushViewController(notifPageVC, animated: true)
+                */
+                
+                let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                myPurchaseVC.previousScreen = PageName.Checkout
+                self.navigationController?.pushViewController(myPurchaseVC, animated: true)
             }
             alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
             alertView.showCustom("Transaksi", subTitle: "Hi, masih ada \(unpaid) transaksi yang belum kamu bayar loh! Bayar sekarang?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
