@@ -106,7 +106,9 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
     // NEW
     //-----
     
-    var isNeedScroll = false
+    var isNeedScroll = false // address
+    var isNeedScrollToTop = false // product
+    var isNeedScrollToBottom = false // summary
     
     // MARK: - Init
     override func viewDidLoad() {
@@ -406,7 +408,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         //print("shipping_address : \(a)")
         
         // API refresh cart
-        let _ = request(APIV2Cart.refresh(cart: p, address: a, voucher: nil)).responseJSON { resp in
+        let _ = request(APIV2Cart.refresh(cart: p, address: a, voucher: self.voucherSerial)).responseJSON { resp in
             if (PreloV2Endpoints.validate(true, dataResp: resp, reqAlias: "Keranjang Belanja")) {
                 
                 // Json
@@ -463,6 +465,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                             break
                         }
                     }
+                    self.setupDropdownAddress()
                 }
                 
                 // update troli
@@ -470,14 +473,21 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                 let count = CartManager.sharedInstance.getSize() + self.cartResult.nTransactionUnpaid
                 notifListener?.setCartCount(count)
                 
+                // check payment, bonus & voucher
                 self.setupPaymentAndDiscount()
                 
                 // reset - cart
                 self.isEnableToCheckout = true
                 
-                self.setupDropdownAddress()
                 self.tableView.reloadData()
-                self.scrollToTop()
+                
+                if self.isNeedScrollToTop { // when change address
+                    self.isNeedScrollToTop = false
+                    self.scrollToTop()
+                } else if self.isNeedScrollToBottom { // after update voucher
+                    self.isNeedScrollToBottom = false
+                    self.scrollToSummary()
+                }
                 
                 self.isLoading = false
                 self.hideLoading()
@@ -560,6 +570,11 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         // Discount items
         self.preloBalanceTotal = self.cartResult.preloBalance
         
+        print(self.cartResult.isVoucherValid)
+        print(self.cartResult.voucherError)
+        print(self.cartResult.voucherSerial)
+        print(self.cartResult.voucherAmount)
+        
         if (self.cartResult.isVoucherValid == true) {
             self.voucherSerial = self.cartResult.voucherSerial
             let voucherAmount = self.cartResult.voucherAmount
@@ -569,7 +584,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                 self.discountItems.append(discVoucher)
                 
                 self.isFreeze = true
-                self.scrollToSummary()
+                //self.scrollToSummary()
             }
         } else {
             if self.cartResult.voucherError != "" {
@@ -577,6 +592,8 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                 self.isVoucherUsed = false
                 Constant.showDialog("Invalid Voucher", message: self.cartResult.voucherError)
             }
+            
+            self.isNeedScrollToBottom = false
         }
         
         let bonus = self.cartResult.preloBonus
@@ -731,9 +748,11 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
             self.isFirst = false
         }
         
+        /*
         self.tableView.reloadData()
         
         self.hideLoading()
+         */
     }
     
     func setupTable() {
@@ -1198,7 +1217,8 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         self.isVoucherUsed = !self.isVoucherUsed
                         
                         //self.tableView.reloadData()
-                        self.tableView.reloadSections(IndexSet.init(arrayLiteral: idx.section, idx.section+1), with: .fade)
+                        //self.tableView.reloadSections(IndexSet.init(arrayLiteral: idx.section, idx.section+1), with: .fade)
+                        self.tableView.reloadRows(at: [idx], with: .fade)
                         
                         if self.isVoucherUsed {
                             self.scrollToSummary()
@@ -1209,6 +1229,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         self.voucherSerial = voucherSerial
                         
                         self.synchCart()
+                        self.isNeedScrollToBottom = true
                     }
                     
                     return cell
@@ -1305,8 +1326,8 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                             }
                         }
                         
-                        //self.tableView.reloadData()
-                        self.tableView.reloadSections(IndexSet.init(integer: idx.section), with: .fade)
+                        self.tableView.reloadData()
+                        //self.tableView.reloadSections(IndexSet.init(integer: idx.section), with: .fade)
                         
                         totalAmount = 0
                     }
@@ -1323,8 +1344,8 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                             }
                         }
                         
-                        //self.tableView.reloadData()
-                        self.tableView.reloadSections(IndexSet.init(integer: idx.section), with: .fade)
+                        self.tableView.reloadData()
+                        //self.tableView.reloadSections(IndexSet.init(integer: idx.section), with: .fade)
                         
                         totalAmount = 0
                     }
@@ -1998,6 +2019,8 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     self.selectedAddress.coordinateAddress = self.cartResult.addressBook[index].coordinateAddress
                     
                     self.synchCart()
+                    
+                    self.isNeedScrollToTop = true
                 } else {
                     self.isNeedSetup = true
                     self.selectedIndex = count
