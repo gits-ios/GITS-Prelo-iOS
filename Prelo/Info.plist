@@ -6,6 +6,39 @@
 	<string>en</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIcons</key>
+	<dict>
+		<key>CFBundleAlternateIcons</key>
+		<dict>
+			<key>christmas</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>ic_christmas</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>ramadhan</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>ic_ramadhan</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+		</dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string>raisa</string>
+			</array>
+			<key>UIPrerenderedIcon</key>
+			<false/>
+		</dict>
+	</dict>
 	<key>CFBundleIdentifier</key>
 	<string>com.prelo.ios.$(PRODUCT_NAME:rfc1034identifier)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -15,7 +48,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.7.4</string>
+	<string>1.7.5</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -40,7 +73,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>91</string>
+	<string>54</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -137,38 +170,5 @@
 	<false/>
 	<key>branch_key</key>
 	<string>key_live_pbbQ76J8PDVeNXyR7wR22fncBBoiBLk5</string>
-    <key>CFBundleIcons</key>
-    <dict>
-        <key>CFBundlePrimaryIcon</key>
-        <dict>
-            <key>CFBundleIconFiles</key>
-            <array>
-                <string>raisa</string>
-            </array>
-            <key>UIPrerenderedIcon</key>
-            <false/>
-        </dict>
-        <key>CFBundleAlternateIcons</key>
-        <dict>
-            <key>christmas</key>
-            <dict>
-                <key>CFBundleIconFiles</key>
-                <array>
-                    <string>ic_christmas</string>
-                </array>
-                <key>UIPrerenderedIcon</key>
-                <false/>
-            </dict>
-            <key>ramadhan</key>
-            <dict>
-                <key>CFBundleIconFiles</key>
-                <array>
-                    <string>ic_ramadhan</string>
-                </array>
-                <key>UIPrerenderedIcon</key>
-                <false/>
-            </dict>
-        </dict>
-    </dict>
 </dict>
 </plist>
