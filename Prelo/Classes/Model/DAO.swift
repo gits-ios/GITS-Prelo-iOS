@@ -5042,4 +5042,87 @@ class AffiliateItem : NSObject {
         }
         return nil
     }
+    
+    var backAccounts : Array<BankAccount> {
+        if let arr = json["bank_accounts"].array {
+            
+            var _backAccounts : Array<BankAccount> = []
+            if arr.count > 0 {
+                for i in 0...arr.count-1 {
+                    _backAccounts.append(BankAccount.instance(arr[i])!)
+                }
+            }
+            
+            return _backAccounts
+            
+        }
+        return []
+    }
+}
+
+// *inner is defined in OrderConfirmViewController
+class BankAccount : NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> BankAccount? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = BankAccount()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var no : String {
+        if let j = json["number"].string {
+            return j + " "
+        } else if let j = json["no"].string { // for inner
+            return j // always contain " "
+        } else if let j = json["account_number"].string {
+            return j + " "
+        }
+        return "-"
+    }
+    
+    var bank_name : String {
+        if let j = json["bank"].string {
+            return j
+        } else if let j = json["bank_name"].string {
+            return j
+        }
+        return "-"
+    }
+    
+    var name : String {
+        if let j = json["name"].string {
+            return j
+        } else if let j = json["account_name"].string {
+            return j.replace("Bank ", template: "")
+        }
+        return "-"
+    }
+    
+    var icon : String {
+        if let j = json["icon"].string { // for inner
+            return j
+        } else if bank_name.lowercased().contains("bca") {
+            return "rsz_ic_bca@2x"
+        } else if bank_name.lowercased().contains("mandiri") {
+            return "rsz_ic_mandiri@2x"
+        } else if bank_name.lowercased().contains("bni") {
+            return "rsz_ic_bni@2x"
+        } else if bank_name.lowercased().contains("bri") {
+            return "rsz_ic_bri@2x"
+        } else {
+            return "-"
+        }
+    }
+    
+    var cabang : String {
+        if let j = json["cabang"].string {
+            return j
+        }
+        return "-"
+    }
 }

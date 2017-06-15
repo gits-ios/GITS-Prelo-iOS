@@ -64,6 +64,9 @@ class PreloEndpoints: NSObject {
                         }
                     }
                 } else if (res == nil && showErrorDialog) {
+                    if let error = err {
+                        print("\(reqAlias) err = \(error.localizedDescription)")
+                    }
                     if (response.statusCode > 500) {
                         Constant.showDialog(reqAlias, message: "Server Prelo sedang lelah, silahkan coba beberapa saat lagi")
                     } else {

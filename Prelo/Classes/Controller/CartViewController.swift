@@ -618,6 +618,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 self.refreshByLocationChange = false
                 
                 self.hideLoading()
+            } else {
+                self.hideLoading()
             }
         }
     }
