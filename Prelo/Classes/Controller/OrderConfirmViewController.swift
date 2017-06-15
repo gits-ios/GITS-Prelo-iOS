@@ -468,22 +468,49 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     }
     
     @IBAction func lihatBelanjaanSayaPressed(_ sender: AnyObject) {
+        /*
         UserDefaults.setObjectAndSync(PageName.MyOrders as AnyObject?, forKey: UserDefaultsKey.RedirectFromHome)
         
         // gesture override
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
         _ = self.navigationController?.popToRootViewController(animated: true)
+         */
+        
+        let navController = self.navigationController!
+        var controllers = navController.viewControllers
+        
+        let c = controllers.count
+        if c > 1 {
+            for _ in 1...c-1 {
+                controllers.removeLast()
+            }
+        }
+        
+        navController.setViewControllers(controllers, animated: false)
+        
+        let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+        
+        navController.pushViewController(myPurchaseVC, animated: true)
     }
     
     @IBAction func showPaymentPopUp(_ sender: AnyObject) {
         if isAffiliate {
-            UserDefaults.setObjectAndSync(PageName.MyOrders as AnyObject?, forKey: UserDefaultsKey.RedirectFromHome)
+            let navController = self.navigationController!
+            var controllers = navController.viewControllers
             
-            // gesture override
-            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+            let c = controllers.count
+            if c > 1 {
+                for _ in 1...c-1 {
+                    controllers.removeLast()
+                }
+            }
             
-            _ = self.navigationController?.popToRootViewController(animated: true)
+            navController.setViewControllers(controllers, animated: false)
+            
+            let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+            
+            navController.pushViewController(myPurchaseVC, animated: true)
         } else {
             self.vwPaymentPopUp.isHidden = false
         }
