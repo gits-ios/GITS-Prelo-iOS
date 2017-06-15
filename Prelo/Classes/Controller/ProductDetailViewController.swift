@@ -1205,6 +1205,16 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     }
                 }
                 
+                var backAccounts : Array<BankAccount> = []
+                if let arr = data["affiliate_data"]["bank_accounts"].array {
+                    
+                    if arr.count > 0 {
+                        for i in 0...arr.count-1 {
+                            backAccounts.append(BankAccount.instance(arr[i])!)
+                        }
+                    }
+                }
+                
                 let o = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdOrderConfirm) as! OrderConfirmViewController
                 
                 o.orderID = orderId
@@ -1218,7 +1228,25 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 o.isFromCheckout = false
                 
                 // hidden payment bank transfer
-                o.isMidtrans = true
+                //o.isMidtrans = true
+                
+                o.isAffiliate = true
+                o.rekenings = backAccounts
+                o.targetBank = backAccounts.count > 0 ? backAccounts[0].bank_name : "dummy"
+                
+                if let an = data["affiliate_data"]["affiliate_name"].string {
+                    o.affiliatename = an
+                }
+                
+                if let expire = data["expire_time"].string {
+                    o.expireAffiliate = expire
+                }
+                
+                if let er = data["payment_expired_remaining"].int {
+                    o.remaining = er
+                }
+                
+                o.title = "Order ID \(orderId)"
                 
                 self.hideLoading()
                 self.navigationController?.pushViewController(o, animated: true)

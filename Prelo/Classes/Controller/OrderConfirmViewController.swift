@@ -48,6 +48,11 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     @IBOutlet weak var btnKirimPayment: UIButton!
     @IBOutlet weak var datePicker: UIDatePicker!
     
+    // inside vw unpaid -> for affiliate
+    @IBOutlet weak var lblBelowRekening: UILabel!
+    @IBOutlet weak var btnConfirm: UIButton! // change -> LIHAT BELANJAAN SAYA
+    
+    
     // Flags
     var isFromCheckout = true
     var isFreeTransaction = false
@@ -76,7 +81,8 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     var remaining : Int = 24
     
     // Prelo account data
-    var rekenings = [
+    var rekenings : Array<BankAccount> = []
+    var rek = [
         [
             "name":"KLEO APPARA INDONESIA PT",
             "no":"777-16-13-113 ",
@@ -114,10 +120,22 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         ]
     ]
     
+    // affilitae
+    var isAffiliate = false
+    var expireAffiliate = ""
+    var affiliatename = ""
+    
     // MARK: - Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if !isAffiliate {
+        for r in rek {
+            let json = JSON(r)
+            rekenings.append(BankAccount.instance(json)!)
+        }
+        }
         
         // Title
         self.titleText = self.title
@@ -150,6 +168,14 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             captionDesc.text = ""
             self.vwUnpaidTrx.isHidden = true
             self.btnFreeTrx.isHidden = false
+        } else if (isAffiliate) {
+            // Arrange views
+            captionTitle.text = "Selamat! Transaksi kamu berhasil."
+            captionDesc.text = "Untuk transaksi menggunakan transfer bank, transfer ke:"
+            self.vwUnpaidTrx.isHidden = false
+            self.btnFreeTrx.isHidden = true
+            lblBelowRekening.text = "Harap transfer dan konfirmasi dalam waktu \(remaining) jam (\(expireAffiliate)) agar transaksi kamu tidak dibatalkan. Cek e-mail dari \(affiliatename) untuk detil pembayaran."
+            btnConfirm.setTitle("LIHAT BELANJAAN SAYA", for: .normal)
         } else if (isFreeTransaction) {
             // Arrange views
             captionTitle.text = "Selamat! Transaksi kamu berhasil."
@@ -203,8 +229,8 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             self.vw1Bank.isHidden = false
             
             for i in 0...rekenings.count - 1 {
-                if (rekenings[i]["bank_name"] == targetBank) {
-                    self.imgSelectedBank.image = UIImage(named: rekenings[i]["icon"]!)
+                if (rekenings[i].bank_name == targetBank) {
+                    self.imgSelectedBank.image = UIImage(named: rekenings[i].icon)
                     self.setupViewRekening(rekenings[i])
                     self.lblBankTujuan.text = targetBank
                     break
@@ -366,14 +392,14 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         setupViewRekening(rekenings[b.tag])
         
         // Set label in pop up
-        self.lblBankTujuan.text = rekenings[b.tag]["bank_name"]
+        self.lblBankTujuan.text = rekenings[b.tag].bank_name
     }
     
-    func setupViewRekening(_ data : [String : String]) {
-        captionBankInfoBankAtasNama?.text = data["name"]
-        captionBankInfoBankCabang?.text = data["cabang"]
-        captionBankInfoBankName?.text = "Bank \(data["bank_name"]!)" // "Transfer melalui Bank " + data["bank_name"]!
-        captionBankInfoBankNumber?.text = data["no"]
+    func setupViewRekening(_ data : BankAccount) {
+        captionBankInfoBankAtasNama?.text = data.name
+        captionBankInfoBankCabang?.text = data.cabang
+        captionBankInfoBankName?.text = "Bank \(data.bank_name)" // "Transfer melalui Bank " + data["bank_name"]!
+        captionBankInfoBankNumber?.text = data.no
         
         let content = self.captionBankInfoBankNumber?.text!
         let attrStr = NSMutableAttributedString(string: content!)
@@ -441,7 +467,16 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     }
     
     @IBAction func showPaymentPopUp(_ sender: AnyObject) {
-        self.vwPaymentPopUp.isHidden = false
+        if isAffiliate {
+            UserDefaults.setObjectAndSync(PageName.MyOrders as AnyObject?, forKey: UserDefaultsKey.RedirectFromHome)
+            
+            // gesture override
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+            
+            _ = self.navigationController?.popToRootViewController(animated: true)
+        } else {
+            self.vwPaymentPopUp.isHidden = false
+        }
     }
     
     // MARK: - Swipe Navigation Override
@@ -500,8 +535,8 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         bankAlert.popoverPresentationController?.sourceView = sender as? UIView
         bankAlert.popoverPresentationController?.sourceRect = sender.bounds
         for i in 0...bankCount - 1 {
-            bankAlert.addAction(UIAlertAction(title: rekenings[i]["bank_name"], style: .default, handler: { act in
-                self.lblBankTujuan.text = self.rekenings[i]["bank_name"]
+            bankAlert.addAction(UIAlertAction(title: rekenings[i].bank_name, style: .default, handler: { act in
+                self.lblBankTujuan.text = self.rekenings[i].bank_name
                 bankAlert.dismiss(animated: true, completion: nil)
             }))
         }
