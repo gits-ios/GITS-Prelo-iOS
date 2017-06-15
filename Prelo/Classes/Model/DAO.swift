@@ -4307,9 +4307,11 @@ class BankAccount : NSObject {
     
     var no : String {
         if let j = json["number"].string {
-            return j + " "
-        } else if let j = json["no"].string {
-            return j + " "
+            return (j.contains(" ") ? j : j + " ")
+        } else if let j = json["no"].string { // for inner
+            return (j.contains(" ") ? j : j + " ")
+        } else if let j = json["account_number"].string {
+            return (j.contains(" ") ? j : j + " ")
         }
         return "-"
     }
@@ -4326,20 +4328,22 @@ class BankAccount : NSObject {
     var name : String {
         if let j = json["name"].string {
             return j
+        } else if let j = json["account_name"].string {
+            return j
         }
         return "-"
     }
     
     var icon : String {
-        if let j = json["icon"].string {
+        if let j = json["icon"].string { // for iner
             return j
-        } else if bank_name.lowercased() == "bca" {
+        } else if bank_name.lowercased().contains("bca") {
             return "rsz_ic_bca@2x"
-        } else if bank_name.lowercased() == "mandiri" {
+        } else if bank_name.lowercased().contains("mandiri") {
             return "rsz_ic_mandiri@2x"
-        } else if bank_name.lowercased() == "bni" {
+        } else if bank_name.lowercased().contains("bni") {
             return "rsz_ic_bni@2x"
-        } else if bank_name.lowercased() == "bri" {
+        } else if bank_name.lowercased().contains("bri") {
             return "rsz_ic_bri@2x"
         } else {
             return "-"

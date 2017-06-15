@@ -131,10 +131,19 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         super.viewDidLoad()
         
         if !isAffiliate {
-        for r in rek {
-            let json = JSON(r)
-            rekenings.append(BankAccount.instance(json)!)
-        }
+            let ba = UserDefaults.standard.array(forKey: UserDefaultsKey.BankAccounts)
+            
+            if ba != nil && (ba?.count)! > 0 {
+                for r in ba! {
+                    let json = JSON(r)
+                    rekenings.append(BankAccount.instance(json)!)
+                }
+            } else {
+                for r in rek {
+                    let json = JSON(r)
+                    rekenings.append(BankAccount.instance(json)!)
+                }
+            }
         }
         
         // Title
@@ -222,6 +231,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         captionOrderTotal.text = (total + kodeTransfer).asPrice
         
         // new UI
+        // if affiliate, targetBank can contain "dumy"
         if (targetBank != nil && targetBank != "") {
             self.vw3Banks.isHidden = true
             self.vw4Banks.isHidden = true

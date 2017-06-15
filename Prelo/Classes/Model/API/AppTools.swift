@@ -1097,6 +1097,7 @@ class UserDefaultsKey : NSObject {
     static let AdsFrequency = "adsfrequency"
     static let AdsOffset = "adsoffset"
     static let RefreshTime = "refreshtime"
+    static let BankAccounts = "bankaccounts"
 }
 
 extension UserDefaults {
