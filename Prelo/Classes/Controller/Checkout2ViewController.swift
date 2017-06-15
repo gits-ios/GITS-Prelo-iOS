@@ -676,7 +676,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         
         if self.isCreditCard {
             var p = PaymentMethodItem()
-            p.name = "Kartu Kredit"
+            p.name = "Credit Card"
             p.charge = creditCardCharge
             p.chargeDescription = "Credit Card Charge"
             p.provider = .veritrans
@@ -1257,7 +1257,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         // Kartu Kredit & Indomaret re-count
                         let priceAfterDiscounts = self.totalAmount - operan
                         
-                        if self.paymentMethods[self.selectedPaymentIndex].name == "Kartu Kredit" {
+                        if self.paymentMethods[self.selectedPaymentIndex].name == "Credit Card" {
                             let creditCardCharge = (self.cartResult.veritransCharge?.creditCard)! + Int64((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.creditCardMultiplyFactor)!) + 0.5)
                             
                             self.paymentMethods[self.selectedPaymentIndex].charge = creditCardCharge
