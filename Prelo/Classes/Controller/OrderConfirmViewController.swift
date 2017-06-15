@@ -131,19 +131,20 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         super.viewDidLoad()
         
         if !isAffiliate {
-            let ba = UserDefaults.standard.array(forKey: UserDefaultsKey.BankAccounts)
+            // belum siap
+            /*let ba = UserDefaults.standard.array(forKey: UserDefaultsKey.BankAccounts)
             
             if ba != nil && (ba?.count)! > 0 {
                 for r in ba! {
                     let json = JSON(r)
                     rekenings.append(BankAccount.instance(json)!)
                 }
-            } else {
+            } else {*/
                 for r in rek {
                     let json = JSON(r)
                     rekenings.append(BankAccount.instance(json)!)
                 }
-            }
+            //}
         }
         
         // Title
