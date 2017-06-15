@@ -1148,7 +1148,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         isNeedReload = true
         
         let _ = request(APIAffiliate.postCheckout(productIds: (product?.id)!, affiliateName: (detail?.AffiliateData?.name)!)).responseJSON {resp in
-            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Post Affiliate Checkout")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Checkout \((self.detail?.AffiliateData?.name)!)" /*"Post Affiliate Checkout"*/)) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 if let checkoutUrl = data["checkout_url"].string {
