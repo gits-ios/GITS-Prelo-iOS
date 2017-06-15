@@ -61,14 +61,19 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     @IBOutlet weak var lblProvince: UILabel!
     
     // rekening
-    @IBOutlet weak var imgLogo: UIImageView!
+    @IBOutlet weak var imgLogoBank: UIImageView!
     @IBOutlet weak var lblRekMain: UILabel!
     @IBOutlet weak var lblBank: UILabel!
     @IBOutlet weak var lblRek: UILabel!
     @IBOutlet weak var lblRekName: UILabel!
+    @IBOutlet weak var vwDaftarRek: UIView!
+    @IBOutlet weak var VwRek: UIView!
+    @IBOutlet weak var vwNoRek: UIView!
     
     
     var isNeedReload = false
+    var rekening: Array<RekeningItem> = [] // rekeninglist
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,6 +90,9 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        // get rekening
+        getRekening()
         
         // Google Analytics
         GAI.trackPageVisit(PageName.EditProfile)
@@ -218,6 +226,18 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         let provinceName = CDProvince.getProvinceNameWithID(userProfile.provinceID)
         self.lblProvince.text = provinceName! + " " + userProfile.postalCode!
         
+        // Rekening
+//        if(rekening.count != 0){
+//            // kalau punya rekening
+//            self.vwNoRek.isHidden = true
+//            let verticalSpace = NSLayoutConstraint(item: vwDaftarRek, attribute: .top, relatedBy: .equal, toItem: self.VwRek, attribute: .bottom, multiplier: 1, constant: 50)
+//            view.addConstraint(verticalSpace)
+//            
+//        } else {
+//            // kalau ga punya rekening
+//            self.VwRek.isHidden = true
+//        }
+        
         // Shipping table setup
         self.shippingList = CDShipping.getPosBlaBlaBlaTiki()
         self.userShippingIdList = NSKeyedUnarchiver.unarchiveObject(with: userOther.shippingIDs as Data) as! [String]
@@ -243,16 +263,6 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         } else {
             lblLoginGoogle.text = "LOGIN GOOGLE"
         }
-        
-
-        // Rekening List
-        //if (punya rek){}
-        //else (ga punya rek){
-//        self.lblRek.text = ""
-//        self.lblRekName.text = ""
-//        self.lblBank.text = "- (belum ada rekening)"
-//        self.imgLogo.isHidden = true
-        //}
         
         
     }
@@ -851,7 +861,6 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         self.navigationController?.pushViewController(rekeningVC, animated: true)
     }
     
-    var rekening: Array<RekeningItem> = [] // rekeninglist
     
     func getRekening(){
         // use API
@@ -860,15 +869,25 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
                 if let x: AnyObject = resp.result.value as AnyObject? {
                     var json = JSON(x)
                     json = json["_data"]
-                    print("ini json rekening")
-                    print(json)
+//                    print("ini json rekening")
+//                    print(json)
                     if let arr = json.array {
                         if(arr.count != 0){
-                            for i in 0...arr.count {
-                                print(i)
-                                let rekening2 = RekeningItem.instance(arr[i])
-                                self.rekening.append(rekening2!)
+                            for i in 0..<arr.count {
+                                if(arr[i]["utama"]).boolValue{
+                                    self.vwNoRek.isHidden = true
+                                    let verticalSpace = NSLayoutConstraint(item: self.vwDaftarRek, attribute: .top, relatedBy: .equal, toItem: self.VwRek, attribute: .bottom, multiplier: 1, constant: 50)
+                                    self.view.addConstraint(verticalSpace)
+                                    self.lblBank.text = arr[i]["target_bank"].stringValue
+                                    self.lblRek.text = arr[i]["nomor_rekening"].stringValue
+                                    self.lblRekName.text = arr[i]["name"].stringValue
+                                    self.imgLogoBank.image = UIImage(named:"rsz_ic_bni@2x.png")
+                                    break;
+                                }
                             }
+                            self.viewDidLoad()
+                        } else {
+                            self.VwRek.isHidden = true
                         }
                     }
                     self.hideLoading()
@@ -880,6 +899,7 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
                 _ = self.navigationController?.popViewController(animated: true)
             }
         }
+        
     }
 
     

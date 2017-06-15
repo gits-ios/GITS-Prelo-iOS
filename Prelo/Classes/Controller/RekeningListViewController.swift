@@ -88,9 +88,12 @@ class RekeningListViewController: BaseViewController, UITableViewDelegate, UITab
                     print("ini json rekening")
                     print(json)
                     if let arr = json.array {
+                        
                         if(arr.count != 0){
-                            for i in 0...arr.count {
+                            for i in 0 ..< arr.count {
+                                print("isi array")
                                 print(i)
+                                print(arr[i])
                                 let rekening2 = RekeningItem.instance(arr[i])
                                 self.rekening.append(rekening2!)
                             }
@@ -101,7 +104,7 @@ class RekeningListViewController: BaseViewController, UITableViewDelegate, UITab
                 }
                 
             } else {
-                
+                print("yamasuksini")
                 self.hideLoading()
                 _ = self.navigationController?.popViewController(animated: true)
             }
@@ -129,7 +132,7 @@ class RekeningListViewController: BaseViewController, UITableViewDelegate, UITab
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if ((indexPath as NSIndexPath).item < (0)) {
+        if ((indexPath as NSIndexPath).item < (rekening.count)) {
             let cell = tableView.dequeueReusableCell(withIdentifier: "RekeningListCell") as! RekeningListCell
             
             let idx = (indexPath as NSIndexPath).item

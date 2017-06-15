@@ -14,10 +14,11 @@ import Alamofire
 class RekeningAddViewController: BaseViewController, PickerViewDelegate, UITextFieldDelegate {
     // MARK: - Properties
     
+    @IBOutlet weak var pilihBank: UILabel!
     @IBOutlet weak var txtRekening: UITextField!
     @IBOutlet weak var txtName: UITextField!
     @IBOutlet weak var txtCabang: UITextField!
-    @IBOutlet weak var btnAction: UIButton! // Edit / Tambah Alamat
+    @IBOutlet weak var btnAction: UIButton!
     
     @IBOutlet weak var scrollView : UIScrollView!
     @IBOutlet weak var loadingPanel: UIView!
@@ -53,32 +54,77 @@ class RekeningAddViewController: BaseViewController, PickerViewDelegate, UITextF
         super.viewDidAppear(animated)
         
         self.title = "Tambah Rekening"
-                self.btnAction.setTitle("TAMBAH Rekening", for: .normal)
+                self.btnAction.setTitle("TAMBAH REKENING", for: .normal)
                 
-                self.hideLoading()
+//                self.hideLoading()
         
     }
     
-    func getAddress() {
-        // load from API
-        
-        self.hideLoading()
+    func isValidateField() -> Bool{
+        if !validateString(pilihBank.text!, label: "Bank"){
+            return false
+        }
+        if !validateString(txtRekening.text!, label: "Nomor Rekening"){
+            return false
+        }
+        if !validateString(txtName.text!, label: "Nama"){
+            return false
+        }
+        if !validateString(txtCabang.text!, label: "Cabang"){
+            return false
+        }
+        return true
     }
     
+    func validateString(_ string: String, label: String) -> Bool {
+        if (string == "") {
+            Constant.showDialog("Perhatian", message: label + " wajib diisi")
+            return false
+        }
+        return true
+    }
     
     // submit --> add / edit
     @IBAction func btnActionPressed(_ sender: Any) {
+        if(isValidateField()){
+            let _ = request(APIMe.addBankAccount(target_bank: self.pilihBank.text!, nomor_rekening: self.txtRekening.text!, name: self.txtName.text!, cabang: self.txtCabang.text!)).responseJSON { resp in
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Tambah Rekening")) {
+                    Constant.showDialog("Tambah Rekening", message: "Rekening berhasil ditambahkan")
+                    _ = self.navigationController?.popViewController(animated: true)
+                }
+            }
+        }
+
+    }
+    
+    var item=""
+    
+    @IBAction func pilihBankPressed(_ sender: Any) {
+        let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
+        p?.items = ["BCA", "BNI", "Mandiri", "BRI"]
+        p?.pickerDelegate = self
+        p?.selectBlock = { string in
+            self.item = PickerViewController.RevealHiddenString(string)
+        }
+        p?.title = "Bank"
+        self.view.endEditing(true)
+        self.navigationController?.pushViewController(p!, animated: true)
+    }
+    
+    func pickerDidSelect(_ item: String) {
+        self.pilihBank.text = PickerViewController.HideHiddenString(item)
+        self.pilihBank.textColor = UIColor(hex: "C9C9CE")
         
     }
     
     // MARK: - Other
-    func showLoading() {
-        self.loadingPanel.isHidden = false
-    }
-    
-    func hideLoading() {
-        self.loadingPanel.isHidden = true
-    }
+//    func showLoading() {
+//        self.loadingPanel.isHidden = false
+//    }
+//    
+//    func hideLoading() {
+//        self.loadingPanel.isHidden = true
+//    }
     
     
 }

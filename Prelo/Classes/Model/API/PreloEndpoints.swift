@@ -564,6 +564,7 @@ enum APIMe : URLRequestConvertible {
     case setDefaultAddress(addressId: String)
     
     case getBankAccount
+    case addBankAccount(target_bank: String, nomor_rekening: String, name: String, cabang:String)
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "me/"
@@ -603,6 +604,7 @@ enum APIMe : URLRequestConvertible {
         case .setDefaultAddress(_) : return .post
             
         case .getBankAccount : return .get
+        case .addBankAccount(_, _, _, _) : return .post
         }
     }
     
@@ -635,6 +637,7 @@ enum APIMe : URLRequestConvertible {
         case .setDefaultAddress(_) : return "address_book/set_default"
             
         case .getBankAccount : return "bank_account"
+        case .addBankAccount(_, _, _, _) : return "add_bank_account"
         }
     }
     
@@ -777,6 +780,14 @@ enum APIMe : URLRequestConvertible {
             p = [
                 "address_id": addressId,
                 "platform_sent_from" : "ios"
+            ]
+            
+        case .addBankAccount(let target_bank, let nomor_rekening, let name, let cabang) :
+            p = [
+                "target_bank": target_bank,
+                "nomor_rekening": nomor_rekening,
+                "name": name,
+                "cabang": cabang
             ]
         default : break
         }
