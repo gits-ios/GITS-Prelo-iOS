@@ -829,7 +829,7 @@ class Tags : NSObject {
     static let XibNameReportTransaction = "ReportTransaction"
     static let XibNameRekeningList = "RekeningList"
     static let XibNameRekeningAdd = "RekeningAdd"
-    static let XibNameTarikTunaiwithSaveBankAccount = "TarikTunaiwithSaveBankAccount"
+    static let XibNameTarikTunaiwithSaveBankAccount2 = "TarikTunaiwithSaveBankAccount2"
     static let XibNameListBank = "ListBank"
 }
 

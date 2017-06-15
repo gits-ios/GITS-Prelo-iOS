@@ -4286,28 +4286,39 @@ class RekeningItem : NSObject {
     }
     
     var target_bank : String {
-        if let j = json["_target_bank"].string {
+        if let j = json["target_bank"].string {
             return j
         }
         return ""
     }
-    var nomor_rekening : String {
-        if let j = json["_nomor_rekening"].string {
+    var account_number : String {
+        if let j = json["account_number"].string {
             return j
         }
         return ""
     }
     var name : String {
-        if let j = json["_name"].string {
+        if let j = json["name"].string {
             return j
         }
         return ""
     }
-    var cabang : String {
-        if let j = json["_cabang"].string {
+    var branch : String {
+        if let j = json["branch"].string {
             return j
         }
         return ""
     }
-    
+    var isDefaultBankAccount : Bool {
+        if let j = json["is_default"].bool{
+            return j
+        }
+        return false
+    }
+    var id : String {
+        if let j = json["_id"].string{
+            return j
+        }
+        return ""
+    }
 }

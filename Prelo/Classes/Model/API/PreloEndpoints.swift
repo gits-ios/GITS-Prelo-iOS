@@ -564,7 +564,10 @@ enum APIMe : URLRequestConvertible {
     case setDefaultAddress(addressId: String)
     
     case getBankAccount
-    case addBankAccount(target_bank: String, nomor_rekening: String, name: String, cabang:String)
+    case addBankAccount(target_bank: String, account_number: String, name: String, branch:String)
+    case deleteBankAccount(bankAccountId: String)
+    case setDefaultBankAccount(bankAccountId: String)
+    case editBankAccount(doc_id: String, target_bank: String, account_number: String, name: String, branch: String, is_default: Bool)
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "me/"
@@ -605,6 +608,9 @@ enum APIMe : URLRequestConvertible {
             
         case .getBankAccount : return .get
         case .addBankAccount(_, _, _, _) : return .post
+        case .deleteBankAccount(_) : return .post
+        case .setDefaultBankAccount(_) : return .post
+        case .editBankAccount(_, _, _, _, _, _) : return .post
         }
     }
     
@@ -638,6 +644,9 @@ enum APIMe : URLRequestConvertible {
             
         case .getBankAccount : return "bank_account"
         case .addBankAccount(_, _, _, _) : return "add_bank_account"
+        case .deleteBankAccount(_) : return "delete_bank_account"
+        case .setDefaultBankAccount(_) : return "set_main_bank_account"
+        case .editBankAccount(_, _, _, _, _, _) : return "edit_bank_account"
         }
     }
     
@@ -782,12 +791,29 @@ enum APIMe : URLRequestConvertible {
                 "platform_sent_from" : "ios"
             ]
             
-        case .addBankAccount(let target_bank, let nomor_rekening, let name, let cabang) :
+        case .addBankAccount(let target_bank, let account_number, let name, let branch) :
             p = [
                 "target_bank": target_bank,
-                "nomor_rekening": nomor_rekening,
+                "account_number": account_number,
                 "name": name,
-                "cabang": cabang
+                "branch": branch
+            ]
+        case .deleteBankAccount(let bankAccountId) :
+            p = [
+                "doc_id": bankAccountId
+            ]
+        case .setDefaultBankAccount(let bankAccountId) :
+            p = [
+                "doc_id": bankAccountId
+            ]
+        case .editBankAccount(let doc_id, let target_bank, let account_number, let name, let branch, let is_default) :
+            p = [
+                "doc_id": doc_id,
+                "target_bank": target_bank,
+                "account_number": account_number,
+                "name": name,
+                "branch": branch,
+                "is_default": is_default
             ]
         default : break
         }

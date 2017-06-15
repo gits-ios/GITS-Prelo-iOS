@@ -54,6 +54,9 @@
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <state key="disabled" title="LOADING.."/>
+                                        <connections>
+                                            <action selector="btnTidakPressed:" destination="qEJ-y6-2hc" eventType="touchUpInside" id="dhk-3I-6lv"/>
+                                        </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Eh-Vb-9ts">
                                         <rect key="frame" x="149" y="138" width="1" height="40"/>
@@ -75,6 +78,9 @@
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <state key="disabled" title="LOADING.."/>
+                                        <connections>
+                                            <action selector="btnOkePressed:" destination="qEJ-y6-2hc" eventType="touchUpInside" id="Rh9-h1-mvL"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -137,10 +143,13 @@
                 </constraints>
             </view>
             <connections>
+                <outlet property="consCenteryPopUp" destination="xbB-zY-Y2B" id="7b7-bZ-kc9"/>
+                <outlet property="lblDescription" destination="PpY-gj-gxM" id="ILw-QH-vZB"/>
                 <outlet property="loadingPanel" destination="maH-uJ-NHy" id="23G-U6-OUP"/>
                 <outlet property="tableView" destination="dN7-qJ-jXs" id="dNu-oC-2Ac"/>
                 <outlet property="vwBackgroundOverlay" destination="6MF-11-oOY" id="KFD-pt-w5F"/>
                 <outlet property="vwOverlayPopUp" destination="yU7-7p-3p6" id="JE4-qt-Jzr"/>
+                <outlet property="vwPopUp" destination="6dj-3U-GGh" id="bUP-Gg-IP2"/>
             </connections>
             <point key="canvasLocation" x="-328" y="129"/>
         </viewController>

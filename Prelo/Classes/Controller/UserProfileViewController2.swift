@@ -874,14 +874,24 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
                     if let arr = json.array {
                         if(arr.count != 0){
                             for i in 0..<arr.count {
-                                if(arr[i]["utama"]).boolValue{
+                                if(arr[i]["is_default"]).boolValue{
                                     self.vwNoRek.isHidden = true
                                     let verticalSpace = NSLayoutConstraint(item: self.vwDaftarRek, attribute: .top, relatedBy: .equal, toItem: self.VwRek, attribute: .bottom, multiplier: 1, constant: 50)
                                     self.view.addConstraint(verticalSpace)
                                     self.lblBank.text = arr[i]["target_bank"].stringValue
-                                    self.lblRek.text = arr[i]["nomor_rekening"].stringValue
+                                    self.lblRek.text = arr[i]["account_number"].stringValue
                                     self.lblRekName.text = arr[i]["name"].stringValue
-                                    self.imgLogoBank.image = UIImage(named:"rsz_ic_bni@2x.png")
+                                    // logo bank
+                                    if(arr[i]["target_bank"] == "BNI"){
+                                        self.imgLogoBank.image = UIImage(named:"rsz_ic_bni@2x.png")
+                                    }
+                                    else if(arr[i]["target_bank"] == "BCA"){
+                                        self.imgLogoBank.image = UIImage(named:"rsz_ic_bca@2x.png")
+                                    } else if(arr[i]["target_bank"] == "BRI"){
+                                        self.imgLogoBank.image = UIImage(named:"rsz_ic_bri@2x.png")
+                                    } else if(arr[i]["target_bank"] == "MANDIRI"){
+                                        self.imgLogoBank.image = UIImage(named:"rsz_ic_mandiri@2x.png")
+                                    }
                                     break;
                                 }
                             }

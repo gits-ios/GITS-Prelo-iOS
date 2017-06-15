@@ -11,12 +11,12 @@ import UIKit
 import Alamofire
 
 // MARK: - Pop up TT
-enum PopUpTarikTunai2Mode {
+enum PopUpTarikTunaiMode {
     case wjp
     case confirmation
 }
 
-class TarikTunaiwithSaveBankAccountViewController2: BaseViewController, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate {
+class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var vwBankKamu: UIView!
     @IBOutlet weak var txtNamaBank : UILabel!
@@ -28,6 +28,7 @@ class TarikTunaiwithSaveBankAccountViewController2: BaseViewController, UIScroll
     @IBOutlet weak var lblDropdownBank: UILabel!
     @IBOutlet weak var lblDropdownHistory: UILabel!
     
+    @IBOutlet weak var consHeightCustomBank: NSLayoutConstraint!
     
     @IBOutlet weak var captionPreloBalance : UILabel!
     @IBOutlet weak var captionPreloWJP: UILabel!
@@ -137,6 +138,8 @@ class TarikTunaiwithSaveBankAccountViewController2: BaseViewController, UIScroll
         captionPreloBalance.text = "..."
 //        captionPreloWJP.text = "..."
 //        captionWithdrawAmount.text = "..."
+        
+        self.consHeightCustomBank.constant = 0
         
         self.consHeightSeparatorHeaderTable.constant = 0
         self.consHeightHistory.constant = 0
@@ -450,7 +453,11 @@ class TarikTunaiwithSaveBankAccountViewController2: BaseViewController, UIScroll
         for i in 0...bankCount - 1 {
             bankAlert.addAction(UIAlertAction(title: items[i], style: .default, handler: { act in
                 self.txtNamaBank.text = items[i]
-                
+                if (items[i] == "Lainnya") {
+                    self.consHeightCustomBank.constant = 70
+                } else {
+                    self.consHeightCustomBank.constant = 0
+                }
                 bankAlert.dismiss(animated: true, completion: nil)
             }))
         }
@@ -762,7 +769,7 @@ class TarikTunaiwithSaveBankAccountViewController2: BaseViewController, UIScroll
 }
 // MARK: - class TarikTunaiCell
 
-class TarikTunaiCell: UITableViewCell {
+class TarikTunai2Cell: UITableViewCell {
     @IBOutlet weak var lblTiket: UILabel!
     @IBOutlet weak var lblTanggal: UILabel!
     @IBOutlet weak var lblPenarikan: UILabel!

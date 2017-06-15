@@ -79,22 +79,24 @@ class RekeningListViewController: BaseViewController, UITableViewDelegate, UITab
     }
     
     func getRekening(){
+        rekening = []
         // use API
         let _ = request(APIMe.getBankAccount).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Rekening List")) {
                 if let x: AnyObject = resp.result.value as AnyObject? {
                     var json = JSON(x)
                     json = json["_data"]
-                    print("ini json rekening")
-                    print(json)
+//                    print("ini json rekening")
+//                    print(json)
                     if let arr = json.array {
                         
                         if(arr.count != 0){
                             for i in 0 ..< arr.count {
-                                print("isi array")
-                                print(i)
-                                print(arr[i])
+//                                print("isi array")
+//                                print(i)
+//                                print(arr[i])
                                 let rekening2 = RekeningItem.instance(arr[i])
+                                print(arr[i]["target_bank"])
                                 self.rekening.append(rekening2!)
                             }
                             self.tableView.reloadData()
@@ -104,7 +106,6 @@ class RekeningListViewController: BaseViewController, UITableViewDelegate, UITab
                 }
                 
             } else {
-                print("yamasuksini")
                 self.hideLoading()
                 _ = self.navigationController?.popViewController(animated: true)
             }
@@ -128,7 +129,11 @@ class RekeningListViewController: BaseViewController, UITableViewDelegate, UITab
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        if ((indexPath as NSIndexPath).item < (rekening.count)) {
+            return 140
+        } else {
+            return 50
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -141,29 +146,34 @@ class RekeningListViewController: BaseViewController, UITableViewDelegate, UITab
             cell.backgroundColor = UIColor(hex: "E5E9EB")
             cell.clipsToBounds = true
             
+            cell.adapt(rekening[idx])
+            cell.btnEditAction = {
+            let EditRekeningVC = Bundle.main.loadNibNamed(Tags.XibNameRekeningAdd, owner: nil, options: nil)?.first as! RekeningAddViewController
+                EditRekeningVC.editMode = true
+                EditRekeningVC.rekening = self.rekening[idx]
+                self.navigationController?.pushViewController(EditRekeningVC, animated: true)
+            }
+
             cell.btnDeleteAction = {
                 // delete
-                /*
-                 let alert : UIAlertController = UIAlertController(title: "Hapus Alamat", message: "Apakah kamu yakin ingin menghapus alamat \"" + (self.addresses?[idx].addressName)! + "\"? (Aksi ini tidak dapat dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
-                 alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
-                 alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
-                 // api delete
-                 let _ = request(APIMe.deleteAddress(addressId: (self.addresses?[idx].id)!)).responseJSON { resp in
-                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Hapus Alamat")) {
-                 Constant.showDialog("Hapus Alamat", message: "Alamat berhasil dihapus")
-                 self.addresses?.remove(at: idx)
-                 tableView.reloadData()
-                 }
-                 }
-                 }))
-                 self.present(alert, animated: true, completion: nil)
-                 */
-                
                 let alertView = SCLAlertView(appearance: Constant.appearance)
                 alertView.addButton("Ya") {
-                    
-                }
+//                    print("ini yang mau di delete")
+//                    print(self.rekening[idx].id)
+                    // api delete
+                    let _ = request(APIMe.deleteBankAccount(bankAccountId: (self.rekening[idx].id))).responseJSON { resp in
+                        print("masuk sini sih")
+                        if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Hapus Rekening")) {
+                            print("masuk sini sih2")
+                            Constant.showDialog("Hapus Rekening", message: "Rekening berhasil dihapus")
+                            self.rekening.remove(at: idx)
+                            tableView.reloadData()
+                        } else {
+                            print("salah masuk")
+                        }
+                    }                }
                 alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+                alertView.showCustom("Hapus Rekening", subTitle: "Apakah kamu yakin ingin menghapus rekening \"" + (self.rekening[idx].account_number) + "\"? (Aksi ini tidak dapat dibatalkan)", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
             }
             
             cell.btnSetMainAction = {
@@ -192,7 +202,7 @@ class RekeningListViewController: BaseViewController, UITableViewDelegate, UITab
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if ((indexPath as NSIndexPath).item < (0)) {
+        if ((indexPath as NSIndexPath).item < (rekening.count)) {
             // do nothing
         } else {
             // new rekening - tambah alamat
@@ -204,11 +214,28 @@ class RekeningListViewController: BaseViewController, UITableViewDelegate, UITab
     
     // MARK: - Pop up
     func setupPopUp(_ index: Int) {
+        let desc = "Rekening Utama."
         
+        self.lblDescription.text = desc
+        
+        let attString : NSMutableAttributedString = NSMutableAttributedString(string: desc)
+        attString.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: 16)], range: (desc as NSString).range(of: "Rekening Utama"))
+        
+        self.lblDescription.attributedText = attString
     }
     
     func initPopUp() {
-       
+        // Transparent panel
+        self.vwBackgroundOverlay.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.2)
+        
+        self.vwBackgroundOverlay.isHidden = false
+        self.vwOverlayPopUp.isHidden = false
+        
+        let screenSize = UIScreen.main.bounds
+        let screenHeight = screenSize.height - 64 // navbar
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = screenHeight
     }
     
     func displayPopUp() {
@@ -258,11 +285,31 @@ class RekeningListViewController: BaseViewController, UITableViewDelegate, UITab
     }
     
     @IBAction func btnOkePressed(_ sender: Any) {
+        self.unDisplayPopUp()
         
+        // api set default
+        let _ = request(APIMe.setDefaultBankAccount(bankAccountId: self.rekening[self.selectedIndexForSetAsMain].id)).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Set Default Rekening")) {
+                Constant.showDialog("Set Default Rekening", message: "Pergantian rekening.")
+                
+                self.getRekening()
+                self.tableView.reloadData()
+            }
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.vwOverlayPopUp.isHidden = true
+            self.vwBackgroundOverlay.isHidden = true
+        })
     }
     
     @IBAction func btnTidakPressed(_ sender: Any) {
+        self.unDisplayPopUp()
         
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.vwOverlayPopUp.isHidden = true
+            self.vwBackgroundOverlay.isHidden = true
+        })
     }
 }
 
@@ -277,13 +324,14 @@ class RekeningListCell: UITableViewCell { // height 192
     @IBOutlet weak var btnDelete: UIButton!
     @IBOutlet weak var btnEdit: UIButton!
     
+    
     var rekening: RekeningItem!
     
     var btnEditAction : () -> () = {}
     var btnDeleteAction : () -> () = {}
     var btnSetMainAction : () -> () = {}
     
-    func adapt(_ address: AddressItem) {
+    func adapt(_ rekening: RekeningItem) {
         // set button
         let insetBtn = UIEdgeInsets(top: 6, left: 6, bottom: 6, right: 6)
         
@@ -291,12 +339,26 @@ class RekeningListCell: UITableViewCell { // height 192
         btnEdit.imageView?.contentMode = .scaleAspectFit
         btnEdit.imageEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
         btnEdit.tintColor = UIColor.darkGray
-        
+    
+        if(rekening.isDefaultBankAccount){
+            btnDelete.isHidden = true
+            btnSetMain.isHidden = true
+            btnEdit.isHidden = false
+            vwMain.isHidden = false
+        } else {
+            btnDelete.isHidden = false
+            btnSetMain.isHidden = false
+            btnEdit.isHidden = false
+            vwMain.isHidden = true
+        }
         btnDelete.setImage(UIImage(named: "ic_delete"), for: .normal)
         btnDelete.imageView?.contentMode = .scaleAspectFit
         btnDelete.imageEdgeInsets = insetBtn
         btnDelete.tintColor = UIColor.darkGray
         
+        lblBank.text = rekening.target_bank
+        lblName.text = rekening.name
+        lblRekening.text = rekening.account_number
         
         
     }
