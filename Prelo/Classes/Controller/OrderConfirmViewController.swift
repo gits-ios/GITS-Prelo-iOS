@@ -231,7 +231,6 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         captionOrderTotal.text = (total + kodeTransfer).asPrice
         
         // new UI
-        // if affiliate, targetBank can contain "dumy"
         if (targetBank != nil && targetBank != "") {
             self.vw3Banks.isHidden = true
             self.vw4Banks.isHidden = true
@@ -239,7 +238,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             self.vw1Bank.isHidden = false
             
             for i in 0...rekenings.count - 1 {
-                if (rekenings[i].bank_name == targetBank) {
+                if (rekenings[i].bank_name.lowercased() == targetBank.lowercased()) {
                     self.imgSelectedBank.image = UIImage(named: rekenings[i].icon)
                     self.setupViewRekening(rekenings[i])
                     self.lblBankTujuan.text = targetBank

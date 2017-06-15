@@ -4292,6 +4292,7 @@ class AffiliateItem : NSObject {
     }
 }
 
+// *inner is defined in OrderConfirmViewController
 class BankAccount : NSObject {
     var json : JSON!
     
@@ -4307,11 +4308,11 @@ class BankAccount : NSObject {
     
     var no : String {
         if let j = json["number"].string {
-            return (j.contains(" ") ? j : j + " ")
+            return j + " "
         } else if let j = json["no"].string { // for inner
-            return (j.contains(" ") ? j : j + " ")
+            return j // always contain " "
         } else if let j = json["account_number"].string {
-            return (j.contains(" ") ? j : j + " ")
+            return j + " "
         }
         return "-"
     }
@@ -4329,13 +4330,13 @@ class BankAccount : NSObject {
         if let j = json["name"].string {
             return j
         } else if let j = json["account_name"].string {
-            return j
+            return j.replace("Bank ", template: "")
         }
         return "-"
     }
     
     var icon : String {
-        if let j = json["icon"].string { // for iner
+        if let j = json["icon"].string { // for inner
             return j
         } else if bank_name.lowercased().contains("bca") {
             return "rsz_ic_bca@2x"
