@@ -570,11 +570,6 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         // Discount items
         self.preloBalanceTotal = self.cartResult.preloBalance
         
-        print(self.cartResult.isVoucherValid)
-        print(self.cartResult.voucherError)
-        print(self.cartResult.voucherSerial)
-        print(self.cartResult.voucherAmount)
-        
         if (self.cartResult.isVoucherValid == true) {
             self.voucherSerial = self.cartResult.voucherSerial
             let voucherAmount = self.cartResult.voucherAmount
@@ -773,7 +768,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if cartResult != nil && cartResult.cartDetails.count > 0 {
             if section == 0 {
-                return 2
+                return 1 //2
             } else if section <= cartResult.cartDetails.count {
                 return cartResult.cartDetails[section-1].products.count + 2
             } else if section == cartResult.cartDetails.count + 2 {
@@ -799,16 +794,16 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
             if idx.section == 0 {
                 if idx.row == 0 {
                     return Checkout2PaymentMethodCell.heightFor()
-                } else {
-                    return 2.0 //Checkout2BlackWhiteCell.heightFor()
-                }
+                } /*else {
+                    return 1.0 //Checkout2BlackWhiteCell.heightFor()
+                }*/
             } else if idx.section <= cartResult.cartDetails.count {
                 if idx.row == 0 {
                     return Checkout2CourierCell.heightFor()
                 } else if idx.row <= cartResult.cartDetails[idx.section-1].products.count {
                     return Checkout2ProductCell.heightFor()
                 } else {
-                    return 2.0 //Checkout2BlackWhiteCell.heightFor()
+                    return 1.0 //Checkout2BlackWhiteCell.heightFor()
                 }
             } else if idx.section == cartResult.cartDetails.count + 2 {
                 if idx.row == 0 {
@@ -876,7 +871,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     cell.adapt("RINGKASAN BARANG")
                     
                     return cell
-                } else if idx.row == 1 {
+                } /*else if idx.row == 1 {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2BlackWhiteCell") as! Checkout2BlackWhiteCell
                     
                     cell.selectionStyle = .none
@@ -885,7 +880,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     cell.consHeightVwLine1px.constant = 2.0
                     
                     return cell
-                }
+                }*/
             } else if ((indexPath as NSIndexPath).section <= cartResult.cartDetails.count) {
                 if idx.row == 0 {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2CourierCell") as! Checkout2CourierCell
@@ -950,7 +945,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                                 } else {
                                     print("Keranjang Belanja - Hapus Items, Failed")
                                     
-                                    Constant.showDialog("Hapus Items", message: "\"\(self.cartResult.cartDetails[idx.section].fullname)\" gagal dihapus")
+                                    Constant.showDialog("Hapus Items", message: "\"\(self.cartResult.cartDetails[idx.section-1].products[idx.row-1].name)\" gagal dihapus")
                                     
                                     self.hideLoading()
                                 }
@@ -1426,7 +1421,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     } else {
                         //print("Keranjang Belanja - Hapus Items, Failed")
                         
-                        Constant.showDialog("Hapus Items", message: "\"\(self.cartResult.cartDetails[idx.section].fullname)\" gagal dihapus")
+                        Constant.showDialog("Hapus Items", message: "\"\(self.cartResult.cartDetails[idx.section].products[idx.row-1].name)\" gagal dihapus")
                         
                         self.hideLoading()
                     }

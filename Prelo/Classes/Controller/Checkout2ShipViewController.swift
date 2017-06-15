@@ -607,7 +607,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                                 } else {
                                     print("Keranjang Belanja - Hapus Items, Failed")
                                     
-                                    Constant.showDialog("Hapus Items", message: "\"\(self.cartResult.cartDetails[idx.section].fullname)\" gagal dihapus")
+                                    Constant.showDialog("Hapus Items", message: "\"\(self.cartResult.cartDetails[idx.section].products[idx.row-1].name)\" gagal dihapus")
                                     
                                     self.hideLoading()
                                 }
@@ -883,7 +883,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     } else {
                         //print("Keranjang Belanja - Hapus Items, Failed")
                         
-                        Constant.showDialog("Hapus Items", message: "\"\(self.cartResult.cartDetails[idx.section].fullname)\" gagal dihapus")
+                        Constant.showDialog("Hapus Items", message: "\"\(self.cartResult.cartDetails[idx.section].products[idx.row-1].name)\" gagal dihapus")
                         
                         self.hideLoading()
                     }
