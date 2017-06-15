@@ -1097,6 +1097,7 @@ class UserDefaultsKey : NSObject {
     static let AdsFrequency = "adsfrequency"
     static let AdsOffset = "adsoffset"
     static let RefreshTime = "refreshtime"
+    static let BankAccounts = "bankaccounts"
 }
 
 extension UserDefaults {
@@ -1181,18 +1182,18 @@ extension NSManagedObjectContext {
 }
 
 func print(_ items: Any..., separator: String = " ", terminator: String = "\n") {
-    let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo.print",
+    /*let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo.print",
                                         qos: .background,
                                         attributes: .concurrent,
                                         target: nil)
-    backgroundQueue.async {
+    backgroundQueue.async {*/
         if AppTools.isDev {
-            if AppTools.isSimulator {
+            /*if AppTools.isSimulator {
                 Swift.print("\nSimulator\n=========\n\n", separator: separator, terminator: terminator)
-            }
+            }*/
             Swift.print(items[0], separator: separator, terminator: terminator)
         }
-    }
+    //}
 }
 
 /*
