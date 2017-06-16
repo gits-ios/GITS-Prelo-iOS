@@ -197,26 +197,41 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     // MARK: - Actions
     
     @IBAction func btnKurirPressed(_ sender: AnyObject) {
-        let kurirs = CDShipping.getAll()
+        /*let kurirs = CDShipping.getAll()
         if (kurirs.count <= 0) {
             Constant.showDialog("Oops, gagal memproses data kurir", message: "Harap me-refresh data kurir melalui menu About > Reload App Data")
             return
+        }*/
+        
+        var kurirs: [String] = []
+        if let arr = trxDetail.json["available_shippings"].array {
+            for a in arr {
+                if let kurir = a.string {
+                    kurirs.append(kurir)
+                }
+            }
         }
+        
         let kurirAlert = UIAlertController(title: "Pilih Kurir", message: nil, preferredStyle: .actionSheet)
         kurirAlert.popoverPresentationController?.sourceView = self.lblDropdownKurir as UIView
         kurirAlert.popoverPresentationController?.sourceRect = self.lblDropdownKurir.bounds
         for i in 0..<kurirs.count {
-            kurirAlert.addAction(UIAlertAction(title: kurirs[i].name, style: .default, handler: { act in
-                self.lblKurir.text = kurirs[i].name
+            kurirAlert.addAction(UIAlertAction(title: kurirs[i] /*kurirs[i].name*/, style: .default, handler: { act in
+                self.lblKurir.text = kurirs[i] /*kurirs[i].name*/
                 self.hideFldKurirLainnya()
                 kurirAlert.dismiss(animated: true, completion: nil)
             }))
         }
-        kurirAlert.addAction(UIAlertAction(title: "Lainnya", style: .default, handler: { act in
-            self.lblKurir.text = "Lainnya"
-            self.showFldKurirLainnya()
-            kurirAlert.dismiss(animated: true, completion: nil)
-        }))
+        
+        if !(trxDetail.preloBalanceUsed > 0 || trxDetail.bonusUsed > 0 || trxDetail.voucherAmount > 0) {
+            kurirAlert.addAction(UIAlertAction(title: "Lainnya", style: .default, handler: { act in
+                self.lblKurir.text = "Lainnya"
+                self.showFldKurirLainnya()
+                kurirAlert.dismiss(animated: true, completion: nil)
+            }))
+            
+        }
+        
         kurirAlert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: { act in
             kurirAlert.dismiss(animated: true, completion: nil)
         }))
