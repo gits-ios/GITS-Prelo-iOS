@@ -3069,8 +3069,7 @@ class TransactionDetailTools : NSObject {
     }
     
     // Affiliate
-    static let TextAffiliateUnpaid = "Transaksi ini belum dibayar. Segera konfirmasi pembayaran di " + TransactionDetailTools.AffiliateName + ". Untuk transaksi dengan transfer bank, transfer ke: \n\n" + "rekening " + TransactionDetailTools.AffiliateName + " di\n\n" + TransactionDetailTools.AffiliateBankAccounts[0].name + "\n" + TransactionDetailTools.AffiliateBankAccounts[0].bank_name + " " +
-    TransactionDetailTools.AffiliateBankAccounts[0].no.replace(" ", template: "") + "\n\nCek email dari " + TransactionDetailTools.AffiliateName + " untuk rincian pembayaran. Apabila kamu sudah melakukan konfirmasi pembayaran, harap tunggu notifikasi selanjutnya."
+    static let TextAffiliateUnpaid = "Transaksi ini belum dibayar. Segera konfirmasi pembayaran di " + TransactionDetailTools.AffiliateName + ". Untuk transaksi menggunakan transfer bank, transfer ke rekening " + TransactionDetailTools.AffiliateName + " di:\n\n" + TransactionDetailTools.AffiliateBankAccounts[0].bank_name + "\n" + TransactionDetailTools.AffiliateBankAccounts[0].no.replace(" ", template: "") + "\n" + TransactionDetailTools.AffiliateBankAccounts[0].name + "\n\nCek e-mail dari " + TransactionDetailTools.AffiliateName + " untuk rincian pembayaran. Apabila kamu sudah melakukan konfirmasi pembayaran, harap tunggu notifikasi selanjutnya."
     static let TextAffiliateExpired = "Pembayaran ini expired karena kamu belum membayar hingga batas waktu yang ditentukan."
     static let TextAffiliatePaid = "Pesanan kamu sedang diproses oleh " + TransactionDetailTools.AffiliateName + "."
     static let TextAffiliateReject = "Mohon maaf, pesanan kamu tidak bisa dikirim karena keterbatasan pada penjual. Uang kamu telah dikembalikan melalui sistem " + TransactionDetailTools.AffiliateName + "."
@@ -5041,8 +5040,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
     func adaptAffiliate(_ progress : Int) {
         if progress == TransactionDetailTools.ProgressNotPaid {
             lblDesc.text = TransactionDetailTools.TextAffiliateUnpaid
-            let teks = TransactionDetailTools.AffiliateBankAccounts[0].name + "\n" + TransactionDetailTools.AffiliateBankAccounts[0].bank_name + " " +
-                TransactionDetailTools.AffiliateBankAccounts[0].no.replace(" ", template: "")
+            let teks = TransactionDetailTools.AffiliateBankAccounts[0].bank_name + "\n" + TransactionDetailTools.AffiliateBankAccounts[0].no.replace(" ", template: "") + "\n" + TransactionDetailTools.AffiliateBankAccounts[0].name
             lblDesc.boldSubstring(teks)
         } else if progress == TransactionDetailTools.ProgressExpired {
             lblDesc.text = TransactionDetailTools.TextAffiliateExpired
