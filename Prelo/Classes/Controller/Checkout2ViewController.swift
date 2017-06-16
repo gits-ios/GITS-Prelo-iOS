@@ -53,20 +53,6 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
     // from page 2
     //-------------
     
-    // MARK: - Struct
-    struct PaymentMethodItem {
-        var name: String = ""
-        var type: Int = 0
-        var chargeDescription: String = ""
-        var charge: Int64 = 0
-        var provider: paymentMethodProvider = .bankTransfer
-    }
-    
-    struct DiscountItem {
-        var title: String = ""
-        var value: Int64 = 0
-    }
-    
     var isShowBankBRI = false
     var isCreditCard = false
     var isIndomaret = false
@@ -531,10 +517,9 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         
         // transfer bank
         var p = PaymentMethodItem()
-        p.name = "Transfer Bank"
+        p.methodDetail = .bankTransfer
         p.charge = self.cartResult.banktransferDigit
         p.chargeDescription = "Kode Unik Transfer"
-        p.provider = .bankTransfer
         self.paymentMethods.append(p)
         
         let ab = self.cartResult.abTest
@@ -676,19 +661,17 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         
         if self.isCreditCard {
             var p = PaymentMethodItem()
-            p.name = "Credit Card"
+            p.methodDetail = .creditCard
             p.charge = creditCardCharge
-            p.chargeDescription = "Credit Card Charge"
-            p.provider = .veritrans
+            p.chargeDescription = PaymentMethod.creditCard.value + " Charge"
             self.paymentMethods.append(p)
         }
         
         if self.isIndomaret {
             var p = PaymentMethodItem()
-            p.name = "Indomaret"
+            p.methodDetail = .indomaret
             p.charge = indomaretCharge
-            p.chargeDescription = "Indomaret Charge"
-            p.provider = .veritrans
+            p.chargeDescription = PaymentMethod.indomaret.value + " Charge"
             self.paymentMethods.append(p)
             
             if p.charge == 0 {
@@ -698,37 +681,33 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         
         if self.isKredivo {
             var p = PaymentMethodItem()
-            p.name = "Kredivo"
+            p.methodDetail = .kredivo
             p.charge = kredivoCharge
-            p.chargeDescription = "Kredivo Charge"
-            p.provider = .kredivo
+            p.chargeDescription = PaymentMethod.kredivo.value + " Charge"
             self.paymentMethods.append(p)
         }
         
         if self.isCimbClicks {
             var p = PaymentMethodItem()
-            p.name = "CIMB Clicks"
+            p.methodDetail = .cimbClicks
             p.charge = cimbClicksCharge
-            p.chargeDescription = "CIMB Clicks Charge"
-            p.provider = .veritrans
+            p.chargeDescription = PaymentMethod.cimbClicks.value + " Charge"
             self.paymentMethods.append(p)
         }
         
         if self.isMandiriClickpay {
             var p = PaymentMethodItem()
-            p.name = "Mandiri Clickpay"
+            p.methodDetail = .mandiriClickpay
             p.charge = mandiriClickpayCharge
-            p.chargeDescription = "Mandiri Clickpay Charge"
-            p.provider = .veritrans
+            p.chargeDescription = PaymentMethod.mandiriClickpay.value + " Charge"
             self.paymentMethods.append(p)
         }
         
         if self.isMandiriEcash {
             var p = PaymentMethodItem()
-            p.name = "Mandiri Ecash"
+            p.methodDetail = .mandiriEcash
             p.charge = mandiriEcashCharge
-            p.chargeDescription = "Mandiri Ecash Charge"
-            p.provider = .veritrans
+            p.chargeDescription = PaymentMethod.mandiriEcash.value + " Charge"
             self.paymentMethods.append(p)
         }
         
@@ -1140,7 +1119,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     cell.selectionStyle = .none
                     cell.clipsToBounds = true
                     
-                    cell.adapt(self.paymentMethods[idx.row-1].name, isSelected: selectedPaymentIndex == idx.row-1)
+                    cell.adapt(self.paymentMethods[idx.row-1].methodDetail.title, isSelected: selectedPaymentIndex == idx.row-1)
                     
                     return cell
                 }
@@ -1257,12 +1236,12 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         // Kartu Kredit & Indomaret re-count
                         let priceAfterDiscounts = self.totalAmount - operan
                         
-                        if self.paymentMethods[self.selectedPaymentIndex].name == "Credit Card" {
+                        if self.paymentMethods[self.selectedPaymentIndex].methodDetail == .creditCard {
                             let creditCardCharge = (self.cartResult.veritransCharge?.creditCard)! + Int64((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.creditCardMultiplyFactor)!) + 0.5)
                             
                             self.paymentMethods[self.selectedPaymentIndex].charge = creditCardCharge
                             
-                        } else if self.paymentMethods[self.selectedPaymentIndex].name == "Indomaret" {
+                        } else if self.paymentMethods[self.selectedPaymentIndex].methodDetail == .indomaret {
                             var indomaretCharge = Int64((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.indomaretMultiplyFactor)!) + 0.5)
                             if (indomaretCharge < (self.cartResult.veritransCharge?.indomaret)!) {
                                 indomaretCharge = (self.cartResult.veritransCharge?.indomaret)!
@@ -1270,12 +1249,12 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                             
                             self.paymentMethods[self.selectedPaymentIndex].charge = indomaretCharge
                             
-                        } else if self.paymentMethods[self.selectedPaymentIndex].name == "Mandiri Clickpay" {
+                        } else if self.paymentMethods[self.selectedPaymentIndex].methodDetail == .mandiriClickpay {
                             let mandiriClickpayCharge = (self.cartResult.veritransCharge?.mandiriClickpay)!
                         
                             self.paymentMethods[self.selectedPaymentIndex].charge = mandiriClickpayCharge
                             
-                        } else if self.paymentMethods[self.selectedPaymentIndex].name == "Mandiri Ecash" {
+                        } else if self.paymentMethods[self.selectedPaymentIndex].methodDetail == .mandiriEcash {
                             var mandiriEcashCharge = Int64((Double(priceAfterDiscounts) * (self.cartResult.veritransCharge?.mandiriEcashMultiplyFactor)!) + 0.5)
                             if (mandiriEcashCharge < (self.cartResult.veritransCharge?.mandiriEcash)!) {
                                 mandiriEcashCharge = (self.cartResult.veritransCharge?.mandiriEcash)!
@@ -1283,12 +1262,12 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                             
                             self.paymentMethods[self.selectedPaymentIndex].charge = mandiriEcashCharge
                             
-                        } else if self.paymentMethods[self.selectedPaymentIndex].name == "CIMB Clicks" {
+                        } else if self.paymentMethods[self.selectedPaymentIndex].methodDetail == .cimbClicks {
                             let cimbClicksCharge = (self.cartResult.veritransCharge?.cimbClicks)!
                             
                             self.paymentMethods[self.selectedPaymentIndex].charge = cimbClicksCharge
                             
-                        } else if self.paymentMethods[self.selectedPaymentIndex].name == "Kredivo" {
+                        } else if self.paymentMethods[self.selectedPaymentIndex].methodDetail == .kredivo {
                             let kredivoCharge = Int64((Double(priceAfterDiscounts) * (self.cartResult.kredivoCharge?.installment)!) + 0.5)
                             
                             self.paymentMethods[self.selectedPaymentIndex].charge = kredivoCharge
@@ -1360,7 +1339,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {
                             self.hideLoading()
                         }
-                        alertView.showCustom("Perhatian", subTitle: "Kamu akan melakukan transaksi sebesar \(totalAmount.asPrice) menggunakan \(self.paymentMethods[self.selectedPaymentIndex].name). Lanjutkan?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+                        alertView.showCustom("Perhatian", subTitle: "Kamu akan melakukan transaksi sebesar \(totalAmount.asPrice) menggunakan \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title). Lanjutkan?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
                     }
                     
                     return cell
@@ -1501,7 +1480,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         ]
         let a = AppToolsObjC.jsonString(from: d)
         
-        let _ = request(APIV2Cart.checkout(cart: p, address: a!, voucher: (self.isVoucherUsed ? self.voucherSerial! : ""), payment: self.paymentMethods[self.selectedPaymentIndex].name, usedPreloBalance: (self.isBalanceUsed ? self.preloBalanceUsed : 0), usedReferralBonus: self.preloBonusUsed, kodeTransfer: self.paymentMethods[0].charge, targetBank: (self.isDropdownMode ? self.targetBank : ""))).responseJSON { resp in
+        let _ = request(APIV2Cart.checkout(cart: p, address: a!, voucher: (self.isVoucherUsed ? self.voucherSerial! : ""), payment: self.paymentMethods[self.selectedPaymentIndex].methodDetail.value, usedPreloBalance: (self.isBalanceUsed ? self.preloBalanceUsed : 0), usedReferralBonus: self.preloBonusUsed, kodeTransfer: self.paymentMethods[0].charge, targetBank: (self.isDropdownMode ? self.targetBank : ""))).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Checkout")) {
                 let json = JSON(resp.result.value!)
                 self.checkoutResult = json["_data"]
@@ -1746,20 +1725,20 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                 CartManager.sharedInstance.deleteAll()
                 
                 // Prepare to navigate to next page
-                if (self.paymentMethods[self.selectedPaymentIndex].provider == .bankTransfer) { // bank
+                if (self.paymentMethods[self.selectedPaymentIndex].methodDetail.provider == .native) { // bank
                     self.navigateToOrderConfirmVC(false)
                     
-                } else if (self.paymentMethods[self.selectedPaymentIndex].provider == .veritrans) { // Credit card, indomaret
+                } else if (self.paymentMethods[self.selectedPaymentIndex].methodDetail.provider == .veritrans) { // Credit card, indomaret
                     let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
                     let webVC = mainStoryboard.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
                     webVC.url = self.checkoutResult!["veritrans_redirect_url"].stringValue
-                    webVC.titleString = "Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].name)"
+                    webVC.titleString = "Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title)"
                     webVC.creditCardMode = true
                     webVC.ccPaymentSucceed = {
                         self.navigateToOrderConfirmVC(true)
                     }
                     webVC.ccPaymentUnfinished = {
-                        Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].name)", message: "Pembayaran tertunda")
+                        Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title)", message: "Pembayaran tertunda")
                         /*
                         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
                         notifPageVC.isBackTwice = true
@@ -1782,7 +1761,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         }
                     }
                     webVC.ccPaymentFailed = {
-                        Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].name)", message: "Pembayaran gagal, silahkan coba beberapa saat lagi")
+                        Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title)", message: "Pembayaran gagal, silahkan coba beberapa saat lagi")
                         /*
                         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
                         notifPageVC.isBackTwice = true
@@ -1808,17 +1787,17 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     baseNavC.setViewControllers([webVC], animated: false)
                     self.present(baseNavC, animated: true, completion: nil)
                     
-                } else if (self.paymentMethods[self.selectedPaymentIndex].provider == .kredivo) { // Kredivo
+                } else if (self.paymentMethods[self.selectedPaymentIndex].methodDetail.provider == .kredivo) { // Kredivo
                     let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
                     let webVC = mainStoryboard.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
                     webVC.url = self.checkoutResult!["kredivo_redirect_url"].stringValue
-                    webVC.titleString = "Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].name)"
+                    webVC.titleString = "Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title)"
                     webVC.creditCardMode = true
                     webVC.ccPaymentSucceed = {
                         self.navigateToOrderConfirmVC(true)
                     }
                     webVC.ccPaymentUnfinished = {
-                        Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].name)", message: "Pembayaran tertunda")
+                        Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title)", message: "Pembayaran tertunda")
                         /*
                         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
                         notifPageVC.isBackTwice = true
@@ -1841,7 +1820,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         }
                     }
                     webVC.ccPaymentFailed = {
-                        Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].name)", message: "Pembayaran gagal, silahkan coba beberapa saat lagi")
+                        Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title)", message: "Pembayaran gagal, silahkan coba beberapa saat lagi")
                         /*
                         let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
                         notifPageVC.isBackTwice = true

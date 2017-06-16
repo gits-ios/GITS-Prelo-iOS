@@ -13,28 +13,19 @@ import DropDown
 
 // MARK: - Class
 
-enum PaymentMethod {
-    case bankTransfer
-    case creditCard
-    case indomaret
-    
-    var value : String {
-        switch self {
-        case .bankTransfer : return "Bank Transfer"
-        case .creditCard : return "Credit Card"
-        case .indomaret : return "Indomaret"
-        }
-    }
-}
+//------------------------
+// enum PaymentMethod
+// move to Checkout2PayVC
+//------------------------
 
 class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UITextFieldDelegate, CartItemCellDelegate, UserRelatedDelegate, PreloBalanceInputCellDelegate, VoucherInputCellDelegate {
     
     // MARK: - Struct
     
-    struct DiscountItem {
-        var title : String = ""
-        var value : Int64 = 0
-    }
+    //------------------------
+    // struct DiscountItem
+    // move to Checkout2PayVC
+    //------------------------
 
     // MARK: - Properties
     
