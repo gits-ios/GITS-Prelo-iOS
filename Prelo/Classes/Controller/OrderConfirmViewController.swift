@@ -504,14 +504,16 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
          */
         
         let navController = self.navigationController!
-        var controllers = navController.viewControllers
+        /*var controllers = navController.viewControllers
         
         let c = controllers.count
         if c > 1 {
             for _ in 1...c-1 {
                 controllers.removeLast()
             }
-        }
+        }*/
+        
+        let controllers = [ navController.viewControllers[0] ]
         
         navController.setViewControllers(controllers, animated: false)
         
@@ -523,14 +525,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     @IBAction func showPaymentPopUp(_ sender: AnyObject) {
         if isAffiliate {
             let navController = self.navigationController!
-            var controllers = navController.viewControllers
-            
-            let c = controllers.count
-            if c > 1 {
-                for _ in 1...c-1 {
-                    controllers.removeLast()
-                }
-            }
+            let controllers = [ navController.viewControllers[0] ]
             
             navController.setViewControllers(controllers, animated: false)
             
