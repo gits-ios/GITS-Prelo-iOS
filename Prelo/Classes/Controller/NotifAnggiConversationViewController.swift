@@ -132,12 +132,13 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     }
     
     func getNotif() {
+        var dataCount = 0
         // API Migrasi
         let _ = request(APINotification.getNotifs(tab: "conversation", page: self.currentPage + 1)).responseJSON {resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Percakapan")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
-                let dataCount = data.count
+                dataCount = data.count
                 
                 // Store data into variable
                 for (_, item) in data {
@@ -165,16 +166,29 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
             // Hide refreshControl (for refreshing)
             self.refreshControl.endRefreshing()
             
-            if self.isMacro {
-                self.notifIds = []
-                for idx in 0...(self.notifications?.count)!-1 {
-                    self.notifIds.append(self.notifications![idx].id)
+            if self.currentPage == 1 {
+                // Show content
+                self.showContent()
+                
+                if self.isMacro {
+                    self.notifIds = []
+                    for idx in 0...(self.notifications?.count)!-1 {
+                        self.notifIds.append(self.notifications![idx].id)
+                    }
+                    //self.tableView.reloadData()
+                    self.tableView.reloadSections(IndexSet.init(integer: 0), with: .fade)
                 }
-                self.tableView.reloadData()
+            } else {
+                let lastRow = self.tableView.numberOfRows(inSection: 0) - 1
+                var idxs : Array<IndexPath> = []
+                for i in 1...dataCount {
+                    idxs.append(IndexPath(row: lastRow+i, section: 0))
+                    if self.isMacro {
+                        self.notifIds.append(self.notifications![lastRow+i].id)
+                    }
+                }
+                self.tableView.insertRows(at: idxs, with: .fade)
             }
-            
-            // Show content
-            self.showContent()
             
             self.isRefreshing = false
         }
@@ -239,7 +253,8 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                         self.countDecreaseNotifCount += 1
                     }
                 }
-                tableView.reloadData()
+                //tableView.reloadData()
+                tableView.reloadRows(at: [indexPath], with: .fade)
             }
         } else {
             self.showLoading()
@@ -307,7 +322,8 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
             self.lblCheckBox.isHidden = true
             self.isMacro = false
             self.notifIds = []
-            self.tableView.reloadData()
+            //self.tableView.reloadData()
+            self.tableView.reloadSections(IndexSet.init(integer: 0), with: .fade)
 
         } else {
             self.lblCheckBox.isHidden = false
@@ -316,7 +332,8 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
             for idx in 0...(self.notifications?.count)!-1 {
                 notifIds.append(self.notifications![idx].id)
             }
-            self.tableView.reloadData()
+            //self.tableView.reloadData()
+            self.tableView.reloadSections(IndexSet.init(integer: 0), with: .fade)
         }
     }
     
@@ -326,7 +343,8 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         self.lblCheckBox.isHidden = true
         self.consHeightButtonView.constant = 0
         self.notifIds = []
-        self.tableView.reloadData()
+        //self.tableView.reloadData()
+        self.tableView.reloadSections(IndexSet.init(integer: 0), with: .fade)
     }
     
     @IBAction func btnHapusPressed(_ sender: Any) {
