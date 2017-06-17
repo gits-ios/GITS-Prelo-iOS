@@ -1938,6 +1938,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     UserDefaults.standard.synchronize()
                 }
                 
+                // init prelo bank account
+                if let ba = data["prelo_bank_accounts"].array {
+                    var bankAccounts: Array<[String: Any]> = []
+                    for b in ba {
+                        if let c = b.dictionaryObject {
+                            bankAccounts.append(c)
+                        }
+                    }
+                    UserDefaults.standard.set(bankAccounts, forKey: UserDefaultsKey.BankAccounts)
+                    
+                    UserDefaults.standard.synchronize()
+                }
+                
                 // change icon from server iOS 10.3.*
                 if #available(iOS 10.3, *) {
                     guard UIApplication.shared.supportsAlternateIcons,
