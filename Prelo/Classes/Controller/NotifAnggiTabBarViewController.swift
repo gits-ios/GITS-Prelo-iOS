@@ -258,14 +258,20 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
             let activeTab = self.tabSwipe?.currentTabIndex
             if (activeTab == 0) { // Transaction
                 self.notifAnggiTransactionVC?.isToDelete = true
-                self.notifAnggiTransactionVC?.consHeightCheckBoxAll.constant = 56
-                self.notifAnggiTransactionVC?.consHeightButtonView.constant = 56
-                self.notifAnggiTransactionVC?.tableView.reloadData()
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.notifAnggiTransactionVC?.consHeightCheckBoxAll.constant = 56
+                    self.notifAnggiTransactionVC?.consHeightButtonView.constant = 56
+                })
+                //self.notifAnggiTransactionVC?.tableView.reloadData()
+                self.notifAnggiTransactionVC?.tableView.reloadSections(IndexSet.init(integer: 0), with: .fade)
             } else { // Conversation
                 self.notifAnggiConversationVC?.isToDelete = true
-                self.notifAnggiConversationVC?.consHeightCheckBoxAll.constant = 56
-                self.notifAnggiConversationVC?.consHeightButtonView.constant = 56
-                self.notifAnggiConversationVC?.tableView.reloadData()
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.notifAnggiConversationVC?.consHeightCheckBoxAll.constant = 56
+                    self.notifAnggiConversationVC?.consHeightButtonView.constant = 56
+                })
+                //self.notifAnggiConversationVC?.tableView.reloadData()
+                self.notifAnggiConversationVC?.tableView.reloadSections(IndexSet.init(integer: 0), with: .fade)
             }
             a.dismiss(animated: true, completion: nil)
         }))

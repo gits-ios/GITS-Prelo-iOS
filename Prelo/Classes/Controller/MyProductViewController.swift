@@ -33,7 +33,7 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate, MyPro
         productSell?.previousController = self
         productSell?.delegate = self
         
-        productTransaction = Bundle.main.loadNibNamed(Tags.XibNameMyProductTransaction, owner: nil, options: nil)?.first as! MyProductTransactionViewController
+        productTransaction = Bundle.main.loadNibNamed(Tags.XibNameMyProductTransaction, owner: nil, options: nil)?.first as? MyProductTransactionViewController
         
         // Do any additional setup after loading the view.
         tabSwipe = CarbonTabSwipeNavigation().create(withRootViewController: self, tabNames: ["BARANG" as AnyObject, "TRANSAKSI" as AnyObject] as [AnyObject], tintColor: UIColor.white, delegate: self)

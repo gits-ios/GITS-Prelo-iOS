@@ -136,7 +136,7 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
             stillImageOutput.captureStillImageAsynchronously(from: videoConnection, completionHandler: { (sampleBuffer, error) -> Void in
                 if sampleBuffer != nil {
                     let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
-                    let dataProvider = CGDataProvider(data: imageData as! CFData)
+                    let dataProvider = CGDataProvider(data: imageData! as CFData)
                     let cgImageRef = CGImage(jpegDataProviderSource: dataProvider!, decode: nil, shouldInterpolate: true, intent: CGColorRenderingIntent.defaultIntent)
                     let image = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.up)
                     postImage = image
@@ -207,7 +207,7 @@ class ScannerViewController: BaseViewController, AVCaptureMetadataOutputObjectsD
             stillImageOutput.captureStillImageAsynchronously(from: videoConnection, completionHandler: { (sampleBuffer, error) -> Void in
                 if sampleBuffer != nil {
                     let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
-                    let dataProvider = CGDataProvider(data: imageData as! CFData)
+                    let dataProvider = CGDataProvider(data: imageData! as CFData)
                     let cgImageRef = CGImage(jpegDataProviderSource: dataProvider!, decode: nil, shouldInterpolate: true, intent: CGColorRenderingIntent.defaultIntent)
                     let image = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.up)
                     postImage = image
