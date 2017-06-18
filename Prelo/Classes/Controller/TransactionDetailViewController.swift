@@ -206,6 +206,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                             TransactionDetailTools.setAffiliateConfirmURL((self.trxDetail?.AffiliateData?.confirmPaymentUrl)!)
                             TransactionDetailTools.setAffiliateURL((self.trxDetail?.AffiliateData?.transactionDetailUrl)!)
                             TransactionDetailTools.setAffiliateRefundURL((self.trxDetail?.AffiliateData?.refundTransactionUrl)!)
+                            TransactionDetailTools.setAffiliateBankAccount((self.trxDetail?.AffiliateData?.backAccounts)!)
                             self.isAffiliate = true
                         }
                     } else {
@@ -224,6 +225,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                             TransactionDetailTools.setAffiliateConfirmURL((self.trxProductDetail?.AffiliateData?.confirmPaymentUrl)!)
                             TransactionDetailTools.setAffiliateURL((self.trxProductDetail?.AffiliateData?.transactionDetailUrl)!)
                             TransactionDetailTools.setAffiliateRefundURL((self.trxProductDetail?.AffiliateData?.refundTransactionUrl)!)
+                            TransactionDetailTools.setAffiliateBankAccount((self.trxProductDetail?.AffiliateData?.backAccounts)!)
                             self.isAffiliate = true
                         }
                     }
@@ -427,10 +429,10 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isAffiliate {
-            if progress == TransactionDetailTools.ProgressExpired {
-                return 4
-            } else if progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived {
+            if progress == TransactionDetailTools.ProgressReviewed {
                 return 6
+            } else if progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived {
+                return 7
             } else  {
                 return 5
             }
@@ -536,17 +538,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         }
         
         if isAffiliate {
-            if progress == TransactionDetailTools.ProgressExpired {
-                if idx == 0 {
-                    return TransactionDetailTableCell.heightForProducts(hideProductCell)
-                } else if idx == 1 {
-                    return DefaultHeight
-                } else if idx == 2 {
-                    return TransactionDetailDescriptionCell.heightForAffiliate(progress)
-                } else if idx == 3 {
-                    return ContactPreloHeight
-                }
-            } else if progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived {
+            if progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived {
                 if idx == 0 {
                     return TransactionDetailTableCell.heightForProducts(hideProductCell)
                 } else if idx == 1 {
@@ -557,6 +549,22 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     return DefaultHeight
                 } else if idx == 4 {
                     return DefaultHeight
+                } else if idx == 5 {
+                    return DefaultHeight
+                } else if idx == 6 {
+                    return ContactPreloHeight
+                }
+            } else if progress == TransactionDetailTools.ProgressReviewed {
+                if idx == 0 {
+                    return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                } else if idx == 1 {
+                    return DefaultHeight
+                } else if idx == 2 {
+                    return TransactionDetailDescriptionCell.heightForAffiliate(progress)
+                } else if idx == 3 {
+                    return DefaultHeight
+                } else if idx == 4 {
+                    return TransactionDetailReviewCell.heightFor(trxProductDetail!.reviewComment)
                 } else if idx == 5 {
                     return ContactPreloHeight
                 }
@@ -1191,17 +1199,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         let idx = (indexPath as NSIndexPath).row
         
         if isAffiliate {
-            if progress == TransactionDetailTools.ProgressExpired {
-                if idx == 0 {
-                    return self.createTableProductsCell()
-                } else if idx == 1 {
-                    return self.createAffiliateTitleCell(TitleAffiliate)
-                } else if idx == 2 {
-                    return self.createDescriptionCell(1)
-                } else if idx == 3 {
-                    return self.createContactPreloCell()
-                }
-            } else if progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived {
+            if progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived {
                 if idx == 0 {
                     return self.createTableProductsCell()
                 } else if idx == 1 {
@@ -1211,7 +1209,23 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if idx == 3 {
                     return self.createButtonCell(1)
                 } else if idx == 4 {
+                    return self.createBorderedButtonCell(2) // order 1 always refund
+                } else if idx == 5 {
                     return self.createBorderedButtonCell(1)
+                } else if idx == 6 {
+                    return self.createContactPreloCell()
+                }
+            } else if progress == TransactionDetailTools.ProgressReviewed {
+                if idx == 0 {
+                    return self.createTableProductsCell()
+                } else if idx == 1 {
+                    return self.createAffiliateTitleCell(TitleAffiliate)
+                } else if idx == 2 {
+                    return self.createDescriptionCell(1)
+                } else if idx == 3 {
+                    return self.createAffiliateTitleCell(TitleReview)
+                } else if idx == 4 {
+                    return self.createReviewCell()
                 } else if idx == 5 {
                     return self.createContactPreloCell()
                 }
@@ -2167,6 +2181,29 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             baseNavC.setViewControllers([webVC], animated: false)
             self.present(baseNavC, animated: true, completion: nil)
         }
+        cell.orderAgainAffiliate = {
+            self.showLoading()
+            
+            var productId = ""
+            if self.trxDetail != nil {
+                productId = (self.trxDetail?.transactionProducts[0].productId)!
+            } else if self.trxProductDetail != nil {
+                productId = (self.trxProductDetail?.productId)!
+            }
+            
+            let _ = request(APIProduct.detail(productId: productId, forEdit: 0)).responseJSON { resp in
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Barang")) {
+                    let json = JSON(resp.result.value!)
+                    let data = json["_data"]
+                    let p = Product.instance(data)
+                    let productDetailVC = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+                    productDetailVC.product = p!
+                    productDetailVC.previousScreen = PageName.TransactionDetail
+                    self.navigationController?.pushViewController(productDetailVC, animated: true)
+                }
+                self.hideLoading()
+            }
+        }
         
         return cell
     }
@@ -2176,7 +2213,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         
         // Adapt cell
         if isAffiliate {
-            cell.adaptAffiliate(TransactionDetailTools.AffiliateName)
+            cell.adaptAffiliate(TransactionDetailTools.AffiliateName, order: order)
         } else {
             if (progress != nil) {
                 cell.adapt(self.progress, isSeller: isSeller, order: order)
@@ -2340,7 +2377,15 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             // new popup -> report & refund
             self.launchNewPopUp()
         }
-        cell.seeAffiliate = { // refund
+        cell.seeAffiliate = {
+            let webVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
+            webVC.url = TransactionDetailTools.AffiliateURL
+            webVC.titleString = TransactionDetailTools.AffiliateName
+            let baseNavC = BaseNavigationController()
+            baseNavC.setViewControllers([webVC], animated: false)
+            self.present(baseNavC, animated: true, completion: nil)
+        }
+        cell.refundAffiliate = { // refund
             let webVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
             webVC.url = TransactionDetailTools.AffiliateRefundURL
             webVC.titleString = TransactionDetailTools.AffiliateName
@@ -2714,6 +2759,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     func sendReviewRateSellerAnalytic() {
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
                                             qos: .background,
+                                            attributes: .concurrent,
                                             target: nil)
         backgroundQueue.async {
             let tp = self.trxProductDetail!
@@ -2751,6 +2797,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     func sendDelayShippingAnalytic() {
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
                                             qos: .background,
+                                            attributes: .concurrent,
                                             target: nil)
         backgroundQueue.async {
             /*
@@ -2985,6 +3032,7 @@ class TransactionDetailTools : NSObject {
     static let TextRefundSuccessBuyer2 = "Kamu dapat menggunakannya untuk transaksi selanjutnya atau tarik uang Prelo Balance."
     static let TextRefundSuccessSeller = "Proses refund sukses. Pembayaran sudah dikembalikan kepada pembeli."
     
+    // MARK: - Affiliate
     fileprivate static var _AffiliateName = "Affiliate"
     static var AffiliateName : String {
         get {
@@ -3013,12 +3061,20 @@ class TransactionDetailTools : NSObject {
         }
     }
     
+    fileprivate static var _AffiliateBankAccounts: Array<BankAccount> = []
+    static var AffiliateBankAccounts : Array<BankAccount> {
+        get {
+            return _AffiliateBankAccounts
+        }
+    }
+    
     // Affiliate
-    static let TextAffiliateUnpaid = "Transaksi ini belum dibayar. Segera konfirmasi pembayaran di " + TransactionDetailTools.AffiliateName + "."
+    static let TextAffiliateUnpaid = "Transaksi ini belum dibayar. Segera konfirmasi pembayaran di " + TransactionDetailTools.AffiliateName + ". Untuk transaksi menggunakan transfer bank, transfer ke rekening " + TransactionDetailTools.AffiliateName + " di:\n\n" + TransactionDetailTools.AffiliateBankAccounts[0].bank_name + "\n" + TransactionDetailTools.AffiliateBankAccounts[0].no.replace(" ", template: "") + "\n" + TransactionDetailTools.AffiliateBankAccounts[0].name + "\n\nCek e-mail dari " + TransactionDetailTools.AffiliateName + " untuk rincian pembayaran. Apabila kamu sudah melakukan konfirmasi pembayaran, harap tunggu notifikasi selanjutnya."
     static let TextAffiliateExpired = "Pembayaran ini expired karena kamu belum membayar hingga batas waktu yang ditentukan."
     static let TextAffiliatePaid = "Pesanan kamu sedang diproses oleh " + TransactionDetailTools.AffiliateName + "."
     static let TextAffiliateReject = "Mohon maaf, pesanan kamu tidak bisa dikirim karena keterbatasan pada penjual. Uang kamu telah dikembalikan melalui sistem " + TransactionDetailTools.AffiliateName + "."
-    static let TextAffiliateDone = "Transaksi telah selesai. Terima kasih telah berbelanja di " + TransactionDetailTools.AffiliateName + " melalui Prelo. Jika barang yang diterima bermasalah, klik tombol Refund untuk melihat kebijakan refund dari " + TransactionDetailTools.AffiliateName + "."
+    static let TextAffiliateReceived = "Transaksi telah selesai. Terima kasih telah berbelanja di " + TransactionDetailTools.AffiliateName + " melalui Prelo. Jika barang yang diterima bermasalah, klik tombol Refund untuk melihat kebijakan refund dari " + TransactionDetailTools.AffiliateName + "."
+    static let TextAffiliateSuccess = "Transaksi telah selesai. Terima kasih telah berbelanja di " + TransactionDetailTools.AffiliateName + " melalui Prelo."
     static let TextAffiliateSend = "Pesanan kamu telah dikirim oleh " + TransactionDetailTools.AffiliateName + ". Jika barang yang diterima bermasalah, klik tombol Refund untuk melihat kebijakan refund dari " + TransactionDetailTools.AffiliateName + "."
     
     // Icon
@@ -3055,6 +3111,10 @@ class TransactionDetailTools : NSObject {
     
     static func setAffiliateRefundURL(_ affiliateRefundURL: String) {
         _AffiliateRefundURL = affiliateRefundURL
+    }
+    
+    static func setAffiliateBankAccount(_ affiliateBankAccounts: Array<BankAccount>) {
+        _AffiliateBankAccounts = affiliateBankAccounts
     }
 }
 
@@ -4690,7 +4750,9 @@ class TransactionDetailDescriptionCell : UITableViewCell {
         } else if (progress == TransactionDetailTools.ProgressRejectedBySeller) {
             textRect = TransactionDetailTools.TextAffiliateReject.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
         } else if (progress == TransactionDetailTools.ProgressReceived) {
-            textRect = TransactionDetailTools.TextAffiliateDone.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+            textRect = TransactionDetailTools.TextAffiliateReceived.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+        } else if (progress == TransactionDetailTools.ProgressReviewed) {
+            textRect = TransactionDetailTools.TextAffiliateSuccess.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
         } else if (progress == TransactionDetailTools.ProgressSent) {
             textRect = TransactionDetailTools.TextAffiliateSend.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
         }
@@ -4978,6 +5040,8 @@ class TransactionDetailDescriptionCell : UITableViewCell {
     func adaptAffiliate(_ progress : Int) {
         if progress == TransactionDetailTools.ProgressNotPaid {
             lblDesc.text = TransactionDetailTools.TextAffiliateUnpaid
+            let teks = TransactionDetailTools.AffiliateBankAccounts[0].bank_name + "\n" + TransactionDetailTools.AffiliateBankAccounts[0].no.replace(" ", template: "") + "\n" + TransactionDetailTools.AffiliateBankAccounts[0].name
+            lblDesc.boldSubstring(teks)
         } else if progress == TransactionDetailTools.ProgressExpired {
             lblDesc.text = TransactionDetailTools.TextAffiliateExpired
             lblDesc.italicSubstring("expired")
@@ -4986,8 +5050,10 @@ class TransactionDetailDescriptionCell : UITableViewCell {
         } else if progress == TransactionDetailTools.ProgressRejectedBySeller {
             lblDesc.text = TransactionDetailTools.TextAffiliateReject
         } else if progress == TransactionDetailTools.ProgressReceived {
-            lblDesc.text = TransactionDetailTools.TextAffiliateDone
+            lblDesc.text = TransactionDetailTools.TextAffiliateReceived
             lblDesc.italicSubstring("refund")
+        } else if progress == TransactionDetailTools.ProgressReviewed {
+            lblDesc.text = TransactionDetailTools.TextAffiliateSuccess
         } else if progress == TransactionDetailTools.ProgressSent {
             lblDesc.text = TransactionDetailTools.TextAffiliateSend
             lblDesc.italicSubstring("refund")
@@ -5241,6 +5307,7 @@ class TransactionDetailButtonCell : UITableViewCell {
     var orderAgain : () -> () = {}
     var confirmPaymentAffiliate : () -> () = {}
     var seeAffiliate : () -> () = {}
+    var orderAgainAffiliate : () -> () = {}
     var isAffiliate : Bool = false
     
     func adapt(_ progress : Int?, order : Int) {
@@ -5277,8 +5344,12 @@ class TransactionDetailButtonCell : UITableViewCell {
     func adaptAffiliate(_ affiliateName: String, progress: Int) {
         self.progress = progress
         self.isAffiliate = true
-        if progress == TransactionDetailTools.ProgressNotPaid {
+        if progress == TransactionDetailTools.ProgressExpired {
+            btn.setTitle("PESAN LAGI BARANG YANG SAMA", for: UIControlState())
+        } else if progress == TransactionDetailTools.ProgressNotPaid {
             btn.setTitle("KONFIRMASI PEMBAYARAN", for: UIControlState())
+        } else if progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived {
+            btn.setTitle("REVIEW " + affiliateName.uppercased(), for: UIControlState())
         } else {
             btn.setTitle("LIHAT DI " + affiliateName.uppercased(), for: UIControlState())
         }
@@ -5286,8 +5357,12 @@ class TransactionDetailButtonCell : UITableViewCell {
     
     @IBAction func btnPressed(_ sender: AnyObject) {
         if isAffiliate {
-            if progress == TransactionDetailTools.ProgressNotPaid {
+            if progress == TransactionDetailTools.ProgressExpired {
+                self.orderAgainAffiliate()
+            } else if progress == TransactionDetailTools.ProgressNotPaid {
                 self.confirmPaymentAffiliate()
+            } else if progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived {
+                self.reviewSeller() // review affiliate
             } else {
                 self.seeAffiliate()
             }
@@ -5335,7 +5410,9 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
     var delayShipping : () -> () = {}
     var initRefund : () -> () = {}
     var seeAffiliate : () -> () = {}
+    var refundAffiliate : () -> () = {}
     var isAffiliate : Bool = false
+    var isRefund : Bool = false
     
 //    let TitlePesanLagi = "PESAN LAGI BARANG YANG SAMA"
     let TitleHubungiBuyer = "HUBUNGI PEMBELI"
@@ -5403,14 +5480,23 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
     }
     
     // affiliate
-    func adaptAffiliate(_ affiliateName: String) {
+    func adaptAffiliate(_ affiliateName: String, order: Int) {
         self.isAffiliate = true
-        btn.setTitle("REFUND DI " + affiliateName.uppercased(), for: UIControlState())
+        self.isRefund = (order == 1)
+        if isRefund {
+            btn.setTitle("REFUND DI " + affiliateName.uppercased(), for: UIControlState())
+        } else {
+            btn.setTitle("LIHAT DI " + affiliateName.uppercased(), for: UIControlState())
+        }
     }
     
     @IBAction func btnPressed(_ sender: AnyObject) {
         if isAffiliate {
-            self.seeAffiliate()
+            if isRefund {
+                self.refundAffiliate()
+            } else {
+                self.seeAffiliate()
+            }
         } else {
 //            if (progress == TransactionDetailTools.ProgressExpired) {
 //                self.orderAgain()

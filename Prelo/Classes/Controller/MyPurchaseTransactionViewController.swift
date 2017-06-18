@@ -16,24 +16,25 @@ class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSo
     // MARK: - Properties
     
     // Views
-    @IBOutlet var tableView : UITableView!
-    @IBOutlet var lblEmpty : UILabel!
-    @IBOutlet var btnRefresh: UIButton!
-    @IBOutlet var loading : UIActivityIndicatorView!
-    @IBOutlet var bottomLoading: UIActivityIndicatorView!
-    @IBOutlet var consBottomTableView: NSLayoutConstraint!
-    @IBOutlet var viewJualButton: UIView!
-    @IBOutlet var searchBar: UISearchBar!
+    @IBOutlet weak var tableView : UITableView!
+    @IBOutlet weak var lblEmpty : UILabel!
+    @IBOutlet weak var btnRefresh: UIButton!
+    @IBOutlet weak var loading : UIActivityIndicatorView!
+    @IBOutlet weak var vwBottomLoading: UIView!
+    @IBOutlet weak var bottomLoading: UIActivityIndicatorView!
+    @IBOutlet weak var viewJualButton: UIView!
+    @IBOutlet weak var searchBar: UISearchBar!
     var refreshControl : UIRefreshControl!
     
     // Data container
-    let ConsBottomTableViewWhileUpdating : CGFloat = 36
     let ItemPerLoad : Int = 10
     var currentPage : Int = 0
     var isAllItemLoaded : Bool = false
     var userProducts : [NotificationObj] = []
     
     var isRefreshing = false
+    
+    var isFirst = true
     
     // MARK: - Init
     
@@ -50,13 +51,12 @@ class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSo
         let notifTransactionCellNib = UINib(nibName: "NotifAnggiTransactionCell", bundle: nil)
         tableView.register(notifTransactionCellNib, forCellReuseIdentifier: "NotifAnggiTransactionCell")
         
+        self.vwBottomLoading.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+        
         // Hide and show
         self.showLoading()
         self.hideContent()
         self.hideBottomLoading()
-        
-        // Set constraint
-        consBottomTableView.constant = 0
         
         // Refresh control
         self.refreshControl = UIRefreshControl()
@@ -75,16 +75,25 @@ class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSo
         // Search bar setup
         searchBar.delegate = self
         searchBar.placeholder = "Cari Barang"
+        
+        self.getMyPurchase()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        /*
         if (userProducts.isEmpty) {
             getMyPurchase()
         } else {
             self.hideLoading()
             self.showContent()
+        }*/
+        
+        if isFirst {
+            isFirst = false
+        } else {
+            self.hideLoading()
         }
     }
     
@@ -108,10 +117,11 @@ class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSo
         }
         let _ = request(APINotification.getNotifsBuy(page: currentPage + 1, name : searchText)).responseJSON { resp in
             if (searchText == self.searchBar.text) { // Jika response ini sesuai dengan request terakhir
+                var dataCount = 0
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Jualan Saya - Transaksi")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
-                    let dataCount = data.count
+                    dataCount = data.count
                     
                     // Store data into variable
                     for (_, item) in data {
@@ -134,13 +144,21 @@ class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSo
                 
                 // Hide bottomLoading (for next request)
                 self.hideBottomLoading()
-                self.consBottomTableView.constant = 0
                 
                 // Hide refreshControl (for refreshing)
                 self.refreshControl.endRefreshing()
                 
-                // Show content
-                self.showContent()
+                if self.currentPage == 1 {
+                    // Show content
+                    self.showContent()
+                } else {
+                    let lastRow = self.tableView.numberOfRows(inSection: 0) - 1
+                    var idxs : Array<IndexPath> = []
+                    for i in 1...dataCount {
+                        idxs.append(IndexPath(row: lastRow+i, section: 0))
+                    }
+                    self.tableView.insertRows(at: idxs, with: .fade)
+                }
             }
             
             self.isRefreshing = false
@@ -192,7 +210,6 @@ class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSo
             // Load next items only if all items not loaded yet and if its not currently loading items
             if (!self.isAllItemLoaded && self.bottomLoading.isHidden) {
                 // Show bottomLoading
-                self.consBottomTableView.constant = ConsBottomTableViewWhileUpdating
                 self.showBottomLoading()
                 
                 // Get balance mutations
@@ -264,11 +281,13 @@ class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSo
     }
     
     func showBottomLoading() {
+        self.vwBottomLoading.isHidden = false
         self.bottomLoading.isHidden = false
         self.bottomLoading.startAnimating()
     }
     
     func hideBottomLoading() {
+        self.vwBottomLoading.isHidden = true
         self.bottomLoading.isHidden = true
         self.bottomLoading.stopAnimating()
     }

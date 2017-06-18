@@ -46,7 +46,7 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
         super.viewDidLoad()
         
         // Status bar style
-        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: true)
+        //UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: true)
         
         if AppTools.isIPad {
             cellWidth = (UIScreen.main.bounds.size.width - 56) / 6
@@ -57,6 +57,10 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
 
         // Get category before setup data
         self.getCategory()
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
     func getCategory() {

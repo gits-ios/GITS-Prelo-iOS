@@ -12,7 +12,7 @@ class CarConfirmViewController: BaseViewController {
 
     var orderID = ""
     var transactionId = ""
-    var totalPayment = 0
+    var totalPayment: Int64 = 0
     var paymentMethod = ""
     
     var items : [JSON] = []
