@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -22,20 +25,25 @@
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="fC7-CE-HAq">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <textInputTraits key="textInputTraits"/>
                     </searchBar>
                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="8mI-Cc-xBs">
+                        <rect key="frame" x="0.0" y="44" width="375" height="623"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tableView>
                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="uZl-4n-KLZ" userLabel="loading">
+                        <rect key="frame" x="177.5" y="64" width="20" height="20"/>
                         <color key="color" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </activityIndicatorView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Barang tidak ditemukan" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LA3-JI-Bx3">
+                        <rect key="frame" x="16" y="64" width="343" height="16"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.44682067632675171" green="0.44680723547935486" blue="0.44681483507156372" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VW7-0U-kCj">
+                        <rect key="frame" x="164.5" y="88" width="46" height="30"/>
                         <color key="backgroundColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="46" id="Zl3-JZ-vFw"/>
@@ -47,25 +55,43 @@
                             <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         </state>
                     </button>
-                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="uCV-zl-PFc" userLabel="loadingbottom">
-                        <color key="color" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </activityIndicatorView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jXu-Sf-Z27">
+                        <rect key="frame" x="0.0" y="631" width="375" height="36"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="uCV-zl-PFc" userLabel="loadingbottom">
+                                <rect key="frame" x="347" y="8" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="9yu-jo-XWS"/>
+                                    <constraint firstAttribute="height" constant="20" id="xl0-Sw-g3M"/>
+                                </constraints>
+                                <color key="color" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="uCV-zl-PFc" secondAttribute="bottom" constant="8" id="DT2-hA-5FE"/>
+                            <constraint firstAttribute="height" constant="36" id="MuS-wI-4XG"/>
+                            <constraint firstAttribute="trailing" secondItem="uCV-zl-PFc" secondAttribute="trailing" constant="8" id="pjb-eq-ktS"/>
+                            <constraint firstItem="uCV-zl-PFc" firstAttribute="top" secondItem="jXu-Sf-Z27" secondAttribute="top" constant="8" id="uFO-9v-04Z"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
+                    <constraint firstAttribute="trailing" secondItem="jXu-Sf-Z27" secondAttribute="trailing" id="8fI-rT-KF3"/>
                     <constraint firstItem="fC7-CE-HAq" firstAttribute="leading" secondItem="7XL-6q-Koz" secondAttribute="leading" id="Bpx-zS-hva"/>
                     <constraint firstItem="uZl-4n-KLZ" firstAttribute="centerX" secondItem="7XL-6q-Koz" secondAttribute="centerX" id="Cba-ug-74f"/>
-                    <constraint firstItem="ybJ-zO-qm5" firstAttribute="top" secondItem="uCV-zl-PFc" secondAttribute="bottom" constant="8" id="EUd-qw-71s"/>
                     <constraint firstItem="VW7-0U-kCj" firstAttribute="top" secondItem="LA3-JI-Bx3" secondAttribute="bottom" constant="8" id="FYb-Hf-QkL"/>
                     <constraint firstItem="VW7-0U-kCj" firstAttribute="centerX" secondItem="7XL-6q-Koz" secondAttribute="centerX" id="Flz-SE-s8j"/>
                     <constraint firstItem="8mI-Cc-xBs" firstAttribute="top" secondItem="I5S-CI-GU3" secondAttribute="bottom" id="H7L-PY-6k5"/>
-                    <constraint firstItem="ybJ-zO-qm5" firstAttribute="top" secondItem="8mI-Cc-xBs" secondAttribute="bottom" constant="36" id="KWq-4y-kGG"/>
+                    <constraint firstItem="ybJ-zO-qm5" firstAttribute="top" secondItem="8mI-Cc-xBs" secondAttribute="bottom" id="KWq-4y-kGG"/>
+                    <constraint firstItem="ybJ-zO-qm5" firstAttribute="top" secondItem="jXu-Sf-Z27" secondAttribute="bottom" id="L9b-oX-Dfn"/>
                     <constraint firstItem="fC7-CE-HAq" firstAttribute="top" secondItem="I5S-CI-GU3" secondAttribute="bottom" id="Qe3-Nr-ae1"/>
+                    <constraint firstItem="jXu-Sf-Z27" firstAttribute="leading" secondItem="7XL-6q-Koz" secondAttribute="leading" id="Qzo-i9-Rt2"/>
                     <constraint firstAttribute="trailing" secondItem="LA3-JI-Bx3" secondAttribute="trailing" constant="16" id="SJc-nx-hmR"/>
                     <constraint firstItem="LA3-JI-Bx3" firstAttribute="top" secondItem="I5S-CI-GU3" secondAttribute="bottom" constant="64" id="UOb-by-N3R"/>
                     <constraint firstItem="8mI-Cc-xBs" firstAttribute="leading" secondItem="7XL-6q-Koz" secondAttribute="leading" id="chx-eD-qF6"/>
                     <constraint firstAttribute="trailing" secondItem="fC7-CE-HAq" secondAttribute="trailing" id="hRv-5Z-Ybb"/>
-                    <constraint firstAttribute="trailing" secondItem="uCV-zl-PFc" secondAttribute="trailing" constant="16" id="jh6-Re-gHv"/>
                     <constraint firstItem="LA3-JI-Bx3" firstAttribute="leading" secondItem="7XL-6q-Koz" secondAttribute="leading" constant="16" id="m51-Pt-16D"/>
                     <constraint firstItem="8mI-Cc-xBs" firstAttribute="top" secondItem="fC7-CE-HAq" secondAttribute="bottom" id="n4b-ti-2ZU"/>
                     <constraint firstAttribute="trailing" secondItem="8mI-Cc-xBs" secondAttribute="trailing" id="syK-Wn-Vjg"/>
@@ -82,13 +108,13 @@
             <connections>
                 <outlet property="bottomLoading" destination="uCV-zl-PFc" id="wXI-mn-XUV"/>
                 <outlet property="btnRefresh" destination="VW7-0U-kCj" id="s5l-fh-dbA"/>
-                <outlet property="consBottomTableView" destination="KWq-4y-kGG" id="mjW-7b-SzP"/>
                 <outlet property="lblEmpty" destination="LA3-JI-Bx3" id="wZD-4t-oPK"/>
                 <outlet property="loading" destination="uZl-4n-KLZ" id="atE-Yz-Kmh"/>
                 <outlet property="searchBar" destination="fC7-CE-HAq" id="dpD-A1-8nu"/>
                 <outlet property="tableView" destination="8mI-Cc-xBs" id="kjH-mK-YyN"/>
+                <outlet property="vwBottomLoading" destination="jXu-Sf-Z27" id="oe2-PU-Jxw"/>
             </connections>
-            <point key="canvasLocation" x="258" y="398"/>
+            <point key="canvasLocation" x="257.5" y="397.5"/>
         </viewController>
     </objects>
 </document>
