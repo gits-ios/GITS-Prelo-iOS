@@ -578,6 +578,7 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
     var delegate : NotifAnggiTransactionCellDelegate?
     
     var isDiffUnread : Bool = true
+    var isNeedSetup = true
     
     override func prepareForReuse() {
         self.contentView.backgroundColor = UIColor.white.withAlphaComponent(0)
@@ -640,15 +641,11 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         ////print("size untuk '\(lblTrxStatus.text)' = \(sizeThatShouldFitTheContent)")
         consWidthLblTrxStatus.constant = sizeThatShouldFitTheContent.width
         
-        // Set collection view
-        collcTrxProgress.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "collcTrxProgressCell")
-        collcTrxProgress.delegate = self
-        collcTrxProgress.dataSource = self
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(NotifAnggiTransactionCell.handleTap))
-        tapGestureRecognizer.delegate = self
-        collcTrxProgress.backgroundView = UIView(frame: collcTrxProgress.bounds)
-        collcTrxProgress.backgroundView!.addGestureRecognizer(tapGestureRecognizer)
-        collcTrxProgress.backgroundColor = UIColor.clear
+        if isNeedSetup {
+            isNeedSetup = false
+            
+            self.setupCollection()
+        }
         collcTrxProgress.reloadData()
         
         // Set var
@@ -660,6 +657,18 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         if (idx != nil) {
             delegate?.cellCollectionTapped(self.idx!)
         }
+    }
+    
+    func setupCollection() {
+        // Set collection view
+        collcTrxProgress.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "collcTrxProgressCell")
+        collcTrxProgress.delegate = self
+        collcTrxProgress.dataSource = self
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(NotifAnggiTransactionCell.handleTap))
+        tapGestureRecognizer.delegate = self
+        collcTrxProgress.backgroundView = UIView(frame: collcTrxProgress.bounds)
+        collcTrxProgress.backgroundView!.addGestureRecognizer(tapGestureRecognizer)
+        collcTrxProgress.backgroundColor = UIColor.clear
     }
     
     // MARK: - CollectionView delegate functions
