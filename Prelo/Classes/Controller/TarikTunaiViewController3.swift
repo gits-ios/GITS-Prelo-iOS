@@ -11,24 +11,23 @@ import UIKit
 import Alamofire
 
 // MARK: - Pop up TT
-enum PopUpTarikTunaiMode {
+enum PopUpTarikTunaiMode3 {
     case wjp
     case confirmation
 }
 
-class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate {
+class TarikTunaiViewController3: BaseViewController, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, PickerViewDelegate {
     
-    @IBOutlet weak var vwBankKamu: UIView!
-    @IBOutlet weak var txtNamaBank : UILabel!
-    @IBOutlet weak var txtCustomBank: UITextField!
-    @IBOutlet weak var txtNomerRekening : UITextField!
-    @IBOutlet weak var txtNamaRekening : UITextField!
+//    @IBOutlet weak var vwBankKamu: UIView!
+//    @IBOutlet weak var txtNamaBank : UILabel!
+//    @IBOutlet weak var txtCustomBank: UITextField!
+//    @IBOutlet weak var txtNomerRekening : UITextField!
+//    @IBOutlet weak var txtNamaRekening : UITextField!
     @IBOutlet weak var txtPassword : UITextField!
     @IBOutlet weak var txtJumlah : UITextField!
     @IBOutlet weak var lblDropdownBank: UILabel!
     @IBOutlet weak var lblDropdownHistory: UILabel!
     
-    @IBOutlet weak var consHeightCustomBank: NSLayoutConstraint!
     
     @IBOutlet weak var captionPreloBalance : UILabel!
     @IBOutlet weak var captionPreloWJP: UILabel!
@@ -75,6 +74,47 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
     
     var isHistoryShown = false
     
+    // view rekening
+    // udah punya rekening
+    @IBOutlet weak var vwWithRekening: UIView!
+    // buat dropdown
+    @IBOutlet weak var lblDropDownRek: UILabel!
+    @IBOutlet weak var btnDropDownRek: UIButton!
+    
+    // udah punya rekening pakai rekening yang udah ada
+    @IBOutlet weak var vwOldRekening: UIView!
+    @IBOutlet weak var lblBankOldRekening: UILabel!
+    @IBOutlet weak var lblRekOldRekening: UILabel!
+    @IBOutlet weak var lblNameOldRekening: UILabel!
+    
+    // udah punya rekening tapi mau buat lagi
+    @IBOutlet weak var vwNewRekening: UIView!
+    @IBOutlet weak var lblBankNewRekening: UILabel!
+    @IBOutlet weak var txtRekNewRekening: UITextField!
+    @IBOutlet weak var txtNameNewRekening: UITextField!
+    @IBOutlet weak var txtBranchNewRekening: UITextField!
+    @IBOutlet weak var lblCheckBoxNewRekening: UILabel!
+    @IBOutlet weak var btnSimpanNewRekening: UIButton!
+    @IBOutlet weak var vwCheckBoxNewRekeningUncheck: UIView!
+    @IBOutlet weak var simpanRekeningUncheck: UILabel!
+    
+    // belum punya rekening
+    @IBOutlet weak var vwWithoutRekening: UIView!
+    @IBOutlet weak var lblBankWithoutRekening: UILabel!
+    @IBOutlet weak var txtRekWithoutRekening: UITextField!
+    @IBOutlet weak var txtNameWithoutRekening: UITextField!
+    @IBOutlet weak var txtBranchWithoutRekening: UITextField!
+    @IBOutlet weak var lblCheckBoxWithoutRekening: UILabel!
+    
+    
+    var pickerDropDown = false
+    
+    
+    var rekening: Array<RekeningItem> = []
+    var rekeningUtama: RekeningItem? = nil
+    
+    @IBOutlet weak var consJumlahPTop: NSLayoutConstraint!
+    
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
     }
@@ -116,6 +156,9 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
         
         // gesture override
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        
+        getRekening()
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -139,7 +182,6 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
 //        captionPreloWJP.text = "..."
 //        captionWithdrawAmount.text = "..."
         
-        self.consHeightCustomBank.constant = 0
         
         self.consHeightSeparatorHeaderTable.constant = 0
         self.consHeightHistory.constant = 0
@@ -150,8 +192,8 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
         
         self.consHeightSeparator3.constant = 0
         
-        txtNamaBank.textAlignment = NSTextAlignment.right
-        txtNomerRekening.textAlignment = NSTextAlignment.right
+//        txtNamaBank.textAlignment = NSTextAlignment.right
+//        txtNomerRekening.textAlignment = NSTextAlignment.right
         
         // Munculkan pop up jika user belum mempunyai password
         // API Migrasi
@@ -187,10 +229,11 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
                     }
                 }
             }
+            
         }
         
-        let TarikTunaiCell = UINib(nibName: "TarikTunai2Cell", bundle: nil)
-        tableViewHistory.register(TarikTunaiCell, forCellReuseIdentifier: "TarikTunaiCell")
+        let TarikTunaiCell = UINib(nibName: "TarikTunaiCell3", bundle: nil)
+        tableViewHistory.register(TarikTunaiCell, forCellReuseIdentifier: "TarikTunaiCell3")
         
         tableViewHistory.register(ProvinceCell.self, forCellReuseIdentifier: "cell")
         
@@ -203,9 +246,181 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
         vwLeft.addGestureRecognizer(swipeRight)
         self.view.addSubview(vwLeft)
         self.view.bringSubview(toFront: vwLeft)
+        
+        if(self.lblDropDownRek.text != "Label" && self.lblDropDownRek.text != "+ tambah rekening"){
+            let arr2 = self.lblDropDownRek.text?.components(separatedBy: " / ")
+            
+            self.lblBankOldRekening.text = arr2?[0]
+            self.lblRekOldRekening.text = arr2?[1]
+            self.lblNameOldRekening.text = arr2?[2]
+        }
+        
+        // kalau udah punya rekening
+        if(rekening.count != 0){
+            vwWithoutRekening.isHidden = true
+            vwWithRekening.isHidden = false
+            if (self.lblDropDownRek.text == "+ tambah rekening"){
+                // kalau mau buat baru
+                    vwNewRekening.isHidden = false
+                    vwOldRekening.isHidden = true
+                self.consJumlahPTop.constant = 5
+                if (self.rekening.count == 5){
+                    self.lblCheckBoxNewRekening.isHidden = true
+                    self.btnSimpanNewRekening.isEnabled = false
+                    self.vwCheckBoxNewRekeningUncheck.isHidden = true
+                    self.simpanRekeningUncheck.isHidden = true
+                    self.consJumlahPTop.constant = -25
+                }
+            } else {
+                vwNewRekening.isHidden = true
+                vwOldRekening.isHidden = false
+                self.consJumlahPTop.constant = -140
+                if(pickerDropDown == false){
+                    lblDropDownRek.text =  (rekeningUtama?.target_bank)! + " / " + (rekeningUtama?.account_number)! + " / " + (rekeningUtama?.name)!
+                }
+            }
+        } else {
+            // kalau belum punya rekening
+            
+            vwWithoutRekening.isHidden = false
+            vwWithRekening.isHidden = true
+            self.consJumlahPTop.constant = -30
+        }
+    }
+    
+    // check box new rekening with rekening
+    @IBAction func btnCheckBoxNewRekening(_ sender: Any) {
+        if(self.lblCheckBoxNewRekening.isHidden){
+           self.lblCheckBoxNewRekening.isHidden = false
+        } else {
+            self.lblCheckBoxNewRekening.isHidden = true
+        }
+    }
+    
+    // check box new rekening without rekening
+    @IBAction func btnCheckBoxWithoutRekening(_ sender: Any) {
+        if(self.lblCheckBoxWithoutRekening.isHidden){
+            self.lblCheckBoxWithoutRekening.isHidden = false
+        } else {
+            self.lblCheckBoxWithoutRekening.isHidden = true
+        }
+    }
+    
+
+    var item = ""
+    var itemDropdown : Array<String> = []
+    
+    @IBAction func btnPilihBankWithoutRekeningPressed(_ sender: Any) {
+        let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
+        p?.items = ["BCA", "BNI", "Mandiri", "BRI"]
+        p?.pickerDelegate = self
+        p?.selectBlock = { string in
+            self.item = PickerViewController.RevealHiddenString(string)
+        }
+        p?.title = "Bank"
+        self.view.endEditing(true)
+        self.navigationController?.pushViewController(p!, animated: true)
+    }
+    @IBAction func btnPilihBankNewRekeningPressed(_ sender: Any) {
+        let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
+        p?.items = ["BCA", "BNI", "Mandiri", "BRI"]
+        p?.pickerDelegate = self
+        p?.selectBlock = { string in
+            self.item = PickerViewController.RevealHiddenString(string)
+        }
+        p?.title = "Bank"
+        self.view.endEditing(true)
+        self.navigationController?.pushViewController(p!, animated: true)
+    }
+    
+    // drop down choose rekening or add new
+    @IBAction func btnDropDownRekPressed(_ sender: Any) {
+        let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
+        for i in 0 ... rekening.count-1{
+            itemDropdown.append(rekening[i].target_bank + " / " + rekening[i].account_number + " / " + rekening[i].name)
+        }
+        if(rekening.count == 1){
+            p?.items = [itemDropdown[0],"+ tambah rekening"]
+        } else if (rekening.count == 2){
+            p?.items = [itemDropdown[0], itemDropdown[1], "+ tambah rekening"]
+        } else if (rekening.count == 3){
+            p?.items = [itemDropdown[0], itemDropdown[1], itemDropdown[2], "+ tambah rekening"]
+        } else if (rekening.count == 4){
+            p?.items = [itemDropdown[0], itemDropdown[1], itemDropdown[2], itemDropdown[3], "+ tambah rekening"]
+        } else if (rekening.count == 5){
+            p?.items = [itemDropdown[0], itemDropdown[1], itemDropdown[2], itemDropdown[3], itemDropdown[4], "+ tambah rekening"]
+        }
+        p?.pickerDelegate = self
+        p?.selectBlock = { string in
+            self.item = PickerViewController.RevealHiddenString(string)
+        }
+        p?.title = "Daftar rekening"
+        self.view.endEditing(true)
+        self.navigationController?.pushViewController(p!, animated: true)
+    }
+    
+    func pickerDidSelect(_ item: String) {
+        if(rekening.count == 0){
+            self.lblBankWithoutRekening.text = PickerViewController.HideHiddenString(item)
+        } else {
+            var arrTemp : Array<String> = PickerViewController.HideHiddenString(item).components(separatedBy: " / ")
+            if(arrTemp.count == 3){
+                self.lblDropDownRek.text = PickerViewController.HideHiddenString(item)
+                self.pickerDropDown = true
+                viewDidLoad()
+            } else {
+                if(arrTemp[0] == "+ tambah rekening") {
+                    self.lblDropDownRek.text = PickerViewController.HideHiddenString(item)
+                    self.pickerDropDown = true
+                    viewDidLoad()
+                } else {
+                    self.lblBankNewRekening.text = PickerViewController.HideHiddenString(item)
+                }
+            }
+        }
+    }
+    
+    func getRekening(){
+        rekening = []
+        // use API
+        let _ = request(APIMe.getBankAccount).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Rekening List")) {
+                if let x: AnyObject = resp.result.value as AnyObject? {
+                    var json = JSON(x)
+                    json = json["_data"]
+                    //                    print("ini json rekening")
+                    //                    print(json)
+                    if let arr = json.array {
+                        
+                        if(arr.count != 0){
+                            for i in 0 ..< arr.count {
+                                //                                print("isi array")
+                                //                                print(i)
+                                //                                print(arr[i])
+                                let rekening2 = RekeningItem.instance(arr[i])
+                                print(arr[i]["target_bank"])
+                                self.rekening.append(rekening2!)
+                                if(arr[i]["is_default"]).boolValue{
+                                    self.rekeningUtama = RekeningItem.instance(arr[i])!
+                                    self.lblBankOldRekening.text = self.rekeningUtama?.target_bank
+                                    self.lblRekOldRekening.text = self.rekeningUtama?.account_number
+                                    self.lblNameOldRekening.text = self.rekeningUtama?.name
+                                }
+                            }
+                        }
+                    }
+                    self.viewDidLoad()
+                    self.hideLoading()
+                }
+                
+            } else {
+                _ = self.navigationController?.popViewController(animated: true)
+            }
+        }
     }
     
     func getBalance() {
+        self.showLoading()
         // API Migrasi
         let _ = request(APIWallet.getBalanceAndWithdraw).responseJSON {resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Tarik Uang"))
@@ -299,7 +514,7 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if (historyWithdraws.count > 0) {
-            let cell = tableViewHistory.dequeueReusableCell(withIdentifier: "TarikTunaiCell") as! TarikTunaiCell
+            let cell = tableViewHistory.dequeueReusableCell(withIdentifier: "TarikTunaiCell3") as! TarikTunaiCell3
         
             cell.backgroundColor = UIColor.colorWithColor(UIColor.gray, alpha: 0.2)
             cell.selectionStyle = .none
@@ -329,22 +544,58 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
     
     @IBAction func withdraw()
     {
-        if (txtNamaBank.text == "Pilih Bank") {
-            Constant.showDialog("Form belum lengkap", message: "Harap pilih Bank Kamu")
-            return
+        if(rekening.count == 0){
+            if (lblBankWithoutRekening.text == "Pilih Bank") {
+                Constant.showDialog("Form belum lengkap", message: "Harap pilih Bank Kamu")
+                return
+            }
+            if (txtRekWithoutRekening.text == "") {
+                Constant.showDialog("Form belum lengkap", message: "Harap masukkan nomor rekening")
+                return
+            }
+            if (txtNameWithoutRekening.text == "") {
+                Constant.showDialog("Form belum lengkap", message: "Harap masukkan nama pemilik rekening")
+                return
+            }
+            if (txtBranchWithoutRekening.text == "") {
+                Constant.showDialog("Form belum lengkap", message: "Harap masukkan cabang tempat membuat rekening")
+                return
+            }
+        } else if(lblDropDownRek.text == "+ tambah rekening"){
+            if (lblBankNewRekening.text == "Pilih Bank") {
+                Constant.showDialog("Form belum lengkap", message: "Harap pilih Bank Kamu")
+                return
+            }
+            if (txtRekNewRekening.text == "") {
+                Constant.showDialog("Form belum lengkap", message: "Harap masukkan nomor rekening")
+                return
+            }
+            if (txtNameNewRekening.text == "") {
+                Constant.showDialog("Form belum lengkap", message: "Harap masukkan nama pemilik rekening")
+                return
+            }
+            if (txtBranchNewRekening.text == "") {
+                Constant.showDialog("Form belum lengkap", message: "Harap masukkan cabang tempat membuat rekening")
+                return
+            }
         }
-        if (txtNamaBank.text == "Lainnya" && (txtCustomBank.text == nil || txtCustomBank.text!.isEmpty)) {
-            Constant.showDialog("Form belum lengkap", message: "Harap isi Nama Bank")
-            return
-        }
-        if (txtNomerRekening.text == nil || txtNomerRekening.text!.isEmpty) {
-            Constant.showDialog("Form belum lengkap", message: "Harap isi Nomor Rekening")
-            return
-        }
-        if (txtNamaRekening.text == nil || txtNamaRekening.text!.isEmpty) {
-            Constant.showDialog("Form belum lengkap", message: "Harap isi Rekening Atas Nama")
-            return
-        }
+
+//        if (txtNamaBank.text == "Pilih Bank") {
+//            Constant.showDialog("Form belum lengkap", message: "Harap pilih Bank Kamu")
+//            return
+//        }
+//        if (txtNamaBank.text == "Lainnya" && (txtCustomBank.text == nil || txtCustomBank.text!.isEmpty)) {
+//            Constant.showDialog("Form belum lengkap", message: "Harap isi Nama Bank")
+//            return
+//        }
+//        if (txtNomerRekening.text == nil || txtNomerRekening.text!.isEmpty) {
+//            Constant.showDialog("Form belum lengkap", message: "Harap isi Nomor Rekening")
+//            return
+//        }
+//        if (txtNamaRekening.text == nil || txtNamaRekening.text!.isEmpty) {
+//            Constant.showDialog("Form belum lengkap", message: "Harap isi Rekening Atas Nama")
+//            return
+//        }
         if (txtJumlah.text == nil || txtJumlah.text!.isEmpty) {
             Constant.showDialog("Form belum lengkap", message: "Harap isi Jumlah Penarikan")
             return
@@ -374,17 +625,38 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
          }*/
         
         var namaBank = ""
-        if let nb = txtNamaBank.text
-        {
-            namaBank = nb
+        var norek = ""
+        var namarek = ""
+        
+        if(rekening.count == 0){
+            // belum punya rekening
+            if let nb = lblBankWithoutRekening.text
+            {
+                namaBank = nb
+            }
+            norek = txtRekWithoutRekening.text == nil ? "" : txtRekWithoutRekening.text!
+            namarek = txtNameWithoutRekening.text == nil ? "" : txtNameWithoutRekening.text!
+            
+        } else{
+            if(lblDropDownRek.text == "+ tambah rekening"){
+                
+                if let nb = lblBankNewRekening.text
+                {
+                    namaBank = nb
+                }
+                norek = txtRekNewRekening.text == nil ? "" : txtRekNewRekening.text!
+                namarek = txtNameNewRekening.text == nil ? "" : txtNameNewRekening.text!
+                
+            } else {
+                if let nb = lblBankOldRekening.text
+                {
+                    namaBank = nb
+                }
+                norek = lblRekOldRekening.text == nil ? "" : lblRekOldRekening.text!
+                namarek = lblNameOldRekening.text == nil ? "" : lblNameOldRekening.text!
+            }
         }
         
-        namaBank = namaBank.replacingOccurrences(of: "Bank ", with: "")
-        if (namaBank.lowercased() == "lainnya") {
-            namaBank = txtCustomBank.text!
-        }
-        let norek = txtNomerRekening.text == nil ? "" : txtNomerRekening.text!
-        let namarek = txtNamaRekening.text == nil ? "" : txtNamaRekening.text!
         let pass = txtPassword.text == nil ? "" : txtPassword.text!
         
         self.btnWithdraw.isEnabled = false
@@ -403,8 +675,38 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
                     self.sendRequestWithdrwaMoney(namaBank, amount: i, isSuccess: false, reason: message)
                 } else
                 {
+                    if(self.rekening.count == 0){
+                        // belum punya rekening
+                        
+                        if(self.lblCheckBoxWithoutRekening.isHidden == false){
+                            let _ = request(APIMe.addBankAccount(target_bank: self.lblBankWithoutRekening.text!, account_number: self.txtRekWithoutRekening.text!, name: self.txtNameWithoutRekening.text!, branch: self.txtBranchWithoutRekening.text!)).responseJSON { resp in
+                                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Tambah Rekening")) {
+                                    Constant.showDialog("Tambah Rekening", message: "Rekening berhasil ditambahkan")
+                                    _ = self.navigationController?.popViewController(animated: true)
+                                }
+                            }
+                            
+                        }
+                        
+                    } else{
+                        if(self.lblDropDownRek.text == "+ tambah rekening"){
+                            if(self.lblCheckBoxNewRekening.isHidden == false){
+                                let _ = request(APIMe.addBankAccount(target_bank: self.lblBankNewRekening.text!, account_number: self.txtRekNewRekening.text!, name: self.txtNameNewRekening.text!, branch: self.txtBranchNewRekening.text!)).responseJSON { resp in
+                                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Tambah Rekening")) {
+                                        Constant.showDialog("Tambah Rekening", message: "Rekening berhasil ditambahkan")
+                                        _ = self.navigationController?.popViewController(animated: true)
+                                    }
+                                }
+                                
+                            }
+                            
+                            
+                        } else {
+                            
+                        }
+                    }
                     //                    self.getBalance()
-                    let nDays = (self.txtNamaBank.text?.lowercased() == "lainnya") ? 5 : 3
+                    let nDays = ("" /*self.txtNamaBank.text?.lowercased()*/ == "lainnya") ? 5 : 3
                     Constant.showDialog("Perhatian", message: "Permohonan tarik uang telah diterima. Proses paling lambat membutuhkan \(nDays)x24 jam hari kerja.")
                     
                     /*
@@ -431,6 +733,8 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
                 
                 // Prelo Analytic - Request Withdraw Money
                 self.sendRequestWithdrwaMoney(namaBank, amount: i, isSuccess: false, reason: reason)
+                
+                
             }
             
         }
@@ -448,16 +752,12 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
         
         let bankCount = items.count
         let bankAlert = UIAlertController(title: "Pilih Bank", message: nil, preferredStyle: .actionSheet)
-        bankAlert.popoverPresentationController?.sourceView = self.vwBankKamu
+//        bankAlert.popoverPresentationController?.sourceView = self.vwBankKamu
         bankAlert.popoverPresentationController?.sourceRect = self.lblDropdownBank.frame
         for i in 0...bankCount - 1 {
             bankAlert.addAction(UIAlertAction(title: items[i], style: .default, handler: { act in
-                self.txtNamaBank.text = items[i]
-                if (items[i] == "Lainnya") {
-                    self.consHeightCustomBank.constant = 70
-                } else {
-                    self.consHeightCustomBank.constant = 0
-                }
+//                self.txtNamaBank.text = items[i]
+                
                 bankAlert.dismiss(animated: true, completion: nil)
             }))
         }
@@ -579,7 +879,6 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
     
     // MARK: - Pop up
     func setupPopUp(_ popUpMode: PopUpTarikTunaiMode) {
-        
         if popUpMode == .wjp {
         
         let wjpDetail = "Waktu Jaminan Prelo adalah waktu untuk para Pembeli memeriksa barang yang dia terima (terhitung sejak 3x24 jam setelah barang diterima oleh Pembeli).\n\nPembeli bisa melakukan pengembalian barang dan refund jika:\n- barang terbukti KW\n- ada cacat yang tidak diinformasikan\n- barang berbeda dari yang dipesan\n\nPenjual dapat melakukan tarik uang setelah Waktu Jaminan Prelo selesai."
@@ -622,9 +921,24 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
          */
             
         } else if popUpMode == .confirmation {
-            self.lblPUCBankName.text = self.txtNamaBank.text != "Lainnya" ? self.txtNamaBank.text : self.txtCustomBank.text
-            self.lblPUCRekeningNumber.text = self.txtNomerRekening.text
-            self.lblPUCRekeningName.text = self.txtNamaRekening.text
+            print("masuk sini ga")
+            if(rekening.count == 0){
+                self.lblPUCBankName.text = self.lblBankWithoutRekening.text
+                self.lblPUCRekeningNumber.text = self.txtRekWithoutRekening.text
+                self.lblPUCRekeningName.text = self.txtNameWithoutRekening.text
+            } else{
+                if(lblDropDownRek.text == "+ tambah rekening"){
+                    self.lblPUCBankName.text = self.lblBankNewRekening.text
+                    self.lblPUCRekeningNumber.text = self.txtRekNewRekening.text
+                    self.lblPUCRekeningName.text = self.txtNameNewRekening.text
+                    
+                } else {
+                    self.lblPUCBankName.text = self.lblBankOldRekening.text
+                    self.lblPUCRekeningNumber.text = self.lblRekOldRekening.text
+                    self.lblPUCRekeningName.text = self.lblNameOldRekening.text
+                }
+            }
+            
             if let j = self.txtJumlah.text {
                 self.lblPUCAmount.text = j.int.asPrice
             }
@@ -769,7 +1083,7 @@ class TarikTunaiViewController2: BaseViewController, UIScrollViewDelegate, UITab
 }
 // MARK: - class TarikTunaiCell
 
-class TarikTunaiCell: UITableViewCell {
+class TarikTunaiCell3: UITableViewCell {
     @IBOutlet weak var lblTiket: UILabel!
     @IBOutlet weak var lblTanggal: UILabel!
     @IBOutlet weak var lblPenarikan: UILabel!

@@ -53,6 +53,8 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
     var isPagingEnded = true
     var isGettingData = false
     
+    var bankMode = false
+    
     @IBOutlet var searchBar : UISearchBar!
     
     var showSearch : Bool
@@ -121,6 +123,10 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
         if (merkMode)
         {
             searchBar.placeholder = "Cari Atau Tambahkan Merek"
+        }
+        if (bankMode)
+        {
+            searchBar.placeholder = "Cari bank"
         }
         
         self.showSearch = false

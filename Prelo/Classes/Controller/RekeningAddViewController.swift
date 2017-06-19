@@ -128,22 +128,44 @@ class RekeningAddViewController: BaseViewController, PickerViewDelegate, UITextF
     }
     
     var item=""
+    var bankPickerItems : [String] = []
     
     @IBAction func pilihBankPressed(_ sender: Any) {
+        // Retrieve bankPickerItems
+        bankPickerItems = []
+        let _ = request(APIReference.getAllBank()).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Daftar Bank")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"].arrayValue
+                if (data.count > 0) {
+                    for i in 0...data.count - 1 {
+                        self.bankPickerItems.append(data[i]["name"].stringValue + PickerViewController.TAG_START_HIDDEN + data[i]["_id"].stringValue + PickerViewController.TAG_END_HIDDEN)
+                    }
+                    
+                    self.pickBank()
+                }
+            }
+        }
+    }
+    
+    func pickBank(){
+        
         let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
-        p?.items = ["BCA", "BNI", "Mandiri", "BRI"]
+        p?.items = self.bankPickerItems
         p?.pickerDelegate = self
         p?.selectBlock = { string in
             self.item = PickerViewController.RevealHiddenString(string)
         }
+        p?.showSearch = true
         p?.title = "Bank"
         self.view.endEditing(true)
         self.navigationController?.pushViewController(p!, animated: true)
     }
     
+    
     func pickerDidSelect(_ item: String) {
         self.pilihBank.text = PickerViewController.HideHiddenString(item)
-        self.pilihBank.textColor = UIColor(hex: "C9C9CE")
+        self.pilihBank.textColor = UIColor(hex: "000000")
         
     }
     

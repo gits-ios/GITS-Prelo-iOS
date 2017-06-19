@@ -831,6 +831,7 @@ class Tags : NSObject {
     static let XibNameRekeningAdd = "RekeningAdd"
     static let XibNameTarikTunaiwithSaveBankAccount2 = "TarikTunaiwithSaveBankAccount2"
     static let XibNameListBank = "ListBank"
+    static let XibNameTarikTunai3 = "TarikTunai3"
 }
 
 class OrderStatus : NSObject {

@@ -69,6 +69,8 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     @IBOutlet weak var vwDaftarRek: UIView!
     @IBOutlet weak var VwRek: UIView!
     @IBOutlet weak var vwNoRek: UIView!
+    @IBOutlet weak var separatorTop: NSLayoutConstraint!
+    @IBOutlet weak var consDaftarRekeningHeight: NSLayoutConstraint!
     
     
     var isNeedReload = false
@@ -876,8 +878,9 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
                             for i in 0..<arr.count {
                                 if(arr[i]["is_default"]).boolValue{
                                     self.vwNoRek.isHidden = true
-                                    let verticalSpace = NSLayoutConstraint(item: self.vwDaftarRek, attribute: .top, relatedBy: .equal, toItem: self.VwRek, attribute: .bottom, multiplier: 1, constant: 50)
-                                    self.view.addConstraint(verticalSpace)
+                                    self.separatorTop.constant = 40
+                            
+                                    self.consDaftarRekeningHeight.constant = 160
                                     self.lblBank.text = arr[i]["target_bank"].stringValue
                                     self.lblRek.text = arr[i]["account_number"].stringValue
                                     self.lblRekName.text = arr[i]["name"].stringValue

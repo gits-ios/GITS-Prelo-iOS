@@ -5856,11 +5856,11 @@ in Bandung</string>
                         <viewControllerLayoutGuide type="bottom" id="8LY-jt-2f4"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="EI3-fD-ZpS">
-                        <rect key="frame" x="0.0" y="64" width="320" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="V8d-rW-1kl">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="603"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="8" minimumInteritemSpacing="8" id="FVZ-S0-ZdO">
                                     <size key="itemSize" width="200" height="200"/>
@@ -5909,7 +5909,7 @@ in Bandung</string>
                                 </cells>
                             </collectionView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="xGu-kv-bfE">
-                                <rect key="frame" x="150" y="25" width="20" height="20"/>
+                                <rect key="frame" x="177.5" y="45" width="20" height="20"/>
                                 <color key="color" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                         </subviews>
@@ -5946,11 +5946,11 @@ in Bandung</string>
                         <viewControllerLayoutGuide type="bottom" id="xcA-Ah-exn"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="hRr-9x-ECc">
-                        <rect key="frame" x="0.0" y="64" width="320" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="hVm-Vu-0b4">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="603"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </tableView>
                         </subviews>
@@ -6072,7 +6072,7 @@ in Bandung</string>
                                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fn5-W5-hj0">
-                                                            <rect key="frame" x="28" y="28.5" width="44" height="44"/>
+                                                            <rect key="frame" x="28" y="28" width="44" height="44"/>
                                                             <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="44"/>
                                                             <color key="textColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -18886,9 +18886,9 @@ in Bandung</string>
         <image name="tour_5.jpg" width="720" height="1280"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="gv4-pa-FxU"/>
         <segue reference="dW2-MQ-HC6"/>
         <segue reference="5pQ-qG-4MR"/>
-        <segue reference="W6Y-eo-D2Q"/>
-        <segue reference="gv4-pa-FxU"/>
+        <segue reference="gU7-9Q-bxr"/>
     </inferredMetricsTieBreakers>
 </document>

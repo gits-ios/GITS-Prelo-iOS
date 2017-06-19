@@ -20,7 +20,7 @@
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dN7-qJ-jXs">
-                        <rect key="frame" x="0.0" y="32" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="20" width="375" height="627"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </tableView>
                     <view hidden="YES" alpha="0.75" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6MF-11-oOY" userLabel="Background Overlay">
@@ -126,7 +126,7 @@
                 <constraints>
                     <constraint firstItem="maH-uJ-NHy" firstAttribute="bottom" secondItem="i4q-UK-buT" secondAttribute="top" id="0Oj-fU-gM0"/>
                     <constraint firstItem="maH-uJ-NHy" firstAttribute="trailing" secondItem="yU7-7p-3p6" secondAttribute="trailing" id="2WU-2P-dhu"/>
-                    <constraint firstItem="dN7-qJ-jXs" firstAttribute="top" secondItem="qRP-Pa-iQj" secondAttribute="bottom" constant="12" id="5fQ-e4-fNu"/>
+                    <constraint firstItem="dN7-qJ-jXs" firstAttribute="top" secondItem="qRP-Pa-iQj" secondAttribute="bottom" id="5fQ-e4-fNu"/>
                     <constraint firstItem="maH-uJ-NHy" firstAttribute="leading" secondItem="EEx-SC-CUo" secondAttribute="leading" id="E8E-jx-8uV"/>
                     <constraint firstItem="maH-uJ-NHy" firstAttribute="trailing" secondItem="dN7-qJ-jXs" secondAttribute="trailing" id="Ent-a4-jua"/>
                     <constraint firstItem="maH-uJ-NHy" firstAttribute="top" secondItem="6MF-11-oOY" secondAttribute="top" id="NvI-c3-VO8"/>
@@ -151,7 +151,7 @@
                 <outlet property="vwOverlayPopUp" destination="yU7-7p-3p6" id="JE4-qt-Jzr"/>
                 <outlet property="vwPopUp" destination="6dj-3U-GGh" id="bUP-Gg-IP2"/>
             </connections>
-            <point key="canvasLocation" x="-328" y="129"/>
+            <point key="canvasLocation" x="-328.5" y="128.5"/>
         </viewController>
     </objects>
 </document>

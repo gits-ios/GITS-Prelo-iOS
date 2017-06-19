@@ -1172,6 +1172,7 @@ enum APIReference : URLRequestConvertible {
     case homeCategories
     case formattedSizesByCategory(category : String)
     case getCategoryByPermalink(permalink : String)
+    case getAllBank()
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "reference/"
@@ -1191,6 +1192,7 @@ enum APIReference : URLRequestConvertible {
         case .homeCategories : return .get
         case .formattedSizesByCategory(_) : return .get
         case .getCategoryByPermalink(_) : return .get
+        case .getAllBank() : return .get
         }
     }
     
@@ -1203,6 +1205,7 @@ enum APIReference : URLRequestConvertible {
         case .homeCategories : return "categories/home"
         case .formattedSizesByCategory(_) : return "formatted_sizes"
         case .getCategoryByPermalink(_) : return "category/by_permalink"
+        case .getAllBank() : return "bank"
         }
     }
     

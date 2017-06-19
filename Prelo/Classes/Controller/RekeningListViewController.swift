@@ -79,6 +79,7 @@ class RekeningListViewController: BaseViewController, UITableViewDelegate, UITab
     }
     
     func getRekening(){
+        self.showLoading()
         rekening = []
         // use API
         let _ = request(APIMe.getBankAccount).responseJSON { resp in
@@ -130,7 +131,7 @@ class RekeningListViewController: BaseViewController, UITableViewDelegate, UITab
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if ((indexPath as NSIndexPath).item < (rekening.count)) {
-            return 140
+            return 123
         } else {
             return 50
         }
@@ -345,11 +346,13 @@ class RekeningListCell: UITableViewCell { // height 192
             btnSetMain.isHidden = true
             btnEdit.isHidden = false
             vwMain.isHidden = false
+            consBtnDeleteLeading.constant = -32
         } else {
             btnDelete.isHidden = false
             btnSetMain.isHidden = false
             btnEdit.isHidden = false
             vwMain.isHidden = true
+            consBtnDeleteLeading.constant = 2
         }
         btnDelete.setImage(UIImage(named: "ic_delete"), for: .normal)
         btnDelete.imageView?.contentMode = .scaleAspectFit
@@ -362,6 +365,7 @@ class RekeningListCell: UITableViewCell { // height 192
         
         
     }
+    @IBOutlet weak var consBtnDeleteLeading: NSLayoutConstraint!
     
     @IBAction func btnEditAddressPressed(_ sender: Any) {
         btnEditAction()

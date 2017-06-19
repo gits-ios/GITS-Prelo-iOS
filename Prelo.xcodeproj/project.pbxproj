@@ -554,6 +554,8 @@
 		58AD00FF1D49DAA8002C7CCF /* preloteam.png in Resources */ = {isa = PBXBuildFile; fileRef = 58AD00FE1D49DAA8002C7CCF /* preloteam.png */; };
 		58BBF5941EF276E100A0E2A2 /* TarikTunaiwithSaveBankAccount2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58BBF5931EF276E100A0E2A2 /* TarikTunaiwithSaveBankAccount2.xib */; };
 		58BBF5961EF2775000A0E2A2 /* TarikTunaiwithSaveBankAccountViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58BBF5951EF2775000A0E2A2 /* TarikTunaiwithSaveBankAccountViewController2.swift */; };
+		58BBF5981EF30FF300A0E2A2 /* TarikTunai3.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58BBF5971EF30FF300A0E2A2 /* TarikTunai3.xib */; };
+		58BBF59A1EF3103B00A0E2A2 /* TarikTunaiViewController3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58BBF5991EF3103B00A0E2A2 /* TarikTunaiViewController3.swift */; };
 		58BE535B1D460E2E00E358EB /* CoreSpotlight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58BE535A1D460E2E00E358EB /* CoreSpotlight.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		58BE535F1D479F5B00E358EB /* courier_jne.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BE535C1D479F5B00E358EB /* courier_jne.png */; };
 		58BE53601D479F5B00E358EB /* courier_pos.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BE535D1D479F5B00E358EB /* courier_pos.png */; };
@@ -619,7 +621,7 @@
 		B21DF52A1E5179E5007A60C5 /* UserProfile2.xib in Resources */ = {isa = PBXBuildFile; fileRef = B21DF5291E5179E5007A60C5 /* UserProfile2.xib */; };
 		B21DF5401E5187EA007A60C5 /* UserProfileViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21DF53F1E5187EA007A60C5 /* UserProfileViewController2.swift */; };
 		B2223D941EDEA64F0013E886 /* ic_verified.png in Resources */ = {isa = PBXBuildFile; fileRef = B2223D931EDEA64F0013E886 /* ic_verified.png */; };
-		B22357611E35F90800CEC6F5 /* TarikTunai2Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B22357601E35F90800CEC6F5 /* TarikTunai2Cell.xib */; };
+		B22357611E35F90800CEC6F5 /* TarikTunaiCell3.xib in Resources */ = {isa = PBXBuildFile; fileRef = B22357601E35F90800CEC6F5 /* TarikTunaiCell3.xib */; };
 		B22C0E311E090FA900C3D661 /* ic_love_96px.png in Resources */ = {isa = PBXBuildFile; fileRef = B22C0E301E090FA900C3D661 /* ic_love_96px.png */; };
 		B22C0E331E091C2D00C3D661 /* ic_love_96px_trp.png in Resources */ = {isa = PBXBuildFile; fileRef = B22C0E321E091C2D00C3D661 /* ic_love_96px_trp.png */; };
 		B2314BE51E4B029000731B88 /* AddressAddEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2314BE41E4B029000731B88 /* AddressAddEditViewController.swift */; };
@@ -1643,6 +1645,8 @@
 		58B16A361C900CC600408534 /* NotifAnggiConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiConversationCell.xib; sourceTree = "<group>"; };
 		58BBF5931EF276E100A0E2A2 /* TarikTunaiwithSaveBankAccount2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunaiwithSaveBankAccount2.xib; sourceTree = "<group>"; };
 		58BBF5951EF2775000A0E2A2 /* TarikTunaiwithSaveBankAccountViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiwithSaveBankAccountViewController2.swift; sourceTree = "<group>"; };
+		58BBF5971EF30FF300A0E2A2 /* TarikTunai3.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunai3.xib; sourceTree = "<group>"; };
+		58BBF5991EF3103B00A0E2A2 /* TarikTunaiViewController3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiViewController3.swift; sourceTree = "<group>"; };
 		58BE535A1D460E2E00E358EB /* CoreSpotlight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreSpotlight.framework; path = System/Library/Frameworks/CoreSpotlight.framework; sourceTree = SDKROOT; };
 		58BE535C1D479F5B00E358EB /* courier_jne.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = courier_jne.png; sourceTree = "<group>"; };
 		58BE535D1D479F5B00E358EB /* courier_pos.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = courier_pos.png; sourceTree = "<group>"; };
@@ -1725,7 +1729,7 @@
 		B21DF53F1E5187EA007A60C5 /* UserProfileViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController2.swift; sourceTree = "<group>"; };
 		B21DF54F1E519E5E007A60C5 /* Prelo 10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 10.xcdatamodel"; sourceTree = "<group>"; };
 		B2223D931EDEA64F0013E886 /* ic_verified.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_verified.png; sourceTree = "<group>"; };
-		B22357601E35F90800CEC6F5 /* TarikTunai2Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunai2Cell.xib; sourceTree = "<group>"; };
+		B22357601E35F90800CEC6F5 /* TarikTunaiCell3.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunaiCell3.xib; sourceTree = "<group>"; };
 		B22C0E301E090FA900C3D661 /* ic_love_96px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_love_96px.png; sourceTree = "<group>"; };
 		B22C0E321E091C2D00C3D661 /* ic_love_96px_trp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_love_96px_trp.png; sourceTree = "<group>"; };
 		B2314BE41E4B029000731B88 /* AddressAddEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressAddEditViewController.swift; sourceTree = "<group>"; };
@@ -2485,6 +2489,7 @@
 				5804CBC11EEE300C00B7D032 /* RekeningListViewController.swift */,
 				5804CBD71EEE6CC100B7D032 /* RekeningAddViewController.swift */,
 				58BBF5951EF2775000A0E2A2 /* TarikTunaiwithSaveBankAccountViewController2.swift */,
+				58BBF5991EF3103B00A0E2A2 /* TarikTunaiViewController3.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -3101,7 +3106,7 @@
 				B2BE2E011E29FA42006B6903 /* StorePageShopHeader.xib */,
 				B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */,
 				B27948221E35C700002CEED4 /* TarikTunai2.xib */,
-				B22357601E35F90800CEC6F5 /* TarikTunai2Cell.xib */,
+				B22357601E35F90800CEC6F5 /* TarikTunaiCell3.xib */,
 				21104AD01BAA8F1200947E7F /* TransactionListCell.xib */,
 				21156EBB1B8F5B5D001D7842 /* UserProfile.xib */,
 				B21DF5291E5179E5007A60C5 /* UserProfile2.xib */,
@@ -3111,6 +3116,7 @@
 				581026B61EEA933800C0D324 /* RekeningList.xib */,
 				5804CBD31EEE6A8900B7D032 /* RekeningListCell.xib */,
 				5804CBD41EEE6A8900B7D032 /* RekeningListNewCell.xib */,
+				58BBF5971EF30FF300A0E2A2 /* TarikTunai3.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -3940,7 +3946,7 @@
 				B2C3A3C61E2B8E370082A15D /* ShopAchievementCell.xib in Resources */,
 				58F0A41B1C7C634A002A488F /* cchmrk_chat.png in Resources */,
 				B2CAF7841E78F58900ACB361 /* PreloMessageCell.xib in Resources */,
-				B22357611E35F90800CEC6F5 /* TarikTunai2Cell.xib in Resources */,
+				B22357611E35F90800CEC6F5 /* TarikTunaiCell3.xib in Resources */,
 				58A223C81C898CB600619518 /* ic_trx_paid.png in Resources */,
 				585887271DBED974006EC6D5 /* PhoneVerification.xib in Resources */,
 				5858874E1DBEDBB8006EC6D5 /* PathLogin.xib in Resources */,
@@ -4132,6 +4138,7 @@
 				B2EE39CF1E76905500113E03 /* ic_paid_video.png in Resources */,
 				B2C3A3C41E2B8E2D0082A15D /* ShopAchievement.xib in Resources */,
 				21679A331B901C5300F18F90 /* MPNotification.storyboard in Resources */,
+				58BBF5981EF30FF300A0E2A2 /* TarikTunai3.xib in Resources */,
 				B22C0E331E091C2D00C3D661 /* ic_love_96px_trp.png in Resources */,
 				585887581DBEDC35006EC6D5 /* UserProfile.xib in Resources */,
 				585887441DBEDB0D006EC6D5 /* MyPurchase.xib in Resources */,
@@ -4231,6 +4238,7 @@
 				21B467FD1CCE5EDB00E145ED /* UIFont+BFKit.swift in Sources */,
 				21B467F81CCE5EDB00E145ED /* String+BFKit.swift in Sources */,
 				21B467E41CCE5EDB00E145ED /* BFLog.swift in Sources */,
+				58BBF59A1EF3103B00A0E2A2 /* TarikTunaiViewController3.swift in Sources */,
 				B2C59AA21E2E4B31002E4597 /* SMSegmentView.swift in Sources */,
 				21679A181B901C5300F18F90 /* MPABTestDesignerChangeRequestMessage.m in Sources */,
 				58A99A4B1C6D864E00E3E7D7 /* BranchUserCompletedActionRequest.m in Sources */,
