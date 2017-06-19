@@ -132,9 +132,9 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     }
     
     func getNotif() {
-        var dataCount = 0
         // API Migrasi
         let _ = request(APINotification.getNotifs(tab: "conversation", page: self.currentPage + 1)).responseJSON {resp in
+            var dataCount = 0
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Percakapan")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -178,7 +178,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                     //self.tableView.reloadData()
                     self.tableView.reloadSections(IndexSet.init(integer: 0), with: .fade)
                 }
-            } else {
+            } else if dataCount > 0 {
                 let lastRow = self.tableView.numberOfRows(inSection: 0) - 1
                 var idxs : Array<IndexPath> = []
                 for i in 1...dataCount {
