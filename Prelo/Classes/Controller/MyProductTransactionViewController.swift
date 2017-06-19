@@ -128,7 +128,7 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
                 if self.currentPage == 1 {
                     // Show content
                     self.showContent()
-                } else {
+                } else if dataCount > 0 {
                     let lastRow = self.tableView.numberOfRows(inSection: 0) - 1
                     var idxs : Array<IndexPath> = []
                     for i in 1...dataCount {
