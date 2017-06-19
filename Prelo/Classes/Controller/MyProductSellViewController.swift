@@ -258,7 +258,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                         self.btnRefresh.isHidden = false
                         self.tableView.isHidden = true
                     }
-                } else {
+                } else if dataCount > 0 {
                     // section 0 -> local product (draft), 1 -> product
                     let lastRow = self.tableView.numberOfRows(inSection: 1) - 1
                     var idxs : Array<IndexPath> = []
