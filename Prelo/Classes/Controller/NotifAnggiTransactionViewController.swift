@@ -131,9 +131,9 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     }
     
     func getNotif() {
-        var dataCount = 0
         // API Migrasi
         let _ = request(APINotification.getNotifs(tab: "transaction", page: self.currentPage + 1)).responseJSON {resp in
+            var dataCount = 0
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Transaksi")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -177,7 +177,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
                     //self.tableView.reloadData()
                     self.tableView.reloadSections(IndexSet.init(integer: 0), with: .fade)
                 }
-            } else {
+            } else if dataCount > 0 {
                 let lastRow = self.tableView.numberOfRows(inSection: 0) - 1
                 var idxs : Array<IndexPath> = []
                 for i in 1...dataCount {
