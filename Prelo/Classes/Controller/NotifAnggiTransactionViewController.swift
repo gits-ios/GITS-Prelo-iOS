@@ -131,9 +131,9 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     }
     
     func getNotif() {
-        var dataCount = 0
         // API Migrasi
         let _ = request(APINotification.getNotifs(tab: "transaction", page: self.currentPage + 1)).responseJSON {resp in
+            var dataCount = 0
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Transaksi")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -177,7 +177,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
                     //self.tableView.reloadData()
                     self.tableView.reloadSections(IndexSet.init(integer: 0), with: .fade)
                 }
-            } else {
+            } else if dataCount > 0 {
                 let lastRow = self.tableView.numberOfRows(inSection: 0) - 1
                 var idxs : Array<IndexPath> = []
                 for i in 1...dataCount {
@@ -578,6 +578,7 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
     var delegate : NotifAnggiTransactionCellDelegate?
     
     var isDiffUnread : Bool = true
+    var isNeedSetup = true
     
     override func prepareForReuse() {
         self.contentView.backgroundColor = UIColor.white.withAlphaComponent(0)
@@ -640,15 +641,11 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         ////print("size untuk '\(lblTrxStatus.text)' = \(sizeThatShouldFitTheContent)")
         consWidthLblTrxStatus.constant = sizeThatShouldFitTheContent.width
         
-        // Set collection view
-        collcTrxProgress.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "collcTrxProgressCell")
-        collcTrxProgress.delegate = self
-        collcTrxProgress.dataSource = self
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(NotifAnggiTransactionCell.handleTap))
-        tapGestureRecognizer.delegate = self
-        collcTrxProgress.backgroundView = UIView(frame: collcTrxProgress.bounds)
-        collcTrxProgress.backgroundView!.addGestureRecognizer(tapGestureRecognizer)
-        collcTrxProgress.backgroundColor = UIColor.clear
+        if isNeedSetup {
+            isNeedSetup = false
+            
+            self.setupCollection()
+        }
         collcTrxProgress.reloadData()
         
         // Set var
@@ -660,6 +657,18 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         if (idx != nil) {
             delegate?.cellCollectionTapped(self.idx!)
         }
+    }
+    
+    func setupCollection() {
+        // Set collection view
+        collcTrxProgress.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "collcTrxProgressCell")
+        collcTrxProgress.delegate = self
+        collcTrxProgress.dataSource = self
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(NotifAnggiTransactionCell.handleTap))
+        tapGestureRecognizer.delegate = self
+        collcTrxProgress.backgroundView = UIView(frame: collcTrxProgress.bounds)
+        collcTrxProgress.backgroundView!.addGestureRecognizer(tapGestureRecognizer)
+        collcTrxProgress.backgroundColor = UIColor.clear
     }
     
     // MARK: - CollectionView delegate functions

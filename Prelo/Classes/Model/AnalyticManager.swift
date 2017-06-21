@@ -46,6 +46,17 @@ class AnalyticManager: NSObject {
     
     static let faId = (UIDevice.current.identifierForVendor != nil ? UIDevice.current.identifierForVendor!.uuidString : "")
     
+    static let deviceToken = (UserDefaults.standard.string(forKey: "deviceregid") != nil && UserDefaults.standard.string(forKey: "deviceregid") != "" ? UserDefaults.standard.string(forKey: "deviceregid")! : "...simulator...")
+    
+    override init() {
+        print("==== [Prelo Analytics] Version 1.0.0 ====")
+        print("faId = " + AnalyticManager.faId)
+        print("deviceToken = " + AnalyticManager.deviceToken)
+        print("=========================================")
+        
+        super.init()
+    }
+    
     // skeleton generator + append data
     fileprivate func skeletonData(data : [String : Any], previousScreen : String, loginMethod : String) -> [String : Any] {
         var appVersion = ""
@@ -132,6 +143,20 @@ class AnalyticManager: NSObject {
     
     // user must login
     func updateUser(isNeedPayload: Bool) {
+        // print User token -> for access
+        var token = "<no token>"
+        if let t = User.Token {
+            token = t
+        }
+        let teks = "==== [Prelo] Version " + Bundle.main.releaseVersionNumber + " (" + Bundle.main.buildVersionNumber + ") ===="
+        print(teks)
+        print("userToken = " + token)
+        var equal = "="
+        for _ in 2...teks.length {
+            equal += "="
+        }
+        print(equal)
+        
         if (User.IsLoggedIn) {
             let _ = request(APIAnalytic.user(isNeedPayload: isNeedPayload)).responseJSON {resp in
                 if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - User")) {
@@ -307,5 +332,14 @@ extension Dictionary {
         for (key,value) in other {
             self.updateValue(value, forKey:key)
         }
+    }
+}
+
+extension Bundle {
+    var releaseVersionNumber: String {
+        return infoDictionary?["CFBundleShortVersionString"] as? String ?? "?.?.?"
+    }
+    var buildVersionNumber: String {
+        return infoDictionary?["CFBundleVersion"] as? String ?? "?"
     }
 }
