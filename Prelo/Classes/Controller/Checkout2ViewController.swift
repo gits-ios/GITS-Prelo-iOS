@@ -449,6 +449,12 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                                 self.selectedAddress.coordinate = self.cartResult.addressBook[i].coordinate
                                 self.selectedAddress.coordinateAddress = self.cartResult.addressBook[i].coordinateAddress
                                 
+                                if self.selectedAddress.address == "" || self.selectedAddress.postalCode == "" || self.selectedAddress.subdistrictName == "" {
+                                    self.isNeedSetup = true
+                                    
+                                    self.selectedAddress.isSave = true
+                                }
+                                
                                 break
                             }
                         }
@@ -976,7 +982,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         cell.selectionStyle = .none
                         cell.clipsToBounds = true
                         
-                        let isDefault = cartResult.addressBook.count > selectedIndex ? cartResult.addressBook[selectedIndex] == cartResult.defaultAddress : false
+                        let isDefault = cartResult.addressBook.count > selectedIndex ? cartResult.addressBook[selectedIndex].id == cartResult.defaultAddress?.id : false
                         
                         if isDefault {
                             cell.adapt(cartResult.addressBook[selectedIndex], parent: self)
@@ -1972,6 +1978,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         // Action triggered on selection
         dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
             if index != self.selectedIndex {
+                self.selectedAddress.isSave = false
                 if index < count {
                     self.isNeedSetup = false
                     self.selectedIndex = index
@@ -1990,9 +1997,14 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     self.selectedAddress.coordinate = self.cartResult.addressBook[index].coordinate
                     self.selectedAddress.coordinateAddress = self.cartResult.addressBook[index].coordinateAddress
                     
-                    self.synchCart()
+                    if self.selectedAddress.address == "" || self.selectedAddress.postalCode == "" || self.selectedAddress.subdistrictName == "" {
+                        self.isNeedSetup = true
+                        
+                        self.selectedAddress.isSave = true
+                    }
                     
                     self.isNeedScrollToTop = true
+                    self.synchCart()
                 } else {
                     self.isNeedSetup = true
                     self.selectedIndex = count

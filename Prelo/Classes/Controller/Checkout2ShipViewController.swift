@@ -401,6 +401,12 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                                 self.selectedAddress.coordinate = self.cartResult.addressBook[i].coordinate
                                 self.selectedAddress.coordinateAddress = self.cartResult.addressBook[i].coordinateAddress
                                 
+                                if self.selectedAddress.address == "" || self.selectedAddress.postalCode == "" || self.selectedAddress.subdistrictName == "" {
+                                    self.isNeedSetup = true
+                                    
+                                    self.selectedAddress.isSave = true
+                                }
+                                
                                 break
                             }
                         }
@@ -698,7 +704,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                         cell.selectionStyle = .none
                         cell.clipsToBounds = true
                         
-                        let isDefault = cartResult.addressBook.count > selectedIndex ? cartResult.addressBook[selectedIndex] == cartResult.defaultAddress : false
+                        let isDefault = cartResult.addressBook.count > selectedIndex ? cartResult.addressBook[selectedIndex].id == cartResult.defaultAddress?.id : false
                         
                         if isDefault {
                             cell.adapt(cartResult.addressBook[selectedIndex], parent: self)
@@ -1063,6 +1069,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
         // Action triggered on selection
         dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
             if index != self.selectedIndex {
+                self.selectedAddress.isSave = false
                 if index < count {
                     self.isNeedSetup = false
                     self.selectedIndex = index
@@ -1080,6 +1087,12 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     self.selectedAddress.postalCode = self.cartResult.addressBook[index].postalCode
                     self.selectedAddress.coordinate = self.cartResult.addressBook[index].coordinate
                     self.selectedAddress.coordinateAddress = self.cartResult.addressBook[index].coordinateAddress
+                    
+                    if self.selectedAddress.address == "" || self.selectedAddress.postalCode == "" || self.selectedAddress.subdistrictName == "" {
+                        self.isNeedSetup = true
+                        
+                        self.selectedAddress.isSave = true
+                    }
                     
                     self.synchCart()
                 } else {
@@ -1509,6 +1522,8 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
         self.lbProvince.textColor = self.activeColor
         self.lbRegion.textColor = self.activeColor
         self.lbSubdistrict.textColor = self.activeColor
+        
+        self.isDefault = true
     }
     
     // isDefault == false
