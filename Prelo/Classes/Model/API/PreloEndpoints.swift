@@ -553,6 +553,10 @@ enum APIMe : URLRequestConvertible {
     case deleteAddress(addressId: String)
     case setDefaultAddress(addressId: String)
     
+    case getUserRentData
+    case setUserRentData(institution_type: Int, institution_name: String, image1: UIImage, image2: UIImage, image3: UIImage)
+    case getUserVerifiedRentData
+    
     public func asURLRequest() throws -> URLRequest {
         let basePath = "me/"
         let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
@@ -589,6 +593,10 @@ enum APIMe : URLRequestConvertible {
         case .createAddress(_, _, _, _, _, _, _, _, _, _, _) : return .post
         case .deleteAddress(_) : return .post
         case .setDefaultAddress(_) : return .post
+            
+        case .getUserRentData : return .get
+        case .setUserRentData(_, _, _, _, _): return.post
+        case .getUserVerifiedRentData : return .get
         }
     }
     
@@ -619,6 +627,9 @@ enum APIMe : URLRequestConvertible {
         case .createAddress(_, _, _, _, _, _, _, _, _, _, _) : return "address_book/add"
         case .deleteAddress(_) : return "address_book/delete"
         case .setDefaultAddress(_) : return "address_book/set_default"
+        case .getUserRentData : return "rent_data"
+        case .setUserRentData(_, _, _, _, _) : return "set_rent_data"
+        case .getUserVerifiedRentData : return "verified_rent_data"
         }
     }
     

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <viewController storyboardIdentifier="AddProductFullscreen" id="UVM-L9-r4E" customClass="VerifikasiImagePreview" customModule="Prelo" customModuleProvider="target">
+            <layoutGuides>
+                <viewControllerLayoutGuide type="top" id="uvG-kZ-5XH"/>
+                <viewControllerLayoutGuide type="bottom" id="RKI-he-eDE"/>
+            </layoutGuides>
+            <view key="view" contentMode="scaleToFill" id="LES-6x-FbB">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xwG-Vb-c0m">
+                        <rect key="frame" x="0.0" y="623" width="95" height="44"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="44" id="QB5-HN-17a"/>
+                            <constraint firstAttribute="width" constant="95" id="y7w-Za-Hym"/>
+                        </constraints>
+                    </view>
+                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="3" translatesAutoresizingMaskIntoConstraints="NO" id="A2o-eK-nRb">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z8s-lq-nUm">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HsD-iP-pHQ">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="HsD-iP-pHQ" secondAttribute="bottom" id="3Z2-6O-UEA"/>
+                                    <constraint firstItem="HsD-iP-pHQ" firstAttribute="top" secondItem="Z8s-lq-nUm" secondAttribute="top" id="IkZ-dX-SFl"/>
+                                    <constraint firstItem="HsD-iP-pHQ" firstAttribute="leading" secondItem="Z8s-lq-nUm" secondAttribute="leading" id="d69-Gr-rED"/>
+                                    <constraint firstAttribute="trailing" secondItem="HsD-iP-pHQ" secondAttribute="trailing" id="s4a-Ve-ZYN"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Z8s-lq-nUm" secondAttribute="trailing" id="DUj-8e-e16"/>
+                            <constraint firstItem="Z8s-lq-nUm" firstAttribute="top" secondItem="A2o-eK-nRb" secondAttribute="top" id="LK2-B7-qXJ"/>
+                            <constraint firstItem="Z8s-lq-nUm" firstAttribute="leading" secondItem="A2o-eK-nRb" secondAttribute="leading" id="jcK-be-BP7"/>
+                            <constraint firstAttribute="bottom" secondItem="Z8s-lq-nUm" secondAttribute="bottom" id="t6d-bu-LOu"/>
+                        </constraints>
+                        <connections>
+                            <outlet property="delegate" destination="UVM-L9-r4E" id="vWw-Gv-zWc"/>
+                        </connections>
+                    </scrollView>
+                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZCe-Lq-52o">
+                        <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="44" id="PqK-mR-ysl"/>
+                        </constraints>
+                        <items>
+                            <barButtonItem tag="1" title="Ganti" id="x4u-04-8jr">
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="replace:" destination="UVM-L9-r4E" id="EKm-Nh-29e"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem style="plain" systemItem="flexibleSpace" id="2Mc-zh-bzY"/>
+                            <barButtonItem tag="3" title="Hapus" id="kZi-BJ-jUi">
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="deleteImage:" destination="UVM-L9-r4E" id="6K2-S1-CKv"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem style="plain" systemItem="flexibleSpace" id="w6i-vF-CNG"/>
+                            <barButtonItem tag="2" title="Simpan" id="kCu-mj-0Zd">
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="done" destination="UVM-L9-r4E" id="D26-2t-F1h"/>
+                                </connections>
+                            </barButtonItem>
+                        </items>
+                        <color key="barTintColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </toolbar>
+                </subviews>
+                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="A2o-eK-nRb" secondAttribute="trailing" id="6fP-8A-c9G"/>
+                    <constraint firstItem="A2o-eK-nRb" firstAttribute="leading" secondItem="LES-6x-FbB" secondAttribute="leading" id="CnX-VW-081"/>
+                    <constraint firstItem="xwG-Vb-c0m" firstAttribute="leading" secondItem="LES-6x-FbB" secondAttribute="leading" id="JN9-7u-A4L"/>
+                    <constraint firstItem="RKI-he-eDE" firstAttribute="top" secondItem="ZCe-Lq-52o" secondAttribute="bottom" id="RVN-fd-KLJ"/>
+                    <constraint firstItem="ZCe-Lq-52o" firstAttribute="leading" secondItem="LES-6x-FbB" secondAttribute="leading" id="l34-ym-64a"/>
+                    <constraint firstAttribute="width" secondItem="HsD-iP-pHQ" secondAttribute="width" id="spN-ZU-nP6"/>
+                    <constraint firstItem="RKI-he-eDE" firstAttribute="top" secondItem="A2o-eK-nRb" secondAttribute="bottom" constant="64" id="sxT-Zg-YDM"/>
+                    <constraint firstAttribute="height" secondItem="HsD-iP-pHQ" secondAttribute="height" id="ths-29-P7R"/>
+                    <constraint firstItem="ZCe-Lq-52o" firstAttribute="top" secondItem="A2o-eK-nRb" secondAttribute="bottom" id="vBc-f5-cId"/>
+                    <constraint firstAttribute="trailing" secondItem="ZCe-Lq-52o" secondAttribute="trailing" id="wrQ-ex-H46"/>
+                    <constraint firstItem="A2o-eK-nRb" firstAttribute="top" secondItem="LES-6x-FbB" secondAttribute="top" id="yEf-pI-ndR"/>
+                    <constraint firstItem="RKI-he-eDE" firstAttribute="top" secondItem="xwG-Vb-c0m" secondAttribute="bottom" id="zCs-FE-ozr"/>
+                </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="sxT-Zg-YDM"/>
+                    </mask>
+                </variation>
+            </view>
+            <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+            <connections>
+                <outlet property="btnDelete" destination="kZi-BJ-jUi" id="MLe-FL-Xx6"/>
+                <outlet property="btnEdit" destination="kCu-mj-0Zd" id="ntd-iD-Gjm"/>
+                <outlet property="btnReplace" destination="x4u-04-8jr" id="yQz-q7-5cT"/>
+                <outlet property="imageView" destination="HsD-iP-pHQ" id="h9c-NI-zq0"/>
+                <outlet property="popOverSourceView" destination="xwG-Vb-c0m" id="Dp0-Yj-NeH"/>
+                <outlet property="toolBar" destination="ZCe-Lq-52o" id="Vpt-hc-CWE"/>
+                <outletCollection property="buttonItemsWithoutDelete" destination="x4u-04-8jr" collectionClass="NSMutableArray" id="Do5-Ua-x7M"/>
+                <outletCollection property="buttonItemsWithoutDelete" destination="2Mc-zh-bzY" collectionClass="NSMutableArray" id="uL4-sD-XPC"/>
+                <outletCollection property="buttonItemsWithoutDelete" destination="kCu-mj-0Zd" collectionClass="NSMutableArray" id="oth-Hq-uaH"/>
+            </connections>
+            <point key="canvasLocation" x="762" y="-2980"/>
+        </viewController>
+    </objects>
+</document>

@@ -281,6 +281,7 @@
 		44B8EDC81BEB47620063DEA8 /* TwitterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B8EDC51BEB47620063DEA8 /* TwitterCore.framework */; };
 		44BB8EF81BC6ABF70052B020 /* GIBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44BB8EF71BC6ABF70052B020 /* GIBadgeView.m */; };
 		44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C10A661B8C8145006D8770 /* basic_green@2x.png */; };
+		5806A18E1EFA325E005B4CBE /* Pilih_Foto.png in Resources */ = {isa = PBXBuildFile; fileRef = 5806A18D1EFA325E005B4CBE /* Pilih_Foto.png */; };
 		580A30E51DFFF29E00453AA0 /* ProductLovelistCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 580A30E41DFFF29E00453AA0 /* ProductLovelistCell.xib */; };
 		580B07291DD5D99A0079C11C /* bday-splashscreen-2048x2048.png in Resources */ = {isa = PBXBuildFile; fileRef = 580B07281DD5D99A0079C11C /* bday-splashscreen-2048x2048.png */; };
 		581430DB1DCB14DE00B67205 /* GrowingTextViewHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581430DA1DCB14DE00B67205 /* GrowingTextViewHandler.swift */; };
@@ -330,6 +331,8 @@
 		58528C541D13A3D200074EC6 /* cchmrk_sold.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C511D13A3D200074EC6 /* cchmrk_sold.png */; };
 		58528C551D13A3D200074EC6 /* cchmrk_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C521D13A3D200074EC6 /* cchmrk_up.png */; };
 		585373D01DF9388A00CEE663 /* InstagramSharePreview.xib in Resources */ = {isa = PBXBuildFile; fileRef = 585373CF1DF9388A00CEE663 /* InstagramSharePreview.xib */; };
+		5853C51A1EF92A1A003AEECC /* VerifikasiImagePreview.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5853C5191EF92A1A003AEECC /* VerifikasiImagePreview.xib */; };
+		5853C52E1EF92AC9003AEECC /* VerifikasiImagePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5853C52D1EF92AC9003AEECC /* VerifikasiImagePreview.swift */; };
 		5856875B1C6C97F4002A19CE /* ic_request.png in Resources */ = {isa = PBXBuildFile; fileRef = 5856875A1C6C97F4002A19CE /* ic_request.png */; };
 		585887271DBED974006EC6D5 /* PhoneVerification.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21104ACF1BAA8F1200947E7F /* PhoneVerification.xib */; };
 		5858872F1DBED978006EC6D5 /* ProfileSetup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */; };
@@ -589,6 +592,8 @@
 		58F78B601DFACEB3008744F7 /* ProductLovelist.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58F78B5F1DFACEB3008744F7 /* ProductLovelist.xib */; };
 		58F7DD511D73E90800EF43AC /* ic_free_ongkir_truck.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F7DD501D73E90800EF43AC /* ic_free_ongkir_truck.png */; };
 		58F7DD531D74204B00EF43AC /* rsz_ic_bri@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F7DD521D74204B00EF43AC /* rsz_ic_bri@2x.png */; };
+		58F823C01EF7C0BA001EDB2D /* VerifikasiIdentitas.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58F823BF1EF7C0BA001EDB2D /* VerifikasiIdentitas.xib */; };
+		58F823D21EF7C9C3001EDB2D /* VerifikasiIdentitasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F823D11EF7C9C3001EDB2D /* VerifikasiIdentitasViewController.swift */; };
 		58F89DC51D9A2359003A5378 /* login-background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 58F89DC41D9A2359003A5378 /* login-background.jpg */; };
 		58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */ = {isa = PBXBuildFile; fileRef = 58FE766E1D34FB9B00D90F27 /* banner_featured.png */; };
 		B2099F961E1D1A3C00EBB57F /* CDDraftProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2099F951E1D1A3C00EBB57F /* CDDraftProduct.swift */; };
@@ -1418,6 +1423,7 @@
 		5800FF9E1C883E1600492DB2 /* NotifAnggiConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = NotifAnggiConversationViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5800FFA21C8852D600492DB2 /* NotifAnggiTransaction.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiTransaction.xib; sourceTree = "<group>"; };
 		5800FFA41C88530900492DB2 /* NotifAnggiConversation.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiConversation.xib; sourceTree = "<group>"; };
+		5806A18D1EFA325E005B4CBE /* Pilih_Foto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pilih_Foto.png; sourceTree = "<group>"; };
 		580A30E41DFFF29E00453AA0 /* ProductLovelistCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductLovelistCell.xib; sourceTree = "<group>"; };
 		580B07281DD5D99A0079C11C /* bday-splashscreen-2048x2048.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bday-splashscreen-2048x2048.png"; sourceTree = "<group>"; };
 		581430DA1DCB14DE00B67205 /* GrowingTextViewHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrowingTextViewHandler.swift; sourceTree = "<group>"; };
@@ -1432,6 +1438,8 @@
 		58528C511D13A3D200074EC6 /* cchmrk_sold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_sold.png; sourceTree = "<group>"; };
 		58528C521D13A3D200074EC6 /* cchmrk_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_up.png; sourceTree = "<group>"; };
 		585373CF1DF9388A00CEE663 /* InstagramSharePreview.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InstagramSharePreview.xib; sourceTree = "<group>"; };
+		5853C5191EF92A1A003AEECC /* VerifikasiImagePreview.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VerifikasiImagePreview.xib; sourceTree = "<group>"; };
+		5853C52D1EF92AC9003AEECC /* VerifikasiImagePreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifikasiImagePreview.swift; sourceTree = "<group>"; };
 		5856875A1C6C97F4002A19CE /* ic_request.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_request.png; sourceTree = "<group>"; };
 		5870CFBA1DC6F7E600E22EFF /* AlamofireImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireImage.xcodeproj; path = AlamofireImage/AlamofireImage.xcodeproj; sourceTree = "<group>"; };
 		588148AB1DC09F88004180E1 /* ProductCompareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCompareViewController.swift; sourceTree = "<group>"; };
@@ -1651,6 +1659,8 @@
 		58F78B5F1DFACEB3008744F7 /* ProductLovelist.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductLovelist.xib; sourceTree = "<group>"; };
 		58F7DD501D73E90800EF43AC /* ic_free_ongkir_truck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_free_ongkir_truck.png; sourceTree = "<group>"; };
 		58F7DD521D74204B00EF43AC /* rsz_ic_bri@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rsz_ic_bri@2x.png"; sourceTree = "<group>"; };
+		58F823BF1EF7C0BA001EDB2D /* VerifikasiIdentitas.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VerifikasiIdentitas.xib; sourceTree = "<group>"; };
+		58F823D11EF7C9C3001EDB2D /* VerifikasiIdentitasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifikasiIdentitasViewController.swift; sourceTree = "<group>"; };
 		58F89DC21D9A1A0C003A5378 /* LoginFransiska.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginFransiska.xib; sourceTree = "<group>"; };
 		58F89DC41D9A2359003A5378 /* login-background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "login-background.jpg"; sourceTree = "<group>"; };
 		58F91B181CF313CB00943A7A /* ListBrandViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ListBrandViewController2.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -2410,6 +2420,8 @@
 				21156EB91B8F5B4C001D7842 /* UserProfileViewController.swift */,
 				B21DF53F1E5187EA007A60C5 /* UserProfileViewController2.swift */,
 				21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */,
+				58F823D11EF7C9C3001EDB2D /* VerifikasiIdentitasViewController.swift */,
+				5853C52D1EF92AC9003AEECC /* VerifikasiImagePreview.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -3025,6 +3037,8 @@
 				21104AD01BAA8F1200947E7F /* TransactionListCell.xib */,
 				21156EBB1B8F5B5D001D7842 /* UserProfile.xib */,
 				B21DF5291E5179E5007A60C5 /* UserProfile2.xib */,
+				58F823BF1EF7C0BA001EDB2D /* VerifikasiIdentitas.xib */,
+				5853C5191EF92A1A003AEECC /* VerifikasiImagePreview.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -3234,6 +3248,7 @@
 		B2686C561EEAF26500FF3A27 /* App Icon */ = {
 			isa = PBXGroup;
 			children = (
+				5806A18D1EFA325E005B4CBE /* Pilih_Foto.png */,
 				B2F0EFE41EEECAEB00A678F8 /* ic_christmas@2x.png */,
 				B2F0EFE51EEECAEB00A678F8 /* ic_christmas@3x.png */,
 				B2F0EFE61EEECAEB00A678F8 /* ic_ramadhan@2x.png */,
@@ -3701,6 +3716,7 @@
 				58528C541D13A3D200074EC6 /* cchmrk_sold.png in Resources */,
 				5830A42F1CE3443000FB1577 /* AddProductPlaceholder.plist in Resources */,
 				58D125381CDC4D1F002BC78A /* LICENSE in Resources */,
+				58F823C01EF7C0BA001EDB2D /* VerifikasiIdentitas.xib in Resources */,
 				B2F0EFEA1EEECAEB00A678F8 /* ic_ramadhan@2x.png in Resources */,
 				58E368161DA4E40700C6FFE3 /* ic_share2.png in Resources */,
 				580B07291DD5D99A0079C11C /* bday-splashscreen-2048x2048.png in Resources */,
@@ -3760,6 +3776,7 @@
 				21D386AA1B6B93CD00D0FA90 /* Default.png in Resources */,
 				585887521DBEDBF4006EC6D5 /* ReferralPage.xib in Resources */,
 				212007BE1B6A0BB400D9C84B /* basic_purple@2x.png in Resources */,
+				5806A18E1EFA325E005B4CBE /* Pilih_Foto.png in Resources */,
 				440AF66B1BE1090800074CBC /* ic_round_twitter.png in Resources */,
 				B2C3A3C61E2B8E370082A15D /* ShopAchievementCell.xib in Resources */,
 				58F0A41B1C7C634A002A488F /* cchmrk_chat.png in Resources */,
@@ -3965,6 +3982,7 @@
 				B2F0EFEB1EEECAEB00A678F8 /* ic_ramadhan@3x.png in Resources */,
 				58A0F4D41D9BA00E00CD693F /* ic_freeongkir.png in Resources */,
 				58A223C91C898CB600619518 /* ic_trx_received.png in Resources */,
+				5853C51A1EF92A1A003AEECC /* VerifikasiImagePreview.xib in Resources */,
 				58C23B601C9DC86300E4C929 /* ic_share.png in Resources */,
 				58F0A41C1C7C634A002A488F /* cchmrk_imgzoom.png in Resources */,
 				21156ECA1B8F5DBC001D7842 /* btn_checkbox_purple_checked.png in Resources */,
@@ -4239,6 +4257,7 @@
 				5858876C1DBEF170006EC6D5 /* InstagramLoginViewController.swift in Sources */,
 				5858876E1DBEF416006EC6D5 /* MyProductViewController.swift in Sources */,
 				21C658971B8EF25E0037F85F /* ActionSheetDistancePicker.m in Sources */,
+				58F823D21EF7C9C3001EDB2D /* VerifikasiIdentitasViewController.swift in Sources */,
 				216345011CC3A855005CBA37 /* MKImageView.swift in Sources */,
 				5847E1921DBDFCDB00C1B2BA /* LoginFransiskaViewController.swift in Sources */,
 				5847E18E1DBDFAF700C1B2BA /* PathLoginViewController.swift in Sources */,
@@ -4257,6 +4276,7 @@
 				58A99A431C6D864E00E3E7D7 /* BranchLogoutRequest.m in Sources */,
 				5858879A1DBF337B006EC6D5 /* PaymentConfirmationViewController.swift in Sources */,
 				5858876D1DBEF1B1006EC6D5 /* PhoneReverificationViewController.swift in Sources */,
+				5853C52E1EF92AC9003AEECC /* VerifikasiImagePreview.swift in Sources */,
 				21679A4A1B901C5300F18F90 /* MPUIControlBinding.m in Sources */,
 				21679A321B901C5300F18F90 /* MPNotification.m in Sources */,
 				B2099F961E1D1A3C00EBB57F /* CDDraftProduct.swift in Sources */,
