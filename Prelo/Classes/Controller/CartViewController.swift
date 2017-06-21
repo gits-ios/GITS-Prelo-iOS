@@ -534,9 +534,13 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             self.defaultAddressIndex = i
                             self.defaultSubdistrictId = (address?.subdisrictId)!
                             
-                            //self.initUserDataSections()
+                            self.initUserDataSections()
                         }
                     }
+                    self.setupDropdownAddress()
+                } else if self.isAddressNeedSetup { // no address
+                    self.addresses = []
+                    self.isAddressNeedSetup = false
                     self.setupDropdownAddress()
                 }
                 

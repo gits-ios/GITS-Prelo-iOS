@@ -106,7 +106,7 @@ extension URLRequest {
         // Set token
         if let token = User.Token {
             urlRequest.setValue("Token \(token)", forHTTPHeaderField: "Authorization")
-            print("User token = \(token)")
+            //print("User token = \(token)")
         }
         
         // Set user agent

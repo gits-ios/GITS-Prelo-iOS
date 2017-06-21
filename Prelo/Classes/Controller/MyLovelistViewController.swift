@@ -197,6 +197,111 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         }
     }
     
+    // checkout affiliate
+    func checkoutAffiliate(_ productId: String, affiliateData: AffiliateItem) {
+        let _ = request(APIAffiliate.postCheckout(productIds: productId, affiliateName: (affiliateData.name)!)).responseJSON {resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Checkout \((affiliateData.name)!)" /*"Post Affiliate Checkout"*/)) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                if let checkoutUrl = data["checkout_url"].string {
+                    let webVC = BaseViewController.instatiateViewControllerFromStoryboardWithID("preloweb") as! PreloWebViewController
+                    webVC.url = checkoutUrl
+                    webVC.titleString = (affiliateData.name)!
+                    webVC.affilateMode = true
+                    webVC.checkoutPattern = (affiliateData.checkoutUrlPattern)!
+                    webVC.checkoutInitiateUrl = checkoutUrl
+                    webVC.checkoutSucceed = { orderId in
+                        print(orderId)
+                        self.navigateToOrderConfirmVC(orderId)
+                    }
+                    webVC.checkoutUnfinished = {
+                        Constant.showDialog("Checkout", message: "Checkout tertunda")
+                    }
+                    webVC.checkoutFailed = {
+                        Constant.showDialog("Checkout", message: "Checkout gagal, silahkan coba beberapa saat lagi")
+                    }
+                    let baseNavC = BaseNavigationController()
+                    baseNavC.setViewControllers([webVC], animated: false)
+                    self.present(baseNavC, animated: true, completion: nil)
+                }
+            }
+        }
+    }
+    
+    func navigateToOrderConfirmVC(_ orderId: String) {
+        // get data
+        let _ = request(APIAffiliate.getCheckoutResult(orderId: orderId)).responseJSON {resp in
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Get Affiliate Checkout")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                
+                let tId = data["transaction_id"].stringValue
+                let price = data["total_price"].stringValue
+                var imgs : [URL] = []
+                if let cd = data["cart_details"].array {
+                    for c in cd {
+                        if let ps = c["products"].array {
+                            for p in ps {
+                                if let pics = p["display_picts"].array {
+                                    for pic in pics {
+                                        if let url = URL(string: pic.stringValue) {
+                                            imgs.append(url)
+                                            break
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                var backAccounts : Array<BankAccount> = []
+                if let arr = data["affiliate_data"]["bank_accounts"].array {
+                    
+                    if arr.count > 0 {
+                        for i in 0...arr.count-1 {
+                            backAccounts.append(BankAccount.instance(arr[i])!)
+                        }
+                    }
+                }
+                
+                let o = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdOrderConfirm) as! OrderConfirmViewController
+                
+                o.orderID = orderId
+                o.total = price.int64
+                o.transactionId = tId
+                o.isBackTwice = false
+                o.isShowBankBRI = false
+                o.targetBank = ""
+                o.previousScreen = PageName.ProductDetail
+                o.images = imgs
+                o.isFromCheckout = false
+                
+                // hidden payment bank transfer
+                //o.isMidtrans = true
+                
+                o.isAffiliate = true
+                o.rekenings = backAccounts
+                o.targetBank = backAccounts.count > 0 ? backAccounts[0].bank_name : "dummy"
+                
+                if let an = data["affiliate_data"]["affiliate_name"].string {
+                    o.affiliatename = an
+                }
+                
+                if let expire = data["expire_time"].string {
+                    o.expireAffiliate = expire
+                }
+                
+                if let er = data["payment_expired_remaining"].int {
+                    o.remaining = er
+                }
+                
+                o.title = "Order ID \(orderId)"
+                self.navigationController?.pushViewController(o, animated: true)
+            }
+        }
+    }
+    
     // MARK: - UITableViewDelegate Functions
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -263,6 +368,7 @@ protocol MyLovelistCellDelegate {
     func hideLoading()
     func deleteCell(_ cell : MyLovelistCell)
     func gotoCart()
+    func checkoutAffiliate(_ productId: String, affiliateData: AffiliateItem)
 }
 
 class MyLovelistCell : UITableViewCell {
@@ -277,6 +383,7 @@ class MyLovelistCell : UITableViewCell {
     var price: String!
     
     var delegate : MyLovelistCellDelegate?
+    var lovedProduct : LovedProduct!
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -285,6 +392,8 @@ class MyLovelistCell : UITableViewCell {
     }
     
     func adapt(_ lovedProduct : LovedProduct) {
+        self.lovedProduct = lovedProduct
+        
         if lovedProduct.productImageURL != nil {
             imgProduct.afSetImage(withURL: lovedProduct.productImageURL!)
         }
@@ -298,6 +407,11 @@ class MyLovelistCell : UITableViewCell {
     }
     
     @IBAction func beliPressed(_ sender: AnyObject) {
+        // checkout affiliate -> hunstreet
+        if self.lovedProduct.isCheckout && self.lovedProduct.AffiliateData != nil {
+            self.delegate?.checkoutAffiliate(self.productId, affiliateData: self.lovedProduct.AffiliateData!)
+        } else {
+        
         if AppTools.isNewCart { // v2
             if CartManager.sharedInstance.insertProduct(sellerId, productId: productId) {
                 // FB Analytics - Add to Cart
@@ -335,6 +449,7 @@ class MyLovelistCell : UITableViewCell {
                     self.delegate?.gotoCart()
                 }
             }
+        }
         }
         // Delete cell after add to cart
         //self.deletePressed(nil)
