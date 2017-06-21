@@ -2619,6 +2619,20 @@ class LovedProduct : NSObject {
         }
         return nil
     }
+    
+    var isCheckout : Bool {
+        if let j = json["affiliate_data"]["affiliate_type"].string {
+            return (j.lowercased() == "checkout")
+        }
+        return false
+    }
+    
+    var AffiliateData : AffiliateItem? {
+        if let j = AffiliateItem.instance(json["affiliate_data"]) {
+            return j
+        }
+        return nil
+    }
 }
 
 class UserCheckout : NSObject {
