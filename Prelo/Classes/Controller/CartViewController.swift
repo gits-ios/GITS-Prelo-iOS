@@ -491,6 +491,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         }
                     }
                     self.setupDropdownAddress()
+                } else if self.isAddressNeedSetup { // no address
+                    self.addresses = []
+                    self.isAddressNeedSetup = false
+                    self.setupDropdownAddress()
                 }
                 
                 // Ab test check
