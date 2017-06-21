@@ -45,6 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let RedirAchievement = "achievement"
     let RedirReferral = "referral"
     let RedirPreloMessage = "prelo_message"
+    let RedirPreloPermalink = "permalink"
     
     var redirAlert : SCLAlertView?
     var alertViewResponder : SCLAlertViewResponder?
@@ -981,67 +982,92 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func deeplinkRedirect(_ tipe : String, targetId : String?) {
+        var isOke = true // for decrease notif badge
         //Constant.showDialog("tipe", message: "\(tipe)")
         let tipeLowercase = tipe.lowercased()
         if (tipeLowercase == self.RedirProduct) {
             if (targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectProduct(targetId!)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirComment) {
             if (User.IsLoggedIn && targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectComment(targetId!)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirUser) {
             if (targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectShopPage(targetId!)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirInbox) {
             if (User.IsLoggedIn && targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectInbox(targetId)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirNotif) {
             if (User.IsLoggedIn) {
                 self.showRedirAlert()
                 self.redirectNotification()
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirConfirm) {
             if (User.IsLoggedIn && targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectConfirmPayment(targetId!)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirTrxBuyer) {
             if (User.IsLoggedIn && targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectTransaction(targetId!, trxProductId: nil, isSeller: false)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirTrxSeller) {
             if (User.IsLoggedIn && targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectTransaction(targetId!, trxProductId: nil, isSeller: true)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirTrxPBuyer) {
             if (User.IsLoggedIn && targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectTransaction(nil, trxProductId: targetId!, isSeller: false)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirTrxPSeller) {
             if (User.IsLoggedIn && targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectTransaction(nil, trxProductId: targetId!, isSeller: true)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirCategory) {
             if (targetId != nil && targetId != "") {
                 self.showRedirAlert()
                 self.redirectCategory(targetId!)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirLove) {
             if (targetId != nil && targetId != "") {
                 self.showRedirAlert()
                 self.redirectLove(targetId!)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirAchievement) {
             self.showRedirAlert()
@@ -1052,13 +1078,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else if (tipeLowercase == self.RedirPreloMessage) {
             self.showRedirAlert()
             self.redirectPreloMessage()
+        } else if (tipeLowercase == self.RedirPreloPermalink) {
+            if targetId != nil && (targetId?.contains("://"))!, let launchURL = URL(string: targetId!) {
+                let param : [URLQueryItem] = []
+                self.handleUniversalLink(launchURL.absoluteURL, path: launchURL.path, param: param)
+            } else {
+                isOke = false
+            }
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-            // decrease notif badge
-            let unreadNotifCount = self.preloNotifListener.newNotifCount - 1
-            self.preloNotifListener.setNewNotifCount(unreadNotifCount)
-        })
+        if isOke {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                // decrease notif badge
+                let unreadNotifCount = self.preloNotifListener.newNotifCount - 1
+                self.preloNotifListener.setNewNotifCount(unreadNotifCount)
+            })
+        }
     }
     
     func showAlert() {
