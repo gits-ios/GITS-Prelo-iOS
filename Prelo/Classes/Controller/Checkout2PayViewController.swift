@@ -1610,10 +1610,10 @@ class Checkout2PaymentCreditCardCell: UITableViewCell, UICollectionViewDelegate,
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
         self.collectionView.backgroundView = UIView(frame: self.collectionView.bounds)
-        self.collectionView.backgroundColor = UIColor.clear
+        self.collectionView.backgroundColor = UIColor.white
         
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.sectionInset = UIEdgeInsets(top: 2, left: 0, bottom: 2, right: 0)
         //layout.itemSize = CGSize(width: 38, height: 38)
         layout.minimumInteritemSpacing = 8
         layout.minimumLineSpacing = 8
@@ -1633,8 +1633,12 @@ class Checkout2PaymentCreditCardCell: UITableViewCell, UICollectionViewDelegate,
         
         let icon = self.icons[indexPath.row]
         let img = UIImage(named: icon)
-        let height = CGFloat(29.0)
-        let width = (img?.size.width)! * ((img?.size.height)! / height)
+        let height = CGFloat(21.0)
+        let width = (img?.size.width)! * height / (img?.size.height)!
+        
+        print(icon)
+        print(width)
+        print(height)
         
         let imgVw = UIImageView()
         imgVw.height = height
@@ -1653,8 +1657,8 @@ class Checkout2PaymentCreditCardCell: UITableViewCell, UICollectionViewDelegate,
         
         let icon = self.icons[indexPath.row]
         let img = UIImage(named: icon)
-        let height = CGFloat(29.0)
-        let width = (img?.size.width)! * ((img?.size.height)! / height)
+        let height = CGFloat(21.0)
+        let width = (img?.size.width)! * height / (img?.size.height)!
         
         return CGSize(width: width, height: height)
     }

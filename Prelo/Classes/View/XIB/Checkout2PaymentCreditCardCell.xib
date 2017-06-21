@@ -37,10 +37,10 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="qda-K4-kye">
-                        <rect key="frame" x="97.5" y="3" width="241.5" height="29"/>
+                        <rect key="frame" x="97.5" y="5" width="241.5" height="25"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="29" id="Cl4-BG-uTC"/>
+                            <constraint firstAttribute="height" constant="25" id="Cl4-BG-uTC"/>
                         </constraints>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="WnR-K1-mYW">
                             <size key="itemSize" width="50" height="50"/>
@@ -49,6 +49,9 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                     </collectionView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rGV-oW-QDM">
+                        <rect key="frame" x="97.5" y="5" width="241.5" height="25"/>
+                    </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4u7-WO-yQu">
                         <rect key="frame" x="347" y="9" width="20" height="20"/>
                         <constraints>
@@ -67,17 +70,21 @@
                     </label>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="rGV-oW-QDM" firstAttribute="width" secondItem="qda-K4-kye" secondAttribute="width" id="0g2-BG-7Yp"/>
                     <constraint firstAttribute="trailingMargin" secondItem="4u7-WO-yQu" secondAttribute="trailing" id="2FD-Ua-we1"/>
                     <constraint firstItem="4u7-WO-yQu" firstAttribute="leading" secondItem="qda-K4-kye" secondAttribute="trailing" constant="8" id="5HH-cL-Mzw"/>
                     <constraint firstItem="zDA-sW-oDJ" firstAttribute="leading" secondItem="WTa-Qx-tal" secondAttribute="leadingMargin" constant="4" id="7nN-KZ-nMe"/>
                     <constraint firstItem="e0e-xb-p1h" firstAttribute="top" secondItem="WTa-Qx-tal" secondAttribute="top" id="EDl-NS-Iud"/>
                     <constraint firstItem="qda-K4-kye" firstAttribute="centerY" secondItem="OUW-nH-FSP" secondAttribute="centerY" id="LO3-2W-Uxr"/>
                     <constraint firstAttribute="trailingMargin" secondItem="zDA-sW-oDJ" secondAttribute="trailing" constant="4" id="Ung-Ln-V78"/>
+                    <constraint firstItem="rGV-oW-QDM" firstAttribute="centerX" secondItem="qda-K4-kye" secondAttribute="centerX" id="YbC-8Q-RfS"/>
                     <constraint firstItem="qda-K4-kye" firstAttribute="leading" secondItem="OUW-nH-FSP" secondAttribute="trailing" constant="8" id="ZvN-dz-RWV"/>
+                    <constraint firstItem="rGV-oW-QDM" firstAttribute="height" secondItem="qda-K4-kye" secondAttribute="height" id="dPD-aK-6R3"/>
                     <constraint firstItem="e0e-xb-p1h" firstAttribute="leading" secondItem="WTa-Qx-tal" secondAttribute="leading" constant="12" id="deC-em-RA1"/>
                     <constraint firstItem="OUW-nH-FSP" firstAttribute="top" secondItem="e0e-xb-p1h" secondAttribute="bottom" constant="8" id="eSj-KB-4Bm"/>
                     <constraint firstItem="4u7-WO-yQu" firstAttribute="top" secondItem="e0e-xb-p1h" secondAttribute="bottom" constant="8" id="emX-G5-UTK"/>
                     <constraint firstItem="zDA-sW-oDJ" firstAttribute="top" secondItem="4u7-WO-yQu" secondAttribute="bottom" constant="8" id="fzC-jD-hPQ"/>
+                    <constraint firstItem="rGV-oW-QDM" firstAttribute="centerY" secondItem="qda-K4-kye" secondAttribute="centerY" id="gvo-EU-ZGQ"/>
                     <constraint firstAttribute="trailing" secondItem="e0e-xb-p1h" secondAttribute="trailing" constant="12" id="kJb-UQ-CQ3"/>
                     <constraint firstItem="OUW-nH-FSP" firstAttribute="leading" secondItem="WTa-Qx-tal" secondAttribute="leadingMargin" constant="4" id="u2K-VU-xvy"/>
                 </constraints>

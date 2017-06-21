@@ -380,31 +380,34 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     self.isNeedLocations.append(sp.shippingPackages[0].isNeedLocation && sp.shippingPackages[0].price != 0)
                 }
                 
-                if self.isFirst && self.cartResult.addressBook.count > 0 {
-                    for i in 0...self.cartResult.addressBook.count-1 {
-                        if self.cartResult.addressBook[i].isMainAddress {
-                            self.selectedIndex = i
-                            
-                            // default address
-                            self.selectedAddress.addressId = self.cartResult.addressBook[i].id
-                            self.selectedAddress.isDefault = true
-                            
-                            self.selectedAddress.name = self.cartResult.addressBook[i].recipientName
-                            self.selectedAddress.phone = self.cartResult.addressBook[i].phone
-                            self.selectedAddress.provinceId = self.cartResult.addressBook[i].provinceId
-                            self.selectedAddress.regionId = self.cartResult.addressBook[i].regionId
-                            self.selectedAddress.subdistrictId = self.cartResult.addressBook[i].subdisrictId
-                            self.selectedAddress.subdistrictName = self.cartResult.addressBook[i].subdisrictName
-                            self.selectedAddress.address = self.cartResult.addressBook[i].address
-                            self.selectedAddress.postalCode = self.cartResult.addressBook[i].postalCode
-                            self.selectedAddress.coordinate = self.cartResult.addressBook[i].coordinate
-                            self.selectedAddress.coordinateAddress = self.cartResult.addressBook[i].coordinateAddress
-                            
-                            break
+                if self.isFirst {
+                    if self.cartResult.addressBook.count > 0 {
+                        for i in 0...self.cartResult.addressBook.count-1 {
+                            if self.cartResult.addressBook[i].isMainAddress {
+                                self.selectedIndex = i
+                                
+                                // default address
+                                self.selectedAddress.addressId = self.cartResult.addressBook[i].id
+                                self.selectedAddress.isDefault = true
+                                
+                                self.selectedAddress.name = self.cartResult.addressBook[i].recipientName
+                                self.selectedAddress.phone = self.cartResult.addressBook[i].phone
+                                self.selectedAddress.provinceId = self.cartResult.addressBook[i].provinceId
+                                self.selectedAddress.regionId = self.cartResult.addressBook[i].regionId
+                                self.selectedAddress.subdistrictId = self.cartResult.addressBook[i].subdisrictId
+                                self.selectedAddress.subdistrictName = self.cartResult.addressBook[i].subdisrictName
+                                self.selectedAddress.address = self.cartResult.addressBook[i].address
+                                self.selectedAddress.postalCode = self.cartResult.addressBook[i].postalCode
+                                self.selectedAddress.coordinate = self.cartResult.addressBook[i].coordinate
+                                self.selectedAddress.coordinateAddress = self.cartResult.addressBook[i].coordinateAddress
+                                
+                                break
+                            }
                         }
                     }
                     
                     self.isFirst = false
+                    self.setupDropdownAddress()
                 }
                 
                 // update troli
@@ -415,7 +418,6 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                 // reset - cart
                 self.isEnableToCheckout = true
                 
-                self.setupDropdownAddress()
                 self.tableView.reloadData()
                 self.scrollToTop()
                 
