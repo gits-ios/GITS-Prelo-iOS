@@ -1119,7 +1119,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     cell.selectionStyle = .none
                     cell.clipsToBounds = true
                     
-                    cell.adapt(self.paymentMethods[idx.row-1].methodDetail.title, isSelected: selectedPaymentIndex == idx.row-1)
+                    cell.adapt(self.paymentMethods[idx.row-1].methodDetail, isSelected: selectedPaymentIndex == idx.row-1)
                     
                     return cell
                 }

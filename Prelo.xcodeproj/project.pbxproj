@@ -644,6 +644,13 @@
 		B2B34BE71E388395001B653F /* ic_exclamation_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B34BE61E388395001B653F /* ic_exclamation_grey.png */; };
 		B2B4DCC41E2D24B900EBBD33 /* ShopReviewAverageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B4DCC31E2D24B900EBBD33 /* ShopReviewAverageCell.xib */; };
 		B2B6417A1E98D45C00E23413 /* placeholder-prelo-message.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B2B641791E98D45C00E23413 /* placeholder-prelo-message.jpg */; };
+		B2B6887D1EFA6C95005B5E8A /* ic_checkout_cimb_clicks.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B688761EFA6C95005B5E8A /* ic_checkout_cimb_clicks.png */; };
+		B2B6887E1EFA6C95005B5E8A /* ic_checkout_indomaret.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B688771EFA6C95005B5E8A /* ic_checkout_indomaret.png */; };
+		B2B6887F1EFA6C95005B5E8A /* ic_checkout_kredivo.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B688781EFA6C95005B5E8A /* ic_checkout_kredivo.png */; };
+		B2B688801EFA6C95005B5E8A /* ic_checkout_mandiri_clickpay.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B688791EFA6C95005B5E8A /* ic_checkout_mandiri_clickpay.png */; };
+		B2B688811EFA6C95005B5E8A /* ic_checkout_mandiri_e-cash.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B6887A1EFA6C95005B5E8A /* ic_checkout_mandiri_e-cash.png */; };
+		B2B688821EFA6C95005B5E8A /* ic_checkout_master_card.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B6887B1EFA6C95005B5E8A /* ic_checkout_master_card.png */; };
+		B2B688831EFA6C95005B5E8A /* ic_checkout_visa.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B6887C1EFA6C95005B5E8A /* ic_checkout_visa.png */; };
 		B2BC10271E442D72003DF4D7 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BC10261E442D72003DF4D7 /* CoreMotion.framework */; };
 		B2BC10291E442DBB003DF4D7 /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BC10281E442DBB003DF4D7 /* FBAudienceNetwork.framework */; };
 		B2BE2DF01E29EBBD006B6903 /* StorePageTabBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */; };
@@ -732,6 +739,10 @@
 		B2EE39CE1E76905500113E03 /* ic_paid_poin.png in Resources */ = {isa = PBXBuildFile; fileRef = B2EE39CB1E76905500113E03 /* ic_paid_poin.png */; };
 		B2EE39CF1E76905500113E03 /* ic_paid_video.png in Resources */ = {isa = PBXBuildFile; fileRef = B2EE39CC1E76905500113E03 /* ic_paid_video.png */; };
 		B2EE82651EC96D4F00529482 /* AddToCartPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2EE82641EC96D4F00529482 /* AddToCartPopup.xib */; };
+		B2F0EFE81EEECAEB00A678F8 /* ic_christmas@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F0EFE41EEECAEB00A678F8 /* ic_christmas@2x.png */; };
+		B2F0EFE91EEECAEB00A678F8 /* ic_christmas@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F0EFE51EEECAEB00A678F8 /* ic_christmas@3x.png */; };
+		B2F0EFEA1EEECAEB00A678F8 /* ic_ramadhan@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F0EFE61EEECAEB00A678F8 /* ic_ramadhan@2x.png */; };
+		B2F0EFEB1EEECAEB00A678F8 /* ic_ramadhan@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F0EFE71EEECAEB00A678F8 /* ic_ramadhan@3x.png */; };
 		B2F184B71E938A4A001EEB36 /* GoogleMapsBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F184B61E938A4A001EEB36 /* GoogleMapsBase.framework */; };
 		B2F184CA1E938A66001EEB36 /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F184C81E938A66001EEB36 /* GoogleMaps.framework */; };
 		B2F184CB1E938A66001EEB36 /* GoogleMapsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F184C91E938A66001EEB36 /* GoogleMapsCore.framework */; };
@@ -741,10 +752,6 @@
 		B2F184D31E938E72001EEB36 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F184D21E938E72001EEB36 /* GLKit.framework */; };
 		B2F184D51E938E82001EEB36 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F184D41E938E82001EEB36 /* libc++.tbd */; };
 		B2F184D71E938E9B001EEB36 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F184D61E938E9B001EEB36 /* libz.tbd */; };
-		B2F0EFE81EEECAEB00A678F8 /* ic_christmas@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F0EFE41EEECAEB00A678F8 /* ic_christmas@2x.png */; };
-		B2F0EFE91EEECAEB00A678F8 /* ic_christmas@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F0EFE51EEECAEB00A678F8 /* ic_christmas@3x.png */; };
-		B2F0EFEA1EEECAEB00A678F8 /* ic_ramadhan@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F0EFE61EEECAEB00A678F8 /* ic_ramadhan@2x.png */; };
-		B2F0EFEB1EEECAEB00A678F8 /* ic_ramadhan@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F0EFE71EEECAEB00A678F8 /* ic_ramadhan@3x.png */; };
 		B2FFCB9D1EA52669004F01D0 /* SocketAckEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFCB841EA52669004F01D0 /* SocketAckEmitter.swift */; };
 		B2FFCB9E1EA52669004F01D0 /* SocketAckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFCB851EA52669004F01D0 /* SocketAckManager.swift */; };
 		B2FFCB9F1EA52669004F01D0 /* SocketAnyEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFCB861EA52669004F01D0 /* SocketAnyEvent.swift */; };
@@ -1755,6 +1762,13 @@
 		B2B34BE61E388395001B653F /* ic_exclamation_grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_exclamation_grey.png; sourceTree = "<group>"; };
 		B2B4DCC31E2D24B900EBBD33 /* ShopReviewAverageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReviewAverageCell.xib; sourceTree = "<group>"; };
 		B2B641791E98D45C00E23413 /* placeholder-prelo-message.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "placeholder-prelo-message.jpg"; sourceTree = "<group>"; };
+		B2B688761EFA6C95005B5E8A /* ic_checkout_cimb_clicks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_cimb_clicks.png; sourceTree = "<group>"; };
+		B2B688771EFA6C95005B5E8A /* ic_checkout_indomaret.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_indomaret.png; sourceTree = "<group>"; };
+		B2B688781EFA6C95005B5E8A /* ic_checkout_kredivo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_kredivo.png; sourceTree = "<group>"; };
+		B2B688791EFA6C95005B5E8A /* ic_checkout_mandiri_clickpay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_mandiri_clickpay.png; sourceTree = "<group>"; };
+		B2B6887A1EFA6C95005B5E8A /* ic_checkout_mandiri_e-cash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_checkout_mandiri_e-cash.png"; sourceTree = "<group>"; };
+		B2B6887B1EFA6C95005B5E8A /* ic_checkout_master_card.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_master_card.png; sourceTree = "<group>"; };
+		B2B6887C1EFA6C95005B5E8A /* ic_checkout_visa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_visa.png; sourceTree = "<group>"; };
 		B2BC10261E442D72003DF4D7 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		B2BC10281E442DBB003DF4D7 /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
 		B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StorePageTabBar.xib; sourceTree = "<group>"; };
@@ -1852,6 +1866,10 @@
 		B2EE39CB1E76905500113E03 /* ic_paid_poin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_paid_poin.png; sourceTree = "<group>"; };
 		B2EE39CC1E76905500113E03 /* ic_paid_video.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_paid_video.png; sourceTree = "<group>"; };
 		B2EE82641EC96D4F00529482 /* AddToCartPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddToCartPopup.xib; sourceTree = "<group>"; };
+		B2F0EFE41EEECAEB00A678F8 /* ic_christmas@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_christmas@2x.png"; sourceTree = "<group>"; };
+		B2F0EFE51EEECAEB00A678F8 /* ic_christmas@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_christmas@3x.png"; sourceTree = "<group>"; };
+		B2F0EFE61EEECAEB00A678F8 /* ic_ramadhan@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_ramadhan@2x.png"; sourceTree = "<group>"; };
+		B2F0EFE71EEECAEB00A678F8 /* ic_ramadhan@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_ramadhan@3x.png"; sourceTree = "<group>"; };
 		B2F184B61E938A4A001EEB36 /* GoogleMapsBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsBase.framework; sourceTree = "<group>"; };
 		B2F184C81E938A66001EEB36 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
 		B2F184C91E938A66001EEB36 /* GoogleMapsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsCore.framework; sourceTree = "<group>"; };
@@ -1862,10 +1880,6 @@
 		B2F184D41E938E82001EEB36 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		B2F184D61E938E9B001EEB36 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		B2F192851EC551BC00DFC9D8 /* Prelo 11.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 11.xcdatamodel"; sourceTree = "<group>"; };
-		B2F0EFE41EEECAEB00A678F8 /* ic_christmas@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_christmas@2x.png"; sourceTree = "<group>"; };
-		B2F0EFE51EEECAEB00A678F8 /* ic_christmas@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_christmas@3x.png"; sourceTree = "<group>"; };
-		B2F0EFE61EEECAEB00A678F8 /* ic_ramadhan@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_ramadhan@2x.png"; sourceTree = "<group>"; };
-		B2F0EFE71EEECAEB00A678F8 /* ic_ramadhan@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_ramadhan@3x.png"; sourceTree = "<group>"; };
 		B2FFCB841EA52669004F01D0 /* SocketAckEmitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckEmitter.swift; sourceTree = "<group>"; };
 		B2FFCB851EA52669004F01D0 /* SocketAckManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckManager.swift; sourceTree = "<group>"; };
 		B2FFCB861EA52669004F01D0 /* SocketAnyEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAnyEvent.swift; sourceTree = "<group>"; };
@@ -2593,6 +2607,7 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				B2B688651EFA6C01005B5E8A /* checkout v2 */,
 				B2D39B641EB2F78200A44A1C /* location map */,
 				B2B2F34F1E8D04CC0039167A /* wjp */,
 				B2D1198A1E290BE20064045B /* banner */,
@@ -3397,6 +3412,20 @@
 			path = PushNotif;
 			sourceTree = "<group>";
 		};
+		B2B688651EFA6C01005B5E8A /* checkout v2 */ = {
+			isa = PBXGroup;
+			children = (
+				B2B688761EFA6C95005B5E8A /* ic_checkout_cimb_clicks.png */,
+				B2B688771EFA6C95005B5E8A /* ic_checkout_indomaret.png */,
+				B2B688781EFA6C95005B5E8A /* ic_checkout_kredivo.png */,
+				B2B688791EFA6C95005B5E8A /* ic_checkout_mandiri_clickpay.png */,
+				B2B6887A1EFA6C95005B5E8A /* ic_checkout_mandiri_e-cash.png */,
+				B2B6887B1EFA6C95005B5E8A /* ic_checkout_master_card.png */,
+				B2B6887C1EFA6C95005B5E8A /* ic_checkout_visa.png */,
+			);
+			name = "checkout v2";
+			sourceTree = "<group>";
+		};
 		B2BEBC7D1E4C30C9009982F9 /* placeholder */ = {
 			isa = PBXGroup;
 			children = (
@@ -3841,6 +3870,7 @@
 				589A6FCC1D8C08F600654CDD /* ic_ukuran.png in Resources */,
 				B271A6891EDFD16D00C6A973 /* placeholder-transparent-gray.png in Resources */,
 				588148C31DC0B598004180E1 /* ProductCompareCell.xib in Resources */,
+				B2B688831EFA6C95005B5E8A /* ic_checkout_visa.png in Resources */,
 				58528C531D13A3D200074EC6 /* cchmrk_share.png in Resources */,
 				21679A531B901C5300F18F90 /* snapshot_config.json in Resources */,
 				585887321DBED9F6006EC6D5 /* CategoryPreferences.xib in Resources */,
@@ -3921,6 +3951,7 @@
 				58F0A41D1C7C634A002A488F /* cchmrk_pinch.png in Resources */,
 				58DD28DF1DAF367000130B6F /* Info.plist in Resources */,
 				58A223C51C898CB600619518 /* ic_trx_done.png in Resources */,
+				B2B6887F1EFA6C95005B5E8A /* ic_checkout_kredivo.png in Resources */,
 				589A6FC61D8C08F600654CDD /* ic_luxury.png in Resources */,
 				B240F4D31E24BBD500DCAFF7 /* Achievement.xib in Resources */,
 				21D386AA1B6B93CD00D0FA90 /* Default.png in Resources */,
@@ -4061,6 +4092,7 @@
 				B271A68A1EDFD16D00C6A973 /* placeholder-transparent-ipad-gray.png in Resources */,
 				2115E6D81B4A27E500509D2A /* Images.xcassets in Resources */,
 				B240F4DB1E24D63400DCAFF7 /* AchievementCellBadgeCell.xib in Resources */,
+				B2B688801EFA6C95005B5E8A /* ic_checkout_mandiri_clickpay.png in Resources */,
 				B2EE39CE1E76905500113E03 /* ic_paid_poin.png in Resources */,
 				58D7360B1D759B0B009D7C61 /* ic_cart.png in Resources */,
 				589A6FB11D8C08F600654CDD /* ic_about.png in Resources */,
@@ -4070,6 +4102,7 @@
 				589A6FBB1D8C08F600654CDD /* ic_edit.png in Resources */,
 				585887451DBEDB23006EC6D5 /* MyPurchaseCompleted.xib in Resources */,
 				589A6FC31D8C08F600654CDD /* ic_location.png in Resources */,
+				B2B688811EFA6C95005B5E8A /* ic_checkout_mandiri_e-cash.png in Resources */,
 				5858874F1DBEDBC2006EC6D5 /* PaymentConfirmation.xib in Resources */,
 				21EEB4711B87095C00CAD5C9 /* btn_checkbox_empty.png in Resources */,
 				58A3874A1C7DBABC00281B85 /* banner_review.png in Resources */,
@@ -4127,7 +4160,9 @@
 				581E87B01CE08EE00055CCDD /* cover-shop-page.jpg in Resources */,
 				21156ECC1B8F5DBC001D7842 /* btn_checkbox_purple_pressed.png in Resources */,
 				21156EC81B8F5DBC001D7842 /* arrow_left.png in Resources */,
+				B2B688821EFA6C95005B5E8A /* ic_checkout_master_card.png in Resources */,
 				589A6FCB1D8C08F600654CDD /* ic_tshirt.png in Resources */,
+				B2B6887E1EFA6C95005B5E8A /* ic_checkout_indomaret.png in Resources */,
 				21EEB4781B87095C00CAD5C9 /* ic_user_2.png in Resources */,
 				585887361DBEDA2B006EC6D5 /* ExpiringProducts.xib in Resources */,
 				210959B41B8DD088000F2939 /* ic_tag@2x.png in Resources */,
@@ -4148,6 +4183,7 @@
 				B2EE39B01E76548100113E03 /* PaidPushPopup.xib in Resources */,
 				58BE53601D479F5B00E358EB /* courier_pos.png in Resources */,
 				21EEB4741B87095C00CAD5C9 /* ic_email.png in Resources */,
+				B2B6887D1EFA6C95005B5E8A /* ic_checkout_cimb_clicks.png in Resources */,
 				589A6FCA1D8C08F600654CDD /* ic_tarik_uang.png in Resources */,
 				21156ECE1B8F5DBC001D7842 /* ic_socmed_instagram.png in Resources */,
 				210959B31B8DD088000F2939 /* ic_hanger@2x.png in Resources */,

@@ -47,7 +47,7 @@ enum PaymentMethod {
         case .indomaret : return "Indomaret"
         case .cimbClicks : return "CIMB Clicks"
         case .mandiriClickpay : return "Mandiri Clickpay"
-        case .mandiriEcash : return "Mandiri Ecash"
+        case .mandiriEcash : return "Mandiri e-cash"
         case .kredivo : return "Kredivo"
         }
     }
@@ -62,6 +62,19 @@ enum PaymentMethod {
              .mandiriClickpay,
              .mandiriEcash : return .veritrans
         case .kredivo : return .kredivo
+        }
+    }
+    
+    // icon
+    var icons : Array<String> {
+        switch self {
+        case .bankTransfer : return []
+        case .creditCard : return  ["ic_checkout_master_card", "ic_checkout_visa"]
+        case .indomaret : return  ["ic_checkout_indomaret"]
+        case .cimbClicks : return  ["ic_checkout_cimb_clicks"]
+        case .mandiriClickpay : return  ["ic_checkout_mandiri_clickpay"]
+        case .mandiriEcash : return  ["ic_checkout_mandiri_e-cash"]
+        case .kredivo : return  ["ic_checkout_kredivo"]
         }
     }
 }
@@ -565,7 +578,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 cell.selectionStyle = .none
                 cell.clipsToBounds = true
                 
-                cell.adapt(self.paymentMethods[idx.row-1].methodDetail.title, isSelected: selectedPaymentIndex == idx.row-1)
+                cell.adapt(self.paymentMethods[idx.row-1].methodDetail, isSelected: selectedPaymentIndex == idx.row-1)
                 
                 return cell
             }
@@ -1548,19 +1561,34 @@ class Checkout2PaymentBankCell: UITableViewCell {
 }
 
 // MARK: - Class Checkout2PaymentCreditCardCell
-class Checkout2PaymentCreditCardCell: UITableViewCell {
+class Checkout2PaymentCreditCardCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource {
     @IBOutlet weak var lbCheck: UILabel!
     @IBOutlet weak var lbTitle: UILabel!
     @IBOutlet weak var lbDescription: UILabel!
+    @IBOutlet weak var collectionView: UICollectionView!
+    
+    var icons: Array<String> = []
+    
+    var isNeedSetup = true
     
     // Kartu Kredit
     // Indomaret
     // Mandiri Clickpay
     // Kredivo
     
-    func adapt(_ paymentMethodName: String, isSelected: Bool) {
-        self.lbTitle.text = paymentMethodName
-        self.lbDescription.text = "Pembayaran Aman dengan " + paymentMethodName
+    func adapt(_ paymentMethod: PaymentMethod, isSelected: Bool) {
+        self.lbTitle.text = paymentMethod.title
+        self.lbDescription.text = "Pembayaran Aman dengan " + paymentMethod.title
+        
+        self.icons = paymentMethod.icons
+        
+        if self.isNeedSetup {
+            self.isNeedSetup = false
+            
+            self.setupCollection()
+        }
+        
+        self.collectionView.reloadData()
         
         if isSelected {
             self.lbCheck.isHidden = false
@@ -1574,6 +1602,61 @@ class Checkout2PaymentCreditCardCell: UITableViewCell {
             return 62.0
         }
         return 35.0
+    }
+    
+    func setupCollection() {
+        // Set collection view
+        self.collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "collcProgressCell")
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
+        self.collectionView.backgroundView = UIView(frame: self.collectionView.bounds)
+        self.collectionView.backgroundColor = UIColor.clear
+        
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        //layout.itemSize = CGSize(width: 38, height: 38)
+        layout.minimumInteritemSpacing = 8
+        layout.minimumLineSpacing = 8
+        self.collectionView.collectionViewLayout = layout
+        
+        self.collectionView.isScrollEnabled = false
+    }
+    
+    // MARK: - CollectionView delegate functions
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.icons.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        // Create cell
+        let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "collcProgressCell", for: indexPath)
+        
+        let icon = self.icons[indexPath.row]
+        let img = UIImage(named: icon)
+        let height = CGFloat(29.0)
+        let width = (img?.size.width)! * ((img?.size.height)! / height)
+        
+        let imgVw = UIImageView()
+        imgVw.height = height
+        imgVw.width = width
+        
+        imgVw.image = img
+        imgVw.tag = 999
+        
+        cell.viewWithTag(999)?.removeFromSuperview()
+        cell.addSubview(imgVw)
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+        
+        let icon = self.icons[indexPath.row]
+        let img = UIImage(named: icon)
+        let height = CGFloat(29.0)
+        let width = (img?.size.width)! * ((img?.size.height)! / height)
+        
+        return CGSize(width: width, height: height)
     }
 }
 

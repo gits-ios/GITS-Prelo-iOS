@@ -31,11 +31,24 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kartu Kredit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OUW-nH-FSP">
-                        <rect key="frame" x="12" y="9" width="327" height="17"/>
+                        <rect key="frame" x="12" y="9" width="77.5" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="qda-K4-kye">
+                        <rect key="frame" x="97.5" y="3" width="241.5" height="29"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="29" id="Cl4-BG-uTC"/>
+                        </constraints>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="WnR-K1-mYW">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                    </collectionView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4u7-WO-yQu">
                         <rect key="frame" x="347" y="9" width="20" height="20"/>
                         <constraints>
@@ -55,10 +68,12 @@
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailingMargin" secondItem="4u7-WO-yQu" secondAttribute="trailing" id="2FD-Ua-we1"/>
+                    <constraint firstItem="4u7-WO-yQu" firstAttribute="leading" secondItem="qda-K4-kye" secondAttribute="trailing" constant="8" id="5HH-cL-Mzw"/>
                     <constraint firstItem="zDA-sW-oDJ" firstAttribute="leading" secondItem="WTa-Qx-tal" secondAttribute="leadingMargin" constant="4" id="7nN-KZ-nMe"/>
-                    <constraint firstItem="4u7-WO-yQu" firstAttribute="leading" secondItem="OUW-nH-FSP" secondAttribute="trailing" constant="8" id="9Tm-jk-wYM"/>
                     <constraint firstItem="e0e-xb-p1h" firstAttribute="top" secondItem="WTa-Qx-tal" secondAttribute="top" id="EDl-NS-Iud"/>
+                    <constraint firstItem="qda-K4-kye" firstAttribute="centerY" secondItem="OUW-nH-FSP" secondAttribute="centerY" id="LO3-2W-Uxr"/>
                     <constraint firstAttribute="trailingMargin" secondItem="zDA-sW-oDJ" secondAttribute="trailing" constant="4" id="Ung-Ln-V78"/>
+                    <constraint firstItem="qda-K4-kye" firstAttribute="leading" secondItem="OUW-nH-FSP" secondAttribute="trailing" constant="8" id="ZvN-dz-RWV"/>
                     <constraint firstItem="e0e-xb-p1h" firstAttribute="leading" secondItem="WTa-Qx-tal" secondAttribute="leading" constant="12" id="deC-em-RA1"/>
                     <constraint firstItem="OUW-nH-FSP" firstAttribute="top" secondItem="e0e-xb-p1h" secondAttribute="bottom" constant="8" id="eSj-KB-4Bm"/>
                     <constraint firstItem="4u7-WO-yQu" firstAttribute="top" secondItem="e0e-xb-p1h" secondAttribute="bottom" constant="8" id="emX-G5-UTK"/>
@@ -68,6 +83,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="collectionView" destination="qda-K4-kye" id="f4i-ao-SKu"/>
                 <outlet property="lbCheck" destination="4u7-WO-yQu" id="B7Z-jr-uXM"/>
                 <outlet property="lbDescription" destination="zDA-sW-oDJ" id="W1E-4A-TpA"/>
                 <outlet property="lbTitle" destination="OUW-nH-FSP" id="Juq-VM-qxJ"/>
