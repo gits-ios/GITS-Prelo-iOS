@@ -530,6 +530,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         p.methodDetail = .bankTransfer
         p.charge = self.cartResult.banktransferDigit
         p.chargeDescription = "Kode Unik Transfer"
+        p.methodDescription = ""
         self.paymentMethods.append(p)
         
         let ab = self.cartResult.abTest
@@ -674,6 +675,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
             p.methodDetail = .creditCard
             p.charge = creditCardCharge
             p.chargeDescription = PaymentMethod.creditCard.value + " Charge"
+            p.methodDescription = (self.cartResult.veritransCharge?.creditCardText)!
             self.paymentMethods.append(p)
         }
         
@@ -682,6 +684,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
             p.methodDetail = .indomaret
             p.charge = indomaretCharge
             p.chargeDescription = PaymentMethod.indomaret.value + " Charge"
+            p.methodDescription = (self.cartResult.veritransCharge?.indomaretText)!
             self.paymentMethods.append(p)
             
             if p.charge == 0 {
@@ -694,6 +697,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
             p.methodDetail = .kredivo
             p.charge = kredivoCharge
             p.chargeDescription = PaymentMethod.kredivo.value + " Charge"
+            p.methodDescription = (self.cartResult.kredivoCharge?.text)!
             self.paymentMethods.append(p)
         }
         
@@ -702,6 +706,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
             p.methodDetail = .cimbClicks
             p.charge = cimbClicksCharge
             p.chargeDescription = PaymentMethod.cimbClicks.value + " Charge"
+            p.methodDescription = (self.cartResult.veritransCharge?.cimbClicksText)!
             self.paymentMethods.append(p)
         }
         
@@ -710,6 +715,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
             p.methodDetail = .mandiriClickpay
             p.charge = mandiriClickpayCharge
             p.chargeDescription = PaymentMethod.mandiriClickpay.value + " Charge"
+            p.methodDescription = (self.cartResult.veritransCharge?.mandiriClickpayText)!
             self.paymentMethods.append(p)
         }
         
@@ -718,6 +724,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
             p.methodDetail = .mandiriEcash
             p.charge = mandiriEcashCharge
             p.chargeDescription = PaymentMethod.mandiriEcash.value + " Charge"
+            p.methodDescription = (self.cartResult.veritransCharge?.mandiriEcashText)!
             self.paymentMethods.append(p)
         }
         
@@ -832,7 +839,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                 } else if idx.row > 0 && idx.row <= 1 + (self.paymentMethods.count > 0 && !self.isEqual() ? 1 : 0) + self.discountItems.count {
                     return Checkout2PaymentSummaryCell.heightFor()
                 } else {
-                    return Checkout2PaymentSummaryTotalCell.heightFor()
+                    return Checkout2PaymentSummaryTotalCell.heightFor(self.paymentMethods[self.selectedPaymentIndex].methodDescription)
                 }
             }
         } else if !self.isLoading {
@@ -1083,6 +1090,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     cell.clipsToBounds = true
                     
                     cell.btnContinue.isHidden = true
+                    cell.lbtitle.text = "Subtotal Belanja"
                     cell.adapt(self.totalAmount.asPrice)
                     
                     cell.continueToPayment = {
@@ -1328,7 +1336,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         totalAmount = 0
                     }
                     
-                    cell.adapt(totalAmount)
+                    cell.adapt(totalAmount, paymentMethodDescription: self.paymentMethods[self.selectedPaymentIndex].methodDescription)
                     
                     cell.checkout = {
                         if !self.validateField() {

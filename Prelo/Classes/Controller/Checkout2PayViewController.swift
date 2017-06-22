@@ -85,6 +85,7 @@ struct PaymentMethodItem {
     var type: Int = 0
     var chargeDescription: String = ""
     var charge: Int64 = 0
+    var methodDescription: String = ""
 }
 
 struct DiscountItem {
@@ -261,6 +262,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         p.methodDetail = .bankTransfer
         p.charge = self.cartResult.banktransferDigit
         p.chargeDescription = "Kode Unik Transfer"
+        p.methodDescription = ""
         self.paymentMethods.append(p)
         
         let ab = self.cartResult.abTest
@@ -403,6 +405,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             p.methodDetail = .creditCard
             p.charge = creditCardCharge
             p.chargeDescription = PaymentMethod.creditCard.value + " Charge"
+            p.methodDescription = (self.cartResult.veritransCharge?.creditCardText)!
             self.paymentMethods.append(p)
         }
         
@@ -411,6 +414,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             p.methodDetail = .indomaret
             p.charge = indomaretCharge
             p.chargeDescription = PaymentMethod.indomaret.value + " Charge"
+            p.methodDescription = (self.cartResult.veritransCharge?.indomaretText)!
             self.paymentMethods.append(p)
             
             if p.charge == 0 {
@@ -423,6 +427,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             p.methodDetail = .kredivo
             p.charge = kredivoCharge
             p.chargeDescription = PaymentMethod.kredivo.value + " Charge"
+            p.methodDescription = (self.cartResult.kredivoCharge?.text)!
             self.paymentMethods.append(p)
         }
         
@@ -431,6 +436,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             p.methodDetail = .cimbClicks
             p.charge = cimbClicksCharge
             p.chargeDescription = PaymentMethod.cimbClicks.value + " Charge"
+            p.methodDescription = (self.cartResult.veritransCharge?.cimbClicksText)!
             self.paymentMethods.append(p)
         }
         
@@ -439,6 +445,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             p.methodDetail = .mandiriClickpay
             p.charge = mandiriClickpayCharge
             p.chargeDescription = PaymentMethod.mandiriClickpay.value + " Charge"
+            p.methodDescription = (self.cartResult.veritransCharge?.mandiriClickpayText)!
             self.paymentMethods.append(p)
         }
         
@@ -447,6 +454,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             p.methodDetail = .mandiriEcash
             p.charge = mandiriEcashCharge
             p.chargeDescription = PaymentMethod.mandiriEcash.value + " Charge"
+            p.methodDescription = (self.cartResult.veritransCharge?.mandiriEcashText)!
             self.paymentMethods.append(p)
         }
         
@@ -545,7 +553,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             } else if idx.row > 0 && idx.row <= 1 + (self.paymentMethods.count > 0 && !self.isEqual() ? 1 : 0) + self.discountItems.count {
                 return Checkout2PaymentSummaryCell.heightFor()
             } else {
-                return Checkout2PaymentSummaryTotalCell.heightFor()
+                return Checkout2PaymentSummaryTotalCell.heightFor(self.paymentMethods[self.selectedPaymentIndex].methodDescription)
             }
         }
         return 30
@@ -780,7 +788,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                     totalAmount = 0
                 }
                 
-                cell.adapt(totalAmount)
+                cell.adapt(totalAmount, paymentMethodDescription: self.paymentMethods[self.selectedPaymentIndex].methodDescription)
                 
                 cell.checkout = {
                     self.showLoading()
@@ -1928,15 +1936,28 @@ class Checkout2PaymentSummaryCell: UITableViewCell {
 class Checkout2PaymentSummaryTotalCell: UITableViewCell {
     @IBOutlet weak var lbTitle: UILabel!
     @IBOutlet weak var lbAmount: UILabel!
+    @IBOutlet weak var consTopBtnCheckout: NSLayoutConstraint! // 8 -> 37
+    @IBOutlet weak var lbCharge: UILabel! // hidden -> show
     
     var checkout: ()->() = {}
     
-    func adapt(_ amount: Int64) {
+    func adapt(_ amount: Int64, paymentMethodDescription: String) {
         self.lbTitle.text = "Total Pembayaran"
         self.lbAmount.text = amount.asPrice
+        
+        self.lbCharge.text = paymentMethodDescription
+        
+        if paymentMethodDescription != "" {
+            self.lbCharge.isHidden = false
+        } else {
+            self.lbCharge.isHidden = true
+        }
     }
     
-    static func heightFor() -> CGFloat {
+    static func heightFor(_ paymentMethodDescription: String) -> CGFloat {
+        if paymentMethodDescription != "" {
+            return 117
+        }
         return 88.0
     }
     

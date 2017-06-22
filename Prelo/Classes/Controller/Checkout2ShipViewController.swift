@@ -1780,6 +1780,7 @@ class Checkout2AddressLocationCell: UITableViewCell {
 class Checkout2TotalBuyingCell: UITableViewCell {
     @IBOutlet weak var lbTotalPrice: UILabel!
     @IBOutlet weak var btnContinue: UIButton!
+    @IBOutlet weak var lbtitle: UILabel! // default
     
     var continueToPayment: ()->() = {}
     
