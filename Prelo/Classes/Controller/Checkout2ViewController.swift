@@ -526,6 +526,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         self.isCimbClicks = false
         self.isKredivo = false
         self.isDropdownMode = false
+        self.lblSend = ""
         
         // transfer bank
         var p = PaymentMethodItem()
