@@ -1610,6 +1610,8 @@ class Checkout2PaymentCreditCardCell: UITableViewCell {
     @IBOutlet weak var lbDescription: UILabel!
     @IBOutlet weak var imagesContainer: UIView!
     
+    static var maxIcon = 0
+    
     // Kartu Kredit
     // Indomaret
     // Mandiri Clickpay
@@ -1646,6 +1648,14 @@ class Checkout2PaymentCreditCardCell: UITableViewCell {
             return
         }
         
+        if icons.count > Checkout2PaymentCreditCardCell.maxIcon {
+            Checkout2PaymentCreditCardCell.maxIcon = icons.count
+        }
+        
+        for i in 0..<Checkout2PaymentCreditCardCell.maxIcon {
+            self.imagesContainer.viewWithTag(999 - i)?.removeFromSuperview()
+        }
+        
         for i in 0..<icons.count {
             let icon = icons[i]
             let img = UIImage(named: icon)
@@ -1657,7 +1667,6 @@ class Checkout2PaymentCreditCardCell: UITableViewCell {
             imgVw.afInflate()
             imgVw.tag = 999 - i
             
-            self.imagesContainer.viewWithTag(999 - i)?.removeFromSuperview()
             self.imagesContainer.addSubview(imgVw)
             
             x += CGFloat(8 * (i + 1)) + w
