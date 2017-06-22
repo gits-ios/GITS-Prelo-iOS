@@ -55,6 +55,8 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     @IBOutlet weak var checkKTP: UILabel!
     @IBOutlet weak var checkKK: UILabel!
     @IBOutlet weak var checkInstitusi: UILabel!
+    @IBOutlet weak var lblWarning: UILabel!
+    
     
     
     // address
@@ -120,14 +122,17 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
                         self.checkKTP.isHidden = false
                         self.checkKK.isHidden = false
                         self.checkInstitusi.isHidden = false
+                        self.lblWarning.isHidden = true
                     } else if(data["status"] == 1) {
                         self.checkKTP.isHidden = false
                         self.checkKK.isHidden = false
                         self.checkInstitusi.isHidden = false
+                        self.lblWarning.isHidden = false
                     } else if(data["status"] == 2) {
                         self.checkKTP.isHidden = true
                         self.checkKK.isHidden = true
                         self.checkInstitusi.isHidden = true
+                        self.lblWarning.isHidden = true
                     }
                     self.viewDidLoad()
                 }

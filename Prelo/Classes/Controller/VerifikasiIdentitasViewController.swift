@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 import DropDown
 
-class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, VerifikasiImagePreviewDelegate {
+class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, VerifikasiImagePreviewDelegate, UIScrollViewDelegate {
     func imageFullScreenDidReplace(_ controller: VerifikasiImagePreview, image: APImage, isCamera: Bool, name: String) {
         print("masuk sini ga?")
         if let i = image.image
@@ -30,7 +30,13 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
     }
 
     func imageFullScreenDidDelete(_ controller: VerifikasiImagePreview) {
-        self.imgKartuIdentitas.image = nil
+        if(isKartuKeluargaClicked){
+            self.imgKartuKeluarga.image = nil
+        } else if (isKartuIdentitasClicked){
+            self.imgKartuIdentitas.image = nil
+        } else if (isInstitusiImageClicked){
+            self.imgInstitusiImage.image = nil
+        }
     }
 
 
@@ -59,11 +65,41 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
     var isNeedSetup = false
     @IBOutlet weak var lblInstansi: UILabel!
     @IBOutlet weak var txtInstitusi: UITextField!
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var loadingPanel: UIView!
+    
+    @IBOutlet weak var vwWarning: UIView!
+    @IBOutlet weak var lblWarning: UILabel!
+    @IBOutlet weak var consViewIdentitasTop: NSLayoutConstraint!
+    
+    @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var imgContohFoto: UIImageView!
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        scrollView.delegate = self;
+        scrollView.isScrollEnabled = YES;
+        self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+        self.scrollView.contentSize = self.contentView.bounds.size
+        self.title = "Verifikasi Identitas"
+        if(selectedIndex == 0){
+            self.imgContohFoto.image = nil
+        }
+        if(selectedIndex == 1){
+            self.imgContohFoto.image = UIImage(named: "arrow_right.png")
+        } else if(selectedIndex == 2){
+            self.imgContohFoto.image = UIImage(named: "arrow_down.png")
+        } else if(selectedIndex == 3){
+            self.imgContohFoto.image = UIImage(named: "arrow_left.png")
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         setupDropdownInstitusi()
         getUserRentData()
+        getUserVerifiedRentData()
     }
     
     
@@ -187,6 +223,17 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
                     self.isNeedSetup = false
                     self.selectedIndex = index
                     self.lblInstansi.text = self.dropDown.dataSource[self.selectedIndex]
+                    print("ini index "+String(index))
+                    if(index == 0){
+                        self.imgContohFoto.image = nil
+                    }
+                    if(index == 1){
+                        self.imgContohFoto.image = UIImage(named: "arrow_right.png")
+                    } else if(index == 2){
+                        self.imgContohFoto.image = UIImage(named: "arrow_down.png")
+                    } else if(index == 3){
+                        self.imgContohFoto.image = UIImage(named: "arrow_left.png")
+                    }
                 } else {
                     self.isNeedSetup = true
                     self.selectedIndex = 4
@@ -212,6 +259,10 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
             Constant.showDialog("Perhatian", message: "Sertakan foto kartu keluarga yang masih berlaku")
             return false
         }
+        if(lblInstansi.text == "Pilih Institusi"){
+            Constant.showDialog("Perhatian", message: "Pilih institusi yang kamu inginkan")
+            return false
+        }
         if(txtInstitusi.text == ""){
             Constant.showDialog("Perhatian", message: "Masukkan nama institusi yang kamu pilih")
             return false
@@ -229,20 +280,80 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
         }
     }
     func getUserRentData(){
+        self.showLoading()
         let _ = request(APIMe.getUserRentData).responseJSON {resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Rent Data")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
-                if let arr = data.array {
-                    
+                if(data["verification_status"] == 0) {
+                    self.vwWarning.isHidden = true
+                    self.viewDidLoad()
+                    self.hideLoading()
+                } else if (data["verification_status"] == 1) {
+                    self.vwWarning.isHidden = false
+                    self.consViewIdentitasTop.constant = 60
+                    self.lblInstansi.text = data["admin_comment"].string
+                    self.viewDidLoad()
+                    self.hideLoading()
+                } else if (data["verification_status"] == 2) {
+                    self.vwWarning.isHidden = false
+                    self.consViewIdentitasTop.constant = 60
+                    self.lblInstansi.text = data["admin_comment"].string
+                    self.viewDidLoad()
+                    self.hideLoading()
+                }
+                if let typeInstitution = data["institution_type"].int{
+                    if(data["institution_type"].int! == 0){
+                        self.lblInstansi.text = "Sekolah/Kuliah"
+                    } else if(data["institution_type"].int! == 1){
+                        self.lblInstansi.text = "Kantor"
+                    } else if(data["institution_type"].int! == 2){
+                        self.lblInstansi.text = "Kantor kelurahan/kecamatan sesuai KTP/KK"
+                    }
+                    self.selectedIndex = (data["institution_type"].int!) + 1
+                    self.txtInstitusi.text = data["institution_name"].string!
                 } else {
-                    print("masuk ga ada data")
+                    self.vwWarning.isHidden = true
+                    self.hideLoading()
                 }
             }
         }
     }
+    
+    func getUserVerifiedRentData(){
+        self.showLoading()
+        let _ = request(APIMe.getUserVerifiedRentData).responseJSON {resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Rent Data")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                if let arr = data["docs"].array {
+                    if let url = NSURL(string: arr[0]["url"].string!) {
+                        if let data = NSData(contentsOf: url as URL) {
+                            self.imgKartuIdentitas.image = UIImage(data: data as Data)
+                        }
+                    }
+                    if let url = NSURL(string: arr[1]["url"].string!) {
+                        if let data = NSData(contentsOf: url as URL) {
+                            self.imgKartuKeluarga.image = UIImage(data: data as Data)
+                        }
+                    }
+
+                    if let url = NSURL(string: arr[2]["url"].string!) {
+                        if let data = NSData(contentsOf: url as URL) {
+                            self.imgInstitusiImage.image = UIImage(data: data as Data)
+                        }
+                    }
+
+                } else {
+                    print("masuk ga ada data2")
+                }
+            }
+        }
+        self.hideLoading()
+    }
     var images : [AnyObject] = [NSNull(), NSNull(), NSNull()]
     func setUserRentData(){
+        self.showLoading()
         let url = "\(AppTools.PreloBaseUrl)/api/me/set_rent_data"
         let param = [
             "institution_type":selectedIndex - 1,
@@ -262,24 +373,21 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
         AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: { op, res in
             print("Edit verifikasi res = \(res)")
             print("berhasil")
+            self.hideLoading()
             Constant.showDialog("Edit Verifikasi", message: "Berhasil")
             self.navigationController?.popViewController(animated: true)
         }, failure: { op, err in
             //print((err ?? "")) // failed
             Constant.showDialog("Edit Verifikasi", message: "Gagal mengupload data")//:err.description)
+            self.hideLoading()
         })
-        
-//        let _ = request(APIMe.setUserRentData(institution_type: selectedIndex, institution_name: self.txtInstitusi.text!, image1: self.imgKartuIdentitas.image!, image2: self.imgKartuKeluarga.image!, image3: self.imgInstitusiImage.image!)).responseJSON{resp in
-//            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Rent Data")) {
-//                let json = JSON(resp.result.value!)
-//                let data = json["_data"]
-//                if let arr = data.array {
-//                    
-//                } else {
-//                    print("masuk ga ada data")
-//                }
-//            }
-//        }
 
+    }
+    
+    func showLoading(){
+        self.loadingPanel.isHidden = false
+    }
+    func hideLoading(){
+        self.loadingPanel.isHidden = true
     }
 }
