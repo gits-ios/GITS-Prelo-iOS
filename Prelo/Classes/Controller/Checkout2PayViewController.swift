@@ -80,14 +80,15 @@ enum PaymentMethod {
     
     // description for display
     var description : String {
+        let initText = "Transaksi akan dikenakan charge sebesar "
         switch self {
         case .bankTransfer : return "Pembayaran aman dengan sistem rekening bersama Prelo"
-        case .creditCard : return "Transaksi akan dikenakan charge sebesar Rp2.500 ditambah 3,2% dari total transaksi"
-        case .indomaret : return "Transaksi akan dikenakan charge sebesar 2% dari total transaksi dengan minimal charge Rp5.000"
-        case .cimbClicks : return "Transaksi akan dikenakan charge sebesar Rp5.000"
-        case .mandiriClickpay : return "Transaksi akan dikenakan charge sebesar Rp5.000"
-        case .mandiriEcash : return "Transaksi akan dikenakan charge 1,5% dari total harga dengan minimal charge Rp2.750"
-        case .kredivo : return "Transaksi akan dikenakan charge sebesar 2,36% dari total transaksi"
+        case .creditCard : return initText + "Rp2.500 ditambah 3,2% dari total transaksi"
+        case .indomaret : return initText + "2% dari total transaksi dengan minimal charge Rp5.000"
+        case .cimbClicks : return initText + "Rp5.000"
+        case .mandiriClickpay : return initText + "Rp5.000"
+        case .mandiriEcash : return initText + "1,5% dari total transaksi dengan minimal charge Rp2.750"
+        case .kredivo : return initText + "2,36% dari total transaksi"
         }
     }
 }
@@ -1597,6 +1598,7 @@ class Checkout2PaymentCreditCardCell: UITableViewCell {
     func adapt(_ paymentMethod: PaymentMethod, isSelected: Bool) {
         self.lbTitle.text = paymentMethod.title
         self.lbDescription.text = paymentMethod.description //"Pembayaran Aman dengan " + paymentMethod.title
+        //self.lbDescription.italicSubstring("charge")
         
         self.setupImagesContainer(paymentMethod.icons)
         
@@ -1609,17 +1611,16 @@ class Checkout2PaymentCreditCardCell: UITableViewCell {
     
     static func heightFor(_ paymentMethod: PaymentMethod, isSelected: Bool) -> CGFloat {
         if isSelected {
-            let t = paymentMethod.description.boundsWithFontSize(UIFont.systemFont(ofSize: 10), width: AppTools.screenWidth - 24)
-            let h = t.height // min 12
-            return 50 + h
+            let t = paymentMethod.description.boundsWithFontSize(UIFont.systemFont(ofSize: 10.0), width: AppTools.screenWidth - 24)
+            return 50.0 + t.height // t.height -> min 12
         }
         return 35.0
     }
     
     func setupImagesContainer(_ icons: Array<String>) {
-        var x: CGFloat = 0
-        let y: CGFloat = 2
-        let h: CGFloat = 21
+        var x: CGFloat = 0.0
+        let y: CGFloat = 2.0
+        let h: CGFloat = 21.0
         
         if icons.count == 0 {
             return
@@ -1921,10 +1922,8 @@ class Checkout2PaymentSummaryTotalCell: UITableViewCell {
         
         if paymentMethodDescription != "" {
             self.lbCharge.isHidden = false
-            let t = paymentMethodDescription.boundsWithFontSize(UIFont.systemFont(ofSize: 10), width: AppTools.screenWidth - 24)
-            let h = t.height
-            
-            self.consTopBtnCheckout.constant = 16 + h
+            let t = paymentMethodDescription.boundsWithFontSize(UIFont.systemFont(ofSize: 10.0), width: AppTools.screenWidth - 24)
+            self.consTopBtnCheckout.constant = 16.0 + t.height
         } else {
             self.lbCharge.isHidden = true
             self.consTopBtnCheckout.constant = 8
@@ -1933,10 +1932,8 @@ class Checkout2PaymentSummaryTotalCell: UITableViewCell {
     
     static func heightFor(_ paymentMethodDescription: String) -> CGFloat {
         if paymentMethodDescription != "" {
-            let t = paymentMethodDescription.boundsWithFontSize(UIFont.systemFont(ofSize: 10), width: AppTools.screenWidth - 24)
-            let h = t.height
-            
-            return 88.0 + 16 + h
+            let t = paymentMethodDescription.boundsWithFontSize(UIFont.systemFont(ofSize: 10.0), width: AppTools.screenWidth - 24)
+            return 88.0 + 16.0 + t.height
         }
         return 88.0
     }
