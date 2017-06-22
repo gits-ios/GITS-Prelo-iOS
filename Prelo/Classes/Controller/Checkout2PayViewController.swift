@@ -1583,15 +1583,11 @@ class Checkout2PaymentBankCell: UITableViewCell {
 }
 
 // MARK: - Class Checkout2PaymentCreditCardCell
-class Checkout2PaymentCreditCardCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource {
+class Checkout2PaymentCreditCardCell: UITableViewCell {
     @IBOutlet weak var lbCheck: UILabel!
     @IBOutlet weak var lbTitle: UILabel!
     @IBOutlet weak var lbDescription: UILabel!
-    @IBOutlet weak var collectionView: UICollectionView!
-    
-    var icons: Array<String> = []
-    
-    var isNeedSetup = true
+    @IBOutlet weak var imagesContainer: UIView!
     
     // Kartu Kredit
     // Indomaret
@@ -1602,15 +1598,7 @@ class Checkout2PaymentCreditCardCell: UITableViewCell, UICollectionViewDelegate,
         self.lbTitle.text = paymentMethod.title
         self.lbDescription.text = paymentMethod.description //"Pembayaran Aman dengan " + paymentMethod.title
         
-        self.icons = paymentMethod.icons
-        
-        if self.isNeedSetup {
-            self.isNeedSetup = false
-            
-            self.setupCollection()
-        }
-        
-        self.collectionView.reloadData()
+        self.setupImagesContainer(paymentMethod.icons)
         
         if isSelected {
             self.lbCheck.isHidden = false
@@ -1628,63 +1616,29 @@ class Checkout2PaymentCreditCardCell: UITableViewCell, UICollectionViewDelegate,
         return 35.0
     }
     
-    func setupCollection() {
-        // Set collection view
-        self.collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "collcProgressCell")
-        self.collectionView.delegate = self
-        self.collectionView.dataSource = self
-        self.collectionView.backgroundView = UIView(frame: self.collectionView.bounds)
-        self.collectionView.backgroundColor = UIColor.white
+    func setupImagesContainer(_ icons: Array<String>) {
+        var x: CGFloat = 0
+        let y: CGFloat = 2
+        let h: CGFloat = 21
         
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 2, left: 0, bottom: 2, right: 0)
-        //layout.itemSize = CGSize(width: 38, height: 38)
-        layout.minimumInteritemSpacing = 8
-        layout.minimumLineSpacing = 8
-        self.collectionView.collectionViewLayout = layout
+        if icons.count == 0 {
+            return
+        }
         
-        self.collectionView.isScrollEnabled = false
-    }
-    
-    // MARK: - CollectionView delegate functions
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.icons.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        // Create cell
-        let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "collcProgressCell", for: indexPath)
-        
-        let icon = self.icons[indexPath.row]
-        let img = UIImage(named: icon)
-        let height = CGFloat(21.0)
-        let width = (img?.size.width)! * height / (img?.size.height)!
-        
-        print(icon)
-        print(width)
-        print(height)
-        
-        let imgVw = UIImageView()
-        imgVw.height = height
-        imgVw.width = width
-        
-        imgVw.image = img
-        imgVw.tag = 999
-        
-        cell.viewWithTag(999)?.removeFromSuperview()
-        cell.addSubview(imgVw)
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        
-        let icon = self.icons[indexPath.row]
-        let img = UIImage(named: icon)
-        let height = CGFloat(21.0)
-        let width = (img?.size.width)! * height / (img?.size.height)!
-        
-        return CGSize(width: width, height: height)
+        for i in 0..<icons.count {
+            let icon = icons[i]
+            let img = UIImage(named: icon)
+            let w = (img?.size.width)! * h / (img?.size.height)!
+            
+            let imgVw = UIImageView(frame: CGRect(x: x, y: y, width: w, height: h))
+            imgVw.image = img
+            imgVw.tag = 999 - i
+            
+            self.imagesContainer.viewWithTag(999 - i)?.removeFromSuperview()
+            self.imagesContainer.addSubview(imgVw)
+            
+            x += CGFloat(8 * (i + 1)) + w
+        }
     }
 }
 
