@@ -1632,6 +1632,8 @@ class Checkout2PaymentCreditCardCell: UITableViewCell {
             
             let imgVw = UIImageView(frame: CGRect(x: x, y: y, width: w, height: h))
             imgVw.image = img
+            imgVw.contentMode = .scaleAspectFit
+            imgVw.afInflate()
             imgVw.tag = 999 - i
             
             self.imagesContainer.viewWithTag(999 - i)?.removeFromSuperview()
