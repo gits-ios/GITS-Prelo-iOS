@@ -37,20 +37,17 @@
                         <color key="textColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="charge description ..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="3P6-27-ChT">
-                        <rect key="frame" x="12" y="30" width="351" height="21"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="21" id="FES-zp-d8P"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="charge description ..." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3P6-27-ChT">
+                        <rect key="frame" x="12" y="30" width="351" height="12"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lX2-Ke-kpJ">
-                        <rect key="frame" x="12" y="59" width="351" height="37"/>
+                        <rect key="frame" x="12" y="50" width="351" height="40"/>
                         <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="37" id="U8W-fP-Rxt"/>
+                            <constraint firstAttribute="height" constant="40" id="U8W-fP-Rxt"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <state key="normal" title="SELESAIKAN PESANAN">
@@ -73,13 +70,13 @@
                     <constraint firstItem="jNA-yT-140" firstAttribute="leading" secondItem="cBh-aa-9Li" secondAttribute="leading" constant="12" id="XPK-Bp-Rt8"/>
                     <constraint firstItem="Q6S-Vf-lMf" firstAttribute="leading" secondItem="egn-ln-OYb" secondAttribute="trailing" constant="8" id="ib9-5N-1pH"/>
                     <constraint firstItem="egn-ln-OYb" firstAttribute="centerY" secondItem="Q6S-Vf-lMf" secondAttribute="centerY" id="nih-BI-RlN"/>
-                    <constraint firstItem="lX2-Ke-kpJ" firstAttribute="top" secondItem="egn-ln-OYb" secondAttribute="bottom" constant="37" id="vko-nA-eym"/>
+                    <constraint firstItem="lX2-Ke-kpJ" firstAttribute="top" secondItem="egn-ln-OYb" secondAttribute="bottom" constant="28" id="vko-nA-eym"/>
                     <constraint firstAttribute="trailingMargin" secondItem="Q6S-Vf-lMf" secondAttribute="trailing" constant="4" id="yhm-cp-CUl"/>
                     <constraint firstItem="lX2-Ke-kpJ" firstAttribute="leading" secondItem="cBh-aa-9Li" secondAttribute="leadingMargin" constant="4" id="z9i-2d-ZwC"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="consTopBtnCheckout" destination="U8W-fP-Rxt" id="wDR-JQ-GHF"/>
+                <outlet property="consTopBtnCheckout" destination="vko-nA-eym" id="Smk-al-dls"/>
                 <outlet property="lbAmount" destination="Q6S-Vf-lMf" id="97p-dk-E79"/>
                 <outlet property="lbCharge" destination="3P6-27-ChT" id="Liw-ai-qhO"/>
                 <outlet property="lbTitle" destination="egn-ln-OYb" id="7MY-3f-ZKR"/>

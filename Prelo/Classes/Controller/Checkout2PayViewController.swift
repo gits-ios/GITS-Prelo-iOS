@@ -1622,7 +1622,7 @@ class Checkout2PaymentCreditCardCell: UITableViewCell, UICollectionViewDelegate,
         if isSelected {
             let t = paymentMethod.description.boundsWithFontSize(UIFont.systemFont(ofSize: 10), width: AppTools.screenWidth - 24)
             let h = t.height // min 12
-            return 47.5 + h
+            return 50 + h
         }
         return 35.0
     }
@@ -1951,7 +1951,7 @@ class Checkout2PaymentSummaryCell: UITableViewCell {
 class Checkout2PaymentSummaryTotalCell: UITableViewCell {
     @IBOutlet weak var lbTitle: UILabel!
     @IBOutlet weak var lbAmount: UILabel!
-    @IBOutlet weak var consTopBtnCheckout: NSLayoutConstraint! // 8 -> 37
+    @IBOutlet weak var consTopBtnCheckout: NSLayoutConstraint! // 8 -> 28 (12 / auto)
     @IBOutlet weak var lbCharge: UILabel! // hidden -> show
     
     var checkout: ()->() = {}
@@ -1964,7 +1964,10 @@ class Checkout2PaymentSummaryTotalCell: UITableViewCell {
         
         if paymentMethodDescription != "" {
             self.lbCharge.isHidden = false
-            self.consTopBtnCheckout.constant = 37
+            let t = paymentMethodDescription.boundsWithFontSize(UIFont.systemFont(ofSize: 10), width: AppTools.screenWidth - 24)
+            let h = t.height
+            
+            self.consTopBtnCheckout.constant = 16 + h
         } else {
             self.lbCharge.isHidden = true
             self.consTopBtnCheckout.constant = 8
@@ -1973,7 +1976,10 @@ class Checkout2PaymentSummaryTotalCell: UITableViewCell {
     
     static func heightFor(_ paymentMethodDescription: String) -> CGFloat {
         if paymentMethodDescription != "" {
-            return 117
+            let t = paymentMethodDescription.boundsWithFontSize(UIFont.systemFont(ofSize: 10), width: AppTools.screenWidth - 24)
+            let h = t.height
+            
+            return 88.0 + 16 + h
         }
         return 88.0
     }
