@@ -11,6 +11,7 @@ import Crashlytics
 import Alamofire
 import DropDown
 
+// MARK: - Enum
 enum paymentMethodProvider {
     case native
     case veritrans
@@ -91,15 +92,28 @@ enum PaymentMethod {
         case .kredivo : return initText + "2,36% dari total transaksi"
         }
     }
+    
+    // description for charge / charge title
+    var chargeDescription : String {
+        switch self {
+        case .bankTransfer : return "Kode Unik Transfer"
+        case .creditCard,
+             .indomaret,
+             .cimbClicks,
+             .mandiriClickpay,
+             .mandiriEcash,
+             .kredivo : return "Charge " + self.title //return self.value + " Charge"
+        }
+    }
 }
 
 // MARK: - Struct
 struct PaymentMethodItem {
     var methodDetail: PaymentMethod = .bankTransfer
-    var type: Int = 0
-    var chargeDescription: String = ""
+    //var type: Int = 0
+    //var chargeDescription: String = ""
     var charge: Int64 = 0
-    var methodDescription: String = ""
+    //var methodDescription: String = ""
 }
 
 struct DiscountItem {
@@ -278,8 +292,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         var p = PaymentMethodItem()
         p.methodDetail = .bankTransfer
         p.charge = self.cartResult.banktransferDigit
-        p.chargeDescription = "Kode Unik Transfer"
-        p.methodDescription = ""
+        //p.chargeDescription = "Kode Unik Transfer"
+        //p.methodDescription = ""
         self.paymentMethods.append(p)
         
         let ab = self.cartResult.abTest
@@ -419,8 +433,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             var p = PaymentMethodItem()
             p.methodDetail = .creditCard
             p.charge = creditCardCharge
-            p.chargeDescription = PaymentMethod.creditCard.value + " Charge"
-            p.methodDescription = (self.cartResult.veritransCharge?.creditCardText)!
+            //p.chargeDescription = PaymentMethod.creditCard.value + " Charge"
+            //p.methodDescription = (self.cartResult.veritransCharge?.creditCardText)!
             self.paymentMethods.append(p)
         }
         
@@ -428,8 +442,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             var p = PaymentMethodItem()
             p.methodDetail = .indomaret
             p.charge = indomaretCharge
-            p.chargeDescription = PaymentMethod.indomaret.value + " Charge"
-            p.methodDescription = (self.cartResult.veritransCharge?.indomaretText)!
+            //p.chargeDescription = PaymentMethod.indomaret.value + " Charge"
+            //p.methodDescription = (self.cartResult.veritransCharge?.indomaretText)!
             self.paymentMethods.append(p)
             
             if p.charge == 0 {
@@ -441,8 +455,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             var p = PaymentMethodItem()
             p.methodDetail = .kredivo
             p.charge = kredivoCharge
-            p.chargeDescription = PaymentMethod.kredivo.value + " Charge"
-            p.methodDescription = (self.cartResult.kredivoCharge?.text)!
+            //p.chargeDescription = PaymentMethod.kredivo.value + " Charge"
+            //p.methodDescription = (self.cartResult.kredivoCharge?.text)!
             self.paymentMethods.append(p)
         }
         
@@ -450,8 +464,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             var p = PaymentMethodItem()
             p.methodDetail = .cimbClicks
             p.charge = cimbClicksCharge
-            p.chargeDescription = PaymentMethod.cimbClicks.value + " Charge"
-            p.methodDescription = (self.cartResult.veritransCharge?.cimbClicksText)!
+            //p.chargeDescription = PaymentMethod.cimbClicks.value + " Charge"
+            //p.methodDescription = (self.cartResult.veritransCharge?.cimbClicksText)!
             self.paymentMethods.append(p)
         }
         
@@ -459,8 +473,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             var p = PaymentMethodItem()
             p.methodDetail = .mandiriClickpay
             p.charge = mandiriClickpayCharge
-            p.chargeDescription = PaymentMethod.mandiriClickpay.value + " Charge"
-            p.methodDescription = (self.cartResult.veritransCharge?.mandiriClickpayText)!
+            //p.chargeDescription = PaymentMethod.mandiriClickpay.value + " Charge"
+            //p.methodDescription = (self.cartResult.veritransCharge?.mandiriClickpayText)!
             self.paymentMethods.append(p)
         }
         
@@ -468,8 +482,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             var p = PaymentMethodItem()
             p.methodDetail = .mandiriEcash
             p.charge = mandiriEcashCharge
-            p.chargeDescription = PaymentMethod.mandiriEcash.value + " Charge"
-            p.methodDescription = (self.cartResult.veritransCharge?.mandiriEcashText)!
+            //p.chargeDescription = PaymentMethod.mandiriEcash.value + " Charge"
+            //p.methodDescription = (self.cartResult.veritransCharge?.mandiriEcashText)!
             self.paymentMethods.append(p)
         }
         
@@ -753,7 +767,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                         
                     }
                     
-                    cell.adapt(self.paymentMethods[self.selectedPaymentIndex].chargeDescription, amount: self.paymentMethods[self.selectedPaymentIndex].charge)
+                    cell.adapt(self.paymentMethods[self.selectedPaymentIndex].methodDetail.chargeDescription, amount: self.paymentMethods[self.selectedPaymentIndex].charge)
                 } else {
                     cell.adapt(self.discountItems[idx.row-2].title, amount: self.discountItems[idx.row-2].value * -1)
                 }
