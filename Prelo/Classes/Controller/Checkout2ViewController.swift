@@ -88,6 +88,8 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
     // checkout
     var checkoutResult: JSON!
     
+    var lblSend = ""
+    
     //-----
     // NEW
     //-----
@@ -603,16 +605,14 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                             self.preloBonusUsed = self.totalAmount * customBonusPercent / 100
                             self.discountItems[i].value = self.preloBonusUsed
                             // Show lblSend
-                            //                            self.lblSend.text = "Maksimal Referral Bonus yang dapat digunakan adalah \(customBonusPercent)% dari subtotal transaksi"
-                            //                            self.consHeightLblSend.constant = 31
+                            self.lblSend = "Maksimal Referral Bonus yang dapat digunakan adalah \(customBonusPercent)% dari subtotal transaksi"
                         }
                     } else if (isHalfBonusMode) {
                         if (self.preloBonusUsed > self.totalAmount / 2) {
                             self.preloBonusUsed = self.totalAmount / 2
                             self.discountItems[i].value = self.preloBonusUsed
                             // Show lblSend
-                            //                            self.lblSend.text = "Maksimal Referral Bonus yang dapat digunakan adalah 50% dari subtotal transaksi"
-                            //                            self.consHeightLblSend.constant = 31
+                            self.lblSend = "Maksimal Referral Bonus yang dapat digunakan adalah 50% dari subtotal transaksi"
                         }
                     } else {
                         if (self.discountItems[i].value > self.totalAmount) {
@@ -823,7 +823,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                 } else if idx.row == 1 {
                     return Checkout2PaymentBankCell.heightFor(selectedPaymentIndex == idx.row-1)
                 } else { // cc, indomaret, etc
-                    return Checkout2PaymentCreditCardCell.heightFor(selectedPaymentIndex == idx.row-1)
+                    return Checkout2PaymentCreditCardCell.heightFor(self.paymentMethods[idx.row-1].methodDetail, isSelected: selectedPaymentIndex == idx.row-1)
                 }
             } else if idx.section == cartResult.cartDetails.count + 4 {
                 if idx.row == 0 {
@@ -839,7 +839,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                 } else if idx.row > 0 && idx.row <= 1 + (self.paymentMethods.count > 0 && !self.isEqual() ? 1 : 0) + self.discountItems.count {
                     return Checkout2PaymentSummaryCell.heightFor()
                 } else {
-                    return Checkout2PaymentSummaryTotalCell.heightFor(self.paymentMethods[self.selectedPaymentIndex].methodDescription)
+                    return Checkout2PaymentSummaryTotalCell.heightFor(self.lblSend)
                 }
             }
         } else if !self.isLoading {
@@ -1336,7 +1336,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         totalAmount = 0
                     }
                     
-                    cell.adapt(totalAmount, paymentMethodDescription: self.paymentMethods[self.selectedPaymentIndex].methodDescription)
+                    cell.adapt(totalAmount, paymentMethodDescription: self.lblSend)
                     
                     cell.checkout = {
                         if !self.validateField() {

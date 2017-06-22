@@ -77,6 +77,19 @@ enum PaymentMethod {
         case .kredivo : return  ["ic_checkout_kredivo"]
         }
     }
+    
+    // description for display
+    var description : String {
+        switch self {
+        case .bankTransfer : return "Pembayaran aman dengan sistem rekening bersama Prelo"
+        case .creditCard : return "Transaksi akan dikenakan charge sebesar Rp2.500 ditambah 3,2% dari total transaksi"
+        case .indomaret : return "Transaksi akan dikenakan charge sebesar 2% dari total transaksi dengan minimal charge Rp5.000"
+        case .cimbClicks : return "Transaksi akan dikenakan charge sebesar Rp5.000"
+        case .mandiriClickpay : return "Transaksi akan dikenakan charge sebesar Rp5.000"
+        case .mandiriEcash : return "Transaksi akan dikenakan charge 1,5% dari total harga dengan minimal charge Rp2.750"
+        case .kredivo : return "Transaksi akan dikenakan charge sebesar 2,36% dari total transaksi"
+        }
+    }
 }
 
 // MARK: - Struct
@@ -140,6 +153,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
     
     // checkout
     var checkoutResult: JSON!
+    
+    var lblSend: String = ""
     
     // MARK: - Init
     override func viewDidLoad() {
@@ -333,16 +348,14 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                             self.preloBonusUsed = self.totalAmount * customBonusPercent / 100
                             self.discountItems[i].value = self.preloBonusUsed
                             // Show lblSend
-//                            self.lblSend.text = "Maksimal Referral Bonus yang dapat digunakan adalah \(customBonusPercent)% dari subtotal transaksi"
-//                            self.consHeightLblSend.constant = 31
+                            self.lblSend = "Maksimal Referral Bonus yang dapat digunakan adalah \(customBonusPercent)% dari subtotal transaksi"
                         }
                     } else if (isHalfBonusMode) {
                         if (self.preloBonusUsed > self.totalAmount / 2) {
                             self.preloBonusUsed = self.totalAmount / 2
                             self.discountItems[i].value = self.preloBonusUsed
                             // Show lblSend
-//                            self.lblSend.text = "Maksimal Referral Bonus yang dapat digunakan adalah 50% dari subtotal transaksi"
-//                            self.consHeightLblSend.constant = 31
+                            self.lblSend = "Maksimal Referral Bonus yang dapat digunakan adalah 50% dari subtotal transaksi"
                         }
                     } else {
                         if (self.discountItems[i].value > self.totalAmount) {
@@ -537,7 +550,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             } else if idx.row == 1 {
                 return Checkout2PaymentBankCell.heightFor(selectedPaymentIndex == idx.row-1)
             } else { // cc, indomaret, etc
-                return Checkout2PaymentCreditCardCell.heightFor(selectedPaymentIndex == idx.row-1)
+                return Checkout2PaymentCreditCardCell.heightFor(self.paymentMethods[idx.row-1].methodDetail, isSelected: selectedPaymentIndex == idx.row-1)
             }
         } else if idx.section == 1 {
             if idx.row == 0 {
@@ -553,7 +566,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             } else if idx.row > 0 && idx.row <= 1 + (self.paymentMethods.count > 0 && !self.isEqual() ? 1 : 0) + self.discountItems.count {
                 return Checkout2PaymentSummaryCell.heightFor()
             } else {
-                return Checkout2PaymentSummaryTotalCell.heightFor(self.paymentMethods[self.selectedPaymentIndex].methodDescription)
+                return Checkout2PaymentSummaryTotalCell.heightFor(self.lblSend)
             }
         }
         return 30
@@ -788,7 +801,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                     totalAmount = 0
                 }
                 
-                cell.adapt(totalAmount, paymentMethodDescription: self.paymentMethods[self.selectedPaymentIndex].methodDescription)
+                cell.adapt(totalAmount, paymentMethodDescription: self.lblSend)
                 
                 cell.checkout = {
                     self.showLoading()
@@ -1586,7 +1599,7 @@ class Checkout2PaymentCreditCardCell: UITableViewCell, UICollectionViewDelegate,
     
     func adapt(_ paymentMethod: PaymentMethod, isSelected: Bool) {
         self.lbTitle.text = paymentMethod.title
-        self.lbDescription.text = "Pembayaran Aman dengan " + paymentMethod.title
+        self.lbDescription.text = paymentMethod.description //"Pembayaran Aman dengan " + paymentMethod.title
         
         self.icons = paymentMethod.icons
         
@@ -1605,9 +1618,11 @@ class Checkout2PaymentCreditCardCell: UITableViewCell, UICollectionViewDelegate,
         }
     }
     
-    static func heightFor(_ isSelected: Bool) -> CGFloat {
+    static func heightFor(_ paymentMethod: PaymentMethod, isSelected: Bool) -> CGFloat {
         if isSelected {
-            return 62.0
+            let t = paymentMethod.description.boundsWithFontSize(UIFont.systemFont(ofSize: 10), width: AppTools.screenWidth - 24)
+            let h = t.height // min 12
+            return 47.5 + h
         }
         return 35.0
     }
