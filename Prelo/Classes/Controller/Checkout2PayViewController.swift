@@ -97,12 +97,18 @@ enum PaymentMethod {
     var chargeDescription : String {
         switch self {
         case .bankTransfer : return "Kode Unik Transfer"
-        case .creditCard,
+        /*case .creditCard,
              .indomaret,
              .cimbClicks,
              .mandiriClickpay,
              .mandiriEcash,
-             .kredivo : return "Charge " + self.title //return self.value + " Charge"
+             .kredivo : return "Charge " + self.title //return self.value + " Charge"*/
+        case .creditCard,
+             .indomaret,
+             .cimbClicks,
+             .mandiriClickpay,
+             .kredivo : return self.value + " Charge"
+        case .mandiriEcash : return self.title + " Charge"
         }
     }
 }
