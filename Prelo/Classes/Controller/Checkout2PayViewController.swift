@@ -1949,8 +1949,10 @@ class Checkout2PaymentSummaryTotalCell: UITableViewCell {
         
         if paymentMethodDescription != "" {
             self.lbCharge.isHidden = false
+            self.consTopBtnCheckout.constant = 37
         } else {
             self.lbCharge.isHidden = true
+            self.consTopBtnCheckout.constant = 8
         }
     }
     
