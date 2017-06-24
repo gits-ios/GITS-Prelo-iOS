@@ -48,10 +48,13 @@ class AnalyticManager: NSObject {
     
     static let deviceToken = (UserDefaults.standard.string(forKey: "deviceregid") != nil && UserDefaults.standard.string(forKey: "deviceregid") != "" ? UserDefaults.standard.string(forKey: "deviceregid")! : "...simulator...")
     
+    static let deviceModel = (AppTools.isSimulator ? UIDevice.current.model + " Simulator" : AnalyticManager.sharedInstance.platform()) + " - " + UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")"
+    
     override init() {
         print("==== [Prelo Analytics] Version 1.0.0 ====")
         print("faId = " + AnalyticManager.faId)
         print("deviceToken = " + AnalyticManager.deviceToken)
+        print("deviceModel = " + AnalyticManager.deviceModel)
         print("=========================================")
         
         super.init()
