@@ -73,6 +73,17 @@ class HomeHelper: NSObject {
     static func switchNavBar(_ isHidden: Bool) {
         _isHidden = isHidden
     }
+    
+    fileprivate static var _activeTab = 0
+    static var activeTab : Int {
+        get {
+            return _activeTab
+        }
+    }
+    
+    static func switchActiveTab(_ activeTab: Int) {
+        _activeTab = activeTab
+    }
 }
 
 class ListItemViewController: BaseViewController, MFMailComposeViewControllerDelegate, FilterDelegate, CategoryPickerDelegate, ListBrandDelegate {
@@ -216,6 +227,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     // need refresh
     var curTime: TimeInterval!
     var interval: Double!
+    
+    // home only
+    var tabNumber: Int = 0
     
     // MARK: - Init
     
@@ -393,10 +407,12 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             }
         }
         
-        if (currentMode == .default || currentMode == .featured || currentMode == .segment) {
+        if HomeHelper.activeTab == self.tabNumber && (currentMode == .default || currentMode == .featured || currentMode == .segment) {
             if (self.currentMode == .segment && self.listItemSections.contains(.segments)) {
                 HomeHelper.switchNavBar(false)
             } else if HomeHelper.isHidden {
+                HomeHelper.switchNavBar(true)
+                
                 NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "hideBottomBar"), object: nil)
                 self.navigationController?.setNavigationBarHidden(true, animated: true)
                 self.hideStatusBar()
