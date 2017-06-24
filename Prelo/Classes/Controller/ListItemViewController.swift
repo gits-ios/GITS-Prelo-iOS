@@ -61,6 +61,20 @@ enum ListItemMode {
     case newShop
 }
 
+// MARK: - Home Helper
+class HomeHelper: NSObject {
+    fileprivate static var _isHidden = false
+    static var isHidden : Bool {
+        get {
+            return _isHidden
+        }
+    }
+    
+    static func switchNavBar(_ isHidden: Bool) {
+        _isHidden = isHidden
+    }
+}
+
 class ListItemViewController: BaseViewController, MFMailComposeViewControllerDelegate, FilterDelegate, CategoryPickerDelegate, ListBrandDelegate {
     
     // MARK: - Struct
@@ -196,6 +210,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     // filter
     var isHiddenTop = false
+    // home -> featured & standard
+    // using HomeHelper.isHidden
     
     // need refresh
     var curTime: TimeInterval!
@@ -374,6 +390,23 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     self.consTopTopHeaderFilter.constant = UIApplication.shared.statusBarFrame.height
                     self.consTopGridView.constant = UIApplication.shared.statusBarFrame.height
                 })
+            }
+        }
+        
+        if (currentMode == .default || currentMode == .featured || currentMode == .segment) {
+            if (self.currentMode == .segment && self.listItemSections.contains(.segments)) {
+                HomeHelper.switchNavBar(false)
+            } else if HomeHelper.isHidden {
+                NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "hideBottomBar"), object: nil)
+                self.navigationController?.setNavigationBarHidden(true, animated: true)
+                self.hideStatusBar()
+                if (selectedSegment != "") {
+                    consHeightVwTopHeader.constant = 0 // Hide top header
+                    UIView.animate(withDuration: 0.2, animations: {
+                        self.view.layoutIfNeeded()
+                    })
+                }
+                self.repositionScrollCategoryNameContent(true)
             }
         }
         
@@ -585,6 +618,22 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                         
                         // Setup grid
                         self.setupGrid()
+                        
+                        // restore header
+                        if self.listItemSections.contains(.segments) {
+                            HomeHelper.switchNavBar(false)
+                            
+                            NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
+                            self.navigationController?.setNavigationBarHidden(false, animated: true)
+                            self.showStatusBar()
+                            if (self.selectedSegment != "") {
+                                self.consHeightVwTopHeader.constant = 40 // Show top header
+                                UIView.animate(withDuration: 0.2, animations: {
+                                    self.view.layoutIfNeeded()
+                                })
+                            }
+                            self.repositionScrollCategoryNameContent(true)
+                        }
                     })
                 case .filter:
                     DispatchQueue.main.async(execute: {
@@ -652,6 +701,23 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 }
             } else if (self.products != nil && (self.products?.count)! <= 24 && (self.products?.count)! > 0) || self.currentMode == .featured {
                 
+                if self.gridView.contentSize.height <= (AppTools.screenHeight - 104.0) {
+                    DispatchQueue.main.async(execute: {
+                        HomeHelper.switchNavBar(false)
+                        
+                        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
+                        self.navigationController?.setNavigationBarHidden(false, animated: true)
+                        self.showStatusBar()
+                        if (self.selectedSegment != "") {
+                            self.consHeightVwTopHeader.constant = 40 // Show top header
+                            UIView.animate(withDuration: 0.2, animations: {
+                                self.view.layoutIfNeeded()
+                            })
+                        }
+                        self.repositionScrollCategoryNameContent(true)
+                    })
+                }
+                
                 // refrsher
                 let _curTime = NSDate().timeIntervalSince1970
                 
@@ -664,6 +730,21 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     
                     self.refresh()
                 }
+            } else if (self.currentMode == .segment && self.listItemSections.contains(.segments)) {
+                DispatchQueue.main.async(execute: {
+                    HomeHelper.switchNavBar(false)
+                    
+                    NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
+                    self.navigationController?.setNavigationBarHidden(false, animated: true)
+                    self.showStatusBar()
+                    if (self.selectedSegment != "") {
+                        self.consHeightVwTopHeader.constant = 40 // Show top header
+                        UIView.animate(withDuration: 0.2, animations: {
+                            self.view.layoutIfNeeded()
+                        })
+                    }
+                    self.repositionScrollCategoryNameContent(true)
+                })
             }
         }
     }
@@ -1416,6 +1497,25 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         self.vwFilterZeroResult.isHidden = true
         
         self.gridView.reloadData()
+        
+        let delayTime = 0.3 * Double(NSEC_PER_SEC)
+        let time = DispatchTime.now() + Double(Int64(delayTime)) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time, execute: {
+            if self.gridView.contentSize.height <= (AppTools.screenHeight - 104.0) {
+                HomeHelper.switchNavBar(false)
+                
+                NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
+                self.navigationController?.setNavigationBarHidden(false, animated: true)
+                self.showStatusBar()
+                if (self.selectedSegment != "") {
+                    self.consHeightVwTopHeader.constant = 40 // Show top header
+                    UIView.animate(withDuration: 0.2, animations: {
+                        self.view.layoutIfNeeded()
+                    })
+                }
+                self.repositionScrollCategoryNameContent(true)
+            }
+        })
     }
     
     // MARK: - Filter delegate function
@@ -1485,6 +1585,21 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             self.gridView.contentInset = UIEdgeInsetsMake(0, 0, 48, 0)
             
             gridView.reloadData()
+            
+            if self.listItemSections.contains(.segments) {
+                HomeHelper.switchNavBar(false)
+                
+                NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
+                self.navigationController?.setNavigationBarHidden(false, animated: true)
+                self.showStatusBar()
+                if (self.selectedSegment != "") {
+                    self.consHeightVwTopHeader.constant = 40 // Show top header
+                    UIView.animate(withDuration: 0.2, animations: {
+                        self.view.layoutIfNeeded()
+                    })
+                }
+                self.repositionScrollCategoryNameContent(true)
+            }
         }
     }
     
@@ -1785,6 +1900,8 @@ extension ListItemViewController: UIScrollViewDelegate {
                                 self.consTopTopHeaderFilter.constant = UIApplication.shared.statusBarFrame.height
                                 self.consTopGridView.constant = UIApplication.shared.statusBarFrame.height
                             })
+                        } else {
+                            HomeHelper.switchNavBar(true)
                         }
                     }
                 } else {
@@ -1804,6 +1921,8 @@ extension ListItemViewController: UIScrollViewDelegate {
                             self.consTopTopHeaderFilter.constant = 0
                             self.consTopGridView.constant = 0
                         })
+                    } else {
+                        HomeHelper.switchNavBar(false)
                     }
                 }
             }
