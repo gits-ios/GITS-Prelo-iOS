@@ -715,7 +715,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 if (self.currentMode == .filter || self.currentMode == .default) {
                     self.configureAdManagerAndLoadAds()
                 }
-            } else if (self.products != nil && (self.products?.count)! <= 24 && (self.products?.count)! > 0) || self.currentMode == .featured {
+            } else if ((self.products != nil && (self.products?.count)! <= 24 && (self.products?.count)! > 0) || self.currentMode == .featured) && self.currentMode != .segment {
                 
                 if self.gridView.contentSize.height <= (AppTools.screenHeight - 104.0) {
                     DispatchQueue.main.async(execute: {
@@ -724,12 +724,6 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                         NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
                         self.navigationController?.setNavigationBarHidden(false, animated: true)
                         self.showStatusBar()
-                        if (self.selectedSegment != "") {
-                            self.consHeightVwTopHeader.constant = 40 // Show top header
-                            UIView.animate(withDuration: 0.2, animations: {
-                                self.view.layoutIfNeeded()
-                            })
-                        }
                         self.repositionScrollCategoryNameContent(true)
                     })
                 }
@@ -746,7 +740,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     
                     self.refresh()
                 }
-            } else if (self.currentMode == .segment && self.listItemSections.contains(.segments)) {
+            } else if (self.currentMode == .segment && (self.listItemSections.contains(.segments) || self.gridView.contentSize.height <= (AppTools.screenHeight - 104.0))) {
                 DispatchQueue.main.async(execute: {
                     HomeHelper.switchNavBar(false)
                     
