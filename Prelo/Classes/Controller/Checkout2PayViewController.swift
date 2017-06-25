@@ -1634,7 +1634,7 @@ class Checkout2PaymentCreditCardCell: UITableViewCell {
     static func heightFor(_ paymentMethod: PaymentMethod, isSelected: Bool) -> CGFloat {
         if isSelected {
             let t = paymentMethod.description.boundsWithFontSize(UIFont.systemFont(ofSize: 10.0), width: AppTools.screenWidth - 24)
-            return 50.0 + t.height // t.height -> min 12
+            return 47.5 + t.height // t.height -> min 12
         }
         return 35.0
     }
