@@ -199,7 +199,7 @@ enum APIAnalytic : URLRequestConvertible {
         case .userRegister(let registerMethod, let metadata):
             let d : [String : [String : Any]] =  [
                 "device_model" : [
-                    "append" : (AppTools.isSimulator ? UIDevice.current.model + " Simulator" : AnalyticManager.sharedInstance.platform()) + " - " + UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")"
+                    "append" : AnalyticManager.deviceModel
                 ],
                 "apns_id" : [
                     "append" : AnalyticManager.deviceToken
@@ -232,7 +232,7 @@ enum APIAnalytic : URLRequestConvertible {
             ]
             let d : [String : [String : Any]] =  [
                 "device_model" : [
-                    "append" : (AppTools.isSimulator ? UIDevice.current.model + " Simulator" : AnalyticManager.sharedInstance.platform()) + " - " + UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")"
+                    "append" : AnalyticManager.deviceModel
                 ],
                 "apns_id" : [
                     "append" : AnalyticManager.deviceToken
@@ -262,7 +262,7 @@ enum APIAnalytic : URLRequestConvertible {
             let _user = CDUser.getOne()
             let d : [String : [String : Any]] =  [
                 "device_model" : [
-                    "append" : (AppTools.isSimulator ? UIDevice.current.model + " Simulator" : AnalyticManager.sharedInstance.platform()) + " - " + UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")"
+                    "append" : AnalyticManager.deviceModel
                 ],
                 "apns_id" : [
                     "append" : AnalyticManager.deviceToken
@@ -291,7 +291,7 @@ enum APIAnalytic : URLRequestConvertible {
                 ]
                 d =  [
                     "device_model" : [
-                        "append" : (AppTools.isSimulator ? UIDevice.current.model + " Simulator" : AnalyticManager.sharedInstance.platform()) + " - " + UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")"
+                        "append" : AnalyticManager.deviceModel
                     ],
                     "apns_id" : [
                         "append" : AnalyticManager.deviceToken
@@ -316,7 +316,7 @@ enum APIAnalytic : URLRequestConvertible {
             } else {
                 d =  [
                     "device_model" : [
-                        "append" : (AppTools.isSimulator ? UIDevice.current.model + " Simulator" : AnalyticManager.sharedInstance.platform()) + " - " + UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")"
+                        "append" : AnalyticManager.deviceModel
                     ],
                     "apns_id" : [
                         "append" : AnalyticManager.deviceToken

@@ -282,7 +282,9 @@ enum APIAuth : URLRequestConvertible {
             ]
         case .logout:
             p = [
-                "platform_sent_from" : "ios"
+                "platform_sent_from" : "ios",
+                "device_type" : AnalyticManager.deviceModel,
+                "device_registration_id" : AnalyticManager.deviceToken
             ]
         case .forgotPassword(let email) :
             p = [
