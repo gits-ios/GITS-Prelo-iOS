@@ -283,6 +283,8 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         
         if let firstChild = self.childViewControllers[0] as? ListItemViewController { // First child
             firstChild.setupContent()
+            firstChild.tabNumber = 0
+            HomeHelper.switchActiveTab(0)
         }
         
         scroll_View.layoutIfNeeded()
@@ -877,6 +879,8 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 //DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
                     if let child = self.childViewControllers[self.currentTabIndex] as? ListItemViewController {
                         child.setupContent()
+                        child.tabNumber = self.currentTabIndex
+                        HomeHelper.switchActiveTab(self.currentTabIndex)
                     }
                 })
             })
