@@ -4139,7 +4139,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                                 textToCopy = "\(p)"
                                 content += p
                             }
-                            return self.createTitleContentCell("Kode Bayar", content: content, alignment: .justified, url: nil, textToCopy: textToCopy)
+                            return self.createTitleContentCell("Kode Bayar", content: content, alignment: .right, url: nil, textToCopy: textToCopy)
                         } else {
                             return self.createTitleContentCell("Kode Bayar", content: "Klik tombol \"LANJUTKAN PEMBAYARAN\" untuk mendapatkan kode bayar", alignment: .justified, url: nil, textToCopy: nil)
                         }
