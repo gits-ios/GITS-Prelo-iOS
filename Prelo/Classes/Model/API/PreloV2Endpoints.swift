@@ -103,13 +103,15 @@ extension URLRequest {
         // Set token
         if let token = User.Token {
             urlRequest.setValue("Token \(token)", forHTTPHeaderField: "Authorization")
-            print("User token = \(token)")
+            //print("User token = \(token)")
         }
         
         // Set user agent
         if let userAgent = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String {
             urlRequest.setValue(userAgent, forHTTPHeaderField: "User-Agent")
         }
+        
+        urlRequest.setValue("gzip", forHTTPHeaderField: "Accept-Encoding")
         
         // Set crashlytics custom key
         Crashlytics.sharedInstance().setObjectValue(urlRequest, forKey: "last_req_url")

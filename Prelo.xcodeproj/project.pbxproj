@@ -591,6 +591,8 @@
 		58F7DD531D74204B00EF43AC /* rsz_ic_bri@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F7DD521D74204B00EF43AC /* rsz_ic_bri@2x.png */; };
 		58F89DC51D9A2359003A5378 /* login-background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 58F89DC41D9A2359003A5378 /* login-background.jpg */; };
 		58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */ = {isa = PBXBuildFile; fileRef = 58FE766E1D34FB9B00D90F27 /* banner_featured.png */; };
+		B2050B4F1F00F4A700E7557B /* ic_checkout_visa.png in Resources */ = {isa = PBXBuildFile; fileRef = B2050B4E1F00F4A700E7557B /* ic_checkout_visa.png */; };
+		B2050B511F00F4C600E7557B /* ic_checkout_cimb_clicks.png in Resources */ = {isa = PBXBuildFile; fileRef = B2050B501F00F4C600E7557B /* ic_checkout_cimb_clicks.png */; };
 		B2099F961E1D1A3C00EBB57F /* CDDraftProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2099F951E1D1A3C00EBB57F /* CDDraftProduct.swift */; };
 		B2099FAB1E1E83BB00EBB57F /* CustomPhotoAlbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2099FAA1E1E83BB00EBB57F /* CustomPhotoAlbum.swift */; };
 		B20E25681EB0719200B0E3DD /* PreloV2Endpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20E25671EB0719200B0E3DD /* PreloV2Endpoints.swift */; };
@@ -644,13 +646,11 @@
 		B2B34BE71E388395001B653F /* ic_exclamation_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B34BE61E388395001B653F /* ic_exclamation_grey.png */; };
 		B2B4DCC41E2D24B900EBBD33 /* ShopReviewAverageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B4DCC31E2D24B900EBBD33 /* ShopReviewAverageCell.xib */; };
 		B2B6417A1E98D45C00E23413 /* placeholder-prelo-message.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B2B641791E98D45C00E23413 /* placeholder-prelo-message.jpg */; };
-		B2B6887D1EFA6C95005B5E8A /* ic_checkout_cimb_clicks.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B688761EFA6C95005B5E8A /* ic_checkout_cimb_clicks.png */; };
 		B2B6887E1EFA6C95005B5E8A /* ic_checkout_indomaret.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B688771EFA6C95005B5E8A /* ic_checkout_indomaret.png */; };
 		B2B6887F1EFA6C95005B5E8A /* ic_checkout_kredivo.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B688781EFA6C95005B5E8A /* ic_checkout_kredivo.png */; };
 		B2B688801EFA6C95005B5E8A /* ic_checkout_mandiri_clickpay.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B688791EFA6C95005B5E8A /* ic_checkout_mandiri_clickpay.png */; };
 		B2B688811EFA6C95005B5E8A /* ic_checkout_mandiri_e-cash.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B6887A1EFA6C95005B5E8A /* ic_checkout_mandiri_e-cash.png */; };
 		B2B688821EFA6C95005B5E8A /* ic_checkout_master_card.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B6887B1EFA6C95005B5E8A /* ic_checkout_master_card.png */; };
-		B2B688831EFA6C95005B5E8A /* ic_checkout_visa.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B6887C1EFA6C95005B5E8A /* ic_checkout_visa.png */; };
 		B2BC10271E442D72003DF4D7 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BC10261E442D72003DF4D7 /* CoreMotion.framework */; };
 		B2BC10291E442DBB003DF4D7 /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BC10281E442DBB003DF4D7 /* FBAudienceNetwork.framework */; };
 		B2BE2DF01E29EBBD006B6903 /* StorePageTabBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */; };
@@ -1706,6 +1706,8 @@
 		58F89DC41D9A2359003A5378 /* login-background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "login-background.jpg"; sourceTree = "<group>"; };
 		58F91B181CF313CB00943A7A /* ListBrandViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ListBrandViewController2.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		58FE766E1D34FB9B00D90F27 /* banner_featured.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_featured.png; sourceTree = "<group>"; };
+		B2050B4E1F00F4A700E7557B /* ic_checkout_visa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_visa.png; sourceTree = "<group>"; };
+		B2050B501F00F4C600E7557B /* ic_checkout_cimb_clicks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_cimb_clicks.png; sourceTree = "<group>"; };
 		B2099F951E1D1A3C00EBB57F /* CDDraftProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDDraftProduct.swift; sourceTree = "<group>"; };
 		B2099FAA1E1E83BB00EBB57F /* CustomPhotoAlbum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomPhotoAlbum.swift; path = ../Controller/CustomPhotoAlbum.swift; sourceTree = "<group>"; };
 		B20E25671EB0719200B0E3DD /* PreloV2Endpoints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreloV2Endpoints.swift; sourceTree = "<group>"; };
@@ -1762,13 +1764,11 @@
 		B2B34BE61E388395001B653F /* ic_exclamation_grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_exclamation_grey.png; sourceTree = "<group>"; };
 		B2B4DCC31E2D24B900EBBD33 /* ShopReviewAverageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReviewAverageCell.xib; sourceTree = "<group>"; };
 		B2B641791E98D45C00E23413 /* placeholder-prelo-message.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "placeholder-prelo-message.jpg"; sourceTree = "<group>"; };
-		B2B688761EFA6C95005B5E8A /* ic_checkout_cimb_clicks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_cimb_clicks.png; sourceTree = "<group>"; };
 		B2B688771EFA6C95005B5E8A /* ic_checkout_indomaret.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_indomaret.png; sourceTree = "<group>"; };
 		B2B688781EFA6C95005B5E8A /* ic_checkout_kredivo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_kredivo.png; sourceTree = "<group>"; };
 		B2B688791EFA6C95005B5E8A /* ic_checkout_mandiri_clickpay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_mandiri_clickpay.png; sourceTree = "<group>"; };
 		B2B6887A1EFA6C95005B5E8A /* ic_checkout_mandiri_e-cash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_checkout_mandiri_e-cash.png"; sourceTree = "<group>"; };
 		B2B6887B1EFA6C95005B5E8A /* ic_checkout_master_card.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_master_card.png; sourceTree = "<group>"; };
-		B2B6887C1EFA6C95005B5E8A /* ic_checkout_visa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_visa.png; sourceTree = "<group>"; };
 		B2BC10261E442D72003DF4D7 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		B2BC10281E442DBB003DF4D7 /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
 		B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StorePageTabBar.xib; sourceTree = "<group>"; };
@@ -3415,13 +3415,13 @@
 		B2B688651EFA6C01005B5E8A /* checkout v2 */ = {
 			isa = PBXGroup;
 			children = (
-				B2B688761EFA6C95005B5E8A /* ic_checkout_cimb_clicks.png */,
+				B2050B501F00F4C600E7557B /* ic_checkout_cimb_clicks.png */,
 				B2B688771EFA6C95005B5E8A /* ic_checkout_indomaret.png */,
 				B2B688781EFA6C95005B5E8A /* ic_checkout_kredivo.png */,
 				B2B688791EFA6C95005B5E8A /* ic_checkout_mandiri_clickpay.png */,
 				B2B6887A1EFA6C95005B5E8A /* ic_checkout_mandiri_e-cash.png */,
 				B2B6887B1EFA6C95005B5E8A /* ic_checkout_master_card.png */,
-				B2B6887C1EFA6C95005B5E8A /* ic_checkout_visa.png */,
+				B2050B4E1F00F4A700E7557B /* ic_checkout_visa.png */,
 			);
 			name = "checkout v2";
 			sourceTree = "<group>";
@@ -3870,7 +3870,7 @@
 				589A6FCC1D8C08F600654CDD /* ic_ukuran.png in Resources */,
 				B271A6891EDFD16D00C6A973 /* placeholder-transparent-gray.png in Resources */,
 				588148C31DC0B598004180E1 /* ProductCompareCell.xib in Resources */,
-				B2B688831EFA6C95005B5E8A /* ic_checkout_visa.png in Resources */,
+				B2050B4F1F00F4A700E7557B /* ic_checkout_visa.png in Resources */,
 				58528C531D13A3D200074EC6 /* cchmrk_share.png in Resources */,
 				21679A531B901C5300F18F90 /* snapshot_config.json in Resources */,
 				585887321DBED9F6006EC6D5 /* CategoryPreferences.xib in Resources */,
@@ -3907,6 +3907,7 @@
 				585887501DBEDBCC006EC6D5 /* PaymentConfirmationCell.xib in Resources */,
 				58F89DC51D9A2359003A5378 /* login-background.jpg in Resources */,
 				58A223C61C898CB600619518 /* ic_trx_exclamation.png in Resources */,
+				B2050B511F00F4C600E7557B /* ic_checkout_cimb_clicks.png in Resources */,
 				216799741B8F879A00F18F90 /* rsz_ic_bni@2x.png in Resources */,
 				589A6FC51D8C08F600654CDD /* ic_lovelist.png in Resources */,
 				B2B2F3631E8D04FE0039167A /* ic_wjp_refund.png in Resources */,
@@ -4183,7 +4184,6 @@
 				B2EE39B01E76548100113E03 /* PaidPushPopup.xib in Resources */,
 				58BE53601D479F5B00E358EB /* courier_pos.png in Resources */,
 				21EEB4741B87095C00CAD5C9 /* ic_email.png in Resources */,
-				B2B6887D1EFA6C95005B5E8A /* ic_checkout_cimb_clicks.png in Resources */,
 				589A6FCA1D8C08F600654CDD /* ic_tarik_uang.png in Resources */,
 				21156ECE1B8F5DBC001D7842 /* ic_socmed_instagram.png in Resources */,
 				210959B31B8DD088000F2939 /* ic_hanger@2x.png in Resources */,
