@@ -3234,11 +3234,11 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 
                 // Mandiri Ecash
             } else if (trxDetail.paymentMethodInt == 7) {
-                height += TransactionDetailTitleContentCell.heightFor("Pembayaran melalui Mandiri e-cash harus diselesaikan di website Mandiri. Pastikan kamu telah mendaftarkan nomor ponsel untuk Mandiri e-cash.") + 20 // space
+                height += TransactionDetailTitleContentCell.heightForTitleNil("Pembayaran melalui Mandiri e-cash harus diselesaikan di website Mandiri. Pastikan kamu telah mendaftarkan nomor ponsel untuk Mandiri e-cash.") + 20 // space
             
                 // CIMB Clicks
             } else if (trxDetail.paymentMethodInt == 8) {
-                height += TransactionDetailTitleContentCell.heightFor("Pembayaran melalui CIMB Clicks harus diselesaikan di website CIMB Clicks. Pastikan kamu telah memiliki User ID CIMB Clicks dan sudah mendaftarkan mPIN sebelum melakukan pembayaran.") + 20 // space
+                height += TransactionDetailTitleContentCell.heightForTitleNil("Pembayaran melalui CIMB Clicks harus diselesaikan di website CIMB Clicks. Pastikan kamu telah memiliki User ID CIMB Clicks dan sudah mendaftarkan mPIN sebelum melakukan pembayaran.") + 20 // space
             }
             
             // 6
@@ -3592,9 +3592,9 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                             return TransactionDetailTitleContentCell.heightFor("Klik tombol \"LANJUTKAN PEMBAYARAN\" untuk mendapatkan kode bayar") + 20
                         }
                     } else if (isTrxDetail() && trxDetail!.paymentMethodInt == 7) {
-                        return TransactionDetailTitleContentCell.heightFor("Pembayaran melalui Mandiri e-cash harus diselesaikan di website Mandiri. Pastikan kamu telah mendaftarkan nomor ponsel untuk Mandiri e-cash.") + 20
+                        return TransactionDetailTitleContentCell.heightForTitleNil("Pembayaran melalui Mandiri e-cash harus diselesaikan di website Mandiri. Pastikan kamu telah mendaftarkan nomor ponsel untuk Mandiri e-cash.") + 20
                     } else if (isTrxDetail() && trxDetail!.paymentMethodInt == 8) {
-                        return TransactionDetailTitleContentCell.heightFor("Pembayaran melalui CIMB Clicks harus diselesaikan di website CIMB Clicks. Pastikan kamu telah memiliki User ID CIMB Clicks dan sudah mendaftarkan mPIN sebelum melakukan pembayaran.") + 20
+                        return TransactionDetailTitleContentCell.heightForTitleNil("Pembayaran melalui CIMB Clicks harus diselesaikan di website CIMB Clicks. Pastikan kamu telah memiliki User ID CIMB Clicks dan sudah mendaftarkan mPIN sebelum melakukan pembayaran.") + 20
                     } else {
                         return 0
                     }
@@ -4141,12 +4141,12 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                             }
                             return self.createTitleContentCell("Kode Bayar", content: content, alignment: .right, url: nil, textToCopy: textToCopy)
                         } else {
-                            return self.createTitleContentCell("Kode Bayar", content: "Klik tombol \"LANJUTKAN PEMBAYARAN\" untuk mendapatkan kode bayar", alignment: .justified, url: nil, textToCopy: nil)
+                            return self.createTitleContentCell("Kode Bayar", content: "Klik tombol \"LANJUTKAN PEMBAYARAN\" untuk mendapatkan kode bayar", alignment: .right, url: nil, textToCopy: nil)
                         }
                     } else if (trxDetail!.paymentMethodInt == 7) {
-                        return self.createTitleContentCell("Perhatian", content: "Pembayaran melalui Mandiri e-cash harus diselesaikan di website Mandiri. Pastikan kamu telah mendaftarkan nomor ponsel untuk Mandiri e-cash.", alignment: .justified, url: nil, textToCopy: nil)
+                        return self.createTitleContentCell("", content: "Pembayaran melalui Mandiri e-cash harus diselesaikan di website Mandiri. Pastikan kamu telah mendaftarkan nomor ponsel untuk Mandiri e-cash.", alignment: .left, url: nil, textToCopy: nil)
                     } else if (trxDetail!.paymentMethodInt == 8) {
-                        return self.createTitleContentCell("Perhatian", content: "Pembayaran melalui CIMB Clicks harus diselesaikan di website CIMB Clicks. Pastikan kamu telah memiliki User ID CIMB Clicks dan sudah mendaftarkan mPIN sebelum melakukan pembayaran.", alignment: .justified, url: nil, textToCopy: nil)
+                        return self.createTitleContentCell("", content: "Pembayaran melalui CIMB Clicks harus diselesaikan di website CIMB Clicks. Pastikan kamu telah memiliki User ID CIMB Clicks dan sudah mendaftarkan mPIN sebelum melakukan pembayaran.", alignment: .left, url: nil, textToCopy: nil)
                     }
                 } else if (idx == 1) {
                     var content = ""
@@ -5637,6 +5637,11 @@ class TransactionDetailTitleContentCell : UITableViewCell {
         return ((titleRect.height >= contentRect.height ? titleRect.height : contentRect.height) + 4.0)
     }
     
+    static func heightForTitleNil(_ content : String) -> CGFloat {
+        let contentRect : CGRect = content.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+        return contentRect.height
+    }
+    
     func tapFunction2(sender:MyTapGestureRecognizer) {
         if let url = sender.headline {
             if url != "" {
@@ -5675,7 +5680,13 @@ class TransactionDetailTitleContentCell : UITableViewCell {
     }
     
     func adapt(_ title : String, content : String, alignment : NSTextAlignment?, url : String?, textToCopy : String?) {
-        self.lblTitle.text = title
+        // for detail in CIMB clicks & Mandiri e-cash
+        if title == "" {
+            self.consWidthLblTitle.constant = 0
+            self.consLeadingLblContent.constant = 0
+        } else {
+            self.lblTitle.text = title
+        }
         if (content.isEmpty) {
             self.lblContent.text = "-"
         } else {
