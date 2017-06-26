@@ -848,7 +848,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         if idx.section == 0 {
             if idx.row == 0 {
                 // do nothing
-            } else {
+            } else if self.selectedPaymentIndex != idx.row-1 {
                 self.selectedPaymentIndex = idx.row-1
                 
                 //self.tableView.reloadData()

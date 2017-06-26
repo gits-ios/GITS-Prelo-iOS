@@ -7,6 +7,11 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Prelo2.ttf">
+            <string>Prelo2</string>
+        </array>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -19,12 +24,41 @@
                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2ha-ek-2hj">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kamu memiliki &lt;x&gt; transaksi yg belum dibayar" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="xOr-Zh-SCC">
+                                <rect key="frame" x="12" y="12" width="329" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ki1-Ut-yrd">
+                                <rect key="frame" x="349" y="11" width="14" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="14" id="aMa-6O-jNU"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.98039215686274506" green="0.58823529411764708" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="xOr-Zh-SCC" firstAttribute="leading" secondItem="2ha-ek-2hj" secondAttribute="leading" constant="12" id="7ZV-F7-SRp"/>
+                            <constraint firstAttribute="height" constant="40" id="8Ke-Z3-hIC"/>
+                            <constraint firstItem="Ki1-Ut-yrd" firstAttribute="leading" secondItem="xOr-Zh-SCC" secondAttribute="trailing" constant="8" id="Yu3-M1-a32"/>
+                            <constraint firstAttribute="trailing" secondItem="Ki1-Ut-yrd" secondAttribute="trailing" constant="12" id="gnv-mU-gX3"/>
+                            <constraint firstItem="Ki1-Ut-yrd" firstAttribute="centerY" secondItem="xOr-Zh-SCC" secondAttribute="centerY" id="uAA-9b-o0X"/>
+                            <constraint firstItem="xOr-Zh-SCC" firstAttribute="centerY" secondItem="2ha-ek-2hj" secondAttribute="centerY" id="xTl-vp-gTT"/>
+                        </constraints>
+                    </view>
                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uuK-Gd-ZId">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="40" width="375" height="563"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </tableView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Qp-xi-uRe" userLabel="loadingPanel">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="40" width="375" height="563"/>
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="sEj-Ub-B9x" userLabel="loading">
                                 <rect key="frame" x="178" y="95" width="20" height="20"/>
@@ -42,18 +76,24 @@
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="0Qp-xi-uRe" secondAttribute="trailing" id="654-7S-Ie8"/>
                     <constraint firstAttribute="bottom" secondItem="0Qp-xi-uRe" secondAttribute="bottom" id="6aa-Ex-e6I"/>
-                    <constraint firstItem="0Qp-xi-uRe" firstAttribute="top" secondItem="BlQ-vI-7IE" secondAttribute="top" id="7JW-29-3ZE"/>
+                    <constraint firstItem="2ha-ek-2hj" firstAttribute="leading" secondItem="BlQ-vI-7IE" secondAttribute="leading" id="EJi-MZ-F28"/>
                     <constraint firstItem="0Qp-xi-uRe" firstAttribute="leading" secondItem="BlQ-vI-7IE" secondAttribute="leading" id="Fbg-b5-VRf"/>
+                    <constraint firstItem="2ha-ek-2hj" firstAttribute="top" secondItem="VLg-L3-FUI" secondAttribute="bottom" id="IEn-1x-FT0"/>
                     <constraint firstAttribute="trailing" secondItem="uuK-Gd-ZId" secondAttribute="trailing" id="Mgk-N7-Ree"/>
+                    <constraint firstItem="uuK-Gd-ZId" firstAttribute="top" secondItem="2ha-ek-2hj" secondAttribute="bottom" id="NNC-8k-jeC"/>
                     <constraint firstItem="aPk-1m-dcx" firstAttribute="top" secondItem="uuK-Gd-ZId" secondAttribute="bottom" id="Ol2-TJ-qEI"/>
-                    <constraint firstItem="uuK-Gd-ZId" firstAttribute="top" secondItem="VLg-L3-FUI" secondAttribute="bottom" id="nZY-PF-anS"/>
+                    <constraint firstItem="0Qp-xi-uRe" firstAttribute="top" secondItem="2ha-ek-2hj" secondAttribute="bottom" id="x0f-iR-8sR"/>
                     <constraint firstItem="uuK-Gd-ZId" firstAttribute="leading" secondItem="BlQ-vI-7IE" secondAttribute="leading" id="xfz-to-W77"/>
+                    <constraint firstAttribute="trailing" secondItem="2ha-ek-2hj" secondAttribute="trailing" id="z3Y-nh-ko7"/>
                 </constraints>
             </view>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
             <connections>
+                <outlet property="consHeightVwNotif" destination="8Ke-Z3-hIC" id="Adk-jc-8OC"/>
+                <outlet property="lbNotif" destination="xOr-Zh-SCC" id="s60-PG-wLC"/>
                 <outlet property="loadingPanel" destination="0Qp-xi-uRe" id="O43-y0-o1L"/>
                 <outlet property="tableView" destination="uuK-Gd-ZId" id="Lsv-CV-KlD"/>
+                <outlet property="vwNotif" destination="2ha-ek-2hj" id="6IT-25-G1y"/>
             </connections>
             <point key="canvasLocation" x="25.5" y="-681.5"/>
         </viewController>

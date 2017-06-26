@@ -98,6 +98,11 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
     var isNeedScrollToTop = false // product
     var isNeedScrollToBottom = false // summary
     
+    // notif unpaid
+    @IBOutlet weak var vwNotif: UIView! // init hidden
+    @IBOutlet weak var lbNotif: UILabel!
+    @IBOutlet weak var consHeightVwNotif: NSLayoutConstraint! // init zero
+    
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -153,6 +158,12 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         // Belum ada barang dalam keranjang belanja
         tableView.register(ProvinceCell.self, forCellReuseIdentifier: "cell")
         
+        // init vw notif
+        self.vwNotif.isHidden = true
+        self.consHeightVwNotif.constant = 0
+        let troliRecognizer = UITapGestureRecognizer(target: self, action: #selector(Checkout2ShipViewController.launchUnpaid))
+        self.vwNotif.addGestureRecognizer(troliRecognizer)
+        
         // init dropdown
         DropDown.startListeningToKeyboard()
         let appearance = DropDown.appearance()
@@ -196,7 +207,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         view.addGestureRecognizer(tap)
         
         // update troli
-        self.setupOption(0)
+        //self.setupOption(0)
         
         // title
         self.title = "Checkout"
@@ -267,6 +278,8 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     // MARK: - Option Button
+    
+    /* // Disable
     func createUnpaidButton(_ num : Int)->UIButton {
         return createButtonWithIconAndNumber(UIImage(named: "ic_wjp_exclamation.png")!, num: num)
     }
@@ -305,6 +318,28 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         } else {
             Constant.showDialog("Transaksi", message: "Kamu sedang tidak memiliki transaksi aktif")
         }
+    }
+    */
+    
+    func setupOption(_ count: Int) {
+        if count > 0 {
+            self.lbNotif.text = "Kamu memiliki \(count) transaksi yg belum dibayar"
+            self.consHeightVwNotif.constant = 40
+            self.vwNotif.isHidden = false
+        } else {
+            self.lbNotif.text = ""
+            self.consHeightVwNotif.constant = 0
+            self.vwNotif.isHidden = true
+        }
+        UIView.animate(withDuration: 0.2, animations: {
+            self.vwNotif.layoutIfNeeded()
+        })
+    }
+    
+    func launchUnpaid() {
+        let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+        myPurchaseVC.previousScreen = PageName.Checkout
+        self.navigationController?.pushViewController(myPurchaseVC, animated: true)
     }
     
     // MARK: - Cart sync
@@ -1378,7 +1413,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         if idx.section == cartResult.cartDetails.count + 3 {
             if idx.row == 0 {
                 // do nothing
-            } else {
+            } else if self.selectedPaymentIndex != idx.row-1 {
                 self.selectedPaymentIndex = idx.row-1
                 
                 //self.tableView.reloadData()
