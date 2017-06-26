@@ -3157,6 +3157,7 @@ class PaidPushPopup: UIView {
 
 // MARK: - Add to Cart Pop up
 class AddToCartPopup: UIView {
+    @IBOutlet weak var lbTitle: UILabel!
     @IBOutlet weak var vwBackgroundOverlay: UIView!
     @IBOutlet weak var vwOverlayPopUp: UIView!
     @IBOutlet weak var vwPopUp: UIView!
@@ -3174,6 +3175,15 @@ class AddToCartPopup: UIView {
         self.imgProduct.afSetImage(withURL: URL(string: urlString)!, withFilter: .fill)
         self.lbProduct.text = productDetail.name
         self.lbPrice.text = productDetail.price
+        
+        var count = 0
+        if AppTools.isNewCart {
+            count = CartManager.sharedInstance.getSize()
+        } else {
+            count = CartProduct.getAll(User.EmailOrEmptyString).count
+        }
+        
+        self.lbTitle.text = "Produk sudah dimasukkan ke keranjang belanja. Jumlah barang di keranjang: \(count)"
     }
     
     func initPopUp() {
