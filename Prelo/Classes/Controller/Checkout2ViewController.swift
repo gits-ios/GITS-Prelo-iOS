@@ -1030,7 +1030,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         if isDefault {
                             cell.adapt(cartResult.addressBook[selectedIndex], parent: self)
                         } else {
-                            cell.adapt(self.selectedAddress, parent: self)
+                            cell.adapt(self.selectedAddress, parent: self, isSaveAble: (self.selectedIndex < AddressHelper.maxAddress))
                         }
                         
                         if self.isNeedScroll {
@@ -1976,7 +1976,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
             dropDown.dataSource.append(text)
         }
         
-        if (count < 5) {
+        if (count <= AddressHelper.maxAddress) { // + Alamat baru selalu bisa tidak bisa di save saat index == 5 <max>
             dropDown.dataSource.append("+ Alamat baru")
         }
         

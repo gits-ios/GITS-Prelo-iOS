@@ -10,6 +10,11 @@ import Foundation
 import Alamofire
 import DropDown
 
+// MARK: - Helper
+class AddressHelper: NSObject {
+    static let maxAddress = 5
+}
+
 // MARK: - Struct
 struct SelectedAddressItem {
     var addressId: String = ""
@@ -709,7 +714,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                         if isDefault {
                             cell.adapt(cartResult.addressBook[selectedIndex], parent: self)
                         } else {
-                            cell.adapt(self.selectedAddress, parent: self)
+                            cell.adapt(self.selectedAddress, parent: self, isSaveAble: (self.selectedIndex < AddressHelper.maxAddress))
                         }
                         
                         self.scrollToAddress()
@@ -1021,7 +1026,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
             dropDown.dataSource.append(text)
         }
         
-        if (count < 5) {
+        if (count <= AddressHelper.maxAddress) { // + Alamat baru selalu bisa tidak bisa di save saat index == 5
             dropDown.dataSource.append("+ Alamat baru")
         }
         
@@ -1531,7 +1536,7 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
     }
     
     // isDefault == false
-    func adapt(_ address: SelectedAddressItem, parent: UIViewController) {
+    func adapt(_ address: SelectedAddressItem, parent: UIViewController, isSaveAble: Bool) {
         if parent is Checkout2ShipViewController {
             self.parent2 = parent as? Checkout2ShipViewController
         } else if parent is Checkout2ViewController {
@@ -1567,6 +1572,12 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
         self.lbSubdistrictPicker.textColor = Theme.PrimaryColorDark
         
         self.switchCheckbox(address.isSave)
+        
+        if !isSaveAble {
+            self.isSave = false
+            
+            self.isDefault = true
+        }
     }
     
     func switchCheckbox(_ isSave: Bool) {
