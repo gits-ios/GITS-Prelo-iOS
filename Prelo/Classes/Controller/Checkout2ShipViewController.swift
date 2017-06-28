@@ -1478,6 +1478,7 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
     var parent2: Checkout2ShipViewController?
     var parent1: Checkout2ViewController?
     var isDefault: Bool = false
+    var isSaveAble: Bool = true
     var isSave: Bool = false
     
     func setup() {
@@ -1508,6 +1509,14 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
         self.txtAddress.delegate = self
         self.txtPostalCode.delegate = self
 
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        self.isSaveAble = true
+        self.isDefault = false
+        self.isSave = false
     }
     
     // isDefault == true
@@ -1577,6 +1586,7 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
             self.isSave = false
             
             self.isDefault = true
+            self.isSaveAble = false
         }
     }
     
@@ -1734,6 +1744,8 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
             self.switchCheckbox(!self.isSave)
             
             self.saveAddress()
+        } else if !self.isSaveAble {
+            Constant.showDialog("Alamat Baru", message: "Buku Alamat telah mencapai batas, alamat ini tidak dapat disimpan.")
         }
     }
     
