@@ -899,7 +899,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 if (self.checkoutResult != nil) {
                     
                     // insert new address if needed
-                    if (self.selectedAddress.isSave) {
+                    if !self.selectedAddress.isDefault && self.selectedAddress.isSave {
                         self.insertNewAddress()
                     } else if self.selectedAddress.isDefault && self.selectedAddress.isSave {
                         self.setupProfile()
