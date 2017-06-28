@@ -28,7 +28,7 @@ struct SelectedAddressItem {
     var coordinate: String = ""
     var coordinateAddress: String = ""
     
-    var isSave: Bool = false
+    var isSave: Bool = false // if default & save -> update local data
 }
 
 // MARK: - Class
@@ -1151,6 +1151,10 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
         if let userProfile = CDUserProfile.getOne() {
             userProfile.coordinate = self.selectedAddress.coordinate
             userProfile.coordinateAddress = self.selectedAddress.coordinateAddress
+            userProfile.address = self.selectedAddress.address
+            userProfile.postalCode = self.selectedAddress.postalCode
+            userProfile.recipientName = self.selectedAddress.name
+            userProfile.phone = self.selectedAddress.phone
         }
         
         // Save data

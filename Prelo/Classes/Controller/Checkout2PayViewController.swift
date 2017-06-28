@@ -901,6 +901,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                     // insert new address if needed
                     if (self.selectedAddress.isSave) {
                         self.insertNewAddress()
+                    } else if self.selectedAddress.isDefault && self.selectedAddress.isSave {
+                        self.setupProfile()
                     }
                     
                     var pName : String? = ""
@@ -1289,6 +1291,27 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
     func dismissKeyboard() {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
+    }
+    
+    // MARK: - Update user Profile
+    func setupProfile() {
+        let m = UIApplication.appDelegate.managedObjectContext
+        
+        if let userProfile = CDUserProfile.getOne() {
+            userProfile.coordinate = self.selectedAddress.coordinate
+            userProfile.coordinateAddress = self.selectedAddress.coordinateAddress
+            userProfile.address = self.selectedAddress.address
+            userProfile.postalCode = self.selectedAddress.postalCode
+            userProfile.recipientName = self.selectedAddress.name
+            userProfile.phone = self.selectedAddress.phone
+        }
+        
+        // Save data
+        if (m.saveSave() == false) {
+            //print("Failed")
+        } else {
+            //print("Data saved")
+        }
     }
     
     // MARK: - Save New Address
