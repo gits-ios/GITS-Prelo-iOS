@@ -1415,13 +1415,20 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                 // do nothing
             } else if self.selectedPaymentIndex != idx.row-1 {
                 let previosIndex = IndexPath.init(row: self.selectedPaymentIndex + 1, section: idx.section)
-                let reloadIdxs: [IndexPath] = [idx, previosIndex]
+                var reloadIdxs: [IndexPath] = [idx, previosIndex]
                 self.selectedPaymentIndex = idx.row-1
                 
                 //self.tableView.reloadData()
                 //self.tableView.reloadSections(IndexSet.init(arrayLiteral: idx.section, idx.section + 1, idx.section + 2), with: .fade)
+                
+                if self.paymentMethods.count > 0 && !self.isEqual() {
+                    let sec = idx.section + 2 // last section (Ringkasan Pembayaran)
+                    let lastRow = self.tableView.numberOfRows(inSection: sec) - 1
+                    reloadIdxs.append(IndexPath.init(row: lastRow - 1, section: sec))
+                    reloadIdxs.append(IndexPath.init(row: lastRow, section: sec))
+                }
+                
                 self.tableView.reloadRows(at: reloadIdxs, with: .fade)
-                self.tableView.reloadSections(IndexSet.init(arrayLiteral: idx.section + 1, idx.section + 2), with: .fade)
             }
         }
     }
