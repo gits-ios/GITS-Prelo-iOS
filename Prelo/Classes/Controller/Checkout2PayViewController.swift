@@ -856,6 +856,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 //self.tableView.reloadData()
                 //self.tableView.reloadSections(IndexSet.init(arrayLiteral: idx.section, idx.section + 1, idx.section + 2), with: .fade)
                 self.tableView.reloadRows(at: reloadIdxs, with: .fade)
+                self.tableView.reloadSections(IndexSet.init(arrayLiteral: idx.section + 1, idx.section + 2), with: .fade)
             }
         }
     }
