@@ -66,6 +66,7 @@ enum PaymentMethod {
         }
     }
     
+    /*
     // icon
     var icons : Array<String> {
         switch self {
@@ -76,6 +77,21 @@ enum PaymentMethod {
         case .mandiriClickpay : return  ["ic_checkout_mandiri_clickpay"]
         case .mandiriEcash : return  ["ic_checkout_mandiri_e-cash"]
         case .kredivo : return  ["ic_checkout_kredivo"]
+        }
+    }
+    */
+    
+    // image icon
+    var imageIcons : Array<UIImage> {
+        let newH = 21.0 * UIScreen.main.scale
+        switch self {
+        case .bankTransfer : return []
+        case .creditCard : return  [UIImage(named: "ic_checkout_master_card")!.resizeWithHeight(newH)!, UIImage(named: "ic_checkout_visa")!.resizeWithHeight(newH)!]
+        case .indomaret : return  [UIImage(named: "ic_checkout_indomaret")!.resizeWithHeight(newH)!]
+        case .cimbClicks : return  [UIImage(named: "ic_checkout_cimb_clicks")!.resizeWithHeight(newH)!]
+        case .mandiriClickpay : return  [UIImage(named: "ic_checkout_mandiri_clickpay")!.resizeWithHeight(newH)!]
+        case .mandiriEcash : return  [UIImage(named: "ic_checkout_mandiri_e-cash")!.resizeWithHeight(newH)!]
+        case .kredivo : return  [UIImage(named: "ic_checkout_kredivo")!.resizeWithHeight(newH)!]
         }
     }
     
@@ -1656,7 +1672,7 @@ class Checkout2PaymentCreditCardCell: UITableViewCell {
         self.lbDescription.text = paymentMethod.description //"Pembayaran Aman dengan " + paymentMethod.title
         //self.lbDescription.italicSubstring("charge")
         
-        self.setupImagesContainer(paymentMethod.icons)
+        self.setupImagesContainer(paymentMethod)
         
         if isSelected {
             self.lbCheck.isHidden = false
@@ -1673,10 +1689,13 @@ class Checkout2PaymentCreditCardCell: UITableViewCell {
         return 35.0
     }
     
-    func setupImagesContainer(_ icons: Array<String>) {
+    func setupImagesContainer(_ paymentMethod: PaymentMethod) {
+        let icons = paymentMethod.imageIcons // paymentMethod.icons
+        
         var x: CGFloat = 0.0
         let y: CGFloat = 2.0
         let h: CGFloat = 21.0
+        //let newH = h * UIScreen.main.scale
         
         if icons.count == 0 {
             return
@@ -1692,8 +1711,8 @@ class Checkout2PaymentCreditCardCell: UITableViewCell {
         
         for i in 0..<icons.count {
             let icon = icons[i]
-            let img = UIImage(named: icon)
-            let w = (img?.size.width)! * h / (img?.size.height)!
+            let img = icon //UIImage(named: icon)!.resizeWithHeight(newH)!
+            let w = img.size.width * h / img.size.height
             
             let imgVw = UIImageView(frame: CGRect(x: x, y: y, width: w, height: h))
             imgVw.image = img

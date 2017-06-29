@@ -352,6 +352,18 @@ extension UIImage {
         return result
     }
     
+    func resizeWithHeight(_ height: CGFloat) -> UIImage? {
+        let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: CGFloat(ceil(height/size.height * size.width)), height: height)))
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = self
+        UIGraphicsBeginImageContextWithOptions(imageView.bounds.size, false, scale)
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+        imageView.layer.render(in: context)
+        guard let result = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
+        UIGraphicsEndImageContext()
+        return result
+    }
+    
     func resizeWithMaxWidth(_ width: CGFloat) -> UIImage? {
         if (self.size.width > width) {
             return self.resizeWithWidth(width)
