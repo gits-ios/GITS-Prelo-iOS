@@ -107,6 +107,9 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // init
+        _ = PaymentMethodHelper.sharedInstance
+        
         let Checkout2CourierCell = UINib(nibName: "Checkout2CourierCell", bundle: nil)
         tableView.register(Checkout2CourierCell, forCellReuseIdentifier: "Checkout2CourierCell")
         
@@ -1219,7 +1222,8 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         }
                         
                         //self.tableView.reloadData()
-                        self.tableView.reloadSections(IndexSet.init(arrayLiteral: idx.section, idx.section+1), with: .fade)
+                        self.tableView.reloadRows(at: [idx], with: .fade)
+                        self.tableView.reloadSections(IndexSet.init(integer: idx.section+1), with: .fade)
                         
                         if self.isBalanceUsed {
                             self.scrollToSummary()

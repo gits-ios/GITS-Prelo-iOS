@@ -11,6 +11,32 @@ import Crashlytics
 import Alamofire
 import DropDown
 
+// MARK: - helper -> images
+class PaymentMethodHelper: NSObject {
+    static let sharedInstance = PaymentMethodHelper()
+    
+    let newH = 21.0 * UIScreen.main.scale
+    static var bankTransfer: Array<UIImage>!
+    static var creditCard: Array<UIImage>!
+    static var indomaret: Array<UIImage>!
+    static var cimbClicks: Array<UIImage>!
+    static var mandiriClickpay: Array<UIImage>!
+    static var mandiriEcash: Array<UIImage>!
+    static var kredivo: Array<UIImage>!
+    
+    override init() {
+        super.init()
+        
+        PaymentMethodHelper.bankTransfer = []
+        PaymentMethodHelper.creditCard =  [UIImage(named: "ic_checkout_master_card")!.resizeWithHeight(newH)!, UIImage(named: "ic_checkout_visa")!.resizeWithHeight(newH)!]
+        PaymentMethodHelper.indomaret =  [UIImage(named: "ic_checkout_indomaret")!.resizeWithHeight(newH)!]
+        PaymentMethodHelper.cimbClicks =  [UIImage(named: "ic_checkout_cimb_clicks")!.resizeWithHeight(newH)!]
+        PaymentMethodHelper.mandiriClickpay =  [UIImage(named: "ic_checkout_mandiri_clickpay")!.resizeWithHeight(newH)!]
+        PaymentMethodHelper.mandiriEcash =  [UIImage(named: "ic_checkout_mandiri_e-cash")!.resizeWithHeight(newH)!]
+        PaymentMethodHelper.kredivo =  [UIImage(named: "ic_checkout_kredivo")!.resizeWithHeight(newH)!]
+    }
+}
+
 // MARK: - Enum
 enum paymentMethodProvider {
     case native
@@ -71,27 +97,26 @@ enum PaymentMethod {
     var icons : Array<String> {
         switch self {
         case .bankTransfer : return []
-        case .creditCard : return  ["ic_checkout_master_card", "ic_checkout_visa"]
-        case .indomaret : return  ["ic_checkout_indomaret"]
-        case .cimbClicks : return  ["ic_checkout_cimb_clicks"]
-        case .mandiriClickpay : return  ["ic_checkout_mandiri_clickpay"]
-        case .mandiriEcash : return  ["ic_checkout_mandiri_e-cash"]
-        case .kredivo : return  ["ic_checkout_kredivo"]
+        case .creditCard : return ["ic_checkout_master_card", "ic_checkout_visa"]
+        case .indomaret : return ["ic_checkout_indomaret"]
+        case .cimbClicks : return ["ic_checkout_cimb_clicks"]
+        case .mandiriClickpay : return ["ic_checkout_mandiri_clickpay"]
+        case .mandiriEcash : return ["ic_checkout_mandiri_e-cash"]
+        case .kredivo : return ["ic_checkout_kredivo"]
         }
     }
     */
     
     // image icon
     var imageIcons : Array<UIImage> {
-        let newH = 21.0 * UIScreen.main.scale
         switch self {
-        case .bankTransfer : return []
-        case .creditCard : return  [UIImage(named: "ic_checkout_master_card")!.resizeWithHeight(newH)!, UIImage(named: "ic_checkout_visa")!.resizeWithHeight(newH)!]
-        case .indomaret : return  [UIImage(named: "ic_checkout_indomaret")!.resizeWithHeight(newH)!]
-        case .cimbClicks : return  [UIImage(named: "ic_checkout_cimb_clicks")!.resizeWithHeight(newH)!]
-        case .mandiriClickpay : return  [UIImage(named: "ic_checkout_mandiri_clickpay")!.resizeWithHeight(newH)!]
-        case .mandiriEcash : return  [UIImage(named: "ic_checkout_mandiri_e-cash")!.resizeWithHeight(newH)!]
-        case .kredivo : return  [UIImage(named: "ic_checkout_kredivo")!.resizeWithHeight(newH)!]
+        case .bankTransfer : return PaymentMethodHelper.bankTransfer
+        case .creditCard : return PaymentMethodHelper.creditCard
+        case .indomaret : return PaymentMethodHelper.indomaret
+        case .cimbClicks : return PaymentMethodHelper.cimbClicks
+        case .mandiriClickpay : return PaymentMethodHelper.mandiriClickpay
+        case .mandiriEcash : return PaymentMethodHelper.mandiriEcash
+        case .kredivo : return PaymentMethodHelper.kredivo
         }
     }
     
@@ -196,6 +221,9 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // init
+        _ = PaymentMethodHelper.sharedInstance
         
         let Checkout2PaymentMethodCell = UINib(nibName: "Checkout2PaymentMethodCell", bundle: nil)
         tableView.register(Checkout2PaymentMethodCell, forCellReuseIdentifier: "Checkout2PaymentMethodCell")
@@ -687,7 +715,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                     }
                     
                     //self.tableView.reloadData()
-                    self.tableView.reloadSections(IndexSet.init(arrayLiteral: idx.section, idx.section+1), with: .fade)
+                    self.tableView.reloadRows(at: [idx], with: .fade)
+                    self.tableView.reloadSections(IndexSet.init(integer: idx.section+1), with: .fade)
                     
                     if self.isBalanceUsed {
                         self.scrollToSummary()
