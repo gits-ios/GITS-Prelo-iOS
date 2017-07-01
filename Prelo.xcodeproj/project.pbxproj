@@ -593,6 +593,9 @@
 		58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */ = {isa = PBXBuildFile; fileRef = 58FE766E1D34FB9B00D90F27 /* banner_featured.png */; };
 		B2099F961E1D1A3C00EBB57F /* CDDraftProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2099F951E1D1A3C00EBB57F /* CDDraftProduct.swift */; };
 		B2099FAB1E1E83BB00EBB57F /* CustomPhotoAlbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2099FAA1E1E83BB00EBB57F /* CustomPhotoAlbum.swift */; };
+		B20B89911F07880A001DA0F4 /* AddProduct3ImagesPreviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B20B89901F07880A001DA0F4 /* AddProduct3ImagesPreviewCell.xib */; };
+		B20B89931F078ADE001DA0F4 /* AddProduct3DetailProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B20B89921F078ADE001DA0F4 /* AddProduct3DetailProductCell.xib */; };
+		B20B89971F079212001DA0F4 /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = B20B89961F079212001DA0F4 /* UITextView+Placeholder.m */; };
 		B213E41A1E698A6500C76D04 /* tour_4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B213E4191E698A6500C76D04 /* tour_4.jpg */; };
 		B21B3F091E5AD33400FE5DB4 /* PreloAnalyticEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B3F081E5AD33400FE5DB4 /* PreloAnalyticEndpoints.swift */; };
 		B21B3F191E5ADFE600FE5DB4 /* AnalyticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B3F181E5ADFE600FE5DB4 /* AnalyticManager.swift */; };
@@ -1657,6 +1660,10 @@
 		58FE766E1D34FB9B00D90F27 /* banner_featured.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_featured.png; sourceTree = "<group>"; };
 		B2099F951E1D1A3C00EBB57F /* CDDraftProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDDraftProduct.swift; sourceTree = "<group>"; };
 		B2099FAA1E1E83BB00EBB57F /* CustomPhotoAlbum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomPhotoAlbum.swift; path = ../Controller/CustomPhotoAlbum.swift; sourceTree = "<group>"; };
+		B20B89901F07880A001DA0F4 /* AddProduct3ImagesPreviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3ImagesPreviewCell.xib; sourceTree = "<group>"; };
+		B20B89921F078ADE001DA0F4 /* AddProduct3DetailProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3DetailProductCell.xib; sourceTree = "<group>"; };
+		B20B89951F079212001DA0F4 /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
+		B20B89961F079212001DA0F4 /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Placeholder.m"; sourceTree = "<group>"; };
 		B213E4191E698A6500C76D04 /* tour_4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tour_4.jpg; sourceTree = "<group>"; };
 		B21B3F081E5AD33400FE5DB4 /* PreloAnalyticEndpoints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreloAnalyticEndpoints.swift; sourceTree = "<group>"; };
 		B21B3F181E5ADFE600FE5DB4 /* AnalyticManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticManager.swift; sourceTree = "<group>"; };
@@ -2075,6 +2082,7 @@
 				B2A834401E7055EB004C575A /* SCLAlertView */,
 				B2C59A9B1E2E4B31002E4597 /* SMSegmentView */,
 				B2FFCB831EA52669004F01D0 /* SocketIOClientSwift */,
+				B20B89941F0791F5001DA0F4 /* UITextView-Placeholder */,
 				21D387461B6B967A00D0FA90 /* UIViewController+KeyboardAnimation */,
 				21D3874B1B6B967A00D0FA90 /* ZSWTappableLabel */,
 			);
@@ -2454,6 +2462,7 @@
 				213E77141BABD8E700D3002B /* SearchResultHeader.xib */,
 				21104AD71BAAA15500947E7F /* SearchTag.xib */,
 				2190B4DF1BBE39F500AC6145 /* StoreHeader.xib */,
+				B21C2DFE1F078663002B1B07 /* Add Product Version 3 */,
 				B2EE39BF1E76548B00113E03 /* Popup */,
 				21EEB45D1B87038400CAD5C9 /* XIB */,
 			);
@@ -3221,6 +3230,25 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		B20B89941F0791F5001DA0F4 /* UITextView-Placeholder */ = {
+			isa = PBXGroup;
+			children = (
+				B20B89951F079212001DA0F4 /* UITextView+Placeholder.h */,
+				B20B89961F079212001DA0F4 /* UITextView+Placeholder.m */,
+			);
+			name = "UITextView-Placeholder";
+			sourceTree = "<group>";
+		};
+		B21C2DFE1F078663002B1B07 /* Add Product Version 3 */ = {
+			isa = PBXGroup;
+			children = (
+				B20B89901F07880A001DA0F4 /* AddProduct3ImagesPreviewCell.xib */,
+				B20B89921F078ADE001DA0F4 /* AddProduct3DetailProductCell.xib */,
+			);
+			name = "Add Product Version 3";
+			path = XIB;
+			sourceTree = "<group>";
+		};
 		B24FCEF31E536E8000B517A9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -3902,6 +3930,7 @@
 				585887421DBEDAC3006EC6D5 /* MyProductProcessing.xib in Resources */,
 				215C526D1B6B5CCE00EA4E61 /* ic_love@2x.png in Resources */,
 				B271A66A1EDEC40400C6A973 /* placeholder-standar-white.png in Resources */,
+				B20B89931F078ADE001DA0F4 /* AddProduct3DetailProductCell.xib in Resources */,
 				5858873B1DBEDA54006EC6D5 /* FilterCollectionCell.xib in Resources */,
 				5856875B1C6C97F4002A19CE /* ic_request.png in Resources */,
 				B271A6AB1EE0ACA900C6A973 /* placeholder-transparent-ipad-lightgray.png in Resources */,
@@ -3943,6 +3972,7 @@
 				589A6FCB1D8C08F600654CDD /* ic_tshirt.png in Resources */,
 				21EEB4781B87095C00CAD5C9 /* ic_user_2.png in Resources */,
 				585887361DBEDA2B006EC6D5 /* ExpiringProducts.xib in Resources */,
+				B20B89911F07880A001DA0F4 /* AddProduct3ImagesPreviewCell.xib in Resources */,
 				210959B41B8DD088000F2939 /* ic_tag@2x.png in Resources */,
 				2113125C1B67847100A4DA3B /* raisa.jpg in Resources */,
 				2116BAFA1BAC1DC9009B27C8 /* Default-Portrait-2048h.png in Resources */,
@@ -4238,6 +4268,7 @@
 				210000BC1BCBBC5000E16611 /* KDEDateLabel.swift in Sources */,
 				5858876C1DBEF170006EC6D5 /* InstagramLoginViewController.swift in Sources */,
 				5858876E1DBEF416006EC6D5 /* MyProductViewController.swift in Sources */,
+				B20B89971F079212001DA0F4 /* UITextView+Placeholder.m in Sources */,
 				21C658971B8EF25E0037F85F /* ActionSheetDistancePicker.m in Sources */,
 				216345011CC3A855005CBA37 /* MKImageView.swift in Sources */,
 				5847E1921DBDFCDB00C1B2BA /* LoginFransiskaViewController.swift in Sources */,
