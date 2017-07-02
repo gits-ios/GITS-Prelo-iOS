@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -187,6 +187,7 @@
                     <constraint firstItem="2EC-eC-lRD" firstAttribute="top" secondItem="niy-I6-cqm" secondAttribute="bottom" constant="8" id="Bwt-BV-5T9"/>
                     <constraint firstItem="ze4-8c-SaL" firstAttribute="leading" secondItem="eBW-mE-cLd" secondAttribute="leadingMargin" id="D18-Rb-hwd"/>
                     <constraint firstItem="Ogd-Gs-Nuy" firstAttribute="leading" secondItem="eBW-mE-cLd" secondAttribute="leadingMargin" id="DBJ-Nq-BCu"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="0PN-2u-xBZ" secondAttribute="trailing" constant="38" id="Ff4-ra-Tqv"/>
                     <constraint firstItem="27s-Re-5gu" firstAttribute="leading" secondItem="eBW-mE-cLd" secondAttribute="leadingMargin" id="GxY-4f-bV4"/>
                     <constraint firstAttribute="trailing" secondItem="4Jy-Zc-mqP" secondAttribute="trailing" id="J5c-0G-1dj"/>
                     <constraint firstItem="Ogd-Gs-Nuy" firstAttribute="top" secondItem="27s-Re-5gu" secondAttribute="bottom" constant="8" id="M7f-Tb-R91"/>
@@ -196,7 +197,6 @@
                     <constraint firstItem="FDM-qH-vbu" firstAttribute="leading" secondItem="eBW-mE-cLd" secondAttribute="leadingMargin" id="W3l-Ic-o3k"/>
                     <constraint firstItem="OXc-rc-BQa" firstAttribute="top" secondItem="2EC-eC-lRD" secondAttribute="bottom" id="W5a-7z-SZK"/>
                     <constraint firstItem="ze4-8c-SaL" firstAttribute="trailing" secondItem="eBW-mE-cLd" secondAttribute="trailingMargin" id="WJt-Mq-qhP"/>
-                    <constraint firstItem="ji4-bF-9wf" firstAttribute="leading" secondItem="0PN-2u-xBZ" secondAttribute="trailing" constant="8" id="Wdc-lU-I8v"/>
                     <constraint firstItem="niy-I6-cqm" firstAttribute="leading" secondItem="i3c-N8-zLk" secondAttribute="trailing" constant="8" id="Zb3-pF-iJV"/>
                     <constraint firstItem="2Jy-Wi-cFm" firstAttribute="top" secondItem="27s-Re-5gu" secondAttribute="bottom" constant="8" id="Zu9-9U-Mye"/>
                     <constraint firstItem="2EC-eC-lRD" firstAttribute="leading" secondItem="eBW-mE-cLd" secondAttribute="leadingMargin" id="bWS-yY-kbX"/>
@@ -205,7 +205,6 @@
                     <constraint firstItem="OXc-rc-BQa" firstAttribute="leading" secondItem="eBW-mE-cLd" secondAttribute="leadingMargin" id="fYv-O9-hZl"/>
                     <constraint firstItem="i3c-N8-zLk" firstAttribute="top" secondItem="eBW-mE-cLd" secondAttribute="topMargin" id="fxJ-k2-stX"/>
                     <constraint firstItem="27s-Re-5gu" firstAttribute="top" secondItem="FDM-qH-vbu" secondAttribute="bottom" id="hF4-3b-WGa"/>
-                    <constraint firstItem="ji4-bF-9wf" firstAttribute="leading" secondItem="0PN-2u-xBZ" secondAttribute="trailing" constant="8" id="hrT-SS-dff"/>
                     <constraint firstItem="4Jy-Zc-mqP" firstAttribute="top" secondItem="eBW-mE-cLd" secondAttribute="top" id="i0Q-1Y-kED"/>
                     <constraint firstItem="27s-Re-5gu" firstAttribute="trailing" secondItem="eBW-mE-cLd" secondAttribute="trailingMargin" id="mut-eE-fem"/>
                     <constraint firstItem="niy-I6-cqm" firstAttribute="top" secondItem="eBW-mE-cLd" secondAttribute="topMargin" id="neJ-jk-7Nf"/>
@@ -217,6 +216,7 @@
                 <outlet property="btnDelete" destination="ji4-bF-9wf" id="4V7-cc-yRd"/>
                 <outlet property="btnEdit" destination="0PN-2u-xBZ" id="TgL-Bh-0lF"/>
                 <outlet property="btnSetMain" destination="2Jy-Wi-cFm" id="CyQ-LL-9bn"/>
+                <outlet property="consTrailingBtnEdit" destination="Ff4-ra-Tqv" id="Ee3-MQ-Yx4"/>
                 <outlet property="imgPin" destination="KI2-JR-s5e" id="aKk-lb-Dcg"/>
                 <outlet property="lblAddress" destination="OXc-rc-BQa" id="YDZ-Q6-kAV"/>
                 <outlet property="lblName" destination="2EC-eC-lRD" id="Eqz-aT-ZbF"/>

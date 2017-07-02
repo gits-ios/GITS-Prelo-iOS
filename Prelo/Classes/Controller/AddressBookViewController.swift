@@ -350,6 +350,7 @@ class AddressBookCell: UITableViewCell { // height 192
     @IBOutlet weak var btnDelete: UIButton!
     @IBOutlet weak var btnEdit: UIButton!
     @IBOutlet weak var imgPin: UIImageView!
+    @IBOutlet weak var consTrailingBtnEdit: NSLayoutConstraint! // 38 -> 0
     
     var address: AddressItem!
     
@@ -395,12 +396,14 @@ class AddressBookCell: UITableViewCell { // height 192
             vwMain.isHidden = false
             btnSetMain.isHidden = true
             btnDelete.isHidden = true
+            consTrailingBtnEdit.constant = 0.0
             //btnDelete.isEnabled = false
             //btnDelete.setTitleColor(UIColor.lightGray)
         } else {
             vwMain.isHidden = true
             btnSetMain.isHidden = false
             btnDelete.isHidden = false
+            consTrailingBtnEdit.constant = 38.0
             //btnDelete.isEnabled = true
             //btnDelete.setTitleColor(UIColor.darkGray)
         }
