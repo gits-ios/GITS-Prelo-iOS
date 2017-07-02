@@ -312,6 +312,9 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
                 let _ = request(APIMe.updateAddress(addressId: (address?.id)!, addressName: txtNamaAlamat.text!, recipientName: txtNama.text!, phone: txtTelepon.text!, provinceId: selectedProvinceId, provinceName: lblProvinsi.text!, regionId: selectedRegionId, regionName: lblKotaKabupaten.text!, subdistrictId: selectedSubdistrictId, subdistricName: lblKecamatan.text!, address: txtAlamat.text!, postalCode: txtKodePos.text!, isMainAddress: (address?.isMainAddress)!, coordinate: coordinate, coordinateAddress: lblLokasi.text!)).responseJSON { resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Edit Alamat")) {
                         Constant.showDialog("Edit Alamat", message: "Alamat berhasil diperbarui")
+                        if (self.address?.isMainAddress)! {
+                            self.setupProfile()
+                        }
                         _ = self.navigationController?.popViewController(animated: true)
                     }
                 }
@@ -325,6 +328,31 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
                 }
                 
             }
+        }
+    }
+    
+    // MARK: - Update user Profile
+    func setupProfile() {
+        let m = UIApplication.appDelegate.managedObjectContext
+        
+        if let userProfile = CDUserProfile.getOne() {
+            userProfile.address = (address?.address)!
+            userProfile.postalCode = (address?.postalCode)!
+            userProfile.regionID = (address?.regionId)!
+            userProfile.provinceID = (address?.provinceId)!
+            userProfile.subdistrictID = (address?.subdisrictId)!
+            userProfile.subdistrictName = (address?.subdisrictName)!
+            userProfile.addressName = (address?.addressName)!
+            userProfile.recipientName = (address?.recipientName)!
+            userProfile.coordinate = (address?.coordinate)!
+            userProfile.coordinateAddress = (address?.coordinateAddress)!
+        }
+        
+        // Save data
+        if (m.saveSave() == false) {
+            //print("Failed")
+        } else {
+            //print("Data saved")
         }
     }
     
