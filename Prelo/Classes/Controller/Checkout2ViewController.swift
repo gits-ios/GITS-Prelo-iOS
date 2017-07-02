@@ -1105,7 +1105,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                                 self.tableView.reloadRows(at: [idx], with: .fade)
                                 
                                 if self.selectedAddress.addressId != "" {
-                                    self.updateAddress()
+                                    self.updateCoordinateAddress()
                                 }
                             }
                             self.navigationController?.pushViewController(googleMapVC, animated: true)
@@ -1570,6 +1570,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         self.insertNewAddress()
                     } else if self.selectedAddress.isDefault && self.selectedAddress.isSave {
                         self.setupProfile()
+                        self.updateDefaultAddress() // name & phone
                     }
                     
                     var pName : String? = ""
@@ -2110,7 +2111,8 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     // MARK: - Update Exist Address
-    func updateAddress() {
+    // coordinate
+    func updateCoordinateAddress() {
         let _ = request(APIMe.updateCoordinate(addressId: self.selectedAddress.addressId, coordinate: self.selectedAddress.coordinate, coordinateAddress: self.selectedAddress.coordinateAddress)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Alamat Baru")) {
                 //print("Update Address - Save!")
@@ -2122,7 +2124,17 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         }
     }
     
+    // default address -> recipient name & phone
+    func updateDefaultAddress() {
+        let _ = request(APIMe.updateNameAndAddress(addressId: self.selectedAddress.addressId, recipientName: self.selectedAddress.name, phone: self.selectedAddress.phone)).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Alamat Baru")) {
+                //print("Update Address - Save!")
+            }
+        }
+    }
+    
     // MARK: - Update user Profile
+    // coordinate / default address
     func setupProfile() {
         let m = UIApplication.appDelegate.managedObjectContext
         

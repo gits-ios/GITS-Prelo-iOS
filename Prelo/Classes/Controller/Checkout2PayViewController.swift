@@ -959,6 +959,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                         self.insertNewAddress()
                     } else if self.selectedAddress.isDefault && self.selectedAddress.isSave {
                         self.setupProfile()
+                        self.updateDefaultAddress() // name & phone
                     }
                     
                     var pName : String? = ""
@@ -1349,13 +1350,24 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         view.endEditing(true)
     }
     
+    // MARK: - Update Exist Address
+    // default address -> recipient name & phone
+    func updateDefaultAddress() {
+        let _ = request(APIMe.updateNameAndAddress(addressId: self.selectedAddress.addressId, recipientName: self.selectedAddress.name, phone: self.selectedAddress.phone)).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Alamat Baru")) {
+                //print("Update Address - Save!")
+            }
+        }
+    }
+    
     // MARK: - Update user Profile
+    // default address
     func setupProfile() {
         let m = UIApplication.appDelegate.managedObjectContext
         
         if let userProfile = CDUserProfile.getOne() {
-            userProfile.coordinate = self.selectedAddress.coordinate
-            userProfile.coordinateAddress = self.selectedAddress.coordinateAddress
+            //userProfile.coordinate = self.selectedAddress.coordinate
+            //userProfile.coordinateAddress = self.selectedAddress.coordinateAddress
             userProfile.address = self.selectedAddress.address
             userProfile.postalCode = self.selectedAddress.postalCode
             userProfile.recipientName = self.selectedAddress.name

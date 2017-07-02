@@ -784,7 +784,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                                 self.tableView.reloadRows(at: [idx], with: .fade)
                                 
                                 if self.selectedAddress.addressId != "" {
-                                    self.updateAddress()
+                                    self.updateCoordinateAddress()
                                 }
                             }
                             self.navigationController?.pushViewController(googleMapVC, animated: true)
@@ -1137,7 +1137,8 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     // MARK: - Update Exist Address
-    func updateAddress() {
+    // coordinate
+    func updateCoordinateAddress() {
         let _ = request(APIMe.updateCoordinate(addressId: self.selectedAddress.addressId, coordinate: self.selectedAddress.coordinate, coordinateAddress: self.selectedAddress.coordinateAddress)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Alamat Baru")) {
                 //print("Update Address - Save!")
@@ -1150,16 +1151,17 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     // MARK: - Update user Profile
+    // coordinate
     func setupProfile() {
         let m = UIApplication.appDelegate.managedObjectContext
         
         if let userProfile = CDUserProfile.getOne() {
             userProfile.coordinate = self.selectedAddress.coordinate
             userProfile.coordinateAddress = self.selectedAddress.coordinateAddress
-            userProfile.address = self.selectedAddress.address
-            userProfile.postalCode = self.selectedAddress.postalCode
-            userProfile.recipientName = self.selectedAddress.name
-            userProfile.phone = self.selectedAddress.phone
+            //userProfile.address = self.selectedAddress.address
+            //userProfile.postalCode = self.selectedAddress.postalCode
+            //userProfile.recipientName = self.selectedAddress.name
+            //userProfile.phone = self.selectedAddress.phone
         }
         
         // Save data

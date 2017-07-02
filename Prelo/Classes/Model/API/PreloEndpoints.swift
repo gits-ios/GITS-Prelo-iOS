@@ -571,6 +571,7 @@ enum APIMe : URLRequestConvertible {
     case deleteAddress(addressId: String)
     case setDefaultAddress(addressId: String)
     case updateCoordinate(addressId: String, coordinate: String, coordinateAddress: String)
+    case updateNameAndAddress(addressId: String, recipientName: String, phone: String)
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "me/"
@@ -604,11 +605,12 @@ enum APIMe : URLRequestConvertible {
         case .setUserUUID : return .post
         case .achievement : return .get
         case .getAddressBook : return .get
-        case .updateAddress(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _) : return .post
-        case .createAddress(_, _, _, _, _, _, _, _, _, _, _, _, _) : return .post
-        case .deleteAddress(_) : return .post
-        case .setDefaultAddress(_) : return .post
-        case .updateCoordinate(_, _, _) : return .post
+        case .updateAddress(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _),
+             .createAddress(_, _, _, _, _, _, _, _, _, _, _, _, _),
+             .deleteAddress(_),
+             .setDefaultAddress(_),
+             .updateCoordinate(_, _, _),
+             .updateNameAndAddress(_, _, _) : return .post
         }
     }
     
@@ -635,11 +637,12 @@ enum APIMe : URLRequestConvertible {
         case .setUserUUID : return "setgafaid"
         case .achievement : return "achievements"
         case .getAddressBook : return "address_book"
-        case .updateAddress(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _) : return "address_book/update"
         case .createAddress(_, _, _, _, _, _, _, _, _, _, _, _, _) : return "address_book/add"
         case .deleteAddress(_) : return "address_book/delete"
         case .setDefaultAddress(_) : return "address_book/set_default"
-        case .updateCoordinate(_, _, _) : return "address_book/update"
+        case .updateAddress(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _),
+             .updateCoordinate(_, _, _),
+             .updateNameAndAddress(_, _, _) : return "address_book/update"
         }
     }
     
@@ -793,6 +796,13 @@ enum APIMe : URLRequestConvertible {
                 "platform_sent_from" : "ios",
                 "coordinate": coordinate,
                 "coordinate_address": coordinateAddress
+            ]
+        case .updateNameAndAddress(let addressId, let recipientName, let phone) :
+            p = [
+                "address_id": addressId,
+                "platform_sent_from" : "ios",
+                "owner_name": recipientName,
+                "phone": phone
             ]
         default : break
         }
