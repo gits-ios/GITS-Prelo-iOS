@@ -686,6 +686,7 @@
 		B2D119931E290BF80064045B /* banner_exclamation.png in Resources */ = {isa = PBXBuildFile; fileRef = B2D1198E1E290BF80064045B /* banner_exclamation.png */; };
 		B2D119941E290BF80064045B /* banner_comment.png in Resources */ = {isa = PBXBuildFile; fileRef = B2D1198F1E290BF80064045B /* banner_comment.png */; };
 		B2D119D41E2922870064045B /* Prelo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B2D119CB1E2922870064045B /* Prelo.xcdatamodeld */; };
+		B2D34AC81F0A278F00F16BB1 /* AddProduct3WeightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D34AC71F0A278F00F16BB1 /* AddProduct3WeightCell.xib */; };
 		B2D481CA1E02A7AD006006CC /* LocationFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D481C81E02A7AD006006CC /* LocationFilterViewController.swift */; };
 		B2D481CB1E02A7AD006006CC /* ReportProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D481C91E02A7AD006006CC /* ReportProductViewController.swift */; };
 		B2D481DC1E02A7E2006006CC /* LocationFilters.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D481DA1E02A7E1006006CC /* LocationFilters.xib */; };
@@ -1765,6 +1766,7 @@
 		B2D119D21E2922870064045B /* Prelo 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 8.xcdatamodel"; sourceTree = "<group>"; };
 		B2D119D31E2922870064045B /* Prelo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Prelo.xcdatamodel; sourceTree = "<group>"; };
 		B2D119D51E2922A10064045B /* Prelo 9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 9.xcdatamodel"; sourceTree = "<group>"; };
+		B2D34AC71F0A278F00F16BB1 /* AddProduct3WeightCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3WeightCell.xib; sourceTree = "<group>"; };
 		B2D481C81E02A7AD006006CC /* LocationFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationFilterViewController.swift; sourceTree = "<group>"; };
 		B2D481C91E02A7AD006006CC /* ReportProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportProductViewController.swift; sourceTree = "<group>"; };
 		B2D481DA1E02A7E1006006CC /* LocationFilters.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LocationFilters.xib; sourceTree = "<group>"; };
@@ -3244,6 +3246,7 @@
 			children = (
 				B20B89901F07880A001DA0F4 /* AddProduct3ImagesPreviewCell.xib */,
 				B20B89921F078ADE001DA0F4 /* AddProduct3DetailProductCell.xib */,
+				B2D34AC71F0A278F00F16BB1 /* AddProduct3WeightCell.xib */,
 			);
 			name = "Add Product Version 3";
 			path = XIB;
@@ -3822,6 +3825,7 @@
 				58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */,
 				B240F4D91E24C1AD00DCAFF7 /* AchievementDiamondCell.xib in Resources */,
 				589A6FBE1D8C08F600654CDD /* ic_gambar_utama.png in Resources */,
+				B2D34AC81F0A278F00F16BB1 /* AddProduct3WeightCell.xib in Resources */,
 				5847E1971DBE081700C1B2BA /* Register.xib in Resources */,
 				58A223C71C898CB600619518 /* ic_trx_expired.png in Resources */,
 				589A6FB61D8C08F600654CDD /* ic_chat_tawar.png in Resources */,
