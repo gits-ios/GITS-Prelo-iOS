@@ -160,7 +160,7 @@ struct PaymentMethodItem {
     //var type: Int = 0
     //var chargeDescription: String = ""
     var charge: Int64 = 0
-    //var methodDescription: String = ""
+    var methodDescription: String = ""
 }
 
 struct DiscountItem {
@@ -343,7 +343,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         p.methodDetail = .bankTransfer
         p.charge = self.cartResult.banktransferDigit
         //p.chargeDescription = "Kode Unik Transfer"
-        //p.methodDescription = ""
+        p.methodDescription = ""
         self.paymentMethods.append(p)
         
         let ab = self.cartResult.abTest
@@ -484,7 +484,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             p.methodDetail = .creditCard
             p.charge = creditCardCharge
             //p.chargeDescription = PaymentMethod.creditCard.value + " Charge"
-            //p.methodDescription = (self.cartResult.veritransCharge?.creditCardText)!
+            p.methodDescription = (self.cartResult.veritransCharge?.creditCardText)!
             self.paymentMethods.append(p)
         }
         
@@ -493,7 +493,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             p.methodDetail = .indomaret
             p.charge = indomaretCharge
             //p.chargeDescription = PaymentMethod.indomaret.value + " Charge"
-            //p.methodDescription = (self.cartResult.veritransCharge?.indomaretText)!
+            p.methodDescription = (self.cartResult.veritransCharge?.indomaretText)!
             self.paymentMethods.append(p)
             
             if p.charge == 0 {
@@ -506,7 +506,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             p.methodDetail = .kredivo
             p.charge = kredivoCharge
             //p.chargeDescription = PaymentMethod.kredivo.value + " Charge"
-            //p.methodDescription = (self.cartResult.kredivoCharge?.text)!
+            p.methodDescription = (self.cartResult.kredivoCharge?.text)!
             self.paymentMethods.append(p)
         }
         
@@ -515,7 +515,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             p.methodDetail = .cimbClicks
             p.charge = cimbClicksCharge
             //p.chargeDescription = PaymentMethod.cimbClicks.value + " Charge"
-            //p.methodDescription = (self.cartResult.veritransCharge?.cimbClicksText)!
+            p.methodDescription = (self.cartResult.veritransCharge?.cimbClicksText)!
             self.paymentMethods.append(p)
         }
         
@@ -524,7 +524,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             p.methodDetail = .mandiriClickpay
             p.charge = mandiriClickpayCharge
             //p.chargeDescription = PaymentMethod.mandiriClickpay.value + " Charge"
-            //p.methodDescription = (self.cartResult.veritransCharge?.mandiriClickpayText)!
+            p.methodDescription = (self.cartResult.veritransCharge?.mandiriClickpayText)!
             self.paymentMethods.append(p)
         }
         
@@ -533,7 +533,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             p.methodDetail = .mandiriEcash
             p.charge = mandiriEcashCharge
             //p.chargeDescription = PaymentMethod.mandiriEcash.value + " Charge"
-            //p.methodDescription = (self.cartResult.veritransCharge?.mandiriEcashText)!
+            p.methodDescription = (self.cartResult.veritransCharge?.mandiriEcashText)!
             self.paymentMethods.append(p)
         }
         
@@ -616,7 +616,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             } else if idx.row == 1 {
                 return Checkout2PaymentBankCell.heightFor(selectedPaymentIndex == idx.row-1)
             } else { // cc, indomaret, etc
-                return Checkout2PaymentCreditCardCell.heightFor(self.paymentMethods[idx.row-1].methodDetail, isSelected: selectedPaymentIndex == idx.row-1)
+                return Checkout2PaymentCreditCardCell.heightFor(self.paymentMethods[idx.row-1], isSelected: selectedPaymentIndex == idx.row-1)
             }
         } else if idx.section == 1 {
             if idx.row == 0 {
@@ -665,7 +665,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 cell.selectionStyle = .none
                 cell.clipsToBounds = true
                 
-                cell.adapt(self.paymentMethods[idx.row-1].methodDetail, isSelected: selectedPaymentIndex == idx.row-1)
+                cell.adapt(self.paymentMethods[idx.row-1], isSelected: selectedPaymentIndex == idx.row-1)
                 
                 return cell
             }
@@ -1736,12 +1736,12 @@ class Checkout2PaymentCreditCardCell: UITableViewCell {
     // Mandiri Clickpay
     // Kredivo
     
-    func adapt(_ paymentMethod: PaymentMethod, isSelected: Bool) {
-        self.lbTitle.text = paymentMethod.title
-        self.lbDescription.text = paymentMethod.description //"Pembayaran Aman dengan " + paymentMethod.title
+    func adapt(_ paymentMethodItem: PaymentMethodItem, isSelected: Bool) {
+        self.lbTitle.text = paymentMethodItem.methodDetail.title
+        self.lbDescription.text = paymentMethodItem.methodDescription //paymentMethodItem.methodDetail.description //"Pembayaran Aman dengan " + paymentMethodItem.methodDetail.title
         //self.lbDescription.italicSubstring("charge")
         
-        self.setupImagesContainer(paymentMethod)
+        self.setupImagesContainer(paymentMethodItem.methodDetail)
         
         if isSelected {
             self.lbCheck.isHidden = false
@@ -1750,9 +1750,9 @@ class Checkout2PaymentCreditCardCell: UITableViewCell {
         }
     }
     
-    static func heightFor(_ paymentMethod: PaymentMethod, isSelected: Bool) -> CGFloat {
+    static func heightFor(_ paymentMethodItem: PaymentMethodItem, isSelected: Bool) -> CGFloat {
         if isSelected {
-            let t = paymentMethod.description.boundsWithFontSize(UIFont.systemFont(ofSize: 10.0), width: AppTools.screenWidth - 24)
+            let t = paymentMethodItem.methodDescription.boundsWithFontSize(UIFont.systemFont(ofSize: 10.0), width: AppTools.screenWidth - 24) //paymentMethodItem.methodDetail.description
             return 47.5 + t.height // t.height -> min 12
         }
         return 35.0

@@ -571,7 +571,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         p.methodDetail = .bankTransfer
         p.charge = self.cartResult.banktransferDigit
         //p.chargeDescription = "Kode Unik Transfer"
-        //p.methodDescription = ""
+        p.methodDescription = ""
         self.paymentMethods.append(p)
         
         let ab = self.cartResult.abTest
@@ -714,7 +714,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
             p.methodDetail = .creditCard
             p.charge = creditCardCharge
             //p.chargeDescription = PaymentMethod.creditCard.value + " Charge"
-            //p.methodDescription = (self.cartResult.veritransCharge?.creditCardText)!
+            p.methodDescription = (self.cartResult.veritransCharge?.creditCardText)!
             self.paymentMethods.append(p)
         }
         
@@ -723,7 +723,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
             p.methodDetail = .indomaret
             p.charge = indomaretCharge
             //p.chargeDescription = PaymentMethod.indomaret.value + " Charge"
-            //p.methodDescription = (self.cartResult.veritransCharge?.indomaretText)!
+            p.methodDescription = (self.cartResult.veritransCharge?.indomaretText)!
             self.paymentMethods.append(p)
             
             if p.charge == 0 {
@@ -736,7 +736,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
             p.methodDetail = .kredivo
             p.charge = kredivoCharge
             //p.chargeDescription = PaymentMethod.kredivo.value + " Charge"
-            //p.methodDescription = (self.cartResult.kredivoCharge?.text)!
+            p.methodDescription = (self.cartResult.kredivoCharge?.text)!
             self.paymentMethods.append(p)
         }
         
@@ -745,7 +745,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
             p.methodDetail = .cimbClicks
             p.charge = cimbClicksCharge
             //p.chargeDescription = PaymentMethod.cimbClicks.value + " Charge"
-            //p.methodDescription = (self.cartResult.veritransCharge?.cimbClicksText)!
+            p.methodDescription = (self.cartResult.veritransCharge?.cimbClicksText)!
             self.paymentMethods.append(p)
         }
         
@@ -754,7 +754,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
             p.methodDetail = .mandiriClickpay
             p.charge = mandiriClickpayCharge
             //p.chargeDescription = PaymentMethod.mandiriClickpay.value + " Charge"
-            //p.methodDescription = (self.cartResult.veritransCharge?.mandiriClickpayText)!
+            p.methodDescription = (self.cartResult.veritransCharge?.mandiriClickpayText)!
             self.paymentMethods.append(p)
         }
         
@@ -763,7 +763,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
             p.methodDetail = .mandiriEcash
             p.charge = mandiriEcashCharge
             //p.chargeDescription = PaymentMethod.mandiriEcash.value + " Charge"
-            //p.methodDescription = (self.cartResult.veritransCharge?.mandiriEcashText)!
+            p.methodDescription = (self.cartResult.veritransCharge?.mandiriEcashText)!
             self.paymentMethods.append(p)
         }
         
@@ -862,7 +862,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                 } else if idx.row == 1 {
                     return Checkout2PaymentBankCell.heightFor(selectedPaymentIndex == idx.row-1)
                 } else { // cc, indomaret, etc
-                    return Checkout2PaymentCreditCardCell.heightFor(self.paymentMethods[idx.row-1].methodDetail, isSelected: selectedPaymentIndex == idx.row-1)
+                    return Checkout2PaymentCreditCardCell.heightFor(self.paymentMethods[idx.row-1], isSelected: selectedPaymentIndex == idx.row-1)
                 }
             } else if idx.section == cartResult.cartDetails.count + 4 {
                 if idx.row == 0 {
@@ -1171,7 +1171,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     cell.selectionStyle = .none
                     cell.clipsToBounds = true
                     
-                    cell.adapt(self.paymentMethods[idx.row-1].methodDetail, isSelected: selectedPaymentIndex == idx.row-1)
+                    cell.adapt(self.paymentMethods[idx.row-1], isSelected: selectedPaymentIndex == idx.row-1)
                     
                     return cell
                 }
