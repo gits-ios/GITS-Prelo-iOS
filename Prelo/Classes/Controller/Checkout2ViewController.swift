@@ -929,7 +929,8 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         
                         CartManager.sharedInstance.updateShippingPackageId(sellerId, shippingPackageId: courierId)
                         
-                        self.countSubTotal()
+                        //self.countSubTotal()
+                        self.setupPaymentAndDiscount() // update bonus
                         
                         self.tableView.reloadData()
                     }
@@ -1246,8 +1247,22 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         //self.tableView.reloadSections(IndexSet.init(arrayLiteral: idx.section, idx.section+1), with: .fade)
                         self.tableView.reloadRows(at: [idx], with: .fade)
                         
+                        var i = 0
+                        if self.discountItems[0].title == "Prelo Balance" {
+                            i = 1
+                        }
+                        
                         if self.isVoucherUsed {
+                            /*if self.voucherSerial != nil && self.voucherSerial != "" {
+                             self.synchCart()
+                             }*/
                             self.scrollToSummary()
+                        } else {
+                            if self.discountItems[i].title.contains("Voucher") {
+                                self.discountItems.remove(at: i)
+                                self.tableView.reloadSections(IndexSet.init(integer: idx.section+1), with: .fade)
+                                self.isFreeze = false
+                            }
                         }
                     }
                     
@@ -1518,6 +1533,11 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
             self.scrollToTop()
             
             Constant.showDialog("Gagal melanjutkan", message: "Terdapat kesalahan, coba cek pesanan Kamu")
+            return false
+        }
+        
+        if self.isVoucherUsed && !self.isFreeze {
+            Constant.showDialog("Voucher", message: "Mohon klik Apply untuk menggunakan voucher")
             return false
         }
         

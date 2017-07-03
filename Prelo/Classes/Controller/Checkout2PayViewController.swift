@@ -739,8 +739,22 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                     //self.tableView.reloadSections(IndexSet.init(arrayLiteral: idx.section, idx.section+1), with: .fade)
                     self.tableView.reloadRows(at: [idx], with: .fade)
                     
+                    var i = 0
+                    if self.discountItems[0].title == "Prelo Balance" {
+                        i = 1
+                    }
+                    
                     if self.isVoucherUsed {
+                        /*if self.voucherSerial != nil && self.voucherSerial != "" {
+                            self.synchCart()
+                        }*/
                         self.scrollToSummary()
+                    } else {
+                        if self.discountItems[i].title.contains("Voucher") {
+                            self.discountItems.remove(at: i)
+                            self.tableView.reloadSections(IndexSet.init(integer: idx.section+1), with: .fade)
+                            self.isFreeze = false
+                        }
                     }
                 }
                 
@@ -871,6 +885,10 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 cell.adapt(totalAmount, paymentMethodDescription: self.lblSend)
                 
                 cell.checkout = {
+                    if !self.validateField() {
+                        return
+                    }
+                    
                     self.showLoading()
                     let alertView = SCLAlertView(appearance: Constant.appearance)
                     alertView.addButton("Lanjutkan") {
@@ -911,6 +929,16 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 self.tableView.reloadRows(at: reloadIdxs, with: .fade)
             }
         }
+    }
+    
+    // MARK: - Validation (Address)
+    func validateField() -> Bool {
+        if self.isVoucherUsed && !self.isFreeze {
+            Constant.showDialog("Voucher", message: "Mohon klik Apply untuk menggunakan voucher")
+            return false
+        }
+        
+        return true
     }
     
     // MARK: - Checkout
@@ -1858,12 +1886,22 @@ class Checkout2PreloBalanceCell: UITableViewCell, UITextFieldDelegate {
                     
                     parent.preloBalanceUsed = _t.int64
                     
+                    var isOke = false
                     if parent.discountItems.count > 0 {
                         for i in 0...parent.discountItems.count-1 {
                             if parent.discountItems[i].title == "Prelo Balance" {
                                 parent.discountItems[i].value = parent.preloBalanceUsed
+                                isOke = true
                             }
                         }
+                    }
+                    
+                    if !isOke {
+                        var d = DiscountItem()
+                        d.title = "Prelo Balance"
+                        d.value = parent.preloBalanceUsed
+                        
+                        parent.discountItems.insert(d, at: 0)
                     }
                     
                     parent.tableView.reloadData()
@@ -1898,12 +1936,22 @@ class Checkout2PreloBalanceCell: UITableViewCell, UITextFieldDelegate {
                     
                     parent.preloBalanceUsed = _t.int64
                     
+                    var isOke = false
                     if parent.discountItems.count > 0 {
                         for i in 0...parent.discountItems.count-1 {
                             if parent.discountItems[i].title == "Prelo Balance" {
                                 parent.discountItems[i].value = parent.preloBalanceUsed
+                                isOke = true
                             }
                         }
+                    }
+                    
+                    if !isOke {
+                        var d = DiscountItem()
+                        d.title = "Prelo Balance"
+                        d.value = parent.preloBalanceUsed
+                        
+                        parent.discountItems.insert(d, at: 0)
                     }
                     
                     parent.tableView.reloadData()
@@ -1968,28 +2016,26 @@ class Checkout2VoucherCell: UITableViewCell {
         self.txtInputVoucher.text = voucher
         self.btnSwitch.isOn = isUsed
         
-        /*
-        self.btnSwitch.isEnabled = !isFreeze
+        //self.btnSwitch.isEnabled = !isFreeze
         self.txtInputVoucher.isEnabled = !isFreeze
         self.btnApply.isEnabled = !isFreeze
-        */
+        self.btnApply.viewWithTag(999)?.removeFromSuperview()
         
         if isFreeze {
-            /*
             let view = UIView(frame: self.btnApply.bounds)
             view.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.4)
             view.tag = 999
             
-            self.btnApply.viewWithTag(999)?.removeFromSuperview()
             self.btnApply.addSubview(view)
-             */
-            
+ 
+            /*
             let view = UIView(frame: self.bounds)
             view.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.4)
             view.tag = 999
             
             self.viewWithTag(999)?.removeFromSuperview()
             self.addSubview(view)
+            */
         }
     }
     
