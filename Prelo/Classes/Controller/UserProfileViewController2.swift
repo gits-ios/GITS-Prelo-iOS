@@ -58,6 +58,11 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     @IBOutlet weak var lblRegion: UILabel!
     @IBOutlet weak var lblProvince: UILabel!
     
+    // shop
+    @IBOutlet weak var vwClose: UIView!
+    @IBOutlet weak var fieldTentangShopTop: NSLayoutConstraint!
+    
+    
     var isNeedReload = false
     
     override func viewDidLoad() {
@@ -66,6 +71,9 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         self.title = "Edit Profil"
         setNavBarButtons()
         initiateFields()
+        
+        vwClose.isHidden = true
+        fieldTentangShopTop.constant = -40
         
         // Tampilan loading
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
@@ -790,5 +798,14 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         
         let addressBookVC = Bundle.main.loadNibNamed(Tags.XibNameAddressBook, owner: nil, options: nil)?.first as! AddressBookViewController
         self.navigationController?.pushViewController(addressBookVC, animated: true)
+    }
+    
+    // MARK: - Close Shop
+    
+    @IBAction func CloseShopPressed(_ sender: Any) {
+        isNeedReload = true
+        
+        let changeShopStatusVC = Bundle.main.loadNibNamed(Tags.XibNameChangeShopStatus, owner: nil, options: nil)?.first as! ChangeShopStatusViewController
+        self.navigationController?.pushViewController(changeShopStatusVC, animated: true)
     }
 }

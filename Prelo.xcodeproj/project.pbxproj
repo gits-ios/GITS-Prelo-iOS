@@ -439,6 +439,8 @@
 		585B6AEF1DBE152C005DEBA4 /* AddProductImageSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127A2A71B7B336000469CFC /* AddProductImageSourceViewController.swift */; };
 		5870CFDB1DC6F85900E22EFF /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5870CFCE1DC6F7E600E22EFF /* AlamofireImage.framework */; };
 		5870CFDC1DC6F85900E22EFF /* AlamofireImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5870CFCE1DC6F7E600E22EFF /* AlamofireImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		588113251F0A0EB100AF17D7 /* ChangeShopStatus.xib in Resources */ = {isa = PBXBuildFile; fileRef = 588113241F0A0EB100AF17D7 /* ChangeShopStatus.xib */; };
+		588113271F0A101900AF17D7 /* ChangeShopStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588113261F0A101900AF17D7 /* ChangeShopStatusViewController.swift */; };
 		588148AC1DC09F88004180E1 /* ProductCompareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588148AB1DC09F88004180E1 /* ProductCompareViewController.swift */; };
 		588148B51DC09FBA004180E1 /* ProductCompare.xib in Resources */ = {isa = PBXBuildFile; fileRef = 588148B41DC09FBA004180E1 /* ProductCompare.xib */; };
 		588148BA1DC0B244004180E1 /* ProductCompareMainCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 588148B91DC0B244004180E1 /* ProductCompareMainCell.xib */; };
@@ -1434,6 +1436,8 @@
 		585373CF1DF9388A00CEE663 /* InstagramSharePreview.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InstagramSharePreview.xib; sourceTree = "<group>"; };
 		5856875A1C6C97F4002A19CE /* ic_request.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_request.png; sourceTree = "<group>"; };
 		5870CFBA1DC6F7E600E22EFF /* AlamofireImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireImage.xcodeproj; path = AlamofireImage/AlamofireImage.xcodeproj; sourceTree = "<group>"; };
+		588113241F0A0EB100AF17D7 /* ChangeShopStatus.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangeShopStatus.xib; sourceTree = "<group>"; };
+		588113261F0A101900AF17D7 /* ChangeShopStatusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeShopStatusViewController.swift; sourceTree = "<group>"; };
 		588148AB1DC09F88004180E1 /* ProductCompareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCompareViewController.swift; sourceTree = "<group>"; };
 		588148B41DC09FBA004180E1 /* ProductCompare.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCompare.xib; sourceTree = "<group>"; };
 		588148B91DC0B244004180E1 /* ProductCompareMainCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCompareMainCell.xib; sourceTree = "<group>"; };
@@ -2410,6 +2414,7 @@
 				21156EB91B8F5B4C001D7842 /* UserProfileViewController.swift */,
 				B21DF53F1E5187EA007A60C5 /* UserProfileViewController2.swift */,
 				21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */,
+				588113261F0A101900AF17D7 /* ChangeShopStatusViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -3025,6 +3030,7 @@
 				21104AD01BAA8F1200947E7F /* TransactionListCell.xib */,
 				21156EBB1B8F5B5D001D7842 /* UserProfile.xib */,
 				B21DF5291E5179E5007A60C5 /* UserProfile2.xib */,
+				588113241F0A0EB100AF17D7 /* ChangeShopStatus.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -3808,6 +3814,7 @@
 				210702E41BE7A8F100DD9E52 /* cu_wasap@2x.png in Resources */,
 				589A6FAF1D8C08F600654CDD /* ic_1kg.png in Resources */,
 				B2BEBC7A1E4C29FD009982F9 /* placeholder-badge.png in Resources */,
+				588113251F0A0EB100AF17D7 /* ChangeShopStatus.xib in Resources */,
 				B2F0EFE81EEECAEB00A678F8 /* ic_christmas@2x.png in Resources */,
 				210702E11BE7A8F100DD9E52 /* cu_email@2x.png in Resources */,
 				216799751B8F879A00F18F90 /* rsz_ic_mandiri@2x.png in Resources */,
@@ -4083,6 +4090,7 @@
 				58DD28E31DAF36BB00130B6F /* BFDate.swift in Sources */,
 				B2C59AA31E2E4B31002E4597 /* SMSegmentViewConstants.swift in Sources */,
 				B240F4F11E24DE7000DCAFF7 /* AchievementViewController.swift in Sources */,
+				588113271F0A101900AF17D7 /* ChangeShopStatusViewController.swift in Sources */,
 				585887811DBF1802006EC6D5 /* OrderConfirmViewController.swift in Sources */,
 				21679A2A1B901C5300F18F90 /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
 				B2FFCBAD1EA52669004F01D0 /* SocketIOClientStatus.swift in Sources */,
