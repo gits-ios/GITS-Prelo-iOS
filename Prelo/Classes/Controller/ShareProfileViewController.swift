@@ -131,6 +131,7 @@ enum shareType {
 // MARK: - Class
 class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate, PathLoginDelegate, UIDocumentInteractionControllerDelegate {
     // MARK: - Properties
+    @IBOutlet weak var vwCoverScrollView: UIView!
     @IBOutlet weak var coverScrollView: UIScrollView! // define image of cover(s) here -> UIImageView (pagination)
     @IBOutlet weak var imgAvatar: UIImageView! // user
     @IBOutlet weak var mediaCollectionView: UICollectionView! // twitter, fb, etc
@@ -394,34 +395,94 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
                 
                 self.myReferralCode = data["referral"]["my_referral_code"].stringValue
                 
+                // Set shareText
                 self.shareText = "Kunjungi shop saya (prelo.co.id/" + self.myUsername! + ")\nGunakan kode referral: " + self.myReferralCode + " untuk potongan Rp25.000\nuntuk transaksi pertama kamu di Prelo!"
                 self.lbReferral.text = self.shareText
             }
         }
     }
     
-    func setupShareContent() {
-        self.shareText = "gunakan kode referral " + self.myReferralCode + "\nuntuk mendapatkan potongan Rp25.000"
-        self.shareImage = self.coverScreenshot()
+    func setupShareContent(_ mediaType: mediaType) {
+        self.shareText = "Download aplikasi Prelo dan dapatkan bonus Rp25.000 dengan mengisikan referral: " + self.myReferralCode
         
-        // TODO: - get content for share from server; profile & picture
         // API Migrasi
-        /*let _ = request(APIMe.referralPicture(frameType: self.images[self.currentPage].frameType)).responseJSON {resp in
+        let _ = request(APIMe.referralPicture(frameType: self.images[self.currentPage].frameType)).responseJSON {resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Share Profile Shop")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
                 print(data)
+                // TODO: - get content for share from server; profile & picture
+                self.shareImage = self.coverScreenshot()
+                self.showCoverScreenshot()
+                
+                switch mediaType {
+                case .facebook:
+                    print("fb kena")
+                    self.facebookPressed()
+                case .twitter:
+                    print("tw kena")
+                    self.twitterPressed()
+                case .instagram:
+                    print("ig kena")
+                    self.instagramPressed()
+                case .path:
+                    print("path kena")
+                    self.pathPressed()
+                case .whatsapp:
+                    print("wa kena")
+                    self.whatsappPressed()
+                case .line:
+                    print("line kena")
+                    self.linePressed()
+                case .copyText:
+                    print("copy text kena")
+                    self.copyPressed()
+                case .email:
+                    print("email kena")
+                    self.emailPressed()
+                case .sms:
+                    print("sms kena")
+                    self.smsPressed()
+                }
             }
-        }*/
+        }
     }
     
     func coverScreenshot() -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(self.coverScrollView.bounds.size, false, 0)
+        if let result = self.vwCoverScrollView.snapshot(of: self.vwCoverScrollView.frame) {
+            return result
+        }
+        return UIImage()
+    }
+    
+    func showCoverScreenshot() {
+        guard let ss = self.shareImage else {
+            return
+        }
         
-        self.view.drawHierarchy(in: CGRect(x: self.coverScrollView.bounds.minX, y: self.coverScrollView.bounds.minY, width: self.coverScrollView.bounds.width, height: self.coverScrollView.bounds.height), afterScreenUpdates: true)
+        let appearance = Constant.appearance
+        //appearance.shouldAutoDismiss = false
         
-        return UIGraphicsGetImageFromCurrentImageContext()!
+        let alertView = SCLAlertView(appearance: appearance)
+        
+        let width = Constant.appearance.kWindowWidth - 24
+        let frame = CGRect(x: 0, y: 0, width: width, height: width)
+        
+        let pView = UIImageView(frame: frame)
+        pView.image = ss.resizeWithMaxWidthOrHeight(width * UIScreen.main.scale)
+        pView.afInflate()
+        pView.contentMode = .scaleAspectFit
+        
+        // Creat the subview
+        let subview = UIView(frame: CGRect(x: 0, y: 0, width: width, height: width))
+        subview.addSubview(pView)
+        
+        alertView.customSubview = subview
+        
+        alertView.addButton("Oke", action: {})
+        
+        alertView.showCustom("Screenshot", subTitle: "", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
     // MARK: - ScrollView delegate
@@ -532,37 +593,7 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
     func mediaPressed(_ mediaType: mediaType) {
 //        Constant.showDialog(mediaType.socmedName, message: "Clicked")
         
-        self.setupShareContent()
-        
-        switch mediaType {
-        case .facebook:
-            print("fb kena")
-            self.facebookPressed()
-        case .twitter:
-            print("tw kena")
-            self.twitterPressed()
-        case .instagram:
-            print("ig kena")
-            self.instagramPressed()
-        case .path:
-            print("path kena")
-            self.pathPressed()
-        case .whatsapp:
-            print("wa kena")
-            self.whatsappPressed()
-        case .line:
-            print("line kena")
-            self.linePressed()
-        case .copyText:
-            print("copy text kena")
-            self.copyPressed()
-        case .email:
-            print("email kena")
-            self.emailPressed()
-        case .sms:
-            print("sms kena")
-            self.smsPressed()
-        }
+        self.setupShareContent(mediaType)
     }
     
     // MARK: - MFMessage Delegate Functions

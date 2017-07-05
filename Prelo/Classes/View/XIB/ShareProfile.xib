@@ -338,6 +338,7 @@ untuk mendapatkan potongan Rp25.000</string>
                 <outlet property="loadingPanel" destination="EcK-Cf-ah6" id="dJr-0A-zPF"/>
                 <outlet property="mediaCollectionView" destination="s3e-gZ-3Cw" id="IPs-tl-EBg"/>
                 <outlet property="otherCollectionView" destination="zq8-ud-e8m" id="Uy8-Z7-cgQ"/>
+                <outlet property="vwCoverScrollView" destination="LwI-1k-foy" id="Or3-Ib-1OB"/>
             </connections>
             <point key="canvasLocation" x="-252.5" y="135"/>
         </viewController>

@@ -12,12 +12,14 @@ import MessageUI
 import Alamofire
 
 //---------------------
+// -> Referral Page VC
 // -> Share Profile VC
 //---------------------
 
 // MARK: - Class
 class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate, PathLoginDelegate, UIDocumentInteractionControllerDelegate {
     // MARK: - Properties
+    @IBOutlet weak var vwCoverScrollView: UIView!
     @IBOutlet weak var coverScrollView: UIScrollView! // define image of cover(s) here -> UIImageView (pagination)
     @IBOutlet weak var imgAvatar: UIImageView! // user
     @IBOutlet weak var mediaCollectionView: UICollectionView! // twitter, fb, etc
@@ -47,6 +49,14 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
     @IBOutlet weak var lbSaldo: UILabel!
     @IBOutlet weak var progressSaldo: UIProgressView!
     @IBOutlet weak var lbKodeReferral: UILabel!
+    
+    @IBOutlet weak var vwSubmit: UIView! // hidden
+    @IBOutlet weak var consHeightVwSubmit: NSLayoutConstraint! // 70 -> 0
+    @IBOutlet weak var txKodeReferralInput: UITextField!
+    
+    var saldo: Int64 = 0
+    
+    let BONUS_AMOUNT : Int64 = 25000
     
     // MARK: - Init
     override func viewDidLoad() {
@@ -287,42 +297,108 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
                 
                 self.myReferralCode = data["referral"]["my_referral_code"].stringValue
                 
-                let saldo = data["bonus"].intValue
-                self.lbSaldo.text = saldo.asPrice
+                self.saldo = data["bonus"].int64Value
+                self.lbSaldo.text = self.saldo.asPrice
                 self.lbKodeReferral.text = self.myReferralCode
                 
                 // Set progress bar
                 let progress : Float = data["referral"]["total_referral_amount"].floatValue / data["referral"]["max_referral_amount"].floatValue
                 self.progressSaldo.setProgress(progress, animated: true)
                 
+                // Set shareText
                 self.shareText = "Gunakan kode referral saya: " + self.myReferralCode + " untuk potongan Rp25.000\nuntuk transaksi pertama kamu di Prelo!"
                 self.lbReferral.text = self.shareText
+                
+                // Jika sudah pernah memasukkan referral, sembunyikan field
+                if (data["referral"]["referral_code_used"] != nil) {
+                    self.vwSubmit.isHidden = true
+                    self.consHeightVwSubmit.constant = 0
+                }
             }
         }
     }
     
-    func setupShareContent() {
-        self.shareText = "gunakan kode referral " + self.myReferralCode + "\nuntuk mendapatkan potongan Rp25.000"
-        self.shareImage = self.coverScreenshot()
+    func setupShareContent(_ mediaType: mediaType) {
+        self.shareText = "Download aplikasi Prelo dan dapatkan bonus Rp25.000 dengan mengisikan referral: " + self.myReferralCode
         
-        // TODO: - get content for share from server; profile & picture
         // API Migrasi
-        /*let _ = request(APIMe.referralPicture(frameType: self.images[self.currentPage].frameType)).responseJSON {resp in
-         if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Share Profile Shop")) {
-         let json = JSON(resp.result.value!)
-         let data = json["_data"]
-         
-         print(data)
-         }
-         }*/
+        let _ = request(APIMe.referralProfile).responseJSON {resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Share Profile Shop")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                
+                print(data)
+                // TODO: - get content for share from server; profile & picture
+                self.shareImage = self.coverScreenshot()
+                self.showCoverScreenshot()
+                
+                switch mediaType {
+                case .facebook:
+                    print("fb kena")
+                    self.facebookPressed()
+                case .twitter:
+                    print("tw kena")
+                    self.twitterPressed()
+                case .instagram:
+                    print("ig kena")
+                    self.instagramPressed()
+                case .path:
+                    print("path kena")
+                    self.pathPressed()
+                case .whatsapp:
+                    print("wa kena")
+                    self.whatsappPressed()
+                case .line:
+                    print("line kena")
+                    self.linePressed()
+                case .copyText:
+                    print("copy text kena")
+                    self.copyPressed()
+                case .email:
+                    print("email kena")
+                    self.emailPressed()
+                case .sms:
+                    print("sms kena")
+                    self.smsPressed()
+                }
+            }
+        }
     }
     
     func coverScreenshot() -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(self.coverScrollView.bounds.size, false, 0)
+        if let result = self.vwCoverScrollView.snapshot(of: self.vwCoverScrollView.frame) {
+            return result
+        }
+        return UIImage()
+    }
+    
+    func showCoverScreenshot() {
+        guard let ss = self.shareImage else {
+            return
+        }
         
-        self.view.drawHierarchy(in: CGRect(x: self.coverScrollView.bounds.minX, y: self.coverScrollView.bounds.minY, width: self.coverScrollView.bounds.width, height: self.coverScrollView.bounds.height), afterScreenUpdates: true)
+        let appearance = Constant.appearance
+        //appearance.shouldAutoDismiss = false
         
-        return UIGraphicsGetImageFromCurrentImageContext()!
+        let alertView = SCLAlertView(appearance: appearance)
+        
+        let width = Constant.appearance.kWindowWidth - 24
+        let frame = CGRect(x: 0, y: 0, width: width, height: width)
+        
+        let pView = UIImageView(frame: frame)
+        pView.image = ss.resizeWithMaxWidthOrHeight(width * UIScreen.main.scale)
+        pView.afInflate()
+        pView.contentMode = .scaleAspectFit
+        
+        // Creat the subview
+        let subview = UIView(frame: CGRect(x: 0, y: 0, width: width, height: width))
+        subview.addSubview(pView)
+        
+        alertView.customSubview = subview
+        
+        alertView.addButton("Oke", action: {})
+        
+        alertView.showCustom("Screenshot", subTitle: "", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
     // MARK: - ScrollView delegate
@@ -429,41 +505,72 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
         self.scrollSubVC((self.images.count+currentPage+1) % self.images.count)
     }
     
+    @IBAction func btnSubmitPressed(_ sender: Any) {
+        guard self.txKodeReferralInput.text != nil else
+        {
+            Constant.showDialog("Warning", message: "Isi kode referral terlebih dahulu")
+            return
+        }
+        
+        if (self.txKodeReferralInput.text!.isEmpty) {
+            Constant.showDialog("Warning", message: "Isi kode referral terlebih dahulu")
+        } else {
+            self.showLoading()
+            let deviceId = UIDevice.current.identifierForVendor!.uuidString
+            // API Migrasi
+            let _ = request(APIMe.setReferral(referralCode: self.txKodeReferralInput.text!, deviceId: deviceId)).responseJSON {resp in
+                let json = JSON(resp.result.value!)
+                
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Submit Referral Bonus")) {
+                    let isSuccess = json["_data"].bool!
+                    if (isSuccess) { // Berhasil
+                        Constant.showDialog("Success", message: "Kode referral berhasil ditambahkan")
+                        
+                        // Refresh saldo
+                        self.saldo += self.BONUS_AMOUNT
+                        self.lbSaldo.text = "\(self.saldo.asPrice)"
+                        
+                        // Sembunyikan field
+                        self.vwSubmit.isHidden = true
+                        
+                        /*
+                         // Mixpanel
+                         let p = [
+                         "Referral Code Used" : self.fieldKodeReferral.text!
+                         ]
+                         Mixpanel.sharedInstance().registerSuperProperties(p)
+                         Mixpanel.sharedInstance().people.setOnce(p)
+                         let pt = [
+                         "Activation Screen" : "Voucher"
+                         ]
+                         Mixpanel.trackEvent(MixpanelEvent.ReferralUsed, properties: pt)
+                         */
+                        
+                        // Prelo Analytics - Redeem Referral Code
+                        self.sendRedeemReferralCodeAnalytic(self.txKodeReferralInput.text!, isSuccess: true, reason: "")
+                        
+                    } else {
+                        let reason = json["_message"].string!
+                        
+                        // Prelo Analytics - Redeem Referral Code
+                        self.sendRedeemReferralCodeAnalytic(self.txKodeReferralInput.text!, isSuccess: false, reason: reason)
+                    }
+                } else {
+                    let reason = json["_message"].string!
+                    
+                    // Prelo Analytics - Redeem Referral Code
+                    self.sendRedeemReferralCodeAnalytic(self.txKodeReferralInput.text!, isSuccess: false, reason: reason)
+                }
+                self.hideLoading()
+            }
+        }
+    }
+    
     // MARK: - action
     func mediaPressed(_ mediaType: mediaType) {
         //        Constant.showDialog(mediaType.socmedName, message: "Clicked")
         
-        self.setupShareContent()
-        
-        switch mediaType {
-        case .facebook:
-            print("fb kena")
-            self.facebookPressed()
-        case .twitter:
-            print("tw kena")
-            self.twitterPressed()
-        case .instagram:
-            print("ig kena")
-            self.instagramPressed()
-        case .path:
-            print("path kena")
-            self.pathPressed()
-        case .whatsapp:
-            print("wa kena")
-            self.whatsappPressed()
-        case .line:
-            print("line kena")
-            self.linePressed()
-        case .copyText:
-            print("copy text kena")
-            self.copyPressed()
-        case .email:
-            print("email kena")
-            self.emailPressed()
-        case .sms:
-            print("sms kena")
-            self.smsPressed()
-        }
+        self.setupShareContent(mediaType)
     }
     
     // MARK: - MFMessage Delegate Functions
@@ -493,7 +600,7 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
     func registerPathToken(_ userData : JSON, token : String) {
         let pathName = userData["name"].string!
         
-        self.sendShareProfileAnalytic("Path", username: pathName)
+        self.sendShareReferralCodeAnalytic("Path", username: pathName)
     }
     
     func postToPath(_ image : UIImage, token : String) {
@@ -520,7 +627,7 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
             mgInstagram = MGInstagram()
             mgInstagram?.post(shareImage, withCaption: shareText, in: self.view, delegate: self)
             
-            self.sendShareProfileAnalytic("Instagram", username: "")
+            self.sendShareReferralCodeAnalytic("Instagram", username: "")
         } else {
             Constant.showDialog("No Instagram app", message: "Silakan install Instagram dari app store terlebih dahulu")
         }
@@ -541,7 +648,7 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
                 case SLComposeViewControllerResult.done.rawValue:
                     print("Done")
                     
-                    self.sendShareProfileAnalytic("Facebook", username: "")
+                    self.sendShareReferralCodeAnalytic("Facebook", username: "")
                 default:
                     print("Error")
                 }
@@ -568,7 +675,7 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
                 case SLComposeViewControllerResult.done.rawValue:
                     print("Done")
                     
-                    self.sendShareProfileAnalytic("Twitter", username: "")
+                    self.sendShareReferralCodeAnalytic("Twitter", username: "")
                 default:
                     print("Error")
                 }
@@ -585,7 +692,7 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
             postToPath(shareImage, token: UserDefaults.standard.string(forKey: "pathtoken")!)
             
             if let o = CDUserOther.getOne() {
-                self.sendShareProfileAnalytic("Path", username: (o.pathUsername != nil) ? o.pathUsername! : "")
+                self.sendShareReferralCodeAnalytic("Path", username: (o.pathUsername != nil) ? o.pathUsername! : "")
             }
         } else {
             loginPath()
@@ -597,7 +704,7 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
             let url = URL(string : "whatsapp://send?text=" + shareText.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlHostAllowed)!)
             UIApplication.shared.openURL(url!)
             
-            self.sendShareProfileAnalytic("Whatsapp", username: "")
+            self.sendShareReferralCodeAnalytic("Whatsapp", username: "")
         } else {
             Constant.showDialog("No Whatsapp", message: "Silakan install Whatsapp dari app store terlebih dahulu")
         }
@@ -607,7 +714,7 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
         if (Line.isLineInstalled()) {
             Line.shareText(shareText)
             
-            self.sendShareProfileAnalytic("Line", username: "")
+            self.sendShareReferralCodeAnalytic("Line", username: "")
         } else {
             Constant.showDialog("No Line app", message: "Silakan install Line dari app store terlebih dahulu")
         }
@@ -620,7 +727,7 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
             composer.messageComposeDelegate = self
             self.present(composer, animated: true, completion: nil)
             
-            self.sendShareProfileAnalytic("SMS", username: "")
+            self.sendShareReferralCodeAnalytic("SMS", username: "")
         }
     }
     
@@ -631,7 +738,7 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
             composer.mailComposeDelegate = self
             self.present(composer, animated: true, completion: nil)
             
-            self.sendShareProfileAnalytic("Email", username: "")
+            self.sendShareReferralCodeAnalytic("Email", username: "")
         } else {
             Constant.showDialog("No Active E-mail", message: "Untuk dapat membagi kode referral melalui e-mail, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
         }
@@ -643,8 +750,30 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
     }
     
     // MARK: - Analytics
-    func sendShareProfileAnalytic(_ socmed : String, username : String) {
-        // TODO: Prelo Analytic - Share Profile
+    
+    // Prelo Analytics - Redeem Referral Code
+    func sendRedeemReferralCodeAnalytic(_ referralCode: String, isSuccess: Bool, reason: String) {
+        let loginMethod = User.LoginMethod ?? ""
+        var pdata = [
+            "Referral Code Used" : referralCode,
+            "Success" : isSuccess
+            ] as [String : Any]
+        
+        if !isSuccess && reason != "" {
+            pdata["Failed Reason"] = reason
+        }
+        
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.RedeemReferralCode, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+    }
+    
+    // Prelo Analytics - Share Referral Code
+    func sendShareReferralCodeAnalytic(_ socmed: String, username: String) {
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Socmed" : socmed,
+            "Socmed Username" : username
+            ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.RedeemReferralCode, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
     }
     
     // MARK: - Other
