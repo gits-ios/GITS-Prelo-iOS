@@ -138,6 +138,72 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
         self.getCover()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.Referral)
+        
+        var isEmailVerified : Bool = false
+        // API Migrasi
+        let _ = request(APIMe.me).responseJSON {resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Referral Page - Get Profile")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                isEmailVerified = data["others"]["is_email_verified"].boolValue
+                // TODO: Apakah isEmailVerified di core data perlu diupdate? sepertinya tidak..
+                
+                if (!isEmailVerified) {
+                    /*
+                     // Tampilkan pop up untuk verifikasi email
+                     let a = UIAlertView()
+                     a.title = "Referral Bonus"
+                     a.message = "Mohon verifikasi e-mail kamu untuk mendapatkan referral bonus dari Prelo"
+                     a.addButton(withTitle: "Batal")
+                     a.addButton(withTitle: "Kirim E-mail Konfirmasi")
+                     a.cancelButtonIndex = 0
+                     a.delegate = self
+                     a.show()
+                     */
+                    
+                    var alertViewResponder: SCLAlertViewResponder!
+                    
+                    let alertView = SCLAlertView(appearance: Constant.appearance)
+                    alertView.addButton("Kirim E-mail Konfirmasi") {
+                        if let email = CDUser.getOne()?.email {
+                            alertViewResponder.close()
+                            
+                            var alertViewResponder2: SCLAlertViewResponder!
+                            
+                            let alertView2 = SCLAlertView(appearance: Constant.appearance)
+                            alertViewResponder2 = alertView2.showCustom("Referral Bonus", subTitle: "Mengirim e-mail...", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+                            
+                            // API Migrasi
+                            let _ = request(APIMe.resendVerificationEmail).responseJSON {resp in
+                                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Referral Bonus")) {
+                                    alertViewResponder2.close()
+                                    Constant.showDialog("Referral Bonus", message: "E-mail konfirmasi telah terkirim ke \(email)")
+                                }
+                                _ = self.navigationController?.popViewController(animated: true)
+                            }
+                        } else {
+                            Constant.showDialog("Referral Bonus", message: "Oops, terdapat masalah saat mencari e-mail kamu")
+                            _ = self.navigationController?.popViewController(animated: true)
+                        }
+                    }
+                    alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {
+                        _ = self.navigationController?.popViewController(animated: true)
+                    }
+                    alertViewResponder = alertView.showCustom("Referral Bonus", subTitle: "Mohon verifikasi e-mail kamu untuk mendapatkan referral bonus dari Prelo", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+                } else {
+                    self.getReferralData()
+                }
+            } else {
+                _ = self.navigationController?.popViewController(animated: true)
+            }
+        }
+    }
+    
     func getCover() {
         /*self.images = [
          "https://trello-attachments.s3.amazonaws.com/5599f3283609769544ed1891/58e76d618d917f372f7a28d2/06c075031e8e53c90f23f95f5d59d9dd/image_only_-_hobby.png",
