@@ -5,6 +5,7 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -28,76 +29,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="1000"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ulF-TZ-Us4">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="939"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="889"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w2c-57-cQg">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="261"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shop kamu sedang ditutup sampai tanggal:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SqA-df-ziK">
-                                                <rect key="frame" x="8" y="0.0" width="359" height="43"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="43" id="JJx-7E-qBv"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DD/MM/YYYY 23:59:59" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="05z-aL-TiY">
-                                                <rect key="frame" x="8" y="43" width="359" height="21"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="21" id="k8g-XV-idX"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UVe-Bm-zkC">
-                                                <rect key="frame" x="8" y="89" width="359" height="94"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="94" id="fKa-uR-Qgz"/>
-                                                </constraints>
-                                                <string key="text">Tekan tombol "Buka Shop Sekarang" jika kamu ingin membuka shop kamu saat ini. Barang kamu akan kembali aktif dan dapat dilihat oleh pengguna lain.</string>
-                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kr9-8b-A4C">
-                                                <rect key="frame" x="8" y="203" width="359" height="46"/>
-                                                <color key="backgroundColor" red="0.30620646480000002" green="0.65677493809999998" blue="0.61924308539999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="46" id="sqq-jf-88q"/>
-                                                </constraints>
-                                                <state key="normal" title="BUKA SHOP SEKARANG">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                            </button>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstItem="SqA-df-ziK" firstAttribute="leading" secondItem="w2c-57-cQg" secondAttribute="leading" constant="8" id="1tj-8r-Sl1"/>
-                                            <constraint firstItem="Kr9-8b-A4C" firstAttribute="top" secondItem="UVe-Bm-zkC" secondAttribute="bottom" constant="20" id="59L-gc-Zsv"/>
-                                            <constraint firstItem="UVe-Bm-zkC" firstAttribute="top" secondItem="05z-aL-TiY" secondAttribute="bottom" constant="25" id="9XM-9h-tcy"/>
-                                            <constraint firstItem="05z-aL-TiY" firstAttribute="leading" secondItem="w2c-57-cQg" secondAttribute="leading" constant="8" id="BOC-P5-PP1"/>
-                                            <constraint firstAttribute="trailing" secondItem="05z-aL-TiY" secondAttribute="trailing" constant="8" id="Mbe-CB-kWx"/>
-                                            <constraint firstAttribute="trailing" secondItem="UVe-Bm-zkC" secondAttribute="trailing" constant="8" id="Zmy-7d-vRZ"/>
-                                            <constraint firstAttribute="height" constant="261" id="dcd-KC-fYV"/>
-                                            <constraint firstAttribute="trailing" secondItem="Kr9-8b-A4C" secondAttribute="trailing" constant="8" id="hAU-Qp-BAj"/>
-                                            <constraint firstItem="UVe-Bm-zkC" firstAttribute="leading" secondItem="w2c-57-cQg" secondAttribute="leading" constant="8" id="lhW-ly-600"/>
-                                            <constraint firstItem="Kr9-8b-A4C" firstAttribute="leading" secondItem="w2c-57-cQg" secondAttribute="leading" constant="8" id="n0K-DO-2xx"/>
-                                            <constraint firstItem="05z-aL-TiY" firstAttribute="top" secondItem="SqA-df-ziK" secondAttribute="bottom" id="nD3-E8-KLA"/>
-                                            <constraint firstAttribute="trailing" secondItem="SqA-df-ziK" secondAttribute="trailing" constant="8" id="qUo-8b-8Fx"/>
-                                            <constraint firstItem="SqA-df-ziK" firstAttribute="top" secondItem="w2c-57-cQg" secondAttribute="top" id="y6V-WC-dKi"/>
-                                        </constraints>
-                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p1G-7A-yfM">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="939"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="831"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WGf-Uf-hAy">
                                                 <rect key="frame" x="8" y="0.0" width="359" height="99"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="99" id="rtB-dn-f5s"/>
                                                 </constraints>
-                                                <string key="text">Selama periode waktu yang ditentukan, shop akan tertutup dan semua barang aktif akan dinonaktifkan. Penutupan shop akan berakhir pada tanggal lyang ditentukan pada jam 23:59:59</string>
+                                                <string key="text">Selama periode waktu yang ditentukan, shop akan tertutup dan semua barang aktif akan dinonaktifkan. Penutupan shop akan berakhir pada tanggal yang ditentukan pada jam 23:59:59</string>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
@@ -116,13 +58,13 @@
                                                 <rect key="frame" x="8" y="214" width="359" height="40"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tanggal mulai tutup" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6PJ-U8-09g">
-                                                        <rect key="frame" x="0.0" y="0.0" width="127.5" height="40"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="128" height="40"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DD/MM/YYYY" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MwJ-vw-IDB">
-                                                        <rect key="frame" x="249.5" y="0.0" width="89.5" height="40"/>
+                                                        <rect key="frame" x="249" y="0.0" width="90" height="40"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -199,7 +141,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DD/MM/YYYY" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gZ9-Rd-8pA">
-                                                        <rect key="frame" x="249.5" y="0.0" width="89.5" height="40"/>
+                                                        <rect key="frame" x="249" y="0.0" width="90" height="40"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -266,7 +208,7 @@
                                                 </connections>
                                             </datePicker>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alasan" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hCk-X6-wN4">
-                                                <rect key="frame" x="8" y="642" width="45" height="17"/>
+                                                <rect key="frame" x="8" y="625" width="45" height="17"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="17" id="WzH-mg-lSa"/>
                                                     <constraint firstAttribute="width" constant="45" id="naU-fp-wRP"/>
@@ -276,7 +218,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(hanya dapat dilihat admin Prelo)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eE7-jk-BLM">
-                                                <rect key="frame" x="60" y="640" width="214" height="21"/>
+                                                <rect key="frame" x="60" y="625" width="214" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="TJ4-ug-sRl"/>
                                                     <constraint firstAttribute="width" constant="214" id="qCQ-Ng-Ocr"/>
@@ -286,13 +228,13 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Ki-Em-TKn">
-                                                <rect key="frame" x="8" y="669" width="359" height="35"/>
+                                                <rect key="frame" x="8" y="645" width="359" height="35"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="piO-kU-qG1">
                                                         <rect key="frame" x="1" y="1" width="357" height="33"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alasan menutup toko" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6lQ-VM-O9r">
-                                                                <rect key="frame" x="8" y="6" width="136.5" height="21"/>
+                                                                <rect key="frame" x="8" y="6" width="137" height="21"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="21" id="Uj9-Ez-GJA"/>
                                                                 </constraints>
@@ -342,7 +284,7 @@
                                                 </constraints>
                                             </view>
                                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8ge-Ja-vuR">
-                                                <rect key="frame" x="8" y="712" width="359" height="88"/>
+                                                <rect key="frame" x="8" y="690" width="359" height="88"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mohon kesediaan untuk menceritakan pengalaman kamu untuk perbaikan layanan Prelo." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tty-Cg-vIC">
                                                         <rect key="frame" x="0.0" y="0.0" width="359" height="36"/>
@@ -394,7 +336,7 @@
                                                 </constraints>
                                             </view>
                                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zD6-VE-wuD">
-                                                <rect key="frame" x="8" y="712" width="359" height="48"/>
+                                                <rect key="frame" x="8" y="690" width="359" height="48"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oSe-CT-NnM" userLabel="Field Mulai">
                                                         <rect key="frame" x="0.0" y="8" width="359" height="40"/>
@@ -427,14 +369,14 @@
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
-                                                    <constraint firstItem="oSe-CT-NnM" firstAttribute="leading" secondItem="zD6-VE-wuD" secondAttribute="leading" id="AUH-Sr-S2q"/>
-                                                    <constraint firstItem="oSe-CT-NnM" firstAttribute="top" secondItem="zD6-VE-wuD" secondAttribute="top" constant="8" id="Xz6-5b-c9F"/>
-                                                    <constraint firstAttribute="trailing" secondItem="oSe-CT-NnM" secondAttribute="trailing" id="sbE-mt-kbc"/>
-                                                    <constraint firstAttribute="height" constant="48" id="yUu-fM-2gO"/>
+                                                    <constraint firstAttribute="trailing" secondItem="oSe-CT-NnM" secondAttribute="trailing" id="5co-pI-KUV"/>
+                                                    <constraint firstItem="oSe-CT-NnM" firstAttribute="leading" secondItem="zD6-VE-wuD" secondAttribute="leading" id="7d5-0T-IwL"/>
+                                                    <constraint firstItem="oSe-CT-NnM" firstAttribute="top" secondItem="zD6-VE-wuD" secondAttribute="topMargin" id="d36-jr-TWb"/>
+                                                    <constraint firstAttribute="height" constant="48" id="pNp-Id-20v"/>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prelo akan mengirimkan notifikasi dan e-mail 1x24 jam sebelum tanggal dibuka kembali." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LLK-7s-5xP">
-                                                <rect key="frame" x="8" y="800" width="359" height="63"/>
+                                                <rect key="frame" x="8" y="775" width="359" height="63"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="63" id="9jw-Bm-60P"/>
                                                 </constraints>
@@ -442,35 +384,20 @@
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T7k-jO-zdM">
-                                                <rect key="frame" x="8" y="883" width="359" height="42"/>
-                                                <color key="backgroundColor" red="0.30620646480000002" green="0.65677493809999998" blue="0.61924308539999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="42" id="xdo-Zv-vHk"/>
-                                                </constraints>
-                                                <state key="normal" title="ATUR TUTUP SHOP">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="btnTutupShop:" destination="2JG-ca-wXK" eventType="touchUpInside" id="ZlS-Ll-biD"/>
-                                                </connections>
-                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="T7k-jO-zdM" firstAttribute="leading" secondItem="p1G-7A-yfM" secondAttribute="leading" constant="8" id="11X-ih-BJc"/>
-                                            <constraint firstAttribute="trailing" secondItem="T7k-jO-zdM" secondAttribute="trailing" constant="8" id="1Wl-wp-Vb3"/>
                                             <constraint firstItem="MuO-k3-JQ4" firstAttribute="leading" secondItem="p1G-7A-yfM" secondAttribute="leading" constant="8" id="2oK-7g-FZC"/>
                                             <constraint firstAttribute="trailing" secondItem="LLK-7s-5xP" secondAttribute="trailing" constant="8" id="87Q-na-2jO"/>
                                             <constraint firstItem="YeS-rN-u15" firstAttribute="leading" secondItem="p1G-7A-yfM" secondAttribute="leading" constant="8" id="88T-zH-c2O"/>
                                             <constraint firstItem="WGf-Uf-hAy" firstAttribute="leading" secondItem="p1G-7A-yfM" secondAttribute="leading" constant="8" id="91A-CR-Cd7"/>
-                                            <constraint firstItem="zD6-VE-wuD" firstAttribute="leading" secondItem="p1G-7A-yfM" secondAttribute="leading" constant="8" id="AUb-qC-aR6"/>
                                             <constraint firstAttribute="trailing" secondItem="MuO-k3-JQ4" secondAttribute="trailing" constant="8" id="B0T-MB-1BE"/>
                                             <constraint firstItem="hCk-X6-wN4" firstAttribute="leading" secondItem="p1G-7A-yfM" secondAttribute="leading" constant="8" id="BVs-lO-To7"/>
                                             <constraint firstItem="DlF-YP-dcS" firstAttribute="top" secondItem="MuO-k3-JQ4" secondAttribute="bottom" constant="8" id="BwU-Cc-vBh"/>
                                             <constraint firstItem="dOY-h8-x1g" firstAttribute="leading" secondItem="p1G-7A-yfM" secondAttribute="leading" constant="8" id="CdY-8B-sTM"/>
-                                            <constraint firstItem="5Ki-Em-TKn" firstAttribute="top" secondItem="eE7-jk-BLM" secondAttribute="bottom" constant="8" id="MlT-No-3ng"/>
+                                            <constraint firstItem="5Ki-Em-TKn" firstAttribute="top" secondItem="eE7-jk-BLM" secondAttribute="bottom" constant="-1" id="MlT-No-3ng"/>
                                             <constraint firstAttribute="trailing" secondItem="8ge-Ja-vuR" secondAttribute="trailing" constant="8" id="MwK-uZ-6DT"/>
+                                            <constraint firstAttribute="height" constant="831" id="Ne6-9x-Q6e"/>
                                             <constraint firstItem="DlF-YP-dcS" firstAttribute="leading" secondItem="p1G-7A-yfM" secondAttribute="leading" constant="8" id="Q4e-3i-GDf"/>
                                             <constraint firstItem="dOY-h8-x1g" firstAttribute="top" secondItem="MuO-k3-JQ4" secondAttribute="bottom" constant="165" id="QcR-eL-sla"/>
                                             <constraint firstItem="eE7-jk-BLM" firstAttribute="leading" secondItem="hCk-X6-wN4" secondAttribute="trailing" constant="7" id="R4F-YZ-bUa"/>
@@ -478,44 +405,104 @@
                                             <constraint firstItem="YeS-rN-u15" firstAttribute="top" secondItem="dOY-h8-x1g" secondAttribute="bottom" constant="8" id="UxT-XW-U1u"/>
                                             <constraint firstAttribute="trailing" secondItem="WGf-Uf-hAy" secondAttribute="trailing" constant="8" id="ZrP-UY-PZp"/>
                                             <constraint firstAttribute="trailing" secondItem="YeS-rN-u15" secondAttribute="trailing" constant="8" id="bKy-PI-Wxz"/>
-                                            <constraint firstItem="T7k-jO-zdM" firstAttribute="top" secondItem="LLK-7s-5xP" secondAttribute="bottom" constant="20" id="f2O-En-AhB"/>
-                                            <constraint firstItem="LLK-7s-5xP" firstAttribute="top" secondItem="8ge-Ja-vuR" secondAttribute="bottom" id="gbD-na-c7H"/>
+                                            <constraint firstItem="zD6-VE-wuD" firstAttribute="trailing" secondItem="8ge-Ja-vuR" secondAttribute="trailing" id="bRP-9T-ePN"/>
+                                            <constraint firstItem="LLK-7s-5xP" firstAttribute="top" secondItem="8ge-Ja-vuR" secondAttribute="bottom" constant="-3" id="gbD-na-c7H"/>
                                             <constraint firstItem="WGf-Uf-hAy" firstAttribute="top" secondItem="p1G-7A-yfM" secondAttribute="top" id="hap-HA-pRB"/>
+                                            <constraint firstItem="zD6-VE-wuD" firstAttribute="top" secondItem="8ge-Ja-vuR" secondAttribute="top" id="i6m-Wi-4A8"/>
                                             <constraint firstAttribute="trailing" secondItem="5Ki-Em-TKn" secondAttribute="trailing" constant="8" id="kHQ-yu-CQh"/>
                                             <constraint firstItem="jYM-1M-wnF" firstAttribute="top" secondItem="p1G-7A-yfM" secondAttribute="top" constant="92" id="kYo-Sq-Jka"/>
                                             <constraint firstItem="8ge-Ja-vuR" firstAttribute="leading" secondItem="p1G-7A-yfM" secondAttribute="leading" constant="8" id="klc-X5-DDs"/>
-                                            <constraint firstItem="hCk-X6-wN4" firstAttribute="top" secondItem="dOY-h8-x1g" secondAttribute="bottom" constant="183" id="lDx-6c-XGP"/>
-                                            <constraint firstItem="eE7-jk-BLM" firstAttribute="top" secondItem="dOY-h8-x1g" secondAttribute="bottom" constant="181" id="lxM-4q-eu3"/>
+                                            <constraint firstItem="hCk-X6-wN4" firstAttribute="top" secondItem="dOY-h8-x1g" secondAttribute="bottom" constant="166" id="lDx-6c-XGP"/>
+                                            <constraint firstItem="zD6-VE-wuD" firstAttribute="leading" secondItem="8ge-Ja-vuR" secondAttribute="leading" id="lfp-L3-Jgm"/>
+                                            <constraint firstItem="eE7-jk-BLM" firstAttribute="top" secondItem="dOY-h8-x1g" secondAttribute="bottom" constant="166" id="lxM-4q-eu3"/>
                                             <constraint firstItem="LLK-7s-5xP" firstAttribute="leading" secondItem="p1G-7A-yfM" secondAttribute="leading" constant="8" id="meA-aG-lJk"/>
-                                            <constraint firstItem="8ge-Ja-vuR" firstAttribute="top" secondItem="5Ki-Em-TKn" secondAttribute="bottom" constant="8" id="mvg-D5-K0V"/>
+                                            <constraint firstItem="8ge-Ja-vuR" firstAttribute="top" secondItem="5Ki-Em-TKn" secondAttribute="bottom" constant="10" id="mvg-D5-K0V"/>
                                             <constraint firstItem="jYM-1M-wnF" firstAttribute="leading" secondItem="p1G-7A-yfM" secondAttribute="leading" constant="8" id="pfN-OJ-xqN"/>
                                             <constraint firstItem="MuO-k3-JQ4" firstAttribute="top" secondItem="WGf-Uf-hAy" secondAttribute="bottom" constant="115" id="s0q-b5-owL"/>
                                             <constraint firstItem="MuO-k3-JQ4" firstAttribute="top" secondItem="jYM-1M-wnF" secondAttribute="bottom" constant="9" id="snV-8v-wcn"/>
-                                            <constraint firstItem="zD6-VE-wuD" firstAttribute="top" secondItem="5Ki-Em-TKn" secondAttribute="bottom" constant="8" id="tl7-ba-aR5"/>
-                                            <constraint firstAttribute="trailing" secondItem="zD6-VE-wuD" secondAttribute="trailing" constant="8" id="ued-Ci-gif"/>
                                             <constraint firstAttribute="trailing" secondItem="dOY-h8-x1g" secondAttribute="trailing" constant="8" id="vVn-JC-x2C"/>
                                             <constraint firstAttribute="trailing" secondItem="jYM-1M-wnF" secondAttribute="trailing" constant="8" id="xFr-ji-PRV"/>
                                             <constraint firstItem="5Ki-Em-TKn" firstAttribute="leading" secondItem="p1G-7A-yfM" secondAttribute="leading" constant="8" id="yru-eu-hwd"/>
                                         </constraints>
                                     </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w2c-57-cQg">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="175"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shop kamu sedang ditutup sampai tanggal:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SqA-df-ziK">
+                                                <rect key="frame" x="8" y="8" width="359" height="18"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="18" id="FyX-6V-9Pg"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DD/MM/YYYY 23:59:59" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="05z-aL-TiY">
+                                                <rect key="frame" x="8" y="39" width="367" height="18"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="18" id="U4v-GO-kZB"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UVe-Bm-zkC">
+                                                <rect key="frame" x="8" y="81" width="359" height="94"/>
+                                                <string key="text">Tekan tombol "Buka Shop Sekarang" jika kamu ingin membuka shop kamu saat ini. Barang kamu akan kembali aktif dan dapat dilihat oleh pengguna lain.</string>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="05z-aL-TiY" firstAttribute="top" secondItem="SqA-df-ziK" secondAttribute="bottom" constant="13" id="5zl-Ab-rJH"/>
+                                            <constraint firstAttribute="trailing" secondItem="SqA-df-ziK" secondAttribute="trailing" constant="8" id="6WX-J5-GrY"/>
+                                            <constraint firstItem="05z-aL-TiY" firstAttribute="leading" secondItem="w2c-57-cQg" secondAttribute="leading" constant="8" id="Eq4-BB-aWQ"/>
+                                            <constraint firstItem="UVe-Bm-zkC" firstAttribute="top" secondItem="05z-aL-TiY" secondAttribute="bottom" constant="24" id="Kgr-D4-MlZ"/>
+                                            <constraint firstItem="UVe-Bm-zkC" firstAttribute="leading" secondItem="w2c-57-cQg" secondAttribute="leading" constant="8" id="NKQ-Sp-ZSH"/>
+                                            <constraint firstItem="SqA-df-ziK" firstAttribute="leading" secondItem="w2c-57-cQg" secondAttribute="leading" constant="8" id="TrO-af-6Oy"/>
+                                            <constraint firstAttribute="height" constant="175" id="WNq-Xr-KJc"/>
+                                            <constraint firstAttribute="trailing" secondItem="UVe-Bm-zkC" secondAttribute="trailing" constant="8" id="Wfu-Oe-mR8"/>
+                                            <constraint firstItem="SqA-df-ziK" firstAttribute="top" secondItem="w2c-57-cQg" secondAttribute="top" constant="8" id="f6s-g1-ECB"/>
+                                            <constraint firstAttribute="trailing" secondItem="05z-aL-TiY" secondAttribute="trailing" id="kha-i7-Fdc"/>
+                                            <constraint firstAttribute="bottom" secondItem="UVe-Bm-zkC" secondAttribute="bottom" id="qFC-NL-MDq"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T7k-jO-zdM">
+                                        <rect key="frame" x="8" y="839" width="359" height="42"/>
+                                        <color key="backgroundColor" red="0.30620646480000002" green="0.65677493809999998" blue="0.61924308539999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="42" id="5Rd-Hb-Ys6"/>
+                                        </constraints>
+                                        <state key="normal" title="ATUR TUTUP SHOP">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="btnOpenCloseShop:" destination="2JG-ca-wXK" eventType="touchUpInside" id="GoU-no-cjB"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="p1G-7A-yfM" firstAttribute="top" secondItem="ulF-TZ-Us4" secondAttribute="top" id="2jj-yH-QpS"/>
-                                    <constraint firstAttribute="bottom" secondItem="p1G-7A-yfM" secondAttribute="bottom" id="AuE-wP-Csn"/>
-                                    <constraint firstItem="w2c-57-cQg" firstAttribute="top" secondItem="ulF-TZ-Us4" secondAttribute="top" id="K0x-5d-d7n"/>
-                                    <constraint firstAttribute="trailing" secondItem="w2c-57-cQg" secondAttribute="trailing" id="L3n-IZ-Bmw"/>
+                                    <constraint firstItem="w2c-57-cQg" firstAttribute="top" secondItem="ulF-TZ-Us4" secondAttribute="top" id="4iu-uA-tIe"/>
+                                    <constraint firstItem="T7k-jO-zdM" firstAttribute="top" secondItem="w2c-57-cQg" secondAttribute="bottom" constant="664" id="D5F-KL-MBg"/>
+                                    <constraint firstAttribute="trailing" secondItem="w2c-57-cQg" secondAttribute="trailing" id="Llk-Sj-toV"/>
                                     <constraint firstAttribute="trailing" secondItem="p1G-7A-yfM" secondAttribute="trailing" id="Rtp-LJ-Tng"/>
                                     <constraint firstItem="p1G-7A-yfM" firstAttribute="leading" secondItem="ulF-TZ-Us4" secondAttribute="leading" id="TEU-wG-Xr7"/>
-                                    <constraint firstAttribute="height" constant="939" id="atq-82-Lmb"/>
-                                    <constraint firstItem="w2c-57-cQg" firstAttribute="leading" secondItem="ulF-TZ-Us4" secondAttribute="leading" id="qom-SJ-0Ta"/>
+                                    <constraint firstAttribute="height" constant="889" id="atq-82-Lmb"/>
+                                    <constraint firstItem="T7k-jO-zdM" firstAttribute="top" secondItem="p1G-7A-yfM" secondAttribute="bottom" constant="8" id="d7N-iQ-JMK"/>
+                                    <constraint firstItem="w2c-57-cQg" firstAttribute="leading" secondItem="ulF-TZ-Us4" secondAttribute="leading" id="eRF-7u-uWb"/>
+                                    <constraint firstAttribute="trailing" secondItem="T7k-jO-zdM" secondAttribute="trailing" constant="8" id="m1K-f6-fOz"/>
+                                    <constraint firstItem="T7k-jO-zdM" firstAttribute="leading" secondItem="ulF-TZ-Us4" secondAttribute="leading" constant="8" id="nwd-pc-R6d"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <constraints>
                             <constraint firstItem="ulF-TZ-Us4" firstAttribute="leading" secondItem="pi4-Kf-zxz" secondAttribute="leading" id="U2h-h1-pvM"/>
                             <constraint firstItem="ulF-TZ-Us4" firstAttribute="top" secondItem="pi4-Kf-zxz" secondAttribute="top" id="iAv-c7-c4T"/>
-                            <constraint firstAttribute="bottom" secondItem="ulF-TZ-Us4" secondAttribute="bottom" constant="61" id="kJv-G8-NW7"/>
+                            <constraint firstAttribute="bottom" secondItem="ulF-TZ-Us4" secondAttribute="bottom" constant="111" id="kJv-G8-NW7"/>
                             <constraint firstAttribute="trailing" secondItem="ulF-TZ-Us4" secondAttribute="trailing" id="ryq-o6-4kC"/>
                         </constraints>
                     </scrollView>
@@ -532,16 +519,23 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <size key="freeformSize" width="375" height="1000"/>
             <connections>
+                <outlet property="btnOpenClose" destination="T7k-jO-zdM" id="PbY-Mo-KCk"/>
                 <outlet property="consAlasanTop" destination="lDx-6c-XGP" id="Wyr-UJ-OZp"/>
+                <outlet property="consButtonTop" destination="d7N-iQ-JMK" id="ReU-bA-BLM"/>
+                <outlet property="consButtonTopToTutup" destination="D5F-KL-MBg" id="H9b-NY-xvX"/>
                 <outlet property="consPeringatanAlasanTop" destination="lxM-4q-eu3" id="sXm-B2-qr8"/>
                 <outlet property="consPeringatanNotifikasiTop" destination="gbD-na-c7H" id="aIk-da-Pyv"/>
                 <outlet property="consSelesaiTop" destination="QcR-eL-sla" id="cW8-0K-cBt"/>
+                <outlet property="consVwShopHeight" destination="atq-82-Lmb" id="fXf-Af-T0j"/>
+                <outlet property="consVwShopOpenHeight" destination="Ne6-9x-Q6e" id="QUa-BZ-vVe"/>
                 <outlet property="datePicker" destination="DlF-YP-dcS" id="s4a-Em-Vxj"/>
                 <outlet property="datePicker2" destination="YeS-rN-u15" id="EXU-lz-sTe"/>
                 <outlet property="dropDownAlasan" destination="o7n-gd-Y6D" id="c0a-UO-Htm"/>
                 <outlet property="lblAlasan" destination="6lQ-VM-O9r" id="8bj-O7-ecd"/>
+                <outlet property="lblDateAndTime" destination="05z-aL-TiY" id="ytl-MM-Kjb"/>
                 <outlet property="lblTanggalMulai" destination="MwJ-vw-IDB" id="OY8-hZ-d1g"/>
                 <outlet property="lblTanggalSelesai" destination="gZ9-Rd-8pA" id="BHA-jX-ylk"/>
+                <outlet property="scrollView" destination="pi4-Kf-zxz" id="W8A-Vf-YCv"/>
                 <outlet property="txtLainnya" destination="LGc-wg-A5I" id="n71-63-zs6"/>
                 <outlet property="txtPengalamanBuruk" destination="Y6D-kw-M5r" id="IAO-XD-4fB"/>
                 <outlet property="vwLainnya" destination="zD6-VE-wuD" id="v5L-uM-T3u"/>

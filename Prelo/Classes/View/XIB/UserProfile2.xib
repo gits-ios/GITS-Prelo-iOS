@@ -482,8 +482,8 @@
                                                 </constraints>
                                                 <variation key="default">
                                                     <mask key="constraints">
-                                                        <exclude reference="qR0-vB-uHv"/>
                                                         <exclude reference="edn-Eq-3f9"/>
+                                                        <exclude reference="qR0-vB-uHv"/>
                                                         <exclude reference="Zzg-sg-gqZ"/>
                                                     </mask>
                                                 </variation>
@@ -980,11 +980,13 @@
                 <outlet property="imgUser" destination="Cdg-o9-kAS" id="nLh-3L-uEr"/>
                 <outlet property="lblAddress" destination="2jI-DQ-Hyq" id="zlv-Ct-KMn"/>
                 <outlet property="lblAddressName" destination="NSO-ZT-4nM" id="lPA-jH-ZM9"/>
+                <outlet property="lblClose" destination="3bz-pm-e8O" id="dhk-UU-Pd7"/>
                 <outlet property="lblEmail" destination="hfy-sx-4Yc" id="Wb1-c6-Be2"/>
                 <outlet property="lblJenisKelamin" destination="8f8-yW-ki6" id="KhJ-Rs-zgi"/>
                 <outlet property="lblLoginFacebook" destination="oWX-lF-j9K" id="mQt-6c-5wy"/>
                 <outlet property="lblLoginTwitter" destination="yTp-Nj-VIe" id="K3H-0R-vRW"/>
                 <outlet property="lblNoHP" destination="1Rt-IQ-UbF" id="nDm-sy-Dz0"/>
+                <outlet property="lblOpenClose" destination="9rT-zq-cHC" id="5lf-bz-Y3H"/>
                 <outlet property="lblProvince" destination="5fs-34-XtQ" id="M1J-fI-n7W"/>
                 <outlet property="lblRecipientName" destination="91S-7p-ksR" id="ut5-Xj-5Rh"/>
                 <outlet property="lblRegion" destination="kzl-pH-abU" id="JZT-mz-EJ0"/>

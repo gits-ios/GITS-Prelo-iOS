@@ -556,6 +556,10 @@ enum APIMe : URLRequestConvertible {
     case deleteAddress(addressId: String)
     case setDefaultAddress(addressId: String)
     
+    case getUsersShopData
+    case closeUsersShop(start_date: String, end_date: String, reason: Int, custom_reason: String?)
+    case openUsersShop
+    
     public func asURLRequest() throws -> URLRequest {
         let basePath = "me/"
         let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
@@ -592,6 +596,10 @@ enum APIMe : URLRequestConvertible {
         case .createAddress(_, _, _, _, _, _, _, _, _, _, _) : return .post
         case .deleteAddress(_) : return .post
         case .setDefaultAddress(_) : return .post
+        
+        case .getUsersShopData : return .get
+        case .closeUsersShop(_, _, _, _) : return .post
+        case .openUsersShop : return .post
         }
     }
     
@@ -622,6 +630,10 @@ enum APIMe : URLRequestConvertible {
         case .createAddress(_, _, _, _, _, _, _, _, _, _, _) : return "address_book/add"
         case .deleteAddress(_) : return "address_book/delete"
         case .setDefaultAddress(_) : return "address_book/set_default"
+            
+        case .getUsersShopData : return "shop_data"
+        case .closeUsersShop(_, _, _, _) : return "close_shop"
+        case .openUsersShop : return "open_shop"
         }
     }
     
@@ -764,6 +776,13 @@ enum APIMe : URLRequestConvertible {
             p = [
                 "address_id": addressId,
                 "platform_sent_from" : "ios"
+            ]
+        case .closeUsersShop(let start_date, let end_date, let alasan, let alasan_custom) :
+            p = [
+                "start_date": start_date,
+                "end-date": end_date,
+                "alasan" : alasan,
+                "alasan_custom" : alasan_custom
             ]
         default : break
         }

@@ -61,6 +61,8 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     // shop
     @IBOutlet weak var vwClose: UIView!
     @IBOutlet weak var fieldTentangShopTop: NSLayoutConstraint!
+    @IBOutlet weak var lblOpenClose: UILabel!
+    @IBOutlet weak var lblClose: UILabel!
     
     
     var isNeedReload = false
@@ -122,6 +124,7 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
             
             isNeedReload = false
         }
+        getUsersShopData()
     }
     
     func setNavBarButtons() {
@@ -808,4 +811,58 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         let changeShopStatusVC = Bundle.main.loadNibNamed(Tags.XibNameChangeShopStatus, owner: nil, options: nil)?.first as! ChangeShopStatusViewController
         self.navigationController?.pushViewController(changeShopStatusVC, animated: true)
     }
+    func getUsersShopData() {
+        showLoading()
+        let _ = request(APIMe.getUsersShopData).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "User's Shop Data")) {
+                if let x: AnyObject = resp.result.value as AnyObject? {
+                    var json = JSON(x)
+                    json = json["_data"]
+                    if(json.isEmpty){
+                        self.lblOpenClose.text = "Buka"
+                        self.vwClose.isHidden = true
+                        self.fieldTentangShopTop.constant = -40
+                    } else {
+                        if(json["status"] == 1){
+                            self.lblOpenClose.text = "Buka"
+                            if(json["custom_reason"] == nil){
+                                self.vwClose.isHidden = true
+                                self.fieldTentangShopTop.constant = -40
+                            } else {
+                                self.vwClose.isHidden = false
+                                self.fieldTentangShopTop.constant = 0
+                                let start_date = json["start_date"].string
+                                var arrStart = start_date?.components(separatedBy: "T")
+                                var arrLabelStart = arrStart?[0].components(separatedBy: "-")
+                                var labelStart = (arrLabelStart?[2])!+"/"+(arrLabelStart?[1])!+"/"+(arrLabelStart?[0])!
+                                let end_date = json["end_date"].string
+                                var arrEnd = end_date?.components(separatedBy: "T")
+                                var arrLabelEnd = arrEnd?[0].components(separatedBy: "-")
+                                var labelEnd = (arrLabelEnd?[2])!+"/"+(arrLabelEnd?[1])!+"/"+(arrLabelEnd?[0])!
+                                self.lblClose.text = "Shop tutup pada "+labelStart+" - "+labelEnd
+                                
+//                                var date2 : String = ""
+//                                let formatter = DateFormatter()
+//                                formatter.dateFormat = "YYYY-MM-dd"
+//                                date2 = formatter.string(from: finalDate!)
+//                                print("ini date nya")
+//                                print(finalDate)
+                            }
+                        } else {
+                            self.lblOpenClose.text = "Tutup"
+                            self.lblOpenClose.textColor = UIColor.darkGray
+                            self.vwClose.isHidden = true
+                            self.fieldTentangShopTop.constant = -40
+                        }
+                    }
+                    self.hideLoading()
+                }
+            } else {
+                self.hideLoading()
+                _ = self.navigationController?.popViewController(animated: true)
+            }
+        }
+        
+    }
+
 }
