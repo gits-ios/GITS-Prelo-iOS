@@ -24,7 +24,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="936"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vVL-JS-hpV">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="916"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="915"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fM0-Nk-qUy" userLabel="Referral Bonus">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="306.5"/>
@@ -83,7 +83,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
-                                                <color key="backgroundColor" red="0.96470588239999999" green="0.96470588239999999" blue="0.96470588239999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="trailing" secondItem="MJE-9G-LkF" secondAttribute="trailing" constant="16" id="93o-hV-3S5"/>
                                                     <constraint firstAttribute="bottom" secondItem="bWq-ym-f17" secondAttribute="bottom" constant="16" id="PXn-FD-iyt"/>
@@ -151,7 +151,7 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MiA-zE-K8u" userLabel="Preview">
-                                        <rect key="frame" x="0.0" y="364" width="375" height="360"/>
+                                        <rect key="frame" x="0.0" y="364" width="375" height="359"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qcQ-hR-86Q" userLabel="Cover">
                                                 <rect key="frame" x="16" y="0.0" width="343" height="343"/>
@@ -314,10 +314,10 @@ untuk mendapatkan potongan Rp25.000</string>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MQ4-9j-UrO" userLabel="Split">
-                                                <rect key="frame" x="0.0" y="359" width="375" height="1"/>
+                                                <rect key="frame" x="0.0" y="359" width="375" height="0.0"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="1" id="Kxz-8O-KkT"/>
+                                                    <constraint firstAttribute="height" id="Kxz-8O-KkT"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
@@ -334,7 +334,7 @@ untuk mendapatkan potongan Rp25.000</string>
                                         </constraints>
                                     </view>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="R1k-dg-cct">
-                                        <rect key="frame" x="8" y="732" width="359" height="68"/>
+                                        <rect key="frame" x="8" y="731" width="359" height="68"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="68" id="NDN-SU-5dL"/>
@@ -347,7 +347,7 @@ untuk mendapatkan potongan Rp25.000</string>
                                         </collectionViewFlowLayout>
                                     </collectionView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="SxG-Wt-e2I" userLabel="Other Collection View">
-                                        <rect key="frame" x="8" y="808" width="359" height="92"/>
+                                        <rect key="frame" x="8" y="807" width="359" height="92"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="92" id="nEF-3a-BWL"/>

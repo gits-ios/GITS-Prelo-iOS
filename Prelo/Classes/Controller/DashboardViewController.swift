@@ -498,7 +498,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         //let shareProfileVC = Bundle.main.loadNibNamed(Tags.XibNameShareProfile, owner: nil, options: nil)?.first as! ShareProfileViewController
         //self.navigationController?.pushViewController(shareProfileVC, animated: true)
         
-        let shareReferralVC = Bundle.main.loadNibNamed(Tags.XibNameShareProfile, owner: nil, options: nil)?.first as! ShareReferralViewController
+        let shareReferralVC = Bundle.main.loadNibNamed(Tags.XibNameShareReferral, owner: nil, options: nil)?.first as! ShareReferralViewController
         self.navigationController?.pushViewController(shareReferralVC, animated: true)
     }
     

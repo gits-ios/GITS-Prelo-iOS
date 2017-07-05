@@ -241,7 +241,7 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
                 let progress : Float = data["referral"]["total_referral_amount"].floatValue / data["referral"]["max_referral_amount"].floatValue
                 self.progressSaldo.setProgress(progress, animated: true)
                 
-                self.shareText = "Gunakan kode referral saya: " + self.shareText + self.myReferralCode + " untuk potongan Rp25.000\nuntuk transaksi pertama kamu di Prelo!"
+                self.shareText = "Gunakan kode referral saya: " + self.myReferralCode + " untuk potongan Rp25.000\nuntuk transaksi pertama kamu di Prelo!"
                 self.lbReferral.text = self.shareText
             }
         }
