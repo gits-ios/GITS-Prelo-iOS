@@ -495,8 +495,11 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
 //        self.navigationController?.pushViewController(preloMessageVC, animated: true)
         
         // share profile
-        let shareProfileVC = Bundle.main.loadNibNamed(Tags.XibNameShareProfile, owner: nil, options: nil)?.first as! ShareProfileViewController
-        self.navigationController?.pushViewController(shareProfileVC, animated: true)
+        //let shareProfileVC = Bundle.main.loadNibNamed(Tags.XibNameShareProfile, owner: nil, options: nil)?.first as! ShareProfileViewController
+        //self.navigationController?.pushViewController(shareProfileVC, animated: true)
+        
+        let shareReferralVC = Bundle.main.loadNibNamed(Tags.XibNameShareProfile, owner: nil, options: nil)?.first as! ShareReferralViewController
+        self.navigationController?.pushViewController(shareReferralVC, animated: true)
     }
     
     func launchFAQ() {

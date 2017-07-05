@@ -555,6 +555,8 @@ enum APIMe : URLRequestConvertible {
     case createAddress(addressName: String, recipientName: String, phone: String, provinceId: String, provinceName: String, regionId: String, regionName: String, subdistrictId: String, subdistricName: String, address: String, postalCode: String)
     case deleteAddress(addressId: String)
     case setDefaultAddress(addressId: String)
+    case referralProfile
+    case referralPicture(frameType: String)
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "me/"
@@ -592,6 +594,8 @@ enum APIMe : URLRequestConvertible {
         case .createAddress(_, _, _, _, _, _, _, _, _, _, _) : return .post
         case .deleteAddress(_) : return .post
         case .setDefaultAddress(_) : return .post
+        case .referralProfile : return .get
+        case .referralPicture(_) : return .get
         }
     }
     
@@ -622,6 +626,8 @@ enum APIMe : URLRequestConvertible {
         case .createAddress(_, _, _, _, _, _, _, _, _, _, _) : return "address_book/add"
         case .deleteAddress(_) : return "address_book/delete"
         case .setDefaultAddress(_) : return "address_book/set_default"
+        case .referralProfile : return "referral_profile"
+        case .referralPicture(_) : return "referral_picture"
         }
     }
     
@@ -763,6 +769,11 @@ enum APIMe : URLRequestConvertible {
         case .setDefaultAddress(let addressId) :
             p = [
                 "address_id": addressId,
+                "platform_sent_from" : "ios"
+            ]
+        case .referralPicture(let frameType) :
+            p = [
+                "frame_type": frameType, //Frame type: fashion, gadget, hobby, book, beauty
                 "platform_sent_from" : "ios"
             ]
         default : break

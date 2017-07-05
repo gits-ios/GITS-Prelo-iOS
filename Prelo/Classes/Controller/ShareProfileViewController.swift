@@ -69,6 +69,65 @@ enum mediaType {
     }
 }
 
+enum bgShare {
+    case all
+    case beauty
+    case book
+    case fashion
+    case gadget
+    case hobby
+    
+    //Frame type: fashion, gadget, hobby, book, beauty
+    var frameType: String {
+        switch self {
+        case .all:
+            return "all"
+        case .beauty:
+            return "beauty"
+        case .book:
+            return "book"
+        case .fashion:
+            return "fashion"
+        case .gadget:
+            return "gadget"
+        case .hobby:
+            return "hobby"
+        }
+    }
+    
+    var imageIcon: UIImage {
+        switch self {
+        case .all:
+            return UIImage(named: "bg_all")!
+        case .beauty:
+            return UIImage(named: "bg_beauty")!
+        case .book:
+            return UIImage(named: "bg_book")!
+        case .fashion:
+            return UIImage(named: "bg_fashion")!
+        case .gadget:
+            return UIImage(named: "bg_gadget")!
+        case .hobby:
+            return UIImage(named: "bg_hobby")!
+        }
+    }
+}
+
+enum shareType {
+    case referral
+    case profile
+    
+    var bg: Array<bgShare> {
+        switch self {
+        case .referral:
+            return [.all]
+        case .profile:
+            //Frame type: fashion, gadget, hobby, book, beauty
+            return [.fashion, .gadget, .hobby, .book, .beauty]
+        }
+    }
+}
+
 // MARK: - Class
 class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate, PathLoginDelegate, UIDocumentInteractionControllerDelegate {
     // MARK: - Properties
@@ -83,13 +142,17 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
     @IBOutlet weak var loadingPanel: UIView!
     @IBOutlet weak var imgPrelo: TintedImageView!
     
-    var images: [String] = []
+    //var images: [String] = []
+    var types: shareType = .profile
+    var images: [bgShare] = []
     var currentPage = 0
     var medias: [mediaType] = []
     var others: [mediaType] = []
     
     var shareImage: UIImage!
     var shareText: String!
+    var myReferralCode: String!
+    var myUsername: String!
     
     var mgInstagram : MGInstagram?
     
@@ -107,13 +170,18 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
         self.title = "Share Profile Shop"
         
         // setup preview
-        let uProf = CDUserProfile.getOne()
+        let user = CDUser.getOne()
+        self.myUsername = user?.username
+        let uProf = user?.profiles
         if (uProf != nil) {
             let url = URL(string: uProf!.pict)
             if (url != nil) {
                 self.imgAvatar?.afSetImage(withURL: url!, withFilter: .circle)
             }
         }
+        
+        // setup referral
+        self.getReferralData()
         
         self.lbSeller.text = CDUser.getOne()?.username
         if AppTools.isIPad {
@@ -122,7 +190,7 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
             self.lbSeller.font = UIFont.systemFont(ofSize: 14)
         }
         
-        self.lbReferral.text = "gunakan kode referral xxx\nuntuk mendapatkan potongan Rp25.000"
+        //self.lbReferral.text = "gunakan kode referral xxx\nuntuk mendapatkan potongan Rp25.000"
         self.lbReferral.backgroundColor = UIColor.colorWithColor(Theme.PrimaryColor, alpha: 0.7)
         if AppTools.isIPad {
             self.lbReferral.font = UIFont.systemFont(ofSize: 20)
@@ -169,18 +237,25 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
         self.btnNext.layer.cornerRadius = (self.btnNext.frame.size.width)/2
         self.btnNext.layer.masksToBounds = true
         
+        if self.types == .referral {
+            self.btnPrev.isHidden = true
+            self.btnNext.isHidden = true
+        }
+        
         // setup UI
         self.getCover()
     }
     
     func getCover() {
-        self.images = [
+        /*self.images = [
             "https://trello-attachments.s3.amazonaws.com/5599f3283609769544ed1891/58e76d618d917f372f7a28d2/06c075031e8e53c90f23f95f5d59d9dd/image_only_-_hobby.png",
             "https://trello-attachments.s3.amazonaws.com/5599f3283609769544ed1891/58e76d618d917f372f7a28d2/d8f30edf8c535b391fca2c943a134ed5/image_only_-_gadget.png",
             "https://trello-attachments.s3.amazonaws.com/5599f3283609769544ed1891/58e76d618d917f372f7a28d2/33e5fe5332147cb06f9790bc745029e7/image_only_-_fashion.png",
             "https://trello-attachments.s3.amazonaws.com/5599f3283609769544ed1891/58e76d618d917f372f7a28d2/3b5bac850eda1f04ebed34226b7f0655/image_only_-_book.png",
             "https://trello-attachments.s3.amazonaws.com/5599f3283609769544ed1891/58e76d618d917f372f7a28d2/0284fb39102e7d99300070bb4aa10613/image_only_-_beauty.png"
-        ]
+        ]*/
+        
+        self.images = self.types.bg
         
         self.setupCover()
     }
@@ -191,7 +266,9 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
         {
             let s = UIScrollView(frame : (self.coverScrollView?.bounds)!)
             let iv = UIImageView(frame : s.bounds)
-            iv.afSetImage(withURL: URL(string: self.images[i])!, withFilter: .fitWithoutPlaceHolder)
+            //iv.afSetImage(withURL: URL(string: self.images[i])!, withFilter: .fitWithoutPlaceHolder)
+            iv.image = self.images[i].imageIcon
+            iv.afInflate()
             iv.tag = 1
             s.addSubview(iv)
             s.x = x
@@ -255,9 +332,35 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
         self.otherCollectionView.isDirectionalLockEnabled = true
     }
     
+    func getReferralData() {
+        // API Migrasi
+        let _ = request(APIMe.referralData).responseJSON {resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Referral Bonus")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                
+                self.myReferralCode = data["referral"]["my_referral_code"].stringValue
+                
+                self.shareText = "Kunjungi shop saya (prelo.co.id/" + self.myUsername! + ")\nGunakan kode referral: " + self.myReferralCode + " untuk potongan Rp25.000\nuntuk transaksi pertama kamu di Prelo!"
+                self.lbReferral.text = self.shareText
+            }
+        }
+    }
+    
     func setupShareContent() {
-        self.shareText = "gunakan kode referral xxx\nuntuk mendapatkan potongan Rp25.000"
+        self.shareText = "gunakan kode referral " + self.myReferralCode + "\nuntuk mendapatkan potongan Rp25.000"
         self.shareImage = self.coverScreenshot()
+        
+        // TODO: - get content for share from server; profile & picture
+        // API Migrasi
+        /*let _ = request(APIMe.referralPicture(frameType: self.images[self.currentPage].frameType)).responseJSON {resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Share Profile Shop")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                
+                print(data)
+            }
+        }*/
     }
     
     func coverScreenshot() -> UIImage {

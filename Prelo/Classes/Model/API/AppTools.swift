@@ -843,6 +843,7 @@ class Tags : NSObject {
     static let XibNameUserProfile2 = "UserProfile2"
     static let XibNameReportTransaction = "ReportTransaction"
     static let XibNameShareProfile = "ShareProfile"
+    static let XibNameShareReferral = "ShareReferral"
 }
 
 class OrderStatus : NSObject {
