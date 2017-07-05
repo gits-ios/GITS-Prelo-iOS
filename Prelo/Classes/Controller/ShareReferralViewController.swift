@@ -73,7 +73,7 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
         }
         
         // setup referral
-        self.getReferralData()
+        //self.getReferralData()
         
         self.lbSeller.text = CDUser.getOne()?.username
         if AppTools.isIPad {
@@ -142,7 +142,8 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
         super.viewWillAppear(animated)
         
         // Google Analytics
-        GAI.trackPageVisit(PageName.Referral)
+        // TODO: - Google Analytics
+        //GAI.trackPageVisit(PageName.Referral)
         
         var isEmailVerified : Bool = false
         // API Migrasi
@@ -151,21 +152,8 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 isEmailVerified = data["others"]["is_email_verified"].boolValue
-                // TODO: Apakah isEmailVerified di core data perlu diupdate? sepertinya tidak..
                 
                 if (!isEmailVerified) {
-                    /*
-                     // Tampilkan pop up untuk verifikasi email
-                     let a = UIAlertView()
-                     a.title = "Referral Bonus"
-                     a.message = "Mohon verifikasi e-mail kamu untuk mendapatkan referral bonus dari Prelo"
-                     a.addButton(withTitle: "Batal")
-                     a.addButton(withTitle: "Kirim E-mail Konfirmasi")
-                     a.cancelButtonIndex = 0
-                     a.delegate = self
-                     a.show()
-                     */
-                    
                     var alertViewResponder: SCLAlertViewResponder!
                     
                     let alertView = SCLAlertView(appearance: Constant.appearance)
