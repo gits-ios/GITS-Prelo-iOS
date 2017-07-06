@@ -38,8 +38,10 @@ class PreloEndpoints: NSObject {
         }
         
         print("\(reqAlias) req = \(req)")
-        
+
         if let response = resp {
+            print("response code nya ")
+            print(response.statusCode)
             if (response.statusCode != 200) {
                 if (res != nil) {
                     if let msg = JSON(res!)["_message"].string {
@@ -555,8 +557,8 @@ enum APIMe : URLRequestConvertible {
     case createAddress(addressName: String, recipientName: String, phone: String, provinceId: String, provinceName: String, regionId: String, regionName: String, subdistrictId: String, subdistricName: String, address: String, postalCode: String)
     case deleteAddress(addressId: String)
     case setDefaultAddress(addressId: String)
-    
-    case getUsersShopData
+
+    case getUsersShopData(seller_id: String?)
     case closeUsersShop(start_date: String, end_date: String, reason: Int, custom_reason: String?)
     case openUsersShop
     
@@ -597,7 +599,7 @@ enum APIMe : URLRequestConvertible {
         case .deleteAddress(_) : return .post
         case .setDefaultAddress(_) : return .post
         
-        case .getUsersShopData : return .get
+        case .getUsersShopData(_) : return .get
         case .closeUsersShop(_, _, _, _) : return .post
         case .openUsersShop : return .post
         }
@@ -631,7 +633,7 @@ enum APIMe : URLRequestConvertible {
         case .deleteAddress(_) : return "address_book/delete"
         case .setDefaultAddress(_) : return "address_book/set_default"
             
-        case .getUsersShopData : return "shop_data"
+        case .getUsersShopData(_) : return "shop_data"
         case .closeUsersShop(_, _, _, _) : return "close_shop"
         case .openUsersShop : return "open_shop"
         }
@@ -777,12 +779,17 @@ enum APIMe : URLRequestConvertible {
                 "address_id": addressId,
                 "platform_sent_from" : "ios"
             ]
+            
+        case.getUsersShopData(let seller_id) :
+            p = [
+                "seller_id": (seller_id == nil) ? "" : seller_id!
+            ]
         case .closeUsersShop(let start_date, let end_date, let alasan, let alasan_custom) :
             p = [
                 "start_date": start_date,
-                "end-date": end_date,
-                "alasan" : alasan,
-                "alasan_custom" : alasan_custom
+                "end_date": end_date,
+                "reason" : alasan,
+                "custom_reason" : alasan_custom
             ]
         default : break
         }

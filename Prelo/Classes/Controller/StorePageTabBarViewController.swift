@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Alamofire
 
 
 
@@ -59,6 +60,8 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     @IBOutlet weak var loadingPanel: UIView!
     @IBOutlet weak var scrollView: UIScrollView!
     
+    var isNeedReload = false
+    
     var isTransparent : Bool = true
     var isFirst : Bool = true
     var curTop : CGFloat = 0
@@ -71,6 +74,11 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     var seletionBar: UIView = UIView()
     
     @IBOutlet weak var dashboardCover: UIImageView!
+    
+    @IBOutlet weak var vwCloseNavButton: UIView!
+    @IBOutlet weak var lblTutupSampai: UILabel!
+    @IBOutlet weak var btnBukaShop: UIButton!
+    @IBOutlet weak var consHeightCloseNavButton: NSLayoutConstraint!
     
     // MARK: - Init
     override func viewDidLoad() {
@@ -120,6 +128,27 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         } else {
             GAI.trackPageVisit(PageName.Shop)
         }
+        
+        if isNeedReload {
+            loadingPanel.isHidden = false
+            listItemVC?.shopId = self.shopId
+            listItemVC?.previousScreen = self.previousScreen
+            shopReviewVC?.sellerId = self.shopId
+            shopReviewVC?.sellerName = ""
+            shopBadgeVC?.sellerId = self.shopId
+            shopBadgeVC?.sellerName = ""
+            
+            // edit button
+            if (self.shopId == User.Id) {
+                setEditButton()
+                getUsersShopData(userId: User.Id)
+            } else {
+                getUsersShopData(userId: User.Id)
+            }
+            loadingPanel.isHidden = true
+            
+            isNeedReload = false
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -143,13 +172,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
                 if (self.shopId == User.Id) {
                     setEditButton()
                 }
-                
-                setupNavBar()
-                setupSubView()
-                setSelectionBar(0)
-                segmentView.selectedSegmentIndex = 0
-                
-                isFirst = false
+                getUsersShopData(userId: self.shopId)
             }
             
             if (self.isOnTop) {
@@ -158,6 +181,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
             }
         }
     }
+    @IBOutlet weak var consHeightVwNavigationButton: NSLayoutConstraint!
     
     func setupNavBar() {
         // custom navbar
@@ -175,7 +199,28 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         
         appearance.contentVerticalMargin = 8
         
-        let subFrame = CGRect(x: 0, y: 0, width: self.vwNavBar.width, height: 44)
+        var subFrame = CGRect(x: 0, y: 0, width: self.vwNavBar.width, height: 44)
+        
+        if(shopBuka){
+            self.consHeightVwNavigationButton.constant = 44
+            self.vwCloseNavButton.isHidden = true
+            subFrame = CGRect(x: 0, y: 0, width: self.vwNavBar.width, height: 44)
+        } else {
+            if(self.shopId == User.Id) {
+                btnBukaShop.isHidden = false
+                self.consHeightVwNavigationButton.constant = 94
+                self.vwCloseNavButton.isHidden = false
+                subFrame = CGRect(x: 0, y: 49, width: self.vwNavBar.width, height: 44)
+                lblTutupSampai.text = "Shop tutup sampai tanggal : "+tanggalTutup
+            } else {
+                btnBukaShop.isHidden = true
+                self.consHeightVwNavigationButton.constant = 74
+                self.consHeightCloseNavButton.constant = 29
+                self.vwCloseNavButton.isHidden = false
+                subFrame = CGRect(x: 0, y: 29, width: self.vwNavBar.width, height: 44)
+                lblTutupSampai.text = "Shop ini tutup sampai tanggal : "+tanggalTutup
+            }
+        }
         
         segmentView = SMSegmentView(frame: subFrame , dividerColour: UIColor.white, dividerWidth: 1, segmentAppearance: appearance)
         segmentView.tintColor = UIColor.clear
@@ -190,7 +235,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         self.vwNavBar.addSubview(segmentView)
         
         // only 3 -- toko, review, badge
-        self.seletionBar.frame = CGRect(x: 0.0, y: 40.0, width: self.segmentView.frame.size.width/3, height: 4.0)
+        self.seletionBar.frame = CGRect(x: 0.0, y: 89.0, width: self.segmentView.frame.size.width/3, height: 4.0)
         self.seletionBar.backgroundColor = Theme.PrimaryColorDark
         
         self.vwNavBar.addSubview(seletionBar)
@@ -380,6 +425,8 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         }
     }
     
+    var idUser : String? = nil
+    
     func setupBanner(json: JSON) {
         
         self.shopAvatar.superview?.layoutIfNeeded()
@@ -388,6 +435,8 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         
         self.shopAvatar.superview?.layer.borderColor = Theme.GrayLight.cgColor
         self.shopAvatar.superview?.layer.borderWidth = 3.5
+        
+        self.idUser = json["_id"].stringValue
         
         self.shopName.text = json["username"].stringValue
         let avatarThumbnail = json["profile"]["pict"].stringValue
@@ -478,6 +527,48 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     
     func getTransparentcy() -> Bool {
         return self.isTransparent
+    }
+    
+    var shopBuka = false
+    var tanggalTutup = ""
+    func getUsersShopData(userId:String?){
+        loadingPanel.isHidden = false
+        let _ = request(APIMe.getUsersShopData(seller_id: userId)).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "User's Shop Data")) {
+                if let x: AnyObject = resp.result.value as AnyObject? {
+                    var json = JSON(x)
+                    json = json["_data"]
+                    if(json.isEmpty){
+                        self.shopBuka = true
+                    } else {
+                        if(json["status"] == 1){
+                          self.shopBuka = true
+                        } else {
+                            self.shopBuka = false
+                            let end_date = json["end_date"].string
+                            var arrEnd = end_date?.components(separatedBy: "T")
+                            var arrLabelEnd = arrEnd?[0].components(separatedBy: "-")
+                            var labelEnd = (arrLabelEnd?[2])!+"/"+(arrLabelEnd?[1])!+"/"+(arrLabelEnd?[0])!
+                            self.tanggalTutup = labelEnd
+                        }
+                    }
+                    self.setupNavBar()
+                    self.setupSubView()
+                    self.setSelectionBar(0)
+                    self.segmentView.selectedSegmentIndex = 0
+                    self.isFirst = false
+                }
+            } else {
+                _ = self.navigationController?.popViewController(animated: true)
+            }
+        }
+    }
+    
+    @IBAction func btnOpenShopPressed(_ sender: Any) {
+        isNeedReload = true
+        
+        let changeShopStatusVC = Bundle.main.loadNibNamed(Tags.XibNameChangeShopStatus, owner: nil, options: nil)?.first as! ChangeShopStatusViewController
+        self.navigationController?.pushViewController(changeShopStatusVC, animated: true)
     }
     
     func setupCollection() {

@@ -13,6 +13,15 @@ import Alamofire
 
 class ChangeShopStatusViewController : BaseViewController{
     
+    
+    @IBOutlet weak var backgroundOverlay: UIView!
+    
+    // pop up
+    @IBOutlet weak var overlayPopUp: UIView!
+    @IBOutlet weak var lblPopUp: UILabel!
+    
+    @IBOutlet weak var loadingPanel: UIView!
+    
     // shop tutup
     @IBOutlet weak var vwShopTutup: UIView!
     @IBOutlet weak var lblDateAndTime: UILabel!
@@ -36,6 +45,8 @@ class ChangeShopStatusViewController : BaseViewController{
     @IBOutlet weak var btnOpenClose: UIButton!
     @IBOutlet weak var consVwShopHeight: NSLayoutConstraint!
     @IBOutlet weak var consVwShopOpenHeight: NSLayoutConstraint!
+    
+    let currentDate: NSDate = NSDate()
     
     
     @IBAction func btnTanggalMulaiPressed(_ sender: Any) {
@@ -235,8 +246,16 @@ class ChangeShopStatusViewController : BaseViewController{
                 closeShop()
             }
         } else {
-            openShop()
+            backgroundOverlay.isHidden = false
+            overlayPopUp.isHidden = false
         }
+    }
+    @IBAction func btnNoOpenPressed(_ sender: Any) {
+        backgroundOverlay.isHidden = true
+        overlayPopUp.isHidden = true
+    }
+    @IBAction func btnYesOpen(_ sender: Any) {
+        openShop()
     }
     
     func isValidateField() -> Bool{
@@ -280,9 +299,17 @@ class ChangeShopStatusViewController : BaseViewController{
         } else if(selectedIndex == 6){
             alasanCustom = txtLainnya.text
         }
-        let _ = request(APIMe.closeUsersShop(start_date: "adfadf", end_date: "dfsadsf", reason: selectedIndex, custom_reason: alasanCustom)).responseJSON{resp in
+        let _ = request(APIMe.closeUsersShop(start_date: date, end_date: date2, reason: selectedIndex-1, custom_reason: alasanCustom)).responseJSON{resp in
             if(PreloEndpoints.validate(true, dataResp:resp, reqAlias:"Close Shop")){
-                
+                let formatter = DateFormatter()
+                formatter.dateFormat = "DD/mm/YYYY"
+                let compare1 = formatter.string(from: self.currentDate as Date)
+                let compare2 = formatter.string(from: self.datePicker.date)
+               
+                if compare1 == compare2 {
+                    Constant.showDialog("Perhatian", message: "Penutupan toko berhasil")
+                }
+                _ = self.navigationController?.popViewController(animated: true)
             }
         }
     }
@@ -298,7 +325,8 @@ class ChangeShopStatusViewController : BaseViewController{
     }
     
     func getUsersShopData() {
-        let _ = request(APIMe.getUsersShopData).responseJSON { resp in
+        loadingPanel.isHidden = false
+        let _ = request(APIMe.getUsersShopData(seller_id: nil)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "User's Shop Data")) {
                 if let x: AnyObject = resp.result.value as AnyObject? {
                     var json = JSON(x)
@@ -380,6 +408,7 @@ class ChangeShopStatusViewController : BaseViewController{
                         }
                     }
                 }
+                self.loadingPanel.isHidden = true
             } else {
                 _ = self.navigationController?.popViewController(animated: true)
             }
@@ -413,7 +442,6 @@ class ChangeShopStatusViewController : BaseViewController{
         consSelesaiTop.constant = 0
         consAlasanTop.constant = 5
         consPeringatanAlasanTop.constant = 5
-        let currentDate: NSDate = NSDate()
         datePicker.minimumDate = currentDate as Date
         self.consPeringatanNotifikasiTop.constant = -100
         consVwShopHeight.constant = 470

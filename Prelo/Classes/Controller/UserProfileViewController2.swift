@@ -813,7 +813,7 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     }
     func getUsersShopData() {
         showLoading()
-        let _ = request(APIMe.getUsersShopData).responseJSON { resp in
+        let _ = request(APIMe.getUsersShopData(seller_id: nil)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "User's Shop Data")) {
                 if let x: AnyObject = resp.result.value as AnyObject? {
                     var json = JSON(x)

@@ -106,6 +106,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     // new popup paid push
     var newPopup: PaidPushPopup?
     
+    // close
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -134,6 +137,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         self.hideUpPopUp()
         self.vwUpBarangPopUp.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -200,6 +205,42 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             GAI.trackPageVisit(PageName.ProductDetail)
             
             self.thisScreen = PageName.ProductDetail
+        }
+        print("lalala")
+        print(self.detail?.theirId)
+        getUsersShopData(userId: self.detail?.theirId)
+        
+    }
+    
+    var shopBuka = true
+    
+    func getUsersShopData(userId:String?){
+        loadingPanel.isHidden = false
+        
+        isNeedReload = true
+        
+        let _ = request(APIMe.getUsersShopData(seller_id: userId)).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "User's Shop Data")) {
+                if let x: AnyObject = resp.result.value as AnyObject? {
+                    var json = JSON(x)
+                    json = json["_data"]
+                    if(json.isEmpty){
+                        self.shopBuka = true
+                    } else {
+                        if(json["status"] == 1){
+                            self.shopBuka = true
+                        } else {
+                            self.shopBuka = false
+                            let end_date = json["end_date"].string
+                            var arrEnd = end_date?.components(separatedBy: "T")
+                            var arrLabelEnd = arrEnd?[0].components(separatedBy: "-")
+                            var labelEnd = (arrLabelEnd?[2])!+"/"+(arrLabelEnd?[1])!+"/"+(arrLabelEnd?[0])!
+                        }
+                    }
+                }
+            } else {
+                _ = self.navigationController?.popViewController(animated: true)
+            }
         }
     }
     
