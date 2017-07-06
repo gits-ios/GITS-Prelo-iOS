@@ -267,7 +267,12 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         
         btnEdit.addTarget(self, action: #selector(StorePageTabBarViewController.editProfile), for: UIControlEvents.touchUpInside)
         
-        self.navigationItem.rightBarButtonItem = btnEdit.toBarButton()
+        // TODO: - ganti pakai warna putih
+        let btnShare = self.createButtonWithIcon(UIImage(named: "ic_share2")!)
+        
+        btnShare.addTarget(self, action: #selector(StorePageTabBarViewController.shareProfile), for: UIControlEvents.touchUpInside)
+        
+        self.navigationItem.rightBarButtonItems = [btnEdit.toBarButton(), btnShare.toBarButton()]
         
         // jual
         let vw = ButtonJualView()
@@ -280,14 +285,18 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         self.view.bringSubview(toFront: vw)
     }
     
-    func editProfile()
-    {
+    func editProfile() {
         // open edit profile vc
 //        let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
 //        self.navigationController?.pushViewController(userProfileVC, animated: true)
         
         let userProfileVC2 = Bundle.main.loadNibNamed(Tags.XibNameUserProfile2, owner: nil, options: nil)?.first as! UserProfileViewController2
         self.navigationController?.pushViewController(userProfileVC2, animated: true)
+    }
+    
+    func shareProfile() {
+        let shareProfileVC = Bundle.main.loadNibNamed(Tags.XibNameShareProfile, owner: nil, options: nil)?.first as! ShareProfileViewController
+        self.navigationController?.pushViewController(shareProfileVC, animated: true)
     }
     
     // MARK: - button

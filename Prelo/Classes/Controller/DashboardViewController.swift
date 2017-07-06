@@ -405,9 +405,14 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     func launchFreeVoucher() {
+        /*
         let referralPageVC = Bundle.main.loadNibNamed(Tags.XibNameReferralPage, owner: nil, options: nil)?.first as! ReferralPageViewController
         referralPageVC.previousScreen = PageName.DashboardLoggedIn
         self.previousController!.navigationController?.pushViewController(referralPageVC, animated: true)
+        */
+        
+        let shareReferralVC = Bundle.main.loadNibNamed(Tags.XibNameShareReferral, owner: nil, options: nil)?.first as! ShareReferralViewController
+        self.navigationController?.pushViewController(shareReferralVC, animated: true)
     }
     
     func launchRequestBarang() {
@@ -494,12 +499,13 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
 //        let preloMessageVC = Bundle.main.loadNibNamed(Tags.XibNamePreloMessage, owner: nil, options: nil)?.first as! PreloMessageViewController
 //        self.navigationController?.pushViewController(preloMessageVC, animated: true)
         
-        // share profile
-        //let shareProfileVC = Bundle.main.loadNibNamed(Tags.XibNameShareProfile, owner: nil, options: nil)?.first as! ShareProfileViewController
-        //self.navigationController?.pushViewController(shareProfileVC, animated: true)
+        // share profile -- OKE
+//        let shareProfileVC = Bundle.main.loadNibNamed(Tags.XibNameShareProfile, owner: nil, options: nil)?.first as! ShareProfileViewController
+//        self.navigationController?.pushViewController(shareProfileVC, animated: true)
         
-        let shareReferralVC = Bundle.main.loadNibNamed(Tags.XibNameShareReferral, owner: nil, options: nil)?.first as! ShareReferralViewController
-        self.navigationController?.pushViewController(shareReferralVC, animated: true)
+        // share referral - baru -- OKE
+//        let shareReferralVC = Bundle.main.loadNibNamed(Tags.XibNameShareReferral, owner: nil, options: nil)?.first as! ShareReferralViewController
+//        self.navigationController?.pushViewController(shareReferralVC, animated: true)
     }
     
     func launchFAQ() {
