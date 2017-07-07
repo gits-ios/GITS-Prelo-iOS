@@ -244,7 +244,7 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pembayaran aman dengan sistem rekening bersama Prelo" textAlignment="center" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gzm-cZ-2XN">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pembayaran aman dengan sistem rekening bersama Prelo" textAlignment="center" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gzm-cZ-2XN">
                         <rect key="frame" x="12" y="76" width="351" height="12"/>
                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                         <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -279,6 +279,7 @@
             <connections>
                 <outlet property="lbBank" destination="oW0-B3-nnd" id="tgE-iK-HY8"/>
                 <outlet property="lbCheck" destination="x5I-jy-yyt" id="TxE-VA-aX6"/>
+                <outlet property="lbDescription" destination="gzm-cZ-2XN" id="PC9-KR-WcN"/>
                 <outlet property="lbDropdown" destination="Pcx-nb-eUq" id="c3R-oE-au8"/>
                 <outlet property="vw3Banks" destination="LU6-gF-zQf" id="hJz-Pd-TjC"/>
                 <outlet property="vw4Banks" destination="yh7-5T-EBs" id="iYQ-Ch-Fpl"/>

@@ -4480,6 +4480,17 @@ class VeritransChargeItem : NSObject {
         return ""
     }
     
+    var indomaretSteps : String {
+        if let arr = json["indomaret_steps"].array {
+            var j = ""
+            for i in arr {
+                j += i.stringValue + "\n"
+            }
+            return j
+        }
+        return ""
+    }
+    
     var indomaretMultiplyFactor : Double {
         if let j = json["indomaret_multiply_factor"].double {
             return j
@@ -4496,6 +4507,17 @@ class VeritransChargeItem : NSObject {
     
     var creditCardText : String {
         if let j = json["credit_card_text"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var creditCardSteps : String {
+        if let arr = json["credit_card_steps"].array {
+            var j = ""
+            for i in arr {
+                j += i.stringValue + "\n"
+            }
             return j
         }
         return ""
@@ -4522,6 +4544,17 @@ class VeritransChargeItem : NSObject {
         return ""
     }
     
+    var mandiriClickpaySteps : String {
+        if let arr = json["mandiri_clickpay_steps"].array {
+            var j = ""
+            for i in arr {
+                j += i.stringValue + "\n"
+            }
+            return j
+        }
+        return ""
+    }
+    
     var mandiriClickpay : Int64 {
         if let j = json["mandiri_clickpay"].int64 {
             return j
@@ -4531,6 +4564,17 @@ class VeritransChargeItem : NSObject {
     
     var mandiriEcashText : String {
         if let j = json["mandiri_ecash_text"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var mandiriEcashSteps : String {
+        if let arr = json["mandiri_ecash_steps"].array {
+            var j = ""
+            for i in arr {
+                j += i.stringValue + "\n"
+            }
             return j
         }
         return ""
@@ -4557,11 +4601,51 @@ class VeritransChargeItem : NSObject {
         return ""
     }
     
+    var cimbClicksSteps : String {
+        if let arr = json["cimb_clicks_steps"].array {
+            var j = ""
+            for i in arr {
+                j += i.stringValue + "\n"
+            }
+            return j
+        }
+        return ""
+    }
+    
     var cimbClicks : Int64 {
         if let j = json["cimb_clicks"].int64 {
             return j
         }
         return 0
+    }
+    
+    var bankTransferText : String {
+        if let j = json["bank_transfer_text"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var bankTransferStepsOld : String {
+        if let arr = json["bank_transfer_steps_old"].array {
+            var j = ""
+            for i in arr {
+                j += i.stringValue + "\n"
+            }
+            return j
+        }
+        return ""
+    }
+    
+    var bankTransferSteps : String {
+        if let arr = json["bank_transfer_steps"].array {
+            var j = ""
+            for i in arr {
+                j += i.stringValue + "\n"
+            }
+            return j
+        }
+        return ""
     }
 }
 
@@ -4581,6 +4665,17 @@ class KredivoChargeItem : NSObject {
     
     var text : String {
         if let j = json["installment_text"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var steps : String {
+        if let arr = json["installment_steps"].array {
+            var j = ""
+            for i in arr {
+                j += i.stringValue + "\n"
+            }
             return j
         }
         return ""

@@ -161,6 +161,7 @@ struct PaymentMethodItem {
     //var chargeDescription: String = ""
     var charge: Int64 = 0
     var methodDescription: String = ""
+    var methodSteps: String = ""
 }
 
 struct DiscountItem {
@@ -338,14 +339,6 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         self.isDropdownMode = false
         self.lblSend = ""
         
-        // transfer bank
-        var p = PaymentMethodItem()
-        p.methodDetail = .bankTransfer
-        p.charge = self.cartResult.banktransferDigit
-        //p.chargeDescription = "Kode Unik Transfer"
-        p.methodDescription = ""
-        self.paymentMethods.append(p)
-        
         let ab = self.cartResult.abTest
         for _ab in ab {
             if (_ab == "half_bonus") {
@@ -374,6 +367,24 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         // reset selectedBank
         if !self.isDropdownMode {
             self.targetBank = ""
+            
+            // transfer bank
+            var p = PaymentMethodItem()
+            p.methodDetail = .bankTransfer
+            p.charge = self.cartResult.banktransferDigit
+            //p.chargeDescription = "Kode Unik Transfer"
+            p.methodDescription = (self.cartResult.veritransCharge?.bankTransferText)!
+            p.methodSteps = (self.cartResult.veritransCharge?.bankTransferStepsOld)!
+            self.paymentMethods.append(p)
+        } else {
+            // transfer bank
+            var p = PaymentMethodItem()
+            p.methodDetail = .bankTransfer
+            p.charge = self.cartResult.banktransferDigit
+            //p.chargeDescription = "Kode Unik Transfer"
+            p.methodDescription = (self.cartResult.veritransCharge?.bankTransferText)!
+            p.methodSteps = (self.cartResult.veritransCharge?.bankTransferSteps)!
+            self.paymentMethods.append(p)
         }
         
         // Discount items
@@ -485,6 +496,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             p.charge = creditCardCharge
             //p.chargeDescription = PaymentMethod.creditCard.value + " Charge"
             p.methodDescription = (self.cartResult.veritransCharge?.creditCardText)!
+            p.methodSteps = (self.cartResult.veritransCharge?.creditCardSteps)!
             self.paymentMethods.append(p)
         }
         
@@ -494,6 +506,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             p.charge = indomaretCharge
             //p.chargeDescription = PaymentMethod.indomaret.value + " Charge"
             p.methodDescription = (self.cartResult.veritransCharge?.indomaretText)!
+            p.methodSteps = (self.cartResult.veritransCharge?.indomaretSteps)!
             self.paymentMethods.append(p)
             
             if p.charge == 0 {
@@ -507,6 +520,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             p.charge = kredivoCharge
             //p.chargeDescription = PaymentMethod.kredivo.value + " Charge"
             p.methodDescription = (self.cartResult.kredivoCharge?.text)!
+            p.methodSteps = (self.cartResult.kredivoCharge?.steps)!
             self.paymentMethods.append(p)
         }
         
@@ -516,6 +530,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             p.charge = cimbClicksCharge
             //p.chargeDescription = PaymentMethod.cimbClicks.value + " Charge"
             p.methodDescription = (self.cartResult.veritransCharge?.cimbClicksText)!
+            p.methodSteps = (self.cartResult.veritransCharge?.cimbClicksSteps)!
             self.paymentMethods.append(p)
         }
         
@@ -525,6 +540,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             p.charge = mandiriClickpayCharge
             //p.chargeDescription = PaymentMethod.mandiriClickpay.value + " Charge"
             p.methodDescription = (self.cartResult.veritransCharge?.mandiriClickpayText)!
+            p.methodSteps = (self.cartResult.veritransCharge?.mandiriClickpaySteps)!
             self.paymentMethods.append(p)
         }
         
@@ -534,6 +550,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             p.charge = mandiriEcashCharge
             //p.chargeDescription = PaymentMethod.mandiriEcash.value + " Charge"
             p.methodDescription = (self.cartResult.veritransCharge?.mandiriEcashText)!
+            p.methodSteps = (self.cartResult.veritransCharge?.mandiriEcashSteps)!
             self.paymentMethods.append(p)
         }
         
@@ -614,7 +631,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             if idx.row == 0 {
                 return Checkout2PaymentMethodCell.heightFor()
             } else if idx.row == 1 {
-                return Checkout2PaymentBankCell.heightFor(selectedPaymentIndex == idx.row-1)
+                return Checkout2PaymentBankCell.heightFor(self.paymentMethods[idx.row-1], isSelected: selectedPaymentIndex == idx.row-1)
             } else { // cc, indomaret, etc
                 return Checkout2PaymentCreditCardCell.heightFor(self.paymentMethods[idx.row-1], isSelected: selectedPaymentIndex == idx.row-1)
             }
@@ -656,7 +673,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 cell.selectionStyle = .none
                 cell.clipsToBounds = true
                 
-                cell.adapt(self.targetBank, isSelected: selectedPaymentIndex == idx.row-1, parent: self)
+                cell.adapt(self.targetBank, paymentMethodItem: self.paymentMethods[idx.row-1], isSelected: selectedPaymentIndex == idx.row-1, parent: self)
                 
                 return cell
             } else { // cc, indomaret, etc
@@ -1550,6 +1567,7 @@ class Checkout2PaymentMethodCell: UITableViewCell {
 
 // MARK: - Class Checkout2PaymentBankCell
 class Checkout2PaymentBankCell: UITableViewCell {
+    @IBOutlet weak var lbDescription: UILabel!
     @IBOutlet weak var lbCheck: UILabel!
     @IBOutlet weak var lbBank: UILabel!
     @IBOutlet weak var lbDropdown: UILabel!
@@ -1565,7 +1583,14 @@ class Checkout2PaymentBankCell: UITableViewCell {
     var parent2: Checkout2PayViewController?
     var parent1: Checkout2ViewController?
     
-    func adapt(_ bankName: String?, isSelected: Bool, parent: UIViewController) {
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.lbDescription.font = UIFont.systemFont(ofSize: 12.0)
+        self.lbDescription.textAlignment = .left
+    }
+    
+    func adapt(_ bankName: String?, paymentMethodItem: PaymentMethodItem, isSelected: Bool, parent: UIViewController) {
         if parent is Checkout2PayViewController {
             self.parent2 = parent as? Checkout2PayViewController
         } else if parent is Checkout2ViewController {
@@ -1621,15 +1646,86 @@ class Checkout2PaymentBankCell: UITableViewCell {
         }
         
         if isSelected {
+            let attributesDictionary = [NSFontAttributeName : UIFont.systemFont(ofSize: 12.0)]
+            let fullAttributedString = NSMutableAttributedString(string: "", attributes: attributesDictionary)
+            
+            var formattedString: String = "\(paymentMethodItem.methodDescription)\n"
+            var attributedString: NSMutableAttributedString = NSMutableAttributedString(string: formattedString)
+            fullAttributedString.append(attributedString)
+            
+            // Create a NSCharacterSet of delimiters.
+            let separators = NSCharacterSet(charactersIn: "\n")
+            // Split based on characters.
+            let strings = paymentMethodItem.methodSteps.components(separatedBy: separators as CharacterSet)
+            var i = 1
+            for string: String in strings {
+                if string == "" {
+                    continue
+                }
+                
+                formattedString = i.string + ". \(string)\n"
+                attributedString = NSMutableAttributedString(string: formattedString)
+                
+                var paragraphStyle: NSMutableParagraphStyle
+                paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+                paragraphStyle.tabStops = [NSTextTab(textAlignment: .left, location: 12, options: NSDictionary() as! [String : AnyObject])]
+                paragraphStyle.defaultTabInterval = 12
+                paragraphStyle.firstLineHeadIndent = 0
+                paragraphStyle.headIndent = 12
+                attributedString.addAttributes([NSParagraphStyleAttributeName: paragraphStyle], range: NSMakeRange(0, attributedString.length))
+                
+                fullAttributedString.append(attributedString)
+                
+                i+=1
+            }
+            
+            self.lbDescription.attributedText = fullAttributedString
+            
             self.lbCheck.isHidden = false
         } else {
             self.lbCheck.isHidden = true
         }
     }
     
-    static func heightFor(_ isSelected: Bool) -> CGFloat {
+    static func heightFor(_ paymentMethodItem: PaymentMethodItem, isSelected: Bool) -> CGFloat {
         if isSelected {
-            return 99.0
+            let attributesDictionary = [NSFontAttributeName : UIFont.systemFont(ofSize: 12.0)]
+            let fullAttributedString = NSMutableAttributedString(string: "", attributes: attributesDictionary)
+            
+            var formattedString: String = "\(paymentMethodItem.methodDescription)\n"
+            var attributedString: NSMutableAttributedString = NSMutableAttributedString(string: formattedString, attributes: attributesDictionary)
+            fullAttributedString.append(attributedString)
+            
+            // Create a NSCharacterSet of delimiters.
+            let separators = NSCharacterSet(charactersIn: "\n")
+            // Split based on characters.
+            let strings = paymentMethodItem.methodSteps.components(separatedBy: separators as CharacterSet)
+            var i = 1
+            for string: String in strings {
+                if string == "" {
+                    continue
+                }
+                
+                formattedString = i.string + ". \(string)\n"
+                attributedString = NSMutableAttributedString(string: formattedString, attributes: attributesDictionary)
+                
+                var paragraphStyle: NSMutableParagraphStyle
+                paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+                paragraphStyle.tabStops = [NSTextTab(textAlignment: .left, location: 12, options: NSDictionary() as! [String : AnyObject])]
+                paragraphStyle.defaultTabInterval = 12
+                paragraphStyle.firstLineHeadIndent = 0
+                paragraphStyle.headIndent = 12
+                attributedString.addAttributes([NSParagraphStyleAttributeName: paragraphStyle], range: NSMakeRange(0, attributedString.length))
+                
+                fullAttributedString.append(attributedString)
+                
+                i+=1
+            }
+            
+            let width = AppTools.screenWidth - 24.0 // margin left right = 12
+            let t = fullAttributedString.boundingRect(with: CGSize.init(width: width, height: .greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .truncatesLastVisibleLine, .usesFontLeading], context: nil)
+            
+            return 87.0 + t.height - 8.0 // t.height -> min 12
         }
         return 35.0
     }
@@ -1736,14 +1832,54 @@ class Checkout2PaymentCreditCardCell: UITableViewCell {
     // Mandiri Clickpay
     // Kredivo
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.lbDescription.font = UIFont.systemFont(ofSize: 12.0)
+        self.lbDescription.textAlignment = .left
+    }
+    
     func adapt(_ paymentMethodItem: PaymentMethodItem, isSelected: Bool) {
         self.lbTitle.text = paymentMethodItem.methodDetail.title
-        self.lbDescription.text = paymentMethodItem.methodDescription //paymentMethodItem.methodDetail.description //"Pembayaran Aman dengan " + paymentMethodItem.methodDetail.title
-        //self.lbDescription.italicSubstring("charge")
         
         self.setupImagesContainer(paymentMethodItem.methodDetail)
         
         if isSelected {
+            let attributesDictionary = [NSFontAttributeName : UIFont.systemFont(ofSize: 12.0)]
+            let fullAttributedString = NSMutableAttributedString(string: "", attributes: attributesDictionary)
+            
+            var formattedString: String = "\(paymentMethodItem.methodDescription)\n"
+            var attributedString: NSMutableAttributedString = NSMutableAttributedString(string: formattedString)
+            fullAttributedString.append(attributedString)
+            
+            // Create a NSCharacterSet of delimiters.
+            let separators = NSCharacterSet(charactersIn: "\n")
+            // Split based on characters.
+            let strings = paymentMethodItem.methodSteps.components(separatedBy: separators as CharacterSet)
+            var i = 1
+            for string: String in strings {
+                if string == "" {
+                    continue
+                }
+                
+                formattedString = i.string + ". \(string)\n"
+                attributedString = NSMutableAttributedString(string: formattedString)
+                
+                var paragraphStyle: NSMutableParagraphStyle
+                paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+                paragraphStyle.tabStops = [NSTextTab(textAlignment: .left, location: 12, options: NSDictionary() as! [String : AnyObject])]
+                paragraphStyle.defaultTabInterval = 12
+                paragraphStyle.firstLineHeadIndent = 0
+                paragraphStyle.headIndent = 12
+                attributedString.addAttributes([NSParagraphStyleAttributeName: paragraphStyle], range: NSMakeRange(0, attributedString.length))
+                
+                fullAttributedString.append(attributedString)
+                
+                i+=1
+            }
+            
+            self.lbDescription.attributedText = fullAttributedString
+            
             self.lbCheck.isHidden = false
         } else {
             self.lbCheck.isHidden = true
@@ -1752,8 +1888,43 @@ class Checkout2PaymentCreditCardCell: UITableViewCell {
     
     static func heightFor(_ paymentMethodItem: PaymentMethodItem, isSelected: Bool) -> CGFloat {
         if isSelected {
-            let t = paymentMethodItem.methodDescription.boundsWithFontSize(UIFont.systemFont(ofSize: 10.0), width: AppTools.screenWidth - 24) //paymentMethodItem.methodDetail.description
-            return 47.5 + t.height // t.height -> min 12
+            let attributesDictionary = [NSFontAttributeName : UIFont.systemFont(ofSize: 12.0)]
+            let fullAttributedString = NSMutableAttributedString(string: "", attributes: attributesDictionary)
+            
+            var formattedString: String = "\(paymentMethodItem.methodDescription)\n"
+            var attributedString: NSMutableAttributedString = NSMutableAttributedString(string: formattedString, attributes: attributesDictionary)
+            fullAttributedString.append(attributedString)
+            
+            // Create a NSCharacterSet of delimiters.
+            let separators = NSCharacterSet(charactersIn: "\n")
+            // Split based on characters.
+            let strings = paymentMethodItem.methodSteps.components(separatedBy: separators as CharacterSet)
+            var i = 1
+            for string: String in strings {
+                if string == "" {
+                    continue
+                }
+                
+                formattedString = i.string + ". \(string)\n"
+                attributedString = NSMutableAttributedString(string: formattedString, attributes: attributesDictionary)
+                
+                var paragraphStyle: NSMutableParagraphStyle
+                paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+                paragraphStyle.tabStops = [NSTextTab(textAlignment: .left, location: 12, options: NSDictionary() as! [String : AnyObject])]
+                paragraphStyle.defaultTabInterval = 12
+                paragraphStyle.firstLineHeadIndent = 0
+                paragraphStyle.headIndent = 12
+                attributedString.addAttributes([NSParagraphStyleAttributeName: paragraphStyle], range: NSMakeRange(0, attributedString.length))
+                
+                fullAttributedString.append(attributedString)
+                
+                i+=1
+            }
+            
+            let width = AppTools.screenWidth - 24.0 // margin left right = 12
+            let t = fullAttributedString.boundingRect(with: CGSize.init(width: width, height: .greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .truncatesLastVisibleLine, .usesFontLeading], context: nil)
+            
+            return 47.5 + t.height - 8.0 // t.height -> min 12
         }
         return 35.0
     }
