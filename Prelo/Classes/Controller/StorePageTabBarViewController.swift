@@ -268,7 +268,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         btnEdit.addTarget(self, action: #selector(StorePageTabBarViewController.editProfile), for: UIControlEvents.touchUpInside)
         
         // TODO: - ganti pakai warna putih
-        let btnShare = self.createButtonWithIcon(UIImage(named: "ic_share2")!)
+        let btnShare = self.createButtonWithIcon(UIImage(named: "ic_share2_white")!)
         
         btnShare.addTarget(self, action: #selector(StorePageTabBarViewController.shareProfile), for: UIControlEvents.touchUpInside)
         
