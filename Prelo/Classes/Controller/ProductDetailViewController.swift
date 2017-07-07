@@ -107,6 +107,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     var newPopup: PaidPushPopup?
     
     // close
+    @IBOutlet weak var vwClose: UIView!
+    @IBOutlet weak var lblEnd: UILabel!
+    @IBOutlet weak var consTableViewTop: NSLayoutConstraint!
     
     
     override func viewDidLoad() {
@@ -155,6 +158,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        getUsersShopData(userId: self.detail?.theirId)
         
 //        self.title = product?.name
         
@@ -206,16 +211,13 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             
             self.thisScreen = PageName.ProductDetail
         }
-        print("lalala")
-        print(self.detail?.theirId)
-        getUsersShopData(userId: self.detail?.theirId)
         
     }
     
     var shopBuka = true
     
     func getUsersShopData(userId:String?){
-        loadingPanel.isHidden = false
+        self.showLoading()
         
         isNeedReload = true
         
@@ -226,17 +228,32 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     json = json["_data"]
                     if(json.isEmpty){
                         self.shopBuka = true
+                        self.vwClose.isHidden = true
+                        self.consTableViewTop.constant = 0
                     } else {
                         if(json["status"] == 1){
                             self.shopBuka = true
+                            self.vwClose.isHidden = true
+                            self.consTableViewTop.constant = 0
                         } else {
                             self.shopBuka = false
-                            let end_date = json["end_date"].string
-                            var arrEnd = end_date?.components(separatedBy: "T")
-                            var arrLabelEnd = arrEnd?[0].components(separatedBy: "-")
-                            var labelEnd = (arrLabelEnd?[2])!+"/"+(arrLabelEnd?[1])!+"/"+(arrLabelEnd?[0])!
+                            self.vwClose.isHidden = false
+                            if(userId==User.Id){
+                                let end_date = json["end_date"].string
+                                var arrEnd = end_date?.components(separatedBy: "T")
+                                var arrLabelEnd = arrEnd?[0].components(separatedBy: "-")
+                                var labelEnd = (arrLabelEnd?[2])!+"/"+(arrLabelEnd?[1])!+"/"+(arrLabelEnd?[0])!
+                                self.lblEnd.text = "Kamu sedang menutup shop sampai tanggal : " + labelEnd
+                            } else {
+                                let end_date = json["end_date"].string
+                                var arrEnd = end_date?.components(separatedBy: "T")
+                                var arrLabelEnd = arrEnd?[0].components(separatedBy: "-")
+                                var labelEnd = (arrLabelEnd?[2])!+"/"+(arrLabelEnd?[1])!+"/"+(arrLabelEnd?[0])!
+                                self.lblEnd.text = "Penjual barang ini sedang menutup shop sampai tanggal : " + labelEnd
+                            }
                         }
                     }
+                    self.hideLoading()
                 }
             } else {
                 _ = self.navigationController?.popViewController(animated: true)

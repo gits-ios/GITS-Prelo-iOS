@@ -172,6 +172,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
                 if (self.shopId == User.Id) {
                     setEditButton()
                 }
+                print("")
                 getUsersShopData(userId: self.shopId)
             }
             
