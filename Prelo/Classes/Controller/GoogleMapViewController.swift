@@ -214,7 +214,7 @@ class GoogleMapViewController: BaseViewController, UITableViewDataSource, UITabl
     @IBAction func btnChooseLOcationPressed(_ sender: Any) {
         //Constant.showDialog("Lokasi kamu", message: lbAddress.text!)
         let res = [
-            "address": "oke", //self.lbAddress.text!,
+            "address": self.lbAddress.text!,
             "latitude": "\(self.selectedLocation.latitude)",
             "longitude": "\(self.selectedLocation.longitude)"
         ]
@@ -296,7 +296,7 @@ class GoogleMapViewController: BaseViewController, UITableViewDataSource, UITabl
         
         self.getCoordinate(placeId[(indexPath as IndexPath).row])
  
-        //self.lbAddress.text = self.searchBar.text
+        self.lbAddress.text = self.searchBar.text
     }
     
     // MARK: - Keyboard

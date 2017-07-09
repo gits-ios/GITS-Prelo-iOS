@@ -1606,7 +1606,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         self.insertNewAddress()
                     } else if self.selectedAddress.isDefault && self.selectedAddress.isSave {
                         self.setupProfile()
-                        self.updateDefaultAddress() // name & phone
+                        //self.updateDefaultAddress() // name & phone
                     }
                     
                     var pName : String? = ""
@@ -2179,8 +2179,9 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
             userProfile.coordinateAddress = self.selectedAddress.coordinateAddress
             userProfile.address = self.selectedAddress.address
             userProfile.postalCode = self.selectedAddress.postalCode
-            userProfile.recipientName = self.selectedAddress.name
-            userProfile.phone = self.selectedAddress.phone
+            //DISABLED
+            //userProfile.recipientName = self.selectedAddress.name
+            //userProfile.phone = self.selectedAddress.phone
         }
         
         // Save data

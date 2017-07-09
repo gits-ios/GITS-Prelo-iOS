@@ -336,16 +336,16 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
         let m = UIApplication.appDelegate.managedObjectContext
         
         if let userProfile = CDUserProfile.getOne() {
-            userProfile.address = (address?.address)!
-            userProfile.postalCode = (address?.postalCode)!
-            userProfile.regionID = (address?.regionId)!
-            userProfile.provinceID = (address?.provinceId)!
-            userProfile.subdistrictID = (address?.subdisrictId)!
-            userProfile.subdistrictName = (address?.subdisrictName)!
-            userProfile.addressName = (address?.addressName)!
-            userProfile.recipientName = (address?.recipientName)!
-            userProfile.coordinate = (address?.coordinate)!
-            userProfile.coordinateAddress = (address?.coordinateAddress)!
+            userProfile.address = txtAlamat.text!
+            userProfile.postalCode = txtKodePos.text!
+            userProfile.regionID = selectedRegionId
+            userProfile.provinceID = selectedProvinceId
+            userProfile.subdistrictID = selectedSubdistrictId
+            userProfile.subdistrictName = lblKecamatan.text!
+            userProfile.addressName = txtNamaAlamat.text!
+            userProfile.recipientName = txtNama.text!
+            userProfile.coordinate = coordinate
+            userProfile.coordinateAddress = lblLokasi.text!
         }
         
         // Save data

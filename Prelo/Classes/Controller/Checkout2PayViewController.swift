@@ -1004,7 +1004,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                         self.insertNewAddress()
                     } else if self.selectedAddress.isDefault && self.selectedAddress.isSave {
                         self.setupProfile()
-                        self.updateDefaultAddress() // name & phone
+                        //self.updateDefaultAddress() // name & phone
                     }
                     
                     var pName : String? = ""
@@ -1415,8 +1415,9 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             //userProfile.coordinateAddress = self.selectedAddress.coordinateAddress
             userProfile.address = self.selectedAddress.address
             userProfile.postalCode = self.selectedAddress.postalCode
-            userProfile.recipientName = self.selectedAddress.name
-            userProfile.phone = self.selectedAddress.phone
+            //DISABLED
+            //userProfile.recipientName = self.selectedAddress.name
+            //userProfile.phone = self.selectedAddress.phone
         }
         
         // Save data
@@ -1507,10 +1508,14 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             
             //print(self.previousController.debugDescription)
             
+            /*
             // back / pop twice
             if let count = self.navigationController?.viewControllers.count {
              _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-3])!, animated: true)
             }
+            */
+            
+            _ = self.navigationController?.popViewController(animated: true)
         }
         
         alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
@@ -1534,10 +1539,14 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                     
                     print(self.previousController.debugDescription)
                     
+                    /*
                     // back / pop twice
                     if let count = self.navigationController?.viewControllers.count {
                         _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-3])!, animated: true)
                     }
+                    */
+                    
+                    _ = self.navigationController?.popViewController(animated: true)
                 }
                 
                 alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
