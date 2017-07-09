@@ -168,7 +168,7 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
         self.coverScrollView?.backgroundColor = UIColor.clear
         self.coverScrollView?.delegate = self
         
-        self.title = "Share Profile Shop"
+        self.title = "Share"
         
         // setup preview
         let user = CDUser.getOne()

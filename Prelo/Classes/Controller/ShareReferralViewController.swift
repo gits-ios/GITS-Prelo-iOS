@@ -69,7 +69,7 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
         self.coverScrollView?.backgroundColor = UIColor.clear
         self.coverScrollView?.delegate = self
         
-        self.title = "Share Profile Shop"
+        self.title = "Referral Bonus"
         
         // setup preview
         let user = CDUser.getOne()
