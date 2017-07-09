@@ -726,7 +726,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                     } else {
                         self.preloBalanceUsed = 0
                         
-                        if self.discountItems[0].title == "Prelo Balance" {
+                        if self.discountItems.count > 0 && self.discountItems[0].title == "Prelo Balance" {
                             self.discountItems.remove(at: 0)
                         }
                     }
@@ -757,7 +757,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                     self.tableView.reloadRows(at: [idx], with: .fade)
                     
                     var i = 0
-                    if self.discountItems[0].title == "Prelo Balance" {
+                    if self.discountItems.count > 0 && self.discountItems[0].title == "Prelo Balance" {
                         i = 1
                     }
                     
@@ -767,7 +767,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                         }*/
                         self.scrollToSummary()
                     } else {
-                        if self.discountItems[i].title.contains("Voucher") {
+                        if self.discountItems.count > 0 && self.discountItems[i].title.contains("Voucher") {
                             self.discountItems.remove(at: i)
                             self.tableView.reloadSections(IndexSet.init(integer: idx.section+1), with: .fade)
                             self.isFreeze = false
