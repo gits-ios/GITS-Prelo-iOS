@@ -75,6 +75,8 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var imgContohFoto: UIImageView!
     
+    var isNeedReload = false
+    
     
     
     override func viewDidLoad() {
@@ -84,6 +86,12 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
         self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
         self.scrollView.contentSize = self.contentView.bounds.size
         self.title = "Verifikasi Identitas"
+        
+        getUserRentData()
+        getUserVerifiedRentData()
+    }
+    
+    func initiateField(){
         if(selectedIndex == 0){
             self.imgContohFoto.image = nil
         }
@@ -94,12 +102,23 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
         } else if(selectedIndex == 3){
             self.imgContohFoto.image = UIImage(named: "arrow_left.png")
         }
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
         setupDropdownInstitusi()
-        getUserRentData()
-        getUserVerifiedRentData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if isNeedReload{
+            self.showLoading()
+            initiateField()
+            self.hideLoading()
+            
+            isNeedReload = false
+        }
     }
     
     
@@ -281,25 +300,23 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
     }
     func getUserRentData(){
         self.showLoading()
+        isNeedReload = true
         let _ = request(APIMe.getUserRentData).responseJSON {resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Rent Data")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 if(data["verification_status"] == 0) {
                     self.vwWarning.isHidden = true
-                    self.viewDidLoad()
                     self.hideLoading()
                 } else if (data["verification_status"] == 1) {
                     self.vwWarning.isHidden = false
                     self.consViewIdentitasTop.constant = 60
                     self.lblInstansi.text = data["admin_comment"].string
-                    self.viewDidLoad()
                     self.hideLoading()
                 } else if (data["verification_status"] == 2) {
                     self.vwWarning.isHidden = false
                     self.consViewIdentitasTop.constant = 60
                     self.lblInstansi.text = data["admin_comment"].string
-                    self.viewDidLoad()
                     self.hideLoading()
                 }
                 if let typeInstitution = data["institution_type"].int{
@@ -354,23 +371,21 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
     var images : [AnyObject] = [NSNull(), NSNull(), NSNull()]
     func setUserRentData(){
         self.showLoading()
+        
         let url = "\(AppTools.PreloBaseUrl)/api/me/set_rent_data"
         let param = [
             "institution_type":selectedIndex - 1,
             "institution_name":txtInstitusi.text == nil ? "" : txtInstitusi.text!
-            
         ] as [String : Any]
-        images[0] = imgKartuIdentitas.image!
-        images[1] = imgKartuKeluarga.image!
-        images[2] = imgInstitusiImage.image!
-        print("ini namanya")
-        print(images[0].description())
-        print(images[1].description())
-        print(images[2].description())
+        let images = [
+            "image1": imgKartuIdentitas.image!,
+            "image2": imgKartuKeluarga.image!,
+            "image3": imgInstitusiImage.image!
+            ] as [String : Any]
         
         let userAgent : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String
         
-        AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: { op, res in
+        AppToolsObjC.sendMultipart(param, imagesDict: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: { op, res in
             print("Edit verifikasi res = \(res)")
             print("berhasil")
             self.hideLoading()

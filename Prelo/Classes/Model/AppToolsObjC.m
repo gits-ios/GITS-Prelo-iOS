@@ -190,6 +190,87 @@ static UIDocumentInteractionController *staticDocController = NULL;
     }];
 }
 
++ (void)sendMultipart:(NSDictionary *)param imagesDict:(NSDictionary *)images withToken:(NSString *)token andUserAgent:(NSString *)userAgent to:(NSString *)url success:(void (^)(AFHTTPRequestOperation *, id))success failure:(void (^)(AFHTTPRequestOperation *, NSError *))failure
+{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", token] forHTTPHeaderField:@"Authorization"];
+    [manager.requestSerializer setValue:userAgent forHTTPHeaderField:@"User-Agent"];
+    
+    manager.requestSerializer.timeoutInterval = 600;
+    
+    printf("ini isi json image");
+     for(NSString *key in [images allKeys]) {
+        NSLog(@"%@",[images objectForKey:key]);
+    }
+    [manager POST:url parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        
+            NSString *name = [NSString stringWithFormat:@"image1"];
+                if ([images[[NSString stringWithFormat:@"image1"]] isKindOfClass:[UIImage class]])
+                {
+                    printf("ini isi image");
+                    NSLog(@"%@", images[[NSString stringWithFormat:@"image1"]]);
+                    //                    long int lc = [[images objectAtIndex:i] imageOrientation];
+                    //                    NSLog(@"orientation %ld", lc);
+                    NSData *data = UIImageJPEGRepresentation(images[[NSString stringWithFormat:@"image1"]], 0.3);
+                    //                    NSData *newData = [self dataByRemovingExif:data];
+                    [formData appendPartWithFileData:data name:name fileName:@"wat.jpeg" mimeType:@"image/jpeg"];
+                }
+        
+        NSLog(@"");
+    } success:^(AFHTTPRequestOperation *op, id res) {
+        success(op, res);
+    } failure:^(AFHTTPRequestOperation *op, NSError *err) {
+        NSLog(@"REQUEST %@", op.responseString);
+        NSLog(@"ERROR : %@", err);
+        failure(op, err);
+    }];
+    [manager POST:url parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        
+        NSString *name = [NSString stringWithFormat:@"image2"];
+        if ([images[[NSString stringWithFormat:@"image2"]] isKindOfClass:[UIImage class]])
+        {
+            printf("ini isi image");
+            NSLog(@"%@", images[[NSString stringWithFormat:@"image2"]]);
+            //                    long int lc = [[images objectAtIndex:i] imageOrientation];
+            //                    NSLog(@"orientation %ld", lc);
+            NSData *data = UIImageJPEGRepresentation(images[[NSString stringWithFormat:@"image2"]], 0.3);
+            //                    NSData *newData = [self dataByRemovingExif:data];
+            [formData appendPartWithFileData:data name:name fileName:@"wat.jpeg" mimeType:@"image/jpeg"];
+        }
+        
+        NSLog(@"");
+    } success:^(AFHTTPRequestOperation *op, id res) {
+        success(op, res);
+    } failure:^(AFHTTPRequestOperation *op, NSError *err) {
+        NSLog(@"REQUEST %@", op.responseString);
+        NSLog(@"ERROR : %@", err);
+        failure(op, err);
+    }];
+    [manager POST:url parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        
+        NSString *name = [NSString stringWithFormat:@"image3"];
+        if ([images[[NSString stringWithFormat:@"image3"]] isKindOfClass:[UIImage class]])
+        {
+            printf("ini isi image");
+            NSLog(@"%@", images[[NSString stringWithFormat:@"image3"]]);
+            //                    long int lc = [[images objectAtIndex:i] imageOrientation];
+            //                    NSLog(@"orientation %ld", lc);
+            NSData *data = UIImageJPEGRepresentation(images[[NSString stringWithFormat:@"image3"]], 0.3);
+            //                    NSData *newData = [self dataByRemovingExif:data];
+            [formData appendPartWithFileData:data name:name fileName:@"wat.jpeg" mimeType:@"image/jpeg"];
+        }
+        
+        NSLog(@"");
+    } success:^(AFHTTPRequestOperation *op, id res) {
+        success(op, res);
+    } failure:^(AFHTTPRequestOperation *op, NSError *err) {
+        NSLog(@"REQUEST %@", op.responseString);
+        NSLog(@"ERROR : %@", err);
+        failure(op, err);
+    }];
+}
+
 + (AFHTTPRequestOperationManager *)sendMultipart2:(NSDictionary *)param images:(NSArray *)images withToken:(NSString *)token andUserAgent:(NSString *)userAgent to:(NSString *)url success:(void (^)(AFHTTPRequestOperation *, id))success failure:(void (^)(AFHTTPRequestOperation *, NSError *))failure
 {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
