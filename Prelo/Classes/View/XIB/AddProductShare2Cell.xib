@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Prelo2.ttf">
+            <string>Prelo2</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="62" id="6if-i2-Abs">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="62"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6if-i2-Abs" id="EMY-sn-uy3">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="61.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FBd-SZ-hnd" userLabel="Content">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="61.5"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k68-yf-jKr" userLabel="Checkbox">
+                                <rect key="frame" x="16" y="20.5" width="20" height="20"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UrS-KM-UOG">
+                                        <rect key="frame" x="1" y="1" width="18" height="18"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v5m-KK-Zh7">
+                                        <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
+                                        <color key="backgroundColor" red="1" green="0.6588235294" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="14"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="UrS-KM-UOG" firstAttribute="top" secondItem="k68-yf-jKr" secondAttribute="top" constant="1" id="0JV-cE-wlq"/>
+                                    <constraint firstAttribute="trailing" secondItem="v5m-KK-Zh7" secondAttribute="trailing" id="45U-T8-x6r"/>
+                                    <constraint firstAttribute="trailing" secondItem="UrS-KM-UOG" secondAttribute="trailing" constant="1" id="5jh-Vc-fTE"/>
+                                    <constraint firstAttribute="width" constant="20" id="CCC-hm-qcj"/>
+                                    <constraint firstItem="v5m-KK-Zh7" firstAttribute="leading" secondItem="k68-yf-jKr" secondAttribute="leading" id="jNE-Se-WsH"/>
+                                    <constraint firstAttribute="height" constant="20" id="p4Q-1C-xAZ"/>
+                                    <constraint firstItem="UrS-KM-UOG" firstAttribute="leading" secondItem="k68-yf-jKr" secondAttribute="leading" constant="1" id="rAG-Ds-5H5"/>
+                                    <constraint firstAttribute="bottom" secondItem="UrS-KM-UOG" secondAttribute="bottom" constant="1" id="t5H-FG-6Bj"/>
+                                    <constraint firstItem="v5m-KK-Zh7" firstAttribute="top" secondItem="k68-yf-jKr" secondAttribute="top" id="u78-sJ-Y4A"/>
+                                    <constraint firstAttribute="bottom" secondItem="v5m-KK-Zh7" secondAttribute="bottom" id="ztT-HQ-jUA"/>
+                                </constraints>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_socmed_facebook.png" translatesAutoresizingMaskIntoConstraints="NO" id="sZZ-8n-M3Q">
+                                <rect key="frame" x="52" y="20" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="5VC-yN-9Vb"/>
+                                    <constraint firstAttribute="height" constant="20" id="O7g-tX-iNk"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Google +" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hcq-Ai-vDL">
+                                <rect key="frame" x="80" y="8" width="107.5" height="44.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+ 3%" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dtl-fi-Aqk">
+                                <rect key="frame" x="187.5" y="8" width="187.5" height="44.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uMW-Tf-k25" userLabel="Line 1px">
+                                <rect key="frame" x="0.0" y="60.5" width="375" height="1"/>
+                                <color key="backgroundColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="gK7-Sk-CVT"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Hcq-Ai-vDL" firstAttribute="leading" secondItem="sZZ-8n-M3Q" secondAttribute="trailing" constant="8" id="0Q6-4D-GPP"/>
+                            <constraint firstItem="sZZ-8n-M3Q" firstAttribute="leading" secondItem="k68-yf-jKr" secondAttribute="trailing" constant="16" id="Gli-Ge-a0C"/>
+                            <constraint firstAttribute="trailing" secondItem="uMW-Tf-k25" secondAttribute="trailing" id="JFT-8p-Sgb"/>
+                            <constraint firstItem="k68-yf-jKr" firstAttribute="leading" secondItem="FBd-SZ-hnd" secondAttribute="leading" constant="16" id="KRY-lD-7LR"/>
+                            <constraint firstItem="Hcq-Ai-vDL" firstAttribute="top" secondItem="FBd-SZ-hnd" secondAttribute="top" constant="8" id="N26-T6-NaP"/>
+                            <constraint firstAttribute="bottom" secondItem="uMW-Tf-k25" secondAttribute="bottom" id="NYU-SH-fyu"/>
+                            <constraint firstItem="dtl-fi-Aqk" firstAttribute="top" secondItem="FBd-SZ-hnd" secondAttribute="top" constant="8" id="TNe-S5-qJH"/>
+                            <constraint firstItem="k68-yf-jKr" firstAttribute="centerY" secondItem="Hcq-Ai-vDL" secondAttribute="centerY" id="gUf-rh-Swc"/>
+                            <constraint firstItem="uMW-Tf-k25" firstAttribute="top" secondItem="Hcq-Ai-vDL" secondAttribute="bottom" constant="8" id="hdr-qt-LwE"/>
+                            <constraint firstItem="uMW-Tf-k25" firstAttribute="top" secondItem="dtl-fi-Aqk" secondAttribute="bottom" constant="8" id="lOq-yW-b6N"/>
+                            <constraint firstItem="uMW-Tf-k25" firstAttribute="leading" secondItem="FBd-SZ-hnd" secondAttribute="leading" id="oXQ-vn-6jf"/>
+                            <constraint firstItem="dtl-fi-Aqk" firstAttribute="width" secondItem="FBd-SZ-hnd" secondAttribute="width" multiplier="0.5" id="pny-6M-ysP"/>
+                            <constraint firstItem="dtl-fi-Aqk" firstAttribute="leading" secondItem="Hcq-Ai-vDL" secondAttribute="trailing" id="xyl-4w-3gZ"/>
+                            <constraint firstItem="sZZ-8n-M3Q" firstAttribute="centerY" secondItem="k68-yf-jKr" secondAttribute="centerY" id="yaB-6s-7Wu"/>
+                            <constraint firstAttribute="trailing" secondItem="dtl-fi-Aqk" secondAttribute="trailing" id="zBp-CW-GlI"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="FBd-SZ-hnd" secondAttribute="bottom" id="FVb-zZ-jSH"/>
+                    <constraint firstAttribute="trailing" secondItem="FBd-SZ-hnd" secondAttribute="trailing" id="YdC-En-SOn"/>
+                    <constraint firstItem="FBd-SZ-hnd" firstAttribute="top" secondItem="EMY-sn-uy3" secondAttribute="top" id="m6B-Sg-5b9"/>
+                    <constraint firstItem="FBd-SZ-hnd" firstAttribute="leading" secondItem="EMY-sn-uy3" secondAttribute="leading" id="x6F-SQ-ATb"/>
+                </constraints>
+            </tableViewCellContentView>
+            <point key="canvasLocation" x="11.5" y="7"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="ic_socmed_facebook.png" width="147" height="109"/>
+    </resources>
+</document>
