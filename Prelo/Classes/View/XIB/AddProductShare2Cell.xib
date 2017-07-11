@@ -16,7 +16,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="62" id="6if-i2-Abs">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="62" id="6if-i2-Abs" customClass="AddProductShare2Cell" customModule="Prelo" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="62"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6if-i2-Abs" id="EMY-sn-uy3">
@@ -110,6 +110,12 @@
                     <constraint firstItem="FBd-SZ-hnd" firstAttribute="leading" secondItem="EMY-sn-uy3" secondAttribute="leading" id="x6F-SQ-ATb"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="imgIcon" destination="sZZ-8n-M3Q" id="ty5-fd-8aL"/>
+                <outlet property="lbCheckbox" destination="v5m-KK-Zh7" id="tgi-0M-GhA"/>
+                <outlet property="lbPercentage" destination="dtl-fi-Aqk" id="6F3-6K-aJd"/>
+                <outlet property="lbTitle" destination="Hcq-Ai-vDL" id="cCa-nI-FHT"/>
+            </connections>
             <point key="canvasLocation" x="11.5" y="7"/>
         </tableViewCell>
     </objects>

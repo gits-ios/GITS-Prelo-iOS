@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <viewController id="bad-QH-ga4">
+        <viewController id="bad-QH-ga4" customClass="AddProductShare2ViewController" customModule="Prelo" customModuleProvider="target">
             <layoutGuides>
                 <viewControllerLayoutGuide type="top" id="n8q-Dy-2HP"/>
                 <viewControllerLayoutGuide type="bottom" id="5BH-TI-3h0"/>
@@ -137,7 +137,7 @@
                                                         </constraints>
                                                     </view>
                                                 </subviews>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="0.90980392156862744" green="0.92549019607843142" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstItem="kre-ft-nvP" firstAttribute="width" secondItem="ycP-RV-A4a" secondAttribute="width" multiplier="0.5" id="1N8-JO-2GF"/>
                                                     <constraint firstAttribute="trailing" secondItem="omb-iT-TDh" secondAttribute="trailing" id="DWt-eM-OkM"/>
@@ -222,6 +222,9 @@
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <state key="disabled" title="LOADING"/>
+                                        <connections>
+                                            <action selector="btnSellPressed:" destination="bad-QH-ga4" eventType="touchUpInside" id="LsM-oS-O8J"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -287,6 +290,15 @@
                     <constraint firstItem="TcH-p6-sYt" firstAttribute="leading" secondItem="8EF-9X-fqh" secondAttribute="leading" id="y5b-TO-Gxu"/>
                 </constraints>
             </view>
+            <connections>
+                <outlet property="btnSell" destination="YZd-Na-Hot" id="WZC-zx-Xtv"/>
+                <outlet property="consHeightTbSocmed" destination="r4B-oJ-JLH" id="0OK-sV-Nns"/>
+                <outlet property="lbCharge" destination="lTZ-bg-F3O" id="W5U-HM-dB3"/>
+                <outlet property="lbPercentage" destination="auX-ck-S6i" id="XUE-Ha-Jda"/>
+                <outlet property="lbPrice" destination="5nP-qt-0jx" id="y3t-Xb-j6T"/>
+                <outlet property="tbSocmed" destination="O4b-el-TLX" id="79z-7A-d9b"/>
+                <outlet property="vwLoading" destination="cKP-Sw-rd6" id="Mlu-wy-raE"/>
+            </connections>
             <point key="canvasLocation" x="15" y="-4"/>
         </viewController>
     </objects>
