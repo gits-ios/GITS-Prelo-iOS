@@ -67,6 +67,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     
     // ReviewSeller pop up
     @IBOutlet weak var vwReviewSeller: UIView!
+    @IBOutlet weak var lblTitleRvwSeller: UILabel!
     @IBOutlet weak var lblRvwSellerName: UILabel!
     @IBOutlet weak var lblRvwProductName: UILabel!
     @IBOutlet weak var txtvwReview: UITextView!
@@ -91,9 +92,12 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     var txtvwReviewGrowHandler : GrowingTextViewHandler!
     @IBOutlet weak var consHeightTxtvwReview: NSLayoutConstraint!
     @IBOutlet weak var consTopVwReviewSeller: NSLayoutConstraint! // centery
-    let TxtvwReviewPlaceholder = "Tulis review tentang penjual ini"
+    var TxtvwReviewPlaceholder = "Tulis review tentang penjual ini"
+    @IBOutlet weak var vwAgreement: UIView!
     @IBOutlet var lblChkRvwAgreement: UILabel!
     var isRvwAgreed = false
+    @IBOutlet weak var lblNotification: UILabel!
+    @IBOutlet weak var consHeightRvwPopUp: NSLayoutConstraint!
     
     // TundaPengiriman pop up
     @IBOutlet var vwTundaPengiriman: UIView!
@@ -430,7 +434,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isAffiliate {
             if progress == TransactionDetailTools.ProgressReviewed {
-                return 6
+                return 7
             } else if progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived {
                 return 7
             } else  {
@@ -480,7 +484,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 }
             } else if (progress == TransactionDetailTools.ProgressReviewed) {
                 if (userIsSeller()) {
-                    return 11
+                    return 12
                 } else {
                     return 11
                 }
@@ -566,6 +570,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if idx == 4 {
                     return TransactionDetailReviewCell.heightFor(trxProductDetail!.reviewComment)
                 } else if idx == 5 {
+                    return DefaultHeight
+                } else if idx == 6 {
                     return ContactPreloHeight
                 }
             } else  {
@@ -893,6 +899,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                             return TransactionDetailReviewCell.heightFor(trxProductDetail!.reviewComment)
                         }
                     } else if (idx == 10) {
+                        return DefaultHeight
+                    } else if (idx == 11) {
                         return ContactPreloHeight
                     }
                 } else {
@@ -1227,6 +1235,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if idx == 4 {
                     return self.createReviewCell()
                 } else if idx == 5 {
+                    return self.createButtonCell(2)
+                } else if idx == 6 {
                     return self.createContactPreloCell()
                 }
             } else  {
@@ -1520,6 +1530,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     } else if (idx == 9) {
                         return self.createReviewCell()
                     } else if (idx == 10) {
+                        return self.createButtonCell(2)
+                    } else if (idx == 11) {
                         return self.createContactPreloCell()
                     }
                 } else {
@@ -2076,6 +2088,21 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 self.vwReviewSeller.isHidden = false
             }
         }
+        cell.reviewBuyer = {
+            self.vwShadow.isHidden = false
+            self.vwReviewSeller.isHidden = false
+            self.lblTitleRvwSeller.text = "REVIEW PEMBELI"
+            self.btnRvwKirim.setTitle("OK", for: .normal)
+            
+            if (self.trxProductDetail != nil) {
+                self.lblRvwSellerName.text = self.trxProductDetail!.buyerUsername
+                self.lblRvwProductName.text = self.trxProductDetail!.productName
+            }
+            self.TxtvwReviewPlaceholder = "Tulis review tentang pembeli ini"
+            self.vwAgreement.isHidden = true
+            self.lblNotification.text = "Pastikan bahwa pembeli sudah menerima barang kamu"
+            self.consHeightRvwPopUp.constant = 300
+        }
         cell.seeFAQ = {
             let helpVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
             helpVC.url = "https://prelo.co.id/faq?ref=preloapp#tidak-lolos"
@@ -2566,41 +2593,47 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     }
     
     @IBAction func reviewKirimPressed(_ sender: AnyObject) {
-        if (txtvwReview.text.isEmpty || txtvwReview.text == self.TxtvwReviewPlaceholder) {
-            Constant.showDialog("Review Penjual", message: "Isi review tidak boleh kosong")
-            return
-        } else if (!isRvwAgreed) {
-            Constant.showDialog("Review Penjual", message: "Isi checkbox sebagai tanda persetujuan")
-            return
+        print(self.btnRvwKirim.titleLabel?.text)
+        if(self.btnRvwKirim.titleLabel?.text == "REVIEW PEMBELI"){
+            print("REVIEW PEMBELI")
+        } else if(self.btnRvwKirim.titleLabel?.text == "REVIEW PENJUAL"){
+            print("REVIEW PENJUAL")
         }
-        
-        self.sendMode(true)
-        if (self.trxProductDetail != nil) {
-            let _ = request(APIProduct.postReview(productID: self.trxProductDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON { resp in
-                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Review Penjual")) {
-                    let json = JSON(resp.result.value!)
-                    let dataBool : Bool = json["_data"].boolValue
-                    let dataInt : Int = json["_data"].intValue
-                    ////print("dataBool = \(dataBool), dataInt = \(dataInt)")
-                    if (dataBool == true || dataInt == 1) {
-                        // Prelo Analytic - Review and Rate Seller
-                        self.sendReviewRateSellerAnalytic()
-                        
-                        Constant.showDialog("Success", message: "Review berhasil ditambahkan")
-                    } else {
-                        Constant.showDialog("Success", message: "Terdapat kesalahan saat memproses data")
-                    }
-                    
-                    // Hide pop up
-                    self.sendMode(false)
-                    self.vwShadow.isHidden = true
-                    self.vwReviewSeller.isHidden = true
-                    
-                    // Reload content
-                    self.getTransactionDetail()
-                }
-            }
-        }
+//        if (txtvwReview.text.isEmpty || txtvwReview.text == self.TxtvwReviewPlaceholder) {
+//            Constant.showDialog("Review Penjual", message: "Isi review tidak boleh kosong")
+//            return
+//        } else if (!isRvwAgreed) {
+//            Constant.showDialog("Review Penjual", message: "Isi checkbox sebagai tanda persetujuan")
+//            return
+//        }
+//        
+//        self.sendMode(true)
+//        if (self.trxProductDetail != nil) {
+//            let _ = request(APIProduct.postReview(productID: self.trxProductDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON { resp in
+//                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Review Penjual")) {
+//                    let json = JSON(resp.result.value!)
+//                    let dataBool : Bool = json["_data"].boolValue
+//                    let dataInt : Int = json["_data"].intValue
+//                    ////print("dataBool = \(dataBool), dataInt = \(dataInt)")
+//                    if (dataBool == true || dataInt == 1) {
+//                        // Prelo Analytic - Review and Rate Seller
+//                        self.sendReviewRateSellerAnalytic()
+//                        
+//                        Constant.showDialog("Success", message: "Review berhasil ditambahkan")
+//                    } else {
+//                        Constant.showDialog("Success", message: "Terdapat kesalahan saat memproses data")
+//                    }
+//                    
+//                    // Hide pop up
+//                    self.sendMode(false)
+//                    self.vwShadow.isHidden = true
+//                    self.vwReviewSeller.isHidden = true
+//                    
+//                    // Reload content
+//                    self.getTransactionDetail()
+//                }
+//            }
+//        }
     }
     
     // MARK: - Tunda Pengiriman Pop Up
@@ -5301,6 +5334,7 @@ class TransactionDetailButtonCell : UITableViewCell {
     var continuePayment : () -> () = {}
     var confirmShipping : () -> () = {}
     var reviewSeller : () -> () = {}
+    var reviewBuyer : () -> () = {}
     var seeFAQ : () -> () = {}
     var confirmReturnShipping : () -> () = {}
     var confirmReturned : () -> () = {}
@@ -5337,6 +5371,8 @@ class TransactionDetailButtonCell : UITableViewCell {
         } else if (progress == TransactionDetailTools.ProgressExpired) {
             let TitlePesanLagi = "PESAN LAGI BARANG YANG SAMA"
             btn.setTitle(TitlePesanLagi, for: UIControlState())
+        } else if (progress == TransactionDetailTools.ProgressReviewed) {
+            btn.setTitle("REVIEW PEMBELI", for: UIControlState())
         }
     }
     
@@ -5349,6 +5385,8 @@ class TransactionDetailButtonCell : UITableViewCell {
         } else if progress == TransactionDetailTools.ProgressNotPaid {
             btn.setTitle("KONFIRMASI PEMBAYARAN", for: UIControlState())
         } else if progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived {
+            btn.setTitle("REVIEW " + affiliateName.uppercased(), for: UIControlState())
+        } else if (progress == TransactionDetailTools.ProgressReviewed) {
             btn.setTitle("REVIEW " + affiliateName.uppercased(), for: UIControlState())
         } else {
             btn.setTitle("LIHAT DI " + affiliateName.uppercased(), for: UIControlState())
@@ -5363,6 +5401,8 @@ class TransactionDetailButtonCell : UITableViewCell {
                 self.confirmPaymentAffiliate()
             } else if progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived {
                 self.reviewSeller() // review affiliate
+            } else if (progress == TransactionDetailTools.ProgressReviewed) {
+                self.reviewBuyer()
             } else {
                 self.seeAffiliate()
             }
@@ -5379,6 +5419,8 @@ class TransactionDetailButtonCell : UITableViewCell {
                 self.confirmShipping()
             } else if (progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived) {
                 self.reviewSeller()
+            } else if (progress == TransactionDetailTools.ProgressReviewed) {
+                self.reviewBuyer()
             } else if (progress == TransactionDetailTools.ProgressFraudDetected) {
                 self.seeFAQ()
             } else if (progress == TransactionDetailTools.ProgressRefundVerified) {

@@ -2035,6 +2035,13 @@ class TransactionProductDetail : NSObject {
         return ""
     }
     
+    var rejection_reason : String {
+        if let j = json["rejection_reason"].string {
+            return j
+        }
+        return ""
+    }
+    
     var buyerName : String {
         if let j = json["buyer_name"].string {
             return j

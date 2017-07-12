@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="87C-Oi-o7x">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="87C-Oi-o7x">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -6089,7 +6089,7 @@ in Bandung</string>
                                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fn5-W5-hj0">
-                                                            <rect key="frame" x="28" y="28.5" width="44" height="44"/>
+                                                            <rect key="frame" x="28" y="28" width="44" height="44"/>
                                                             <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="44"/>
                                                             <color key="textColor" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -9519,7 +9519,7 @@ in Bandung</string>
                                                             <rect key="frame" x="10" y="0.0" width="44" height="44"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fDk-jQ-LO8">
-                                                                    <rect key="frame" x="12" y="12" width="20" height="20"/>
+                                                                    <rect key="frame" x="12" y="13" width="20" height="20"/>
                                                                     <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="20"/>
                                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
@@ -18739,6 +18739,7 @@ in Bandung</string>
                                     <constraint firstItem="88V-g1-IeE" firstAttribute="leading" secondItem="rz5-Ll-5uz" secondAttribute="leading" constant="8" id="E5R-QD-Vyt"/>
                                     <constraint firstItem="88V-g1-IeE" firstAttribute="top" secondItem="eAe-QZ-mEc" secondAttribute="bottom" constant="11" id="G9h-d1-Pew"/>
                                     <constraint firstItem="GCT-B8-jrY" firstAttribute="leading" secondItem="rz5-Ll-5uz" secondAttribute="leading" constant="8" id="JW3-lD-xL3"/>
+                                    <constraint firstAttribute="height" constant="386" id="K5C-cm-dwM"/>
                                     <constraint firstAttribute="trailing" secondItem="88V-g1-IeE" secondAttribute="trailing" constant="8" id="MBv-dG-jfZ"/>
                                     <constraint firstItem="85Y-eJ-7tH" firstAttribute="top" secondItem="rz5-Ll-5uz" secondAttribute="top" constant="8" id="N5p-3C-giz"/>
                                     <constraint firstAttribute="trailing" secondItem="WJT-Yl-2wl" secondAttribute="trailing" constant="8" id="NJe-ZC-tbS"/>
@@ -18812,6 +18813,7 @@ in Bandung</string>
                         <outlet property="btnTolakKirim" destination="iWl-2C-FtG" id="y3l-V2-yaC"/>
                         <outlet property="btnTundaBatal" destination="tGE-Nd-kST" id="I4D-kh-oWX"/>
                         <outlet property="btnTundaKirim" destination="3DA-ZM-Lzg" id="Kyr-TI-v0F"/>
+                        <outlet property="consHeightRvwPopUp" destination="K5C-cm-dwM" id="4Xf-kv-3Ve"/>
                         <outlet property="consHeightTxtvwAlasanTolak" destination="6JQ-Hk-CGj" id="7yT-ja-ysH"/>
                         <outlet property="consHeightTxtvwReview" destination="8Yr-Re-FfH" id="ZCM-Ei-nYL"/>
                         <outlet property="consTopVwReviewSeller" destination="AiG-x4-ZwB" id="c3n-3b-yXI"/>
@@ -18824,12 +18826,15 @@ in Bandung</string>
                         <outlet property="lblLove3" destination="WFM-dr-gW0" id="E4c-tr-dY1"/>
                         <outlet property="lblLove4" destination="GTX-Ho-Z44" id="hvm-Pv-6wu"/>
                         <outlet property="lblLove5" destination="TpC-m5-bc1" id="Px3-ga-n2M"/>
+                        <outlet property="lblNotification" destination="4Gt-VW-2Ps" id="6I7-z5-bVc"/>
                         <outlet property="lblRvwProductName" destination="XFM-9m-KBQ" id="P3u-j8-pCs"/>
                         <outlet property="lblRvwSellerName" destination="GCT-B8-jrY" id="bi8-98-xxj"/>
+                        <outlet property="lblTitleRvwSeller" destination="85Y-eJ-7tH" id="Vfx-Rx-FG2"/>
                         <outlet property="loading" destination="F7M-5m-kiG" id="TzP-DR-5Sx"/>
                         <outlet property="tableView" destination="m84-1O-8RA" id="tm3-E5-HRf"/>
                         <outlet property="txtvwAlasanTolak" destination="F0Z-hK-F3A" id="UTX-Wd-J09"/>
                         <outlet property="txtvwReview" destination="Tcm-o2-F3a" id="ffP-VY-hM8"/>
+                        <outlet property="vwAgreement" destination="STK-4c-gwX" id="NO5-aN-aKj"/>
                         <outlet property="vwLoveWithListener" destination="7dP-yz-t4a" id="2OP-3q-fsQ"/>
                         <outlet property="vwReviewSeller" destination="rz5-Ll-5uz" id="Yb7-yj-Qyc"/>
                         <outlet property="vwShadow" destination="cHb-FI-jaE" id="yhC-E6-GZ1"/>
@@ -18905,9 +18910,9 @@ in Bandung</string>
         <image name="tour_5.jpg" width="720" height="1280"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="dW2-MQ-HC6"/>
-        <segue reference="5pQ-qG-4MR"/>
-        <segue reference="W6Y-eo-D2Q"/>
         <segue reference="gv4-pa-FxU"/>
+        <segue reference="5pQ-qG-4MR"/>
+        <segue reference="ksh-6D-t59"/>
+        <segue reference="W6Y-eo-D2Q"/>
     </inferredMetricsTieBreakers>
 </document>
