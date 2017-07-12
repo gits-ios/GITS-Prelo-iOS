@@ -29,7 +29,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m8x-Oz-Kxa">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="48"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label warning" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cDi-vO-Poa">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label warning" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cDi-vO-Poa">
                                                 <rect key="frame" x="8" y="8" width="359" height="32"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -503,6 +503,7 @@
                 <outlet property="btnInstitusiImage" destination="jeb-Sm-TVo" id="ESz-r9-vxP"/>
                 <outlet property="btnKartuIdentitas" destination="bFn-yT-hYo" id="q46-YH-VgJ"/>
                 <outlet property="btnKartuKeluarga" destination="4FD-sm-XVH" id="tgx-y5-EaC"/>
+                <outlet property="consHeightVwWarning" destination="sIB-UM-2AB" id="RX6-kP-vEt"/>
                 <outlet property="consViewIdentitasTop" destination="RCN-uJ-uh4" id="rh8-1K-MgP"/>
                 <outlet property="contentView" destination="4VF-yU-fkQ" id="UGW-Dr-P5h"/>
                 <outlet property="dropDownInstitusi" destination="mBT-gF-th5" id="uFE-fV-k3g"/>

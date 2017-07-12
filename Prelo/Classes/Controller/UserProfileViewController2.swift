@@ -86,7 +86,7 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         super.viewDidAppear(animated)
         
         // get user verified data
-        getUserVerifiedRentData()
+        getUserRentData()
         
         // Google Analytics
         GAI.trackPageVisit(PageName.EditProfile)
@@ -109,29 +109,29 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         loadingPanel.isHidden = true
         loading.stopAnimating()
     }
-    func getUserVerifiedRentData(){
+    func getUserRentData(){
         self.showLoading()
-        let _ = request(APIMe.getUserVerifiedRentData).responseJSON {resp in
-            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Verified Rent Data")) {
+        let _ = request(APIMe.getUserRentData).responseJSON {resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Rent Data")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
-                print("ini isi data")
-                print(json)
-                if let arr = data["status"].int {
-                    if(data["status"] == 0){
+                if(data.isEmpty){
+                    
+                } else {
+                    if(data["verification_status"] == 0) {
                         self.checkKTP.isHidden = false
                         self.checkKK.isHidden = false
                         self.checkInstitusi.isHidden = false
                         self.lblWarning.isHidden = true
-                    } else if(data["status"] == 1) {
-                        self.checkKTP.isHidden = false
-                        self.checkKK.isHidden = false
-                        self.checkInstitusi.isHidden = false
-                        self.lblWarning.isHidden = false
-                    } else if(data["status"] == 2) {
+                    } else if (data["verification_status"] == 1) {
                         self.checkKTP.isHidden = true
                         self.checkKK.isHidden = true
                         self.checkInstitusi.isHidden = true
+                        self.lblWarning.isHidden = false
+                    } else if (data["verification_status"] == 2) {
+                        self.checkKTP.isHidden = false
+                        self.checkKK.isHidden = false
+                        self.checkInstitusi.isHidden = false
                         self.lblWarning.isHidden = true
                     }
                     self.viewDidLoad()

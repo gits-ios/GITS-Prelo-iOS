@@ -11,35 +11,6 @@ import Alamofire
 import DropDown
 
 class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, VerifikasiImagePreviewDelegate, UIScrollViewDelegate {
-    func imageFullScreenDidReplace(_ controller: VerifikasiImagePreview, image: APImage, isCamera: Bool, name: String) {
-        print("masuk sini ga?")
-        if let i = image.image
-        {
-            if(isKartuKeluargaClicked){
-                self.imgKartuKeluarga.image = i
-            } else if (isKartuIdentitasClicked){
-                self.imgKartuIdentitas.image = i
-            } else if (isInstitusiImageClicked){
-                self.imgInstitusiImage.image = i
-            }
-        } else {
-            //Constant.showBadgeDialog("Perhatian", message: "Terjadi kesalahan saat memuat gambar", badge: "warning", view: self, isBack: false)
-            Constant.showDialog("Perhatian", message: "Terjadi kesalahan saat memuat gambar")
-        }
-        
-    }
-
-    func imageFullScreenDidDelete(_ controller: VerifikasiImagePreview) {
-        if(isKartuKeluargaClicked){
-            self.imgKartuKeluarga.image = nil
-        } else if (isKartuIdentitasClicked){
-            self.imgKartuIdentitas.image = nil
-        } else if (isInstitusiImageClicked){
-            self.imgInstitusiImage.image = nil
-        }
-    }
-
-
     // yang mana yang dipilih
     var isKartuIdentitasClicked: Bool = false
     var isKartuKeluargaClicked: Bool = false
@@ -69,6 +40,7 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
     @IBOutlet weak var loadingPanel: UIView!
     
     @IBOutlet weak var vwWarning: UIView!
+    @IBOutlet weak var consHeightVwWarning: NSLayoutConstraint!
     @IBOutlet weak var lblWarning: UILabel!
     @IBOutlet weak var consViewIdentitasTop: NSLayoutConstraint!
     
@@ -76,7 +48,7 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
     @IBOutlet weak var imgContohFoto: UIImageView!
     
     var isNeedReload = false
-    
+    var isEdit = false
     
     
     override func viewDidLoad() {
@@ -86,12 +58,13 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
         self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
         self.scrollView.contentSize = self.contentView.bounds.size
         self.title = "Verifikasi Identitas"
-        
+        initiateField()
         getUserRentData()
-        getUserVerifiedRentData()
     }
     
     func initiateField(){
+        print("Selected Index")
+        print(selectedIndex)
         if(selectedIndex == 0){
             self.imgContohFoto.image = nil
         }
@@ -112,13 +85,6 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if isNeedReload{
-            self.showLoading()
-            initiateField()
-            self.hideLoading()
-            
-            isNeedReload = false
-        }
     }
     
     
@@ -295,7 +261,7 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
     
     @IBAction func ajukanVerifikasiPressed(_ sender: Any) {
         if(isValidateField()){
-            setUserRentData()
+            setEditUserRentData()
         }
     }
     func getUserRentData(){
@@ -305,74 +271,94 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Rent Data")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
-                if(data["verification_status"] == 0) {
+                if(data.isEmpty){
+                    self.isEdit = false
                     self.vwWarning.isHidden = true
                     self.hideLoading()
-                } else if (data["verification_status"] == 1) {
-                    self.vwWarning.isHidden = false
-                    self.consViewIdentitasTop.constant = 60
-                    self.lblInstansi.text = data["admin_comment"].string
-                    self.hideLoading()
-                } else if (data["verification_status"] == 2) {
-                    self.vwWarning.isHidden = false
-                    self.consViewIdentitasTop.constant = 60
-                    self.lblInstansi.text = data["admin_comment"].string
-                    self.hideLoading()
-                }
-                if let typeInstitution = data["institution_type"].int{
-                    if(data["institution_type"].int! == 0){
-                        self.lblInstansi.text = "Sekolah/Kuliah"
-                    } else if(data["institution_type"].int! == 1){
-                        self.lblInstansi.text = "Kantor"
-                    } else if(data["institution_type"].int! == 2){
-                        self.lblInstansi.text = "Kantor kelurahan/kecamatan sesuai KTP/KK"
-                    }
-                    self.selectedIndex = (data["institution_type"].int!) + 1
-                    self.txtInstitusi.text = data["institution_name"].string!
                 } else {
-                    self.vwWarning.isHidden = true
+                    self.isEdit = true
+                    
+                    if(data["verification_status"] == 0) {
+                        self.vwWarning.isHidden = true
+                    } else if (data["verification_status"] == 1) {
+                        self.vwWarning.isHidden = false
+                        self.consHeightVwWarning.constant = 68
+                        self.consViewIdentitasTop.constant = 80
+                        
+                        let text1 = "Verifikasi ditolak karena "
+                        var lblWarningText = NSMutableAttributedString(string:text1)
+                        
+                        var commentAdmin  = data["admin_comment"].string!
+                        var attrs = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: 12)]
+                        
+                        var attributedStringCommentAdmin = NSMutableAttributedString(string:commentAdmin, attributes:attrs)
+                        
+                        let text2 = ". Mohon upload ulang dan ajukan verifikasi kembali."
+                        var normalString2 = NSMutableAttributedString(string:text2)
+                        
+                        lblWarningText.append(attributedStringCommentAdmin)
+                        lblWarningText.append(normalString2)
+                        
+                        self.lblWarning.attributedText = lblWarningText
+                    
+                    } else if (data["verification_status"] == 2) {
+                        self.vwWarning.isHidden = false
+                        self.consHeightVwWarning.constant = 68
+                        self.consViewIdentitasTop.constant = 80
+                        self.lblWarning.text = "Jika kamu mengubah data yang sudah dimasukkan, maka transaksi sewa selanjutnya baru dapat dilakukan jika sudah lolos verifikasi ulang"
+                    }
+                    
+                    if let typeInstitution = data["institution_type"].int{
+                        if(data["institution_type"].int! == 0){
+                            self.selectedIndex = 1
+                            self.lblInstansi.text = "Sekolah/Kuliah"
+                        } else if(data["institution_type"].int! == 1){
+                            self.selectedIndex = 2
+                            self.lblInstansi.text = "Kantor"
+                        } else if(data["institution_type"].int! == 2){
+                            self.selectedIndex = 3
+                            self.lblInstansi.text = "Kantor kelurahan/kecamatan sesuai KTP/KK"
+                        }
+                        self.selectedIndex = (data["institution_type"].int!) + 1
+                        self.txtInstitusi.text = data["institution_name"].string!
+                    }
+                    
+                    if let arr = data["identity_verification"].array {
+                        if let url = NSURL(string: arr[0]["url"].string!) {
+                            if let data = NSData(contentsOf: url as URL) {
+                                self.imgKartuIdentitas.image = UIImage(data: data as Data)
+                            }
+                        }
+                        if let url = NSURL(string: arr[1]["url"].string!) {
+                            if let data = NSData(contentsOf: url as URL) {
+                                self.imgKartuKeluarga.image = UIImage(data: data as Data)
+                            }
+                        }
+                        
+                        if let url = NSURL(string: arr[2]["url"].string!) {
+                            if let data = NSData(contentsOf: url as URL) {
+                                self.imgInstitusiImage.image = UIImage(data: data as Data)
+                            }
+                        }
+                    }
+                    self.initiateField()
                     self.hideLoading()
                 }
             }
         }
     }
     
-    func getUserVerifiedRentData(){
-        self.showLoading()
-        let _ = request(APIMe.getUserVerifiedRentData).responseJSON {resp in
-            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Rent Data")) {
-                let json = JSON(resp.result.value!)
-                let data = json["_data"]
-                if let arr = data["docs"].array {
-                    if let url = NSURL(string: arr[0]["url"].string!) {
-                        if let data = NSData(contentsOf: url as URL) {
-                            self.imgKartuIdentitas.image = UIImage(data: data as Data)
-                        }
-                    }
-                    if let url = NSURL(string: arr[1]["url"].string!) {
-                        if let data = NSData(contentsOf: url as URL) {
-                            self.imgKartuKeluarga.image = UIImage(data: data as Data)
-                        }
-                    }
-
-                    if let url = NSURL(string: arr[2]["url"].string!) {
-                        if let data = NSData(contentsOf: url as URL) {
-                            self.imgInstitusiImage.image = UIImage(data: data as Data)
-                        }
-                    }
-
-                } else {
-                    print("masuk ga ada data2")
-                }
-            }
-        }
-        self.hideLoading()
-    }
     var images : [AnyObject] = [NSNull(), NSNull(), NSNull()]
-    func setUserRentData(){
+    
+    func setEditUserRentData(){
         self.showLoading()
-        
-        let url = "\(AppTools.PreloBaseUrl)/api/me/set_rent_data"
+        let url : String
+        if(isEdit){
+            url = "\(AppTools.PreloBaseUrl)/api/me/edit_rent_data"
+        } else {
+            url = "\(AppTools.PreloBaseUrl)/api/me/set_rent_data"
+        }
+
         let param = [
             "institution_type":selectedIndex - 1,
             "institution_name":txtInstitusi.text == nil ? "" : txtInstitusi.text!
@@ -392,17 +378,46 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
             Constant.showDialog("Edit Verifikasi", message: "Berhasil")
             self.navigationController?.popViewController(animated: true)
         }, failure: { op, err in
-            //print((err ?? "")) // failed
+            print((err ?? "")) // failed
             Constant.showDialog("Edit Verifikasi", message: "Gagal mengupload data")//:err.description)
             self.hideLoading()
         })
 
     }
     
+    func imageFullScreenDidReplace(_ controller: VerifikasiImagePreview, image: APImage, isCamera: Bool, name: String) {
+        if let i = image.image
+        {
+            if(isKartuKeluargaClicked){
+                self.imgKartuKeluarga.image = i
+            } else if (isKartuIdentitasClicked){
+                self.imgKartuIdentitas.image = i
+            } else if (isInstitusiImageClicked){
+                self.imgInstitusiImage.image = i
+            }
+        } else {
+            //Constant.showBadgeDialog("Perhatian", message: "Terjadi kesalahan saat memuat gambar", badge: "warning", view: self, isBack: false)
+            Constant.showDialog("Perhatian", message: "Terjadi kesalahan saat memuat gambar")
+        }
+        
+    }
+    
+    func imageFullScreenDidDelete(_ controller: VerifikasiImagePreview) {
+        if(isKartuKeluargaClicked){
+            self.imgKartuKeluarga.image = nil
+        } else if (isKartuIdentitasClicked){
+            self.imgKartuIdentitas.image = nil
+        } else if (isInstitusiImageClicked){
+            self.imgInstitusiImage.image = nil
+        }
+    }
+    
     func showLoading(){
+        print("loading")
         self.loadingPanel.isHidden = false
     }
     func hideLoading(){
+        print("loading ilang")
         self.loadingPanel.isHidden = true
     }
 }

@@ -200,68 +200,29 @@ static UIDocumentInteractionController *staticDocController = NULL;
     manager.requestSerializer.timeoutInterval = 600;
     
     printf("ini isi json image");
-     for(NSString *key in [images allKeys]) {
+    for(NSString *key in [images allKeys]) {
+        NSLog(@"%@",key);
         NSLog(@"%@",[images objectForKey:key]);
     }
+    
     [manager POST:url parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        
-            NSString *name = [NSString stringWithFormat:@"image1"];
-                if ([images[[NSString stringWithFormat:@"image1"]] isKindOfClass:[UIImage class]])
-                {
-                    printf("ini isi image");
-                    NSLog(@"%@", images[[NSString stringWithFormat:@"image1"]]);
-                    //                    long int lc = [[images objectAtIndex:i] imageOrientation];
-                    //                    NSLog(@"orientation %ld", lc);
-                    NSData *data = UIImageJPEGRepresentation(images[[NSString stringWithFormat:@"image1"]], 0.3);
-                    //                    NSData *newData = [self dataByRemovingExif:data];
-                    [formData appendPartWithFileData:data name:name fileName:@"wat.jpeg" mimeType:@"image/jpeg"];
-                }
-        
-        NSLog(@"");
-    } success:^(AFHTTPRequestOperation *op, id res) {
-        success(op, res);
-    } failure:^(AFHTTPRequestOperation *op, NSError *err) {
-        NSLog(@"REQUEST %@", op.responseString);
-        NSLog(@"ERROR : %@", err);
-        failure(op, err);
-    }];
-    [manager POST:url parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        
-        NSString *name = [NSString stringWithFormat:@"image2"];
-        if ([images[[NSString stringWithFormat:@"image2"]] isKindOfClass:[UIImage class]])
-        {
-            printf("ini isi image");
-            NSLog(@"%@", images[[NSString stringWithFormat:@"image2"]]);
-            //                    long int lc = [[images objectAtIndex:i] imageOrientation];
-            //                    NSLog(@"orientation %ld", lc);
-            NSData *data = UIImageJPEGRepresentation(images[[NSString stringWithFormat:@"image2"]], 0.3);
-            //                    NSData *newData = [self dataByRemovingExif:data];
-            [formData appendPartWithFileData:data name:name fileName:@"wat.jpeg" mimeType:@"image/jpeg"];
+        for(NSString *key in [images allKeys]) {
+            NSString *name = [NSString stringWithFormat:@"%@", key];
+            if ([[images objectForKey:key] isKindOfClass:[UIImage class]])
+            {
+                //                    long int lc = [[images objectAtIndex:i] imageOrientation];
+                //                    NSLog(@"orientation %ld", lc);
+                NSData *data = UIImageJPEGRepresentation([images objectForKey:key], 0.3);
+                //                    NSData *newData = [self dataByRemovingExif:data];
+                [formData appendPartWithFileData:data name:name fileName:[NSString stringWithFormat:@"%@.jpeg", key] mimeType:@"image/jpeg"];
+            }
+
+            NSLog(@"%@",key);
+            NSLog(@"%@",[images objectForKey:key]);
         }
-        
-        NSLog(@"");
-    } success:^(AFHTTPRequestOperation *op, id res) {
-        success(op, res);
-    } failure:^(AFHTTPRequestOperation *op, NSError *err) {
-        NSLog(@"REQUEST %@", op.responseString);
-        NSLog(@"ERROR : %@", err);
-        failure(op, err);
-    }];
-    [manager POST:url parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        
-        NSString *name = [NSString stringWithFormat:@"image3"];
-        if ([images[[NSString stringWithFormat:@"image3"]] isKindOfClass:[UIImage class]])
+        for (int i = 0; i < images.count; i++)
         {
-            printf("ini isi image");
-            NSLog(@"%@", images[[NSString stringWithFormat:@"image3"]]);
-            //                    long int lc = [[images objectAtIndex:i] imageOrientation];
-            //                    NSLog(@"orientation %ld", lc);
-            NSData *data = UIImageJPEGRepresentation(images[[NSString stringWithFormat:@"image3"]], 0.3);
-            //                    NSData *newData = [self dataByRemovingExif:data];
-            [formData appendPartWithFileData:data name:name fileName:@"wat.jpeg" mimeType:@"image/jpeg"];
-        }
-        
-        NSLog(@"");
+                    }
     } success:^(AFHTTPRequestOperation *op, id res) {
         success(op, res);
     } failure:^(AFHTTPRequestOperation *op, NSError *err) {
@@ -269,6 +230,7 @@ static UIDocumentInteractionController *staticDocController = NULL;
         NSLog(@"ERROR : %@", err);
         failure(op, err);
     }];
+    
 }
 
 + (AFHTTPRequestOperationManager *)sendMultipart2:(NSDictionary *)param images:(NSArray *)images withToken:(NSString *)token andUserAgent:(NSString *)userAgent to:(NSString *)url success:(void (^)(AFHTTPRequestOperation *, id))success failure:(void (^)(AFHTTPRequestOperation *, NSError *))failure
