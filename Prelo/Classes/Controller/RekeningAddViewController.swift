@@ -151,6 +151,7 @@ class RekeningAddViewController: BaseViewController, PickerViewDelegate, UITextF
     func pickBank(){
         
         let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
+        p?.bankMode = true
         p?.items = self.bankPickerItems
         p?.pickerDelegate = self
         p?.selectBlock = { string in

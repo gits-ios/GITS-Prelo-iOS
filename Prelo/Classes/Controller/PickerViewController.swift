@@ -127,6 +127,7 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
         if (bankMode)
         {
             searchBar.placeholder = "Cari bank"
+            itemsSearch = items!
         }
         
         self.showSearch = false
@@ -153,7 +154,13 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        var n = items!.count
+        var n = 0
+        if(self.bankMode){
+            n = itemsSearch.count
+        }
+        else {
+            n = items!.count
+        }
         if (!self.isPagingEnded || n == 0) { // Jika paging belum selesai, atau jika sedang loading filter
             // Additional cell for loading indicator
             n += 1
@@ -162,7 +169,11 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let usedItems = items else {
+        var itemsCell = items
+        if(self.bankMode){
+            itemsCell = itemsSearch
+        }
+        guard let usedItems = itemsCell else {
             return UITableViewCell()
         }
         
@@ -209,7 +220,12 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let usedItems = items else {
+        var itemsCell = items
+        if(self.bankMode){
+            itemsCell = itemsSearch
+        }
+
+        guard let usedItems = itemsCell else {
             _ = self.navigationController?.popViewController(animated: true)
             return
         }
@@ -315,24 +331,36 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         self.filter(searchText)
+        
         tableView.reloadData()
     }
     
+    var itemsSearch : [String] = []
     func filter(_ k : String)
     {
-        self.items?.removeAll()
-        tableView.reloadData()
-        if (self.isFiltering()) {
-            // Jika sedang memfilter/mencari, tidak usah pakai paging
-            self.isPagingEnded = true
+        if (self.bankMode){
+            print("masuk sini ga?")
+            self.itemsSearch = k.isEmpty ? self.items! : (self.items?.filter({(dataString: String) -> Bool in
+                // If dataItem matches the searchText, return true to include it
+                return dataString.range(of: k, options: .caseInsensitive) != nil
+            }))!
+            tableView.reloadData()
         } else {
-            // Jika tidak sedang memfilter/mencari, pakai paging
-            self.isPagingEnded = false
-        }
-        self.pagingCurrent = 0
-        
-        if (self.merkMode) {
-            self.getBrands(k)
+            self.items?.removeAll()
+            tableView.reloadData()
+            if (self.isFiltering()) {
+                // Jika sedang memfilter/mencari, tidak usah pakai paging
+                self.isPagingEnded = true
+            } else {
+                // Jika tidak sedang memfilter/mencari, pakai paging
+                self.isPagingEnded = false
+            }
+            self.pagingCurrent = 0
+            
+            if (self.merkMode) {
+                self.getBrands(k)
+            }
+            
         }
     }
     
