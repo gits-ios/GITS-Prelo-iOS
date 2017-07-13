@@ -77,6 +77,7 @@ class AddProductShare2ViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         if self.first && self.shouldSkipBack {
             self.first = false
             super.viewDidAppear(animated)
@@ -110,6 +111,8 @@ class AddProductShare2ViewController: BaseViewController {
         
         self.tbSocmed.reloadData()
         self.countPercentage()
+        
+        self.hideLoading()
     }
     
     // recount final percentage
@@ -126,7 +129,10 @@ class AddProductShare2ViewController: BaseViewController {
         }
         if p > 0.0 {
             charge = Double(basePrice) * p / 100.0
-            percentage += Int64(charge).asPrice + " (" + (100.0 - p).roundString + "%)"
+            if charge > 200000.0 {
+                charge = 200000.0
+            }
+            percentage += Int64(charge).asPrice + " (" + p.roundString + "%)"
             attString = NSMutableAttributedString(string: percentage)
             attString.addAttributes([NSForegroundColorAttributeName:UIColor.red], range: AppToolsObjC.range(of: p.roundString+"%", inside: percentage))
         } else {
@@ -135,8 +141,96 @@ class AddProductShare2ViewController: BaseViewController {
             attString.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColorLight], range: AppToolsObjC.range(of: "FREE", inside: percentage))
         }
         
-        self.lbPercentage.attributedText = attString
+        self.lbCharge.attributedText = attString
         self.lbPrice.text = (basePrice - Int64(charge)).asPrice
+        self.lbPercentage.text = (100.0 - p).roundString + "%"
+    }
+    
+    // MARK: - button action
+    func setSelectShare(_ index: Int) {
+        self.btnSell.setTitle("Loading..", for: UIControlState.disabled)
+        
+        if (self.socmeds[index].name == "Google+") {
+            // Google+
+            self.socmeds[index].isChecked = !self.socmeds[index].isChecked
+            self.hideLoading()
+        } else if (self.socmeds[index].name == "Facebook") {
+            self.showLoading()
+            
+            if (FBSDKAccessToken.current() != nil && FBSDKAccessToken.current().permissions.contains("publish_actions")) {
+                self.socmeds[index].isChecked = !self.socmeds[index].isChecked
+                self.hideLoading()
+            } else {
+                let p = ["sender" : self]
+                LoginViewController.LoginWithFacebook(p, onFinish: { result in
+                    // Handle Profile Photo URL String
+                    let userId =  result["id"] as? String
+                    let name = result["name"] as? String
+                    let accessToken = FBSDKAccessToken.current().tokenString
+                    
+                    //print("result = \(result)")
+                    //print("accessToken = \(accessToken)")
+                    
+                    // userId & name is required
+                    if (userId != nil && name != nil) {
+                        // API Migrasi
+                        let _ = request(APISocmed.postFacebookData(id: userId!, username: name!, token: accessToken!)).responseJSON {resp in
+                            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Facebook")) {
+                                
+                                // Save in core data
+                                let userOther : CDUserOther = CDUserOther.getOne()!
+                                userOther.fbID = userId
+                                userOther.fbUsername = name
+                                userOther.fbAccessToken = accessToken
+                                UIApplication.appDelegate.saveContext()
+                                self.socmeds[index].isChecked = !self.socmeds[index].isChecked
+                                self.hideLoading()
+                            } else {
+                                LoginViewController.LoginFacebookCancelled(self, reason: "Terdapat kesalahan saat menyimpan data Facebook")
+                            }
+                        }
+                    } else {
+                        LoginViewController.LoginFacebookCancelled(self, reason: "Terdapat kesalahan data saat login Facebook")
+                    }
+                })
+            }
+        } else if (self.socmeds[index].name == "Twitter") {
+            self.showLoading()
+            
+            if (User.IsLoggedInTwitter) {
+                self.socmeds[index].isChecked = !self.socmeds[index].isChecked
+                self.hideLoading()
+            } else {
+                let p = ["sender" : self]
+                LoginViewController.LoginWithTwitter(p, onFinish: { result in
+                    guard let twId = result["twId"] as? String,
+                        let twUsername = result["twUsername"] as? String,
+                        let twToken = result["twToken"] as? String,
+                        let twSecret = result["twSecret"] as? String else {
+                            LoginViewController.LoginTwitterCancelled(self, reason: "Terdapat kesalahan saat memproses data Twitter")
+                            return
+                    }
+                    
+                    let _ = request(APISocmed.postTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { resp in
+                        if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Twitter")) {
+                            
+                            // Save in core data
+                            if let userOther : CDUserOther = CDUserOther.getOne() {
+                                userOther.twitterID = twId
+                                userOther.twitterUsername = twUsername
+                                userOther.twitterAccessToken = twToken
+                                userOther.twitterTokenSecret = twSecret
+                                UIApplication.appDelegate.saveContext()
+                            }
+                            self.socmeds[index].isChecked = !self.socmeds[index].isChecked
+                            self.hideLoading()
+                        } else {
+                            LoginViewController.LoginTwitterCancelled(self, reason: "Terdapat kesalahan saat menyimpan data Twitter")
+                        }
+                    }
+                })
+            }
+        }
     }
     
     @IBAction func btnSellPressed(_ sender: Any) {
@@ -153,7 +247,7 @@ class AddProductShare2ViewController: BaseViewController {
     }
 }
 
-// TableView Delegate
+// MARK: - TableView Delegate
 extension AddProductShare2ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.socmeds.count
@@ -172,8 +266,11 @@ extension AddProductShare2ViewController: UITableViewDelegate, UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.socmeds[indexPath.row].isChecked = !self.socmeds[indexPath.row].isChecked
+        self.btnSell.isEnabled = false
+        self.setSelectShare(indexPath.row)
+        self.btnSell.isEnabled = true
         self.tbSocmed.reloadRows(at: [indexPath], with: .fade)
+        self.hideLoading()
         
         self.countPercentage()
     }
@@ -191,21 +288,22 @@ class AddProductShare2Cell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.selectionStyle = .none
+        //self.selectionStyle = .none
         self.alpha = 1.0
-        self.backgroundColor = UIColor(hexString: "#E8ECEE")
+        self.backgroundColor = UIColor.white
         self.clipsToBounds = true
-        self.imgIcon.image?.withRenderingMode(.alwaysTemplate)
     }
     
     static func heightFor() -> CGFloat {
-        return 35.0
+        return 40.0
     }
     
     func adapt(_ socmedItem: SocmedItem) {
         self.lbTitle.text = socmedItem.name
-        self.imgIcon.image = UIImage(named: socmedItem.icon)
-        self.lbPercentage.text = socmedItem.perc.roundString + "%"
+        self.imgIcon.image = UIImage(named: socmedItem.icon)?.withRenderingMode(.alwaysTemplate)
+        self.lbPercentage.text = "+ " + socmedItem.perc.roundString + "%"
+        
+        self.selectionStyle = .none
         
         if socmedItem.isChecked {
             self.lbCheckbox.isHidden = false
@@ -213,7 +311,7 @@ class AddProductShare2Cell: UITableViewCell {
             self.lbTitle.textColor = Theme.ThemeOrange
             self.lbPercentage.textColor = Theme.ThemeOrange
         } else {
-            self.lbCheckbox.isHidden = false
+            self.lbCheckbox.isHidden = true
             self.imgIcon.tintColor = placeholderColor
             self.lbTitle.textColor = placeholderColor
             self.lbPercentage.textColor = placeholderColor
