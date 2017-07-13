@@ -1818,7 +1818,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             AFEventParamRevenue     : (json["price"].int64Value).string,
                             AFEventParamContentType : json["category_id"].stringValue,
                             AFEventParamContentId   : json["product_id"].stringValue,
-                            AFEventParamCurrency    : "IDR"
+                            AFEventParamCurrency    : "IDR",
+                            "prelo_order_id"        : self.checkoutResult!["order_id"].stringValue
                         ]
                         AppsFlyerTracker.shared().trackEvent(AFEventInitiatedCheckout, withValues: afPdata)
                     }
