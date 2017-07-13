@@ -1217,7 +1217,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     }
     
     // MARK: - Google
-    
+    // TODO: - G Signin
     @IBAction func loginGooglePressed(_ sender: Any) {
         let p = ["sender" : self, "screenBeforeLogin" : self.screenBeforeLogin] as [String : Any]
         LoginViewController.LoginWithGoogle(p as [String : AnyObject], onFinish: { resultDict in

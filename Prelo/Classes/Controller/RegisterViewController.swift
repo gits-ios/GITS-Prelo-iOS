@@ -320,6 +320,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
     }
     
     // MARK: - Google Login
+    // TODO: - G Signin
     @IBAction func loginGooglePressed(_ sender: Any) {
         let p = ["sender" : self, "screenBeforeLogin" : self.screenBeforeLogin as AnyObject] as [String : AnyObject]
         LoginViewController.LoginWithGoogle(p, onFinish: { resultDict in
