@@ -5413,7 +5413,7 @@ in Bandung</string>
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="JJS-ga-UMV">
-                                <rect key="frame" x="0.0" y="44" width="375" height="587"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="80" id="PgG-YS-5KH" customClass="MyProductCell" customModule="Prelo" customModuleProvider="target">
@@ -5514,27 +5514,44 @@ in Bandung</string>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="3jp-yd-fze">
-                                <rect key="frame" x="339" y="639" width="20" height="20"/>
-                                <color key="color" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </activityIndicatorView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w3Y-j3-4s4">
+                                <rect key="frame" x="0.0" y="631" width="375" height="36"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="3jp-yd-fze">
+                                        <rect key="frame" x="347" y="8" width="20" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="1ny-Ro-zHn"/>
+                                            <constraint firstAttribute="width" constant="20" id="Spm-o6-YTC"/>
+                                        </constraints>
+                                        <color key="color" red="0.048671051859855652" green="0.38238310813903809" blue="0.4102916419506073" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="3jp-yd-fze" secondAttribute="trailing" constant="8" id="5L2-wb-QJM"/>
+                                    <constraint firstAttribute="bottom" secondItem="3jp-yd-fze" secondAttribute="bottom" constant="8" id="9ek-kM-9pt"/>
+                                    <constraint firstAttribute="height" constant="36" id="L8m-CP-q53"/>
+                                    <constraint firstItem="3jp-yd-fze" firstAttribute="top" secondItem="w3Y-j3-4s4" secondAttribute="top" constant="8" id="uT0-yj-YrM"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="hOB-JD-BMb" firstAttribute="top" secondItem="3jp-yd-fze" secondAttribute="bottom" constant="8" id="1tS-Xh-FN5"/>
                             <constraint firstItem="oyx-V7-54G" firstAttribute="leading" secondItem="Ase-V8-rwA" secondAttribute="leading" constant="16" id="4m6-Jn-O9y"/>
                             <constraint firstAttribute="centerX" secondItem="0AJ-CS-oWR" secondAttribute="centerX" id="6WQ-Ku-JNr"/>
                             <constraint firstItem="JJS-ga-UMV" firstAttribute="top" secondItem="Ase-V8-rwA" secondAttribute="top" id="7wW-c6-07O"/>
                             <constraint firstAttribute="trailing" secondItem="iA4-5j-tK4" secondAttribute="trailing" id="8Fw-NK-gj0"/>
                             <constraint firstItem="JJS-ga-UMV" firstAttribute="top" secondItem="iA4-5j-tK4" secondAttribute="bottom" id="BcU-s3-q40"/>
+                            <constraint firstItem="hOB-JD-BMb" firstAttribute="top" secondItem="w3Y-j3-4s4" secondAttribute="bottom" id="Bg7-0e-WrT"/>
                             <constraint firstItem="JJS-ga-UMV" firstAttribute="leading" secondItem="Ase-V8-rwA" secondAttribute="leading" id="Hq9-9O-isw"/>
+                            <constraint firstItem="w3Y-j3-4s4" firstAttribute="leading" secondItem="Ase-V8-rwA" secondAttribute="leading" id="PUw-EY-vod"/>
                             <constraint firstItem="iA4-5j-tK4" firstAttribute="leading" secondItem="Ase-V8-rwA" secondAttribute="leading" id="Qkk-MU-TB8"/>
-                            <constraint firstItem="hOB-JD-BMb" firstAttribute="top" secondItem="JJS-ga-UMV" secondAttribute="bottom" constant="36" id="V0K-VA-MAE"/>
+                            <constraint firstItem="hOB-JD-BMb" firstAttribute="top" secondItem="JJS-ga-UMV" secondAttribute="bottom" id="V0K-VA-MAE"/>
                             <constraint firstItem="iA4-5j-tK4" firstAttribute="top" secondItem="Ase-V8-rwA" secondAttribute="top" id="g2d-Fu-RI9"/>
-                            <constraint firstAttribute="trailing" secondItem="3jp-yd-fze" secondAttribute="trailing" constant="16" id="hhb-vl-y8Y"/>
                             <constraint firstItem="FlE-lg-MYU" firstAttribute="top" secondItem="Y7O-Lv-T7q" secondAttribute="bottom" constant="64" id="ksE-w0-psf"/>
                             <constraint firstAttribute="trailing" secondItem="JJS-ga-UMV" secondAttribute="trailing" id="nbk-nh-GeJ"/>
                             <constraint firstItem="0AJ-CS-oWR" firstAttribute="top" secondItem="oyx-V7-54G" secondAttribute="bottom" constant="8" id="q7Q-DG-IyX"/>
+                            <constraint firstAttribute="trailing" secondItem="w3Y-j3-4s4" secondAttribute="trailing" id="vPE-7M-JvY"/>
                             <constraint firstAttribute="centerX" secondItem="FlE-lg-MYU" secondAttribute="centerX" id="vlP-aY-l07"/>
                             <constraint firstItem="oyx-V7-54G" firstAttribute="top" secondItem="Y7O-Lv-T7q" secondAttribute="bottom" constant="66" id="vm8-ay-vpg"/>
                             <constraint firstAttribute="trailing" secondItem="oyx-V7-54G" secondAttribute="trailing" constant="16" id="xZt-dv-Kbz"/>
@@ -5552,16 +5569,16 @@ in Bandung</string>
                     <connections>
                         <outlet property="bottomLoading" destination="3jp-yd-fze" id="m0B-Sn-MlM"/>
                         <outlet property="btnRefresh" destination="0AJ-CS-oWR" id="N38-vA-lx8"/>
-                        <outlet property="consBottomTableView" destination="V0K-VA-MAE" id="sWE-wA-ulX"/>
                         <outlet property="lblEmpty" destination="oyx-V7-54G" id="Cg1-PC-5mO"/>
                         <outlet property="loading" destination="FlE-lg-MYU" id="8FH-GM-1Ev"/>
                         <outlet property="searchBar" destination="iA4-5j-tK4" id="sBK-fV-jcm"/>
                         <outlet property="tableView" destination="JJS-ga-UMV" id="3jT-c0-g0X"/>
+                        <outlet property="vwBottomLoading" destination="w3Y-j3-4s4" id="wN4-QT-UwF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A18-7W-ja8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="761" y="-2204"/>
+            <point key="canvasLocation" x="760.79999999999995" y="-2204.3478260869565"/>
         </scene>
         <!--User Search View Controller-->
         <scene sceneID="qFf-LK-l57">
@@ -9502,7 +9519,7 @@ in Bandung</string>
                                                             <rect key="frame" x="10" y="0.0" width="44" height="44"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fDk-jQ-LO8">
-                                                                    <rect key="frame" x="12" y="13" width="20" height="20"/>
+                                                                    <rect key="frame" x="12" y="12" width="20" height="20"/>
                                                                     <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="20"/>
                                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
@@ -12331,6 +12348,7 @@ in Bandung</string>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="574"/>
                     <connections>
+                        <outlet property="btnConfirm" destination="E8C-lv-MTz" id="FMm-u9-PFu"/>
                         <outlet property="btnDefault3Banks" destination="bKX-KO-1Sg" id="m9K-LK-xOV"/>
                         <outlet property="btnDefault4Banks" destination="cuM-4f-9L9" id="fjF-8I-2Ah"/>
                         <outlet property="btnDropdownBank" destination="vUN-bj-Zd4" id="D4v-4S-TQc"/>
@@ -12356,6 +12374,7 @@ in Bandung</string>
                         <outlet property="img3" destination="qfv-4p-jj0" id="HOZ-1S-E0V"/>
                         <outlet property="imgSelectedBank" destination="wlq-rH-PgS" id="Eeh-AF-In9"/>
                         <outlet property="lblBankTujuan" destination="Tbw-Lg-gSu" id="nZj-Yd-Czd"/>
+                        <outlet property="lblBelowRekening" destination="rsZ-cb-9kq" id="HUu-TS-ebh"/>
                         <outlet property="lblDropdownBank" destination="zdg-z5-qPG" id="WTR-7S-HhK"/>
                         <outlet property="scrollView" destination="iTW-uw-yB4" id="f2l-rz-uiO"/>
                         <outlet property="vw1Bank" destination="717-V1-Bvw" id="6Df-ma-78i"/>

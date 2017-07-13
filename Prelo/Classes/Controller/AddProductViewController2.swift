@@ -303,12 +303,12 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 selectOngkirByIndex(index)
             }
             
-            if let oldPrice = editProduct?.json["_data"]["price_original"].int
+            if let oldPrice = editProduct?.json["_data"]["price_original"].int64
             {
                 txtOldPrice.text = String(oldPrice)
             }
             
-            if let oldPrice = editProduct?.json["_data"]["price"].int
+            if let oldPrice = editProduct?.json["_data"]["price"].int64
             {
                 txtNewPrice.text = String(oldPrice)
             }
@@ -1058,6 +1058,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     func saveImages(_ images: Array<AnyObject>, index: Int, uniqueCode: String) {
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
                                             qos: .background,
+                                            attributes: .concurrent,
                                             target: nil)
         backgroundQueue.async {
             //print("Work on background queue -- Save Image \(index)")
@@ -2059,6 +2060,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 // Prelo Analytic - Submit Product
                 let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
                                                     qos: .background,
+                                                    attributes: .concurrent,
                                                     target: nil)
                 backgroundQueue.async {
                     //print("Work on background queue")
@@ -2184,6 +2186,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 // Prelo Analytic - Submit Product
                 let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
                                                     qos: .background,
+                                                    attributes: .concurrent,
                                                     target: nil)
                 backgroundQueue.async {
                     //print("Work on background queue")
@@ -2248,7 +2251,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 let share = self.storyboard?.instantiateViewController(withIdentifier: "share") as! AddProductShareViewController
                 share.sendProductParam = param
                 share.sendProductImages = self.images
-                share.basePrice = (newPrice.int)
+                share.basePrice = (newPrice.int64)
                 share.productName = name
                 share.productImgImage = self.images.first as? UIImage
                 share.sendProductBeforeScreen = PageName.AddProduct //self.screenBeforeAddProduct
@@ -2284,7 +2287,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             let json = JSON((res ?? [:]))
             
             let s = self.storyboard?.instantiateViewController(withIdentifier: "share") as! AddProductShareViewController
-            if let price = json["_data"]["price"].int
+            if let price = json["_data"]["price"].int64
             {
                 s.basePrice = price
             }
@@ -2344,6 +2347,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     func saveDraft(isBack: Bool) {
         let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
                                             qos: .background,
+                                            attributes: .concurrent,
                                             target: nil)
         backgroundQueue.async {
             //print("Work on background queue")

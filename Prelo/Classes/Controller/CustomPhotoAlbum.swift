@@ -9,6 +9,7 @@
 import Foundation
 import Photos
 
+typealias ImageCallback = ((UIImage?) -> Void)
 
 class CustomPhotoAlbum: NSObject {
     static let albumName = "Prelo"
@@ -113,5 +114,34 @@ class CustomPhotoAlbum: NSObject {
             filename = resource.originalFilename
         }
         return filename
+    }
+    
+    func fetchLastPhoto(resizeTo size: CGSize?, imageCallback: @escaping ImageCallback) {
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        fetchOptions.fetchLimit = 1
+        
+        let options = PHImageRequestOptions()
+        options.version = .current
+        options.resizeMode = .exact
+        options.deliveryMode = .highQualityFormat
+        options.isNetworkAccessAllowed = true
+        options.isSynchronous = true
+        
+        let fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+        //`fetchResult` is not nil here (without using `if-let`)
+        if let asset = fetchResult.firstObject {
+            let manager = PHImageManager.default()
+            let targetSize = size == nil ? CGSize(width: asset.pixelWidth, height: asset.pixelHeight) : size!
+            manager.requestImage(for: asset,
+                                         targetSize: targetSize,
+                                         contentMode: .aspectFit,
+                                         options: options,
+                                         resultHandler: { image, info in
+                                            imageCallback(image)
+            })
+        } else {
+            imageCallback(nil)
+        }
     }
 }

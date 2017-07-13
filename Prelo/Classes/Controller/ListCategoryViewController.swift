@@ -85,8 +85,11 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
                 self.previousController?.navigationController?.pushViewController(myPurchaseVC, animated: true)
             } else if (redirectFromHome == PageName.UnpaidTransaction) {
+                // deprecated
+                /*
                 let paymentConfirmationVC = Bundle.main.loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil)?.first as! PaymentConfirmationViewController
                 self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
+                */
             }
             UserDefaults.standard.removeObject(forKey: UserDefaultsKey.RedirectFromHome)
         }
@@ -178,6 +181,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                     
                     let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
                                                         qos: .background,
+                                                        //attributes: .concurrent, // -> raise error
                                                         target: nil)
                     backgroundQueue.async {
                         if let kumangTabBarVC = self.previousController as? KumangTabBarViewController {
@@ -280,24 +284,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         if let firstChild = self.childViewControllers[0] as? ListItemViewController { // First child
             firstChild.setupContent()
         }
-        /*
-        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
-                                            qos: .background,
-                                            target: nil)
-        backgroundQueue.async {
-            //print("Work on background queue: Init Category " + self.categoriesFix[1]["name"].stringValue)
-            
-            for i in 1...self.childViewControllers.count-1 {
-                if let allChild = self.childViewControllers[i] as? ListItemViewController {
-                    DispatchQueue.main.async(execute: {
-                        
-                        // continue to main async
-                        allChild.setupContent()
-                    })
-                }
-            }
-        }
-        */
+        
         scroll_View.layoutIfNeeded()
         contentView?.layoutIfNeeded()
         addCategoryNames(count)
@@ -483,6 +470,8 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             }
             
             button.addTarget(self, action: #selector(ListCategoryViewController.categoryButtonAction(_:)), for: UIControlEvents.touchUpInside)
+            
+            //button.addTarget(self, action: #selector(ListCategoryViewController.longPressCategoryButtonAction(_:)), for: UIControlEvents.touchDownRepeat)
             
             let width = button.width
             let v = button
@@ -696,9 +685,43 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
     func categoryButtonAction(_ sender : UIView)
     {
         let index = sender.tag
-        setCurrentTab(index)
         
-        centerCategoryView(currentTabIndex)
+        if self.currentTabIndex == index {
+            if let child = self.childViewControllers[self.currentTabIndex] as? ListItemViewController {
+                if child.isContentLoaded {
+                    if child.gridView.indexPathsForVisibleItems.contains(IndexPath(item: 0, section: 0)) {
+                        let _curTime = NSDate().timeIntervalSince1970
+                        child.curTime = _curTime //- child.interval
+                        //child.setupContent()
+                        child.refresh()
+                    } else {
+                        // child.isScrolling = true // (jika pakai animasi)
+                        UIView.animate(withDuration: 0.2, animations: {
+                            child.gridView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+                        })
+                    }
+                }
+            }
+        } else {
+            setCurrentTab(index)
+            centerCategoryView(currentTabIndex)
+        }
+    }
+    
+    func longPressCategoryButtonAction(_ sender : UIView)
+    {
+        let index = sender.tag
+        
+        if self.currentTabIndex == index {
+            if let child = self.childViewControllers[self.currentTabIndex] as? ListItemViewController {
+                if child.isContentLoaded {
+                    let _curTime = NSDate().timeIntervalSince1970
+                    child.curTime = _curTime //- child.interval
+                    //child.setupContent()
+                    child.refresh()
+                }
+            }
+        }
     }
     
     func centerCategoryView(_ index : Int)

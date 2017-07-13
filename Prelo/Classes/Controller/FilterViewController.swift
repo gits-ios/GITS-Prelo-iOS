@@ -12,7 +12,7 @@ import Alamofire
 // MARK: - Protocol
 
 protocol FilterDelegate {
-    func adjustFilter(_ fltrProdCondIds : [String], fltrPriceMin : NSNumber, fltrPriceMax : NSNumber, fltrIsFreeOngkir : Bool, fltrSizes : [String], fltrSortBy : String, fltrLocation: [String])
+    func adjustFilter(_ fltrProdCondIds : [String], fltrPriceMin : Int64, fltrPriceMax : Int64, fltrIsFreeOngkir : Bool, fltrSizes : [String], fltrSortBy : String, fltrLocation: [String])
 }
 
 // MARK: - Class
@@ -456,13 +456,13 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
         }
         
         // Prepare price param
-        var fltrPriceMin : NSNumber = 0
-        var fltrPriceMax : NSNumber = 0
+        var fltrPriceMin : Int64 = 0
+        var fltrPriceMax : Int64 = 0
         if (self.minPrice != "") {
-            fltrPriceMin = NSNumber(value: Int(self.minPrice)! as Int)
+            fltrPriceMin = Int64(self.minPrice)!
         }
         if (self.maxPrice != "") {
-            fltrPriceMax = NSNumber(value: Int(self.maxPrice)! as Int)
+            fltrPriceMax = Int64(self.maxPrice)!
         }
         
         if (self.previousController != nil) {
