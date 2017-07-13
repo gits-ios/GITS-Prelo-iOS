@@ -74,6 +74,8 @@ class TarikTunaiViewController3: BaseViewController, UIScrollViewDelegate, UITab
     
     var isHistoryShown = false
     
+    var isNeedReload = false
+    
     // view rekening
     // udah punya rekening
     @IBOutlet weak var vwWithRekening: UIView!
@@ -144,6 +146,13 @@ class TarikTunaiViewController3: BaseViewController, UIScrollViewDelegate, UITab
         tableViewHistory.delegate = self
         tableViewHistory.dataSource = self
         tableViewHistory.separatorStyle = .none
+        
+        if isNeedReload {
+            print("masuk sini")
+            initiateField()
+            
+            isNeedReload = false
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -151,6 +160,7 @@ class TarikTunaiViewController3: BaseViewController, UIScrollViewDelegate, UITab
         
         self.an_unsubscribeKeyboard()
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -247,6 +257,10 @@ class TarikTunaiViewController3: BaseViewController, UIScrollViewDelegate, UITab
         self.view.addSubview(vwLeft)
         self.view.bringSubview(toFront: vwLeft)
         
+        initiateField()
+    }
+    
+    func initiateField() {
         if(self.lblDropDownRek.text != "Label" && self.lblDropDownRek.text != "+ tambah rekening"){
             let arr2 = self.lblDropDownRek.text?.components(separatedBy: " / ")
             
@@ -261,8 +275,8 @@ class TarikTunaiViewController3: BaseViewController, UIScrollViewDelegate, UITab
             vwWithRekening.isHidden = false
             if (self.lblDropDownRek.text == "+ tambah rekening"){
                 // kalau mau buat baru
-                    vwNewRekening.isHidden = false
-                    vwOldRekening.isHidden = true
+                vwNewRekening.isHidden = false
+                vwOldRekening.isHidden = true
                 self.consJumlahPTop.constant = 5
                 if (self.rekening.count == 5){
                     self.lblCheckBoxNewRekening.isHidden = true
@@ -390,16 +404,16 @@ class TarikTunaiViewController3: BaseViewController, UIScrollViewDelegate, UITab
         if(rekening.count == 0){
             self.lblBankWithoutRekening.text = PickerViewController.HideHiddenString(item)
         } else {
+            isNeedReload = true
             var arrTemp : Array<String> = PickerViewController.HideHiddenString(item).components(separatedBy: " / ")
             if(arrTemp.count == 3){
                 self.lblDropDownRek.text = PickerViewController.HideHiddenString(item)
                 self.pickerDropDown = true
-                viewDidLoad()
             } else {
                 if(arrTemp[0] == "+ tambah rekening") {
+                    isNeedReload = true
                     self.lblDropDownRek.text = PickerViewController.HideHiddenString(item)
                     self.pickerDropDown = true
-                    viewDidLoad()
                 } else {
                     self.lblBankNewRekening.text = PickerViewController.HideHiddenString(item)
                 }
@@ -408,7 +422,9 @@ class TarikTunaiViewController3: BaseViewController, UIScrollViewDelegate, UITab
     }
     
     func getRekening(){
+        isNeedReload = true
         rekening = []
+        self.showLoading()
         // use API
         let _ = request(APIMe.getBankAccount).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Rekening List")) {
@@ -436,7 +452,7 @@ class TarikTunaiViewController3: BaseViewController, UIScrollViewDelegate, UITab
                             }
                         }
                     }
-                    self.viewDidLoad()
+                    self.initiateField()
                     self.hideLoading()
                 }
                 
