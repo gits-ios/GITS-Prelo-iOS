@@ -1557,6 +1557,11 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
             return false
         }
         
+        if self.isDropdownMode && self.targetBank == "" && self.paymentMethods[self.selectedPaymentIndex].methodDetail == .bankTransfer {
+            Constant.showDialog("Perhatian", message: "Bank Tujuan Transfer harus diisi")
+            return false
+        }
+        
         return true
     }
     
