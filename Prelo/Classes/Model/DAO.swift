@@ -943,6 +943,13 @@ open class ProductDetail : NSObject, TawarItem
         return ""
     }
     
+    var myShop : [String:JSON] {
+        if let shop = json["_data"]["seller"]["shop"].dictionary {
+            return shop
+        }
+        return [:]
+    }
+    
     var categoryBreadcrumbs : [JSON] {
         if let arr = json["_data"]["category_breadcrumbs"].array {
             return arr

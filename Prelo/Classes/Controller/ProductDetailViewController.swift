@@ -69,6 +69,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     @IBOutlet weak var reservationBtnSet: UIView!
     @IBOutlet weak var btnReservation: BorderedButton!
+    @IBAction func btnOpenShopPressed(_ sender: Any) {
+        isNeedReload = true
+        
+        let changeShopStatusVC = Bundle.main.loadNibNamed(Tags.XibNameChangeShopStatus, owner: nil, options: nil)?.first as! ChangeShopStatusViewController
+        self.navigationController?.pushViewController(changeShopStatusVC, animated: true)
+    }
     
     var pDetailCover : ProductDetailCover?
     
@@ -108,7 +114,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     // close
     @IBOutlet weak var vwClose: UIView!
+    @IBOutlet weak var consVwCloseHeight: NSLayoutConstraint!
     @IBOutlet weak var lblEnd: UILabel!
+    @IBOutlet weak var btnOpenShop: UIButton!
     @IBOutlet weak var consTableViewTop: NSLayoutConstraint!
     
     
@@ -158,8 +166,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        getUsersShopData(userId: self.detail?.theirId)
         
 //        self.title = product?.name
         
@@ -216,51 +222,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     var shopBuka = true
     
-    func getUsersShopData(userId:String?){
-        self.showLoading()
-        
-        isNeedReload = true
-        
-        let _ = request(APIMe.getUsersShopData(seller_id: userId)).responseJSON { resp in
-            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "User's Shop Data")) {
-                if let x: AnyObject = resp.result.value as AnyObject? {
-                    var json = JSON(x)
-                    json = json["_data"]
-                    if(json.isEmpty){
-                        self.shopBuka = true
-                        self.vwClose.isHidden = true
-                        self.consTableViewTop.constant = 0
-                    } else {
-                        if(json["status"] == 1){
-                            self.shopBuka = true
-                            self.vwClose.isHidden = true
-                            self.consTableViewTop.constant = 0
-                        } else {
-                            self.shopBuka = false
-                            self.vwClose.isHidden = false
-                            if(userId==User.Id){
-                                let end_date = json["end_date"].string
-                                var arrEnd = end_date?.components(separatedBy: "T")
-                                var arrLabelEnd = arrEnd?[0].components(separatedBy: "-")
-                                var labelEnd = (arrLabelEnd?[2])!+"/"+(arrLabelEnd?[1])!+"/"+(arrLabelEnd?[0])!
-                                self.lblEnd.text = "Kamu sedang menutup shop sampai tanggal : " + labelEnd
-                            } else {
-                                let end_date = json["end_date"].string
-                                var arrEnd = end_date?.components(separatedBy: "T")
-                                var arrLabelEnd = arrEnd?[0].components(separatedBy: "-")
-                                var labelEnd = (arrLabelEnd?[2])!+"/"+(arrLabelEnd?[1])!+"/"+(arrLabelEnd?[0])!
-                                self.lblEnd.text = "Penjual barang ini sedang menutup shop sampai tanggal : " + labelEnd
-                            }
-                        }
-                    }
-                    self.hideLoading()
-                }
-            } else {
-                _ = self.navigationController?.popViewController(animated: true)
-            }
-        }
-    }
-    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return UIStatusBarStyle.lightContent
     }
@@ -280,6 +241,39 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     self.detail = ProductDetail.instance(JSON(resp.result.value!))
                     
                     self.title = self.detail?.name
+                    
+                    print("")
+                    
+                    if(self.detail?.myShop.isEmpty)!{
+                        self.shopBuka = true
+                        self.vwClose.isHidden = true
+                        self.consTableViewTop.constant = 0
+                    } else {
+                        if(self.detail?.myShop["status"] == 1){
+                            self.shopBuka = true
+                            self.vwClose.isHidden = true
+                            self.consTableViewTop.constant = 0
+                        } else {
+                            self.shopBuka = false
+                            self.vwClose.isHidden = false
+                            if(self.detail?.theirId==User.Id){
+                                let end_date = self.detail?.myShop["end_date"]?.string
+                                var arrEnd = end_date?.components(separatedBy: "T")
+                                var arrLabelEnd = arrEnd?[0].components(separatedBy: "-")
+                                var labelEnd = (arrLabelEnd?[2])!+"/"+(arrLabelEnd?[1])!+"/"+(arrLabelEnd?[0])!
+                                self.lblEnd.text = "Kamu sedang menutup shop sampai tanggal : " + labelEnd
+                            } else {
+                                let end_date = self.detail?.myShop["end_date"]?.string
+                                var arrEnd = end_date?.components(separatedBy: "T")
+                                var arrLabelEnd = arrEnd?[0].components(separatedBy: "-")
+                                var labelEnd = (arrLabelEnd?[2])!+"/"+(arrLabelEnd?[1])!+"/"+(arrLabelEnd?[0])!
+                                self.lblEnd.text = "Penjual barang ini sedang menutup shop sampai tanggal : " + labelEnd
+                                self.btnOpenShop.isHidden = true
+                                self.consVwCloseHeight.constant = 50
+                            }
+                        }
+                    }
+                    self.hideLoading()
                     
                     self.activated = (self.detail?.isActive)!
                     //print((self.detail?.json ?? ""))

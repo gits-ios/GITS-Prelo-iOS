@@ -137,14 +137,12 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
             shopReviewVC?.sellerName = ""
             shopBadgeVC?.sellerId = self.shopId
             shopBadgeVC?.sellerName = ""
-            
+            setupNavBar()
             // edit button
             if (self.shopId == User.Id) {
                 setEditButton()
-                getUsersShopData(userId: User.Id)
-            } else {
-                getUsersShopData(userId: User.Id)
             }
+            
             loadingPanel.isHidden = true
             
             isNeedReload = false
@@ -173,7 +171,12 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
                     setEditButton()
                 }
                 print("")
-                getUsersShopData(userId: self.shopId)
+                
+                self.setupNavBar()
+                self.setupSubView()
+                self.setSelectionBar(0)
+                self.segmentView.selectedSegmentIndex = 0
+                self.isFirst = false
             }
             
             if (self.isOnTop) {
@@ -439,6 +442,25 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         
         self.idUser = json["_id"].stringValue
         
+        print("ini json shop")
+        print(json["shop"].dictionary)
+        if(json["shop"].isEmpty){
+            self.shopBuka = true
+        } else {
+            if(json["shop"]["status"] == 1){
+                self.shopBuka = true
+            } else {
+                self.shopBuka = false
+                let end_date = json["shop"]["end_date"].string
+                var arrEnd = end_date?.components(separatedBy: "T")
+                var arrLabelEnd = arrEnd?[0].components(separatedBy: "-")
+                var labelEnd = (arrLabelEnd?[2])!+"/"+(arrLabelEnd?[1])!+"/"+(arrLabelEnd?[0])!
+                self.tanggalTutup = labelEnd
+            }
+        }
+        
+        self.setupNavBar()
+        
         self.shopName.text = json["username"].stringValue
         let avatarThumbnail = json["profile"]["pict"].stringValue
         let shopAvatar = URL(string: avatarThumbnail)!
@@ -532,38 +554,6 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     
     var shopBuka = false
     var tanggalTutup = ""
-    func getUsersShopData(userId:String?){
-        loadingPanel.isHidden = false
-        let _ = request(APIMe.getUsersShopData(seller_id: userId)).responseJSON { resp in
-            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "User's Shop Data")) {
-                if let x: AnyObject = resp.result.value as AnyObject? {
-                    var json = JSON(x)
-                    json = json["_data"]
-                    if(json.isEmpty){
-                        self.shopBuka = true
-                    } else {
-                        if(json["status"] == 1){
-                          self.shopBuka = true
-                        } else {
-                            self.shopBuka = false
-                            let end_date = json["end_date"].string
-                            var arrEnd = end_date?.components(separatedBy: "T")
-                            var arrLabelEnd = arrEnd?[0].components(separatedBy: "-")
-                            var labelEnd = (arrLabelEnd?[2])!+"/"+(arrLabelEnd?[1])!+"/"+(arrLabelEnd?[0])!
-                            self.tanggalTutup = labelEnd
-                        }
-                    }
-                    self.setupNavBar()
-                    self.setupSubView()
-                    self.setSelectionBar(0)
-                    self.segmentView.selectedSegmentIndex = 0
-                    self.isFirst = false
-                }
-            } else {
-                _ = self.navigationController?.popViewController(animated: true)
-            }
-        }
-    }
     
     @IBAction func btnOpenShopPressed(_ sender: Any) {
         isNeedReload = true
