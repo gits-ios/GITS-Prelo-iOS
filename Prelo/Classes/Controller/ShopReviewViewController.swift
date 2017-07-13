@@ -17,7 +17,12 @@ enum ReviewMode {
 class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
     
     @IBOutlet weak var lblEmpty: UILabel!
+    @IBOutlet weak var vwRvwasSeller: UIView!
+    @IBOutlet weak var vwRvwAverageSeller: UIView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var vwRvwasBuyer: UIView!
+    @IBOutlet weak var vwRvwAverageBuyer: UIView!
+    @IBOutlet weak var tableViewRvwasBuyer: UITableView!
     @IBOutlet weak var loadingPanel: UIView!
     @IBOutlet weak var loading: UIActivityIndicatorView!
     
@@ -44,14 +49,20 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         let myLovelistCellNib = UINib(nibName: "ShopReviewCell", bundle: nil)
         tableView.register(myLovelistCellNib, forCellReuseIdentifier: "ShopReviewCell")
         
-        let myLovelistAverageCellNib = UINib(nibName: "ShopReviewAverageCell", bundle: nil)
-        tableView.register(myLovelistAverageCellNib, forCellReuseIdentifier: "ShopReviewAverageCell")
+        let myLovelistAverageCellNib = UINib(nibName: "ShopReviewAverage", bundle: nil)
+//        tableView.register(myLovelistAverageCellNib, forCellReuseIdentifier: "ShopReviewAverage")
         
         // for button baca lebih lanjut
         tableView.register(ButtonCell.self, forCellReuseIdentifier: "ButtonCell")
         
         // Belum ada review untuk user ini
         tableView.register(ProvinceCell.self, forCellReuseIdentifier: "cell")
+        
+        
+        if let customView = Bundle.main.loadNibNamed("ShopReviewAverage", owner: self, options: nil)?.first as? ShopReviewAverage {
+            customView.adapt(self.averageRate)
+            vwRvwAverageSeller.addSubview(customView)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -176,11 +187,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     func numberOfSections(in tableView: UITableView) -> Int {
         if (currentMode == .inject) {
             if (self.userReviews.count > 0) {
-                if (countReview > 5) {
-                    return 3
-                } else {
-                    return 2
-                }
+                return 2
             } else {
                 return 1
             }
@@ -206,48 +213,15 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let customView = Bundle.main.loadNibNamed("ShopReviewAverage", owner: self, options: nil)?.first as? ShopReviewAverage {
+            customView.adapt(self.averageRate)
+            vwRvwAverageSeller.addSubview(customView)
+        }
+        print("ini count review")
+        print(self.userReviews.count)
         if (currentMode == .inject) {
             if (self.userReviews.count > 0) {
-                if ((indexPath as NSIndexPath).section == 0) {
-                    let cell : ShopReviewAverageCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewAverageCell") as! ShopReviewAverageCell
-                    
-                    cell.selectionStyle = .none
-                    cell.alpha = 1.0
-                    cell.backgroundColor = UIColor.white
-                    
-                    cell.adapt(self.averageRate)
-                    
-                    return cell
-                } else if ((indexPath as NSIndexPath).section == 2) {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell") as! ButtonCell
-                    
-                    cell.selectionStyle = .none
-                    cell.alpha = 1.0
-                    cell.backgroundColor = UIColor.white
-                    cell.clipsToBounds = true
-                    cell.separatorInset = UIEdgeInsetsMake(0, UIScreen.main.bounds.size.width, 0, 0);
-                    
-                    let lblButton = UILabel(frame: CGRect(x: 16, y: 16, width: tableView.width - 32, height: 30))
-                    
-                    lblButton.text = "LIHAT SEMUA REVIEW (\(self.countReview))"
-                    lblButton.textColor = Theme.GrayLight
-                    lblButton.backgroundColor = UIColor.clear
-                    lblButton.textAlignment = .center
-                    lblButton.font = UIFont.systemFont(ofSize: 15)
-                    lblButton.createBordersWithColor(Theme.GrayLight, radius: 4, width: 1)
-                    
-                    let vwBorder = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: 62))
-                    
-                    vwBorder.backgroundColor = UIColor.white
-                    
-                    vwBorder.addSubview(lblButton)
-                    
-                    cell.contentView.addSubview(vwBorder)
-                    
-                    return cell
-                    
-                } else {
-                    let cell : ShopReviewCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
+                let cell : ShopReviewCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
                     
                     cell.selectionStyle = .none
                     cell.alpha = 1.0
@@ -257,7 +231,6 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
                     cell.adapt(u)
                     
                     return cell
-                }
             } else { // Belum ada review untuk user ini
                 let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
                 
@@ -287,20 +260,14 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (currentMode == .inject && (indexPath as NSIndexPath).section == 2) {
-            let shopReviewVC = Bundle.main.loadNibNamed(Tags.XibNameShopReview, owner: nil, options: nil)?.first as! ShopReviewViewController
-            shopReviewVC.sellerId = self.sellerId
-            shopReviewVC.sellerName = self.sellerName
-            self.navigationController?.pushViewController(shopReviewVC, animated: true)
-        }
-        ////print("Row \(indexPath.row) selected")
+        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath:  IndexPath) -> CGFloat {
         if (currentMode == .inject) {
             if (self.userReviews.count > 0) {
                 if ((indexPath as NSIndexPath).section == 0) {
-                    return 140
+                    return 0
                 } else if ((indexPath as NSIndexPath).section == 2) {
                     if (self.sellerId == User.Id) {
                         return 134
@@ -459,7 +426,7 @@ class ShopReviewCell : UITableViewCell {
     }
 }
 
-class ShopReviewAverageCell : UITableViewCell {
+class ShopReviewAverage : UIView {
     @IBOutlet var vwLove: UIView!
     @IBOutlet weak var circularView: UIView!
     @IBOutlet weak var averageStar: UILabel!
@@ -469,14 +436,14 @@ class ShopReviewAverageCell : UITableViewCell {
     func adapt(_ star : Float) {
         circularView.createBordersWithColor(UIColor.clear, radius: circularView.width/2, width: 0)
 
-        circularView.backgroundColor = UIColor.init(hex: "D1D1D1")
+        circularView.backgroundColor = UIColor.init(hex: "FFFFFF")
         
         averageStar.text = star.clean
         
-        averageStar.textColor = UIColor.white
+        averageStar.textColor = UIColor.darkGray
         
         // Love floatable
-        self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 0, width: 122.5, height: 21)) // 175 -> 122.5  30 -> 21
+        self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 0, width: 73.75, height: 12.6)) // 175 -> 122.5 -> 73.75  30 -> 21 -> 12.6
         self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
         self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
         // Optional params

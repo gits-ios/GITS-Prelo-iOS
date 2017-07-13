@@ -2086,6 +2086,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else {
                 self.vwShadow.isHidden = false
                 self.vwReviewSeller.isHidden = false
+                self.btnRvwKirim.setTitle("OK", for: .normal)
             }
         }
         cell.reviewBuyer = {
@@ -2099,6 +2100,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 self.lblRvwProductName.text = self.trxProductDetail!.productName
             }
             self.TxtvwReviewPlaceholder = "Tulis review tentang pembeli ini"
+            self.txtvwReview.text = self.TxtvwReviewPlaceholder
             self.vwAgreement.isHidden = true
             self.lblNotification.text = "Pastikan bahwa pembeli sudah menerima barang kamu"
             self.consHeightRvwPopUp.constant = 300
@@ -2593,47 +2595,50 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     }
     
     @IBAction func reviewKirimPressed(_ sender: AnyObject) {
-        print(self.btnRvwKirim.titleLabel?.text)
-        if(self.btnRvwKirim.titleLabel?.text == "REVIEW PEMBELI"){
-            print("REVIEW PEMBELI")
-        } else if(self.btnRvwKirim.titleLabel?.text == "REVIEW PENJUAL"){
-            print("REVIEW PENJUAL")
+        if(self.lblTitleRvwSeller.text == "REVIEW PENJUAL"){
+            if (txtvwReview.text.isEmpty || txtvwReview.text == self.TxtvwReviewPlaceholder) {
+                Constant.showDialog("Review Penjual", message: "Isi review tidak boleh kosong")
+                return
+            } else if (!isRvwAgreed) {
+                Constant.showDialog("Review Penjual", message: "Isi checkbox sebagai tanda persetujuan")
+                return
+            }
+            
+            self.sendMode(true)
+            if (self.trxProductDetail != nil) {
+                let _ = request(APIProduct.postReview(productID: self.trxProductDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON { resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Review Penjual")) {
+                        let json = JSON(resp.result.value!)
+                        let dataBool : Bool = json["_data"].boolValue
+                        let dataInt : Int = json["_data"].intValue
+                        ////print("dataBool = \(dataBool), dataInt = \(dataInt)")
+                        if (dataBool == true || dataInt == 1) {
+                            // Prelo Analytic - Review and Rate Seller
+                            self.sendReviewRateSellerAnalytic()
+                            
+                            Constant.showDialog("Success", message: "Review berhasil ditambahkan")
+                        } else {
+                            Constant.showDialog("Success", message: "Terdapat kesalahan saat memproses data")
+                        }
+                        
+                        // Hide pop up
+                        self.sendMode(false)
+                        self.vwShadow.isHidden = true
+                        self.vwReviewSeller.isHidden = true
+                        
+                        // Reload content
+                        self.getTransactionDetail()
+                    }
+                }
+            }
+
+        } else if(self.lblTitleRvwSeller.text == "REVIEW PEMBELI"){
+            if (txtvwReview.text.isEmpty || txtvwReview.text == self.TxtvwReviewPlaceholder) {
+                Constant.showDialog("Review Pembeli", message: "Isi review tidak boleh kosong")
+                return
+            }
+            
         }
-//        if (txtvwReview.text.isEmpty || txtvwReview.text == self.TxtvwReviewPlaceholder) {
-//            Constant.showDialog("Review Penjual", message: "Isi review tidak boleh kosong")
-//            return
-//        } else if (!isRvwAgreed) {
-//            Constant.showDialog("Review Penjual", message: "Isi checkbox sebagai tanda persetujuan")
-//            return
-//        }
-//        
-//        self.sendMode(true)
-//        if (self.trxProductDetail != nil) {
-//            let _ = request(APIProduct.postReview(productID: self.trxProductDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON { resp in
-//                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Review Penjual")) {
-//                    let json = JSON(resp.result.value!)
-//                    let dataBool : Bool = json["_data"].boolValue
-//                    let dataInt : Int = json["_data"].intValue
-//                    ////print("dataBool = \(dataBool), dataInt = \(dataInt)")
-//                    if (dataBool == true || dataInt == 1) {
-//                        // Prelo Analytic - Review and Rate Seller
-//                        self.sendReviewRateSellerAnalytic()
-//                        
-//                        Constant.showDialog("Success", message: "Review berhasil ditambahkan")
-//                    } else {
-//                        Constant.showDialog("Success", message: "Terdapat kesalahan saat memproses data")
-//                    }
-//                    
-//                    // Hide pop up
-//                    self.sendMode(false)
-//                    self.vwShadow.isHidden = true
-//                    self.vwReviewSeller.isHidden = true
-//                    
-//                    // Reload content
-//                    self.getTransactionDetail()
-//                }
-//            }
-//        }
     }
     
     // MARK: - Tunda Pengiriman Pop Up
