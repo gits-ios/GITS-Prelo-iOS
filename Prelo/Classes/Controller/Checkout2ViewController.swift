@@ -1669,7 +1669,8 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                                 AFEventParamRevenue     : (p.price).string,
                                 AFEventParamContentType : p.categoryId,
                                 AFEventParamContentId   : p.productId,
-                                AFEventParamCurrency    : "IDR"
+                                AFEventParamCurrency    : "IDR",
+                                "prelo_order_id"        : self.checkoutResult!["order_id"].stringValue
                             ]
                             AppsFlyerTracker.shared().trackEvent(AFEventInitiatedCheckout, withValues: afPdata)
                         }
