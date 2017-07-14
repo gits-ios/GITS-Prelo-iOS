@@ -2103,7 +2103,6 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             self.txtvwReview.text = self.TxtvwReviewPlaceholder
             self.vwAgreement.isHidden = true
             self.lblNotification.text = "Pastikan bahwa pembeli sudah menerima barang kamu"
-            self.consHeightRvwPopUp.constant = 300
         }
         cell.seeFAQ = {
             let helpVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
@@ -2638,6 +2637,34 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 return
             }
             
+            self.sendMode(true)
+            if (self.trxProductDetail != nil) {
+                print(trxProductDetail!.productId)
+                let _ = request(APIUser.postBuyerReview(userID: self.trxProductDetail!.sellerId, productID: self.trxProductDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON { resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Review Pembeli")) {
+                        let json = JSON(resp.result.value!)
+                        let dataBool : Bool = json["_data"].boolValue
+                        let dataInt : Int = json["_data"].intValue
+                        ////print("dataBool = \(dataBool), dataInt = \(dataInt)")
+                        if (dataBool == true || dataInt == 1) {
+                            // Prelo Analytic - Review and Rate Seller
+                            self.sendReviewRateSellerAnalytic()
+                            
+                            Constant.showDialog("Success", message: "Review berhasil ditambahkan")
+                        } else {
+                            Constant.showDialog("Success", message: "Terdapat kesalahan saat memproses data")
+                        }
+                        
+                        // Hide pop up
+                        self.sendMode(false)
+                        self.vwShadow.isHidden = true
+                        self.vwReviewSeller.isHidden = true
+                        
+                        // Reload content
+                        self.getTransactionDetail()
+                    }
+                }
+            }
         }
     }
     
