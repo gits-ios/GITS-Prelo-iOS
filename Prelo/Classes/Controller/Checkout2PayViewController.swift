@@ -22,18 +22,20 @@ class PaymentMethodHelper: NSObject {
     static var cimbClicks: Array<UIImage>!
     static var mandiriClickpay: Array<UIImage>!
     static var mandiriEcash: Array<UIImage>!
+    static var permataVa: Array<UIImage>!
     static var kredivo: Array<UIImage>!
     
     override init() {
         super.init()
         
         PaymentMethodHelper.bankTransfer = []
-        PaymentMethodHelper.creditCard =  [UIImage(named: "ic_checkout_master_card")!.resizeWithHeight(newH)!, UIImage(named: "ic_checkout_visa")!.resizeWithHeight(newH)!]
-        PaymentMethodHelper.indomaret =  [UIImage(named: "ic_checkout_indomaret")!.resizeWithHeight(newH)!]
-        PaymentMethodHelper.cimbClicks =  [UIImage(named: "ic_checkout_cimb_clicks")!.resizeWithHeight(newH)!]
-        PaymentMethodHelper.mandiriClickpay =  [UIImage(named: "ic_checkout_mandiri_clickpay")!.resizeWithHeight(newH)!]
-        PaymentMethodHelper.mandiriEcash =  [UIImage(named: "ic_checkout_mandiri_e-cash")!.resizeWithHeight(newH)!]
-        PaymentMethodHelper.kredivo =  [UIImage(named: "ic_checkout_kredivo")!.resizeWithHeight(newH)!]
+        PaymentMethodHelper.creditCard = [UIImage(named: "ic_checkout_master_card")!.resizeWithHeight(newH)!, UIImage(named: "ic_checkout_visa")!.resizeWithHeight(newH)!]
+        PaymentMethodHelper.indomaret = [UIImage(named: "ic_checkout_indomaret")!.resizeWithHeight(newH)!]
+        PaymentMethodHelper.cimbClicks = [UIImage(named: "ic_checkout_cimb_clicks")!.resizeWithHeight(newH)!]
+        PaymentMethodHelper.mandiriClickpay = [UIImage(named: "ic_checkout_mandiri_clickpay")!.resizeWithHeight(newH)!]
+        PaymentMethodHelper.mandiriEcash = [UIImage(named: "ic_checkout_mandiri_e-cash")!.resizeWithHeight(newH)!]
+        PaymentMethodHelper.permataVa = [UIImage(named: "ic_checkout_mandiri_e-cash")!.resizeWithHeight(newH)!]
+        PaymentMethodHelper.kredivo = [UIImage(named: "ic_checkout_kredivo")!.resizeWithHeight(newH)!]
     }
 }
 
@@ -51,6 +53,7 @@ enum PaymentMethod {
     case cimbClicks
     case mandiriClickpay
     case mandiriEcash
+    case permataVa
     case kredivo
     
     // code for api
@@ -62,6 +65,7 @@ enum PaymentMethod {
         case .cimbClicks : return "CIMB Clicks"
         case .mandiriClickpay : return "Mandiri Clickpay"
         case .mandiriEcash : return "Mandiri Ecash"
+        case .permataVa : return "Permata Virtual Account"
         case .kredivo : return "Kredivo"
         }
     }
@@ -75,6 +79,7 @@ enum PaymentMethod {
         case .cimbClicks : return "CIMB Clicks"
         case .mandiriClickpay : return "Mandiri Clickpay"
         case .mandiriEcash : return "Mandiri e-cash"
+        case .permataVa : return "Permata Virtual Account"
         case .kredivo : return "Kredivo"
         }
     }
@@ -87,25 +92,11 @@ enum PaymentMethod {
              .indomaret,
              .cimbClicks,
              .mandiriClickpay,
-             .mandiriEcash : return .veritrans
+             .mandiriEcash,
+             .permataVa: return .veritrans
         case .kredivo : return .kredivo
         }
     }
-    
-    /*
-    // icon
-    var icons : Array<String> {
-        switch self {
-        case .bankTransfer : return []
-        case .creditCard : return ["ic_checkout_master_card", "ic_checkout_visa"]
-        case .indomaret : return ["ic_checkout_indomaret"]
-        case .cimbClicks : return ["ic_checkout_cimb_clicks"]
-        case .mandiriClickpay : return ["ic_checkout_mandiri_clickpay"]
-        case .mandiriEcash : return ["ic_checkout_mandiri_e-cash"]
-        case .kredivo : return ["ic_checkout_kredivo"]
-        }
-    }
-    */
     
     // image icon
     var imageIcons : Array<UIImage> {
@@ -116,10 +107,12 @@ enum PaymentMethod {
         case .cimbClicks : return PaymentMethodHelper.cimbClicks
         case .mandiriClickpay : return PaymentMethodHelper.mandiriClickpay
         case .mandiriEcash : return PaymentMethodHelper.mandiriEcash
+        case .permataVa : return PaymentMethodHelper.permataVa
         case .kredivo : return PaymentMethodHelper.kredivo
         }
     }
     
+    /*
     // description for display
     var description : String {
         let initText = "Transaksi akan dikenakan charge sebesar "
@@ -130,9 +123,11 @@ enum PaymentMethod {
         case .cimbClicks : return initText + "Rp5.000"
         case .mandiriClickpay : return initText + "Rp5.000"
         case .mandiriEcash : return initText + "1,5% dari total transaksi dengan minimal charge Rp2.750"
+        case .permataVa : return initText + "Rp5.000"
         case .kredivo : return initText + "2,36% dari total transaksi"
         }
     }
+    */
     
     // description for charge / charge title
     var chargeDescription : String {
@@ -143,11 +138,13 @@ enum PaymentMethod {
              .cimbClicks,
              .mandiriClickpay,
              .mandiriEcash,
+             .permataVa,
              .kredivo : return "Charge " + self.title //return self.value + " Charge"*/
         case .creditCard,
              .indomaret,
              .cimbClicks,
              .mandiriClickpay,
+             .permataVa,
              .kredivo : return self.value + " Charge"
         case .mandiriEcash : return self.title + " Charge"
         }
@@ -183,6 +180,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
     var isCimbClicks = false
     var isIndomaret = false
     var isKredivo = false
+    var isPermataVa = false
     var isDropdownMode = false
     
     // Cart Results
@@ -336,6 +334,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         self.isMandiriEcash = false
         self.isCimbClicks = false
         self.isKredivo = false
+        self.isPermataVa = false
         self.isDropdownMode = false
         self.lblSend = ""
         
@@ -361,6 +360,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                 self.isMandiriEcash = true
             } else if (_ab == "cimb_clicks") {
                 self.isCimbClicks = true
+            } else if (_ab == "permata_va") {
+                self.isPermataVa = true
             }
         }
         
@@ -490,6 +491,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         
         let kredivoCharge = Int64((Double(priceAfterDiscounts) * (self.cartResult.kredivoCharge?.installment)!) + 0.5)
         
+        let permataVaCharge = (self.cartResult.veritransCharge?.permataVa)!
+        
         if self.isCreditCard {
             var p = PaymentMethodItem()
             p.methodDetail = .creditCard
@@ -551,6 +554,16 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             //p.chargeDescription = PaymentMethod.mandiriEcash.value + " Charge"
             p.methodDescription = (self.cartResult.veritransCharge?.mandiriEcashText)!
             p.methodSteps = (self.cartResult.veritransCharge?.mandiriEcashSteps)!
+            self.paymentMethods.append(p)
+        }
+        
+        if self.isPermataVa {
+            var p = PaymentMethodItem()
+            p.methodDetail = .permataVa
+            p.charge = permataVaCharge
+            //p.chargeDescription = PaymentMethod.mandiriEcash.value + " Charge"
+            p.methodDescription = (self.cartResult.veritransCharge?.permataVaText)!
+            p.methodSteps = (self.cartResult.veritransCharge?.permataVaSteps)!
             self.paymentMethods.append(p)
         }
         
@@ -841,6 +854,11 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                         let cimbClicksCharge = (self.cartResult.veritransCharge?.cimbClicks)!
                         
                         self.paymentMethods[self.selectedPaymentIndex].charge = cimbClicksCharge
+                        
+                    } else if self.paymentMethods[self.selectedPaymentIndex].methodDetail == .permataVa {
+                        let permataVaCharge = (self.cartResult.veritransCharge?.permataVa)!
+                        
+                        self.paymentMethods[self.selectedPaymentIndex].charge = permataVaCharge
                         
                     } else if self.paymentMethods[self.selectedPaymentIndex].methodDetail == .kredivo {
                         let kredivoCharge = Int64((Double(priceAfterDiscounts) * (self.cartResult.kredivoCharge?.installment)!) + 0.5)

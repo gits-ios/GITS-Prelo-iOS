@@ -4647,6 +4647,31 @@ class VeritransChargeItem : NSObject {
         }
         return ""
     }
+    
+    var permataVaText : String {
+        if let j = json["permata_va_text"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var permataVaSteps : String {
+        if let arr = json["permata_va_steps"].array {
+            var j = ""
+            for i in arr {
+                j += i.stringValue + "\n"
+            }
+            return j
+        }
+        return ""
+    }
+    
+    var permataVa : Int64 {
+        if let j = json["permata_va"].int64 {
+            return j
+        }
+        return 0
+    }
 }
 
 // kredivo-charge

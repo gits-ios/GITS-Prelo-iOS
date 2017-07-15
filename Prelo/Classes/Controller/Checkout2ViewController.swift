@@ -60,6 +60,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
     var isMandiriEcash = false
     var isCimbClicks = false
     var isKredivo = false
+    var isPermataVa = false
     var isDropdownMode = false
     
     // payment method -> bank etc
@@ -563,6 +564,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         self.isMandiriEcash = false
         self.isCimbClicks = false
         self.isKredivo = false
+        self.isPermataVa = false
         self.isDropdownMode = false
         self.lblSend = ""
         
@@ -588,6 +590,8 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                 self.isMandiriEcash = true
             } else if (_ab == "cimb_clicks") {
                 self.isCimbClicks = true
+            } else if (_ab == "permata_va") {
+                self.isPermataVa = true
             }
         }
         
@@ -719,6 +723,8 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         
         let kredivoCharge = Int64((Double(priceAfterDiscounts) * (self.cartResult.kredivoCharge?.installment)!) + 0.5)
         
+        let permataVaCharge = (self.cartResult.veritransCharge?.permataVa)!
+        
         if self.isCreditCard {
             var p = PaymentMethodItem()
             p.methodDetail = .creditCard
@@ -780,6 +786,16 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
             //p.chargeDescription = PaymentMethod.mandiriEcash.value + " Charge"
             p.methodDescription = (self.cartResult.veritransCharge?.mandiriEcashText)!
             p.methodSteps = (self.cartResult.veritransCharge?.mandiriEcashSteps)!
+            self.paymentMethods.append(p)
+        }
+        
+        if self.isPermataVa {
+            var p = PaymentMethodItem()
+            p.methodDetail = .permataVa
+            p.charge = permataVaCharge
+            //p.chargeDescription = PaymentMethod.mandiriEcash.value + " Charge"
+            p.methodDescription = (self.cartResult.veritransCharge?.permataVaText)!
+            p.methodSteps = (self.cartResult.veritransCharge?.permataVaSteps)!
             self.paymentMethods.append(p)
         }
         
@@ -1349,6 +1365,11 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                             let cimbClicksCharge = (self.cartResult.veritransCharge?.cimbClicks)!
                             
                             self.paymentMethods[self.selectedPaymentIndex].charge = cimbClicksCharge
+                            
+                        } else if self.paymentMethods[self.selectedPaymentIndex].methodDetail == .permataVa {
+                            let permataVaCharge = (self.cartResult.veritransCharge?.permataVa)!
+                            
+                            self.paymentMethods[self.selectedPaymentIndex].charge = permataVaCharge
                             
                         } else if self.paymentMethods[self.selectedPaymentIndex].methodDetail == .kredivo {
                             let kredivoCharge = Int64((Double(priceAfterDiscounts) * (self.cartResult.kredivoCharge?.installment)!) + 0.5)
