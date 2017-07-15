@@ -272,6 +272,9 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
                 let _ = request(APIMe.updateAddress(addressId: (address?.id)!, addressName: txtNamaAlamat.text!, recipientName: txtNama.text!, phone: txtTelepon.text!, provinceId: selectedProvinceId, provinceName: lblProvinsi.text!, regionId: selectedRegionId, regionName: lblKotaKabupaten.text!, subdistrictId: selectedSubdistrictId, subdistricName: lblKecamatan.text!, address: txtAlamat.text!, postalCode: txtKodePos.text!, isMainAddress: (address?.isMainAddress)!)).responseJSON { resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Edit Alamat")) {
                         Constant.showDialog("Edit Alamat", message: "Alamat berhasil diperbarui")
+                        if (self.address?.isMainAddress)! {
+                            self.setupProfile()
+                        }
                         _ = self.navigationController?.popViewController(animated: true)
                     }
                 }
@@ -285,6 +288,29 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
                 }
                 
             }
+        }
+    }
+    
+    // MARK: - Update user Profile
+    func setupProfile() {
+        let m = UIApplication.appDelegate.managedObjectContext
+        
+        if let userProfile = CDUserProfile.getOne() {
+            userProfile.address = txtAlamat.text!
+            userProfile.postalCode = txtKodePos.text!
+            userProfile.regionID = selectedRegionId
+            userProfile.provinceID = selectedProvinceId
+            userProfile.subdistrictID = selectedSubdistrictId
+            userProfile.subdistrictName = lblKecamatan.text!
+            userProfile.addressName = txtNamaAlamat.text!
+            userProfile.recipientName = txtNama.text!
+        }
+        
+        // Save data
+        if (m.saveSave() == false) {
+            //print("Failed")
+        } else {
+            //print("Data saved")
         }
     }
     
