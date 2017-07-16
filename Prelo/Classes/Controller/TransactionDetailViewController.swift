@@ -2780,6 +2780,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             return TransactionDetailTools.TitleContentPembayaranBuyerPaidMandiriClickpay
         } else if (trxProductDetail.paymentMethod.lowercased() == "mandiri ecash") {
             return TransactionDetailTools.TitleContentPembayaranBuyerPaidMandiriEcash
+        } else if (trxProductDetail.paymentMethod.lowercased() == "permata va") {
+            return TransactionDetailTools.TitleContentPembayaranBuyerPaidPermataVa
         } else if (trxProductDetail.paymentBankSource.lowercased() == "prelo bonus") {
             return TransactionDetailTools.TitleContentPembayaranBuyerPaidBonus
         } else {
@@ -3025,6 +3027,7 @@ class TransactionDetailTools : NSObject {
     static let TitleContentPembayaranBuyerPaidCimbClicks = "tcpembayaranbuyerpaidcimbclicks"
     static let TitleContentPembayaranBuyerPaidMandiriClickpay = "tcpembayaranbuyerpaidmandiryclickpay"
     static let TitleContentPembayaranBuyerPaidMandiriEcash = "tcpembayaranbuyerpaidmandiriecash"
+    static let TitleContentPembayaranBuyerPaidPermataVa = "tcpembayaranbuyerpaidpermatava"
     static let TitleContentPembayaranSeller = "tcpembayaranseller"
     static let TitleContentPengirimanBuyer = "tcpengirimanbuyer"
     static let TitleContentPengirimanSeller = "tcpengirimanseller"
@@ -3239,6 +3242,16 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 // CIMB Clicks
             } else if (trxDetail.paymentMethodInt == 8) {
                 height += TransactionDetailTitleContentCell.heightForTitleNil("Pembayaran melalui CIMB Clicks harus diselesaikan di website CIMB Clicks. Pastikan kamu telah memiliki User ID CIMB Clicks dan sudah mendaftarkan mPIN sebelum melakukan pembayaran.") + 20 // space
+            
+                // Permata VA
+            } else if (trxDetail.paymentMethodInt == 9) {
+                height += TransactionDetailTitleContentCell.heightForTitleNil("Pembayaran dapat dilakukan melalui jaringan ATM dan internet banking bank Permata atau bank lain yang tergabung dalam jaringan ATM Bersama, Prima, atau Alto. Cek e-mail untuk instruksi pembayaran melalui virtual account yang lebih jelas.") + 20 // space
+                
+                if (trxDetail.vaNumber != "") {
+                    height += TransactionDetailTitleContentCell.heightFor(trxDetail.vaNumber) + 20 // space
+                } else {
+                    height += TransactionDetailTitleContentCell.heightFor("Klik tombol \"LANJUTKAN PEMBAYARAN\" untuk mendapatkan VA number") + 20 // space
+                }
             }
             
             // 6
@@ -3262,6 +3275,9 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 content = trxDetail.veritransChargeAmount.asPrice
             } else if (trxDetail.paymentMethodInt == 8) {
                 title = "Charge CIMB Clicks"
+                content = trxDetail.veritransChargeAmount.asPrice
+            } else if (trxDetail.paymentMethodInt == 9) {
+                title = "Charge Virtual Account"
                 content = trxDetail.veritransChargeAmount.asPrice
             } else {
                 title = "Kode Unik"
@@ -3396,6 +3412,13 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentCode)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentNominal.asPrice)
             
+            // Permata VA
+        } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidPermataVa) {
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentMethod)
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentDate)
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentCode)
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentNominal.asPrice)
+            
         } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentMethod)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentDate)
@@ -3516,7 +3539,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             return trxProducts.count
         } else {
             if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
-                return 8 //4
+                return 9 //4
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer) {
                 return 4
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidCC) {
@@ -3532,6 +3555,8 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidMandiriClickpay) {
                 return 4
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidMandiriEcash) {
+                return 4
+            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidPermataVa) {
                 return 4
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
                 return 2
@@ -3585,41 +3610,53 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         } else if (isTitleContentCell) {
             if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
                 if (idx == 0) {
+                    if (isTrxDetail() && trxDetail!.paymentMethodInt == 7) {
+                        return TransactionDetailTitleContentCell.heightForTitleNil("Pembayaran melalui Mandiri e-cash harus diselesaikan di website Mandiri. Pastikan kamu telah mendaftarkan nomor ponsel untuk Mandiri e-cash.") + 20
+                    } else if (isTrxDetail() && trxDetail!.paymentMethodInt == 8) {
+                        return TransactionDetailTitleContentCell.heightForTitleNil("Pembayaran melalui CIMB Clicks harus diselesaikan di website CIMB Clicks. Pastikan kamu telah memiliki User ID CIMB Clicks dan sudah mendaftarkan mPIN sebelum melakukan pembayaran.") + 20
+                    } else if (isTrxDetail() && trxDetail!.paymentMethodInt == 9) {
+                        return TransactionDetailTitleContentCell.heightForTitleNil("Pembayaran dapat dilakukan melalui jaringan ATM dan internet banking bank Permata atau bank lain yang tergabung dalam jaringan ATM Bersama, Prima, atau Alto. Cek e-mail untuk instruksi pembayaran melalui virtual account yang lebih jelas.") + 20
+                    } else {
+                        return 0
+                    }
+                } else if (idx == 1) {
                     if (isTrxDetail() && trxDetail!.paymentMethodInt == 4) {
                         if trxDetail!.paymentCode != "" {
                             return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentCode) + 20 // space
                         } else {
                             return TransactionDetailTitleContentCell.heightFor("Klik tombol \"LANJUTKAN PEMBAYARAN\" untuk mendapatkan kode bayar") + 20
                         }
-                    } else if (isTrxDetail() && trxDetail!.paymentMethodInt == 7) {
-                        return TransactionDetailTitleContentCell.heightForTitleNil("Pembayaran melalui Mandiri e-cash harus diselesaikan di website Mandiri. Pastikan kamu telah mendaftarkan nomor ponsel untuk Mandiri e-cash.") + 20
-                    } else if (isTrxDetail() && trxDetail!.paymentMethodInt == 8) {
-                        return TransactionDetailTitleContentCell.heightForTitleNil("Pembayaran melalui CIMB Clicks harus diselesaikan di website CIMB Clicks. Pastikan kamu telah memiliki User ID CIMB Clicks dan sudah mendaftarkan mPIN sebelum melakukan pembayaran.") + 20
+                    } else if (isTrxDetail() && trxDetail!.paymentMethodInt == 9) {
+                        if trxDetail!.vaNumber != "" {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.vaNumber) + 20 // space
+                        } else {
+                            return TransactionDetailTitleContentCell.heightFor("Klik tombol \"LANJUTKAN PEMBAYARAN\" untuk mendapatkan VA number") + 20
+                        }
                     } else {
                         return 0
                     }
-                } else if (idx == 1) {
+                } else if (idx == 2) {
                     if (isTrxDetail()) {
                         let p = trxDetail!.totalPrice + trxDetail!.bonusUsed + trxDetail!.preloBalanceUsed + trxDetail!.voucherAmount
                         return TransactionDetailTitleContentCell.heightFor(p.asPrice)
                     }
-                } else if (idx == 2) {
+                } else if (idx == 3) {
                     if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.bonusUsed.asPrice)
                     }
-                } else if (idx == 3) {
+                } else if (idx == 4) {
                     if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.preloBalanceUsed.asPrice)
                     }
-                } else if (idx == 4) {
+                } else if (idx == 5) {
                     if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.voucherAmount.asPrice)
                     }
-                } else if (idx == 5) {
+                } else if (idx == 6) {
                     if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.totalPrice.asPrice)
                     }
-                } else if (idx == 6) {
+                } else if (idx == 7) {
                     if (isTrxDetail()) {
                         //return TransactionDetailTitleContentCell.heightFor(trxDetail!.bankTransferDigit.asPrice)
                         var title = ""
@@ -3642,13 +3679,16 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         } else if (trxDetail!.paymentMethodInt == 8) {
                             title = "Charge CIMB Clicks"
                             content = trxDetail!.veritransChargeAmount.asPrice
+                        } else if (trxDetail!.paymentMethodInt == 9) {
+                            title = "Charge Virtual Account"
+                            content = trxDetail!.veritransChargeAmount.asPrice
                         } else {
                             title = "Kode Unik"
                             content = trxDetail!.bankTransferDigit.asPrice
                         }
                         return TransactionDetailTitleContentCell.heightFor(title, content: content)
                     }
-                } else if (idx == 7) {
+                } else if (idx == 8) {
                     if (isTrxDetail()) {
                         let p = trxDetail!.totalPrice + trxDetail!.bankTransferDigit
                         return TransactionDetailTitleContentCell.heightFor(p.asPrice)
@@ -3839,6 +3879,34 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 
                 // Mandiri Ecash
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidMandiriEcash) {
+                if (idx == 0) {
+                    if (isTrxDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentMethod)
+                    } else if (isTrxProductDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentMethod)
+                    }
+                } else if (idx == 1) {
+                    if (isTrxDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentDate)
+                    } else if (isTrxProductDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
+                    }
+                } else if (idx == 2) {
+                    if (isTrxDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentCode)
+                    } else if (isTrxProductDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentCode)
+                    }
+                } else if (idx == 3) {
+                    if (isTrxDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentNominal.asPrice)
+                    } else if (isTrxProductDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentNominal.asPrice)
+                    }
+                }
+                
+                // Permata VA
+            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidPermataVa) {
                 if (idx == 0) {
                     if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentMethod)
@@ -4129,6 +4197,14 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             
             if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
                 if (idx == 0) {
+                    if (trxDetail!.paymentMethodInt == 7) {
+                        return self.createTitleContentCell("", content: "Pembayaran melalui Mandiri e-cash harus diselesaikan di website Mandiri. Pastikan kamu telah mendaftarkan nomor ponsel untuk Mandiri e-cash.", alignment: .left, url: nil, textToCopy: nil)
+                    } else if (trxDetail!.paymentMethodInt == 8) {
+                        return self.createTitleContentCell("", content: "Pembayaran melalui CIMB Clicks harus diselesaikan di website CIMB Clicks. Pastikan kamu telah memiliki User ID CIMB Clicks dan sudah mendaftarkan mPIN sebelum melakukan pembayaran.", alignment: .left, url: nil, textToCopy: nil)
+                    } else if (trxDetail!.paymentMethodInt == 9) {
+                        return self.createTitleContentCell("", content: "Pembayaran dapat dilakukan melalui jaringan ATM dan internet banking bank Permata atau bank lain yang tergabung dalam jaringan ATM Bersama, Prima, atau Alto. Cek e-mail untuk instruksi pembayaran melalui virtual account yang lebih jelas.", alignment: .left, url: nil, textToCopy: nil)
+                    }
+                } else if (idx == 1) {
                     if (trxDetail!.paymentMethodInt == 4) {
                         if (trxDetail!.paymentCode != "") {
                             var content = ""
@@ -4143,32 +4219,42 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         } else {
                             return self.createTitleContentCell("Kode Bayar", content: "Klik tombol \"LANJUTKAN PEMBAYARAN\" untuk mendapatkan kode bayar", alignment: .right, url: nil, textToCopy: nil)
                         }
-                    } else if (trxDetail!.paymentMethodInt == 7) {
-                        return self.createTitleContentCell("", content: "Pembayaran melalui Mandiri e-cash harus diselesaikan di website Mandiri. Pastikan kamu telah mendaftarkan nomor ponsel untuk Mandiri e-cash.", alignment: .left, url: nil, textToCopy: nil)
-                    } else if (trxDetail!.paymentMethodInt == 8) {
-                        return self.createTitleContentCell("", content: "Pembayaran melalui CIMB Clicks harus diselesaikan di website CIMB Clicks. Pastikan kamu telah memiliki User ID CIMB Clicks dan sudah mendaftarkan mPIN sebelum melakukan pembayaran.", alignment: .left, url: nil, textToCopy: nil)
+                    } else if (trxDetail!.paymentMethodInt == 9) {
+                        if (trxDetail!.vaNumber != "") {
+                            var content = ""
+                            var textToCopy = ""
+                            content = " "
+                            if (isTrxDetail()) {
+                                let p = trxDetail!.vaNumber
+                                textToCopy = "\(p)"
+                                content += p
+                            }
+                            return self.createTitleContentCell("VA Number", content: content, alignment: .right, url: nil, textToCopy: textToCopy)
+                        } else {
+                            return self.createTitleContentCell("VA Number", content: "Klik tombol \"LANJUTKAN PEMBAYARAN\" untuk mendapatkan VA number", alignment: .right, url: nil, textToCopy: nil)
+                        }
                     }
-                } else if (idx == 1) {
+                } else if (idx == 2) {
                     var content = ""
                     if (isTrxDetail()) {
                         let p = trxDetail!.totalPrice + trxDetail!.bonusUsed + trxDetail!.preloBalanceUsed + trxDetail!.voucherAmount
                         content = p.asPrice
                     }
                     return self.createTitleContentCell("Harga + Ongkir", content: content, alignment: .right, url: nil, textToCopy: nil)
-                } else if (idx == 2) {
+                } else if (idx == 3) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = "-" + trxDetail!.bonusUsed.asPrice
                     }
                     return self.createTitleContentCell("Referral Bonus", content: content, alignment: .right, url: nil, textToCopy: nil)
-                } else if (idx == 3) {
+                } else if (idx == 4) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = "-" + trxDetail!.preloBalanceUsed.asPrice
                     }
                     let cell = self.createTitleContentCell("Prelo Balance", content: content, alignment: .right, url: nil, textToCopy: nil)
                     return cell
-                } else if (idx == 4) {
+                } else if (idx == 5) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = "-" + trxDetail!.voucherAmount.asPrice
@@ -4176,13 +4262,13 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     let cell = self.createTitleContentCell("Voucher", content: content, alignment: .right, url: nil, textToCopy: nil)
                     cell.showVwLine()
                     return cell
-                } else if (idx == 5) {
+                } else if (idx == 6) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = trxDetail!.totalPrice.asPrice
                     }
                     return self.createTitleContentCell("Subtotal", content: content, alignment: .right, url: nil, textToCopy: nil)
-                } else if (idx == 6) {
+                } else if (idx == 7) {
                     var title = ""
                     var content = ""
                     if (isTrxDetail()) {
@@ -4204,6 +4290,9 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         } else if (trxDetail!.paymentMethodInt == 8) {
                             title = "Charge CIMB Clicks"
                             content = trxDetail!.veritransChargeAmount.asPrice
+                        } else if (trxDetail!.paymentMethodInt == 9) {
+                            title = "Charge Virtual Account"
+                            content = trxDetail!.veritransChargeAmount.asPrice
                         } else {
                             title = "Kode Unik"
                             content = trxDetail!.bankTransferDigit.asPrice
@@ -4212,7 +4301,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     let cell = self.createTitleContentCell(title, content: content, alignment: .right, url: nil, textToCopy: nil)
                     cell.showVwLine()
                     return cell
-                } else if (idx == 7) {
+                } else if (idx == 8) {
                     var content = ""
                     var textToCopy = ""
                     content = " "
@@ -4229,6 +4318,8 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         } else if (trxDetail!.paymentMethodInt == 7) {
                             p += trxDetail!.veritransChargeAmount
                         } else if (trxDetail!.paymentMethodInt == 8) {
+                            p += trxDetail!.veritransChargeAmount
+                        } else if (trxDetail!.paymentMethodInt == 9) {
                             p += trxDetail!.veritransChargeAmount
                         } else {
                             p += trxDetail!.bankTransferDigit
@@ -4473,6 +4564,42 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 
                 // Mandiri Ecash
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidMandiriEcash) {
+                if (idx == 0) {
+                    var content = ""
+                    if (isTrxDetail()) {
+                        content = trxDetail!.paymentMethod
+                    } else if (isTrxProductDetail()) {
+                        content = trxProductDetail!.paymentMethod
+                    }
+                    return self.createTitleContentCell("Metode", content: content)
+                } else if (idx == 1) {
+                    var content = ""
+                    if (isTrxDetail()) {
+                        content = trxDetail!.paymentDate
+                    } else if (isTrxProductDetail()) {
+                        content = trxProductDetail!.paymentDate
+                    }
+                    return self.createTitleContentCell("Tanggal", content: content)
+                } else if (idx == 2) {
+                    var content = ""
+                    if (isTrxDetail()) {
+                        content = trxDetail!.paymentCode
+                    } else if (isTrxProductDetail()) {
+                        content = trxProductDetail!.paymentCode
+                    }
+                    return self.createTitleContentCell("Kode", content: content)
+                } else if (idx == 3) {
+                    var content = ""
+                    if (isTrxDetail()) {
+                        content = trxDetail!.paymentNominal.asPrice
+                    } else if (isTrxProductDetail()) {
+                        content = trxProductDetail!.paymentNominal.asPrice
+                    }
+                    return self.createTitleContentCell("Nominal", content: content)
+                }
+                
+                // Permata VA
+            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidPermataVa) {
                 if (idx == 0) {
                     var content = ""
                     if (isTrxDetail()) {

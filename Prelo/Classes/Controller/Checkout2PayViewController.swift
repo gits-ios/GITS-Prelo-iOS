@@ -65,7 +65,7 @@ enum PaymentMethod {
         case .cimbClicks : return "CIMB Clicks"
         case .mandiriClickpay : return "Mandiri Clickpay"
         case .mandiriEcash : return "Mandiri Ecash"
-        case .permataVa : return "Permata Virtual Account"
+        case .permataVa : return "Permata VA"
         case .kredivo : return "Kredivo"
         }
     }

@@ -1998,6 +1998,13 @@ class TransactionDetail : NSObject {
         }
         return nil
     }
+    
+    var vaNumber: String {
+        if let j = json["payment_method_param"]["permata_va_number"].string {
+            return j
+        }
+        return ""
+    }
 }
 
 class TransactionProductDetail : NSObject {
