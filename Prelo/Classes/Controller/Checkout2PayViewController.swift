@@ -144,9 +144,9 @@ enum PaymentMethod {
              .indomaret,
              .cimbClicks,
              .mandiriClickpay,
-             .permataVa,
              .kredivo : return self.value + " Charge"
         case .mandiriEcash : return self.title + " Charge"
+        case .permataVa : return "Virtual Account Charge"
         }
     }
 }
