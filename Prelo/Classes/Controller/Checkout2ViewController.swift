@@ -618,6 +618,18 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
             self.paymentMethods.append(p)
         }
         
+        if self.isPermataVa {
+            let permataVaCharge = (self.cartResult.veritransCharge?.permataVa)!
+            
+            var p = PaymentMethodItem()
+            p.methodDetail = .permataVa
+            p.charge = permataVaCharge
+            //p.chargeDescription = PaymentMethod.mandiriEcash.value + " Charge"
+            p.methodDescription = (self.cartResult.veritransCharge?.permataVaText)!
+            p.methodSteps = (self.cartResult.veritransCharge?.permataVaSteps)!
+            self.paymentMethods.append(p)
+        }
+        
         // Discount items
         self.preloBalanceTotal = self.cartResult.preloBalance
         
@@ -723,8 +735,6 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         
         let kredivoCharge = Int64((Double(priceAfterDiscounts) * (self.cartResult.kredivoCharge?.installment)!) + 0.5)
         
-        let permataVaCharge = (self.cartResult.veritransCharge?.permataVa)!
-        
         if self.isCreditCard {
             var p = PaymentMethodItem()
             p.methodDetail = .creditCard
@@ -786,16 +796,6 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
             //p.chargeDescription = PaymentMethod.mandiriEcash.value + " Charge"
             p.methodDescription = (self.cartResult.veritransCharge?.mandiriEcashText)!
             p.methodSteps = (self.cartResult.veritransCharge?.mandiriEcashSteps)!
-            self.paymentMethods.append(p)
-        }
-        
-        if self.isPermataVa {
-            var p = PaymentMethodItem()
-            p.methodDetail = .permataVa
-            p.charge = permataVaCharge
-            //p.chargeDescription = PaymentMethod.mandiriEcash.value + " Charge"
-            p.methodDescription = (self.cartResult.veritransCharge?.permataVaText)!
-            p.methodSteps = (self.cartResult.veritransCharge?.permataVaSteps)!
             self.paymentMethods.append(p)
         }
         

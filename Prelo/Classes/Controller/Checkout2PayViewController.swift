@@ -34,7 +34,7 @@ class PaymentMethodHelper: NSObject {
         PaymentMethodHelper.cimbClicks = [UIImage(named: "ic_checkout_cimb_clicks")!.resizeWithHeight(newH)!]
         PaymentMethodHelper.mandiriClickpay = [UIImage(named: "ic_checkout_mandiri_clickpay")!.resizeWithHeight(newH)!]
         PaymentMethodHelper.mandiriEcash = [UIImage(named: "ic_checkout_mandiri_e-cash")!.resizeWithHeight(newH)!]
-        PaymentMethodHelper.permataVa = [UIImage(named: "ic_checkout_mandiri_e-cash")!.resizeWithHeight(newH)!]
+        PaymentMethodHelper.permataVa = []
         PaymentMethodHelper.kredivo = [UIImage(named: "ic_checkout_kredivo")!.resizeWithHeight(newH)!]
     }
 }
@@ -79,7 +79,7 @@ enum PaymentMethod {
         case .cimbClicks : return "CIMB Clicks"
         case .mandiriClickpay : return "Mandiri Clickpay"
         case .mandiriEcash : return "Mandiri e-cash"
-        case .permataVa : return "Permata Virtual Account"
+        case .permataVa : return "Transfer via Virtual Account (Dicek Otomatis)"
         case .kredivo : return "Kredivo"
         }
     }
@@ -392,6 +392,18 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             self.paymentMethods.append(p)
         }
         
+        if self.isPermataVa {
+            let permataVaCharge = (self.cartResult.veritransCharge?.permataVa)!
+            
+            var p = PaymentMethodItem()
+            p.methodDetail = .permataVa
+            p.charge = permataVaCharge
+            //p.chargeDescription = PaymentMethod.mandiriEcash.value + " Charge"
+            p.methodDescription = (self.cartResult.veritransCharge?.permataVaText)!
+            p.methodSteps = (self.cartResult.veritransCharge?.permataVaSteps)!
+            self.paymentMethods.append(p)
+        }
+
         // Discount items
         self.preloBalanceTotal = self.cartResult.preloBalance
         
@@ -495,8 +507,6 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         
         let kredivoCharge = Int64((Double(priceAfterDiscounts) * (self.cartResult.kredivoCharge?.installment)!) + 0.5)
         
-        let permataVaCharge = (self.cartResult.veritransCharge?.permataVa)!
-        
         if self.isCreditCard {
             var p = PaymentMethodItem()
             p.methodDetail = .creditCard
@@ -558,16 +568,6 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             //p.chargeDescription = PaymentMethod.mandiriEcash.value + " Charge"
             p.methodDescription = (self.cartResult.veritransCharge?.mandiriEcashText)!
             p.methodSteps = (self.cartResult.veritransCharge?.mandiriEcashSteps)!
-            self.paymentMethods.append(p)
-        }
-        
-        if self.isPermataVa {
-            var p = PaymentMethodItem()
-            p.methodDetail = .permataVa
-            p.charge = permataVaCharge
-            //p.chargeDescription = PaymentMethod.mandiriEcash.value + " Charge"
-            p.methodDescription = (self.cartResult.veritransCharge?.permataVaText)!
-            p.methodSteps = (self.cartResult.veritransCharge?.permataVaSteps)!
             self.paymentMethods.append(p)
         }
         
@@ -1871,7 +1871,16 @@ class Checkout2PaymentCreditCardCell: UITableViewCell {
     }
     
     func adapt(_ paymentMethodItem: PaymentMethodItem, isSelected: Bool) {
-        self.lbTitle.text = paymentMethodItem.methodDetail.title
+        
+        if paymentMethodItem.methodDetail == .permataVa {
+            let attString : NSMutableAttributedString = NSMutableAttributedString(string: paymentMethodItem.methodDetail.title)
+            
+            attString.addAttributes([NSFontAttributeName:UIFont.systemFont(ofSize: 10)], range: (paymentMethodItem.methodDetail.title as NSString).range(of: "(Dicek Otomatis)"))
+            
+            self.lbTitle.attributedText = attString
+        } else {
+            self.lbTitle.text = paymentMethodItem.methodDetail.title
+        }
         
         self.setupImagesContainer(paymentMethodItem.methodDetail)
         
@@ -1968,16 +1977,20 @@ class Checkout2PaymentCreditCardCell: UITableViewCell {
         let h: CGFloat = 21.0
         //let newH = h * UIScreen.main.scale
         
-        if icons.count == 0 {
-            return
-        }
-        
         if icons.count > Checkout2PaymentCreditCardCell.maxIcon {
             Checkout2PaymentCreditCardCell.maxIcon = icons.count
         }
         
+        if Checkout2PaymentCreditCardCell.maxIcon == 0 {
+            return
+        }
+        
         for i in 0..<Checkout2PaymentCreditCardCell.maxIcon {
             self.imagesContainer.viewWithTag(999 - i)?.removeFromSuperview()
+        }
+        
+        if icons.count == 0 {
+            return
         }
         
         for i in 0..<icons.count {
