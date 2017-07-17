@@ -285,6 +285,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         view.addGestureRecognizer(tap)
         */
         
+        /*
         // swipe gesture for carbon (pop view)
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
@@ -294,6 +295,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         vwLeft.addGestureRecognizer(swipeRight)
         self.view.addSubview(vwLeft)
         self.view.bringSubview(toFront: vwLeft)
+        */
         
         // title
         self.title = "Checkout"
@@ -302,8 +304,10 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        /*
         // gesture override
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        */
         
         // Handling keyboard animation
         self.an_subscribeKeyboard(
@@ -1522,6 +1526,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         }
     }
     
+    /*
     override func backPressed(_ sender: UIBarButtonItem) {
         let alertView = SCLAlertView(appearance: Constant.appearance)
         
@@ -1532,14 +1537,11 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             
             //print(self.previousController.debugDescription)
             
-            /*
+            
             // back / pop twice
             if let count = self.navigationController?.viewControllers.count {
              _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-3])!, animated: true)
             }
-            */
-            
-            _ = self.navigationController?.popViewController(animated: true)
         }
         
         alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
@@ -1563,14 +1565,10 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                     
                     print(self.previousController.debugDescription)
                     
-                    /*
                     // back / pop twice
                     if let count = self.navigationController?.viewControllers.count {
                         _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-3])!, animated: true)
                     }
-                    */
-                    
-                    _ = self.navigationController?.popViewController(animated: true)
                 }
                 
                 alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
@@ -1582,7 +1580,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
             }
         }
     }
-
+    */
 }
 
 // MARK: - Class Checkout2PaymentMethodCell
