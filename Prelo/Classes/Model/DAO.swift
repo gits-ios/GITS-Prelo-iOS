@@ -2560,6 +2560,69 @@ class UserReview : NSObject {
     }
 }
 
+class BuyerReview : NSObject {
+    
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> BuyerReview? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = BuyerReview()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var id : String {
+        if (json["_id"] != nil) {
+            return json["_id"].string!
+        } else {
+            return ""
+        }
+    }
+    
+    var buyerFullname : String {
+        if (json["seller_fullname"] != nil) {
+            return json["seller_fullname"].string!
+        } else {
+            return ""
+        }
+    }
+    
+    var buyerUsername : String {
+        if (json["seller_username"] != nil) {
+            return json["seller_username"].string!
+        } else {
+            return ""
+        }
+    }
+    
+    var star : Int {
+        if (json["star"] != nil) {
+            return json["star"].int!
+        } else {
+            return 0
+        }
+    }
+    
+    var comment : String {
+        if (json["comment"] != nil) {
+            return json["comment"].string!
+        } else {
+            return ""
+        }
+    }
+    
+    var buyerPictURL : URL? {
+        if (json["seller_pict"] != nil) {
+            let url = json["seller_pict"].string!
+            return URL(string: url)
+        }
+        return nil
+    }
+}
+
 class LovedProduct : NSObject {
     
     var json : JSON!

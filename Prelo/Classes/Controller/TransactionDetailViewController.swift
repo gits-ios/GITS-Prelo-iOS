@@ -2103,6 +2103,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             self.txtvwReview.text = self.TxtvwReviewPlaceholder
             self.vwAgreement.isHidden = true
             self.lblNotification.text = "Pastikan bahwa pembeli sudah menerima barang kamu"
+            // self.consHeightRvwPopUp.constant=300
         }
         cell.seeFAQ = {
             let helpVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
@@ -2640,7 +2641,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             self.sendMode(true)
             if (self.trxProductDetail != nil) {
                 print(trxProductDetail!.productId)
-                let _ = request(APIUser.postBuyerReview(userID: self.trxProductDetail!.sellerId, productID: self.trxProductDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON { resp in
+                let _ = request(APIUser.postBuyerReview(userID: self.trxProductDetail!.buyerId, productID: self.trxProductDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON { resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Review Pembeli")) {
                         let json = JSON(resp.result.value!)
                         let dataBool : Bool = json["_data"].boolValue

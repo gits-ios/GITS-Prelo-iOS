@@ -10,7 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <view contentMode="scaleToFill" id="3mw-cZ-DPY" customClass="ShopReviewAverage" customModule="Prelo" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="90" height="300"/>
+            <rect key="frame" x="0.0" y="0.0" width="90" height="250"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Review sebagai penjual" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rqo-m9-zc4">
@@ -61,6 +61,7 @@
             <connections>
                 <outlet property="averageStar" destination="hoM-jJ-yTB" id="wuN-gs-qLY"/>
                 <outlet property="circularView" destination="rB8-e0-ciH" id="87G-Tq-Y8O"/>
+                <outlet property="reviewAs" destination="Rqo-m9-zc4" id="k8f-ap-uOn"/>
                 <outlet property="vwLove" destination="SS9-9X-09f" id="xji-gE-fVq"/>
             </connections>
         </view>

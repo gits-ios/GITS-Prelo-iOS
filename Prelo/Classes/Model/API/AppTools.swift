@@ -842,6 +842,9 @@ class Tags : NSObject {
     static let XibNameAddressAddEdit = "AddressAddEdit"
     static let XibNameUserProfile2 = "UserProfile2"
     static let XibNameReportTransaction = "ReportTransaction"
+    static let XibNameReviewAsSeller = "ReviewAsSeller"
+    static let XibNameReviewAsBuyer = "ReviewAsBuyer"
+    static let XibNameReviewTabBar = "ReviewTabBar"
 }
 
 class OrderStatus : NSObject {

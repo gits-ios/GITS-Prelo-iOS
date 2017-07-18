@@ -542,6 +542,12 @@
 		58AB578D1CB273190081094B /* libNotifyManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58AB578C1CB273190081094B /* libNotifyManager.a */; };
 		58AB578F1CB273D20081094B /* libAdIdAccess.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58AB578E1CB273D20081094B /* libAdIdAccess.a */; };
 		58AD00FF1D49DAA8002C7CCF /* preloteam.png in Resources */ = {isa = PBXBuildFile; fileRef = 58AD00FE1D49DAA8002C7CCF /* preloteam.png */; };
+		58B5A2CC1F1CA87F00A80E81 /* ReviewTabBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58B5A2CB1F1CA87F00A80E81 /* ReviewTabBar.xib */; };
+		58B5A2DE1F1CAAFB00A80E81 /* ReviewTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B5A2DD1F1CAAFB00A80E81 /* ReviewTabBarViewController.swift */; };
+		58B5A2E01F1D9AFB00A80E81 /* ReviewAsSeller.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58B5A2DF1F1D9AFA00A80E81 /* ReviewAsSeller.xib */; };
+		58B5A2E21F1D9B1D00A80E81 /* ReviewAsBuyer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58B5A2E11F1D9B1D00A80E81 /* ReviewAsBuyer.xib */; };
+		58B5A2E41F1D9BE800A80E81 /* ReviewAsSellerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B5A2E31F1D9BE800A80E81 /* ReviewAsSellerViewController.swift */; };
+		58B5A2E61F1D9BFE00A80E81 /* ReviewAsBuyerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B5A2E51F1D9BFE00A80E81 /* ReviewAsBuyerViewController.swift */; };
 		58BE535B1D460E2E00E358EB /* CoreSpotlight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58BE535A1D460E2E00E358EB /* CoreSpotlight.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		58BE535F1D479F5B00E358EB /* courier_jne.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BE535C1D479F5B00E358EB /* courier_jne.png */; };
 		58BE53601D479F5B00E358EB /* courier_pos.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BE535D1D479F5B00E358EB /* courier_pos.png */; };
@@ -1592,6 +1598,12 @@
 		58AB578E1CB273D20081094B /* libAdIdAccess.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdIdAccess.a; sourceTree = "<group>"; };
 		58AD00FE1D49DAA8002C7CCF /* preloteam.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preloteam.png; sourceTree = "<group>"; };
 		58B16A361C900CC600408534 /* NotifAnggiConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiConversationCell.xib; sourceTree = "<group>"; };
+		58B5A2CB1F1CA87F00A80E81 /* ReviewTabBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewTabBar.xib; sourceTree = "<group>"; };
+		58B5A2DD1F1CAAFB00A80E81 /* ReviewTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewTabBarViewController.swift; sourceTree = "<group>"; };
+		58B5A2DF1F1D9AFA00A80E81 /* ReviewAsSeller.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewAsSeller.xib; sourceTree = "<group>"; };
+		58B5A2E11F1D9B1D00A80E81 /* ReviewAsBuyer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ReviewAsBuyer.xib; path = ../ReviewAsBuyer.xib; sourceTree = "<group>"; };
+		58B5A2E31F1D9BE800A80E81 /* ReviewAsSellerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewAsSellerViewController.swift; sourceTree = "<group>"; };
+		58B5A2E51F1D9BFE00A80E81 /* ReviewAsBuyerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewAsBuyerViewController.swift; sourceTree = "<group>"; };
 		58BE535A1D460E2E00E358EB /* CoreSpotlight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreSpotlight.framework; path = System/Library/Frameworks/CoreSpotlight.framework; sourceTree = SDKROOT; };
 		58BE535C1D479F5B00E358EB /* courier_jne.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = courier_jne.png; sourceTree = "<group>"; };
 		58BE535D1D479F5B00E358EB /* courier_pos.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = courier_pos.png; sourceTree = "<group>"; };
@@ -2410,6 +2422,9 @@
 				21156EB91B8F5B4C001D7842 /* UserProfileViewController.swift */,
 				B21DF53F1E5187EA007A60C5 /* UserProfileViewController2.swift */,
 				21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */,
+				58B5A2DD1F1CAAFB00A80E81 /* ReviewTabBarViewController.swift */,
+				58B5A2E31F1D9BE800A80E81 /* ReviewAsSellerViewController.swift */,
+				58B5A2E51F1D9BFE00A80E81 /* ReviewAsBuyerViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -3025,6 +3040,9 @@
 				21104AD01BAA8F1200947E7F /* TransactionListCell.xib */,
 				21156EBB1B8F5B5D001D7842 /* UserProfile.xib */,
 				B21DF5291E5179E5007A60C5 /* UserProfile2.xib */,
+				58B5A2CB1F1CA87F00A80E81 /* ReviewTabBar.xib */,
+				58B5A2DF1F1D9AFA00A80E81 /* ReviewAsSeller.xib */,
+				58B5A2E11F1D9B1D00A80E81 /* ReviewAsBuyer.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -3672,6 +3690,7 @@
 				585887551DBEDC19006EC6D5 /* ShopReview.xib in Resources */,
 				5858873A1DBEDA4D006EC6D5 /* FilterChecklistCell.xib in Resources */,
 				210702E01BE7A8F100DD9E52 /* cu_call@2x.png in Resources */,
+				58B5A2E01F1D9AFB00A80E81 /* ReviewAsSeller.xib in Resources */,
 				440AF66C1BE1090800074CBC /* ic_round_whatsapp.png in Resources */,
 				2115E6D61B4A27E500509D2A /* Main.storyboard in Resources */,
 				589A6FCC1D8C08F600654CDD /* ic_ukuran.png in Resources */,
@@ -3844,6 +3863,7 @@
 				58F78B601DFACEB3008744F7 /* ProductLovelist.xib in Resources */,
 				589A6FB71D8C08F600654CDD /* ic_comment.png in Resources */,
 				B27948231E35C700002CEED4 /* TarikTunai2.xib in Resources */,
+				58B5A2CC1F1CA87F00A80E81 /* ReviewTabBar.xib in Resources */,
 				5858874D1DBEDBA3006EC6D5 /* NotifAnggiTransactionCell.xib in Resources */,
 				B2BE2E021E29FA42006B6903 /* StorePageShopHeader.xib in Resources */,
 				B2223D941EDEA64F0013E886 /* ic_verified.png in Resources */,
@@ -3888,6 +3908,7 @@
 				585887451DBEDB23006EC6D5 /* MyPurchaseCompleted.xib in Resources */,
 				589A6FC31D8C08F600654CDD /* ic_location.png in Resources */,
 				5858874F1DBEDBC2006EC6D5 /* PaymentConfirmation.xib in Resources */,
+				58B5A2E21F1D9B1D00A80E81 /* ReviewAsBuyer.xib in Resources */,
 				21EEB4711B87095C00CAD5C9 /* btn_checkbox_empty.png in Resources */,
 				58A3874A1C7DBABC00281B85 /* banner_review.png in Resources */,
 				58A4F9781CB5146B00E717AF /* ic_trx_reserved.png in Resources */,
@@ -4018,6 +4039,7 @@
 				B2FFCBA21EA52669004F01D0 /* SocketEngineClient.swift in Sources */,
 				21679A1F1B901C5300F18F90 /* MPABTestDesignerDisconnectMessage.m in Sources */,
 				2167998B1B8F8AB900F18F90 /* AFHTTPRequestOperationManager.m in Sources */,
+				58B5A2E61F1D9BFE00A80E81 /* ReviewAsBuyerViewController.swift in Sources */,
 				5858878E1DBF314B006EC6D5 /* InboxViewController.swift in Sources */,
 				21679A421B901C5300F18F90 /* MPSurveyQuestion.m in Sources */,
 				585887891DBF2DDC006EC6D5 /* CategoryPreferencesViewController.swift in Sources */,
@@ -4134,6 +4156,7 @@
 				585887971DBF3309006EC6D5 /* MyPurchaseDetailViewController.swift in Sources */,
 				2109BCB01BDF3529004F36C5 /* AKPickerView.m in Sources */,
 				21679A211B901C5300F18F90 /* MPABTestDesignerSnapshotResponseMessage.m in Sources */,
+				58B5A2E41F1D9BE800A80E81 /* ReviewAsSellerViewController.swift in Sources */,
 				21679A4E1B901C5300F18F90 /* MPUITableViewBinding.m in Sources */,
 				21B467E01CCE5EDB00E145ED /* README.md in Sources */,
 				21679A2B1B901C5300F18F90 /* MPCGSizeToNSDictionaryValueTransformer.m in Sources */,
@@ -4159,6 +4182,7 @@
 				B2FFCBB51EA52669004F01D0 /* SwiftyJSON.swift in Sources */,
 				B2A834461E7055EB004C575A /* SCLExtensions.swift in Sources */,
 				585887951DBF3309006EC6D5 /* MyProductProcessingViewController.swift in Sources */,
+				58B5A2DE1F1CAAFB00A80E81 /* ReviewTabBarViewController.swift in Sources */,
 				5847E19B1DBE0FF000C1B2BA /* ProfileSetupViewController.swift in Sources */,
 				58DD28EB1DAF36D000130B6F /* Data+BFKit.swift in Sources */,
 				21C658981B8EF25E0037F85F /* ActionSheetLocalePicker.m in Sources */,
