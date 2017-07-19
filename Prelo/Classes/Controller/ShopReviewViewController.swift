@@ -45,7 +45,8 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     
     @IBAction func btnMoreReviewPressed(_ sender: Any) {
         let ReviewTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameReviewTabBar, owner: nil, options: nil)?.first as! ReviewTabBarViewController
-        self.previousController?.navigationController?.pushViewController(ReviewTabBarVC, animated: true)
+        self.navigationController?.pushViewController(ReviewTabBarVC, animated: true)
+//        self.previousController?.navigationController?.pushViewController(ReviewTabBarVC, animated: true)
     }
     
     // MARK: - Init
@@ -523,6 +524,7 @@ class ShopReviewCell : UITableViewCell {
     
     @IBOutlet var vwLove: UIView!
     var floatRatingView: FloatRatingView!
+    @IBOutlet weak var consHeightLblComment: NSLayoutConstraint!
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -533,6 +535,10 @@ class ShopReviewCell : UITableViewCell {
         if self.floatRatingView != nil {
             self.floatRatingView.rating = 0
         }
+    }
+    
+    func setCons(activeCons : Bool){
+        //consHeightLblComment.isActive = activeCons
     }
     
     func adapt(_ userReview : UserReview) {

@@ -63,6 +63,7 @@
                     </label>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="bottom" secondItem="3gW-ON-CEt" secondAttribute="bottom" constant="7.5" id="4BG-7m-H8m"/>
                     <constraint firstItem="FKj-bp-sz7" firstAttribute="top" secondItem="Xhl-Wf-a89" secondAttribute="bottom" constant="3" id="5oQ-hb-jdH"/>
                     <constraint firstItem="Xhl-Wf-a89" firstAttribute="leading" secondItem="IiW-y5-dnB" secondAttribute="trailing" constant="8" id="EAx-Yd-JFA"/>
                     <constraint firstItem="IiW-y5-dnB" firstAttribute="leading" secondItem="hir-eh-cmF" secondAttribute="leading" constant="8" id="EP3-bb-cJl"/>
@@ -81,6 +82,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="consHeightLblComment" destination="2n3-OR-eIf" id="U9e-vW-Ft8"/>
                 <outlet property="imgBuyer" destination="IiW-y5-dnB" id="ydQ-rC-Hus"/>
                 <outlet property="lblBuyerName" destination="Xhl-Wf-a89" id="6dx-2Y-DKw"/>
                 <outlet property="lblComment" destination="3gW-ON-CEt" id="Ngg-KT-V0K"/>

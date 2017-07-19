@@ -11,177 +11,92 @@ import Alamofire
 
 class ReviewAsSellerViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     
-    @IBOutlet weak var loading: UIActivityIndicatorView!
     @IBOutlet weak var lblEmpty: UILabel!
     @IBOutlet weak var btnRefresh: UIButton!
     @IBOutlet weak var tableView : UITableView!
+    @IBOutlet weak var loadingPanel: UIView!
     
-    var refreshControl : UIRefreshControl!
+    @IBOutlet var vwLove: UIView!
+    @IBOutlet weak var circularView: UIView!
+    @IBOutlet weak var averageStar: UILabel!
+    @IBOutlet weak var countReview: UILabel!
     
-    let ItemPerLoad : Int = 10
-    var nextIdx : Int = 0
-    var isAllItemLoaded : Bool = false
+    var floatRatingView: FloatRatingView!
+    
+    func adapt(_ star : Float) {
+        circularView.createBordersWithColor(UIColor.clear, radius: circularView.width/2, width: 0)
+        
+        circularView.backgroundColor = UIColor.init(hex: "FFFFFF")
+        
+        averageStar.text = star.clean
+        
+        averageStar.textColor = UIColor.darkGray
+        
+        // Love floatable
+        self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 0, width: 122.5, height: 21)) // 175 -> 122.5 -> 73.75  30 -> 21 -> 12.6
+        self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
+        self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
+        // Optional params
+        //                self.floatRatingView.delegate = self
+        self.floatRatingView.contentMode = UIViewContentMode.scaleAspectFit
+        self.floatRatingView.maxRating = 5
+        self.floatRatingView.minRating = 0
+        self.floatRatingView.rating = star
+        self.floatRatingView.editable = false
+        self.floatRatingView.halfRatings = true
+        self.floatRatingView.floatRatings = true
+        self.floatRatingView.tintColor = Theme.ThemeRed
+        
+        self.vwLove.addSubview(self.floatRatingView )
+    }
     
     var reviewSellers : Array<UserReview> = []
-    
-    //weak var delegate: MyProductDelegate?
-    
-    var isFirst = false // adduploading product when first load
-    
-    var isRefreshing = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("masuk sini loh lalala")
         // Do any additional setup after loading the view.
-        self.lblEmpty.isHidden = true
-        self.tableView.isHidden = true
-        self.btnRefresh.isHidden = true
-        self.loading.startAnimating()
-        self.loading.isHidden = false
+        self.lblEmpty.isHidden = false
+        self.tableView.isHidden = false
+        self.btnRefresh.isHidden = false
         
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()
         
+        self.getReviewSellers()
+        
         // Register custom cell
         let shopReviewCellNib = UINib(nibName: "ShopReviewCell", bundle: nil)
         tableView.register(shopReviewCellNib, forCellReuseIdentifier: "ShopReviewCell")
-        
-        // Refresh control
-        self.refreshControl = UIRefreshControl()
-        self.refreshControl.tintColor = Theme.PrimaryColor
-        self.refreshControl.addTarget(self, action: #selector(MyProductSellViewController.refreshPressed(_:)), for: UIControlEvents.valueChanged)
-        self.tableView.addSubview(refreshControl)
         
     }
     
     var first = true
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        // Mixpanel
-        //        Mixpanel.trackPageVisit(PageName.MyProducts, otherParam: ["Tab" : "Active"])
-        
-        // Google Analytics
-        GAI.trackPageVisit(PageName.MyProducts)
-        
-        //        if (!first)
-        //        {
-        //            self.refresh(0 as AnyObject, isSearchMode: false)
-        //        }
-        
-        //        first = false
-        
-//        if (self.delegate?.getFromDraftOrNew())!
-//        {
-//            self.refresh(0 as AnyObject, isSearchMode: false)
-//            
-//            self.delegate?.setFromDraftOrNew(false)
-//        }
-        
-        ProdukUploader.AddObserverForUploadSuccess(self, selector: #selector(MyProductSellViewController.uploadProdukSukses(_:)))
-        ProdukUploader.AddObserverForUploadFailed(self, selector: #selector(MyProductSellViewController.uploadProdukGagal(_:)))
+     
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        ProdukUploader.RemoveObserverForUploadSuccess(self)
-        ProdukUploader.RemoveObserverForUploadFailed(self)
-    }
-    
-    func uploadProdukSukses(_ notif : Foundation.Notification)
-    {
-        refresh(0 as AnyObject, isSearchMode: false)
-        //        Constant.showDialog("Upload Barang Berhasil", message: "Proses review barang akan memakan waktu maksimal 2 hari kerja. Mohon tunggu :)")
-        
-        //        //print(notif.object)
-        let o = notif.object as! [Any]
-        
-        //        let metaJson = JSON((notif.object ?? [:]))
-        let metaJson = JSON(o[0])
-        let metadata = metaJson["_data"]
-        //print(metadata)
-        if let message = metadata["message"].string {
-            Constant.showDialog("Upload Barang Berhasil", message: message)
-        }
-        
-        let p = o[1] as! [String : Any]
-        var localId = p["Local ID"] as! String
-        
-        if (localId == "") {
-            let uploadedProduct = CDDraftProduct.getOneIsUploading(metadata["name"].string!)
-            localId = (uploadedProduct?.localId)!
-        }
-        
-        // clear uploaded draft
-        CDDraftProduct.delete(localId)
-        
-        // Prelo Analytic - Upload Success
-        let loginMethod = User.LoginMethod ?? ""
-        var pdata = [
-            "Local ID": localId,
-            "Product Name" : metadata["name"].string!,
-            "Commission Percentage" : metadata["commission"].int!,
-            "Facebook" : metadata["share_status"]["shared"]["FACEBOOK"].int!,
-            "Twitter" : metadata["share_status"]["shared"]["TWITTER"].int!,
-            "Instagram" : metadata["share_status"]["shared"]["INSTAGRAM"].int!
-            ] as [String : Any]
-        
-        let images = metadata["display_picts"].array!
-        
-        // imgae
-        var imagesOke : [Bool] = []
-        for i in 0...images.count - 1 {
-            //            //print(images[i].description)
-            if images[i].description != "null" {
-                imagesOke.append(true)
-            } else {
-                imagesOke.append(false)
-            }
-        }
-        pdata["Images"] = imagesOke
-        
-        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.UploadSuccess, data: pdata, previousScreen: PageName.ShareAddedProduct, loginMethod: loginMethod)
-    }
-    
-    func uploadProdukGagal(_ notif : Foundation.Notification)
-    {
-        refresh(0 as AnyObject, isSearchMode: false)
-        Constant.showDialog("Upload Barang Gagal", message: "Oops, upload barang gagal")
-        
-        let o = notif.object as! [Any]
-        let p = o[1] as! [String : Any]
-        var localId = p["Local ID"] as! String
-        
-        // if not found
-        if (localId == "") {
-            let uploadedProduct = CDDraftProduct.getOneIsUploading()
-            localId = (uploadedProduct?.localId)!
-        }
-        
-        // set status uploading
-        CDDraftProduct.setUploading(localId, isUploading: false)
     }
     
     
-    func refresh(_ sender: AnyObject, isSearchMode : Bool) {
-        self.isRefreshing = true
-        
+    func refresh(_ sender: AnyObject) {
         // Reset data
         self.reviewSellers = []
         
-        self.nextIdx = 0
-        self.isAllItemLoaded = false
         self.tableView.isHidden = true
         self.lblEmpty.isHidden = true
         self.btnRefresh.isHidden = true
-        self.loading.isHidden = false
         
+        self.getReviewSellers()
     }
     
     @IBAction func refreshPressed(_ sender: AnyObject) {
-        self.refresh(sender, isSearchMode : false)
+        self.refresh(sender)
     }
     
     override func didReceiveMemoryWarning() {
@@ -190,35 +105,62 @@ class ReviewAsSellerViewController: BaseViewController, UITableViewDataSource, U
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2 // local , onstore
+        return 1 // local , onstore
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return reviewSellers.count
+        return reviewSellers.count// + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : ShopReviewCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
-        
+        cell.adapt(reviewSellers[(indexPath as NSIndexPath).row])
+        cell.setCons(activeCons: false)
         return cell
         
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        //return 80 // If using MyProductCell
-        return 64
+        let u = reviewSellers[(indexPath as NSIndexPath).item]
+        let commentHeight = u.comment.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: 240).height
+        return 65 + commentHeight
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
-        
-    }
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        self.refresh(0 as AnyObject, isSearchMode: true)
+    func getReviewSellers(){
+        self.loadingPanel.isHidden = false
+        let _ = request(APIUser.getSellerReviews(id: User.Id!)).responseJSON {resp in
+            
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Review Sebagai Penjual")) {
+                if let result: AnyObject = resp.result.value as AnyObject?
+                {
+                    let j = JSON(result)
+                    let d = j["_data"].arrayObject
+                    if let data = d
+                    {
+                        for json in data
+                        {
+                            self.reviewSellers.append(UserReview.instance(JSON(json))!)
+                            self.tableView.tableFooterView = UIView()
+                            self.lblEmpty.isHidden = true
+                            self.tableView.isHidden = false
+                            self.btnRefresh.isHidden = true
+                            self.tableView.reloadData()
+                            self.loadingPanel.isHidden = true
+                        }
+                        self.adapt(4.5)
+                        self.countReview.text = String(self.reviewSellers.count) + " review"
+                    } else {
+                        self.lblEmpty.isHidden = false
+                        self.tableView.isHidden = true
+                        self.btnRefresh.isHidden = false
+                        self.loadingPanel.isHidden = true
+                    }
+                }
+            }
+        }
     }
 }

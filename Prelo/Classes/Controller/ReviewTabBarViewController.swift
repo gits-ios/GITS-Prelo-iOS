@@ -5,21 +5,46 @@
 //  Created by Prelo on 7/17/17.
 //  Copyright © 2017 PT Kleo Appara Indonesia. All rights reserved.
 //
-import Foundation
+import UIKit
 
-class ReviewTabBarViewController : BaseViewController, CarbonTabSwipeDelegate {
+protocol ReviewTabBarDelegate: class {
+    func setFromDraftOrNew(_ isFromDraft: Bool)
+    func getFromDraftOrNew() -> Bool
+}
+
+class ReviewTabBarViewController : BaseViewController, CarbonTabSwipeDelegate, ReviewTabBarDelegate {
+   
+    var averageBuyer = 0.0
+    var averageSeller = 0.0
+    
+    func setAverage(){
+        
+    }
+    
+    // MARK: - Delegate
+    func setFromDraftOrNew(_ isFromDraft: Bool) {
+        self.isFromDraft = isFromDraft
+    }
+    
+    func getFromDraftOrNew() -> Bool {
+        return self.isFromDraft
+    }
+
     
     var tabSwipe : CarbonTabSwipeNavigation?
     var reviewAsSellerVC : ReviewAsSellerViewController?
-    var reviewAsBuyerVC : BaseViewController?
+    var reviewAsBuyerVC : ReviewAsBuyerViewController?
     
+    var isFromDraft = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("lalalalaa")
+        
         reviewAsSellerVC = Bundle.main.loadNibNamed(Tags.XibNameReviewAsSeller, owner: nil, options: nil)?.first as! ReviewAsSellerViewController
         
-        reviewAsBuyerVC = Bundle.main.loadNibNamed(Tags.XibNameReviewAsBuyer, owner: nil, options: nil)?.first as! MyPurchaseCompletedViewController
+        reviewAsBuyerVC = Bundle.main.loadNibNamed(Tags.XibNameReviewAsBuyer, owner: nil, options: nil)?.first as! ReviewAsBuyerViewController
         
         tabSwipe = CarbonTabSwipeNavigation().create(withRootViewController: self, tabNames: ["SEBAGAI PENJUAL" as AnyObject, "SEBAGAI PEMBELI" as AnyObject] as [AnyObject], tintColor: UIColor.white, delegate: self)
         tabSwipe?.addShadow()
@@ -61,14 +86,14 @@ class ReviewTabBarViewController : BaseViewController, CarbonTabSwipeDelegate {
     var cs = [UIColor.blue, UIColor.red]
     func tabSwipeNavigation(_ tabSwipe: CarbonTabSwipeNavigation!, viewControllerAt index: UInt) -> UIViewController!
     {
-//        if (index == 0)
-//        {
-//            return productSell
-//        }
-//        else if (index == 1)
-//        {
-//            return productTransaction
-//        }
+        if (index == 0)
+        {
+            return reviewAsSellerVC
+        }
+        else if (index == 1)
+        {
+            return reviewAsBuyerVC
+        }
         
         let v = UIViewController()
         v.view.backgroundColor = cs.objectAtCircleIndex(Int(index))

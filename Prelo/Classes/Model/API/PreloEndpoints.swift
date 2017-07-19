@@ -1623,6 +1623,7 @@ enum APIUser : URLRequestConvertible {
     case rateApp(appVersion : String, rate: Int, review: String)
     case postBuyerReview(userID : String, productID : String, comment : String, star : Int)
     case getReviewSellerBuyer(userId : String, limit : Int)
+    case getBuyerReview(id: String)
 
     public func asURLRequest() throws -> URLRequest {
         let basePath = "user/"
@@ -1642,6 +1643,7 @@ enum APIUser : URLRequestConvertible {
         case .rateApp(_, _, _) : return .post
         case .postBuyerReview(_, _, _, _) : return .post
         case .getReviewSellerBuyer(_, _) : return .get
+        case .getBuyerReview(_) : return .get
         }
     }
     
@@ -1654,6 +1656,7 @@ enum APIUser : URLRequestConvertible {
         case .rateApp(_, _, _) : return "rate_app"
         case .postBuyerReview(let userId, _, _, _) : return "\(userId)/buyer_review"
         case .getReviewSellerBuyer(let userId, _) : return "\(userId)/review_iOS"
+        case .getBuyerReview(let id) : return "\(id)/buyer_review"
         }
     }
     
