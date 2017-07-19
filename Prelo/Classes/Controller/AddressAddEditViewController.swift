@@ -159,7 +159,7 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
             locationNameToSave = address.coordinateAddress
         } else {
             lblLokasi.text = "Koordinat alamat sudah dipilih" //address.coordinateAddress
-            lblLokasi.textColor = UIColor.init(hex: "C9C9CE")
+            lblLokasi.textColor = UIColor.init(hex: "#6F6F6F")
         }
     }
     
@@ -303,7 +303,7 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
             self.coordinate = result["latitude"]! + "," + result["longitude"]!
             
             self.lblLokasi.text = "Koordinat alamat sudah dipilih" //result["address"]
-            self.lblLokasi.textColor = Theme.PrimaryColorDark
+            self.lblLokasi.textColor = UIColor.init(hex: "#6F6F6F")
             
             self.locationNameToSave = result["address"]!
         }
