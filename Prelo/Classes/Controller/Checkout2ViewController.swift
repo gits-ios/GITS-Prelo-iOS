@@ -1125,7 +1125,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         cell.selectionStyle = .none
                         cell.clipsToBounds = true
                         
-                        cell.adapt(self.selectedAddress.coordinateAddress)
+                        cell.adapt(self.selectedAddress.coordinateAddress, coordinate: self.selectedAddress.coordinate)
                         
                         cell.pickLocation = {
                             let googleMapVC = Bundle.main.loadNibNamed(Tags.XibNameGoogleMap, owner: nil, options: nil)?.first as! GoogleMapViewController

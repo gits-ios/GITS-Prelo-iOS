@@ -142,7 +142,7 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
         
         //lblLokasi.textColor = Theme.PrimaryColorDark
         
-        if address.coordinateAddress == "" {
+        if address.coordinateAddress == "" || address.coordinate == "" {
             /*let text = "Pilih Lokasi (opsional)"
             
             let attString : NSMutableAttributedString = NSMutableAttributedString(string: text)
@@ -306,10 +306,12 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
     
     // submit --> add / edit
     @IBAction func btnActionPressed(_ sender: Any) {
+        let coordinateAddress = (lblLokasi.text! != coordinateText ? lblLokasi.text! : "")
+        
         if validateField() {
             // execute
             if editMode {
-                let _ = request(APIMe.updateAddress(addressId: (address?.id)!, addressName: txtNamaAlamat.text!, recipientName: txtNama.text!, phone: txtTelepon.text!, provinceId: selectedProvinceId, provinceName: lblProvinsi.text!, regionId: selectedRegionId, regionName: lblKotaKabupaten.text!, subdistrictId: selectedSubdistrictId, subdistricName: lblKecamatan.text!, address: txtAlamat.text!, postalCode: txtKodePos.text!, isMainAddress: (address?.isMainAddress)!, coordinate: coordinate, coordinateAddress: lblLokasi.text!)).responseJSON { resp in
+                let _ = request(APIMe.updateAddress(addressId: (address?.id)!, addressName: txtNamaAlamat.text!, recipientName: txtNama.text!, phone: txtTelepon.text!, provinceId: selectedProvinceId, provinceName: lblProvinsi.text!, regionId: selectedRegionId, regionName: lblKotaKabupaten.text!, subdistrictId: selectedSubdistrictId, subdistricName: lblKecamatan.text!, address: txtAlamat.text!, postalCode: txtKodePos.text!, isMainAddress: (address?.isMainAddress)!, coordinate: coordinate, coordinateAddress: coordinateAddress)).responseJSON { resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Edit Alamat")) {
                         Constant.showDialog("Edit Alamat", message: "Alamat berhasil diperbarui")
                         if (self.address?.isMainAddress)! {
@@ -320,7 +322,7 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
                 }
                 
             } else { // insert new
-                let _ = request(APIMe.createAddress(addressName: txtNamaAlamat.text!, recipientName: txtNama.text!, phone: txtTelepon.text!, provinceId: selectedProvinceId, provinceName: lblProvinsi.text!, regionId: selectedRegionId, regionName: lblKotaKabupaten.text!, subdistrictId: selectedSubdistrictId, subdistricName: lblKecamatan.text!, address: txtAlamat.text!, postalCode: txtKodePos.text!, coordinate: coordinate, coordinateAddress: lblLokasi.text!)).responseJSON { resp in
+                let _ = request(APIMe.createAddress(addressName: txtNamaAlamat.text!, recipientName: txtNama.text!, phone: txtTelepon.text!, provinceId: selectedProvinceId, provinceName: lblProvinsi.text!, regionId: selectedRegionId, regionName: lblKotaKabupaten.text!, subdistrictId: selectedSubdistrictId, subdistricName: lblKecamatan.text!, address: txtAlamat.text!, postalCode: txtKodePos.text!, coordinate: coordinate, coordinateAddress: coordinateAddress)).responseJSON { resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Tambah Alamat")) {
                         Constant.showDialog("Tambah Alamat", message: "Alamat berhasil ditambahkan")
                         _ = self.navigationController?.popViewController(animated: true)
@@ -345,7 +347,7 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
             userProfile.addressName = txtNamaAlamat.text!
             userProfile.recipientName = txtNama.text!
             userProfile.coordinate = coordinate
-            userProfile.coordinateAddress = lblLokasi.text!
+            userProfile.coordinateAddress = (lblLokasi.text! != coordinateText ? lblLokasi.text! : "")
         }
         
         // Save data

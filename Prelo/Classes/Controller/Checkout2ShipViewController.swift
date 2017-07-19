@@ -771,7 +771,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                         cell.selectionStyle = .none
                         cell.clipsToBounds = true
                         
-                        cell.adapt(self.selectedAddress.coordinateAddress)
+                        cell.adapt(self.selectedAddress.coordinateAddress, coordinate: self.selectedAddress.coordinate)
                         
                         cell.pickLocation = {
                             let googleMapVC = Bundle.main.loadNibNamed(Tags.XibNameGoogleMap, owner: nil, options: nil)?.first as! GoogleMapViewController
@@ -1786,8 +1786,8 @@ class Checkout2AddressLocationCell: UITableViewCell {
     var placeholderColor = UIColor.init(hex: "#CCCCCC")
     var activeColor = UIColor.init(hex: "#6F6F6F")
     
-    func adapt(_ locationName: String?) {
-        if let loc = locationName, loc != "" {
+    func adapt(_ locationName: String?, coordinate: String?) {
+        if let loc = locationName, let cor = coordinate, loc != "" && cor != "" {
             self.lbLocation.text = "Koordinat alamat sudah dipilih" //loc
             self.lbLocation.textColor = activeColor //Theme.PrimaryColorDark
         } else {
