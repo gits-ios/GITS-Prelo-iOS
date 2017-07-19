@@ -45,6 +45,8 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
     
     let coordinateText = "Pilih Lokasi (opsional)"
     
+    var locationNameToSave = ""
+    
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -153,6 +155,8 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
  */
             lblLokasi.text = coordinateText
             lblLokasi.textColor = Theme.PrimaryColorDark
+            
+            locationNameToSave = address.coordinateAddress
         } else {
             lblLokasi.text = "Koordinat alamat sudah dipilih" //address.coordinateAddress
             lblLokasi.textColor = UIColor.init(hex: "C9C9CE")
@@ -298,20 +302,20 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
             
             self.coordinate = result["latitude"]! + "," + result["longitude"]!
             
-            self.lblLokasi.text = result["address"]
+            self.lblLokasi.text = "Koordinat alamat sudah dipilih" //result["address"]
             self.lblLokasi.textColor = Theme.PrimaryColorDark
+            
+            self.locationNameToSave = result["address"]!
         }
         self.navigationController?.pushViewController(googleMapVC, animated: true)
     }
     
     // submit --> add / edit
     @IBAction func btnActionPressed(_ sender: Any) {
-        let coordinateAddress = (lblLokasi.text! != coordinateText ? lblLokasi.text! : "")
-        
         if validateField() {
             // execute
             if editMode {
-                let _ = request(APIMe.updateAddress(addressId: (address?.id)!, addressName: txtNamaAlamat.text!, recipientName: txtNama.text!, phone: txtTelepon.text!, provinceId: selectedProvinceId, provinceName: lblProvinsi.text!, regionId: selectedRegionId, regionName: lblKotaKabupaten.text!, subdistrictId: selectedSubdistrictId, subdistricName: lblKecamatan.text!, address: txtAlamat.text!, postalCode: txtKodePos.text!, isMainAddress: (address?.isMainAddress)!, coordinate: coordinate, coordinateAddress: coordinateAddress)).responseJSON { resp in
+                let _ = request(APIMe.updateAddress(addressId: (address?.id)!, addressName: txtNamaAlamat.text!, recipientName: txtNama.text!, phone: txtTelepon.text!, provinceId: selectedProvinceId, provinceName: lblProvinsi.text!, regionId: selectedRegionId, regionName: lblKotaKabupaten.text!, subdistrictId: selectedSubdistrictId, subdistricName: lblKecamatan.text!, address: txtAlamat.text!, postalCode: txtKodePos.text!, isMainAddress: (address?.isMainAddress)!, coordinate: coordinate, coordinateAddress: locationNameToSave)).responseJSON { resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Edit Alamat")) {
                         Constant.showDialog("Edit Alamat", message: "Alamat berhasil diperbarui")
                         if (self.address?.isMainAddress)! {
@@ -322,7 +326,7 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
                 }
                 
             } else { // insert new
-                let _ = request(APIMe.createAddress(addressName: txtNamaAlamat.text!, recipientName: txtNama.text!, phone: txtTelepon.text!, provinceId: selectedProvinceId, provinceName: lblProvinsi.text!, regionId: selectedRegionId, regionName: lblKotaKabupaten.text!, subdistrictId: selectedSubdistrictId, subdistricName: lblKecamatan.text!, address: txtAlamat.text!, postalCode: txtKodePos.text!, coordinate: coordinate, coordinateAddress: coordinateAddress)).responseJSON { resp in
+                let _ = request(APIMe.createAddress(addressName: txtNamaAlamat.text!, recipientName: txtNama.text!, phone: txtTelepon.text!, provinceId: selectedProvinceId, provinceName: lblProvinsi.text!, regionId: selectedRegionId, regionName: lblKotaKabupaten.text!, subdistrictId: selectedSubdistrictId, subdistricName: lblKecamatan.text!, address: txtAlamat.text!, postalCode: txtKodePos.text!, coordinate: coordinate, coordinateAddress: locationNameToSave)).responseJSON { resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Tambah Alamat")) {
                         Constant.showDialog("Tambah Alamat", message: "Alamat berhasil ditambahkan")
                         _ = self.navigationController?.popViewController(animated: true)
@@ -347,7 +351,7 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
             userProfile.addressName = txtNamaAlamat.text!
             userProfile.recipientName = txtNama.text!
             userProfile.coordinate = coordinate
-            userProfile.coordinateAddress = (lblLokasi.text! != coordinateText ? lblLokasi.text! : "")
+            userProfile.coordinateAddress = locationNameToSave
         }
         
         // Save data
