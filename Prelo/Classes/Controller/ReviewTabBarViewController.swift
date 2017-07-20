@@ -14,12 +14,8 @@ protocol ReviewTabBarDelegate: class {
 
 class ReviewTabBarViewController : BaseViewController, CarbonTabSwipeDelegate, ReviewTabBarDelegate {
    
-    var averageBuyer = 0.0
-    var averageSeller = 0.0
-    
-    func setAverage(){
-        
-    }
+    var averageBuyer : Float = 0.0
+    var averageSeller : Float = 0.0
     
     // MARK: - Delegate
     func setFromDraftOrNew(_ isFromDraft: Bool) {
@@ -37,14 +33,16 @@ class ReviewTabBarViewController : BaseViewController, CarbonTabSwipeDelegate, R
     
     var isFromDraft = false
     
+    var isNeedReload = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("lalalalaa")
-        
         reviewAsSellerVC = Bundle.main.loadNibNamed(Tags.XibNameReviewAsSeller, owner: nil, options: nil)?.first as! ReviewAsSellerViewController
+        reviewAsSellerVC?.adapt(averageSeller)
         
         reviewAsBuyerVC = Bundle.main.loadNibNamed(Tags.XibNameReviewAsBuyer, owner: nil, options: nil)?.first as! ReviewAsBuyerViewController
+        reviewAsBuyerVC?.adapt(averageBuyer)
         
         tabSwipe = CarbonTabSwipeNavigation().create(withRootViewController: self, tabNames: ["SEBAGAI PENJUAL" as AnyObject, "SEBAGAI PEMBELI" as AnyObject] as [AnyObject], tintColor: UIColor.white, delegate: self)
         tabSwipe?.addShadow()
@@ -75,6 +73,15 @@ class ReviewTabBarViewController : BaseViewController, CarbonTabSwipeDelegate, R
             m?.remove(at: (m?.count)!-2)
             m?.remove(at: (m?.count)!-2)
             self.navigationController?.viewControllers = m!
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if isNeedReload {
+            print("masuk sini kok")
+            reviewAsSellerVC = Bundle.main.loadNibNamed(Tags.XibNameReviewAsSeller, owner: nil, options: nil)?.first as! ReviewAsSellerViewController
+            
+            reviewAsBuyerVC = Bundle.main.loadNibNamed(Tags.XibNameReviewAsBuyer, owner: nil, options: nil)?.first as! ReviewAsBuyerViewController
         }
     }
     

@@ -31,6 +31,8 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     @IBOutlet var loadingPanel: UIView!
     @IBOutlet var loading: UIActivityIndicatorView!
     
+    var dropDown : Array<String> = []
+    
     // Predefined value
     // For confirm shipping
     var trxDetail : TransactionDetail!
@@ -144,7 +146,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
             if (isCellSelected[(indexPath as NSIndexPath).row] == true) {
                 return 102
             } else {
-                if(selectedReason[(indexPath as NSIndexPath).row] == "Alasan Penolakan" || selectedReason[(indexPath as NSIndexPath).row] == "Barang sudah terjual (barang akan dilabeli SOLD)"){
+                if(selectedReason[(indexPath as NSIndexPath).row] == "Alasan Penolakan" || selectedReason[(indexPath as NSIndexPath).row] == "Barang sudah terbeli (akan dilabeli SOLD)"){
                     return 180
                 } else if (selectedReason[(indexPath as NSIndexPath).row] == "Ada kepentingan lain"){
                     return 320
@@ -160,6 +162,9 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         if (trxProductDetails.count >= (indexPath as NSIndexPath).row + 1) {
             let cell : ConfirmShippingCell = self.tableView.dequeueReusableCell(withIdentifier: "ConfirmShippingCell") as! ConfirmShippingCell
             cell.selectionStyle = .none
+            print("ini recordnya")
+            print(self.dropDown)
+            cell.dropDownTemp.dataSource = self.dropDown
             cell.adapt(trxProductDetails[(indexPath as NSIndexPath).row], isCellSelected: self.isCellSelected[(indexPath as NSIndexPath).row], selectedAvailability : self.selectedAvailabilities[(indexPath as NSIndexPath).row], selectedReason: self.selectedReason[(indexPath as NSIndexPath).row])
             cell.refreshTable = {
                 self.isCellSelected[(indexPath as NSIndexPath).row] = !self.isCellSelected[(indexPath as NSIndexPath).row]
@@ -330,7 +335,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         } else {
             if (validateFields()) {
                 self.showLoading()
-                
+        
                 var sentTp : [String] = []
                 let rejectedTp : NSMutableArray = []
                 for i in 0 ..< trxProductDetails.count {
@@ -341,8 +346,9 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                         let rTp = [
                             "tp_id" : trxProductDetails[i].id,
                             "reason" : cell.lblReason.text,
-                            "is_active" : (cell.selectedAvailability == .available) ? "1" : "0"
-                            ] as [String : Any]
+                            "is_active" : (cell.selectedAvailability == .available) ? "1" : "0",
+                            "reason_number" : String(cell.selectedIndex-1)
+                            ] as! [String : String]
                         rejectedTp.insert(rTp, at: 0)
                     }
                 }
@@ -360,12 +366,14 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                     let rTpId = r["tp_id"]!
                     let rReason = r["reason"]!
                     let rIsActive = r["is_active"]!
-                    confirmData += "{\"tp_id\": \"\(rTpId)\", \"reason\": \"\(rReason)\", \"is_active\": \"\(rIsActive)\"}"
+                    let rReasonNumber = r["reason_number"]!
+                    confirmData += "{\"tp_id\": \"\(rTpId)\", \"reason\": \"\(rReason)\", \"is_active\": \"\(rIsActive)\", \"reason_number\": \(rReasonNumber)}"
                     if (k < rejectedTp.count - 1) {
                         confirmData += ","
                     }
                 }
                 confirmData += "]}"
+                print(confirmData)
                 
                 let url = "\(AppTools.PreloBaseUrl)/api/new/transaction_products/confirm"
                 let param = [
@@ -398,6 +406,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                     }
                     
                 }, failure: { op, err in
+                    print("Ini error nya = \(err)")
                     Constant.showDialog("Konfirmasi Kirim/Tolak", message: "Gagal mengupload data")
                     self.hideLoading()
                 })
@@ -740,6 +749,7 @@ class ConfirmShippingCell: TransactionDetailProductCell, UITextViewDelegate {
     let TxtvwPlaceholder = "Tulis alasan kamu menolak pesanan."
     
     let dropDown = DropDown()
+    let dropDownTemp = DropDown()
     var selectedIndex = 0
     var isNeedSetup = false
     
@@ -831,9 +841,11 @@ class ConfirmShippingCell: TransactionDetailProductCell, UITextViewDelegate {
     
     func setupDropdownReason() {
         //dropDown = DropDown()
-        
-        // The list of items to display. Can be changed dynamically
-        dropDown.dataSource = ["Alasan Penolakan","Barang sudah terjual (barang akan dilabeli SOLD)", "Ada kesepakatan antara penjual dan pembeli", "Permasalahan pada kurir", "Kesalahan informasi pada barang", "Pembeli membatalkan pesanan","Pembeli tidak membalas chat", "Ada kepentingan lain"]
+        dropDown.dataSource = []
+        dropDown.dataSource = ["Alasan Penolakan"]
+        for i in 0 ..< dropDownTemp.dataSource.count {
+            dropDown.dataSource.append(dropDownTemp.dataSource[i])
+        }
         
         // Action triggered on selection
         dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
@@ -845,7 +857,7 @@ class ConfirmShippingCell: TransactionDetailProductCell, UITextViewDelegate {
                     if(self.lblReason.text == "Alasan Penolakan"){
                         self.notification.isHidden = true
                         self.fieldCustomReason.isHidden = true
-                    } else if(self.lblReason.text == "Barang sudah terjual (barang akan dilabeli SOLD)"){
+                    } else if(self.lblReason.text == "Barang sudah terbeli (akan dilabeli SOLD)"){
                         self.notification.isHidden = true
                         self.fieldCustomReason.isHidden = true
                         self.selectedAvailability = .soldOut

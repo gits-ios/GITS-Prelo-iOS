@@ -1984,6 +1984,48 @@ class TransactionDetail : NSObject {
         }
         return nil
     }
+    
+    var RejectReason : RejectReasonItem? {
+        if let j = RejectReasonItem.instance(json["rejectReasonEnum"]) {
+            return j
+        }
+        return nil
+    }
+}
+
+class RejectReasonItem: NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> RejectReasonItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = RejectReasonItem()
+            u.json = json!
+            return u
+        }
+    }
+    var record : String {
+        if let j = json["record"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var notes : String {
+        if let j = json["notes"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var reply : String {
+        if let j = json["reply"].string {
+            return j
+        }
+        return ""
+    }
+
 }
 
 class TransactionProductDetail : NSObject {

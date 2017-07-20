@@ -45,6 +45,9 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     
     @IBAction func btnMoreReviewPressed(_ sender: Any) {
         let ReviewTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameReviewTabBar, owner: nil, options: nil)?.first as! ReviewTabBarViewController
+        ReviewTabBarVC.averageBuyer = self.averageBuyer
+        ReviewTabBarVC.averageSeller = self.averageRate
+        ReviewTabBarVC.isNeedReload = true
         self.navigationController?.pushViewController(ReviewTabBarVC, animated: true)
 //        self.previousController?.navigationController?.pushViewController(ReviewTabBarVC, animated: true)
     }

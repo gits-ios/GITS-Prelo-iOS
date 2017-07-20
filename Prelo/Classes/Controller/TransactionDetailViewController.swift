@@ -121,6 +121,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     // affiliate
     var isAffiliate: Bool = false
     
+    var dataReject : Array<String> = []
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -254,6 +256,19 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         self.isRefundable = r
                     }
                     
+                    print("ini reject reason enum")
+                    if let arr = data["rejectReasonEnum"].array {
+                        
+                        if(arr.count != 0){
+                            for i in 0 ..< arr.count {
+                                print(arr[i]["record"])
+                                self.dataReject.append(arr[i]["record"].string!)
+                            }
+                        }
+                    }
+                    
+                    print("ini balesannya")
+                    TransactionDetailTools.TextReply = data["rejectReply"].string!
                     // Mixpanel
 //                    let param = [
 //                        "ID" : ((self.trxId != nil) ? self.trxId! : ((self.trxProductId != nil) ? self.trxProductId! : "")),
@@ -2051,6 +2066,11 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 confirmShippingVC.trxDetail = self.trxDetail!
                 confirmShippingVC.setDefaultKurir()
                 confirmShippingVC.previousScreen = PageName.TransactionDetail
+                print("ini di trans detail")
+                print(self.dataReject)
+                
+                
+                confirmShippingVC.dropDown = self.dataReject
                 self.navigationController?.pushViewController(confirmShippingVC, animated: true)
             }
         }
@@ -3060,8 +3080,10 @@ class TransactionDetailTools : NSObject {
     static let TextHubungiBuyer = "Beritahu pembeli bahwa barang sudah dikirim. Minta pembeli untuk memberikan review apabila barang sudah diterima."
     static let TextDikembalikanDitolak = "Pembayaran barang ini telah dikembalikan kepada pembeli." // reject by seller
     static let TextDikembalikanTidakDikirim = "Pembayaran barang ini telah dikembalikan kepada pembeli. Lupa konfirmasi pengiriman? Hubungi Prelo." // not sent seller
-    static let TextReimburse1 = "Mohon maaf, pesanan kamu tidak bisa dikirim karena keterbatasan pada penjual. Jangan khawatir, pembayaranmu telah disimpan dalam bentuk:"
-    static let TextReimburse2 = "Kamu dapat menggunakannya untuk transaksi selanjutnya atau tarik uang Prelo Balance."
+    static let TextReimburse1 = "Mohon maaf, pesanan kamu tidak bisa dikirim karena "
+    static var TextReply = ""
+    static let TextReimburse2 = ". Jangan khawatir, pembayaranmu telah disimpan dalam bentuk:"
+    static let TextReimburse3 = "Kamu dapat menggunakannya untuk transaksi selanjutnya atau tarik uang Prelo Balance."
     static let TextNotPaid = "Transaksi ini belum dibayar dan akan expired pada "
     static let TextNotPaidSeller = "Ingatkan pembeli untuk segera membayar."
     static let TextNotPaidBuyerTransfer = "Segera konfirmasi pembayaran."
@@ -4662,6 +4684,12 @@ class TransactionDetailProductCell : UITableViewCell {
 class TransactionDetailDescriptionCell : UITableViewCell {
     @IBOutlet weak var lblDesc: UILabel!
     
+    static func combineRect(left: CGRect, right: CGRect) -> CGRect {
+        let origin = CGPoint(x: left.origin.x + right.origin.x, y: left.origin.y + right.origin.y)
+        let size = CGSize(width: left.size.width + right.size.width, height: left.size.height + right.size.height)
+        return CGRect(origin: origin, size: size)
+    }
+    
     static func heightFor(_ progress : Int?, isSeller : Bool?, order : Int) -> CGFloat {
         if (progress != nil && isSeller != nil) {
             var textRect : CGRect?
@@ -4680,9 +4708,10 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     }
                 } else {
                     if (order == 1) {
-                        textRect = TransactionDetailTools.TextReimburse1.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                        textRect =  combineRect(left: combineRect(left: TransactionDetailTools.TextReimburse1.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin)),right: TransactionDetailTools.TextReply.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))), right: TransactionDetailTools.TextReimburse2.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin)))
+                        
                     } else if (order == 2) {
-                        textRect = TransactionDetailTools.TextReimburse2.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                        textRect = TransactionDetailTools.TextReimburse3.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                     }
                 }
             } else if (progress == TransactionDetailTools.ProgressNotPaid) {
@@ -4885,9 +4914,9 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     }
                 } else {
                     if (order == 1) {
-                        lblDesc.text = TransactionDetailTools.TextReimburse1
+                        lblDesc.text = TransactionDetailTools.TextReimburse1 + TransactionDetailTools.TextReimburse2
                     } else if (order == 2) {
-                        lblDesc.text = TransactionDetailTools.TextReimburse2
+                        lblDesc.text = TransactionDetailTools.TextReimburse3
                     }
                 }
             } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {

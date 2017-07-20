@@ -151,7 +151,6 @@ class ReviewAsSellerViewController: BaseViewController, UITableViewDataSource, U
                             self.tableView.reloadData()
                             self.loadingPanel.isHidden = true
                         }
-                        self.adapt(4.5)
                         self.countReview.text = String(self.reviewSellers.count) + " review"
                     } else {
                         self.lblEmpty.isHidden = false
