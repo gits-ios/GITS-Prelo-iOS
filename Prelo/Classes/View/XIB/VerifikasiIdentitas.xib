@@ -76,9 +76,8 @@
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                     </imageView>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tAr-0B-cPE">
+                                                    <imageView autoresizesSubviews="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tAr-0B-cPE">
                                                         <rect key="frame" x="0.0" y="0.0" width="100" height="66"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     </imageView>
                                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bFn-yT-hYo">
                                                         <rect key="frame" x="0.0" y="0.0" width="100" height="66"/>
@@ -91,7 +90,11 @@
                                                 <color key="backgroundColor" red="0.79879944837155126" green="0.79879944837155126" blue="0.79879944837155126" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="100" id="0tX-qK-dgE"/>
+                                                    <constraint firstItem="tAr-0B-cPE" firstAttribute="leading" secondItem="DFN-5h-y8l" secondAttribute="leading" id="5f8-f0-cwD"/>
                                                     <constraint firstAttribute="height" constant="66" id="B0x-AA-nLN"/>
+                                                    <constraint firstAttribute="bottom" secondItem="tAr-0B-cPE" secondAttribute="bottom" id="gp6-uY-9YU"/>
+                                                    <constraint firstAttribute="trailing" secondItem="tAr-0B-cPE" secondAttribute="trailing" id="kmk-Cn-lDQ"/>
+                                                    <constraint firstItem="tAr-0B-cPE" firstAttribute="top" secondItem="DFN-5h-y8l" secondAttribute="top" id="t5V-aZ-m3z"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
@@ -145,7 +148,7 @@
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                     </imageView>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HHK-K7-OIj">
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HHK-K7-OIj">
                                                         <rect key="frame" x="0.0" y="0.0" width="100" height="66"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     </imageView>
@@ -301,7 +304,7 @@
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                             </imageView>
-                                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a6m-Jb-OsL">
+                                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a6m-Jb-OsL">
                                                                 <rect key="frame" x="0.0" y="0.0" width="100" height="66"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             </imageView>
@@ -511,6 +514,9 @@
                 <outlet property="imgInstitusiImage" destination="a6m-Jb-OsL" id="bly-MK-i4j"/>
                 <outlet property="imgKartuIdentitas" destination="tAr-0B-cPE" id="nVh-t8-yYG"/>
                 <outlet property="imgKartuKeluarga" destination="HHK-K7-OIj" id="flO-y6-L1R"/>
+                <outlet property="imgPilihFotoIdentitas" destination="UKt-Hz-imG" id="cxp-Qw-bdY"/>
+                <outlet property="imgPilihFotoInstitusi" destination="BBV-Lb-n52" id="0w5-Ae-GAt"/>
+                <outlet property="imgPilihFotoKK" destination="fCD-5R-rkp" id="ZzM-8b-i6v"/>
                 <outlet property="lblInstansi" destination="Ip6-8w-sL3" id="9au-e9-dPN"/>
                 <outlet property="lblWarning" destination="cDi-vO-Poa" id="6SI-Xi-B9V"/>
                 <outlet property="loadingPanel" destination="UBw-95-TMM" id="B9g-aa-FcW"/>

@@ -20,16 +20,19 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
     @IBOutlet weak var btnKartuIdentitas: UIButton!
     @IBOutlet weak var imgKartuIdentitas: UIImageView!
     var isKartuIdentitasPictUpdated: Bool = false
+    @IBOutlet weak var imgPilihFotoIdentitas: UIImageView!
     
     // kartu keluarga
     @IBOutlet weak var btnKartuKeluarga: UIButton!
     @IBOutlet weak var imgKartuKeluarga: UIImageView!
     var isKartuKeluargaPictUpdated: Bool = false
+    @IBOutlet weak var imgPilihFotoKK: UIImageView!
     
     // institusi
     @IBOutlet weak var btnInstitusiImage: UIButton!
     @IBOutlet weak var imgInstitusiImage: UIImageView!
     var isInstitusiImagePictUpdated: Bool = false
+    @IBOutlet weak var imgPilihFotoInstitusi: UIImageView!
     
     let dropDown = DropDown()
     var selectedIndex = 0
@@ -58,6 +61,7 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
         self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
         self.scrollView.contentSize = self.contentView.bounds.size
         self.title = "Verifikasi Identitas"
+        self.hideKeyboardWhenTappedAround()
         initiateField()
         getUserRentData()
     }
@@ -84,7 +88,21 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        if(imgKartuIdentitas.image != nil){
+            imgPilihFotoIdentitas.isHidden = true
+        } else if(imgKartuIdentitas.image == nil){
+            imgPilihFotoIdentitas.isHidden = false
+        }
+        if(imgKartuKeluarga.image != nil){
+            imgPilihFotoKK.isHidden = true
+        } else if(imgKartuKeluarga.image == nil){
+            imgPilihFotoKK.isHidden = false
+        }
+        if(imgInstitusiImage.image != nil){
+            imgPilihFotoInstitusi.isHidden = true
+        } else if(imgInstitusiImage.image == nil){
+            imgPilihFotoInstitusi.isHidden = false
+        }
     }
     
     
@@ -410,6 +428,16 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
         } else if (isInstitusiImageClicked){
             self.imgInstitusiImage.image = nil
         }
+    }
+    
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(VerifikasiIdentitasViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     func showLoading(){
