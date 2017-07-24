@@ -47,6 +47,13 @@ class ChangeShopStatusViewController : BaseViewController{
     @IBOutlet weak var consVwShopOpenHeight: NSLayoutConstraint!
     
     let currentDate: NSDate = NSDate()
+    @IBOutlet weak var btnBatalJadwal: UIButton!
+    @IBAction func btnBatalJadwalPressed(_ sender: Any) {
+        lblPopUp.text = "Apakah kamu yakin akan membatalkan jadwal penutupan shop?"
+        backgroundOverlay.isHidden = false
+        overlayPopUp.isHidden = false
+    }
+    
     
     
     @IBAction func btnTanggalMulaiPressed(_ sender: Any) {
@@ -65,11 +72,11 @@ class ChangeShopStatusViewController : BaseViewController{
             lblTanggalMulai.text = formatter.string(from: datePicker.date)
             
             if(selectedIndex == 3){
-                consVwShopOpenHeight.constant = 670
+                consVwShopOpenHeight.constant = 570
             } else if (selectedIndex == 6){
-                consVwShopOpenHeight.constant = 625
+                consVwShopOpenHeight.constant = 520
             } else {
-                consVwShopOpenHeight.constant = 566
+                consVwShopOpenHeight.constant = 470
             }
 
         }
@@ -80,11 +87,11 @@ class ChangeShopStatusViewController : BaseViewController{
             consVwShopHeight.constant = 500
             
             if(selectedIndex == 3){
-                consVwShopOpenHeight.constant = 510
+                consVwShopOpenHeight.constant = 410
             } else if (selectedIndex == 6){
-                consVwShopOpenHeight.constant = 460
+                consVwShopOpenHeight.constant = 360
             } else {
-                consVwShopOpenHeight.constant = 400
+                consVwShopOpenHeight.constant = 310
             }
 
         }
@@ -108,11 +115,11 @@ class ChangeShopStatusViewController : BaseViewController{
             consVwShopHeight.constant = 700
             
             if(selectedIndex == 3){
-                consVwShopOpenHeight.constant = 680
+                consVwShopOpenHeight.constant = 590
             } else if (selectedIndex == 6){
-                consVwShopOpenHeight.constant = 635
+                consVwShopOpenHeight.constant = 540
             } else {
-                consVwShopOpenHeight.constant = 576
+                consVwShopOpenHeight.constant = 490
             }
 
         }
@@ -124,11 +131,11 @@ class ChangeShopStatusViewController : BaseViewController{
             consVwShopHeight.constant = 500
             
             if(selectedIndex == 3){
-                consVwShopOpenHeight.constant = 510
+                consVwShopOpenHeight.constant = 420
             } else if (selectedIndex == 6){
-                consVwShopOpenHeight.constant = 460
+                consVwShopOpenHeight.constant = 370
             } else {
-                consVwShopOpenHeight.constant = 400
+                consVwShopOpenHeight.constant = 320
             }
         }
     }
@@ -193,27 +200,27 @@ class ChangeShopStatusViewController : BaseViewController{
                         self.vwLainnya.isHidden = true
                         self.consPeringatanNotifikasiTop.constant = 0
                         if(self.datePicker.isHidden == false || self.datePicker2.isHidden == false){
-                            self.consVwShopOpenHeight.constant = 680
+                            self.consVwShopOpenHeight.constant = 580
                         } else {
-                            self.consVwShopOpenHeight.constant = 510
+                            self.consVwShopOpenHeight.constant = 410
                         }
                     } else if (index == 6){
                         self.vwPengalamanBuruk.isHidden = true
                         self.vwLainnya.isHidden = false
                         self.consPeringatanNotifikasiTop.constant = -40
                         if(self.datePicker.isHidden == false || self.datePicker2.isHidden == false){
-                            self.consVwShopOpenHeight.constant = 635
+                            self.consVwShopOpenHeight.constant = 530
                         } else {
-                            self.consVwShopOpenHeight.constant = 460
+                            self.consVwShopOpenHeight.constant = 360
                         }
                     } else {
                         self.vwPengalamanBuruk.isHidden = true
                         self.vwLainnya.isHidden = true
                         self.consPeringatanNotifikasiTop.constant = -100
                         if(self.datePicker.isHidden == false || self.datePicker2.isHidden == false){
-                            self.consVwShopOpenHeight.constant = 576
+                            self.consVwShopOpenHeight.constant = 480
                         } else {
-                            self.consVwShopOpenHeight.constant = 400
+                            self.consVwShopOpenHeight.constant = 300
                         }
                     }
                 } else {
@@ -240,10 +247,17 @@ class ChangeShopStatusViewController : BaseViewController{
         dropDown.direction = .bottom
     }
     
+    @IBOutlet weak var consLablePopUpHeight: NSLayoutConstraint!
+    @IBOutlet weak var buttonYaPopUp: UIButton!
+    
     @IBAction func btnOpenCloseShop(_ sender: Any) {
         if(btnOpenClose.titleLabel?.text == "ATUR TUTUP SHOP"){
             if(isValidateField()){
-                closeShop()
+                backgroundOverlay.isHidden = false
+                overlayPopUp.isHidden = false
+                self.consLablePopUpHeight.constant = 200
+                self.buttonYaPopUp.setTitle("OK", for: .normal)
+                self.lblPopUp.text = "Untuk kenyamanan pihak pembeli dan penjual, pastikan untuk memproses semua transaksi sebelum tanggal tutup. Kamu masih tetap dapat memproses transaksi yang masih berjalan pada rentang waktu penutupan shop. Jika ada pertanyaan, hubungi Customer Service Prelo."
             }
         } else {
             backgroundOverlay.isHidden = false
@@ -255,7 +269,11 @@ class ChangeShopStatusViewController : BaseViewController{
         overlayPopUp.isHidden = true
     }
     @IBAction func btnYesOpen(_ sender: Any) {
-        openShop()
+        if(self.buttonYaPopUp.title(for: .normal) == "OK"){
+            closeShop()
+        } else {
+            openShop()
+        }
     }
     
     func isValidateField() -> Bool{
@@ -297,7 +315,7 @@ class ChangeShopStatusViewController : BaseViewController{
         if(selectedIndex==3){
             alasanCustom = txtPengalamanBuruk.text
         } else if(selectedIndex == 6){
-            alasanCustom = txtLainnya.text
+            alasanCustom = txtLainnya.text! ?? ""
         }
         let _ = request(APIMe.closeUsersShop(start_date: date, end_date: date2, reason: selectedIndex-1, custom_reason: alasanCustom)).responseJSON{resp in
             if(PreloEndpoints.validate(true, dataResp:resp, reqAlias:"Close Shop")){
@@ -332,6 +350,7 @@ class ChangeShopStatusViewController : BaseViewController{
                     var json = JSON(x)
                     json = json["_data"]
                     if(json.isEmpty){
+                        self.btnBatalJadwal.isHidden = true
                         self.vwShopBuka.isHidden = false
                         self.vwShopTutup.isHidden = true
                         self.btnOpenClose.setTitle("ATUR TUTUP SHOP", for: .normal)
@@ -339,13 +358,15 @@ class ChangeShopStatusViewController : BaseViewController{
                         self.consButtonTopToTutup.isActive = false
                     } else {
                         if(json["status"] == 1){
+                            self.btnBatalJadwal.isHidden = true
                             self.vwShopBuka.isHidden = false
                             self.vwShopTutup.isHidden = true
                             self.btnOpenClose.setTitle("ATUR TUTUP SHOP", for: .normal)
                             self.consButtonTop.isActive = true
                             self.consButtonTopToTutup.isActive = false
                             if(json["custom_reason"] != nil){
-                                
+                                self.btnBatalJadwal.isHidden = false
+                                self.consVwShopHeight.constant = 470
                                 let start_date = json["start_date"].string
                                 var arrStart = start_date?.components(separatedBy: "T")
                                 var arrLabelStart = arrStart?[0].components(separatedBy: "-")
@@ -369,14 +390,15 @@ class ChangeShopStatusViewController : BaseViewController{
                                 self.selectedIndex = json["reason"].int! + 1
                                 self.lblAlasan.text = self.dropDown.dataSource[self.selectedIndex]
                                 if(self.selectedIndex==3){
+                                    self.consVwShopHeight.constant = 500
                                     self.txtPengalamanBuruk.text = json["custom_reason"].string!
                                     self.vwPengalamanBuruk.isHidden = false
                                     self.vwLainnya.isHidden = true
                                     self.consPeringatanNotifikasiTop.constant = 0
                                     if(self.datePicker.isHidden == false || self.datePicker2.isHidden == false){
-                                        self.consVwShopOpenHeight.constant = 680
+                                        self.consVwShopOpenHeight.constant = 580
                                     } else {
-                                        self.consVwShopOpenHeight.constant = 510
+                                        self.consVwShopOpenHeight.constant = 410
                                     }
                                 } else if (self.selectedIndex==6){
                                     self.txtLainnya.text = json["custom_reason"].string!
@@ -384,14 +406,15 @@ class ChangeShopStatusViewController : BaseViewController{
                                     self.vwLainnya.isHidden = false
                                     self.consPeringatanNotifikasiTop.constant = -40
                                     if(self.datePicker.isHidden == false || self.datePicker2.isHidden == false){
-                                        self.consVwShopOpenHeight.constant = 635
+                                        self.consVwShopOpenHeight.constant = 530
                                     } else {
-                                        self.consVwShopOpenHeight.constant = 460
+                                        self.consVwShopOpenHeight.constant = 360
                                     }
                                 }
 
                             }
                         } else {
+                            self.btnBatalJadwal.isHidden = true
                             self.vwShopBuka.isHidden = true
                             self.vwShopTutup.isHidden = false
                             self.btnOpenClose.setTitle("BUKA SHOP SEKARANG", for: .normal)
@@ -444,8 +467,8 @@ class ChangeShopStatusViewController : BaseViewController{
         consPeringatanAlasanTop.constant = 5
         datePicker.minimumDate = currentDate as Date
         self.consPeringatanNotifikasiTop.constant = -100
-        consVwShopHeight.constant = 470
-        consVwShopOpenHeight.constant = 400
+        consVwShopHeight.constant = 400
+        consVwShopOpenHeight.constant = 300
     }
     
     @IBOutlet weak var scrollView: UIScrollView!

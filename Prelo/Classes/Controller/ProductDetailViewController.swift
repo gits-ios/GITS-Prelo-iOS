@@ -256,6 +256,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                         } else {
                             self.shopBuka = false
                             self.vwClose.isHidden = false
+                            self.disableMyProductBtnSet()
                             if(self.detail?.theirId==User.Id){
                                 let end_date = self.detail?.myShop["end_date"]?.string
                                 var arrEnd = end_date?.components(separatedBy: "T")

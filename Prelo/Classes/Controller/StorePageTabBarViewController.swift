@@ -61,6 +61,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     @IBOutlet weak var scrollView: UIScrollView!
     
     var isNeedReload = false
+    var isNeedReloadHeader = false
     
     var isTransparent : Bool = true
     var isFirst : Bool = true
@@ -147,6 +148,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
             
             isNeedReload = false
         }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -557,6 +559,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     
     @IBAction func btnOpenShopPressed(_ sender: Any) {
         isNeedReload = true
+        isNeedReloadHeader = true
         
         let changeShopStatusVC = Bundle.main.loadNibNamed(Tags.XibNameChangeShopStatus, owner: nil, options: nil)?.first as! ChangeShopStatusViewController
         self.navigationController?.pushViewController(changeShopStatusVC, animated: true)
