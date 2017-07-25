@@ -2818,7 +2818,6 @@ class ListItemFeaturedHeaderCell : UICollectionViewCell {
 
 class UploadSuggestionCell : UICollectionViewCell, UIScrollViewDelegate {
     @IBOutlet var contentVwUploadSuggestion: UIView!
-    @IBOutlet var pageCtrlUploadSuggestion: UIPageControl!
     @IBOutlet var imgUploadSuggestion: UIImageView!
     
     var imagesUploadSuggestion : JSON = []
@@ -2835,8 +2834,7 @@ class UploadSuggestionCell : UICollectionViewCell, UIScrollViewDelegate {
     func adapt(images:JSON) {
         imagesUploadSuggestion = images
         
-        self.pageCtrlUploadSuggestion.numberOfPages = (images.array?.count)!
-        self.pageCtrlUploadSuggestion.currentPage = 0
+        self.updateCounter = (images.array?.count)!
         for i in 0...(images.array?.count)! - 1 {
             if let arr = images.array {
                 if let url = NSURL(string: arr[i].string!) {
@@ -2852,21 +2850,23 @@ class UploadSuggestionCell : UICollectionViewCell, UIScrollViewDelegate {
     
     func setUploadTimer() {
         // Scroll timer
-        Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(UploadSuggestionCell.autoScrollUploadSuggestion), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(UploadSuggestionCell.autoScrollUploadSuggestion), userInfo: nil, repeats: true)
     }
     
     func autoScrollUploadSuggestion() {
-        if(pageCtrlUploadSuggestion.currentPage <= 2){
-            if let url = NSURL(string: (imagesUploadSuggestion.array?[pageCtrlUploadSuggestion.currentPage].string!)!) {
+        if(updateCounter <= 2){
+            if let url = NSURL(string: (imagesUploadSuggestion.array?[updateCounter].string!)!) {
                 if let data = NSData(contentsOf: url as URL) {
                     self.imgUploadSuggestion.image = UIImage(data: data as Data)
                 }
             }
-            pageCtrlUploadSuggestion.currentPage = pageCtrlUploadSuggestion.currentPage + 1
+            updateCounter = updateCounter + 1
         } else {
-            pageCtrlUploadSuggestion.currentPage = 0
+            updateCounter = 0
         }
     }
+    
+    
 }
 
 // MARK: - Class ListItemCell
