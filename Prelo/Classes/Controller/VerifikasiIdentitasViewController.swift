@@ -366,21 +366,36 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
         }
     }
     
+    func checkEdit() -> Bool{
+        print("check edit")
+        print(imgInstitusiImage.image)
+        return false
+    }
+    
     var images : [AnyObject] = [NSNull(), NSNull(), NSNull()]
     
     func setEditUserRentData(){
         self.showLoading()
         let url : String
         if(isEdit){
-            url = "\(AppTools.PreloBaseUrl)/api/me/edit_rent_data"
+            if(checkEdit()){
+                url = "\(AppTools.PreloBaseUrl)/api/me/edit_rent_data"
+                setAPI(url: url)
+            } else {
+                Constant.showDialog("Perhatian", message: "Anda belum melakukan perubahan apapun")
+                self.hideLoading()
+            }
         } else {
             url = "\(AppTools.PreloBaseUrl)/api/me/set_rent_data"
+            setAPI(url: url)
         }
-
+    }
+    
+    func setAPI(url: String){
         let param = [
             "institution_type":selectedIndex - 1,
             "institution_name":txtInstitusi.text == nil ? "" : txtInstitusi.text!
-        ] as [String : Any]
+            ] as [String : Any]
         let images = [
             "image1": imgKartuIdentitas.image!,
             "image2": imgKartuKeluarga.image!,
@@ -400,7 +415,6 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
             Constant.showDialog("Edit Verifikasi", message: "Gagal mengupload data")//:err.description)
             self.hideLoading()
         })
-
     }
     
     func imageFullScreenDidReplace(_ controller: VerifikasiImagePreview, image: APImage, isCamera: Bool, name: String) {
