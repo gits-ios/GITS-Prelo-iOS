@@ -52,6 +52,11 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
     
     var isNeedReload = false
     var isEdit = false
+    var isEditImageKK = false
+    var isEditImageIdentitas = false
+    var isEditImageInstitusi = false
+    var tempSelectedIndex = 0
+    var tempTxtInstitusi = ""
     
     
     override func viewDidLoad() {
@@ -338,7 +343,9 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
                             self.lblInstansi.text = "Kantor kelurahan/kecamatan sesuai KTP/KK"
                         }
                         self.selectedIndex = (data["institution_type"].int!) + 1
+                        self.tempSelectedIndex = (data["institution_type"].int!) + 1
                         self.txtInstitusi.text = data["institution_name"].string!
+                        self.tempTxtInstitusi = data["institution_name"].string!
                     }
                     
                     if let arr = data["identity_verification"].array {
@@ -365,11 +372,13 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
             }
         }
     }
-    
     func checkEdit() -> Bool{
         print("check edit")
-        print(imgInstitusiImage.image)
-        return false
+        if(isEditImageKK || isEditImageInstitusi || isEditImageIdentitas || (selectedIndex != tempSelectedIndex || txtInstitusi.text != tempTxtInstitusi)){
+            return true
+        } else {
+            return false
+        }
     }
     
     var images : [AnyObject] = [NSNull(), NSNull(), NSNull()]
@@ -417,15 +426,20 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
         })
     }
     
-    func imageFullScreenDidReplace(_ controller: VerifikasiImagePreview, image: APImage, isCamera: Bool, name: String) {
+    func imageFullScreenDidReplace(_ controller: VerifikasiImagePreview, image: APImage, isCamera: Bool, name: String, isEditImage: Bool) {
         if let i = image.image
         {
+            print("didreplace")
+            print(isEditImage)
             if(isKartuKeluargaClicked){
                 self.imgKartuKeluarga.image = i
+                self.isEditImageKK = isEditImage
             } else if (isKartuIdentitasClicked){
                 self.imgKartuIdentitas.image = i
+                self.isEditImageIdentitas = isEditImage
             } else if (isInstitusiImageClicked){
                 self.imgInstitusiImage.image = i
+                self.isEditImageInstitusi = isEditImage
             }
         } else {
             //Constant.showBadgeDialog("Perhatian", message: "Terjadi kesalahan saat memuat gambar", badge: "warning", view: self, isBack: false)

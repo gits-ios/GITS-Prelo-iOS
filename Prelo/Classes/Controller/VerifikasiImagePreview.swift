@@ -11,7 +11,7 @@ import UIKit
 protocol VerifikasiImagePreviewDelegate
 {
     func imageFullScreenDidDelete(_ controller : VerifikasiImagePreview)
-    func imageFullScreenDidReplace(_ controller : VerifikasiImagePreview, image : APImage, isCamera : Bool, name : String)
+    func imageFullScreenDidReplace(_ controller : VerifikasiImagePreview, image : APImage, isCamera : Bool, name : String, isEditImage : Bool)
 }
 
 class VerifikasiImagePreview: BaseViewController, UIScrollViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate /* AVIARY IS DISABLED , AdobeUXImageEditorViewControllerDelegate*/
@@ -68,13 +68,12 @@ class VerifikasiImagePreview: BaseViewController, UIScrollViewDelegate, UIImageP
     
     func batal()
     {
-        print("masuk sini ga?")
         navigationController?.popViewController(animated: true)
     }
     
     @IBAction func done()
     {
-        fullScreenDelegate?.imageFullScreenDidReplace(self, image: apImage!, isCamera: isCamera, name: name)
+        fullScreenDelegate?.imageFullScreenDidReplace(self, image: apImage!, isCamera: isCamera, name: name, isEditImage: true)
         self.batal()
     }
     
@@ -86,10 +85,6 @@ class VerifikasiImagePreview: BaseViewController, UIScrollViewDelegate, UIImageP
     
     @IBAction func replace(_ sender : UIView?)
     {
-        //        let i = UIImagePickerController()
-        //        i.sourceType = .PhotoLibrary
-        //        i.delegate = self
-        //        self.presentViewController(i, animated: true, completion: nil)
         let i = UIImagePickerController()
         i.sourceType = .photoLibrary
         i.delegate = self
