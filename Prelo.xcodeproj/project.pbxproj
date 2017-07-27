@@ -281,8 +281,17 @@
 		44B8EDC81BEB47620063DEA8 /* TwitterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B8EDC51BEB47620063DEA8 /* TwitterCore.framework */; };
 		44BB8EF81BC6ABF70052B020 /* GIBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44BB8EF71BC6ABF70052B020 /* GIBadgeView.m */; };
 		44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C10A661B8C8145006D8770 /* basic_green@2x.png */; };
+		5804CBC21EEE300C00B7D032 /* RekeningListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5804CBC11EEE300C00B7D032 /* RekeningListViewController.swift */; };
+		5804CBD51EEE6A8900B7D032 /* RekeningListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5804CBD31EEE6A8900B7D032 /* RekeningListCell.xib */; };
+		5804CBD61EEE6A8900B7D032 /* RekeningListNewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5804CBD41EEE6A8900B7D032 /* RekeningListNewCell.xib */; };
+		5804CBD81EEE6CC100B7D032 /* RekeningAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5804CBD71EEE6CC100B7D032 /* RekeningAddViewController.swift */; };
+		58095B441EE9272A0023F499 /* PreloTestsCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58095B431EE9272A0023F499 /* PreloTestsCoreData.swift */; };
 		580A30E51DFFF29E00453AA0 /* ProductLovelistCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 580A30E41DFFF29E00453AA0 /* ProductLovelistCell.xib */; };
 		580B07291DD5D99A0079C11C /* bday-splashscreen-2048x2048.png in Resources */ = {isa = PBXBuildFile; fileRef = 580B07281DD5D99A0079C11C /* bday-splashscreen-2048x2048.png */; };
+		5810268F1EEA3F8F00C0D324 /* TarikTunaiwithSaveBankAccount.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5810268E1EEA3F8F00C0D324 /* TarikTunaiwithSaveBankAccount.xib */; };
+		5810269C1EEA81FE00C0D324 /* RekeningAdd.xib in Resources */ = {isa = PBXBuildFile; fileRef = 581026981EEA81FE00C0D324 /* RekeningAdd.xib */; };
+		581026B71EEA933800C0D324 /* RekeningList.xib in Resources */ = {isa = PBXBuildFile; fileRef = 581026B61EEA933800C0D324 /* RekeningList.xib */; };
+		581026B91EEA949100C0D324 /* TarikTunaiwithSaveBankAccountController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581026B81EEA949100C0D324 /* TarikTunaiwithSaveBankAccountController.swift */; };
 		581430DB1DCB14DE00B67205 /* GrowingTextViewHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581430DA1DCB14DE00B67205 /* GrowingTextViewHandler.swift */; };
 		581E87AE1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 581E87AD1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg */; };
 		581E87B01CE08EE00055CCDD /* cover-shop-page.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 581E87AF1CE08EE00055CCDD /* cover-shop-page.jpg */; };
@@ -439,6 +448,7 @@
 		585B6AEF1DBE152C005DEBA4 /* AddProductImageSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127A2A71B7B336000469CFC /* AddProductImageSourceViewController.swift */; };
 		5870CFDB1DC6F85900E22EFF /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5870CFCE1DC6F7E600E22EFF /* AlamofireImage.framework */; };
 		5870CFDC1DC6F85900E22EFF /* AlamofireImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5870CFCE1DC6F7E600E22EFF /* AlamofireImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		588123851EE65F5B005047AD /* PreloUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588123841EE65F5B005047AD /* PreloUITests.swift */; };
 		588148AC1DC09F88004180E1 /* ProductCompareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588148AB1DC09F88004180E1 /* ProductCompareViewController.swift */; };
 		588148B51DC09FBA004180E1 /* ProductCompare.xib in Resources */ = {isa = PBXBuildFile; fileRef = 588148B41DC09FBA004180E1 /* ProductCompare.xib */; };
 		588148BA1DC0B244004180E1 /* ProductCompareMainCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 588148B91DC0B244004180E1 /* ProductCompareMainCell.xib */; };
@@ -542,6 +552,10 @@
 		58AB578D1CB273190081094B /* libNotifyManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58AB578C1CB273190081094B /* libNotifyManager.a */; };
 		58AB578F1CB273D20081094B /* libAdIdAccess.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58AB578E1CB273D20081094B /* libAdIdAccess.a */; };
 		58AD00FF1D49DAA8002C7CCF /* preloteam.png in Resources */ = {isa = PBXBuildFile; fileRef = 58AD00FE1D49DAA8002C7CCF /* preloteam.png */; };
+		58BBF5941EF276E100A0E2A2 /* TarikTunaiwithSaveBankAccount2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58BBF5931EF276E100A0E2A2 /* TarikTunaiwithSaveBankAccount2.xib */; };
+		58BBF5961EF2775000A0E2A2 /* TarikTunaiwithSaveBankAccountViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58BBF5951EF2775000A0E2A2 /* TarikTunaiwithSaveBankAccountViewController2.swift */; };
+		58BBF5981EF30FF300A0E2A2 /* TarikTunai3.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58BBF5971EF30FF300A0E2A2 /* TarikTunai3.xib */; };
+		58BBF59A1EF3103B00A0E2A2 /* TarikTunaiViewController3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58BBF5991EF3103B00A0E2A2 /* TarikTunaiViewController3.swift */; };
 		58BE535B1D460E2E00E358EB /* CoreSpotlight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58BE535A1D460E2E00E358EB /* CoreSpotlight.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		58BE535F1D479F5B00E358EB /* courier_jne.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BE535C1D479F5B00E358EB /* courier_jne.png */; };
 		58BE53601D479F5B00E358EB /* courier_pos.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BE535D1D479F5B00E358EB /* courier_pos.png */; };
@@ -559,6 +573,7 @@
 		58D125381CDC4D1F002BC78A /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 58D125241CDC4D1F002BC78A /* LICENSE */; };
 		58D125391CDC4D1F002BC78A /* MoEngage.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 58D125251CDC4D1F002BC78A /* MoEngage.bundle */; };
 		58D1253E1CDC4D1F002BC78A /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 58D125361CDC4D1F002BC78A /* README.md */; };
+		58D504621EE7D4D300BC07C8 /* PreloTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D504581EE79BEA00BC07C8 /* PreloTests.swift */; };
 		58D7360B1D759B0B009D7C61 /* ic_cart.png in Resources */ = {isa = PBXBuildFile; fileRef = 58D736091D759B0B009D7C61 /* ic_cart.png */; };
 		58D7360C1D759B0B009D7C61 /* ic_notif.png in Resources */ = {isa = PBXBuildFile; fileRef = 58D7360A1D759B0B009D7C61 /* ic_notif.png */; };
 		58D7D5231CD9B68300308A50 /* libAppsFlyerLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D7D5221CD9B68300308A50 /* libAppsFlyerLib.a */; };
@@ -577,12 +592,19 @@
 		58DD4E8A1DEC377D00B130C5 /* ic_camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 58DD4E891DEC377D00B130C5 /* ic_camera.png */; };
 		58E368161DA4E40700C6FFE3 /* ic_share2.png in Resources */ = {isa = PBXBuildFile; fileRef = 58E368151DA4E40700C6FFE3 /* ic_share2.png */; };
 		58E8FCDD1D92819C0084FAA8 /* ic_prelo_logo_text_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58E8FCDC1D92819C0084FAA8 /* ic_prelo_logo_text_white@2x.png */; };
+		58EBCD661EE63C2E002A3ED5 /* ic_socmed_google.png in Resources */ = {isa = PBXBuildFile; fileRef = 58EBCD651EE63C2E002A3ED5 /* ic_socmed_google.png */; };
 		58EF19DA1D4F55FB00997828 /* ic_search_filter.png in Resources */ = {isa = PBXBuildFile; fileRef = 58EF19D91D4F55FB00997828 /* ic_search_filter.png */; };
 		58F0A41A1C7C634A002A488F /* cchmrk_buy.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4151C7C634A002A488F /* cchmrk_buy.png */; };
 		58F0A41B1C7C634A002A488F /* cchmrk_chat.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4161C7C634A002A488F /* cchmrk_chat.png */; };
 		58F0A41C1C7C634A002A488F /* cchmrk_imgzoom.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4171C7C634A002A488F /* cchmrk_imgzoom.png */; };
 		58F0A41D1C7C634A002A488F /* cchmrk_pinch.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4181C7C634A002A488F /* cchmrk_pinch.png */; };
 		58F0A41E1C7C634A002A488F /* cchmrk_spread.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4191C7C634A002A488F /* cchmrk_spread.png */; };
+		58F561F61EDEC3B10054A3CE /* GoogleAppUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F561F51EDEC3B10054A3CE /* GoogleAppUtilities.framework */; };
+		58F562081EDEC3BA0054A3CE /* GoogleSignIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F562071EDEC3BA0054A3CE /* GoogleSignIn.framework */; };
+		58F5620A1EDEC3C20054A3CE /* GoogleSignInDependencies.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F562091EDEC3C20054A3CE /* GoogleSignInDependencies.framework */; };
+		58F5620C1EDEC3CD0054A3CE /* GoogleSymbolUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F5620B1EDEC3CD0054A3CE /* GoogleSymbolUtilities.framework */; };
+		58F5620E1EDEC4210054A3CE /* GoogleSignIn.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 58F5620D1EDEC4210054A3CE /* GoogleSignIn.bundle */; };
+		58F562101EDECD590054A3CE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58F5620F1EDECD590054A3CE /* GoogleService-Info.plist */; };
 		58F5BEF61DB088D1009B0E0B /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F5BEE91DB08810009B0E0B /* Alamofire.framework */; };
 		58F5BEF71DB088D1009B0E0B /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 58F5BEE91DB08810009B0E0B /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		58F78B501DFACE2B008744F7 /* ProductLovelistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F78B4F1DFACE2B008744F7 /* ProductLovelistViewController.swift */; };
@@ -599,7 +621,7 @@
 		B21DF52A1E5179E5007A60C5 /* UserProfile2.xib in Resources */ = {isa = PBXBuildFile; fileRef = B21DF5291E5179E5007A60C5 /* UserProfile2.xib */; };
 		B21DF5401E5187EA007A60C5 /* UserProfileViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21DF53F1E5187EA007A60C5 /* UserProfileViewController2.swift */; };
 		B2223D941EDEA64F0013E886 /* ic_verified.png in Resources */ = {isa = PBXBuildFile; fileRef = B2223D931EDEA64F0013E886 /* ic_verified.png */; };
-		B22357611E35F90800CEC6F5 /* TarikTunai2Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B22357601E35F90800CEC6F5 /* TarikTunai2Cell.xib */; };
+		B22357611E35F90800CEC6F5 /* TarikTunaiCell3.xib in Resources */ = {isa = PBXBuildFile; fileRef = B22357601E35F90800CEC6F5 /* TarikTunaiCell3.xib */; };
 		B22C0E311E090FA900C3D661 /* ic_love_96px.png in Resources */ = {isa = PBXBuildFile; fileRef = B22C0E301E090FA900C3D661 /* ic_love_96px.png */; };
 		B22C0E331E091C2D00C3D661 /* ic_love_96px_trp.png in Resources */ = {isa = PBXBuildFile; fileRef = B22C0E321E091C2D00C3D661 /* ic_love_96px_trp.png */; };
 		B2314BE51E4B029000731B88 /* AddressAddEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2314BE41E4B029000731B88 /* AddressAddEditViewController.swift */; };
@@ -751,6 +773,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		58095B461EE9272A0023F499 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2115E6C01B4A27E500509D2A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2115E6C71B4A27E500509D2A;
+			remoteInfo = Prelo;
+		};
 		5870CFCD1DC6F7E600E22EFF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5870CFBA1DC6F7E600E22EFF /* AlamofireImage.xcodeproj */;
@@ -806,6 +835,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 4C9043761AABBFC5001B4E60;
 			remoteInfo = "AlamofireImage iOS";
+		};
+		588123871EE65F5B005047AD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2115E6C01B4A27E500509D2A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2115E6C71B4A27E500509D2A;
+			remoteInfo = Prelo;
+		};
+		58D5045B1EE79BEA00BC07C8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2115E6C01B4A27E500509D2A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2115E6C71B4A27E500509D2A;
+			remoteInfo = Prelo;
 		};
 		58F5BEE81DB08810009B0E0B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1003,8 +1046,6 @@
 		2115E6D51B4A27E500509D2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2115E6D71B4A27E500509D2A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		2115E6DA1B4A27E500509D2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		2115E6E51B4A27E500509D2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2115E6E61B4A27E500509D2A /* PreloTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloTests.swift; sourceTree = "<group>"; };
 		2116BAF71BAC1D74009B27C8 /* Default-Landscape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x.png"; sourceTree = "<group>"; };
 		2116BAF91BAC1DC9009B27C8 /* Default-Portrait-2048h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait-2048h.png"; sourceTree = "<group>"; };
 		2119FE361BA2BC25006EF0CB /* AddProductViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AddProductViewController2.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -1432,8 +1473,19 @@
 		5800FF9E1C883E1600492DB2 /* NotifAnggiConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = NotifAnggiConversationViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5800FFA21C8852D600492DB2 /* NotifAnggiTransaction.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiTransaction.xib; sourceTree = "<group>"; };
 		5800FFA41C88530900492DB2 /* NotifAnggiConversation.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiConversation.xib; sourceTree = "<group>"; };
+		5804CBC11EEE300C00B7D032 /* RekeningListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RekeningListViewController.swift; sourceTree = "<group>"; };
+		5804CBD31EEE6A8900B7D032 /* RekeningListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RekeningListCell.xib; sourceTree = "<group>"; };
+		5804CBD41EEE6A8900B7D032 /* RekeningListNewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RekeningListNewCell.xib; sourceTree = "<group>"; };
+		5804CBD71EEE6CC100B7D032 /* RekeningAddViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RekeningAddViewController.swift; sourceTree = "<group>"; };
+		58095B411EE927290023F499 /* PreloTestsCoreData.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreloTestsCoreData.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		58095B431EE9272A0023F499 /* PreloTestsCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloTestsCoreData.swift; sourceTree = "<group>"; };
+		58095B451EE9272A0023F499 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		580A30E41DFFF29E00453AA0 /* ProductLovelistCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductLovelistCell.xib; sourceTree = "<group>"; };
 		580B07281DD5D99A0079C11C /* bday-splashscreen-2048x2048.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bday-splashscreen-2048x2048.png"; sourceTree = "<group>"; };
+		5810268E1EEA3F8F00C0D324 /* TarikTunaiwithSaveBankAccount.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunaiwithSaveBankAccount.xib; sourceTree = "<group>"; };
+		581026981EEA81FE00C0D324 /* RekeningAdd.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RekeningAdd.xib; sourceTree = "<group>"; };
+		581026B61EEA933800C0D324 /* RekeningList.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RekeningList.xib; sourceTree = "<group>"; };
+		581026B81EEA949100C0D324 /* TarikTunaiwithSaveBankAccountController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiwithSaveBankAccountController.swift; sourceTree = "<group>"; };
 		581430DA1DCB14DE00B67205 /* GrowingTextViewHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrowingTextViewHandler.swift; sourceTree = "<group>"; };
 		581E87AD1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "ic_dashboard_cover@2x.jpg"; sourceTree = "<group>"; };
 		581E87AF1CE08EE00055CCDD /* cover-shop-page.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "cover-shop-page.jpg"; sourceTree = "<group>"; };
@@ -1448,6 +1500,9 @@
 		585373CF1DF9388A00CEE663 /* InstagramSharePreview.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InstagramSharePreview.xib; sourceTree = "<group>"; };
 		5856875A1C6C97F4002A19CE /* ic_request.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_request.png; sourceTree = "<group>"; };
 		5870CFBA1DC6F7E600E22EFF /* AlamofireImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireImage.xcodeproj; path = AlamofireImage/AlamofireImage.xcodeproj; sourceTree = "<group>"; };
+		588123821EE65F5B005047AD /* PreloUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreloUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		588123841EE65F5B005047AD /* PreloUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloUITests.swift; sourceTree = "<group>"; };
+		588123861EE65F5B005047AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		588148AB1DC09F88004180E1 /* ProductCompareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCompareViewController.swift; sourceTree = "<group>"; };
 		588148B41DC09FBA004180E1 /* ProductCompare.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCompare.xib; sourceTree = "<group>"; };
 		588148B91DC0B244004180E1 /* ProductCompareMainCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCompareMainCell.xib; sourceTree = "<group>"; };
@@ -1606,6 +1661,10 @@
 		58AB578E1CB273D20081094B /* libAdIdAccess.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdIdAccess.a; sourceTree = "<group>"; };
 		58AD00FE1D49DAA8002C7CCF /* preloteam.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preloteam.png; sourceTree = "<group>"; };
 		58B16A361C900CC600408534 /* NotifAnggiConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiConversationCell.xib; sourceTree = "<group>"; };
+		58BBF5931EF276E100A0E2A2 /* TarikTunaiwithSaveBankAccount2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunaiwithSaveBankAccount2.xib; sourceTree = "<group>"; };
+		58BBF5951EF2775000A0E2A2 /* TarikTunaiwithSaveBankAccountViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiwithSaveBankAccountViewController2.swift; sourceTree = "<group>"; };
+		58BBF5971EF30FF300A0E2A2 /* TarikTunai3.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunai3.xib; sourceTree = "<group>"; };
+		58BBF5991EF3103B00A0E2A2 /* TarikTunaiViewController3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiViewController3.swift; sourceTree = "<group>"; };
 		58BE535A1D460E2E00E358EB /* CoreSpotlight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreSpotlight.framework; path = System/Library/Frameworks/CoreSpotlight.framework; sourceTree = SDKROOT; };
 		58BE535C1D479F5B00E358EB /* courier_jne.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = courier_jne.png; sourceTree = "<group>"; };
 		58BE535D1D479F5B00E358EB /* courier_pos.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = courier_pos.png; sourceTree = "<group>"; };
@@ -1630,6 +1689,9 @@
 		58D1252A1CDC4D1F002BC78A /* MoEngage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoEngage.h; sourceTree = "<group>"; };
 		58D1252B1CDC4D1F002BC78A /* MOPayloadBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOPayloadBuilder.h; sourceTree = "<group>"; };
 		58D125361CDC4D1F002BC78A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		58D504561EE79BEA00BC07C8 /* PreloTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreloTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		58D504581EE79BEA00BC07C8 /* PreloTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloTests.swift; sourceTree = "<group>"; };
+		58D5045A1EE79BEA00BC07C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		58D736091D759B0B009D7C61 /* ic_cart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_cart.png; sourceTree = "<group>"; };
 		58D7360A1D759B0B009D7C61 /* ic_notif.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_notif.png; sourceTree = "<group>"; };
 		58D7D5211CD9B68300308A50 /* AppsFlyerTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsFlyerTracker.h; sourceTree = "<group>"; };
@@ -1651,6 +1713,7 @@
 		58E368151DA4E40700C6FFE3 /* ic_share2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_share2.png; sourceTree = "<group>"; };
 		58E8FCDC1D92819C0084FAA8 /* ic_prelo_logo_text_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_prelo_logo_text_white@2x.png"; sourceTree = "<group>"; };
 		58EADB961CFBE47800410330 /* ShippingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShippingCell.xib; sourceTree = "<group>"; };
+		58EBCD651EE63C2E002A3ED5 /* ic_socmed_google.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_socmed_google.png; sourceTree = "<group>"; };
 		58EC90BA1D780ED600712E8A /* ExpiringProductsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ExpiringProductsViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		58EC90BC1D78100400712E8A /* ExpiringProducts.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExpiringProducts.xib; sourceTree = "<group>"; };
 		58EC90BE1D78142F00712E8A /* ExpiringProductsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExpiringProductsCell.xib; sourceTree = "<group>"; };
@@ -1660,6 +1723,12 @@
 		58F0A4171C7C634A002A488F /* cchmrk_imgzoom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_imgzoom.png; sourceTree = "<group>"; };
 		58F0A4181C7C634A002A488F /* cchmrk_pinch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_pinch.png; sourceTree = "<group>"; };
 		58F0A4191C7C634A002A488F /* cchmrk_spread.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_spread.png; sourceTree = "<group>"; };
+		58F561F51EDEC3B10054A3CE /* GoogleAppUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleAppUtilities.framework; sourceTree = "<group>"; };
+		58F562071EDEC3BA0054A3CE /* GoogleSignIn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSignIn.framework; sourceTree = "<group>"; };
+		58F562091EDEC3C20054A3CE /* GoogleSignInDependencies.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSignInDependencies.framework; sourceTree = "<group>"; };
+		58F5620B1EDEC3CD0054A3CE /* GoogleSymbolUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSymbolUtilities.framework; sourceTree = "<group>"; };
+		58F5620D1EDEC4210054A3CE /* GoogleSignIn.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleSignIn.bundle; sourceTree = "<group>"; };
+		58F5620F1EDECD590054A3CE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		58F5BEDD1DB08810009B0E0B /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
 		58F78B4F1DFACE2B008744F7 /* ProductLovelistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductLovelistViewController.swift; sourceTree = "<group>"; };
 		58F78B5F1DFACEB3008744F7 /* ProductLovelist.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductLovelist.xib; sourceTree = "<group>"; };
@@ -1678,7 +1747,7 @@
 		B21DF53F1E5187EA007A60C5 /* UserProfileViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController2.swift; sourceTree = "<group>"; };
 		B21DF54F1E519E5E007A60C5 /* Prelo 10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 10.xcdatamodel"; sourceTree = "<group>"; };
 		B2223D931EDEA64F0013E886 /* ic_verified.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_verified.png; sourceTree = "<group>"; };
-		B22357601E35F90800CEC6F5 /* TarikTunai2Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunai2Cell.xib; sourceTree = "<group>"; };
+		B22357601E35F90800CEC6F5 /* TarikTunaiCell3.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunaiCell3.xib; sourceTree = "<group>"; };
 		B22C0E301E090FA900C3D661 /* ic_love_96px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_love_96px.png; sourceTree = "<group>"; };
 		B22C0E321E091C2D00C3D661 /* ic_love_96px_trp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_love_96px_trp.png; sourceTree = "<group>"; };
 		B2314BE41E4B029000731B88 /* AddressAddEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressAddEditViewController.swift; sourceTree = "<group>"; };
@@ -1859,6 +1928,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58F562081EDEC3BA0054A3CE /* GoogleSignIn.framework in Frameworks */,
 				B2BC10271E442D72003DF4D7 /* CoreMotion.framework in Frameworks */,
 				B285789E1E56B8F7008995F4 /* ImageIO.framework in Frameworks */,
 				21EEB43C1B86FA2800CAD5C9 /* Accelerate.framework in Frameworks */,
@@ -1876,7 +1946,9 @@
 				FD3C8DEC1C43A42B00D40EF8 /* Crashlytics.framework in Frameworks */,
 				216799961B9010E900F18F90 /* Fabric.framework in Frameworks */,
 				4453F43C1BBBF2C100FE7CB5 /* FBSDKCoreKit.framework in Frameworks */,
+				58F5620A1EDEC3C20054A3CE /* GoogleSignInDependencies.framework in Frameworks */,
 				4453F4401BBBFF6D00FE7CB5 /* FBSDKLoginKit.framework in Frameworks */,
+				58F561F61EDEC3B10054A3CE /* GoogleAppUtilities.framework in Frameworks */,
 				21EEB4401B86FABE00CAD5C9 /* Foundation.framework in Frameworks */,
 				58D7D5251CD9B6FC00308A50 /* iAd.framework in Frameworks */,
 				B28578C31E570C0B008995F4 /* DropDown.framework in Frameworks */,
@@ -1898,6 +1970,7 @@
 				B2BC10291E442DBB003DF4D7 /* FBAudienceNetwork.framework in Frameworks */,
 				58F5BEF61DB088D1009B0E0B /* Alamofire.framework in Frameworks */,
 				21EEB4501B86FB2B00CAD5C9 /* libc++.dylib in Frameworks */,
+				58F5620C1EDEC3CD0054A3CE /* GoogleSymbolUtilities.framework in Frameworks */,
 				21679A601B901DD400F18F90 /* libicucore.dylib in Frameworks */,
 				FD3C6D4A1C1964390002C7B4 /* libGoogleAnalyticsServices.a in Frameworks */,
 				2124FFD11BBD2AC000194B8F /* libGoogleConversionTracking.a in Frameworks */,
@@ -1906,6 +1979,27 @@
 				21EEB4441B86FAD100CAD5C9 /* libsqlite3.dylib in Frameworks */,
 				FD3C6D481C1963AC0002C7B4 /* libz.dylib in Frameworks */,
 				21EEB4421B86FAC400CAD5C9 /* libz.1.2.5.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		58095B3E1EE927290023F499 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5881237F1EE65F5B005047AD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		58D504531EE79BEA00BC07C8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1973,8 +2067,10 @@
 				B24FCEF21E536E8000B517A9 /* DropDown.xcodeproj */,
 				21D387641B6B969600D0FA90 /* Prelo-Bridging-Header.h */,
 				2115E6CA1B4A27E500509D2A /* Prelo */,
-				2115E6E31B4A27E500509D2A /* PreloTests */,
 				B2B34BCD1E37042D001B653F /* PushNotif */,
+				588123831EE65F5B005047AD /* PreloUITests */,
+				58D504571EE79BEA00BC07C8 /* PreloTests */,
+				58095B421EE927290023F499 /* PreloTestsCoreData */,
 				2115E6C91B4A27E500509D2A /* Products */,
 				163B49F396DAE9C45C1A8F32 /* Frameworks */,
 			);
@@ -1985,6 +2081,9 @@
 			children = (
 				2115E6C81B4A27E500509D2A /* Prelo.app */,
 				B2B34BCC1E37042C001B653F /* PushNotif.appex */,
+				588123821EE65F5B005047AD /* PreloUITests.xctest */,
+				58D504561EE79BEA00BC07C8 /* PreloTests.xctest */,
+				58095B411EE927290023F499 /* PreloTestsCoreData.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1992,6 +2091,7 @@
 		2115E6CA1B4A27E500509D2A /* Prelo */ = {
 			isa = PBXGroup;
 			children = (
+				58F5620F1EDECD590054A3CE /* GoogleService-Info.plist */,
 				58A99A4D1C6D866000E3E7D7 /* Prelo.entitlements */,
 				2115E6CD1B4A27E500509D2A /* AppDelegate.swift */,
 				2115E6D71B4A27E500509D2A /* Images.xcassets */,
@@ -2011,23 +2111,6 @@
 			children = (
 				2115E6CC1B4A27E500509D2A /* Info.plist */,
 				21A6C40D1CEF461100966B42 /* dummyCart.json */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		2115E6E31B4A27E500509D2A /* PreloTests */ = {
-			isa = PBXGroup;
-			children = (
-				2115E6E61B4A27E500509D2A /* PreloTests.swift */,
-				2115E6E41B4A27E500509D2A /* Supporting Files */,
-			);
-			path = PreloTests;
-			sourceTree = "<group>";
-		};
-		2115E6E41B4A27E500509D2A /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				2115E6E51B4A27E500509D2A /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -2440,6 +2523,11 @@
 				21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */,
 				B2ECB31D1EBC64FB00DB87E2 /* ShareProfileViewController.swift */,
 				B2E176261F0CB87000E9A45A /* ShareReferralViewController.swift */,
+				581026B81EEA949100C0D324 /* TarikTunaiwithSaveBankAccountController.swift */,
+				5804CBC11EEE300C00B7D032 /* RekeningListViewController.swift */,
+				5804CBD71EEE6CC100B7D032 /* RekeningAddViewController.swift */,
+				58BBF5951EF2775000A0E2A2 /* TarikTunaiwithSaveBankAccountViewController2.swift */,
+				58BBF5991EF3103B00A0E2A2 /* TarikTunaiViewController3.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2652,6 +2740,7 @@
 				215C52691B6B349C00EA4E61 /* ic_shirt@2x.png */,
 				21156EC31B8F5DBC001D7842 /* ic_socmed_facebook.png */,
 				21156EC41B8F5DBC001D7842 /* ic_socmed_instagram.png */,
+				58EBCD651EE63C2E002A3ED5 /* ic_socmed_google.png */,
 				21156EC51B8F5DBC001D7842 /* ic_socmed_path.png */,
 				21156EC61B8F5DBC001D7842 /* ic_socmed_twitter.png */,
 				210959B01B8DD088000F2939 /* ic_tag@2x.png */,
@@ -2960,6 +3049,11 @@
 		21EEB4361B86F9EF00CAD5C9 /* Framework */ = {
 			isa = PBXGroup;
 			children = (
+				58F5620D1EDEC4210054A3CE /* GoogleSignIn.bundle */,
+				58F5620B1EDEC3CD0054A3CE /* GoogleSymbolUtilities.framework */,
+				58F562091EDEC3C20054A3CE /* GoogleSignInDependencies.framework */,
+				58F562071EDEC3BA0054A3CE /* GoogleSignIn.framework */,
+				58F561F51EDEC3B10054A3CE /* GoogleAppUtilities.framework */,
 				B2BC10281E442DBB003DF4D7 /* FBAudienceNetwork.framework */,
 				44B8EDC41BEB47620063DEA8 /* TwitterKitResources.bundle */,
 				4453F43D1BBBFF6D00FE7CB5 /* Bolts.framework */,
@@ -3054,12 +3148,19 @@
 				B2BE2E011E29FA42006B6903 /* StorePageShopHeader.xib */,
 				B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */,
 				B27948221E35C700002CEED4 /* TarikTunai2.xib */,
-				B22357601E35F90800CEC6F5 /* TarikTunai2Cell.xib */,
+				B22357601E35F90800CEC6F5 /* TarikTunaiCell3.xib */,
 				21104AD01BAA8F1200947E7F /* TransactionListCell.xib */,
 				21156EBB1B8F5B5D001D7842 /* UserProfile.xib */,
 				B21DF5291E5179E5007A60C5 /* UserProfile2.xib */,
 				B2ECB30B1EBC5DEC00DB87E2 /* ShareProfile.xib */,
 				B2E176241F0CB75100E9A45A /* ShareReferral.xib */,
+				5810268E1EEA3F8F00C0D324 /* TarikTunaiwithSaveBankAccount.xib */,
+				58BBF5931EF276E100A0E2A2 /* TarikTunaiwithSaveBankAccount2.xib */,
+				581026981EEA81FE00C0D324 /* RekeningAdd.xib */,
+				581026B61EEA933800C0D324 /* RekeningList.xib */,
+				5804CBD31EEE6A8900B7D032 /* RekeningListCell.xib */,
+				5804CBD41EEE6A8900B7D032 /* RekeningListNewCell.xib */,
+				58BBF5971EF30FF300A0E2A2 /* TarikTunai3.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -3071,6 +3172,15 @@
 				44BB8EF41BC654AC0052B020 /* PreloNotificationListener.swift */,
 			);
 			name = Socket;
+			sourceTree = "<group>";
+		};
+		58095B421EE927290023F499 /* PreloTestsCoreData */ = {
+			isa = PBXGroup;
+			children = (
+				58095B431EE9272A0023F499 /* PreloTestsCoreData.swift */,
+				58095B451EE9272A0023F499 /* Info.plist */,
+			);
+			path = PreloTestsCoreData;
 			sourceTree = "<group>";
 		};
 		5870CFBB1DC6F7E600E22EFF /* Products */ = {
@@ -3085,6 +3195,15 @@
 				5870CFDA1DC6F7E600E22EFF /* AlamofireImage.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		588123831EE65F5B005047AD /* PreloUITests */ = {
+			isa = PBXGroup;
+			children = (
+				588123841EE65F5B005047AD /* PreloUITests.swift */,
+				588123861EE65F5B005047AD /* Info.plist */,
+			);
+			path = PreloUITests;
 			sourceTree = "<group>";
 		};
 		58A999DF1C6D864E00E3E7D7 /* Branch-SDK */ = {
@@ -3231,6 +3350,15 @@
 				58D1252B1CDC4D1F002BC78A /* MOPayloadBuilder.h */,
 			);
 			path = MOHeaders;
+			sourceTree = "<group>";
+		};
+		58D504571EE79BEA00BC07C8 /* PreloTests */ = {
+			isa = PBXGroup;
+			children = (
+				58D504581EE79BEA00BC07C8 /* PreloTests.swift */,
+				58D5045A1EE79BEA00BC07C8 /* Info.plist */,
+			);
+			path = PreloTests;
 			sourceTree = "<group>";
 		};
 		58D7D5201CD9B68300308A50 /* AF-iOS-SDK */ = {
@@ -3482,6 +3610,60 @@
 			productReference = 2115E6C81B4A27E500509D2A /* Prelo.app */;
 			productType = "com.apple.product-type.application";
 		};
+		58095B401EE927290023F499 /* PreloTestsCoreData */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 58095B481EE9272A0023F499 /* Build configuration list for PBXNativeTarget "PreloTestsCoreData" */;
+			buildPhases = (
+				58095B3D1EE927290023F499 /* Sources */,
+				58095B3E1EE927290023F499 /* Frameworks */,
+				58095B3F1EE927290023F499 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				58095B471EE9272A0023F499 /* PBXTargetDependency */,
+			);
+			name = PreloTestsCoreData;
+			productName = PreloTestsCoreData;
+			productReference = 58095B411EE927290023F499 /* PreloTestsCoreData.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		588123811EE65F5B005047AD /* PreloUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 588123891EE65F5B005047AD /* Build configuration list for PBXNativeTarget "PreloUITests" */;
+			buildPhases = (
+				5881237E1EE65F5B005047AD /* Sources */,
+				5881237F1EE65F5B005047AD /* Frameworks */,
+				588123801EE65F5B005047AD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				588123881EE65F5B005047AD /* PBXTargetDependency */,
+			);
+			name = PreloUITests;
+			productName = PreloUITests;
+			productReference = 588123821EE65F5B005047AD /* PreloUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		58D504551EE79BEA00BC07C8 /* PreloTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 58D5045D1EE79BEA00BC07C8 /* Build configuration list for PBXNativeTarget "PreloTests" */;
+			buildPhases = (
+				58D504521EE79BEA00BC07C8 /* Sources */,
+				58D504531EE79BEA00BC07C8 /* Frameworks */,
+				58D504541EE79BEA00BC07C8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				58D5045C1EE79BEA00BC07C8 /* PBXTargetDependency */,
+			);
+			name = PreloTests;
+			productName = PreloTests;
+			productReference = 58D504561EE79BEA00BC07C8 /* PreloTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		B2B34BCB1E37042C001B653F /* PushNotif */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B2B34BE41E37042D001B653F /* Build configuration list for PBXNativeTarget "PushNotif" */;
@@ -3505,7 +3687,7 @@
 		2115E6C01B4A27E500509D2A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0820;
+				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = "PT Kleo Appara Indonesia";
 				TargetAttributes = {
@@ -3524,6 +3706,21 @@
 								enabled = 1;
 							};
 						};
+					};
+					58095B401EE927290023F499 = {
+						CreatedOnToolsVersion = 8.3.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 2115E6C71B4A27E500509D2A;
+					};
+					588123811EE65F5B005047AD = {
+						CreatedOnToolsVersion = 8.3.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 2115E6C71B4A27E500509D2A;
+					};
+					58D504551EE79BEA00BC07C8 = {
+						CreatedOnToolsVersion = 8.3.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 2115E6C71B4A27E500509D2A;
 					};
 					B2B34BCB1E37042C001B653F = {
 						CreatedOnToolsVersion = 8.2;
@@ -3570,6 +3767,9 @@
 			targets = (
 				2115E6C71B4A27E500509D2A /* Prelo */,
 				B2B34BCB1E37042C001B653F /* PushNotif */,
+				588123811EE65F5B005047AD /* PreloUITests */,
+				58D504551EE79BEA00BC07C8 /* PreloTests */,
+				58095B401EE927290023F499 /* PreloTestsCoreData */,
 			);
 		};
 /* End PBXProject section */
@@ -3740,6 +3940,7 @@
 				B2D119901E290BF80064045B /* banner_notif.png in Resources */,
 				B2BE2DF01E29EBBD006B6903 /* StorePageTabBar.xib in Resources */,
 				585887511DBEDBD5006EC6D5 /* PhoneReverification.xib in Resources */,
+				581026B71EEA933800C0D324 /* RekeningList.xib in Resources */,
 				21156ECB1B8F5DBC001D7842 /* btn_checkbox_purple_empty.png in Resources */,
 				5827E9611E03F844007F0833 /* ic_trx_refund4.png in Resources */,
 				21679A541B901C5300F18F90 /* test_variant.json in Resources */,
@@ -3771,6 +3972,8 @@
 				588148BA1DC0B244004180E1 /* ProductCompareMainCell.xib in Resources */,
 				FDAD1BE51BF0A5DB00505A35 /* ic_take_photo.png in Resources */,
 				5858875C1DBEEA1A006EC6D5 /* SearchResultHeader.xib in Resources */,
+				58F5620E1EDEC4210054A3CE /* GoogleSignIn.bundle in Resources */,
+				58BBF5941EF276E100A0E2A2 /* TarikTunaiwithSaveBankAccount2.xib in Resources */,
 				B2D119931E290BF80064045B /* banner_exclamation.png in Resources */,
 				58BE535F1D479F5B00E358EB /* courier_jne.png in Resources */,
 				589A6FB31D8C08F600654CDD /* ic_berat.png in Resources */,
@@ -3808,16 +4011,18 @@
 				58DD28DF1DAF367000130B6F /* Info.plist in Resources */,
 				B2E176131F0C992900E9A45A /* bg_hobby.png in Resources */,
 				58A223C51C898CB600619518 /* ic_trx_done.png in Resources */,
+				58EBCD661EE63C2E002A3ED5 /* ic_socmed_google.png in Resources */,
 				589A6FC61D8C08F600654CDD /* ic_luxury.png in Resources */,
 				B240F4D31E24BBD500DCAFF7 /* Achievement.xib in Resources */,
 				21D386AA1B6B93CD00D0FA90 /* Default.png in Resources */,
 				585887521DBEDBF4006EC6D5 /* ReferralPage.xib in Resources */,
 				212007BE1B6A0BB400D9C84B /* basic_purple@2x.png in Resources */,
 				440AF66B1BE1090800074CBC /* ic_round_twitter.png in Resources */,
+				5804CBD61EEE6A8900B7D032 /* RekeningListNewCell.xib in Resources */,
 				B2C3A3C61E2B8E370082A15D /* ShopAchievementCell.xib in Resources */,
 				58F0A41B1C7C634A002A488F /* cchmrk_chat.png in Resources */,
 				B2CAF7841E78F58900ACB361 /* PreloMessageCell.xib in Resources */,
-				B22357611E35F90800CEC6F5 /* TarikTunai2Cell.xib in Resources */,
+				B22357611E35F90800CEC6F5 /* TarikTunaiCell3.xib in Resources */,
 				58A223C81C898CB600619518 /* ic_trx_paid.png in Resources */,
 				585887271DBED974006EC6D5 /* PhoneVerification.xib in Resources */,
 				5858874E1DBEDBB8006EC6D5 /* PathLogin.xib in Resources */,
@@ -3840,6 +4045,7 @@
 				585887381DBEDA3E006EC6D5 /* Filter.xib in Resources */,
 				B240F4C31E2477FF00DCAFF7 /* shoppingstore27.png in Resources */,
 				5847E1951DBE057800C1B2BA /* LoginFransiska.xib in Resources */,
+				58F562101EDECD590054A3CE /* GoogleService-Info.plist in Resources */,
 				21E7A7661B9FF2BC00FC9B38 /* LKActivity.png in Resources */,
 				58BE53611D479F5B00E358EB /* courier_tiki.png in Resources */,
 				B2E176111F0C992900E9A45A /* bg_fashion.png in Resources */,
@@ -3905,6 +4111,7 @@
 				5858874D1DBEDBA3006EC6D5 /* NotifAnggiTransactionCell.xib in Resources */,
 				B2BE2E021E29FA42006B6903 /* StorePageShopHeader.xib in Resources */,
 				B2223D941EDEA64F0013E886 /* ic_verified.png in Resources */,
+				5810269C1EEA81FE00C0D324 /* RekeningAdd.xib in Resources */,
 				B2EE39CD1E76905500113E03 /* ic_paid_balance.png in Resources */,
 				B271A6821EDED6D900C6A973 /* placeholder-transparent.png in Resources */,
 				B2BEBC601E4C190D009982F9 /* ic_coin.png in Resources */,
@@ -3976,6 +4183,7 @@
 				216799731B8F879A00F18F90 /* rsz_ic_bca@2x.png in Resources */,
 				58A99A4E1C6D866000E3E7D7 /* Prelo.entitlements in Resources */,
 				B2DF58491E484131005B6CF1 /* AddressBookCell.xib in Resources */,
+				5804CBD51EEE6A8900B7D032 /* RekeningListCell.xib in Resources */,
 				B2BEBC761E4C27EC009982F9 /* placeholder-circle.png in Resources */,
 				211BC9921B96AC9100FDB1DC /* category_placeholder@2x.png in Resources */,
 				B2E1760E1F0C992900E9A45A /* bg_all.png in Resources */,
@@ -3989,6 +4197,7 @@
 				B29482561E91E397001B6C75 /* cover_shop_persegi_1024px.png in Resources */,
 				58AD00FF1D49DAA8002C7CCF /* preloteam.png in Resources */,
 				58F7DD511D73E90800EF43AC /* ic_free_ongkir_truck.png in Resources */,
+				5810268F1EEA3F8F00C0D324 /* TarikTunaiwithSaveBankAccount.xib in Resources */,
 				21D386A61B6B93CD00D0FA90 /* Default-667h@2x.png in Resources */,
 				21156EB31B8F3598001D7842 /* ic_prelo_logo_text@2x.png in Resources */,
 				589A6FCD1D8C08F600654CDD /* ic_voucher.png in Resources */,
@@ -4015,6 +4224,7 @@
 				B2EE39CF1E76905500113E03 /* ic_paid_video.png in Resources */,
 				B2C3A3C41E2B8E2D0082A15D /* ShopAchievement.xib in Resources */,
 				21679A331B901C5300F18F90 /* MPNotification.storyboard in Resources */,
+				58BBF5981EF30FF300A0E2A2 /* TarikTunai3.xib in Resources */,
 				B22C0E331E091C2D00C3D661 /* ic_love_96px_trp.png in Resources */,
 				585887581DBEDC35006EC6D5 /* UserProfile.xib in Resources */,
 				585887441DBEDB0D006EC6D5 /* MyPurchase.xib in Resources */,
@@ -4030,6 +4240,27 @@
 				58C23B601C9DC86300E4C929 /* ic_share.png in Resources */,
 				58F0A41C1C7C634A002A488F /* cchmrk_imgzoom.png in Resources */,
 				21156ECA1B8F5DBC001D7842 /* btn_checkbox_purple_checked.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		58095B3F1EE927290023F499 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		588123801EE65F5B005047AD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		58D504541EE79BEA00BC07C8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4095,6 +4326,7 @@
 				21B467FD1CCE5EDB00E145ED /* UIFont+BFKit.swift in Sources */,
 				21B467F81CCE5EDB00E145ED /* String+BFKit.swift in Sources */,
 				21B467E41CCE5EDB00E145ED /* BFLog.swift in Sources */,
+				58BBF59A1EF3103B00A0E2A2 /* TarikTunaiViewController3.swift in Sources */,
 				B2C59AA21E2E4B31002E4597 /* SMSegmentView.swift in Sources */,
 				21679A181B901C5300F18F90 /* MPABTestDesignerChangeRequestMessage.m in Sources */,
 				58A99A4B1C6D864E00E3E7D7 /* BranchUserCompletedActionRequest.m in Sources */,
@@ -4168,6 +4400,7 @@
 				21679A501B901C5300F18F90 /* MPWebSocket.m in Sources */,
 				583234321DB8C66B0059B3A2 /* KumangTabBarViewController.swift in Sources */,
 				B2FFCBA11EA52669004F01D0 /* SocketEngine.swift in Sources */,
+				5804CBD81EEE6CC100B7D032 /* RekeningAddViewController.swift in Sources */,
 				5847E1991DBE0D7500C1B2BA /* PreloNotificationListener.swift in Sources */,
 				2167998C1B8F8AB900F18F90 /* AFHTTPSessionManager.m in Sources */,
 				5858875F1DBEEA41006EC6D5 /* ProductDetailCover.swift in Sources */,
@@ -4177,6 +4410,7 @@
 				58A99A3B1C6D864E00E3E7D7 /* BNCServerRequest.m in Sources */,
 				5858877F1DBF1728006EC6D5 /* CartViewController.swift in Sources */,
 				21679A191B901C5300F18F90 /* MPABTestDesignerChangeResponseMessage.m in Sources */,
+				5804CBC21EEE300C00B7D032 /* RekeningListViewController.swift in Sources */,
 				585B6AEF1DBE152C005DEBA4 /* AddProductImageSourceViewController.swift in Sources */,
 				216344FB1CC3A855005CBA37 /* MKButton.swift in Sources */,
 				21679A341B901C5300F18F90 /* MPNotificationViewController.m in Sources */,
@@ -4272,6 +4506,7 @@
 				21679A141B901C5300F18F90 /* _MPTweakBindObserver.m in Sources */,
 				21B468031CCE5EDB00E145ED /* UIScrollView+BFKit.swift in Sources */,
 				21679A281B901C5300F18F90 /* MPCGColorRefToNSStringValueTransformer.m in Sources */,
+				581026B91EEA949100C0D324 /* TarikTunaiwithSaveBankAccountController.swift in Sources */,
 				B2C3A3BC1E2B6B550082A15D /* FloatRatingView.swift in Sources */,
 				21679A391B901C5300F18F90 /* MPObjectSerializer.m in Sources */,
 				21679A271B901C5300F18F90 /* MPCGAffineTransformToNSDictionaryValueTransformer.m in Sources */,
@@ -4386,6 +4621,7 @@
 				58DD28E51DAF36BB00130B6F /* BFView.swift in Sources */,
 				58D1253E1CDC4D1F002BC78A /* README.md in Sources */,
 				58A99A3F1C6D864E00E3E7D7 /* BranchGetPromoCodeRequest.m in Sources */,
+				58BBF5961EF2775000A0E2A2 /* TarikTunaiwithSaveBankAccountViewController2.swift in Sources */,
 				58A99A311C6D864E00E3E7D7 /* BNCServerRequestQueue.m in Sources */,
 				585887931DBF3309006EC6D5 /* MyProductCompletedViewController.swift in Sources */,
 				58A99A391C6D864E00E3E7D7 /* BranchLinkProperties.m in Sources */,
@@ -4410,6 +4646,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		58095B3D1EE927290023F499 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				58095B441EE9272A0023F499 /* PreloTestsCoreData.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5881237E1EE65F5B005047AD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				588123851EE65F5B005047AD /* PreloUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		58D504521EE79BEA00BC07C8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				58D504621EE7D4D300BC07C8 /* PreloTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B2B34BC81E37042C001B653F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4421,10 +4681,25 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		58095B471EE9272A0023F499 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2115E6C71B4A27E500509D2A /* Prelo */;
+			targetProxy = 58095B461EE9272A0023F499 /* PBXContainerItemProxy */;
+		};
 		5870CFDE1DC6F85900E22EFF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "AlamofireImage iOS";
 			targetProxy = 5870CFDD1DC6F85900E22EFF /* PBXContainerItemProxy */;
+		};
+		588123881EE65F5B005047AD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2115E6C71B4A27E500509D2A /* Prelo */;
+			targetProxy = 588123871EE65F5B005047AD /* PBXContainerItemProxy */;
+		};
+		58D5045C1EE79BEA00BC07C8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2115E6C71B4A27E500509D2A /* Prelo */;
+			targetProxy = 58D5045B1EE79BEA00BC07C8 /* PBXContainerItemProxy */;
 		};
 		58F5BEF91DB088D1009B0E0B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -4579,6 +4854,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: M. R. Al-ghazali (QEA6HEZ3FA)";
 				DEVELOPMENT_TEAM = A72B22UTXM;
 				ENABLE_BITCODE = NO;
+				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Prelo/Framework",
@@ -4624,6 +4900,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: M. R. Al-ghazali (QEA6HEZ3FA)";
 				DEVELOPMENT_TEAM = A72B22UTXM;
 				ENABLE_BITCODE = NO;
+				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Prelo/Framework",
@@ -4652,6 +4929,132 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		58095B491EE9272A0023F499 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				INFOPLIST_FILE = PreloTestsCoreData/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.prelo.PreloTestsCoreData;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Prelo.app/Prelo";
+			};
+			name = Debug;
+		};
+		58095B4A1EE9272A0023F499 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				INFOPLIST_FILE = PreloTestsCoreData/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.prelo.PreloTestsCoreData;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Prelo.app/Prelo";
+			};
+			name = Release;
+		};
+		5881238A1EE65F5B005047AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				INFOPLIST_FILE = PreloUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.prelo.PreloUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "2cdc1344-60c3-41bc-9cf0-40c4bf6c0a0b";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = Prelo;
+			};
+			name = Debug;
+		};
+		5881238B1EE65F5B005047AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				INFOPLIST_FILE = PreloUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.prelo.PreloUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "2cdc1344-60c3-41bc-9cf0-40c4bf6c0a0b";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = Prelo;
+			};
+			name = Release;
+		};
+		58D5045E1EE79BEA00BC07C8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				INFOPLIST_FILE = PreloTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.prelo.PreloTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Prelo.app/Prelo";
+			};
+			name = Debug;
+		};
+		58D5045F1EE79BEA00BC07C8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				INFOPLIST_FILE = PreloTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.prelo.PreloTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Prelo.app/Prelo";
 			};
 			name = Release;
 		};
@@ -4719,6 +5122,33 @@
 			buildConfigurations = (
 				2115E6EB1B4A27E500509D2A /* Debug */,
 				2115E6EC1B4A27E500509D2A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		58095B481EE9272A0023F499 /* Build configuration list for PBXNativeTarget "PreloTestsCoreData" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				58095B491EE9272A0023F499 /* Debug */,
+				58095B4A1EE9272A0023F499 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		588123891EE65F5B005047AD /* Build configuration list for PBXNativeTarget "PreloUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5881238A1EE65F5B005047AD /* Debug */,
+				5881238B1EE65F5B005047AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		58D5045D1EE79BEA00BC07C8 /* Build configuration list for PBXNativeTarget "PreloTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				58D5045E1EE79BEA00BC07C8 /* Debug */,
+				58D5045F1EE79BEA00BC07C8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
