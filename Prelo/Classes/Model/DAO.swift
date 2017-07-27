@@ -1965,7 +1965,7 @@ class TransactionDetail : NSObject {
     }
     
     var kredivoChargeAmount : Int64 {
-        if let j = json["kredivo_charge_amount"].int {
+        if let j = json["kredivo_charge_amount"].int64 {
             return j
         }
         return 0
