@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -28,7 +28,7 @@
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HlW-cL-hVh">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="1007"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="1036"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3MW-cE-cTg">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="1007"/>
@@ -1224,7 +1224,7 @@
                         </constraints>
                     </scrollView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="99X-5x-vkl" userLabel="loadingPanel">
-                        <rect key="frame" x="0.0" y="-65" width="375" height="1101"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="1036"/>
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="MPJ-gz-zIM" userLabel="loading">
                                 <rect key="frame" x="178" y="95" width="20" height="20"/>
@@ -1237,13 +1237,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="MPJ-gz-zIM" firstAttribute="centerX" secondItem="99X-5x-vkl" secondAttribute="centerX" id="3HV-z2-VMO"/>
                             <constraint firstItem="MPJ-gz-zIM" firstAttribute="top" secondItem="99X-5x-vkl" secondAttribute="top" constant="95" id="SjV-wa-55f"/>
-                            <constraint firstAttribute="trailing" secondItem="MPJ-gz-zIM" secondAttribute="trailing" constant="177" id="ie0-uo-aJf"/>
-                            <constraint firstItem="MPJ-gz-zIM" firstAttribute="leading" secondItem="99X-5x-vkl" secondAttribute="leading" constant="178" id="kO2-sQ-Km6"/>
                         </constraints>
                     </view>
                     <view hidden="YES" alpha="0.75" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uNq-8h-yPg" userLabel="Background Overlay">
-                        <rect key="frame" x="0.0" y="-65" width="375" height="1101"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="1036"/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZLU-IC-YDB" userLabel="Overlay PopUp">
@@ -1439,10 +1438,10 @@ Jumlah penarikan</string>
                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstItem="99X-5x-vkl" firstAttribute="leading" secondItem="esu-bv-4xE" secondAttribute="leading" id="116-st-bF6"/>
-                    <constraint firstItem="uNq-8h-yPg" firstAttribute="top" secondItem="esu-bv-4xE" secondAttribute="top" constant="-65" id="9zP-YV-F0P"/>
+                    <constraint firstItem="uNq-8h-yPg" firstAttribute="top" secondItem="esu-bv-4xE" secondAttribute="top" id="9zP-YV-F0P"/>
                     <constraint firstItem="ZLU-IC-YDB" firstAttribute="bottom" secondItem="eNX-tz-6z9" secondAttribute="top" id="Gna-t3-Y7F"/>
                     <constraint firstItem="HlW-cL-hVh" firstAttribute="leading" secondItem="esu-bv-4xE" secondAttribute="leading" id="ONB-YJ-cj8"/>
-                    <constraint firstItem="99X-5x-vkl" firstAttribute="top" secondItem="esu-bv-4xE" secondAttribute="top" constant="-65" id="OmQ-Uw-0tE"/>
+                    <constraint firstItem="99X-5x-vkl" firstAttribute="top" secondItem="esu-bv-4xE" secondAttribute="top" id="OmQ-Uw-0tE"/>
                     <constraint firstItem="eNX-tz-6z9" firstAttribute="top" secondItem="uNq-8h-yPg" secondAttribute="bottom" id="PZO-0g-rRI"/>
                     <constraint firstAttribute="trailing" secondItem="HlW-cL-hVh" secondAttribute="trailing" id="QYA-0S-w2d"/>
                     <constraint firstItem="3MW-cE-cTg" firstAttribute="width" secondItem="esu-bv-4xE" secondAttribute="width" id="Qvv-kT-YfT"/>
@@ -1452,7 +1451,7 @@ Jumlah penarikan</string>
                     <constraint firstItem="HlW-cL-hVh" firstAttribute="top" secondItem="esu-bv-4xE" secondAttribute="top" id="VIi-nu-sMA"/>
                     <constraint firstItem="ZLU-IC-YDB" firstAttribute="leading" secondItem="HlW-cL-hVh" secondAttribute="leading" id="WSl-Ib-HVV"/>
                     <constraint firstItem="ZLU-IC-YDB" firstAttribute="top" secondItem="HlW-cL-hVh" secondAttribute="top" id="Z5D-cP-ywL"/>
-                    <constraint firstItem="eNX-tz-6z9" firstAttribute="top" secondItem="HlW-cL-hVh" secondAttribute="bottom" constant="29" id="cTp-7A-1LP"/>
+                    <constraint firstItem="eNX-tz-6z9" firstAttribute="top" secondItem="HlW-cL-hVh" secondAttribute="bottom" id="cTp-7A-1LP"/>
                     <constraint firstItem="eNX-tz-6z9" firstAttribute="top" secondItem="99X-5x-vkl" secondAttribute="bottom" id="qsu-sl-M6z"/>
                     <constraint firstAttribute="trailing" secondItem="uNq-8h-yPg" secondAttribute="trailing" id="zOk-AF-yf5"/>
                 </constraints>
