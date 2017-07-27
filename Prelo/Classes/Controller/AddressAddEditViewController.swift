@@ -155,11 +155,14 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
  */
             lblLokasi.text = coordinateText
             lblLokasi.textColor = Theme.PrimaryColorDark
-            
-            locationNameToSave = address.coordinateAddress
         } else {
+            
+            coordinate = address.coordinate
+            
             lblLokasi.text = "Koordinat alamat sudah dipilih" //address.coordinateAddress
             lblLokasi.textColor = UIColor.init(hex: "#6F6F6F")
+            
+            locationNameToSave = address.coordinateAddress
         }
     }
     
@@ -297,6 +300,7 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
     @IBAction func btnPilihLokasiPressed(_ sender: Any) {
         
         let googleMapVC = Bundle.main.loadNibNamed(Tags.XibNameGoogleMap, owner: nil, options: nil)?.first as! GoogleMapViewController
+        googleMapVC.coordinateString = self.coordinate
         googleMapVC.blockDone = { result in
             print(result)
             

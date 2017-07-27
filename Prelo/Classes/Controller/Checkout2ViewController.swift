@@ -1129,6 +1129,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         
                         cell.pickLocation = {
                             let googleMapVC = Bundle.main.loadNibNamed(Tags.XibNameGoogleMap, owner: nil, options: nil)?.first as! GoogleMapViewController
+                            googleMapVC.coordinateString = self.selectedAddress.coordinate
                             googleMapVC.blockDone = { result in
                                 
                                 self.selectedAddress.coordinate = result["latitude"]! + "," + result["longitude"]!

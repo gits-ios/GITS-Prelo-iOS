@@ -29,6 +29,7 @@ class GoogleMapViewController: BaseViewController, UITableViewDataSource, UITabl
     var locationManager: CLLocationManager!
     @IBOutlet var mapView: GMSMapView!
 //    var marker: GMSMarker!
+    var defaultLocation: CLLocationCoordinate2D!
     var selectedLocation: CLLocationCoordinate2D!
     
     var placesClient: GMSPlacesClient!
@@ -48,6 +49,8 @@ class GoogleMapViewController: BaseViewController, UITableViewDataSource, UITabl
     var SwiftCounter: Float = 0.0
     
     let epsilon = 0.00005
+    
+    var coordinateString = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,16 +73,13 @@ class GoogleMapViewController: BaseViewController, UITableViewDataSource, UITabl
         searchResultTableView.backgroundColor = UIColor.clear
         
         // define location default
-        selectedLocation = CLLocationCoordinate2D(latitude: -0.7893/*-33.86*/, longitude: 113.9213/*151.20*/)
+        defaultLocation = CLLocationCoordinate2D(latitude: -0.7893/*-33.86*/, longitude: 113.9213/*151.20*/)
+        selectedLocation = defaultLocation
         
 //        let panoView = GMSPanoramaView(frame: .zero)
 //        self.view = panoView
 //        
 //        panoView.moveNearCoordinate(selectedLocation)
-        
-        locationManager = CLLocationManager()
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
         
         let camera = GMSCameraPosition.camera(withTarget: selectedLocation, zoom: mapZoomLevel)
         
@@ -112,6 +112,21 @@ class GoogleMapViewController: BaseViewController, UITableViewDataSource, UITabl
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        // update selected location from previous page
+        if coordinateString != "" && coordinateString.contains(",") {
+            // Create a NSCharacterSet of delimiters.
+            let separators = NSCharacterSet(charactersIn: ",")
+            // Split based on characters.
+            let strings = coordinateString.components(separatedBy: separators as CharacterSet)
+            
+            selectedLocation = CLLocationCoordinate2D(latitude: Double(strings[0]) ?? 0, longitude: Double(strings[1]) ?? 0)
+        }
+        
+        // update map
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
         
         self.an_subscribeKeyboard(animations: { r, t, o in
             if (o) {
@@ -196,6 +211,9 @@ class GoogleMapViewController: BaseViewController, UITableViewDataSource, UITabl
         } else {
             // disable bottom view
             //self.getAddressFromGeocodeCoordinate(mapView.camera.target)
+            
+            // save location
+            self.selectedLocation = mapView.camera.target
         }
             
         btnMarkerTeks.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
@@ -212,6 +230,11 @@ class GoogleMapViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     @IBAction func btnChooseLOcationPressed(_ sender: Any) {
+        if selectedLocation != nil && (fabs(selectedLocation.latitude - mapView.camera.target.latitude) > epsilon || fabs(selectedLocation.longitude - mapView.camera.target.longitude) > epsilon) {
+            Constant.showDialog("Lokasi kamu", message: "Tekan tombol Pilih Lokasi untuk menggunakan lokasi sekarang")
+            
+            return
+        }
         //Constant.showDialog("Lokasi kamu", message: lbAddress.text!)
         let res = [
             "address": "coordinate:{latitude:\(self.selectedLocation.latitude),longitude:\(self.selectedLocation.longitude)}", //self.lbAddress.text!,
@@ -344,7 +367,12 @@ extension GoogleMapViewController: CLLocationManagerDelegate {
         if let location = locations.first {
             
             // 7
-            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: mapZoomLevel, bearing: 0, viewingAngle: 0)
+            if (fabs(selectedLocation.latitude - defaultLocation.latitude) <= epsilon && fabs(selectedLocation.longitude - defaultLocation.longitude) <= epsilon) {
+                mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: mapZoomLevel, bearing: 0, viewingAngle: 0)
+            } else {
+                mapView.camera = GMSCameraPosition.camera(withTarget: selectedLocation, zoom: mapZoomLevel, bearing: 0, viewingAngle: 0)
+            }
+            
 //            marker.position = location.coordinate
             
             // disable botoom view
