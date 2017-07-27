@@ -57,7 +57,7 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(AddressAddEditViewController.dismissKeyboard))
         
         //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
-        tap.cancelsTouchesInView = false
+        //tap.cancelsTouchesInView = false
         
         scrollView.addGestureRecognizer(tap)
     }
@@ -306,7 +306,7 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
     }
 
     @IBAction func btnPilihLokasiPressed(_ sender: Any) {
-        
+        self.dismissKeyboard()
         let googleMapVC = Bundle.main.loadNibNamed(Tags.XibNameGoogleMap, owner: nil, options: nil)?.first as! GoogleMapViewController
         googleMapVC.coordinateString = self.coordinate
         googleMapVC.blockDone = { result in
