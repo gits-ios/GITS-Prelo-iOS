@@ -167,7 +167,7 @@ class TarikTunaiViewController3: BaseViewController, UIScrollViewDelegate, UITab
         // gesture override
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         
-        getRekening()
+        //getRekening()
         
     }
     
@@ -424,7 +424,7 @@ class TarikTunaiViewController3: BaseViewController, UIScrollViewDelegate, UITab
     func getRekening(){
         isNeedReload = true
         rekening = []
-        self.showLoading()
+        //self.showLoading()
         // use API
         let _ = request(APIMe.getBankAccount).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Rekening List")) {
@@ -453,7 +453,7 @@ class TarikTunaiViewController3: BaseViewController, UIScrollViewDelegate, UITab
                         }
                     }
                     self.initiateField()
-                    self.hideLoading()
+                    //self.hideLoading()
                 }
                 
             } else {
@@ -526,6 +526,8 @@ class TarikTunaiViewController3: BaseViewController, UIScrollViewDelegate, UITab
                         self.consHeightSeparator3.constant = 4
                     }
                     self.initHeight = self.consHeightVwWJP.constant
+                    
+                    self.getRekening()
                     
                     self.tableViewHistory.reloadData()
                     self.hideLoading()
