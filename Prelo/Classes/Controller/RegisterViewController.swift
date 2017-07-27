@@ -24,7 +24,7 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 // MARK: - Class
 
-class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, PathLoginDelegate, UITextFieldDelegate {
+class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, PathLoginDelegate, UITextFieldDelegate, GIDSignInUIDelegate {
     
     // MARK: - Properties
     
@@ -63,6 +63,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         txtPassword?.attributedPlaceholder = NSAttributedString(string: (txtPassword?.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.init(white: 1, alpha: 1)])
         txtRepeatPassword?.attributedPlaceholder = NSAttributedString(string: (txtRepeatPassword?.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.init(white: 1, alpha: 1)])
         txtName?.attributedPlaceholder = NSAttributedString(string: (txtName?.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.init(white: 1, alpha: 1)])
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -84,6 +85,8 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                 }
                 
             }, completion: nil)
+        
+        GIDSignIn.sharedInstance().uiDelegate = self
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -315,6 +318,14 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
             LoginViewController.AfterLoginTwitter(resultDict)
         })
     }
+    
+    // MARK: - Google Login
+    // TODO: - G Signin
+    @IBAction func loginGooglePressed(_ sender: Any) {
+        let p = ["sender" : self, "screenBeforeLogin" : self.screenBeforeLogin as AnyObject] as [String : AnyObject]
+        LoginViewController.LoginWithGoogle(p, onFinish: { resultDict in
+            LoginViewController.AfterLoginGoogle(resultDict)
+        })    }
     
     // MARK: - Path Login
     

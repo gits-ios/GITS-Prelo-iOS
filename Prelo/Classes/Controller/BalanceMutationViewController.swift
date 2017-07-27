@@ -264,7 +264,11 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
 //        let t = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdTarikTunai) as! TarikTunaiController
 //        self.navigationController?.pushViewController(t, animated: true)
         
-        let t = Bundle.main.loadNibNamed(Tags.XibNameTarikTunai2, owner: nil, options: nil)?.first as! TarikTunaiViewController2
+//        let t = Bundle.main.loadNibNamed(Tags.XibNameTarikTunai2, owner: nil, options: nil)?.first as! TarikTunaiViewController2
+//        t.previousScreen = PageName.Mutation
+//        self.navigationController?.pushViewController(t, animated: true)
+        
+        let t = Bundle.main.loadNibNamed(Tags.XibNameTarikTunai3, owner: nil, options: nil)?.first as! TarikTunaiViewController3
         t.previousScreen = PageName.Mutation
         self.navigationController?.pushViewController(t, animated: true)
     }

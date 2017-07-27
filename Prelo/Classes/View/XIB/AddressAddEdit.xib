@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -20,7 +20,7 @@
                 <viewControllerLayoutGuide type="top" id="UZa-ae-9tv"/>
                 <viewControllerLayoutGuide type="bottom" id="Arj-Kt-vHr"/>
             </layoutGuides>
-            <view key="view" contentMode="scaleToFill" misplaced="YES" id="0eT-vb-cbR">
+            <view key="view" contentMode="scaleToFill" id="0eT-vb-cbR">
                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
@@ -473,7 +473,7 @@
                     <constraint firstAttribute="trailing" secondItem="UpO-cQ-xHb" secondAttribute="trailing" id="2SX-xe-3Cz"/>
                     <constraint firstItem="J99-9L-QgB" firstAttribute="width" secondItem="0eT-vb-cbR" secondAttribute="width" id="O2y-WS-TkK"/>
                     <constraint firstItem="WYT-7f-XBl" firstAttribute="leading" secondItem="0eT-vb-cbR" secondAttribute="leading" id="hYP-g3-jZB"/>
-                    <constraint firstItem="Arj-Kt-vHr" firstAttribute="top" secondItem="WYT-7f-XBl" secondAttribute="bottom" id="jhj-25-GdM"/>
+                    <constraint firstItem="Arj-Kt-vHr" firstAttribute="top" secondItem="WYT-7f-XBl" secondAttribute="bottom" id="i8e-eC-Y78"/>
                     <constraint firstItem="UpO-cQ-xHb" firstAttribute="leading" secondItem="0eT-vb-cbR" secondAttribute="leading" id="nAC-CT-JV7"/>
                     <constraint firstItem="UpO-cQ-xHb" firstAttribute="top" secondItem="0eT-vb-cbR" secondAttribute="top" id="qzo-uV-ORw"/>
                     <constraint firstAttribute="bottom" secondItem="UpO-cQ-xHb" secondAttribute="bottom" id="vS3-f9-xfP"/>
