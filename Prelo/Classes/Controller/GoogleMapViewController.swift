@@ -157,7 +157,7 @@ class GoogleMapViewController: BaseViewController, UITableViewDataSource, UITabl
         filter.type = .noFilter
         filter.country = "ID" // ISO 3166-1 Alpha-2 country code
         placesClient.autocompleteQuery(query, bounds: nil, filter: filter, callback: {(results, error) -> Void in
-            if let error = error {
+            if let _ = error {
                 //Constant.showDialog("Peringatan", message: "Terdapat kesalahan saat mengakses peta \(error)")
                 //print("Autocomplete error \(error)")
                 return
@@ -189,7 +189,7 @@ class GoogleMapViewController: BaseViewController, UITableViewDataSource, UITabl
         }
         
         placesClient.lookUpPlaceID(placeId, callback: {(result, error) -> Void in
-            if let error = error {
+            if let _ = error {
                 //print("Autocomplete error \(error)")
                 return
             }
