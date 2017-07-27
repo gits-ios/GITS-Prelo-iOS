@@ -4372,3 +4372,55 @@ class BankAccount : NSObject {
         return "-"
     }
 }
+
+// rekening-list
+class RekeningItem : NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> RekeningItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = RekeningItem()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var target_bank : String {
+        if let j = json["target_bank"].string {
+            return j
+        }
+        return ""
+    }
+    var account_number : String {
+        if let j = json["account_number"].string {
+            return j
+        }
+        return ""
+    }
+    var name : String {
+        if let j = json["name"].string {
+            return j
+        }
+        return ""
+    }
+    var branch : String {
+        if let j = json["branch"].string {
+            return j
+        }
+        return ""
+    }
+    var isDefaultBankAccount : Bool {
+        if let j = json["is_default"].bool{
+            return j
+        }
+        return false
+    }
+    var id : String {
+        if let j = json["_id"].string{
+            return j
+        }
+        return ""
+    }
+}
