@@ -40,6 +40,7 @@ class PreloEndpoints: NSObject {
         print("\(reqAlias) req = \(req)")
         
         if let response = resp {
+            print("response code" + String(response.statusCode))
             if (response.statusCode != 200) {
                 if (res != nil) {
                     if let msg = JSON(res!)["_message"].string {
@@ -198,6 +199,7 @@ enum APIAuth : URLRequestConvertible {
     case loginFacebook(email : String, fullname : String, fbId : String, fbUsername : String, fbAccessToken : String)
     case loginPath(email : String, fullname : String, pathId : String, pathAccessToken : String)
     case loginTwitter(email : String, fullname : String, username : String, id : String, accessToken : String, tokenSecret : String)
+    case loginGoogle(email : String, fullname : String, google_id : String, google_username : String, google_access_token : String)
     case logout
     case forgotPassword(email : String)
     
@@ -217,6 +219,7 @@ enum APIAuth : URLRequestConvertible {
         case .loginFacebook(_, _, _, _, _) : return .post
         case .loginPath(_, _, _, _) : return .post
         case .loginTwitter(_, _, _, _, _, _) : return .post
+        case .loginGoogle(_, _, _, _, _) : return .post
         case .logout : return .post
         case .forgotPassword(_) : return .post
         }
@@ -229,6 +232,7 @@ enum APIAuth : URLRequestConvertible {
         case .loginFacebook(_, _, _, _, _) : return "login/facebook"
         case .loginPath(_, _, _, _) : return "login/path"
         case .loginTwitter(_, _, _, _, _, _) : return "login/twitter"
+            case .loginGoogle(_, _, _, _, _) : return "login/google"
         case .logout : return "logout"
         case .forgotPassword(_) : return "forgot_password"
         }
@@ -278,6 +282,15 @@ enum APIAuth : URLRequestConvertible {
                 "twitter_id" : id,
                 "twitter_access_token" : accessToken,
                 "twitter_token_secret" : tokenSecret,
+                "platform_sent_from" : "ios"
+            ]
+        case .loginGoogle(let email, let fullname, let google_id, let google_username, let google_access_token) :
+            p = [
+                "email" : email,
+                "fullname" : fullname,
+                "google_id" : google_id,
+                "google_username" : google_username,
+                "google_access_token" : google_access_token,
                 "platform_sent_from" : "ios"
             ]
         case .logout:
@@ -573,6 +586,12 @@ enum APIMe : URLRequestConvertible {
     case updateCoordinate(addressId: String, coordinate: String, coordinateAddress: String)
     case updateNameAndAddress(addressId: String, recipientName: String, phone: String)
     
+    case getBankAccount
+    case addBankAccount(target_bank: String, account_number: String, name: String, branch:String)
+    case deleteBankAccount(bankAccountId: String)
+    case setDefaultBankAccount(bankAccountId: String)
+    case editBankAccount(doc_id: String, target_bank: String, account_number: String, name: String, branch: String, is_default: Bool)
+    
     public func asURLRequest() throws -> URLRequest {
         let basePath = "me/"
         let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
@@ -611,6 +630,11 @@ enum APIMe : URLRequestConvertible {
              .setDefaultAddress(_),
              .updateCoordinate(_, _, _),
              .updateNameAndAddress(_, _, _) : return .post
+        case .getBankAccount : return .get
+        case .addBankAccount(_, _, _, _) : return .post
+        case .deleteBankAccount(_) : return .post
+        case .setDefaultBankAccount(_) : return .post
+        case .editBankAccount(_, _, _, _, _, _) : return .post
         }
     }
     
@@ -643,6 +667,11 @@ enum APIMe : URLRequestConvertible {
         case .updateAddress(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _),
              .updateCoordinate(_, _, _),
              .updateNameAndAddress(_, _, _) : return "address_book/update"
+        case .getBankAccount : return "bank_account"
+        case .addBankAccount(_, _, _, _) : return "add_bank_account"
+        case .deleteBankAccount(_) : return "delete_bank_account"
+        case .setDefaultBankAccount(_) : return "set_main_bank_account"
+        case .editBankAccount(_, _, _, _, _, _) : return "edit_bank_account"
         }
     }
     
@@ -803,6 +832,30 @@ enum APIMe : URLRequestConvertible {
                 "platform_sent_from" : "ios",
                 "owner_name": recipientName,
                 "phone": phone
+            ]
+        case .addBankAccount(let target_bank, let account_number, let name, let branch) :
+            p = [
+                "target_bank": target_bank,
+                "account_number": account_number,
+                "name": name,
+                "branch": branch
+            ]
+        case .deleteBankAccount(let bankAccountId) :
+            p = [
+                "doc_id": bankAccountId
+            ]
+        case .setDefaultBankAccount(let bankAccountId) :
+            p = [
+                "doc_id": bankAccountId
+            ]
+        case .editBankAccount(let doc_id, let target_bank, let account_number, let name, let branch, let is_default) :
+            p = [
+                "doc_id": doc_id,
+                "target_bank": target_bank,
+                "account_number": account_number,
+                "name": name,
+                "branch": branch,
+                "is_default": is_default
             ]
         default : break
         }
@@ -1161,6 +1214,7 @@ enum APIReference : URLRequestConvertible {
     case homeCategories
     case formattedSizesByCategory(category : String)
     case getCategoryByPermalink(permalink : String)
+    case getAllBank()
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "reference/"
@@ -1180,6 +1234,7 @@ enum APIReference : URLRequestConvertible {
         case .homeCategories : return .get
         case .formattedSizesByCategory(_) : return .get
         case .getCategoryByPermalink(_) : return .get
+        case .getAllBank() : return .get
         }
     }
     
@@ -1192,6 +1247,7 @@ enum APIReference : URLRequestConvertible {
         case .homeCategories : return "categories/home"
         case .formattedSizesByCategory(_) : return "formatted_sizes"
         case .getCategoryByPermalink(_) : return "category/by_permalink"
+        case .getAllBank() : return "bank"
         }
     }
     
