@@ -30,14 +30,14 @@
                             <rect key="frame" x="38" y="209.5" width="300" height="248"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_cart.png" translatesAutoresizingMaskIntoConstraints="NO" id="Oot-bY-WUy" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
-                                    <rect key="frame" x="16" y="16" width="32" height="32"/>
+                                    <rect key="frame" x="16" y="27.5" width="24" height="24"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="32" id="fTF-vn-kOU"/>
-                                        <constraint firstAttribute="height" constant="32" id="sp8-oz-JRj"/>
+                                        <constraint firstAttribute="width" constant="24" id="fTF-vn-kOU"/>
+                                        <constraint firstAttribute="height" constant="24" id="sp8-oz-JRj"/>
                                     </constraints>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Produk sudah dimasukkan ke keranjang belanja. Jumlah barang dikeranjang: &lt;x&gt;" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qVs-8w-5ky">
-                                    <rect key="frame" x="56" y="16" width="206" height="47"/>
+                                    <rect key="frame" x="48" y="16" width="214" height="47"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
@@ -117,11 +117,11 @@
                                 <constraint firstItem="bvk-UK-RYu" firstAttribute="leading" secondItem="qVs-8w-5ky" secondAttribute="trailing" id="XS3-Ox-0vs"/>
                                 <constraint firstItem="edk-Az-PCa" firstAttribute="leading" secondItem="zkb-CQ-oZ0" secondAttribute="trailing" constant="8" id="cQR-Cw-qrI"/>
                                 <constraint firstItem="zkb-CQ-oZ0" firstAttribute="leading" secondItem="SPh-JA-fcO" secondAttribute="leading" constant="16" id="cSf-uB-Cba"/>
-                                <constraint firstItem="Oot-bY-WUy" firstAttribute="top" secondItem="SPh-JA-fcO" secondAttribute="top" constant="16" id="dcD-s1-zkO"/>
                                 <constraint firstAttribute="trailing" secondItem="VXV-17-Ilh" secondAttribute="trailing" constant="16" id="eg0-ZN-VNK"/>
                                 <constraint firstItem="qVs-8w-5ky" firstAttribute="top" secondItem="SPh-JA-fcO" secondAttribute="top" constant="16" id="j37-Bv-1BP"/>
                                 <constraint firstAttribute="trailing" secondItem="bvk-UK-RYu" secondAttribute="trailing" constant="8" id="j70-hC-cZk"/>
                                 <constraint firstItem="Oot-bY-WUy" firstAttribute="leading" secondItem="SPh-JA-fcO" secondAttribute="leading" constant="16" id="l33-lB-ZD4"/>
+                                <constraint firstItem="Oot-bY-WUy" firstAttribute="centerY" secondItem="qVs-8w-5ky" secondAttribute="centerY" id="lOf-M0-Ka0"/>
                                 <constraint firstItem="gkX-Tg-sLH" firstAttribute="top" secondItem="edk-Az-PCa" secondAttribute="bottom" constant="4" id="per-CV-P4a"/>
                                 <constraint firstAttribute="width" constant="300" id="sGr-mn-nau"/>
                                 <constraint firstItem="bvk-UK-RYu" firstAttribute="top" secondItem="SPh-JA-fcO" secondAttribute="top" constant="8" id="th9-Nz-KIf"/>
