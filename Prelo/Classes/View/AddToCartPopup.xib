@@ -27,10 +27,17 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SPh-JA-fcO" userLabel="PopUp Add2Cart">
-                            <rect key="frame" x="38" y="218" width="300" height="232.5"/>
+                            <rect key="frame" x="38" y="209.5" width="300" height="248"/>
                             <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_cart.png" translatesAutoresizingMaskIntoConstraints="NO" id="Oot-bY-WUy" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
+                                    <rect key="frame" x="16" y="16" width="32" height="32"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="32" id="fTF-vn-kOU"/>
+                                        <constraint firstAttribute="height" constant="32" id="sp8-oz-JRj"/>
+                                    </constraints>
+                                </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Produk sudah dimasukkan ke keranjang belanja. Jumlah barang dikeranjang: &lt;x&gt;" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qVs-8w-5ky">
-                                    <rect key="frame" x="16" y="16" width="246" height="31.5"/>
+                                    <rect key="frame" x="56" y="16" width="206" height="47"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
@@ -50,26 +57,26 @@
                                     </connections>
                                 </button>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zkb-CQ-oZ0">
-                                    <rect key="frame" x="16" y="63.5" width="60" height="60"/>
+                                    <rect key="frame" x="16" y="79" width="60" height="60"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="60" id="6fN-z3-dHo"/>
                                         <constraint firstAttribute="height" constant="60" id="pfO-n0-mlb"/>
                                     </constraints>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Product Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="edk-Az-PCa">
-                                    <rect key="frame" x="84" y="63.5" width="200" height="17"/>
+                                    <rect key="frame" x="84" y="79" width="200" height="17"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Harga" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="gkX-Tg-sLH">
-                                    <rect key="frame" x="84" y="84.5" width="200" height="17"/>
+                                    <rect key="frame" x="84" y="100" width="200" height="17"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VXV-17-Ilh" userLabel="LANJUT KE PEMBAYARAN">
-                                    <rect key="frame" x="16" y="139.5" width="268" height="40"/>
+                                    <rect key="frame" x="16" y="155" width="268" height="40"/>
                                     <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="40" id="xnE-cg-cTt"/>
@@ -85,7 +92,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0jQ-XC-WUJ">
-                                    <rect key="frame" x="111" y="187.5" width="78" height="29"/>
+                                    <rect key="frame" x="111" y="203" width="78" height="29"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <state key="normal" title="Belanja Lagi">
                                         <color key="titleColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -100,7 +107,7 @@
                                 <constraint firstItem="0jQ-XC-WUJ" firstAttribute="centerX" secondItem="SPh-JA-fcO" secondAttribute="centerX" id="19L-hA-UFT"/>
                                 <constraint firstAttribute="trailing" secondItem="gkX-Tg-sLH" secondAttribute="trailing" constant="16" id="2Gx-8C-2CS"/>
                                 <constraint firstItem="gkX-Tg-sLH" firstAttribute="leading" secondItem="zkb-CQ-oZ0" secondAttribute="trailing" constant="8" id="4yG-A6-1xl"/>
-                                <constraint firstItem="qVs-8w-5ky" firstAttribute="leading" secondItem="SPh-JA-fcO" secondAttribute="leading" constant="16" id="BEy-3e-zMN"/>
+                                <constraint firstItem="qVs-8w-5ky" firstAttribute="leading" secondItem="Oot-bY-WUy" secondAttribute="trailing" constant="8" id="877-7C-Jij"/>
                                 <constraint firstItem="VXV-17-Ilh" firstAttribute="leading" secondItem="SPh-JA-fcO" secondAttribute="leading" constant="16" id="H1D-SZ-cSd"/>
                                 <constraint firstAttribute="trailing" secondItem="edk-Az-PCa" secondAttribute="trailing" constant="16" id="I6k-aE-SL0"/>
                                 <constraint firstItem="VXV-17-Ilh" firstAttribute="top" secondItem="zkb-CQ-oZ0" secondAttribute="bottom" constant="16" id="NO3-8M-l7X"/>
@@ -110,9 +117,11 @@
                                 <constraint firstItem="bvk-UK-RYu" firstAttribute="leading" secondItem="qVs-8w-5ky" secondAttribute="trailing" id="XS3-Ox-0vs"/>
                                 <constraint firstItem="edk-Az-PCa" firstAttribute="leading" secondItem="zkb-CQ-oZ0" secondAttribute="trailing" constant="8" id="cQR-Cw-qrI"/>
                                 <constraint firstItem="zkb-CQ-oZ0" firstAttribute="leading" secondItem="SPh-JA-fcO" secondAttribute="leading" constant="16" id="cSf-uB-Cba"/>
+                                <constraint firstItem="Oot-bY-WUy" firstAttribute="top" secondItem="SPh-JA-fcO" secondAttribute="top" constant="16" id="dcD-s1-zkO"/>
                                 <constraint firstAttribute="trailing" secondItem="VXV-17-Ilh" secondAttribute="trailing" constant="16" id="eg0-ZN-VNK"/>
                                 <constraint firstItem="qVs-8w-5ky" firstAttribute="top" secondItem="SPh-JA-fcO" secondAttribute="top" constant="16" id="j37-Bv-1BP"/>
                                 <constraint firstAttribute="trailing" secondItem="bvk-UK-RYu" secondAttribute="trailing" constant="8" id="j70-hC-cZk"/>
+                                <constraint firstItem="Oot-bY-WUy" firstAttribute="leading" secondItem="SPh-JA-fcO" secondAttribute="leading" constant="16" id="l33-lB-ZD4"/>
                                 <constraint firstItem="gkX-Tg-sLH" firstAttribute="top" secondItem="edk-Az-PCa" secondAttribute="bottom" constant="4" id="per-CV-P4a"/>
                                 <constraint firstAttribute="width" constant="300" id="sGr-mn-nau"/>
                                 <constraint firstItem="bvk-UK-RYu" firstAttribute="top" secondItem="SPh-JA-fcO" secondAttribute="top" constant="8" id="th9-Nz-KIf"/>
@@ -143,6 +152,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="consCenteryPopUp" destination="8og-rt-tRC" id="sNV-9r-1Wj"/>
+                <outlet property="ic" destination="Oot-bY-WUy" id="aIt-TU-AQ5"/>
                 <outlet property="imgProduct" destination="zkb-CQ-oZ0" id="hUH-lf-2ZQ"/>
                 <outlet property="lbPrice" destination="gkX-Tg-sLH" id="Qs5-jR-VfP"/>
                 <outlet property="lbProduct" destination="edk-Az-PCa" id="eCS-pf-dJ0"/>
@@ -154,4 +164,7 @@
             <point key="canvasLocation" x="24.5" y="174.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="ic_cart.png" width="96" height="96"/>
+    </resources>
 </document>

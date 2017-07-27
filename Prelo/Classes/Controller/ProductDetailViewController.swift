@@ -3157,6 +3157,7 @@ class PaidPushPopup: UIView {
 
 // MARK: - Add to Cart Pop up
 class AddToCartPopup: UIView {
+    @IBOutlet weak var ic: TintedImageView!
     @IBOutlet weak var lbTitle: UILabel!
     @IBOutlet weak var vwBackgroundOverlay: UIView!
     @IBOutlet weak var vwOverlayPopUp: UIView!
@@ -3182,6 +3183,9 @@ class AddToCartPopup: UIView {
         } else {
             count = CartProduct.getAll(User.EmailOrEmptyString).count
         }
+        
+        self.ic.tint = true
+        self.ic.tintColor = Theme.PrimaryColor
         
         self.lbTitle.text = "Produk sudah dimasukkan ke keranjang belanja. Jumlah barang di keranjang: \(count)"
     }
