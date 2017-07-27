@@ -44,7 +44,29 @@ class AnalyticManager: NSObject {
         return (_PreloAnalyticBaseUrl == prodAnalyticURL)
     }
     
+    fileprivate static var platform : String {
+        get {
+            var sysinfo = utsname()
+            uname(&sysinfo) // ignore return value
+            return String(bytes: Data(bytes: &sysinfo.machine, count: Int(_SYS_NAMELEN)), encoding: .ascii)!.trimmingCharacters(in: .controlCharacters)
+        }
+    }
+    
     static let faId = (UIDevice.current.identifierForVendor != nil ? UIDevice.current.identifierForVendor!.uuidString : "")
+    
+    static let deviceToken = (UserDefaults.standard.string(forKey: "deviceregid") != nil && UserDefaults.standard.string(forKey: "deviceregid") != "" ? UserDefaults.standard.string(forKey: "deviceregid")! : "...simulator...")
+    
+    static let deviceModel = (AppTools.isSimulator ? UIDevice.current.model + " Simulator" : platform) + " - " + UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")"
+    
+    override init() {
+        print("==== [Prelo Analytics] Version 1.0.0 ====")
+        print("faId = " + AnalyticManager.faId)
+        print("deviceToken = " + AnalyticManager.deviceToken)
+        print("deviceModel = " + AnalyticManager.deviceModel)
+        print("=========================================")
+        
+        super.init()
+    }
     
     // skeleton generator + append data
     fileprivate func skeletonData(data : [String : Any], previousScreen : String, loginMethod : String) -> [String : Any] {
@@ -59,7 +81,7 @@ class AnalyticManager: NSObject {
         var wrappedData = [
             "OS" : UIDevice.current.systemName + " (" + UIDevice.current.systemVersion + ")",
             "App Version" : appVersion,
-            "Device Model" : (AppTools.isSimulator ? UIDevice.current.model + " Simulator" : platform()),
+            "Device Model" : (AppTools.isSimulator ? UIDevice.current.model + " Simulator" : AnalyticManager.platform),
             "Previous Screen" : previousScreen,
             "Login Method" : loginMethod
         ] as [String : Any]
@@ -132,6 +154,20 @@ class AnalyticManager: NSObject {
     
     // user must login
     func updateUser(isNeedPayload: Bool) {
+        // print User token -> for access
+        var token = "<no token>"
+        if let t = User.Token {
+            token = t
+        }
+        let teks = "==== [Prelo] Version " + Bundle.main.releaseVersionNumber + " (" + Bundle.main.buildVersionNumber + ") ===="
+        print(teks)
+        print("userToken = " + token)
+        var equal = "="
+        for _ in 2...teks.length {
+            equal += "="
+        }
+        print(equal)
+        
         if (User.IsLoggedIn) {
             let _ = request(APIAnalytic.user(isNeedPayload: isNeedPayload)).responseJSON {resp in
                 if (PreloAnalyticEndpoints.validate(self.isShowDialog, dataResp: resp, reqAlias: "Analytics - User")) {
@@ -194,12 +230,6 @@ class AnalyticManager: NSObject {
         return decoded as AnyObject
     }
      */
-    
-    func platform() -> String {
-        var sysinfo = utsname()
-        uname(&sysinfo) // ignore return value
-        return String(bytes: Data(bytes: &sysinfo.machine, count: Int(_SYS_NAMELEN)), encoding: .ascii)!.trimmingCharacters(in: .controlCharacters)
-    }
     
     // MARK: - WhiteList
     // TODO: - Enable all analytics
@@ -307,5 +337,14 @@ extension Dictionary {
         for (key,value) in other {
             self.updateValue(value, forKey:key)
         }
+    }
+}
+
+extension Bundle {
+    var releaseVersionNumber: String {
+        return infoDictionary?["CFBundleShortVersionString"] as? String ?? "?.?.?"
+    }
+    var buildVersionNumber: String {
+        return infoDictionary?["CFBundleVersion"] as? String ?? "?"
     }
 }

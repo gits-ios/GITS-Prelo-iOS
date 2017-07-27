@@ -107,7 +107,7 @@ extension URLRequest {
         // Set token
         if let token = User.Token {
             urlRequest.setValue("Token \(token)", forHTTPHeaderField: "Authorization")
-            print("User token = \(token)")
+            //print("User token = \(token)")
         }
         
         // Set user agent
@@ -295,7 +295,10 @@ enum APIAuth : URLRequestConvertible {
             ]
         case .logout:
             p = [
-                "platform_sent_from" : "ios"
+                "platform_sent_from" : "ios",
+                "device_type" : "APNS",
+                "device_registration_id" : AnalyticManager.deviceToken,
+                "registered_device_id" : AnalyticManager.deviceToken
             ]
         case .forgotPassword(let email) :
             p = [
