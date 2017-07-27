@@ -52,6 +52,14 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
         super.viewDidLoad()
         
         self.txtNamaAlamat.delegate = self
+        
+        //Looks for single or multiple taps.
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(AddressAddEditViewController.dismissKeyboard))
+        
+        //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
+        tap.cancelsTouchesInView = false
+        
+        scrollView.addGestureRecognizer(tap)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -373,6 +381,12 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
     
     func hideLoading() {
         self.loadingPanel.isHidden = true
+    }
+    
+    //Calls this function when the tap is recognized.
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        scrollView.endEditing(true)
     }
     
     // MARK: - Picker Delegate
