@@ -494,9 +494,9 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
 //        let preloMessageVC = Bundle.main.loadNibNamed(Tags.XibNamePreloMessage, owner: nil, options: nil)?.first as! PreloMessageViewController
 //        self.navigationController?.pushViewController(preloMessageVC, animated: true)
         
-        // add product share v2
-        let addProductShare2 = Bundle.main.loadNibNamed(Tags.XibNameAddProductShare2, owner: nil, options: nil)?.first as! AddProductShare2ViewController
-        self.navigationController?.pushViewController(addProductShare2, animated: true)
+        // add product share v2 -- OKE
+//        let addProductShare2 = Bundle.main.loadNibNamed(Tags.XibNameAddProductShare2, owner: nil, options: nil)?.first as! AddProductShare2ViewController
+//        self.navigationController?.pushViewController(addProductShare2, animated: true)
     }
     
     func launchFAQ() {

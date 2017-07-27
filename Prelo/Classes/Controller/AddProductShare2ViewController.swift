@@ -45,7 +45,7 @@ class AddProductShare2ViewController: BaseViewController {
     var basePrice : Int64 = 925000
     
     var localId: String = ""
-    var productId: String = ""
+    var productID: String = ""
     var me = CDUser.getOne()
     
     var productImg: String?
@@ -73,6 +73,13 @@ class AddProductShare2ViewController: BaseViewController {
         // init data -> socmeds
         // adapt tbSocmed (data from backend ?)
         self.getSocmedData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.ShareAddedProduct)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -233,8 +240,73 @@ class AddProductShare2ViewController: BaseViewController {
         }
     }
     
+    // btnSend
     @IBAction func btnSellPressed(_ sender: Any) {
+        btnSell.isEnabled = false
         
+        var g = "0", f = "0", t = "0"
+        
+        for i in socmeds {
+            if i.isChecked {
+                if i.name == "Google" {
+                    g = "1"
+                } else if i.name == "Facebook" {
+                    f = "1"
+                } else if i.name == "Twitter" {
+                    t = "1"
+                }
+            }
+        }
+        
+        sendProduct(g, facebook: f, twitter: t)
+    }
+    
+    // after btnSellPressed
+    func sendProduct(_ google : String = "0", facebook : String = "0", twitter : String = "0")
+    {
+        self.sendProductParam["google+"] = google
+        self.sendProductParam["facebook"] = facebook
+        self.sendProductParam["twitter"] = twitter
+        
+        // auto approve
+        if AppTools.isDev && !AppTools.IsPreloProduction {
+            self.sendProductParam["status"] = "1"
+        }
+        
+        // Prelo Analytic - Share Product
+        let loginMethod = User.LoginMethod ?? ""
+        let fb = Int(facebook) ?? 0
+        let tw = Int(twitter) ?? 0
+        let gp = Int(google) ?? 0
+        let pdata = [
+            "Local ID": self.localId,
+            "Product Name" : productName,
+            "Facebook" : fb,
+            "Twitter" : tw,
+            "Google+" : gp
+        ] as [String : Any]
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ShareProduct, data: pdata, previousScreen: self.sendProductBeforeScreen, loginMethod: loginMethod)
+        
+        // Add product to product uploader
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
+            AppDelegate.Instance.produkUploader.addToQueue(ProdukUploader.ProdukLokal(produkParam: self.sendProductParam, produkImages: self.sendProductImages, preloAnalyticParam: pdata as [AnyHashable: Any]))
+            DispatchQueue.main.async(execute: {
+                if (AppDelegate.Instance.produkUploader.getQueue().count > 0) {
+                    
+                    // set state is uploading
+                    CDDraftProduct.setUploading(self.localId, isUploading: true)
+                    
+                    let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let b = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdMyProducts) as! MyProductViewController
+                    self.navigationController?.pushViewController(b, animated: true)
+                } else {
+                    Crashlytics.sharedInstance().recordCustomExceptionName("ProdukUploader", reason: "Empty Queue", frameArray: [])
+                    Constant.showDialog("Warning", message: "Oops, terdapat kesalahan saat mengupload barang kamu.\nMohon coba upload foto utama dan foto merek terlebih dahulu, kemudian tambah foto melalui fitur edit.")
+                    self.btnSell.isEnabled = true
+                }
+            })
+        })
+        return
     }
     
     // MARK: - Other
