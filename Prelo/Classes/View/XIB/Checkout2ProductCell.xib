@@ -37,7 +37,7 @@
                             <constraint firstAttribute="height" constant="60" id="aiV-Gs-bvS"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Product Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sur-mT-9rl">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Product Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sur-mT-9rl">
                         <rect key="frame" x="80" y="9" width="247" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -63,22 +63,31 @@
                             <action selector="btnRemovePressed:" destination="Xg7-Tu-3EX" eventType="touchUpInside" id="zBd-cj-qgP"/>
                         </connections>
                     </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seller Region" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ysn-MB-7Ih">
+                        <rect key="frame" x="80" y="51" width="247" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.85490196080000003" green="0.85490196080000003" blue="0.85490196080000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="9mY-hT-8au" firstAttribute="leading" secondItem="ZBF-xk-1bs" secondAttribute="trailing" constant="8" id="1Xv-xt-kWY"/>
                     <constraint firstItem="sur-mT-9rl" firstAttribute="leading" secondItem="XZ5-Cy-ykk" secondAttribute="trailing" constant="8" id="3A5-SP-RKN"/>
                     <constraint firstItem="Ppx-HA-Lat" firstAttribute="top" secondItem="39o-5e-xyE" secondAttribute="top" id="4pr-D4-gve"/>
                     <constraint firstItem="9mY-hT-8au" firstAttribute="leading" secondItem="sur-mT-9rl" secondAttribute="trailing" constant="8" id="5e4-od-EXF"/>
+                    <constraint firstItem="ysn-MB-7Ih" firstAttribute="top" secondItem="ZBF-xk-1bs" secondAttribute="bottom" constant="4" id="9Kg-98-5Tt"/>
                     <constraint firstItem="XZ5-Cy-ykk" firstAttribute="leading" secondItem="39o-5e-xyE" secondAttribute="leadingMargin" constant="4" id="Oa3-db-SpV"/>
                     <constraint firstItem="Ppx-HA-Lat" firstAttribute="leading" secondItem="39o-5e-xyE" secondAttribute="leading" constant="12" id="TqX-wF-j1d"/>
                     <constraint firstItem="ZBF-xk-1bs" firstAttribute="leading" secondItem="XZ5-Cy-ykk" secondAttribute="trailing" constant="8" id="VMt-vk-efK"/>
                     <constraint firstItem="XZ5-Cy-ykk" firstAttribute="top" secondItem="Ppx-HA-Lat" secondAttribute="bottom" constant="8" id="XGm-Pp-lTO"/>
                     <constraint firstItem="sur-mT-9rl" firstAttribute="top" secondItem="Ppx-HA-Lat" secondAttribute="bottom" constant="8" id="YQT-ZD-vW6"/>
+                    <constraint firstItem="ysn-MB-7Ih" firstAttribute="trailing" secondItem="ZBF-xk-1bs" secondAttribute="trailing" id="eqS-24-RA8"/>
                     <constraint firstAttribute="trailing" secondItem="9mY-hT-8au" secondAttribute="trailing" id="fxc-Xc-eA4"/>
                     <constraint firstItem="ZBF-xk-1bs" firstAttribute="top" secondItem="sur-mT-9rl" secondAttribute="bottom" constant="4" id="inW-ey-ddR"/>
                     <constraint firstAttribute="trailing" secondItem="Ppx-HA-Lat" secondAttribute="trailing" constant="12" id="jPN-9D-Xjr"/>
                     <constraint firstItem="9mY-hT-8au" firstAttribute="top" secondItem="Ppx-HA-Lat" secondAttribute="bottom" id="lKY-2q-iAP"/>
                     <constraint firstItem="ZBF-xk-1bs" firstAttribute="leading" secondItem="XZ5-Cy-ykk" secondAttribute="trailing" constant="8" id="ow3-c8-JDw"/>
+                    <constraint firstItem="ysn-MB-7Ih" firstAttribute="leading" secondItem="ZBF-xk-1bs" secondAttribute="leading" id="xKL-Nd-1cX"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
@@ -86,6 +95,7 @@
                 <outlet property="imgProduct" destination="XZ5-Cy-ykk" id="xsJ-q9-CQW"/>
                 <outlet property="lbProductName" destination="sur-mT-9rl" id="dPP-yf-hYw"/>
                 <outlet property="lbProductPrice" destination="ZBF-xk-1bs" id="bmo-4M-iOt"/>
+                <outlet property="lbSellerRegion" destination="ysn-MB-7Ih" id="WhG-Yb-rxo"/>
                 <outlet property="vwLine1px" destination="Ppx-HA-Lat" id="FYC-ab-PYJ"/>
             </connections>
             <point key="canvasLocation" x="-16.5" y="-26.5"/>

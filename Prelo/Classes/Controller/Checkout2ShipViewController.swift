@@ -1209,6 +1209,7 @@ class Checkout2ProductCell: UITableViewCell {
     @IBOutlet weak var imgProduct: UIImageView!
     @IBOutlet weak var lbProductName: UILabel!
     @IBOutlet weak var lbProductPrice: UILabel!
+    @IBOutlet weak var lbSellerRegion: UILabel!
     @IBOutlet weak var consWidthBtn: NSLayoutConstraint!
     @IBOutlet weak var vwLine1px: UIView!
     
@@ -1224,6 +1225,9 @@ class Checkout2ProductCell: UITableViewCell {
         self.imgProduct.afSetImage(withURL: productDetail.displayPicts[0], withFilter: .fill)
         self.lbProductName.text = productDetail.name
         self.lbProductPrice.text = productDetail.price.asPrice
+        
+        let region = CDRegion.getRegionNameWithID(productDetail.sellerRegionId) ?? "<region not found>"
+        self.lbSellerRegion.text = region
         
         if let err = productDetail.errorMessage {
             self.lbProductPrice.text = err
