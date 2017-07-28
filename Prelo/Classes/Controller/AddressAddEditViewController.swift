@@ -68,7 +68,7 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
         ViewForDoneButtonOnKeyboard.sizeToFit()
         let flex = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let btnDoneOnKeyboard = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneBtnfromKeyboardClicked))
-        ViewForDoneButtonOnKeyboard.items = [flex, btnDoneOnKeyboard]
+        ViewForDoneButtonOnKeyboard.items = [flex, btnDoneOnKeyboard, UIBarButtonItem()]
         txtTelepon.inputAccessoryView = ViewForDoneButtonOnKeyboard
         txtKodePos.inputAccessoryView = ViewForDoneButtonOnKeyboard
     }
