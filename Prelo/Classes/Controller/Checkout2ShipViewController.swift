@@ -1484,34 +1484,15 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
     var isSaveAble: Bool = true
     var isSave: Bool = false
     
-    func setup() {
-        self.lbProvince.text = "Pilih Provinsi"
-        self.lbProvince.textColor = self.placeholderColor
-        
-        self.lbRegion.text = "Pilih Kota/Kabupaten"
-        self.lbRegion.textColor = self.placeholderColor
-        
-        self.lbSubdistrict.text = "Pilih Kecamatan"
-        self.lbSubdistrict.textColor = self.placeholderColor
-        
-        // init default
-        self.isDefault = false
-        self.lbCheckbox.isHidden = false
-        
-        self.btnPickProvince.isEnabled = false
-        self.btnPickRegion.isEnabled = false
-        self.btnPickSubdistric.isEnabled = false
-        
-        self.lbProvincePicker.textColor = self.disableColor
-        self.lbRegionPicker.textColor = self.disableColor
-        self.lbSubdistrictPicker.textColor = self.disableColor
+    override func awakeFromNib() {
+        super.awakeFromNib()
         
         // delegate
         self.txtName.delegate = self
         self.txtPhone.delegate = self
         self.txtAddress.delegate = self
         self.txtPostalCode.delegate = self
-
+        
         // numeric keyboards hack
         let ViewForDoneButtonOnKeyboard = UIToolbar()
         ViewForDoneButtonOnKeyboard.sizeToFit()
@@ -1531,6 +1512,15 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
     override func prepareForReuse() {
         super.prepareForReuse()
         
+        self.lbProvince.text = "Pilih Provinsi"
+        self.lbProvince.textColor = self.placeholderColor
+        
+        self.lbRegion.text = "Pilih Kota/Kabupaten"
+        self.lbRegion.textColor = self.placeholderColor
+        
+        self.lbSubdistrict.text = "Pilih Kecamatan"
+        self.lbSubdistrict.textColor = self.placeholderColor
+        
         self.isSaveAble = true
         self.isDefault = false
         self.isSave = false
@@ -1542,9 +1532,8 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
         } else if parent is Checkout2ViewController {
             self.parent1 = parent as? Checkout2ViewController
         }
-        self.setup()
         
-        // init
+        // init data
         self.txtName.text = address.name
         self.txtPhone.text = address.phone
         if let provinceName = CDProvince.getProvinceNameWithID(address.provinceId), provinceName != "" {
@@ -1562,32 +1551,40 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
         self.txtAddress.text = address.address
         self.txtPostalCode.text = address.postalCode
         
-        // init non-default
-        self.btnPickProvince.isEnabled = true
-        self.btnPickRegion.isEnabled = true
-        self.btnPickSubdistric.isEnabled = true
-        
-        self.lbProvincePicker.textColor = Theme.PrimaryColorDark
-        self.lbRegionPicker.textColor = Theme.PrimaryColorDark
-        self.lbSubdistrictPicker.textColor = Theme.PrimaryColorDark
-        
-        self.switchCheckbox(address.isSave)
-        
-        // new address over book
-        if !isSaveAble {
-            self.isSave = false
-            
-            self.isDefault = true
-            self.isSaveAble = false
-        }
-        
-        // default address
+        // init default address
         if isDefault {
-            self.lbProvince.textColor = self.activeColor
-            self.lbRegion.textColor = self.activeColor
-            self.lbSubdistrict.textColor = self.activeColor
+            // init default
+            self.isDefault = true
+            self.lbCheckbox.isHidden = false
+            self.isSave = true
             
-            self.isDefault = isDefault
+            self.btnPickProvince.isEnabled = false
+            self.btnPickRegion.isEnabled = false
+            self.btnPickSubdistric.isEnabled = false
+            
+            self.lbProvincePicker.textColor = self.disableColor
+            self.lbRegionPicker.textColor = self.disableColor
+            self.lbSubdistrictPicker.textColor = self.disableColor
+            
+        // init non-default
+        } else {
+            self.btnPickProvince.isEnabled = true
+            self.btnPickRegion.isEnabled = true
+            self.btnPickSubdistric.isEnabled = true
+            
+            self.lbProvincePicker.textColor = Theme.PrimaryColorDark
+            self.lbRegionPicker.textColor = Theme.PrimaryColorDark
+            self.lbSubdistrictPicker.textColor = Theme.PrimaryColorDark
+            
+            self.switchCheckbox(address.isSave)
+            
+            // new address over book
+            if !isSaveAble {
+                self.isSave = false
+                
+                self.isDefault = true
+                self.isSaveAble = false
+            }
         }
     }
     
