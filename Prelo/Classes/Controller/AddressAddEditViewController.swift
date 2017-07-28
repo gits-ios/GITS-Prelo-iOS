@@ -51,7 +51,9 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.txtNamaAlamat.delegate = self
+        txtNamaAlamat.delegate = self
+        txtNama.delegate = self
+        txtAlamat.delegate = self
         
         //Looks for single or multiple taps.
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(AddressAddEditViewController.dismissKeyboard))
@@ -60,6 +62,21 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
         //tap.cancelsTouchesInView = false
         
         scrollView.addGestureRecognizer(tap)
+        
+        // numeric keyboards hack
+        let ViewForDoneButtonOnKeyboard = UIToolbar()
+        ViewForDoneButtonOnKeyboard.sizeToFit()
+        let flex = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let btnDoneOnKeyboard = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneBtnfromKeyboardClicked))
+        ViewForDoneButtonOnKeyboard.items = [flex, btnDoneOnKeyboard]
+        txtTelepon.inputAccessoryView = ViewForDoneButtonOnKeyboard
+        txtKodePos.inputAccessoryView = ViewForDoneButtonOnKeyboard
+    }
+    
+    @IBAction func doneBtnfromKeyboardClicked (sender: Any) {
+        print("Done Button Clicked.")
+        //Hide Keyboard by endEditing or Anything you want.
+        self.view.endEditing(true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -425,5 +442,10 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
         } else {
             return true
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
