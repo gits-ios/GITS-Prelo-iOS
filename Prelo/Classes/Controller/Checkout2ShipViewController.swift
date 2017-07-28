@@ -711,11 +711,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                         
                         let isDefault = cartResult.addressBook.count > selectedIndex ? cartResult.addressBook[selectedIndex].id == cartResult.defaultAddress?.id : false
                         
-                        if isDefault {
-                            cell.adapt(cartResult.addressBook[selectedIndex], parent: self)
-                        } else {
-                            cell.adapt(self.selectedAddress, parent: self, isSaveAble: (self.selectedIndex < AddressHelper.maxAddress))
-                        }
+                        cell.adapt(self.selectedAddress, parent: self, isSaveAble: (self.selectedIndex < AddressHelper.maxAddress), isDefault: isDefault)
                         
                         self.scrollToAddress()
                         
@@ -1516,6 +1512,20 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
         self.txtAddress.delegate = self
         self.txtPostalCode.delegate = self
 
+        // numeric keyboards hack
+        let ViewForDoneButtonOnKeyboard = UIToolbar()
+        ViewForDoneButtonOnKeyboard.sizeToFit()
+        let flex = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let btnDoneOnKeyboard = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneBtnfromKeyboardClicked))
+        ViewForDoneButtonOnKeyboard.items = [flex, btnDoneOnKeyboard, UIBarButtonItem()]
+        txtPhone.inputAccessoryView = ViewForDoneButtonOnKeyboard
+        txtPostalCode.inputAccessoryView = ViewForDoneButtonOnKeyboard
+    }
+    
+    @IBAction func doneBtnfromKeyboardClicked (sender: Any) {
+        print("Done Button Clicked.")
+        //Hide Keyboard by endEditing or Anything you want.
+        self.endEditing(true)
     }
     
     override func prepareForReuse() {
@@ -1526,33 +1536,7 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
         self.isSave = false
     }
     
-    // isDefault == true
-    func adapt(_ address: AddressItem, parent: UIViewController) {
-        if parent is Checkout2ShipViewController {
-            self.parent2 = parent as? Checkout2ShipViewController
-        } else if parent is Checkout2ViewController {
-            self.parent1 = parent as? Checkout2ViewController
-        }
-        self.setup()
-        
-        // init
-        self.txtName.text = address.recipientName
-        self.txtPhone.text = address.phone
-        self.lbProvince.text = address.provinceName
-        self.lbRegion.text = address.regionName
-        self.lbSubdistrict.text = address.subdisrictName
-        self.txtAddress.text = address.address
-        self.txtPostalCode.text = address.postalCode
-        
-        self.lbProvince.textColor = self.activeColor
-        self.lbRegion.textColor = self.activeColor
-        self.lbSubdistrict.textColor = self.activeColor
-        
-        self.isDefault = true
-    }
-    
-    // isDefault == false
-    func adapt(_ address: SelectedAddressItem, parent: UIViewController, isSaveAble: Bool) {
+    func adapt(_ address: SelectedAddressItem, parent: UIViewController, isSaveAble: Bool, isDefault: Bool) {
         if parent is Checkout2ShipViewController {
             self.parent2 = parent as? Checkout2ShipViewController
         } else if parent is Checkout2ViewController {
@@ -1589,11 +1573,21 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
         
         self.switchCheckbox(address.isSave)
         
+        // new address over book
         if !isSaveAble {
             self.isSave = false
             
             self.isDefault = true
             self.isSaveAble = false
+        }
+        
+        // default address
+        if isDefault {
+            self.lbProvince.textColor = self.activeColor
+            self.lbRegion.textColor = self.activeColor
+            self.lbSubdistrict.textColor = self.activeColor
+            
+            self.isDefault = isDefault
         }
     }
     
@@ -1779,6 +1773,11 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
                 parent.selectedAddress.postalCode = textField.text!
             }
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
 

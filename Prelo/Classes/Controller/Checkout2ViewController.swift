@@ -1063,11 +1063,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         
                         let isDefault = cartResult.addressBook.count > selectedIndex ? cartResult.addressBook[selectedIndex].id == cartResult.defaultAddress?.id : false
                         
-                        if isDefault {
-                            cell.adapt(cartResult.addressBook[selectedIndex], parent: self)
-                        } else {
-                            cell.adapt(self.selectedAddress, parent: self, isSaveAble: (self.selectedIndex < AddressHelper.maxAddress))
-                        }
+                        cell.adapt(self.selectedAddress, parent: self, isSaveAble: (self.selectedIndex < AddressHelper.maxAddress), isDefault: isDefault)
                         
                         if self.isNeedScroll {
                             self.scrollToAddress()
