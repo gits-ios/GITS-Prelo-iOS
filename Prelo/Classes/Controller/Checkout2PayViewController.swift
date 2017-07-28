@@ -1266,7 +1266,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                         // virtual account
                         if self.paymentMethods[self.selectedPaymentIndex].methodDetail.value == "Permata VA" {
                             // back2 & push
-                            if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                            if let count = self.navigationController?.viewControllers.count, count >= 3 {
                                 let navController = self.navigationController!
                                 var controllers = navController.viewControllers
                                 controllers.removeLast()
@@ -1293,7 +1293,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                         */
                         
                         // back2 & push
-                        if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                        if let count = self.navigationController?.viewControllers.count, count >= 3 {
                             let navController = self.navigationController!
                             var controllers = navController.viewControllers
                             controllers.removeLast()
@@ -1317,7 +1317,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                         */
                         
                         // back2 & push
-                        if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                        if let count = self.navigationController?.viewControllers.count, count >= 3 {
                             let navController = self.navigationController!
                             var controllers = navController.viewControllers
                             controllers.removeLast()
@@ -1354,7 +1354,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                         */
                         
                         // back2 & push
-                        if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                        if let count = self.navigationController?.viewControllers.count, count >= 3 {
                             let navController = self.navigationController!
                             var controllers = navController.viewControllers
                             controllers.removeLast()
@@ -1378,7 +1378,7 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                         */
                         
                         // back2 & push
-                        if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                        if let count = self.navigationController?.viewControllers.count, count >= 3 {
                             let navController = self.navigationController!
                             var controllers = navController.viewControllers
                             controllers.removeLast()
