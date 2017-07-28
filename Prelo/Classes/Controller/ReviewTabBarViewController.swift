@@ -37,12 +37,14 @@ class ReviewTabBarViewController : BaseViewController, CarbonTabSwipeDelegate, R
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print("ini average nya")
+        print(averageBuyer)
+        print(averageSeller)
         reviewAsSellerVC = Bundle.main.loadNibNamed(Tags.XibNameReviewAsSeller, owner: nil, options: nil)?.first as! ReviewAsSellerViewController
-        reviewAsSellerVC?.adapt(averageSeller)
+        //reviewAsSellerVC?.adapt(averageSeller)
         
         reviewAsBuyerVC = Bundle.main.loadNibNamed(Tags.XibNameReviewAsBuyer, owner: nil, options: nil)?.first as! ReviewAsBuyerViewController
-        reviewAsBuyerVC?.adapt(averageBuyer)
+        //reviewAsBuyerVC?.adapt(averageBuyer)
         
         tabSwipe = CarbonTabSwipeNavigation().create(withRootViewController: self, tabNames: ["SEBAGAI PENJUAL" as AnyObject, "SEBAGAI PEMBELI" as AnyObject] as [AnyObject], tintColor: UIColor.white, delegate: self)
         tabSwipe?.addShadow()
@@ -79,8 +81,14 @@ class ReviewTabBarViewController : BaseViewController, CarbonTabSwipeDelegate, R
     override func viewWillAppear(_ animated: Bool) {
         if isNeedReload {
             print("masuk sini kok")
+            print("ini average nya")
+            print(averageBuyer)
+            print(averageSeller)
             reviewAsSellerVC = Bundle.main.loadNibNamed(Tags.XibNameReviewAsSeller, owner: nil, options: nil)?.first as! ReviewAsSellerViewController
-            
+            reviewAsSellerVC?.reload = true
+            reviewAsSellerVC?.averageSeller = averageSeller
+            reviewAsSellerVC?.adapt(averageSeller)
+            reviewAsSellerVC?.tableView.reloadData()
             reviewAsBuyerVC = Bundle.main.loadNibNamed(Tags.XibNameReviewAsBuyer, owner: nil, options: nil)?.first as! ReviewAsBuyerViewController
         }
     }

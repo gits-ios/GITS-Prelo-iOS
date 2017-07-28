@@ -21,6 +21,9 @@ class ReviewAsSellerViewController: BaseViewController, UITableViewDataSource, U
     @IBOutlet weak var averageStar: UILabel!
     @IBOutlet weak var countReview: UILabel!
     
+    var reload = false
+    var averageSeller : Float = 0.0
+    
     var floatRatingView: FloatRatingView!
     
     func adapt(_ star : Float) {
@@ -55,6 +58,12 @@ class ReviewAsSellerViewController: BaseViewController, UITableViewDataSource, U
     override func viewDidLoad() {
         super.viewDidLoad()
         
+    }
+    
+    var first = true
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         print("masuk sini loh lalala")
         // Do any additional setup after loading the view.
         self.lblEmpty.isHidden = false
@@ -71,16 +80,56 @@ class ReviewAsSellerViewController: BaseViewController, UITableViewDataSource, U
         let shopReviewCellNib = UINib(nibName: "ShopReviewCell", bundle: nil)
         tableView.register(shopReviewCellNib, forCellReuseIdentifier: "ShopReviewCell")
         
-    }
-    
-    var first = true
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-     
+        print("masuk sini ga?")
+        print(reload)
+        print(averageSeller)
+        if reload {
+            adapt(averageSeller)
+        }
+
+        print("masuk sini ga2?")
+        print(reload)
+        print(averageSeller)
+        if reload {
+            adapt(averageSeller)
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print("masuk sini ga3?")
+        
+        print("masuk sini loh lalala")
+        // Do any additional setup after loading the view.
+        self.lblEmpty.isHidden = false
+        self.tableView.isHidden = false
+        self.btnRefresh.isHidden = false
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.tableFooterView = UIView()
+        
+        self.getReviewSellers()
+        
+        // Register custom cell
+        let shopReviewCellNib = UINib(nibName: "ShopReviewCell", bundle: nil)
+        tableView.register(shopReviewCellNib, forCellReuseIdentifier: "ShopReviewCell")
+        
+        print("masuk sini ga?")
+        print(reload)
+        print(averageSeller)
+        if reload {
+            adapt(averageSeller)
+        }
+
+        print(reload)
+        print(averageSeller)
+        if reload {
+            adapt(averageSeller)
+        }
     }
     
     
