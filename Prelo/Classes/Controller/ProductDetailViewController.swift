@@ -233,6 +233,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 {
                     self.detail = ProductDetail.instance(JSON(resp.result.value!))
                     
+                    if (self.detail?.isCheckout2Pages)! {
+                        AppTools.switchToSingleCart(false)
+                    } else {
+                        AppTools.switchToSingleCart(true)
+                    }
+                    
                     self.title = self.detail?.name
                     
                     self.activated = (self.detail?.isActive)!
@@ -1050,7 +1056,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 }
             }
         }
-        self.launchAdd2cartPopUp()
+        // popup
+        if (self.detail?.isAddToCart)! {
+            self.launchAdd2cartPopUp()
+        } else {
+            self.addProduct2cart()
+        }
     }
     
     @IBAction func soldPressed(_ sender: AnyObject) {

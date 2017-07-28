@@ -1073,6 +1073,28 @@ open class ProductDetail : NSObject, TawarItem
         return false
     }
     
+    var isCheckout2Pages: Bool {
+        if let j = json["_data"]["ab_test"].array {
+            if j.contains("checkout_2_pages") {
+                return true
+            } else  {
+                return false
+            }
+        }
+        return false
+    }
+    
+    var isAddToCart: Bool {
+        if let j = json["_data"]["ab_test"].array {
+            if j.contains("add_to_cart") {
+                return true
+            } else  {
+                return false
+            }
+        }
+        return false
+    }
+    
     var IsShopClosed : Bool {
         if let j = json["_data"]["seller"]["shop_closed"].bool {
             return j
