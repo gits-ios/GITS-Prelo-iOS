@@ -342,7 +342,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                             image = img
                         }
                     } else { // placeholder image
-                        image = UIImage(named: "placeholder-standar")?.resizeWithWidth(120)
+                        image = UIImage(named: "placeholder-standar-white")?.resizeWithWidth(120)
                     }
                     
                     localProductPrimaryImages.append(image!)
