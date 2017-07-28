@@ -311,13 +311,13 @@ class ChangeShopStatusViewController : BaseViewController{
         formatter.dateFormat = "YYYY-MM-dd"
         date = formatter.string(from: datePicker.date)
         date2 = formatter.string(from: datePicker2.date)
-        var alasanCustom : String? = nil
+        var alasanCustom : String!
         if(selectedIndex==3){
             alasanCustom = txtPengalamanBuruk.text
         } else if(selectedIndex == 6){
             alasanCustom = txtLainnya.text! ?? ""
         }
-        let _ = request(APIMe.closeUsersShop(start_date: date, end_date: date2, reason: selectedIndex-1, custom_reason: alasanCustom)).responseJSON{resp in
+        let _ = request(APIMe.closeUsersShop(start_date: date, end_date: date2, reason: selectedIndex-1, custom_reason: alasanCustom ?? "")).responseJSON{resp in
             if(PreloEndpoints.validate(true, dataResp:resp, reqAlias:"Close Shop")){
                 let formatter = DateFormatter()
                 formatter.dateFormat = "DD/mm/YYYY"

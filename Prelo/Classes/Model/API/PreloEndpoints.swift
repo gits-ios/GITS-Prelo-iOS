@@ -559,7 +559,7 @@ enum APIMe : URLRequestConvertible {
     case setDefaultAddress(addressId: String)
 
     case getUsersShopData(seller_id: String?)
-    case closeUsersShop(start_date: String, end_date: String, reason: Int, custom_reason: String?)
+    case closeUsersShop(start_date: String, end_date: String, reason: Int, custom_reason: String)
     case openUsersShop
     
     public func asURLRequest() throws -> URLRequest {
