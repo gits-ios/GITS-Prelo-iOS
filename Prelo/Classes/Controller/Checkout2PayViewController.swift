@@ -1263,7 +1263,25 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                     webVC.titleString = "Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title)"
                     webVC.creditCardMode = true
                     webVC.ccPaymentSucceed = {
-                        self.navigateToOrderConfirmVC(true)
+                        // virtual account
+                        if self.paymentMethods[self.selectedPaymentIndex].methodDetail.value == "Permata VA" {
+                            // back2 & push
+                            if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                                let navController = self.navigationController!
+                                var controllers = navController.viewControllers
+                                controllers.removeLast()
+                                controllers.removeLast()
+                                
+                                navController.setViewControllers(controllers, animated: false)
+                                
+                                let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                                myPurchaseVC.previousScreen = PageName.Checkout
+                                
+                                navController.pushViewController(myPurchaseVC, animated: true)
+                            }
+                        } else {
+                            self.navigateToOrderConfirmVC(true)
+                        }
                     }
                     webVC.ccPaymentUnfinished = {
                         Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title)", message: "Pembayaran tertunda")
