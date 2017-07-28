@@ -1524,6 +1524,7 @@ class Checkout2AddressFillCell: UITableViewCell, PickerViewDelegate, UITextField
         self.isSaveAble = true
         self.isDefault = false
         self.isSave = false
+        self.lbCheckbox.isHidden = true
     }
     
     func adapt(_ address: SelectedAddressItem, parent: UIViewController, isSaveAble: Bool, isDefault: Bool) {
