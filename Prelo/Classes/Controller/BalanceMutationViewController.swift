@@ -269,6 +269,11 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
         self.navigationController?.pushViewController(t, animated: true)
     }
     
+    @IBAction func topUpPressed(_ sender: Any) {
+        let t = Bundle.main.loadNibNamed(Tags.XibNameTopUp, owner: nil, options: nil)?.first as! TopUpViewController
+        self.navigationController?.pushViewController(t, animated: true)
+    }
+    
     @IBAction func refreshPressed(_ sender: AnyObject) {
         self.refreshTable()
     }

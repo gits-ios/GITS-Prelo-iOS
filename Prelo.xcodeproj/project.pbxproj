@@ -590,6 +590,11 @@
 		58F7DD511D73E90800EF43AC /* ic_free_ongkir_truck.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F7DD501D73E90800EF43AC /* ic_free_ongkir_truck.png */; };
 		58F7DD531D74204B00EF43AC /* rsz_ic_bri@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F7DD521D74204B00EF43AC /* rsz_ic_bri@2x.png */; };
 		58F89DC51D9A2359003A5378 /* login-background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 58F89DC41D9A2359003A5378 /* login-background.jpg */; };
+		58F8C13E1F28998200B24BD7 /* TopUp.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58F8C13D1F28998100B24BD7 /* TopUp.xib */; };
+		58F8C1501F289A4000B24BD7 /* TopUpHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58F8C14F1F289A4000B24BD7 /* TopUpHeaderCell.xib */; };
+		58F8C1521F289C0200B24BD7 /* TopUpAmountCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58F8C1511F289C0200B24BD7 /* TopUpAmountCell.xib */; };
+		58F8C1541F289E2900B24BD7 /* TopUpMethodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58F8C1531F289E2900B24BD7 /* TopUpMethodCell.xib */; };
+		58F8C1561F289EA400B24BD7 /* TopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8C1551F289EA400B24BD7 /* TopUpViewController.swift */; };
 		58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */ = {isa = PBXBuildFile; fileRef = 58FE766E1D34FB9B00D90F27 /* banner_featured.png */; };
 		B2050B4F1F00F4A700E7557B /* ic_checkout_visa.png in Resources */ = {isa = PBXBuildFile; fileRef = B2050B4E1F00F4A700E7557B /* ic_checkout_visa.png */; };
 		B2050B511F00F4C600E7557B /* ic_checkout_cimb_clicks.png in Resources */ = {isa = PBXBuildFile; fileRef = B2050B501F00F4C600E7557B /* ic_checkout_cimb_clicks.png */; };
@@ -1704,6 +1709,11 @@
 		58F7DD521D74204B00EF43AC /* rsz_ic_bri@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rsz_ic_bri@2x.png"; sourceTree = "<group>"; };
 		58F89DC21D9A1A0C003A5378 /* LoginFransiska.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginFransiska.xib; sourceTree = "<group>"; };
 		58F89DC41D9A2359003A5378 /* login-background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "login-background.jpg"; sourceTree = "<group>"; };
+		58F8C13D1F28998100B24BD7 /* TopUp.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TopUp.xib; sourceTree = "<group>"; };
+		58F8C14F1F289A4000B24BD7 /* TopUpHeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TopUpHeaderCell.xib; sourceTree = "<group>"; };
+		58F8C1511F289C0200B24BD7 /* TopUpAmountCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TopUpAmountCell.xib; sourceTree = "<group>"; };
+		58F8C1531F289E2900B24BD7 /* TopUpMethodCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TopUpMethodCell.xib; sourceTree = "<group>"; };
+		58F8C1551F289EA400B24BD7 /* TopUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopUpViewController.swift; sourceTree = "<group>"; };
 		58F91B181CF313CB00943A7A /* ListBrandViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ListBrandViewController2.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		58FE766E1D34FB9B00D90F27 /* banner_featured.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_featured.png; sourceTree = "<group>"; };
 		B2050B4E1F00F4A700E7557B /* ic_checkout_visa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_visa.png; sourceTree = "<group>"; };
@@ -2531,6 +2541,7 @@
 				B2D965EE1E9E3AA400B2C29C /* Checkout2ShipViewController.swift */,
 				B2D965F01E9E3AB600B2C29C /* Checkout2PayViewController.swift */,
 				B2F184CE1E938B92001EEB36 /* GoogleMapViewController.swift */,
+				58F8C1551F289EA400B24BD7 /* TopUpViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -3158,6 +3169,10 @@
 				21156EBB1B8F5B5D001D7842 /* UserProfile.xib */,
 				B21DF5291E5179E5007A60C5 /* UserProfile2.xib */,
 				B2F184CC1E938B76001EEB36 /* GoogleMap.xib */,
+				58F8C13D1F28998100B24BD7 /* TopUp.xib */,
+				58F8C14F1F289A4000B24BD7 /* TopUpHeaderCell.xib */,
+				58F8C1511F289C0200B24BD7 /* TopUpAmountCell.xib */,
+				58F8C1531F289E2900B24BD7 /* TopUpMethodCell.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -3841,6 +3856,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2D965CF1E9DD75700B2C29C /* Checkout2SplitCell.xib in Resources */,
+				58F8C13E1F28998200B24BD7 /* TopUp.xib in Resources */,
 				B2DF6AE01EA8AC280058B59B /* GoogleMaps.bundle in Resources */,
 				2124FFD21BBD2AC000194B8F /* README.txt in Resources */,
 				B2D965D51E9DFF6200B2C29C /* Checkout2AddressLocationCell.xib in Resources */,
@@ -3937,6 +3953,7 @@
 				589A6FBA1D8C08F600654CDD /* ic_ditanggung_pembeli.png in Resources */,
 				21D386A81B6B93CD00D0FA90 /* Default-Portrait.png in Resources */,
 				B2AAB3751E8A6D2000E16BAB /* TransactionReportPopup.xib in Resources */,
+				58F8C1521F289C0200B24BD7 /* TopUpAmountCell.xib in Resources */,
 				B2D965DB1E9E1A9600B2C29C /* Checkout2PaymentMethodCell.xib in Resources */,
 				589A6FC41D8C08F600654CDD /* ic_love.png in Resources */,
 				B26DB3F11E2D3C6F00224675 /* ic_achievement.png in Resources */,
@@ -3952,6 +3969,7 @@
 				58F0A41D1C7C634A002A488F /* cchmrk_pinch.png in Resources */,
 				58DD28DF1DAF367000130B6F /* Info.plist in Resources */,
 				58A223C51C898CB600619518 /* ic_trx_done.png in Resources */,
+				58F8C1501F289A4000B24BD7 /* TopUpHeaderCell.xib in Resources */,
 				B2B6887F1EFA6C95005B5E8A /* ic_checkout_kredivo.png in Resources */,
 				589A6FC61D8C08F600654CDD /* ic_luxury.png in Resources */,
 				B240F4D31E24BBD500DCAFF7 /* Achievement.xib in Resources */,
@@ -4140,6 +4158,7 @@
 				B2D119921E290BF80064045B /* banner_harga.png in Resources */,
 				21E7A7641B9FF2BC00FC9B38 /* LKActivity-Flat.png in Resources */,
 				B2B34BE71E388395001B653F /* ic_exclamation_grey.png in Resources */,
+				58F8C1541F289E2900B24BD7 /* TopUpMethodCell.xib in Resources */,
 				58C431B21CF8138300EB99AE /* InitialMetadata.json in Resources */,
 				5895E86C1C49315400752ACA /* chat-rp.png in Resources */,
 				B2CAF7921E79219E00ACB361 /* Info.plist in Resources */,
@@ -4385,6 +4404,7 @@
 				216345001CC3A855005CBA37 /* MKEmbedMainControllerSegue.swift in Sources */,
 				B2FFCBB11EA52669004F01D0 /* SocketStringReader.swift in Sources */,
 				585887961DBF3309006EC6D5 /* MyPurchaseCompletedViewController.swift in Sources */,
+				58F8C1561F289EA400B24BD7 /* TopUpViewController.swift in Sources */,
 				21679A2C1B901C5300F18F90 /* MPClassDescription.m in Sources */,
 				B2FFCBB51EA52669004F01D0 /* SwiftyJSON.swift in Sources */,
 				B2A834461E7055EB004C575A /* SCLExtensions.swift in Sources */,

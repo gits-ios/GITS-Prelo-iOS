@@ -888,6 +888,7 @@ class Tags : NSObject {
     static let XibNameCheckout2Pay = "Checkout2Pay"
     static let XibNameGoogleMap = "GoogleMap"
     static let XibNameCheckout2 = "Checkout2"
+    static let XibNameTopUp = "TopUp"
 }
 
 class OrderStatus : NSObject {
