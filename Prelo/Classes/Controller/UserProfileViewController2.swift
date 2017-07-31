@@ -890,7 +890,7 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         self.showLoading()
         // use API
         let _ = request(APIMe.getBankAccount).responseJSON { resp in
-            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Rekening List")) {
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Rekening List")) {
                 if let x: AnyObject = resp.result.value as AnyObject? {
                     var json = JSON(x)
                     json = json["_data"]
