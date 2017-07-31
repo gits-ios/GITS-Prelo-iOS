@@ -11,7 +11,7 @@ import CoreData
 import TwitterKit
 import Alamofire
 
-class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, PhoneVerificationDelegate, /*UIAlertViewDelegate,*/ UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, GIDSignInUIDelegate {
+class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, PhoneVerificationDelegate, /*UIAlertViewDelegate,*/ UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, GIDSignInUIDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var scrollView : UIScrollView?
     
@@ -76,6 +76,8 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     var rekening: Array<RekeningItem> = [] // rekeninglist
     var isFirst = true
     
+    // MARK: - Init
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -88,6 +90,8 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         
         // Tampilan loading
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+        
+        fieldNama.delegate = self
         
         GIDSignIn.sharedInstance().uiDelegate = self
     }
@@ -678,6 +682,10 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         
+        if text == "\n" {
+            textView.resignFirstResponder()
+        }
+        
         // Combine the textView text and the replacement text to
         // create the updated text string
         let currentText = textView.text as NSString?
@@ -708,6 +716,8 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         
         return true
     }
+    
+    
     
     // crash
 //    func textViewDidChangeSelection(_ textView: UITextView) {
@@ -800,6 +810,13 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
                 })
             }
         }
+    }
+    
+    // MARK: - Textfield Delegate
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        
+        return true
     }
     
     func simpanDataSucceed(_ json : JSON) {
