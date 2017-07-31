@@ -70,15 +70,17 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     @IBOutlet weak var VwRek: UIView!
     @IBOutlet weak var vwNoRek: UIView!
     @IBOutlet weak var separatorTop: NSLayoutConstraint!
-    @IBOutlet weak var consDaftarRekeningHeight: NSLayoutConstraint!
     
     
     var isNeedReload = false
     var rekening: Array<RekeningItem> = [] // rekeninglist
-    
+    var isFirst = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // get rekening
+        getRekening()
         
         self.title = "Edit Profil"
         setNavBarButtons()
@@ -93,8 +95,11 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        // get rekening
-        getRekening()
+        if !isFirst {
+            // get rekening
+            getRekening()
+        }
+        isFirst = false
         
         // Google Analytics
         GAI.trackPageVisit(PageName.EditProfile)
@@ -865,6 +870,7 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     
     
     func getRekening(){
+        self.showLoading()
         // use API
         let _ = request(APIMe.getBankAccount).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Rekening List")) {
@@ -874,42 +880,34 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
 //                    print("ini json rekening")
 //                    print(json)
                     if let arr = json.array {
-                        if(arr.count != 0){
+                        if arr.count > 0 {
                             for i in 0..<arr.count {
                                 if(arr[i]["is_default"]).boolValue{
-                                    self.vwNoRek.isHidden = true
-                                    self.separatorTop.constant = 40
+                                    self.VwRek.isHidden = false // default unhide
+                                    self.separatorTop.constant = 93 // default 42
                             
-                                    self.consDaftarRekeningHeight.constant = 160
                                     self.lblBank.text = arr[i]["target_bank"].stringValue
                                     self.lblRek.text = arr[i]["account_number"].stringValue
                                     self.lblRekName.text = arr[i]["name"].stringValue
                                     // logo bank
-                                    if(arr[i]["target_bank"] == "BNI"){
+                                    if(arr[i]["target_bank"].stringValue.lowercased().contains("bni")){
                                         self.imgLogoBank.image = UIImage(named:"rsz_ic_bni@2x.png")
-                                    }
-                                    else if(arr[i]["target_bank"] == "BCA"){
+                                    } else if(arr[i]["target_bank"].stringValue.lowercased().contains("bca")){
                                         self.imgLogoBank.image = UIImage(named:"rsz_ic_bca@2x.png")
-                                    } else if(arr[i]["target_bank"] == "BRI"){
+                                    } else if(arr[i]["target_bank"].stringValue.lowercased().contains("bri")){
                                         self.imgLogoBank.image = UIImage(named:"rsz_ic_bri@2x.png")
-                                    } else if(arr[i]["target_bank"] == "MANDIRI"){
+                                    } else if(arr[i]["target_bank"].stringValue.lowercased().contains("mandiri")){
                                         self.imgLogoBank.image = UIImage(named:"rsz_ic_mandiri@2x.png")
+                                    } else {
+                                        self.imgLogoBank.image = nil
                                     }
-                                    break;
+                                    break
                                 }
                             }
-                            self.viewDidLoad()
-                        } else {
-                            self.VwRek.isHidden = true
                         }
                     }
                     self.hideLoading()
                 }
-                
-            } else {
-                
-                self.hideLoading()
-                _ = self.navigationController?.popViewController(animated: true)
             }
         }
         
