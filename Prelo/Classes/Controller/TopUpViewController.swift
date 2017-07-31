@@ -6,14 +6,6 @@
 //  Copyright © 2017 PT Kleo Appara Indonesia. All rights reserved.
 //
 
-//
-//  Checkout2ViewController.swift
-//  Prelo
-//
-//  Created by Djuned on 6/8/17.
-//  Copyright © 2017 PT Kleo Appara Indonesia. All rights reserved.
-//
-
 import Foundation
 import Crashlytics
 import Alamofire
@@ -24,14 +16,15 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     @IBOutlet weak var tableView: UITableView!
     
+    var isFirst = true
+    var shouldBack = false
+    var isLoading = false
+    
     var isShowBankBRI = false
-    var isCreditCard = false
     var isIndomaret = false
+    var isCimbClicks = false
     var isMandiriClickpay = false
     var isMandiriEcash = false
-    var isCimbClicks = false
-    var isKredivo = false
-    var isPermataVa = false
     var isDropdownMode = false
     
     // payment method -> bank etc
@@ -42,6 +35,18 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.setupPaymentAndDiscount()
+        
+        
+        
+        // Setup table
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
+        self.tableView.tableFooterView = UIView()
+        
+        // title
+        self.title = "Top Up"
         
         // init
         _ = PaymentMethodHelper.sharedInstance
@@ -73,10 +78,13 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
         let Checkout2PaymentSummaryCell = UINib(nibName: "Checkout2PaymentSummaryCell", bundle: nil)
         tableView.register(Checkout2PaymentSummaryCell, forCellReuseIdentifier: "Checkout2PaymentSummaryCell")
         
-        let Checkout2PaymentSummaryTotalCell = UINib(nibName: "Checkout2PaymentSummaryTotalCell", bundle: nil)
-        tableView.register(Checkout2PaymentSummaryTotalCell, forCellReuseIdentifier: "Checkout2PaymentSummaryTotalCell")
+        let Checkout2PaymentMethodCell = UINib(nibName: "Checkout2PaymentMethodCell", bundle: nil)
+        tableView.register(Checkout2PaymentMethodCell, forCellReuseIdentifier: "Checkout2PaymentMethodCell")
+        
         let Checkout2SplitCell = UINib(nibName: "Checkout2SplitCell", bundle: nil)
         tableView.register(Checkout2SplitCell, forCellReuseIdentifier: "Checkout2SplitCell")
+        let Checkout2PaymentSummaryTotalCell = UINib(nibName: "Checkout2PaymentSummaryTotalCell", bundle: nil)
+        tableView.register(Checkout2PaymentSummaryTotalCell, forCellReuseIdentifier: "Checkout2PaymentSummaryTotalCell")
 
     }
     
@@ -84,20 +92,81 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
         // reset
         self.paymentMethods = []
         self.isShowBankBRI = false
-        self.isCreditCard = false
         self.isIndomaret = false
+        self.isCimbClicks = false
         self.isMandiriClickpay = false
         self.isMandiriEcash = false
-        self.isCimbClicks = false
-        self.isKredivo = false
-        self.isPermataVa = false
         self.isDropdownMode = false
+        
+        // reset selectedBank
+        if !self.isDropdownMode {
+            self.targetBank = ""
+            
+            // transfer bank
+            var p = PaymentMethodItem()
+            p.methodDetail = .bankTransfer
+            self.paymentMethods.append(p)
+        } else {
+            // transfer bank
+            var p = PaymentMethodItem()
+            p.methodDetail = .bankTransfer
+            self.paymentMethods.append(p)
+        }
+        
+        if self.isIndomaret {
+            var p = PaymentMethodItem()
+            p.methodDetail = .indomaret
+            self.paymentMethods.append(p)
+        }
+        
+        if self.isCimbClicks {
+            var p = PaymentMethodItem()
+            p.methodDetail = .cimbClicks
+            self.paymentMethods.append(p)
+        }
+        
+        if self.isMandiriClickpay {
+            var p = PaymentMethodItem()
+            p.methodDetail = .mandiriClickpay
+            self.paymentMethods.append(p)
+        }
+        
+        if self.isMandiriEcash {
+            var p = PaymentMethodItem()
+            p.methodDetail = .mandiriEcash
+            self.paymentMethods.append(p)
+        }
+        
+        // reset if payment out of range
+        if self.paymentMethods.count <= self.selectedPaymentIndex {
+            self.selectedPaymentIndex = 0
+        }
+        
+        var p = PaymentMethodItem()
+        p.methodDetail = .permataVa
+        self.paymentMethods.append(p)
+        
+        p.methodDetail = .indomaret
+        self.paymentMethods.append(p)
+        
+        p.methodDetail = .cimbClicks
+        self.paymentMethods.append(p)
+        
+        p.methodDetail = .mandiriClickpay
+        self.paymentMethods.append(p)
+        
+        p.methodDetail = .mandiriEcash
+        self.paymentMethods.append(p)
+            
+        print("payment method")
+        print(self.paymentMethods.count)
         
     }
     
+    
     // MARK: - UITableView Delegate
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 15
+        return 14
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let idx = indexPath as IndexPath
@@ -117,36 +186,33 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
             return 44
         }
         if idx.row == 5 {
-            return 120
+            return 80
         }
         if idx.row == 6 {
-            return 60
+            return 35
         }
         if idx.row == 7 {
-            return 60
+            return 35
         }
         if idx.row == 8 {
-            return 60
+            return 35
         }
         if idx.row == 9 {
-            return 60
+            return 35
         }
         if idx.row == 10 {
-            return 60
+            return 35
         }
         if idx.row == 11 {
-            return 60
+            return 44
         }
         if idx.row == 12 {
-            return 60
-        }
-        if idx.row == 13 {
-            return 60
-        }
-        if idx.row == 14 {
             return 100
         }
-        return 60
+        if idx.row == 13 {
+            return 100
+        }
+        return 35
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -175,6 +241,7 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
             let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2PaymentBankCell") as! Checkout2PaymentBankCell
             cell.selectionStyle = .none
             cell.clipsToBounds = true
+            cell.adapt(self.targetBank, paymentMethodItem: self.paymentMethods[0], isSelected: selectedPaymentIndex == 0, parent: self)
             return cell
         }
         if idx.row == 6 {
@@ -183,6 +250,7 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
             cell.selectionStyle = .none
             cell.clipsToBounds = true
             
+            cell.adapt(self.paymentMethods[1], isSelected: selectedPaymentIndex == 1)
             
             return cell
         }
@@ -191,6 +259,8 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
             
             cell.selectionStyle = .none
             cell.clipsToBounds = true
+            
+            cell.adapt(self.paymentMethods[2], isSelected: selectedPaymentIndex == 2)
             
             
             return cell
@@ -201,6 +271,8 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
             cell.selectionStyle = .none
             cell.clipsToBounds = true
             
+            cell.adapt(self.paymentMethods[3], isSelected: selectedPaymentIndex == 3)
+            
             return cell
         }
         if idx.row == 9 {
@@ -209,6 +281,7 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
             cell.selectionStyle = .none
             cell.clipsToBounds = true
             
+            cell.adapt(self.paymentMethods[4], isSelected: selectedPaymentIndex == 4)
             
             return cell
         }
@@ -218,37 +291,52 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
             cell.selectionStyle = .none
             cell.clipsToBounds = true
             
+            cell.adapt(self.paymentMethods[5], isSelected: selectedPaymentIndex == 5)
             
             return cell
         }
         if idx.row == 11 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2PaymentCreditCardCell") as! Checkout2PaymentCreditCardCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2PaymentMethodCell") as! Checkout2PaymentMethodCell
             
             cell.selectionStyle = .none
             cell.clipsToBounds = true
             
+            cell.adapt("RINGKASAN PEMBAYARAN")
             
             return cell
         }
+        
         if idx.row == 12 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2PaymentCreditCardCell") as! Checkout2PaymentCreditCardCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2PaymentSummaryCell") as! Checkout2PaymentSummaryCell
             
             cell.selectionStyle = .none
             cell.clipsToBounds = true
             
+            //cell.adapt("Total Belanja", amount: self.totalAmount)
+            
+            print("payment method nya")
+            print(self.paymentMethods[self.selectedPaymentIndex].methodDetail)
+            if self.paymentMethods[self.selectedPaymentIndex].methodDetail == .bankTransfer {
+                cell.adapt("Total Belanja", amount: 100)
+            } else if self.paymentMethods[self.selectedPaymentIndex].methodDetail == .indomaret {
+                cell.adapt(self.paymentMethods[self.selectedPaymentIndex].methodDetail.chargeDescription, amount: self.paymentMethods[self.selectedPaymentIndex].charge)
+            } else if self.paymentMethods[self.selectedPaymentIndex].methodDetail == .mandiriClickpay {
+                cell.adapt(self.paymentMethods[self.selectedPaymentIndex].methodDetail.chargeDescription, amount: self.paymentMethods[self.selectedPaymentIndex].charge)
+            } else if self.paymentMethods[self.selectedPaymentIndex].methodDetail == .mandiriEcash {
+                cell.adapt(self.paymentMethods[self.selectedPaymentIndex].methodDetail.chargeDescription, amount: self.paymentMethods[self.selectedPaymentIndex].charge)
+            } else if self.paymentMethods[self.selectedPaymentIndex].methodDetail == .cimbClicks {
+                cell.adapt(self.paymentMethods[self.selectedPaymentIndex].methodDetail.chargeDescription, amount: self.paymentMethods[self.selectedPaymentIndex].charge)
+            } else if self.paymentMethods[self.selectedPaymentIndex].methodDetail == .permataVa {
+                cell.adapt(self.paymentMethods[self.selectedPaymentIndex].methodDetail.chargeDescription, amount: self.paymentMethods[self.selectedPaymentIndex].charge)
+            } else {
+                cell.adapt(self.paymentMethods[self.selectedPaymentIndex].methodDetail.chargeDescription, amount: self.paymentMethods[self.selectedPaymentIndex].charge)
+            }
             
             return cell
         }
         if idx.row == 13 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2PaymentCreditCardCell") as! Checkout2PaymentCreditCardCell
+            let cell2 = tableView.dequeueReusableCell(withIdentifier: "TopUpAmountCell") as! TopUpAmountCell
             
-            cell.selectionStyle = .none
-            cell.clipsToBounds = true
-            
-            
-            return cell
-        }
-        if idx.row == 14 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2PaymentSummaryTotalCell") as! Checkout2PaymentSummaryTotalCell
             
             cell.selectionStyle = .none
@@ -256,12 +344,28 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
             
             return cell
         }
+        
         return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let idx = indexPath as IndexPath
+        if(idx.row >= 5 && idx.row <= 10){
+            self.selectedPaymentIndex = idx.row - 5
+            let sec = idx.section
+            let previosIndex = IndexPath.init(row: self.selectedPaymentIndex + 1, section: idx.section)
+            var reloadIdxs: [IndexPath] = [idx, previosIndex]
+            reloadIdxs.append(IndexPath.init(row: 5, section: sec))
+            reloadIdxs.append(IndexPath.init(row: 6, section: sec))
+            reloadIdxs.append(IndexPath.init(row: 7, section: sec))
+            reloadIdxs.append(IndexPath.init(row: 8, section: sec))
+            reloadIdxs.append(IndexPath.init(row: 9, section: sec))
+            reloadIdxs.append(IndexPath.init(row: 10, section: sec))
+            self.tableView.reloadRows(at: reloadIdxs, with: .fade)
+        }
+
     }
+    
 }
 
 // MARK: - Class Cell
