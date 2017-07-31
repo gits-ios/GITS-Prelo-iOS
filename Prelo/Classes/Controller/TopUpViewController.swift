@@ -166,7 +166,7 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     // MARK: - UITableView Delegate
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 14
+        return 15
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let idx = indexPath as IndexPath
@@ -207,9 +207,12 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
             return 44
         }
         if idx.row == 12 {
-            return 100
+            return 40
         }
         if idx.row == 13 {
+            return 40
+        }
+        if idx.row == 14 {
             return 100
         }
         return 35
@@ -227,6 +230,7 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
         }
         if idx.row == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TopUpAmountCell") as! TopUpAmountCell
+            cell.adapt()
             return cell
         }
         if idx.row == 3 {
@@ -307,6 +311,24 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
         }
         
         if idx.row == 12 {
+            let cell2 = tableView.dequeueReusableCell(withIdentifier: "TopUpAmountCell") as! TopUpAmountCell
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2PaymentSummaryCell") as! Checkout2PaymentSummaryCell
+            
+            cell.selectionStyle = .none
+            cell.clipsToBounds = true
+            
+            //cell.adapt("Total Belanja", amount: self.totalAmount)
+            
+            var totalAmount = 0
+            totalAmount = Int(cell2.txtJumlahUang.text!) ?? 0
+            
+            print("payment method nya")
+            print(self.paymentMethods[self.selectedPaymentIndex].methodDetail)
+            cell.adapt("Total Belanja", amount: Int64(totalAmount))
+            return cell
+        }
+        if idx.row == 13 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2PaymentSummaryCell") as! Checkout2PaymentSummaryCell
             
             cell.selectionStyle = .none
@@ -317,7 +339,7 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
             print("payment method nya")
             print(self.paymentMethods[self.selectedPaymentIndex].methodDetail)
             if self.paymentMethods[self.selectedPaymentIndex].methodDetail == .bankTransfer {
-                cell.adapt("Total Belanja", amount: 100)
+                cell.adapt(self.paymentMethods[self.selectedPaymentIndex].methodDetail.chargeDescription, amount: self.paymentMethods[self.selectedPaymentIndex].charge)
             } else if self.paymentMethods[self.selectedPaymentIndex].methodDetail == .indomaret {
                 cell.adapt(self.paymentMethods[self.selectedPaymentIndex].methodDetail.chargeDescription, amount: self.paymentMethods[self.selectedPaymentIndex].charge)
             } else if self.paymentMethods[self.selectedPaymentIndex].methodDetail == .mandiriClickpay {
@@ -334,13 +356,13 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
             
             return cell
         }
-        if idx.row == 13 {
-            let cell2 = tableView.dequeueReusableCell(withIdentifier: "TopUpAmountCell") as! TopUpAmountCell
-            
+        if idx.row == 14 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2PaymentSummaryTotalCell") as! Checkout2PaymentSummaryTotalCell
             
             cell.selectionStyle = .none
             cell.clipsToBounds = true
+            
+            cell.adapt(1000, paymentMethodDescription: "")
             
             return cell
         }
@@ -361,6 +383,7 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
             reloadIdxs.append(IndexPath.init(row: 8, section: sec))
             reloadIdxs.append(IndexPath.init(row: 9, section: sec))
             reloadIdxs.append(IndexPath.init(row: 10, section: sec))
+            reloadIdxs.append(IndexPath.init(row: 13, section: sec))
             self.tableView.reloadRows(at: reloadIdxs, with: .fade)
         }
 
@@ -377,7 +400,12 @@ class TopUpHeaderCell: UITableViewCell {
 class TopUpAmountCell: UITableViewCell {
     @IBOutlet weak var txtJumlahUang: UITextField!
     @IBOutlet weak var lblNotification: UILabel!
-    
+    func adapt(){
+        txtJumlahUang.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+    }
+    func textFieldDidChange(_ textField: UITextField) {
+        
+    }
     
 }
 
