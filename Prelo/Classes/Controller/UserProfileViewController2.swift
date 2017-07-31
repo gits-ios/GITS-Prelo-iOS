@@ -684,6 +684,7 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         
         if text == "\n" {
             textView.resignFirstResponder()
+            return false
         }
         
         // Combine the textView text and the replacement text to
