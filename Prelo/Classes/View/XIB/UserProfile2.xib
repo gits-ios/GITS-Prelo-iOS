@@ -732,7 +732,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GXO-XK-SHQ">
-                                                <rect key="frame" x="0.0" y="34" width="359" height="25"/>
+                                                <rect key="frame" x="0.0" y="34" width="359" height="30"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="- (belum ada no rekening)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F6o-LS-B6M">
                                                         <rect key="frame" x="0.0" y="0.0" width="359" height="17"/>
@@ -746,7 +746,7 @@
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="bottom" secondItem="F6o-LS-B6M" secondAttribute="bottom" constant="8" id="WrI-RJ-shu"/>
+                                                    <constraint firstAttribute="bottom" secondItem="F6o-LS-B6M" secondAttribute="bottom" constant="13" id="WrI-RJ-shu"/>
                                                     <constraint firstAttribute="trailing" secondItem="F6o-LS-B6M" secondAttribute="trailing" id="ai3-tX-gp3"/>
                                                     <constraint firstItem="F6o-LS-B6M" firstAttribute="top" secondItem="GXO-XK-SHQ" secondAttribute="top" id="oan-Oz-pKd"/>
                                                     <constraint firstItem="F6o-LS-B6M" firstAttribute="leading" secondItem="GXO-XK-SHQ" secondAttribute="leading" id="xS4-bD-CsZ"/>
