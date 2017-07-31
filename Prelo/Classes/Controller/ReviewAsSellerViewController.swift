@@ -64,35 +64,10 @@ class ReviewAsSellerViewController: BaseViewController, UITableViewDataSource, U
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        print("masuk sini loh lalala")
-        // Do any additional setup after loading the view.
-        self.lblEmpty.isHidden = false
-        self.tableView.isHidden = false
-        self.btnRefresh.isHidden = false
-        
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.tableFooterView = UIView()
-        
-        self.getReviewSellers()
-        
         // Register custom cell
         let shopReviewCellNib = UINib(nibName: "ShopReviewCell", bundle: nil)
         tableView.register(shopReviewCellNib, forCellReuseIdentifier: "ShopReviewCell")
         
-        print("masuk sini ga?")
-        print(reload)
-        print(averageSeller)
-        if reload {
-            adapt(averageSeller)
-        }
-
-        print("masuk sini ga2?")
-        print(reload)
-        print(averageSeller)
-        if reload {
-            adapt(averageSeller)
-        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -119,12 +94,6 @@ class ReviewAsSellerViewController: BaseViewController, UITableViewDataSource, U
         tableView.register(shopReviewCellNib, forCellReuseIdentifier: "ShopReviewCell")
         
         print("masuk sini ga?")
-        print(reload)
-        print(averageSeller)
-        if reload {
-            adapt(averageSeller)
-        }
-
         print(reload)
         print(averageSeller)
         if reload {
@@ -180,6 +149,7 @@ class ReviewAsSellerViewController: BaseViewController, UITableViewDataSource, U
     }
     
     func getReviewSellers(){
+        self.reviewSellers = []
         self.loadingPanel.isHidden = false
         let _ = request(APIUser.getSellerReviews(id: User.Id!)).responseJSON {resp in
             

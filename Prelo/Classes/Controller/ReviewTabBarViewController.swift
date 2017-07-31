@@ -61,7 +61,19 @@ class ReviewTabBarViewController : BaseViewController, CarbonTabSwipeDelegate, R
         vwLeft.backgroundColor = UIColor.clear
         self.view.addSubview(vwLeft)
         self.view.bringSubview(toFront: vwLeft)
+        
+        self.navigationItem.hidesBackButton = true
+        let newBackButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(ReviewTabBarViewController.back(sender:)))
+        self.navigationItem.leftBarButtonItem = newBackButton
     }
+    
+    func back(sender: UIBarButtonItem) {
+        // Perform your custom actions
+        // ...
+        // Go back to the previous ViewController
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     var first = true
     
     var shouldSkipBack = true
