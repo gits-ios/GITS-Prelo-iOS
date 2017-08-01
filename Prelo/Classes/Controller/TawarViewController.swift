@@ -611,9 +611,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                     //subview.backgroundColor = UIColor.white
                     cell.addSubview(subview)
                 } else {
-                    let attrStr = NSMutableAttributedString(string: "Pastikan kamu bertransaksi 100% aman hanya melalui rekening bersama Prelo. Waspada apabila kamu diminta bertransaksi di luar Prelo, terutama jika terdapat permintaan yang kurang wajar.")
+                    let attrStr = NSMutableAttributedString(string: "Pastikan kamu bertransaksi 100% aman hanya melalui rekening bersama Prelo. Waspada apabila kamu diminta bertransaksi di luar Prelo, terutama jika terdapat permintaan yang kurang wajar. Rekening bersama Prelo atas nama PT. Kleo Appara Indonesia")
                     cell.lblText.attributedText = attrStr
                     cell.lblText.setSubstringColor("rekening bersama Prelo", color: Theme.PrimaryColor)
+                    cell.lblText.setSubstringColor("Rekening bersama Prelo", color: Theme.PrimaryColor)
                 }
             } else { // I am seller
                 let attrStr = NSMutableAttributedString(string: "Klik MARK AS SOLD jika barang sudah dibeli oleh \(self.tawarItem.theirName). Waspada apabila kamu diminta bertransaksi di luar Prelo, terutama jika terdapat permintaan yang kurang wajar.")

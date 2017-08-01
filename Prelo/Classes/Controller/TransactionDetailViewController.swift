@@ -3057,7 +3057,7 @@ class TransactionDetailTools : NSObject {
     static let TextConfirmedPaidBuyer1 = "Pesanan kamu belum dikirim dan akan expired pada "
     static let TextConfirmedPaidBuyer2 = "Ingatkan penjual untuk mengirim pesanan."
     
-    static let refundRejectNoteBuyer = "Catatan:\n1. Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3 x 24 jam sejak status transaksi Diterima.\n2. Klik Laporkan Transaksi ini digunakan apabila resi atau barang yang diterima bermasalah serta bila barang belum kamu terima tetapi status transaksi Diterima.\n3. Jangan lupa untuk me-review penjual jika barang sudah kamu terima.\n4. Jika kamu melakukan Refund ketika laporan sedang diproses, maka laporan otomatis akan dibatalkan."
+    static let refundRejectNoteBuyer = "Catatan:\n1. Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo yang berlangsung selama 3 x 24 jam sejak status transaksi Diterima.\n2. Klik Laporkan Transaksi ini digunakan apabila resi atau barang yang diterima bermasalah serta bila barang belum kamu terima tetapi status transaksi Diterima.\n3. Jangan lupa untuk me-review penjual jika barang sudah kamu terima.\n4. Jika kamu melakukan Refund ketika laporan sedang diproses, maka laporan otomatis akan dibatalkan. \n\nLakukan review hanya jika barang benar-benar sudah diterima."
     static let noteBuyer = "Catatan:\n1. Waktu Jaminan Prelo untuk transaksi ini telah berakhir. Uang pembayaran telah otomatis disalurkan ke penjual.\n2. Segera lakukan review jika barang sudah kamu terima."
     
     static let TextSentSeller = "Pembayaran transaksi ini dilindungi oleh Waktu Jaminan Prelo sejak status transaksi menjadi Diterima. Uang dapat langsung kamu tarik setelah Waktu Jaminan Prelo berakhir atau jika barang telah selesai direview.\n\nIngatkan pembeli untuk memberi review."
@@ -5455,7 +5455,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                         attributedString.addAttributes([NSParagraphStyleAttributeName: paragraphStyle], range: NSMakeRange(0, attributedString.length))
                         
                         let mystr = formattedString
-                        let searchstr = "Waktu Jaminan Prelo|Diterima|Laporkan Transaksi"
+                        let searchstr = "Waktu Jaminan Prelo|Diterima|Laporkan Transaksi|benar-benar sudah diterima"
                         let ranges: [NSRange]
                         
                         do {
@@ -5538,7 +5538,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                         attributedString.addAttributes([NSParagraphStyleAttributeName: paragraphStyle], range: NSMakeRange(0, attributedString.length))
                         
                         let mystr = formattedString
-                        let searchstr = "Waktu Jaminan Prelo|Diterima|Laporkan Transaksi"
+                        let searchstr = "Waktu Jaminan Prelo|Diterima|Laporkan Transaksi|benar-benar sudah diterima"
                         let ranges: [NSRange]
                         
                         do {
