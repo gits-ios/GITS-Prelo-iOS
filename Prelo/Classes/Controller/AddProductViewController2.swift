@@ -224,7 +224,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         txtWeight.isHidden = true
         
-        txtName.delegate = self
+        //txtName.delegate = self
         txtName.placeholder = "mis: iPod 5th Gen"
         txtDescription.placeholder = "Spesifikasi barang (Opsional)\nmis: 32 GB, dark blue, lightning charger"
         
@@ -608,6 +608,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             imgTitleIcons[i].image = imgTitleIcons[i].image!.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
         }
         
+        // MARK: - GESTURE HACK
+        
         // swipe gesture for carbon (pop view)
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
@@ -617,6 +619,27 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         vwLeft.addGestureRecognizer(swipeRight)
         self.view.addSubview(vwLeft)
         self.view.bringSubview(toFront: vwLeft)
+        
+        // MARK: - KEYBOARD HACK
+        
+        // register textfield delegate
+        txtName.delegate = self
+        txtAlasanJual.delegate = self
+        txtSpesial.delegate = self
+        txtDeskripsiCacat.delegate = self
+        txtDescription.delegate = self
+        
+        // textfield btn DONE
+        txtName.returnKeyType = .done
+        txtAlasanJual.returnKeyType = .done
+        txtSpesial.returnKeyType = .done
+        txtDeskripsiCacat.returnKeyType = .done
+        txtDescription.returnKeyType = .done
+        
+        txtName.enablesReturnKeyAutomatically = true
+        txtAlasanJual.enablesReturnKeyAutomatically = true
+        txtSpesial.enablesReturnKeyAutomatically = true
+        txtDeskripsiCacat.enablesReturnKeyAutomatically = true
         
         // numeric keyboards hack
         let ViewForDoneButtonOnKeyboard = UIToolbar()
@@ -1191,6 +1214,15 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
     }
     
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        
+        if text == "\n" {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
+    
     var activeTextview : UITextView?
     func textViewDidBeginEditing(_ textView: UITextView) {
         //print("textViewDidBeginEditing")
@@ -1204,6 +1236,12 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     func textViewDidChange(_ textView: UITextView) {
         growerName?.resizeTextView(withAnimation: false)
         growerDesc?.resizeTextView(withAnimation: false)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        
+        return true
     }
     
     // MARK: - clean memory

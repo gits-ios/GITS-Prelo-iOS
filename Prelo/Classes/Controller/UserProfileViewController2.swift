@@ -28,7 +28,7 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     @IBOutlet weak var lblNoHP: UILabel!
     @IBOutlet weak var lblJenisKelamin: UILabel!
     
-    @IBOutlet weak var fieldTentangShop: UITextView!
+    @IBOutlet weak var fieldTentangShop: SZTextView!
     @IBOutlet weak var fieldTentangShopHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var btnSimpanData: UIButton!
@@ -92,6 +92,9 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
         
         fieldNama.delegate = self
+        
+        fieldTentangShop.placeholder = FldTentangShopPlaceholder
+        fieldTentangShop.fadeTime = 0.2
         
         GIDSignIn.sharedInstance().uiDelegate = self
     }
@@ -207,12 +210,12 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         // About shop
         if (userProfile.desc != nil && userProfile.desc != "") {
             fieldTentangShop.text = userProfile.desc
-            fieldTentangShop.textColor = Theme.GrayDark
-        } else {
+            //fieldTentangShop.textColor = Theme.GrayDark
+        } /*else {
             fieldTentangShop.text = FldTentangShopPlaceholder
             fieldTentangShop.textColor = UIColor.lightGray
             fieldTentangShop.selectedTextRange = fieldTentangShop.textRange(from: fieldTentangShop.beginningOfDocument, to: fieldTentangShop.beginningOfDocument)
-        }
+        }*/
         fieldTentangShop.delegate = self
         
         // Address book
@@ -667,10 +670,10 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     
     func textViewDidChange(_ textView: UITextView) {
         let sizeThatShouldFitTheContent = fieldTentangShop.sizeThatFits(fieldTentangShop.frame.size)
-        ////print("sizeThatShouldFitTheContent.height = \(sizeThatShouldFitTheContent.height)")
+        //print("sizeThatShouldFitTheContent.height = \(sizeThatShouldFitTheContent.height)")
         
         // Update tinggi textview
-        fieldTentangShopHeightConstraint.constant = sizeThatShouldFitTheContent.height
+        fieldTentangShopHeightConstraint.constant = sizeThatShouldFitTheContent.height < 49.5 ? 49.5 : sizeThatShouldFitTheContent.height
     }
     
 //    func textViewDidEndEditing(_ textView: UITextView) {
@@ -687,6 +690,7 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
             return false
         }
         
+        /*
         // Combine the textView text and the replacement text to
         // create the updated text string
         let currentText = textView.text as NSString?
@@ -714,6 +718,7 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
             textView.text = nil
             textView.textColor = UIColor.black
         }
+        */
         
         return true
     }
