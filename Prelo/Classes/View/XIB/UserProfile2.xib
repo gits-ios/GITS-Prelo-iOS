@@ -26,14 +26,14 @@
                 <viewControllerLayoutGuide type="bottom" id="rYB-2j-zLg"/>
             </layoutGuides>
             <view key="view" contentMode="scaleToFill" id="SvX-it-ADI">
-                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                <rect key="frame" x="0.0" y="64" width="375" height="1216"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fwd-Ux-DKf">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="1216"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dNF-CU-kOd" userLabel="Content View">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="1104"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="1114"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sgl-Sw-0oj" userLabel="Separator 1">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="4"/>
@@ -317,7 +317,7 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f6Z-3G-rKS" userLabel="Group Data Diri">
-                                        <rect key="frame" x="8" y="310" width="359" height="208"/>
+                                        <rect key="frame" x="8" y="310" width="359" height="218"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DATA DIRI" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hq3-2r-NKf">
                                                 <rect key="frame" x="0.0" y="0.0" width="359" height="17"/>
@@ -527,19 +527,24 @@
                                                 </variation>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pFn-tM-4Yy" userLabel="Field Tentang Shop">
-                                                <rect key="frame" x="0.0" y="169" width="359" height="31"/>
+                                                <rect key="frame" x="0.0" y="169" width="359" height="41"/>
                                                 <subviews>
-                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t5C-94-zeP">
-                                                        <rect key="frame" x="0.0" y="0.0" width="359" height="23"/>
+                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t5C-94-zeP" customClass="SZTextView">
+                                                        <rect key="frame" x="0.0" y="0.0" width="359" height="33"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="23" id="3mN-Yd-uh3"/>
+                                                            <constraint firstAttribute="height" constant="33" id="bdD-ji-Has"/>
                                                         </constraints>
                                                         <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="fadeTime">
+                                                                <real key="value" value="0.0"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                     </textView>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qnu-9p-0Gk" userLabel="line_1px">
-                                                        <rect key="frame" x="0.0" y="31" width="359" height="0.0"/>
+                                                        <rect key="frame" x="0.0" y="41" width="359" height="0.0"/>
                                                         <color key="backgroundColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" id="9S7-tv-WQH"/>
@@ -577,14 +582,14 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DEW-pw-WYS" userLabel="Separator 2">
-                                        <rect key="frame" x="0.0" y="510" width="375" height="4"/>
+                                        <rect key="frame" x="0.0" y="520" width="375" height="4"/>
                                         <color key="backgroundColor" red="0.86172279789999995" green="0.86172279789999995" blue="0.86172279789999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="4" id="2dK-ta-qDB"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eeW-uS-khR" userLabel="Group Daftar Alamat">
-                                        <rect key="frame" x="8" y="530" width="359" height="193"/>
+                                        <rect key="frame" x="8" y="540" width="359" height="193"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ALAMAT UTAMA" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ofw-1K-twm" userLabel="ALAMAT UTAMA">
                                                 <rect key="frame" x="0.0" y="0.0" width="359" height="17"/>
@@ -713,14 +718,14 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eog-Pr-abg" userLabel="Separator 3">
-                                        <rect key="frame" x="0.0" y="731" width="375" height="4"/>
+                                        <rect key="frame" x="0.0" y="741" width="375" height="4"/>
                                         <color key="backgroundColor" red="0.86172279789999995" green="0.86172279789999995" blue="0.86172279789999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="4" id="0V1-pt-f2p"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m6q-zF-Pav" userLabel="Group Daftar Rekening">
-                                        <rect key="frame" x="8" y="751" width="359" height="100"/>
+                                        <rect key="frame" x="8" y="761" width="359" height="100"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="REKENING BANK UTAMA" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SU3-Zj-rOn" userLabel="REKENING BANK UTAMA">
                                                 <rect key="frame" x="0.0" y="0.0" width="359" height="17"/>
@@ -875,14 +880,14 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VwM-xd-1aD" userLabel="Separator 4">
-                                        <rect key="frame" x="0.0" y="859" width="375" height="4"/>
+                                        <rect key="frame" x="0.0" y="869" width="375" height="4"/>
                                         <color key="backgroundColor" red="0.86172279789999995" green="0.86172279789999995" blue="0.86172279789999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="4" id="3rY-vQ-uxi"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8YU-da-NVS" userLabel="Group Shipping Options">
-                                        <rect key="frame" x="8" y="879" width="359" height="132"/>
+                                        <rect key="frame" x="8" y="889" width="359" height="132"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PILIHAN KURIR" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5nK-ly-Qc5">
                                                 <rect key="frame" x="0.0" y="0.0" width="359" height="17"/>
@@ -922,7 +927,7 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PzZ-cX-2dY">
-                                        <rect key="frame" x="8" y="1032" width="359" height="40"/>
+                                        <rect key="frame" x="8" y="1042" width="359" height="40"/>
                                         <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="m88-Ns-QMB"/>
@@ -992,7 +997,7 @@
                         </variation>
                     </scrollView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CHA-oh-PNi" userLabel="loadingPanel">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="1216"/>
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="kxN-E5-e5J" userLabel="loading">
                                 <rect key="frame" x="177.5" y="25" width="20" height="20"/>
@@ -1028,6 +1033,8 @@
                 </variation>
             </view>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <size key="freeformSize" width="375" height="1280"/>
             <connections>
                 <outlet property="VwRek" destination="j70-Wl-Tj9" id="srk-Ew-wmK"/>
                 <outlet property="btnSimpanData" destination="PzZ-cX-2dY" id="cMM-1J-qmz"/>
@@ -1035,7 +1042,7 @@
                 <outlet property="consHeightShippingOptions" destination="1ac-zP-3VJ" id="S6q-gS-4ZB"/>
                 <outlet property="fieldNama" destination="rQe-D7-AC6" id="dy2-Of-pTj"/>
                 <outlet property="fieldTentangShop" destination="t5C-94-zeP" id="N6g-SS-IBR"/>
-                <outlet property="fieldTentangShopHeightConstraint" destination="3mN-Yd-uh3" id="2VB-bm-S5d"/>
+                <outlet property="fieldTentangShopHeightConstraint" destination="bdD-ji-Has" id="pL5-Mo-TBE"/>
                 <outlet property="imgLogoBank" destination="yz9-hG-4Qb" id="yf2-fY-gVF"/>
                 <outlet property="imgUser" destination="Cdg-o9-kAS" id="nLh-3L-uEr"/>
                 <outlet property="lblAddress" destination="2jI-DQ-Hyq" id="zlv-Ct-KMn"/>
@@ -1062,7 +1069,7 @@
                 <outlet property="vwDaftarRek" destination="AT6-Jz-2Vv" id="31n-U1-dhf"/>
                 <outlet property="vwNoRek" destination="GXO-XK-SHQ" id="nAE-9s-L0a"/>
             </connections>
-            <point key="canvasLocation" x="-504" y="426"/>
+            <point key="canvasLocation" x="-504.5" y="426"/>
         </viewController>
     </objects>
     <resources>
