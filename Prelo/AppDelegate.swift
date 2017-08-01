@@ -1971,6 +1971,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                     }
                 }
                 
+                // Check cart type for init
+                if let j = data["ab_test"].array {
+                    if j.contains("checkout_2_pages") {
+                        AppTools.switchToSingleCart(false)
+                    } else  {
+                        AppTools.switchToSingleCart(true)
+                    }
+                }
+                
                 // Check apps frequency
                 if let frequency = data["ads_config"]["frequency"].int {
                     UserDefaults.standard.set(frequency + 1, forKey: UserDefaultsKey.AdsFrequency)
