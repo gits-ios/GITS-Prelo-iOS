@@ -514,6 +514,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
         if cartResult != nil && cartResult.cartDetails.count > 0 {
             let idx = indexPath as IndexPath
             if ((indexPath as NSIndexPath).section < cartResult.cartDetails.count) {
+                // MARK: - Product Sections
                 if idx.row == 0 {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2CourierCell") as! Checkout2CourierCell
                     
@@ -678,6 +679,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     //}
                 }
             } else if idx.section == cartResult.cartDetails.count {
+                // MARK: - Address Sections
                 if idx.row == 0 {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2AddressDropdownCell") as! Checkout2AddressDropdownCell
                     
@@ -798,6 +800,7 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     }
                 }
             } else if idx.section == cartResult.cartDetails.count + 1 {
+                // MARK: - Subtotal Sections
                 let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2TotalBuyingCell") as! Checkout2TotalBuyingCell
                 
                 cell.selectionStyle = .none

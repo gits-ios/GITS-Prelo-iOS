@@ -923,6 +923,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         if cartResult != nil && cartResult.cartDetails.count > 0 {
             let idx = indexPath as IndexPath
             if idx.section == 0 {
+                // MARK: - Title "RINGKASAN BARANG" Sections
                 if idx.row == 0 {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2PaymentMethodCell") as! Checkout2PaymentMethodCell
                     
@@ -943,6 +944,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     return cell
                 }*/
             } else if ((indexPath as NSIndexPath).section <= cartResult.cartDetails.count) {
+                // MARK: - Product Sections
                 if idx.row == 0 {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2CourierCell") as! Checkout2CourierCell
                     
@@ -1030,6 +1032,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     return cell
                 }
             } else if idx.section == cartResult.cartDetails.count + 2 {
+                // MARK: - Address Sections
                 if idx.row == 0 {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2AddressDropdownCell") as! Checkout2AddressDropdownCell
                     
@@ -1152,6 +1155,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     }
                 }
             } else if idx.section == cartResult.cartDetails.count + 1 {
+                // MARK: - Subtotal Sections
                 if idx.row == 0 {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2TotalBuyingCell") as! Checkout2TotalBuyingCell
                     
@@ -1176,6 +1180,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     return cell
                 }
             } else if idx.section == cartResult.cartDetails.count + 3 {
+                // MARK: - Payment Sections
                 if idx.row == 0 {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2PaymentMethodCell") as! Checkout2PaymentMethodCell
                     
@@ -1205,6 +1210,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     return cell
                 }
             } else if idx.section == cartResult.cartDetails.count + 4 {
+                // MARK: - Balance - Voucher Sections
                 if idx.row == 0 {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2BlackWhiteCell") as! Checkout2BlackWhiteCell
                     
@@ -1220,7 +1226,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     cell.selectionStyle = .none
                     cell.clipsToBounds = true
                     
-                    cell.adapt(self, isUsed: self.isBalanceUsed)
+                    cell.adapt(self.preloBalanceUsed, preloBalanceTotal: self.preloBalanceTotal, isUsed: self.isBalanceUsed)
                     
                     cell.preloBalanceUsed = {
                         self.isBalanceUsed = !self.isBalanceUsed
@@ -1252,11 +1258,65 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         }
                         
                         //self.tableView.reloadData()
-                        self.tableView.reloadRows(at: [idx], with: .fade)
                         self.tableView.reloadSections(IndexSet.init(integer: idx.section+1), with: .fade)
+                        self.tableView.reloadRows(at: [idx], with: .fade)
+                        self.scrollToSummary()
+                    }
+                    
+                    cell.preloBalanceApply = { balanceUsed in
+                        var maksimum = self.totalAmount
+                        for d in self.discountItems {
+                            if d.title != "Prelo Balance" {
+                                maksimum -= d.value
+                            }
+                        }
                         
-                        if self.isBalanceUsed {
-                            self.scrollToSummary()
+                        if maksimum > self.preloBalanceTotal {
+                            maksimum = self.preloBalanceTotal
+                        }
+                        
+                        if let t = balanceUsed {
+                            let _t = t.replacingOccurrences(of: ".", with: "").replace("Rp", template: "")
+                            if _t.int64 <= maksimum && _t.int64 > 0 {
+                                
+                                self.preloBalanceUsed = _t.int64
+                                
+                                var isOke = false
+                                if self.discountItems.count > 0 {
+                                    for i in 0...self.discountItems.count-1 {
+                                        if self.discountItems[i].title == "Prelo Balance" {
+                                            self.discountItems[i].value = self.preloBalanceUsed
+                                            isOke = true
+                                        }
+                                    }
+                                }
+                                
+                                if !isOke {
+                                    var d = DiscountItem()
+                                    d.title = "Prelo Balance"
+                                    d.value = self.preloBalanceUsed
+                                    
+                                    self.discountItems.insert(d, at: 0)
+                                }
+                                
+                                //self.tableView.reloadData()
+                                self.tableView.reloadSections(IndexSet.init(integer: idx.section+1), with: .fade)
+                                self.scrollToSummary()
+                            } else if _t.int64 == 0 {
+                                if self.discountItems.count > 0 && self.discountItems[0].title == "Prelo Balance" {
+                                    self.discountItems.remove(at: 0)
+                                }
+                                self.tableView.reloadSections(IndexSet.init(integer: idx.section+1), with: .fade)
+                                self.scrollToSummary()
+                            } else {
+                                let alertView = SCLAlertView(appearance: Constant.appearance)
+                                alertView.addButton("Oke") { cell.openKeyboard() }
+                                alertView.showCustom("Prelo Balance", subTitle: "Prelo Balance yang dapat digunakan mulai dari Rp0 hingga \(maksimum.asPrice)", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+                            }
+                        } else {
+                            let alertView = SCLAlertView(appearance: Constant.appearance)
+                            alertView.addButton("Oke") { cell.openKeyboard() }
+                            alertView.showCustom("Prelo Balance", subTitle: "Prelo Balance yang dapat digunakan mulai dari Rp0 hingga \(maksimum.asPrice)", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
                         }
                     }
                     
@@ -1305,6 +1365,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     return cell
                 }
             } else if idx.section == cartResult.cartDetails.count + 5 {
+                // MARK: - Summary Sections
                 if idx.row == 0 {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2PaymentMethodCell") as! Checkout2PaymentMethodCell
                     
