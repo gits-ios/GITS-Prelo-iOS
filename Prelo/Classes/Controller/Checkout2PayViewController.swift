@@ -2112,6 +2112,18 @@ class Checkout2PreloBalanceCell: UITableViewCell, UITextFieldDelegate {
     
     var preloBalance: Int64 = 0
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        // numeric keyboards hack
+        let ViewForDoneButtonOnKeyboard = UIToolbar()
+        ViewForDoneButtonOnKeyboard.sizeToFit()
+        let flex = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let btnDoneOnKeyboard = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.btnApplyPressed))
+        ViewForDoneButtonOnKeyboard.items = [flex, btnDoneOnKeyboard, UIBarButtonItem()]
+        txtInputPreloBalance.inputAccessoryView = ViewForDoneButtonOnKeyboard
+    }
+    
     func adapt(_ preloBalanceUsed: Int64, preloBalanceTotal: Int64, isUsed: Bool) {
         self.preloBalance = preloBalanceUsed
         
@@ -2172,13 +2184,19 @@ class Checkout2PreloBalanceCell: UITableViewCell, UITextFieldDelegate {
 }
 
 // MARK: - Class Checkout2VoucherCell
-class Checkout2VoucherCell: UITableViewCell {
+class Checkout2VoucherCell: UITableViewCell, UITextFieldDelegate {
     @IBOutlet weak var btnSwitch: UISwitch!
     @IBOutlet weak var txtInputVoucher: UITextField!
     @IBOutlet weak var btnApply: UIButton!
     
     var voucherUsed: ()->() = {}
     var voucherApply: (String)->() = {_ in }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.txtInputVoucher.delegate = self
+    }
     
     func adapt(_ voucher: String?, isUsed: Bool, isFreeze: Bool) {
         self.txtInputVoucher.text = voucher
@@ -2224,6 +2242,16 @@ class Checkout2VoucherCell: UITableViewCell {
         if (self.txtInputVoucher.text != "") {
             self.voucherApply(self.txtInputVoucher.text!)
         }
+    }
+    
+    // MARK: - delegate
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        
+        if (textField.text != "") {
+            self.voucherApply(textField.text!)
+        }
+        return true
     }
 }
 
