@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
         <array key="Prelo2.ttf">
             <string>Prelo2</string>
+        </array>
+        <array key="PreloAwesome.ttf">
+            <string>PreloAwesome</string>
         </array>
     </customFonts>
     <objects>
@@ -56,13 +59,16 @@
                                     <constraint firstAttribute="bottom" secondItem="v5m-KK-Zh7" secondAttribute="bottom" id="ztT-HQ-jUA"/>
                                 </constraints>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_socmed_facebook.png" translatesAutoresizingMaskIntoConstraints="NO" id="sZZ-8n-M3Q">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="atM-GD-AyH">
                                 <rect key="frame" x="48" y="21" width="20" height="20"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="20" id="5VC-yN-9Vb"/>
-                                    <constraint firstAttribute="height" constant="20" id="O7g-tX-iNk"/>
+                                    <constraint firstAttribute="width" constant="20" id="Svp-bs-i80"/>
+                                    <constraint firstAttribute="height" constant="20" id="lne-IK-SmI"/>
                                 </constraints>
-                            </imageView>
+                                <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="22"/>
+                                <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Google +" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hcq-Ai-vDL">
                                 <rect key="frame" x="76" y="8" width="111.5" height="45.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -78,19 +84,18 @@
                         </subviews>
                         <color key="backgroundColor" red="0.97647058823529409" green="0.97254901960784312" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Hcq-Ai-vDL" firstAttribute="leading" secondItem="sZZ-8n-M3Q" secondAttribute="trailing" constant="8" id="0Q6-4D-GPP"/>
                             <constraint firstItem="dtl-fi-Aqk" firstAttribute="centerY" secondItem="FBd-SZ-hnd" secondAttribute="centerY" id="17t-b4-l9N"/>
-                            <constraint firstItem="sZZ-8n-M3Q" firstAttribute="centerY" secondItem="dtl-fi-Aqk" secondAttribute="centerY" id="2YF-SX-Ljw"/>
+                            <constraint firstItem="Hcq-Ai-vDL" firstAttribute="leading" secondItem="atM-GD-AyH" secondAttribute="trailing" constant="8" id="5iE-a7-NzM"/>
+                            <constraint firstItem="atM-GD-AyH" firstAttribute="leading" secondItem="k68-yf-jKr" secondAttribute="trailing" constant="12" id="AWT-jD-oWD"/>
                             <constraint firstItem="Hcq-Ai-vDL" firstAttribute="centerY" secondItem="dtl-fi-Aqk" secondAttribute="centerY" id="Fnr-ge-P0N"/>
-                            <constraint firstItem="sZZ-8n-M3Q" firstAttribute="leading" secondItem="k68-yf-jKr" secondAttribute="trailing" constant="12" id="Gli-Ge-a0C"/>
                             <constraint firstItem="k68-yf-jKr" firstAttribute="leading" secondItem="FBd-SZ-hnd" secondAttribute="leading" constant="16" id="KRY-lD-7LR"/>
                             <constraint firstItem="Hcq-Ai-vDL" firstAttribute="top" secondItem="FBd-SZ-hnd" secondAttribute="top" constant="8" id="N26-T6-NaP"/>
                             <constraint firstItem="dtl-fi-Aqk" firstAttribute="top" secondItem="FBd-SZ-hnd" secondAttribute="top" constant="8" id="TNe-S5-qJH"/>
                             <constraint firstItem="k68-yf-jKr" firstAttribute="centerY" secondItem="dtl-fi-Aqk" secondAttribute="centerY" id="ZZJ-1O-oJN"/>
                             <constraint firstItem="k68-yf-jKr" firstAttribute="centerY" secondItem="Hcq-Ai-vDL" secondAttribute="centerY" id="gUf-rh-Swc"/>
                             <constraint firstItem="dtl-fi-Aqk" firstAttribute="width" secondItem="FBd-SZ-hnd" secondAttribute="width" multiplier="0.5" id="pny-6M-ysP"/>
+                            <constraint firstItem="atM-GD-AyH" firstAttribute="centerY" secondItem="Hcq-Ai-vDL" secondAttribute="centerY" id="qIh-2i-a8V"/>
                             <constraint firstItem="dtl-fi-Aqk" firstAttribute="leading" secondItem="Hcq-Ai-vDL" secondAttribute="trailing" id="xyl-4w-3gZ"/>
-                            <constraint firstItem="sZZ-8n-M3Q" firstAttribute="centerY" secondItem="k68-yf-jKr" secondAttribute="centerY" id="yaB-6s-7Wu"/>
                             <constraint firstAttribute="trailing" secondItem="dtl-fi-Aqk" secondAttribute="trailing" id="zBp-CW-GlI"/>
                         </constraints>
                     </view>
@@ -103,7 +108,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="imgIcon" destination="sZZ-8n-M3Q" id="ty5-fd-8aL"/>
+                <outlet property="imgIcon" destination="atM-GD-AyH" id="WXv-VD-dU2"/>
                 <outlet property="lbCheckbox" destination="v5m-KK-Zh7" id="tgi-0M-GhA"/>
                 <outlet property="lbPercentage" destination="dtl-fi-Aqk" id="6F3-6K-aJd"/>
                 <outlet property="lbTitle" destination="Hcq-Ai-vDL" id="cCa-nI-FHT"/>
@@ -111,7 +116,4 @@
             <point key="canvasLocation" x="11.5" y="7"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="ic_socmed_facebook.png" width="147" height="109"/>
-    </resources>
 </document>

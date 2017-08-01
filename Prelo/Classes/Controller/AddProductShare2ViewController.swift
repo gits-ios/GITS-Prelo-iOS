@@ -20,7 +20,7 @@ import Alamofire
 // MARK: - Struct
 struct SocmedItem {
     var name: String = "" // Google+, FB, TW
-    var icon: String = "placeholder-standar-white"
+    var icon: String = "" // Google+
     var perc: Double = 0.0 // percentage -> 3%, 4%
     var isChecked: Bool = false
 }
@@ -54,6 +54,8 @@ class AddProductShare2ViewController: BaseViewController {
     var permalink: String!
     var linkToShare: String = AppTools.PreloBaseUrl
     var textToShare: String = ""
+    
+    var mgInstagram : MGInstagram?
     
     var first = true
     var shouldSkipBack = true
@@ -99,9 +101,10 @@ class AddProductShare2ViewController: BaseViewController {
     
     func getSocmedData() {
         self.socmeds = []
-        self.socmeds.append(SocmedItem(name: "Google+", icon: "ic_socmed_path", perc: 3.0, isChecked: false))
-        self.socmeds.append(SocmedItem(name: "Facebook", icon: "ic_socmed_facebook", perc: 4.0, isChecked: false))
-        self.socmeds.append(SocmedItem(name: "Twitter", icon: "ic_socmed_twitter", perc: 3.0, isChecked: false))
+        //self.socmeds.append(SocmedItem(name: "Google+", icon: "", perc: 3.0, isChecked: false))
+        self.socmeds.append(SocmedItem(name: "Instagram", icon: "", perc: 3.0, isChecked: false))
+        self.socmeds.append(SocmedItem(name: "Facebook", icon: "", perc: 4.0, isChecked: false))
+        self.socmeds.append(SocmedItem(name: "Twitter", icon: "", perc: 3.0, isChecked: false))
         
         // TODO: - From backend
         
@@ -161,6 +164,36 @@ class AddProductShare2ViewController: BaseViewController {
             // Google+
             self.socmeds[index].isChecked = !self.socmeds[index].isChecked
             self.hideLoading()
+        } else if (self.socmeds[index].name == "Instagram") {
+            if (UIApplication.shared.canOpenURL(URL(string: "instagram://app")!)) {
+                var hashtags = ""
+                if let categId = sendProductParam["category_id"] {
+                    if let h = CDCategory.getCategoryHashtagsWithID(categId!) {
+                        hashtags = " \(h)"
+                    }
+                }
+                
+                if let img = self.productImgImage {
+                    let instagramSharePreview : InstagramSharePreview = .fromNib()
+                    instagramSharePreview.textToShare.text = "\(self.textToShare)\(hashtags)"
+                    instagramSharePreview.textToShare.layoutIfNeeded()
+                    instagramSharePreview.imgToShare.image = img
+                    instagramSharePreview.copyAndShare = {
+                        UIPasteboard.general.string = "\(self.textToShare)\(hashtags)"
+                        Constant.showDialog("Text sudah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
+                        self.mgInstagram = MGInstagram()
+                        self.mgInstagram?.post(img, withCaption: self.textToShare, in: self.view, delegate: self)
+                        self.socmeds[index].isChecked = !self.socmeds[index].isChecked
+                        instagramSharePreview.removeFromSuperview()
+                    }
+                    instagramSharePreview.frame = CGRect(x: 0, y: -64, width: AppTools.screenWidth, height: AppTools.screenHeight)
+                    self.view.addSubview(instagramSharePreview)
+                } else {
+                    Constant.showDialog("Instagram Share", message: "Oops, terdapat kesalahan saat pemrosesan")
+                }
+            } else {
+                Constant.showDialog("No Instagram app", message: "Silakan install Instagram dari app store terlebih dahulu")
+            }
         } else if (self.socmeds[index].name == "Facebook") {
             self.showLoading()
             
@@ -348,10 +381,31 @@ extension AddProductShare2ViewController: UITableViewDelegate, UITableViewDataSo
     }
 }
 
+extension AddProductShare2ViewController: InstagramLoginDelegate, UIDocumentInteractionControllerDelegate {
+    func instagramLoginFailed() {
+        
+    }
+    
+    func instagramLoginSuccess(_ token: String, id: String, name: String) {
+        
+    }
+    
+    func instagramLoginSuccess(_ token: String) {
+        // API Migrasi
+        let _ = request(APISocmed.storeInstagramToken(token: token)).responseJSON {resp in
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Store Instagram Token")) {
+                
+            } else {
+                // TODO: disable
+            }
+        }
+    }
+}
+
 // MARK: - Cell
 class AddProductShare2Cell: UITableViewCell {
     @IBOutlet weak var lbCheckbox: UILabel! // checked or not
-    @IBOutlet weak var imgIcon: UIImageView! // icon of lbTitle
+    @IBOutlet weak var imgIcon: UILabel! // icon of lbTitle
     @IBOutlet weak var lbTitle: UILabel! // Google+, FB, TW
     @IBOutlet weak var lbPercentage: UILabel! // dynamic -> 3%, 4%, etc
     
@@ -372,19 +426,19 @@ class AddProductShare2Cell: UITableViewCell {
     
     func adapt(_ socmedItem: SocmedItem) {
         self.lbTitle.text = socmedItem.name
-        self.imgIcon.image = UIImage(named: socmedItem.icon)?.withRenderingMode(.alwaysTemplate)
+        self.imgIcon.text = socmedItem.icon
         self.lbPercentage.text = "+ " + socmedItem.perc.roundString + "%"
         
         self.selectionStyle = .none
         
         if socmedItem.isChecked {
             self.lbCheckbox.isHidden = false
-            self.imgIcon.tintColor = Theme.ThemeOrange
+            self.imgIcon.textColor = Theme.ThemeOrange
             self.lbTitle.textColor = Theme.ThemeOrange
             self.lbPercentage.textColor = Theme.ThemeOrange
         } else {
             self.lbCheckbox.isHidden = true
-            self.imgIcon.tintColor = placeholderColor
+            self.imgIcon.textColor = placeholderColor
             self.lbTitle.textColor = placeholderColor
             self.lbPercentage.textColor = placeholderColor
         }
