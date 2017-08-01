@@ -697,28 +697,28 @@
                                                             <action selector="verifikasiIdentitasPressed:" destination="On8-ij-MJD" eventType="touchUpInside" id="Kiu-y6-KPz"/>
                                                         </connections>
                                                     </button>
-                                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SwW-mm-cRG">
-                                                        <rect key="frame" x="116" y="0.0" width="5" height="38"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Exclamation_32px.png" translatesAutoresizingMaskIntoConstraints="NO" id="KVk-q1-5EE">
+                                                        <rect key="frame" x="116" y="7" width="24" height="24"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="24" id="O7E-Tx-jPl"/>
+                                                            <constraint firstAttribute="height" constant="24" id="PgT-c1-DFQ"/>
+                                                        </constraints>
+                                                    </imageView>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
-                                                    <constraint firstItem="SwW-mm-cRG" firstAttribute="top" secondItem="VRN-rw-jSe" secondAttribute="top" id="5AO-JX-pOS"/>
                                                     <constraint firstAttribute="bottom" secondItem="HIt-IE-8Tj" secondAttribute="bottom" constant="8" id="7Nf-AS-5XF"/>
                                                     <constraint firstItem="YLB-XL-bpt" firstAttribute="leading" secondItem="VRN-rw-jSe" secondAttribute="leading" id="9gN-G5-ygk"/>
+                                                    <constraint firstItem="KVk-q1-5EE" firstAttribute="leading" secondItem="HIt-IE-8Tj" secondAttribute="trailing" constant="8" id="9ut-HN-q6x"/>
                                                     <constraint firstAttribute="bottom" secondItem="5VB-OA-FAY" secondAttribute="bottom" id="Bw6-hx-JG9"/>
+                                                    <constraint firstItem="KVk-q1-5EE" firstAttribute="centerY" secondItem="VRN-rw-jSe" secondAttribute="centerY" id="E2Q-K5-dLJ"/>
                                                     <constraint firstItem="5VB-OA-FAY" firstAttribute="leading" secondItem="VRN-rw-jSe" secondAttribute="leading" id="Mdp-uV-tsM"/>
                                                     <constraint firstItem="HIt-IE-8Tj" firstAttribute="top" secondItem="VRN-rw-jSe" secondAttribute="top" constant="9" id="PZ4-11-O3w"/>
                                                     <constraint firstAttribute="bottom" secondItem="YLB-XL-bpt" secondAttribute="bottom" id="bYy-VP-39g"/>
                                                     <constraint firstItem="YLB-XL-bpt" firstAttribute="top" secondItem="VRN-rw-jSe" secondAttribute="top" id="cUu-Nz-5eC"/>
                                                     <constraint firstAttribute="height" constant="38" id="cle-A0-akE"/>
-                                                    <constraint firstAttribute="bottom" secondItem="SwW-mm-cRG" secondAttribute="bottom" id="fRb-6l-liA"/>
                                                     <constraint firstItem="HIt-IE-8Tj" firstAttribute="leading" secondItem="5VB-OA-FAY" secondAttribute="trailing" constant="5" id="sAO-kO-VvU"/>
                                                     <constraint firstAttribute="trailing" secondItem="YLB-XL-bpt" secondAttribute="trailing" id="tPM-Ig-n2e"/>
-                                                    <constraint firstItem="SwW-mm-cRG" firstAttribute="leading" secondItem="HIt-IE-8Tj" secondAttribute="trailing" constant="8" id="uzX-fL-oPL"/>
                                                     <constraint firstItem="5VB-OA-FAY" firstAttribute="top" secondItem="VRN-rw-jSe" secondAttribute="top" id="xBb-nq-Hws"/>
                                                 </constraints>
                                             </view>
@@ -1062,6 +1062,7 @@
                 <outlet property="fieldTentangShop" destination="t5C-94-zeP" id="N6g-SS-IBR"/>
                 <outlet property="fieldTentangShopHeightConstraint" destination="3mN-Yd-uh3" id="2VB-bm-S5d"/>
                 <outlet property="imgUser" destination="Cdg-o9-kAS" id="nLh-3L-uEr"/>
+                <outlet property="imgWarning" destination="KVk-q1-5EE" id="WTW-Xc-29q"/>
                 <outlet property="lblAddress" destination="2jI-DQ-Hyq" id="zlv-Ct-KMn"/>
                 <outlet property="lblAddressName" destination="NSO-ZT-4nM" id="lPA-jH-ZM9"/>
                 <outlet property="lblEmail" destination="hfy-sx-4Yc" id="Wb1-c6-Be2"/>
@@ -1073,7 +1074,6 @@
                 <outlet property="lblRecipientName" destination="91S-7p-ksR" id="ut5-Xj-5Rh"/>
                 <outlet property="lblRegion" destination="kzl-pH-abU" id="JZT-mz-EJ0"/>
                 <outlet property="lblUsername" destination="RlO-Ge-4wt" id="9TT-1z-Dfd"/>
-                <outlet property="lblWarning" destination="SwW-mm-cRG" id="PiU-Qr-gxT"/>
                 <outlet property="loading" destination="kxN-E5-e5J" id="Tsc-pD-pdr"/>
                 <outlet property="loadingPanel" destination="CHA-oh-PNi" id="9az-mA-VWZ"/>
                 <outlet property="scrollView" destination="Fwd-Ux-DKf" id="kLj-XD-ZnU"/>
@@ -1083,6 +1083,7 @@
         </viewController>
     </objects>
     <resources>
+        <image name="Exclamation_32px.png" width="32" height="32"/>
         <image name="ic_socmed_facebook.png" width="147" height="109"/>
         <image name="ic_socmed_twitter.png" width="147" height="109"/>
     </resources>
