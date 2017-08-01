@@ -42,7 +42,7 @@ class AddProductShare2ViewController: BaseViewController {
     
     var socmeds: Array<SocmedItem> = []
     
-    var basePrice : Int64 = 925000
+    var basePrice : Int64 = 0
     
     var localId: String = ""
     var productID: String = ""
@@ -93,6 +93,8 @@ class AddProductShare2ViewController: BaseViewController {
             var m = self.navigationController?.viewControllers
             m?.remove(at: (m?.count)!-2)
             self.navigationController?.viewControllers = m!
+        } else {
+            self.countPercentage()
         }
         
         self.linkToShare = "\(AppTools.PreloBaseUrl)/p/\(self.permalink)"
