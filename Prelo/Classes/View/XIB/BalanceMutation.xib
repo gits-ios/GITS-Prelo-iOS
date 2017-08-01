@@ -24,6 +24,20 @@
                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
+                    <view hidden="YES" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UWa-rw-onf">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="rQx-4U-hmi">
+                                <rect key="frame" x="290" y="258" width="20" height="20"/>
+                                <color key="color" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="rQx-4U-hmi" firstAttribute="centerY" secondItem="UWa-rw-onf" secondAttribute="centerY" id="TqG-Mz-oTp"/>
+                            <constraint firstItem="rQx-4U-hmi" firstAttribute="centerX" secondItem="UWa-rw-onf" secondAttribute="centerX" id="gpv-gw-dXT"/>
+                        </constraints>
+                    </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="08X-Rf-cIO" userLabel="Header">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="190"/>
                         <subviews>
@@ -56,36 +70,101 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GD3-3w-s8u">
                                 <rect key="frame" x="0.0" y="103" width="600" height="45.5"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R49-Bo-w86">
-                                        <rect key="frame" x="80" y="3" width="40" height="40"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RDW-Bo-yjs">
+                                        <rect key="frame" x="8" y="0.0" width="150" height="46"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_cart_white.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ebk-QZ-2jg">
+                                                <rect key="frame" x="8" y="8" width="30" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="lvs-sf-JnE"/>
+                                                    <constraint firstAttribute="width" constant="30" id="qZx-hp-d2W"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5uf-iM-6KW">
+                                                <rect key="frame" x="46" y="12" width="90" height="21"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="Tarik Uang">
+                                                        <attributes>
+                                                            <color key="NSColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <font key="NSFont" size="15" name=".AppleSystemUIFontEmphasized"/>
+                                                            <font key="NSOriginalFont" size="15" name=".AppleSystemUIFontEmphasized"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R49-Bo-w86">
+                                                <rect key="frame" x="0.0" y="0.0" width="150" height="46"/>
+                                                <connections>
+                                                    <action selector="tarikUangPressed:" destination="QFa-tb-gsZ" eventType="touchUpInside" id="fGH-f2-ZAo"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.30620646480000002" green="0.65677493809999998" blue="0.61924308539999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="xH1-pi-2pg"/>
-                                            <constraint firstAttribute="width" constant="40" id="yyz-uU-iJr"/>
+                                            <constraint firstItem="R49-Bo-w86" firstAttribute="leading" secondItem="RDW-Bo-yjs" secondAttribute="leading" id="9L3-bg-rIj"/>
+                                            <constraint firstAttribute="bottom" secondItem="R49-Bo-w86" secondAttribute="bottom" id="g1L-YW-5ZX"/>
+                                            <constraint firstItem="R49-Bo-w86" firstAttribute="top" secondItem="RDW-Bo-yjs" secondAttribute="top" id="nvL-Bz-QfC"/>
+                                            <constraint firstItem="Ebk-QZ-2jg" firstAttribute="leading" secondItem="RDW-Bo-yjs" secondAttribute="leading" constant="8" id="sp4-4j-e1d"/>
+                                            <constraint firstAttribute="bottom" secondItem="Ebk-QZ-2jg" secondAttribute="bottom" constant="8" id="t5d-64-hIv"/>
+                                            <constraint firstAttribute="width" constant="150" id="xxb-54-stW"/>
+                                            <constraint firstAttribute="trailing" secondItem="R49-Bo-w86" secondAttribute="trailing" id="yGd-aR-w4f"/>
+                                            <constraint firstItem="Ebk-QZ-2jg" firstAttribute="top" secondItem="RDW-Bo-yjs" secondAttribute="top" constant="8" id="yRa-GY-Fav"/>
                                         </constraints>
-                                        <state key="normal" image="ic_tarik_uang.png"/>
-                                        <connections>
-                                            <action selector="tarikUangPressed:" destination="QFa-tb-gsZ" eventType="touchUpInside" id="fGH-f2-ZAo"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T0k-2I-po9">
-                                        <rect key="frame" x="480" y="2" width="40" height="40"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pjw-yU-6Tf">
+                                        <rect key="frame" x="442" y="0.0" width="150" height="45"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_trx_paid.png" translatesAutoresizingMaskIntoConstraints="NO" id="fOw-I2-07v">
+                                                <rect key="frame" x="15" y="8" width="30" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="30" id="3kP-Us-JMh"/>
+                                                    <constraint firstAttribute="height" constant="30" id="Vff-EK-S1g"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8K6-se-C0h">
+                                                <rect key="frame" x="57" y="12" width="51" height="21"/>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="Top Up">
+                                                        <attributes>
+                                                            <color key="NSColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <font key="NSFont" size="15" name=".AppleSystemUIFontEmphasized"/>
+                                                            <font key="NSOriginalFont" size="17" name=".AppleSystemUIFontEmphasized"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T0k-2I-po9">
+                                                <rect key="frame" x="0.0" y="0.0" width="136" height="45"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <connections>
+                                                    <action selector="topUpPressed:" destination="QFa-tb-gsZ" eventType="touchUpInside" id="0ro-bv-1dx"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="40" id="Szn-LU-Iwj"/>
-                                            <constraint firstAttribute="height" constant="40" id="UxB-7Q-UuC"/>
+                                            <constraint firstAttribute="bottom" secondItem="fOw-I2-07v" secondAttribute="bottom" constant="7" id="0Q8-CB-BPX"/>
+                                            <constraint firstAttribute="width" constant="150" id="B3B-VA-3bv"/>
+                                            <constraint firstItem="fOw-I2-07v" firstAttribute="leading" secondItem="Pjw-yU-6Tf" secondAttribute="leading" constant="15" id="Pje-Hw-DFl"/>
+                                            <constraint firstItem="8K6-se-C0h" firstAttribute="leading" secondItem="fOw-I2-07v" secondAttribute="trailing" constant="12" id="VQg-9j-5GP"/>
+                                            <constraint firstItem="8K6-se-C0h" firstAttribute="top" secondItem="Pjw-yU-6Tf" secondAttribute="top" constant="12" id="VUg-SH-pEf"/>
+                                            <constraint firstItem="fOw-I2-07v" firstAttribute="top" secondItem="Pjw-yU-6Tf" secondAttribute="top" constant="8" id="lPt-BD-afZ"/>
+                                            <constraint firstAttribute="bottom" secondItem="8K6-se-C0h" secondAttribute="bottom" constant="12" id="so1-aT-4ls"/>
                                         </constraints>
-                                        <state key="normal" title="+"/>
-                                        <connections>
-                                            <action selector="topUpPressed:" destination="QFa-tb-gsZ" eventType="touchUpInside" id="0ro-bv-1dx"/>
-                                        </connections>
-                                    </button>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="R49-Bo-w86" firstAttribute="leading" secondItem="GD3-3w-s8u" secondAttribute="leading" constant="80" id="0Zc-YJ-qa4"/>
-                                    <constraint firstItem="T0k-2I-po9" firstAttribute="centerY" secondItem="GD3-3w-s8u" secondAttribute="centerY" id="fRp-6d-ZuQ"/>
+                                    <constraint firstItem="Pjw-yU-6Tf" firstAttribute="top" secondItem="GD3-3w-s8u" secondAttribute="top" id="99T-lZ-J0B"/>
+                                    <constraint firstAttribute="bottom" secondItem="Pjw-yU-6Tf" secondAttribute="bottom" constant="0.5" id="CRT-x7-faw"/>
+                                    <constraint firstItem="RDW-Bo-yjs" firstAttribute="leading" secondItem="GD3-3w-s8u" secondAttribute="leading" constant="8" id="HfR-lW-3am"/>
                                     <constraint firstAttribute="height" constant="46" id="gfE-Wp-lri"/>
-                                    <constraint firstAttribute="trailing" secondItem="T0k-2I-po9" secondAttribute="trailing" constant="80" id="lBN-kP-r3f"/>
-                                    <constraint firstItem="R49-Bo-w86" firstAttribute="centerY" secondItem="GD3-3w-s8u" secondAttribute="centerY" id="zEA-TY-KgV"/>
+                                    <constraint firstAttribute="bottom" secondItem="RDW-Bo-yjs" secondAttribute="bottom" id="ho9-7n-FVk"/>
+                                    <constraint firstAttribute="trailing" secondItem="Pjw-yU-6Tf" secondAttribute="trailing" constant="8" id="p8A-vv-b2u"/>
+                                    <constraint firstItem="RDW-Bo-yjs" firstAttribute="top" secondItem="GD3-3w-s8u" secondAttribute="top" id="zn9-PZ-Ohm"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LQG-NR-pVz" userLabel="separator">
@@ -247,20 +326,6 @@
                             <constraint firstItem="ZtQ-NP-QSf" firstAttribute="top" secondItem="xq5-6H-hVl" secondAttribute="top" constant="8" id="k2v-Pf-VVK"/>
                         </constraints>
                     </view>
-                    <view hidden="YES" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UWa-rw-onf">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
-                        <subviews>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="rQx-4U-hmi">
-                                <rect key="frame" x="290" y="258" width="20" height="20"/>
-                                <color key="color" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </activityIndicatorView>
-                        </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="rQx-4U-hmi" firstAttribute="centerY" secondItem="UWa-rw-onf" secondAttribute="centerY" id="TqG-Mz-oTp"/>
-                            <constraint firstItem="rQx-4U-hmi" firstAttribute="centerX" secondItem="UWa-rw-onf" secondAttribute="centerX" id="gpv-gw-dXT"/>
-                        </constraints>
-                    </view>
                 </subviews>
                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
@@ -296,6 +361,7 @@
         </viewController>
     </objects>
     <resources>
-        <image name="ic_tarik_uang.png" width="96" height="96"/>
+        <image name="ic_cart_white.png" width="32" height="32"/>
+        <image name="ic_trx_paid.png" width="96" height="96"/>
     </resources>
 </document>
