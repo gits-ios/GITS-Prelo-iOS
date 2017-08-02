@@ -330,6 +330,23 @@ class AnalyticManager: NSObject {
             return false
         }
     }
+    
+    func getCurrentTime() -> String {
+        let formatter = DateFormatter()
+        // initially set the format based on your datepicker date
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss" // add Z if need +0000 , local time
+        
+        let myString = formatter.string(from: Date())
+        // convert your string to date
+        let yourDate = formatter.date(from: myString)
+        //then again set the date format whhich type of output you need
+        //formatter.dateFormat = "dd-MMM-yyyy"
+        // again convert your date to string
+        let myStringafd = formatter.string(from: yourDate!)
+        
+        //print(myStringafd)
+        return myStringafd
+    }
 }
 
 extension Dictionary {
