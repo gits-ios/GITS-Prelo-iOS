@@ -1106,6 +1106,10 @@ class UserDefaultsKey : NSObject {
     static let AdsOffset = "adsoffset"
     static let RefreshTime = "refreshtime"
     static let BankAccounts = "bankaccounts"
+    static let MaxCommisions = "maxcommisions"
+    static let ComTwitter = "commisionstwitter"
+    static let ComFacebook = "commisionsfacebook"
+    static let ComInstagram = "commisionsinstagram"
 }
 
 extension UserDefaults {

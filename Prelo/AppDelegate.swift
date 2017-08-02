@@ -1946,6 +1946,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                     }
                 }
                 
+                // Check apps commisions
+                if let tw = data["commission_share"]["socmed"]["twitter"].int64 {
+                    UserDefaults.standard.set(tw, forKey: UserDefaultsKey.ComTwitter)
+                    
+                    UserDefaults.standard.synchronize()
+                }
+                
+                if let fb = data["commission_share"]["socmed"]["facebook"].int64 {
+                    UserDefaults.standard.set(fb, forKey: UserDefaultsKey.ComFacebook)
+                    
+                    UserDefaults.standard.synchronize()
+                }
+                
+                if let ig = data["commission_share"]["socmed"]["instagram"].int64 {
+                    UserDefaults.standard.set(ig, forKey: UserDefaultsKey.ComInstagram)
+                    
+                    UserDefaults.standard.synchronize()
+                }
+                
+                if let mx = data["commission_share"]["max_commission"].int64 {
+                    UserDefaults.standard.set(mx, forKey: UserDefaultsKey.MaxCommisions)
+                    
+                    UserDefaults.standard.synchronize()
+                }
+                
                 // Check apps frequency
                 if let frequency = data["ads_config"]["frequency"].int {
                     UserDefaults.standard.set(frequency + 1, forKey: UserDefaultsKey.AdsFrequency)

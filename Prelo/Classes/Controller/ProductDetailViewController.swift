@@ -2161,7 +2161,28 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
             self.btnShare?.isHidden = true
             self.socmedBtnSet.isHidden = false
             
-            self.productProfit = 90
+//            let comTwitter = UserDefaults.standard.integer(forKey: UserDefaultsKey.ComTwitter)
+//            let comFacebook = UserDefaults.standard.integer(forKey: UserDefaultsKey.ComFacebook)
+//            let comInstagram = UserDefaults.standard.integer(forKey: UserDefaultsKey.ComInstagram)
+            
+            self.productProfit = 90 // comTwitter + comFacebook + comInstagram
+            
+            for i in 0..<self.lblsBtnTwitter.count {
+                if (self.lblsBtnTwitter[i].text?.contains("+"))! {
+                    self.lblsBtnTwitter[i].text = "+" + UserDefaults.standard.string(forKey: UserDefaultsKey.ComTwitter)! + "%"
+                }
+            }
+            for i in 0..<self.lblsBtnFacebook.count {
+                if (self.lblsBtnFacebook[i].text?.contains("+"))! {
+                    self.lblsBtnFacebook[i].text = "+" + UserDefaults.standard.string(forKey: UserDefaultsKey.ComFacebook)! + "%"
+                }
+            }
+            for i in 0..<self.lblsBtnInstagram.count {
+                if (self.lblsBtnInstagram[i].text?.contains("+"))! {
+                    self.lblsBtnInstagram[i].text = "+" + UserDefaults.standard.string(forKey: UserDefaultsKey.ComInstagram)! + "%"
+                }
+            }
+            
             self.setShareText()
             if (detail!.sharedViaInstagram) {
                 self.sharedViaInstagram()
@@ -2190,7 +2211,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         for i in 0...lblsBtnInstagram.count - 1 {
             lblsBtnInstagram[i].textColor = Theme.PrimaryColor
         }
-        productProfit += 3
+        productProfit += UserDefaults.standard.integer(forKey: UserDefaultsKey.ComInstagram)
         
         self.setShareText()
     }
@@ -2201,7 +2222,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         for i in 0...lblsBtnFacebook.count - 1 {
             lblsBtnFacebook[i].textColor = Theme.PrimaryColor
         }
-        productProfit += 4
+        productProfit += UserDefaults.standard.integer(forKey: UserDefaultsKey.ComFacebook)
         
         self.setShareText()
     }
@@ -2212,7 +2233,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         for i in 0...lblsBtnTwitter.count - 1 {
             lblsBtnTwitter[i].textColor = Theme.PrimaryColor
         }
-        productProfit += 3
+        productProfit += UserDefaults.standard.integer(forKey: UserDefaultsKey.ComTwitter)
         
         self.setShareText()
     }

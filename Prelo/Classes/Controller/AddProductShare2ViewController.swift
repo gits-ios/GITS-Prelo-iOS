@@ -1,5 +1,5 @@
 //
-//  AddProductShare2ViewController.swift
+//  AddProductShareViewController2.swift
 //  Prelo
 //
 //  Created by Djuned on 7/11/17.
@@ -26,9 +26,10 @@ struct SocmedItem {
 }
 
 // MARK: - Class
-class AddProductShare2ViewController: BaseViewController {
+class AddProductShareViewController2: BaseViewController {
     @IBOutlet weak var lbPrice: UILabel! // eq. captionPrice
     @IBOutlet weak var lbCharge: UILabel! // eq. captionCharge
+    @IBOutlet weak var lbMaxCommisions: UILabel!
     @IBOutlet weak var tbSocmed: UITableView!
     @IBOutlet weak var consHeightTbSocmed: NSLayoutConstraint!
     @IBOutlet weak var lbPercentage: UILabel! // eq. captionChargePercent
@@ -60,6 +61,9 @@ class AddProductShare2ViewController: BaseViewController {
     var first = true
     var shouldSkipBack = true
     
+    var commisions = 10.0
+    var maxCommisions = 200000.0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -71,6 +75,13 @@ class AddProductShare2ViewController: BaseViewController {
         self.tbSocmed.register(AddProductShare2Cell, forCellReuseIdentifier: "AddProductShare2Cell")
         
         self.title = "Kesempatan Terbatas"
+        
+        let maxCommisions = UserDefaults.standard.double(forKey: UserDefaultsKey.MaxCommisions)
+        if maxCommisions > 0 {
+            self.maxCommisions = maxCommisions
+        }
+        
+        self.lbMaxCommisions.text = "Maksimal Charge Prelo sebesar " + Int(self.maxCommisions).asPrice
         
         // init data -> socmeds
         // adapt tbSocmed (data from backend ?)
@@ -102,13 +113,17 @@ class AddProductShare2ViewController: BaseViewController {
     }
     
     func getSocmedData() {
+        let comTwitter = UserDefaults.standard.double(forKey: UserDefaultsKey.ComTwitter)
+        let comFacebook = UserDefaults.standard.double(forKey: UserDefaultsKey.ComFacebook)
+        let comInstagram = UserDefaults.standard.double(forKey: UserDefaultsKey.ComInstagram)
+        
+        //self.commisions = comTwitter + comFacebook + comInstagram // 10
+        
         self.socmeds = []
         //self.socmeds.append(SocmedItem(name: "Google+", icon: "", perc: 3.0, isChecked: false))
-        self.socmeds.append(SocmedItem(name: "Instagram", icon: "", perc: 3.0, isChecked: false))
-        self.socmeds.append(SocmedItem(name: "Facebook", icon: "", perc: 4.0, isChecked: false))
-        self.socmeds.append(SocmedItem(name: "Twitter", icon: "", perc: 3.0, isChecked: false))
-        
-        // TODO: - From backend
+        self.socmeds.append(SocmedItem(name: "Instagram", icon: "", perc: comInstagram, isChecked: false))
+        self.socmeds.append(SocmedItem(name: "Facebook", icon: "", perc: comFacebook, isChecked: false))
+        self.socmeds.append(SocmedItem(name: "Twitter", icon: "", perc: comTwitter, isChecked: false))
         
         self.setupSocmed()
     }
@@ -134,15 +149,19 @@ class AddProductShare2ViewController: BaseViewController {
         var charge = 0.0
         var attString = NSMutableAttributedString()
         
+        var selisih = self.commisions
+        
         for socmedItem in socmeds {
             if !socmedItem.isChecked {
                 p += socmedItem.perc
             }
+            selisih -= socmedItem.perc
         }
+        p += selisih
         if p > 0.0 {
             charge = Double(basePrice) * p / 100.0
-            if charge > 200000.0 {
-                charge = 200000.0
+            if charge > maxCommisions {
+                charge = maxCommisions
             }
             percentage += Int64(charge).asPrice + " (" + p.roundString + "%)"
             attString = NSMutableAttributedString(string: percentage)
@@ -159,147 +178,166 @@ class AddProductShare2ViewController: BaseViewController {
     }
     
     // MARK: - button action
-    func setSelectShare(_ index: Int) {
+    func setSelectShare(_ indexPath: IndexPath) {
+        
+        let index = indexPath.row
+        
         self.btnSell.setTitle("Loading..", for: UIControlState.disabled)
         
-        if (self.socmeds[index].name == "Google+") {
-            // Google+
-            self.socmeds[index].isChecked = !self.socmeds[index].isChecked
-            self.hideLoading()
-        } else if (self.socmeds[index].name == "Instagram") {
-            if (UIApplication.shared.canOpenURL(URL(string: "instagram://app")!)) {
-                var hashtags = ""
-                if let categId = sendProductParam["category_id"] {
-                    if let h = CDCategory.getCategoryHashtagsWithID(categId!) {
-                        hashtags = " \(h)"
-                    }
-                }
-                
-                if let img = self.productImgImage {
-                    let instagramSharePreview : InstagramSharePreview = .fromNib()
-                    instagramSharePreview.textToShare.text = "\(self.textToShare)\(hashtags)"
-                    instagramSharePreview.textToShare.layoutIfNeeded()
-                    instagramSharePreview.imgToShare.image = img
-                    instagramSharePreview.copyAndShare = {
-                        UIPasteboard.general.string = "\(self.textToShare)\(hashtags)"
-                        Constant.showDialog("Text sudah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
-                        self.mgInstagram = MGInstagram()
-                        self.mgInstagram?.post(img, withCaption: self.textToShare, in: self.view, delegate: self)
-                        self.socmeds[index].isChecked = !self.socmeds[index].isChecked
-                        instagramSharePreview.removeFromSuperview()
-                    }
-                    instagramSharePreview.frame = CGRect(x: 0, y: -64, width: AppTools.screenWidth, height: AppTools.screenHeight)
-                    self.view.addSubview(instagramSharePreview)
-                } else {
-                    Constant.showDialog("Instagram Share", message: "Oops, terdapat kesalahan saat pemrosesan")
-                }
-            } else {
-                Constant.showDialog("No Instagram app", message: "Silakan install Instagram dari app store terlebih dahulu")
-            }
-        } else if (self.socmeds[index].name == "Facebook") {
+        if !self.socmeds[index].isChecked { // Akan mengaktifkan tombol share
             self.showLoading()
-            
-            if (FBSDKAccessToken.current() != nil && FBSDKAccessToken.current().permissions.contains("publish_actions")) {
-                self.socmeds[index].isChecked = !self.socmeds[index].isChecked
+            if (self.socmeds[index].name == "Google+") {
+                // Google+
+                self.updateButton(indexPath)
                 self.hideLoading()
-            } else {
-                let p = ["sender" : self]
-                LoginViewController.LoginWithFacebook(p, onFinish: { result in
-                    // Handle Profile Photo URL String
-                    let userId =  result["id"] as? String
-                    let name = result["name"] as? String
-                    let accessToken = FBSDKAccessToken.current().tokenString
+            } else if (self.socmeds[index].name == "Instagram") {
+                if (UIApplication.shared.canOpenURL(URL(string: "instagram://app")!)) {
+                    var hashtags = ""
+                    if let categId = sendProductParam["category_id"] {
+                        if let h = CDCategory.getCategoryHashtagsWithID(categId!) {
+                            hashtags = " \(h)"
+                        }
+                    }
                     
-                    //print("result = \(result)")
-                    //print("accessToken = \(accessToken)")
-                    
-                    // userId & name is required
-                    if (userId != nil && name != nil) {
-                        // API Migrasi
-                        let _ = request(APISocmed.postFacebookData(id: userId!, username: name!, token: accessToken!)).responseJSON {resp in
-                            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Facebook")) {
+                    if let img = self.productImgImage {
+                        let instagramSharePreview : InstagramSharePreview = .fromNib()
+                        instagramSharePreview.textToShare.text = "\(self.textToShare)\(hashtags)"
+                        instagramSharePreview.textToShare.layoutIfNeeded()
+                        instagramSharePreview.imgToShare.image = img
+                        instagramSharePreview.copyAndShare = {
+                            UIPasteboard.general.string = "\(self.textToShare)\(hashtags)"
+                            Constant.showDialog("Text sudah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
+                            self.mgInstagram = MGInstagram()
+                            self.mgInstagram?.post(img, withCaption: self.textToShare, in: self.view, delegate: self)
+                            
+                            self.updateButton(indexPath)
+                            self.hideLoading()
+                            instagramSharePreview.removeFromSuperview()
+                        }
+                        instagramSharePreview.frame = CGRect(x: 0, y: -64, width: AppTools.screenWidth, height: AppTools.screenHeight)
+                        self.view.addSubview(instagramSharePreview)
+                    } else {
+                        Constant.showDialog("Instagram Share", message: "Oops, terdapat kesalahan saat pemrosesan")
+                        self.hideLoading()
+                    }
+                } else {
+                    Constant.showDialog("No Instagram app", message: "Silakan install Instagram dari app store terlebih dahulu")
+                    self.hideLoading()
+                }
+            } else if (self.socmeds[index].name == "Facebook") {
+                if (FBSDKAccessToken.current() != nil && FBSDKAccessToken.current().permissions.contains("publish_actions")) {
+                    self.updateButton(indexPath)
+                    self.hideLoading()
+                } else {
+                    let p = ["sender" : self]
+                    LoginViewController.LoginWithFacebook(p, onFinish: { result in
+                        // Handle Profile Photo URL String
+                        let userId =  result["id"] as? String
+                        let name = result["name"] as? String
+                        let accessToken = FBSDKAccessToken.current().tokenString
+                        
+                        //print("result = \(result)")
+                        //print("accessToken = \(accessToken)")
+                        
+                        // userId & name is required
+                        if (userId != nil && name != nil) {
+                            // API Migrasi
+                            let _ = request(APISocmed.postFacebookData(id: userId!, username: name!, token: accessToken!)).responseJSON {resp in
+                                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Facebook")) {
+                                    
+                                    // Save in core data
+                                    let userOther : CDUserOther = CDUserOther.getOne()!
+                                    userOther.fbID = userId
+                                    userOther.fbUsername = name
+                                    userOther.fbAccessToken = accessToken
+                                    UIApplication.appDelegate.saveContext()
+                                    
+                                    self.updateButton(indexPath)
+                                    self.hideLoading()
+                                } else {
+                                    LoginViewController.LoginFacebookCancelled(self, reason: "Terdapat kesalahan saat menyimpan data Facebook")
+                                }
+                            }
+                        } else {
+                            LoginViewController.LoginFacebookCancelled(self, reason: "Terdapat kesalahan data saat login Facebook")
+                        }
+                    })
+                }
+            } else if (self.socmeds[index].name == "Twitter") {
+                if (User.IsLoggedInTwitter) {
+                    self.updateButton(indexPath)
+                    self.hideLoading()
+                } else {
+                    let p = ["sender" : self]
+                    LoginViewController.LoginWithTwitter(p, onFinish: { result in
+                        guard let twId = result["twId"] as? String,
+                            let twUsername = result["twUsername"] as? String,
+                            let twToken = result["twToken"] as? String,
+                            let twSecret = result["twSecret"] as? String else {
+                                LoginViewController.LoginTwitterCancelled(self, reason: "Terdapat kesalahan saat memproses data Twitter")
+                                return
+                        }
+                        
+                        let _ = request(APISocmed.postTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { resp in
+                            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Twitter")) {
                                 
                                 // Save in core data
-                                let userOther : CDUserOther = CDUserOther.getOne()!
-                                userOther.fbID = userId
-                                userOther.fbUsername = name
-                                userOther.fbAccessToken = accessToken
-                                UIApplication.appDelegate.saveContext()
-                                self.socmeds[index].isChecked = !self.socmeds[index].isChecked
+                                if let userOther : CDUserOther = CDUserOther.getOne() {
+                                    userOther.twitterID = twId
+                                    userOther.twitterUsername = twUsername
+                                    userOther.twitterAccessToken = twToken
+                                    userOther.twitterTokenSecret = twSecret
+                                    UIApplication.appDelegate.saveContext()
+                                }
+                                
+                                self.updateButton(indexPath)
                                 self.hideLoading()
                             } else {
-                                LoginViewController.LoginFacebookCancelled(self, reason: "Terdapat kesalahan saat menyimpan data Facebook")
+                                LoginViewController.LoginTwitterCancelled(self, reason: "Terdapat kesalahan saat menyimpan data Twitter")
                             }
                         }
-                    } else {
-                        LoginViewController.LoginFacebookCancelled(self, reason: "Terdapat kesalahan data saat login Facebook")
-                    }
-                })
+                    })
+                }
             }
-        } else if (self.socmeds[index].name == "Twitter") {
-            self.showLoading()
-            
-            if (User.IsLoggedInTwitter) {
-                self.socmeds[index].isChecked = !self.socmeds[index].isChecked
-                self.hideLoading()
-            } else {
-                let p = ["sender" : self]
-                LoginViewController.LoginWithTwitter(p, onFinish: { result in
-                    guard let twId = result["twId"] as? String,
-                        let twUsername = result["twUsername"] as? String,
-                        let twToken = result["twToken"] as? String,
-                        let twSecret = result["twSecret"] as? String else {
-                            LoginViewController.LoginTwitterCancelled(self, reason: "Terdapat kesalahan saat memproses data Twitter")
-                            return
-                    }
-                    
-                    let _ = request(APISocmed.postTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { resp in
-                        if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Twitter")) {
-                            
-                            // Save in core data
-                            if let userOther : CDUserOther = CDUserOther.getOne() {
-                                userOther.twitterID = twId
-                                userOther.twitterUsername = twUsername
-                                userOther.twitterAccessToken = twToken
-                                userOther.twitterTokenSecret = twSecret
-                                UIApplication.appDelegate.saveContext()
-                            }
-                            self.socmeds[index].isChecked = !self.socmeds[index].isChecked
-                            self.hideLoading()
-                        } else {
-                            LoginViewController.LoginTwitterCancelled(self, reason: "Terdapat kesalahan saat menyimpan data Twitter")
-                        }
-                    }
-                })
-            }
+        } else { // Akan menonaktifkan tombol share
+            self.updateButton(indexPath)
         }
+    }
+    
+    func updateButton(_ indexPath: IndexPath) {
+        self.socmeds[indexPath.row].isChecked = !self.socmeds[indexPath.row].isChecked
+        self.tbSocmed.reloadRows(at: [indexPath], with: .fade)
+        self.countPercentage()
     }
     
     // btnSend
     @IBAction func btnSellPressed(_ sender: Any) {
         btnSell.isEnabled = false
         
-        var g = "0", f = "0", t = "0"
+        var g = "0", i = "0", f = "0", t = "0"
         
-        for i in socmeds {
-            if i.isChecked {
-                if i.name == "Google" {
+        for s in socmeds {
+            if s.isChecked {
+                if s.name == "Google+" {
                     g = "1"
-                } else if i.name == "Facebook" {
+                } else if s.name == "Instagram" {
+                    i = "1"
+                } else if s.name == "Facebook" {
                     f = "1"
-                } else if i.name == "Twitter" {
+                } else if s.name == "Twitter" {
                     t = "1"
                 }
             }
         }
         
-        sendProduct(g, facebook: f, twitter: t)
+        sendProduct(g, instagram: i, facebook: f, twitter: t)
     }
     
     // after btnSellPressed
-    func sendProduct(_ google : String = "0", facebook : String = "0", twitter : String = "0")
+    func sendProduct(_ google : String = "0", instagram : String = "0", facebook : String = "0", twitter : String = "0")
     {
         self.sendProductParam["google+"] = google
+        self.sendProductParam["instagram"] = instagram
         self.sendProductParam["facebook"] = facebook
         self.sendProductParam["twitter"] = twitter
         
@@ -310,12 +348,14 @@ class AddProductShare2ViewController: BaseViewController {
         
         // Prelo Analytic - Share Product
         let loginMethod = User.LoginMethod ?? ""
+        let ig = Int(instagram) ?? 0
         let fb = Int(facebook) ?? 0
         let tw = Int(twitter) ?? 0
         let gp = Int(google) ?? 0
         let pdata = [
             "Local ID": self.localId,
             "Product Name" : productName,
+            "Instagram" : ig,
             "Facebook" : fb,
             "Twitter" : tw,
             "Google+" : gp
@@ -337,7 +377,6 @@ class AddProductShare2ViewController: BaseViewController {
                 } else {
                     Crashlytics.sharedInstance().recordCustomExceptionName("ProdukUploader", reason: "Empty Queue", frameArray: [])
                     Constant.showDialog("Warning", message: "Oops, terdapat kesalahan saat mengupload barang kamu.\nMohon coba upload foto utama dan foto merek terlebih dahulu, kemudian tambah foto melalui fitur edit.")
-                    self.btnSell.isEnabled = true
                 }
             })
         })
@@ -347,15 +386,17 @@ class AddProductShare2ViewController: BaseViewController {
     // MARK: - Other
     func showLoading() {
         self.vwLoading.isHidden = false
+        self.btnSell.isEnabled = false
     }
     
     func hideLoading() {
         self.vwLoading.isHidden = true
+        self.btnSell.isEnabled = true
     }
 }
 
 // MARK: - TableView Delegate
-extension AddProductShare2ViewController: UITableViewDelegate, UITableViewDataSource {
+extension AddProductShareViewController2: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.socmeds.count
     }
@@ -373,17 +414,11 @@ extension AddProductShare2ViewController: UITableViewDelegate, UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.btnSell.isEnabled = false
-        self.setSelectShare(indexPath.row)
-        self.btnSell.isEnabled = true
-        self.tbSocmed.reloadRows(at: [indexPath], with: .fade)
-        self.hideLoading()
-        
-        self.countPercentage()
+        self.setSelectShare(indexPath)
     }
 }
 
-extension AddProductShare2ViewController: InstagramLoginDelegate, UIDocumentInteractionControllerDelegate {
+extension AddProductShareViewController2: InstagramLoginDelegate, UIDocumentInteractionControllerDelegate {
     func instagramLoginFailed() {
         
     }
