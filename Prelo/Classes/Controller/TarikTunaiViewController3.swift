@@ -1,8 +1,8 @@
 //
-//  TarikTunaiViewController2.swift
+//  TarikTunaiViewController3.swift
 //  Prelo
 //
-//  Created by Djuned on 1/23/17.
+//  Created by Prelo (Chyntia) on 6/15/17.
 //  Copyright © 2017 PT Kleo Appara Indonesia. All rights reserved.
 //
 
