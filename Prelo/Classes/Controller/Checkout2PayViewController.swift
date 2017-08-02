@@ -299,6 +299,33 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
         
         // title
         self.title = "Checkout"
+        
+        // Prelo Analytic - Go to payment
+        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
+                                            qos: .background,
+                                            target: nil)
+        backgroundQueue.async {
+            //print("Work on background queue")
+            
+            let loginMethod = User.LoginMethod ?? ""
+            
+            var localId = User.CartLocalId ?? ""
+            if (localId == "") {
+                let uniqueCode : TimeInterval = Date().timeIntervalSinceReferenceDate
+                let uniqueCodeString = uniqueCode.description
+                localId = UIDevice.current.identifierForVendor!.uuidString + "-" + uniqueCodeString
+                
+                User.SetCartLocalId(localId)
+            }
+            
+            let productIds : [String] = CartManager.sharedInstance.getAllProductIds()
+            let pdata = [
+                "Local ID" : localId,
+                "Product IDs" : productIds,
+                "Type" : "Two Pages"
+                ] as [String : Any]
+            AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.GoToPayment, data: pdata, previousScreen: "Cart", loginMethod: loginMethod)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -1229,7 +1256,8 @@ class Checkout2PayViewController: BaseViewController, UITableViewDataSource, UIT
                         "Total Price" : totalPrice,
                         "Address" : address,
                         "Payment Method" : paymentMethod,
-                        "Prelo Balance Used" : (self.checkoutResult!["prelobalance_used"].int64Value != 0 ? true : false)
+                        "Prelo Balance Used" : (self.checkoutResult!["prelobalance_used"].int64Value != 0 ? true : false),
+                        "Type" : "Two Pages"
                         ] as [String : Any]
                     
                     if (self.checkoutResult!["voucher_serial"].stringValue != "") {

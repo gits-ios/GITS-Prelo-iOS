@@ -177,7 +177,8 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
             let productIds : [String] = CartManager.sharedInstance.getAllProductIds()
             let pdata = [
                 "Local ID" : localId,
-                "Product IDs" : productIds
+                "Product IDs" : productIds,
+                "Type" : "Two Pages"
             ] as [String : Any]
             AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.GoToCart, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
         }

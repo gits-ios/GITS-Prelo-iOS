@@ -237,7 +237,8 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
             let productIds : [String] = CartManager.sharedInstance.getAllProductIds()
             let pdata = [
                 "Local ID" : localId,
-                "Product IDs" : productIds
+                "Product IDs" : productIds,
+                "Type" : "Single Page"
                 ] as [String : Any]
             AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.GoToCart, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
         }
@@ -1831,7 +1832,8 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         "Total Price" : totalPrice,
                         "Address" : address,
                         "Payment Method" : paymentMethod,
-                        "Prelo Balance Used" : (self.checkoutResult!["prelobalance_used"].int64Value != 0 ? true : false)
+                        "Prelo Balance Used" : (self.checkoutResult!["prelobalance_used"].int64Value != 0 ? true : false),
+                        "Type" : "Single Page"
                         ] as [String : Any]
                     
                     if (self.checkoutResult!["voucher_serial"].stringValue != "") {
