@@ -188,6 +188,11 @@ class AddProductShareViewController2: BaseViewController {
             self.showLoading()
             if (self.socmeds[index].name == "Google+") {
                 // Google+
+                
+                // TODO: - Implement Google+ Share
+                // Dependent on Google Sign-in (maybe)
+                // Tutorial: https://developers.google.com/+/mobile/ios/share/
+                
                 self.updateButton(indexPath)
                 self.hideLoading()
             } else if (self.socmeds[index].name == "Instagram") {

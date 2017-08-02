@@ -654,7 +654,7 @@
 		B28578C41E570C0B008995F4 /* DropDown.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B24FCEFD1E536E8000B517A9 /* DropDown.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B28C62ED1F148AA9009FCFE5 /* AddProductShare2.xib in Resources */ = {isa = PBXBuildFile; fileRef = B28C62EC1F148AA9009FCFE5 /* AddProductShare2.xib */; };
 		B28C62FF1F149D62009FCFE5 /* AddProductShare2Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B28C62FE1F149D62009FCFE5 /* AddProductShare2Cell.xib */; };
-		B28C63011F14AC25009FCFE5 /* AddProductShare2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28C63001F14AC25009FCFE5 /* AddProductShare2ViewController.swift */; };
+		B28C63011F14AC25009FCFE5 /* AddProductShareViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28C63001F14AC25009FCFE5 /* AddProductShareViewController2.swift */; };
 		B292B4721EAF4F1200C6A32B /* AHKNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = B292B4711EAF4F1200C6A32B /* AHKNavigationController.m */; };
 		B2932DEC1E85324400782C78 /* FeedbackPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2932DEB1E85324400782C78 /* FeedbackPopup.xib */; };
 		B29482561E91E397001B6C75 /* cover_shop_persegi_1024px.png in Resources */ = {isa = PBXBuildFile; fileRef = B29482551E91E397001B6C75 /* cover_shop_persegi_1024px.png */; };
@@ -1767,7 +1767,7 @@
 		B285789D1E56B8F7008995F4 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		B28C62EC1F148AA9009FCFE5 /* AddProductShare2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProductShare2.xib; sourceTree = "<group>"; };
 		B28C62FE1F149D62009FCFE5 /* AddProductShare2Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProductShare2Cell.xib; sourceTree = "<group>"; };
-		B28C63001F14AC25009FCFE5 /* AddProductShare2ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddProductShare2ViewController.swift; sourceTree = "<group>"; };
+		B28C63001F14AC25009FCFE5 /* AddProductShareViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddProductShareViewController2.swift; sourceTree = "<group>"; };
 		B292B4701EAF4F1200C6A32B /* AHKNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AHKNavigationController.h; sourceTree = "<group>"; };
 		B292B4711EAF4F1200C6A32B /* AHKNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AHKNavigationController.m; sourceTree = "<group>"; };
 		B2932DEB1E85324400782C78 /* FeedbackPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedbackPopup.xib; path = XIB/FeedbackPopup.xib; sourceTree = "<group>"; };
@@ -2499,7 +2499,7 @@
 				21156EB91B8F5B4C001D7842 /* UserProfileViewController.swift */,
 				B21DF53F1E5187EA007A60C5 /* UserProfileViewController2.swift */,
 				21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */,
-				B28C63001F14AC25009FCFE5 /* AddProductShare2ViewController.swift */,
+				B28C63001F14AC25009FCFE5 /* AddProductShareViewController2.swift */,
 				581026B81EEA949100C0D324 /* TarikTunaiwithSaveBankAccountController.swift */,
 				5804CBC11EEE300C00B7D032 /* RekeningListViewController.swift */,
 				5804CBD71EEE6CC100B7D032 /* RekeningAddViewController.swift */,
@@ -4479,7 +4479,7 @@
 				58A99A3E1C6D864E00E3E7D7 /* BranchCreditHistoryRequest.m in Sources */,
 				217A18231BB41C26008D1AD8 /* StatusBarContainerViewController.swift in Sources */,
 				21679A381B901C5300F18F90 /* MPObjectSelector.m in Sources */,
-				B28C63011F14AC25009FCFE5 /* AddProductShare2ViewController.swift in Sources */,
+				B28C63011F14AC25009FCFE5 /* AddProductShareViewController2.swift in Sources */,
 				21679A1D1B901C5300F18F90 /* MPABTestDesignerDeviceInfoRequestMessage.m in Sources */,
 				21B468051CCE5EDB00E145ED /* UITextField+BFKit.swift in Sources */,
 				210000BC1BCBBC5000E16611 /* KDEDateLabel.swift in Sources */,
