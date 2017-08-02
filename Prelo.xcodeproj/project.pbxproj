@@ -635,6 +635,7 @@
 		B23356F21E1F588F00207F14 /* Scanner.xib in Resources */ = {isa = PBXBuildFile; fileRef = B23356F11E1F588F00207F14 /* Scanner.xib */; };
 		B23417741E2322FA003247D7 /* sms5.png in Resources */ = {isa = PBXBuildFile; fileRef = B23417731E2322FA003247D7 /* sms5.png */; };
 		B2346CA61E22A48B00FFF3B5 /* exclamation31.png in Resources */ = {isa = PBXBuildFile; fileRef = B2346CA51E22A48B00FFF3B5 /* exclamation31.png */; };
+		B2369B241F31E1C0001761F4 /* TarikTunai2Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2369B231F31E1BF001761F4 /* TarikTunai2Cell.xib */; };
 		B240F4C31E2477FF00DCAFF7 /* shoppingstore27.png in Resources */ = {isa = PBXBuildFile; fileRef = B240F4C21E2477FF00DCAFF7 /* shoppingstore27.png */; };
 		B240F4D31E24BBD500DCAFF7 /* Achievement.xib in Resources */ = {isa = PBXBuildFile; fileRef = B240F4D21E24BBD500DCAFF7 /* Achievement.xib */; };
 		B240F4D91E24C1AD00DCAFF7 /* AchievementDiamondCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B240F4D81E24C1AD00DCAFF7 /* AchievementDiamondCell.xib */; };
@@ -1798,6 +1799,7 @@
 		B23356F11E1F588F00207F14 /* Scanner.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Scanner.xib; sourceTree = "<group>"; };
 		B23417731E2322FA003247D7 /* sms5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sms5.png; sourceTree = "<group>"; };
 		B2346CA51E22A48B00FFF3B5 /* exclamation31.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exclamation31.png; sourceTree = "<group>"; };
+		B2369B231F31E1BF001761F4 /* TarikTunai2Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunai2Cell.xib; sourceTree = "<group>"; };
 		B240F4C21E2477FF00DCAFF7 /* shoppingstore27.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shoppingstore27.png; sourceTree = "<group>"; };
 		B240F4D21E24BBD500DCAFF7 /* Achievement.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Achievement.xib; sourceTree = "<group>"; };
 		B240F4D81E24C1AD00DCAFF7 /* AchievementDiamondCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementDiamondCell.xib; sourceTree = "<group>"; };
@@ -3248,7 +3250,7 @@
 				B2BE2E011E29FA42006B6903 /* StorePageShopHeader.xib */,
 				B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */,
 				B27948221E35C700002CEED4 /* TarikTunai2.xib */,
-				B22357601E35F90800CEC6F5 /* TarikTunaiCell3.xib */,
+				B2369B231F31E1BF001761F4 /* TarikTunai2Cell.xib */,
 				21104AD01BAA8F1200947E7F /* TransactionListCell.xib */,
 				21156EBB1B8F5B5D001D7842 /* UserProfile.xib */,
 				B21DF5291E5179E5007A60C5 /* UserProfile2.xib */,
@@ -3260,6 +3262,7 @@
 				5804CBD31EEE6A8900B7D032 /* RekeningListCell.xib */,
 				5804CBD41EEE6A8900B7D032 /* RekeningListNewCell.xib */,
 				58BBF5971EF30FF300A0E2A2 /* TarikTunai3.xib */,
+				B22357601E35F90800CEC6F5 /* TarikTunaiCell3.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -4293,6 +4296,7 @@
 				580A30E51DFFF29E00453AA0 /* ProductLovelistCell.xib in Resources */,
 				589A6FBC1D8C08F600654CDD /* ic_faq.png in Resources */,
 				585887371DBEDA33006EC6D5 /* ExpiringProductsCell.xib in Resources */,
+				B2369B241F31E1C0001761F4 /* TarikTunai2Cell.xib in Resources */,
 				440AF6651BE1090800074CBC /* ic_round_email.png in Resources */,
 				21D386A71B6B93CD00D0FA90 /* Default-Portrait-736h@3x.png in Resources */,
 				21B4680B1CCE5EDB00E145ED /* BFKit.strings in Resources */,
