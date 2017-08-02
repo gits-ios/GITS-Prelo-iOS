@@ -1956,16 +1956,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                     UserDefaults.standard.set(tw, forKey: UserDefaultsKey.ComTwitter)
                     
                     UserDefaults.standard.synchronize()
+                } else {
+                    UserDefaults.standard.set(3, forKey: UserDefaultsKey.ComTwitter)
+                    
+                    UserDefaults.standard.synchronize()
                 }
                 
                 if let fb = data["commission_share"]["socmed"]["facebook"].int64 {
                     UserDefaults.standard.set(fb, forKey: UserDefaultsKey.ComFacebook)
                     
                     UserDefaults.standard.synchronize()
+                } else {
+                    UserDefaults.standard.set(4, forKey: UserDefaultsKey.ComFacebook)
+                    
+                    UserDefaults.standard.synchronize()
                 }
                 
                 if let ig = data["commission_share"]["socmed"]["instagram"].int64 {
                     UserDefaults.standard.set(ig, forKey: UserDefaultsKey.ComInstagram)
+                    
+                    UserDefaults.standard.synchronize()
+                } else {
+                    UserDefaults.standard.set(3, forKey: UserDefaultsKey.ComInstagram)
                     
                     UserDefaults.standard.synchronize()
                 }
