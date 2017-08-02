@@ -2,7 +2,7 @@
 //  RekeningListViewController.swift
 //  Prelo
 //
-//  Created by Prelo on 6/12/17.
+//  Created by Prelo (Chyntia) on 6/12/17.
 //  Copyright © 2017 PT Kleo Appara Indonesia. All rights reserved.
 //
 
