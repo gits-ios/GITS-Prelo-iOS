@@ -611,10 +611,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                     //subview.backgroundColor = UIColor.white
                     cell.addSubview(subview)
                 } else {
-                    let attrStr = NSMutableAttributedString(string: "Pastikan kamu bertransaksi 100% aman hanya melalui rekening bersama Prelo. Waspada apabila kamu diminta bertransaksi di luar Prelo, terutama jika terdapat permintaan yang kurang wajar. Rekening bersama Prelo atas nama PT. Kleo Appara Indonesia")
+                    let attrStr = NSMutableAttributedString(string: "Pastikan kamu bertransaksi 100% aman hanya melalui rekening bersama Prelo atas nama PT. Kleo Appara Indonesia. Waspada apabila kamu diminta bertransaksi di luar Prelo, terutama jika terdapat permintaan yang kurang wajar.")
                     cell.lblText.attributedText = attrStr
                     cell.lblText.setSubstringColor("rekening bersama Prelo", color: Theme.PrimaryColor)
-                    cell.lblText.setSubstringColor("Rekening bersama Prelo", color: Theme.PrimaryColor)
                 }
             } else { // I am seller
                 let attrStr = NSMutableAttributedString(string: "Klik MARK AS SOLD jika barang sudah dibeli oleh \(self.tawarItem.theirName). Waspada apabila kamu diminta bertransaksi di luar Prelo, terutama jika terdapat permintaan yang kurang wajar.")
@@ -656,10 +655,16 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if ((indexPath as NSIndexPath).row == 0 && isShowBubble) { // Bubble cell
-            if (self.tawarItem.opIsMe) { // I am buyer
+            if (AppTools.isIPad) {
                 return 110
-            } else { // I am seller
-                return 110
+            } else {
+                if (self.isSellerNotActive) { // I am buyer
+                    return 110 // contact seller outside prelo
+                } else if (self.tawarItem.opIsMe) { // I am buyer
+                    return 130 // pay in prelo rekber
+                } else { // I am seller
+                    return 110 // mark as sold
+                }
             }
         } else { // Chat cell
             let chat = inboxMessages[(indexPath as NSIndexPath).row - (isShowBubble ? 1 : 0)]
