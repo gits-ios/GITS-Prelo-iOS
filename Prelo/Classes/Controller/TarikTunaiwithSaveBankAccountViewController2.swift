@@ -1,3 +1,10 @@
+//
+//  TarikTunaiwithSaveBankAccountViewController2.swift
+//  Prelo
+//
+//  Created by Prelo (Chyntia) on 6/15/17.
+//  Copyright © 2017 PT Kleo Appara Indonesia. All rights reserved.
+//
 
 import Foundation
 import UIKit
