@@ -1613,6 +1613,7 @@ class Checkout2PaymentBankCell: UITableViewCell {
     
     var parent2: Checkout2PayViewController?
     var parent1: Checkout2ViewController?
+    var parentTopUp: TopUpViewController?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -1622,10 +1623,15 @@ class Checkout2PaymentBankCell: UITableViewCell {
     }
     
     func adapt(_ bankName: String?, paymentMethodItem: PaymentMethodItem, isSelected: Bool, parent: UIViewController) {
+        print("ini parentnya")
+        print(parent)
         if parent is Checkout2PayViewController {
             self.parent2 = parent as? Checkout2PayViewController
         } else if parent is Checkout2ViewController {
             self.parent1 = parent as? Checkout2ViewController
+        } else if parent is TopUpViewController {
+            print("ini udh masuk sini")
+            self.parentTopUp = parent as? TopUpViewController
         }
         
         if let curParent = self.parent2 {
@@ -1674,6 +1680,17 @@ class Checkout2PaymentBankCell: UITableViewCell {
                     self.vw4Banks.isHidden = true
                 }
             }
+        } else if let curParent = self.parentTopUp {
+            self.vwDropdown.isHidden = false
+            
+            if let bn = bankName, bn != "" {
+                self.lbBank.text = bn
+            } else {
+                self.lbBank.text = "Pilih Bank Tujuan Transfer"
+            }
+            
+            self.setupDropdownBank()
+            
         }
         
         if isSelected {

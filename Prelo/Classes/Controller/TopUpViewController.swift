@@ -35,6 +35,7 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
     var tempIndexPath : IndexPath = []
     var reloadTabel = false
     var tempTextField = 0
+    var tempTotalAmount = 0
     
     // MARK: - Init
     override func viewDidLoad() {
@@ -360,12 +361,66 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
             cell.selectionStyle = .none
             cell.clipsToBounds = true
             
-            cell.adapt(0, paymentMethodDescription: "")
+            cell.adapt(Int64(tempTotalAmount), paymentMethodDescription: "")
+            
+            cell.checkout = {
+                let alertView = SCLAlertView(appearance: Constant.appearance)
+                alertView.addButton("Lanjutkan") {
+                    self.performCheckout()
+                }
+                alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {
+                }
+                alertView.showCustom("Perhatian", subTitle: "Kamu akan melakukan topUp sebesar \(self.tempTotalAmount) menggunakan \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title). Lanjutkan?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+            }
+
             
             return cell
         }
         
         return UITableViewCell()
+    }
+    func navigateToOrderConfirmVC(_ isMidtrans: Bool) {
+        print("ada masuk navigasi ini")
+        let o = Bundle.main.loadNibNamed(Tags.XibNameTopUpConfirm, owner: nil, options: nil)?.first as! TopUpConfirmViewController
+        
+        o.orderID = "1234"
+        o.total = Int64(self.tempTotalAmount)
+        
+        o.isBackTwice = true
+        o.isShowBankBRI = self.isShowBankBRI
+        o.targetBank = "MANDIRI"
+        o.previousScreen = PageName.BalanceMutation
+        
+        
+        o.isFromCheckout = false
+        
+        if isMidtrans {
+            o.isMidtrans = true
+        }
+        
+        self.navigateToVC(o)
+    }
+    
+    func navigateToVC(_ vc: UIViewController) {
+        if (previousController != nil) {
+            self.previousController!.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    func performCheckout() {
+        
+        // request api top up
+        
+        // Prepare to navigate to next page
+        if (self.paymentMethods[self.selectedPaymentIndex].methodDetail.provider == .native) { // bank
+            self.navigateToOrderConfirmVC(false)
+            
+        } else if (self.paymentMethods[self.selectedPaymentIndex].methodDetail.provider == .veritrans) { // Credit card, indomaret
+            
+            
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -392,18 +447,20 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
         let ndx = IndexPath(row:2, section: 0)
         let cell2 = tableView.cellForRow(at:ndx) as! TopUpAmountCell
         let txt = cell2.txtJumlahUang.text
-        print(txt)
         tempTextField = Int(txt!)!
         reloadTable()
     }
     func reloadTable(){
         let sec = tempIndexPath.section
-        let previosIndex = IndexPath.init(row: 12, section: tempIndexPath.section)
-        var reloadIdxs: [IndexPath] = [tempIndexPath, previosIndex]
+        var reloadIdxs: [IndexPath] = [tempIndexPath]
         reloadIdxs.append(IndexPath.init(row: 12, section: sec))
+        reloadIdxs.append(IndexPath.init(row: 14, section: sec))
         self.tableView.reloadRows(at: reloadIdxs, with: .fade)
-        // Setup table
-//        self.tableView.reloadData()
+        
+        let ndx = IndexPath(row:2, section: 0)
+        let cell2 = tableView.cellForRow(at:ndx) as! TopUpAmountCell
+        let txt = cell2.txtJumlahUang.text
+        tempTotalAmount = Int(txt!)!
     }
     
     func hideKeyboardWhenTappedAround() {

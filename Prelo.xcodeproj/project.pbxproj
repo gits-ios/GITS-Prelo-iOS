@@ -448,6 +448,8 @@
 		58887B941DF17DC20019D935 /* splash.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 58887B931DF17DC20019D935 /* splash.jpg */; };
 		5895E86A1C48E08600752ACA /* img_setup_pwd.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E8691C48E08600752ACA /* img_setup_pwd.png */; };
 		5895E86C1C49315400752ACA /* chat-rp.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E86B1C49315400752ACA /* chat-rp.png */; };
+		58969E521F316C0500CBD064 /* TopUpConfirm.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58969E511F316C0400CBD064 /* TopUpConfirm.xib */; };
+		58969E641F31710100CBD064 /* TopUpConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58969E631F31710000CBD064 /* TopUpConfirmViewController.swift */; };
 		589A6FAE1D8C08F600654CDD /* ic_1_2kg.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6F8E1D8C08F600654CDD /* ic_1_2kg.png */; };
 		589A6FAF1D8C08F600654CDD /* ic_1kg.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6F8F1D8C08F600654CDD /* ic_1kg.png */; };
 		589A6FB01D8C08F600654CDD /* ic_2kg.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6F901D8C08F600654CDD /* ic_2kg.png */; };
@@ -1507,6 +1509,8 @@
 		5895E8671C48CCF500752ACA /* SetupPasswordPopUp.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SetupPasswordPopUp.xib; sourceTree = "<group>"; };
 		5895E8691C48E08600752ACA /* img_setup_pwd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img_setup_pwd.png; sourceTree = "<group>"; };
 		5895E86B1C49315400752ACA /* chat-rp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat-rp.png"; sourceTree = "<group>"; };
+		58969E511F316C0400CBD064 /* TopUpConfirm.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TopUpConfirm.xib; sourceTree = "<group>"; };
+		58969E631F31710000CBD064 /* TopUpConfirmViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopUpConfirmViewController.swift; sourceTree = "<group>"; };
 		589A6F8E1D8C08F600654CDD /* ic_1_2kg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_1_2kg.png; sourceTree = "<group>"; };
 		589A6F8F1D8C08F600654CDD /* ic_1kg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_1kg.png; sourceTree = "<group>"; };
 		589A6F901D8C08F600654CDD /* ic_2kg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_2kg.png; sourceTree = "<group>"; };
@@ -2542,6 +2546,7 @@
 				B2D965F01E9E3AB600B2C29C /* Checkout2PayViewController.swift */,
 				B2F184CE1E938B92001EEB36 /* GoogleMapViewController.swift */,
 				58F8C1551F289EA400B24BD7 /* TopUpViewController.swift */,
+				58969E631F31710000CBD064 /* TopUpConfirmViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -3173,6 +3178,7 @@
 				58F8C14F1F289A4000B24BD7 /* TopUpHeaderCell.xib */,
 				58F8C1511F289C0200B24BD7 /* TopUpAmountCell.xib */,
 				58F8C1531F289E2900B24BD7 /* TopUpMethodCell.xib */,
+				58969E511F316C0400CBD064 /* TopUpConfirm.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -3918,6 +3924,7 @@
 				58E368161DA4E40700C6FFE3 /* ic_share2.png in Resources */,
 				580B07291DD5D99A0079C11C /* bday-splashscreen-2048x2048.png in Resources */,
 				21EEB4771B87095C00CAD5C9 /* ic_phone.png in Resources */,
+				58969E521F316C0500CBD064 /* TopUpConfirm.xib in Resources */,
 				58D125391CDC4D1F002BC78A /* MoEngage.bundle in Resources */,
 				B2BF267D1E8280A400BD9EEB /* ic_home.png in Resources */,
 				585887501DBEDBCC006EC6D5 /* PaymentConfirmationCell.xib in Resources */,
@@ -4294,6 +4301,7 @@
 				58A99A3D1C6D864E00E3E7D7 /* BranchCloseRequest.m in Sources */,
 				21C658991B8EF25E0037F85F /* ActionSheetMultipleStringPicker.m in Sources */,
 				21679A581B901C5300F18F90 /* UIView+MPHelpers.m in Sources */,
+				58969E641F31710100CBD064 /* TopUpConfirmViewController.swift in Sources */,
 				585B6AE71DBE1441005DEBA4 /* ImageSupplier.swift in Sources */,
 				B2FFCBB41EA52669004F01D0 /* WebSocket.swift in Sources */,
 				21679A571B901C5300F18F90 /* UIImage+MPImageEffects.m in Sources */,
