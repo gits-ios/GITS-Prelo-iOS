@@ -215,6 +215,9 @@ enum APIAnalytic : URLRequestConvertible {
                 ],
                 "register_method" : [
                     "update" : registerMethod
+                ],
+                "register_time" : [
+                    "update" : AnalyticManager.sharedInstance.getCurrentTime()
                 ]
             ]
             p = [
@@ -249,7 +252,10 @@ enum APIAnalytic : URLRequestConvertible {
                 "gender" : [
                     "update" : userProfileData.gender
                 ],
-                "address" : a
+                "address" : a,
+                "last_login" : [
+                    "update" : AnalyticManager.sharedInstance.getCurrentTime()
+                ]
             ]
             p = [
                 "user_id" : userProfileData.id,
@@ -269,6 +275,9 @@ enum APIAnalytic : URLRequestConvertible {
                 ],
                 "phone" : [
                     "update" : phone
+                ],
+                "last_login" : [
+                    "update" : AnalyticManager.sharedInstance.getCurrentTime()
                 ]
             ]
             p = [
@@ -311,7 +320,10 @@ enum APIAnalytic : URLRequestConvertible {
                     "phone" : [
                         "update" : (_user?.profiles.phone)!
                     ],
-                    "address" : a
+                    "address" : a,
+                    "last_login" : [
+                        "update" : AnalyticManager.sharedInstance.getCurrentTime()
+                    ]
                 ]
             } else {
                 d =  [
@@ -320,6 +332,9 @@ enum APIAnalytic : URLRequestConvertible {
                     ],
                     "apns_id" : [
                         "append" : AnalyticManager.deviceToken
+                    ],
+                    "last_login" : [
+                        "update" : AnalyticManager.sharedInstance.getCurrentTime()
                     ]
                 ]
             }
