@@ -2265,27 +2265,36 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                         "Price" : self.txtNewPrice.text!
                         ] as [String : Any]
                     
-                    // cat
-                    var cat : Array<String> = []
-                    var catId : Array<String> = []
-                    catId.append(self.productCategoryId)
-                    var temp = CDCategory.getCategoryWithID(self.productCategoryId)!
-                    cat.append(temp.name)
-                    while (true) {
-                        if let cur = CDCategory.getParent(temp.id) {
-                            temp = cur
-                            cat.append(temp.name)
-                            catId.append(temp.id)
-                        } else {
-                            break
+                    var isOke = true
+                    if let c = CDCategory.getCategoryWithID(self.productCategoryId) {
+                        // cat
+                        var cat : Array<String> = []
+                        var catId : Array<String> = []
+                        catId.append(self.productCategoryId)
+                        var temp = c
+                        cat.append(temp.name)
+                        while (true) {
+                            if let cur = CDCategory.getParent(temp.id) {
+                                temp = cur
+                                cat.append(temp.name)
+                                catId.append(temp.id)
+                            } else {
+                                break
+                            }
                         }
+                        
+                        cat = cat.reversed()
+                        pdata["Category Names"] = cat
+                        
+                        catId = catId.reversed()
+                        pdata["Category IDs"] = catId
+                    } else {
+                        isOke = false
+                        DispatchQueue.main.async(execute: {
+                            Constant.showDialog("Peringatan", message: "Lokal data kamu belum terupdate, harap lakukan \"Reload App Data\" pada menu \"About\". Dan ulangi upload barang kamu dari menu \"Jualan Saya\"")
+                            _ = self.navigationController?.popToRootViewController(animated: true)
+                        })
                     }
-                    
-                    cat = cat.reversed()
-                    pdata["Category Names"] = cat
-                    
-                    catId = catId.reversed()
-                    pdata["Category IDs"] = catId
                     
                     // imgae
                     var imagesOke : [Bool] = []
@@ -2298,7 +2307,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     }
                     pdata["Images"] = imagesOke
                     
-                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SubmitProduct, data: pdata, previousScreen: self.screenBeforeAddProduct, loginMethod: loginMethod)
+                    if isOke {
+                        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SubmitProduct, data: pdata, previousScreen: self.screenBeforeAddProduct, loginMethod: loginMethod)
+                    }
                 }
                 
                 self.btnSubmit.isEnabled = true
