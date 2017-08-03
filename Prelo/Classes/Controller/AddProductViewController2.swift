@@ -151,7 +151,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         let comInstagram = UserDefaults.standard.integer(forKey: UserDefaultsKey.ComInstagram)
         
         let minCommission = 10 - (comTwitter + comFacebook + comInstagram)
-        txtCommission.text = "\(String(minCommission))% - 10%"
+        if minCommission > 0 {
+            txtCommission.text = "\(String(minCommission))% - 10%"
+        }
         
         captionImagesMakeSure.numberOfLines = 0
         captionImagesMakeSureFake.numberOfLines = 0
