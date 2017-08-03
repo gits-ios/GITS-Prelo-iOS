@@ -145,6 +145,14 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // hack commisions
+        let comTwitter = UserDefaults.standard.integer(forKey: UserDefaultsKey.ComTwitter)
+        let comFacebook = UserDefaults.standard.integer(forKey: UserDefaultsKey.ComFacebook)
+        let comInstagram = UserDefaults.standard.integer(forKey: UserDefaultsKey.ComInstagram)
+        
+        let minCommission = 10 - (comTwitter + comFacebook + comInstagram)
+        txtCommission.text = "\(String(minCommission))% - 10%"
+        
         captionImagesMakeSure.numberOfLines = 0
         captionImagesMakeSureFake.numberOfLines = 0
         

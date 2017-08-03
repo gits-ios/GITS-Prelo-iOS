@@ -62,7 +62,7 @@ class AddProductShareViewController2: BaseViewController {
     var shouldSkipBack = true
     
     var commisions = 10.0
-    var maxCommisions = 200000.0
+    var maxCommisions = 0.0 // 200000.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,9 +79,8 @@ class AddProductShareViewController2: BaseViewController {
         let maxCommisions = UserDefaults.standard.double(forKey: UserDefaultsKey.MaxCommisions)
         if maxCommisions > 0 {
             self.maxCommisions = maxCommisions
+            self.lbMaxCommisions.text = "Maksimal Charge Prelo sebesar " + Int(self.maxCommisions).asPrice
         }
-        
-        self.lbMaxCommisions.text = "Maksimal Charge Prelo sebesar " + Int(self.maxCommisions).asPrice
         
         // init data -> socmeds
         // adapt tbSocmed (data from backend ?)
@@ -110,6 +109,13 @@ class AddProductShareViewController2: BaseViewController {
         
         self.linkToShare = "\(AppTools.PreloBaseUrl)/p/\(self.permalink)"
         self.textToShare = "Temukan barang bekas berkualitas-ku, \(self.productName) di Prelo hanya dengan harga \(self.basePrice.asPrice). Nikmati mudahnya jual-beli barang bekas berkualitas dengan aman dari ponselmu. Download aplikasinya sekarang juga di http://prelo.co.id #PreloID"
+        
+        if self.maxCommisions == 0 {
+            self.maxCommisions = Double(basePrice) / 10.0
+            self.lbMaxCommisions.text = "Maksimal Charge Prelo sebesar " + Int(self.maxCommisions).asPrice
+            
+            self.countPercentage()
+        }
     }
     
     func getSocmedData() {
@@ -133,6 +139,9 @@ class AddProductShareViewController2: BaseViewController {
             self.tbSocmed.delegate = self
             self.tbSocmed.dataSource = self
         }
+        
+        self.tbSocmed.separatorStyle = .none
+        self.tbSocmed.tableFooterView = UIView()
         
         self.consHeightTbSocmed.constant = CGFloat(self.socmeds.count) * AddProductShare2Cell.heightFor()
         
@@ -456,7 +465,7 @@ class AddProductShare2Cell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        //self.selectionStyle = .none
+        self.selectionStyle = .none
         self.alpha = 1.0
         self.backgroundColor = UIColor.white
         self.clipsToBounds = true

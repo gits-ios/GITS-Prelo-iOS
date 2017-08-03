@@ -2011,6 +2011,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                     UserDefaults.standard.set(mx, forKey: UserDefaultsKey.MaxCommisions)
                     
                     UserDefaults.standard.synchronize()
+                } else {
+                    UserDefaults.standard.set(0, forKey: UserDefaultsKey.MaxCommisions)
+                    
+                    UserDefaults.standard.synchronize()
                 }
                 
                 // Check cart type for init
