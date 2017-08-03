@@ -235,7 +235,7 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
             x += s.width
         }
         
-        self.hideLoading()
+        //self.hideLoading()
     }
     
     func setupMediaCollection() {
@@ -289,6 +289,7 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
     }
     
     func getReferralData() {
+        self.showLoading()
         // API Migrasi
         let _ = request(APIMe.referralData).responseJSON {resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Referral Bonus")) {
@@ -314,6 +315,10 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
                     self.vwSubmit.isHidden = true
                     self.consHeightVwSubmit.constant = 0
                 }
+                
+                self.hideLoading()
+            } else {
+                _ = self.navigationController?.popViewController(animated: true)
             }
         }
     }

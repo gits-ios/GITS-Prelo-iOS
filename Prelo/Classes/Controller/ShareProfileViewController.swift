@@ -333,7 +333,7 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
             x += s.width
         }
         
-        self.hideLoading()
+        //self.hideLoading()
     }
     
     func setupMediaCollection() {
@@ -387,6 +387,7 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
     }
     
     func getReferralData() {
+        self.showLoading()
         // API Migrasi
         let _ = request(APIMe.referralData).responseJSON {resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Referral Bonus")) {
@@ -398,6 +399,10 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
                 // Set shareText
                 self.shareText = "Kunjungi shop saya (prelo.co.id/" + self.myUsername! + ")\nGunakan kode referral: " + self.myReferralCode + " untuk potongan Rp25.000\nuntuk transaksi pertama kamu di Prelo!"
                 self.lbReferral.text = self.shareText
+                
+                self.hideLoading()
+            } else {
+                _ = self.navigationController?.popViewController(animated: true)
             }
         }
     }
