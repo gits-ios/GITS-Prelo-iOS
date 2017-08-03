@@ -7326,7 +7326,7 @@ in Bandung</string>
         <!--Checkout Tour View Controller-->
         <scene sceneID="wcK-3h-G9S">
             <objects>
-                <viewController id="HZv-ru-RUB" customClass="CheckoutTourViewController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="checkoutTour" id="HZv-ru-RUB" customClass="CheckoutTourViewController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="grL-Mk-D5G"/>
                         <viewControllerLayoutGuide type="bottom" id="diP-O0-Ep5"/>
