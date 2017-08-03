@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="117" id="3E0-a4-zw8" customClass="Checkout2AddressCompleteCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="117"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3E0-a4-zw8" id="mFo-pM-H8l">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="116.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nama" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vuZ-H0-lIR">
+                        <rect key="frame" x="16" y="12" width="343" height="17"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                        <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alamat" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kIw-zv-geB">
+                        <rect key="frame" x="16" y="33" width="343" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kecamatan, Kota" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H6x-hU-Pt3">
+                        <rect key="frame" x="16" y="49" width="343" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Provinsi Kode Pos" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iF6-an-Ze6">
+                        <rect key="frame" x="16" y="65" width="343" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Telepon: no telpon" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FN9-bM-bSk">
+                        <rect key="frame" x="16" y="81" width="343" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="FN9-bM-bSk" firstAttribute="trailing" secondItem="vuZ-H0-lIR" secondAttribute="trailing" id="1fW-ru-fbh"/>
+                    <constraint firstItem="FN9-bM-bSk" firstAttribute="leading" secondItem="vuZ-H0-lIR" secondAttribute="leading" id="3xd-bP-oVZ"/>
+                    <constraint firstItem="vuZ-H0-lIR" firstAttribute="top" secondItem="mFo-pM-H8l" secondAttribute="topMargin" constant="4" id="49f-6e-JaF"/>
+                    <constraint firstItem="vuZ-H0-lIR" firstAttribute="leading" secondItem="mFo-pM-H8l" secondAttribute="leadingMargin" constant="8" id="6ao-JN-0OB"/>
+                    <constraint firstItem="kIw-zv-geB" firstAttribute="trailing" secondItem="vuZ-H0-lIR" secondAttribute="trailing" id="UVC-HY-GUV"/>
+                    <constraint firstItem="kIw-zv-geB" firstAttribute="leading" secondItem="vuZ-H0-lIR" secondAttribute="leading" id="Z67-4u-owT"/>
+                    <constraint firstItem="H6x-hU-Pt3" firstAttribute="top" secondItem="kIw-zv-geB" secondAttribute="bottom" id="ZK8-5h-2j6"/>
+                    <constraint firstItem="kIw-zv-geB" firstAttribute="top" secondItem="vuZ-H0-lIR" secondAttribute="bottom" constant="4" id="anW-48-OSJ"/>
+                    <constraint firstItem="iF6-an-Ze6" firstAttribute="trailing" secondItem="vuZ-H0-lIR" secondAttribute="trailing" id="awt-oD-xEl"/>
+                    <constraint firstItem="FN9-bM-bSk" firstAttribute="top" secondItem="iF6-an-Ze6" secondAttribute="bottom" id="bS3-fK-22i"/>
+                    <constraint firstItem="H6x-hU-Pt3" firstAttribute="leading" secondItem="vuZ-H0-lIR" secondAttribute="leading" id="nlM-M8-kXK"/>
+                    <constraint firstItem="iF6-an-Ze6" firstAttribute="leading" secondItem="vuZ-H0-lIR" secondAttribute="leading" id="pXz-Rj-BsD"/>
+                    <constraint firstItem="iF6-an-Ze6" firstAttribute="top" secondItem="H6x-hU-Pt3" secondAttribute="bottom" id="vXl-I4-G09"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="vuZ-H0-lIR" secondAttribute="trailing" constant="8" id="vuF-3K-YNL"/>
+                    <constraint firstItem="H6x-hU-Pt3" firstAttribute="trailing" secondItem="vuZ-H0-lIR" secondAttribute="trailing" id="xNX-M9-E2b"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="lbAddress" destination="kIw-zv-geB" id="SzH-8L-l6j"/>
+                <outlet property="lbName" destination="vuZ-H0-lIR" id="58I-dT-ntW"/>
+                <outlet property="lbPhone" destination="FN9-bM-bSk" id="UZw-24-VbD"/>
+                <outlet property="lbProvinceAndPostalCode" destination="iF6-an-Ze6" id="2ml-me-wAW"/>
+                <outlet property="lbSubdistrictAndRegion" destination="H6x-hU-Pt3" id="6VG-4I-fp8"/>
+            </connections>
+            <point key="canvasLocation" x="-66.5" y="-27.5"/>
+        </tableViewCell>
+    </objects>
+</document>

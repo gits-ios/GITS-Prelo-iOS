@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Prelo2.ttf">
+            <string>Prelo2</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="46" id="jmx-v2-gvf" customClass="Checkout2SellerCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="48"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jmx-v2-gvf" id="eQO-Pc-DFV">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="47.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DB4-tG-gWg">
+                        <rect key="frame" x="335" y="7.5" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="Xef-t6-olE"/>
+                            <constraint firstAttribute="width" constant="40" id="uPM-oP-IuG"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="12"/>
+                        <state key="normal" title="">
+                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="btnRemoveAllPressed:" destination="jmx-v2-gvf" eventType="touchUpInside" id="FAb-9r-QPT"/>
+                        </connections>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uYt-d7-Ykh">
+                        <rect key="frame" x="12" y="7.5" width="315" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="vyk-ff-ecM"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="uYt-d7-Ykh" secondAttribute="bottom" id="6dv-fM-X3b"/>
+                    <constraint firstItem="DB4-tG-gWg" firstAttribute="leading" secondItem="uYt-d7-Ykh" secondAttribute="trailing" constant="8" id="CYx-TP-Twe"/>
+                    <constraint firstItem="uYt-d7-Ykh" firstAttribute="leading" secondItem="eQO-Pc-DFV" secondAttribute="leadingMargin" constant="4" id="IO1-FD-yy1"/>
+                    <constraint firstItem="DB4-tG-gWg" firstAttribute="leading" secondItem="uYt-d7-Ykh" secondAttribute="trailing" constant="8" id="TV6-VW-mOP"/>
+                    <constraint firstAttribute="trailing" secondItem="DB4-tG-gWg" secondAttribute="trailing" id="egN-MA-2zf"/>
+                    <constraint firstAttribute="bottom" secondItem="DB4-tG-gWg" secondAttribute="bottom" id="ohX-1T-7BT"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="lbSellerName" destination="uYt-d7-Ykh" id="Z2B-hs-fuJ"/>
+            </connections>
+            <point key="canvasLocation" x="-26.5" y="-95"/>
+        </tableViewCell>
+    </objects>
+</document>
