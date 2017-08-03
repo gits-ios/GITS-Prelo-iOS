@@ -97,12 +97,14 @@ class AddProductShareViewController2: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if self.first && self.shouldSkipBack {
+        if self.first {
             self.first = false
-            super.viewDidAppear(animated)
-            var m = self.navigationController?.viewControllers
-            m?.remove(at: (m?.count)!-2)
-            self.navigationController?.viewControllers = m!
+            if self.shouldSkipBack {
+                super.viewDidAppear(animated)
+                var m = self.navigationController?.viewControllers
+                m?.remove(at: (m?.count)!-2)
+                self.navigationController?.viewControllers = m!
+            }
         } else {
             self.countPercentage()
         }
