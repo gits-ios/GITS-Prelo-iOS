@@ -65,11 +65,40 @@ class AppTools: NSObject {
         return UIScreen.main.bounds.height
     }
     
-    static var isNewShop : Bool { // new shop, TODO: - bisa setting di app
-        return true
+    fileprivate static var _isNewShop = true
+    static var isNewShop : Bool {
+        get {
+            return _isNewShop
+        }
+    }
+    
+    static func switchToNewShop(_ isOn: Bool) {
+        _isNewShop = isOn
     }
     
     static let isOldShopWithBadges : Bool = true // set true kalau jadi bisa nampilin badge
+    
+    fileprivate static var _isNewCart = true
+    static var isNewCart : Bool {
+        get {
+            return _isNewCart
+        }
+    }
+    
+    static func switchToNewCart(_ isOn: Bool) {
+        _isNewCart = isOn
+    }
+    
+    fileprivate static var _isSingleCart = true
+    static var isSingleCart : Bool {
+        get {
+            return _isSingleCart
+        }
+    }
+    
+    static func switchToSingleCart(_ isOn: Bool) {
+        _isSingleCart = isOn
+    }
 }
 
 enum AppFont {
@@ -313,6 +342,18 @@ extension UIImage {
     
     func resizeWithWidth(_ width: CGFloat) -> UIImage? {
         let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: width, height: CGFloat(ceil(width/size.width * size.height)))))
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = self
+        UIGraphicsBeginImageContextWithOptions(imageView.bounds.size, false, scale)
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+        imageView.layer.render(in: context)
+        guard let result = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
+        UIGraphicsEndImageContext()
+        return result
+    }
+    
+    func resizeWithHeight(_ height: CGFloat) -> UIImage? {
+        let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: CGFloat(ceil(height/size.height * size.width)), height: height)))
         imageView.contentMode = .scaleAspectFit
         imageView.image = self
         UIGraphicsBeginImageContextWithOptions(imageView.bounds.size, false, scale)
@@ -792,6 +833,7 @@ class Tags : NSObject {
     static let StoryBoardIdInbox = "Inbox"
     static let StoryBoardIdProductComments = "ProductComments"
     static let StoryBoardIdListBrand = "ListBrand"
+    static let StoryBoardIdCheckoutTour = "checkoutTour"
     
     static let Browse = "browse"
     static let Dashboard = "dashboard"
@@ -843,6 +885,10 @@ class Tags : NSObject {
     static let XibNameUserProfile2 = "UserProfile2"
     static let XibNameReportTransaction = "ReportTransaction"
     static let XibNameAddProductShare2 = "AddProductShare2"
+    static let XibNameCheckout2Ship = "Checkout2Ship"
+    static let XibNameCheckout2Pay = "Checkout2Pay"
+    static let XibNameGoogleMap = "GoogleMap"
+    static let XibNameCheckout2 = "Checkout2"
     static let XibNameRekeningList = "RekeningList"
     static let XibNameRekeningAdd = "RekeningAdd"
     static let XibNameTarikTunaiwithSaveBankAccount2 = "TarikTunaiwithSaveBankAccount2"
@@ -1020,6 +1066,7 @@ class PreloAnalyticEvent {
     static let Checkout = "Purchase:Checkout"
     static let ClaimPayment = "Purchase:Claim Payment"
     static let GoToCart = "Purchase:Go to Cart"
+    static let GoToPayment = "Purchase:Go to Payment"
     
     // Feedback
     static let Rate = "Feedback:Rate"

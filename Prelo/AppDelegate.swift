@@ -16,6 +16,8 @@ import FBSDKCoreKit
 import Alamofire
 import AVFoundation
 import AlamofireImage
+import GoogleMaps
+import GooglePlaces
 import GoogleSignIn
 
 //import AdobeCreativeSDKCore
@@ -301,6 +303,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         
         // Set status bar color
         self.setStatusBarBackgroundColor(color: UIColor.clear)
+        
+        // G-Maps
+        //prelo
+        GMSServices.provideAPIKey("AIzaSyCY-ZGzGzs6KioZ1Xsv8aLbaOqhERQQMTk")
+        GMSPlacesClient.provideAPIKey("AIzaSyCY-ZGzGzs6KioZ1Xsv8aLbaOqhERQQMTk")
+        //prelo ios
+        //GMSServices.provideAPIKey("AIzaSyAKxEIa5dMhzSt5OfMIfuvMNuqWLkB5xDo")
+        //GMSPlacesClient.provideAPIKey("AIzaSyAKxEIa5dMhzSt5OfMIfuvMNuqWLkB5xDo")
         
         // Override point for customization after application launch
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -1763,9 +1773,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
             self.window?.rootViewController = rootViewController
         }
         
-        self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
-            rootViewController!.pushViewController(cartVC, animated: true)
-        })
+        if !AppTools.isNewCart {
+            self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
+                rootViewController!.pushViewController(cartVC, animated: true)
+            })
+            
+        } else { // v2
+            if AppTools.isSingleCart {
+                self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
+                    let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
+                    rootViewController!.pushViewController(checkout2ShipVC, animated: true)
+                })
+            } else {
+                self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
+                    let checkout2VC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2, owner: nil, options: nil)?.first as! Checkout2ViewController
+                    rootViewController!.pushViewController(checkout2VC, animated: true)
+                })
+            }
+        }
     }
     
     // MARK: - Core Data stack
@@ -1986,6 +2011,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                     UserDefaults.standard.set(mx, forKey: UserDefaultsKey.MaxCommisions)
                     
                     UserDefaults.standard.synchronize()
+                }
+                
+                // Check cart type for init
+                if let j = data["ab_test"].array {
+                    if j.contains("checkout_2_pages") {
+                        AppTools.switchToSingleCart(false)
+                    } else  {
+                        AppTools.switchToSingleCart(true)
+                    }
                 }
                 
                 // Check apps frequency

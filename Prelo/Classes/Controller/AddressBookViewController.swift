@@ -147,7 +147,7 @@ class AddressBookViewController: BaseViewController, UITableViewDelegate, UITabl
         if ((indexPath as NSIndexPath).item < (self.addresses?.count)!) {
             return 192
         } else {
-            return 50
+            return 41
         }
     }
     
@@ -349,6 +349,8 @@ class AddressBookCell: UITableViewCell { // height 192
     @IBOutlet weak var btnSetMain: UIButton!
     @IBOutlet weak var btnDelete: UIButton!
     @IBOutlet weak var btnEdit: UIButton!
+    @IBOutlet weak var imgPin: UIImageView!
+    @IBOutlet weak var consTrailingBtnEdit: NSLayoutConstraint! // 38 -> 0
     
     var address: AddressItem!
     
@@ -394,14 +396,22 @@ class AddressBookCell: UITableViewCell { // height 192
             vwMain.isHidden = false
             btnSetMain.isHidden = true
             btnDelete.isHidden = true
+            consTrailingBtnEdit.constant = 0.0
             //btnDelete.isEnabled = false
             //btnDelete.setTitleColor(UIColor.lightGray)
         } else {
             vwMain.isHidden = true
             btnSetMain.isHidden = false
             btnDelete.isHidden = false
+            consTrailingBtnEdit.constant = 38.0
             //btnDelete.isEnabled = true
             //btnDelete.setTitleColor(UIColor.darkGray)
+        }
+        
+        if address.coordinate == "" {
+            imgPin.image = UIImage(named: "ic_address_undefined.png")
+        } else {
+            imgPin.image = UIImage(named: "ic_address_defined.png")
         }
     }
     
@@ -431,6 +441,8 @@ class AddressBookCell: UITableViewCell { // height 192
             userProfile.subdistrictName = address.subdisrictName
             userProfile.addressName = address.addressName
             userProfile.recipientName = address.recipientName
+            userProfile.coordinate = address.coordinate
+            userProfile.coordinateAddress = address.coordinateAddress
         }
         
         // Save data
@@ -445,7 +457,7 @@ class AddressBookCell: UITableViewCell { // height 192
 
 
 // MARK: - Class AddressBookNewCell
-class AddressBookNewCell: UITableViewCell { // height 50
+class AddressBookNewCell: UITableViewCell { // height 41
     @IBOutlet weak var vwPlus: UIView!
     
     func adapt() {

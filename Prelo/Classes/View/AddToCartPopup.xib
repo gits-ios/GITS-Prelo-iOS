@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Prelo2.ttf">
+            <string>Prelo2</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="Kde-hP-pb0" customClass="AddToCartPopup" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view hidden="YES" alpha="0.75" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8gU-cx-Uia" userLabel="Background Overlay">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NAs-tn-eUq" userLabel="Overlay PopUp">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SPh-JA-fcO" userLabel="PopUp Add2Cart">
+                            <rect key="frame" x="38" y="209.5" width="300" height="248"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_cart.png" translatesAutoresizingMaskIntoConstraints="NO" id="Oot-bY-WUy" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
+                                    <rect key="frame" x="16" y="27.5" width="24" height="24"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="24" id="fTF-vn-kOU"/>
+                                        <constraint firstAttribute="height" constant="24" id="sp8-oz-JRj"/>
+                                    </constraints>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Produk sudah dimasukkan ke keranjang belanja. Jumlah barang dikeranjang: &lt;x&gt;" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qVs-8w-5ky">
+                                    <rect key="frame" x="48" y="16" width="214" height="47"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bvk-UK-RYu">
+                                    <rect key="frame" x="262" y="8" width="30" height="30"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="30" id="WPH-Db-Urf"/>
+                                        <constraint firstAttribute="height" constant="30" id="pMo-am-dux"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="12"/>
+                                    <state key="normal" title="">
+                                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="btnBelanjaLagiPressed:" destination="Kde-hP-pb0" eventType="touchUpInside" id="dO6-V3-cQX"/>
+                                    </connections>
+                                </button>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zkb-CQ-oZ0">
+                                    <rect key="frame" x="16" y="79" width="60" height="60"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="60" id="6fN-z3-dHo"/>
+                                        <constraint firstAttribute="height" constant="60" id="pfO-n0-mlb"/>
+                                    </constraints>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Product Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="edk-Az-PCa">
+                                    <rect key="frame" x="84" y="79" width="200" height="17"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Harga" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="gkX-Tg-sLH">
+                                    <rect key="frame" x="84" y="100" width="200" height="17"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <color key="textColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VXV-17-Ilh" userLabel="LANJUT KE PEMBAYARAN">
+                                    <rect key="frame" x="16" y="155" width="268" height="40"/>
+                                    <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="40" id="xnE-cg-cTt"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                    <state key="normal" title="LANJUT KE PEMBAYARAN">
+                                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <state key="disabled" title="LOADING.."/>
+                                    <connections>
+                                        <action selector="btnGoToCartPressed:" destination="Kde-hP-pb0" eventType="touchUpInside" id="4D8-OU-4ob"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0jQ-XC-WUJ">
+                                    <rect key="frame" x="111" y="203" width="78" height="29"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <state key="normal" title="Belanja Lagi">
+                                        <color key="titleColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="btnBelanjaLagiPressed:" destination="Kde-hP-pb0" eventType="touchUpInside" id="GP7-pF-J86"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="0jQ-XC-WUJ" firstAttribute="centerX" secondItem="SPh-JA-fcO" secondAttribute="centerX" id="19L-hA-UFT"/>
+                                <constraint firstAttribute="trailing" secondItem="gkX-Tg-sLH" secondAttribute="trailing" constant="16" id="2Gx-8C-2CS"/>
+                                <constraint firstItem="gkX-Tg-sLH" firstAttribute="leading" secondItem="zkb-CQ-oZ0" secondAttribute="trailing" constant="8" id="4yG-A6-1xl"/>
+                                <constraint firstItem="qVs-8w-5ky" firstAttribute="leading" secondItem="Oot-bY-WUy" secondAttribute="trailing" constant="8" id="877-7C-Jij"/>
+                                <constraint firstItem="VXV-17-Ilh" firstAttribute="leading" secondItem="SPh-JA-fcO" secondAttribute="leading" constant="16" id="H1D-SZ-cSd"/>
+                                <constraint firstAttribute="trailing" secondItem="edk-Az-PCa" secondAttribute="trailing" constant="16" id="I6k-aE-SL0"/>
+                                <constraint firstItem="VXV-17-Ilh" firstAttribute="top" secondItem="zkb-CQ-oZ0" secondAttribute="bottom" constant="16" id="NO3-8M-l7X"/>
+                                <constraint firstItem="edk-Az-PCa" firstAttribute="top" secondItem="zkb-CQ-oZ0" secondAttribute="top" id="Ni8-RM-Fom"/>
+                                <constraint firstItem="zkb-CQ-oZ0" firstAttribute="top" secondItem="qVs-8w-5ky" secondAttribute="bottom" constant="16" id="OYj-4I-FmC"/>
+                                <constraint firstItem="0jQ-XC-WUJ" firstAttribute="top" secondItem="VXV-17-Ilh" secondAttribute="bottom" constant="8" id="QZl-7g-EVr"/>
+                                <constraint firstItem="bvk-UK-RYu" firstAttribute="leading" secondItem="qVs-8w-5ky" secondAttribute="trailing" id="XS3-Ox-0vs"/>
+                                <constraint firstItem="edk-Az-PCa" firstAttribute="leading" secondItem="zkb-CQ-oZ0" secondAttribute="trailing" constant="8" id="cQR-Cw-qrI"/>
+                                <constraint firstItem="zkb-CQ-oZ0" firstAttribute="leading" secondItem="SPh-JA-fcO" secondAttribute="leading" constant="16" id="cSf-uB-Cba"/>
+                                <constraint firstAttribute="trailing" secondItem="VXV-17-Ilh" secondAttribute="trailing" constant="16" id="eg0-ZN-VNK"/>
+                                <constraint firstItem="qVs-8w-5ky" firstAttribute="top" secondItem="SPh-JA-fcO" secondAttribute="top" constant="16" id="j37-Bv-1BP"/>
+                                <constraint firstAttribute="trailing" secondItem="bvk-UK-RYu" secondAttribute="trailing" constant="8" id="j70-hC-cZk"/>
+                                <constraint firstItem="Oot-bY-WUy" firstAttribute="leading" secondItem="SPh-JA-fcO" secondAttribute="leading" constant="16" id="l33-lB-ZD4"/>
+                                <constraint firstItem="Oot-bY-WUy" firstAttribute="centerY" secondItem="qVs-8w-5ky" secondAttribute="centerY" id="lOf-M0-Ka0"/>
+                                <constraint firstItem="gkX-Tg-sLH" firstAttribute="top" secondItem="edk-Az-PCa" secondAttribute="bottom" constant="4" id="per-CV-P4a"/>
+                                <constraint firstAttribute="width" constant="300" id="sGr-mn-nau"/>
+                                <constraint firstItem="bvk-UK-RYu" firstAttribute="top" secondItem="SPh-JA-fcO" secondAttribute="top" constant="8" id="th9-Nz-KIf"/>
+                                <constraint firstAttribute="bottom" secondItem="0jQ-XC-WUJ" secondAttribute="bottom" constant="16" id="y2T-M7-xxi"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="SPh-JA-fcO" firstAttribute="centerY" secondItem="NAs-tn-eUq" secondAttribute="centerY" id="8og-rt-tRC"/>
+                        <constraint firstItem="SPh-JA-fcO" firstAttribute="centerX" secondItem="NAs-tn-eUq" secondAttribute="centerX" id="Ffp-Ar-EDe"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="8gU-cx-Uia" firstAttribute="leading" secondItem="Kde-hP-pb0" secondAttribute="leading" id="0Kv-eK-Lwg"/>
+                <constraint firstAttribute="trailing" secondItem="NAs-tn-eUq" secondAttribute="trailing" id="56c-RV-9ef"/>
+                <constraint firstItem="NAs-tn-eUq" firstAttribute="top" secondItem="Kde-hP-pb0" secondAttribute="top" id="6ks-D2-U7d"/>
+                <constraint firstAttribute="bottom" secondItem="NAs-tn-eUq" secondAttribute="bottom" id="JI1-VB-Bdf"/>
+                <constraint firstAttribute="trailing" secondItem="8gU-cx-Uia" secondAttribute="trailing" id="UCc-Mt-AWz"/>
+                <constraint firstItem="8gU-cx-Uia" firstAttribute="top" secondItem="Kde-hP-pb0" secondAttribute="top" id="WTb-5l-GEd"/>
+                <constraint firstAttribute="bottom" secondItem="8gU-cx-Uia" secondAttribute="bottom" id="aNC-P9-ECl"/>
+                <constraint firstItem="NAs-tn-eUq" firstAttribute="leading" secondItem="Kde-hP-pb0" secondAttribute="leading" id="x3I-cE-fny"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="consCenteryPopUp" destination="8og-rt-tRC" id="sNV-9r-1Wj"/>
+                <outlet property="ic" destination="Oot-bY-WUy" id="aIt-TU-AQ5"/>
+                <outlet property="imgProduct" destination="zkb-CQ-oZ0" id="hUH-lf-2ZQ"/>
+                <outlet property="lbPrice" destination="gkX-Tg-sLH" id="Qs5-jR-VfP"/>
+                <outlet property="lbProduct" destination="edk-Az-PCa" id="eCS-pf-dJ0"/>
+                <outlet property="lbTitle" destination="qVs-8w-5ky" id="Od0-nf-5ut"/>
+                <outlet property="vwBackgroundOverlay" destination="8gU-cx-Uia" id="lTg-br-Ytl"/>
+                <outlet property="vwOverlayPopUp" destination="NAs-tn-eUq" id="mOd-2O-Ta1"/>
+                <outlet property="vwPopUp" destination="SPh-JA-fcO" id="JD2-KA-GvI"/>
+            </connections>
+            <point key="canvasLocation" x="24.5" y="174.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="ic_cart.png" width="96" height="96"/>
+    </resources>
+</document>
