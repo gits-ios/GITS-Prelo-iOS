@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="51" id="52g-Wv-QTc" customClass="Checkout2PreloBalanceCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="115"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="52g-Wv-QTc" id="wBf-mS-ErZ">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="114.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pEo-1b-XeF">
+                        <rect key="frame" x="4" y="2" width="367" height="110.5"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gunakan Prelo Balance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UmQ-ho-Kv1">
+                                <rect key="frame" x="8" y="15.5" width="294" height="17"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
+                                <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="hlQ-ar-7SI">
+                                <rect key="frame" x="310" y="8" width="51" height="31"/>
+                                <color key="onTintColor" red="1" green="0.60056952720000001" blue="0.1883386718" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="btnSwitchPressed:" destination="52g-Wv-QTc" eventType="valueChanged" id="1WU-Qs-Ryd"/>
+                                </connections>
+                            </switch>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="300000" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="C5W-Z9-yIW">
+                                <rect key="frame" x="8" y="51" width="279" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="pGN-8R-k4C"/>
+                                </constraints>
+                                <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prelo Balance kamu Rp31.529.565" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eC5-bA-4Jt">
+                                <rect key="frame" x="8" y="89" width="351" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y4X-fG-iKu">
+                                <rect key="frame" x="295" y="51" width="64" height="30"/>
+                                <color key="backgroundColor" red="1" green="0.60056952720000001" blue="0.1883386718" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="64" id="GeW-vZ-XHC"/>
+                                    <constraint firstAttribute="height" constant="30" id="kk9-3N-8Ol"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <state key="normal" title="APPLY">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnApplyPressed:" destination="52g-Wv-QTc" eventType="touchUpInside" id="XNS-y9-2iz"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="C5W-Z9-yIW" firstAttribute="centerY" secondItem="y4X-fG-iKu" secondAttribute="centerY" id="8UQ-d3-x88"/>
+                            <constraint firstAttribute="trailing" secondItem="hlQ-ar-7SI" secondAttribute="trailing" constant="8" id="Aw1-2S-CT3"/>
+                            <constraint firstItem="eC5-bA-4Jt" firstAttribute="top" secondItem="y4X-fG-iKu" secondAttribute="bottom" constant="8" id="F6C-Qx-ZyQ"/>
+                            <constraint firstItem="y4X-fG-iKu" firstAttribute="top" secondItem="hlQ-ar-7SI" secondAttribute="bottom" constant="12" id="FdX-UL-lgU"/>
+                            <constraint firstItem="UmQ-ho-Kv1" firstAttribute="leading" secondItem="pEo-1b-XeF" secondAttribute="leading" constant="8" id="H6O-41-Oju"/>
+                            <constraint firstAttribute="trailing" secondItem="eC5-bA-4Jt" secondAttribute="trailing" constant="8" id="ORS-U6-gyg"/>
+                            <constraint firstItem="C5W-Z9-yIW" firstAttribute="leading" secondItem="pEo-1b-XeF" secondAttribute="leading" constant="8" id="Rio-lU-OkV"/>
+                            <constraint firstItem="hlQ-ar-7SI" firstAttribute="top" secondItem="pEo-1b-XeF" secondAttribute="top" constant="8" id="U0a-Lv-NHu"/>
+                            <constraint firstItem="hlQ-ar-7SI" firstAttribute="leading" secondItem="UmQ-ho-Kv1" secondAttribute="trailing" constant="8" id="aDD-6I-k6z"/>
+                            <constraint firstItem="UmQ-ho-Kv1" firstAttribute="centerY" secondItem="hlQ-ar-7SI" secondAttribute="centerY" id="h0B-U5-MK7"/>
+                            <constraint firstAttribute="trailing" secondItem="y4X-fG-iKu" secondAttribute="trailing" constant="8" id="ubV-qK-XnL"/>
+                            <constraint firstItem="eC5-bA-4Jt" firstAttribute="leading" secondItem="pEo-1b-XeF" secondAttribute="leading" constant="8" id="wUF-gg-XFF"/>
+                            <constraint firstItem="y4X-fG-iKu" firstAttribute="leading" secondItem="C5W-Z9-yIW" secondAttribute="trailing" constant="8" id="y1G-TF-rB1"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="pEo-1b-XeF" secondAttribute="bottom" constant="2" id="5td-dI-Kki"/>
+                    <constraint firstAttribute="trailing" secondItem="pEo-1b-XeF" secondAttribute="trailing" constant="4" id="WbV-Kg-Gf9"/>
+                    <constraint firstItem="pEo-1b-XeF" firstAttribute="leading" secondItem="wBf-mS-ErZ" secondAttribute="leading" constant="4" id="d3j-eD-Ml7"/>
+                    <constraint firstItem="pEo-1b-XeF" firstAttribute="top" secondItem="wBf-mS-ErZ" secondAttribute="top" constant="2" id="hM3-CA-n1W"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="btnApply" destination="y4X-fG-iKu" id="KbF-s8-b8A"/>
+                <outlet property="btnSwitch" destination="hlQ-ar-7SI" id="yd7-3k-dFI"/>
+                <outlet property="consLeadingBtnApply" destination="y1G-TF-rB1" id="FSm-R8-Tct"/>
+                <outlet property="consWidthBtnApply" destination="GeW-vZ-XHC" id="s8a-ZY-l5l"/>
+                <outlet property="lbDescription" destination="eC5-bA-4Jt" id="mIb-0d-lie"/>
+                <outlet property="txtInputPreloBalance" destination="C5W-Z9-yIW" id="jsO-Kq-tWA"/>
+            </connections>
+            <point key="canvasLocation" x="-120.5" y="-33.5"/>
+        </tableViewCell>
+    </objects>
+</document>
