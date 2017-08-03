@@ -275,6 +275,7 @@ class AnalyticManager: NSObject {
             PreloAnalyticEvent.GoToCart,
             PreloAnalyticEvent.Checkout,
             PreloAnalyticEvent.ClaimPayment,
+            PreloAnalyticEvent.GoToPayment,
             
             // Referral
             PreloAnalyticEvent.RedeemReferralCode,

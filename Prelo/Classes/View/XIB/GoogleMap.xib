@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="PreloAwesome.ttf">
+            <string>PreloAwesome</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <viewController id="vRM-8L-kJl" customClass="GoogleMapViewController" customModule="Prelo" customModuleProvider="target">
+            <layoutGuides>
+                <viewControllerLayoutGuide type="top" id="K33-dB-5UB"/>
+                <viewControllerLayoutGuide type="bottom" id="p0Q-5N-CvH"/>
+            </layoutGuides>
+            <view key="view" contentMode="scaleToFill" id="Nxs-Jj-u1U">
+                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <searchBar contentMode="redraw" placeholder="Cari Alamat" translatesAutoresizingMaskIntoConstraints="NO" id="abh-an-NL2">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="44" id="xpZ-GR-Iis"/>
+                        </constraints>
+                        <textInputTraits key="textInputTraits"/>
+                    </searchBar>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DF9-wY-Leb" userLabel="Button &amp; Details">
+                        <rect key="frame" x="0.0" y="547" width="375" height="56"/>
+                        <subviews>
+                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jalan Kebon Bibit Barat No.31 Bandung Wetan, Kota Bandung, Jawa Barat 40116" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uaf-fE-Qqv">
+                                <rect key="frame" x="8" y="-33.5" width="359" height="33.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7cH-h4-15K">
+                                <rect key="frame" x="8" y="8" width="359" height="40"/>
+                                <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="wNB-Iz-hqt"/>
+                                </constraints>
+                                <state key="normal" title="PILIH LOKASI INI">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnChooseLOcationPressed:" destination="vRM-8L-kJl" eventType="touchUpInside" id="E8D-rq-gMw"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="7cH-h4-15K" secondAttribute="bottom" constant="8" id="AX3-Qg-uCa"/>
+                            <constraint firstAttribute="height" constant="56" id="Jsy-w1-YnM"/>
+                            <constraint firstAttribute="trailing" secondItem="Uaf-fE-Qqv" secondAttribute="trailing" constant="8" id="ZFo-tx-r9s"/>
+                            <constraint firstItem="7cH-h4-15K" firstAttribute="leading" secondItem="DF9-wY-Leb" secondAttribute="leading" constant="8" id="j4F-hS-1wH"/>
+                            <constraint firstItem="7cH-h4-15K" firstAttribute="top" secondItem="Uaf-fE-Qqv" secondAttribute="bottom" constant="8" id="obd-91-h7m"/>
+                            <constraint firstAttribute="trailing" secondItem="7cH-h4-15K" secondAttribute="trailing" constant="8" id="ri0-dD-hvl"/>
+                            <constraint firstItem="Uaf-fE-Qqv" firstAttribute="leading" secondItem="DF9-wY-Leb" secondAttribute="leading" constant="8" id="wxd-UH-5bs"/>
+                        </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C7N-dk-pl3" userLabel="GMaps View" customClass="GMSMapView">
+                        <rect key="frame" x="0.0" y="44" width="375" height="503"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JFd-DA-mJA" userLabel="Marker Teks">
+                        <rect key="frame" x="127" y="215.5" width="120" height="40"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OUe-Aa-OC8">
+                                <rect key="frame" x="0.0" y="0.0" width="120" height="40"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                <state key="normal" title="Pilih Lokasi">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="btnMarkerPressed:" destination="vRM-8L-kJl" eventType="touchUpInside" id="JOb-tz-eHV"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="OUe-Aa-OC8" secondAttribute="trailing" id="3Z9-tp-efd"/>
+                            <constraint firstItem="OUe-Aa-OC8" firstAttribute="leading" secondItem="JFd-DA-mJA" secondAttribute="leading" id="Gy3-w4-AHd"/>
+                            <constraint firstAttribute="width" constant="120" id="QAd-PJ-LRn"/>
+                            <constraint firstAttribute="bottom" secondItem="OUe-Aa-OC8" secondAttribute="bottom" id="UQP-r6-Z3Q"/>
+                            <constraint firstItem="OUe-Aa-OC8" firstAttribute="top" secondItem="JFd-DA-mJA" secondAttribute="top" id="Xia-Pb-EyS"/>
+                            <constraint firstAttribute="height" constant="40" id="lir-Vo-KUf"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                <real key="value" value="2"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cNH-SK-Czb" userLabel="Marker">
+                        <rect key="frame" x="167.5" y="255.5" width="40" height="40"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wWC-Wa-PW4">
+                                <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="32"/>
+                                <state key="normal" title="" image="ic_pin_border.png">
+                                    <color key="titleColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnMarkerPressed:" destination="vRM-8L-kJl" eventType="touchUpInside" id="em2-hj-Hxe"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="wWC-Wa-PW4" firstAttribute="leading" secondItem="cNH-SK-Czb" secondAttribute="leading" id="OF7-zb-T52"/>
+                            <constraint firstAttribute="width" constant="40" id="bbP-Ix-mwo"/>
+                            <constraint firstAttribute="bottom" secondItem="wWC-Wa-PW4" secondAttribute="bottom" id="gz3-gb-9Cd"/>
+                            <constraint firstAttribute="height" constant="40" id="nOw-0i-eyp"/>
+                            <constraint firstAttribute="trailing" secondItem="wWC-Wa-PW4" secondAttribute="trailing" id="tta-VJ-PUR"/>
+                            <constraint firstItem="wWC-Wa-PW4" firstAttribute="top" secondItem="cNH-SK-Czb" secondAttribute="top" id="vUH-tN-eOH"/>
+                        </constraints>
+                    </view>
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aQz-ga-aYs" userLabel="Background Search Result">
+                        <rect key="frame" x="0.0" y="44" width="375" height="559"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="mB6-Ft-555" userLabel="Search Result">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="439"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="mB6-Ft-555" firstAttribute="top" secondItem="aQz-ga-aYs" secondAttribute="top" id="To9-w1-ufF"/>
+                            <constraint firstAttribute="bottom" secondItem="mB6-Ft-555" secondAttribute="bottom" constant="120" id="TsV-mG-rzE"/>
+                            <constraint firstItem="mB6-Ft-555" firstAttribute="leading" secondItem="aQz-ga-aYs" secondAttribute="leading" id="gec-7R-EMQ"/>
+                            <constraint firstAttribute="trailing" secondItem="mB6-Ft-555" secondAttribute="trailing" id="gjM-ZP-w2T"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstItem="aQz-ga-aYs" firstAttribute="top" secondItem="abh-an-NL2" secondAttribute="bottom" id="Biu-gr-sCE"/>
+                    <constraint firstItem="DF9-wY-Leb" firstAttribute="top" secondItem="C7N-dk-pl3" secondAttribute="bottom" id="G2f-g0-BI8"/>
+                    <constraint firstItem="cNH-SK-Czb" firstAttribute="centerX" secondItem="C7N-dk-pl3" secondAttribute="centerX" id="LJA-nm-wok"/>
+                    <constraint firstItem="DF9-wY-Leb" firstAttribute="leading" secondItem="Nxs-Jj-u1U" secondAttribute="leading" id="PAV-ci-4Ot"/>
+                    <constraint firstItem="C7N-dk-pl3" firstAttribute="top" secondItem="abh-an-NL2" secondAttribute="bottom" id="PsG-2R-jbu"/>
+                    <constraint firstItem="aQz-ga-aYs" firstAttribute="leading" secondItem="Nxs-Jj-u1U" secondAttribute="leading" id="SEo-Cp-T1D"/>
+                    <constraint firstAttribute="trailing" secondItem="abh-an-NL2" secondAttribute="trailing" id="SUZ-7P-S5Y"/>
+                    <constraint firstItem="cNH-SK-Czb" firstAttribute="centerY" secondItem="C7N-dk-pl3" secondAttribute="centerY" constant="-20" id="Uuq-fk-fJr"/>
+                    <constraint firstItem="abh-an-NL2" firstAttribute="leading" secondItem="Nxs-Jj-u1U" secondAttribute="leading" id="d8Z-Mf-oIA"/>
+                    <constraint firstItem="cNH-SK-Czb" firstAttribute="top" secondItem="JFd-DA-mJA" secondAttribute="bottom" id="etU-w9-mIy"/>
+                    <constraint firstItem="p0Q-5N-CvH" firstAttribute="top" secondItem="aQz-ga-aYs" secondAttribute="bottom" id="i37-cb-di9"/>
+                    <constraint firstAttribute="trailing" secondItem="C7N-dk-pl3" secondAttribute="trailing" id="iAA-AW-nXT"/>
+                    <constraint firstItem="C7N-dk-pl3" firstAttribute="leading" secondItem="Nxs-Jj-u1U" secondAttribute="leading" id="lOj-Wd-VtT"/>
+                    <constraint firstItem="abh-an-NL2" firstAttribute="top" secondItem="K33-dB-5UB" secondAttribute="bottom" id="mX3-L8-LjR"/>
+                    <constraint firstItem="p0Q-5N-CvH" firstAttribute="top" secondItem="DF9-wY-Leb" secondAttribute="bottom" id="qVD-2G-ApD"/>
+                    <constraint firstItem="JFd-DA-mJA" firstAttribute="centerX" secondItem="C7N-dk-pl3" secondAttribute="centerX" id="rsY-5E-J6H"/>
+                    <constraint firstAttribute="trailing" secondItem="DF9-wY-Leb" secondAttribute="trailing" id="xJp-aj-BWx"/>
+                    <constraint firstAttribute="trailing" secondItem="aQz-ga-aYs" secondAttribute="trailing" id="zCr-M7-xHG"/>
+                </constraints>
+            </view>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+            <connections>
+                <outlet property="btnMarkerTeks" destination="OUe-Aa-OC8" id="rMu-KI-0wJ"/>
+                <outlet property="consBottomSearchResult" destination="TsV-mG-rzE" id="CU8-FF-wLy"/>
+                <outlet property="lbAddress" destination="Uaf-fE-Qqv" id="GhG-0v-GDy"/>
+                <outlet property="mapView" destination="C7N-dk-pl3" id="MXT-6v-qLD"/>
+                <outlet property="searchBar" destination="abh-an-NL2" id="wOx-fa-EGk"/>
+                <outlet property="searchResultTableView" destination="mB6-Ft-555" id="p3F-K6-zQZ"/>
+                <outlet property="vwBackgroundSearchResult" destination="aQz-ga-aYs" id="oCr-wT-g1C"/>
+                <outlet property="vwDetails" destination="DF9-wY-Leb" id="llb-3s-MY3"/>
+            </connections>
+            <point key="canvasLocation" x="-243.5" y="58.5"/>
+        </viewController>
+    </objects>
+    <resources>
+        <image name="ic_pin_border.png" width="96" height="96"/>
+    </resources>
+</document>
