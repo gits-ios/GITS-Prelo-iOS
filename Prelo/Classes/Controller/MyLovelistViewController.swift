@@ -178,9 +178,23 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func gotoCart() {
-        let c = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdCart) as! CartViewController
-        c.previousScreen = PageName.Lovelist
-        self.navigationController?.pushViewController(c, animated: true)
+        if AppTools.isNewCart {
+            if AppTools.isSingleCart {
+                let checkout2VC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2, owner: nil, options: nil)?.first as! Checkout2ViewController
+                checkout2VC.previousController = self
+                checkout2VC.previousScreen = PageName.Lovelist
+                self.navigationController?.pushViewController(checkout2VC, animated: true)
+            } else {
+                let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
+                checkout2ShipVC.previousController = self
+                checkout2ShipVC.previousScreen = PageName.Lovelist
+                self.navigationController?.pushViewController(checkout2ShipVC, animated: true)
+            }
+        } else {
+            let c = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdCart) as! CartViewController
+            c.previousScreen = PageName.Lovelist
+            self.navigationController?.pushViewController(c, animated: true)
+        }
     }
     
     // checkout affiliate
@@ -364,6 +378,7 @@ class MyLovelistCell : UITableViewCell {
     @IBOutlet weak var lblCommentCount: UILabel!
     @IBOutlet weak var lblLoveCount: UILabel!
     
+    var sellerId : String!
     var productId : String!
     var price: String!
     
@@ -386,6 +401,7 @@ class MyLovelistCell : UITableViewCell {
         lblPrice.text = "\(lovedProduct.price.asPrice)"
         lblCommentCount.text = lovedProduct.numComment.string
         lblLoveCount.text = lovedProduct.numLovelist.string
+        sellerId = lovedProduct.sellerId
         productId = lovedProduct.id
         price = lovedProduct.price.string
     }
@@ -395,14 +411,9 @@ class MyLovelistCell : UITableViewCell {
         if self.lovedProduct.isCheckout && self.lovedProduct.AffiliateData != nil {
             self.delegate?.checkoutAffiliate(self.productId, affiliateData: self.lovedProduct.AffiliateData!)
         } else {
-        if (CartProduct.isExist(productId!, email : User.EmailOrEmptyString)) { // Already in cart
-            Constant.showDialog("Warning", message: "Barang sudah ada di keranjang belanja Anda")
-            self.delegate?.gotoCart()
-        } else { // Not in cart
-            if (CartProduct.newOne(productId!, email : User.EmailOrEmptyString, name : (lblProductName.text)!) == nil) { // Failed
-                Constant.showDialog("Warning", message: "Gagal menyimpan barang ke keranjang belanja")
-            } else { // Success
-                // TODO: Kirim API add to cart
+        
+        if AppTools.isNewCart { // v2
+            if CartManager.sharedInstance.insertProduct(sellerId, productId: productId) {
                 // FB Analytics - Add to Cart
                 if AppTools.IsPreloProduction {
                     let fbPdata: [String : Any] = [
@@ -412,8 +423,31 @@ class MyLovelistCell : UITableViewCell {
                     ]
                     FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double(price)!, parameters: fbPdata)
                 }
-//                Constant.showDialog("Success", message: "Barang berhasil ditambahkan ke keranjang belanja")
+            } else {
+                Constant.showDialog("Warning", message: "Barang sudah ada di keranjang belanja Anda")
+            }
+            self.delegate?.gotoCart()
+        } else { // v1
+            if (CartProduct.isExist(productId!, email : User.EmailOrEmptyString)) { // Already in cart
+                Constant.showDialog("Warning", message: "Barang sudah ada di keranjang belanja Anda")
                 self.delegate?.gotoCart()
+            } else { // Not in cart
+                if (CartProduct.newOne(productId!, email : User.EmailOrEmptyString, name : (lblProductName.text)!) == nil) { // Failed
+                    Constant.showDialog("Warning", message: "Gagal menyimpan barang ke keranjang belanja")
+                } else { // Success
+                    // TODO: Kirim API add to cart
+                    // FB Analytics - Add to Cart
+                    if AppTools.IsPreloProduction {
+                        let fbPdata: [String : Any] = [
+                            FBSDKAppEventParameterNameContentType          : "product",
+                            FBSDKAppEventParameterNameContentID            : productId!,
+                            FBSDKAppEventParameterNameCurrency             : "IDR"
+                        ]
+                        FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double(price)!, parameters: fbPdata)
+                    }
+                    //Constant.showDialog("Success", message: "Barang berhasil ditambahkan ke keranjang belanja")
+                    self.delegate?.gotoCart()
+                }
             }
         }
         }

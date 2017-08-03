@@ -57,6 +57,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     var isFromCheckout = true
     var isFreeTransaction = false
     var isBackTwice = false
+    var isBackThreeTimes = false
     var isNavCtrlsChecked = false
     var isShowBankBRI = false
     var isBackToRoot = true
@@ -338,7 +339,17 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             self.navigationController?.setViewControllers(x!, animated: false)
             isNavCtrlsChecked = true
         }
-         */
+        
+        if (!isNavCtrlsChecked && isBackThreeTimes) {
+            var x = self.navigationController?.viewControllers
+            x?.remove(at: (x?.count)! - 3)
+            if (x == nil) {
+                x = []
+            }
+            self.navigationController?.setViewControllers(x!, animated: false)
+            isNavCtrlsChecked = true
+        }
+        */
         
         // Keyboard handling
         self.an_subscribeKeyboard(animations: { r, t, o in
@@ -427,6 +438,21 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             
             let navController = self.navigationController!
             var controllers = navController.viewControllers
+            controllers.removeLast()
+            controllers.removeLast()
+            
+            navController.setViewControllers(controllers, animated: false)
+            
+            let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+            
+            navController.pushViewController(myPurchaseVC, animated: true)
+        }
+        if let count = self.navigationController?.viewControllers.count, count >= 4 && isBackThreeTimes {
+           // _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-4])!, animated: true)
+            
+            let navController = self.navigationController!
+            var controllers = navController.viewControllers
+            controllers.removeLast()
             controllers.removeLast()
             controllers.removeLast()
             
@@ -526,6 +552,21 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
                     
                     let navController = self.navigationController!
                     var controllers = navController.viewControllers
+                    controllers.removeLast()
+                    controllers.removeLast()
+                    
+                    navController.setViewControllers(controllers, animated: false)
+                    
+                    let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                    
+                    navController.pushViewController(myPurchaseVC, animated: true)
+                }
+                if let count = self.navigationController?.viewControllers.count, count >= 4 && isBackThreeTimes {
+                   // _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-4])!, animated: true)
+                    
+                    let navController = self.navigationController!
+                    var controllers = navController.viewControllers
+                    controllers.removeLast()
                     controllers.removeLast()
                     controllers.removeLast()
                     
