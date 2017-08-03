@@ -408,6 +408,7 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
     }
     
     func setupShareContent(_ mediaType: mediaType) {
+        self.showLoading()
         self.shareText = "Download aplikasi Prelo dan dapatkan bonus Rp25.000 dengan mengisikan referral: " + self.myReferralCode
         
         // API Migrasi
@@ -417,40 +418,59 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
                 let data = json["_data"]
                 
                 print(data)
-                // TODO: - get content for share from server; profile & picture
-                self.shareImage = self.coverScreenshot()
-                self.showCoverScreenshot()
+                // TODO: - AUTH
                 
-                switch mediaType {
-                case .facebook:
-                    print("fb kena")
-                    self.facebookPressed()
-                case .twitter:
-                    print("tw kena")
-                    self.twitterPressed()
-                case .instagram:
-                    print("ig kena")
-                    self.instagramPressed()
-                case .path:
-                    print("path kena")
-                    self.pathPressed()
-                case .whatsapp:
-                    print("wa kena")
-                    self.whatsappPressed()
-                case .line:
-                    print("line kena")
-                    self.linePressed()
-                case .copyText:
-                    print("copy text kena")
-                    self.copyPressed()
-                case .email:
-                    print("email kena")
-                    self.emailPressed()
-                case .sms:
-                    print("sms kena")
-                    self.smsPressed()
+                if let imageUrl = data["url"].string {
+                    request(imageUrl, method: .get).responseImage { response in
+                        DispatchQueue.main.async(execute: {
+                            if let image = response.result.value {
+                                self.shareImage = image
+                            } else {
+                                self.shareImage = self.coverScreenshot()
+                            }
+                            self.execute(mediaType)
+                            self.hideLoading()
+                        })
+                    }
+                } else {
+                    self.shareImage = self.coverScreenshot()
+                    self.execute(mediaType)
                 }
             }
+        }
+    }
+    
+    func execute(_ mediaType: mediaType) {
+        self.showCoverScreenshot()
+        
+        switch mediaType {
+        case .facebook:
+            print("fb kena")
+            self.facebookPressed()
+        case .twitter:
+            print("tw kena")
+            self.twitterPressed()
+        case .instagram:
+            print("ig kena")
+            self.instagramPressed()
+        case .path:
+            print("path kena")
+            self.pathPressed()
+        case .whatsapp:
+            print("wa kena")
+            self.whatsappPressed()
+        case .line:
+            print("line kena")
+            self.linePressed()
+        case .copyText:
+            print("copy text kena")
+            self.copyPressed()
+        case .email:
+            print("email kena")
+            self.emailPressed()
+        case .sms:
+            print("sms kena")
+            self.smsPressed()
         }
     }
     
