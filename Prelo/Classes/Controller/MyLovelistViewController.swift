@@ -178,9 +178,128 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func gotoCart() {
-        let c = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdCart) as! CartViewController
-        c.previousScreen = PageName.Lovelist
-        self.navigationController?.pushViewController(c, animated: true)
+        if AppTools.isNewCart {
+            if AppTools.isSingleCart {
+                let checkout2VC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2, owner: nil, options: nil)?.first as! Checkout2ViewController
+                checkout2VC.previousController = self
+                checkout2VC.previousScreen = PageName.Lovelist
+                self.navigationController?.pushViewController(checkout2VC, animated: true)
+            } else {
+                let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
+                checkout2ShipVC.previousController = self
+                checkout2ShipVC.previousScreen = PageName.Lovelist
+                self.navigationController?.pushViewController(checkout2ShipVC, animated: true)
+            }
+        } else {
+            let c = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdCart) as! CartViewController
+            c.previousScreen = PageName.Lovelist
+            self.navigationController?.pushViewController(c, animated: true)
+        }
+    }
+    
+    // checkout affiliate
+    func checkoutAffiliate(_ productId: String, affiliateData: AffiliateItem) {
+        let _ = request(APIAffiliate.postCheckout(productIds: productId, affiliateName: (affiliateData.name)!)).responseJSON {resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Checkout \((affiliateData.name)!)" /*"Post Affiliate Checkout"*/)) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                if let checkoutUrl = data["checkout_url"].string {
+                    let webVC = BaseViewController.instatiateViewControllerFromStoryboardWithID("preloweb") as! PreloWebViewController
+                    webVC.url = checkoutUrl
+                    webVC.titleString = (affiliateData.name)!
+                    webVC.affilateMode = true
+                    webVC.checkoutPattern = (affiliateData.checkoutUrlPattern)!
+                    webVC.checkoutInitiateUrl = checkoutUrl
+                    webVC.checkoutSucceed = { orderId in
+                        print(orderId)
+                        self.navigateToOrderConfirmVC(orderId)
+                    }
+                    webVC.checkoutUnfinished = {
+                        Constant.showDialog("Checkout", message: "Checkout tertunda")
+                    }
+                    webVC.checkoutFailed = {
+                        Constant.showDialog("Checkout", message: "Checkout gagal, silahkan coba beberapa saat lagi")
+                    }
+                    let baseNavC = BaseNavigationController()
+                    baseNavC.setViewControllers([webVC], animated: false)
+                    self.present(baseNavC, animated: true, completion: nil)
+                }
+            }
+        }
+    }
+    
+    func navigateToOrderConfirmVC(_ orderId: String) {
+        // get data
+        let _ = request(APIAffiliate.getCheckoutResult(orderId: orderId)).responseJSON {resp in
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Get Affiliate Checkout")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                
+                let tId = data["transaction_id"].stringValue
+                let price = data["total_price"].stringValue
+                var imgs : [URL] = []
+                if let cd = data["cart_details"].array {
+                    for c in cd {
+                        if let ps = c["products"].array {
+                            for p in ps {
+                                if let pics = p["display_picts"].array {
+                                    for pic in pics {
+                                        if let url = URL(string: pic.stringValue) {
+                                            imgs.append(url)
+                                            break
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                var backAccounts : Array<BankAccount> = []
+                if let arr = data["affiliate_data"]["bank_accounts"].array {
+                    
+                    if arr.count > 0 {
+                        for i in 0...arr.count-1 {
+                            backAccounts.append(BankAccount.instance(arr[i])!)
+                        }
+                    }
+                }
+                
+                let o = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdOrderConfirm) as! OrderConfirmViewController
+                
+                o.orderID = orderId
+                o.total = price.int64
+                o.transactionId = tId
+                o.isBackTwice = false
+                o.isShowBankBRI = false
+                o.targetBank = ""
+                o.previousScreen = PageName.ProductDetail
+                o.images = imgs
+                o.isFromCheckout = false
+                
+                // hidden payment bank transfer
+                //o.isMidtrans = true
+                
+                o.isAffiliate = true
+                o.rekenings = backAccounts
+                o.targetBank = backAccounts.count > 0 ? backAccounts[0].bank_name : "dummy"
+                
+                if let an = data["affiliate_data"]["affiliate_name"].string {
+                    o.affiliatename = an
+                }
+                
+                if let expire = data["expire_time"].string {
+                    o.expireAffiliate = expire
+                }
+                
+                if let er = data["payment_expired_remaining"].int {
+                    o.remaining = er
+                }
+                
+                o.title = "Order ID \(orderId)"
+                self.navigationController?.pushViewController(o, animated: true)
+            }
+        }
     }
     
     // MARK: - UITableViewDelegate Functions
@@ -249,6 +368,7 @@ protocol MyLovelistCellDelegate {
     func hideLoading()
     func deleteCell(_ cell : MyLovelistCell)
     func gotoCart()
+    func checkoutAffiliate(_ productId: String, affiliateData: AffiliateItem)
 }
 
 class MyLovelistCell : UITableViewCell {
@@ -258,10 +378,12 @@ class MyLovelistCell : UITableViewCell {
     @IBOutlet weak var lblCommentCount: UILabel!
     @IBOutlet weak var lblLoveCount: UILabel!
     
+    var sellerId : String!
     var productId : String!
     var price: String!
     
     var delegate : MyLovelistCellDelegate?
+    var lovedProduct : LovedProduct!
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -270,6 +392,8 @@ class MyLovelistCell : UITableViewCell {
     }
     
     func adapt(_ lovedProduct : LovedProduct) {
+        self.lovedProduct = lovedProduct
+        
         if lovedProduct.productImageURL != nil {
             imgProduct.afSetImage(withURL: lovedProduct.productImageURL!)
         }
@@ -277,19 +401,19 @@ class MyLovelistCell : UITableViewCell {
         lblPrice.text = "\(lovedProduct.price.asPrice)"
         lblCommentCount.text = lovedProduct.numComment.string
         lblLoveCount.text = lovedProduct.numLovelist.string
+        sellerId = lovedProduct.sellerId
         productId = lovedProduct.id
         price = lovedProduct.price.string
     }
     
     @IBAction func beliPressed(_ sender: AnyObject) {
-        if (CartProduct.isExist(productId!, email : User.EmailOrEmptyString)) { // Already in cart
-            Constant.showDialog("Warning", message: "Barang sudah ada di keranjang belanja Anda")
-            self.delegate?.gotoCart()
-        } else { // Not in cart
-            if (CartProduct.newOne(productId!, email : User.EmailOrEmptyString, name : (lblProductName.text)!) == nil) { // Failed
-                Constant.showDialog("Warning", message: "Gagal menyimpan barang ke keranjang belanja")
-            } else { // Success
-                // TODO: Kirim API add to cart
+        // checkout affiliate -> hunstreet
+        if self.lovedProduct.isCheckout && self.lovedProduct.AffiliateData != nil {
+            self.delegate?.checkoutAffiliate(self.productId, affiliateData: self.lovedProduct.AffiliateData!)
+        } else {
+        
+        if AppTools.isNewCart { // v2
+            if CartManager.sharedInstance.insertProduct(sellerId, productId: productId) {
                 // FB Analytics - Add to Cart
                 if AppTools.IsPreloProduction {
                     let fbPdata: [String : Any] = [
@@ -299,9 +423,33 @@ class MyLovelistCell : UITableViewCell {
                     ]
                     FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double(price)!, parameters: fbPdata)
                 }
-//                Constant.showDialog("Success", message: "Barang berhasil ditambahkan ke keranjang belanja")
-                self.delegate?.gotoCart()
+            } else {
+                Constant.showDialog("Warning", message: "Barang sudah ada di keranjang belanja Anda")
             }
+            self.delegate?.gotoCart()
+        } else { // v1
+            if (CartProduct.isExist(productId!, email : User.EmailOrEmptyString)) { // Already in cart
+                Constant.showDialog("Warning", message: "Barang sudah ada di keranjang belanja Anda")
+                self.delegate?.gotoCart()
+            } else { // Not in cart
+                if (CartProduct.newOne(productId!, email : User.EmailOrEmptyString, name : (lblProductName.text)!) == nil) { // Failed
+                    Constant.showDialog("Warning", message: "Gagal menyimpan barang ke keranjang belanja")
+                } else { // Success
+                    // TODO: Kirim API add to cart
+                    // FB Analytics - Add to Cart
+                    if AppTools.IsPreloProduction {
+                        let fbPdata: [String : Any] = [
+                            FBSDKAppEventParameterNameContentType          : "product",
+                            FBSDKAppEventParameterNameContentID            : productId!,
+                            FBSDKAppEventParameterNameCurrency             : "IDR"
+                        ]
+                        FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double(price)!, parameters: fbPdata)
+                    }
+                    //Constant.showDialog("Success", message: "Barang berhasil ditambahkan ke keranjang belanja")
+                    self.delegate?.gotoCart()
+                }
+            }
+        }
         }
         // Delete cell after add to cart
         //self.deletePressed(nil)

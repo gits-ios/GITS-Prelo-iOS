@@ -611,7 +611,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                     //subview.backgroundColor = UIColor.white
                     cell.addSubview(subview)
                 } else {
-                    let attrStr = NSMutableAttributedString(string: "Pastikan kamu bertransaksi 100% aman hanya melalui rekening bersama Prelo. Waspada apabila kamu diminta bertransaksi di luar Prelo, terutama jika terdapat permintaan yang kurang wajar.")
+                    let attrStr = NSMutableAttributedString(string: "Pastikan kamu bertransaksi 100% aman hanya melalui rekening bersama Prelo atas nama PT. Kleo Appara Indonesia. Waspada apabila kamu diminta bertransaksi di luar Prelo, terutama jika terdapat permintaan yang kurang wajar.")
                     cell.lblText.attributedText = attrStr
                     cell.lblText.setSubstringColor("rekening bersama Prelo", color: Theme.PrimaryColor)
                 }
@@ -655,10 +655,16 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if ((indexPath as NSIndexPath).row == 0 && isShowBubble) { // Bubble cell
-            if (self.tawarItem.opIsMe) { // I am buyer
+            if (AppTools.isIPad) {
                 return 110
-            } else { // I am seller
-                return 110
+            } else {
+                if (self.isSellerNotActive) { // I am buyer
+                    return 110 // contact seller outside prelo
+                } else if (self.tawarItem.opIsMe) { // I am buyer
+                    return 130 // pay in prelo rekber
+                } else { // I am seller
+                    return 110 // mark as sold
+                }
             }
         } else { // Chat cell
             let chat = inboxMessages[(indexPath as NSIndexPath).row - (isShowBubble ? 1 : 0)]
@@ -1211,10 +1217,18 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     @IBAction func beli(_ sender : UIView?) {
         var success = true
-        if (CartProduct.getOne(tawarItem.itemId, email: User.EmailOrEmptyString) == nil) {
-            if (CartProduct.newOne(tawarItem.itemId, email : User.EmailOrEmptyString, name : tawarItem.itemName) == nil) {
+        if AppTools.isNewCart { // v2
+            if CartManager.sharedInstance.insertProduct(tawarItem.theirId, productId: tawarItem.theirId) {
+                success = true
+            } else {
                 success = false
-                Constant.showDialog("Failed", message: "Gagal Menyimpan")
+            }
+        } else {
+            if (CartProduct.getOne(tawarItem.itemId, email: User.EmailOrEmptyString) == nil) {
+                if (CartProduct.newOne(tawarItem.itemId, email : User.EmailOrEmptyString, name : tawarItem.itemName) == nil) {
+                    success = false
+                    Constant.showDialog("Failed", message: "Gagal Menyimpan")
+                }
             }
         }
         
@@ -1228,11 +1242,25 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 ]
                 FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double(tawarItem.finalPrice), parameters: fbPdata)
             }
-//            self.performSegue(withIdentifier: "segCart", sender: nil)
-            let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
-            cart.previousController = self
-            cart.previousScreen = PageName.InboxDetail
-            self.navigationController?.pushViewController(cart, animated: true)
+            if AppTools.isNewCart {
+                if AppTools.isSingleCart {
+                    let checkout2VC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2, owner: nil, options: nil)?.first as! Checkout2ViewController
+                    checkout2VC.previousController = self
+                    checkout2VC.previousScreen = PageName.InboxDetail
+                    self.navigationController?.pushViewController(checkout2VC, animated: true)
+                } else {
+                    let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
+                    checkout2ShipVC.previousController = self
+                    checkout2ShipVC.previousScreen = PageName.InboxDetail
+                    self.navigationController?.pushViewController(checkout2ShipVC, animated: true)
+                }
+            } else {
+                //self.performSegue(withIdentifier: "segCart", sender: nil)
+                let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
+                cart.previousController = self
+                cart.previousScreen = PageName.InboxDetail
+                self.navigationController?.pushViewController(cart, animated: true)
+            }
         }
     }
     

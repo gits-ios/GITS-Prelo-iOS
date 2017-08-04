@@ -62,9 +62,15 @@ class PreloNotificationListener {
                 if (data["user_has_unpaid_transaction"].boolValue == true) {
                     self.cartCount += data["n_transaction_unpaid"].intValue
                 }
-                self.cartCount += CartProduct.getAll(User.EmailOrEmptyString).count
+                // cart <- local
+                if AppTools.isNewCart {
+                    self.cartCount += CartManager.sharedInstance.getSize()
+                } else {
+                    self.cartCount += CartProduct.getAll(User.EmailOrEmptyString).count
+                }
                 
                 self.delegate?.showCartCount(self.cartCount)
+                
                 self.delegate?.refreshCartPage()
             }
         }

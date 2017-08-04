@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="35" id="2Wb-e7-xFE" customClass="Checkout2CourierDescriptionCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="35"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2Wb-e7-xFE" id="ay8-Dw-Ra2">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="34.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fPj-oW-dFm" userLabel="line1px">
+                        <rect key="frame" x="12" y="0.0" width="351" height="1"/>
+                        <color key="backgroundColor" red="0.85490196080000003" green="0.85490196080000003" blue="0.85490196080000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="juD-ri-qL9"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Silahkan lengkapi lokasi jika kamu memilih kurir GO-SEND" textAlignment="center" lineBreakMode="clip" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Na5-KR-I5V">
+                        <rect key="frame" x="12" y="9" width="351" height="14.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailingMargin" secondItem="Na5-KR-I5V" secondAttribute="trailing" constant="4" id="2zR-6x-a38"/>
+                    <constraint firstItem="fPj-oW-dFm" firstAttribute="leading" secondItem="ay8-Dw-Ra2" secondAttribute="leading" constant="12" id="735-Ig-o5Z"/>
+                    <constraint firstAttribute="trailing" secondItem="fPj-oW-dFm" secondAttribute="trailing" constant="12" id="7bp-Jc-jbx"/>
+                    <constraint firstItem="Na5-KR-I5V" firstAttribute="top" secondItem="fPj-oW-dFm" secondAttribute="bottom" constant="8" id="onA-w8-reh"/>
+                    <constraint firstItem="fPj-oW-dFm" firstAttribute="top" secondItem="ay8-Dw-Ra2" secondAttribute="top" id="ujF-Kb-1Fv"/>
+                    <constraint firstItem="Na5-KR-I5V" firstAttribute="leading" secondItem="ay8-Dw-Ra2" secondAttribute="leadingMargin" constant="4" id="vMg-hi-7Qk"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="lbDescriptionCourier" destination="Na5-KR-I5V" id="cLu-Ct-kL1"/>
+            </connections>
+            <point key="canvasLocation" x="14.5" y="-82.5"/>
+        </tableViewCell>
+    </objects>
+</document>

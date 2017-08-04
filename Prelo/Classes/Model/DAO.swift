@@ -1073,6 +1073,28 @@ open class ProductDetail : NSObject, TawarItem
         return false
     }
     
+    var isCheckout2Pages: Bool {
+        if let j = json["_data"]["ab_test"].array {
+            if j.contains("checkout_2_pages") {
+                return true
+            } else  {
+                return false
+            }
+        }
+        return false
+    }
+    
+    var isAddToCart: Bool {
+        if let j = json["_data"]["ab_test"].array {
+            if j.contains("add_to_cart") {
+                return true
+            } else  {
+                return false
+            }
+        }
+        return false
+    }
+    
     var IsShopClosed : Bool {
         if let j = json["_data"]["seller"]["shop_closed"].bool {
             return j
@@ -1964,8 +1986,22 @@ class TransactionDetail : NSObject {
         return 0
     }
     
+    var kredivoChargeAmount : Int64 {
+        if let j = json["kredivo_charge_amount"].int64 {
+            return j
+        }
+        return 0
+    }
+    
     var paymentCode: String {
         if let j = json["payment_method_param"]["payment_code"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var paymentType: String {
+        if let j = json["payment_method_param"]["payment_type"].string {
             return j
         }
         return ""
@@ -1983,6 +2019,13 @@ class TransactionDetail : NSObject {
             return j
         }
         return nil
+    }
+    
+    var vaNumber: String {
+        if let j = json["payment_method_param"]["permata_va_number"].string {
+            return j
+        }
+        return ""
     }
 }
 
@@ -2454,6 +2497,13 @@ class TransactionProductDetail : NSObject {
         return ""
     }
     
+    var paymentType: String {
+        if let j = json["payment_method_param"]["payment_type"].string {
+            return j
+        }
+        return ""
+    }
+    
     var refundable : Bool {
         if let j = json["refundable"].bool {
             return j
@@ -2616,6 +2666,27 @@ class LovedProduct : NSObject {
                     return URL(string: j)
                 }
             }
+        }
+        return nil
+    }
+    
+    var sellerId : String {
+        if let j = json["seller_id"].string {
+            return j
+        }
+        return ""
+    }
+
+    var isCheckout : Bool {
+        if let j = json["affiliate_data"]["affiliate_type"].string {
+            return (j.lowercased() == "checkout")
+        }
+        return false
+    }
+    
+    var AffiliateData : AffiliateItem? {
+        if let j = AffiliateItem.instance(json["affiliate_data"]) {
+            return j
         }
         return nil
     }
@@ -3687,6 +3758,8 @@ class BalanceMutationItem : NSObject {
     }
 }
 
+// author: santensuru
+// MARK: - ACHIEVEMENT
 class AchievementItem : NSObject {
     var json : JSON = JSON([:])
     
@@ -3976,6 +4049,7 @@ class AchievementTierItem : NSObject {
     }
 }
 
+// MARK: - WJP
 class HistoryWithdrawItem : NSObject {
     var json : JSON!
     
@@ -4011,6 +4085,7 @@ class HistoryWithdrawItem : NSObject {
     }
 }
 
+// MARK: - PRELO MESSAGE
 class PreloMessageItem : NSObject {
     var json : JSON = JSON([:])
     
@@ -4093,6 +4168,7 @@ class PreloMessageItem : NSObject {
     }
 }
 
+// MARK: - ADDRESS BOOK
 // address-book
 class AddressItem : NSObject {
     var json : JSON!
@@ -4196,6 +4272,861 @@ class AddressItem : NSObject {
             return j
         }
         return false
+    }
+    
+    var coordinate : String {
+        if let j = json["coordinate"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var coordinateAddress : String {
+        if let j = json["coordinate_address"].string {
+            return j
+        }
+        return ""
+    }
+}
+
+// MARK: - CART V2
+// API cart v2 result
+class CartV2ResultItem : NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> CartV2ResultItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = CartV2ResultItem()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var totalPrice : Int64 {
+        if let j = json["total_price"].int64 {
+            return j
+        }
+        return 0
+    }
+    
+    var totalOngkirMax : Int64 {
+        if let j = json["total_ongkir_max"].int64 {
+            return j
+        }
+        return 0
+    }
+    
+    var totalOngkirMin : Int64 {
+        if let j = json["total_ongkir_min"].int64 {
+            return j
+        }
+        return 0
+    }
+    
+    var isHaveError : Bool {
+        if let j = json["_have_error"].bool {
+            return j
+        }
+        return false
+    }
+    
+    // dependent on isHaveError -> true
+    var message : String {
+        if let j = json["_message"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var modalVerifyText : String? {
+        if let j = json["modal_verify_text"].string {
+            return j
+        }
+        return nil
+    }
+    
+    var buyerUsername : String {
+        if let j = json["buyer_username"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var addressBook : Array<AddressItem> {
+        if let arr = json["address_book"].array {
+            
+            var _addressBook : Array<AddressItem> = []
+            for i in arr {
+                _addressBook.append(AddressItem.instance(i)!)
+            }
+            
+            return _addressBook
+            
+        }
+        return []
+    }
+    
+    var defaultAddress : AddressItem? {
+        if let j = AddressItem.instance(json["default_address"]) {
+            return j
+        }
+        return nil
+    }
+    
+    var preloBonus : Int64 {
+        if let j = json["bonus_available"].int64 {
+            return j
+        }
+        return 0
+    }
+    
+    var preloBalance : Int64 {
+        if let j = json["balance_available"].int64 {
+            return j
+        }
+        return 0
+    }
+    
+    var banktransferDigit : Int64 {
+        if let j = json["banktransfer_digit"].int64 {
+            return j
+        }
+        return 0
+    }
+    
+    var abTest : Array<String> {
+        if let arr = json["ab_test"].array {
+            
+            var _abTest : Array<String> = []
+            for i in arr {
+                _abTest.append(i.stringValue)
+            }
+            
+            return _abTest
+            
+        }
+        return []
+    }
+    
+    var veritransCharge : VeritransChargeItem? {
+        if let j = VeritransChargeItem.instance(json["veritrans_charge"]) {
+            return j
+        }
+        return nil
+    }
+    
+    var kredivoCharge : KredivoChargeItem? {
+        if let j = KredivoChargeItem.instance(json["kredivo_charge"]) {
+            return j
+        }
+        return nil
+    }
+    
+    var voucherSerial : String? {
+        if let j = json["voucher_serial"].string {
+            return j
+        }
+        return nil
+    }
+    
+    var voucherAmount : Int64 {
+        if let j = json["voucher_amount"].int64 {
+            return j
+        }
+        return 0
+    }
+    
+    var isVoucherValid : Bool {
+        if let j = json["voucher_valid"].bool {
+            return j
+        }
+        return false
+    }
+    
+    var voucherError : String {
+        if let j = json["voucher_error"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var isUserHasUnpaidTransaction : Bool {
+        if let j = json["user_has_unpaid_transaction"].bool {
+            return j
+        }
+        return false
+    }
+    
+    var nTransactionUnpaid : Int {
+        if let j = json["n_transaction_unpaid"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var isShowIndomaret : Bool {
+        if let j = json["show_indomaret"].bool {
+            return j
+        }
+        return false
+    }
+    
+    var cartDetails : Array<CartDetailItem> {
+        if let arr = json["cart_details"].array {
+            
+            var _cartDetails : Array<CartDetailItem> = []
+            for i in arr {
+                _cartDetails.append(CartDetailItem.instance(i)!)
+            }
+            
+            return _cartDetails
+            
+        }
+        return []
+    }
+}
+
+// veritrans-charge
+class VeritransChargeItem : NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> VeritransChargeItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = VeritransChargeItem()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var indomaretText : String {
+        if let j = json["indomaret_text"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var indomaretSteps : String {
+        if let arr = json["indomaret_steps"].array {
+            var j = ""
+            for i in arr {
+                j += i.stringValue + "\n"
+            }
+            return j
+        }
+        return ""
+    }
+    
+    var indomaretMultiplyFactor : Double {
+        if let j = json["indomaret_multiply_factor"].double {
+            return j
+        }
+        return 0.0
+    }
+    
+    var indomaret : Int64 {
+        if let j = json["indomaret"].int64 {
+            return j
+        }
+        return 0
+    }
+    
+    var creditCardText : String {
+        if let j = json["credit_card_text"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var creditCardSteps : String {
+        if let arr = json["credit_card_steps"].array {
+            var j = ""
+            for i in arr {
+                j += i.stringValue + "\n"
+            }
+            return j
+        }
+        return ""
+    }
+    
+    var creditCardMultiplyFactor : Double {
+        if let j = json["credit_card_multiply_factor"].double {
+            return j
+        }
+        return 0.0
+    }
+    
+    var creditCard : Int64 {
+        if let j = json["credit_card"].int64 {
+            return j
+        }
+        return 0
+    }
+    
+    var mandiriClickpayText : String {
+        if let j = json["mandiri_clickpay_text"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var mandiriClickpaySteps : String {
+        if let arr = json["mandiri_clickpay_steps"].array {
+            var j = ""
+            for i in arr {
+                j += i.stringValue + "\n"
+            }
+            return j
+        }
+        return ""
+    }
+    
+    var mandiriClickpay : Int64 {
+        if let j = json["mandiri_clickpay"].int64 {
+            return j
+        }
+        return 0
+    }
+    
+    var mandiriEcashText : String {
+        if let j = json["mandiri_ecash_text"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var mandiriEcashSteps : String {
+        if let arr = json["mandiri_ecash_steps"].array {
+            var j = ""
+            for i in arr {
+                j += i.stringValue + "\n"
+            }
+            return j
+        }
+        return ""
+    }
+    
+    var mandiriEcashMultiplyFactor : Double {
+        if let j = json["mandiri_ecash_multiply_factor"].double {
+            return j
+        }
+        return 0.0
+    }
+    
+    var mandiriEcash : Int64 {
+        if let j = json["mandiri_ecash"].int64 {
+            return j
+        }
+        return 0
+    }
+    
+    var cimbClicksText : String {
+        if let j = json["cimb_clicks_text"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var cimbClicksSteps : String {
+        if let arr = json["cimb_clicks_steps"].array {
+            var j = ""
+            for i in arr {
+                j += i.stringValue + "\n"
+            }
+            return j
+        }
+        return ""
+    }
+    
+    var cimbClicks : Int64 {
+        if let j = json["cimb_clicks"].int64 {
+            return j
+        }
+        return 0
+    }
+    
+    var bankTransferText : String {
+        if let j = json["bank_transfer_text"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var bankTransferStepsOld : String {
+        if let arr = json["bank_transfer_steps_old"].array {
+            var j = ""
+            for i in arr {
+                j += i.stringValue + "\n"
+            }
+            return j
+        }
+        return ""
+    }
+    
+    var bankTransferSteps : String {
+        if let arr = json["bank_transfer_steps"].array {
+            var j = ""
+            for i in arr {
+                j += i.stringValue + "\n"
+            }
+            return j
+        }
+        return ""
+    }
+    
+    var permataVaText : String {
+        if let j = json["permata_va_text"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var permataVaSteps : String {
+        if let arr = json["permata_va_steps"].array {
+            var j = ""
+            for i in arr {
+                j += i.stringValue + "\n"
+            }
+            return j
+        }
+        return ""
+    }
+    
+    var permataVa : Int64 {
+        if let j = json["permata_va"].int64 {
+            return j
+        }
+        return 0
+    }
+}
+
+// kredivo-charge
+class KredivoChargeItem : NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> KredivoChargeItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = KredivoChargeItem()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var text : String {
+        if let j = json["installment_text"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var steps : String {
+        if let arr = json["installment_steps"].array {
+            var j = ""
+            for i in arr {
+                j += i.stringValue + "\n"
+            }
+            return j
+        }
+        return ""
+    }
+    
+    var installment : Double {
+        if let j = json["installment"].double {
+            return j
+        }
+        return 0.0
+    }
+}
+
+// cart-details
+class CartDetailItem : NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> CartDetailItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = CartDetailItem()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var id : String {
+        if let j = json["_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var username : String {
+        if let j = json["username"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var fullname : String {
+        if let j = json["fullname"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var regionId : String {
+        if let j = json["region_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var provinceId : String {
+        if let j = json["province_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var subdistrictId : String {
+        if let j = json["subdistrict_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var shippingPreferencesIds : Array<String> {
+        if let arr = json["shipping_preferences_ids"].array {
+            
+            var _shippingPreferencesIds : Array<String> = []
+            for i in arr {
+                _shippingPreferencesIds.append(i.stringValue)
+            }
+            
+            return _shippingPreferencesIds
+            
+        }
+        return []
+    }
+    
+    var shippingPackages : Array<ShippingPackageItem> {
+        if let arr = json["shipping_packages"].array {
+            
+            var _shippingPackages : Array<ShippingPackageItem> = []
+            for i in arr {
+                _shippingPackages.append(ShippingPackageItem.instance(i)!)
+            }
+            
+            return _shippingPackages
+            
+        }
+        return []
+    }
+
+    var totalProductWeight : Int {
+        if let j = json["total_product_weight"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var products : Array<ProductItem> {
+        if let arr = json["products"].array {
+            
+            var _products : Array<ProductItem> = []
+            for i in arr {
+                _products.append(ProductItem.instance(i)!)
+            }
+            
+            return _products
+            
+        }
+        return []
+    }
+    
+    var totalProductWeightKg : Int {
+        if let j = json["total_product_weight_kg"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var shippingPackageId : String {
+        if let j = json["shipping_package_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var shippingPackageIdOrigin : String {
+        if let j = json["shipping_package_id_origin"].string {
+            return j
+        }
+        return ""
+    }
+}
+
+// shipping-packages
+class ShippingPackageItem : NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> ShippingPackageItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = ShippingPackageItem()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var id : String {
+        if let j = json["_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var name : String {
+        if let j = json["name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var shippingId : String {
+        if let j = json["shipping_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var price : Int64 {
+        if let j = json["price"].int64 {
+            return j
+        }
+        return 0
+    }
+    
+    var timeMax : Int {
+        if let j = json["time_max"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var timeMin : Int {
+        if let j = json["time_min"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var isNeedLocation : Bool {
+        if let j = json["need_coordinate"].bool {
+            return j
+        }
+        return false
+    }
+}
+
+// products
+class ProductItem : NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> ProductItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = ProductItem()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var id : String {
+        if let j = json["_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var name : String {
+        if let j = json["name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var status : Int {
+        if let j = json["status"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var categoryId : String {
+        if let j = json["category_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var brandId : String {
+        if let j = json["brand_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var price : Int64 {
+        if let j = json["price"].int64 {
+            return j
+        }
+        return 0
+    }
+    
+    var weight : Int {
+        if let j = json["weight"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var isFreeOngkir : Bool {
+        if let j = json["free_ongkir"].int {
+            return (j == 1)
+        }
+        return false
+    }
+    
+    var commission : Int64 {
+        if let j = json["commission"].int64 {
+            return j
+        }
+        return 0
+    }
+    
+    var jenisBarang : String {
+        if let j = json["jenis_barang"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var displayPicts : Array<URL> {
+        if let arr = json["display_picts"].array {
+            
+            var _displayPicts : Array<URL> = []
+            for i in arr {
+                if let urlString = i.string {
+                    let url = URL(string: urlString)
+                    _displayPicts.append(url!)
+                }
+            }
+            
+            return _displayPicts
+            
+        }
+        return []
+    }
+    
+    var sellerId : String {
+        if let j = json["seller_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var sellerUsername : String {
+        if let j = json["seller_username"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var sellerFullname : String {
+        if let j = json["seller_fullname"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var sellerRegionId : String {
+        if let j = json["seller_region"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var sellerProvinceId : String {
+        if let j = json["seller_province"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var sellerSubdistrictId : String {
+        if let j = json["seller_subdistrict"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var sellerShippingPreferenceIds : Array<String> {
+        if let arr = json["seller_shipping_preferences"].array {
+            
+            var _sellerShippingPreferences : Array<String> = []
+            for i in arr {
+                _sellerShippingPreferences.append(i.stringValue)
+            }
+            
+            return _sellerShippingPreferences
+            
+        }
+        return []
+    }
+    
+    var nameOriginal : String {
+        if let j = json["name_original"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var productId : String {
+        if let j = json["product_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var displayPictsOriginal : Array<URL> {
+        if let arr = json["display_picts_original"].array {
+            
+            var _displayPictsOriginal : Array<URL> = []
+            for i in arr {
+                if let urlString = i.string {
+                    let url = URL(string: urlString)
+                    _displayPictsOriginal.append(url!)
+                }
+            }
+            
+            return _displayPictsOriginal
+            
+        }
+        return []
+    }
+    
+    var errorMessage : String? {
+        if let j = json["_error"].string {
+            return j
+        }
+        return nil
     }
 }
 
@@ -4356,5 +5287,57 @@ class BankAccount : NSObject {
             return j
         }
         return "-"
+    }
+}
+
+// rekening-list
+class RekeningItem : NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> RekeningItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = RekeningItem()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var target_bank : String {
+        if let j = json["target_bank"].string {
+            return j
+        }
+        return ""
+    }
+    var account_number : String {
+        if let j = json["account_number"].string {
+            return j
+        }
+        return ""
+    }
+    var name : String {
+        if let j = json["name"].string {
+            return j
+        }
+        return ""
+    }
+    var branch : String {
+        if let j = json["branch"].string {
+            return j
+        }
+        return ""
+    }
+    var isDefaultBankAccount : Bool {
+        if let j = json["is_default"].bool{
+            return j
+        }
+        return false
+    }
+    var id : String {
+        if let j = json["_id"].string{
+            return j
+        }
+        return ""
     }
 }
