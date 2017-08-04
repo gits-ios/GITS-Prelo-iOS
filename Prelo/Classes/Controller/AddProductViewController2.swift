@@ -145,6 +145,16 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // hack commisions
+        let comTwitter = UserDefaults.standard.integer(forKey: UserDefaultsKey.ComTwitter)
+        let comFacebook = UserDefaults.standard.integer(forKey: UserDefaultsKey.ComFacebook)
+        let comInstagram = UserDefaults.standard.integer(forKey: UserDefaultsKey.ComInstagram)
+        
+        let minCommission = 10 - (comTwitter + comFacebook + comInstagram)
+        if minCommission > 0 {
+            txtCommission.text = "\(String(minCommission))% - 10%"
+        }
+        
         captionImagesMakeSure.numberOfLines = 0
         captionImagesMakeSureFake.numberOfLines = 0
         
@@ -2313,7 +2323,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 }
                 
                 self.btnSubmit.isEnabled = true
-                let share = self.storyboard?.instantiateViewController(withIdentifier: "share") as! AddProductShareViewController
+                //let share = self.storyboard?.instantiateViewController(withIdentifier: "share") as! AddProductShareViewController
+                let share = Bundle.main.loadNibNamed(Tags.XibNameAddProductShare2, owner: nil, options: nil)?.first as! AddProductShareViewController2
                 share.sendProductParam = param
                 share.sendProductImages = self.images
                 share.basePrice = (newPrice.int64)
@@ -2351,7 +2362,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             
             let json = JSON((res ?? [:]))
             
-            let s = self.storyboard?.instantiateViewController(withIdentifier: "share") as! AddProductShareViewController
+            //let s = self.storyboard?.instantiateViewController(withIdentifier: "share") as! AddProductShareViewController
+            let s = Bundle.main.loadNibNamed(Tags.XibNameAddProductShare2, owner: nil, options: nil)?.first as! AddProductShareViewController2
             if let price = json["_data"]["price"].int64
             {
                 s.basePrice = price
