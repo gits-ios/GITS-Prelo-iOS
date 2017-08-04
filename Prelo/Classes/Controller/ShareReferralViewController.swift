@@ -307,8 +307,8 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
                 self.progressSaldo.setProgress(progress, animated: true)
                 
                 // Set shareText
-                self.shareText = "Gunakan kode referral saya: " + self.myReferralCode + " untuk potongan Rp25.000\nuntuk transaksi pertama kamu di Prelo!"
-                self.lbReferral.text = self.shareText
+                let shareText = "Gunakan kode referral saya: " + self.myReferralCode + " untuk potongan Rp25.000\nuntuk transaksi pertama kamu di Prelo!"
+                self.lbReferral.text = shareText
                 
                 // Jika sudah pernah memasukkan referral, sembunyikan field
                 if (data["referral"]["referral_code_used"] != nil) {
@@ -334,7 +334,7 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
                 let data = json["_data"]
                 
                 print(data)
-                // TODO: - AUTH
+                // Production Only
                 
                 if let imageUrl = data["url"].string {
                     request(imageUrl, method: .get).responseImage { response in
@@ -357,7 +357,9 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
     }
     
     func execute(_ mediaType: mediaType) {
-        self.showCoverScreenshot()
+        if !AppTools.IsPreloProduction {
+            self.showCoverScreenshot()
+        }
         
         switch mediaType {
         case .facebook:

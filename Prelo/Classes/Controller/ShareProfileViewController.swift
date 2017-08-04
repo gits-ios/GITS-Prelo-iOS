@@ -397,8 +397,8 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
                 self.myReferralCode = data["referral"]["my_referral_code"].stringValue
                 
                 // Set shareText
-                self.shareText = "Kunjungi shop saya (prelo.co.id/" + self.myUsername! + ")\nGunakan kode referral: " + self.myReferralCode + " untuk potongan Rp25.000\nuntuk transaksi pertama kamu di Prelo!"
-                self.lbReferral.text = self.shareText
+                let shareText = "Kunjungi shop saya (prelo.co.id/" + self.myUsername! + ")\nGunakan kode referral: " + self.myReferralCode + " untuk potongan Rp25.000\nuntuk transaksi pertama kamu di Prelo!"
+                self.lbReferral.text = shareText
                 
                 self.hideLoading()
             } else {
@@ -418,7 +418,7 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
                 let data = json["_data"]
                 
                 print(data)
-                // TODO: - AUTH
+                // Production Only
                 
                 if let imageUrl = data["url"].string {
                     request(imageUrl, method: .get).responseImage { response in
@@ -441,7 +441,9 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
     }
     
     func execute(_ mediaType: mediaType) {
-        self.showCoverScreenshot()
+        if !AppTools.IsPreloProduction {
+            self.showCoverScreenshot()
+        }
         
         switch mediaType {
         case .facebook:
