@@ -19,6 +19,7 @@ import Alamofire
 // MARK: - Class
 class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate, PathLoginDelegate, UIDocumentInteractionControllerDelegate {
     // MARK: - Properties
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var vwCoverScrollView: UIView!
     @IBOutlet weak var coverScrollView: UIScrollView! // define image of cover(s) here -> UIImageView (pagination)
     @IBOutlet weak var imgAvatar: UIImageView! // user
@@ -58,11 +59,17 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
     
     let BONUS_AMOUNT : Int64 = 25000
     
+    var lastContentOffset: CGFloat = 0.0
+    var draggingScrollView = false
+    var isVerified = false
+    
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+        
+        self.scrollView.delegate = self
         
         // setup scorll-view
         self.coverScrollView?.isPagingEnabled = true
@@ -314,6 +321,7 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
                 if (data["referral"]["referral_code_used"] != nil) {
                     self.vwSubmit.isHidden = true
                     self.consHeightVwSubmit.constant = 0
+                    self.isVerified = true
                 }
                 
                 self.hideLoading()
@@ -429,6 +437,15 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
     }
     
     // MARK: - ScrollView delegate
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        lastContentOffset = scrollView.contentOffset.y
+        draggingScrollView = true
+    }
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        draggingScrollView = false
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if (scrollView == self.coverScrollView)
         {
@@ -439,6 +456,31 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
             if (currentPage != Int(p + 0.5))
             {
                 currentPage = Int(p + 0.5)
+            }
+        }
+        
+        else if (scrollView == self.scrollView && !self.isVerified && self.draggingScrollView) {
+            if (self.lastContentOffset > scrollView.contentOffset.y && self.vwSubmit.isHidden)
+            {
+                //NSLog(@"Scrolling Up");
+                
+                self.consHeightVwSubmit.constant = 70
+                self.vwSubmit.alpha = 0
+                self.vwSubmit.isHidden = false
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.vwSubmit.alpha = 1
+                })
+            }
+            else if (self.lastContentOffset < scrollView.contentOffset.y && !self.vwSubmit.isHidden)
+            {
+                //NSLog(@"Scrolling Down");
+                
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.vwSubmit.alpha = 0
+                }) { (finished) in
+                    self.vwSubmit.isHidden = finished
+                    self.consHeightVwSubmit.constant = 0
+                }
             }
         }
     }
