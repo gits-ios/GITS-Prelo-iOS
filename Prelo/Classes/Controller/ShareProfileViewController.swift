@@ -157,6 +157,8 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
     
     var mgInstagram : MGInstagram?
     
+    var isDoneOne = false
+    
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -333,7 +335,11 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
             x += s.width
         }
         
-        //self.hideLoading()
+        if !self.isDoneOne {
+            self.isDoneOne = true
+        } else {
+            self.hideLoading()
+        }
     }
     
     func setupMediaCollection() {
@@ -400,7 +406,11 @@ class ShareProfileViewController: BaseViewController, UIScrollViewDelegate, UICo
                 let shareText = "Kunjungi shop saya (prelo.co.id/" + self.myUsername! + ")\nGunakan kode referral: " + self.myReferralCode + " untuk potongan Rp25.000\nuntuk transaksi pertama kamu di Prelo!"
                 self.lbReferral.text = shareText
                 
-                self.hideLoading()
+                if !self.isDoneOne {
+                    self.isDoneOne = true
+                } else {
+                    self.hideLoading()
+                }
             } else {
                 _ = self.navigationController?.popViewController(animated: true)
             }

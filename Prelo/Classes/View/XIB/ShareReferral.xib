@@ -473,6 +473,7 @@ untuk mendapatkan potongan Rp25.000</string>
             <connections>
                 <outlet property="btnNext" destination="R1b-xp-JYf" id="G3e-dm-rkc"/>
                 <outlet property="btnPrev" destination="BkV-HP-bQF" id="mSO-5z-gZL"/>
+                <outlet property="consBottomVwSubmit" destination="Dcn-z3-Hxq" id="VHC-gK-Y38"/>
                 <outlet property="consHeightVwSubmit" destination="dVZ-JB-xzU" id="AqS-RP-vio"/>
                 <outlet property="coverScrollView" destination="gK8-ZR-q4x" id="cnp-HS-8SD"/>
                 <outlet property="imgAvatar" destination="97h-cD-PBg" id="7pQ-Pf-v5c"/>

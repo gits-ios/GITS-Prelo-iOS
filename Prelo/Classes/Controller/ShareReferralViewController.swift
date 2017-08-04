@@ -53,6 +53,7 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
     
     @IBOutlet weak var vwSubmit: UIView! // hidden
     @IBOutlet weak var consHeightVwSubmit: NSLayoutConstraint! // 70 -> 0
+    @IBOutlet weak var consBottomVwSubmit: NSLayoutConstraint! // keyboard hack
     @IBOutlet weak var txKodeReferralInput: UITextField!
     
     var saldo: Int64 = 0
@@ -62,6 +63,8 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
     var lastContentOffset: CGFloat = 0.0
     var draggingScrollView = false
     var isVerified = false
+    
+    var isDoneOne = false
     
     // MARK: - Init
     override func viewDidLoad() {
@@ -162,6 +165,18 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
         // TODO: - Google Analytics
         //GAI.trackPageVisit(PageName.Referral)
         
+        self.an_subscribeKeyboard(animations: { r, t, o in
+            
+            if (o)
+            {
+                self.consBottomVwSubmit.constant = r.size.height
+            } else
+            {
+                self.consBottomVwSubmit.constant = 0
+            }
+            
+        }, completion: nil)
+        
         var isEmailVerified : Bool = false
         // API Migrasi
         let _ = request(APIMe.me).responseJSON {resp in
@@ -242,7 +257,11 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
             x += s.width
         }
         
-        //self.hideLoading()
+        if !self.isDoneOne {
+            self.isDoneOne = true
+        } else {
+            self.hideLoading()
+        }
     }
     
     func setupMediaCollection() {
@@ -324,7 +343,11 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
                     self.isVerified = true
                 }
                 
-                self.hideLoading()
+                if !self.isDoneOne {
+                    self.isDoneOne = true
+                } else {
+                    self.hideLoading()
+                }
             } else {
                 _ = self.navigationController?.popViewController(animated: true)
             }
@@ -459,7 +482,7 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
             }
         }
         
-        else if (scrollView == self.scrollView && !self.isVerified && self.draggingScrollView) {
+        else if (scrollView == self.scrollView && !self.isVerified && self.draggingScrollView && !self.txKodeReferralInput.isFirstResponder) {
             if (self.lastContentOffset > scrollView.contentOffset.y && self.vwSubmit.isHidden)
             {
                 //NSLog(@"Scrolling Up");
@@ -575,6 +598,8 @@ class ShareReferralViewController: BaseViewController, UIScrollViewDelegate, UIC
     }
     
     @IBAction func btnSubmitPressed(_ sender: Any) {
+        self.txKodeReferralInput.resignFirstResponder()
+        
         guard self.txKodeReferralInput.text != nil else
         {
             Constant.showDialog("Warning", message: "Isi kode referral terlebih dahulu")
