@@ -660,6 +660,9 @@
 		B285789E1E56B8F7008995F4 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B285789D1E56B8F7008995F4 /* ImageIO.framework */; };
 		B28578C31E570C0B008995F4 /* DropDown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B24FCEFD1E536E8000B517A9 /* DropDown.framework */; };
 		B28578C41E570C0B008995F4 /* DropDown.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B24FCEFD1E536E8000B517A9 /* DropDown.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B28C62ED1F148AA9009FCFE5 /* AddProductShare2.xib in Resources */ = {isa = PBXBuildFile; fileRef = B28C62EC1F148AA9009FCFE5 /* AddProductShare2.xib */; };
+		B28C62FF1F149D62009FCFE5 /* AddProductShare2Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B28C62FE1F149D62009FCFE5 /* AddProductShare2Cell.xib */; };
+		B28C63011F14AC25009FCFE5 /* AddProductShareViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28C63001F14AC25009FCFE5 /* AddProductShareViewController2.swift */; };
 		B292B4721EAF4F1200C6A32B /* AHKNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = B292B4711EAF4F1200C6A32B /* AHKNavigationController.m */; };
 		B2932DEC1E85324400782C78 /* FeedbackPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2932DEB1E85324400782C78 /* FeedbackPopup.xib */; };
 		B29482561E91E397001B6C75 /* cover_shop_persegi_1024px.png in Resources */ = {isa = PBXBuildFile; fileRef = B29482551E91E397001B6C75 /* cover_shop_persegi_1024px.png */; };
@@ -1828,6 +1831,9 @@
 		B27948221E35C700002CEED4 /* TarikTunai2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunai2.xib; sourceTree = "<group>"; };
 		B27948241E35D971002CEED4 /* TarikTunaiViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiViewController2.swift; sourceTree = "<group>"; };
 		B285789D1E56B8F7008995F4 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		B28C62EC1F148AA9009FCFE5 /* AddProductShare2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProductShare2.xib; sourceTree = "<group>"; };
+		B28C62FE1F149D62009FCFE5 /* AddProductShare2Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProductShare2Cell.xib; sourceTree = "<group>"; };
+		B28C63001F14AC25009FCFE5 /* AddProductShareViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddProductShareViewController2.swift; sourceTree = "<group>"; };
 		B292B4701EAF4F1200C6A32B /* AHKNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AHKNavigationController.h; sourceTree = "<group>"; };
 		B292B4711EAF4F1200C6A32B /* AHKNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AHKNavigationController.m; sourceTree = "<group>"; };
 		B2932DEB1E85324400782C78 /* FeedbackPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedbackPopup.xib; path = XIB/FeedbackPopup.xib; sourceTree = "<group>"; };
@@ -2623,6 +2629,7 @@
 				21156EB91B8F5B4C001D7842 /* UserProfileViewController.swift */,
 				B21DF53F1E5187EA007A60C5 /* UserProfileViewController2.swift */,
 				21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */,
+				B28C63001F14AC25009FCFE5 /* AddProductShareViewController2.swift */,
 				B2C9F6E11EE9242700833E27 /* Checkout2ViewController.swift */,
 				B2D965EE1E9E3AA400B2C29C /* Checkout2ShipViewController.swift */,
 				B2D965F01E9E3AB600B2C29C /* Checkout2PayViewController.swift */,
@@ -3265,6 +3272,8 @@
 				21104AD01BAA8F1200947E7F /* TransactionListCell.xib */,
 				21156EBB1B8F5B5D001D7842 /* UserProfile.xib */,
 				B21DF5291E5179E5007A60C5 /* UserProfile2.xib */,
+				B28C62EC1F148AA9009FCFE5 /* AddProductShare2.xib */,
+				B28C62FE1F149D62009FCFE5 /* AddProductShare2Cell.xib */,
 				B2F184CC1E938B76001EEB36 /* GoogleMap.xib */,
 				5810268E1EEA3F8F00C0D324 /* TarikTunaiwithSaveBankAccount.xib */,
 				58BBF5931EF276E100A0E2A2 /* TarikTunaiwithSaveBankAccount2.xib */,
@@ -4374,6 +4383,7 @@
 				B23417741E2322FA003247D7 /* sms5.png in Resources */,
 				B2BEBC771E4C27EC009982F9 /* placeholder-standar.png in Resources */,
 				21EEB4731B87095C00CAD5C9 /* ic_bubble.png in Resources */,
+				B28C62FF1F149D62009FCFE5 /* AddProductShare2Cell.xib in Resources */,
 				589A6FC01D8C08F600654CDD /* ic_hubungi_prelo.png in Resources */,
 				216799731B8F879A00F18F90 /* rsz_ic_bca@2x.png in Resources */,
 				58A99A4E1C6D866000E3E7D7 /* Prelo.entitlements in Resources */,
@@ -4433,6 +4443,7 @@
 				B2EE39B01E76548100113E03 /* PaidPushPopup.xib in Resources */,
 				58BE53601D479F5B00E358EB /* courier_pos.png in Resources */,
 				21EEB4741B87095C00CAD5C9 /* ic_email.png in Resources */,
+				B28C62ED1F148AA9009FCFE5 /* AddProductShare2.xib in Resources */,
 				589A6FCA1D8C08F600654CDD /* ic_tarik_uang.png in Resources */,
 				21156ECE1B8F5DBC001D7842 /* ic_socmed_instagram.png in Resources */,
 				210959B31B8DD088000F2939 /* ic_hanger@2x.png in Resources */,
@@ -4738,6 +4749,7 @@
 				58A99A3E1C6D864E00E3E7D7 /* BranchCreditHistoryRequest.m in Sources */,
 				217A18231BB41C26008D1AD8 /* StatusBarContainerViewController.swift in Sources */,
 				21679A381B901C5300F18F90 /* MPObjectSelector.m in Sources */,
+				B28C63011F14AC25009FCFE5 /* AddProductShareViewController2.swift in Sources */,
 				21679A1D1B901C5300F18F90 /* MPABTestDesignerDeviceInfoRequestMessage.m in Sources */,
 				21B468051CCE5EDB00E145ED /* UITextField+BFKit.swift in Sources */,
 				210000BC1BCBBC5000E16611 /* KDEDateLabel.swift in Sources */,
