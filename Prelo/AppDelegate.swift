@@ -1976,6 +1976,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                     }
                 }
                 
+                // Check apps commisions
+                if let tw = data["commission_share"]["socmed"]["twitter"].int64 {
+                    UserDefaults.standard.set(tw, forKey: UserDefaultsKey.ComTwitter)
+                    
+                    UserDefaults.standard.synchronize()
+                } else {
+                    UserDefaults.standard.set(3, forKey: UserDefaultsKey.ComTwitter)
+                    
+                    UserDefaults.standard.synchronize()
+                }
+                
+                if let fb = data["commission_share"]["socmed"]["facebook"].int64 {
+                    UserDefaults.standard.set(fb, forKey: UserDefaultsKey.ComFacebook)
+                    
+                    UserDefaults.standard.synchronize()
+                } else {
+                    UserDefaults.standard.set(4, forKey: UserDefaultsKey.ComFacebook)
+                    
+                    UserDefaults.standard.synchronize()
+                }
+                
+                if let ig = data["commission_share"]["socmed"]["instagram"].int64 {
+                    UserDefaults.standard.set(ig, forKey: UserDefaultsKey.ComInstagram)
+                    
+                    UserDefaults.standard.synchronize()
+                } else {
+                    UserDefaults.standard.set(3, forKey: UserDefaultsKey.ComInstagram)
+                    
+                    UserDefaults.standard.synchronize()
+                }
+                
+                if let mx = data["commission_share"]["max_commission"].int64 {
+                    UserDefaults.standard.set(mx, forKey: UserDefaultsKey.MaxCommisions)
+                    
+                    UserDefaults.standard.synchronize()
+                } else {
+                    UserDefaults.standard.set(0, forKey: UserDefaultsKey.MaxCommisions)
+                    
+                    UserDefaults.standard.synchronize()
+                }
+                
                 // Check cart type for init
                 if let j = data["ab_test"].array {
                     if j.contains("checkout_2_pages") {
