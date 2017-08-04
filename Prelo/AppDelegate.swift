@@ -16,11 +16,14 @@ import FBSDKCoreKit
 import Alamofire
 import AVFoundation
 import AlamofireImage
+import GoogleMaps
+import GooglePlaces
+import GoogleSignIn
 
 //import AdobeCreativeSDKCore
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 
     var window: UIWindow?
 
@@ -45,6 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let RedirAchievement = "achievement"
     let RedirReferral = "referral"
     let RedirPreloMessage = "prelo_message"
+    let RedirPreloPermalink = "permalink"
     
     var redirAlert : SCLAlertView?
     var alertViewResponder : SCLAlertViewResponder?
@@ -116,6 +120,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Send uuid to server
             let _ = request(APIMe.setUserUUID)
         }
+        
+        // Initialize sign-in
+        GIDSignIn.sharedInstance().clientID = "931489218608-ajfn165ljv1ljggctcfn0eeu41dugo7b.apps.googleusercontent.com"
+        
+        GIDSignIn.sharedInstance().delegate = self
         
         // Mixpanel
 //        Mixpanel.trackPageVisit(PageName.SplashScreen)
@@ -295,6 +304,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Set status bar color
         self.setStatusBarBackgroundColor(color: UIColor.clear)
         
+        // G-Maps
+        //prelo
+        GMSServices.provideAPIKey("AIzaSyCY-ZGzGzs6KioZ1Xsv8aLbaOqhERQQMTk")
+        GMSPlacesClient.provideAPIKey("AIzaSyCY-ZGzGzs6KioZ1Xsv8aLbaOqhERQQMTk")
+        //prelo ios
+        //GMSServices.provideAPIKey("AIzaSyAKxEIa5dMhzSt5OfMIfuvMNuqWLkB5xDo")
+        //GMSPlacesClient.provideAPIKey("AIzaSyAKxEIa5dMhzSt5OfMIfuvMNuqWLkB5xDo")
+        
         // Override point for customization after application launch
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
@@ -338,8 +355,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     annotation: annotation)
             }
             return true
+            
+        // deeplinking GOOGLE SignIn
+        } else {
+            return GIDSignIn.sharedInstance().handle(url,
+                                                     sourceApplication: sourceApplication,
+                                                     annotation: annotation)
         }
-        return true
     }
     
     func application(_ application: UIApplication, willContinueUserActivityWithType userActivityType: String) -> Bool {
@@ -981,67 +1003,92 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func deeplinkRedirect(_ tipe : String, targetId : String?) {
+        var isOke = true // for decrease notif badge
         //Constant.showDialog("tipe", message: "\(tipe)")
         let tipeLowercase = tipe.lowercased()
         if (tipeLowercase == self.RedirProduct) {
             if (targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectProduct(targetId!)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirComment) {
             if (User.IsLoggedIn && targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectComment(targetId!)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirUser) {
             if (targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectShopPage(targetId!)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirInbox) {
             if (User.IsLoggedIn && targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectInbox(targetId)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirNotif) {
             if (User.IsLoggedIn) {
                 self.showRedirAlert()
                 self.redirectNotification()
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirConfirm) {
             if (User.IsLoggedIn && targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectConfirmPayment(targetId!)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirTrxBuyer) {
             if (User.IsLoggedIn && targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectTransaction(targetId!, trxProductId: nil, isSeller: false)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirTrxSeller) {
             if (User.IsLoggedIn && targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectTransaction(targetId!, trxProductId: nil, isSeller: true)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirTrxPBuyer) {
             if (User.IsLoggedIn && targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectTransaction(nil, trxProductId: targetId!, isSeller: false)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirTrxPSeller) {
             if (User.IsLoggedIn && targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectTransaction(nil, trxProductId: targetId!, isSeller: true)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirCategory) {
             if (targetId != nil && targetId != "") {
                 self.showRedirAlert()
                 self.redirectCategory(targetId!)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirLove) {
             if (targetId != nil && targetId != "") {
                 self.showRedirAlert()
                 self.redirectLove(targetId!)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirAchievement) {
             self.showRedirAlert()
@@ -1052,13 +1099,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else if (tipeLowercase == self.RedirPreloMessage) {
             self.showRedirAlert()
             self.redirectPreloMessage()
+        } else if (tipeLowercase == self.RedirPreloPermalink) {
+            if targetId != nil && (targetId?.contains("://"))!, let launchURL = URL(string: targetId!) {
+                let param : [URLQueryItem] = []
+                self.handleUniversalLink(launchURL.absoluteURL, path: launchURL.path, param: param)
+            } else {
+                isOke = false
+            }
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-            // decrease notif badge
-            let unreadNotifCount = self.preloNotifListener.newNotifCount - 1
-            self.preloNotifListener.setNewNotifCount(unreadNotifCount)
-        })
+        if isOke {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                // decrease notif badge
+                let unreadNotifCount = self.preloNotifListener.newNotifCount - 1
+                self.preloNotifListener.setNewNotifCount(unreadNotifCount)
+            })
+        }
     }
     
     func showAlert() {
@@ -1717,9 +1773,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.rootViewController = rootViewController
         }
         
-        self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
-            rootViewController!.pushViewController(cartVC, animated: true)
-        })
+        if !AppTools.isNewCart {
+            self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
+                rootViewController!.pushViewController(cartVC, animated: true)
+            })
+            
+        } else { // v2
+            if AppTools.isSingleCart {
+                self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
+                    let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
+                    rootViewController!.pushViewController(checkout2ShipVC, animated: true)
+                })
+            } else {
+                self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
+                    let checkout2VC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2, owner: nil, options: nil)?.first as! Checkout2ViewController
+                    rootViewController!.pushViewController(checkout2VC, animated: true)
+                })
+            }
+        }
     }
     
     // MARK: - Core Data stack
@@ -1905,6 +1976,56 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
                 }
                 
+                // Check apps commisions
+                if let tw = data["commission_share"]["socmed"]["twitter"].int64 {
+                    UserDefaults.standard.set(tw, forKey: UserDefaultsKey.ComTwitter)
+                    
+                    UserDefaults.standard.synchronize()
+                } else {
+                    UserDefaults.standard.set(3, forKey: UserDefaultsKey.ComTwitter)
+                    
+                    UserDefaults.standard.synchronize()
+                }
+                
+                if let fb = data["commission_share"]["socmed"]["facebook"].int64 {
+                    UserDefaults.standard.set(fb, forKey: UserDefaultsKey.ComFacebook)
+                    
+                    UserDefaults.standard.synchronize()
+                } else {
+                    UserDefaults.standard.set(4, forKey: UserDefaultsKey.ComFacebook)
+                    
+                    UserDefaults.standard.synchronize()
+                }
+                
+                if let ig = data["commission_share"]["socmed"]["instagram"].int64 {
+                    UserDefaults.standard.set(ig, forKey: UserDefaultsKey.ComInstagram)
+                    
+                    UserDefaults.standard.synchronize()
+                } else {
+                    UserDefaults.standard.set(3, forKey: UserDefaultsKey.ComInstagram)
+                    
+                    UserDefaults.standard.synchronize()
+                }
+                
+                if let mx = data["commission_share"]["max_commission"].int64 {
+                    UserDefaults.standard.set(mx, forKey: UserDefaultsKey.MaxCommisions)
+                    
+                    UserDefaults.standard.synchronize()
+                } else {
+                    UserDefaults.standard.set(0, forKey: UserDefaultsKey.MaxCommisions)
+                    
+                    UserDefaults.standard.synchronize()
+                }
+                
+                // Check cart type for init
+                if let j = data["ab_test"].array {
+                    if j.contains("checkout_2_pages") {
+                        AppTools.switchToSingleCart(false)
+                    } else  {
+                        AppTools.switchToSingleCart(true)
+                    }
+                }
+                
                 // Check apps frequency
                 if let frequency = data["ads_config"]["frequency"].int {
                     UserDefaults.standard.set(frequency + 1, forKey: UserDefaultsKey.AdsFrequency)
@@ -1976,6 +2097,56 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    /* //rise error for facebook
+    @available(iOS 9.0, *)
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
+        return GIDSignIn.sharedInstance().handle(url,
+                                                 sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String,
+                                                 annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+    }
+ */
+    
+    // [START signin_handler]
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!,
+              withError error: Error!) {
+        if let error = error {
+            print("\(error.localizedDescription)")
+            // [START_EXCLUDE silent]
+            NotificationCenter.default.post(
+                name: Notification.Name(rawValue: "ToggleAuthUINotification"), object: nil, userInfo: nil)
+            // [END_EXCLUDE]
+        } else {
+            // Perform any operations on signed in user here.
+            let userId = user.userID                  // For client-side use only!
+            let idToken = user.authentication.idToken // Safe to send to the server
+            let fullName = user.profile.name
+            let givenName = user.profile.givenName
+            let familyName = user.profile.familyName
+            let email = user.profile.email
+            
+            // [START_EXCLUDE]
+            NotificationCenter.default.post(
+                name: Notification.Name(rawValue: "ToggleAuthUINotification"),
+                object: nil,
+                userInfo: ["statusText": "Signed in user:\n\(fullName)"])
+            // [END_EXCLUDE]
+            
+        }
+    }
+    // [END signin_handler]
+    // [START disconnect_handler]
+    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!,
+              withError error: Error!) {
+        // Perform any operations when the user disconnects from app here.
+        // [START_EXCLUDE]
+        NotificationCenter.default.post(
+            name: Notification.Name(rawValue: "ToggleAuthUINotification"),
+            object: nil,
+            userInfo: ["statusText": "User has disconnected."])
+        // [END_EXCLUDE]
+    }
+    // [END disconnect_handler]
+
     // screenshot
     func takeScreenshot() {
         CustomPhotoAlbum.sharedInstance.fetchLastPhoto(resizeTo: nil , imageCallback: {

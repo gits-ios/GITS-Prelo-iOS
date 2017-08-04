@@ -51,6 +51,9 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
                 let attrString = NSAttributedString(string: "switch to production", attributes: attr)
                 self.btnUrlPrelo.setAttributedTitle(attrString, for: UIControlState())
             }
+            
+            // developer toggle
+            self.setDevButton()
         }
         
         // Remove 1px line at the bottom of navbar
@@ -119,15 +122,25 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
     
     func toClearCache(isButton : Bool) {
         // Get cart products
-        let cartProducts = CartProduct.getAll(User.EmailOrEmptyString)
         let delegate = UIApplication.shared.delegate as! AppDelegate
         let notifListener = delegate.preloNotifListener
-        notifListener?.increaseCartCount(-cartProducts.count)
+        
+        if AppTools.isNewCart { // v2
+            let cartSize = CartManager.sharedInstance.getSize()
+            notifListener?.increaseCartCount(-cartSize)
+        } else { // v1
+            let cartProducts = CartProduct.getAll(User.EmailOrEmptyString)
+            notifListener?.increaseCartCount(-cartProducts.count)
+        }
         
         disableBtnClearCache()
         //UIImageView.sharedImageCache().clearAll()
         
-        CartProduct.deleteAll()
+        CartProduct.deleteAll() // v1
+        CartManager.sharedInstance.deleteAll() // v2
+        
+        // disabled
+        /*
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
         let p = AppToolsObjC.jsonString(from: c)
         var pID = ""
@@ -149,6 +162,7 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
                 self.enableBtnClearCache()
             }
         }
+         */
         
         _ = CDDraftProduct.deleteAll()
         
@@ -190,6 +204,10 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
         
         _ = CDDraftProduct.deleteAll()
         
+        //cart
+        CartProduct.deleteAll() // v1
+        CartManager.sharedInstance.deleteAll() // v2
+        
         // Tell delegate class if any
         if let d = self.userRelatedDelegate
         {
@@ -216,6 +234,11 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
         
         if (notifListener?.cartCount != 0) {
             notifListener?.setCartCount(0)
+        }
+        
+        if (GIDSignIn.sharedInstance().hasAuthInKeychain()) {
+            GIDSignIn.sharedInstance().signOut()
+            print("masukSignOut")
         }
         
         /*
@@ -500,5 +523,98 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
     
     func dismissEasterEgg() {
         easterEggAlert?.dismiss(animated: true, completion: nil)
+    }
+    
+    // MARK: - Developer toggle
+    func setDevButton() {
+        let btnSetting = self.createButtonWithIcon(UIImage(named: "ic_dev")!)
+        
+        btnSetting.addTarget(self, action: #selector(AboutViewController.developerMode), for: UIControlEvents.touchUpInside)
+        
+        self.navigationItem.rightBarButtonItem = btnSetting.toBarButton()
+    }
+    
+    func developerMode() {
+        let alertView = SCLAlertView(appearance: Constant.appearance)
+        
+        let lblNewShop = UILabel()
+        
+        lblNewShop.text = "Shop Baru?"
+        lblNewShop.font = Constant.appearance.kTextFont
+        lblNewShop.textColor = alertView.labelTitle.textColor
+        lblNewShop.numberOfLines = 1
+        lblNewShop.textAlignment = .left
+        
+        let width = Constant.appearance.kWindowWidth - 24
+        
+        let tglNewShop = UISwitch()
+        
+        tglNewShop.isOn = AppTools.isNewShop
+        tglNewShop.addTarget(self, action: #selector(self.newShopToggle(sender:)), for: UIControlEvents.valueChanged)
+        
+        tglNewShop.frame = CGRect(x: width - tglNewShop.width, y: 0, width: tglNewShop.width, height: tglNewShop.height)
+        
+        lblNewShop.frame = CGRect(x: 0, y: 0, width: width - tglNewShop.width - 8, height: tglNewShop.height)
+        
+        let lblNewCart = UILabel()
+        
+        lblNewCart.text = "Cart V2?"
+        lblNewCart.font = Constant.appearance.kTextFont
+        lblNewCart.textColor = alertView.labelTitle.textColor
+        lblNewCart.numberOfLines = 1
+        lblNewCart.textAlignment = .left
+        
+        let tglNewCart = UISwitch()
+        
+        tglNewCart.isOn = AppTools.isNewCart
+        tglNewCart.addTarget(self, action: #selector(self.newCartToggle(sender:)), for: UIControlEvents.valueChanged)
+        
+        tglNewCart.frame = CGRect(x: width - tglNewCart.width, y: tglNewShop.height + 8, width: tglNewCart.width, height: tglNewCart.height)
+        
+        lblNewCart.frame = CGRect(x: 0, y: tglNewShop.height + 8, width: width - tglNewCart.width - 8, height: tglNewCart.height)
+        
+        let lblSigCart = UILabel()
+        
+        lblSigCart.text = "Cart 1 page?"
+        lblSigCart.font = Constant.appearance.kTextFont
+        lblSigCart.textColor = alertView.labelTitle.textColor
+        lblSigCart.numberOfLines = 1
+        lblSigCart.textAlignment = .left
+        
+        let tglSigCart = UISwitch()
+        
+        tglSigCart.isOn = AppTools.isSingleCart
+        tglSigCart.addTarget(self, action: #selector(self.sigCartToggle(sender:)), for: UIControlEvents.valueChanged)
+        
+        tglSigCart.frame = CGRect(x: width - tglSigCart.width, y: tglNewShop.height + 8 + tglNewCart.height + 8, width: tglSigCart.width, height: tglNewCart.height)
+        
+        lblSigCart.frame = CGRect(x: 0, y: tglNewShop.height + 8 + tglNewCart.height + 8, width: width - tglSigCart.width - 8, height: tglSigCart.height)
+        
+        // Creat the subview
+        let subview = UIView(frame: CGRect(x: 0, y: 0, width: width, height: tglNewShop.height + 8 + tglNewCart.height + 8 + tglSigCart.height))
+        subview.addSubview(lblNewShop)
+        subview.addSubview(tglNewShop)
+        subview.addSubview(lblNewCart)
+        subview.addSubview(tglNewCart)
+        subview.addSubview(lblSigCart)
+        subview.addSubview(tglSigCart)
+        
+        alertView.customSubview = subview
+        
+        alertView.addButton("Oke") {}
+        
+        alertView.showCustom("Developer Mode Tools", subTitle: "", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+    }
+    
+    func newShopToggle(sender: UISwitch) {
+        AppTools.switchToNewShop(sender.isOn)
+    }
+    
+    func newCartToggle(sender: UISwitch) {
+        AppTools.switchToNewCart(sender.isOn)
+    }
+    
+    func sigCartToggle(sender: UISwitch) {
+        AppTools.switchToSingleCart(sender.isOn)
     }
 }

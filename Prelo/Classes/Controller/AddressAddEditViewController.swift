@@ -21,6 +21,7 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
     @IBOutlet weak var lblKecamatan: UILabel!
     @IBOutlet weak var txtAlamat: UITextField!
     @IBOutlet weak var txtKodePos: UITextField!
+    @IBOutlet weak var lblLokasi: UILabel!
     @IBOutlet weak var btnAction: UIButton! // Edit / Tambah Alamat
     
     @IBOutlet weak var scrollView : UIScrollView!
@@ -40,11 +41,42 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
     
     var isFirst: Bool = true
     
+    var coordinate : String = "" // lat,long
+    
+    let coordinateText = "Pilih Lokasi (opsional)"
+    
+    var locationNameToSave = ""
+    
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.txtNamaAlamat.delegate = self
+        txtNamaAlamat.delegate = self
+        txtNama.delegate = self
+        txtAlamat.delegate = self
+        
+        //Looks for single or multiple taps.
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(AddressAddEditViewController.dismissKeyboard))
+        
+        //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
+        //tap.cancelsTouchesInView = false
+        
+        scrollView.addGestureRecognizer(tap)
+        
+        // numeric keyboards hack
+        let ViewForDoneButtonOnKeyboard = UIToolbar()
+        ViewForDoneButtonOnKeyboard.sizeToFit()
+        let flex = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let btnDoneOnKeyboard = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneBtnfromKeyboardClicked))
+        ViewForDoneButtonOnKeyboard.items = [flex, btnDoneOnKeyboard, UIBarButtonItem()]
+        txtTelepon.inputAccessoryView = ViewForDoneButtonOnKeyboard
+        txtKodePos.inputAccessoryView = ViewForDoneButtonOnKeyboard
+    }
+    
+    @IBAction func doneBtnfromKeyboardClicked (sender: Any) {
+        print("Done Button Clicked.")
+        //Hide Keyboard by endEditing or Anything you want.
+        self.view.endEditing(true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -83,6 +115,9 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
             } else {
                 self.title = "Tambah Alamat"
                 self.btnAction.setTitle("TAMBAH ALAMAT", for: .normal)
+                
+                lblLokasi.text = coordinateText
+                lblLokasi.textColor = Theme.PrimaryColorDark
                 
                 self.hideLoading()
                 self.setupLocation(false)
@@ -130,6 +165,29 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
         
         if selectedSubdistrictId == "" {
             lblKecamatan.textColor = UIColor(hex: "C9C9CE")
+        }
+        
+        //lblLokasi.textColor = Theme.PrimaryColorDark
+        
+        if address.coordinateAddress == "" || address.coordinate == "" {
+            /*let text = "Pilih Lokasi (opsional)"
+            
+            let attString : NSMutableAttributedString = NSMutableAttributedString(string: text)
+            
+            attString.addAttributes([NSForegroundColorAttributeName:UIColor.init(hex: "C9C9CE")], range: (text as NSString).range(of: "(opsional)"))
+            
+            lblLokasi.attributedText = attString
+ */
+            lblLokasi.text = coordinateText
+            lblLokasi.textColor = Theme.PrimaryColorDark
+        } else {
+            
+            coordinate = address.coordinate
+            
+            lblLokasi.text = "Koordinat alamat sudah dipilih" //address.coordinateAddress
+            lblLokasi.textColor = UIColor.init(hex: "#6F6F6F")
+            
+            locationNameToSave = address.coordinateAddress
         }
     }
     
@@ -264,20 +322,40 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
         self.navigationController?.pushViewController(p!, animated: true)
     }
 
+    @IBAction func btnPilihLokasiPressed(_ sender: Any) {
+        self.dismissKeyboard()
+        let googleMapVC = Bundle.main.loadNibNamed(Tags.XibNameGoogleMap, owner: nil, options: nil)?.first as! GoogleMapViewController
+        googleMapVC.coordinateString = self.coordinate
+        googleMapVC.blockDone = { result in
+            print(result)
+            
+            self.coordinate = result["latitude"]! + "," + result["longitude"]!
+            
+            self.lblLokasi.text = "Koordinat alamat sudah dipilih" //result["address"]
+            self.lblLokasi.textColor = UIColor.init(hex: "#6F6F6F")
+            
+            self.locationNameToSave = result["address"]!
+        }
+        self.navigationController?.pushViewController(googleMapVC, animated: true)
+    }
+    
     // submit --> add / edit
     @IBAction func btnActionPressed(_ sender: Any) {
         if validateField() {
             // execute
             if editMode {
-                let _ = request(APIMe.updateAddress(addressId: (address?.id)!, addressName: txtNamaAlamat.text!, recipientName: txtNama.text!, phone: txtTelepon.text!, provinceId: selectedProvinceId, provinceName: lblProvinsi.text!, regionId: selectedRegionId, regionName: lblKotaKabupaten.text!, subdistrictId: selectedSubdistrictId, subdistricName: lblKecamatan.text!, address: txtAlamat.text!, postalCode: txtKodePos.text!, isMainAddress: (address?.isMainAddress)!)).responseJSON { resp in
+                let _ = request(APIMe.updateAddress(addressId: (address?.id)!, addressName: txtNamaAlamat.text!, recipientName: txtNama.text!, phone: txtTelepon.text!, provinceId: selectedProvinceId, provinceName: lblProvinsi.text!, regionId: selectedRegionId, regionName: lblKotaKabupaten.text!, subdistrictId: selectedSubdistrictId, subdistricName: lblKecamatan.text!, address: txtAlamat.text!, postalCode: txtKodePos.text!, isMainAddress: (address?.isMainAddress)!, coordinate: coordinate, coordinateAddress: locationNameToSave)).responseJSON { resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Edit Alamat")) {
                         Constant.showDialog("Edit Alamat", message: "Alamat berhasil diperbarui")
+                        if (self.address?.isMainAddress)! {
+                            self.setupProfile()
+                        }
                         _ = self.navigationController?.popViewController(animated: true)
                     }
                 }
                 
             } else { // insert new
-                let _ = request(APIMe.createAddress(addressName: txtNamaAlamat.text!, recipientName: txtNama.text!, phone: txtTelepon.text!, provinceId: selectedProvinceId, provinceName: lblProvinsi.text!, regionId: selectedRegionId, regionName: lblKotaKabupaten.text!, subdistrictId: selectedSubdistrictId, subdistricName: lblKecamatan.text!, address: txtAlamat.text!, postalCode: txtKodePos.text!)).responseJSON { resp in
+                let _ = request(APIMe.createAddress(addressName: txtNamaAlamat.text!, recipientName: txtNama.text!, phone: txtTelepon.text!, provinceId: selectedProvinceId, provinceName: lblProvinsi.text!, regionId: selectedRegionId, regionName: lblKotaKabupaten.text!, subdistrictId: selectedSubdistrictId, subdistricName: lblKecamatan.text!, address: txtAlamat.text!, postalCode: txtKodePos.text!, coordinate: coordinate, coordinateAddress: locationNameToSave)).responseJSON { resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Tambah Alamat")) {
                         Constant.showDialog("Tambah Alamat", message: "Alamat berhasil ditambahkan")
                         _ = self.navigationController?.popViewController(animated: true)
@@ -288,6 +366,31 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
         }
     }
     
+    // MARK: - Update user Profile
+    func setupProfile() {
+        let m = UIApplication.appDelegate.managedObjectContext
+        
+        if let userProfile = CDUserProfile.getOne() {
+            userProfile.address = txtAlamat.text!
+            userProfile.postalCode = txtKodePos.text!
+            userProfile.regionID = selectedRegionId
+            userProfile.provinceID = selectedProvinceId
+            userProfile.subdistrictID = selectedSubdistrictId
+            userProfile.subdistrictName = lblKecamatan.text!
+            userProfile.addressName = txtNamaAlamat.text!
+            userProfile.recipientName = txtNama.text!
+            userProfile.coordinate = coordinate
+            userProfile.coordinateAddress = locationNameToSave
+        }
+        
+        // Save data
+        if (m.saveSave() == false) {
+            //print("Failed")
+        } else {
+            //print("Data saved")
+        }
+    }
+    
     // MARK: - Other
     func showLoading() {
         self.loadingPanel.isHidden = false
@@ -295,6 +398,12 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
     
     func hideLoading() {
         self.loadingPanel.isHidden = true
+    }
+    
+    //Calls this function when the tap is recognized.
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        scrollView.endEditing(true)
     }
     
     // MARK: - Picker Delegate
@@ -333,5 +442,10 @@ class AddressAddEditViewController: BaseViewController, PickerViewDelegate, UITe
         } else {
             return true
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }

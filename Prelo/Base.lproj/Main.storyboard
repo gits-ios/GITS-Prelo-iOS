@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="87C-Oi-o7x">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="87C-Oi-o7x">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -1954,14 +1954,14 @@ di menu Referral Bonus!</string>
                                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZSa-wS-pT7" userLabel="TWTR">
                                                 <rect key="frame" x="20" y="386" width="335" height="40"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Log In dengan Twitter" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZTo-QV-07J">
-                                                        <rect key="frame" x="93" y="11" width="150" height="17"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Log In dengan Google" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZTo-QV-07J">
+                                                        <rect key="frame" x="93.5" y="11" width="149" height="17"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bwv-qo-GM8">
-                                                        <rect key="frame" x="70" y="8" width="20" height="24"/>
+                                                        <rect key="frame" x="70.5" y="8" width="20" height="24"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="20" id="dNh-cZ-yHR"/>
                                                             <constraint firstAttribute="height" constant="24" id="qsc-ps-OxL"/>
@@ -1979,7 +1979,7 @@ di menu Referral Bonus!</string>
                                                             <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="loginTwitterPressed:" destination="SC6-78-TIB" eventType="touchUpInside" id="C4X-jX-vXH"/>
+                                                            <action selector="loginGooglePressed:" destination="SC6-78-TIB" eventType="touchUpInside" id="ZaJ-xf-S1V"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -1997,7 +1997,7 @@ di menu Referral Bonus!</string>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prelo tidak akan post apapun tanpa persetujuan kamu" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0dI-IX-RVA">
-                                                <rect key="frame" x="20" y="394" width="335" height="14"/>
+                                                <rect key="frame" x="20" y="393" width="335" height="14"/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -2009,6 +2009,7 @@ di menu Referral Bonus!</string>
                                             <constraint firstItem="uKQ-1j-8CX" firstAttribute="top" secondItem="N9l-yB-Paz" secondAttribute="bottom" constant="7" id="7Oo-Lz-WqP"/>
                                             <constraint firstItem="3fI-7x-YwT" firstAttribute="top" secondItem="oag-LW-8Hk" secondAttribute="bottom" constant="8" id="BYf-IY-RJE"/>
                                             <constraint firstItem="oag-LW-8Hk" firstAttribute="top" secondItem="tC3-rM-weJ" secondAttribute="bottom" constant="20" id="D5C-oI-IfZ"/>
+                                            <constraint firstItem="0dI-IX-RVA" firstAttribute="top" secondItem="qCL-92-ja9" secondAttribute="bottom" constant="15" id="F4c-fy-IQM"/>
                                             <constraint firstItem="qCL-92-ja9" firstAttribute="top" secondItem="uKQ-1j-8CX" secondAttribute="bottom" constant="32" id="GNy-D8-STT"/>
                                             <constraint firstItem="N9l-yB-Paz" firstAttribute="top" secondItem="3fI-7x-YwT" secondAttribute="bottom" constant="24" id="HMg-3Z-Uue"/>
                                             <constraint firstItem="qCL-92-ja9" firstAttribute="leading" secondItem="Vyh-Wd-53b" secondAttribute="leading" constant="20" id="Ij1-4W-PEg"/>
@@ -2017,7 +2018,6 @@ di menu Referral Bonus!</string>
                                             <constraint firstAttribute="trailing" secondItem="ZSa-wS-pT7" secondAttribute="trailing" constant="20" id="QGL-sT-azY"/>
                                             <constraint firstAttribute="trailing" secondItem="oag-LW-8Hk" secondAttribute="trailing" constant="20" id="U0i-nW-UB9"/>
                                             <constraint firstAttribute="trailing" secondItem="3fI-7x-YwT" secondAttribute="trailing" constant="20" id="UfF-ql-Ovm"/>
-                                            <constraint firstItem="0dI-IX-RVA" firstAttribute="top" secondItem="ZSa-wS-pT7" secondAttribute="bottom" constant="-32" id="Vxc-zO-IR3"/>
                                             <constraint firstItem="ZSa-wS-pT7" firstAttribute="leading" secondItem="Vyh-Wd-53b" secondAttribute="leading" constant="20" id="W8u-Bw-2IZ"/>
                                             <constraint firstItem="3fI-7x-YwT" firstAttribute="leading" secondItem="Vyh-Wd-53b" secondAttribute="leading" constant="20" id="Yfw-2g-HMx"/>
                                             <constraint firstAttribute="trailing" secondItem="N9l-yB-Paz" secondAttribute="trailing" constant="20" id="aQd-B0-H87"/>
@@ -5873,11 +5873,11 @@ in Bandung</string>
                         <viewControllerLayoutGuide type="bottom" id="8LY-jt-2f4"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="EI3-fD-ZpS">
-                        <rect key="frame" x="0.0" y="64" width="320" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="V8d-rW-1kl">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="603"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="8" minimumInteritemSpacing="8" id="FVZ-S0-ZdO">
                                     <size key="itemSize" width="200" height="200"/>
@@ -5887,7 +5887,7 @@ in Bandung</string>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="a3k-6q-hxH" customClass="CategoryPickerParentCell" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="60" y="8" width="200" height="200"/>
+                                        <rect key="frame" x="87.5" y="8" width="200" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
@@ -5926,7 +5926,7 @@ in Bandung</string>
                                 </cells>
                             </collectionView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="xGu-kv-bfE">
-                                <rect key="frame" x="150" y="25" width="20" height="20"/>
+                                <rect key="frame" x="177.5" y="45" width="20" height="20"/>
                                 <color key="color" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                         </subviews>
@@ -5963,11 +5963,11 @@ in Bandung</string>
                         <viewControllerLayoutGuide type="bottom" id="xcA-Ah-exn"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="hRr-9x-ECc">
-                        <rect key="frame" x="0.0" y="64" width="320" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="hVm-Vu-0b4">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="603"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </tableView>
                         </subviews>
@@ -7326,7 +7326,7 @@ in Bandung</string>
         <!--Checkout Tour View Controller-->
         <scene sceneID="wcK-3h-G9S">
             <objects>
-                <viewController id="HZv-ru-RUB" customClass="CheckoutTourViewController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="checkoutTour" id="HZv-ru-RUB" customClass="CheckoutTourViewController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="grL-Mk-D5G"/>
                         <viewControllerLayoutGuide type="bottom" id="diP-O0-Ep5"/>
@@ -11373,7 +11373,7 @@ in Bandung</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vDm-b2-WDE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2502" y="-4773"/>
+            <point key="canvasLocation" x="2510" y="-4753"/>
         </scene>
         <!--Konfirmasi Pembayaran-->
         <scene sceneID="GER-6F-T47">
@@ -18905,9 +18905,9 @@ in Bandung</string>
         <image name="tour_5.jpg" width="720" height="1280"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="gv4-pa-FxU"/>
         <segue reference="dW2-MQ-HC6"/>
         <segue reference="5pQ-qG-4MR"/>
-        <segue reference="W6Y-eo-D2Q"/>
-        <segue reference="gv4-pa-FxU"/>
+        <segue reference="gU7-9Q-bxr"/>
     </inferredMetricsTieBreakers>
 </document>

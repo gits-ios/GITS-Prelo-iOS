@@ -11,7 +11,7 @@ import CoreData
 import TwitterKit
 import Alamofire
 
-class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, PhoneVerificationDelegate, /*UIAlertViewDelegate,*/ UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate {
+class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, PhoneVerificationDelegate, /*UIAlertViewDelegate,*/ UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, GIDSignInUIDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var scrollView : UIScrollView?
     
@@ -22,12 +22,13 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     
     @IBOutlet weak var lblLoginFacebook: UILabel!
     @IBOutlet weak var lblLoginTwitter: UILabel!
+    @IBOutlet weak var lblLoginGoogle: UILabel!
     
     @IBOutlet weak var fieldNama: UITextField!
     @IBOutlet weak var lblNoHP: UILabel!
     @IBOutlet weak var lblJenisKelamin: UILabel!
     
-    @IBOutlet weak var fieldTentangShop: UITextView!
+    @IBOutlet weak var fieldTentangShop: SZTextView!
     @IBOutlet weak var fieldTentangShopHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var btnSimpanData: UIButton!
@@ -48,6 +49,7 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     
     var isLoggedInFacebook : Bool = false
     var isLoggedInTwitter : Bool = false
+    var isLoggedInGoogle : Bool = false
     
     let FldTentangShopPlaceholder = "Barang kamu terpercaya? Deskripsikan shop kamu di sini."
     
@@ -58,10 +60,29 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     @IBOutlet weak var lblRegion: UILabel!
     @IBOutlet weak var lblProvince: UILabel!
     
+    // rekening
+    @IBOutlet weak var imgLogoBank: UIImageView!
+    @IBOutlet weak var lblRekMain: UILabel!
+    @IBOutlet weak var lblBank: UILabel!
+    @IBOutlet weak var lblRek: UILabel!
+    @IBOutlet weak var lblRekName: UILabel!
+    @IBOutlet weak var vwDaftarRek: UIView!
+    @IBOutlet weak var VwRek: UIView!
+    @IBOutlet weak var vwNoRek: UIView!
+    @IBOutlet weak var separatorTop: NSLayoutConstraint!
+    
+    
     var isNeedReload = false
+    var rekening: Array<RekeningItem> = [] // rekeninglist
+    var isFirst = true
+    
+    // MARK: - Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // get rekening
+        getRekening()
         
         self.title = "Edit Profil"
         setNavBarButtons()
@@ -69,10 +90,23 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         
         // Tampilan loading
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+        
+        fieldNama.delegate = self
+        
+        fieldTentangShop.placeholder = FldTentangShopPlaceholder
+        fieldTentangShop.fadeTime = 0.2
+        
+        GIDSignIn.sharedInstance().uiDelegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        if !isFirst {
+            // get rekening
+            getRekening()
+        }
+        isFirst = false
         
         // Google Analytics
         GAI.trackPageVisit(PageName.EditProfile)
@@ -176,12 +210,12 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         // About shop
         if (userProfile.desc != nil && userProfile.desc != "") {
             fieldTentangShop.text = userProfile.desc
-            fieldTentangShop.textColor = Theme.GrayDark
-        } else {
+            //fieldTentangShop.textColor = Theme.GrayDark
+        } /*else {
             fieldTentangShop.text = FldTentangShopPlaceholder
             fieldTentangShop.textColor = UIColor.lightGray
             fieldTentangShop.selectedTextRange = fieldTentangShop.textRange(from: fieldTentangShop.beginningOfDocument, to: fieldTentangShop.beginningOfDocument)
-        }
+        }*/
         fieldTentangShop.delegate = self
         
         // Address book
@@ -206,6 +240,18 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         let provinceName = CDProvince.getProvinceNameWithID(userProfile.provinceID)
         self.lblProvince.text = provinceName! + " " + userProfile.postalCode!
         
+        // Rekening
+//        if(rekening.count != 0){
+//            // kalau punya rekening
+//            self.vwNoRek.isHidden = true
+//            let verticalSpace = NSLayoutConstraint(item: vwDaftarRek, attribute: .top, relatedBy: .equal, toItem: self.VwRek, attribute: .bottom, multiplier: 1, constant: 50)
+//            view.addConstraint(verticalSpace)
+//            
+//        } else {
+//            // kalau ga punya rekening
+//            self.VwRek.isHidden = true
+//        }
+        
         // Shipping table setup
         self.shippingList = CDShipping.getPosBlaBlaBlaTiki()
         self.userShippingIdList = NSKeyedUnarchiver.unarchiveObject(with: userOther.shippingIDs as Data) as! [String]
@@ -226,6 +272,13 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
             self.lblLoginTwitter.text = "@\(userOther.twitterUsername!)"
             self.isLoggedInTwitter = true
         }
+        if GIDSignIn.sharedInstance().hasAuthInKeychain() {
+            lblLoginGoogle.text = user.email
+        } else {
+            lblLoginGoogle.text = "LOGIN GOOGLE"
+        }
+        
+        
     }
     
     func checkFbLogin(_ userOther : CDUserOther) -> Bool {
@@ -450,6 +503,27 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         }
     }
     
+    @IBAction func loginGooglePressed(_ sender: UIButton) {
+        if(lblLoginGoogle.text == "LOGIN GOOGLE"){
+            let p = ["sender" : self, "screenBeforeLogin" : ""] as [String : Any]
+            LoginViewController.LoginWithGoogle(p as [String : AnyObject], onFinish: { resultDict in
+                LoginViewController.AfterLoginGoogle(resultDict)})
+        } else {
+            // logout
+            let alertView = SCLAlertView(appearance: Constant.appearance)
+            alertView.addButton("Ya") {
+                // API Migrasi
+                GIDSignIn.sharedInstance().signOut()
+                self.lblLoginGoogle.text = "LOGIN GOOGLE"
+            }
+            alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {
+                // Hide loading
+                self.hideLoading()
+            }
+            alertView.showCustom("Google Logout", subTitle: "Yakin mau logout akun Google \(self.lblLoginGoogle.text!)?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+        }
+    }
+    
     func showLoading() {
         loadingPanel.isHidden = false
         loading.startAnimating()
@@ -596,10 +670,10 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     
     func textViewDidChange(_ textView: UITextView) {
         let sizeThatShouldFitTheContent = fieldTentangShop.sizeThatFits(fieldTentangShop.frame.size)
-        ////print("sizeThatShouldFitTheContent.height = \(sizeThatShouldFitTheContent.height)")
+        //print("sizeThatShouldFitTheContent.height = \(sizeThatShouldFitTheContent.height)")
         
         // Update tinggi textview
-        fieldTentangShopHeightConstraint.constant = sizeThatShouldFitTheContent.height
+        fieldTentangShopHeightConstraint.constant = sizeThatShouldFitTheContent.height < 49.5 ? 49.5 : sizeThatShouldFitTheContent.height
     }
     
 //    func textViewDidEndEditing(_ textView: UITextView) {
@@ -611,6 +685,12 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         
+        if text == "\n" {
+            textView.resignFirstResponder()
+            return false
+        }
+        
+        /*
         // Combine the textView text and the replacement text to
         // create the updated text string
         let currentText = textView.text as NSString?
@@ -638,9 +718,12 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
             textView.text = nil
             textView.textColor = UIColor.black
         }
+        */
         
         return true
     }
+    
+    
     
     // crash
 //    func textViewDidChangeSelection(_ textView: UITextView) {
@@ -735,6 +818,13 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         }
     }
     
+    // MARK: - Textfield Delegate
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        
+        return true
+    }
+    
     func simpanDataSucceed(_ json : JSON) {
         //print("json = \(json)")
         let data = json["_data"]
@@ -765,6 +855,12 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
             let recipientName = data["default_address"]["owner_name"].string ?? ""
             userProfile.addressName = addressName
             userProfile.recipientName = recipientName
+            
+            // coordinate
+            let coordinate = data["default_address"]["coordinate"].string ?? ""
+            let coordinateAddress = data["default_address"]["coordinate_address"].string ?? ""
+            userProfile.coordinate = coordinate
+            userProfile.coordinateAddress = coordinateAddress
         }
         
         if let userOther = CDUserOther.getOne() {
@@ -791,4 +887,60 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         let addressBookVC = Bundle.main.loadNibNamed(Tags.XibNameAddressBook, owner: nil, options: nil)?.first as! AddressBookViewController
         self.navigationController?.pushViewController(addressBookVC, animated: true)
     }
+    
+    // MARK: - Rekening
+    
+    @IBAction func RekeningPressed(_ sender: Any) {
+        isNeedReload = true
+        
+        let rekeningVC = Bundle.main.loadNibNamed(Tags.XibNameRekeningList, owner: nil, options: nil)?.first as! RekeningListViewController
+        self.navigationController?.pushViewController(rekeningVC, animated: true)
+    }
+    
+    
+    func getRekening(){
+        self.showLoading()
+        // use API
+        let _ = request(APIMe.getBankAccount).responseJSON { resp in
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Rekening List")) {
+                if let x: AnyObject = resp.result.value as AnyObject? {
+                    var json = JSON(x)
+                    json = json["_data"]
+//                    print("ini json rekening")
+//                    print(json)
+                    if let arr = json.array {
+                        if arr.count > 0 {
+                            for i in 0..<arr.count {
+                                if(arr[i]["is_default"]).boolValue{
+                                    self.VwRek.isHidden = false // default unhide
+                                    self.separatorTop.constant = 93 // default 42
+                            
+                                    self.lblBank.text = arr[i]["target_bank"].stringValue
+                                    self.lblRek.text = arr[i]["account_number"].stringValue
+                                    self.lblRekName.text = arr[i]["name"].stringValue
+                                    // logo bank
+                                    if(arr[i]["target_bank"].stringValue.lowercased().contains("bni")){
+                                        self.imgLogoBank.image = UIImage(named:"rsz_ic_bni@2x.png")
+                                    } else if(arr[i]["target_bank"].stringValue.lowercased().contains("bca")){
+                                        self.imgLogoBank.image = UIImage(named:"rsz_ic_bca@2x.png")
+                                    } else if(arr[i]["target_bank"].stringValue.lowercased().contains("bri")){
+                                        self.imgLogoBank.image = UIImage(named:"rsz_ic_bri@2x.png")
+                                    } else if(arr[i]["target_bank"].stringValue.lowercased().contains("mandiri")){
+                                        self.imgLogoBank.image = UIImage(named:"rsz_ic_mandiri@2x.png")
+                                    } else {
+                                        self.imgLogoBank.image = nil
+                                    }
+                                    break
+                                }
+                            }
+                        }
+                    }
+                    self.hideLoading()
+                }
+            }
+        }
+        
+    }
+
+    
 }
