@@ -884,6 +884,7 @@ class Tags : NSObject {
     static let XibNameAddressAddEdit = "AddressAddEdit"
     static let XibNameUserProfile2 = "UserProfile2"
     static let XibNameReportTransaction = "ReportTransaction"
+    static let XibNameAddProductShare2 = "AddProductShare2"
     static let XibNameCheckout2Ship = "Checkout2Ship"
     static let XibNameCheckout2Pay = "Checkout2Pay"
     static let XibNameGoogleMap = "GoogleMap"
@@ -1152,6 +1153,10 @@ class UserDefaultsKey : NSObject {
     static let AdsOffset = "adsoffset"
     static let RefreshTime = "refreshtime"
     static let BankAccounts = "bankaccounts"
+    static let MaxCommisions = "maxcommisions"
+    static let ComTwitter = "commisionstwitter"
+    static let ComFacebook = "commisionsfacebook"
+    static let ComInstagram = "commisionsinstagram"
 }
 
 extension UserDefaults {
