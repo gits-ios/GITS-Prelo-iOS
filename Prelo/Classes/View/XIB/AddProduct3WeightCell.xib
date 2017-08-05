@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -12,29 +12,15 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="112" id="lak-ec-0XT">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="112"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="73" id="lak-ec-0XT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="73"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lak-ec-0XT" id="F48-yX-i92">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="111.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="72.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BERAT" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E0t-E9-q9c">
-                        <rect key="frame" x="40" y="11.5" width="323" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" red="0.44705882349999998" green="0.44705882349999998" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_berat.png" translatesAutoresizingMaskIntoConstraints="NO" id="68w-GI-kBs">
-                        <rect key="frame" x="12" y="12" width="20" height="20"/>
-                        <color key="tintColor" red="0.44705882349999998" green="0.44705882349999998" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="20" id="S7W-JW-Hor"/>
-                            <constraint firstAttribute="width" constant="20" id="pUk-PH-2Bl"/>
-                        </constraints>
-                    </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oFU-Z8-Fad" userLabel="1Kg" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                        <rect key="frame" x="4" y="36.5" width="117" height="60"/>
+                        <rect key="frame" x="4" y="4" width="117" height="60"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_1kg.png" translatesAutoresizingMaskIntoConstraints="NO" id="bnk-DD-Q9z">
                                 <rect key="frame" x="42" y="4" width="34" height="34"/>
@@ -70,7 +56,7 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iEq-Fc-Ee6" userLabel="1-2Kg" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                        <rect key="frame" x="125" y="36.5" width="117" height="60"/>
+                        <rect key="frame" x="125" y="4" width="117" height="60"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_1_2kg.png" translatesAutoresizingMaskIntoConstraints="NO" id="cds-9r-BML">
                                 <rect key="frame" x="41.5" y="4" width="34" height="34"/>
@@ -107,7 +93,7 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hEC-cN-ePJ" userLabel="2Kg" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                        <rect key="frame" x="246" y="36.5" width="117" height="60"/>
+                        <rect key="frame" x="246" y="4" width="117" height="60"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_2kg.png" translatesAutoresizingMaskIntoConstraints="NO" id="fJY-kM-xoM">
                                 <rect key="frame" x="41" y="4" width="34" height="34"/>
@@ -143,30 +129,24 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="iEq-Fc-Ee6" firstAttribute="width" secondItem="oFU-Z8-Fad" secondAttribute="width" id="1xe-c3-55y"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="E0t-E9-q9c" secondAttribute="trailing" constant="4" id="EBp-ph-jlg"/>
+                    <constraint firstItem="iEq-Fc-Ee6" firstAttribute="top" secondItem="F48-yX-i92" secondAttribute="topMargin" constant="-4" id="7xw-2l-lkh"/>
                     <constraint firstItem="hEC-cN-ePJ" firstAttribute="top" secondItem="iEq-Fc-Ee6" secondAttribute="top" id="FyK-bo-ccl"/>
-                    <constraint firstItem="68w-GI-kBs" firstAttribute="leading" secondItem="F48-yX-i92" secondAttribute="leadingMargin" constant="4" id="Nd1-7v-4Jt"/>
                     <constraint firstItem="hEC-cN-ePJ" firstAttribute="leading" secondItem="iEq-Fc-Ee6" secondAttribute="trailing" constant="4" id="TTg-ms-RgY"/>
                     <constraint firstItem="iEq-Fc-Ee6" firstAttribute="leading" secondItem="oFU-Z8-Fad" secondAttribute="trailing" constant="4" id="XGp-7y-phc"/>
-                    <constraint firstItem="68w-GI-kBs" firstAttribute="top" secondItem="F48-yX-i92" secondAttribute="topMargin" constant="4" id="Yqo-1w-pk2"/>
                     <constraint firstItem="oFU-Z8-Fad" firstAttribute="top" secondItem="iEq-Fc-Ee6" secondAttribute="top" id="dE2-a4-q2b"/>
                     <constraint firstAttribute="trailingMargin" secondItem="hEC-cN-ePJ" secondAttribute="trailing" constant="4" id="ecQ-7u-YiD"/>
-                    <constraint firstItem="E0t-E9-q9c" firstAttribute="centerY" secondItem="68w-GI-kBs" secondAttribute="centerY" id="faF-y0-qHP"/>
                     <constraint firstItem="iEq-Fc-Ee6" firstAttribute="width" secondItem="hEC-cN-ePJ" secondAttribute="width" id="rn2-q7-2az"/>
-                    <constraint firstItem="iEq-Fc-Ee6" firstAttribute="top" secondItem="E0t-E9-q9c" secondAttribute="bottom" constant="4" id="siq-Re-oja"/>
                     <constraint firstItem="iEq-Fc-Ee6" firstAttribute="height" secondItem="oFU-Z8-Fad" secondAttribute="height" id="uap-tC-cq2"/>
                     <constraint firstItem="iEq-Fc-Ee6" firstAttribute="height" secondItem="hEC-cN-ePJ" secondAttribute="height" id="vLs-Zt-23f"/>
-                    <constraint firstItem="E0t-E9-q9c" firstAttribute="leading" secondItem="68w-GI-kBs" secondAttribute="trailing" constant="8" id="vcb-af-5Uo"/>
                     <constraint firstItem="oFU-Z8-Fad" firstAttribute="leading" secondItem="F48-yX-i92" secondAttribute="leading" constant="4" id="zd2-bd-jMK"/>
                 </constraints>
             </tableViewCellContentView>
-            <point key="canvasLocation" x="-18.5" y="12"/>
+            <point key="canvasLocation" x="-18.5" y="-7.5"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="ic_1_2kg.png" width="96" height="96"/>
         <image name="ic_1kg.png" width="96" height="96"/>
         <image name="ic_2kg.png" width="96" height="96"/>
-        <image name="ic_berat.png" width="96" height="96"/>
     </resources>
 </document>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,29 +16,15 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="341" id="unS-vI-u4T">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="341"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="381" id="unS-vI-u4T">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="381"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="unS-vI-u4T" id="2eF-QG-KZc">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="340.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="380.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_edit.png" translatesAutoresizingMaskIntoConstraints="NO" id="rpp-ui-soe">
-                        <rect key="frame" x="12" y="12" width="20" height="20"/>
-                        <color key="tintColor" red="0.44705882349999998" green="0.44705882349999998" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="20" id="DAz-BB-eyC"/>
-                            <constraint firstAttribute="height" constant="20" id="Dwq-SI-AVD"/>
-                        </constraints>
-                    </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DETAIL PRODUCT" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="00h-Bs-3wm">
-                        <rect key="frame" x="40" y="12" width="323" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" red="0.44705882349999998" green="0.44705882349999998" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pes-JN-zm2" userLabel="Field Nama Product">
-                        <rect key="frame" x="12" y="37" width="351" height="40"/>
+                        <rect key="frame" x="12" y="4" width="351" height="40"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nama Product" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vqk-Nb-lpK" userLabel="Nama Product">
                                 <rect key="frame" x="0.0" y="0.0" width="92.5" height="40"/>
@@ -79,7 +65,7 @@
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mdo-jy-yj2" userLabel="Field Kategori">
-                        <rect key="frame" x="12" y="77" width="351" height="40"/>
+                        <rect key="frame" x="12" y="44" width="351" height="40"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kategori" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JZC-N8-JbC" userLabel="Kategori">
                                 <rect key="frame" x="0.0" y="0.0" width="54.5" height="40"/>
@@ -153,7 +139,7 @@
                         </variation>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MKp-sN-wnQ" userLabel="Field Merek">
-                        <rect key="frame" x="12" y="117" width="351" height="40"/>
+                        <rect key="frame" x="12" y="84" width="351" height="40"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Merek" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uaa-TP-c8C">
                                 <rect key="frame" x="0.0" y="0.0" width="40.5" height="40"/>
@@ -227,7 +213,7 @@
                         </variation>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pdc-C5-cdT" userLabel="Field Kondisi">
-                        <rect key="frame" x="12" y="157" width="351" height="40"/>
+                        <rect key="frame" x="12" y="124" width="351" height="40"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kondisi" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ipj-NX-VK5" userLabel="Kondisi">
                                 <rect key="frame" x="0.0" y="0.0" width="47" height="40"/>
@@ -300,8 +286,49 @@
                             </mask>
                         </variation>
                     </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SOz-3N-X13" userLabel="Field Cacat">
+                        <rect key="frame" x="12" y="164" width="351" height="40"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Deskripsi Cacat" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BgV-uv-6Hy">
+                                <rect key="frame" x="0.0" y="0.0" width="101.5" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="hPd-78-XPt"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.44705882349999998" green="0.44705882349999998" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Deskripsi Cacat" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AsC-Em-0cx">
+                                <rect key="frame" x="109.5" y="0.0" width="241.5" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="sIx-Vm-ZbX"/>
+                                </constraints>
+                                <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LDG-hw-i6I" userLabel="line_1px">
+                                <rect key="frame" x="0.0" y="39" width="351" height="1"/>
+                                <color key="backgroundColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="7el-gn-kON"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="AsC-Em-0cx" firstAttribute="leading" secondItem="BgV-uv-6Hy" secondAttribute="trailing" constant="8" id="6SA-nw-5tZ"/>
+                            <constraint firstItem="LDG-hw-i6I" firstAttribute="top" secondItem="AsC-Em-0cx" secondAttribute="bottom" constant="-1" id="Crt-Ak-C6l"/>
+                            <constraint firstAttribute="trailing" secondItem="LDG-hw-i6I" secondAttribute="trailing" id="Fw7-aM-0cl"/>
+                            <constraint firstItem="AsC-Em-0cx" firstAttribute="top" secondItem="SOz-3N-X13" secondAttribute="top" id="Jbj-rr-7NY"/>
+                            <constraint firstItem="BgV-uv-6Hy" firstAttribute="leading" secondItem="SOz-3N-X13" secondAttribute="leading" id="Pox-92-lb7"/>
+                            <constraint firstItem="LDG-hw-i6I" firstAttribute="leading" secondItem="SOz-3N-X13" secondAttribute="leading" id="Sd8-Wr-mf8"/>
+                            <constraint firstAttribute="height" constant="40" id="duX-Y6-Y5o"/>
+                            <constraint firstItem="BgV-uv-6Hy" firstAttribute="top" secondItem="SOz-3N-X13" secondAttribute="top" id="w7U-I0-lIm"/>
+                            <constraint firstAttribute="trailing" secondItem="AsC-Em-0cx" secondAttribute="trailing" id="x8i-SI-zxf"/>
+                        </constraints>
+                    </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nAx-zt-qmr" userLabel="Field Special Story">
-                        <rect key="frame" x="12" y="197" width="351" height="40"/>
+                        <rect key="frame" x="12" y="204" width="351" height="40"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Special Story" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u4U-Gg-B2i">
                                 <rect key="frame" x="0.0" y="0.0" width="85.5" height="40"/>
@@ -342,7 +369,7 @@
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9kX-sJ-XtO" userLabel="Field Alasan Jual">
-                        <rect key="frame" x="12" y="237" width="351" height="40"/>
+                        <rect key="frame" x="12" y="244" width="351" height="40"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alasan Jual" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Psd-gf-cgY" userLabel="Alasan Jual">
                                 <rect key="frame" x="0.0" y="0.0" width="73.5" height="40"/>
@@ -383,7 +410,7 @@
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mQs-UR-kvi" userLabel="Field Deskripsi">
-                        <rect key="frame" x="12" y="277" width="351" height="50"/>
+                        <rect key="frame" x="12" y="284" width="351" height="50"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8yg-VW-apT">
                                 <rect key="frame" x="0.0" y="8" width="351" height="33"/>
@@ -417,38 +444,33 @@
                     </view>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="Pes-JN-zm2" firstAttribute="top" secondItem="2eF-QG-KZc" secondAttribute="topMargin" constant="-4" id="8S2-9z-OVy"/>
                     <constraint firstAttribute="trailingMargin" secondItem="9kX-sJ-XtO" secondAttribute="trailing" constant="4" id="9gE-Lb-duh"/>
                     <constraint firstItem="mdo-jy-yj2" firstAttribute="leading" secondItem="2eF-QG-KZc" secondAttribute="leadingMargin" constant="4" id="DA2-8z-9aL"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="SOz-3N-X13" secondAttribute="trailing" constant="4" id="Dpr-lQ-zDa"/>
                     <constraint firstItem="nAx-zt-qmr" firstAttribute="leading" secondItem="2eF-QG-KZc" secondAttribute="leadingMargin" constant="4" id="ENR-75-8kV"/>
-                    <constraint firstItem="nAx-zt-qmr" firstAttribute="top" secondItem="Pdc-C5-cdT" secondAttribute="bottom" id="HWw-bS-gWR"/>
-                    <constraint firstItem="00h-Bs-3wm" firstAttribute="centerY" secondItem="rpp-ui-soe" secondAttribute="centerY" id="K2g-8w-WAc"/>
-                    <constraint firstItem="00h-Bs-3wm" firstAttribute="leading" secondItem="rpp-ui-soe" secondAttribute="trailing" constant="8" id="PSN-JG-Iw2"/>
+                    <constraint firstItem="nAx-zt-qmr" firstAttribute="top" secondItem="Pdc-C5-cdT" secondAttribute="bottom" constant="40" id="HWw-bS-gWR"/>
                     <constraint firstItem="MKp-sN-wnQ" firstAttribute="leading" secondItem="2eF-QG-KZc" secondAttribute="leadingMargin" constant="4" id="Q5a-Qs-ua0"/>
-                    <constraint firstItem="Pes-JN-zm2" firstAttribute="top" secondItem="00h-Bs-3wm" secondAttribute="bottom" constant="4" id="SFm-Yq-j53"/>
                     <constraint firstItem="mdo-jy-yj2" firstAttribute="top" secondItem="Pes-JN-zm2" secondAttribute="bottom" id="VAP-6o-o1J"/>
                     <constraint firstAttribute="trailingMargin" secondItem="Pdc-C5-cdT" secondAttribute="trailing" constant="4" id="Xno-J3-hDF"/>
                     <constraint firstItem="Pdc-C5-cdT" firstAttribute="top" secondItem="MKp-sN-wnQ" secondAttribute="bottom" id="YGN-Gy-XGf"/>
                     <constraint firstItem="mQs-UR-kvi" firstAttribute="top" secondItem="9kX-sJ-XtO" secondAttribute="bottom" id="Zwr-WQ-SZe"/>
+                    <constraint firstItem="SOz-3N-X13" firstAttribute="leading" secondItem="2eF-QG-KZc" secondAttribute="leadingMargin" constant="4" id="d2U-Vy-Km8"/>
                     <constraint firstItem="9kX-sJ-XtO" firstAttribute="leading" secondItem="2eF-QG-KZc" secondAttribute="leadingMargin" constant="4" id="dBS-8D-pKg"/>
+                    <constraint firstItem="SOz-3N-X13" firstAttribute="top" secondItem="Pdc-C5-cdT" secondAttribute="bottom" id="feU-NI-WK9"/>
                     <constraint firstAttribute="trailingMargin" secondItem="Pes-JN-zm2" secondAttribute="trailing" constant="4" id="hR5-ki-1EV"/>
                     <constraint firstItem="Pes-JN-zm2" firstAttribute="leading" secondItem="2eF-QG-KZc" secondAttribute="leadingMargin" constant="4" id="iPc-ed-W02"/>
                     <constraint firstItem="Pdc-C5-cdT" firstAttribute="leading" secondItem="2eF-QG-KZc" secondAttribute="leadingMargin" constant="4" id="iTW-v1-i8J"/>
                     <constraint firstItem="MKp-sN-wnQ" firstAttribute="top" secondItem="mdo-jy-yj2" secondAttribute="bottom" id="jQN-6e-sPn"/>
-                    <constraint firstItem="rpp-ui-soe" firstAttribute="leading" secondItem="2eF-QG-KZc" secondAttribute="leadingMargin" constant="4" id="nyA-Z5-gvp"/>
                     <constraint firstItem="mQs-UR-kvi" firstAttribute="leading" secondItem="2eF-QG-KZc" secondAttribute="leadingMargin" constant="4" id="oAg-V4-BgN"/>
                     <constraint firstAttribute="trailingMargin" secondItem="nAx-zt-qmr" secondAttribute="trailing" constant="4" id="pSN-fj-NfO"/>
                     <constraint firstItem="9kX-sJ-XtO" firstAttribute="top" secondItem="nAx-zt-qmr" secondAttribute="bottom" id="qR9-Tc-6cE"/>
                     <constraint firstAttribute="trailingMargin" secondItem="mdo-jy-yj2" secondAttribute="trailing" constant="4" id="uPO-Z6-Idx"/>
-                    <constraint firstItem="rpp-ui-soe" firstAttribute="top" secondItem="2eF-QG-KZc" secondAttribute="topMargin" constant="4" id="w0g-Qf-Q2T"/>
                     <constraint firstAttribute="trailingMargin" secondItem="MKp-sN-wnQ" secondAttribute="trailing" constant="4" id="ySy-Rs-6to"/>
                     <constraint firstAttribute="trailingMargin" secondItem="mQs-UR-kvi" secondAttribute="trailing" constant="4" id="yhM-eR-hh8"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="00h-Bs-3wm" secondAttribute="trailing" constant="4" id="zHe-Hy-NkA"/>
                 </constraints>
             </tableViewCellContentView>
-            <point key="canvasLocation" x="-1.5" y="-45.5"/>
+            <point key="canvasLocation" x="-1.5" y="-25.5"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="ic_edit.png" width="96" height="96"/>
-    </resources>
 </document>
