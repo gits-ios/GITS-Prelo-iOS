@@ -629,6 +629,12 @@
 		B21DF5401E5187EA007A60C5 /* UserProfileViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21DF53F1E5187EA007A60C5 /* UserProfileViewController2.swift */; };
 		B2223D941EDEA64F0013E886 /* ic_verified.png in Resources */ = {isa = PBXBuildFile; fileRef = B2223D931EDEA64F0013E886 /* ic_verified.png */; };
 		B22357611E35F90800CEC6F5 /* TarikTunaiCell3.xib in Resources */ = {isa = PBXBuildFile; fileRef = B22357601E35F90800CEC6F5 /* TarikTunaiCell3.xib */; };
+		B229F4BA1F37059600A2F60B /* AddProduct3ImagesChecklistCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4B91F37059600A2F60B /* AddProduct3ImagesChecklistCell.xib */; };
+		B229F4CC1F3706AF00A2F60B /* AddProduct3ImagesPreviewCellCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4CB1F3706AF00A2F60B /* AddProduct3ImagesPreviewCellCollectionCell.xib */; };
+		B229F4CE1F37087700A2F60B /* AddProduct3ImagesPreviewCellNewOneCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4CD1F37087700A2F60B /* AddProduct3ImagesPreviewCellNewOneCell.xib */; };
+		B229F4D01F3709A000A2F60B /* AddProduct3ImagesChecklistCellCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4CF1F3709A000A2F60B /* AddProduct3ImagesChecklistCellCollectionCell.xib */; };
+		B229F4D21F370B6800A2F60B /* AddProduct3.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4D11F370B6800A2F60B /* AddProduct3.xib */; };
+		B229F4D41F370C0200A2F60B /* AddProductViewController3.swift in Sources */ = {isa = PBXBuildFile; fileRef = B229F4D31F370C0200A2F60B /* AddProductViewController3.swift */; };
 		B22C0E311E090FA900C3D661 /* ic_love_96px.png in Resources */ = {isa = PBXBuildFile; fileRef = B22C0E301E090FA900C3D661 /* ic_love_96px.png */; };
 		B22C0E331E091C2D00C3D661 /* ic_love_96px_trp.png in Resources */ = {isa = PBXBuildFile; fileRef = B22C0E321E091C2D00C3D661 /* ic_love_96px_trp.png */; };
 		B2314BE51E4B029000731B88 /* AddressAddEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2314BE41E4B029000731B88 /* AddressAddEditViewController.swift */; };
@@ -668,7 +674,7 @@
 		B29482561E91E397001B6C75 /* cover_shop_persegi_1024px.png in Resources */ = {isa = PBXBuildFile; fileRef = B29482551E91E397001B6C75 /* cover_shop_persegi_1024px.png */; };
 		B2998E841F358C7900D404AF /* AddProduct3ImageTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2998E831F358C7900D404AF /* AddProduct3ImageTitleCell.xib */; };
 		B2998E961F358D7800D404AF /* AddProduct3PostalFeeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2998E951F358D7800D404AF /* AddProduct3PostalFeeCell.xib */; };
-		B2998E981F35953400D404AF /* AddProduct3ProductAuthVerification.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2998E971F35953400D404AF /* AddProduct3ProductAuthVerification.xib */; };
+		B2998E981F35953400D404AF /* AddProduct3ProductAuthVerificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2998E971F35953400D404AF /* AddProduct3ProductAuthVerificationCell.xib */; };
 		B2A834451E7055EB004C575A /* SCLAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A834421E7055EB004C575A /* SCLAlertView.swift */; };
 		B2A834461E7055EB004C575A /* SCLExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A834431E7055EB004C575A /* SCLExtensions.swift */; };
 		B2AAB3751E8A6D2000E16BAB /* TransactionReportPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2AAB3741E8A6D2000E16BAB /* TransactionReportPopup.xib */; };
@@ -1804,6 +1810,12 @@
 		B21DF54F1E519E5E007A60C5 /* Prelo 10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 10.xcdatamodel"; sourceTree = "<group>"; };
 		B2223D931EDEA64F0013E886 /* ic_verified.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_verified.png; sourceTree = "<group>"; };
 		B22357601E35F90800CEC6F5 /* TarikTunaiCell3.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunaiCell3.xib; sourceTree = "<group>"; };
+		B229F4B91F37059600A2F60B /* AddProduct3ImagesChecklistCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3ImagesChecklistCell.xib; sourceTree = "<group>"; };
+		B229F4CB1F3706AF00A2F60B /* AddProduct3ImagesPreviewCellCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3ImagesPreviewCellCollectionCell.xib; sourceTree = "<group>"; };
+		B229F4CD1F37087700A2F60B /* AddProduct3ImagesPreviewCellNewOneCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3ImagesPreviewCellNewOneCell.xib; sourceTree = "<group>"; };
+		B229F4CF1F3709A000A2F60B /* AddProduct3ImagesChecklistCellCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3ImagesChecklistCellCollectionCell.xib; sourceTree = "<group>"; };
+		B229F4D11F370B6800A2F60B /* AddProduct3.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3.xib; sourceTree = "<group>"; };
+		B229F4D31F370C0200A2F60B /* AddProductViewController3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddProductViewController3.swift; sourceTree = "<group>"; };
 		B22C0E301E090FA900C3D661 /* ic_love_96px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_love_96px.png; sourceTree = "<group>"; };
 		B22C0E321E091C2D00C3D661 /* ic_love_96px_trp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_love_96px_trp.png; sourceTree = "<group>"; };
 		B2314BE41E4B029000731B88 /* AddressAddEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressAddEditViewController.swift; sourceTree = "<group>"; };
@@ -1843,7 +1855,7 @@
 		B29482551E91E397001B6C75 /* cover_shop_persegi_1024px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover_shop_persegi_1024px.png; sourceTree = "<group>"; };
 		B2998E831F358C7900D404AF /* AddProduct3ImageTitleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3ImageTitleCell.xib; sourceTree = "<group>"; };
 		B2998E951F358D7800D404AF /* AddProduct3PostalFeeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3PostalFeeCell.xib; sourceTree = "<group>"; };
-		B2998E971F35953400D404AF /* AddProduct3ProductAuthVerification.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3ProductAuthVerification.xib; sourceTree = "<group>"; };
+		B2998E971F35953400D404AF /* AddProduct3ProductAuthVerificationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3ProductAuthVerificationCell.xib; sourceTree = "<group>"; };
 		B2A834421E7055EB004C575A /* SCLAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCLAlertView.swift; sourceTree = "<group>"; };
 		B2A834431E7055EB004C575A /* SCLExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCLExtensions.swift; sourceTree = "<group>"; };
 		B2AAB3741E8A6D2000E16BAB /* TransactionReportPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TransactionReportPopup.xib; path = XIB/TransactionReportPopup.xib; sourceTree = "<group>"; };
@@ -2645,6 +2657,7 @@
 				5804CBD71EEE6CC100B7D032 /* RekeningAddViewController.swift */,
 				58BBF5951EF2775000A0E2A2 /* TarikTunaiwithSaveBankAccountViewController2.swift */,
 				58BBF5991EF3103B00A0E2A2 /* TarikTunaiViewController3.swift */,
+				B229F4D31F370C0200A2F60B /* AddProductViewController3.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -3524,12 +3537,17 @@
 		B21C2DFE1F078663002B1B07 /* Add Product Version 3 */ = {
 			isa = PBXGroup;
 			children = (
+				B229F4D11F370B6800A2F60B /* AddProduct3.xib */,
 				B2998E831F358C7900D404AF /* AddProduct3ImageTitleCell.xib */,
 				B20B89901F07880A001DA0F4 /* AddProduct3ImagesPreviewCell.xib */,
+				B229F4CB1F3706AF00A2F60B /* AddProduct3ImagesPreviewCellCollectionCell.xib */,
+				B229F4CD1F37087700A2F60B /* AddProduct3ImagesPreviewCellNewOneCell.xib */,
 				B20B89921F078ADE001DA0F4 /* AddProduct3DetailProductCell.xib */,
 				B2D34AC71F0A278F00F16BB1 /* AddProduct3WeightCell.xib */,
 				B2998E951F358D7800D404AF /* AddProduct3PostalFeeCell.xib */,
-				B2998E971F35953400D404AF /* AddProduct3ProductAuthVerification.xib */,
+				B2998E971F35953400D404AF /* AddProduct3ProductAuthVerificationCell.xib */,
+				B229F4B91F37059600A2F60B /* AddProduct3ImagesChecklistCell.xib */,
+				B229F4CF1F3709A000A2F60B /* AddProduct3ImagesChecklistCellCollectionCell.xib */,
 			);
 			name = "Add Product Version 3";
 			path = XIB;
@@ -4157,6 +4175,7 @@
 				580B07291DD5D99A0079C11C /* bday-splashscreen-2048x2048.png in Resources */,
 				21EEB4771B87095C00CAD5C9 /* ic_phone.png in Resources */,
 				58D125391CDC4D1F002BC78A /* MoEngage.bundle in Resources */,
+				B229F4CC1F3706AF00A2F60B /* AddProduct3ImagesPreviewCellCollectionCell.xib in Resources */,
 				B2BF267D1E8280A400BD9EEB /* ic_home.png in Resources */,
 				585887501DBEDBCC006EC6D5 /* PaymentConfirmationCell.xib in Resources */,
 				58F89DC51D9A2359003A5378 /* login-background.jpg in Resources */,
@@ -4173,8 +4192,9 @@
 				588148BA1DC0B244004180E1 /* ProductCompareMainCell.xib in Resources */,
 				FDAD1BE51BF0A5DB00505A35 /* ic_take_photo.png in Resources */,
 				5858875C1DBEEA1A006EC6D5 /* SearchResultHeader.xib in Resources */,
-				B2998E981F35953400D404AF /* AddProduct3ProductAuthVerification.xib in Resources */,
+				B2998E981F35953400D404AF /* AddProduct3ProductAuthVerificationCell.xib in Resources */,
 				58F5620E1EDEC4210054A3CE /* GoogleSignIn.bundle in Resources */,
+				B229F4BA1F37059600A2F60B /* AddProduct3ImagesChecklistCell.xib in Resources */,
 				58BBF5941EF276E100A0E2A2 /* TarikTunaiwithSaveBankAccount2.xib in Resources */,
 				B2D119931E290BF80064045B /* banner_exclamation.png in Resources */,
 				58BE535F1D479F5B00E358EB /* courier_jne.png in Resources */,
@@ -4224,6 +4244,7 @@
 				58F0A41B1C7C634A002A488F /* cchmrk_chat.png in Resources */,
 				B2CAF7841E78F58900ACB361 /* PreloMessageCell.xib in Resources */,
 				B22357611E35F90800CEC6F5 /* TarikTunaiCell3.xib in Resources */,
+				B229F4D21F370B6800A2F60B /* AddProduct3.xib in Resources */,
 				58A223C81C898CB600619518 /* ic_trx_paid.png in Resources */,
 				585887271DBED974006EC6D5 /* PhoneVerification.xib in Resources */,
 				5858874E1DBEDBB8006EC6D5 /* PathLogin.xib in Resources */,
@@ -4291,6 +4312,7 @@
 				B2D119891E28CD2A0064045B /* AchievementCellDescriptionCell.xib in Resources */,
 				21679A401B901C5300F18F90 /* MPSurvey.storyboard in Resources */,
 				589A6FC81D8C08F600654CDD /* ic_ongkir.png in Resources */,
+				B229F4D01F3709A000A2F60B /* AddProduct3ImagesChecklistCellCollectionCell.xib in Resources */,
 				B2CB4C441E08C61C00F5D0F2 /* FilterLocationCell.xib in Resources */,
 				B213E41A1E698A6500C76D04 /* tour_4.jpg in Resources */,
 				589A6FB01D8C08F600654CDD /* ic_2kg.png in Resources */,
@@ -4399,6 +4421,7 @@
 				216799731B8F879A00F18F90 /* rsz_ic_bca@2x.png in Resources */,
 				58A99A4E1C6D866000E3E7D7 /* Prelo.entitlements in Resources */,
 				B2DF58491E484131005B6CF1 /* AddressBookCell.xib in Resources */,
+				B229F4CE1F37087700A2F60B /* AddProduct3ImagesPreviewCellNewOneCell.xib in Resources */,
 				B2D965D71E9E01AE00B2C29C /* Checkout2AddressFillCell.xib in Resources */,
 				5804CBD51EEE6A8900B7D032 /* RekeningListCell.xib in Resources */,
 				B2BEBC761E4C27EC009982F9 /* placeholder-circle.png in Resources */,
@@ -4578,6 +4601,7 @@
 				58DD28F11DAF36DD00130B6F /* UIPasteboard.swift in Sources */,
 				585887881DBF2A95006EC6D5 /* AddProductViewController.swift in Sources */,
 				21679A291B901C5300F18F90 /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
+				B229F4D41F370C0200A2F60B /* AddProductViewController3.swift in Sources */,
 				B2FFCBA41EA52669004F01D0 /* SocketEnginePollable.swift in Sources */,
 				5847E1521DBD9B9200C1B2BA /* CDUser.swift in Sources */,
 				5847E1871DBDEEAA00C1B2BA /* FilterViewController.swift in Sources */,

@@ -11,18 +11,18 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="128" id="n3v-9K-cwe">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="128"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="158" id="n3v-9K-cwe" customClass="AddProduct3ImagesPreviewCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="157"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="n3v-9K-cwe" id="Ezb-oV-pZh">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="127.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="156.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="ohG-8P-0fv">
-                        <rect key="frame" x="12" y="12" width="351" height="60"/>
+                        <rect key="frame" x="12" y="12" width="351" height="90"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="60" id="Uuc-nh-4Of"/>
+                            <constraint firstAttribute="height" constant="90" id="Uuc-nh-4Of"/>
                         </constraints>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Qn3-IS-OYK">
                             <size key="itemSize" width="50" height="50"/>
@@ -32,7 +32,7 @@
                         </collectionViewFlowLayout>
                     </collectionView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oaw-hC-wlh">
-                        <rect key="frame" x="12" y="76" width="351" height="42"/>
+                        <rect key="frame" x="12" y="106" width="351" height="42"/>
                         <attributedString key="attributedText">
                             <fragment content="Foto yang sebaiknya kamu upload adalah tampak depan, foto label/merek, tampak belakang, dan cacat (jika ada).">
                                 <attributes>
@@ -71,7 +71,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iz9-gH-Dtc">
-                        <rect key="frame" x="12" y="76" width="351" height="42"/>
+                        <rect key="frame" x="12" y="106" width="351" height="42"/>
                     </button>
                 </subviews>
                 <constraints>
@@ -87,7 +87,10 @@
                     <constraint firstItem="oaw-hC-wlh" firstAttribute="top" secondItem="ohG-8P-0fv" secondAttribute="bottom" constant="4" id="uyA-B0-zLW"/>
                 </constraints>
             </tableViewCellContentView>
-            <point key="canvasLocation" x="-36.5" y="20"/>
+            <connections>
+                <outlet property="collectionView" destination="ohG-8P-0fv" id="ftd-OS-Zh0"/>
+            </connections>
+            <point key="canvasLocation" x="-36.5" y="34.5"/>
         </tableViewCell>
     </objects>
 </document>
