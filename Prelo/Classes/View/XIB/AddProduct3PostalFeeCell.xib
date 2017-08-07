@@ -42,15 +42,22 @@
                                 <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q2r-LO-GLW">
+                                <rect key="frame" x="0.0" y="0.0" width="177.5" height="60"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="cxF-hD-q6r" firstAttribute="top" secondItem="eEu-b8-L9R" secondAttribute="bottom" constant="4" id="5a5-Vy-Pzm"/>
                             <constraint firstItem="cxF-hD-q6r" firstAttribute="centerX" secondItem="Ie1-Qo-Bc6" secondAttribute="centerX" id="Bzb-IW-OOc"/>
+                            <constraint firstItem="Q2r-LO-GLW" firstAttribute="leading" secondItem="Ie1-Qo-Bc6" secondAttribute="leading" id="QPv-6p-bei"/>
                             <constraint firstAttribute="bottom" secondItem="cxF-hD-q6r" secondAttribute="bottom" constant="4" id="SSS-Gf-IHJ"/>
                             <constraint firstAttribute="height" constant="60" id="Un5-1j-eaJ"/>
                             <constraint firstItem="eEu-b8-L9R" firstAttribute="centerX" secondItem="Ie1-Qo-Bc6" secondAttribute="centerX" id="cF4-i8-hfC"/>
+                            <constraint firstAttribute="bottom" secondItem="Q2r-LO-GLW" secondAttribute="bottom" id="oje-kT-bda"/>
+                            <constraint firstAttribute="trailing" secondItem="Q2r-LO-GLW" secondAttribute="trailing" id="r2M-sl-U8O"/>
                             <constraint firstItem="eEu-b8-L9R" firstAttribute="top" secondItem="Ie1-Qo-Bc6" secondAttribute="top" constant="4" id="rAr-X0-bhd"/>
+                            <constraint firstItem="Q2r-LO-GLW" firstAttribute="top" secondItem="Ie1-Qo-Bc6" secondAttribute="top" id="rXY-DY-hp3"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
@@ -76,14 +83,21 @@
                                 <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wI6-kj-b3x">
+                                <rect key="frame" x="0.0" y="0.0" width="177.5" height="60"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="dsi-ev-4wL" firstAttribute="top" secondItem="xf6-jz-bbM" secondAttribute="bottom" constant="4" id="2e6-pe-fVx"/>
                             <constraint firstAttribute="bottom" secondItem="dsi-ev-4wL" secondAttribute="bottom" constant="4" id="5Pg-Al-RHk"/>
                             <constraint firstItem="xf6-jz-bbM" firstAttribute="centerX" secondItem="D1l-WY-dFO" secondAttribute="centerX" id="5fo-2E-BNZ"/>
+                            <constraint firstItem="wI6-kj-b3x" firstAttribute="leading" secondItem="D1l-WY-dFO" secondAttribute="leading" id="87U-zX-FIy"/>
                             <constraint firstItem="dsi-ev-4wL" firstAttribute="centerX" secondItem="D1l-WY-dFO" secondAttribute="centerX" id="9ER-GI-bWy"/>
                             <constraint firstItem="xf6-jz-bbM" firstAttribute="top" secondItem="D1l-WY-dFO" secondAttribute="top" constant="4" id="HR5-I3-0uo"/>
+                            <constraint firstAttribute="trailing" secondItem="wI6-kj-b3x" secondAttribute="trailing" id="XX2-bu-46R"/>
+                            <constraint firstItem="wI6-kj-b3x" firstAttribute="top" secondItem="D1l-WY-dFO" secondAttribute="top" id="eKI-9z-zr6"/>
+                            <constraint firstAttribute="bottom" secondItem="wI6-kj-b3x" secondAttribute="bottom" id="ms8-lt-gYh"/>
                             <constraint firstItem="xf6-jz-bbM" firstAttribute="width" secondItem="xf6-jz-bbM" secondAttribute="height" multiplier="1:1" id="xGt-Wk-fwi"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>

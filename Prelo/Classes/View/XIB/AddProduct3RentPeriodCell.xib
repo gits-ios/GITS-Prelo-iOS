@@ -40,13 +40,20 @@ HARI</string>
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xs4-Eh-1yu">
+                                <rect key="frame" x="0.0" y="0.0" width="117" height="60"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="xs4-Eh-1yu" secondAttribute="trailing" id="6YM-uE-37C"/>
                             <constraint firstAttribute="bottom" secondItem="os6-aO-WN4" secondAttribute="bottom" constant="4" id="XkZ-OB-vHq"/>
+                            <constraint firstItem="xs4-Eh-1yu" firstAttribute="top" secondItem="aq8-n9-Bb9" secondAttribute="top" id="ZhZ-wc-jRR"/>
                             <constraint firstAttribute="trailing" secondItem="os6-aO-WN4" secondAttribute="trailing" constant="4" id="bMw-Ef-uP7"/>
                             <constraint firstItem="os6-aO-WN4" firstAttribute="top" secondItem="aq8-n9-Bb9" secondAttribute="top" constant="4" id="g4n-R7-v3k"/>
+                            <constraint firstAttribute="bottom" secondItem="xs4-Eh-1yu" secondAttribute="bottom" id="jqm-jP-lj6"/>
                             <constraint firstItem="os6-aO-WN4" firstAttribute="leading" secondItem="aq8-n9-Bb9" secondAttribute="leading" constant="4" id="oUL-f8-iSK"/>
+                            <constraint firstItem="xs4-Eh-1yu" firstAttribute="leading" secondItem="aq8-n9-Bb9" secondAttribute="leading" id="ruN-mn-7iF"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
@@ -79,12 +86,19 @@ MINGGU</string>
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Dx-bm-3ti">
+                                <rect key="frame" x="0.0" y="0.0" width="117" height="60"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="9Dx-bm-3ti" firstAttribute="top" secondItem="Nvk-NR-mFo" secondAttribute="top" id="2yn-k1-0xW"/>
                             <constraint firstAttribute="height" constant="60" id="9nR-Pi-CIL"/>
                             <constraint firstItem="Rf6-TP-UKf" firstAttribute="leading" secondItem="Nvk-NR-mFo" secondAttribute="leading" constant="4" id="EfL-Zm-928"/>
+                            <constraint firstItem="9Dx-bm-3ti" firstAttribute="leading" secondItem="Nvk-NR-mFo" secondAttribute="leading" id="Jn5-mv-qG6"/>
+                            <constraint firstAttribute="trailing" secondItem="9Dx-bm-3ti" secondAttribute="trailing" id="QSZ-t4-BQG"/>
                             <constraint firstAttribute="bottom" secondItem="Rf6-TP-UKf" secondAttribute="bottom" constant="4" id="RRx-gf-C4n"/>
+                            <constraint firstAttribute="bottom" secondItem="9Dx-bm-3ti" secondAttribute="bottom" id="bah-VE-rHL"/>
                             <constraint firstItem="Rf6-TP-UKf" firstAttribute="top" secondItem="Nvk-NR-mFo" secondAttribute="top" constant="4" id="lF9-cq-PcP"/>
                             <constraint firstAttribute="trailing" secondItem="Rf6-TP-UKf" secondAttribute="trailing" constant="4" id="skM-RC-BFB"/>
                         </constraints>
@@ -119,12 +133,19 @@ BULAN</string>
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L9I-x5-9cA">
+                                <rect key="frame" x="0.0" y="0.0" width="117" height="60"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="L9I-x5-9cA" secondAttribute="bottom" id="2vb-2x-k1c"/>
                             <constraint firstItem="KeT-Ii-qdT" firstAttribute="top" secondItem="cF5-qm-698" secondAttribute="top" constant="4" id="Gic-7v-7hJ"/>
+                            <constraint firstItem="L9I-x5-9cA" firstAttribute="leading" secondItem="cF5-qm-698" secondAttribute="leading" id="GuX-Y4-fsJ"/>
+                            <constraint firstAttribute="trailing" secondItem="L9I-x5-9cA" secondAttribute="trailing" id="Xm2-9F-4Ti"/>
                             <constraint firstAttribute="trailing" secondItem="KeT-Ii-qdT" secondAttribute="trailing" constant="4" id="bFs-K6-PSj"/>
                             <constraint firstAttribute="bottom" secondItem="KeT-Ii-qdT" secondAttribute="bottom" constant="4" id="mdg-eX-IJE"/>
+                            <constraint firstItem="L9I-x5-9cA" firstAttribute="top" secondItem="cF5-qm-698" secondAttribute="top" id="tBA-Gk-d5y"/>
                             <constraint firstItem="KeT-Ii-qdT" firstAttribute="leading" secondItem="cF5-qm-698" secondAttribute="leading" constant="4" id="tQb-cq-9XM"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>

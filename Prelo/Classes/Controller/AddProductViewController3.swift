@@ -25,6 +25,7 @@ struct SelectedProductItem {
     var isRent = false
     
     // Images Preview Cell
+    var imagesIndex: Array<Int> = []
     var images: Array<UIImage> = []
     var imagesDetail: Array<PreviewImage> = []
     
@@ -113,7 +114,7 @@ class AddProduct3ImageTitleCell: UITableViewCell {
 class AddProduct3ImagesPreviewCell: UITableViewCell {
     @IBOutlet weak var collectionView: UICollectionView!
     
-    // TODO: - ADAPT
+    // TODO: - ADAPT, DELEGATE
     
     // 158 , (42) count teks height
     static func heightFor() -> CGFloat {
@@ -195,7 +196,77 @@ class AddProduct3WeightCell: UITableViewCell {
     @IBOutlet weak var vwBerat: UIView! // hide
     @IBOutlet weak var txtWeight: UITextField!
     
+    var reloadThisRow: ()->() = {}
+    var disactiveColor = UIColor.init(hexString: "#727272")
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.img1kg.tint = true
+        self.img12kg.tint = true
+        self.img2kg.tint = true
+        
+        self.img1kg.tintColor = disactiveColor
+        self.img12kg.tintColor = disactiveColor
+        self.img2kg.tintColor = disactiveColor
+        
+        self.vwBerat.isHidden = true
+    }
+    
+    func adapt(_ weight: String) {
+        if weight != "" {
+            self.txtWeight.text = weight
+            if self.vwBerat.isHidden {
+                self.vwBerat.isHidden = false
+                self.reloadThisRow()
+            }
+            if weight.int < 1000 {
+                self.vw1kg.tintColor = Theme.PrimaryColor
+                self.img1kg.tintColor = Theme.PrimaryColor
+                self.lbl1kg.textColor = Theme.PrimaryColor
+                
+                self.vw12kg.tintColor = disactiveColor
+                self.img12kg.tintColor = disactiveColor
+                self.lbl12kg.textColor = disactiveColor
+                
+                self.vw2kg.tintColor = disactiveColor
+                self.img2kg.tintColor = disactiveColor
+                self.lbl2kg.textColor = disactiveColor
+            } else if weight.int < 2000 {
+                self.vw1kg.tintColor = disactiveColor
+                self.img1kg.tintColor = disactiveColor
+                self.lbl1kg.textColor = disactiveColor
+                
+                self.vw12kg.tintColor = Theme.PrimaryColor
+                self.img12kg.tintColor = Theme.PrimaryColor
+                self.lbl12kg.textColor = Theme.PrimaryColor
+                
+                self.vw2kg.tintColor = disactiveColor
+                self.img2kg.tintColor = disactiveColor
+                self.lbl2kg.textColor = disactiveColor
+            } else {
+                self.vw1kg.tintColor = disactiveColor
+                self.img1kg.tintColor = disactiveColor
+                self.lbl1kg.textColor = disactiveColor
+                
+                self.vw12kg.tintColor = disactiveColor
+                self.img12kg.tintColor = disactiveColor
+                self.lbl12kg.textColor = disactiveColor
+                
+                self.vw2kg.tintColor = Theme.PrimaryColor
+                self.img2kg.tintColor = Theme.PrimaryColor
+                self.lbl2kg.textColor = Theme.PrimaryColor
+            }
+        }
+    }
+    
     // 72 , 118
+    static func heightFor(_ weight: String) -> CGFloat {
+        if weight != "" {
+            return 118
+        }
+        return 72
+    }
 }
 
 // MARK: - Postal Fee Cell (Sell)
@@ -208,7 +279,26 @@ class AddProduct3PostalFeeCell: UITableViewCell {
     @IBOutlet weak var lblPaidOngkir: UILabel!
     @IBOutlet weak var lblRegion: UILabel!
     
+    var disactiveColor = UIColor.init(hexString: "#727272")
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.imgFreeOngkir.tint = true
+        self.imgPaidOngkir.tint = true
+        
+        self.imgFreeOngkir.tintColor = disactiveColor
+        self.imgPaidOngkir.tintColor = disactiveColor
+    }
+    
+    // TODO: - ADAPT
+    
     // 206, count teks height
+    static func heightFor() -> CGFloat {
+        let sub = "Barang yang biasanya butuh asuransi kurir: handphone, laptop, dll. Ongkos kirim barang jualan kamu akan sesuai dengan kurir yang tersimpan di sistem. Lihat Syarat dan Ketentuan."
+        let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: AppTools.screenWidth - 24)
+        return 164 + t.height // count subtitle height
+    }
 }
 
 // MARK: - Product Auth Verification Cell (Luxury)
