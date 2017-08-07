@@ -65,8 +65,6 @@ struct SelectedProductItem {
     
     // Charge Cell
     var commision = "0%(Free) - 10%"
-    
-    //TODO: - another field
 }
 
 // MARK: - Class
@@ -115,8 +113,14 @@ class AddProduct3ImageTitleCell: UITableViewCell {
 class AddProduct3ImagesPreviewCell: UITableViewCell {
     @IBOutlet weak var collectionView: UICollectionView!
     
-    // 158 , count teks height
+    // TODO: - ADAPT
     
+    // 158 , (42) count teks height
+    static func heightFor() -> CGFloat {
+        let sub = "Foto yang sebaiknya kamu upload adalah tampak depan, foto label/merek, tampak belakang, dan cacat (jika ada). Lihat tips barang Editor's Pick."
+        let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: AppTools.screenWidth - 24)
+        return 116 + t.height // count subtitle height
+    }
 }
 
 class AddProduct3ImagesPreviewCellCollectionCell: UICollectionViewCell {
@@ -124,14 +128,35 @@ class AddProduct3ImagesPreviewCellCollectionCell: UICollectionViewCell {
     @IBOutlet weak var labelView: UIView! // backgrund
     @IBOutlet weak var label: UILabel!
     
-    // 82 x 82
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.backgroundColor = UIColor.init(hexString: "#EDEDED")
+        self.labelView.backgroundColor = UIColor.init(hexString: "#B4B4B4").alpha(0.75)
+    }
     
+    func adapt(_ image: UIImage?, label: String) {
+        self.imagesPreview.image = image
+        self.label.text = label
+    }
+    
+    // 82 x 82
+    static func sizeFor() -> CGSize {
+        return CGSize(width: 82, height: 82)
+    }
 }
 
 class AddProduct3ImagesPreviewCellNewOneCell: UICollectionViewCell {
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.backgroundColor = UIColor.init(hexString: "#EDEDED")
+    }
     
     // 82 x 82
-    
+    static func sizeFor() -> CGSize {
+        return CGSize(width: 82, height: 82)
+    }
 }
 
 // MARK: - Detail Product Cell
