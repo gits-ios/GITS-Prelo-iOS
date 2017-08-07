@@ -8,8 +8,15 @@
 
 import Foundation
 
-// MARK: - Class
+// MARK: - Struct
+struct SelectedProductItem {
+    var name = ""
+    var desc = ""
+    
+    //TODO: - another field
+}
 
+// MARK: - Class
 class AddProductViewController3: BaseViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var loadingPanel: UIView!
@@ -103,8 +110,10 @@ class AddProduct3WeightCell: UITableViewCell {
     @IBOutlet weak var img2kg: TintedImageView!
     @IBOutlet weak var lbl2kg: UILabel!
     
+    @IBOutlet weak var vwBerat: UIView! // hide
+    @IBOutlet weak var txtWeight: UITextField!
     
-    // 72
+    // 72 , 118
 }
 
 // MARK: - Postal Fee Cell (Sell)
@@ -162,6 +171,15 @@ class AddProduct3PriceCell: UITableViewCell {
     @IBOutlet weak var consTopHargaSewa: NSLayoutConstraint! // 40 -> 0
     
     // 258 (all), sell: 88, rent: 218
+    
+    static func heightFor(_ isSell: Bool, isRent: Bool) -> CGFloat {
+        if isSell && isRent {
+            return 258
+        } else if isSell {
+            return 88
+        }
+        return 218
+    }
 }
 
 // MARK: - Charge Cell
