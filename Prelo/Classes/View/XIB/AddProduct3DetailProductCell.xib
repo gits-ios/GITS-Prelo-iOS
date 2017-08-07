@@ -17,10 +17,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="381" id="unS-vI-u4T" customClass="AddProduct3DetailProductCell" customModule="Prelo" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="381"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="346"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="unS-vI-u4T" id="2eF-QG-KZc">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="380.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="345.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pes-JN-zm2" userLabel="Field Nama Product">
@@ -470,6 +470,16 @@
                     <constraint firstAttribute="trailingMargin" secondItem="mQs-UR-kvi" secondAttribute="trailing" constant="4" id="yhM-eR-hh8"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="lblCategory" destination="QVw-oG-k8T" id="yPG-DQ-0Q5"/>
+                <outlet property="lblCondition" destination="INx-ay-cQj" id="Jvn-Oc-e5t"/>
+                <outlet property="lblMerk" destination="Lxp-Ut-yjd" id="K1J-EK-5Hd"/>
+                <outlet property="txtAlasanJual" destination="4An-lK-gAJ" id="IBc-pa-hha"/>
+                <outlet property="txtCacat" destination="AsC-Em-0cx" id="vzV-4k-0mi"/>
+                <outlet property="txtDescription" destination="8yg-VW-apT" id="1qq-k3-yFy"/>
+                <outlet property="txtProductName" destination="gdp-26-rDO" id="uhq-1w-CqQ"/>
+                <outlet property="txtSpecialStory" destination="qAr-qb-E9o" id="hfe-Vj-GT8"/>
+            </connections>
             <point key="canvasLocation" x="-1.5" y="-25.5"/>
         </tableViewCell>
     </objects>

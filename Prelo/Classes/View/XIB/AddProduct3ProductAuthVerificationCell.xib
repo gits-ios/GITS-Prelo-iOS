@@ -11,11 +11,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="177" id="jWR-Yh-N2c">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="177"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="177" id="jWR-Yh-N2c" customClass="AddProduct3ProductAuthVerificationCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="172"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jWR-Yh-N2c" id="PLQ-6H-sWX">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="176.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="171.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cpp-iS-nyf" userLabel="Field Style Name">
@@ -198,6 +198,12 @@
                     <constraint firstAttribute="trailingMargin" secondItem="cpp-iS-nyf" secondAttribute="trailing" constant="4" id="xiY-QY-aim"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="txtLokasiBeli" destination="ncF-eO-Nyf" id="pgD-4N-WJX"/>
+                <outlet property="txtSerialNumber" destination="8FA-Ke-7rX" id="D3h-zJ-QYG"/>
+                <outlet property="txtStyleName" destination="rUz-z6-dWP" id="yFW-ED-KNB"/>
+                <outlet property="txtTahunBeli" destination="uph-ps-lvG" id="9IS-hf-Wnn"/>
+            </connections>
             <point key="canvasLocation" x="68.5" y="126.5"/>
         </tableViewCell>
     </objects>

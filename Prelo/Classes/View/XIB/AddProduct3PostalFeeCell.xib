@@ -17,17 +17,17 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="215" id="SYA-SD-KGy">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="215"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="215" id="SYA-SD-KGy" customClass="AddProduct3PostalFeeCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="206"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SYA-SD-KGy" id="iwn-CR-oAM">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="214.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="205.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ie1-Qo-Bc6" userLabel="Ditanggung Penjual" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
                         <rect key="frame" x="12" y="4" width="177.5" height="60"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_freeongkir.png" translatesAutoresizingMaskIntoConstraints="NO" id="eEu-b8-L9R">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_freeongkir.png" translatesAutoresizingMaskIntoConstraints="NO" id="eEu-b8-L9R" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                 <rect key="frame" x="57.5" y="4" width="61" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="eEu-b8-L9R" secondAttribute="height" multiplier="1.8:1" id="C64-BW-Yds"/>
@@ -64,7 +64,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D1l-WY-dFO" userLabel="Ditanggung Pembeli" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
                         <rect key="frame" x="193.5" y="4" width="177.5" height="60"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_ditanggung_pembeli.png" translatesAutoresizingMaskIntoConstraints="NO" id="xf6-jz-bbM">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_ditanggung_pembeli.png" translatesAutoresizingMaskIntoConstraints="NO" id="xf6-jz-bbM" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                 <rect key="frame" x="71" y="4" width="34" height="34"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ditanggung Pembeli" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dsi-ev-4wL">
@@ -272,6 +272,15 @@
                     <constraint firstItem="Ie1-Qo-Bc6" firstAttribute="leading" secondItem="iwn-CR-oAM" secondAttribute="leadingMargin" constant="4" id="yJf-So-QPd"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="imgFreeOngkir" destination="eEu-b8-L9R" id="WGc-Mc-kPY"/>
+                <outlet property="imgPaidOngkir" destination="xf6-jz-bbM" id="Pto-4U-gmx"/>
+                <outlet property="lblFreeOngkir" destination="cxF-hD-q6r" id="2s2-TX-B63"/>
+                <outlet property="lblPaidOngkir" destination="dsi-ev-4wL" id="wDY-PX-nGR"/>
+                <outlet property="lblRegion" destination="HKV-0C-4zl" id="uJZ-IK-igK"/>
+                <outlet property="vwFreeOngkir" destination="Ie1-Qo-Bc6" id="3yg-KV-d3b"/>
+                <outlet property="vwPaidOngkir" destination="D1l-WY-dFO" id="Yik-62-bup"/>
+            </connections>
             <point key="canvasLocation" x="5.5" y="92.5"/>
         </tableViewCell>
     </objects>
