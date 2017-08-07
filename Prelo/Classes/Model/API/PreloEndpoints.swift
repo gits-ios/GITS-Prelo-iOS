@@ -572,6 +572,7 @@ enum APIMe : URLRequestConvertible {
     case setDefaultAddress(addressId: String)
     case updateCoordinate(addressId: String, coordinate: String, coordinateAddress: String)
     case updateNameAndAddress(addressId: String, recipientName: String, phone: String)
+    case getTopUps(current : Int, limit : Int)
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "me/"
@@ -611,6 +612,7 @@ enum APIMe : URLRequestConvertible {
              .setDefaultAddress(_),
              .updateCoordinate(_, _, _),
              .updateNameAndAddress(_, _, _) : return .post
+        case .getTopUps(_, _) : return .get
         }
     }
     
@@ -634,6 +636,7 @@ enum APIMe : URLRequestConvertible {
         case .checkPassword : return "checkpassword"
         case .resendVerificationEmail : return "verify/resend_email"
         case .getBalanceMutations(_, _) : return "getprelobalances"
+        case .getTopUps(_, _) : return "getprelotopups"
         case .setUserUUID : return "setgafaid"
         case .achievement : return "achievements"
         case .getAddressBook : return "address_book"
@@ -1753,6 +1756,8 @@ enum APIWallet : URLRequestConvertible {
     case getBalance
     case withdraw(amount : String, targetBank : String, norek : String, namarek : String, password : String)
     case getBalanceAndWithdraw
+    case topUp(amount : Int, banktransfer_digit : Int, payment_method_param: String)
+    case topUpPaid(_id : String, payment_method_param : String, payment_time : String)
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "wallet/"
@@ -1768,6 +1773,8 @@ enum APIWallet : URLRequestConvertible {
         case .withdraw(_, _, _, _, _) : return .post
         case .getBalance : return .get
         case .getBalanceAndWithdraw : return .get
+        case .topUp(_, _, _) : return .post
+        case .topUpPaid(_, _, _) : return .post
         }
     }
     
@@ -1776,6 +1783,8 @@ enum APIWallet : URLRequestConvertible {
         case .withdraw(_, _, _, _, _) : return "withdraw"
         case .getBalance : return "balance"
         case .getBalanceAndWithdraw : return "balance_and_withdraw"
+        case .topUp(_, _, _) : return "topup"
+        case .topUpPaid(_, _, _) : return "paid_topup"
         }
     }
     
@@ -1790,6 +1799,18 @@ enum APIWallet : URLRequestConvertible {
                 "name" : namarek,
                 "password" : password,
                 "platform_sent_from" : "ios"
+            ]
+        case .topUp(let amount, let banktransfer_digit, let payment_method_param) :
+            p = [
+                "amount" : amount,
+                "banktransfer_digit" : banktransfer_digit,
+                "payment_method_param" : payment_method_param
+            ]
+        case .topUpPaid(let _id, let payment_method_param, let payment_time) :
+            p = [
+                "_id" : _id,
+                "payment_method_param" : payment_method_param,
+                "payment_time" : payment_time
             ]
         default : break
         }

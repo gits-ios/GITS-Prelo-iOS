@@ -375,9 +375,9 @@ class TopUpConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             
             navController.setViewControllers(controllers, animated: false)
             
-            let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+            let balanceMutationVC = Bundle.main.loadNibNamed(Tags.XibNameBalanceMutation, owner: nil, options: nil)?.first as! BalanceMutationViewController
             
-            navController.pushViewController(myPurchaseVC, animated: true)
+            navController.pushViewController(balanceMutationVC, animated: true)
         }
         if let count = self.navigationController?.viewControllers.count, count >= 4 && isBackThreeTimes {
             // _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-4])!, animated: true)
@@ -390,9 +390,9 @@ class TopUpConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             
             navController.setViewControllers(controllers, animated: false)
             
-            let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+            let balanceMutationVC = Bundle.main.loadNibNamed(Tags.XibNameBalanceMutation, owner: nil, options: nil)?.first as! BalanceMutationViewController
             
-            navController.pushViewController(myPurchaseVC, animated: true)
+            navController.pushViewController(balanceMutationVC, animated: true)
         }
         if (isBackToRoot) {
             _ = self.navigationController?.popToRootViewController(animated: true)
@@ -449,9 +449,9 @@ class TopUpConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         
         navController.setViewControllers(controllers, animated: false)
         
-        let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+        let balanceMutationVC = Bundle.main.loadNibNamed(Tags.XibNameBalanceMutation, owner: nil, options: nil)?.first as! BalanceMutationViewController
         
-        navController.pushViewController(myPurchaseVC, animated: true)
+        navController.pushViewController(balanceMutationVC, animated: true)
     }
     
     @IBAction func showPaymentPopUp(_ sender: AnyObject) {
@@ -461,9 +461,9 @@ class TopUpConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             
             navController.setViewControllers(controllers, animated: false)
             
-            let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+            let balanceMutationVC = Bundle.main.loadNibNamed(Tags.XibNameBalanceMutation, owner: nil, options: nil)?.first as! BalanceMutationViewController
             
-            navController.pushViewController(myPurchaseVC, animated: true)
+            navController.pushViewController(balanceMutationVC, animated: true)
         } else {
             self.vwPaymentPopUp.isHidden = false
         }
@@ -489,9 +489,9 @@ class TopUpConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
                     
                     navController.setViewControllers(controllers, animated: false)
                     
-                    let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                    let balanceMutationVC = Bundle.main.loadNibNamed(Tags.XibNameBalanceMutation, owner: nil, options: nil)?.first as! BalanceMutationViewController
                     
-                    navController.pushViewController(myPurchaseVC, animated: true)
+                    navController.pushViewController(balanceMutationVC, animated: true)
                 }
                 if let count = self.navigationController?.viewControllers.count, count >= 4 && isBackThreeTimes {
                     // _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-4])!, animated: true)
@@ -504,9 +504,9 @@ class TopUpConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
                     
                     navController.setViewControllers(controllers, animated: false)
                     
-                    let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                    let balanceMutationVC = Bundle.main.loadNibNamed(Tags.XibNameBalanceMutation, owner: nil, options: nil)?.first as! BalanceMutationViewController
                     
-                    navController.pushViewController(myPurchaseVC, animated: true)
+                    navController.pushViewController(balanceMutationVC, animated: true)
                 }
                 if (isBackToRoot) {
                     _ = self.navigationController?.popToRootViewController(animated: true)
@@ -575,43 +575,23 @@ class TopUpConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         timePaidFormatter.dateFormat = "EEEE, dd MMMM yyyy"
         let timePaidString = timePaidFormatter.string(from: timePaid)
         
-        // API Migrasi
-        let _ = request(APITransaction.confirmPayment(bankFrom: "", bankTo: self.lblBankTujuan.text!, name: "", nominal: Int64(fldNominalTrf.text!)!, orderId: self.transactionId, timePaid: timePaidString)).responseJSON { resp in
-            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Konfirmasi Bayar")) {
-                /*
-                 // Mixpanel
-                 let pt = [
-                 "Order ID" : self.orderID,
-                 "Destination Bank" : self.lblBankTujuan.text!,
-                 "Origin Bank" : "",
-                 "Amount" : self.fldNominalTrf.text!
-                 ]
-                 Mixpanel.trackEvent(MixpanelEvent.PaymentClaimed, properties: pt)
-                 */
-                
-                // Prelo Analytic - Claim Payment
-                let loginMethod = User.LoginMethod ?? ""
-                let pdata = [
-                    "Order ID" : self.orderID,
-                    "Destination Bank" : self.lblBankTujuan.text!,
-                    "Amount" : self.fldNominalTrf.text!
-                    ] as [String : Any]
-                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ClaimPayment, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
-                
-                // reduce badge troli
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                let notifListener = appDelegate.preloNotifListener
-                notifListener?.increaseCartCount(-1)
-                
+        print(self.orderID)
+        print("{\"target_bank\": \"\(self.targetBank!)\"}")
+        print(timePaidString)
+        // API
+        let _ = request(APIWallet.topUpPaid(_id: self.orderID, payment_method_param: "{\"target_bank\": \"\(self.targetBank!)\"}", payment_time: timePaidString)).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Top Up Confirm Payment")){
                 Constant.showDialog("Konfirmasi Bayar", message: "Terimakasih! Pembayaran kamu akan segera diverifikasi")
                 
-                // gesture override
                 self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
                 
                 _ = self.navigationController?.popToRootViewController(animated: true)
             }
-            self.btnKirimPayment.setTitle("KIRIM KONFIRMASI", for: UIControlState())
-            self.btnKirimPayment.isUserInteractionEnabled = true
         }
+        
+        
+        self.btnKirimPayment.setTitle("KIRIM KONFIRMASI", for: UIControlState())
+        self.btnKirimPayment.isUserInteractionEnabled = true
+        
     }
 }

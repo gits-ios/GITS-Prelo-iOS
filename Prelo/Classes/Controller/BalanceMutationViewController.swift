@@ -57,9 +57,30 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     
     var balanceMutationItems : [BalanceMutationItem]?
     
+    var topUpItems : [TopUpItem]? = []
+    
     var totalPreloBalance : Int64 = 0
     
     var isRefreshing = false
+    
+    var isTopUp = false
+    
+    @IBOutlet weak var lblMutasi: UILabel!
+    @IBOutlet weak var lblPreloBalance: UILabel!
+    
+    @IBAction func mutasiButtonPressed(_ sender: Any) {
+        isTopUp = false
+        tblMutation.reloadData()
+        lblMutasi.text = "Mutasi"
+        lblPreloBalance.text = "Prelo Balance"
+    }
+    @IBAction func topUpButtonPressed(_ sender: Any) {
+        isTopUp = true
+        tblMutation.reloadData()
+        lblMutasi.text = "Transaksi"
+        lblPreloBalance.text = "Status"
+    }
+    
     
     // MARK: - Init
     
@@ -105,6 +126,7 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
 //        self.showLoading()
         
         getBalanceMutations()
+        getTopUp()
     }
     
     func getBalanceMutations() {
@@ -172,21 +194,70 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
             self.isRefreshing = false
         }
     }
+    func getTopUp(){
+        let _ = request(APIMe.getTopUps(current: self.nextIdx, limit: (nextIdx + ItemPerLoad))).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Top Up Prelo Balance")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                let dataCount = data.count
+                
+                for (_, item) in data {
+                    let b = TopUpItem.instance(item)
+                    if (b != nil) {
+                        self.topUpItems?.append(b!)
+                    }
+                }
+                print(self.topUpItems?.count)
+                
+            }
+            
+            // Hide loading (for first time request)
+            self.hideLoading()
+            
+            // Hide bottomLoading (for next request)
+            self.hideBottomLoading()
+            
+            // Hide refreshControl (for refreshing)
+            self.refreshControl.endRefreshing()
+            
+            // Show content
+            self.showContent()
+            
+            self.isRefreshing = false
+        }
+    }
     
     // MARK: - UITableView functions
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (balanceMutationItems != nil) {
-            return balanceMutationItems!.count
+        print(isTopUp)
+        if(isTopUp){
+            print(topUpItems != nil)
+            if (topUpItems != nil) {
+                return topUpItems!.count
+            }
+        } else {
+            if (balanceMutationItems != nil) {
+                return balanceMutationItems!.count
+            }
         }
         return 0
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let cell : BalanceMutationCell = self.tblMutation.dequeueReusableCell(withIdentifier: "BalanceMutationCell") as! BalanceMutationCell
-        if balanceMutationItems?.count > 0 {
-            if let b = balanceMutationItems?[(indexPath as NSIndexPath).row] {
-                return BalanceMutationCell.heightFor(b, lblDescription: cell.lblDescription, lblReasonAdmin: cell.lblReasonAdmin, lblWJP: cell.lblWJP)
+        if(isTopUp){
+            let cell : BalanceMutationCell = self.tblMutation.dequeueReusableCell(withIdentifier: "BalanceMutationCell") as! BalanceMutationCell
+            if topUpItems?.count > 0 {
+                if let b = topUpItems?[(indexPath as NSIndexPath).row] {
+                    return BalanceMutationCell.heightFor2(b, lblDescription: cell.lblDescription, lblReasonAdmin: cell.lblReasonAdmin, lblWJP: cell.lblWJP)
+                }
+            }
+        } else {
+            let cell : BalanceMutationCell = self.tblMutation.dequeueReusableCell(withIdentifier: "BalanceMutationCell") as! BalanceMutationCell
+            if balanceMutationItems?.count > 0 {
+                if let b = balanceMutationItems?[(indexPath as NSIndexPath).row] {
+                    return BalanceMutationCell.heightFor(b, lblDescription: cell.lblDescription, lblReasonAdmin: cell.lblReasonAdmin, lblWJP: cell.lblWJP)
+                }
             }
         }
         return 0
@@ -194,20 +265,33 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : BalanceMutationCell = self.tblMutation.dequeueReusableCell(withIdentifier: "BalanceMutationCell") as! BalanceMutationCell
-        if balanceMutationItems?.count > 0 {
-            
-            cell.selectionStyle = .none
-            cell.alpha = 1.0
-            cell.backgroundColor = UIColor.white
-            
-            if let b = balanceMutationItems?[(indexPath as NSIndexPath).item] {
-                cell.adapt(b)
-                if b.isHold {
-                    cell.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1) //UIColor(hex: "E5E9EB")
+        if(isTopUp){
+            if topUpItems?.count > 0 {
+                
+                cell.selectionStyle = .none
+                cell.alpha = 1.0
+                cell.backgroundColor = UIColor.white
+                
+                if let b = topUpItems?[(indexPath as NSIndexPath).item] {
+                    cell.adapt2(b)
+                    
+                }
+            }
+        } else {
+            if balanceMutationItems?.count > 0 {
+                
+                cell.selectionStyle = .none
+                cell.alpha = 1.0
+                cell.backgroundColor = UIColor.white
+                
+                if let b = balanceMutationItems?[(indexPath as NSIndexPath).item] {
+                    cell.adapt(b)
+                    if b.isHold {
+                        cell.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1) //UIColor(hex: "E5E9EB")
+                    }
                 }
             }
         }
-        
         return cell
     }
     
@@ -271,6 +355,7 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     
     @IBAction func topUpPressed(_ sender: Any) {
         let t = Bundle.main.loadNibNamed(Tags.XibNameTopUp, owner: nil, options: nil)?.first as! TopUpViewController
+        t.preloBalance = self.lblBalanceAmount.text!
         self.navigationController?.pushViewController(t, animated: true)
     }
     
@@ -362,6 +447,20 @@ class BalanceMutationCell : UITableViewCell {
         return 56 + sizeFixDesc.height + 2 + (lblReasonAdmin.text! != "" ? sizeFixReasonAdmin.height + 2 : 0) + wjpSize
     }
     
+    static func heightFor2(_ mutation : TopUpItem, lblDescription : UILabel, lblReasonAdmin : UILabel, lblWJP : UILabel) -> CGFloat {
+        
+        lblDescription.text = mutation.reasonDetail
+        lblReasonAdmin.text = mutation.progress_detail
+        let rectDesc = UIScreen.main.bounds.size.width - 118
+        let rectReason = UIScreen.main.bounds.size.width - 118
+        let sizeFixDesc = mutation.reasonDetail.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectDesc)
+        let sizeFixReasonAdmin = mutation.progress_detail.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectReason)
+        
+        var wjpSize = CGFloat(0)
+        
+        return 56 + sizeFixDesc.height + 2 + (lblReasonAdmin.text! != "" ? sizeFixReasonAdmin.height + 2 : 0) + wjpSize
+    }
+    
     func adapt(_ mutation : BalanceMutationItem) {
         if (mutation.entryType == 0) { // Kredit
             lblPlusMinus.text = ""
@@ -421,5 +520,31 @@ class BalanceMutationCell : UITableViewCell {
             imgWJP.isHidden = true
         }
 
+    }
+    func adapt2(_ mutation : TopUpItem) {
+        lblMutation.text = mutation.amount.asPrice
+        lblReasonAdmin.text = mutation.progress_detail
+        lblTime.text = mutation.time
+        lblBalance.text = mutation.progress_detail
+        
+        // lblDescription text
+        let trxIdStartIdx = mutation.reasonDetail.indexOfCharacter("#")
+        var trxIdLength = 0
+        if (trxIdStartIdx != -1) {
+            trxIdLength = mutation.reasonDetail.components(separatedBy: "#")[1].components(separatedBy: " ")[0].length + 1
+        }
+        let attrStrDesc = NSMutableAttributedString(string: mutation.reasonDetail)
+        attrStrDesc.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColor], range: NSMakeRange(trxIdStartIdx, trxIdLength))
+        self.lblDescription.attributedText = attrStrDesc
+        
+        // Label height fix
+        let rectDesc = UIScreen.main.bounds.size.width - 118
+        let sizeFixDesc = mutation.reasonDetail.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectDesc)
+        consHeightLblDescription.constant = sizeFixDesc.height + 2
+        
+        let rectReason = UIScreen.main.bounds.size.width - 118
+        let sizeFixReasonAdmin = mutation.progress_detail.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectReason)
+        consHeightLblReasonAdmin.constant = (mutation.progress_detail != "" ? sizeFixReasonAdmin.height + 2 : 0)
+        
     }
 }

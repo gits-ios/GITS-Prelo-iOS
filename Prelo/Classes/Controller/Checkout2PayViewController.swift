@@ -1808,6 +1808,8 @@ class Checkout2PaymentBankCell: UITableViewCell {
                 parent.targetBank = items[index]
             } else if let parent = self.parent1 {
                 parent.targetBank = items[index]
+            } else if let parent = self.parentTopUp {
+                parent.targetBank = items[index]
             }
         }
         

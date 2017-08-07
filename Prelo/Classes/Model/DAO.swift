@@ -3736,6 +3736,98 @@ class BalanceMutationItem : NSObject {
     }
 }
 
+class TopUpItem : NSObject {
+    
+    var json : JSON = JSON([:])
+    
+    static func instance(_ json : JSON?) -> TopUpItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let n = TopUpItem()
+            n.json = json!
+            return n
+        }
+    }
+    
+    var id : String {
+        if let j = json["_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var progress_detail : String {
+        if let j = json["progress_detail"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var time : String {
+        if let j = json["time"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var amount : Int64 {
+        if let j = json["amount"].int64 {
+            return j
+        }
+        return 0
+    }
+    
+    var raw_time : String {
+        if let j = json["raw_time"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var entryType : Int {
+        if let j = json["entry_type"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var reasonId : String {
+        if let j = json["reason_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var type : String {
+        if let j = json["type"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var progress : Int {
+        if let j = json["progress"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var isSeller : Bool? {
+        if let j = json["is_seller"].bool {
+            return j
+        }
+        return nil
+    }
+    
+    var reasonDetail : String {
+        if let j = json["reason_detail"].string {
+            return j
+        }
+        return ""
+    }
+}
+
 // author: santensuru
 // MARK: - ACHIEVEMENT
 class AchievementItem : NSObject {
