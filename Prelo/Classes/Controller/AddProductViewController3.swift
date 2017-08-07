@@ -315,16 +315,54 @@ class AddProduct3ProductAuthVerificationCell: UITableViewCell {
 class AddProduct3ImagesChecklistCell: UITableViewCell {
     @IBOutlet weak var collectionView: UICollectionView!
     
+    // TODO: - ADAPT
     
     // 66, count height collection view (20 x total/y), count teks height
+    static func heightFor(_ count: Int) -> CGFloat {
+        let w = AppTools.screenWidth - 24 - 8
+        var c: CGFloat = 120
+        var i = 0
+        while true {
+            if i == count {
+                break
+            }
+            if c + 4.0 + 120.0 > w {
+                break
+            }
+            i += 1
+            c += 120.0 + 4.0
+        }
+        let h = 20.0 * ceil(Double(count) / Double(i))
+        return 46 + CGFloat(h) // count subtitle height
+    }
 }
 
 class AddProduct3ImagesChecklistCellCollectionCell: UICollectionViewCell {
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var lblCheck: UILabel! // tosca
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.lblCheck.textColor = UIColor.init(hexString: "#727272")
+    }
+    
+    override func prepareForReuse() {
+        self.lblCheck.textColor = UIColor.init(hexString: "#727272")
+    }
+    
+    func adapt(_ name: String, isExist: Bool) {
+        self.lblName.text = name
+        
+        if isExist {
+            self.lblCheck.textColor = Theme.ThemeOrange
+        }
+    }
     
     // 120 x 20
+    static func sizeFor() -> CGSize {
+        return CGSize(width: 120, height: 20)
+    }
 }
 
 // MARK: - Price Cell
