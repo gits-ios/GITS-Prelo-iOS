@@ -636,6 +636,9 @@
 		B229F4D41F370C0200A2F60B /* AddProductViewController3.swift in Sources */ = {isa = PBXBuildFile; fileRef = B229F4D31F370C0200A2F60B /* AddProductViewController3.swift */; };
 		B229F4D61F381CEF00A2F60B /* AddProduct3PriceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4D51F381CEF00A2F60B /* AddProduct3PriceCell.xib */; };
 		B229F4D81F38222D00A2F60B /* AddProduct3ChargeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4D71F38222D00A2F60B /* AddProduct3ChargeCell.xib */; };
+		B229F4DA1F38456400A2F60B /* AddProduct3RentPeriodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4D91F38456400A2F60B /* AddProduct3RentPeriodCell.xib */; };
+		B229F4DC1F38473100A2F60B /* AddProduct3SellRentSwitchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4DB1F38473100A2F60B /* AddProduct3SellRentSwitchCell.xib */; };
+		B229F4DE1F38482700A2F60B /* AddProduct3RentPostalFeeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4DD1F38482700A2F60B /* AddProduct3RentPostalFeeCell.xib */; };
 		B22C0E311E090FA900C3D661 /* ic_love_96px.png in Resources */ = {isa = PBXBuildFile; fileRef = B22C0E301E090FA900C3D661 /* ic_love_96px.png */; };
 		B22C0E331E091C2D00C3D661 /* ic_love_96px_trp.png in Resources */ = {isa = PBXBuildFile; fileRef = B22C0E321E091C2D00C3D661 /* ic_love_96px_trp.png */; };
 		B2314BE51E4B029000731B88 /* AddressAddEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2314BE41E4B029000731B88 /* AddressAddEditViewController.swift */; };
@@ -1817,6 +1820,9 @@
 		B229F4D31F370C0200A2F60B /* AddProductViewController3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddProductViewController3.swift; sourceTree = "<group>"; };
 		B229F4D51F381CEF00A2F60B /* AddProduct3PriceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3PriceCell.xib; sourceTree = "<group>"; };
 		B229F4D71F38222D00A2F60B /* AddProduct3ChargeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3ChargeCell.xib; sourceTree = "<group>"; };
+		B229F4D91F38456400A2F60B /* AddProduct3RentPeriodCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3RentPeriodCell.xib; sourceTree = "<group>"; };
+		B229F4DB1F38473100A2F60B /* AddProduct3SellRentSwitchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3SellRentSwitchCell.xib; sourceTree = "<group>"; };
+		B229F4DD1F38482700A2F60B /* AddProduct3RentPostalFeeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3RentPostalFeeCell.xib; sourceTree = "<group>"; };
 		B22C0E301E090FA900C3D661 /* ic_love_96px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_love_96px.png; sourceTree = "<group>"; };
 		B22C0E321E091C2D00C3D661 /* ic_love_96px_trp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_love_96px_trp.png; sourceTree = "<group>"; };
 		B2314BE41E4B029000731B88 /* AddressAddEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressAddEditViewController.swift; sourceTree = "<group>"; };
@@ -3541,6 +3547,9 @@
 				B229F4CF1F3709A000A2F60B /* AddProduct3ImagesChecklistCellCollectionCell.xib */,
 				B229F4D51F381CEF00A2F60B /* AddProduct3PriceCell.xib */,
 				B229F4D71F38222D00A2F60B /* AddProduct3ChargeCell.xib */,
+				B229F4D91F38456400A2F60B /* AddProduct3RentPeriodCell.xib */,
+				B229F4DB1F38473100A2F60B /* AddProduct3SellRentSwitchCell.xib */,
+				B229F4DD1F38482700A2F60B /* AddProduct3RentPostalFeeCell.xib */,
 			);
 			name = "Add Product Version 3";
 			path = XIB;
@@ -4125,6 +4134,7 @@
 				585887401DBEDA8A006EC6D5 /* MyProductCompleted.xib in Resources */,
 				B2D119871E28C9790064045B /* AchievementCelliOS9xx.xib in Resources */,
 				B23356F21E1F588F00207F14 /* Scanner.xib in Resources */,
+				B229F4DA1F38456400A2F60B /* AddProduct3RentPeriodCell.xib in Resources */,
 				21D386A51B6B93CD00D0FA90 /* Default-568h@2x.png in Resources */,
 				585887551DBEDC19006EC6D5 /* ShopReview.xib in Resources */,
 				5858873A1DBEDA4D006EC6D5 /* FilterChecklistCell.xib in Resources */,
@@ -4192,6 +4202,7 @@
 				B2D119931E290BF80064045B /* banner_exclamation.png in Resources */,
 				58BE535F1D479F5B00E358EB /* courier_jne.png in Resources */,
 				589A6FB31D8C08F600654CDD /* ic_berat.png in Resources */,
+				B229F4DE1F38482700A2F60B /* AddProduct3RentPostalFeeCell.xib in Resources */,
 				B2DF584B1E4844B9005B6CF1 /* AddressBookNewCell.xib in Resources */,
 				5858874B1DBEDB8E006EC6D5 /* NotifAnggiTabBar.xib in Resources */,
 				5827E95E1E03F844007F0833 /* ic_trx_refund1.png in Resources */,
@@ -4417,6 +4428,7 @@
 				58A99A4E1C6D866000E3E7D7 /* Prelo.entitlements in Resources */,
 				B2DF58491E484131005B6CF1 /* AddressBookCell.xib in Resources */,
 				B229F4CE1F37087700A2F60B /* AddProduct3ImagesPreviewCellNewOneCell.xib in Resources */,
+				B229F4DC1F38473100A2F60B /* AddProduct3SellRentSwitchCell.xib in Resources */,
 				B2D965D71E9E01AE00B2C29C /* Checkout2AddressFillCell.xib in Resources */,
 				5804CBD51EEE6A8900B7D032 /* RekeningListCell.xib in Resources */,
 				B2BEBC761E4C27EC009982F9 /* placeholder-circle.png in Resources */,

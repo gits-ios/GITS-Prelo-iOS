@@ -74,6 +74,9 @@ class AddProductViewController3: BaseViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var loadingPanel: UIView!
     
+    var product = SelectedProductItem()
+    
+    
 }
 
 // MARK: - Title Cell
@@ -83,7 +86,7 @@ class AddProduct3ImageTitleCell: UITableViewCell {
     @IBOutlet weak var SectionFAQ: UIView! // ? , hide
     @IBOutlet weak var SectionSubtitle: UILabel! // ?
     
-    // 40, 60
+    // 40, 60 & count
     override func awakeFromNib() {
         self.SectionImage.tint = true
         self.SectionImage.tintColor = self.SectionTitle.textColor
@@ -99,9 +102,10 @@ class AddProduct3ImageTitleCell: UITableViewCell {
         self.SectionFAQ.isHidden = !isFaq
     }
     
-    static func heightFor(_ isSubtitle: Bool) -> CGFloat {
-        if isSubtitle {
-            return 60
+    static func heightFor(_ subtitle: String?) -> CGFloat {
+        if let sub = subtitle {
+            let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: AppTools.screenWidth - 24)
+            return 40 + t.height // count subtitle height
         }
         return 40
     }
@@ -243,4 +247,31 @@ class AddProduct3ChargeCell: UITableViewCell {
     
     
     // 162, count teks, hide unhide button hapus
+}
+
+// MARK: - Rent
+// MARK: - Rent Period Cell
+class AddProduct3RentPeriodCell: UITableViewCell {
+    @IBOutlet weak var vwPerHari: BorderedView!
+    @IBOutlet weak var lblPerHari: UILabel!
+    @IBOutlet weak var vwPerMinggu: BorderedView!
+    @IBOutlet weak var lblPerMinggu: UILabel!
+    @IBOutlet weak var vwPerBulan: BorderedView!
+    @IBOutlet weak var lblPerBulan: UILabel!
+    
+}
+
+// MARK: - Sell Rent Switch Cell
+class AddProduct3SellRentSwitchCell: UITableViewCell {
+    @IBOutlet weak var lblTitle: UILabel!
+    @IBOutlet weak var lblSubTitle: UILabel!
+    
+}
+
+// MARK: - Rent Postal Fee Cell
+class AddProduct3RentPostalFeeCell: UITableViewCell {
+    @IBOutlet weak var vwPaidOngkir: BorderedView!
+    @IBOutlet weak var imgPaidOngkir: TintedImageView!
+    @IBOutlet weak var lblPaidOngkir: UILabel!
+    
 }
