@@ -3778,27 +3778,6 @@ class TopUpItem : NSObject {
         return 0
     }
     
-    var raw_time : String {
-        if let j = json["raw_time"].string {
-            return j
-        }
-        return ""
-    }
-    
-    var entryType : Int {
-        if let j = json["entry_type"].int {
-            return j
-        }
-        return 0
-    }
-    
-    var reasonId : String {
-        if let j = json["reason_id"].string {
-            return j
-        }
-        return ""
-    }
-    
     var type : String {
         if let j = json["type"].string {
             return j
@@ -3811,13 +3790,6 @@ class TopUpItem : NSObject {
             return j
         }
         return 0
-    }
-    
-    var isSeller : Bool? {
-        if let j = json["is_seller"].bool {
-            return j
-        }
-        return nil
     }
     
     var reasonDetail : String {

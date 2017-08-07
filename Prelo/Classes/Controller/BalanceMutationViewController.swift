@@ -512,7 +512,6 @@ class BalanceMutationCell : UITableViewCell {
             
             let sizeFixWJP = wjp.boundsWithFontSize(UIFont.systemFont(ofSize: 10), width: rectWJP)
             
-            
             consHeightLblWJP.constant = sizeFixWJP.height + 8
             imgWJP.isHidden = false
         } else {
@@ -525,7 +524,14 @@ class BalanceMutationCell : UITableViewCell {
         lblMutation.text = mutation.amount.asPrice
         lblReasonAdmin.text = mutation.progress_detail
         lblTime.text = mutation.time
-        lblBalance.text = mutation.progress_detail
+        if(mutation.progress == 0){
+            lblBalance.text = "BELUM BAYAR"
+            
+        } else if (mutation.progress == 1 || mutation.progress == 2){
+            lblBalance.text = "BERHASIL"
+        } else {
+            lblBalance.text = "DITOLAK"
+        }
         
         // lblDescription text
         let trxIdStartIdx = mutation.reasonDetail.indexOfCharacter("#")
